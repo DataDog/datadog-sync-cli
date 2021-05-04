@@ -10,7 +10,7 @@ from datadog_api_client.v2 import (
     Configuration as ConfigurationV2,
 )
 
-
+from datadog_sync.utils import get_resources
 import datadog_sync.constants as constants
 from datadog_sync.commands import ALL_COMMANDS
 
@@ -93,6 +93,9 @@ def cli(ctx, **kwargs):
     ctx.obj["source_client_v2"] = client_v2
     ctx.obj["destination_client_v1"] = destination_client_v1
     ctx.obj["destination_client_v2"] = destination_client_v2
+
+    # Initialize resources
+    ctx.obj["resources"] = get_resources(ctx)
 
 
 # Register all click sub-commands

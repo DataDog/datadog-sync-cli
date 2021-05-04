@@ -15,6 +15,7 @@ RUN wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_V
     && mv terraformer-datadog-linux-amd64 /usr/local/bin/terraformer \
     && chmod +x /usr/local/bin/terraformer /usr/local/bin/terraform
 
+VOLUME ["/datadog-sync"]
 WORKDIR /datadog-sync
 RUN echo '\n\
     terraform { \n\
@@ -23,7 +24,7 @@ RUN echo '\n\
           source = "datadog/datadog" \n\
         } \n\
       } \n\
-    }' >> provider.tf\
+    }' > provider.tf \
     && terraform init
 
 

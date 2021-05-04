@@ -16,17 +16,6 @@ class Role(BaseResource):
     def __init__(self, ctx):
         super().__init__(ctx, RESOURCE_NAME)
 
-    def get_resources(self):
-        source_client = self.ctx.obj.get("source_client_v2")
-        try:
-            res = roles_api.RolesApi(source_client).list_roles()
-            for role in res["data"]:
-                if role["attributes"]["user_count"] > 0:
-                    self.ids.append(role["id"])
-        except ApiException as e:
-            print("Error retrieving roles", e.body)
-            pass
-
     def post_import_processing(self):
         source_role_obj = {}
         source_permission_obj = {}
@@ -100,7 +89,10 @@ class Role(BaseResource):
             data = json.load(f)
         for resource in data["modules"][0]["resources"]:
             source_id = data["modules"][0]["resources"][resource]["primary"]["id"]
-            if source_id in source_role_obj:
+            if (
+                source_id in source_role_obj
+                and source_role_obj[source_id] in destination_role_obj
+            ):
                 data["modules"][0]["resources"][resource]["primary"][
                     "id"
                 ] = destination_role_obj[source_role_obj[source_id]]
