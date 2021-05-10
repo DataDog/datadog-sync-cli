@@ -1,4 +1,6 @@
 import os
+import logging
+
 
 from click import pass_context, group, option
 from datadog_api_client.v1 import (
@@ -10,40 +12,66 @@ from datadog_api_client.v2 import (
     Configuration as ConfigurationV2,
 )
 
-from datadog_sync.utils import get_resources
 import datadog_sync.constants as constants
 from datadog_sync.commands import ALL_COMMANDS
+from datadog_sync.models import (
+    Dashboard,
+    Monitor,
+    Role,
+    User,
+    SyntheticsTest,
+    Downtime,
+    LogsCustomPipeline,
+)
 
 
 @group()
 @option(
-    "--source-api-key", default=os.getenv(constants.DD_SOURCE_API_KEY), required=True
+    "--source-api-key",
+    envvar=constants.DD_SOURCE_API_KEY,
+    required=True,
+    help="Datadog source organization API key",
 )
 @option(
-    "--source-app-key", default=os.getenv(constants.DD_SOURCE_APP_KEY), required=True
+    "--source-app-key",
+    envvar=constants.DD_SOURCE_APP_KEY,
+    required=True,
+    help="Datadog source organization APP key",
 )
 @option(
-    "--source-api-url", default=os.getenv(constants.DD_SOURCE_API_URL), required=False
+    "--source-api-url",
+    envvar=constants.DD_SOURCE_API_URL,
+    required=False,
+    help="Datadog source organization API url",
 )
 @option(
     "--destination-api-key",
-    default=os.getenv(constants.DD_DESTINATION_API_KEY),
+    envvar=constants.DD_DESTINATION_API_KEY,
     required=True,
+    help="Datadog destination organization API key",
 )
 @option(
     "--destination-app-key",
-    default=os.getenv(constants.DD_DESTINATION_APP_KEY),
+    envvar=constants.DD_DESTINATION_APP_KEY,
     required=True,
+    help="Datadog destination organization APP key",
 )
 @option(
     "--destination-api-url",
-    default=os.getenv(constants.DD_DESTINATION_API_URL),
+    envvar=constants.DD_DESTINATION_API_URL,
     required=False,
+    help="Datadog destination organization API url",
 )
 @option(
     "--terraformer-bin-path",
     default="terraformer",
     required=False,
+    help="Terraformer binary path",
+)
+@option(
+    "--resources",
+    required=False,
+    help="Optional comma separated list of resource to import. All supported resources are imported by default.",
 )
 @pass_context
 def cli(ctx, **kwargs):
@@ -96,6 +124,30 @@ def cli(ctx, **kwargs):
 
     # Initialize resources
     ctx.obj["resources"] = get_resources(ctx)
+
+
+def get_resources(ctx):
+    """Returns list of Resources. Order of resources applied are based on the list returned"""
+    resources = [
+        Role(ctx),
+        User(ctx),
+        Monitor(ctx),
+        SyntheticsTest(ctx),
+        Downtime(ctx),
+        Dashboard(ctx),
+        LogsCustomPipeline(ctx),
+    ]
+
+    resources_arg = ctx.obj.get("resources")
+    if resources_arg:
+        new_resources = []
+        resources_arg_list = resources_arg.split(",")
+        for resource in resources:
+            if resource.resource_name in resources_arg_list:
+                new_resources.append(resource)
+        return new_resources
+
+    return resources
 
 
 # Register all click sub-commands

@@ -1,7 +1,8 @@
 class BaseResource:
-    def __init__(self, ctx, resource_nme):
+    def __init__(self, ctx, resource_name, resource_filter=None):
         self.ctx = ctx
-        self.resource_name = resource_nme
+        self.resource_name = resource_name
+        self.resource_filter = resource_filter
 
     def post_import_processing(self):
         """

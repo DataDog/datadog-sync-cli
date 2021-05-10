@@ -1,8 +1,9 @@
-from click import pass_context, command
+from concurrent.futures import ThreadPoolExecutor, wait
 
-from datadog_sync.utils import (
-    terraformer_import,
-)
+from click import pass_context, command, option
+
+from datadog_sync.utils.helpers import terraformer_import
+from datadog_sync.utils.connect_resources import connect_resources
 
 
 @command("import", short_help="Import Datadog resources.")
@@ -11,5 +12,14 @@ def _import(ctx):
     """Sync Datadog resources to destination."""
     # Import resources using terraformer
     terraformer_import(ctx)
-    for resource in ctx.obj["resources"]:
-        resource.post_import_processing()
+
+    # Run post import processing
+    with ThreadPoolExecutor() as executor:
+        wait(
+            [
+                executor.submit(resource.post_import_processing)
+                for resource in ctx.obj["resources"]
+            ]
+        )
+
+    connect_resources(ctx)
