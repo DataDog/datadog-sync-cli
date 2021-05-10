@@ -6,6 +6,8 @@ from datadog_sync.constants import (
     RESOURCE_OUTPUT_PATH,
     RESOURCE_OUTPUT_CONNECT,
     RESOURCE_VARIABLES_PATH,
+    RESOURCE_STATE_PATH,
+    EMPTY_VARIABLES_FILE
 )
 
 CONNECT_RESOURCES_OBJ = {
@@ -28,8 +30,6 @@ CONNECT_RESOURCES_OBJ = {
     },
     "user": {"role": [{"roles": "id"}]},
 }
-
-EMPTY_VARIABLES_FILE = {"data": {"terraform_remote_state": {}}}
 
 
 def connect_resources(ctx):
@@ -70,9 +70,10 @@ def connect(resource, resource_to_connect, connections):
 
 
 def create_remote_state(resource, resource_connected):
-    v_path = RESOURCE_VARIABLES_PATH.format(resource)
-    if os.path.exists(v_path):
-        with open(v_path, "r") as f:
+    variables_path = RESOURCE_VARIABLES_PATH.format(resource)
+    resource_connected_state_path = RESOURCE_STATE_PATH.format(resource_connected)
+    if os.path.exists(variables_path):
+        with open(variables_path, "r") as f:
             v = json.load(f)
         if resource_connected in v["data"]["terraform_remote_state"]:
             pass
@@ -83,22 +84,17 @@ def create_remote_state(resource, resource_connected):
                     "path": f"../../resources/{resource_connected}/terraform.tfstate"
                 },
             }
-            with open(v_path, "w") as f:
+            with open(variables_path, "w") as f:
                 json.dump(v, f, indent=2)
-    else:
-        v = {
-            "data": {
-                "terraform_remote_state": {
-                    f"{resource_connected}": {
-                        "backend": "local",
-                        "config": {
-                            "path": f"../../resources/{resource_connected}/terraform.tfstate"
-                        },
-                    }
-                }
-            }
+    elif os.path.exists(resource_connected_state_path):
+        v = EMPTY_VARIABLES_FILE
+        v["data"]["terraform_remote_state"][resource_connected] = {
+            "backend": "local",
+            "config": {
+                "path": f"../../resources/{resource_connected}/terraform.tfstate"
+            },
         }
-        with open(v_path, "a+") as f:
+        with open(variables_path, "a+") as f:
             json.dump(v, f, indent=2)
 
 
