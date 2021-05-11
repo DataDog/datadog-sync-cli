@@ -124,7 +124,6 @@ def replace_keys(key, r_obj, resource, resource_to_connect, outputs):
         for name in outputs:
             if translate_id(r_obj[key]) in name:
                 r_obj[key] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
-                print(r_obj[key])
                 return
 
 

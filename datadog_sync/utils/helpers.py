@@ -46,7 +46,7 @@ def terraformer_import(ctx):
     env = {
         "DATADOG_API_KEY": ctx.obj.get("source_api_key"),
         "DATADOG_APP_KEY": ctx.obj.get("source_app_key"),
-        "DATADOG_API_URL": ctx.obj.get("source_api_url"),
+        "DATADOG_HOST": ctx.obj.get("source_api_url"),
         "DD_HTTP_CLIENT_RETRY_ENABLED": "true",
     }
 
