@@ -1,4 +1,4 @@
-from datadog_sync.model.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResource
 
 
 RESOURCE_NAME = "synthetics_test"

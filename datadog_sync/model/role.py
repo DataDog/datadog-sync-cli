@@ -2,7 +2,7 @@ import json
 
 from datadog_api_client.v2.api import roles_api
 
-from datadog_sync.model.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.retry import request_with_retry
 from datadog_sync.constants import (
     RESOURCE_STATE_PATH,

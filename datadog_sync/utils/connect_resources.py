@@ -12,13 +12,11 @@ from datadog_sync.constants import (
 )
 
 CONNECT_RESOURCES_OBJ = {
-    "dashboard": {
+    "dashboard_json": {
         "monitor": [
             {
-                "widget.alert_value_definition.alert_id": "id",
-                "widget.group_definition.widget.alert_value_definition.alert_id": "id",
-                "widget.alert_graph_definition.alert_id": "id",
-                "widget.group_definition.widget.alert_graph_definition.alert_id": "id",
+                "dashboard.[json].widgets.definition.alert_id": "id",
+                "dashboard.[json].widgets.definition.widgets.definition.alert_id": "id",
             }
         ]
     },
@@ -62,6 +60,7 @@ def connect(resource, resource_to_connect, connections):
         with open(resources_to_connect_output, "r") as f:
             resource_to_connect_state_outputs = json.load(f)["output"].keys()
 
+        # Handle dashboard_json resource:
         r_name = "datadog_{}".format(resource)
         for _, r_obj in resources["resource"][r_name].items():
             for c in connections:
@@ -88,7 +87,12 @@ def replace(keys, r_obj, resource, resource_to_connect, outputs):
 
     if isinstance(r_obj, dict):
         if keys[0] in r_obj:
-            replace(keys[1:], r_obj[keys[0]], resource, resource_to_connect, outputs)
+            if len(keys) > 1 and keys[1] == "[json]":
+                js_obj = json.loads(r_obj[keys[0]])
+                replace(keys[2:], js_obj, resource, resource_to_connect, outputs)
+                r_obj[keys[0]] = json.dumps(js_obj)
+            else:
+                replace(keys[1:], r_obj[keys[0]], resource, resource_to_connect, outputs)
 
 
 def replace_keys(key, r_obj, resource, resource_to_connect, outputs):
@@ -114,12 +118,13 @@ def replace_keys(key, r_obj, resource, resource_to_connect, outputs):
                     r_obj[key][i] = RESOURCE_OUTPUT_CONNECT.format(
                         resource_to_connect, name
                     )
-                    return
+                    break
             i += 1
     else:
         for name in outputs:
             if translate_id(r_obj[key]) in name:
                 r_obj[key] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
+                print(r_obj[key])
                 return
 
 
