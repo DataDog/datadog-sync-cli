@@ -8,7 +8,7 @@ from datadog_sync.constants import (
     RESOURCE_OUTPUT_CONNECT,
     RESOURCE_VARIABLES_PATH,
     RESOURCE_STATE_PATH,
-    EMPTY_VARIABLES_FILE
+    EMPTY_VARIABLES_FILE,
 )
 
 CONNECT_RESOURCES_OBJ = {
@@ -100,7 +100,9 @@ def replace_keys(key, r_obj, resource, resource_to_connect, outputs):
                 if translate_id(_id) in name:
                     # We need to explicitly disable monitor validation
                     r_obj["validate"] = "false"
-                    r_obj[key] = r_obj[key].replace(_id, RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name))
+                    r_obj[key] = r_obj[key].replace(
+                        _id, RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
+                    )
                     break
         return
 
@@ -109,7 +111,9 @@ def replace_keys(key, r_obj, resource, resource_to_connect, outputs):
         while i < len(r_obj[key]):
             for name in outputs:
                 if translate_id(r_obj[key][i]) in name:
-                    r_obj[key][i] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
+                    r_obj[key][i] = RESOURCE_OUTPUT_CONNECT.format(
+                        resource_to_connect, name
+                    )
                     return
             i += 1
     else:
