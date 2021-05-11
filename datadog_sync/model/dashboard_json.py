@@ -1,7 +1,7 @@
 from datadog_sync.model.base_resource import BaseResource
 
 
-RESOURCE_NAME = "dashboard"
+RESOURCE_NAME = "dashboard_json"
 
 
 class Dashboard(BaseResource):

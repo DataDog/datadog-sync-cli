@@ -30,7 +30,9 @@ terraform {
 
 ## Supported resources
 
-- **Role**: All roles with at least 1 associated user are synced
-- **User**: User's assigned to Role `@DatadogSync` are synced
-- **Monitor**: All monitors with tags `datadog:sync` are synced
-- **Dashboards**: All dashboards in Dashboard Lists with a name including `@DatadogSync` are synced
+- **Role**
+- **User**
+- **Monitor**
+- **Dashboard_json**
+- **Downtime**
+- **Synthetic_test*
