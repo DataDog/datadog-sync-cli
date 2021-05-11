@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 from datadog_sync.constants import (
     RESOURCE_FILE_PATH,
@@ -25,6 +26,13 @@ CONNECT_RESOURCES_OBJ = {
         "monitor": [
             {
                 "monitor_id": "id",
+            }
+        ]
+    },
+    "monitor": {
+        "monitor": [
+            {
+                "query": "id",
             }
         ]
     },
@@ -55,18 +63,64 @@ def connect(resource, resource_to_connect, connections):
             resource_to_connect_state_outputs = json.load(f)["output"].keys()
 
         r_name = "datadog_{}".format(resource)
-        for test, r in resources["resource"][r_name].items():
+        for _, r_obj in resources["resource"][r_name].items():
             for c in connections:
                 for k, v in c.items():
                     replace(
                         k.split("."),
-                        r,
+                        r_obj,
+                        resource,
                         resource_to_connect,
                         resource_to_connect_state_outputs,
                     )
 
         with open(resources_path, "w") as f:
             json.dump(resources, f, indent=2)
+
+
+def replace(keys, r_obj, resource, resource_to_connect, outputs):
+    if len(keys) == 1 and keys[0] in r_obj:
+        replace_keys(keys[0], r_obj, resource, resource_to_connect, outputs)
+
+    if isinstance(r_obj, list):
+        for k in r_obj:
+            replace(keys, k, resource, resource_to_connect, outputs)
+
+    if isinstance(r_obj, dict):
+        if keys[0] in r_obj:
+            replace(keys[1:], r_obj[keys[0]], resource, resource_to_connect, outputs)
+
+
+def replace_keys(key, r_obj, resource, resource_to_connect, outputs):
+    # Handle special case of composite monitors which references other monitors in the query
+    if resource == resource_to_connect and r_obj["type"] == "composite":
+        ids = re.findall("[0-9]+", r_obj[key])
+        for _id in ids:
+            for name in outputs:
+                if translate_id(_id) in name:
+                    # We need to explicitly disable monitor validation
+                    r_obj["validate"] = "false"
+                    r_obj[key] = r_obj[key].replace(_id, RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name))
+                    break
+        return
+
+    if isinstance(r_obj[key], list):
+        i = 0
+        while i < len(r_obj[key]):
+            for name in outputs:
+                if translate_id(r_obj[key][i]) in name:
+                    r_obj[key][i] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
+                    return
+            i += 1
+    else:
+        for name in outputs:
+            if translate_id(r_obj[key]) in name:
+                r_obj[key] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
+                return
+
+
+def translate_id(_id):
+    return _id.translate({ord(c): "-%04X-" % ord(c) for c in "-"})
 
 
 def create_remote_state(resource, resource_connected):
@@ -96,36 +150,3 @@ def create_remote_state(resource, resource_connected):
         }
         with open(variables_path, "a+") as f:
             json.dump(v, f, indent=2)
-
-
-def replace(keys, var, resource, outputs):
-    if len(keys) == 1 and keys[0] in var:
-        if isinstance(var[keys[0]], list):
-            i = 0
-            while i < len(var[keys[0]]):
-                for k in outputs:
-                    if (
-                        var[keys[0]][i].translate(
-                            {ord(c): "-%04X-" % ord(c) for c in "-"}
-                        )
-                        in k
-                    ):
-                        var[keys[0]][i] = RESOURCE_OUTPUT_CONNECT.format(resource, k)
-                        break
-                i += 1
-        else:
-            for k in outputs:
-                if (
-                    var[keys[0]].translate({ord(c): "-%04X-" % ord(c) for c in "-"})
-                    in k
-                ):
-                    var[keys[0]] = RESOURCE_OUTPUT_CONNECT.format(resource, k)
-                    break
-
-    if isinstance(var, list):
-        for k in var:
-            replace(keys, k, resource, outputs)
-
-    if isinstance(var, dict):
-        if keys[0] in var:
-            replace(keys[1:], var[keys[0]], resource, outputs)
