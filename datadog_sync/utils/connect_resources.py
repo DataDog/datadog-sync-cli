@@ -103,9 +103,7 @@ def replace_keys(key, r_obj, resource, resource_to_connect, outputs):
                 if translate_id(_id) in name:
                     # We need to explicitly disable monitor validation
                     r_obj["validate"] = "false"
-                    r_obj[key] = r_obj[key].replace(
-                        _id, RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
-                    )
+                    r_obj[key] = r_obj[key].replace(_id, RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name))
                     break
         return
 
@@ -114,9 +112,7 @@ def replace_keys(key, r_obj, resource, resource_to_connect, outputs):
         while i < len(r_obj[key]):
             for name in outputs:
                 if translate_id(r_obj[key][i]) in name:
-                    r_obj[key][i] = RESOURCE_OUTPUT_CONNECT.format(
-                        resource_to_connect, name
-                    )
+                    r_obj[key][i] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
                     break
             i += 1
     else:
@@ -141,9 +137,7 @@ def create_remote_state(resource, resource_connected):
         else:
             v["data"]["terraform_remote_state"][resource_connected] = {
                 "backend": "local",
-                "config": {
-                    "path": f"../../resources/{resource_connected}/terraform.tfstate"
-                },
+                "config": {"path": f"../../resources/{resource_connected}/terraform.tfstate"},
             }
             with open(variables_path, "w") as f:
                 json.dump(v, f, indent=2)
@@ -151,9 +145,7 @@ def create_remote_state(resource, resource_connected):
         v = EMPTY_VARIABLES_FILE
         v["data"]["terraform_remote_state"][resource_connected] = {
             "backend": "local",
-            "config": {
-                "path": f"../../resources/{resource_connected}/terraform.tfstate"
-            },
+            "config": {"path": f"../../resources/{resource_connected}/terraform.tfstate"},
         }
         with open(variables_path, "a+") as f:
             json.dump(v, f, indent=2)

@@ -15,12 +15,7 @@ def _import(ctx):
 
     # Run post import processing
     with ThreadPoolExecutor() as executor:
-        wait(
-            [
-                executor.submit(resource.post_import_processing)
-                for resource in ctx.obj["resources"]
-            ]
-        )
+        wait([executor.submit(resource.post_import_processing) for resource in ctx.obj["resources"]])
 
     # Connect resources
     connect_resources(ctx)

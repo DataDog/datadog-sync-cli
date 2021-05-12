@@ -28,16 +28,13 @@ class Role(BaseResource):
             data = json.load(f)
         for resource in data["modules"][0]["resources"]:
             source_id = data["modules"][0]["resources"][resource]["primary"]["id"]
-            if (
-                source_id in source_role_obj
-                and source_role_obj[source_id] in destination_role_obj
-            ):
-                data["modules"][0]["resources"][resource]["primary"][
-                    "id"
-                ] = destination_role_obj[source_role_obj[source_id]]
-                data["modules"][0]["resources"][resource]["primary"]["attributes"][
-                    "id"
-                ] = destination_role_obj[source_role_obj[source_id]]
+            if source_id in source_role_obj and source_role_obj[source_id] in destination_role_obj:
+                data["modules"][0]["resources"][resource]["primary"]["id"] = destination_role_obj[
+                    source_role_obj[source_id]
+                ]
+                data["modules"][0]["resources"][resource]["primary"]["attributes"]["id"] = destination_role_obj[
+                    source_role_obj[source_id]
+                ]
 
         with open(file_path, "w") as f:
             json.dump(data, f, indent=4)
@@ -52,16 +49,13 @@ class Role(BaseResource):
         destination_roles = []
 
         page_size = 100
-
         page_number = 0
         remaining = 1
         r_retry = request_with_retry(roles_api.RolesApi(source_client).list_roles)
         while remaining > 0:
             resp = r_retry(page_size=page_size, page_number=page_number)
             source_roles.extend(resp["data"])
-            remaining = int(resp["meta"]["page"]["total_count"]) - (
-                page_size * (page_number + 1)
-            )
+            remaining = int(resp["meta"]["page"]["total_count"]) - (page_size * (page_number + 1))
             page_number += 1
 
         # Reset counter for subsequent requests
@@ -71,9 +65,7 @@ class Role(BaseResource):
         while remaining > 0:
             resp = r_retry(page_size=page_size, page_number=page_number)
             destination_roles.extend(resp["data"])
-            remaining = int(resp["meta"]["page"]["total_count"]) - (
-                page_size * (page_number + 1)
-            )
+            remaining = int(resp["meta"]["page"]["total_count"]) - (page_size * (page_number + 1))
             page_number += 1
 
         for role in source_roles:
@@ -91,23 +83,13 @@ class Role(BaseResource):
         destination_permission_obj = {}
 
         # If the source and destinations are not in the same region, we need to remap permission ID's
-        if self.ctx.obj.get("source_api_url") != self.ctx.obj.get(
-            "destination_api_url"
-        ):
-            source_permissions = roles_api.RolesApi(source_client).list_permissions()[
-                "data"
-            ]
-            destination_permissions = roles_api.RolesApi(
-                destination_client
-            ).list_permissions()["data"]
+        if self.ctx.obj.get("source_api_url") != self.ctx.obj.get("destination_api_url"):
+            source_permissions = roles_api.RolesApi(source_client).list_permissions()["data"]
+            destination_permissions = roles_api.RolesApi(destination_client).list_permissions()["data"]
             for permission in source_permissions:
-                source_permission_obj[permission["id"]] = permission["attributes"][
-                    "name"
-                ]
+                source_permission_obj[permission["id"]] = permission["attributes"]["name"]
             for permission in destination_permissions:
-                destination_permission_obj[
-                    permission["attributes"]["name"]
-                ] = permission["id"]
+                destination_permission_obj[permission["attributes"]["name"]] = permission["id"]
 
             file_path = RESOURCE_FILE_PATH.format(self.resource_name)
             with open(file_path, "r") as f:
@@ -115,13 +97,9 @@ class Role(BaseResource):
 
             for resource in data["resource"]["datadog_role"]:
                 if "permission" in data["resource"]["datadog_role"][resource]:
-                    for permission in data["resource"]["datadog_role"][resource][
-                        "permission"
-                    ]:
+                    for permission in data["resource"]["datadog_role"][resource]["permission"]:
                         if permission["id"] in source_permission_obj:
-                            permission["id"] = destination_permission_obj[
-                                source_permission_obj[permission["id"]]
-                            ]
+                            permission["id"] = destination_permission_obj[source_permission_obj[permission["id"]]]
 
             with open(file_path, "w") as f:
                 json.dump(data, f, indent=4)

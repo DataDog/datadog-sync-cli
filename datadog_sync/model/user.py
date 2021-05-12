@@ -22,16 +22,12 @@ class User(BaseResource):
         with open(file_path, "r") as f:
             data = json.load(f)
         for resource in data["modules"][0]["resources"]:
-            user_email = data["modules"][0]["resources"][resource]["primary"][
-                "attributes"
-            ]["email"]
+            user_email = data["modules"][0]["resources"][resource]["primary"]["attributes"]["email"]
             if user_email in destination_user_obj:
-                data["modules"][0]["resources"][resource]["primary"][
-                    "id"
-                ] = destination_user_obj[user_email]
-                data["modules"][0]["resources"][resource]["primary"]["attributes"][
-                    "id"
-                ] = destination_user_obj[user_email]
+                data["modules"][0]["resources"][resource]["primary"]["id"] = destination_user_obj[user_email]
+                data["modules"][0]["resources"][resource]["primary"]["attributes"]["id"] = destination_user_obj[
+                    user_email
+                ]
 
         with open(file_path, "w") as f:
             json.dump(data, f, indent=4)
@@ -46,13 +42,9 @@ class User(BaseResource):
         remaining = 1
         r_retry = request_with_retry(users_api.UsersApi(destination_client).list_users)
         while remaining > 0:
-            resp = r_retry(
-                page_size=page_size, page_number=page_number, filter_status="Active"
-            )
+            resp = r_retry(page_size=page_size, page_number=page_number, filter_status="Active")
             destination_users.extend(resp["data"])
-            remaining = int(resp["meta"]["page"]["total_count"]) - (
-                page_size * (page_number + 1)
-            )
+            remaining = int(resp["meta"]["page"]["total_count"]) - (page_size * (page_number + 1))
             page_number += 1
 
         for user in destination_users:

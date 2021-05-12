@@ -15,9 +15,7 @@ def request_with_retry(func):
                 resp = func(*args, **kwargs)
                 retry = False
             except (ApiExceptionV1, ApiExceptionV2) as e:
-                if (
-                    e.status == 429 and "x-ratelimit-reset" in e.headers
-                ) or e.status >= 500:
+                if (e.status == 429 and "x-ratelimit-reset" in e.headers) or e.status >= 500:
                     retry_count += 1
                     time.sleep(retry_count * default_backoff)
                     pass
