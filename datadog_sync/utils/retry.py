@@ -6,7 +6,7 @@ from datadog_api_client.v2 import ApiException as ApiExceptionV2
 def request_with_retry(func):
     def wrapper(*args, **kwargs):
         retry = True
-        timeout = time.time() + 60 * 120
+        timeout = time.time() + 60 * 10
         default_backoff = 5
         retry_count = 0
 

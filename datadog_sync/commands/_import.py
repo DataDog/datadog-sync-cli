@@ -1,6 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor, wait
 
-from click import pass_context, command, option
+from click import pass_context, command
 
 from datadog_sync.utils.helpers import terraformer_import
 from datadog_sync.utils.connect_resources import connect_resources
@@ -22,4 +22,5 @@ def _import(ctx):
             ]
         )
 
+    # Connect resources
     connect_resources(ctx)

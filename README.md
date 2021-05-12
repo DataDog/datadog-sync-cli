@@ -28,6 +28,22 @@ terraform {
 ```
 4) Run the sync command `datadog-sync sync`
 
+## Using the package with docker
+1) Clone the project repo
+2) CD into the repo directory and build the docker image `docker build ~/Dev/datadog-sync-cli -t datadog-sync`
+3) Run the docker image using entrypoint below:
+```
+docker run --rm -v $(pwd):/datadog-sync:rw \
+  -e DD_SOURCE_API_KEY=<DATADOG_API_KEY> \
+  -e DD_SOURCE_APP_KEY=<DATADOG_APP_KEY> \
+  -e DD_SOURCE_API_URL=<DATADOG_API_URL> \
+  -e DD_DESTINATION_API_KEY=<DATADOG_API_KEY> \
+  -e DD_DESTINATION_APP_KEY=<DATADOG_APP_KEY> \
+  -e DD_DESTINATION_API_URL=<DATADOG_API_URL> \
+  datadog-sync:latest <options> import
+```
+Note: The above docker run command will mount your current working directory to the container.
+
 ## Supported resources
 
 - **Role**

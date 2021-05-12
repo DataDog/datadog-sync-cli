@@ -60,7 +60,6 @@ def connect(resource, resource_to_connect, connections):
         with open(resources_to_connect_output, "r") as f:
             resource_to_connect_state_outputs = json.load(f)["output"].keys()
 
-        # Handle dashboard_json resource:
         r_name = "datadog_{}".format(resource)
         for _, r_obj in resources["resource"][r_name].items():
             for c in connections:
