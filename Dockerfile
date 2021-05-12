@@ -27,6 +27,4 @@ RUN echo '\n\
     }' > provider.tf \
     && terraform init
 
-
-CMD pwd; ls -a
 ENTRYPOINT ["datadog-sync"]
