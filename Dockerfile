@@ -16,15 +16,7 @@ RUN wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_V
     && chmod +x /usr/local/bin/terraformer /usr/local/bin/terraform
 
 VOLUME ["/datadog-sync"]
+
 WORKDIR /datadog-sync
-RUN echo '\n\
-    terraform { \n\
-      required_providers { \n\
-        datadog = { \n\
-          source = "datadog/datadog" \n\
-        } \n\
-      } \n\
-    }' > provider.tf \
-    && terraform init
 
 ENTRYPOINT ["datadog-sync"]
