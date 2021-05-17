@@ -75,7 +75,7 @@ def terraformer_import(ctx):
                 )
 
 
-def terraform_apply_resources(ctx):
+def terraform_apply_resource(ctx, resource):
     env = {
         "DD_API_KEY": ctx.obj.get("destination_api_key"),
         "DD_APP_KEY": ctx.obj.get("destination_app_key"),
@@ -87,24 +87,23 @@ def terraform_apply_resources(ctx):
     if not os.path.exists(DEFAULT_STATE_PATH):
         os.mkdir(DEFAULT_STATE_PATH)
 
-    for resource in ctx.obj["resources"]:
-        resource_dir = RESOURCE_DIR.format(resource.resource_name)
-        if os.path.exists(resource_dir):
-            resource_plugin_path = resource_dir + "/.terraform/"
-            if not os.path.exists(resource_plugin_path):
-                os.mkdir(resource_plugin_path)
-            copy_tree(".terraform/", resource_plugin_path)
+    resource_dir = RESOURCE_DIR.format(resource.resource_name)
+    if os.path.exists(resource_dir):
+        resource_plugin_path = resource_dir + "/.terraform/"
+        if not os.path.exists(resource_plugin_path):
+            os.mkdir(resource_plugin_path)
+        copy_tree(".terraform/", resource_plugin_path)
 
-            os.chdir(resource_dir)
+        os.chdir(resource_dir)
 
-            run_command(["terraform", "apply", "--auto-approve"], env)
+        run_command(["terraform", "apply", "--auto-approve"], env)
 
-            copyfile(
-                "./terraform.tfstate",
-                "{}/{}/{}".format(
-                    root_path,
-                    DEFAULT_STATE_PATH,
-                    DEFAULT_STATE_NAME.format(resource.resource_name),
-                ),
-            )
-            os.chdir(root_path)
+        copyfile(
+            "./terraform.tfstate",
+            "{}/{}/{}".format(
+                root_path,
+                DEFAULT_STATE_PATH,
+                DEFAULT_STATE_NAME.format(resource.resource_name),
+            ),
+        )
+        os.chdir(root_path)

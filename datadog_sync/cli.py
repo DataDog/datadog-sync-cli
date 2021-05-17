@@ -21,6 +21,7 @@ from datadog_sync.models import (
     User,
     Downtime,
     LogsCustomPipeline,
+    SyntheticsTest,
 )
 
 
@@ -130,6 +131,7 @@ def get_resources(ctx):
     resources = [
         Role(ctx),
         User(ctx),
+        SyntheticsTest(ctx),
         Monitor(ctx),
         Downtime(ctx),
         Dashboard(ctx),
