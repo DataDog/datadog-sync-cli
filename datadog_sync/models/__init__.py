@@ -4,3 +4,5 @@ from datadog_sync.model.role import Role
 from datadog_sync.model.user import User
 from datadog_sync.model.downtime import Downtime
 from datadog_sync.model.logs_custom_pipeline import LogsCustomPipeline
+from datadog_sync.model.synthetics_test import SyntheticsTest
+from datadog_sync.model.synthetics_private_location import SyntheticsPrivateLocation

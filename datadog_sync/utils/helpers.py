@@ -1,20 +1,20 @@
 import os
+import json
 import subprocess
-import logging
 from shutil import copyfile
 from distutils.dir_util import copy_tree
-
 
 from datadog_sync.constants import (
     DEFAULT_STATE_PATH,
     DEFAULT_STATE_NAME,
     RESOURCE_DIR,
     RESOURCE_FILE_PATH,
-    RESOURCE_STATE_PATH,
     TERRAFORMER_FILTER,
+    RESOURCE_VARIABLES_PATH,
+    RESOURCE_STATE_PATH,
+    EMPTY_VARIABLES_REMOTE_STATE,
+    VALUES_FILE,
 )
-
-log = logging.getLogger(__name__)
 
 
 def run_command(cmd, env=[]):
@@ -75,7 +75,7 @@ def terraformer_import(ctx):
                 )
 
 
-def terraform_apply_resources(ctx):
+def terraform_apply_resource(ctx, resource):
     env = {
         "DD_API_KEY": ctx.obj.get("destination_api_key"),
         "DD_APP_KEY": ctx.obj.get("destination_app_key"),
@@ -83,28 +83,59 @@ def terraform_apply_resources(ctx):
         "DD_HTTP_CLIENT_RETRY_ENABLED": "true",
     }
     root_path = ctx.obj["root_path"]
+    absolute_var_file_path = root_path + "/" + VALUES_FILE
 
-    if not os.path.exists(DEFAULT_STATE_PATH):
-        os.mkdir(DEFAULT_STATE_PATH)
+    resource_dir = RESOURCE_DIR.format(resource.resource_name)
+    resource_plugin_path = resource_dir + "/.terraform/"
 
-    for resource in ctx.obj["resources"]:
-        resource_dir = RESOURCE_DIR.format(resource.resource_name)
-        if os.path.exists(resource_dir):
-            resource_plugin_path = resource_dir + "/.terraform/"
-            if not os.path.exists(resource_plugin_path):
-                os.mkdir(resource_plugin_path)
-            copy_tree(".terraform/", resource_plugin_path)
+    if not os.path.exists(resource_plugin_path):
+        os.mkdir(resource_plugin_path)
+    copy_tree(".terraform/", resource_plugin_path)
 
-            os.chdir(resource_dir)
+    os.chdir(resource_dir)
 
-            run_command(["terraform", "apply", "--auto-approve"], env)
+    run_command(["terraform", "apply", "--auto-approve", f"-var-file={absolute_var_file_path}"], env)
 
-            copyfile(
-                "./terraform.tfstate",
-                "{}/{}/{}".format(
-                    root_path,
-                    DEFAULT_STATE_PATH,
-                    DEFAULT_STATE_NAME.format(resource.resource_name),
-                ),
-            )
-            os.chdir(root_path)
+    copyfile(
+        "./terraform.tfstate",
+        "{}/{}/{}".format(
+            root_path,
+            DEFAULT_STATE_PATH,
+            DEFAULT_STATE_NAME.format(resource.resource_name),
+        ),
+    )
+    os.chdir(root_path)
+
+
+def translate_id(_id):
+    return _id.translate({ord(c): "-%04X-" % ord(c) for c in ":-"})
+
+
+def create_remote_state(resource, resource_connected):
+    variables_path = RESOURCE_VARIABLES_PATH.format(resource)
+    resource_connected_state_path = RESOURCE_STATE_PATH.format(resource_connected)
+    if os.path.exists(variables_path):
+        with open(variables_path, "r") as f:
+            v = json.load(f)
+        if "data" in v and resource_connected in v["data"]["terraform_remote_state"]:
+            pass
+        else:
+            if os.path.exists(resource_connected_state_path):
+                if "data" not in v:
+                    v = {**EMPTY_VARIABLES_REMOTE_STATE, **v}
+                v["data"]["terraform_remote_state"][resource_connected] = {
+                    "backend": "local",
+                    "config": {"path": f"../../resources/{resource_connected}/terraform.tfstate"},
+                }
+                with open(variables_path, "w") as f:
+                    json.dump(v, f, indent=2)
+    else:
+        v = {}
+        if os.path.exists(resource_connected_state_path):
+            v = EMPTY_VARIABLES_REMOTE_STATE
+            v["data"]["terraform_remote_state"][resource_connected] = {
+                "backend": "local",
+                "config": {"path": f"../../resources/{resource_connected}/terraform.tfstate"},
+            }
+        with open(variables_path, "a+") as f:
+            json.dump(v, f, indent=2)

@@ -1,6 +1,4 @@
 import os
-import logging
-
 
 from click import pass_context, group, option
 from datadog_api_client.v1 import (
@@ -21,6 +19,8 @@ from datadog_sync.models import (
     User,
     Downtime,
     LogsCustomPipeline,
+    SyntheticsTest,
+    SyntheticsPrivateLocation,
 )
 
 
@@ -130,6 +130,8 @@ def get_resources(ctx):
     resources = [
         Role(ctx),
         User(ctx),
+        SyntheticsPrivateLocation(ctx),
+        SyntheticsTest(ctx),
         Monitor(ctx),
         Downtime(ctx),
         Dashboard(ctx),

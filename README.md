@@ -64,3 +64,4 @@ Note: The above docker run command will mount your current working directory to 
 - **Monitor**
 - **Dashboard_json**
 - **Downtime**
+- **Synthetic_test**

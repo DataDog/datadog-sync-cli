@@ -18,4 +18,6 @@ RESOURCE_STATE_PATH = "resources/{}/terraform.tfstate"
 RESOURCE_OUTPUT_PATH = "resources/{}/outputs.tf.json"
 RESOURCE_VARIABLES_PATH = "resources/{}/variables.tf.json"
 RESOURCE_OUTPUT_CONNECT = "${{data.terraform_remote_state.{}.outputs.{}}}"
-EMPTY_VARIABLES_FILE = {"data": {"terraform_remote_state": {}}}
+RESOURCE_VARS = "${{var.{}}}"
+EMPTY_VARIABLES_REMOTE_STATE = {"data": {"terraform_remote_state": {}}}
+VALUES_FILE = "values.tfvars.json"
