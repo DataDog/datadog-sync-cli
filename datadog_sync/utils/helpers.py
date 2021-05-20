@@ -1,7 +1,6 @@
 import os
 import json
 import subprocess
-import logging
 from shutil import copyfile
 from distutils.dir_util import copy_tree
 
@@ -16,8 +15,6 @@ from datadog_sync.constants import (
     EMPTY_VARIABLES_REMOTE_STATE,
     VALUES_FILE,
 )
-
-log = logging.getLogger(__name__)
 
 
 def run_command(cmd, env=[]):
@@ -97,8 +94,7 @@ def terraform_apply_resource(ctx, resource):
 
     os.chdir(resource_dir)
 
-    print("hello", f'-var-file={absolute_var_file_path}')
-    run_command(["terraform", "apply", "--auto-approve", f'-var-file={absolute_var_file_path}'], env)
+    run_command(["terraform", "apply", "--auto-approve", f"-var-file={absolute_var_file_path}"], env)
 
     copyfile(
         "./terraform.tfstate",
@@ -109,12 +105,6 @@ def terraform_apply_resource(ctx, resource):
         ),
     )
     os.chdir(root_path)
-
-
-def create_values_symlink(resource):
-    resource_dir = RESOURCE_DIR.format(resource)
-    if not os.path.islink(resource_dir + "/" + VALUES_FILE):
-        os.symlink(VALUES_FILE, resource_dir + "/" + VALUES_FILE)
 
 
 def translate_id(_id):

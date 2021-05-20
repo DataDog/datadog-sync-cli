@@ -55,7 +55,7 @@ def process_resources(ctx):
             values = dict()
             # variables.tf.json object
             variables = dict()
-            # Outputs object. We store the outputs so in an object so we do not have to load it from file every time.
+            # Outputs object. We store the outputs in an object so we do not have to load it from file every time.
             outputs = dict()
 
             for resource_to_connect in CONNECT_RESOURCES_OBJ[resource.resource_name].keys():
@@ -64,7 +64,7 @@ def process_resources(ctx):
                 output_path = RESOURCE_OUTPUT_PATH.format(resource_to_connect)
                 if os.path.exists(output_path):
                     with open(output_path, "r") as t:
-                        outputs[resource_to_connect] = json.load(t)["output"].keys()
+                        outputs = json.load(t)["output"].keys()
 
             # Load all of the resources for the given resource
             with open(resource_path, "r") as f:
@@ -118,6 +118,7 @@ def process_attributes(
 
 
 def replace(key_str, keys_list, r_obj, outputs, resource, resource_to_connect, values, variables, name):
+    # Handle attributes that are not generated. Values.tf.var
     if len(keys_list) == 1 and resource_to_connect == "VALUES":
         replace_values(key_str, keys_list[0], r_obj, values, variables, name)
         return
@@ -132,6 +133,7 @@ def replace(key_str, keys_list, r_obj, outputs, resource, resource_to_connect, v
 
     if isinstance(r_obj, dict):
         if keys_list[0] in r_obj:
+            # Handle nested JSON string attributes
             if len(keys_list) > 1 and keys_list[1] == "[JSON]":
                 js_obj = json.loads(r_obj[keys_list[0]])
                 replace(key_str, keys_list[2:], js_obj, outputs, resource, resource_to_connect, values, variables, name)
@@ -174,7 +176,7 @@ def replace_ids(key, r_obj, outputs, resource, resource_to_connect):
     if resource == "monitor" and resource == resource_to_connect and r_obj["type"] == "composite":
         ids = re.findall("[0-9]+", r_obj[key])
         for _id in ids:
-            for name in outputs[resource_to_connect]:
+            for name in outputs:
                 if translate_id(_id) in name:
                     # We need to explicitly disable monitor validation
                     r_obj["validate"] = "false"
@@ -185,13 +187,13 @@ def replace_ids(key, r_obj, outputs, resource, resource_to_connect):
     if isinstance(r_obj[key], list):
         i = 0
         while i < len(r_obj[key]):
-            for name in outputs[resource_to_connect]:
+            for name in outputs:
                 if translate_id(r_obj[key][i]) in name:
                     r_obj[key][i] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
                     break
             i += 1
     else:
-        for name in outputs[resource_to_connect]:
+        for name in outputs:
             if translate_id(r_obj[key]) in name:
                 r_obj[key] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
                 return

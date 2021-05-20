@@ -1,6 +1,4 @@
 import os
-import logging
-
 
 from click import pass_context, group, option
 from datadog_api_client.v1 import (
