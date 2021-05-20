@@ -108,7 +108,7 @@ def terraform_apply_resource(ctx, resource):
 
 
 def translate_id(_id):
-    return _id.translate({ord(c): "-%04X-" % ord(c) for c in "-"})
+    return _id.translate({ord(c): "-%04X-" % ord(c) for c in ":-"})
 
 
 def create_remote_state(resource, resource_connected):
@@ -121,6 +121,8 @@ def create_remote_state(resource, resource_connected):
             pass
         else:
             if os.path.exists(resource_connected_state_path):
+                if "data" not in v:
+                    v = {**EMPTY_VARIABLES_REMOTE_STATE, **v}
                 v["data"]["terraform_remote_state"][resource_connected] = {
                     "backend": "local",
                     "config": {"path": f"../../resources/{resource_connected}/terraform.tfstate"},

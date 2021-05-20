@@ -17,6 +17,7 @@ Format of  the CONNECT_RESOURCE_OBJ is # {resource: resource_referenced: [attrib
 Special keys:
 - [JSON] - indicates that the previous attribute is in json string format. See dashboard_json example below.
 - "VALUES" - list of attributes for the resource that are not generated on import.
+These are generally sensitive values that are not returned by the api.
 """
 CONNECT_RESOURCES_OBJ = {
     "dashboard_json": {
@@ -37,10 +38,13 @@ CONNECT_RESOURCES_OBJ = {
     },
     "user": {"role": ["roles"]},
     "synthetics_test": {
+        "synthetics_private_location": [
+            "locations",
+        ],
         "VALUES": [
             "api_step.request_client_certificate.key.content",
             "api_step.request_client_certificate.cert.content",
-        ]
+        ],
     },
 }
 
