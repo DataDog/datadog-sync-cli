@@ -12,6 +12,6 @@ def sync(ctx):
     """Sync Datadog resources to destination."""
 
     for resource in ctx.obj.get("resources"):
-        if os.path.exists(RESOURCE_DIR.format(resource.resource_name)):
+        if os.path.exists(RESOURCE_DIR.format(resource.resource_type)):
             # Apply resources
             terraform_apply_resource(ctx, resource)

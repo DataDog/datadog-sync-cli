@@ -145,7 +145,7 @@ def get_resources(ctx):
         new_resources = []
         resources_arg_list = resources_arg.split(",")
         for resource in resources:
-            if resource.resource_name in resources_arg_list:
+            if resource.resource_type in resources_arg_list:
                 new_resources.append(resource)
         return new_resources
 
