@@ -7,18 +7,18 @@ from datadog_sync.constants import RESOURCE_STATE_PATH
 from datadog_sync.utils.retry import request_with_retry
 
 
-RESOURCE_NAME = "user"
+RESOURCE_TYPE = "user"
 RESOURCE_FILTER = "Type=user;Name=disabled;Value=false"
 
 
 class User(BaseResource):
     def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_NAME, RESOURCE_FILTER)
+        super().__init__(ctx, RESOURCE_TYPE, RESOURCE_FILTER)
 
     def post_import_processing(self):
         destination_user_obj = self.get_destination_users()
 
-        file_path = RESOURCE_STATE_PATH.format(self.resource_name)
+        file_path = RESOURCE_STATE_PATH.format(self.resource_type)
         with open(file_path, "r") as f:
             data = json.load(f)
         for resource in data["modules"][0]["resources"]:
