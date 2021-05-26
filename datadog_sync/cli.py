@@ -30,43 +30,55 @@ from datadog_sync.models import (
     "--source-api-key",
     envvar=constants.DD_SOURCE_API_KEY,
     required=True,
-    help="Datadog source organization API key",
+    help="Datadog source organization API key.",
 )
 @option(
     "--source-app-key",
     envvar=constants.DD_SOURCE_APP_KEY,
     required=True,
-    help="Datadog source organization APP key",
+    help="Datadog source organization APP key.",
 )
 @option(
     "--source-api-url",
     envvar=constants.DD_SOURCE_API_URL,
     required=False,
-    help="Datadog source organization API url",
+    help="Datadog source organization API url.",
 )
 @option(
     "--destination-api-key",
     envvar=constants.DD_DESTINATION_API_KEY,
     required=True,
-    help="Datadog destination organization API key",
+    help="Datadog destination organization API key.",
 )
 @option(
     "--destination-app-key",
     envvar=constants.DD_DESTINATION_APP_KEY,
     required=True,
-    help="Datadog destination organization APP key",
+    help="Datadog destination organization APP key.",
 )
 @option(
     "--destination-api-url",
     envvar=constants.DD_DESTINATION_API_URL,
     required=False,
-    help="Datadog destination organization API url",
+    help="Datadog destination organization API url.",
+)
+@option(
+    "--http-client-retry-timeout",
+    envvar=constants.DD_HTTP_CLIENT_RETRY_TIMEOUT,
+    required=False,
+    default="60",
+    help="The HTTP request retry timeout period. Defaults to 60s",
+)
+@option(
+    "--terraform-parallelism",
+    required=False,
+    help="Limit the number of concurrent operation as Terraform walks the graph.",
 )
 @option(
     "--terraformer-bin-path",
     default="terraformer",
     required=False,
-    help="Terraformer binary path",
+    help="Terraformer binary path.",
 )
 @option(
     "--resources",

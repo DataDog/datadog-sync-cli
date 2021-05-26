@@ -179,12 +179,17 @@ def replace_ids(key, r_obj, outputs, resource, resource_to_connect):
     # Handle special case for composite monitors which references other monitors in the query
     if resource == "monitor" and resource == resource_to_connect and r_obj["type"] == "composite":
         ids = re.findall("[0-9]+", r_obj[key])
+        pattern = "\\w*(?<!{}_){}"
         for _id in ids:
             for name in outputs:
                 if translate_id(_id) in name:
                     # We need to explicitly disable monitor validation
                     r_obj["validate"] = "false"
-                    r_obj[key] = r_obj[key].replace(_id, RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name))
+                    r_obj[key] = re.sub(
+                        pattern.format(resource, _id),
+                        RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name),
+                        r_obj[key],
+                    )
                     break
         return
 
