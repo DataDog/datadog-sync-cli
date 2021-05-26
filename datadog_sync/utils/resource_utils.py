@@ -52,9 +52,9 @@ CONNECT_RESOURCES_OBJ = {
 def process_resources(ctx):
     resources_obj = ctx.obj.get("resources")
     for resource in resources_obj:
-        resource_path = RESOURCE_FILE_PATH.format(resource.resource_name)
-        r_name = "datadog_{}".format(resource.resource_name)
-        if os.path.exists(resource_path) and resource.resource_name in CONNECT_RESOURCES_OBJ:
+        resource_path = RESOURCE_FILE_PATH.format(resource.resource_type)
+        r_name = "datadog_{}".format(resource.resource_type)
+        if os.path.exists(resource_path) and resource.resource_type in CONNECT_RESOURCES_OBJ:
             # values.tf.json object
             values = dict()
             # variables.tf.json object
@@ -62,8 +62,8 @@ def process_resources(ctx):
             # Outputs object. We store the outputs in an object so we do not have to load it from file every time.
             outputs = dict()
 
-            for resource_to_connect in CONNECT_RESOURCES_OBJ[resource.resource_name].keys():
-                create_remote_state(resource.resource_name, resource_to_connect)
+            for resource_to_connect in CONNECT_RESOURCES_OBJ[resource.resource_type].keys():
+                create_remote_state(resource.resource_type, resource_to_connect)
 
                 output_path = RESOURCE_OUTPUT_PATH.format(resource_to_connect)
                 if os.path.exists(output_path):
@@ -74,36 +74,36 @@ def process_resources(ctx):
             with open(resource_path, "r") as f:
                 resources = json.load(f)
 
-            for n, r_obj in resources["resource"][r_name].items():
-                for resource_to_connect in CONNECT_RESOURCES_OBJ[resource.resource_name].keys():
+            for r_name, r_obj in resources["resource"][r_name].items():
+                for resource_to_connect in CONNECT_RESOURCES_OBJ[resource.resource_type].keys():
                     if resource_to_connect == "VALUES":
                         process_attributes(
-                            resource=resource.resource_name,
+                            resource_type=resource.resource_type,
                             r_obj=r_obj,
                             resource_to_connect=resource_to_connect,
-                            connections=CONNECT_RESOURCES_OBJ[resource.resource_name][resource_to_connect],
-                            name=n,
+                            connections=CONNECT_RESOURCES_OBJ[resource.resource_type][resource_to_connect],
+                            r_name=r_name,
                             values=values,
                             variables=variables,
                         )
                     else:
                         process_attributes(
-                            resource=resource.resource_name,
+                            resource_type=resource.resource_type,
                             r_obj=r_obj,
                             resource_to_connect=resource_to_connect,
-                            connections=CONNECT_RESOURCES_OBJ[resource.resource_name][resource_to_connect],
+                            connections=CONNECT_RESOURCES_OBJ[resource.resource_type][resource_to_connect],
                             outputs=outputs,
                         )
-            update_files(resource.resource_name, resources, values, variables)
+            update_files(resource.resource_type, resources, values, variables)
 
 
 def process_attributes(
-    resource,
+    resource_type,
     r_obj,
     connections,
     outputs=None,
     resource_to_connect=None,
-    name=None,
+    r_name=None,
     values=None,
     variables=None,
 ):
@@ -113,34 +113,44 @@ def process_attributes(
             keys_list=c.split("."),
             r_obj=r_obj,
             outputs=outputs,
-            resource=resource,
+            resource_type=resource_type,
             resource_to_connect=resource_to_connect,
             values=values,
             variables=variables,
-            name=name,
+            r_name=r_name,
         )
 
 
-def replace(key_str, keys_list, r_obj, outputs, resource, resource_to_connect, values, variables, name):
+def replace(key_str, keys_list, r_obj, outputs, resource_type, resource_to_connect, values, variables, r_name):
     # Handle attributes that are not generated. Values.tf.var
     if len(keys_list) == 1 and resource_to_connect == "VALUES":
-        replace_values(key_str, keys_list[0], r_obj, values, variables, name)
+        replace_values(key_str, keys_list[0], r_obj, values, variables, r_name)
         return
 
     if len(keys_list) == 1 and keys_list[0] in r_obj:
-        replace_ids(keys_list[0], r_obj, outputs, resource, resource_to_connect)
+        replace_ids(keys_list[0], r_obj, outputs, resource_type, resource_to_connect)
         return
 
     if isinstance(r_obj, list):
         for k in r_obj:
-            replace(key_str, keys_list, k, outputs, resource, resource_to_connect, values, variables, name)
+            replace(key_str, keys_list, k, outputs, resource_type, resource_to_connect, values, variables, r_name)
 
     if isinstance(r_obj, dict):
         if keys_list[0] in r_obj:
             # Handle nested JSON string attributes
             if len(keys_list) > 1 and keys_list[1] == "[JSON]":
                 js_obj = json.loads(r_obj[keys_list[0]])
-                replace(key_str, keys_list[2:], js_obj, outputs, resource, resource_to_connect, values, variables, name)
+                replace(
+                    key_str,
+                    keys_list[2:],
+                    js_obj,
+                    outputs,
+                    resource_type,
+                    resource_to_connect,
+                    values,
+                    variables,
+                    r_name,
+                )
                 r_obj[keys_list[0]] = json.dumps(js_obj)
             else:
                 replace(
@@ -148,26 +158,26 @@ def replace(key_str, keys_list, r_obj, outputs, resource, resource_to_connect, v
                     keys_list[1:],
                     r_obj[keys_list[0]],
                     outputs,
-                    resource,
+                    resource_type,
                     resource_to_connect,
                     values,
                     variables,
-                    name,
+                    r_name,
                 )
 
 
-def replace_values(key_str, key, r_obj, values, variables, name):
+def replace_values(key_str, key, r_obj, values, variables, r_name):
     if isinstance(r_obj, list):
         i = 0
         while i < len(r_obj):
-            var_key = "{}--{}-{}".format(name, key_str.replace(".", "-"), i)
+            var_key = "{}--{}-{}".format(r_name, key_str.replace(".", "-"), i)
             val = RESOURCE_VARS.format(var_key)
             r_obj[i][key] = val
             variables[var_key] = {}
             values[var_key] = ""
             i += 1
     else:
-        var_key = "{}--{}".format(name, key_str.replace(".", "-"))
+        var_key = "{}--{}".format(r_name, key_str.replace(".", "-"))
         val = RESOURCE_VARS.format(var_key)
         r_obj[key] = val
         variables[var_key] = {}
@@ -180,11 +190,11 @@ def replace_ids(key, r_obj, outputs, resource, resource_to_connect):
     if resource == "monitor" and resource == resource_to_connect and r_obj["type"] == "composite":
         ids = re.findall("[0-9]+", r_obj[key])
         for _id in ids:
-            for name in outputs:
-                if translate_id(_id) in name:
+            for output in outputs:
+                if translate_id(_id) in output:
                     # We need to explicitly disable monitor validation
                     r_obj["validate"] = "false"
-                    r_obj[key] = r_obj[key].replace(_id, RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name))
+                    r_obj[key] = r_obj[key].replace(_id, RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, output))
                     break
         return
 

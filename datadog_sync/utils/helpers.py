@@ -41,7 +41,7 @@ def terraformer_import(ctx):
     for resource in ctx.obj["resources"]:
         if resource.resource_filter:
             filter_list.append(TERRAFORMER_FILTER.format(resource.resource_filter))
-        resource_list.append(resource.resource_name)
+        resource_list.append(resource.resource_type)
 
     env = {
         "DATADOG_API_KEY": ctx.obj.get("source_api_key"),
@@ -66,12 +66,12 @@ def terraformer_import(ctx):
     )
 
     for resource in ctx.obj["resources"]:
-        if os.path.exists(RESOURCE_FILE_PATH.format(resource.resource_name)):
-            state_file_name = DEFAULT_STATE_NAME.format(resource.resource_name)
+        if os.path.exists(RESOURCE_FILE_PATH.format(resource.resource_type)):
+            state_file_name = DEFAULT_STATE_NAME.format(resource.resource_type)
             if os.path.exists(DEFAULT_STATE_PATH + state_file_name):
                 copyfile(
                     DEFAULT_STATE_PATH + state_file_name,
-                    RESOURCE_STATE_PATH.format(resource.resource_name),
+                    RESOURCE_STATE_PATH.format(resource.resource_type),
                 )
 
 
@@ -85,7 +85,7 @@ def terraform_apply_resource(ctx, resource):
     root_path = ctx.obj["root_path"]
     absolute_var_file_path = root_path + "/" + VALUES_FILE
 
-    resource_dir = RESOURCE_DIR.format(resource.resource_name)
+    resource_dir = RESOURCE_DIR.format(resource.resource_type)
     resource_plugin_path = resource_dir + "/.terraform/"
 
     if not os.path.exists(resource_plugin_path):
@@ -101,7 +101,7 @@ def terraform_apply_resource(ctx, resource):
         "{}/{}/{}".format(
             root_path,
             DEFAULT_STATE_PATH,
-            DEFAULT_STATE_NAME.format(resource.resource_name),
+            DEFAULT_STATE_NAME.format(resource.resource_type),
         ),
     )
     os.chdir(root_path)

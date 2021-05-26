@@ -9,12 +9,12 @@ from datadog_sync.constants import (
     RESOURCE_FILE_PATH,
 )
 
-RESOURCE_NAME = "role"
+RESOURCE_TYPE = "role"
 
 
 class Role(BaseResource):
     def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_NAME)
+        super().__init__(ctx, RESOURCE_TYPE)
 
     def post_import_processing(self):
         source_role_obj, destination_role_obj = self.get_roles()
@@ -23,7 +23,7 @@ class Role(BaseResource):
 
         # Update existing Role IDs in state file if roles share the same name.
         # If the role names are the same, we can assume they are equal.
-        file_path = RESOURCE_STATE_PATH.format(self.resource_name)
+        file_path = RESOURCE_STATE_PATH.format(self.resource_type)
         with open(file_path, "r") as f:
             data = json.load(f)
         for resource in data["modules"][0]["resources"]:
@@ -91,7 +91,7 @@ class Role(BaseResource):
             for permission in destination_permissions:
                 destination_permission_obj[permission["attributes"]["name"]] = permission["id"]
 
-            file_path = RESOURCE_FILE_PATH.format(self.resource_name)
+            file_path = RESOURCE_FILE_PATH.format(self.resource_type)
             with open(file_path, "r") as f:
                 data = json.load(f)
 
