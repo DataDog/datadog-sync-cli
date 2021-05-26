@@ -189,27 +189,32 @@ def replace_ids(key, r_obj, outputs, resource, resource_to_connect):
     # Handle special case for composite monitors which references other monitors in the query
     if resource == "monitor" and resource == resource_to_connect and r_obj["type"] == "composite":
         ids = re.findall("[0-9]+", r_obj[key])
+        pattern = "\\w*(?<!{}_){}"
         for _id in ids:
             for output in outputs:
                 if translate_id(_id) in output:
                     # We need to explicitly disable monitor validation
                     r_obj["validate"] = "false"
-                    r_obj[key] = r_obj[key].replace(_id, RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, output))
+                    r_obj[key] = re.sub(
+                        pattern.format(resource, _id),
+                        RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, output),
+                        r_obj[key],
+                    )
                     break
         return
 
     if isinstance(r_obj[key], list):
         i = 0
         while i < len(r_obj[key]):
-            for name in outputs:
-                if translate_id(r_obj[key][i]) in name:
-                    r_obj[key][i] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
+            for output in outputs:
+                if translate_id(r_obj[key][i]) in output:
+                    r_obj[key][i] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, output)
                     break
             i += 1
     else:
-        for name in outputs:
-            if translate_id(r_obj[key]) in name:
-                r_obj[key] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, name)
+        for output in outputs:
+            if translate_id(r_obj[key]) in output:
+                r_obj[key] = RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, output)
                 return
 
 

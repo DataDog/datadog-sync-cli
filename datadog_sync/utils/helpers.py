@@ -43,27 +43,20 @@ def terraformer_import(ctx):
             filter_list.append(TERRAFORMER_FILTER.format(resource.resource_filter))
         resource_list.append(resource.resource_type)
 
-    env = {
-        "DATADOG_API_KEY": ctx.obj.get("source_api_key"),
-        "DATADOG_APP_KEY": ctx.obj.get("source_app_key"),
-        "DATADOG_HOST": ctx.obj.get("source_api_url"),
-        "DD_HTTP_CLIENT_RETRY_ENABLED": "true",
-    }
+    env = build_env_object(ctx, "source")
+    cmd = [
+        ctx.obj.get("terraformer_bin_path"),
+        "import",
+        "datadog",
+        f'--resources={",".join(resource_list)}',
+        " ".join(filter_list),
+        "-O=json",
+        "--path-pattern={output}/{service}/",
+        "--path-output=resources",
+        "-c=false",
+    ]
 
-    run_command(
-        [
-            ctx.obj.get("terraformer_bin_path"),
-            "import",
-            "datadog",
-            f'--resources={",".join(resource_list)}',
-            " ".join(filter_list),
-            "-O=json",
-            "--path-pattern={output}/{service}/",
-            "--path-output=resources",
-            "-c=false",
-        ],
-        env,
-    )
+    run_command(cmd, env)
 
     for resource in ctx.obj["resources"]:
         if os.path.exists(RESOURCE_FILE_PATH.format(resource.resource_type)):
@@ -76,12 +69,6 @@ def terraformer_import(ctx):
 
 
 def terraform_apply_resource(ctx, resource):
-    env = {
-        "DD_API_KEY": ctx.obj.get("destination_api_key"),
-        "DD_APP_KEY": ctx.obj.get("destination_app_key"),
-        "DD_HOST": ctx.obj.get("destination_api_url"),
-        "DD_HTTP_CLIENT_RETRY_ENABLED": "true",
-    }
     root_path = ctx.obj["root_path"]
     absolute_var_file_path = root_path + "/" + VALUES_FILE
 
@@ -94,7 +81,18 @@ def terraform_apply_resource(ctx, resource):
 
     os.chdir(resource_dir)
 
-    run_command(["terraform", "apply", "--auto-approve", f"-var-file={absolute_var_file_path}"], env)
+    env = build_env_object(ctx, "destination")
+    cmd = [
+        "terraform",
+        "apply",
+        "--auto-approve",
+        f"-var-file={absolute_var_file_path}",
+        "-compact-warnings",
+    ]
+    if ctx.obj.get("terraform-parallelism"):
+        cmd.append("--parallelism={ctx.obj.get('terraform-parallelism')}")
+
+    run_command(cmd, env)
 
     copyfile(
         "./terraform.tfstate",
@@ -105,6 +103,16 @@ def terraform_apply_resource(ctx, resource):
         ),
     )
     os.chdir(root_path)
+
+
+def build_env_object(ctx, loc):
+    return {
+        "DATADOG_API_KEY": ctx.obj.get("{}_api_key".format(loc)),
+        "DATADOG_APP_KEY": ctx.obj.get("{}_app_key".format(loc)),
+        "DATADOG_HOST": ctx.obj.get("{}_api_url".format(loc)),
+        "DD_HTTP_CLIENT_RETRY_ENABLED": "true",
+        "DD_HTTP_CLIENT_RETRY_TIMEOUT": ctx.obj.get("http_client_retry_timeout"),
+    }
 
 
 def translate_id(_id):
