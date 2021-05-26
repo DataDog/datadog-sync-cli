@@ -21,6 +21,7 @@ from datadog_sync.models import (
     LogsCustomPipeline,
     SyntheticsTest,
     SyntheticsPrivateLocation,
+    IntegrationAws,
 )
 
 
@@ -130,6 +131,7 @@ def get_resources(ctx):
     resources = [
         Role(ctx),
         User(ctx),
+        IntegrationAws(ctx),
         SyntheticsPrivateLocation(ctx),
         SyntheticsTest(ctx),
         Monitor(ctx),
