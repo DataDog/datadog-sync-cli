@@ -59,9 +59,12 @@ Note: The above docker run command will mount your current working directory to 
 
 ## Supported resources
 
-- **Role**
-- **User**
-- **Monitor**
-- **Dashboard_json**
-- **Downtime**
-- **Synthetic_test**
+- **role**
+- **user**
+- **monitor**
+- **dashboard_json**
+- **downtime**
+- **synthetic_test**
+- **synthetics_private_location**
+- **logs_custom_pipeline**
+- **integration_aws**
