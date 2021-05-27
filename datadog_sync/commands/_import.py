@@ -8,11 +8,11 @@ from datadog_sync.utils.helpers import terraformer_import
 from datadog_sync.utils.resource_utils import process_resources
 from datadog_sync.constants import DEFAULT_STATE_PATH, VALUES_FILE
 
-
 @command("import", short_help="Import Datadog resources.")
 @pass_context
 def _import(ctx):
-    """Sync Datadog resources to destination."""
+    """Import Datadog resources."""
+
     # Create necessary files before import
     if not os.path.exists(DEFAULT_STATE_PATH):
         os.mkdir(DEFAULT_STATE_PATH)

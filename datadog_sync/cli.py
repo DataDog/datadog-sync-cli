@@ -1,3 +1,4 @@
+import logging
 import os
 
 from click import pass_context, group, option
@@ -23,6 +24,7 @@ from datadog_sync.models import (
     SyntheticsPrivateLocation,
 )
 
+log = logging.getLogger("__name__")
 
 @group()
 @option(
@@ -72,6 +74,13 @@ from datadog_sync.models import (
     required=False,
     help="Optional comma separated list of resource to import. All supported resources are imported by default.",
 )
+@option(
+    "--verbose",
+    '-v',
+    required=False,
+    is_flag=True,
+    help="Print more information.",
+)
 @pass_context
 def cli(ctx, **kwargs):
     """Initialize cli"""
@@ -80,6 +89,17 @@ def cli(ctx, **kwargs):
         ctx.obj["source_api_url"] = constants.DEFAULT_API_URL
     if ctx.obj.get("destination_api_url") is None:
         ctx.obj["destination_api_url"] = constants.DEFAULT_API_URL
+
+    # Set logging level and format
+    if ctx.obj.get("verbose"):
+        sh = logging.StreamHandler()
+        fmt = logging.Formatter("%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s")
+        sh.setFormatter(fmt)
+        log.addHandler(sh)
+        log.setLevel(logging.DEBUG)
+    else:
+        logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
+
 
     # Set root project dir
     ctx.obj["root_path"] = os.getcwd()
