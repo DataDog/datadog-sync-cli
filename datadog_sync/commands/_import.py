@@ -1,3 +1,4 @@
+import logging
 import os
 import time
 import logging
@@ -8,6 +9,8 @@ from datadog_sync.constants import SOURCE_RESOURCES_DIR
 
 log = logging.getLogger("__name__")
 
+
+log = logging.getLogger(__name__)
 
 @command("import", short_help="Import Datadog resources.")
 @pass_context
