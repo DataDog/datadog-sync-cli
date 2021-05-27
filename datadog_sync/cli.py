@@ -79,7 +79,7 @@ log = logging.getLogger("__name__")
     '-v',
     required=False,
     is_flag=True,
-    help="Print more information.",
+    help="Enable verbose logging.",
 )
 @pass_context
 def cli(ctx, **kwargs):
