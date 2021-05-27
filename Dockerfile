@@ -8,7 +8,7 @@ RUN pip install /datadog-sync-cli
 
 # Intall terraform and terraformer
 ENV TF_VERSION=0.12.31
-ENV TERRAFORMER_VERSION=0.8.13
+ENV TERRAFORMER_VERSION=0.8.14
 RUN wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip \
     && wget https://github.com/GoogleCloudPlatform/terraformer/releases/download/${TERRAFORMER_VERSION}/terraformer-datadog-linux-amd64 \
     && unzip terraform_${TF_VERSION}_linux_amd64.zip -d /usr/local/bin/ \
