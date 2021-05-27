@@ -36,7 +36,7 @@ def run_command(cmd, env=[]):
 
         # subprocess output with indent
         if len(proc.stdout) > 0:
-            log.info("\n\t" + proc.stdout.replace('\n', '\n\t'))
+            log.debug("\n\t" + proc.stdout.replace('\n', '\n\t'))
 
         if len(proc.stderr) > 0:
             log.error("\n\t" + proc.stderr.replace('\n', '\n\t'))
