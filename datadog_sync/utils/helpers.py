@@ -1,3 +1,4 @@
+import logging
 import os
 import json
 import subprocess
@@ -16,19 +17,32 @@ from datadog_sync.constants import (
     VALUES_FILE,
 )
 
+log = logging.getLogger("__name__")
 
 def run_command(cmd, env=[]):
     env_copy = os.environ.copy()
     env_copy.update(env)
+
+    log.info("Running command '%s'", " ".join(cmd))
+
     try:
-        subprocess.run(
+        proc = subprocess.run(
             cmd,
             env=env_copy,
-            # stdout=subprocess.PIPE,
-            # stderr=subprocess.STDOUT,
+            capture_output=True,
+            text=True,
+            check=True
         )
+
+        # subprocess output with indent
+        if len(proc.stdout) > 0:
+            log.debug("\n\t" + proc.stdout.replace('\n', '\n\t'))
+
+        if len(proc.stderr) > 0:
+            log.error("\n\t" + proc.stderr.replace('\n', '\n\t'))
+
     except subprocess.CalledProcessError as e:
-        print("Error running command", " ".join(cmd), e)
+        log.error("Error running command", " ".join(cmd), e)
 
 
 def terraformer_import(ctx):
