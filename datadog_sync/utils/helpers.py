@@ -31,6 +31,7 @@ def run_command(cmd, env=[]):
             env=env_copy,
             capture_output=True,
             text=True,
+            check=True
         )
 
         # subprocess output with indent

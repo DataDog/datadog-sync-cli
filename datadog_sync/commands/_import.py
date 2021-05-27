@@ -12,7 +12,6 @@ from datadog_sync.constants import DEFAULT_STATE_PATH, VALUES_FILE
 @pass_context
 def _import(ctx):
     """Import Datadog resources."""
-
     # Create necessary files before import
     if not os.path.exists(DEFAULT_STATE_PATH):
         os.mkdir(DEFAULT_STATE_PATH)
