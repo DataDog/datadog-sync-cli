@@ -27,6 +27,7 @@ from datadog_sync.models import (
 
 log = logging.getLogger("__name__")
 
+
 @group()
 @option(
     "--source-api-key",
@@ -89,7 +90,7 @@ log = logging.getLogger("__name__")
 )
 @option(
     "--verbose",
-    '-v',
+    "-v",
     required=False,
     is_flag=True,
     help="Enable verbose logging.",
@@ -112,7 +113,6 @@ def cli(ctx, **kwargs):
         log.setLevel(logging.DEBUG)
     else:
         logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
-
 
     # Set root project dir
     ctx.obj["root_path"] = os.getcwd()

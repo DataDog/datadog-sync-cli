@@ -19,6 +19,7 @@ from datadog_sync.constants import (
 
 log = logging.getLogger("__name__")
 
+
 def run_command(cmd, env=[]):
     env_copy = os.environ.copy()
     env_copy.update(env)
@@ -26,20 +27,14 @@ def run_command(cmd, env=[]):
     log.info("Running command '%s'", " ".join(cmd))
 
     try:
-        proc = subprocess.run(
-            cmd,
-            env=env_copy,
-            capture_output=True,
-            text=True,
-            check=True
-        )
+        proc = subprocess.run(cmd, env=env_copy, capture_output=True, text=True, check=True)
 
         # subprocess output with indent
         if len(proc.stdout) > 0:
-            log.debug("\n\t" + proc.stdout.replace('\n', '\n\t'))
+            log.debug("\n\t" + proc.stdout.replace("\n", "\n\t"))
 
         if len(proc.stderr) > 0:
-            log.error("\n\t" + proc.stderr.replace('\n', '\n\t'))
+            log.error("\n\t" + proc.stderr.replace("\n", "\n\t"))
 
     except subprocess.CalledProcessError as e:
         log.error("Error running command", " ".join(cmd), e)

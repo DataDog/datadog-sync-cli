@@ -1,0 +1,44 @@
+name: Run Tests
+
+on:
+    pull_request:
+        branches:
+            - master
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.8
+            - name: Checkout code
+              uses: actions/checkout@v2
+            - name: Intall pytest
+              run: pip install pytest==6.2.4
+            - name: Intall datadog-sync-cli
+              run: pip install .
+            - name: Setup terraform CLI
+              uses: hashicorp/setup-terraform@v1
+              with:
+                  terraform_version: 0.12.31
+                  terraform_wrapper: false
+            - name: Setup terraformer
+              run: |
+                  TERRAFORMER_VERSION=0.8.14
+                  curl -LO https://github.com/GoogleCloudPlatform/terraformer/releases/download/$(curl -s https://api.github.com/repos/GoogleCloudPlatform/terraformer/releases/tags/{TERRAFORMER_VERSION}| grep tag_name | cut -d '"' -f 4)/terraformer-datadog-linux-amd64
+                  chmod +x terraformer-datadog-linux-amd64
+                  sudo mv terraformer-datadog-linux-amd64 /usr/local/bin/terraformer
+#            - name: Enable integrations tests
+#              if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
+#              run: echo "DD_INTEGRATION=true" >> $GITHUB_ENV
+            - name: Test
+              run: pytest
+              env:
+                  DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
+                  DD_DESTINATION_APP_KEY: ${{ secrets.DD_DESTINATION_APP_KEY }}
+                  DD_DESTINATION_API_URL: ${{ secrets.DD_DESTINATION_API_URL }}
+                  DD_SOURCE_API_KEY: ${{ secrets.DD_SOURCE_API_KEY }}
+                  DD_SOURCE_APP_KEY: ${{ secrets.DD_SOURCE_APP_KEY }}
+                  DD_SOURCE_API_URL: ${{ secrets.DD_SOURCE_API_URL }}
