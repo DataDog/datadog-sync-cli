@@ -18,4 +18,4 @@ def test_cli():
         assert result.exit_code == 0
 
         result = runner.invoke(cli, ["sync"])
-        assert result.exit_code == 1
+        assert result.exit_code == 0
