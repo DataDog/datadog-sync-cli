@@ -23,7 +23,9 @@ def run_command(cmd, env=[]):
     env_copy = os.environ.copy()
     env_copy.update(env)
 
-    log.info("Running command '%s'", " ".join(cmd))
+    cmd_name = " ".join(cmd)
+
+    log.info("Running command '%s'", cmd_name)
 
     try:
         proc = subprocess.run(
@@ -36,10 +38,10 @@ def run_command(cmd, env=[]):
 
         # subprocess output with indent
         if len(proc.stdout) > 0:
-            log.debug("\n\t" + proc.stdout.replace('\n', '\n\t'))
+            log.debug("Command '%s':" + "\t" + proc.stdout.replace('\n', '\n\t'), cmd_name)
 
         if len(proc.stderr) > 0:
-            log.error("\n\t" + proc.stderr.replace('\n', '\n\t'))
+            log.error("Command '%s':" + "\t" + proc.stderr.replace('\n', '\n\t'), cmd_name)
 
     except subprocess.CalledProcessError as e:
         log.error("Error running command", " ".join(cmd), e)
