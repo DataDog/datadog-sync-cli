@@ -64,7 +64,7 @@ Note: The above docker run command will mount your current working directory to 
 - **monitor**
 - **dashboard_json**
 - **downtime**
-- **synthetic_test**
+- **synthetics_test**
 - **synthetics_private_location**
 - **logs_custom_pipeline**
 - **integration_aws**

@@ -28,16 +28,12 @@ def run_command(cmd, env=[]):
 
     try:
         proc = subprocess.run(cmd, env=env_copy, capture_output=True, text=True, check=True)
-
         # subprocess output with indent
         if len(proc.stdout) > 0:
-            log.debug("\n\t" + proc.stdout.replace("\n", "\n\t"))
-
-        if len(proc.stderr) > 0:
-            log.error("\n\t" + proc.stderr.replace("\n", "\n\t"))
+            log.debug("\n\t" + str(proc.stdout).replace("\n", "\n\t"))
 
     except subprocess.CalledProcessError as e:
-        log.error("Error running command", " ".join(cmd), e)
+        log.error(f"Error running command: {' '.join(cmd)} \nError Message: {e.stderr}")
 
 
 def terraformer_import(ctx):
@@ -80,7 +76,6 @@ def terraformer_import(ctx):
 def terraform_apply_resource(ctx, resource):
     root_path = ctx.obj["root_path"]
     absolute_var_file_path = root_path + "/" + VALUES_FILE
-
     resource_dir = RESOURCE_DIR.format(resource.resource_type)
     resource_plugin_path = resource_dir + "/.terraform/"
 
@@ -111,6 +106,37 @@ def terraform_apply_resource(ctx, resource):
             DEFAULT_STATE_NAME.format(resource.resource_type),
         ),
     )
+    os.chdir(root_path)
+
+
+def terraform_destroy_resource(ctx, resource):
+    root_path = ctx.obj["root_path"]
+    resource_dir = RESOURCE_DIR.format(resource.resource_type)
+    resource_plugin_path = resource_dir + "/.terraform/"
+
+    if not os.path.exists(resource_plugin_path):
+        os.mkdir(resource_plugin_path)
+    copy_tree(".terraform/", resource_plugin_path)
+
+    os.chdir(resource_dir)
+
+    env = build_env_object(ctx, "destination")
+    cmd = [
+        "terraform",
+        "destroy",
+        "--auto-approve",
+    ]
+
+    run_command(cmd, env)
+
+    os.remove(
+        "{}/{}/{}".format(
+            root_path,
+            DEFAULT_STATE_PATH,
+            DEFAULT_STATE_NAME.format(resource.resource_type),
+        )
+    )
+
     os.chdir(root_path)
 
 

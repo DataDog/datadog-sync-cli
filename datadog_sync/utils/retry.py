@@ -9,6 +9,7 @@ def request_with_retry(func):
         timeout = time.time() + 60 * 10
         default_backoff = 5
         retry_count = 0
+        resp = None
 
         while retry and timeout > time.time():
             try:
@@ -19,6 +20,7 @@ def request_with_retry(func):
                     retry_count += 1
                     time.sleep(retry_count * default_backoff)
                     pass
+                return e
         return resp
 
     return wrapper

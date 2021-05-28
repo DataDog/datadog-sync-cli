@@ -7,6 +7,7 @@ from datadog_sync.constants import (
     RESOURCE_VARIABLES_PATH,
     RESOURCE_OUTPUT_PATH,
     RESOURCE_OUTPUT_CONNECT,
+    RESOURCE_ID_CONNECT,
     RESOURCE_VARS,
     VALUES_FILE,
 )
@@ -187,6 +188,9 @@ def replace_values(key_str, key, r_obj, values, variables, r_name):
 
 def replace_ids(key, r_obj, outputs, resource, resource_to_connect):
     # Handle special case for composite monitors which references other monitors in the query
+    # Referencing output's as we do with other resource connection will not work in this case
+    # as the output values will not be updated prior to applying the change. Hence, we use
+    # resource id reference directly.
     if resource == "monitor" and resource == resource_to_connect and r_obj["type"] == "composite":
         ids = re.findall("[0-9]+", r_obj[key])
         pattern = "\\w*(?<!{}_){}"
@@ -196,8 +200,8 @@ def replace_ids(key, r_obj, outputs, resource, resource_to_connect):
                     # We need to explicitly disable monitor validation
                     r_obj["validate"] = "false"
                     r_obj[key] = re.sub(
-                        pattern.format(resource, _id),
-                        RESOURCE_OUTPUT_CONNECT.format(resource_to_connect, output),
+                        pattern.format(resource, translate_id(_id)),
+                        RESOURCE_ID_CONNECT.format(resource, translate_id(_id)),
                         r_obj[key],
                     )
                     break
