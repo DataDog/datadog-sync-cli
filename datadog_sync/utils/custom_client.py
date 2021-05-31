@@ -34,7 +34,6 @@ class CustomClient:
         return response
 
 
-
 def build_default_headers(auth_obj):
     headers = {
         "DD-API-KEY": auth_obj["apiKeyAuth"],
@@ -55,6 +54,7 @@ def request_with_retry(func):
         while retry and timeout > time.time():
             try:
                 resp = func(*args, **kwargs)
+                resp.raise_for_status()
                 retry = False
             except requests.exceptions.HTTPError as e:
                 status_code = e.response.status_code
