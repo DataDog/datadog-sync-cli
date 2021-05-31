@@ -1,33 +1,29 @@
-import copy
-import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
-from datadog_sync.utils.base_resource import BaseResource
 from deepdiff import DeepDiff
 
-
-logging.basicConfig(level=logging.DEBUG)
+from datadog_sync.utils.base_resource import BaseResource
 
 
 RESOURCE_TYPE = "monitors"
-COMPUTED_ATTRIBUTES = [
-    "id",
-    "matching_downtimes",
-    "creator",
-    "created",
-    "deleted",
-    "org_id",
-    "created_at",
-    "modified",
-    "overall_state",
-    "overall_state_modified",
+EXCLUDED_ATTRIBUTES = [
+    "root['id']",
+    "root['matching_downtimes']",
+    "root['creator']",
+    "root['created']",
+    "root['deleted']",
+    "root['org_id']",
+    "root['created_at']",
+    "root['modified']",
+    "root['overall_state']",
+    "root['overall_state_modified']",
 ]
 BASE_PATH = "/api/v1/monitor"
 
 
 class Monitors(BaseResource):
     def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_TYPE, computed_attributes=COMPUTED_ATTRIBUTES)
+        super().__init__(ctx, RESOURCE_TYPE)
 
     def import_resources(self):
         monitors = {}
@@ -58,12 +54,9 @@ class Monitors(BaseResource):
 
     def prepare_resource_and_apply(self, _id, monitor, destination_monitors):
         destination_client = self.ctx.obj.get("destination_client")
-        self.remove_computed_attr(monitor)
 
         if _id in destination_monitors:
-            dest_monitor_copy = copy.deepcopy(destination_monitors[_id])
-            self.remove_computed_attr(dest_monitor_copy)
-            diff = DeepDiff(monitor, dest_monitor_copy, ignore_order=True)
+            diff = DeepDiff(monitor, destination_monitors[_id], ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
             if diff:
                 res = destination_client.put(BASE_PATH + f"/{destination_monitors[_id]['id']}", monitor).json()
                 destination_monitors[_id] = res

@@ -1,15 +1,16 @@
 import logging
-import os
 
 from click import pass_context, group, option
 
 import datadog_sync.constants as constants
 from datadog_sync.commands import ALL_COMMANDS
 from datadog_sync.models import (
+    Roles,
     Monitors,
     Dashboards,
 )
 from datadog_sync.utils.custom_client import CustomClient
+
 
 log = logging.getLogger("__name__")
 
@@ -92,16 +93,11 @@ def cli(ctx, **kwargs):
 
     # Set logging level and format
     if ctx.obj.get("verbose"):
-        sh = logging.StreamHandler()
-        fmt = logging.Formatter("%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s")
-        sh.setFormatter(fmt)
-        log.addHandler(sh)
-        log.setLevel(logging.DEBUG)
+        logging.basicConfig(
+            format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s", level=logging.DEBUG
+        )
     else:
         logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
-
-    # Set root project dir
-    ctx.obj["root_path"] = os.getcwd()
 
     # Initialize the datadog API Clients
     source_auth = {
@@ -126,6 +122,7 @@ def cli(ctx, **kwargs):
 def get_resources(ctx):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
     resources = [
+        Roles(ctx),
         Monitors(ctx),
         Dashboards(ctx),
     ]

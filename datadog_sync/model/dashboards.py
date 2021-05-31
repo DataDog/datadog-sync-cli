@@ -1,6 +1,3 @@
-import os
-import copy
-import json
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from deepdiff import DeepDiff
@@ -16,10 +13,6 @@ EXCLUDED_ATTRIBUTES = [
     "root['url']",
     "root['created_at']",
     "root['modified_at']",
-]
-EXCLUDED_REGEX_ATTRIBUTES = [
-    "root\\['widgets'\\]\\[\\d+\\]\\['definition'\\]\\['alert_id'\\]",
-    "root\\['widgets'\\]\\[\\d+\\]\\['definition'\\]\\['widgets'\\]\\[\\d+\\][\\definition\\]\\[alert_id\\]",
 ]
 RESOURCE_CONNECTIONS = {"monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"]}
 BASE_PATH = "/api/v1/dashboard"
@@ -48,13 +41,7 @@ class Dashboards(BaseResource):
 
     def apply_resources(self):
         source_dashboards, destination_dashboards = self.open_resources()
-        connection_resources = {}
-
-        for k in self.resource_connections.keys():
-            path = RESOURCE_FILE_PATH.format("destination", k)
-            if os.path.exists(path):
-                with open(RESOURCE_FILE_PATH.format("destination", k), "r") as f:
-                    connection_resources[k] = json.load(f)
+        connection_resources = self.get_connection_resources()
 
         with ThreadPoolExecutor() as executor:
             wait(
@@ -77,12 +64,10 @@ class Dashboards(BaseResource):
         self.connect_resources(dashboard, connection_resources)
 
         if _id in destination_dashboards:
-            dest_monitor_copy = copy.deepcopy(destination_dashboards[_id])
             diff = DeepDiff(
                 dashboard,
-                dest_monitor_copy,
+                destination_dashboards[_id],
                 ignore_order=True,
-                exclude_regex_paths=EXCLUDED_REGEX_ATTRIBUTES,
                 exclude_paths=EXCLUDED_ATTRIBUTES,
             )
             if diff:

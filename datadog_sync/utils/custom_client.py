@@ -1,4 +1,5 @@
 import time
+
 import requests
 
 
@@ -25,6 +26,13 @@ class CustomClient:
         response = request_with_retry(requests.put)(url, json=body, headers=self.headers, params=params)
         response.close()
         return response
+
+    def patch(self, path, body, params=None):
+        url = self.host + path
+        response = request_with_retry(requests.patch)(url, json=body, headers=self.headers, params=params)
+        response.close()
+        return response
+
 
 
 def build_default_headers(auth_obj):
