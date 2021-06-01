@@ -3,67 +3,6 @@ import time
 import requests
 
 
-class CustomClient:
-    def __init__(self, host, auth, ctx):
-        self.host = host
-        self.ctx = ctx
-        self.headers = build_default_headers(auth)
-
-    def get(self, path, params=None):
-        url = self.host + path
-        try:
-            response = request_with_retry(requests.get)(url, headers=self.headers, params=params)
-            response.close()
-            return response
-        except requests.exceptions.HTTPError as e:
-            raise e
-
-    def post(self, path, body, params=None):
-        url = self.host + path
-        try:
-            response = request_with_retry(requests.post)(url, json=body, headers=self.headers, params=params)
-            response.close()
-            return response
-        except requests.exceptions.HTTPError as e:
-            raise e
-
-    def put(self, path, body, params=None):
-        url = self.host + path
-        try:
-            response = request_with_retry(requests.put)(url, json=body, headers=self.headers, params=params)
-            response.close()
-            return response
-        except requests.exceptions.HTTPError as e:
-            raise e
-
-    def patch(self, path, body, params=None):
-        url = self.host + path
-        try:
-            response = request_with_retry(requests.patch)(url, json=body, headers=self.headers, params=params)
-            response.close()
-            return response
-        except requests.exceptions.HTTPError as e:
-            raise e
-
-    def delete(self, path, body, params=None):
-        url = self.host + path
-        try:
-            response = request_with_retry(requests.delete)(url, json=body, headers=self.headers, params=params)
-            response.close()
-            return response
-        except requests.exceptions.HTTPError as e:
-            raise e
-
-
-def build_default_headers(auth_obj):
-    headers = {
-        "DD-API-KEY": auth_obj["apiKeyAuth"],
-        "DD-APPLICATION-KEY": auth_obj["appKeyAuth"],
-        "Content-Type": "application/json",
-    }
-    return headers
-
-
 def request_with_retry(func):
     def wrapper(*args, **kwargs):
         retry = True
@@ -91,6 +30,71 @@ def request_with_retry(func):
         return resp
 
     return wrapper
+
+
+class CustomClient:
+    def __init__(self, host, auth, ctx):
+        self.host = host
+        self.ctx = ctx
+        self.headers = build_default_headers(auth)
+
+    @request_with_retry
+    def get(self, path, **kwargs):
+        url = self.host + path
+        try:
+            response = requests.get(url, headers=self.headers, **kwargs)
+            response.close()
+            return response
+        except requests.exceptions.HTTPError as e:
+            raise e
+
+    @request_with_retry
+    def post(self, path, body, **kwargs):
+        url = self.host + path
+        try:
+            response = requests.post(url, json=body, headers=self.headers, **kwargs)
+            response.close()
+            return response
+        except requests.exceptions.HTTPError as e:
+            raise e
+
+    @request_with_retry
+    def put(self, path, body, **kwargs):
+        url = self.host + path
+        try:
+            response = requests.put(url, json=body, headers=self.headers, **kwargs)
+            response.close()
+            return response
+        except requests.exceptions.HTTPError as e:
+            raise e
+
+    @request_with_retry
+    def patch(self, path, body, **kwargs):
+        url = self.host + path
+        try:
+            response = requests.patch(url, json=body, headers=self.headers, **kwargs)
+            response.close()
+            return response
+        except requests.exceptions.HTTPError as e:
+            raise e
+
+    def delete(self, path, body, **kwargs):
+        url = self.host + path
+        try:
+            response = requests.delete(url, json=body, headers=self.headers, **kwargs)
+            response.close()
+            return response
+        except requests.exceptions.HTTPError as e:
+            raise e
+
+
+def build_default_headers(auth_obj):
+    headers = {
+        "DD-API-KEY": auth_obj["apiKeyAuth"],
+        "DD-APPLICATION-KEY": auth_obj["appKeyAuth"],
+        "Content-Type": "application/json",
+    }
+    return headers
 
 
 def paginated_request(func):

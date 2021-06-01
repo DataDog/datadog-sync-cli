@@ -46,7 +46,7 @@ class Users(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            users_resp = paginated_request(source_client.get)(BASE_PATH)
+            users_resp = paginated_request(source_client.get)(BASE_PATH, params={"filter[status]": "Active"})
         except HTTPError as e:
             log.error("Error while importing Users resource: %s", e)
             return
@@ -88,7 +88,7 @@ class Users(BaseResource):
         if self.resource_connections:
             self.connect_resources(resource, connection_resource_obj)
 
-        # Create copy and remove excluded fields
+        # Create copy
         resource_copy = copy.deepcopy(resource)
 
         payload = {"data": resource_copy}
