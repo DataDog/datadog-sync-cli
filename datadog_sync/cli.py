@@ -6,6 +6,7 @@ import datadog_sync.constants as constants
 from datadog_sync.commands import ALL_COMMANDS
 from datadog_sync.models import (
     Roles,
+    Users,
     Monitors,
     Dashboards,
 )
@@ -123,6 +124,7 @@ def get_resources(ctx):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
     resources = [
         Roles(ctx),
+        Users(ctx),
         Monitors(ctx),
         Dashboards(ctx),
     ]

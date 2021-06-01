@@ -7,9 +7,12 @@ from datadog_sync.utils.resource_utils import replace
 
 
 class BaseResource:
-    def __init__(self, ctx, resource_type, excluded_attributes=None, resource_connections=None, resource_filter=None):
+    def __init__(
+        self, ctx, resource_type, base_path, excluded_attributes=None, resource_connections=None, resource_filter=None
+    ):
         self.ctx = ctx
         self.resource_type = resource_type
+        self.base_path = base_path
         self.excluded_attributes = excluded_attributes
         self.resource_filter = resource_filter
         self.resource_connections = resource_connections
@@ -20,11 +23,12 @@ class BaseResource:
     def get_connection_resources(self):
         connection_resources = {}
 
-        for k in self.resource_connections.keys():
-            path = RESOURCE_FILE_PATH.format("destination", k)
-            if os.path.exists(path):
-                with open(RESOURCE_FILE_PATH.format("destination", k), "r") as f:
-                    connection_resources[k] = json.load(f)
+        if self.resource_connections:
+            for k in self.resource_connections.keys():
+                path = RESOURCE_FILE_PATH.format("destination", k)
+                if os.path.exists(path):
+                    with open(RESOURCE_FILE_PATH.format("destination", k), "r") as f:
+                        connection_resources[k] = json.load(f)
         return connection_resources
 
     def process_resource(self, *args):

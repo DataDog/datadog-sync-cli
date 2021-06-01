@@ -11,27 +11,48 @@ class CustomClient:
 
     def get(self, path, params=None):
         url = self.host + path
-        response = request_with_retry(requests.get)(url, headers=self.headers, params=params)
-        response.close()
-        return response
+        try:
+            response = request_with_retry(requests.get)(url, headers=self.headers, params=params)
+            response.close()
+            return response
+        except requests.exceptions.HTTPError as e:
+            raise e
 
     def post(self, path, body, params=None):
         url = self.host + path
-        response = request_with_retry(requests.post)(url, json=body, headers=self.headers, params=params)
-        response.close()
-        return response
+        try:
+            response = request_with_retry(requests.post)(url, json=body, headers=self.headers, params=params)
+            response.close()
+            return response
+        except requests.exceptions.HTTPError as e:
+            raise e
 
     def put(self, path, body, params=None):
         url = self.host + path
-        response = request_with_retry(requests.put)(url, json=body, headers=self.headers, params=params)
-        response.close()
-        return response
+        try:
+            response = request_with_retry(requests.put)(url, json=body, headers=self.headers, params=params)
+            response.close()
+            return response
+        except requests.exceptions.HTTPError as e:
+            raise e
 
     def patch(self, path, body, params=None):
         url = self.host + path
-        response = request_with_retry(requests.patch)(url, json=body, headers=self.headers, params=params)
-        response.close()
-        return response
+        try:
+            response = request_with_retry(requests.patch)(url, json=body, headers=self.headers, params=params)
+            response.close()
+            return response
+        except requests.exceptions.HTTPError as e:
+            raise e
+
+    def delete(self, path, body, params=None):
+        url = self.host + path
+        try:
+            response = request_with_retry(requests.delete)(url, json=body, headers=self.headers, params=params)
+            response.close()
+            return response
+        except requests.exceptions.HTTPError as e:
+            raise e
 
 
 def build_default_headers(auth_obj):
@@ -62,7 +83,34 @@ def request_with_retry(func):
                     retry_count += 1
                     time.sleep(retry_count * default_backoff)
                     pass
-                return e
+                raise e
         return resp
+
+    return wrapper
+
+
+def paginated_request(func):
+    def wrapper(*args, **kwargs):
+        page_size = 100
+        page_number = 0
+        remaining = 1
+        resources = []
+        while remaining > 0:
+            try:
+                params = {"page[size]": page_size, "page[number]": page_number}
+                if "params" in kwargs:
+                    kwargs["params"].update(params)
+                else:
+                    kwargs["params"] = params
+                resp = func(*args, **kwargs)
+                resp.raise_for_status()
+
+                resp_json = resp.json()
+                resources.extend(resp_json["data"])
+                remaining = int(resp_json["meta"]["page"]["total_count"]) - (page_size * (page_number + 1))
+                page_number += 1
+            except requests.exceptions.HTTPError as e:
+                raise e
+        return resources
 
     return wrapper

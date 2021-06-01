@@ -1,8 +1,13 @@
+import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from deepdiff import DeepDiff
+from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+
+
+log = logging.getLogger("__name__")
 
 
 RESOURCE_TYPE = "monitors"
@@ -23,15 +28,20 @@ BASE_PATH = "/api/v1/monitor"
 
 class Monitors(BaseResource):
     def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_TYPE)
+        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
         monitors = {}
-
         source_client = self.ctx.obj.get("source_client")
-        res = source_client.get(BASE_PATH).json()
+
+        try:
+            resp = source_client.get(BASE_PATH).json()
+        except HTTPError as e:
+            log.error("error importing monitors: %", e)
+            return
+
         with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource, monitor, monitors) for monitor in res])
+            wait([executor.submit(self.process_resource, monitor, monitors) for monitor in resp])
 
         # Write resources to file
         self.write_resources_file("source", monitors)
@@ -40,26 +50,43 @@ class Monitors(BaseResource):
         monitors[monitor["id"]] = monitor
 
     def apply_resources(self):
-        source_monitors, destination_monitors = self.open_resources()
+        source_resources, destination_resources = self.open_resources()
+        connection_resource_obj = self.get_connection_resources()
 
         with ThreadPoolExecutor() as executor:
             wait(
                 [
-                    executor.submit(self.prepare_resource_and_apply, _id, monitor, destination_monitors)
-                    for _id, monitor in source_monitors.items()
+                    executor.submit(
+                        self.prepare_resource_and_apply,
+                        _id,
+                        resource,
+                        destination_resources,
+                        connection_resource_obj,
+                    )
+                    for _id, resource in source_resources.items()
                 ]
             )
 
-        self.write_resources_file("destination", destination_monitors)
+        self.write_resources_file("destination", destination_resources)
 
-    def prepare_resource_and_apply(self, _id, monitor, destination_monitors):
+    def prepare_resource_and_apply(self, _id, resource, local_resources, connection_resource_obj=None):
         destination_client = self.ctx.obj.get("destination_client")
+        if self.resource_connections:
+            self.connect_resources(resource, connection_resource_obj)
 
-        if _id in destination_monitors:
-            diff = DeepDiff(monitor, destination_monitors[_id], ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
+        if _id in local_resources:
+            diff = DeepDiff(resource, local_resources[_id], ignore_order=True, exclude_paths=self.excluded_attributes)
             if diff:
-                res = destination_client.put(BASE_PATH + f"/{destination_monitors[_id]['id']}", monitor).json()
-                destination_monitors[_id] = res
+                try:
+                    resp = destination_client.put(self.base_path + f"/{local_resources[_id]['id']}", resource).json()
+                except HTTPError as e:
+                    log.error("error creating monitor: %e", e)
+                    return
+                local_resources[_id] = resp
         else:
-            res = destination_client.post(BASE_PATH, monitor).json()
-            destination_monitors[_id] = res
+            try:
+                resp = destination_client.post(self.base_path, resource).json()
+            except HTTPError as e:
+                log.error("error updating monitor: %e", e)
+                return
+            local_resources[_id] = resp

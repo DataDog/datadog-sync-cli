@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor, wait
 from deepdiff import DeepDiff
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.custom_client import paginated_request
 
 
 RBAC_NOT_ENABLED_MESSAGE = "Custom RBAC is not enabled for this account"
@@ -20,22 +21,13 @@ PERMISSIONS_BASE_PATH = "/api/v2/permissions"
 
 class Roles(BaseResource):
     def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_TYPE, excluded_attributes=EXCLUDED_ATTRIBUTES)
+        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
         roles = {}
-        roles_resp = []
-
         source_client = self.ctx.obj.get("source_client")
 
-        page_size = 100
-        page_number = 0
-        remaining = 1
-        while remaining > 0:
-            res = source_client.get(BASE_PATH, params={"page[size]": page_size, "page[number]": page_number}).json()
-            roles_resp.extend(res["data"])
-            remaining = int(res["meta"]["page"]["total_count"]) - (page_size * (page_number + 1))
-            page_number += 1
+        roles_resp = paginated_request(source_client.get)(BASE_PATH)
 
         with ThreadPoolExecutor() as executor:
             wait([executor.submit(self.process_resource, role, roles) for role in roles_resp])
@@ -96,20 +88,20 @@ class Roles(BaseResource):
         if _id in destination_roles:
             diff = DeepDiff(role, destination_roles[_id], ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
             if diff:
-                role_copy['id'] = destination_roles[_id]['id']
-                res = destination_client.patch(BASE_PATH + f"/{destination_roles[_id]['id']}", payload)
-                if RBAC_NOT_ENABLED_MESSAGE in res.text:
+                role_copy["id"] = destination_roles[_id]["id"]
+                resp = destination_client.patch(BASE_PATH + f"/{destination_roles[_id]['id']}", payload)
+                if RBAC_NOT_ENABLED_MESSAGE in resp.text:
                     destination_roles[_id] = role
                 else:
-                    destination_roles[_id] = res.json()["data"]
-        elif role['attributes']['name'] in destination_roles_mapping:
+                    destination_roles[_id] = resp.json()["data"]
+        elif role["attributes"]["name"] in destination_roles_mapping:
             destination_roles[_id] = role
         else:
-            res = destination_client.post(BASE_PATH, payload)
-            if RBAC_NOT_ENABLED_MESSAGE in res.text:
+            resp = destination_client.post(BASE_PATH, payload)
+            if RBAC_NOT_ENABLED_MESSAGE in resp.text:
                 destination_roles[_id] = role
             else:
-                destination_roles[_id] = res.json()["data"]
+                destination_roles[_id] = resp.json()["data"]
 
     def get_permissions(self):
         source_permission_obj = {}
@@ -128,9 +120,9 @@ class Roles(BaseResource):
         return source_permission_obj, destination_permission_obj
 
     def remap_role_id(self, role, source_roles_mapping, destination_role_mapping):
-        if role['id'] in source_roles_mapping:
-            if role['id'] in source_roles_mapping and source_roles_mapping[role['id']] in destination_role_mapping:
-                role['id'] = destination_role_mapping[source_roles_mapping[role['id']]]
+        if role["id"] in source_roles_mapping:
+            if role["id"] in source_roles_mapping and source_roles_mapping[role["id"]] in destination_role_mapping:
+                role["id"] = destination_role_mapping[source_roles_mapping[role["id"]]]
 
     def remap_permissions(self, role, source_permission, destination_permission):
         if self.ctx.obj.get("source_api_url") != self.ctx.obj.get("destination_api_url"):
@@ -141,21 +133,11 @@ class Roles(BaseResource):
 
     def get_destination_roles_mapping(self):
         destination_client = self.ctx.obj.get("destination_client")
-        destination_roles = []
         destination_roles_mapping = {}
 
-        page_size = 100
-        page_number = 0
-        remaining = 1
-        while remaining > 0:
-            res = destination_client.get(
-                BASE_PATH, params={"page[size]": page_size, "page[number]": page_number}
-            ).json()
-            destination_roles.extend(res["data"])
-            remaining = int(res["meta"]["page"]["total_count"]) - (page_size * (page_number + 1))
-            page_number += 1
+        destination_roles_resp = paginated_request(destination_client.get)(BASE_PATH)
 
-        for role in destination_roles:
+        for role in destination_roles_resp:
             destination_roles_mapping[role["attributes"]["name"]] = role["id"]
         return destination_roles_mapping
 
