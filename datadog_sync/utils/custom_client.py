@@ -81,8 +81,12 @@ def request_with_retry(func):
                 status_code = e.response.status_code
                 if (status_code == 429 and "x-ratelimit-reset" in e.response.headers) or status_code >= 500:
                     retry_count += 1
-                    time.sleep(retry_count * default_backoff)
-                    pass
+                    try:
+                        backoff = int(e.response.headers["x-ratelimit-reset"])
+                    except ValueError:
+                        backoff = default_backoff
+                    time.sleep(retry_count * backoff)
+                    continue
                 raise e
         return resp
 
