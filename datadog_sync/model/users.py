@@ -95,7 +95,7 @@ class Users(BaseResource):
         if _id in destination_resources:
             diff = DeepDiff(destination_resources[_id], resource, ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
             if diff:
-                self.update_user_roles(resource_copy["id"], diff)
+                self.update_user_roles(destination_resources[_id]["id"], diff)
                 self.remove_excluded_attr(resource_copy)
                 resource_copy["id"] = destination_resources[_id]["id"]
                 resource_copy.pop("relationships", None)
