@@ -80,13 +80,13 @@ class Monitors(BaseResource):
                 try:
                     resp = destination_client.put(self.base_path + f"/{local_resources[_id]['id']}", resource).json()
                 except HTTPError as e:
-                    log.error("error creating monitor: %e", e)
+                    log.error("error creating monitor: %s", e.response.text)
                     return
                 local_resources[_id] = resp
         else:
             try:
                 resp = destination_client.post(self.base_path, resource).json()
             except HTTPError as e:
-                log.error("error updating monitor: %e", e)
+                log.error("error creating monitor: %s", e.response.text)
                 return
             local_resources[_id] = resp

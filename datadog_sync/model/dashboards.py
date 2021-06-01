@@ -53,7 +53,7 @@ class Dashboards(BaseResource):
         try:
             dashboard = source_client.get(BASE_PATH + f"/{dash_id}").json()
         except HTTPError as e:
-            log.error("error retrieving dashboard: %e", e)
+            log.error("error retrieving dashboard: %s", e)
         dashboards[dash_id] = dashboard
 
     def apply_resources(self):
@@ -87,13 +87,13 @@ class Dashboards(BaseResource):
                 try:
                     resp = destination_client.put(self.base_path + f"/{local_resources[_id]['id']}", resource).json()
                 except HTTPError as e:
-                    log.error("error creating dashboard: %e", e)
+                    log.error("error creating dashboard: %s", e)
                     return
                 local_resources[_id] = resp
         else:
             try:
                 resp = destination_client.post(self.base_path, resource).json()
             except HTTPError as e:
-                log.error("error updating dashboard: %e", e)
+                log.error("error updating dashboard: %s", e)
                 return
             local_resources[_id] = resp
