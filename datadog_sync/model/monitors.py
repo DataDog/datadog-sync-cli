@@ -23,12 +23,13 @@ EXCLUDED_ATTRIBUTES = [
     "root['overall_state']",
     "root['overall_state_modified']",
 ]
+RESOURCE_CONNECTIONS = {"monitors": ["query"]}
 BASE_PATH = "/api/v1/monitor"
 
 
 class Monitors(BaseResource):
     def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
+        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, resource_connections=RESOURCE_CONNECTIONS, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
         monitors = {}
