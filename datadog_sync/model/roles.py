@@ -39,7 +39,7 @@ class Roles(BaseResource):
         roles[role["id"]] = role
 
     def apply_resources(self):
-        source_roles, destination_roles = self.open_resources()
+        source_roles, local_destination_roles = self.open_resources()
         source_permission, destination_permission = self.get_permissions()
         source_roles_mapping = self.get_source_roles_mapping(source_roles)
         destination_roles_mapping = self.get_destination_roles_mapping()
@@ -51,7 +51,7 @@ class Roles(BaseResource):
                         self.prepare_resource_and_apply,
                         _id,
                         role,
-                        destination_roles,
+                        local_destination_roles,
                         source_permission,
                         destination_permission,
                         source_roles_mapping,
@@ -61,13 +61,13 @@ class Roles(BaseResource):
                 ]
             )
 
-        self.write_resources_file("destination", destination_roles)
+        self.write_resources_file("destination", local_destination_roles)
 
     def prepare_resource_and_apply(
         self,
         _id,
         role,
-        destination_roles,
+        local_destination_roles,
         source_permission,
         destination_permission,
         source_roles_mapping,
@@ -85,23 +85,23 @@ class Roles(BaseResource):
         self.remove_excluded_attr(role_copy)
 
         payload = {"data": role_copy}
-        if _id in destination_roles:
-            diff = DeepDiff(role, destination_roles[_id], ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
+        if _id in local_destination_roles:
+            diff = DeepDiff(role, local_destination_roles[_id], ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
             if diff:
-                role_copy["id"] = destination_roles[_id]["id"]
-                resp = destination_client.patch(BASE_PATH + f"/{destination_roles[_id]['id']}", payload)
+                role_copy["id"] = local_destination_roles[_id]["id"]
+                resp = destination_client.patch(BASE_PATH + f"/{local_destination_roles[_id]['id']}", payload)
                 if RBAC_NOT_ENABLED_MESSAGE in resp.text:
-                    destination_roles[_id] = role
+                    local_destination_roles[_id] = role
                 else:
-                    destination_roles[_id] = resp.json()["data"]
+                    local_destination_roles[_id] = resp.json()["data"]
         elif role["attributes"]["name"] in destination_roles_mapping:
-            destination_roles[_id] = role
+            local_destination_roles[_id] = role
         else:
             resp = destination_client.post(BASE_PATH, payload)
             if RBAC_NOT_ENABLED_MESSAGE in resp.text:
-                destination_roles[_id] = role
+                local_destination_roles[_id] = role
             else:
-                destination_roles[_id] = resp.json()["data"]
+                local_destination_roles[_id] = resp.json()["data"]
 
     def get_permissions(self):
         source_permission_obj = {}

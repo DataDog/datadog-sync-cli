@@ -61,7 +61,7 @@ class Users(BaseResource):
         users[user["id"]] = user
 
     def apply_resources(self):
-        source_users, destination_users = self.open_resources()
+        source_users, local_destination_users = self.open_resources()
         remote_users = self.get_remote_destination_users()
         connection_resource_obj = self.get_connection_resources()
 
@@ -72,7 +72,7 @@ class Users(BaseResource):
                         self.prepare_resource_and_apply,
                         _id,
                         user,
-                        destination_users,
+                        local_destination_users,
                         remote_users,
                         connection_resource_obj,
                     )
@@ -80,35 +80,35 @@ class Users(BaseResource):
                 ]
             )
 
-        self.write_resources_file("destination", destination_users)
+        self.write_resources_file("destination", local_destination_users)
 
-    def prepare_resource_and_apply(self, _id, resource, destination_resources, remote_users, connection_resource_obj):
+    def prepare_resource_and_apply(self, _id, user, local_destination_users, remote_users, connection_resource_obj):
         destination_client = self.ctx.obj.get("destination_client")
 
         if self.resource_connections:
-            self.connect_resources(resource, connection_resource_obj)
+            self.connect_resources(user, connection_resource_obj)
 
         # Create copy
-        resource_copy = copy.deepcopy(resource)
+        resource_copy = copy.deepcopy(user)
 
         payload = {"data": resource_copy}
-        if _id in destination_resources:
-            diff = DeepDiff(destination_resources[_id], resource, ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
+        if _id in local_destination_users:
+            diff = DeepDiff(local_destination_users[_id], user, ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
             if diff:
-                self.update_user_roles(destination_resources[_id]["id"], diff)
+                self.update_user_roles(local_destination_users[_id]["id"], diff)
                 self.remove_excluded_attr(resource_copy)
-                resource_copy["id"] = destination_resources[_id]["id"]
+                resource_copy["id"] = local_destination_users[_id]["id"]
                 resource_copy.pop("relationships", None)
                 try:
-                    resp = destination_client.patch(BASE_PATH + f"/{destination_resources[_id]['id']}", payload)
+                    resp = destination_client.patch(BASE_PATH + f"/{local_destination_users[_id]['id']}", payload)
                 except HTTPError as e:
                     log.error("error updating user: %s, %s", e.response.json(), payload)
-                destination_resources[_id] = resp.json()["data"]
-        elif resource["attributes"]["handle"] in remote_users:
-            remote_user = remote_users[resource["attributes"]["handle"]]
+                local_destination_users[_id] = resp.json()["data"]
+        elif user["attributes"]["handle"] in remote_users:
+            remote_user = remote_users[user["attributes"]["handle"]]
             diff = DeepDiff(
                 remote_user,
-                resource,
+                user,
                 ignore_order=True,
                 exclude_paths=EXCLUDED_ATTRIBUTES,
             )
@@ -121,9 +121,9 @@ class Users(BaseResource):
                     resp = destination_client.patch(BASE_PATH + f"/{remote_user['id']}", payload)
                 except HTTPError as e:
                     log.error("error updating user: %s", e.response.json())
-                destination_resources[_id] = resp.json()["data"]
+                local_destination_users[_id] = resp.json()["data"]
             else:
-                destination_resources[_id] = remote_user
+                local_destination_users[_id] = remote_user
         else:
             self.remove_excluded_attr(resource_copy)
             resource_copy["attributes"].pop("disabled", None)
@@ -131,7 +131,7 @@ class Users(BaseResource):
                 resp = destination_client.post(BASE_PATH, payload)
             except HTTPError as e:
                 log.error("error creating user: %s", e)
-            destination_resources[_id] = resp.json()["data"]
+            local_destination_users[_id] = resp.json()["data"]
 
     def update_user_roles(self, _id, diff):
         for k, v in diff.items():
