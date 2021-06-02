@@ -88,6 +88,7 @@ class SyntheticsPrivateLocations(BaseResource):
         self, _id, synthetics_private_location, local_destination_resources, connection_resource_obj=None
     ):
         destination_client = self.ctx.obj.get("destination_client")
+
         if self.resource_connections:
             self.connect_resources(synthetics_private_location, connection_resource_obj)
 
@@ -102,7 +103,6 @@ class SyntheticsPrivateLocations(BaseResource):
             )
             if diff:
                 try:
-                    print("hello", diff)
                     resp = destination_client.put(
                         self.base_path + f"/{local_destination_resources[_id]['id']}", synthetics_private_location
                     ).json()

@@ -13,11 +13,14 @@ def replace(keys_list, r_obj, resource_to_connect, connection_resources_obj):
 
 
 def replace_ids(key, r_obj, resource_to_connect, connection_resources_obj):
-    if isinstance(r_obj[key], list):
-        i = 0
-        while i < len(r_obj[key]):
-            # TODO: handle lists
-            i += 1
-    else:
-        if r_obj[key] in connection_resources_obj[resource_to_connect]:
-            r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['id']}"
+    if resource_to_connect in connection_resources_obj:
+        if isinstance(r_obj[key], list):
+            i = 0
+            while i < len(r_obj[key]):
+                _id = r_obj[key][i]
+                if _id in connection_resources_obj[resource_to_connect]:
+                    r_obj[key][i] = f"{connection_resources_obj[resource_to_connect][_id]['id']}"
+                i += 1
+        else:
+            if r_obj[key] in connection_resources_obj[resource_to_connect]:
+                r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['id']}"

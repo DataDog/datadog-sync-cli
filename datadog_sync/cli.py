@@ -12,6 +12,8 @@ from datadog_sync.models import (
     Downtimes,
     SyntheticsPrivateLocations,
     SyntheticsTests,
+    SyntheticsGlobalVariables,
+    LogsCustomPipelines,
 )
 from datadog_sync.utils.custom_client import CustomClient
 
@@ -131,8 +133,10 @@ def get_resources(ctx):
         Monitors(ctx),
         SyntheticsPrivateLocations(ctx),
         SyntheticsTests(ctx),
+        SyntheticsGlobalVariables(ctx),
         Downtimes(ctx),
         Dashboards(ctx),
+        LogsCustomPipelines(ctx),
     ]
 
     resources_arg = ctx.obj.get("resources")
