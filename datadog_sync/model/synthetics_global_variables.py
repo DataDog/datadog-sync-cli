@@ -22,7 +22,6 @@ EXCLUDED_ATTRIBUTES = [
     "root['parse_test_name']",
 ]
 BASE_PATH = "/api/v1/synthetics/variables"
-PL_ID_REGEX = re.compile("^pl:.*")
 RESOURCE_CONNECTIONS = {"synthetics_tests": ["parse_test_public_id"]}
 
 
@@ -91,7 +90,8 @@ class SyntheticsGlobalVariables(BaseResource):
         self.remove_excluded_attr(synthetics_global_variable)
 
         if synthetics_global_variable["parse_test_public_id"] is None:
-            synthetics_global_variable.pop(["parse_test_public_id"], None)
+            synthetics_global_variable.pop("parse_test_public_id", None)
+            synthetics_global_variable.pop("parse_test_options", None)
 
         if _id in local_destination_resources:
             diff = DeepDiff(
@@ -106,12 +106,12 @@ class SyntheticsGlobalVariables(BaseResource):
                         self.base_path + f"/{local_destination_resources[_id]['id']}", synthetics_global_variable
                     ).json()
                 except HTTPError as e:
-                    log.error("error creating synthetics_global_variable: %s", e.response.text)
+                    log.error("error updating synthetics_global_variable: %s", e.response.text)
                     return
                 local_destination_resources[_id].update(resp)
         else:
             try:
-                resp = destination_client.post(self.base_path, synthetics_global_variable).json()["variables"]
+                resp = destination_client.post(self.base_path, synthetics_global_variable).json()
             except HTTPError as e:
                 log.error("error creating synthetics_global_variable: %s", e.response.text)
                 return

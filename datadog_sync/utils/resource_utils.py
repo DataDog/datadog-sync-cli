@@ -23,4 +23,7 @@ def replace_ids(key, r_obj, resource_to_connect, connection_resources_obj):
                 i += 1
         else:
             if r_obj[key] in connection_resources_obj[resource_to_connect]:
-                r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['id']}"
+                if resource_to_connect == "synthetics_tests":
+                    r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['public_id']}"
+                else:
+                    r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['id']}"
