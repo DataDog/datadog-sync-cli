@@ -149,7 +149,7 @@ class Users(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
 
         try:
-            remote_users = paginated_request(destination_client.get)(BASE_PATH)
+            remote_users = paginated_request(destination_client.get)(BASE_PATH, params={"filter[status]": "Active"})
         except HTTPError as e:
             log.error("error retrieving remote users: %s", e)
             return
