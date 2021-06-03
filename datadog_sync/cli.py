@@ -1,31 +1,25 @@
 import logging
-import os
 
 from click import pass_context, group, option
-from datadog_api_client.v1 import (
-    ApiClient as ApiClientV1,
-    Configuration as ConfigurationV1,
-)
-from datadog_api_client.v2 import (
-    ApiClient as ApiClientV2,
-    Configuration as ConfigurationV2,
-)
 
 import datadog_sync.constants as constants
 from datadog_sync.commands import ALL_COMMANDS
 from datadog_sync.models import (
-    Dashboard,
-    Monitor,
-    Role,
-    User,
-    Downtime,
-    LogsCustomPipeline,
-    SyntheticsTest,
-    SyntheticsPrivateLocation,
-    IntegrationAws,
+    Roles,
+    Users,
+    Monitors,
+    Dashboards,
+    Downtimes,
+    SyntheticsPrivateLocations,
+    SyntheticsTests,
+    SyntheticsGlobalVariables,
+    LogsCustomPipelines,
 )
+from datadog_sync.utils.custom_client import CustomClient
+
 
 log = logging.getLogger("__name__")
+
 
 @group()
 @option(
@@ -89,7 +83,7 @@ log = logging.getLogger("__name__")
 )
 @option(
     "--verbose",
-    '-v',
+    "-v",
     required=False,
     is_flag=True,
     help="Enable verbose logging.",
@@ -105,54 +99,27 @@ def cli(ctx, **kwargs):
 
     # Set logging level and format
     if ctx.obj.get("verbose"):
-        sh = logging.StreamHandler()
-        fmt = logging.Formatter("%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s")
-        sh.setFormatter(fmt)
-        log.addHandler(sh)
-        log.setLevel(logging.DEBUG)
+        logging.basicConfig(
+            format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s", level=logging.DEBUG
+        )
     else:
         logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 
-
-    # Set root project dir
-    ctx.obj["root_path"] = os.getcwd()
-
     # Initialize the datadog API Clients
-    # Initialize Source client
     source_auth = {
         "apiKeyAuth": ctx.obj.get("source_api_key"),
         "appKeyAuth": ctx.obj.get("source_app_key"),
     }
-    source_configuration_v1 = ConfigurationV1(
-        host=ctx.obj.get("source_api_url"),
-        api_key=source_auth,
-    )
-    source_configuration_v2 = ConfigurationV2(
-        host=ctx.obj.get("source_api_url"),
-        api_key=source_auth,
-    )
-    client_v1 = ApiClientV1(source_configuration_v1)
-    client_v2 = ApiClientV2(source_configuration_v2)
-    # Initialize Destination client
     destination_auth = {
         "apiKeyAuth": ctx.obj.get("destination_api_key"),
         "appKeyAuth": ctx.obj.get("destination_app_key"),
     }
-    destination_configuration_v1 = ConfigurationV1(
-        host=ctx.obj.get("destination_api_url"),
-        api_key=destination_auth,
-    )
-    destination_configuration_v2 = ConfigurationV2(
-        host=ctx.obj.get("destination_api_url"),
-        api_key=destination_auth,
-    )
-    destination_client_v1 = ApiClientV1(destination_configuration_v1)
-    destination_client_v2 = ApiClientV2(destination_configuration_v2)
 
-    ctx.obj["source_client_v1"] = client_v1
-    ctx.obj["source_client_v2"] = client_v2
-    ctx.obj["destination_client_v1"] = destination_client_v1
-    ctx.obj["destination_client_v2"] = destination_client_v2
+    source_client = CustomClient(ctx.obj["source_api_url"], source_auth, ctx)
+    destination_client = CustomClient(ctx.obj["destination_api_url"], destination_auth, ctx)
+
+    ctx.obj["source_client"] = source_client
+    ctx.obj["destination_client"] = destination_client
 
     # Initialize resources
     ctx.obj["resources"] = get_resources(ctx)
@@ -161,15 +128,15 @@ def cli(ctx, **kwargs):
 def get_resources(ctx):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
     resources = [
-        Role(ctx),
-        User(ctx),
-        IntegrationAws(ctx),
-        SyntheticsPrivateLocation(ctx),
-        SyntheticsTest(ctx),
-        Monitor(ctx),
-        Downtime(ctx),
-        Dashboard(ctx),
-        LogsCustomPipeline(ctx),
+        Roles(ctx),
+        Users(ctx),
+        Monitors(ctx),
+        SyntheticsPrivateLocations(ctx),
+        SyntheticsTests(ctx),
+        SyntheticsGlobalVariables(ctx),
+        Downtimes(ctx),
+        Dashboards(ctx),
+        LogsCustomPipelines(ctx),
     ]
 
     resources_arg = ctx.obj.get("resources")

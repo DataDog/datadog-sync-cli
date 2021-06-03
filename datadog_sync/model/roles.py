@@ -1,0 +1,174 @@
+import copy
+import logging
+from concurrent.futures import ThreadPoolExecutor, wait
+
+from requests.exceptions import HTTPError
+
+from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.custom_client import paginated_request
+
+
+RESOURCE_TYPE = "roles"
+EXCLUDED_ATTRIBUTES = [
+    "root['id']",
+    "root['attributes']['created_at']",
+    "root['attributes']['modified_at']",
+    "root['attributes']['user_count']",
+]
+BASE_PATH = "/api/v2/roles"
+PERMISSIONS_BASE_PATH = "/api/v2/permissions"
+
+
+log = logging.getLogger("__name__")
+
+
+class Roles(BaseResource):
+    def __init__(self, ctx):
+        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
+
+    def import_resources(self):
+        roles = {}
+        source_client = self.ctx.obj.get("source_client")
+
+        try:
+            roles_resp = paginated_request(source_client.get)(self.base_path)
+        except HTTPError as e:
+            log.error("error importing roles: %s", e.response.text)
+            return
+
+        with ThreadPoolExecutor() as executor:
+            wait([executor.submit(self.process_resource_import, role, roles) for role in roles_resp])
+
+        # Write resources to file
+        self.write_resources_file("source", roles)
+
+    def process_resource_import(self, role, roles):
+        roles[role["id"]] = role
+
+    def apply_resources(self):
+        source_roles, local_destination_resources = self.open_resources()
+        source_permission, destination_permission = self.get_permissions()
+        source_roles_mapping = self.get_source_roles_mapping(source_roles)
+        destination_roles_mapping = self.get_destination_roles_mapping()
+
+        with ThreadPoolExecutor() as executor:
+            wait(
+                [
+                    executor.submit(
+                        self.prepare_resource_and_apply,
+                        _id,
+                        role,
+                        local_destination_resources,
+                        source_permission,
+                        destination_permission,
+                        source_roles_mapping,
+                        destination_roles_mapping,
+                    )
+                    for _id, role in source_roles.items()
+                ]
+            )
+
+        self.write_resources_file("destination", local_destination_resources)
+
+    def prepare_resource_and_apply(
+        self,
+        _id,
+        role,
+        local_destination_resources,
+        source_permission,
+        destination_permission,
+        source_roles_mapping,
+        destination_roles_mapping,
+    ):
+
+        # Remap permissions if different datacenters
+        self.remap_permissions(role, source_permission, destination_permission)
+        # Remap role id's
+        self.remap_role_id(role, source_roles_mapping, destination_roles_mapping)
+
+        if _id in local_destination_resources:
+            self.update_role(_id, role, local_destination_resources)
+        elif role["attributes"]["name"] in destination_roles_mapping:
+            local_destination_resources[_id] = role
+        else:
+            self.create_role(_id, role, local_destination_resources)
+
+    def create_role(self, _id, role, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+        role_copy = copy.deepcopy(role)
+        self.remove_excluded_attr(role_copy)
+
+        payload = {"data": role_copy}
+        try:
+            resp = destination_client.post(self.base_path, payload)
+        except HTTPError as e:
+            log.error("error creating role: %s", e.response.text)
+            return
+        local_destination_resources[_id] = resp.json()["data"]
+
+    def update_role(self, _id, role, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+        role_copy = copy.deepcopy(role)
+        payload = {"data": role_copy}
+        self.remove_excluded_attr(role_copy)
+
+        diff = self.check_diff(role, local_destination_resources[_id])
+        if diff:
+            role_copy["id"] = local_destination_resources[_id]["id"]
+            try:
+                resp = destination_client.patch(self.base_path + f"/{local_destination_resources[_id]['id']}", payload)
+            except HTTPError as e:
+                log.error("error updating role: %s", e.response.text)
+                return
+
+            local_destination_resources[_id] = resp.json()["data"]
+
+    def get_permissions(self):
+        source_permission_obj = {}
+        destination_permission_obj = {}
+
+        source_client = self.ctx.obj.get("source_client")
+        destination_client = self.ctx.obj.get("destination_client")
+        try:
+            source_permissions = source_client.get(PERMISSIONS_BASE_PATH).json()["data"]
+            destination_permissions = destination_client.get(PERMISSIONS_BASE_PATH).json()["data"]
+        except HTTPError as e:
+            log.error("error getting permissions: %s", e.response.text)
+
+        for permission in source_permissions:
+            source_permission_obj[permission["id"]] = permission["attributes"]["name"]
+        for permission in destination_permissions:
+            destination_permission_obj[permission["attributes"]["name"]] = permission["id"]
+
+        return source_permission_obj, destination_permission_obj
+
+    def remap_role_id(self, role, source_roles_mapping, destination_role_mapping):
+        if role["id"] in source_roles_mapping:
+            if role["id"] in source_roles_mapping and source_roles_mapping[role["id"]] in destination_role_mapping:
+                role["id"] = destination_role_mapping[source_roles_mapping[role["id"]]]
+
+    def remap_permissions(self, role, source_permission, destination_permission):
+        if self.ctx.obj.get("source_api_url") != self.ctx.obj.get("destination_api_url"):
+            if "permissions" in role["relationships"]:
+                for permission in role["relationships"]["permissions"]["data"]:
+                    if permission["id"] in source_permission:
+                        permission["id"] = destination_permission[source_permission[permission["id"]]]
+
+    def get_destination_roles_mapping(self):
+        destination_client = self.ctx.obj.get("destination_client")
+        destination_roles_mapping = {}
+
+        try:
+            destination_roles_resp = paginated_request(destination_client.get)(self.base_path)
+        except HTTPError as e:
+            log.error("error retrieving roles: %s", e.response.text)
+
+        for role in destination_roles_resp:
+            destination_roles_mapping[role["attributes"]["name"]] = role["id"]
+        return destination_roles_mapping
+
+    def get_source_roles_mapping(self, source_roles):
+        source_roles_mapping = {}
+        for role in source_roles.values():
+            source_roles_mapping[role["id"]] = role["attributes"]["name"]
+        return source_roles_mapping
