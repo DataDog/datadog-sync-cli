@@ -1,3 +1,8 @@
+import re
+
+log = logging.getLogger(__name__)
+
+
 def replace(keys_list, r_obj, resource_to_connect, connection_resources_obj):
     if len(keys_list) == 1 and keys_list[0] in r_obj:
         replace_ids(keys_list[0], r_obj, resource_to_connect, connection_resources_obj)
@@ -14,6 +19,13 @@ def replace(keys_list, r_obj, resource_to_connect, connection_resources_obj):
 
 def replace_ids(key, r_obj, resource_to_connect, connection_resources_obj):
     if resource_to_connect in connection_resources_obj:
+        if r_obj["type"] == "composite":
+            ids = re.findall("[0-9]+", r_obj[key])
+            for _id in ids:
+                if _id in connection_resources_obj[resource_to_connect]:
+                    r_obj[key] = r_obj[key].replace(_id, f"{connection_resources_obj[resource_to_connect][_id]['id']}")
+            return
+
         if isinstance(r_obj[key], list):
             i = 0
             while i < len(r_obj[key]):

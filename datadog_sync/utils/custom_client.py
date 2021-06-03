@@ -23,8 +23,10 @@ def request_with_retry(func):
                     try:
                         backoff = int(e.response.headers["x-ratelimit-reset"])
                     except ValueError:
-                        backoff = default_backoff
-                    time.sleep(retry_count * backoff)
+                        backoff = retry_count * backoff
+
+                    time.sleep(backoff)
+
                     continue
                 raise e
         return resp
@@ -106,10 +108,8 @@ def paginated_request(func):
         while remaining > 0:
             try:
                 params = {"page[size]": page_size, "page[number]": page_number}
-                if "params" in kwargs:
-                    kwargs["params"].update(params)
-                else:
-                    kwargs["params"] = params
+                kwargs.update({"params": params})
+
                 resp = func(*args, **kwargs)
                 resp.raise_for_status()
 

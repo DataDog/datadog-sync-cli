@@ -23,12 +23,19 @@ EXCLUDED_ATTRIBUTES = [
     "root['overall_state']",
     "root['overall_state_modified']",
 ]
+RESOURCE_CONNECTIONS = {"monitors": ["query"]}
 BASE_PATH = "/api/v1/monitor"
 
 
 class Monitors(BaseResource):
     def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
+        super().__init__(
+            ctx,
+            RESOURCE_TYPE,
+            BASE_PATH,
+            resource_connections=RESOURCE_CONNECTIONS,
+            excluded_attributes=EXCLUDED_ATTRIBUTES,
+        )
 
     def import_resources(self):
         monitors = {}
@@ -52,8 +59,32 @@ class Monitors(BaseResource):
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
+
+        composite_monitors = []
+
+        log.info("Processing Simple Monitors")
+
+        simple_monitors_futures = []
+        with ThreadPoolExecutor() as executor:
+            for _id, monitor in source_resources.items():
+                if monitor["type"] == "composite":
+                    composite_monitors.append((_id, monitor))
+                else:
+                    simple_monitors_futures.append(
+                        executor.submit(
+                            self.prepare_resource_and_apply,
+                            _id,
+                            monitor,
+                            local_destination_resources,
+                        )
+                    )
+
+        wait(simple_monitors_futures)
+
+        self.write_resources_file("destination", local_destination_resources)
         connection_resource_obj = self.get_connection_resources()
 
+        log.info("Processing Composite Monitors")
         with ThreadPoolExecutor() as executor:
             wait(
                 [
@@ -64,7 +95,7 @@ class Monitors(BaseResource):
                         local_destination_resources,
                         connection_resource_obj,
                     )
-                    for _id, monitor in source_resources.items()
+                    for _id, monitor in composite_monitors
                 ]
             )
 

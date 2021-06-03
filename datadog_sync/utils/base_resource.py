@@ -2,7 +2,7 @@ import os
 import json
 import re
 
-from datadog_sync.constants import RESOURCE_FILE_PATH
+from datadog_sync.constants import RESOURCES_DIR, RESOURCE_FILE_PATH
 from datadog_sync.utils.resource_utils import replace
 
 
@@ -60,12 +60,12 @@ class BaseResource:
     def write_resources_file(self, origin, resources):
         # Write the resource to a file
         resource_path = RESOURCE_FILE_PATH.format(origin, self.resource_type)
-        if os.path.exists(resource_path):
-            with open(resource_path, "w") as f:
-                json.dump(resources, f, indent=2)
-        else:
-            with open(resource_path, "a+") as f:
-                json.dump(resources, f, indent=2)
+        resource_dir = resource_path.rsplit(os.path.sep, 1)[0]
+
+        os.makedirs(resource_dir, exist_ok=True)
+
+        with open(resource_path, "w") as f:
+            json.dump(resources, f, indent=2)
 
     def connect_resources(self, resource, connection_resources_obj):
         for resource_to_connect, v in self.resource_connections.items():
