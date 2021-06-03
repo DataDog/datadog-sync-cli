@@ -29,7 +29,13 @@ BASE_PATH = "/api/v1/monitor"
 
 class Monitors(BaseResource):
     def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, resource_connections=RESOURCE_CONNECTIONS, excluded_attributes=EXCLUDED_ATTRIBUTES)
+        super().__init__(
+            ctx,
+            RESOURCE_TYPE,
+            BASE_PATH,
+            resource_connections=RESOURCE_CONNECTIONS,
+            excluded_attributes=EXCLUDED_ATTRIBUTES,
+        )
 
     def import_resources(self):
         monitors = {}
@@ -94,7 +100,6 @@ class Monitors(BaseResource):
             )
 
         self.write_resources_file("destination", local_destination_resources)
-
 
     def prepare_resource_and_apply(self, _id, monitor, local_destination_resources, connection_resource_obj=None):
         if self.resource_connections:
