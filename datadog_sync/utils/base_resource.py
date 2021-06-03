@@ -50,10 +50,16 @@ class BaseResource:
         else:
             self.del_attr(k_list[1:], resource[k_list[0]])
 
+    def del_null_attr(self, k_list, resource):
+        if len(k_list) == 1 and resource[k_list[0]] is None:
+            resource.pop(k_list[0], None)
+        elif len(k_list) > 1:
+            self.del_attr(k_list[1:], resource[k_list[0]])
+
     def remove_non_nullable_attributes(self, resource):
         for key in self.non_nullable_attr:
             k_list = key.split(".")
-            self.del_attr(k_list, resource)
+            self.del_null_attr(k_list, resource)
 
     def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj):
         with ThreadPoolExecutor() as executor:

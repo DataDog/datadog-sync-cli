@@ -108,7 +108,7 @@ class SyntheticsGlobalVariables(BaseResource):
     def create_resource(self, _id, synthetics_global_variable, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_global_variable)
-        self.non_nullable_attr(synthetics_global_variable)
+        self.remove_non_nullable_attributes(synthetics_global_variable)
 
         try:
             resp = destination_client.post(self.base_path, synthetics_global_variable).json()
@@ -119,8 +119,6 @@ class SyntheticsGlobalVariables(BaseResource):
 
     def update_resource(self, _id, synthetics_global_variable, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
-        self.remove_excluded_attr(synthetics_global_variable)
-        self.non_nullable_attr(synthetics_global_variable)
 
         diff = DeepDiff(
             synthetics_global_variable,
@@ -128,6 +126,9 @@ class SyntheticsGlobalVariables(BaseResource):
             ignore_order=True,
             exclude_paths=self.excluded_attributes,
         )
+
+        self.remove_excluded_attr(synthetics_global_variable)
+        self.remove_non_nullable_attributes(synthetics_global_variable)
         if diff:
             try:
                 resp = destination_client.put(
@@ -142,8 +143,6 @@ class SyntheticsGlobalVariables(BaseResource):
         self, _id, synthetics_global_variable, local_destination_resources, destination_global_variables
     ):
         destination_client = self.ctx.obj.get("destination_client")
-        self.remove_excluded_attr(synthetics_global_variable)
-        self.non_nullable_attr(synthetics_global_variable)
 
         diff = DeepDiff(
             synthetics_global_variable,
@@ -151,7 +150,11 @@ class SyntheticsGlobalVariables(BaseResource):
             ignore_order=True,
             exclude_paths=self.excluded_attributes,
         )
+        self.remove_excluded_attr(synthetics_global_variable)
+        self.remove_non_nullable_attributes(synthetics_global_variable)
+
         if diff:
+            self.remove_non_nullable_attributes(synthetics_global_variable)
             try:
                 resp = destination_client.put(
                     self.base_path + f"/{local_destination_resources[_id]['id']}", synthetics_global_variable
