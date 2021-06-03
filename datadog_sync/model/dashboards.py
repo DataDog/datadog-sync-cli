@@ -36,7 +36,7 @@ class Dashboards(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            resp = source_client.get(BASE_PATH).json()
+            resp = source_client.get(self.base_path).json()
         except HTTPError as e:
             log.error("error importing dashboards %s", e)
             return
@@ -50,7 +50,7 @@ class Dashboards(BaseResource):
     def process_resource_import(self, dash_id, dashboards):
         source_client = self.ctx.obj.get("source_client")
         try:
-            dashboard = source_client.get(BASE_PATH + f"/{dash_id}").json()
+            dashboard = source_client.get(self.base_path + f"/{dash_id}").json()
         except HTTPError as e:
             log.error("error retrieving dashboard: %s", e)
         dashboards[dash_id] = dashboard

@@ -32,6 +32,7 @@ class SyntheticsTests(BaseResource):
             BASE_PATH,
             resource_connections=RESOURCE_CONNECTIONS,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
+            excluded_attributes_re=EXCLUDED_ATTRIBUTES_RE,
         )
 
     def import_resources(self):
@@ -39,7 +40,7 @@ class SyntheticsTests(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            resp = source_client.get(BASE_PATH).json()
+            resp = source_client.get(self.base_path).json()
         except HTTPError as e:
             log.error("error importing synthetics_tests: %s", e)
             return
@@ -89,10 +90,10 @@ class SyntheticsTests(BaseResource):
 
     def update_resource(self, _id, synthetics_test, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
-        self.remove_excluded_attr(synthetics_test)
 
         diff = self.check_diff(synthetics_test, local_destination_resources[_id])
         if diff:
+            self.remove_excluded_attr(synthetics_test)
             try:
                 resp = destination_client.put(
                     self.base_path + f"/{local_destination_resources[_id]['public_id']}", synthetics_test

@@ -18,6 +18,7 @@ class BaseResource:
         excluded_attributes=None,
         resource_connections=None,
         resource_filter=None,
+        excluded_attributes_re=None,
         non_nullable_attr=None,
     ):
         self.ctx = ctx
@@ -26,6 +27,7 @@ class BaseResource:
         self.excluded_attributes = excluded_attributes
         self.resource_filter = resource_filter
         self.resource_connections = resource_connections
+        self.excluded_attributes_re = excluded_attributes_re
         self.non_nullable_attr = non_nullable_attr
 
     def import_resources(self):
@@ -66,7 +68,13 @@ class BaseResource:
             self.del_attr(k_list[1:], resource[k_list[0]])
 
     def check_diff(self, resource, state):
-        return DeepDiff(resource, state, ignore_order=True, exclude_paths=self.excluded_attributes)
+        return DeepDiff(
+            resource,
+            state,
+            ignore_order=True,
+            exclude_paths=self.excluded_attributes,
+            exclude_regex_paths=self.excluded_attributes_re,
+        )
 
     def remove_non_nullable_attributes(self, resource):
         for key in self.non_nullable_attr:

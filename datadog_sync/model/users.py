@@ -2,7 +2,6 @@ import copy
 import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
-from deepdiff import DeepDiff
 from requests import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -26,6 +25,7 @@ EXCLUDED_ATTRIBUTES = [
 BASE_PATH = "/api/v2/users"
 ROLES_PATH = "/api/v2/roles/{}/users"
 RESOURCE_CONNECTIONS = {"roles": ["relationships.roles.data.id"]}
+GET_USERS_FILTER = {"filter[status]": "Active"}
 
 
 log = logging.getLogger("__name__")
@@ -46,7 +46,7 @@ class Users(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            users_resp = paginated_request(source_client.get)(BASE_PATH, params={"filter[status]": "Active"})
+            users_resp = paginated_request(source_client.get)(self.base_path, params=GET_USERS_FILTER)
         except HTTPError as e:
             log.error("Error while importing Users resource: %s", e)
             return
@@ -103,7 +103,7 @@ class Users(BaseResource):
                 resource_copy.pop("relationships", None)
                 resource_copy["id"] = remote_user["id"]
                 try:
-                    resp = destination_client.patch(BASE_PATH + f"/{remote_user['id']}", payload)
+                    resp = destination_client.patch(self.base_path + f"/{remote_user['id']}", payload)
                 except HTTPError as e:
                     log.error("error updating user: %s", e.response.json())
                 local_destination_users[_id] = resp.json()["data"]
@@ -118,7 +118,7 @@ class Users(BaseResource):
         user["attributes"].pop("disabled", None)
 
         try:
-            resp = destination_client.post(BASE_PATH, payload={"data": user})
+            resp = destination_client.post(self.base_path, {"data": user})
         except HTTPError as e:
             log.error("error creating user: %s", e)
         local_destination_users[_id] = resp.json()["data"]
@@ -134,7 +134,9 @@ class Users(BaseResource):
             user["id"] = local_destination_users[_id]["id"]
             user.pop("relationships", None)
             try:
-                resp = destination_client.patch(BASE_PATH + f"/{local_destination_users[_id]['id']}", {"data": user})
+                resp = destination_client.patch(
+                    self.base_path + f"/{local_destination_users[_id]['id']}", {"data": user}
+                )
             except HTTPError as e:
                 log.error("error updating user: %s, %s", e.response.json())
             local_destination_users[_id] = resp.json()["data"]
@@ -150,7 +152,7 @@ class Users(BaseResource):
             user.pop("relationships", None)
             user["id"] = remote_user["id"]
             try:
-                resp = destination_client.patch(BASE_PATH + f"/{remote_user['id']}", {"data": user})
+                resp = destination_client.patch(self.base_path + f"/{remote_user['id']}", {"data": user})
             except HTTPError as e:
                 log.error("error updating user: %s", e.response.json())
             local_destination_users[_id] = resp.json()["data"]
@@ -178,7 +180,7 @@ class Users(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
 
         try:
-            remote_users = paginated_request(destination_client.get)(BASE_PATH, params={"filter[status]": "Active"})
+            remote_users = paginated_request(destination_client.get)(self.base_path, params=GET_USERS_FILTER)
         except HTTPError as e:
             log.error("error retrieving remote users: %s", e)
             return

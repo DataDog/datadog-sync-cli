@@ -40,7 +40,7 @@ class SyntheticsGlobalVariables(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            resp = source_client.get(BASE_PATH).json()
+            resp = source_client.get(self.base_path).json()
         except HTTPError as e:
             log.error("error importing synthetics_global_variables: %s", e)
             return
@@ -157,7 +157,7 @@ class SyntheticsGlobalVariables(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
 
         try:
-            resp = destination_client.get(BASE_PATH).json()["variables"]
+            resp = destination_client.get(self.base_path).json()["variables"]
         except HTTPError as e:
             log.error("error retrieving remote users: %s", e)
             return

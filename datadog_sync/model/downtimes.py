@@ -39,7 +39,7 @@ class Downtimes(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            resp = source_client.get(BASE_PATH).json()
+            resp = source_client.get(self.base_path).json()
         except HTTPError as e:
             log.error("error importing downtimes %s", e)
             return

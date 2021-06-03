@@ -55,7 +55,7 @@ class SyntheticsPrivateLocations(BaseResource):
         source_client = self.ctx.obj.get("source_client")
         if PL_ID_REGEX.match(synthetics_private_location["id"]):
             try:
-                pl = source_client.get(BASE_PATH + f"/{synthetics_private_location['id']}").json()
+                pl = source_client.get(self.base_path + f"/{synthetics_private_location['id']}").json()
             except HTTPError as e:
                 log.error(
                     "error getting synthetics_private_location %s: %s",

@@ -8,7 +8,6 @@ from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.custom_client import paginated_request
 
 
-RBAC_NOT_ENABLED_MESSAGE = "Custom RBAC is not enabled for this account"
 RESOURCE_TYPE = "roles"
 EXCLUDED_ATTRIBUTES = [
     "root['id']",
@@ -32,7 +31,7 @@ class Roles(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            roles_resp = paginated_request(source_client.get)(BASE_PATH)
+            roles_resp = paginated_request(source_client.get)(self.base_path)
         except HTTPError as e:
             log.error("error importing roles: %s", e.response.text)
             return
@@ -101,7 +100,7 @@ class Roles(BaseResource):
 
         payload = {"data": role_copy}
         try:
-            resp = destination_client.post(BASE_PATH, payload)
+            resp = destination_client.post(self.base_path, payload)
         except HTTPError as e:
             log.error("error creating role: %s", e.response.text)
             return
@@ -117,7 +116,7 @@ class Roles(BaseResource):
         if diff:
             role_copy["id"] = local_destination_resources[_id]["id"]
             try:
-                resp = destination_client.patch(BASE_PATH + f"/{local_destination_resources[_id]['id']}", payload)
+                resp = destination_client.patch(self.base_path + f"/{local_destination_resources[_id]['id']}", payload)
             except HTTPError as e:
                 log.error("error updating role: %s", e.response.text)
                 return
@@ -160,7 +159,7 @@ class Roles(BaseResource):
         destination_roles_mapping = {}
 
         try:
-            destination_roles_resp = paginated_request(destination_client.get)(BASE_PATH)
+            destination_roles_resp = paginated_request(destination_client.get)(self.base_path)
         except HTTPError as e:
             log.error("error retrieving roles: %s", e.response.text)
 
