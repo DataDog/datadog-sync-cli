@@ -1,7 +1,9 @@
 import copy
+import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from deepdiff import DeepDiff
+from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.custom_client import paginated_request
@@ -19,6 +21,9 @@ BASE_PATH = "/api/v2/roles"
 PERMISSIONS_BASE_PATH = "/api/v2/permissions"
 
 
+log = logging.getLogger("__name__")
+
+
 class Roles(BaseResource):
     def __init__(self, ctx):
         super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
@@ -27,15 +32,19 @@ class Roles(BaseResource):
         roles = {}
         source_client = self.ctx.obj.get("source_client")
 
-        roles_resp = paginated_request(source_client.get)(BASE_PATH)
+        try:
+            roles_resp = paginated_request(source_client.get)(BASE_PATH)
+        except HTTPError as e:
+            log.error("error importing roles: %s", e.response.text)
+            return
 
         with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource, role, roles) for role in roles_resp])
+            wait([executor.submit(self.process_resource_import, role, roles) for role in roles_resp])
 
         # Write resources to file
         self.write_resources_file("source", roles)
 
-    def process_resource(self, role, roles):
+    def process_resource_import(self, role, roles):
         roles[role["id"]] = role
 
     def apply_resources(self):
@@ -73,35 +82,48 @@ class Roles(BaseResource):
         source_roles_mapping,
         destination_roles_mapping,
     ):
-        destination_client = self.ctx.obj.get("destination_client")
 
         # Remap permissions if different datacenters
         self.remap_permissions(role, source_permission, destination_permission)
         # Remap role id's
         self.remap_role_id(role, source_roles_mapping, destination_roles_mapping)
 
-        # Create copy and remove excluded fields as the API does not allow additional properties
+        if _id in local_destination_roles:
+            self.update_role(_id, role, local_destination_roles)
+        elif role["attributes"]["name"] in destination_roles_mapping:
+            local_destination_roles[_id] = role
+        else:
+            self.create_role(_id, role, local_destination_roles)
+
+    def create_role(self, _id, role, local_destination_roles):
+        destination_client = self.ctx.obj.get("destination_client")
         role_copy = copy.deepcopy(role)
         self.remove_excluded_attr(role_copy)
 
         payload = {"data": role_copy}
-        if _id in local_destination_roles:
-            diff = DeepDiff(role, local_destination_roles[_id], ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
-            if diff:
-                role_copy["id"] = local_destination_roles[_id]["id"]
-                resp = destination_client.patch(BASE_PATH + f"/{local_destination_roles[_id]['id']}", payload)
-                if RBAC_NOT_ENABLED_MESSAGE in resp.text:
-                    local_destination_roles[_id] = role
-                else:
-                    local_destination_roles[_id] = resp.json()["data"]
-        elif role["attributes"]["name"] in destination_roles_mapping:
-            local_destination_roles[_id] = role
-        else:
+        try:
             resp = destination_client.post(BASE_PATH, payload)
-            if RBAC_NOT_ENABLED_MESSAGE in resp.text:
-                local_destination_roles[_id] = role
-            else:
-                local_destination_roles[_id] = resp.json()["data"]
+        except HTTPError as e:
+            log.error("error creating role: %s", e.response.text)
+            return
+        local_destination_roles[_id] = resp.json()["data"]
+
+    def update_role(self, _id, role, local_destination_roles):
+        destination_client = self.ctx.obj.get("destination_client")
+        role_copy = copy.deepcopy(role)
+        self.remove_excluded_attr(role_copy)
+
+        payload = {"data": role_copy}
+        diff = DeepDiff(role, local_destination_roles[_id], ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
+        if diff:
+            role_copy["id"] = local_destination_roles[_id]["id"]
+            try:
+                resp = destination_client.patch(BASE_PATH + f"/{local_destination_roles[_id]['id']}", payload)
+            except HTTPError as e:
+                log.error("error updating role: %s", e.response.text)
+                return
+
+            local_destination_roles[_id] = resp.json()["data"]
 
     def get_permissions(self):
         source_permission_obj = {}
@@ -109,9 +131,12 @@ class Roles(BaseResource):
 
         source_client = self.ctx.obj.get("source_client")
         destination_client = self.ctx.obj.get("destination_client")
+        try:
+            source_permissions = source_client.get(PERMISSIONS_BASE_PATH).json()["data"]
+            destination_permissions = destination_client.get(PERMISSIONS_BASE_PATH).json()["data"]
+        except HTTPError as e:
+            log.error("error getting permissions: %s", e.response.text)
 
-        source_permissions = source_client.get(PERMISSIONS_BASE_PATH).json()["data"]
-        destination_permissions = destination_client.get(PERMISSIONS_BASE_PATH).json()["data"]
         for permission in source_permissions:
             source_permission_obj[permission["id"]] = permission["attributes"]["name"]
         for permission in destination_permissions:
@@ -135,7 +160,10 @@ class Roles(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
         destination_roles_mapping = {}
 
-        destination_roles_resp = paginated_request(destination_client.get)(BASE_PATH)
+        try:
+            destination_roles_resp = paginated_request(destination_client.get)(BASE_PATH)
+        except HTTPError as e:
+            log.error("error retrieving roles: %s", e.response.text)
 
         for role in destination_roles_resp:
             destination_roles_mapping[role["attributes"]["name"]] = role["id"]

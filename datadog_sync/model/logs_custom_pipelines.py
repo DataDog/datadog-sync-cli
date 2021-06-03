@@ -36,7 +36,7 @@ class LogsCustomPipelines(BaseResource):
         with ThreadPoolExecutor() as executor:
             wait(
                 [
-                    executor.submit(self.process_resource, logs_custom_pipeline, logs_custom_pipelines)
+                    executor.submit(self.process_resource_import, logs_custom_pipeline, logs_custom_pipelines)
                     for logs_custom_pipeline in resp
                 ]
             )
@@ -44,7 +44,7 @@ class LogsCustomPipelines(BaseResource):
         # Write resources to file
         self.write_resources_file("source", logs_custom_pipelines)
 
-    def process_resource(self, logs_custom_pipeline, logs_custom_pipelines):
+    def process_resource_import(self, logs_custom_pipeline, logs_custom_pipelines):
         if not logs_custom_pipeline["is_read_only"]:
             logs_custom_pipelines[logs_custom_pipeline["id"]] = logs_custom_pipeline
 
@@ -65,30 +65,41 @@ class LogsCustomPipelines(BaseResource):
     def prepare_resource_and_apply(
         self, _id, logs_custom_pipeline, local_destination_resources, connection_resource_obj=None
     ):
-        destination_client = self.ctx.obj.get("destination_client")
+
         if self.resource_connections:
             self.connect_resources(logs_custom_pipeline, connection_resource_obj)
 
-        self.remove_excluded_attr(logs_custom_pipeline)
         if _id in local_destination_resources:
-            diff = DeepDiff(
-                logs_custom_pipeline,
-                local_destination_resources[_id],
-                ignore_order=True,
-                exclude_paths=self.excluded_attributes,
-            )
-            if diff:
-                try:
-                    resp = destination_client.put(
-                        self.base_path + f"/{local_destination_resources[_id]['id']}", logs_custom_pipeline
-                    ).json()
-                except HTTPError as e:
-                    log.error("error creating logs_custom_pipeline: %s", e.response.text)
-                    return
-                local_destination_resources[_id] = resp
+            self.update_resource(_id, logs_custom_pipeline, local_destination_resources)
         else:
+            self.create_resource(_id, logs_custom_pipeline, local_destination_resources)
+
+    def create_resource(self, _id, logs_custom_pipeline, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+        self.remove_excluded_attr(logs_custom_pipeline)
+
+        try:
+            resp = destination_client.post(self.base_path, logs_custom_pipeline).json()
+        except HTTPError as e:
+            log.error("error creating logs_custom_pipeline: %s", e.response.text)
+            return
+        local_destination_resources[_id] = resp
+
+    def update_resource(self, _id, logs_custom_pipeline, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+        self.remove_excluded_attr(logs_custom_pipeline)
+
+        diff = DeepDiff(
+            logs_custom_pipeline,
+            local_destination_resources[_id],
+            ignore_order=True,
+            exclude_paths=self.excluded_attributes,
+        )
+        if diff:
             try:
-                resp = destination_client.post(self.base_path, logs_custom_pipeline).json()
+                resp = destination_client.put(
+                    self.base_path + f"/{local_destination_resources[_id]['id']}", logs_custom_pipeline
+                ).json()
             except HTTPError as e:
                 log.error("error creating logs_custom_pipeline: %s", e.response.text)
                 return

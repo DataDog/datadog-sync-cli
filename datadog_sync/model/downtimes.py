@@ -44,12 +44,12 @@ class Downtimes(BaseResource):
             return
 
         with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource, downtime, downtimes) for downtime in resp])
+            wait([executor.submit(self.process_resource_import, downtime, downtimes) for downtime in resp])
 
         # Write resources to file
         self.write_resources_file("source", downtimes)
 
-    def process_resource(self, downtime, downtimes):
+    def process_resource_import(self, downtime, downtimes):
         downtimes[downtime["id"]] = downtime
 
     def apply_resources(self):
@@ -73,26 +73,35 @@ class Downtimes(BaseResource):
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(self, _id, downtime, local_destination_resources, connection_resource_obj=None):
-        destination_client = self.ctx.obj.get("destination_client")
         if self.resource_connections:
             self.connect_resources(downtime, connection_resource_obj)
 
         if _id in local_destination_resources:
-            diff = DeepDiff(
-                downtime, local_destination_resources[_id], ignore_order=True, exclude_paths=self.excluded_attributes
-            )
-            if diff:
-                try:
-                    resp = destination_client.put(
-                        self.base_path + f"/{local_destination_resources[_id]['id']}", downtime
-                    ).json()
-                except HTTPError as e:
-                    log.error("error creating downtime: %s", e.response.text)
-                    return
-                local_destination_resources[_id] = resp
+            self.update_resource(_id, downtime, local_destination_resources)
         else:
+            self.create_resource(self.update_resource(_id, downtime, local_destination_resources))
+
+    def create_resource(self, _id, downtime, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+
+        try:
+            resp = destination_client.post(self.base_path, downtime).json()
+        except HTTPError as e:
+            log.error("error creating downtime: %s", e.response.text)
+            return
+        local_destination_resources[_id] = resp
+
+    def update_resource(self, _id, downtime, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+
+        diff = DeepDiff(
+            downtime, local_destination_resources[_id], ignore_order=True, exclude_paths=self.excluded_attributes
+        )
+        if diff:
             try:
-                resp = destination_client.post(self.base_path, downtime).json()
+                resp = destination_client.put(
+                    self.base_path + f"/{local_destination_resources[_id]['id']}", downtime
+                ).json()
             except HTTPError as e:
                 log.error("error creating downtime: %s", e.response.text)
                 return

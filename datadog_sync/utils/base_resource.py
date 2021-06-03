@@ -31,7 +31,7 @@ class BaseResource:
                         connection_resources[k] = json.load(f)
         return connection_resources
 
-    def process_resource(self, *args):
+    def process_resource_import(self, *args):
         pass
 
     def remove_excluded_attr(self, resource):

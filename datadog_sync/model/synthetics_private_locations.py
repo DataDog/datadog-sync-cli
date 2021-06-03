@@ -42,7 +42,9 @@ class SyntheticsPrivateLocations(BaseResource):
         with ThreadPoolExecutor() as executor:
             wait(
                 [
-                    executor.submit(self.process_resource, synthetics_private_location, synthetics_private_locations)
+                    executor.submit(
+                        self.process_resource_import, synthetics_private_location, synthetics_private_locations
+                    )
                     for synthetics_private_location in resp["locations"]
                 ]
             )
@@ -50,7 +52,7 @@ class SyntheticsPrivateLocations(BaseResource):
         # Write resources to file
         self.write_resources_file("source", synthetics_private_locations)
 
-    def process_resource(self, synthetics_private_location, synthetics_private_locations):
+    def process_resource_import(self, synthetics_private_location, synthetics_private_locations):
         source_client = self.ctx.obj.get("source_client")
         if PL_ID_REGEX.match(synthetics_private_location["id"]):
             try:
@@ -87,33 +89,42 @@ class SyntheticsPrivateLocations(BaseResource):
     def prepare_resource_and_apply(
         self, _id, synthetics_private_location, local_destination_resources, connection_resource_obj=None
     ):
-        destination_client = self.ctx.obj.get("destination_client")
 
         if self.resource_connections:
             self.connect_resources(synthetics_private_location, connection_resource_obj)
 
+        if _id in local_destination_resources:
+            self.update_resource(_id, synthetics_private_location, local_destination_resources)
+        else:
+            self.create_resource(_id, synthetics_private_location, local_destination_resources)
+
+    def create_resource(self, _id, synthetics_private_location, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_private_location)
 
-        if _id in local_destination_resources:
-            diff = DeepDiff(
-                synthetics_private_location,
-                local_destination_resources[_id],
-                ignore_order=True,
-                exclude_paths=self.excluded_attributes,
-            )
-            if diff:
-                try:
-                    resp = destination_client.put(
-                        self.base_path + f"/{local_destination_resources[_id]['id']}", synthetics_private_location
-                    ).json()
-                except HTTPError as e:
-                    log.error("error creating synthetics_private_location: %s", e.response.text)
-                    return
-                local_destination_resources[_id].update(resp)
-        else:
+        try:
+            resp = destination_client.post(self.base_path, synthetics_private_location).json()["private_location"]
+        except HTTPError as e:
+            log.error("error creating synthetics_private_location: %s", e.response.text)
+            return
+        local_destination_resources[_id] = resp
+
+    def update_resource(self, _id, synthetics_private_location, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+        self.remove_excluded_attr(synthetics_private_location)
+
+        diff = DeepDiff(
+            synthetics_private_location,
+            local_destination_resources[_id],
+            ignore_order=True,
+            exclude_paths=self.excluded_attributes,
+        )
+        if diff:
             try:
-                resp = destination_client.post(self.base_path, synthetics_private_location).json()["private_location"]
+                resp = destination_client.put(
+                    self.base_path + f"/{local_destination_resources[_id]['id']}", synthetics_private_location
+                ).json()
             except HTTPError as e:
                 log.error("error creating synthetics_private_location: %s", e.response.text)
                 return
-            local_destination_resources[_id] = resp
+            local_destination_resources[_id].update(resp)
