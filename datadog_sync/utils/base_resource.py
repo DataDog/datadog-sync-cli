@@ -9,7 +9,14 @@ from datadog_sync.utils.resource_utils import replace
 
 class BaseResource:
     def __init__(
-        self, ctx, resource_type, base_path, excluded_attributes=None, resource_connections=None, resource_filter=None, non_nullable_attr=None
+        self,
+        ctx,
+        resource_type,
+        base_path,
+        excluded_attributes=None,
+        resource_connections=None,
+        resource_filter=None,
+        non_nullable_attr=None,
     ):
         self.ctx = ctx
         self.resource_type = resource_type
