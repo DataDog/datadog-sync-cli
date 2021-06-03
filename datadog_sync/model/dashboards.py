@@ -67,7 +67,7 @@ class Dashboards(BaseResource):
             self.connect_resources(dashboard, connection_resource_obj)
 
         if _id in local_destination_resources:
-            self.update_resource(_id, dashboard, local_destination_resources[_id])
+            self.update_resource(_id, dashboard, local_destination_resources)
         else:
             self.create_resource(_id, dashboard, local_destination_resources)
 
