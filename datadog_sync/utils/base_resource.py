@@ -1,6 +1,7 @@
 import os
 import json
 import re
+from concurrent.futures import ThreadPoolExecutor, wait
 
 from datadog_sync.constants import RESOURCES_DIR, RESOURCE_FILE_PATH
 from datadog_sync.utils.resource_utils import replace
@@ -44,6 +45,24 @@ class BaseResource:
             resource.pop(k_list[0], None)
         else:
             self.del_attr(k_list[1:], resource[k_list[0]])
+
+    def prepare_resource_and_apply(self, *args, **kwargs):
+        pass
+
+    def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj):
+        with ThreadPoolExecutor() as executor:
+            wait(
+                [
+                    executor.submit(
+                        self.prepare_resource_and_apply,
+                        _id,
+                        resource,
+                        local_destination_resources,
+                        connection_resource_obj,
+                    )
+                    for _id, resource in resources.items()
+                ]
+            )
 
     def open_resources(self):
         destination_resources = dict()

@@ -59,21 +59,7 @@ class Dashboards(BaseResource):
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
         connection_resource_obj = self.get_connection_resources()
-
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.prepare_resource_and_apply,
-                        _id,
-                        dashboard,
-                        local_destination_resources,
-                        connection_resource_obj,
-                    )
-                    for _id, dashboard in source_resources.items()
-                ]
-            )
-
+        self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(self, _id, dashboard, local_destination_resources, connection_resource_obj=None):

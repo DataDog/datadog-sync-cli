@@ -19,7 +19,7 @@ EXCLUDED_ATTRIBUTES = [
     "root['modified_at']",
     "root['created_at']",
 ]
-EXCLUDED_ATTRIBUTES_RE = ["updatedAt"]
+EXCLUDED_ATTRIBUTES_RE = ["updatedAt", "notify_audit", "locked", "include_tags", "new_host_delay", "notify_no_data"]
 BASE_PATH = "/api/v1/synthetics/tests"
 RESOURCE_CONNECTIONS = {"synthetics_private_locations": ["locations"]}
 
@@ -61,21 +61,7 @@ class SyntheticsTests(BaseResource):
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
         connection_resource_obj = self.get_connection_resources()
-
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.prepare_resource_and_apply,
-                        _id,
-                        synthetics_test,
-                        local_destination_resources,
-                        connection_resource_obj,
-                    )
-                    for _id, synthetics_test in source_resources.items()
-                ]
-            )
-
+        self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(
