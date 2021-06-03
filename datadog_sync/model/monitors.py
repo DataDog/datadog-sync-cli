@@ -78,7 +78,6 @@ class Monitors(BaseResource):
                             local_destination_resources,
                         )
                     )
-
         wait(simple_monitors_futures)
 
         self.write_resources_file("destination", local_destination_resources)

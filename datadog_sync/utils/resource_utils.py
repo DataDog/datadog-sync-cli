@@ -1,7 +1,5 @@
 import re
 
-log = logging.getLogger(__name__)
-
 
 def replace(keys_list, r_obj, resource_to_connect, connection_resources_obj):
     if len(keys_list) == 1 and keys_list[0] in r_obj:
