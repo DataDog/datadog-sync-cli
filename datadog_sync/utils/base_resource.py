@@ -3,13 +3,13 @@ import json
 import re
 from concurrent.futures import ThreadPoolExecutor, wait
 
-from datadog_sync.constants import RESOURCES_DIR, RESOURCE_FILE_PATH
+from datadog_sync.constants import RESOURCE_FILE_PATH
 from datadog_sync.utils.resource_utils import replace
 
 
 class BaseResource:
     def __init__(
-        self, ctx, resource_type, base_path, excluded_attributes=None, resource_connections=None, resource_filter=None
+        self, ctx, resource_type, base_path, excluded_attributes=None, resource_connections=None, resource_filter=None, non_nullable_attr=None
     ):
         self.ctx = ctx
         self.resource_type = resource_type
@@ -17,6 +17,7 @@ class BaseResource:
         self.excluded_attributes = excluded_attributes
         self.resource_filter = resource_filter
         self.resource_connections = resource_connections
+        self.non_nullable_attr = non_nullable_attr
 
     def import_resources(self):
         pass
@@ -40,14 +41,19 @@ class BaseResource:
             k_list = re.findall("\\['(.*?)'\\]", key)
             self.del_attr(k_list, resource)
 
+    def prepare_resource_and_apply(self, *args, **kwargs):
+        pass
+
     def del_attr(self, k_list, resource):
         if len(k_list) == 1:
             resource.pop(k_list[0], None)
         else:
             self.del_attr(k_list[1:], resource[k_list[0]])
 
-    def prepare_resource_and_apply(self, *args, **kwargs):
-        pass
+    def remove_non_nullable_attributes(self, resource):
+        for key in self.non_nullable_attr:
+            k_list = key.split(".")
+            self.del_attr(k_list, resource)
 
     def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj):
         with ThreadPoolExecutor() as executor:

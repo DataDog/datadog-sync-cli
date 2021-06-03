@@ -22,6 +22,7 @@ EXCLUDED_ATTRIBUTES = [
     "root['parse_test_name']",
 ]
 BASE_PATH = "/api/v1/synthetics/variables"
+NON_NULLABLE_ATTRIBUTE = ["parse_test_public_id", "parse_test_options"]
 RESOURCE_CONNECTIONS = {"synthetics_tests": ["parse_test_public_id"]}
 
 
@@ -33,6 +34,7 @@ class SyntheticsGlobalVariables(BaseResource):
             BASE_PATH,
             resource_connections=RESOURCE_CONNECTIONS,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
+            non_nullable_attr=NON_NULLABLE_ATTRIBUTE,
         )
 
     def import_resources(self):
@@ -107,7 +109,7 @@ class SyntheticsGlobalVariables(BaseResource):
     def create_resource(self, _id, synthetics_global_variable, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_global_variable)
-        self.remove_none_attributes(synthetics_global_variable)
+        self.non_nullable_attr(synthetics_global_variable)
 
         try:
             resp = destination_client.post(self.base_path, synthetics_global_variable).json()
@@ -119,7 +121,7 @@ class SyntheticsGlobalVariables(BaseResource):
     def update_resource(self, _id, synthetics_global_variable, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_global_variable)
-        self.remove_none_attributes(synthetics_global_variable)
+        self.non_nullable_attr(synthetics_global_variable)
 
         diff = DeepDiff(
             synthetics_global_variable,
@@ -142,7 +144,7 @@ class SyntheticsGlobalVariables(BaseResource):
     ):
         destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_global_variable)
-        self.remove_none_attributes(synthetics_global_variable)
+        self.non_nullable_attr(synthetics_global_variable)
 
         diff = DeepDiff(
             synthetics_global_variable,
@@ -174,8 +176,3 @@ class SyntheticsGlobalVariables(BaseResource):
             destination_global_variable_obj[variable["name"]] = variable
 
         return destination_global_variable_obj
-
-    def remove_none_attributes(self, synthetics_global_variable):
-        if synthetics_global_variable["parse_test_public_id"] is None:
-            synthetics_global_variable.pop("parse_test_public_id", None)
-            synthetics_global_variable.pop("parse_test_options", None)

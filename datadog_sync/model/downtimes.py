@@ -20,6 +20,7 @@ EXCLUDED_ATTRIBUTES = [
     "root['creator_id']",
 ]
 RESOURCE_CONNECTIONS = {"monitors": ["monitor_id"]}
+NON_NULLABLE_ATTRIBUTE = ["recurrence.until_date", "recurrence.until_occurrences"]
 BASE_PATH = "/api/v1/downtime"
 
 
@@ -31,6 +32,7 @@ class Downtimes(BaseResource):
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             resource_connections=RESOURCE_CONNECTIONS,
+            non_nullable_attr=NON_NULLABLE_ATTRIBUTE,
         )
 
     def import_resources(self):
@@ -65,11 +67,11 @@ class Downtimes(BaseResource):
         if _id in local_destination_resources:
             self.update_resource(_id, downtime, local_destination_resources)
         else:
-            self.create_resource(self.update_resource(_id, downtime, local_destination_resources))
+            self.create_resource(_id, downtime, local_destination_resources)
 
     def create_resource(self, _id, downtime, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
-
+        self.remove_non_nullable_attributes(downtime)
         try:
             resp = destination_client.post(self.base_path, downtime).json()
         except HTTPError as e:
