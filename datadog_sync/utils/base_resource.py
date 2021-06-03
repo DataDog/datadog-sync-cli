@@ -86,7 +86,9 @@ class BaseResource:
         with open(resource_path, "w") as f:
             json.dump(resources, f, indent=2)
 
-    def connect_resources(self, resource, connection_resources_obj):
+    def connect_resources(self, resource, connection_resources_obj=None):
+        if connection_resources_obj is None:
+            connection_resources_obj = {}
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
                 replace(attr_connection.split("."), resource, resource_to_connect, connection_resources_obj)
