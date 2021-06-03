@@ -22,10 +22,11 @@ def request_with_retry(func):
                     retry_count += 1
                     try:
                         backoff = int(e.response.headers["x-ratelimit-reset"])
-                        time.sleep(backoff)
                     except ValueError:
-                        backoff = default_backoff
-                        time.sleep(retry_count * backoff)
+                        backoff = retry_count * backoff
+
+                    time.sleep(backoff)
+
                     continue
                 raise e
         return resp
