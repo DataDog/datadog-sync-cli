@@ -3,6 +3,8 @@ import json
 import re
 from concurrent.futures import ThreadPoolExecutor, wait
 
+from deepdiff import DeepDiff
+
 from datadog_sync.constants import RESOURCE_FILE_PATH
 from datadog_sync.utils.resource_utils import replace
 
@@ -62,6 +64,9 @@ class BaseResource:
             resource.pop(k_list[0], None)
         elif len(k_list) > 1:
             self.del_attr(k_list[1:], resource[k_list[0]])
+
+    def check_diff(self, resource, state):
+        return DeepDiff(resource, state, ignore_order=True, exclude_paths=self.excluded_attributes)
 
     def remove_non_nullable_attributes(self, resource):
         for key in self.non_nullable_attr:

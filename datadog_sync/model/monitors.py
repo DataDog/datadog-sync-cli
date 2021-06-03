@@ -122,9 +122,7 @@ class Monitors(BaseResource):
     def update_resource(self, _id, monitor, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
 
-        diff = DeepDiff(
-            monitor, local_destination_resources[_id], ignore_order=True, exclude_paths=self.excluded_attributes
-        )
+        diff = self.check_diff(monitor, local_destination_resources[_id])
         if diff:
             try:
                 resp = destination_client.put(

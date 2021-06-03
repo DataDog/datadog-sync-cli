@@ -89,12 +89,7 @@ class LogsCustomPipelines(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(logs_custom_pipeline)
 
-        diff = DeepDiff(
-            logs_custom_pipeline,
-            local_destination_resources[_id],
-            ignore_order=True,
-            exclude_paths=self.excluded_attributes,
-        )
+        diff = self.check_diff(logs_custom_pipeline, local_destination_resources[_id])
         if diff:
             try:
                 resp = destination_client.put(

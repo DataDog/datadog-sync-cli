@@ -2,7 +2,6 @@ import re
 import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
-from deepdiff import DeepDiff
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -99,12 +98,7 @@ class SyntheticsPrivateLocations(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_private_location)
 
-        diff = DeepDiff(
-            synthetics_private_location,
-            local_destination_resources[_id],
-            ignore_order=True,
-            exclude_paths=self.excluded_attributes,
-        )
+        diff = self.check_diff(synthetics_private_location, local_destination_resources[_id])
         if diff:
             try:
                 resp = destination_client.put(

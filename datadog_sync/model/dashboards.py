@@ -1,7 +1,6 @@
 import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
-from deepdiff import DeepDiff
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -82,9 +81,8 @@ class Dashboards(BaseResource):
 
     def update_resource(self, _id, dashboard, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
-        diff = DeepDiff(
-            dashboard, local_destination_resources[_id], ignore_order=True, exclude_paths=self.excluded_attributes
-        )
+
+        diff = self.check_diff(dashboard, local_destination_resources[_id])
         if diff:
             try:
                 resp = destination_client.put(

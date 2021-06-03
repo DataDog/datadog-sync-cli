@@ -1,7 +1,6 @@
 import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
-from deepdiff import DeepDiff
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -120,16 +119,10 @@ class SyntheticsGlobalVariables(BaseResource):
     def update_resource(self, _id, synthetics_global_variable, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
 
-        diff = DeepDiff(
-            synthetics_global_variable,
-            local_destination_resources[_id],
-            ignore_order=True,
-            exclude_paths=self.excluded_attributes,
-        )
-
-        self.remove_excluded_attr(synthetics_global_variable)
-        self.remove_non_nullable_attributes(synthetics_global_variable)
+        diff = self.check_diff(synthetics_global_variable, local_destination_resources[_id])
         if diff:
+            self.remove_excluded_attr(synthetics_global_variable)
+            self.remove_non_nullable_attributes(synthetics_global_variable)
             try:
                 resp = destination_client.put(
                     self.base_path + f"/{local_destination_resources[_id]['id']}", synthetics_global_variable
@@ -144,16 +137,11 @@ class SyntheticsGlobalVariables(BaseResource):
     ):
         destination_client = self.ctx.obj.get("destination_client")
 
-        diff = DeepDiff(
-            synthetics_global_variable,
-            destination_global_variables[synthetics_global_variable["name"]],
-            ignore_order=True,
-            exclude_paths=self.excluded_attributes,
+        diff = self.check_diff(
+            synthetics_global_variable, destination_global_variables[synthetics_global_variable["name"]]
         )
-        self.remove_excluded_attr(synthetics_global_variable)
-        self.remove_non_nullable_attributes(synthetics_global_variable)
-
         if diff:
+            self.remove_excluded_attr(synthetics_global_variable)
             self.remove_non_nullable_attributes(synthetics_global_variable)
             try:
                 resp = destination_client.put(

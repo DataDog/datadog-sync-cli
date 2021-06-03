@@ -96,12 +96,7 @@ class Users(BaseResource):
             self.update_resource(_id, user, local_destination_users)
         elif user["attributes"]["handle"] in remote_users:
             remote_user = remote_users[user["attributes"]["handle"]]
-            diff = DeepDiff(
-                remote_user,
-                user,
-                ignore_order=True,
-                exclude_paths=EXCLUDED_ATTRIBUTES,
-            )
+            diff = self.check_diff(remote_user, user)
             if diff:
                 self.update_user_roles(remote_user["id"], diff)
                 self.remove_excluded_attr(resource_copy)
@@ -132,7 +127,7 @@ class Users(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(user)
 
-        diff = DeepDiff(local_destination_users[_id], user, ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
+        diff = self.check_diff(local_destination_users[_id], user)
         if diff:
             self.update_user_roles(local_destination_users[_id]["id"], diff)
             self.remove_excluded_attr(user)
@@ -146,16 +141,11 @@ class Users(BaseResource):
 
     def update_existing_user(self, _id, user, local_destination_users, remote_users):
         destination_client = self.ctx.obj.get("destination_client")
-        self.remove_excluded_attr(user)
-
         remote_user = remote_users[user["attributes"]["handle"]]
-        diff = DeepDiff(
-            remote_user,
-            user,
-            ignore_order=True,
-            exclude_paths=EXCLUDED_ATTRIBUTES,
-        )
+
+        diff = self.check_diff(remote_user, user)
         if diff:
+            self.remove_excluded_attr(user)
             self.update_user_roles(remote_user["id"], diff)
             user.pop("relationships", None)
             user["id"] = remote_user["id"]

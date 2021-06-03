@@ -91,13 +91,7 @@ class SyntheticsTests(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_test)
 
-        diff = DeepDiff(
-            synthetics_test,
-            local_destination_resources[_id],
-            ignore_order=True,
-            exclude_regex_paths=EXCLUDED_ATTRIBUTES_RE,
-            exclude_paths=self.excluded_attributes,
-        )
+        diff = self.check_diff(synthetics_test, local_destination_resources[_id])
         if diff:
             try:
                 resp = destination_client.put(

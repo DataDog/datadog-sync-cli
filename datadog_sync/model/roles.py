@@ -2,7 +2,6 @@ import copy
 import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
-from deepdiff import DeepDiff
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -48,7 +47,7 @@ class Roles(BaseResource):
         roles[role["id"]] = role
 
     def apply_resources(self):
-        source_roles, local_destination_roles = self.open_resources()
+        source_roles, local_destination_resources = self.open_resources()
         source_permission, destination_permission = self.get_permissions()
         source_roles_mapping = self.get_source_roles_mapping(source_roles)
         destination_roles_mapping = self.get_destination_roles_mapping()
@@ -60,7 +59,7 @@ class Roles(BaseResource):
                         self.prepare_resource_and_apply,
                         _id,
                         role,
-                        local_destination_roles,
+                        local_destination_resources,
                         source_permission,
                         destination_permission,
                         source_roles_mapping,
@@ -70,13 +69,13 @@ class Roles(BaseResource):
                 ]
             )
 
-        self.write_resources_file("destination", local_destination_roles)
+        self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(
         self,
         _id,
         role,
-        local_destination_roles,
+        local_destination_resources,
         source_permission,
         destination_permission,
         source_roles_mapping,
@@ -88,14 +87,14 @@ class Roles(BaseResource):
         # Remap role id's
         self.remap_role_id(role, source_roles_mapping, destination_roles_mapping)
 
-        if _id in local_destination_roles:
-            self.update_role(_id, role, local_destination_roles)
+        if _id in local_destination_resources:
+            self.update_role(_id, role, local_destination_resources)
         elif role["attributes"]["name"] in destination_roles_mapping:
-            local_destination_roles[_id] = role
+            local_destination_resources[_id] = role
         else:
-            self.create_role(_id, role, local_destination_roles)
+            self.create_role(_id, role, local_destination_resources)
 
-    def create_role(self, _id, role, local_destination_roles):
+    def create_role(self, _id, role, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
         role_copy = copy.deepcopy(role)
         self.remove_excluded_attr(role_copy)
@@ -106,24 +105,24 @@ class Roles(BaseResource):
         except HTTPError as e:
             log.error("error creating role: %s", e.response.text)
             return
-        local_destination_roles[_id] = resp.json()["data"]
+        local_destination_resources[_id] = resp.json()["data"]
 
-    def update_role(self, _id, role, local_destination_roles):
+    def update_role(self, _id, role, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
         role_copy = copy.deepcopy(role)
+        payload = {"data": role_copy}
         self.remove_excluded_attr(role_copy)
 
-        payload = {"data": role_copy}
-        diff = DeepDiff(role, local_destination_roles[_id], ignore_order=True, exclude_paths=EXCLUDED_ATTRIBUTES)
+        diff = self.check_diff(role, local_destination_resources[_id])
         if diff:
-            role_copy["id"] = local_destination_roles[_id]["id"]
+            role_copy["id"] = local_destination_resources[_id]["id"]
             try:
-                resp = destination_client.patch(BASE_PATH + f"/{local_destination_roles[_id]['id']}", payload)
+                resp = destination_client.patch(BASE_PATH + f"/{local_destination_resources[_id]['id']}", payload)
             except HTTPError as e:
                 log.error("error updating role: %s", e.response.text)
                 return
 
-            local_destination_roles[_id] = resp.json()["data"]
+            local_destination_resources[_id] = resp.json()["data"]
 
     def get_permissions(self):
         source_permission_obj = {}
