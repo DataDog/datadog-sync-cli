@@ -42,13 +42,14 @@ class Monitors(BaseResource):
             return
 
         with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource, monitor, monitors) for monitor in resp])
+            wait([executor.submit(self.process_resource_import, monitor, monitors) for monitor in resp])
 
         # Write resources to file
         self.write_resources_file("source", monitors)
 
-    def process_resource(self, monitor, monitors):
-        monitors[monitor["id"]] = monitor
+    def process_resource_import(self, monitor, monitors):
+        if monitor["type"] != "synthetics alert":
+            monitors[monitor["id"]] = monitor
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
@@ -95,27 +96,36 @@ class Monitors(BaseResource):
         self.write_resources_file("destination", local_destination_resources)
 
 
-    def prepare_resource_and_apply(self, _id, monitor, local_destination_resources, connection_resource_obj={}):
-        destination_client = self.ctx.obj.get("destination_client")
+    def prepare_resource_and_apply(self, _id, monitor, local_destination_resources, connection_resource_obj=None):
         if self.resource_connections:
             self.connect_resources(monitor, connection_resource_obj)
 
         if _id in local_destination_resources:
-            diff = DeepDiff(
-                monitor, local_destination_resources[_id], ignore_order=True, exclude_paths=self.excluded_attributes
-            )
-            if diff:
-                try:
-                    resp = destination_client.put(
-                        self.base_path + f"/{local_destination_resources[_id]['id']}", monitor
-                    ).json()
-                except HTTPError as e:
-                    log.error("error creating monitor: %s", e.response.text)
-                    return
-                local_destination_resources[_id] = resp
+            self.update_resource(_id, monitor, local_destination_resources)
         else:
+            self.create_resource(_id, monitor, local_destination_resources)
+
+    def create_resource(self, _id, monitor, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+
+        try:
+            resp = destination_client.post(self.base_path, monitor).json()
+        except HTTPError as e:
+            log.error("error creating monitor: %s", e.response.text)
+            return
+        local_destination_resources[_id] = resp
+
+    def update_resource(self, _id, monitor, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+
+        diff = DeepDiff(
+            monitor, local_destination_resources[_id], ignore_order=True, exclude_paths=self.excluded_attributes
+        )
+        if diff:
             try:
-                resp = destination_client.post(self.base_path, monitor).json()
+                resp = destination_client.put(
+                    self.base_path + f"/{local_destination_resources[_id]['id']}", monitor
+                ).json()
             except HTTPError as e:
                 log.error("error creating monitor: %s", e.response.text)
                 return

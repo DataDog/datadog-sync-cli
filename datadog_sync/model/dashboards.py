@@ -43,12 +43,12 @@ class Dashboards(BaseResource):
             return
 
         with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource, dash["id"], dashboards) for dash in resp["dashboards"]])
+            wait([executor.submit(self.process_resource_import, dash["id"], dashboards) for dash in resp["dashboards"]])
 
         # Write the resource to a file
         self.write_resources_file("source", dashboards)
 
-    def process_resource(self, dash_id, dashboards):
+    def process_resource_import(self, dash_id, dashboards):
         source_client = self.ctx.obj.get("source_client")
         try:
             dashboard = source_client.get(BASE_PATH + f"/{dash_id}").json()
@@ -77,27 +77,34 @@ class Dashboards(BaseResource):
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(self, _id, dashboard, local_destination_resources, connection_resource_obj=None):
-        destination_client = self.ctx.obj.get("destination_client")
         if self.resource_connections:
             self.connect_resources(dashboard, connection_resource_obj)
 
         if _id in local_destination_resources:
-            diff = DeepDiff(
-                dashboard, local_destination_resources[_id], ignore_order=True, exclude_paths=self.excluded_attributes
-            )
-            if diff:
-                try:
-                    resp = destination_client.put(
-                        self.base_path + f"/{local_destination_resources[_id]['id']}", dashboard
-                    ).json()
-                except HTTPError as e:
-                    log.error("error creating dashboard: %s", e)
-                    return
-                local_destination_resources[_id] = resp
+            self.update_resource(_id, dashboard, local_destination_resources[_id])
         else:
+            self.create_resource(_id, dashboard, local_destination_resources)
+
+    def create_resource(self, _id, dashboard, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+        try:
+            resp = destination_client.post(self.base_path, dashboard).json()
+        except HTTPError as e:
+            log.error("error updating dashboard: %s", e)
+            return
+        local_destination_resources[_id] = resp
+
+    def update_resource(self, _id, dashboard, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+        diff = DeepDiff(
+            dashboard, local_destination_resources[_id], ignore_order=True, exclude_paths=self.excluded_attributes
+        )
+        if diff:
             try:
-                resp = destination_client.post(self.base_path, dashboard).json()
+                resp = destination_client.put(
+                    self.base_path + f"/{local_destination_resources[_id]['id']}", dashboard
+                ).json()
             except HTTPError as e:
-                log.error("error updating dashboard: %s", e)
+                log.error("error creating dashboard: %s", e)
                 return
             local_destination_resources[_id] = resp

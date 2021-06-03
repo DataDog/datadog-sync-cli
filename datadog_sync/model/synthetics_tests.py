@@ -47,7 +47,7 @@ class SyntheticsTests(BaseResource):
         with ThreadPoolExecutor() as executor:
             wait(
                 [
-                    executor.submit(self.process_resource, synthetics_test, synthetics_tests)
+                    executor.submit(self.process_resource_import, synthetics_test, synthetics_tests)
                     for synthetics_test in resp["tests"]
                 ]
             )
@@ -55,7 +55,7 @@ class SyntheticsTests(BaseResource):
         # Write resources to file
         self.write_resources_file("source", synthetics_tests)
 
-    def process_resource(self, synthetics_test, synthetics_tests):
+    def process_resource_import(self, synthetics_test, synthetics_tests):
         synthetics_tests[synthetics_test["public_id"]] = synthetics_test
 
     def apply_resources(self):
@@ -81,33 +81,42 @@ class SyntheticsTests(BaseResource):
     def prepare_resource_and_apply(
         self, _id, synthetics_test, local_destination_resources, connection_resource_obj=None
     ):
-        destination_client = self.ctx.obj.get("destination_client")
 
         if self.resource_connections:
             self.connect_resources(synthetics_test, connection_resource_obj)
 
+        if _id in local_destination_resources:
+            self.update_resource(_id, synthetics_test, local_destination_resources)
+        else:
+            self.create_resource(_id, synthetics_test, local_destination_resources)
+
+    def create_resource(self, _id, synthetics_test, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_test)
 
-        if _id in local_destination_resources:
-            diff = DeepDiff(
-                synthetics_test,
-                local_destination_resources[_id],
-                ignore_order=True,
-                exclude_regex_paths=EXCLUDED_ATTRIBUTES_RE,
-                exclude_paths=self.excluded_attributes,
-            )
-            if diff:
-                try:
-                    resp = destination_client.put(
-                        self.base_path + f"/{local_destination_resources[_id]['public_id']}", synthetics_test
-                    ).json()
-                except HTTPError as e:
-                    log.error("error creating synthetics_test: %s", e.response.text)
-                    return
-                local_destination_resources[_id] = resp
-        else:
+        try:
+            resp = destination_client.post(self.base_path, synthetics_test).json()
+        except HTTPError as e:
+            log.error("error creating synthetics_test: %s", e.response.text)
+            return
+        local_destination_resources[_id] = resp
+
+    def update_resource(self, _id, synthetics_test, local_destination_resources):
+        destination_client = self.ctx.obj.get("destination_client")
+        self.remove_excluded_attr(synthetics_test)
+
+        diff = DeepDiff(
+            synthetics_test,
+            local_destination_resources[_id],
+            ignore_order=True,
+            exclude_regex_paths=EXCLUDED_ATTRIBUTES_RE,
+            exclude_paths=self.excluded_attributes,
+        )
+        if diff:
             try:
-                resp = destination_client.post(self.base_path, synthetics_test).json()
+                resp = destination_client.put(
+                    self.base_path + f"/{local_destination_resources[_id]['public_id']}", synthetics_test
+                ).json()
             except HTTPError as e:
                 log.error("error creating synthetics_test: %s", e.response.text)
                 return
