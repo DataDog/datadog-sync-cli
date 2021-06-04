@@ -145,12 +145,14 @@ class SyntheticsGlobalVariables(BaseResource):
             self.remove_non_nullable_attributes(synthetics_global_variable)
             try:
                 resp = destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['id']}", synthetics_global_variable
+                    self.base_path + f"/{destination_global_variables[synthetics_global_variable['name']]['id']}", synthetics_global_variable
                 ).json()
             except HTTPError as e:
                 log.error("error updating synthetics_global_variable: %s", e.response.text)
                 return
-            local_destination_resources[_id].update(resp)
+            local_destination_resources[_id] = resp
+        else:
+            local_destination_resources[_id] = destination_global_variables[synthetics_global_variable['name']]
 
     def get_destination_global_variables(self):
         destination_global_variable_obj = {}

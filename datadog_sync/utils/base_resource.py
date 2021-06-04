@@ -64,8 +64,8 @@ class BaseResource:
     def del_null_attr(self, k_list, resource):
         if len(k_list) == 1 and resource[k_list[0]] is None:
             resource.pop(k_list[0], None)
-        elif len(k_list) > 1:
-            self.del_attr(k_list[1:], resource[k_list[0]])
+        elif len(k_list) > 1 and resource[k_list[0]] is not None:
+            self.del_null_attr(k_list[1:], resource[k_list[0]])
 
     def check_diff(self, resource, state):
         return DeepDiff(
