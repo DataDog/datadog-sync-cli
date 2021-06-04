@@ -20,8 +20,12 @@ def replace_ids(key, r_obj, resource_to_connect, connection_resources_obj):
         if "type" in r_obj and r_obj["type"] == "composite":
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:
+                new_id = f"{connection_resources_obj[resource_to_connect][_id]['id']}"
                 if _id in connection_resources_obj[resource_to_connect]:
-                    r_obj[key] = r_obj[key].replace(_id, f"{connection_resources_obj[resource_to_connect][_id]['id']}")
+                    r_obj[key] = re.sub(_id + r"([^#]|$)", new_id + "# ", r_obj[key])
+
+            r_obj[key] = (r_obj[key].replace("#", "")).strip()
+
             return
 
         if isinstance(r_obj[key], list):
