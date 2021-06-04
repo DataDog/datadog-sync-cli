@@ -2,6 +2,7 @@ import os
 import json
 import re
 import logging
+import traceback
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from deepdiff import DeepDiff
@@ -98,8 +99,11 @@ class BaseResource:
                 for _id, resource in resources.items()
             ]
         for future in futures:
-            if future.exception():
-                log.error("error while applying resource: %s", future.exception())
+            try:
+                future.result()
+            except BaseException:
+                tb = traceback.format_exc()
+                log.error("error while applying resource: %s", tb)
 
     def open_resources(self):
         destination_resources = dict()
