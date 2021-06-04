@@ -1,12 +1,17 @@
 import os
 import json
 import re
+import logging
+import traceback
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
 from datadog_sync.utils.resource_utils import replace
+
+
+log = logging.getLogger("__name__")
 
 
 class BaseResource:
@@ -83,18 +88,22 @@ class BaseResource:
 
     def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj):
         with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.prepare_resource_and_apply,
-                        _id,
-                        resource,
-                        local_destination_resources,
-                        connection_resource_obj,
-                    )
-                    for _id, resource in resources.items()
-                ]
-            )
+            futures = [
+                executor.submit(
+                    self.prepare_resource_and_apply,
+                    _id,
+                    resource,
+                    local_destination_resources,
+                    connection_resource_obj,
+                )
+                for _id, resource in resources.items()
+            ]
+        for future in futures:
+            try:
+                future.result()
+            except BaseException:
+                tb = traceback.format_exc()
+                log.error("error while applying resource: %s", tb)
 
     def open_resources(self):
         destination_resources = dict()
