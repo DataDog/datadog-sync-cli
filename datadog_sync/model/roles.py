@@ -3,6 +3,7 @@ import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests.exceptions import HTTPError
+from pprint import pformat
 
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.custom_client import paginated_request
@@ -122,6 +123,27 @@ class Roles(BaseResource):
                 return
 
             local_destination_resources[_id] = resp.json()["data"]
+
+    def check_diffs(self):
+        source_roles, local_destination_resources = self.open_resources()
+        source_permission, destination_permission = self.get_permissions()
+        source_roles_mapping = self.get_source_roles_mapping(source_roles)
+        destination_roles_mapping = self.get_destination_roles_mapping()
+        connection_resource_obj = self.get_connection_resources()
+
+        for _id, role in source_roles.items():
+            self.remap_permissions(role, source_permission, destination_permission)
+            self.remap_role_id(role, source_roles_mapping, destination_roles_mapping)
+
+            if self.resource_connections:
+                self.connect_resources(role, connection_resource_obj)
+
+            if _id in local_destination_resources:
+                diff = self.check_diff(local_destination_resources[_id], role)
+                if diff:
+                    log.info("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
+            else:
+                log.info("Resource to be added %s: \n %s", self.resource_type, pformat(role))
 
     def get_permissions(self):
         source_permission_obj = {}
