@@ -4,7 +4,7 @@ import logging
 
 from click import pass_context, command
 
-from datadog_sync.constants import RESOURCE_FILE_PATH
+from datadog_sync.constants import RESOURCE_FILE_PATH, DESTINATION_RESOURCES_DIR
 
 
 log = logging.getLogger("__name__")
@@ -14,7 +14,10 @@ log = logging.getLogger("__name__")
 @pass_context
 def sync(ctx):
     """Sync Datadog resources to destination."""
-    now = time.time()
+    start = time.time()
+
+    os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
+
     for resource in ctx.obj.get("resources"):
         if os.path.exists(RESOURCE_FILE_PATH.format("source", resource.resource_type)):
             # Apply resources
@@ -22,4 +25,4 @@ def sync(ctx):
             resource.apply_resources()
             log.info("finished syncing resource: %s", resource.resource_type)
 
-    log.info(f"finished syncing resources: {now - time.time()}")
+    log.info(f"finished syncing resources: {time.time() - start}s")

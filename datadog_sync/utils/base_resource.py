@@ -120,9 +120,6 @@ class BaseResource:
     def write_resources_file(self, origin, resources):
         # Write the resource to a file
         resource_path = RESOURCE_FILE_PATH.format(origin, self.resource_type)
-        resource_dir = resource_path.rsplit(os.path.sep, 1)[0]
-
-        os.makedirs(resource_dir, exist_ok=True)
 
         with open(resource_path, "w") as f:
             json.dump(resources, f, indent=2)
