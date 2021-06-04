@@ -18,4 +18,3 @@ def test_cli(tmpdir, script_runner):
         ret = script_runner.run("datadog-sync", "diffs")
         assert not ret.stdout
         assert ret.success is False
-
