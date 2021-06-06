@@ -1,3 +1,4 @@
+from datadog_sync.model.aws_integrations import AWSIntegrations
 from datadog_sync.model.roles import Roles
 from datadog_sync.model.users import Users
 from datadog_sync.model.dashboards import Dashboards
