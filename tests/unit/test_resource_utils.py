@@ -38,10 +38,10 @@ def test_replace_composite_monitors():
         }
     }
     r_obj_expected = {"query": "2222222 && 4444444 || ( !2222222 && !4444444 )", "type": "composite"}
-    replace(["query"], r_obj, "monitors", connection_resources_obj)
+    replace("query", r_obj, "monitors", connection_resources_obj)
     assert r_obj == r_obj_expected
 
-    
+
 def test_replace_ids_composite_monitors_with_single_id():
     r_obj = {"query": "1 && 1", "type": "composite"}
     connection_resources_obj = {

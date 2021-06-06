@@ -129,4 +129,4 @@ class BaseResource:
             connection_resources_obj = {}
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
-                replace(attr_connection.split("."), resource, resource_to_connect, connection_resources_obj)
+                replace(attr_connection, resource, resource_to_connect, connection_resources_obj)
