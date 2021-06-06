@@ -1,6 +1,62 @@
 from datadog_sync.utils.resource_utils import replace, replace_ids
 
 
+def test_replace_one_level_key():
+    r_obj = {"key_example": "1"}
+    connection_resources_obj = {
+        "resource_name": {
+            "1": {
+                "id": 2,
+            },
+        }
+    }
+    r_obj_expected = {"key_example": "2"}
+    replace("key_example", r_obj, "resource_name", connection_resources_obj)
+    assert r_obj == r_obj_expected
+
+
+def test_replace_multiple_levels_key():
+    r_obj = {"a": {"b": {"c": "1"}}}
+
+    connection_resources_obj = {
+        "resource_name": {
+            "1": {
+                "id": 2,
+            },
+        }
+    }
+
+    r_obj_expected = {"a": {"b": {"c": "2"}}}
+
+    replace("a.b.c", r_obj, "resource_name", connection_resources_obj)
+
+    assert r_obj == r_obj_expected
+
+
+def test_replace_multiple_levels_key_containing_an_array():
+    r_obj = {"a": {"b": [{"c": "1"}, {"c": "2"}, {"c": "3"}]}}
+
+    connection_resources_obj = {
+        "resource_name": {
+            "1": {
+                "id": 2,
+            },
+            "2": {
+                "id": 3,
+            },
+            "3": {
+                "id": 4,
+            },
+        }
+    }
+
+    r_obj_expected = {"a": {"b": [{"c": "2"}, {"c": "3"}, {"c": "4"}]}}
+
+    replace("a.b.c", r_obj, "resource_name", connection_resources_obj)
+
+    assert r_obj == r_obj_expected
+
+
 def test_replace_ids_simple_monitors():
     r_obj = {}
     r_obj_expected = {}
