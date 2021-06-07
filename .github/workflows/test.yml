@@ -1,0 +1,46 @@
+name: Run Tests
+
+on:
+    pull_request:
+        branches:
+            - main
+        types:
+            - labeled
+            - unlabeled
+            - opened
+            - synchronize
+            - reopened
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.8
+            - name: Checkout code
+              uses: actions/checkout@v2
+            - name: Install pytest
+              run: pip install pytest==6.2.4
+            - name: Intall datadog-sync-cli
+              run: pip install .\[tests\]
+            - name: Enable integrations tests
+              if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
+              run: echo "DD_INTEGRATION=true" >> $GITHUB_ENV
+            - name: Test
+              run: pytest
+              env:
+                  DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
+                  DD_DESTINATION_APP_KEY: ${{ secrets.DD_DESTINATION_APP_KEY }}
+                  DD_DESTINATION_API_URL: ${{ secrets.DD_DESTINATION_API_URL }}
+                  DD_SOURCE_API_KEY: ${{ secrets.DD_SOURCE_API_KEY }}
+                  DD_SOURCE_APP_KEY: ${{ secrets.DD_SOURCE_APP_KEY }}
+                  DD_SOURCE_API_URL: ${{ secrets.DD_SOURCE_API_URL }}
+            - name: Cleanup
+              if: always() && contains(github.event.pull_request.labels.*.name, 'ci/integration')
+              run: python ./scripts/cleanup_org.py
+              env:
+                DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
+                DD_DESTINATION_APP_KEY: ${{ secrets.DD_DESTINATION_APP_KEY }}
+                DD_DESTINATION_API_URL: ${{ secrets.DD_DESTINATION_API_URL }}

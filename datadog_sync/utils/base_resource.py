@@ -3,7 +3,8 @@ import json
 import re
 import logging
 import traceback
-from concurrent.futures import ThreadPoolExecutor, wait
+from concurrent.futures import ThreadPoolExecutor
+from pprint import pformat
 
 from deepdiff import DeepDiff
 
@@ -80,6 +81,21 @@ class BaseResource:
             exclude_paths=self.excluded_attributes,
             exclude_regex_paths=self.excluded_attributes_re,
         )
+
+    def check_diffs(self):
+        source_resources, local_destination_resources = self.open_resources()
+        connection_resource_obj = self.get_connection_resources()
+
+        for _id, resource in source_resources.items():
+            if self.resource_connections:
+                self.connect_resources(resource, connection_resource_obj)
+
+            if _id in local_destination_resources:
+                diff = self.check_diff(local_destination_resources[_id], resource)
+                if diff:
+                    log.info("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
+            else:
+                log.info("Resource to be added %s: \n %s", self.resource_type, pformat(resource))
 
     def remove_non_nullable_attributes(self, resource):
         for key in self.non_nullable_attr:
