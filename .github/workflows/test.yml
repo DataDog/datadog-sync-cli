@@ -4,8 +4,9 @@ on:
     pull_request:
         branches:
             - main
-    label:
-      types: [created]
+        types:
+            - opened
+            - labeled
 
 jobs:
     test:
