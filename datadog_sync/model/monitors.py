@@ -1,7 +1,6 @@
 import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
-from deepdiff import DeepDiff
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource

@@ -17,6 +17,7 @@ EXCLUDED_ATTRIBUTES = [
     "root['org_id']",
     "root['modified']",
     "root['creator_id']",
+    "root['active']",
 ]
 RESOURCE_CONNECTIONS = {"monitors": ["monitor_id"]}
 NON_NULLABLE_ATTRIBUTE = ["recurrence.until_date", "recurrence.until_occurrences"]
@@ -82,6 +83,7 @@ class Downtimes(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
 
         diff = self.check_diff(downtime, local_destination_resources[_id])
+        self.remove_non_nullable_attributes(downtime)
         if diff:
             try:
                 resp = destination_client.put(
