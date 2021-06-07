@@ -22,52 +22,68 @@ class Cleanup:
         self.cleanup_users()
         self.cleanup_roles()
 
-    def cleanup_dashboards(self,):
+    def cleanup_dashboards(
+        self,
+    ):
         path = "/api/v1/dashboard"
         res = self.get_resources(path)
         for resource in res["dashboards"]:
             self.delete_resource(resource["id"], path)
 
-    def cleanup_downtimes(self,):
+    def cleanup_downtimes(
+        self,
+    ):
         path = "/api/v1/downtime"
         res = self.get_resources(path)
         for resource in res:
             if not resource["disabled"]:
                 self.delete_resource(resource["id"], path)
 
-    def cleanup_logs_custom_pipelines(self,):
+    def cleanup_logs_custom_pipelines(
+        self,
+    ):
         path = "/api/v1/logs/config/pipelines"
         res = self.get_resources(path)
         for resource in res:
             self.delete_resource(resource["id"], path)
 
-    def cleanup_monitors(self,):
+    def cleanup_monitors(
+        self,
+    ):
         path = "/api/v1/monitor"
         res = self.get_resources(path)
         for resource in res:
             if resource["type"] != "synthetics alert":
                 self.delete_resource(resource["id"], path, params={"force": True})
 
-    def cleanup_users(self,):
+    def cleanup_users(
+        self,
+    ):
         path = "/api/v2/users"
         res = self.get_resources(path, {"filter[status]": "Pending"})
         for resource in res["data"]:
             self.delete_resource(resource["id"], path)
 
-    def cleanup_roles(self,):
+    def cleanup_roles(
+        self,
+    ):
         path = "/api/v2/roles"
         res = self.get_resources(path)
         for resource in res["data"]:
             if resource["attributes"]["user_count"] == 0:
                 self.delete_resource(resource["id"], path)
 
-    def cleanup_synthetics_global_variables(self,):
+    def cleanup_synthetics_global_variables(
+        self,
+    ):
         path = "/api/v1/synthetics/variables"
         res = self.get_resources(path)
         for resource in res["variables"]:
             self.delete_resource(resource["id"], path)
 
-    def cleanup_synthetics_private_locations(self,):
+    def cleanup_synthetics_private_locations(
+        self,
+    ):
         path = "/api/v1/synthetics/locations"
         pl_id = re.compile("^pl:.*")
         res = self.get_resources(path)
@@ -75,7 +91,9 @@ class Cleanup:
             if pl_id.match(resource["id"]):
                 self.delete_resource(resource["id"], path)
 
-    def cleanup_synthetics_tests(self,):
+    def cleanup_synthetics_tests(
+        self,
+    ):
         path = "/api/v1/synthetics/tests"
         res = self.get_resources(path)
         payload = {"public_ids": []}
