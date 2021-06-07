@@ -36,7 +36,7 @@ class AWSIntegrations(BaseResource):
             wait(
                 [
                     executor.submit(self.process_resource_import, aws_integration, aws_integrations)
-                    for aws_integration in resp
+                    for aws_integration in resp["accounts"]
                 ]
             )
 
@@ -44,12 +44,10 @@ class AWSIntegrations(BaseResource):
         self.write_resources_file("source", aws_integrations)
 
     def process_resource_import(self, aws_integration, aws_integrations):
-        aws_integrations[aws_integration["id"]] = aws_integration
+        aws_integrations[aws_integration["account_id"]] = aws_integration
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
-
-        composite_aws_integrations = []
 
         log.info("Processing aws_integrations")
 
