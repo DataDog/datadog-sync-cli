@@ -23,7 +23,7 @@ jobs:
               uses: actions/checkout@v2
             - name: Install pytest
               run: pip install pytest==6.2.4
-            - name: Intall datadog-sync-cli
+            - name: Install datadog-sync-cli
               run: pip install .\[tests\]
             - name: Enable integrations tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
