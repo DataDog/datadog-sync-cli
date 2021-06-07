@@ -4,8 +4,6 @@ import re
 
 import requests
 
-API_URL = os.getenv("DD_DESTINATION_API_URL")
-
 
 class Cleanup:
     def __init__(self):
@@ -100,7 +98,7 @@ class Cleanup:
         for resource in res["tests"]:
             payload["public_ids"].append(resource["public_id"])
 
-        url = API_URL + path + "/delete"
+        url = self.base_url + path + "/delete"
         if len(payload["public_ids"]) > 0:
             try:
                 resp = requests.post(url, headers=self.headers, timeout=60, data=json.dumps(payload))
@@ -110,7 +108,7 @@ class Cleanup:
                 print("Error deleting resource: %s", e)
 
     def get_resources(self, path, *args, **kwargs):
-        url = API_URL + path
+        url = self.base_url + path
         try:
             resp = requests.get(url, headers=self.headers, timeout=60, *args, **kwargs)
             resp.raise_for_status()
@@ -120,7 +118,7 @@ class Cleanup:
         return resp.json()
 
     def delete_resource(self, _id, path, **kwargs):
-        url = API_URL + path
+        url = self.base_url + path
         try:
             resp = requests.delete(f"{url}/{_id}", headers=self.headers, timeout=60, **kwargs)
             resp.raise_for_status()
