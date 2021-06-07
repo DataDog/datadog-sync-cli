@@ -8,7 +8,6 @@ def replace(keys_list, r_obj, resource_to_connect, connection_resources_obj):
     if isinstance(r_obj, list):
         for k in r_obj:
             replace(keys_list, k, resource_to_connect, connection_resources_obj)
-
     else:
         keys_list = keys_list.split(".", 1)
 

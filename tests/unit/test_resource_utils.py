@@ -57,10 +57,10 @@ def test_replace_multiple_levels_key_containing_an_array():
     assert r_obj == r_obj_expected
 
 
-def test_replace_ids_simple_monitors():
+def test_replace_ids_empty_resource():
     r_obj = {}
     r_obj_expected = {}
-    replace_ids("query", r_obj, "monitors", {})
+    replace_ids("key_example", r_obj, "resource_name", {})
     assert r_obj == r_obj_expected
 
 
