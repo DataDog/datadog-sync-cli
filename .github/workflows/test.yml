@@ -24,7 +24,7 @@ jobs:
             - name: Intall pytest
               run: pip install pytest==6.2.4
             - name: Intall datadog-sync-cli
-              run: pip install .
+              run: pip install .\[tests\]
             - name: Enable integrations tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
               run: echo "DD_INTEGRATION=true" >> $GITHUB_ENV
