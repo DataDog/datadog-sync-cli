@@ -29,7 +29,7 @@ jobs:
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
               run: echo "DD_INTEGRATION=true" >> $GITHUB_ENV
             - name: Test
-              run: pytest
+              run: pytest -rP -v
               env:
                   DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
                   DD_DESTINATION_APP_KEY: ${{ secrets.DD_DESTINATION_APP_KEY }}
