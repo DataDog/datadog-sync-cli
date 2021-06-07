@@ -21,7 +21,7 @@ jobs:
                   python-version: 3.8
             - name: Checkout code
               uses: actions/checkout@v2
-            - name: Intall pytest
+            - name: Install pytest
               run: pip install pytest==6.2.4
             - name: Intall datadog-sync-cli
               run: pip install .\[tests\]
