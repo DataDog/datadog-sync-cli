@@ -23,13 +23,13 @@ jobs:
               uses: actions/checkout@v2
             - name: Install pytest
               run: pip install pytest==6.2.4
-            - name: Intall datadog-sync-cli
+            - name: Install datadog-sync-cli
               run: pip install .\[tests\]
             - name: Enable integrations tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
               run: echo "DD_INTEGRATION=true" >> $GITHUB_ENV
             - name: Test
-              run: pytest
+              run: pytest -rP -v
               env:
                   DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
                   DD_DESTINATION_APP_KEY: ${{ secrets.DD_DESTINATION_APP_KEY }}
