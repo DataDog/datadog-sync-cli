@@ -24,8 +24,7 @@ class Roles(BaseResource):
         super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
-        roles = {}
-        source_client = self.config.source_client
+        source_client = self.ctx.obj.get("source_client")
 
         try:
             resp = paginated_request(source_client.get)(self.base_path)
@@ -38,8 +37,8 @@ class Roles(BaseResource):
         # Write resources to file
         self.write_resources_file("source")
 
-    def process_resource_import(self, role, roles):
-        roles[role["id"]] = role
+    def process_resource_import(self, role):
+        self.source_resources[role["id"]] = role
 
     def apply_resources(self):
         self.open_resources()
