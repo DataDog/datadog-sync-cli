@@ -43,27 +43,29 @@ class SyntheticsTests(BaseResource):
         self.import_resources_concurrently(synthetics_tests, resp["tests"])
 
         # Write resources to file
-        self.write_resources_file("source", synthetics_tests)
+        self.write_resources_file("source")
 
     def process_resource_import(self, synthetics_test, synthetics_tests):
         synthetics_tests[f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"] = synthetics_test
 
     def apply_resources(self):
-        source_resources, local_destination_resources = self.open_resources()
+        self.open_resources()
         connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
-        self.write_resources_file("destination", local_destination_resources)
+        self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
+        self.write_resources_file("destination")
 
-    def prepare_resource_and_apply(self, _id, synthetics_test, local_destination_resources, connection_resource_obj):
-        self.connect_resources(synthetics_test, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, synthetics_test, connection_resource_obj=None):
 
-        if _id in local_destination_resources:
-            self.update_resource(_id, synthetics_test, local_destination_resources)
+        if self.resource_connections:
+            self.connect_resources(synthetics_test, connection_resource_obj)
+
+        if _id in self.destination_resources:
+            self.update_resource(_id, synthetics_test)
         else:
-            self.create_resource(_id, synthetics_test, local_destination_resources)
+            self.create_resource(_id, synthetics_test)
 
-    def create_resource(self, _id, synthetics_test, local_destination_resources):
-        destination_client = self.config.destination_client
+    def create_resource(self, _id, synthetics_test):
+        destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_test)
 
         try:
@@ -71,19 +73,19 @@ class SyntheticsTests(BaseResource):
         except HTTPError as e:
             self.logger.error("error creating synthetics_test: %s", e.response.text)
             return
-        local_destination_resources[_id] = resp
+        self.destination_resources[_id] = resp
 
-    def update_resource(self, _id, synthetics_test, local_destination_resources):
-        destination_client = self.config.destination_client
+    def update_resource(self, _id, synthetics_test):
+        destination_client = self.ctx.obj.get("destination_client")
 
-        diff = self.check_diff(synthetics_test, local_destination_resources[_id])
+        diff = self.check_diff(synthetics_test, self.destination_resources[_id])
         if diff:
             self.remove_excluded_attr(synthetics_test)
             try:
                 resp = destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['public_id']}", synthetics_test
+                    self.base_path + f"/{self.destination_resources[_id]['public_id']}", synthetics_test
                 ).json()
             except HTTPError as e:
                 self.logger.error("error creating synthetics_test: %s", e.response.text)
                 return
-            local_destination_resources[_id] = resp
+            self.destination_resources[_id] = resp

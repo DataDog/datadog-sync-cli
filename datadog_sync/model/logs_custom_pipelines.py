@@ -31,14 +31,14 @@ class LogsCustomPipelines(BaseResource):
         self.import_resources_concurrently(logs_custom_pipelines, resp)
 
         # Write resources to file
-        self.write_resources_file("source", logs_custom_pipelines)
+        self.write_resources_file("source")
 
     def process_resource_import(self, logs_custom_pipeline, logs_custom_pipelines):
         if not logs_custom_pipeline["is_read_only"]:
             logs_custom_pipelines[logs_custom_pipeline["id"]] = logs_custom_pipeline
 
     def apply_resources(self):
-        source_resources, local_destination_resources = self.open_resources()
+        self.open_resources()
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_sequentially(source_resources, local_destination_resources, connection_resource_obj)
         self.write_resources_file("destination", local_destination_resources)
@@ -49,13 +49,13 @@ class LogsCustomPipelines(BaseResource):
 
         self.connect_resources(logs_custom_pipeline, connection_resource_obj)
 
-        if _id in local_destination_resources:
-            self.update_resource(_id, logs_custom_pipeline, local_destination_resources)
+        if _id in self.destination_resources:
+            self.update_resource(_id, logs_custom_pipeline)
         else:
-            self.create_resource(_id, logs_custom_pipeline, local_destination_resources)
+            self.create_resource(_id, logs_custom_pipeline)
 
-    def create_resource(self, _id, logs_custom_pipeline, local_destination_resources):
-        destination_client = self.config.destination_client
+    def create_resource(self, _id, logs_custom_pipeline):
+        destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(logs_custom_pipeline)
 
         try:
@@ -63,19 +63,19 @@ class LogsCustomPipelines(BaseResource):
         except HTTPError as e:
             self.logger.error("error creating logs_custom_pipeline: %s", e.response.text)
             return
-        local_destination_resources[_id] = resp
+        self.destination_resources[_id] = resp
 
-    def update_resource(self, _id, logs_custom_pipeline, local_destination_resources):
-        destination_client = self.config.destination_client
+    def update_resource(self, _id, logs_custom_pipeline):
+        destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(logs_custom_pipeline)
 
-        diff = self.check_diff(logs_custom_pipeline, local_destination_resources[_id])
+        diff = self.check_diff(logs_custom_pipeline, self.destination_resources[_id])
         if diff:
             try:
                 resp = destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['id']}", logs_custom_pipeline
+                    self.base_path + f"/{self.destination_resources[_id]['id']}", logs_custom_pipeline
                 ).json()
             except HTTPError as e:
                 self.logger.error("error creating logs_custom_pipeline: %s", e.response.text)
                 return
-            local_destination_resources[_id] = resp
+            self.destination_resources[_id] = resp

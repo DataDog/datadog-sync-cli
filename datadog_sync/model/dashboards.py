@@ -40,7 +40,7 @@ class Dashboards(BaseResource):
         self.import_resources_concurrently(dashboards, resp["dashboards"])
 
         # Write the resource to a file
-        self.write_resources_file("source", dashboards)
+        self.write_resources_file("source")
 
     def process_resource_import(self, dash, dashboards):
         source_client = self.config.source_client
@@ -52,38 +52,40 @@ class Dashboards(BaseResource):
         dashboards[dash["id"]] = dashboard
 
     def apply_resources(self):
-        source_resources, local_destination_resources = self.open_resources()
+        self.open_resources()
         connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
-        self.write_resources_file("destination", local_destination_resources)
+        self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
+        self.write_resources_file("destination")
 
-    def prepare_resource_and_apply(self, _id, dashboard, local_destination_resources, connection_resource_obj):
-        self.connect_resources(dashboard, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, dashboard, connection_resource_obj=None):
+        if self.resource_connections:
+            self.connect_resources(dashboard, connection_resource_obj)
 
-        if _id in local_destination_resources:
-            self.update_resource(_id, dashboard, local_destination_resources)
+        if _id in self.destination_resources:
+            self.update_resource(_id, dashboard)
         else:
-            self.create_resource(_id, dashboard, local_destination_resources)
+            self.create_resource(_id, dashboard)
 
-    def create_resource(self, _id, dashboard, local_destination_resources):
+    def create_resource(self, _id, dashboard):
         destination_client = self.config.destination_client
+
         try:
             resp = destination_client.post(self.base_path, dashboard).json()
         except HTTPError as e:
             self.logger.error("error updating dashboard: %s", e)
             return
-        local_destination_resources[_id] = resp
+        self.destination_resources[_id] = resp
 
-    def update_resource(self, _id, dashboard, local_destination_resources):
+    def update_resource(self, _id, dashboard):
         destination_client = self.config.destination_client
 
-        diff = self.check_diff(dashboard, local_destination_resources[_id])
+        diff = self.check_diff(dashboard, self.destination_resources[_id])
         if diff:
             try:
                 resp = destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['id']}", dashboard
+                    self.base_path + f"/{self.destination_resources[_id]['id']}", dashboard
                 ).json()
             except HTTPError as e:
                 self.logger.error("error creating dashboard: %s", e)
                 return
-            local_destination_resources[_id] = resp
+            self.destination_resources[_id] = resp

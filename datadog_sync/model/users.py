@@ -50,7 +50,7 @@ class Users(BaseResource):
         self.import_resources_concurrently(users, resp)
 
         # Write resources to file
-        self.write_resources_file("source", users)
+        self.write_resources_file("source")
 
     def process_resource_import(self, user, users):
         users[user["id"]] = user
@@ -75,8 +75,8 @@ class Users(BaseResource):
         resource_copy = copy.deepcopy(user)
 
         payload = {"data": resource_copy}
-        if _id in local_destination_users:
-            self.update_resource(_id, user, local_destination_users)
+        if _id in self.destination_resources:
+            self.update_resource(_id, user)
         elif user["attributes"]["handle"] in remote_users:
             remote_user = remote_users[user["attributes"]["handle"]]
             diff = self.check_diff(remote_user, user)
@@ -92,43 +92,41 @@ class Users(BaseResource):
                     return
                 local_destination_users[_id] = resp.json()["data"]
             else:
-                local_destination_users[_id] = remote_user
+                self.destination_resources[_id] = remote_user
         else:
-            self.create_resource(_id, user, local_destination_users)
+            self.create_resource(_id, user)
 
-    def create_resource(self, _id, user, local_destination_users):
-        destination_client = self.config.destination_client
+    def create_resource(self, _id, user):
+        destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(user)
         user["attributes"].pop("disabled", None)
 
         try:
             resp = destination_client.post(self.base_path, {"data": user})
         except HTTPError as e:
-            self.logger.error("error creating user: %s", e)
-            return
-        local_destination_users[_id] = resp.json()["data"]
+            log.error("error creating user: %s", e)
+        self.destination_resources[_id] = resp.json()["data"]
 
-    def update_resource(self, _id, user, local_destination_users):
-        destination_client = self.config.destination_client
+    def update_resource(self, _id, user):
+        destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(user)
 
-        diff = self.check_diff(local_destination_users[_id], user)
+        diff = self.check_diff(self.destination_resources[_id], user)
         if diff:
-            self.update_user_roles(local_destination_users[_id]["id"], diff)
+            self.update_user_roles(self.destination_resources[_id]["id"], diff)
             self.remove_excluded_attr(user)
-            user["id"] = local_destination_users[_id]["id"]
+            user["id"] = self.destination_resources[_id]["id"]
             user.pop("relationships", None)
             try:
                 resp = destination_client.patch(
-                    self.base_path + f"/{local_destination_users[_id]['id']}", {"data": user}
+                    self.base_path + f"/{self.destination_resources[_id]['id']}", {"data": user}
                 )
             except HTTPError as e:
                 self.logger.error("error updating user: %s, %s", e.response.json())
-                return
-            local_destination_users[_id] = resp.json()["data"]
+            self.destination_resources[_id] = resp.json()["data"]
 
-    def update_existing_user(self, _id, user, local_destination_users, remote_users):
-        destination_client = self.config.destination_client
+    def update_existing_user(self, _id, user, remote_users):
+        destination_client = self.ctx.obj.get("destination_client")
         remote_user = remote_users[user["attributes"]["handle"]]
 
         diff = self.check_diff(remote_user, user)
@@ -141,10 +139,9 @@ class Users(BaseResource):
                 resp = destination_client.patch(self.base_path + f"/{remote_user['id']}", {"data": user})
             except HTTPError as e:
                 self.logger.error("error updating user: %s", e.response.json())
-                return
-            local_destination_users[_id] = resp.json()["data"]
+            self.destination_resources[_id] = resp.json()["data"]
         else:
-            local_destination_users[_id] = remote_user
+            self.destination_resources[_id] = remote_user
 
     def update_user_roles(self, _id, diff):
         for k, v in diff.items():

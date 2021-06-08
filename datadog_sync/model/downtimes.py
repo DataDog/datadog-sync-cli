@@ -44,46 +44,47 @@ class Downtimes(BaseResource):
         self.import_resources_concurrently(downtimes, resp)
 
         # Write resources to file
-        self.write_resources_file("source", downtimes)
+        self.write_resources_file("source")
 
     def process_resource_import(self, downtime, downtimes):
         downtimes[downtime["id"]] = downtime
 
     def apply_resources(self):
-        source_resources, local_destination_resources = self.open_resources()
+        self.open_resources()
         connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
-        self.write_resources_file("destination", local_destination_resources)
+        self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
+        self.write_resources_file("destination")
 
-    def prepare_resource_and_apply(self, _id, downtime, local_destination_resources, connection_resource_obj):
-        self.connect_resources(downtime, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, downtime, connection_resource_obj=None):
+        if self.resource_connections:
+            self.connect_resources(downtime, connection_resource_obj)
 
-        if _id in local_destination_resources:
-            self.update_resource(_id, downtime, local_destination_resources)
+        if _id in self.destination_resources:
+            self.update_resource(_id, downtime)
         else:
-            self.create_resource(_id, downtime, local_destination_resources)
+            self.create_resource(_id, downtime)
 
-    def create_resource(self, _id, downtime, local_destination_resources):
-        destination_client = self.config.destination_client
+    def create_resource(self, _id, downtime):
+        destination_client = self.ctx.obj.get("destination_client")
         self.remove_non_nullable_attributes(downtime)
         try:
             resp = destination_client.post(self.base_path, downtime).json()
         except HTTPError as e:
             self.logger.error("error creating downtime: %s", e.response.text)
             return
-        local_destination_resources[_id] = resp
+        self.destination_resources[_id] = resp
 
-    def update_resource(self, _id, downtime, local_destination_resources):
-        destination_client = self.config.destination_client
+    def update_resource(self, _id, downtime):
+        destination_client = self.ctx.obj.get("destination_client")
 
-        diff = self.check_diff(downtime, local_destination_resources[_id])
+        diff = self.check_diff(downtime, self.destination_resources[_id])
         self.remove_non_nullable_attributes(downtime)
         if diff:
             try:
                 resp = destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['id']}", downtime
+                    self.base_path + f"/{self.destination_resources[_id]['id']}", downtime
                 ).json()
             except HTTPError as e:
                 self.logger.error("error creating downtime: %s", e.response.text)
                 return
-            local_destination_resources[_id] = resp
+            self.destination_resources[_id] = resp

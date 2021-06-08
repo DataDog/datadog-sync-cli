@@ -37,7 +37,7 @@ class SyntheticsPrivateLocations(BaseResource):
         self.import_resources_concurrently(synthetics_private_locations, resp["locations"])
 
         # Write resources to file
-        self.write_resources_file("source", synthetics_private_locations)
+        self.write_resources_file("source")
 
     def process_resource_import(self, synthetics_private_location, synthetics_private_locations):
         source_client = self.config.source_client
@@ -54,23 +54,23 @@ class SyntheticsPrivateLocations(BaseResource):
             synthetics_private_locations[synthetics_private_location["id"]] = pl
 
     def apply_resources(self):
-        source_resources, local_destination_resources = self.open_resources()
+        self.open_resources()
         connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
-        self.write_resources_file("destination", local_destination_resources)
+        self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
+        self.write_resources_file("destination")
 
-    def prepare_resource_and_apply(
-        self, _id, synthetics_private_location, local_destination_resources, connection_resource_obj
-    ):
-        self.connect_resources(synthetics_private_location, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, synthetics_private_location, connection_resource_obj=None):
 
-        if _id in local_destination_resources:
-            self.update_resource(_id, synthetics_private_location, local_destination_resources)
+        if self.resource_connections:
+            self.connect_resources(synthetics_private_location, connection_resource_obj)
+
+        if _id in self.destination_resources:
+            self.update_resource(_id, synthetics_private_location)
         else:
-            self.create_resource(_id, synthetics_private_location, local_destination_resources)
+            self.create_resource(_id, synthetics_private_location)
 
-    def create_resource(self, _id, synthetics_private_location, local_destination_resources):
-        destination_client = self.config.destination_client
+    def create_resource(self, _id, synthetics_private_location):
+        destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_private_location)
 
         try:
@@ -78,19 +78,19 @@ class SyntheticsPrivateLocations(BaseResource):
         except HTTPError as e:
             self.logger.error("error creating synthetics_private_location: %s", e.response.text)
             return
-        local_destination_resources[_id] = resp
+        self.destination_resources[_id] = resp
 
-    def update_resource(self, _id, synthetics_private_location, local_destination_resources):
-        destination_client = self.config.destination_client
+    def update_resource(self, _id, synthetics_private_location):
+        destination_client = self.ctx.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_private_location)
 
-        diff = self.check_diff(synthetics_private_location, local_destination_resources[_id])
+        diff = self.check_diff(synthetics_private_location, self.destination_resources[_id])
         if diff:
             try:
                 resp = destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['id']}", synthetics_private_location
+                    self.base_path + f"/{self.destination_resources[_id]['id']}", synthetics_private_location
                 ).json()
             except HTTPError as e:
                 self.logger.error("error creating synthetics_private_location: %s", e.response.text)
                 return
-            local_destination_resources[_id].update(resp)
+            self.destination_resources[_id].update(resp)

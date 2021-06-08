@@ -33,9 +33,7 @@ class Monitors(BaseResource):
         )
 
     def import_resources(self):
-        monitors = {}
-        source_client = self.config.source_client
-
+        source_client = self.ctx.obj.get("source_client")
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
@@ -45,7 +43,7 @@ class Monitors(BaseResource):
         self.import_resources_concurrently(monitors, resp)
 
         # Write resources to file
-        self.write_resources_file("source", monitors)
+        self.write_resources_file("source")
 
     def process_resource_import(self, monitor, monitors):
         monitors[monitor["id"]] = monitor
@@ -75,31 +73,32 @@ class Monitors(BaseResource):
     def prepare_resource_and_apply(self, _id, monitor, local_destination_resources, connection_resource_obj):
         self.connect_resources(monitor, connection_resource_obj)
 
-        if _id in local_destination_resources:
-            self.update_resource(_id, monitor, local_destination_resources)
+        if _id in self.destination_resources:
+            self.update_resource(_id, monitor)
         else:
-            self.create_resource(_id, monitor, local_destination_resources)
+            self.create_resource(_id, monitor)
 
-    def create_resource(self, _id, monitor, local_destination_resources):
-        destination_client = self.config.destination_client
+    def create_resource(self, _id, monitor):
+        destination_client = self.ctx.obj.get("destination_client")
 
         try:
             resp = destination_client.post(self.base_path, monitor).json()
         except HTTPError as e:
             self.logger.error("error creating monitor: %s", e.response.text)
             return
-        local_destination_resources[_id] = resp
+        self.destination_resources[_id] = resp
 
-    def update_resource(self, _id, monitor, local_destination_resources):
-        destination_client = self.config.destination_client
 
-        diff = self.check_diff(monitor, local_destination_resources[_id])
+    def update_resource(self, _id, monitor):
+        destination_client = self.ctx.obj.get("destination_client")
+
+        diff = self.check_diff(monitor, self.destination_resources[_id])
         if diff:
             try:
                 resp = destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['id']}", monitor
+                    self.base_path + f"/{self.destination_resources[_id]['id']}", monitor
                 ).json()
             except HTTPError as e:
                 self.logger.error("error creating monitor: %s", e.response.text)
                 return
-            local_destination_resources[_id] = resp
+            self.destination_resources[_id] = resp

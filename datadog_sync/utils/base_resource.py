@@ -11,6 +11,9 @@ from datadog_sync.utils.resource_utils import replace
 
 
 class BaseResource:
+    source_resources = {}
+    destination_resources = {}
+
     def __init__(
         self,
         config,
@@ -48,11 +51,12 @@ class BaseResource:
         connection_resources = {}
 
         if self.resource_connections:
-            for k in self.resource_connections.keys():
-                path = RESOURCE_FILE_PATH.format("destination", k)
-                if os.path.exists(path):
-                    with open(RESOURCE_FILE_PATH.format("destination", k), "r") as f:
-                        connection_resources[k] = json.load(f)
+            for resource_to_connect in self.resource_connections.keys():
+                if resource_to_connect in self.ctx.obj["models"]:
+                    connection_resources[resource_to_connect] = self.ctx.obj["models"][
+                        resource_to_connect
+                    ].destination_resources
+
         return connection_resources
 
     def process_resource_import(self, *args):
@@ -88,18 +92,17 @@ class BaseResource:
         )
 
     def check_diffs(self):
-        source_resources, local_destination_resources = self.open_resources()
+        self.open_resources()
         connection_resource_obj = self.get_connection_resources()
 
-        for _id, resource in source_resources.items():
+        for _id, resource in self.source_resources.items():
             if resource.get("type") == "synthetics alert":
                 continue
-
             if self.resource_connections:
                 self.connect_resources(resource, connection_resource_obj)
 
-            if _id in local_destination_resources:
-                diff = self.check_diff(local_destination_resources[_id], resource)
+            if _id in self.destination_resources:
+                diff = self.check_diff(self.destination_resources[_id], resource)
                 if diff:
                     print("{} resource ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
             else:
@@ -126,7 +129,6 @@ class BaseResource:
                     self.prepare_resource_and_apply,
                     _id,
                     resource,
-                    local_destination_resources,
                     connection_resource_obj,
                     **kwargs,
                 )
@@ -139,20 +141,28 @@ class BaseResource:
                 self.logger.exception("error while applying resource")
 
     def open_resources(self):
-        destination_resources = dict()
-
         source_path = RESOURCE_FILE_PATH.format("source", self.resource_type)
         destination_path = RESOURCE_FILE_PATH.format("destination", self.resource_type)
+
         with open(source_path, "r") as f:
-            source_resources = json.load(f)
+            self.source_resources = json.load(f)
+
         if os.path.exists(destination_path):
             with open(destination_path, "r") as f:
-                destination_resources = json.load(f)
-        return source_resources, destination_resources
+                self.destination_resources = json.load(f)
 
-    def write_resources_file(self, origin, resources):
+    def write_resources_file(self, origin):
         # Write the resource to a file
         resource_path = RESOURCE_FILE_PATH.format(origin, self.resource_type)
+
+        resources = {}
+
+        if origin == "source":
+            resources = self.source_resources
+        elif origin == "destination":
+            resources = self.destination_resources
+        else:
+            return
 
         with open(resource_path, "w") as f:
             json.dump(resources, f, indent=2)
