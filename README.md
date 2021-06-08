@@ -13,7 +13,7 @@ The purpose of the datadog-sync-cli package is providing an easy way to sync res
 
 1) Clone the project repo
 2) CD into the repo directory and install the datadog-sync-cli via `pip install .`
-3) Run the sync command `datadog-sync sync`
+3) Run cli tool `datadog-sync <options> <command>`
 
 ## Using the package with docker
 1) Clone the project repo
