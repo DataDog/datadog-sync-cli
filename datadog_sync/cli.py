@@ -143,6 +143,7 @@ def get_resources(cfg, resources_arg):
 
 
 def get_models(ctx):
+    """Returns a dict mapping resource_types to corresponding classes, useful to access class variables by their name"""
     str_to_class = {}
 
     str_to_class[Roles(ctx).resource_type] = Roles

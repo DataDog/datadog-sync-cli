@@ -18,6 +18,9 @@ BASE_PATH = "/api/v1/dashboard"
 
 
 class Dashboards(BaseResource):
+    source_resources = {}
+    destination_resources = {}
+
     def __init__(self, config):
         super().__init__(
             config,

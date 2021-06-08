@@ -15,6 +15,9 @@ BASE_PATH = "/api/v1/logs/config/pipelines"
 
 
 class LogsCustomPipelines(BaseResource):
+    source_resources = {}
+    destination_resources = {}
+
     def __init__(self, config):
         super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
@@ -55,7 +58,7 @@ class LogsCustomPipelines(BaseResource):
             self.create_resource(_id, logs_custom_pipeline)
 
     def create_resource(self, _id, logs_custom_pipeline):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
         self.remove_excluded_attr(logs_custom_pipeline)
 
         try:
@@ -66,7 +69,7 @@ class LogsCustomPipelines(BaseResource):
         self.destination_resources[_id] = resp
 
     def update_resource(self, _id, logs_custom_pipeline):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
         self.remove_excluded_attr(logs_custom_pipeline)
 
         diff = self.check_diff(logs_custom_pipeline, self.destination_resources[_id])

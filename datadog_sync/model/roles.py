@@ -20,11 +20,14 @@ PERMISSIONS_BASE_PATH = "/api/v2/permissions"
 
 
 class Roles(BaseResource):
+    source_resources = {}
+    destination_resources = {}
+
     def __init__(self, config):
         super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.obj.get("source_client")
 
         try:
             resp = paginated_request(source_client.get)(self.base_path)
@@ -75,7 +78,7 @@ class Roles(BaseResource):
             self.create_role(_id, role)
 
     def create_role(self, _id, role):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
         role_copy = copy.deepcopy(role)
         self.remove_excluded_attr(role_copy)
 
@@ -88,7 +91,7 @@ class Roles(BaseResource):
         self.destination_resources[_id] = resp.json()["data"]
 
     def update_role(self, _id, role):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
         role_copy = copy.deepcopy(role)
         payload = {"data": role_copy}
         self.remove_excluded_attr(role_copy)

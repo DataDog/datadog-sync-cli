@@ -28,6 +28,9 @@ GET_USERS_FILTER = {"filter[status]": "Active"}
 
 
 class Users(BaseResource):
+    source_resources = {}
+    destination_resources = {}
+
     def __init__(self, config):
         super().__init__(
             config,
@@ -97,7 +100,7 @@ class Users(BaseResource):
             self.create_resource(_id, user)
 
     def create_resource(self, _id, user):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
         self.remove_excluded_attr(user)
         user["attributes"].pop("disabled", None)
 
@@ -108,7 +111,7 @@ class Users(BaseResource):
         self.destination_resources[_id] = resp.json()["data"]
 
     def update_resource(self, _id, user):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
         self.remove_excluded_attr(user)
 
         diff = self.check_diff(self.destination_resources[_id], user)
@@ -126,7 +129,7 @@ class Users(BaseResource):
             self.destination_resources[_id] = resp.json()["data"]
 
     def update_existing_user(self, _id, user, remote_users):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
         remote_user = remote_users[user["attributes"]["handle"]]
 
         diff = self.check_diff(remote_user, user)

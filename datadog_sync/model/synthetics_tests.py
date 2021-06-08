@@ -20,6 +20,9 @@ RESOURCE_CONNECTIONS = {"synthetics_private_locations": ["locations"]}
 
 
 class SyntheticsTests(BaseResource):
+    source_resources = {}
+    destination_resources = {}
+
     def __init__(self, config):
         super().__init__(
             config,
@@ -65,7 +68,7 @@ class SyntheticsTests(BaseResource):
             self.create_resource(_id, synthetics_test)
 
     def create_resource(self, _id, synthetics_test):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_test)
 
         try:
@@ -76,7 +79,7 @@ class SyntheticsTests(BaseResource):
         self.destination_resources[_id] = resp
 
     def update_resource(self, _id, synthetics_test):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
 
         diff = self.check_diff(synthetics_test, self.destination_resources[_id])
         if diff:

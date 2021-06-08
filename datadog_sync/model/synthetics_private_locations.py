@@ -21,6 +21,9 @@ PL_ID_REGEX = re.compile("^pl:.*")
 
 
 class SyntheticsPrivateLocations(BaseResource):
+    source_resources = {}
+    destination_resources = {}
+
     def __init__(self, config):
         super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
@@ -70,7 +73,7 @@ class SyntheticsPrivateLocations(BaseResource):
             self.create_resource(_id, synthetics_private_location)
 
     def create_resource(self, _id, synthetics_private_location):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_private_location)
 
         try:
@@ -81,7 +84,7 @@ class SyntheticsPrivateLocations(BaseResource):
         self.destination_resources[_id] = resp
 
     def update_resource(self, _id, synthetics_private_location):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
         self.remove_excluded_attr(synthetics_private_location)
 
         diff = self.check_diff(synthetics_private_location, self.destination_resources[_id])

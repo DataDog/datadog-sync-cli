@@ -23,6 +23,9 @@ BASE_PATH = "/api/v1/monitor"
 
 
 class Monitors(BaseResource):
+    source_resources = {}
+    destination_resources = {}
+
     def __init__(self, config):
         super().__init__(
             config,
@@ -33,7 +36,7 @@ class Monitors(BaseResource):
         )
 
     def import_resources(self):
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.obj.get("source_client")
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
@@ -79,7 +82,7 @@ class Monitors(BaseResource):
             self.create_resource(_id, monitor)
 
     def create_resource(self, _id, monitor):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
 
         try:
             resp = destination_client.post(self.base_path, monitor).json()
@@ -90,7 +93,7 @@ class Monitors(BaseResource):
 
 
     def update_resource(self, _id, monitor):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.obj.get("destination_client")
 
         diff = self.check_diff(monitor, self.destination_resources[_id])
         if diff:
