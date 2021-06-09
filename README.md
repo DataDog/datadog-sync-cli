@@ -7,44 +7,18 @@ The purpose of the datadog-sync-cli package is providing an easy way to sync res
 
 ## Requirements
 
-- Terraform ~< v0.12.x
-- Terraformer >= v0.8.13
 - Python >= v3.7
 
 ## Using the package
 
 1) Clone the project repo
 2) CD into the repo directory and install the datadog-sync-cli via `pip install .`
-3) Initialize the Datadog terraform provider in an empty directory by placing the file below within it and running `terraform init`
-```hcl
-#### provider.tf
-terraform {
-  required_providers {
-    datadog = {
-      version = "~> 2.25.0"
-      source  = "datadog/datadog"
-    }
-  }
-}
-```
-4) Run the sync command `datadog-sync sync`
+3) Run cli tool `datadog-sync <options> <command>`
 
 ## Using the package with docker
 1) Clone the project repo
-2) CD into the repo directory and build the docker image `docker build ~/Dev/datadog-sync-cli -t datadog-sync`
-3) Initialize the Datadog terraform provider in an empty directory by placing the file below within it and running `terraform init`
-```hcl
-#### provider.tf
-terraform {
-  required_providers {
-    datadog = {
-      version = "~> 2.25.0"
-      source  = "datadog/datadog"
-    }
-  }
-}
-```
-4) Run the docker image using entrypoint below:
+2) CD into the repo directory and build the docker image `docker build . -t datadog-sync`
+3) Run the docker image using entrypoint below:
 ```
 docker run --rm -v $(pwd):/datadog-sync:rw \
   -e DD_SOURCE_API_KEY=<DATADOG_API_KEY> \
@@ -59,12 +33,12 @@ Note: The above docker run command will mount your current working directory to 
 
 ## Supported resources
 
-- **role**
-- **user**
-- **monitor**
-- **dashboard_json**
-- **downtime**
-- **synthetic_test**
-- **synthetics_private_location**
-- **logs_custom_pipeline**
-- **integration_aws**
+- **roles**
+- **users**
+- **monitors**
+- **dashboards**
+- **downtimes**
+- **synthetics_tests**
+- **synthetics_private_locations**
+- **synthetics_global_variables**
+- **logs_custom_pipelines**
