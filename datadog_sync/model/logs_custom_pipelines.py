@@ -15,6 +15,8 @@ BASE_PATH = "/api/v1/logs/config/pipelines"
 
 
 class LogsCustomPipelines(BaseResource):
+    resource_type = "logs_custom_pipelines"
+
     source_resources = {}
     destination_resources = {}
 
@@ -36,9 +38,9 @@ class LogsCustomPipelines(BaseResource):
         # Write resources to file
         self.write_resources_file("source")
 
-    def process_resource_import(self, logs_custom_pipeline, logs_custom_pipelines):
+    def process_resource_import(self, logs_custom_pipeline):
         if not logs_custom_pipeline["is_read_only"]:
-            logs_custom_pipelines[logs_custom_pipeline["id"]] = logs_custom_pipeline
+            self.source_resources[logs_custom_pipeline["id"]] = logs_custom_pipeline
 
     def apply_resources(self):
         self.open_resources()

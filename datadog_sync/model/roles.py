@@ -20,6 +20,8 @@ PERMISSIONS_BASE_PATH = "/api/v2/permissions"
 
 
 class Roles(BaseResource):
+    resource_type = "roles"
+
     source_resources = {}
     destination_resources = {}
 

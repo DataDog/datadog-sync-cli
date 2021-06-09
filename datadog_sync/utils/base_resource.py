@@ -52,8 +52,8 @@ class BaseResource:
 
         if self.resource_connections:
             for resource_to_connect in self.resource_connections.keys():
-                if resource_to_connect in self.ctx.obj["models"]:
-                    connection_resources[resource_to_connect] = self.ctx.obj["models"][
+                if resource_to_connect in self.ctx.obj.get("models"):
+                    connection_resources[resource_to_connect] = self.ctx.obj.get("models")[
                         resource_to_connect
                     ].destination_resources
 

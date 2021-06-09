@@ -23,6 +23,8 @@ BASE_PATH = "/api/v1/monitor"
 
 
 class Monitors(BaseResource):
+    resource_type = "monitors"
+
     source_resources = {}
     destination_resources = {}
 

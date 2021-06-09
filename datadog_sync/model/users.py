@@ -28,6 +28,8 @@ GET_USERS_FILTER = {"filter[status]": "Active"}
 
 
 class Users(BaseResource):
+    resource_type = "users"
+
     source_resources = {}
     destination_resources = {}
 
@@ -55,8 +57,8 @@ class Users(BaseResource):
         # Write resources to file
         self.write_resources_file("source")
 
-    def process_resource_import(self, user, users):
-        users[user["id"]] = user
+    def process_resource_import(self, user):
+        self.source_resources[user["id"]] = user
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()

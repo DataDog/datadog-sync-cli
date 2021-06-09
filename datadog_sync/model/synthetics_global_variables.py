@@ -21,6 +21,8 @@ RESOURCE_CONNECTIONS = {"synthetics_tests": ["parse_test_public_id"]}
 
 
 class SyntheticsGlobalVariables(BaseResource):
+    resource_type = "synthetics_global_variables"
+
     source_resources = {}
     destination_resources = {}
 
@@ -49,8 +51,8 @@ class SyntheticsGlobalVariables(BaseResource):
         # Write resources to file
         self.write_resources_file("source")
 
-    def process_resource_import(self, synthetics_global_variable, synthetics_global_variables):
-        synthetics_global_variables[synthetics_global_variable["id"]] = synthetics_global_variable
+    def process_resource_import(self, synthetics_global_variable):
+        self.source_resources[synthetics_global_variable["id"]] = synthetics_global_variable
 
     def apply_resources(self):
         self.open_resources()

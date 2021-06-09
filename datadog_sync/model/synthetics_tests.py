@@ -20,6 +20,8 @@ RESOURCE_CONNECTIONS = {"synthetics_private_locations": ["locations"]}
 
 
 class SyntheticsTests(BaseResource):
+    resource_type = "synthetics_tests"
+
     source_resources = {}
     destination_resources = {}
 

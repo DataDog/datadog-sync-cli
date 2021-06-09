@@ -21,6 +21,8 @@ BASE_PATH = "/api/v1/downtime"
 
 
 class Downtimes(BaseResource):
+    resource_type = "downtimes"
+
     source_resources = {}
     destination_resources = {}
 
@@ -49,8 +51,8 @@ class Downtimes(BaseResource):
         # Write resources to file
         self.write_resources_file("source")
 
-    def process_resource_import(self, downtime, downtimes):
-        downtimes[downtime["id"]] = downtime
+    def process_resource_import(self, downtime):
+        self.source_resources[downtime["id"]] = downtime
 
     def apply_resources(self):
         self.open_resources()

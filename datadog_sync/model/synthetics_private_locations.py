@@ -21,6 +21,8 @@ PL_ID_REGEX = re.compile("^pl:.*")
 
 
 class SyntheticsPrivateLocations(BaseResource):
+    resource_type = "synthetics_private_locations"
+
     source_resources = {}
     destination_resources = {}
 
@@ -54,7 +56,7 @@ class SyntheticsPrivateLocations(BaseResource):
                     e.response.text,
                 )
                 return
-            synthetics_private_locations[synthetics_private_location["id"]] = pl
+            self.source_resources[synthetics_private_location["id"]] = pl
 
     def apply_resources(self):
         self.open_resources()
