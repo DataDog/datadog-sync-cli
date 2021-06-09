@@ -47,7 +47,7 @@ class CustomClient:
     def get(self, path, **kwargs):
         url = self.host + path
         try:
-            response = requests.get(url, headers=self.headers, **kwargs)
+            response = requests.get(url, timeout=self.timeout, headers=self.headers, **kwargs)
             response.close()
             return response
         except requests.exceptions.HTTPError as e:
@@ -57,7 +57,7 @@ class CustomClient:
     def post(self, path, body, **kwargs):
         url = self.host + path
         try:
-            response = requests.post(url, json=body, headers=self.headers, **kwargs)
+            response = requests.post(url, timeout=self.timeout, json=body, headers=self.headers, **kwargs)
             response.close()
             return response
         except requests.exceptions.HTTPError as e:
@@ -67,7 +67,7 @@ class CustomClient:
     def put(self, path, body, **kwargs):
         url = self.host + path
         try:
-            response = requests.put(url, json=body, headers=self.headers, **kwargs)
+            response = requests.put(url, timeout=self.timeout, json=body, headers=self.headers, **kwargs)
             response.close()
             return response
         except requests.exceptions.HTTPError as e:
@@ -77,7 +77,7 @@ class CustomClient:
     def patch(self, path, body, **kwargs):
         url = self.host + path
         try:
-            response = requests.patch(url, json=body, headers=self.headers, **kwargs)
+            response = requests.patch(url, timeout=self.timeout, json=body, headers=self.headers, **kwargs)
             response.close()
             return response
         except requests.exceptions.HTTPError as e:
@@ -87,7 +87,7 @@ class CustomClient:
     def delete(self, path, body, **kwargs):
         url = self.host + path
         try:
-            response = requests.delete(url, json=body, headers=self.headers, **kwargs)
+            response = requests.delete(url, timeout=self.timeout, json=body, headers=self.headers, **kwargs)
             response.close()
             return response
         except requests.exceptions.HTTPError as e:
