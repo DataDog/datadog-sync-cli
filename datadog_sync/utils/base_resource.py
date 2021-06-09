@@ -53,10 +53,10 @@ class BaseResource:
 
         if self.resource_connections:
             for resource_to_connect in self.resource_connections.keys():
-                if resource_to_connect in self.ctx.obj.get("resources"):
-                    connection_resources[resource_to_connect] = self.ctx.obj.get("resources")[
-                        resource_to_connect
-                    ].destination_resources
+                # TODO: change resources object to optimize lookup by resource_type
+                for resource in self.ctx.obj.get("resources"):
+                    if resource_to_connect == resource.resource_type:
+                        connection_resources[resource_to_connect] = resource.destination_resources
 
         return connection_resources
 
