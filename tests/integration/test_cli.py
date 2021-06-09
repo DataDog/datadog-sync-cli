@@ -30,6 +30,6 @@ def test_cli_diff(tmpdir, script_runner):
         assert ret.success
         # Check diff
         ret = script_runner.run("datadog-sync", "diffs")
-        # assert no diffs are produced
+        # assert diffs are produced
         assert ret.stderr
         assert ret.success
