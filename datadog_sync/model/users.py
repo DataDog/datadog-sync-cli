@@ -57,7 +57,6 @@ class Users(BaseResource):
         self.import_resources_concurrently(users, resp)
 
         # Write resources to file
-        self.write_resources_file("source")
 
     def process_resource_import(self, user):
         self.source_resources[user["id"]] = user

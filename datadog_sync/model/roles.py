@@ -40,7 +40,6 @@ class Roles(BaseResource):
         self.import_resources_concurrently(roles, resp)
 
         # Write resources to file
-        self.write_resources_file("source")
 
     def process_resource_import(self, role):
         self.source_resources[role["id"]] = role
@@ -59,9 +58,7 @@ class Roles(BaseResource):
             destination_roles_mapping=destination_roles_mapping,
         )
 
-        self.write_resources_file("destination")
-
-    def prepare_resource_and_apply(self, _id, role, local_destination_resources, connection_resource_obj, **kwargs):
+    def prepare_resource_and_apply(self, _id, role, connection_resource_obj, **kwargs):
         source_permission = kwargs.get("source_permission")
         destination_permission = kwargs.get("destination_permission")
         source_roles_mapping = kwargs.get("source_roles_mapping")

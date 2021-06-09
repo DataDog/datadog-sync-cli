@@ -36,7 +36,6 @@ class LogsCustomPipelines(BaseResource):
         self.import_resources_concurrently(logs_custom_pipelines, resp)
 
         # Write resources to file
-        self.write_resources_file("source")
 
     def process_resource_import(self, logs_custom_pipeline):
         if not logs_custom_pipeline["is_read_only"]:
@@ -48,11 +47,18 @@ class LogsCustomPipelines(BaseResource):
         self.apply_resources_sequentially(source_resources, local_destination_resources, connection_resource_obj)
         self.write_resources_file("destination", local_destination_resources)
 
-    def prepare_resource_and_apply(
-        self, _id, logs_custom_pipeline, local_destination_resources, connection_resource_obj, **kwargs
-    ):
+        log.info(f"connection_resource_obj: {connection_resource_obj}")
 
-        self.connect_resources(logs_custom_pipeline, connection_resource_obj)
+        for _id, logs_custom_pipeline in self.source_resources.items():
+            self.prepare_resource_and_apply(
+                _id,
+                logs_custom_pipeline,
+                connection_resource_obj,
+            )
+
+    def prepare_resource_and_apply(self, _id, logs_custom_pipeline, connection_resource_obj, **kwargs):
+        if self.resource_connections:
+            self.connect_resources(logs_custom_pipeline, connection_resource_obj)
 
         if _id in self.destination_resources:
             self.update_resource(_id, logs_custom_pipeline)

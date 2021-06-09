@@ -50,7 +50,6 @@ class SyntheticsTests(BaseResource):
         self.import_resources_concurrently(synthetics_tests, resp["tests"])
 
         # Write resources to file
-        self.write_resources_file("source")
 
     def process_resource_import(self, synthetics_test, synthetics_tests):
         synthetics_tests[f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"] = synthetics_test
@@ -59,7 +58,6 @@ class SyntheticsTests(BaseResource):
         self.open_resources()
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
-        self.write_resources_file("destination")
 
     def prepare_resource_and_apply(self, _id, synthetics_test, connection_resource_obj=None):
 

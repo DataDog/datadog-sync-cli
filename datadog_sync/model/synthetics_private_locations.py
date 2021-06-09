@@ -42,7 +42,6 @@ class SyntheticsPrivateLocations(BaseResource):
         self.import_resources_concurrently(synthetics_private_locations, resp["locations"])
 
         # Write resources to file
-        self.write_resources_file("source")
 
     def process_resource_import(self, synthetics_private_location, synthetics_private_locations):
         source_client = self.config.source_client
@@ -62,7 +61,6 @@ class SyntheticsPrivateLocations(BaseResource):
         self.open_resources()
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
-        self.write_resources_file("destination")
 
     def prepare_resource_and_apply(self, _id, synthetics_private_location, connection_resource_obj=None):
 

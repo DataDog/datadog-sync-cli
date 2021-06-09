@@ -51,7 +51,6 @@ class SyntheticsGlobalVariables(BaseResource):
         self.import_resources_concurrently(synthetics_global_variables, resp["variables"])
 
         # Write resources to file
-        self.write_resources_file("source")
 
     def process_resource_import(self, synthetics_global_variable):
         self.source_resources[synthetics_global_variable["id"]] = synthetics_global_variable

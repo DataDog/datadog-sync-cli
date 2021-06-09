@@ -25,3 +25,9 @@ def sync(ctx):
 
     if cfg.logger.exception_logged:
         exit(1)
+
+    for resource in ctx.obj.get("resources"):
+        if os.path.exists(RESOURCE_FILE_PATH.format("source", resource.resource_type)):
+            resource.write_resources_file("destination")
+
+    cfg.logger.info(f"finished syncing resources: {time.time() - start}s")

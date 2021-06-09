@@ -23,3 +23,7 @@ def _import(ctx):
 
     if cfg.logger.exception_logged:
         exit(1)
+    for resource in ctx.obj.get("resources"):
+        resource.write_resources_file("source")
+
+    cfg.logger.info(f"finished importing resources: {time.time() - start}s")

@@ -1,5 +1,9 @@
 from click import pass_context, command
 
+import logging
+
+log = logging.getLogger(__name__)
+
 
 @command("diffs", short_help="Log resource diffs.")
 @pass_context

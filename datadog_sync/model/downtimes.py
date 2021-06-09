@@ -51,7 +51,6 @@ class Downtimes(BaseResource):
         self.import_resources_concurrently(downtimes, resp)
 
         # Write resources to file
-        self.write_resources_file("source")
 
     def process_resource_import(self, downtime):
         self.source_resources[downtime["id"]] = downtime
@@ -60,7 +59,6 @@ class Downtimes(BaseResource):
         self.open_resources()
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
-        self.write_resources_file("destination")
 
     def prepare_resource_and_apply(self, _id, downtime, connection_resource_obj=None):
         if self.resource_connections:

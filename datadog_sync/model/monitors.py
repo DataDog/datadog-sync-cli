@@ -47,10 +47,9 @@ class Monitors(BaseResource):
             self.logger.error("error importing monitors %s", e)
             return
 
-        self.import_resources_concurrently(monitors, resp)
+        self.import_resources_concurrently(resp)
 
         # Write resources to file
-        self.write_resources_file("source")
 
     def process_resource_import(self, monitor, monitors):
         monitors[monitor["id"]] = monitor

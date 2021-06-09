@@ -46,13 +46,11 @@ class Dashboards(BaseResource):
 
         self.import_resources_concurrently(dashboards, resp["dashboards"])
 
-        # Write the resource to a file
-        self.write_resources_file("source")
-
-    def process_resource_import(self, dash, dashboards):
+    def process_resource_import(self, dash_id):
         source_client = self.config.source_client
         try:
-            dashboard = source_client.get(self.base_path + f"/{dash['id']}").json()
+            # TODO: check if dash_id['id'] or not
+            dashboard = source_client.get(self.base_path + f"/{dash_id}").json()
         except HTTPError as e:
             self.logger.error("error retrieving dashboard: %s", e)
             return
@@ -62,7 +60,6 @@ class Dashboards(BaseResource):
         self.open_resources()
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
-        self.write_resources_file("destination")
 
     def prepare_resource_and_apply(self, _id, dashboard, connection_resource_obj=None):
         if self.resource_connections:
