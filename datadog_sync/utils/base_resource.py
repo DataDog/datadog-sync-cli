@@ -11,9 +11,6 @@ from datadog_sync.utils.resource_utils import replace
 
 
 class BaseResource:
-    source_resources = {}
-    destination_resources = {}
-
     def __init__(
         self,
         config,
@@ -24,6 +21,8 @@ class BaseResource:
         resource_filter=None,
         excluded_attributes_re=None,
         non_nullable_attr=None,
+        source_resources={},
+        destination_resources={},
     ):
         self.config = config
         self.logger = config.logger
@@ -34,6 +33,8 @@ class BaseResource:
         self.resource_connections = resource_connections
         self.excluded_attributes_re = excluded_attributes_re
         self.non_nullable_attr = non_nullable_attr
+        self.source_resources = source_resources
+        self.destination_resources = destination_resources
 
     def import_resources(self):
         pass
@@ -52,8 +53,8 @@ class BaseResource:
 
         if self.resource_connections:
             for resource_to_connect in self.resource_connections.keys():
-                if resource_to_connect in self.ctx.obj.get("models"):
-                    connection_resources[resource_to_connect] = self.ctx.obj.get("models")[
+                if resource_to_connect in self.ctx.obj.get("resources"):
+                    connection_resources[resource_to_connect] = self.ctx.obj.get("resources")[
                         resource_to_connect
                     ].destination_resources
 

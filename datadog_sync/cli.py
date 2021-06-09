@@ -110,9 +110,6 @@ def cli(ctx, **kwargs):
     # Initialize resources
     config.resources = get_resources(config, kwargs.get("resources"))
 
-    # Initialize a map of resource_types and their class
-    ctx.obj["models"] = get_models()
-
 
 def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
@@ -140,24 +137,6 @@ def get_resources(cfg, resources_arg):
         return new_resources
 
     return resources
-
-
-def get_models():
-    """Returns a dict mapping resource_types to corresponding classes, useful to access class variables by their name"""
-    str_to_class = {}
-
-    # TODO: make resource_type a static field
-    str_to_class[Roles.resource_type] = Roles
-    str_to_class[Users.resource_type] = Users
-    str_to_class[Monitors.resource_type] = Monitors
-    str_to_class[SyntheticsPrivateLocations.resource_type] = SyntheticsPrivateLocations
-    str_to_class[SyntheticsTests.resource_type] = SyntheticsTests
-    str_to_class[SyntheticsGlobalVariables.resource_type] = SyntheticsGlobalVariables
-    str_to_class[Downtimes.resource_type] = Downtimes
-    str_to_class[Dashboards.resource_type] = Dashboards
-    str_to_class[LogsCustomPipelines.resource_type] = LogsCustomPipelines
-
-    return str_to_class
 
 
 # Register all click sub-commands
