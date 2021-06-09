@@ -23,8 +23,8 @@ def request_with_retry(func):
                         backoff = int(e.response.headers["x-ratelimit-reset"])
                     except ValueError:
                         backoff = retry_count * default_backoff
+                        retry_count += 1
                     time.sleep(backoff)
-                    retry_count += 1
                     continue
                 elif status_code >= 500:
                     time.sleep(retry_count * default_backoff)
@@ -83,6 +83,7 @@ class CustomClient:
         except requests.exceptions.HTTPError as e:
             raise e
 
+    @request_with_retry
     def delete(self, path, body, **kwargs):
         url = self.host + path
         try:
