@@ -50,7 +50,6 @@ class ServiceLevelObjectives(BaseResource):
 
         connection_resource_obj = self.get_connection_resources()
 
-        log.debug(f"CONNECTION_RESOURCES_OBJ: {connection_resource_obj}")
         with ThreadPoolExecutor() as executor:
             wait(
                 [

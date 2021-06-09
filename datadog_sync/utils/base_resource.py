@@ -44,7 +44,6 @@ class BaseResource:
         if self.resource_connections:
             for k in self.resource_connections.keys():
                 path = RESOURCE_FILE_PATH.format("destination", k)
-                log.debug(f"path : {path}")
                 if os.path.exists(path):
                     with open(RESOURCE_FILE_PATH.format("destination", k), "r") as f:
                         connection_resources[k] = json.load(f)
