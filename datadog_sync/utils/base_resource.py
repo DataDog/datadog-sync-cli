@@ -21,8 +21,8 @@ class BaseResource:
         resource_filter=None,
         excluded_attributes_re=None,
         non_nullable_attr=None,
-        source_resources={},
-        destination_resources={},
+        source_resources=None,
+        destination_resources=None,
     ):
         self.config = config
         self.logger = config.logger
@@ -52,11 +52,11 @@ class BaseResource:
         connection_resources = {}
 
         if self.resource_connections:
-            for resource_to_connect in self.resource_connections.keys():
+            for k in self.resource_connections.keys():
                 # TODO: change resources object to optimize lookup by resource_type
                 for resource in self.ctx.obj.get("resources"):
-                    if resource_to_connect == resource.resource_type:
-                        connection_resources[resource_to_connect] = resource.destination_resources
+                    if k == resource.resource_type:
+                        connection_resources[k] = resource.destination_resources
 
         return connection_resources
 

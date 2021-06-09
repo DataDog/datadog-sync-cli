@@ -30,6 +30,8 @@ class Dashboards(BaseResource):
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             resource_connections=RESOURCE_CONNECTIONS,
+            source_resources={},
+            destination_resources={},
         )
 
     def import_resources(self):

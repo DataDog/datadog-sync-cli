@@ -34,6 +34,8 @@ class Downtimes(BaseResource):
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             resource_connections=RESOURCE_CONNECTIONS,
             non_nullable_attr=NON_NULLABLE_ATTRIBUTE,
+            source_resources={},
+            destination_resources={},
         )
 
     def import_resources(self):

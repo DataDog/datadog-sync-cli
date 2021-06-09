@@ -35,6 +35,8 @@ class Monitors(BaseResource):
             BASE_PATH,
             resource_connections=RESOURCE_CONNECTIONS,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
+            source_resources={},
+            destination_resources={},
         )
 
     def import_resources(self):

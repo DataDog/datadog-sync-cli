@@ -34,6 +34,8 @@ class SyntheticsGlobalVariables(BaseResource):
             resource_connections=RESOURCE_CONNECTIONS,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             non_nullable_attr=NON_NULLABLE_ATTRIBUTE,
+            source_resources={},
+            destination_resources={},
         )
 
     def import_resources(self):

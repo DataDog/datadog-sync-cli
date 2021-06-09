@@ -33,6 +33,8 @@ class SyntheticsTests(BaseResource):
             resource_connections=RESOURCE_CONNECTIONS,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             excluded_attributes_re=EXCLUDED_ATTRIBUTES_RE,
+            source_resources={},
+            destination_resources={},
         )
 
     def import_resources(self):
