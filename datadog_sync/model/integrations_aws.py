@@ -56,8 +56,6 @@ class IntegrationsAWS(BaseResource):
         for _id, aws_integration in source_resources.items():
             self.prepare_resource_and_apply(_id, aws_integration, local_destination_resources, connection_resource_obj)
 
-        # self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
-
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(
@@ -75,7 +73,6 @@ class IntegrationsAWS(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
 
         try:
-            log.info(f"creating integrations_aws resource with body:\n{integration_aws}")
             resp = destination_client.post(self.base_path, integration_aws).json()
         except HTTPError as e:
             log.error("error creating integration_aws: %s", e.response.text)
