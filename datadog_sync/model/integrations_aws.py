@@ -71,12 +71,16 @@ class IntegrationsAWS(BaseResource):
 
     def create_resource(self, _id, integration_aws, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
-
         try:
             resp = destination_client.post(self.base_path, integration_aws).json()
+            data = destination_client.get(self.base_path + f"?account_id={_id}").json()
         except HTTPError as e:
             log.error("error creating integration_aws: %s", e.response.text)
             return
+
+        if "accounts" in data:
+            resp.update(data["accounts"][0])
+
         local_destination_resources[_id] = resp
 
     def update_resource(self, _id, integration_aws, local_destination_resources):
