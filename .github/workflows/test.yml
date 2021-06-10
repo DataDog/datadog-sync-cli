@@ -33,9 +33,9 @@ jobs:
               run: pip install pytest==6.2.4
             - name: Install datadog-sync-cli
               run: pip install .\[tests\]
-            - name: Test
-              run: pytest -rP -v
-            - name: Enable integrations tests
+            - name: Run unit tests
+              run: pytest -rP -v -m "not integration"
+            - name: Run integration tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
               run: pytest -rP -v -m "integrations"
             - name: Cleanup
