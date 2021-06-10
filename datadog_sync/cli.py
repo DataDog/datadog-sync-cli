@@ -5,7 +5,7 @@ from click import pass_context, group, option
 import datadog_sync.constants as constants
 from datadog_sync.commands import ALL_COMMANDS
 from datadog_sync.models import (
-    AWSIntegrations,
+    IntegrationsAWS,
     Roles,
     Users,
     Monitors,
@@ -122,7 +122,7 @@ def cli(ctx, **kwargs):
 def get_resources(ctx):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
     resources = [
-        AWSIntegrations(ctx),
+        IntegrationsAWS(ctx),
         Roles(ctx),
         Users(ctx),
         SyntheticsPrivateLocations(ctx),
