@@ -11,16 +11,13 @@ log = logging.getLogger("__name__")
 
 
 RESOURCE_TYPE = "integrations_aws"
+EXCLUDED_ATTRIBUTES = ["root['external_id']", "root['errors']"]
 BASE_PATH = "/api/v1/integration/aws"
 
 
 class IntegrationsAWS(BaseResource):
     def __init__(self, ctx):
-        super().__init__(
-            ctx,
-            RESOURCE_TYPE,
-            BASE_PATH,
-        )
+        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
         integrations_aws = {}
@@ -73,7 +70,7 @@ class IntegrationsAWS(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
         try:
             resp = destination_client.post(self.base_path, integration_aws).json()
-            data = destination_client.get(self.base_path + f"?account_id={_id}").json()
+            data = destination_client.get(self.base_path, params={"account_id":_id}).json()
         except HTTPError as e:
             log.error("error creating integration_aws: %s", e.response.text)
             return
