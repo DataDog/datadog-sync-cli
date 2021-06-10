@@ -2,7 +2,6 @@ import os
 import json
 import re
 import logging
-import traceback
 from concurrent.futures import ThreadPoolExecutor
 from pprint import pformat
 
