@@ -37,7 +37,7 @@ jobs:
               run: pytest -rP -v -m "not integration"
             - name: Run integration tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
-              run: pytest -rP -v -m "integrations"
+              run: pytest -rP -v -m "integration"
             - name: Cleanup
               if: always() && contains(github.event.pull_request.labels.*.name, 'ci/integration')
               run: python ./scripts/cleanup_org.py
