@@ -1,14 +1,18 @@
 import time
+import logging
 
 import requests
+
+
+log = logging.getLogger(__name__)
 
 
 def request_with_retry(func):
     def wrapper(*args, **kwargs):
         retry = True
-        timeout = time.time() + 60 * 5
         default_backoff = 5
         retry_count = 0
+        timeout = time.time() + args[0].retry_timeout
         resp = None
 
         while retry and timeout > time.time():
@@ -20,13 +24,20 @@ def request_with_retry(func):
                 status_code = e.response.status_code
                 if status_code == 429 and "x-ratelimit-reset" in e.response.headers:
                     try:
-                        backoff = int(e.response.headers["x-ratelimit-reset"])
+                        sleep_duration = int(e.response.headers["x-ratelimit-reset"])
                     except ValueError:
-                        backoff = retry_count * default_backoff
+                        sleep_duration = retry_count * default_backoff
                         retry_count += 1
-                    time.sleep(backoff)
+                    if (sleep_duration + time.time()) > timeout:
+                        log.debug("retry timeout has or will exceed timeout duration")
+                        raise e
+                    time.sleep(sleep_duration)
                     continue
                 elif status_code >= 500:
+                    sleep_duration = retry_count * default_backoff
+                    if (sleep_duration + time.time()) > timeout:
+                        log.debug("retry timeout has or will exceed timeout duration")
+                        raise e
                     time.sleep(retry_count * default_backoff)
                     retry_count += 1
                     continue
@@ -37,10 +48,11 @@ def request_with_retry(func):
 
 
 class CustomClient:
-    def __init__(self, host, auth):
+    def __init__(self, host, auth, retry_timeout):
         self.host = host
         self.timeout = 30
         self.session = requests.Session()
+        self.retry_timeout = retry_timeout
         self.session.headers.update(build_default_headers(auth))
 
     @request_with_retry

@@ -6,7 +6,7 @@ from click import pass_context, command
 from datadog_sync.constants import SOURCE_RESOURCES_DIR
 
 
-log = logging.getLogger("__name__")
+log = logging.getLogger(__name__)
 
 
 @command("import", short_help="Import Datadog resources.")

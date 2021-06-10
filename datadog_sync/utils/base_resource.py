@@ -12,7 +12,7 @@ from datadog_sync.constants import RESOURCE_FILE_PATH
 from datadog_sync.utils.resource_utils import replace
 
 
-log = logging.getLogger("__name__")
+log = logging.getLogger(__name__)
 
 
 class BaseResource:

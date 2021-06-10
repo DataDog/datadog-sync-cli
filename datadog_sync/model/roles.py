@@ -20,7 +20,7 @@ BASE_PATH = "/api/v2/roles"
 PERMISSIONS_BASE_PATH = "/api/v2/permissions"
 
 
-log = logging.getLogger("__name__")
+log = logging.getLogger(__name__)
 
 
 class Roles(BaseResource):

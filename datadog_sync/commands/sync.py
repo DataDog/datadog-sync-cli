@@ -7,7 +7,7 @@ from click import pass_context, command
 from datadog_sync.constants import RESOURCE_FILE_PATH, DESTINATION_RESOURCES_DIR
 
 
-log = logging.getLogger("__name__")
+log = logging.getLogger(__name__)
 
 
 @command("sync", short_help="Sync Datadog resources to destination.")

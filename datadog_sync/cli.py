@@ -18,7 +18,7 @@ from datadog_sync.models import (
 from datadog_sync.utils.custom_client import CustomClient
 
 
-log = logging.getLogger("__name__")
+log = logging.getLogger(__name__)
 
 
 @group()
@@ -53,7 +53,8 @@ log = logging.getLogger("__name__")
     "--http-client-retry-timeout",
     envvar=constants.DD_HTTP_CLIENT_RETRY_TIMEOUT,
     required=False,
-    default="60",
+    type=int,
+    default=60,
     help="The HTTP request retry timeout period. Defaults to 60s",
 )
 @option(
@@ -90,9 +91,10 @@ def cli(ctx, **kwargs):
         "apiKeyAuth": ctx.obj.get("destination_api_key"),
         "appKeyAuth": ctx.obj.get("destination_app_key"),
     }
+    retry_timeout = ctx.obj.get("http_client_retry_timeout")
 
-    source_client = CustomClient(ctx.obj["source_api_url"], source_auth)
-    destination_client = CustomClient(ctx.obj["destination_api_url"], destination_auth)
+    source_client = CustomClient(ctx.obj["source_api_url"], source_auth, retry_timeout)
+    destination_client = CustomClient(ctx.obj["destination_api_url"], destination_auth, retry_timeout)
 
     ctx.obj["source_client"] = source_client
     ctx.obj["destination_client"] = destination_client
