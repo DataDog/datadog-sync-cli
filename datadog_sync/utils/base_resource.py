@@ -118,8 +118,7 @@ class BaseResource:
             try:
                 future.result()
             except BaseException:
-                tb = traceback.format_exc()
-                log.error("error while applying resource: %s", tb)
+                log.exception("error while applying resource")
 
     def open_resources(self):
         destination_resources = dict()
