@@ -1,6 +1,10 @@
 import time
+import logging
 
 import requests
+
+
+log = logging.getLogger(__name__)
 
 
 def request_with_retry(func):
@@ -8,43 +12,38 @@ def request_with_retry(func):
         retry = True
         default_backoff = 5
         retry_count = 0
-        timeout_limit = time.time() + args[0].retry_timeout
+        timeout = time.time() + args[0].retry_timeout
         resp = None
 
-        while retry and timeout_limit > time.time():
+        while retry and timeout > time.time():
             try:
                 resp = func(*args, **kwargs)
                 resp.raise_for_status()
                 retry = False
             except requests.exceptions.HTTPError as e:
                 status_code = e.response.status_code
-                if retry_count >= 0:
-                    curr_time = time.time()
-                    if status_code == 429 and "x-ratelimit-reset" in e.response.headers:
-                        try:
-                            sleep_duration = int(e.response.headers["x-ratelimit-reset"])
-                        except ValueError:
-                            sleep_duration = retry_count * default_backoff
-                            retry_count += 1
-                        if (curr_time + sleep_duration) > timeout_limit:
-                            # next iteration will exceed the timeout limit. Set retry_count to -1
-                            retry_count = -1
-                            time.sleep(timeout_limit - curr_time)
-                            continue
-                        time.sleep(sleep_duration)
-                        continue
-                    elif status_code >= 500:
+                if status_code == 429 and "x-ratelimit-reset" in e.response.headers:
+                    try:
+                        sleep_duration = int(e.response.headers["x-ratelimit-reset"])
+                    except ValueError:
                         sleep_duration = retry_count * default_backoff
-                        if (curr_time + sleep_duration) > timeout_limit:
-                            # next iteration will exceed the timeout limit. Set retry_count to -1
-                            retry_count = -1
-                            time.sleep(timeout_limit - curr_time)
-                            continue
-                        time.sleep(retry_count * default_backoff)
                         retry_count += 1
-                        continue
+                    if (sleep_duration + time.time()) > timeout:
+                        log.debug("retry timeout has or will exceed timeout duration")
+                        raise e
+                    time.sleep(sleep_duration)
+                    continue
+                elif status_code >= 500:
+                    sleep_duration = retry_count * default_backoff
+                    if (sleep_duration + time.time()) > timeout:
+                        log.debug("retry timeout has or will exceed timeout duration")
+                        raise e
+                    time.sleep(retry_count * default_backoff)
+                    retry_count += 1
+                    continue
                 raise e
         return resp
+
     return wrapper
 
 
