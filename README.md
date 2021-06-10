@@ -31,6 +31,24 @@ docker run --rm -v $(pwd):/datadog-sync:rw \
 ```
 Note: The above docker run command will mount your current working directory to the container.
 
+## Best practices
+
+Many Datadog resources are interdependent. For example, Users resource references Roles and Dashboards can include widgets which use Monitors or Synthetics. To ensure these dependencies are not broken, the datadog-sync tool imports and syncs these in a specific order. See the order(top -> bottom) in the [Supported resources](#supported-resources) section below.
+
+If importing/syncing resources individually, ensure resource dependencies are imported and synced as well:
+
+Resource                      | Dependencies
+---                           | ---
+roles                         | -
+users                         | roles
+monitors                      | roles
+dashboards                    | monitors
+downtimes                     | monitors
+synthetics_tests              | synthetics_private_locations
+synthetics_private_locations  | -
+synthetics_global_variables   | synthetics_tests
+logs_custom_pipelines         | -
+
 ## Supported resources
 
 - **roles**

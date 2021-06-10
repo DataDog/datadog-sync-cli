@@ -28,7 +28,7 @@ RESOURCE_CONNECTIONS = {"roles": ["relationships.roles.data.id"]}
 GET_USERS_FILTER = {"filter[status]": "Active"}
 
 
-log = logging.getLogger("__name__")
+log = logging.getLogger(__name__)
 
 
 class Users(BaseResource):

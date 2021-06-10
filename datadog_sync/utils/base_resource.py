@@ -2,7 +2,6 @@ import os
 import json
 import re
 import logging
-import traceback
 from concurrent.futures import ThreadPoolExecutor
 from pprint import pformat
 
@@ -12,7 +11,7 @@ from datadog_sync.constants import RESOURCE_FILE_PATH
 from datadog_sync.utils.resource_utils import replace
 
 
-log = logging.getLogger("__name__")
+log = logging.getLogger(__name__)
 
 
 class BaseResource:
@@ -118,8 +117,7 @@ class BaseResource:
             try:
                 future.result()
             except BaseException:
-                tb = traceback.format_exc()
-                log.error("error while applying resource: %s", tb)
+                log.exception("error while applying resource")
 
     def open_resources(self):
         destination_resources = dict()

@@ -18,7 +18,7 @@ RESOURCE_CONNECTIONS = {"monitors": ["widgets.definition.alert_id", "widgets.def
 BASE_PATH = "/api/v1/dashboard"
 
 
-log = logging.getLogger("__name__")
+log = logging.getLogger(__name__)
 
 
 class Dashboards(BaseResource):
