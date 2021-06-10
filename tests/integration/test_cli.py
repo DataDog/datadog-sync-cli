@@ -3,7 +3,7 @@ import os
 import pytest
 
 
-@pytest.mark.skipif(os.getenv("DD_INTEGRATION") is None, reason="Set DD_INTEGRATION to run integration tests")
+@pytest.mark.integrations
 def test_cli(tmpdir, script_runner):
     with tmpdir.as_cwd():
         # Import
@@ -21,7 +21,7 @@ def test_cli(tmpdir, script_runner):
         assert ret.success
 
 
-@pytest.mark.skipif(os.getenv("DD_INTEGRATION") is None, reason="Set DD_INTEGRATION to run integration tests")
+@pytest.mark.integrations
 def test_cli_diff(tmpdir, script_runner):
     with tmpdir.as_cwd():
         # Import
