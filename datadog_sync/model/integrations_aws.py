@@ -50,6 +50,7 @@ class IntegrationsAWS(BaseResource):
 
         connection_resource_obj = self.get_connection_resources()
 
+        # must not be done in parallel, api returns conflict error
         for _id, aws_integration in source_resources.items():
             self.prepare_resource_and_apply(_id, aws_integration, local_destination_resources, connection_resource_obj)
 
@@ -70,7 +71,7 @@ class IntegrationsAWS(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
         try:
             resp = destination_client.post(self.base_path, integration_aws).json()
-            data = destination_client.get(self.base_path, params={"account_id":_id}).json()
+            data = destination_client.get(self.base_path, params={"account_id": _id}).json()
         except HTTPError as e:
             log.error("error creating integration_aws: %s", e.response.text)
             return
