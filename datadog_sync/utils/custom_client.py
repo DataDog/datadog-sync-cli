@@ -8,10 +8,10 @@ def request_with_retry(func):
         retry = True
         default_backoff = 5
         retry_count = 0
-        timeout = time.time() + args[0].retry_timeout
+        timeout_limit = time.time() + args[0].retry_timeout
         resp = None
 
-        while retry and timeout > time.time():
+        while retry and timeout_limit > time.time():
             try:
                 resp = func(*args, **kwargs)
                 resp.raise_for_status()
@@ -26,19 +26,19 @@ def request_with_retry(func):
                         except ValueError:
                             sleep_duration = retry_count * default_backoff
                             retry_count += 1
-                        if (curr_time + sleep_duration) > timeout:
+                        if (curr_time + sleep_duration) > timeout_limit:
                             # next iteration will exceed the timeout limit. Set retry_count to -1
                             retry_count = -1
-                            time.sleep(timeout - curr_time)
+                            time.sleep(timeout_limit - curr_time)
                             continue
                         time.sleep(sleep_duration)
                         continue
                     elif status_code >= 500:
                         sleep_duration = retry_count * default_backoff
-                        if (curr_time + sleep_duration) > timeout:
+                        if (curr_time + sleep_duration) > timeout_limit:
                             # next iteration will exceed the timeout limit. Set retry_count to -1
                             retry_count = -1
-                            time.sleep(timeout - curr_time)
+                            time.sleep(timeout_limit - curr_time)
                             continue
                         time.sleep(retry_count * default_backoff)
                         retry_count += 1
