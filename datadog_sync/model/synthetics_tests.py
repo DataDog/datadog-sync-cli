@@ -71,7 +71,6 @@ class SyntheticsTests(BaseResource):
         if self.resource_connections:
             self.connect_resources(synthetics_test, connection_resource_obj)
 
-        print(f"Looking for {_id} in {local_destination_resources}")
         if _id in local_destination_resources:
             self.update_resource(_id, synthetics_test, local_destination_resources)
         else:
@@ -90,7 +89,6 @@ class SyntheticsTests(BaseResource):
             log.error("error creating synthetics_test: %s", e.response.text)
             return
 
-        print(f"CREATE SYNTHETICS ALERT SOURCE MONITOR ID: {synthetics_test}")
         local_destination_resources[_id] = resp
 
     def update_resource(self, _id, synthetics_test, local_destination_resources):
@@ -107,5 +105,4 @@ class SyntheticsTests(BaseResource):
                 log.error("error creating synthetics_test: %s", e.response.text)
                 return
 
-            print(f"UPDATE SYNTHETICS ALERT SOURCE MONITOR ID: {_id}")
             local_destination_resources[_id] = resp
