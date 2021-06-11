@@ -1,10 +1,6 @@
 import time
-import logging
 
 import requests
-
-
-log = logging.getLogger(__name__)
 
 
 def request_with_retry(func):
@@ -29,14 +25,12 @@ def request_with_retry(func):
                         sleep_duration = retry_count * default_backoff
                         retry_count += 1
                     if (sleep_duration + time.time()) > timeout:
-                        log.debug("retry timeout has or will exceed timeout duration")
                         raise e
                     time.sleep(sleep_duration)
                     continue
                 elif status_code >= 500:
                     sleep_duration = retry_count * default_backoff
                     if (sleep_duration + time.time()) > timeout:
-                        log.debug("retry timeout has or will exceed timeout duration")
                         raise e
                     time.sleep(retry_count * default_backoff)
                     retry_count += 1
