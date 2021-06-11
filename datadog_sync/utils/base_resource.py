@@ -101,7 +101,7 @@ class BaseResource:
             k_list = key.split(".")
             self.del_null_attr(k_list, resource)
 
-    def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj):
+    def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj, **kwargs):
         with ThreadPoolExecutor() as executor:
             futures = [
                 executor.submit(
@@ -110,6 +110,7 @@ class BaseResource:
                     resource,
                     local_destination_resources,
                     connection_resource_obj,
+                    **kwargs,
                 )
                 for _id, resource in resources.items()
             ]

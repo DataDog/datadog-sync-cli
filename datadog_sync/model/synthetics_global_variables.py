@@ -66,21 +66,12 @@ class SyntheticsGlobalVariables(BaseResource):
         connection_resource_obj = self.get_connection_resources()
         destination_global_variables = self.get_destination_global_variables()
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.prepare_resource_and_apply,
-                        _id,
-                        synthetics_global_variable,
-                        local_destination_resources,
-                        destination_global_variables,
-                        connection_resource_obj,
-                    )
-                    for _id, synthetics_global_variable in source_resources.items()
-                ]
-            )
-
+        self.apply_resources_concurrently(
+            source_resources,
+            local_destination_resources,
+            connection_resource_obj,
+            destination_global_variables=destination_global_variables,
+        )
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(
@@ -88,9 +79,10 @@ class SyntheticsGlobalVariables(BaseResource):
         _id,
         synthetics_global_variable,
         local_destination_resources,
-        destination_global_variables,
         connection_resource_obj=None,
+        **kwargs,
     ):
+        destination_global_variables = kwargs.get("destination_global_variables")
 
         if self.resource_connections:
             self.connect_resources(synthetics_global_variable, connection_resource_obj)

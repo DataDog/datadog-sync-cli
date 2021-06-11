@@ -23,13 +23,22 @@ log = logging.getLogger(__name__)
 
 @group()
 @option(
-    "--source-api-key", envvar=constants.DD_SOURCE_API_KEY, required=True, help="Datadog source organization API key.",
+    "--source-api-key",
+    envvar=constants.DD_SOURCE_API_KEY,
+    required=True,
+    help="Datadog source organization API key.",
 )
 @option(
-    "--source-app-key", envvar=constants.DD_SOURCE_APP_KEY, required=True, help="Datadog source organization APP key.",
+    "--source-app-key",
+    envvar=constants.DD_SOURCE_APP_KEY,
+    required=True,
+    help="Datadog source organization APP key.",
 )
 @option(
-    "--source-api-url", envvar=constants.DD_SOURCE_API_URL, required=False, help="Datadog source organization API url.",
+    "--source-api-url",
+    envvar=constants.DD_SOURCE_API_URL,
+    required=False,
+    help="Datadog source organization API url.",
 )
 @option(
     "--destination-api-key",
@@ -63,7 +72,11 @@ log = logging.getLogger(__name__)
     help="Optional comma separated list of resource to import. All supported resources are imported by default.",
 )
 @option(
-    "--verbose", "-v", required=False, is_flag=True, help="Enable verbose logging.",
+    "--verbose",
+    "-v",
+    required=False,
+    is_flag=True,
+    help="Enable verbose logging.",
 )
 @pass_context
 def cli(ctx, **kwargs):
@@ -77,7 +90,8 @@ def cli(ctx, **kwargs):
     # Set logging level and format
     if ctx.obj.get("verbose"):
         logging.basicConfig(
-            format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s", level=logging.DEBUG,
+            format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s",
+            level=logging.DEBUG,
         )
     else:
         logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)

@@ -47,27 +47,20 @@ class Roles(BaseResource):
         roles[role["id"]] = role
 
     def apply_resources(self):
-        source_roles, local_destination_resources = self.open_resources()
+        source_resources, local_destination_resources = self.open_resources()
         source_permission, destination_permission = self.get_permissions()
-        source_roles_mapping = self.get_source_roles_mapping(source_roles)
+        source_roles_mapping = self.get_source_roles_mapping(source_resources)
         destination_roles_mapping = self.get_destination_roles_mapping()
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.prepare_resource_and_apply,
-                        _id,
-                        role,
-                        local_destination_resources,
-                        source_permission,
-                        destination_permission,
-                        source_roles_mapping,
-                        destination_roles_mapping,
-                    )
-                    for _id, role in source_roles.items()
-                ]
-            )
+        self.apply_resources_concurrently(
+            source_resources,
+            local_destination_resources,
+            {},
+            source_permission=source_permission,
+            destination_permission=destination_permission,
+            source_roles_mapping=source_roles_mapping,
+            destination_roles_mapping=destination_roles_mapping
+        )
 
         self.write_resources_file("destination", local_destination_resources)
 
@@ -76,11 +69,13 @@ class Roles(BaseResource):
         _id,
         role,
         local_destination_resources,
-        source_permission,
-        destination_permission,
-        source_roles_mapping,
-        destination_roles_mapping,
+        connection_resource_obj=None,
+        **kwargs
     ):
+        source_permission = kwargs.get("source_permission")
+        destination_permission = kwargs.get("destination_permission")
+        source_roles_mapping = kwargs.get("source_roles_mapping")
+        destination_roles_mapping = kwargs.get("destination_roles_mapping")
 
         # Remap permissions if different datacenters
         self.remap_permissions(role, source_permission, destination_permission)
