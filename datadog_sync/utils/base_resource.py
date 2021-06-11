@@ -139,8 +139,8 @@ class BaseResource:
             json.dump(resources, f, indent=2)
 
     def connect_resources(self, resource, connection_resources_obj=None):
-        if connection_resources_obj is None:
-            connection_resources_obj = {}
+        if not connection_resources_obj:
+            return
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
-                replace(attr_connection, resource, resource_to_connect, connection_resources_obj)
+                replace(attr_connection, self.resource_type, resource, resource_to_connect, connection_resources_obj)

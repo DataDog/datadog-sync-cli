@@ -71,7 +71,6 @@ class SyntheticsTests(BaseResource):
         if self.resource_connections:
             self.connect_resources(synthetics_test, connection_resource_obj)
 
-
         print(f"Looking for {_id} in {local_destination_resources}")
         if _id in local_destination_resources:
             self.update_resource(_id, synthetics_test, local_destination_resources)
@@ -81,7 +80,7 @@ class SyntheticsTests(BaseResource):
     def create_resource(self, _id, synthetics_test, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
 
-        monitor_id = synthetics_test['monitor_id']
+        monitor_id = synthetics_test["monitor_id"]
 
         self.remove_excluded_attr(synthetics_test)
 
@@ -102,7 +101,8 @@ class SyntheticsTests(BaseResource):
             self.remove_excluded_attr(synthetics_test)
             try:
                 resp = destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['public_id']}", synthetics_test).json()
+                    self.base_path + f"/{local_destination_resources[_id]['public_id']}", synthetics_test
+                ).json()
             except HTTPError as e:
                 log.error("error creating synthetics_test: %s", e.response.text)
                 return

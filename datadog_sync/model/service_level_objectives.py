@@ -19,12 +19,18 @@ EXCLUDED_ATTRIBUTES = [
     "root['modified_at']",
 ]
 BASE_PATH = "/api/v1/slo"
-RESOURCES_TO_CONNECT = {"monitors": ["monitor_ids"], "synthetics_tests":["monitor_ids"]}
+RESOURCES_TO_CONNECT = {"monitors": ["monitor_ids"], "synthetics_tests": ["monitor_ids"]}
 
 
 class ServiceLevelObjectives(BaseResource):
     def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, resource_connections=RESOURCES_TO_CONNECT, excluded_attributes=EXCLUDED_ATTRIBUTES)
+        super().__init__(
+            ctx,
+            RESOURCE_TYPE,
+            BASE_PATH,
+            resource_connections=RESOURCES_TO_CONNECT,
+            excluded_attributes=EXCLUDED_ATTRIBUTES,
+        )
 
     def import_resources(self):
         slos = {}

@@ -1,26 +1,26 @@
 import re
 
 
-def replace(keys_list, r_obj, resource_to_connect, connection_resources_obj):
+def replace(keys_list, origin, r_obj, resource_to_connect, connection_resources_obj):
     if resource_to_connect not in connection_resources_obj:
         return
 
     if isinstance(r_obj, list):
         for k in r_obj:
-            replace(keys_list, k, resource_to_connect, connection_resources_obj)
+            replace(keys_list, origin, k, resource_to_connect, connection_resources_obj)
     else:
         keys_list = keys_list.split(".", 1)
 
         if len(keys_list) == 1 and keys_list[0] in r_obj:
-            replace_ids(keys_list[0], r_obj, resource_to_connect, connection_resources_obj)
+            replace_ids(keys_list[0], origin, r_obj, resource_to_connect, connection_resources_obj)
             return
 
         if isinstance(r_obj, dict):
             if keys_list[0] in r_obj:
-                replace(keys_list[1], r_obj[keys_list[0]], resource_to_connect, connection_resources_obj)
+                replace(keys_list[1], origin, r_obj[keys_list[0]], resource_to_connect, connection_resources_obj)
 
 
-def replace_ids(key, r_obj, resource_to_connect, connection_resources_obj):
+def replace_ids(key, origin, r_obj, resource_to_connect, connection_resources_obj):
     if resource_to_connect in connection_resources_obj:
         if "type" in r_obj and r_obj["type"] == "composite":
             ids = re.findall("[0-9]+", r_obj[key])
@@ -33,7 +33,7 @@ def replace_ids(key, r_obj, resource_to_connect, connection_resources_obj):
 
             return
 
-        if resource_to_connect == "synthetics_tests" and 'name' in r_obj and r_obj['name'].startswith("[Synthetics]"):
+        if origin == "service_level_objectives" and resource_to_connect == "synthetics_tests":
             for i in range(len(r_obj[key])):
                 _id = str(r_obj[key][i])
                 for synthetic_id, val in connection_resources_obj[resource_to_connect].items():
@@ -44,10 +44,10 @@ def replace_ids(key, r_obj, resource_to_connect, connection_resources_obj):
         if isinstance(r_obj[key], list):
             # case of monitor-based SLO
             if "type" in r_obj and r_obj["type"] == "monitor":
-                    for i in range(len(r_obj[key])):
-                        _id = str(r_obj[key][i])
-                        if _id in connection_resources_obj[resource_to_connect]:
-                            r_obj[key][i] = connection_resources_obj[resource_to_connect][_id]["id"]
+                for i in range(len(r_obj[key])):
+                    _id = str(r_obj[key][i])
+                    if _id in connection_resources_obj[resource_to_connect]:
+                        r_obj[key][i] = connection_resources_obj[resource_to_connect][_id]["id"]
             else:
                 for i in range(len(r_obj[key])):
                     _id = r_obj[key][i]
