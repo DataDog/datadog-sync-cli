@@ -11,7 +11,7 @@ log = logging.getLogger("__name__")
 
 
 RESOURCE_TYPE = "integrations_aws"
-EXCLUDED_ATTRIBUTES = ["root['external_id']", "root['errors']"]
+EXCLUDED_ATTRIBUTES = ["root['external_id']"]
 BASE_PATH = "/api/v1/integration/aws"
 
 
@@ -87,10 +87,9 @@ class IntegrationsAWS(BaseResource):
         diff = self.check_diff(integration_aws, local_destination_resources[_id])
         if diff:
             try:
-                resp = destination_client.put(
+                destination_client.put(
                     self.base_path + f"/{local_destination_resources[_id]['id']}", integration_aws
                 ).json()
             except HTTPError as e:
-                log.error("error creating integration_aws: %s", e.response.text)
+                log.error("error updating integration_aws: %s", e.response.text)
                 return
-            local_destination_resources[_id] = resp
