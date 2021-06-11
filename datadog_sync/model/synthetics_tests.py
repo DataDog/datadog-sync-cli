@@ -56,7 +56,7 @@ class SyntheticsTests(BaseResource):
         self.write_resources_file("source", synthetics_tests)
 
     def process_resource_import(self, synthetics_test, synthetics_tests):
-        synthetics_tests[synthetics_test["public_id"]] = synthetics_test
+        synthetics_tests[f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"] = synthetics_test
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
@@ -71,6 +71,8 @@ class SyntheticsTests(BaseResource):
         if self.resource_connections:
             self.connect_resources(synthetics_test, connection_resource_obj)
 
+
+        print(f"Looking for {_id} in {local_destination_resources}")
         if _id in local_destination_resources:
             self.update_resource(_id, synthetics_test, local_destination_resources)
         else:
@@ -78,6 +80,9 @@ class SyntheticsTests(BaseResource):
 
     def create_resource(self, _id, synthetics_test, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
+
+        monitor_id = synthetics_test['monitor_id']
+
         self.remove_excluded_attr(synthetics_test)
 
         try:
@@ -85,6 +90,8 @@ class SyntheticsTests(BaseResource):
         except HTTPError as e:
             log.error("error creating synthetics_test: %s", e.response.text)
             return
+
+        print(f"CREATE SYNTHETICS ALERT SOURCE MONITOR ID: {synthetics_test}")
         local_destination_resources[_id] = resp
 
     def update_resource(self, _id, synthetics_test, local_destination_resources):
@@ -95,9 +102,10 @@ class SyntheticsTests(BaseResource):
             self.remove_excluded_attr(synthetics_test)
             try:
                 resp = destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['public_id']}", synthetics_test
-                ).json()
+                    self.base_path + f"/{local_destination_resources[_id]['public_id']}", synthetics_test).json()
             except HTTPError as e:
                 log.error("error creating synthetics_test: %s", e.response.text)
                 return
+
+            print(f"UPDATE SYNTHETICS ALERT SOURCE MONITOR ID: {_id}")
             local_destination_resources[_id] = resp

@@ -109,11 +109,11 @@ def get_resources(ctx):
     resources = [
         Roles(ctx),
         Users(ctx),
-        Monitors(ctx),
-        ServiceLevelObjectives(ctx),
         SyntheticsPrivateLocations(ctx),
         SyntheticsTests(ctx),
         SyntheticsGlobalVariables(ctx),
+        Monitors(ctx),
+        ServiceLevelObjectives(ctx),
         Downtimes(ctx),
         Dashboards(ctx),
         LogsCustomPipelines(ctx),

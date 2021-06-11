@@ -65,7 +65,7 @@ class Monitors(BaseResource):
         simple_monitors_futures = []
         with ThreadPoolExecutor() as executor:
             for _id, monitor in source_resources.items():
-                if monitor["type"] != "synthetics alert":
+                if monitor["type"] == "synthetics alert":
                     continue
                 if monitor["type"] == "composite":
                     composite_monitors.append((_id, monitor))

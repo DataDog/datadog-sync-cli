@@ -33,13 +33,21 @@ def replace_ids(key, r_obj, resource_to_connect, connection_resources_obj):
 
             return
 
+        if resource_to_connect == "synthetics_tests" and 'name' in r_obj and r_obj['name'].startswith("[Synthetics]"):
+            for i in range(len(r_obj[key])):
+                _id = str(r_obj[key][i])
+                for synthetic_id, val in connection_resources_obj[resource_to_connect].items():
+                    if synthetic_id.endswith(_id):
+                        r_obj[key][i] = val["monitor_id"]
+            return
+
         if isinstance(r_obj[key], list):
             # case of monitor-based SLO
             if "type" in r_obj and r_obj["type"] == "monitor":
-                for i in range(len(r_obj[key])):
-                    _id = str(r_obj[key][i])
-                    if _id in connection_resources_obj[resource_to_connect]:
-                        r_obj[key][i] = connection_resources_obj[resource_to_connect][_id]["id"]
+                    for i in range(len(r_obj[key])):
+                        _id = str(r_obj[key][i])
+                        if _id in connection_resources_obj[resource_to_connect]:
+                            r_obj[key][i] = connection_resources_obj[resource_to_connect][_id]["id"]
             else:
                 for i in range(len(r_obj[key])):
                     _id = r_obj[key][i]
