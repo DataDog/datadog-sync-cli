@@ -29,7 +29,7 @@ class LogsCustomPipelines(BaseResource):
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
-            log.error("error importing logs_custom_pipelines %s", e)
+            self.logger.error("error importing logs_custom_pipelines %s", e)
             return
 
         with ThreadPoolExecutor() as executor:
@@ -80,7 +80,7 @@ class LogsCustomPipelines(BaseResource):
         try:
             resp = destination_client.post(self.base_path, logs_custom_pipeline).json()
         except HTTPError as e:
-            log.error("error creating logs_custom_pipeline: %s", e.response.text)
+            self.logger.error("error creating logs_custom_pipeline: %s", e.response.text)
             return
         local_destination_resources[_id] = resp
 
@@ -95,6 +95,6 @@ class LogsCustomPipelines(BaseResource):
                     self.base_path + f"/{local_destination_resources[_id]['id']}", logs_custom_pipeline
                 ).json()
             except HTTPError as e:
-                log.error("error creating logs_custom_pipeline: %s", e.response.text)
+                self.logger.error("error creating logs_custom_pipeline: %s", e.response.text)
                 return
             local_destination_resources[_id] = resp

@@ -34,7 +34,7 @@ class Roles(BaseResource):
         try:
             roles_resp = paginated_request(source_client.get)(self.base_path)
         except HTTPError as e:
-            log.error("error importing roles: %s", e.response.text)
+            self.logger.error("error importing roles: %s", e.response.text)
             return
 
         with ThreadPoolExecutor() as executor:
@@ -103,7 +103,7 @@ class Roles(BaseResource):
         try:
             resp = destination_client.post(self.base_path, payload)
         except HTTPError as e:
-            log.error("error creating role: %s", e.response.text)
+            self.logger.error("error creating role: %s", e.response.text)
             return
         local_destination_resources[_id] = resp.json()["data"]
 
@@ -119,7 +119,7 @@ class Roles(BaseResource):
             try:
                 resp = destination_client.patch(self.base_path + f"/{local_destination_resources[_id]['id']}", payload)
             except HTTPError as e:
-                log.error("error updating role: %s", e.response.text)
+                self.logger.error("error updating role: %s", e.response.text)
                 return
 
             local_destination_resources[_id] = resp.json()["data"]
@@ -141,9 +141,9 @@ class Roles(BaseResource):
             if _id in local_destination_resources:
                 diff = self.check_diff(local_destination_resources[_id], role)
                 if diff:
-                    log.info("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
+                    self.logger.info("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
             else:
-                log.info("Resource to be added %s: \n %s", self.resource_type, pformat(role))
+                self.logger.info("Resource to be added %s: \n %s", self.resource_type, pformat(role))
 
     def get_permissions(self):
         source_permission_obj = {}
@@ -155,7 +155,7 @@ class Roles(BaseResource):
             source_permissions = source_client.get(PERMISSIONS_BASE_PATH).json()["data"]
             destination_permissions = destination_client.get(PERMISSIONS_BASE_PATH).json()["data"]
         except HTTPError as e:
-            log.error("error getting permissions: %s", e.response.text)
+            self.logger.error("error getting permissions: %s", e.response.text)
 
         for permission in source_permissions:
             source_permission_obj[permission["id"]] = permission["attributes"]["name"]
@@ -183,7 +183,7 @@ class Roles(BaseResource):
         try:
             destination_roles_resp = paginated_request(destination_client.get)(self.base_path)
         except HTTPError as e:
-            log.error("error retrieving roles: %s", e.response.text)
+            self.logger.error("error retrieving roles: %s", e.response.text)
 
         for role in destination_roles_resp:
             destination_roles_mapping[role["attributes"]["name"]] = role["id"]

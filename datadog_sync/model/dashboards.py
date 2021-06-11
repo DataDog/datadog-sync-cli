@@ -38,7 +38,7 @@ class Dashboards(BaseResource):
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
-            log.error("error importing dashboards %s", e)
+            self.logger.error("error importing dashboards %s", e)
             return
 
         with ThreadPoolExecutor() as executor:
@@ -52,7 +52,7 @@ class Dashboards(BaseResource):
         try:
             dashboard = source_client.get(self.base_path + f"/{dash_id}").json()
         except HTTPError as e:
-            log.error("error retrieving dashboard: %s", e)
+            self.logger.error("error retrieving dashboard: %s", e)
         dashboards[dash_id] = dashboard
 
     def apply_resources(self):
@@ -75,7 +75,7 @@ class Dashboards(BaseResource):
         try:
             resp = destination_client.post(self.base_path, dashboard).json()
         except HTTPError as e:
-            log.error("error updating dashboard: %s", e)
+            self.logger.error("error updating dashboard: %s", e)
             return
         local_destination_resources[_id] = resp
 
@@ -89,6 +89,6 @@ class Dashboards(BaseResource):
                     self.base_path + f"/{local_destination_resources[_id]['id']}", dashboard
                 ).json()
             except HTTPError as e:
-                log.error("error creating dashboard: %s", e)
+                self.logger.error("error creating dashboard: %s", e)
                 return
             local_destination_resources[_id] = resp

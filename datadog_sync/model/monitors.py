@@ -43,7 +43,7 @@ class Monitors(BaseResource):
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
-            log.error("error importing monitors %s", e)
+            self.logger.error("error importing monitors %s", e)
             return
 
         with ThreadPoolExecutor() as executor:
@@ -61,7 +61,7 @@ class Monitors(BaseResource):
 
         composite_monitors = []
 
-        log.info("Processing Simple Monitors")
+        self.logger.info("Processing Simple Monitors")
 
         simple_monitors_futures = []
         with ThreadPoolExecutor() as executor:
@@ -82,7 +82,7 @@ class Monitors(BaseResource):
         self.write_resources_file("destination", local_destination_resources)
         connection_resource_obj = self.get_connection_resources()
 
-        log.info("Processing Composite Monitors")
+        self.logger.info("Processing Composite Monitors")
         with ThreadPoolExecutor() as executor:
             wait(
                 [
@@ -114,7 +114,7 @@ class Monitors(BaseResource):
         try:
             resp = destination_client.post(self.base_path, monitor).json()
         except HTTPError as e:
-            log.error("error creating monitor: %s", e.response.text)
+            self.logger.error("error creating monitor: %s", e.response.text)
             return
         local_destination_resources[_id] = resp
 
@@ -128,6 +128,6 @@ class Monitors(BaseResource):
                     self.base_path + f"/{local_destination_resources[_id]['id']}", monitor
                 ).json()
             except HTTPError as e:
-                log.error("error creating monitor: %s", e.response.text)
+                self.logger.error("error creating monitor: %s", e.response.text)
                 return
             local_destination_resources[_id] = resp

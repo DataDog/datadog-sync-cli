@@ -35,7 +35,7 @@ class SyntheticsPrivateLocations(BaseResource):
         try:
             resp = source_client.get(BASE_LOCATIONS_PATH).json()
         except HTTPError as e:
-            log.error("error importing synthetics_private_locations: %s", e)
+            self.logger.error("error importing synthetics_private_locations: %s", e)
             return
 
         with ThreadPoolExecutor() as executor:
@@ -57,7 +57,7 @@ class SyntheticsPrivateLocations(BaseResource):
             try:
                 pl = source_client.get(self.base_path + f"/{synthetics_private_location['id']}").json()
             except HTTPError as e:
-                log.error(
+                self.logger.error(
                     "error getting synthetics_private_location %s: %s",
                     synthetics_private_location["id"],
                     e.response.text,
@@ -90,7 +90,7 @@ class SyntheticsPrivateLocations(BaseResource):
         try:
             resp = destination_client.post(self.base_path, synthetics_private_location).json()["private_location"]
         except HTTPError as e:
-            log.error("error creating synthetics_private_location: %s", e.response.text)
+            self.logger.error("error creating synthetics_private_location: %s", e.response.text)
             return
         local_destination_resources[_id] = resp
 
@@ -105,6 +105,6 @@ class SyntheticsPrivateLocations(BaseResource):
                     self.base_path + f"/{local_destination_resources[_id]['id']}", synthetics_private_location
                 ).json()
             except HTTPError as e:
-                log.error("error creating synthetics_private_location: %s", e.response.text)
+                self.logger.error("error creating synthetics_private_location: %s", e.response.text)
                 return
             local_destination_resources[_id].update(resp)
