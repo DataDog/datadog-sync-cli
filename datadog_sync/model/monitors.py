@@ -56,11 +56,12 @@ class Monitors(BaseResource):
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
-
         simple_monitors = {}
         composite_monitors = {}
 
         for _id, monitor in source_resources.items():
+            if monitor["type"] == "synthetics alert":
+                continue
             if monitor["type"] == "composite":
                 composite_monitors[_id] = monitor
             else:
