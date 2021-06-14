@@ -45,15 +45,7 @@ class SyntheticsGlobalVariables(BaseResource):
             log.error("error importing synthetics_global_variables: %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.process_resource_import, synthetics_global_variable, synthetics_global_variables
-                    )
-                    for synthetics_global_variable in resp["variables"]
-                ]
-            )
+        self.import_resources_concurrently(synthetics_global_variables, resp["variables"])
 
         # Write resources to file
         self.write_resources_file("source", synthetics_global_variables)

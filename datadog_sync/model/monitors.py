@@ -46,8 +46,7 @@ class Monitors(BaseResource):
             log.error("error importing monitors %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource_import, monitor, monitors) for monitor in resp])
+        self.import_resources_concurrently(monitors, resp)
 
         # Write resources to file
         self.write_resources_file("source", monitors)

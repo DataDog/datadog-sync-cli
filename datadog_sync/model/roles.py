@@ -32,13 +32,12 @@ class Roles(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            roles_resp = paginated_request(source_client.get)(self.base_path)
+            resp = paginated_request(source_client.get)(self.base_path)
         except HTTPError as e:
             log.error("error importing roles: %s", e.response.text)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource_import, role, roles) for role in roles_resp])
+        self.import_resources_concurrently(roles, resp)
 
         # Write resources to file
         self.write_resources_file("source", roles)

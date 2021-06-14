@@ -38,15 +38,7 @@ class SyntheticsPrivateLocations(BaseResource):
             log.error("error importing synthetics_private_locations: %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.process_resource_import, synthetics_private_location, synthetics_private_locations
-                    )
-                    for synthetics_private_location in resp["locations"]
-                ]
-            )
+        self.import_resources_concurrently(synthetics_private_locations, resp["locations"])
 
         # Write resources to file
         self.write_resources_file("source", synthetics_private_locations)

@@ -46,13 +46,12 @@ class Users(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            users_resp = paginated_request(source_client.get)(self.base_path, params=GET_USERS_FILTER)
+            resp = paginated_request(source_client.get)(self.base_path, params=GET_USERS_FILTER)
         except HTTPError as e:
             log.error("Error while importing Users resource: %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource_import, user, users) for user in users_resp])
+        self.import_resources_concurrently(users, resp)
 
         # Write resources to file
         self.write_resources_file("source", users)

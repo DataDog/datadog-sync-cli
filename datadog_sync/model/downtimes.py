@@ -45,8 +45,7 @@ class Downtimes(BaseResource):
             log.error("error importing downtimes %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource_import, downtime, downtimes) for downtime in resp])
+        self.import_resources_concurrently(downtimes, resp)
 
         # Write resources to file
         self.write_resources_file("source", downtimes)

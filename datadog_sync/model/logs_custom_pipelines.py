@@ -32,13 +32,7 @@ class LogsCustomPipelines(BaseResource):
             log.error("error importing logs_custom_pipelines %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(self.process_resource_import, logs_custom_pipeline, logs_custom_pipelines)
-                    for logs_custom_pipeline in resp
-                ]
-            )
+        self.import_resources_concurrently(logs_custom_pipelines, resp)
 
         # Write resources to file
         self.write_resources_file("source", logs_custom_pipelines)

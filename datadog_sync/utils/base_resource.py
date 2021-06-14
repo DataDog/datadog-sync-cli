@@ -38,6 +38,10 @@ class BaseResource:
     def import_resources(self):
         pass
 
+    def import_resources_concurrently(self, resources_obj, resources):
+        with ThreadPoolExecutor() as executor:
+            [executor.submit(self.process_resource_import, resource, resources_obj) for resource in resources]
+
     def get_connection_resources(self):
         connection_resources = {}
 

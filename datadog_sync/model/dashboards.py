@@ -41,19 +41,18 @@ class Dashboards(BaseResource):
             log.error("error importing dashboards %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource_import, dash["id"], dashboards) for dash in resp["dashboards"]])
+        self.import_resources_concurrently(dashboards, resp["dashboards"])
 
         # Write the resource to a file
         self.write_resources_file("source", dashboards)
 
-    def process_resource_import(self, dash_id, dashboards):
+    def process_resource_import(self, dash, dashboards):
         source_client = self.ctx.obj.get("source_client")
         try:
-            dashboard = source_client.get(self.base_path + f"/{dash_id}").json()
+            dashboard = source_client.get(self.base_path + f"/{dash['id']}").json()
         except HTTPError as e:
             log.error("error retrieving dashboard: %s", e)
-        dashboards[dash_id] = dashboard
+        dashboards[dash['id']] = dashboard
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()

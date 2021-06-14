@@ -44,13 +44,7 @@ class SyntheticsTests(BaseResource):
             log.error("error importing synthetics_tests: %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(self.process_resource_import, synthetics_test, synthetics_tests)
-                    for synthetics_test in resp["tests"]
-                ]
-            )
+        self.import_resources_concurrently(synthetics_tests, resp["tests"])
 
         # Write resources to file
         self.write_resources_file("source", synthetics_tests)
