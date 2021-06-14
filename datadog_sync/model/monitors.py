@@ -57,51 +57,26 @@ class Monitors(BaseResource):
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
 
-        composite_monitors = []
+        simple_monitors = {}
+        composite_monitors = {}
+
+        for _id, monitor in source_resources.items():
+            if monitor["type"] == "composite":
+                composite_monitors[_id] = monitor
+            else:
+                simple_monitors[_id] = monitor
 
         log.info("Processing Simple Monitors")
-
-        simple_monitors_futures = []
-        with ThreadPoolExecutor() as executor:
-            for _id, monitor in source_resources.items():
-                if monitor["type"] == "synthetics alert":
-                    continue
-                if monitor["type"] == "composite":
-                    composite_monitors.append((_id, monitor))
-                else:
-                    simple_monitors_futures.append(
-                        executor.submit(
-                            self.prepare_resource_and_apply,
-                            _id,
-                            monitor,
-                            local_destination_resources,
-                        )
-                    )
-        wait(simple_monitors_futures)
-
+        self.apply_resources_concurrently(simple_monitors, local_destination_resources, {})
         self.write_resources_file("destination", local_destination_resources)
-        connection_resource_obj = self.get_connection_resources()
 
         log.info("Processing Composite Monitors")
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.prepare_resource_and_apply,
-                        _id,
-                        monitor,
-                        local_destination_resources,
-                        connection_resource_obj,
-                    )
-                    for _id, monitor in composite_monitors
-                ]
-            )
-
+        connection_resource_obj = self.get_connection_resources()
+        self.apply_resources_concurrently(composite_monitors, local_destination_resources, connection_resource_obj)
         self.write_resources_file("destination", local_destination_resources)
 
-    def prepare_resource_and_apply(self, _id, monitor, local_destination_resources, connection_resource_obj=None):
-        if self.resource_connections:
-            self.connect_resources(monitor, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, monitor, local_destination_resources, connection_resource_obj):
+        self.connect_resources(monitor, connection_resource_obj)
 
         if _id in local_destination_resources:
             self.update_resource(_id, monitor, local_destination_resources)

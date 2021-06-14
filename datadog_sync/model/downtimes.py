@@ -59,9 +59,8 @@ class Downtimes(BaseResource):
         self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
         self.write_resources_file("destination", local_destination_resources)
 
-    def prepare_resource_and_apply(self, _id, downtime, local_destination_resources, connection_resource_obj=None):
-        if self.resource_connections:
-            self.connect_resources(downtime, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, downtime, local_destination_resources, connection_resource_obj):
+        self.connect_resources(downtime, connection_resource_obj)
 
         if _id in local_destination_resources:
             self.update_resource(_id, downtime, local_destination_resources)
