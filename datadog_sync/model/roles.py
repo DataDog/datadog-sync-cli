@@ -68,7 +68,7 @@ class Roles(BaseResource):
         _id,
         role,
         local_destination_resources,
-        connection_resource_obj=None,
+        connection_resource_obj,
         **kwargs
     ):
         source_permission = kwargs.get("source_permission")
@@ -123,14 +123,10 @@ class Roles(BaseResource):
         source_permission, destination_permission = self.get_permissions()
         source_roles_mapping = self.get_source_roles_mapping(source_roles)
         destination_roles_mapping = self.get_destination_roles_mapping()
-        connection_resource_obj = self.get_connection_resources()
 
         for _id, role in source_roles.items():
             self.remap_permissions(role, source_permission, destination_permission)
             self.remap_role_id(role, source_roles_mapping, destination_roles_mapping)
-
-            if self.resource_connections:
-                self.connect_resources(role, connection_resource_obj)
 
             if _id in local_destination_resources:
                 diff = self.check_diff(local_destination_resources[_id], role)

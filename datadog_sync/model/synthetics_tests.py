@@ -59,11 +59,9 @@ class SyntheticsTests(BaseResource):
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(
-        self, _id, synthetics_test, local_destination_resources, connection_resource_obj=None
+        self, _id, synthetics_test, local_destination_resources, connection_resource_obj
     ):
-
-        if self.resource_connections:
-            self.connect_resources(synthetics_test, connection_resource_obj)
+        self.connect_resources(synthetics_test, connection_resource_obj)
 
         if _id in local_destination_resources:
             self.update_resource(_id, synthetics_test, local_destination_resources)

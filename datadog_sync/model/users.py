@@ -73,8 +73,7 @@ class Users(BaseResource):
         destination_client = self.ctx.obj.get("destination_client")
         remote_users = kwargs.get("remote_users")
 
-        if self.resource_connections:
-            self.connect_resources(user, connection_resource_obj)
+        self.connect_resources(user, connection_resource_obj)
 
         # Create copy
         resource_copy = copy.deepcopy(user)
