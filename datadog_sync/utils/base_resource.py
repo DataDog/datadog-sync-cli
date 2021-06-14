@@ -94,6 +94,8 @@ class BaseResource:
                 if diff:
                     log.info("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
             else:
+                if "type" in resource and resource["type"] == "synthetics alert":
+                    return
                 log.info("Resource to be added %s: \n %s", self.resource_type, pformat(resource))
 
     def remove_non_nullable_attributes(self, resource):
