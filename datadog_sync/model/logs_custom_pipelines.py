@@ -44,19 +44,11 @@ class LogsCustomPipelines(BaseResource):
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
         connection_resource_obj = self.get_connection_resources()
-
-        for _id, logs_custom_pipeline in source_resources.items():
-            self.prepare_resource_and_apply(
-                _id,
-                logs_custom_pipeline,
-                local_destination_resources,
-                connection_resource_obj,
-            )
-
+        self.apply_resources_sequentially(source_resources, local_destination_resources, connection_resource_obj)
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(
-        self, _id, logs_custom_pipeline, local_destination_resources, connection_resource_obj
+        self, _id, logs_custom_pipeline, local_destination_resources, connection_resource_obj, **kwargs
     ):
 
         self.connect_resources(logs_custom_pipeline, connection_resource_obj)

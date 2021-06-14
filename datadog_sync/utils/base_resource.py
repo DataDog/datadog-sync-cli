@@ -107,6 +107,19 @@ class BaseResource:
             k_list = key.split(".")
             self.del_null_attr(k_list, resource)
 
+    def apply_resources_sequentially(self, resources, local_destination_resources, connection_resource_obj, **kwargs):
+        for _id, resource in resources.items():
+            try:
+                self.prepare_resource_and_apply(
+                    _id,
+                    resource,
+                    local_destination_resources,
+                    connection_resource_obj,
+                    **kwargs
+                )
+            except BaseException:
+                log.exception("error while applying resource")
+
     def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj, **kwargs):
         with ThreadPoolExecutor() as executor:
             futures = [
