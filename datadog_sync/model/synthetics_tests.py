@@ -78,9 +78,6 @@ class SyntheticsTests(BaseResource):
 
     def create_resource(self, _id, synthetics_test, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
-
-        monitor_id = synthetics_test["monitor_id"]
-
         self.remove_excluded_attr(synthetics_test)
 
         try:
@@ -88,7 +85,6 @@ class SyntheticsTests(BaseResource):
         except HTTPError as e:
             log.error("error creating synthetics_test: %s", e.response.text)
             return
-
         local_destination_resources[_id] = resp
 
     def update_resource(self, _id, synthetics_test, local_destination_resources):
@@ -104,5 +100,4 @@ class SyntheticsTests(BaseResource):
             except HTTPError as e:
                 log.error("error creating synthetics_test: %s", e.response.text)
                 return
-
             local_destination_resources[_id] = resp
