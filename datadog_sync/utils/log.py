@@ -1,5 +1,7 @@
 import logging
 
+from datadog_sync.constants import LOGGER_NAME
+
 
 def _configure_logging(verbose):
     # Set logging level and format
@@ -15,7 +17,7 @@ class Log:
         _configure_logging(verbose)
 
         self.exception_logged = False
-        self.logger = logging.getLogger("datadog_sync_cli")
+        self.logger = logging.getLogger(LOGGER_NAME)
 
     def debug(self, msg, *arg):
         self.logger.debug(msg, *arg)
