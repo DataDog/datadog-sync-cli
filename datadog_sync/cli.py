@@ -10,10 +10,10 @@ from datadog_sync.models import (
     Monitors,
     Dashboards,
     Downtimes,
-    ServiceLevelObjectives,
     SyntheticsPrivateLocations,
     SyntheticsTests,
     SyntheticsGlobalVariables,
+    ServiceLevelObjectives,
     LogsCustomPipelines,
 )
 from datadog_sync.utils.custom_client import CustomClient
