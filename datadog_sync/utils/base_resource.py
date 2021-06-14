@@ -98,6 +98,8 @@ class BaseResource:
                 if diff:
                     log.info("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
             else:
+                if resource.get("type") == "synthetics alert":
+                    return
                 log.info("Resource to be added %s: \n %s", self.resource_type, pformat(resource))
 
     def remove_non_nullable_attributes(self, resource):
@@ -144,8 +146,8 @@ class BaseResource:
             json.dump(resources, f, indent=2)
 
     def connect_resources(self, resource, connection_resources_obj=None):
-        if connection_resources_obj is None:
-            connection_resources_obj = {}
+        if not connection_resources_obj:
+            return
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
-                replace(attr_connection, resource, resource_to_connect, connection_resources_obj)
+                replace(attr_connection, self.resource_type, resource, resource_to_connect, connection_resources_obj)

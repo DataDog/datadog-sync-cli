@@ -10,6 +10,7 @@ class Cleanup:
         self.headers = get_headers()
         self.base_url = os.getenv("DD_DESTINATION_API_URL")
 
+        self.cleanup_service_level_objectives()
         self.cleanup_synthetics_tests()
         self.cleanup_synthetics_private_locations()
         self.cleanup_synthetics_global_variables()
@@ -106,6 +107,12 @@ class Cleanup:
                 print("deleted resource ", url, payload)
             except requests.exceptions.HTTPError as e:
                 print("Error deleting resource: %s", e)
+
+    def cleanup_service_level_objectives(self):
+        path = "/api/v1/slo"
+        res = self.get_resources(path)
+        for resource in res["data"]:
+            self.delete_resource(resource["id"], path)
 
     def get_resources(self, path, *args, **kwargs):
         url = self.base_url + path
