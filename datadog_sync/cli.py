@@ -122,7 +122,6 @@ def cli(ctx, **kwargs):
 def get_resources(ctx):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
     resources = [
-        IntegrationsAWS(ctx),
         Roles(ctx),
         Users(ctx),
         SyntheticsPrivateLocations(ctx),
@@ -133,6 +132,7 @@ def get_resources(ctx):
         Dashboards(ctx),
         ServiceLevelObjectives(ctx),
         LogsCustomPipelines(ctx),
+        IntegrationsAWS(ctx),
     ]
 
     resources_arg = ctx.obj.get("resources")
