@@ -41,13 +41,13 @@ Resource                      | Dependencies
 ---                           | ---
 roles                         | -
 users                         | roles
-monitors                      | roles
+monitors                      | -
 dashboards                    | monitors
 downtimes                     | monitors
-synthetics_tests              | synthetics_private_locations
-synthetics_private_locations  | -
-synthetics_global_variables   | synthetics_tests
 service_level_objectives      | monitors, synthetics_tests
+synthetics_private_locations  | -
+synthetics_tests              | synthetics_private_locations
+synthetics_global_variables   | synthetics_tests
 logs_custom_pipelines         | -
 
 ## Supported resources
@@ -57,8 +57,8 @@ logs_custom_pipelines         | -
 - **monitors**
 - **dashboards**
 - **downtimes**
-- **synthetics_tests**
+- **service_level_objectives**
 - **synthetics_private_locations**
 - **synthetics_global_variables**
-- **service_level_objectives**
+- **synthetics_tests**
 - **logs_custom_pipelines**
