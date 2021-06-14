@@ -87,8 +87,13 @@ class IntegrationsAWS(BaseResource):
         diff = self.check_diff(integration_aws, local_destination_resources[_id])
         if diff:
             try:
+                integration_aws.pop("errors", None)
+                account_id = integration_aws.pop("account_id", None)
+
                 destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['id']}", integration_aws
+                    self.base_path,
+                    integration_aws,
+                    params={"account_id": account_id, "role_name": integration_aws["role_name"]},
                 ).json()
             except HTTPError as e:
                 log.error("error updating integration_aws: %s", e.response.text)
