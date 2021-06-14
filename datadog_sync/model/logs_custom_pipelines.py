@@ -32,13 +32,7 @@ class LogsCustomPipelines(BaseResource):
             log.error("error importing logs_custom_pipelines %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(self.process_resource_import, logs_custom_pipeline, logs_custom_pipelines)
-                    for logs_custom_pipeline in resp
-                ]
-            )
+        self.import_resources_concurrently(logs_custom_pipelines, resp)
 
         # Write resources to file
         self.write_resources_file("source", logs_custom_pipelines)
@@ -50,23 +44,14 @@ class LogsCustomPipelines(BaseResource):
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
         connection_resource_obj = self.get_connection_resources()
-
-        for _id, logs_custom_pipeline in source_resources.items():
-            self.prepare_resource_and_apply(
-                _id,
-                logs_custom_pipeline,
-                local_destination_resources,
-                connection_resource_obj,
-            )
-
+        self.apply_resources_sequentially(source_resources, local_destination_resources, connection_resource_obj)
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(
-        self, _id, logs_custom_pipeline, local_destination_resources, connection_resource_obj=None
+        self, _id, logs_custom_pipeline, local_destination_resources, connection_resource_obj, **kwargs
     ):
 
-        if self.resource_connections:
-            self.connect_resources(logs_custom_pipeline, connection_resource_obj)
+        self.connect_resources(logs_custom_pipeline, connection_resource_obj)
 
         if _id in local_destination_resources:
             self.update_resource(_id, logs_custom_pipeline, local_destination_resources)

@@ -46,13 +46,12 @@ class Users(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            users_resp = paginated_request(source_client.get)(self.base_path, params=GET_USERS_FILTER)
+            resp = paginated_request(source_client.get)(self.base_path, params=GET_USERS_FILTER)
         except HTTPError as e:
             log.error("Error while importing Users resource: %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource_import, user, users) for user in users_resp])
+        self.import_resources_concurrently(users, resp)
 
         # Write resources to file
         self.write_resources_file("source", users)
@@ -61,32 +60,20 @@ class Users(BaseResource):
         users[user["id"]] = user
 
     def apply_resources(self):
-        source_users, local_destination_users = self.open_resources()
+        source_resources, local_destination_resources = self.open_resources()
         remote_users = self.get_remote_destination_users()
         connection_resource_obj = self.get_connection_resources()
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.prepare_resource_and_apply,
-                        _id,
-                        user,
-                        local_destination_users,
-                        remote_users,
-                        connection_resource_obj,
-                    )
-                    for _id, user in source_users.items()
-                ]
-            )
+        self.apply_resources_concurrently(
+            source_resources, local_destination_resources, connection_resource_obj, remote_users=remote_users
+        )
+        self.write_resources_file("destination", local_destination_resources)
 
-        self.write_resources_file("destination", local_destination_users)
-
-    def prepare_resource_and_apply(self, _id, user, local_destination_users, remote_users, connection_resource_obj):
+    def prepare_resource_and_apply(self, _id, user, local_destination_users, connection_resource_obj, **kwargs):
         destination_client = self.ctx.obj.get("destination_client")
+        remote_users = kwargs.get("remote_users")
 
-        if self.resource_connections:
-            self.connect_resources(user, connection_resource_obj)
+        self.connect_resources(user, connection_resource_obj)
 
         # Create copy
         resource_copy = copy.deepcopy(user)

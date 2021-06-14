@@ -38,6 +38,10 @@ class BaseResource:
     def import_resources(self):
         pass
 
+    def import_resources_concurrently(self, resources_obj, resources):
+        with ThreadPoolExecutor() as executor:
+            [executor.submit(self.process_resource_import, resource, resources_obj) for resource in resources]
+
     def get_connection_resources(self):
         connection_resources = {}
 
@@ -103,7 +107,16 @@ class BaseResource:
             k_list = key.split(".")
             self.del_null_attr(k_list, resource)
 
-    def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj):
+    def apply_resources_sequentially(self, resources, local_destination_resources, connection_resource_obj, **kwargs):
+        for _id, resource in resources.items():
+            try:
+                self.prepare_resource_and_apply(
+                    _id, resource, local_destination_resources, connection_resource_obj, **kwargs
+                )
+            except BaseException:
+                log.exception("error while applying resource")
+
+    def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj, **kwargs):
         with ThreadPoolExecutor() as executor:
             futures = [
                 executor.submit(
@@ -112,6 +125,7 @@ class BaseResource:
                     resource,
                     local_destination_resources,
                     connection_resource_obj,
+                    **kwargs,
                 )
                 for _id, resource in resources.items()
             ]
@@ -141,7 +155,7 @@ class BaseResource:
             json.dump(resources, f, indent=2)
 
     def connect_resources(self, resource, connection_resources_obj=None):
-        if not connection_resources_obj:
+        if not (connection_resources_obj or self.resource_connections):
             return
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
