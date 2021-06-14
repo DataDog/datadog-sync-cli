@@ -11,7 +11,7 @@ log = logging.getLogger("__name__")
 
 
 RESOURCE_TYPE = "integrations_aws"
-EXCLUDED_ATTRIBUTES = ["root['external_id']"]
+EXCLUDED_ATTRIBUTES = ["root['external_id']", "root['errors']"]
 BASE_PATH = "/api/v1/integration/aws"
 
 
