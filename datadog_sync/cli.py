@@ -1,5 +1,3 @@
-import logging
-
 from click import pass_context, group, option
 
 import datadog_sync.constants as constants
