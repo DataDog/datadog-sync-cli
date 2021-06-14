@@ -111,11 +111,7 @@ class BaseResource:
         for _id, resource in resources.items():
             try:
                 self.prepare_resource_and_apply(
-                    _id,
-                    resource,
-                    local_destination_resources,
-                    connection_resource_obj,
-                    **kwargs
+                    _id, resource, local_destination_resources, connection_resource_obj, **kwargs
                 )
             except BaseException:
                 log.exception("error while applying resource")
