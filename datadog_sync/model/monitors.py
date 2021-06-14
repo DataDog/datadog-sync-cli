@@ -43,7 +43,7 @@ class Monitors(BaseResource):
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
-            self.logger.error("error importing monitors %s", e)
+            log.error("error importing monitors %s", e)
             return
 
         with ThreadPoolExecutor() as executor:
@@ -53,27 +53,51 @@ class Monitors(BaseResource):
         self.write_resources_file("source", monitors)
 
     def process_resource_import(self, monitor, monitors):
-        if monitor["type"] != "synthetics alert":
-            monitors[monitor["id"]] = monitor
+        monitors[monitor["id"]] = monitor
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
-        connection_resource_obj = {}
 
-        simple_monitors = {}
-        composite_monitors = {}
+        composite_monitors = []
 
-        for _id, monitor in source_resources.items():
-            if monitor["type"] == "composite":
-                composite_monitors[_id] = monitor
-            else:
-                simple_monitors[_id] = monitor
+        log.info("Processing Simple Monitors")
 
-        self.apply_resources_concurrently(simple_monitors, local_destination_resources, connection_resource_obj)
+        simple_monitors_futures = []
+        with ThreadPoolExecutor() as executor:
+            for _id, monitor in source_resources.items():
+                if monitor["type"] == "synthetics alert":
+                    continue
+                if monitor["type"] == "composite":
+                    composite_monitors.append((_id, monitor))
+                else:
+                    simple_monitors_futures.append(
+                        executor.submit(
+                            self.prepare_resource_and_apply,
+                            _id,
+                            monitor,
+                            local_destination_resources,
+                        )
+                    )
+        wait(simple_monitors_futures)
+
         self.write_resources_file("destination", local_destination_resources)
-
         connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(composite_monitors, local_destination_resources, connection_resource_obj)
+
+        log.info("Processing Composite Monitors")
+        with ThreadPoolExecutor() as executor:
+            wait(
+                [
+                    executor.submit(
+                        self.prepare_resource_and_apply,
+                        _id,
+                        monitor,
+                        local_destination_resources,
+                        connection_resource_obj,
+                    )
+                    for _id, monitor in composite_monitors
+                ]
+            )
+
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(self, _id, monitor, local_destination_resources, connection_resource_obj=None):
@@ -91,7 +115,7 @@ class Monitors(BaseResource):
         try:
             resp = destination_client.post(self.base_path, monitor).json()
         except HTTPError as e:
-            self.logger.error("error creating monitor: %s", e.response.text)
+            log.error("error creating monitor: %s", e.response.text)
             return
         local_destination_resources[_id] = resp
 
@@ -105,6 +129,6 @@ class Monitors(BaseResource):
                     self.base_path + f"/{local_destination_resources[_id]['id']}", monitor
                 ).json()
             except HTTPError as e:
-                self.logger.error("error creating monitor: %s", e.response.text)
+                log.error("error creating monitor: %s", e.response.text)
                 return
             local_destination_resources[_id] = resp

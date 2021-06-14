@@ -41,22 +41,24 @@ Resource                      | Dependencies
 ---                           | ---
 roles                         | -
 users                         | roles
-monitors                      | roles
-dashboards                    | monitors
-downtimes                     | monitors
-synthetics_tests              | synthetics_private_locations
 synthetics_private_locations  | -
+synthetics_tests              | synthetics_private_locations
 synthetics_global_variables   | synthetics_tests
+monitors                      | -
+downtimes                     | monitors
+dashboards                    | monitors
+service_level_objectives      | monitors, synthetics_tests
 logs_custom_pipelines         | -
 
 ## Supported resources
 
 - **roles**
 - **users**
-- **monitors**
-- **dashboards**
-- **downtimes**
-- **synthetics_tests**
 - **synthetics_private_locations**
+- **synthetics_tests**
 - **synthetics_global_variables**
+- **monitors**
+- **downtimes**
+- **dashboards**
+- **service_level_objectives**
 - **logs_custom_pipelines**
