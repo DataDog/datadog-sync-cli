@@ -53,8 +53,7 @@ class Monitors(BaseResource):
         self.write_resources_file("source", monitors)
 
     def process_resource_import(self, monitor, monitors):
-        if monitor["type"] != "synthetics alert":
-            monitors[monitor["id"]] = monitor
+        monitors[monitor["id"]] = monitor
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
@@ -66,6 +65,8 @@ class Monitors(BaseResource):
         simple_monitors_futures = []
         with ThreadPoolExecutor() as executor:
             for _id, monitor in source_resources.items():
+                if monitor["type"] == "synthetics alert":
+                    continue
                 if monitor["type"] == "composite":
                     composite_monitors.append((_id, monitor))
                 else:
