@@ -113,9 +113,9 @@ def get_resources(ctx):
         SyntheticsTests(ctx),
         SyntheticsGlobalVariables(ctx),
         Monitors(ctx),
-        ServiceLevelObjectives(ctx),
         Downtimes(ctx),
         Dashboards(ctx),
+        ServiceLevelObjectives(ctx),
         LogsCustomPipelines(ctx),
     ]
 
