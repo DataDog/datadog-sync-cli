@@ -47,6 +47,7 @@ downtimes                     | monitors
 synthetics_tests              | synthetics_private_locations
 synthetics_private_locations  | -
 synthetics_global_variables   | synthetics_tests
+service_level_objectives      | monitors, synthetics_tests
 logs_custom_pipelines         | -
 
 ## Supported resources
@@ -59,4 +60,5 @@ logs_custom_pipelines         | -
 - **synthetics_tests**
 - **synthetics_private_locations**
 - **synthetics_global_variables**
+- **service_level_objectives**
 - **logs_custom_pipelines**
