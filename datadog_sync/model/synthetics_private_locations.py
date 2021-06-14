@@ -1,13 +1,9 @@
 import re
-import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
-
-
-log = logging.getLogger(__name__)
 
 
 RESOURCE_TYPE = "synthetics_private_locations"

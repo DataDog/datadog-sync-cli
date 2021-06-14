@@ -1,5 +1,4 @@
 import copy
-import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests.exceptions import HTTPError
@@ -18,9 +17,6 @@ EXCLUDED_ATTRIBUTES = [
 ]
 BASE_PATH = "/api/v2/roles"
 PERMISSIONS_BASE_PATH = "/api/v2/permissions"
-
-
-log = logging.getLogger(__name__)
 
 
 class Roles(BaseResource):

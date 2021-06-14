@@ -1,4 +1,3 @@
-import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests.exceptions import HTTPError
@@ -16,9 +15,6 @@ EXCLUDED_ATTRIBUTES = [
 ]
 RESOURCE_CONNECTIONS = {"monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"]}
 BASE_PATH = "/api/v1/dashboard"
-
-
-log = logging.getLogger(__name__)
 
 
 class Dashboards(BaseResource):

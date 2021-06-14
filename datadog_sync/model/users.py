@@ -1,5 +1,4 @@
 import copy
-import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests import HTTPError
@@ -26,9 +25,6 @@ BASE_PATH = "/api/v2/users"
 ROLES_PATH = "/api/v2/roles/{}/users"
 RESOURCE_CONNECTIONS = {"roles": ["relationships.roles.data.id"]}
 GET_USERS_FILTER = {"filter[status]": "Active"}
-
-
-log = logging.getLogger(__name__)
 
 
 class Users(BaseResource):
@@ -106,6 +102,7 @@ class Users(BaseResource):
                     resp = destination_client.patch(self.base_path + f"/{remote_user['id']}", payload)
                 except HTTPError as e:
                     self.logger.error("error updating user: %s", e.response.json())
+                    return
                 local_destination_users[_id] = resp.json()["data"]
             else:
                 local_destination_users[_id] = remote_user
@@ -121,6 +118,7 @@ class Users(BaseResource):
             resp = destination_client.post(self.base_path, {"data": user})
         except HTTPError as e:
             self.logger.error("error creating user: %s", e)
+            return
         local_destination_users[_id] = resp.json()["data"]
 
     def update_resource(self, _id, user, local_destination_users):
@@ -139,6 +137,7 @@ class Users(BaseResource):
                 )
             except HTTPError as e:
                 self.logger.error("error updating user: %s, %s", e.response.json())
+                return
             local_destination_users[_id] = resp.json()["data"]
 
     def update_existing_user(self, _id, user, local_destination_users, remote_users):
@@ -155,6 +154,7 @@ class Users(BaseResource):
                 resp = destination_client.patch(self.base_path + f"/{remote_user['id']}", {"data": user})
             except HTTPError as e:
                 self.logger.error("error updating user: %s", e.response.json())
+                return
             local_destination_users[_id] = resp.json()["data"]
         else:
             local_destination_users[_id] = remote_user
