@@ -9,6 +9,7 @@ from datadog_sync.models import (
     Users,
     Monitors,
     Dashboards,
+    DashboardLists,
     Downtimes,
     SyntheticsPrivateLocations,
     SyntheticsTests,
@@ -129,6 +130,7 @@ def get_resources(ctx):
         Monitors(ctx),
         Downtimes(ctx),
         Dashboards(ctx),
+        DashboardLists(ctx),
         ServiceLevelObjectives(ctx),
         LogsCustomPipelines(ctx),
     ]

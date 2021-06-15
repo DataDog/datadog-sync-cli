@@ -167,6 +167,7 @@ class Roles(BaseResource):
             destination_roles_resp = paginated_request(destination_client.get)(self.base_path)
         except HTTPError as e:
             log.error("error retrieving roles: %s", e.response.text)
+            return
 
         for role in destination_roles_resp:
             destination_roles_mapping[role["attributes"]["name"]] = role["id"]
