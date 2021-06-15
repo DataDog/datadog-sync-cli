@@ -84,6 +84,7 @@ class DashboardLists(BaseResource):
         dashboards = copy.deepcopy(dashboard_list["dashboards"])
         dashboard_list.pop("dashboards")
         self.remove_excluded_attr(dashboard_list)
+
         try:
             resp = destination_client.post(self.base_path, dashboard_list).json()
         except HTTPError as e:

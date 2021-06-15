@@ -48,6 +48,7 @@ class Dashboards(BaseResource):
             dashboard = source_client.get(self.base_path + f"/{dash['id']}").json()
         except HTTPError as e:
             self.logger.error("error retrieving dashboard: %s", e)
+            return
         dashboards[dash["id"]] = dashboard
 
     def apply_resources(self):
