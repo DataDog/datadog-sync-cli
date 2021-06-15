@@ -1,5 +1,4 @@
 import copy
-import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests import HTTPError
@@ -28,9 +27,6 @@ RESOURCE_CONNECTIONS = {"roles": ["relationships.roles.data.id"]}
 GET_USERS_FILTER = {"filter[status]": "Active"}
 
 
-log = logging.getLogger(__name__)
-
-
 class Users(BaseResource):
     def __init__(self, ctx):
         super().__init__(
@@ -48,7 +44,7 @@ class Users(BaseResource):
         try:
             resp = paginated_request(source_client.get)(self.base_path, params=GET_USERS_FILTER)
         except HTTPError as e:
-            log.error("Error while importing Users resource: %s", e)
+            self.logger.error("Error while importing Users resource: %s", e)
             return
 
         self.import_resources_concurrently(users, resp)
@@ -92,7 +88,8 @@ class Users(BaseResource):
                 try:
                     resp = destination_client.patch(self.base_path + f"/{remote_user['id']}", payload)
                 except HTTPError as e:
-                    log.error("error updating user: %s", e.response.json())
+                    self.logger.error("error updating user: %s", e.response.json())
+                    return
                 local_destination_users[_id] = resp.json()["data"]
             else:
                 local_destination_users[_id] = remote_user
@@ -107,7 +104,8 @@ class Users(BaseResource):
         try:
             resp = destination_client.post(self.base_path, {"data": user})
         except HTTPError as e:
-            log.error("error creating user: %s", e)
+            self.logger.error("error creating user: %s", e)
+            return
         local_destination_users[_id] = resp.json()["data"]
 
     def update_resource(self, _id, user, local_destination_users):
@@ -125,7 +123,8 @@ class Users(BaseResource):
                     self.base_path + f"/{local_destination_users[_id]['id']}", {"data": user}
                 )
             except HTTPError as e:
-                log.error("error updating user: %s, %s", e.response.json())
+                self.logger.error("error updating user: %s, %s", e.response.json())
+                return
             local_destination_users[_id] = resp.json()["data"]
 
     def update_existing_user(self, _id, user, local_destination_users, remote_users):
@@ -141,7 +140,8 @@ class Users(BaseResource):
             try:
                 resp = destination_client.patch(self.base_path + f"/{remote_user['id']}", {"data": user})
             except HTTPError as e:
-                log.error("error updating user: %s", e.response.json())
+                self.logger.error("error updating user: %s", e.response.json())
+                return
             local_destination_users[_id] = resp.json()["data"]
         else:
             local_destination_users[_id] = remote_user
@@ -169,7 +169,7 @@ class Users(BaseResource):
         try:
             remote_users = paginated_request(destination_client.get)(self.base_path, params=GET_USERS_FILTER)
         except HTTPError as e:
-            log.error("error retrieving remote users: %s", e)
+            self.logger.error("error retrieving remote users: %s", e)
             return
 
         for user in remote_users:
@@ -183,7 +183,7 @@ class Users(BaseResource):
         try:
             destination_client.post(ROLES_PATH.format(role_id), payload)
         except HTTPError as e:
-            log.error("error adding user: %s to role %s: %s", user_id, role_id, e)
+            self.logger.error("error adding user: %s to role %s: %s", user_id, role_id, e)
 
     def remove_user_from_role(self, user_id, role_id):
         destination_client = self.ctx.obj.get("destination_client")
@@ -191,4 +191,4 @@ class Users(BaseResource):
         try:
             destination_client.delete(ROLES_PATH.format(role_id), payload)
         except HTTPError as e:
-            log.error("error removing user: %s from role %s: %s", user_id, role_id, e)
+            self.logger.error("error removing user: %s from role %s: %s", user_id, role_id, e)

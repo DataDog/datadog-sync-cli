@@ -1,7 +1,6 @@
 import os
 import json
 import re
-import logging
 from concurrent.futures import ThreadPoolExecutor
 from pprint import pformat
 
@@ -9,9 +8,6 @@ from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
 from datadog_sync.utils.resource_utils import replace
-
-
-log = logging.getLogger(__name__)
 
 
 class BaseResource:
@@ -27,6 +23,7 @@ class BaseResource:
         non_nullable_attr=None,
     ):
         self.ctx = ctx
+        self.logger = ctx.obj.get("logger")
         self.resource_type = resource_type
         self.base_path = base_path
         self.excluded_attributes = excluded_attributes
@@ -90,17 +87,18 @@ class BaseResource:
         connection_resource_obj = self.get_connection_resources()
 
         for _id, resource in source_resources.items():
+            if resource.get("type") == "synthetics alert":
+                continue
+
             if self.resource_connections:
                 self.connect_resources(resource, connection_resource_obj)
 
             if _id in local_destination_resources:
                 diff = self.check_diff(local_destination_resources[_id], resource)
                 if diff:
-                    log.info("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
+                    print("{} resource ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
             else:
-                if resource.get("type") == "synthetics alert":
-                    return
-                log.info("Resource to be added %s: \n %s", self.resource_type, pformat(resource))
+                print("Resource to be added {}: \n {}".format(self.resource_type, pformat(resource)))
 
     def remove_non_nullable_attributes(self, resource):
         for key in self.non_nullable_attr:
@@ -133,7 +131,7 @@ class BaseResource:
             try:
                 future.result()
             except BaseException:
-                log.exception("error while applying resource")
+                self.logger.exception("error while applying resource")
 
     def open_resources(self):
         destination_resources = dict()

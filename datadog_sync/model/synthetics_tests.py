@@ -1,12 +1,8 @@
-import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
-
-
-log = logging.getLogger(__name__)
 
 
 RESOURCE_TYPE = "synthetics_tests"
@@ -41,7 +37,7 @@ class SyntheticsTests(BaseResource):
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
-            log.error("error importing synthetics_tests: %s", e)
+            self.logger.error("error importing synthetics_tests: %s", e)
             return
 
         self.import_resources_concurrently(synthetics_tests, resp["tests"])
@@ -73,7 +69,7 @@ class SyntheticsTests(BaseResource):
         try:
             resp = destination_client.post(self.base_path, synthetics_test).json()
         except HTTPError as e:
-            log.error("error creating synthetics_test: %s", e.response.text)
+            self.logger.error("error creating synthetics_test: %s", e.response.text)
             return
         local_destination_resources[_id] = resp
 
@@ -88,6 +84,6 @@ class SyntheticsTests(BaseResource):
                     self.base_path + f"/{local_destination_resources[_id]['public_id']}", synthetics_test
                 ).json()
             except HTTPError as e:
-                log.error("error creating synthetics_test: %s", e.response.text)
+                self.logger.error("error creating synthetics_test: %s", e.response.text)
                 return
             local_destination_resources[_id] = resp

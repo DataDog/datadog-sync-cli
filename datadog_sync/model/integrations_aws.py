@@ -1,13 +1,6 @@
-import logging
-from concurrent.futures import ThreadPoolExecutor, wait
-
-from deepdiff import DeepDiff
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
-
-
-log = logging.getLogger("__name__")
 
 
 RESOURCE_TYPE = "integrations_aws"
@@ -26,7 +19,7 @@ class IntegrationsAWS(BaseResource):
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
-            log.error("error importing integrations_aws %s", e)
+            self.logger.error("error importing integrations_aws %s", e)
             return
 
         self.import_resources_concurrently(resp["accounts"], integrations_aws)
@@ -40,7 +33,7 @@ class IntegrationsAWS(BaseResource):
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
 
-        log.info("Processing integrations_aws")
+        self.logger.info("Processing integrations_aws")
 
         connection_resource_obj = self.get_connection_resources()
 
@@ -66,7 +59,7 @@ class IntegrationsAWS(BaseResource):
             resp = destination_client.post(self.base_path, integration_aws).json()
             data = destination_client.get(self.base_path, params={"account_id": _id}).json()
         except HTTPError as e:
-            log.error("error creating integration_aws: %s", e.response.text)
+            self.logger.error("error creating integration_aws: %s", e.response.text)
             return
 
         if "accounts" in data:
@@ -91,5 +84,5 @@ class IntegrationsAWS(BaseResource):
                     params={"account_id": account_id, "role_name": integration_aws["role_name"]},
                 ).json()
             except HTTPError as e:
-                log.error("error updating integration_aws: %s", e.response.text)
+                self.logger.error("error updating integration_aws: %s", e.response.text)
                 return

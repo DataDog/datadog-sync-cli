@@ -1,12 +1,8 @@
-import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
-
-
-log = logging.getLogger(__name__)
 
 
 RESOURCE_TYPE = "synthetics_global_variables"
@@ -42,7 +38,7 @@ class SyntheticsGlobalVariables(BaseResource):
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
-            log.error("error importing synthetics_global_variables: %s", e)
+            self.logger.error("error importing synthetics_global_variables: %s", e)
             return
 
         self.import_resources_concurrently(synthetics_global_variables, resp["variables"])
@@ -95,7 +91,7 @@ class SyntheticsGlobalVariables(BaseResource):
         try:
             resp = destination_client.post(self.base_path, synthetics_global_variable).json()
         except HTTPError as e:
-            log.error("error creating synthetics_global_variable: %s", e.response.text)
+            self.logger.error("error creating synthetics_global_variable: %s", e.response.text)
             return
         local_destination_resources[_id] = resp
 
@@ -111,7 +107,7 @@ class SyntheticsGlobalVariables(BaseResource):
                     self.base_path + f"/{local_destination_resources[_id]['id']}", synthetics_global_variable
                 ).json()
             except HTTPError as e:
-                log.error("error updating synthetics_global_variable: %s", e.response.text)
+                self.logger.error("error updating synthetics_global_variable: %s", e.response.text)
                 return
             local_destination_resources[_id].update(resp)
 
@@ -132,7 +128,7 @@ class SyntheticsGlobalVariables(BaseResource):
                     synthetics_global_variable,
                 ).json()
             except HTTPError as e:
-                log.error("error updating synthetics_global_variable: %s", e.response.text)
+                self.logger.error("error updating synthetics_global_variable: %s", e.response.text)
                 return
             local_destination_resources[_id] = resp
         else:
@@ -145,7 +141,7 @@ class SyntheticsGlobalVariables(BaseResource):
         try:
             resp = destination_client.get(self.base_path).json()["variables"]
         except HTTPError as e:
-            log.error("error retrieving remote users: %s", e)
+            self.logger.error("error retrieving remote users: %s", e)
             return
 
         for variable in resp:
