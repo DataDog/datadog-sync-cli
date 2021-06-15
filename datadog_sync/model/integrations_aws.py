@@ -22,7 +22,7 @@ class IntegrationsAWS(BaseResource):
             self.logger.error("error importing integrations_aws %s", e)
             return
 
-        self.import_resources_concurrently(resp["accounts"], integrations_aws)
+        self.import_resources_concurrently(integrations_aws, resp["accounts"])
 
         # Write resources to file
         self.write_resources_file("source", integrations_aws)
