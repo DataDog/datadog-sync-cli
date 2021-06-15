@@ -15,6 +15,7 @@ from datadog_sync.models import (
     SyntheticsGlobalVariables,
     ServiceLevelObjectives,
     LogsCustomPipelines,
+    IntegrationsAWS,
 )
 from datadog_sync.utils.custom_client import CustomClient
 
@@ -131,6 +132,7 @@ def get_resources(ctx):
         Dashboards(ctx),
         ServiceLevelObjectives(ctx),
         LogsCustomPipelines(ctx),
+        IntegrationsAWS(ctx),
     ]
 
     resources_arg = ctx.obj.get("resources")

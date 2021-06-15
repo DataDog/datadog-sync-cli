@@ -20,6 +20,7 @@ class Cleanup:
         self.cleanup_monitors()
         self.cleanup_users()
         self.cleanup_roles()
+        self.cleanup_integrations_aws()
 
     def cleanup_dashboards(
         self,
@@ -113,6 +114,25 @@ class Cleanup:
         res = self.get_resources(path)
         for resource in res["data"]:
             self.delete_resource(resource["id"], path)
+
+    def cleanup_integrations_aws(
+        self,
+    ):
+        path = "/api/v1/integration/aws"
+        res = self.get_resources(path)
+        for resource in res["accounts"]:
+            url = self.base_url + path
+            try:
+                resp = requests.delete(
+                    url,
+                    headers=self.headers,
+                    timeout=60,
+                    data=json.dumps({"account_id": resource["account_id"], "role_name": resource["role_name"]}),
+                )
+                resp.raise_for_status()
+                print("deleted resource ", url, resource["account_id"])
+            except requests.exceptions.HTTPError as e:
+                print("Error deleting resource: %s", e)
 
     def get_resources(self, path, *args, **kwargs):
         url = self.base_url + path
