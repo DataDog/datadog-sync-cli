@@ -29,13 +29,7 @@ class IntegrationsAWS(BaseResource):
             log.error("error importing integrations_aws %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(self.process_resource_import, integration_aws, integrations_aws)
-                    for integration_aws in resp["accounts"]
-                ]
-            )
+        self.import_resources_concurrently(resp["accounts"], integrations_aws)
 
         # Write resources to file
         self.write_resources_file("source", integrations_aws)
@@ -51,8 +45,7 @@ class IntegrationsAWS(BaseResource):
         connection_resource_obj = self.get_connection_resources()
 
         # must not be done in parallel, api returns conflict error
-        for _id, aws_integration in source_resources.items():
-            self.prepare_resource_and_apply(_id, aws_integration, local_destination_resources, connection_resource_obj)
+        self.apply_resources_sequentially(source_resources, local_destination_resources, connection_resource_obj)
 
         self.write_resources_file("destination", local_destination_resources)
 
