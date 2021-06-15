@@ -40,13 +40,7 @@ class SyntheticsTests(BaseResource):
             self.logger.error("error importing synthetics_tests: %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(self.process_resource_import, synthetics_test, synthetics_tests)
-                    for synthetics_test in resp["tests"]
-                ]
-            )
+        self.import_resources_concurrently(synthetics_tests, resp["tests"])
 
         # Write resources to file
         self.write_resources_file("source", synthetics_tests)
@@ -60,12 +54,8 @@ class SyntheticsTests(BaseResource):
         self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
         self.write_resources_file("destination", local_destination_resources)
 
-    def prepare_resource_and_apply(
-        self, _id, synthetics_test, local_destination_resources, connection_resource_obj=None
-    ):
-
-        if self.resource_connections:
-            self.connect_resources(synthetics_test, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, synthetics_test, local_destination_resources, connection_resource_obj):
+        self.connect_resources(synthetics_test, connection_resource_obj)
 
         if _id in local_destination_resources:
             self.update_resource(_id, synthetics_test, local_destination_resources)

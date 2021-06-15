@@ -13,6 +13,7 @@ from datadog_sync.models import (
     SyntheticsGlobalVariables,
     ServiceLevelObjectives,
     LogsCustomPipelines,
+    IntegrationsAWS,
 )
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.log import Log
@@ -20,13 +21,22 @@ from datadog_sync.utils.log import Log
 
 @group()
 @option(
-    "--source-api-key", envvar=constants.DD_SOURCE_API_KEY, required=True, help="Datadog source organization API key.",
+    "--source-api-key",
+    envvar=constants.DD_SOURCE_API_KEY,
+    required=True,
+    help="Datadog source organization API key.",
 )
 @option(
-    "--source-app-key", envvar=constants.DD_SOURCE_APP_KEY, required=True, help="Datadog source organization APP key.",
+    "--source-app-key",
+    envvar=constants.DD_SOURCE_APP_KEY,
+    required=True,
+    help="Datadog source organization APP key.",
 )
 @option(
-    "--source-api-url", envvar=constants.DD_SOURCE_API_URL, required=False, help="Datadog source organization API url.",
+    "--source-api-url",
+    envvar=constants.DD_SOURCE_API_URL,
+    required=False,
+    help="Datadog source organization API url.",
 )
 @option(
     "--destination-api-key",
@@ -60,7 +70,11 @@ from datadog_sync.utils.log import Log
     help="Optional comma separated list of resource to import. All supported resources are imported by default.",
 )
 @option(
-    "--verbose", "-v", required=False, is_flag=True, help="Enable verbose logging.",
+    "--verbose",
+    "-v",
+    required=False,
+    is_flag=True,
+    help="Enable verbose logging.",
 )
 @pass_context
 def cli(ctx, **kwargs):
@@ -109,6 +123,7 @@ def get_resources(ctx):
         Dashboards(ctx),
         ServiceLevelObjectives(ctx),
         LogsCustomPipelines(ctx),
+        IntegrationsAWS(ctx),
     ]
 
     resources_arg = ctx.obj.get("resources")

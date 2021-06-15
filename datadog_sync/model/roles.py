@@ -28,13 +28,12 @@ class Roles(BaseResource):
         source_client = self.ctx.obj.get("source_client")
 
         try:
-            roles_resp = paginated_request(source_client.get)(self.base_path)
+            resp = paginated_request(source_client.get)(self.base_path)
         except HTTPError as e:
             self.logger.error("error importing roles: %s", e.response.text)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource_import, role, roles) for role in roles_resp])
+        self.import_resources_concurrently(roles, resp)
 
         # Write resources to file
         self.write_resources_file("source", roles)
@@ -43,40 +42,28 @@ class Roles(BaseResource):
         roles[role["id"]] = role
 
     def apply_resources(self):
-        source_roles, local_destination_resources = self.open_resources()
+        source_resources, local_destination_resources = self.open_resources()
         source_permission, destination_permission = self.get_permissions()
-        source_roles_mapping = self.get_source_roles_mapping(source_roles)
+        source_roles_mapping = self.get_source_roles_mapping(source_resources)
         destination_roles_mapping = self.get_destination_roles_mapping()
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.prepare_resource_and_apply,
-                        _id,
-                        role,
-                        local_destination_resources,
-                        source_permission,
-                        destination_permission,
-                        source_roles_mapping,
-                        destination_roles_mapping,
-                    )
-                    for _id, role in source_roles.items()
-                ]
-            )
+        self.apply_resources_concurrently(
+            source_resources,
+            local_destination_resources,
+            {},
+            source_permission=source_permission,
+            destination_permission=destination_permission,
+            source_roles_mapping=source_roles_mapping,
+            destination_roles_mapping=destination_roles_mapping,
+        )
 
         self.write_resources_file("destination", local_destination_resources)
 
-    def prepare_resource_and_apply(
-        self,
-        _id,
-        role,
-        local_destination_resources,
-        source_permission,
-        destination_permission,
-        source_roles_mapping,
-        destination_roles_mapping,
-    ):
+    def prepare_resource_and_apply(self, _id, role, local_destination_resources, connection_resource_obj, **kwargs):
+        source_permission = kwargs.get("source_permission")
+        destination_permission = kwargs.get("destination_permission")
+        source_roles_mapping = kwargs.get("source_roles_mapping")
+        destination_roles_mapping = kwargs.get("destination_roles_mapping")
 
         # Remap permissions if different datacenters
         self.remap_permissions(role, source_permission, destination_permission)
@@ -125,14 +112,10 @@ class Roles(BaseResource):
         source_permission, destination_permission = self.get_permissions()
         source_roles_mapping = self.get_source_roles_mapping(source_roles)
         destination_roles_mapping = self.get_destination_roles_mapping()
-        connection_resource_obj = self.get_connection_resources()
 
         for _id, role in source_roles.items():
             self.remap_permissions(role, source_permission, destination_permission)
             self.remap_role_id(role, source_roles_mapping, destination_roles_mapping)
-
-            if self.resource_connections:
-                self.connect_resources(role, connection_resource_obj)
 
             if _id in local_destination_resources:
                 diff = self.check_diff(local_destination_resources[_id], role)

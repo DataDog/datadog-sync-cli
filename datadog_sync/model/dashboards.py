@@ -37,19 +37,18 @@ class Dashboards(BaseResource):
             self.logger.error("error importing dashboards %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource_import, dash["id"], dashboards) for dash in resp["dashboards"]])
+        self.import_resources_concurrently(dashboards, resp["dashboards"])
 
         # Write the resource to a file
         self.write_resources_file("source", dashboards)
 
-    def process_resource_import(self, dash_id, dashboards):
+    def process_resource_import(self, dash, dashboards):
         source_client = self.ctx.obj.get("source_client")
         try:
-            dashboard = source_client.get(self.base_path + f"/{dash_id}").json()
+            dashboard = source_client.get(self.base_path + f"/{dash['id']}").json()
         except HTTPError as e:
             self.logger.error("error retrieving dashboard: %s", e)
-        dashboards[dash_id] = dashboard
+        dashboards[dash["id"]] = dashboard
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()
@@ -57,9 +56,8 @@ class Dashboards(BaseResource):
         self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
         self.write_resources_file("destination", local_destination_resources)
 
-    def prepare_resource_and_apply(self, _id, dashboard, local_destination_resources, connection_resource_obj=None):
-        if self.resource_connections:
-            self.connect_resources(dashboard, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, dashboard, local_destination_resources, connection_resource_obj):
+        self.connect_resources(dashboard, connection_resource_obj)
 
         if _id in local_destination_resources:
             self.update_resource(_id, dashboard, local_destination_resources)

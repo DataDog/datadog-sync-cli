@@ -53,25 +53,16 @@ class ServiceLevelObjectives(BaseResource):
 
         connection_resource_obj = self.get_connection_resources()
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.prepare_resource_and_apply,
-                        _id,
-                        slo,
-                        local_destination_resources,
-                        connection_resource_obj,
-                    )
-                    for _id, slo in source_resources.items()
-                ]
-            )
+        self.apply_resources_concurrently(
+            source_resources,
+            local_destination_resources,
+            connection_resource_obj,
+        )
 
         self.write_resources_file("destination", local_destination_resources)
 
-    def prepare_resource_and_apply(self, _id, slo, local_destination_resources, connection_resource_obj=None):
-        if self.resource_connections:
-            self.connect_resources(slo, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, slo, local_destination_resources, connection_resource_obj):
+        self.connect_resources(slo, connection_resource_obj)
 
         if _id in local_destination_resources:
             self.update_resource(_id, slo, local_destination_resources)

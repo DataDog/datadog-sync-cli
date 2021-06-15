@@ -34,15 +34,7 @@ class SyntheticsPrivateLocations(BaseResource):
             self.logger.error("error importing synthetics_private_locations: %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait(
-                [
-                    executor.submit(
-                        self.process_resource_import, synthetics_private_location, synthetics_private_locations
-                    )
-                    for synthetics_private_location in resp["locations"]
-                ]
-            )
+        self.import_resources_concurrently(synthetics_private_locations, resp["locations"])
 
         # Write resources to file
         self.write_resources_file("source", synthetics_private_locations)
@@ -68,11 +60,9 @@ class SyntheticsPrivateLocations(BaseResource):
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(
-        self, _id, synthetics_private_location, local_destination_resources, connection_resource_obj=None
+        self, _id, synthetics_private_location, local_destination_resources, connection_resource_obj
     ):
-
-        if self.resource_connections:
-            self.connect_resources(synthetics_private_location, connection_resource_obj)
+        self.connect_resources(synthetics_private_location, connection_resource_obj)
 
         if _id in local_destination_resources:
             self.update_resource(_id, synthetics_private_location, local_destination_resources)

@@ -49,6 +49,7 @@ downtimes                     | monitors
 dashboards                    | monitors
 service_level_objectives      | monitors, synthetics_tests
 logs_custom_pipelines         | -
+integrations_aws              | -
 
 ## Supported resources
 
@@ -62,3 +63,4 @@ logs_custom_pipelines         | -
 - **dashboards**
 - **service_level_objectives**
 - **logs_custom_pipelines**
+- **integrations_aws**
