@@ -47,6 +47,7 @@ synthetics_global_variables   | synthetics_tests
 monitors                      | -
 downtimes                     | monitors
 dashboards                    | monitors
+dashboard_lists               | dashboards
 service_level_objectives      | monitors, synthetics_tests
 logs_custom_pipelines         | -
 
@@ -60,5 +61,6 @@ logs_custom_pipelines         | -
 - **monitors**
 - **downtimes**
 - **dashboards**
+- **dashboard_lists**
 - **service_level_objectives**
 - **logs_custom_pipelines**
