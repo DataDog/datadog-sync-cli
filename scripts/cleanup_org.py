@@ -5,11 +5,19 @@ import re
 import requests
 
 
+TEST_ORG_ENV_NAME = "DD_TEST_ORG"
+DEFAULT_TEST_ORG = "13865f06-bfcc-11eb-8e11-da7ad0900005"
+
+
 class Cleanup:
     def __init__(self):
         self.headers = get_headers()
         self.base_url = os.getenv("DD_DESTINATION_API_URL")
 
+        # Validate test org
+        self.validate_org()
+
+        # Delete all supported resources
         self.cleanup_service_level_objectives()
         self.cleanup_synthetics_tests()
         self.cleanup_synthetics_private_locations()
@@ -21,6 +29,18 @@ class Cleanup:
         self.cleanup_users()
         self.cleanup_roles()
         self.cleanup_integrations_aws()
+
+    def validate_org(self):
+        _id = os.getenv(TEST_ORG_ENV_NAME, DEFAULT_TEST_ORG)
+        path = "/api/v1/org"
+        url = f"{self.base_url}{path}/{_id}"
+
+        try:
+            resp = requests.get(url, headers=self.headers, timeout=60)
+            resp.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            print("Error getting organization. Validate api+app keys %s: %s", url, e)
+            exit(1)
 
     def cleanup_dashboards(
         self,
