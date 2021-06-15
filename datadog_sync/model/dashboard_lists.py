@@ -17,7 +17,6 @@ EXCLUDED_ATTRIBUTES = [
     "root['created']",
     "root['modified']",
     "root['is_favorite']",
-    "root['dashboards']",
     "root['dashboard_count']",
 ]
 RESOURCE_CONNECTIONS = {"dashboards": ["dashboards.id"]}
@@ -83,6 +82,7 @@ class DashboardLists(BaseResource):
     def create_resource(self, _id, dashboard_list, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
         dashboards = copy.deepcopy(dashboard_list["dashboards"])
+        dashboard_list.pop("dashboards")
         self.remove_excluded_attr(dashboard_list)
         try:
             resp = destination_client.post(self.base_path, dashboard_list).json()
@@ -95,6 +95,7 @@ class DashboardLists(BaseResource):
     def update_resource(self, _id, dashboard_list, local_destination_resources):
         destination_client = self.ctx.obj.get("destination_client")
         dashboards = copy.deepcopy(dashboard_list["dashboards"])
+        dashboard_list.pop("dashboards")
         self.remove_excluded_attr(dashboard_list)
         dash_list_diff = self.check_diff(local_destination_resources[_id]["dashboards"], dashboards)
 
