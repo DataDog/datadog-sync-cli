@@ -1,12 +1,8 @@
-import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
-
-
-log = logging.getLogger(__name__)
 
 
 RESOURCE_TYPE = "downtimes"
@@ -42,7 +38,7 @@ class Downtimes(BaseResource):
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
-            log.error("error importing downtimes %s", e)
+            self.logger.error("error importing downtimes %s", e)
             return
 
         self.import_resources_concurrently(downtimes, resp)
@@ -73,7 +69,7 @@ class Downtimes(BaseResource):
         try:
             resp = destination_client.post(self.base_path, downtime).json()
         except HTTPError as e:
-            log.error("error creating downtime: %s", e.response.text)
+            self.logger.error("error creating downtime: %s", e.response.text)
             return
         local_destination_resources[_id] = resp
 
@@ -88,6 +84,6 @@ class Downtimes(BaseResource):
                     self.base_path + f"/{local_destination_resources[_id]['id']}", downtime
                 ).json()
             except HTTPError as e:
-                log.error("error creating downtime: %s", e.response.text)
+                self.logger.error("error creating downtime: %s", e.response.text)
                 return
             local_destination_resources[_id] = resp

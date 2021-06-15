@@ -3,8 +3,10 @@ import logging
 
 import requests
 
+from datadog_sync.constants import LOGGER_NAME
 
-log = logging.getLogger(__name__)
+
+log = logging.getLogger(LOGGER_NAME)
 
 
 def request_with_retry(func):

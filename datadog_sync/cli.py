@@ -1,5 +1,3 @@
-import logging
-
 from click import pass_context, group, option
 
 import datadog_sync.constants as constants
@@ -19,9 +17,7 @@ from datadog_sync.models import (
     IntegrationsAWS,
 )
 from datadog_sync.utils.custom_client import CustomClient
-
-
-log = logging.getLogger(__name__)
+from datadog_sync.utils.log import Log
 
 
 @group()
@@ -85,19 +81,14 @@ log = logging.getLogger(__name__)
 def cli(ctx, **kwargs):
     """Initialize cli"""
     ctx.obj = kwargs
+
+    # configure logger
+    ctx.obj["logger"] = Log(ctx.obj.get("verbose"))
+
     if ctx.obj.get("source_api_url") is None:
         ctx.obj["source_api_url"] = constants.DEFAULT_API_URL
     if ctx.obj.get("destination_api_url") is None:
         ctx.obj["destination_api_url"] = constants.DEFAULT_API_URL
-
-    # Set logging level and format
-    if ctx.obj.get("verbose"):
-        logging.basicConfig(
-            format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s",
-            level=logging.DEBUG,
-        )
-    else:
-        logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 
     # Initialize the datadog API Clients
     source_auth = {
