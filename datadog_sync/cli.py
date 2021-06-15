@@ -5,7 +5,6 @@ from click import pass_context, group, option
 import datadog_sync.constants as constants
 from datadog_sync.commands import ALL_COMMANDS
 from datadog_sync.models import (
-    IntegrationsAWS,
     Roles,
     Users,
     Monitors,
@@ -16,6 +15,7 @@ from datadog_sync.models import (
     SyntheticsGlobalVariables,
     ServiceLevelObjectives,
     LogsCustomPipelines,
+    IntegrationsAWS,
 )
 from datadog_sync.utils.custom_client import CustomClient
 

@@ -72,6 +72,8 @@ class IntegrationsAWS(BaseResource):
         if "accounts" in data:
             resp.update(data["accounts"][0])
 
+        print(f"integrations_aws created with external_id: {resp['external_id']}")
+
         local_destination_resources[_id] = resp
 
     def update_resource(self, _id, integration_aws, local_destination_resources):
@@ -80,8 +82,8 @@ class IntegrationsAWS(BaseResource):
         diff = self.check_diff(integration_aws, local_destination_resources[_id])
         if diff:
             try:
-                integration_aws.pop("errors", None)
                 account_id = integration_aws.pop("account_id", None)
+                self.remove_excluded_attr()
 
                 destination_client.put(
                     self.base_path,
