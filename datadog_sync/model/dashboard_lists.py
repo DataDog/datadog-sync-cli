@@ -1,12 +1,8 @@
 import copy
-import logging
 
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
-
-
-log = logging.getLogger(__name__)
 
 
 RESOURCE_TYPE = "dashboard_lists"
@@ -41,7 +37,7 @@ class DashboardLists(BaseResource):
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
-            log.error("error importing dashboard_lists %s", e)
+            self.logger.error("error importing dashboard_lists %s", e)
             return
 
         self.import_resources_concurrently(dashboard_lists, resp["dashboard_lists"])
@@ -55,7 +51,7 @@ class DashboardLists(BaseResource):
         try:
             resp = source_client.get(DASH_LIST_ITEMS_PATH.format(dashboard_list["id"])).json()
         except HTTPError as e:
-            log.error("error retrieving dashboard_lists items %s", e)
+            self.logger.error("error retrieving dashboard_lists items %s", e)
 
         dashboard_list["dashboards"] = []
         if resp:
@@ -88,7 +84,7 @@ class DashboardLists(BaseResource):
         try:
             resp = destination_client.post(self.base_path, dashboard_list).json()
         except HTTPError as e:
-            log.error("error creating dashboard_list: %s", e.response.text)
+            self.logger.error("error creating dashboard_list: %s", e.response.text)
             return
         local_destination_resources[_id] = resp
         self.update_dash_list_items(resp["id"], dashboards, resp)
@@ -107,7 +103,7 @@ class DashboardLists(BaseResource):
                     self.base_path + f"/{local_destination_resources[_id]['id']}", dashboard_list
                 ).json()
             except HTTPError as e:
-                log.error("error creating dashboard_list: %s", e.response.text)
+                self.logger.error("error creating dashboard_list: %s", e.response.text)
                 return
             local_destination_resources[_id] = resp
         if dash_list_diff:
@@ -121,6 +117,6 @@ class DashboardLists(BaseResource):
         try:
             dashboards = destination_client.put(DASH_LIST_ITEMS_PATH.format(_id), payload).json()
         except HTTPError as e:
-            log.error("error updating dashboard list items: %s", e)
+            self.logger.error("error updating dashboard list items: %s", e)
             return
         dashboard_list.update(dashboards)
