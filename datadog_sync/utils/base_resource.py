@@ -37,7 +37,12 @@ class BaseResource:
 
     def import_resources_concurrently(self, resources_obj, resources):
         with ThreadPoolExecutor() as executor:
-            [executor.submit(self.process_resource_import, resource, resources_obj) for resource in resources]
+            futures = [executor.submit(self.process_resource_import, resource, resources_obj) for resource in resources]
+            for future in futures:
+                try:
+                    future.result()
+                except BaseException:
+                    self.logger.exception("error while importing resource")
 
     def get_connection_resources(self):
         connection_resources = {}
@@ -112,7 +117,7 @@ class BaseResource:
                     _id, resource, local_destination_resources, connection_resource_obj, **kwargs
                 )
             except BaseException:
-                log.exception("error while applying resource")
+                self.logger.exception("error while applying resource")
 
     def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj, **kwargs):
         with ThreadPoolExecutor() as executor:

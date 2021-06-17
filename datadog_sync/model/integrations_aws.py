@@ -22,7 +22,7 @@ class IntegrationsAWS(BaseResource):
             self.logger.error("error importing integrations_aws %s", e)
             return
 
-        self.import_resources_concurrently(resp["accounts"], integrations_aws)
+        self.import_resources_concurrently(integrations_aws, resp["accounts"])
 
         # Write resources to file
         self.write_resources_file("source", integrations_aws)
@@ -71,13 +71,12 @@ class IntegrationsAWS(BaseResource):
 
     def update_resource(self, _id, integration_aws, local_destination_resources):
         destination_client = self.config.destination_client
+        self.remove_excluded_attr(integration_aws)
 
         diff = self.check_diff(integration_aws, local_destination_resources[_id])
         if diff:
+            account_id = integration_aws.pop("account_id", None)
             try:
-                account_id = integration_aws.pop("account_id", None)
-                self.remove_excluded_attr()
-
                 destination_client.put(
                     self.base_path,
                     integration_aws,
@@ -86,3 +85,4 @@ class IntegrationsAWS(BaseResource):
             except HTTPError as e:
                 self.logger.error("error updating integration_aws: %s", e.response.text)
                 return
+            local_destination_resources[_id].update(integration_aws)
