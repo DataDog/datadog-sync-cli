@@ -22,6 +22,7 @@ class Cleanup:
         self.cleanup_synthetics_tests()
         self.cleanup_synthetics_private_locations()
         self.cleanup_synthetics_global_variables()
+        self.cleanup_dashboard_lists()
         self.cleanup_dashboards()
         self.cleanup_downtimes()
         self.cleanup_logs_custom_pipelines()
@@ -48,6 +49,14 @@ class Cleanup:
         path = "/api/v1/dashboard"
         res = self.get_resources(path)
         for resource in res["dashboards"]:
+            self.delete_resource(resource["id"], path)
+
+    def cleanup_dashboard_lists(
+        self,
+    ):
+        path = "/api/v1/dashboard/lists/manual"
+        res = self.get_resources(path)
+        for resource in res["dashboard_lists"]:
             self.delete_resource(resource["id"], path)
 
     def cleanup_downtimes(
