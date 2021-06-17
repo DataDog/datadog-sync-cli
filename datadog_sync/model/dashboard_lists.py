@@ -25,9 +25,9 @@ DASH_LIST_ITEMS_PATH = "/api/v2/dashboard/lists/manual/{}/dashboards"
 
 
 class DashboardLists(BaseResource):
-    def __init__(self, ctx):
+    def __init__(self, config):
         super().__init__(
-            ctx,
+            config,
             RESOURCE_TYPE,
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
@@ -36,7 +36,7 @@ class DashboardLists(BaseResource):
 
     def import_resources(self):
         dashboard_lists = {}
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
 
         try:
             resp = source_client.get(self.base_path).json()
@@ -50,7 +50,7 @@ class DashboardLists(BaseResource):
         self.write_resources_file("source", dashboard_lists)
 
     def process_resource_import(self, dashboard_list, dashboard_lists):
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
         resp = None
         try:
             resp = source_client.get(DASH_LIST_ITEMS_PATH.format(dashboard_list["id"])).json()
@@ -80,7 +80,7 @@ class DashboardLists(BaseResource):
             self.create_resource(_id, dashboard_list, local_destination_resources)
 
     def create_resource(self, _id, dashboard_list, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         dashboards = copy.deepcopy(dashboard_list["dashboards"])
         dashboard_list.pop("dashboards")
         self.remove_excluded_attr(dashboard_list)
@@ -94,7 +94,7 @@ class DashboardLists(BaseResource):
         self.update_dash_list_items(resp["id"], dashboards, resp)
 
     def update_resource(self, _id, dashboard_list, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         dashboards = copy.deepcopy(dashboard_list["dashboards"])
         dashboard_list.pop("dashboards")
         self.remove_excluded_attr(dashboard_list)
@@ -117,7 +117,7 @@ class DashboardLists(BaseResource):
 
     def update_dash_list_items(self, _id, dashboards, dashboard_list):
         payload = {"dashboards": dashboards}
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         try:
             dashboards = destination_client.put(DASH_LIST_ITEMS_PATH.format(_id), payload).json()
         except HTTPError as e:
