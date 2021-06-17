@@ -100,10 +100,7 @@ def paginated_request(func):
         resources = []
         while remaining > 0:
             params = {"page[size]": page_size, "page[number]": page_number}
-            if kwargs.get("params"):
-                kwargs["params"].update(params)
-            else:
-                kwargs["params"] = params
+            kwargs["params"] = kwargs.get("params", {}).update(params)
 
             resp = func(*args, **kwargs)
             resp.raise_for_status()
