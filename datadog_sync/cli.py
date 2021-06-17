@@ -17,7 +17,7 @@ from datadog_sync.models import (
     IntegrationsAWS,
 )
 from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.config import Configuration
+from datadog_sync.utils.configuration import Configuration
 from datadog_sync.utils.log import Log
 
 
