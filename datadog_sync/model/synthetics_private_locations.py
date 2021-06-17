@@ -21,12 +21,12 @@ PL_ID_REGEX = re.compile("^pl:.*")
 
 
 class SyntheticsPrivateLocations(BaseResource):
-    def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
+    def __init__(self, config):
+        super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
         synthetics_private_locations = {}
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
 
         try:
             resp = source_client.get(BASE_LOCATIONS_PATH).json()
@@ -40,7 +40,7 @@ class SyntheticsPrivateLocations(BaseResource):
         self.write_resources_file("source", synthetics_private_locations)
 
     def process_resource_import(self, synthetics_private_location, synthetics_private_locations):
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
         if PL_ID_REGEX.match(synthetics_private_location["id"]):
             try:
                 pl = source_client.get(self.base_path + f"/{synthetics_private_location['id']}").json()
@@ -70,7 +70,7 @@ class SyntheticsPrivateLocations(BaseResource):
             self.create_resource(_id, synthetics_private_location, local_destination_resources)
 
     def create_resource(self, _id, synthetics_private_location, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_excluded_attr(synthetics_private_location)
 
         try:
@@ -81,7 +81,7 @@ class SyntheticsPrivateLocations(BaseResource):
         local_destination_resources[_id] = resp
 
     def update_resource(self, _id, synthetics_private_location, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_excluded_attr(synthetics_private_location)
 
         diff = self.check_diff(synthetics_private_location, local_destination_resources[_id])

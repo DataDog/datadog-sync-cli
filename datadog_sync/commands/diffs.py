@@ -5,10 +5,10 @@ from click import pass_context, command
 @pass_context
 def diffs(ctx):
     """Log Datadog resources diffs."""
-    logger = ctx.obj.get("logger")
+    cfg = ctx.obj.get("config")
 
-    for resource in ctx.obj.get("resources"):
+    for resource in cfg.resources:
         resource.check_diffs()
 
-    if logger.exception_logged:
+    if cfg.logger.exception_logged:
         exit(1)

@@ -9,17 +9,17 @@ from datadog_sync.constants import SOURCE_RESOURCES_DIR
 @pass_context
 def _import(ctx):
     """Import Datadog resources."""
-    logger = ctx.obj.get("logger")
+    cfg = ctx.obj.get("config")
     start = time.time()
 
     os.makedirs(SOURCE_RESOURCES_DIR, exist_ok=True)
 
-    for resource in ctx.obj.get("resources"):
-        logger.info("importing %s", resource.resource_type)
+    for resource in cfg.resources:
+        cfg.logger.info("importing %s", resource.resource_type)
         resource.import_resources()
-        logger.info("finished importing %s", resource.resource_type)
+        cfg.logger.info("finished importing %s", resource.resource_type)
 
-    logger.info(f"finished importing resources: {time.time() - start}s")
+    cfg.logger.info(f"finished importing resources: {time.time() - start}s")
 
-    if logger.exception_logged:
+    if cfg.logger.exception_logged:
         exit(1)

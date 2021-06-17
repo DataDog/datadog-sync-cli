@@ -18,9 +18,9 @@ RESOURCES_TO_CONNECT = {"monitors": ["monitor_ids"], "synthetics_tests": ["monit
 
 
 class ServiceLevelObjectives(BaseResource):
-    def __init__(self, ctx):
+    def __init__(self, config):
         super().__init__(
-            ctx,
+            config,
             RESOURCE_TYPE,
             BASE_PATH,
             resource_connections=RESOURCES_TO_CONNECT,
@@ -29,7 +29,7 @@ class ServiceLevelObjectives(BaseResource):
 
     def import_resources(self):
         slos = {}
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
 
         try:
             resp = source_client.get(self.base_path).json()
@@ -70,7 +70,7 @@ class ServiceLevelObjectives(BaseResource):
             self.create_resource(_id, slo, local_destination_resources)
 
     def create_resource(self, _id, slo, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
 
         try:
             resp = destination_client.post(self.base_path, slo).json()
@@ -82,7 +82,7 @@ class ServiceLevelObjectives(BaseResource):
         local_destination_resources[_id] = resp["data"][0]
 
     def update_resource(self, _id, slo, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
 
         diff = self.check_diff(slo, local_destination_resources[_id])
         if diff:

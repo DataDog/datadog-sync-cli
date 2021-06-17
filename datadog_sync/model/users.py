@@ -28,9 +28,9 @@ GET_USERS_FILTER = {"filter[status]": "Active"}
 
 
 class Users(BaseResource):
-    def __init__(self, ctx):
+    def __init__(self, config):
         super().__init__(
-            ctx,
+            config,
             RESOURCE_TYPE,
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
@@ -39,7 +39,7 @@ class Users(BaseResource):
 
     def import_resources(self):
         users = {}
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
 
         try:
             resp = paginated_request(source_client.get)(self.base_path, params=GET_USERS_FILTER)
@@ -66,7 +66,7 @@ class Users(BaseResource):
         self.write_resources_file("destination", local_destination_resources)
 
     def prepare_resource_and_apply(self, _id, user, local_destination_users, connection_resource_obj, **kwargs):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         remote_users = kwargs.get("remote_users")
 
         self.connect_resources(user, connection_resource_obj)
@@ -97,7 +97,7 @@ class Users(BaseResource):
             self.create_resource(_id, user, local_destination_users)
 
     def create_resource(self, _id, user, local_destination_users):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_excluded_attr(user)
         user["attributes"].pop("disabled", None)
 
@@ -109,7 +109,7 @@ class Users(BaseResource):
         local_destination_users[_id] = resp.json()["data"]
 
     def update_resource(self, _id, user, local_destination_users):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_excluded_attr(user)
 
         diff = self.check_diff(local_destination_users[_id], user)
@@ -128,7 +128,7 @@ class Users(BaseResource):
             local_destination_users[_id] = resp.json()["data"]
 
     def update_existing_user(self, _id, user, local_destination_users, remote_users):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         remote_user = remote_users[user["attributes"]["handle"]]
 
         diff = self.check_diff(remote_user, user)
@@ -164,7 +164,7 @@ class Users(BaseResource):
 
     def get_remote_destination_users(self):
         remote_user_obj = {}
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
 
         try:
             remote_users = paginated_request(destination_client.get)(self.base_path, params=GET_USERS_FILTER)
@@ -178,7 +178,7 @@ class Users(BaseResource):
         return remote_user_obj
 
     def add_user_to_role(self, user_id, role_id):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         payload = {"data": {"id": user_id, "type": "users"}}
         try:
             destination_client.post(ROLES_PATH.format(role_id), payload)
@@ -186,7 +186,7 @@ class Users(BaseResource):
             self.logger.error("error adding user: %s to role %s: %s", user_id, role_id, e)
 
     def remove_user_from_role(self, user_id, role_id):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         payload = {"data": {"id": user_id, "type": "users"}}
         try:
             destination_client.delete(ROLES_PATH.format(role_id), payload)

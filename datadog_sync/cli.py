@@ -16,6 +16,7 @@ from datadog_sync.models import (
     IntegrationsAWS,
 )
 from datadog_sync.utils.custom_client import CustomClient
+from datadog_sync.utils.config import Configuration
 from datadog_sync.utils.log import Log
 
 
@@ -79,54 +80,52 @@ from datadog_sync.utils.log import Log
 @pass_context
 def cli(ctx, **kwargs):
     """Initialize cli"""
-    ctx.obj = kwargs
+    ctx.ensure_object(dict)
 
     # configure logger
-    ctx.obj["logger"] = Log(ctx.obj.get("verbose"))
+    logger = Log(kwargs.get("verbose"))
 
-    if ctx.obj.get("source_api_url") is None:
-        ctx.obj["source_api_url"] = constants.DEFAULT_API_URL
-    if ctx.obj.get("destination_api_url") is None:
-        ctx.obj["destination_api_url"] = constants.DEFAULT_API_URL
+    source_api_url = kwargs.get("source_api_url")
+    destination_api_url = kwargs.get("destination_api_url")
 
     # Initialize the datadog API Clients
     source_auth = {
-        "apiKeyAuth": ctx.obj.get("source_api_key"),
-        "appKeyAuth": ctx.obj.get("source_app_key"),
+        "apiKeyAuth": kwargs.get("source_api_key"),
+        "appKeyAuth": kwargs.get("source_app_key"),
     }
     destination_auth = {
-        "apiKeyAuth": ctx.obj.get("destination_api_key"),
-        "appKeyAuth": ctx.obj.get("destination_app_key"),
+        "apiKeyAuth": kwargs.get("destination_api_key"),
+        "appKeyAuth": kwargs.get("destination_app_key"),
     }
-    retry_timeout = ctx.obj.get("http_client_retry_timeout")
+    retry_timeout = kwargs.get("http_client_retry_timeout")
 
-    source_client = CustomClient(ctx.obj["source_api_url"], source_auth, retry_timeout)
-    destination_client = CustomClient(ctx.obj["destination_api_url"], destination_auth, retry_timeout)
+    source_client = CustomClient(source_api_url, source_auth, retry_timeout)
+    destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
-    ctx.obj["source_client"] = source_client
-    ctx.obj["destination_client"] = destination_client
+    # Initialize Configuration
+    config = Configuration(logger=logger, source_client=source_client, destination_client=destination_client)
+    ctx.obj["config"] = config
 
     # Initialize resources
-    ctx.obj["resources"] = get_resources(ctx)
+    config.resources = get_resources(config, kwargs.get("resources"))
 
 
-def get_resources(ctx):
+def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
     resources = [
-        Roles(ctx),
-        Users(ctx),
-        SyntheticsPrivateLocations(ctx),
-        SyntheticsTests(ctx),
-        SyntheticsGlobalVariables(ctx),
-        Monitors(ctx),
-        Downtimes(ctx),
-        Dashboards(ctx),
-        ServiceLevelObjectives(ctx),
-        LogsCustomPipelines(ctx),
-        IntegrationsAWS(ctx),
+        Roles(cfg),
+        Users(cfg),
+        SyntheticsPrivateLocations(cfg),
+        SyntheticsTests(cfg),
+        SyntheticsGlobalVariables(cfg),
+        Monitors(cfg),
+        Downtimes(cfg),
+        Dashboards(cfg),
+        ServiceLevelObjectives(cfg),
+        LogsCustomPipelines(cfg),
+        IntegrationsAWS(cfg),
     ]
 
-    resources_arg = ctx.obj.get("resources")
     if resources_arg:
         new_resources = []
         resources_arg_list = resources_arg.split(",")
