@@ -13,7 +13,7 @@ from datadog_sync.utils.resource_utils import replace
 class BaseResource:
     def __init__(
         self,
-        ctx,
+        config,
         resource_type,
         base_path,
         excluded_attributes=None,
@@ -22,8 +22,8 @@ class BaseResource:
         excluded_attributes_re=None,
         non_nullable_attr=None,
     ):
-        self.ctx = ctx
-        self.logger = ctx.obj.get("logger")
+        self.config = config
+        self.logger = config.logger
         self.resource_type = resource_type
         self.base_path = base_path
         self.excluded_attributes = excluded_attributes

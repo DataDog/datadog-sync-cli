@@ -18,9 +18,9 @@ BASE_PATH = "/api/v1/dashboard"
 
 
 class Dashboards(BaseResource):
-    def __init__(self, ctx):
+    def __init__(self, config):
         super().__init__(
-            ctx,
+            config,
             RESOURCE_TYPE,
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
@@ -29,7 +29,7 @@ class Dashboards(BaseResource):
 
     def import_resources(self):
         dashboards = {}
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
 
         try:
             resp = source_client.get(self.base_path).json()
@@ -43,7 +43,7 @@ class Dashboards(BaseResource):
         self.write_resources_file("source", dashboards)
 
     def process_resource_import(self, dash, dashboards):
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
         try:
             dashboard = source_client.get(self.base_path + f"/{dash['id']}").json()
         except HTTPError as e:
@@ -66,7 +66,7 @@ class Dashboards(BaseResource):
             self.create_resource(_id, dashboard, local_destination_resources)
 
     def create_resource(self, _id, dashboard, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         try:
             resp = destination_client.post(self.base_path, dashboard).json()
         except HTTPError as e:
@@ -75,7 +75,7 @@ class Dashboards(BaseResource):
         local_destination_resources[_id] = resp
 
     def update_resource(self, _id, dashboard, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
 
         diff = self.check_diff(dashboard, local_destination_resources[_id])
         if diff:

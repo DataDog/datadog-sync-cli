@@ -1,12 +1,8 @@
 import copy
-import logging
 
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
-
-
-log = logging.getLogger(__name__)
 
 
 RESOURCE_TYPE = "dashboard_lists"
@@ -25,9 +21,9 @@ DASH_LIST_ITEMS_PATH = "/api/v2/dashboard/lists/manual/{}/dashboards"
 
 
 class DashboardLists(BaseResource):
-    def __init__(self, ctx):
+    def __init__(self, config):
         super().__init__(
-            ctx,
+            config,
             RESOURCE_TYPE,
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
@@ -36,12 +32,12 @@ class DashboardLists(BaseResource):
 
     def import_resources(self):
         dashboard_lists = {}
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
 
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
-            log.error("error importing dashboard_lists %s", e)
+            self.logger.error("error importing dashboard_lists %s", e)
             return
 
         self.import_resources_concurrently(dashboard_lists, resp["dashboard_lists"])
@@ -50,12 +46,12 @@ class DashboardLists(BaseResource):
         self.write_resources_file("source", dashboard_lists)
 
     def process_resource_import(self, dashboard_list, dashboard_lists):
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
         resp = None
         try:
             resp = source_client.get(DASH_LIST_ITEMS_PATH.format(dashboard_list["id"])).json()
         except HTTPError as e:
-            log.error("error retrieving dashboard_lists items %s", e)
+            self.logger.error("error retrieving dashboard_lists items %s", e)
 
         dashboard_list["dashboards"] = []
         if resp:
@@ -80,7 +76,7 @@ class DashboardLists(BaseResource):
             self.create_resource(_id, dashboard_list, local_destination_resources)
 
     def create_resource(self, _id, dashboard_list, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         dashboards = copy.deepcopy(dashboard_list["dashboards"])
         dashboard_list.pop("dashboards")
         self.remove_excluded_attr(dashboard_list)
@@ -88,13 +84,13 @@ class DashboardLists(BaseResource):
         try:
             resp = destination_client.post(self.base_path, dashboard_list).json()
         except HTTPError as e:
-            log.error("error creating dashboard_list: %s", e.response.text)
+            self.logger.error("error creating dashboard_list: %s", e.response.text)
             return
         local_destination_resources[_id] = resp
         self.update_dash_list_items(resp["id"], dashboards, resp)
 
     def update_resource(self, _id, dashboard_list, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         dashboards = copy.deepcopy(dashboard_list["dashboards"])
         dashboard_list.pop("dashboards")
         self.remove_excluded_attr(dashboard_list)
@@ -107,7 +103,7 @@ class DashboardLists(BaseResource):
                     self.base_path + f"/{local_destination_resources[_id]['id']}", dashboard_list
                 ).json()
             except HTTPError as e:
-                log.error("error creating dashboard_list: %s", e.response.text)
+                self.logger.error("error creating dashboard_list: %s", e.response.text)
                 return
             local_destination_resources[_id] = resp
         if dash_list_diff:
@@ -117,10 +113,10 @@ class DashboardLists(BaseResource):
 
     def update_dash_list_items(self, _id, dashboards, dashboard_list):
         payload = {"dashboards": dashboards}
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         try:
             dashboards = destination_client.put(DASH_LIST_ITEMS_PATH.format(_id), payload).json()
         except HTTPError as e:
-            log.error("error updating dashboard list items: %s", e)
+            self.logger.error("error updating dashboard list items: %s", e)
             return
         dashboard_list.update(dashboards)

@@ -20,12 +20,12 @@ PERMISSIONS_BASE_PATH = "/api/v2/permissions"
 
 
 class Roles(BaseResource):
-    def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
+    def __init__(self, config):
+        super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
         roles = {}
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
 
         try:
             resp = paginated_request(source_client.get)(self.base_path)
@@ -78,7 +78,7 @@ class Roles(BaseResource):
             self.create_role(_id, role, local_destination_resources)
 
     def create_role(self, _id, role, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         role_copy = copy.deepcopy(role)
         self.remove_excluded_attr(role_copy)
 
@@ -91,7 +91,7 @@ class Roles(BaseResource):
         local_destination_resources[_id] = resp.json()["data"]
 
     def update_role(self, _id, role, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         role_copy = copy.deepcopy(role)
         payload = {"data": role_copy}
         self.remove_excluded_attr(role_copy)
@@ -128,8 +128,8 @@ class Roles(BaseResource):
         source_permission_obj = {}
         destination_permission_obj = {}
 
-        source_client = self.ctx.obj.get("source_client")
-        destination_client = self.ctx.obj.get("destination_client")
+        source_client = self.config.source_client
+        destination_client = self.config.destination_client
         try:
             source_permissions = source_client.get(PERMISSIONS_BASE_PATH).json()["data"]
             destination_permissions = destination_client.get(PERMISSIONS_BASE_PATH).json()["data"]
@@ -150,14 +150,14 @@ class Roles(BaseResource):
                 role["id"] = destination_role_mapping[source_roles_mapping[role["id"]]]
 
     def remap_permissions(self, role, source_permission, destination_permission):
-        if self.ctx.obj.get("source_api_url") != self.ctx.obj.get("destination_api_url"):
+        if self.config.source_client.host != self.config.destination_client.host:
             if "permissions" in role["relationships"]:
                 for permission in role["relationships"]["permissions"]["data"]:
                     if permission["id"] in source_permission:
                         permission["id"] = destination_permission[source_permission[permission["id"]]]
 
     def get_destination_roles_mapping(self):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         destination_roles_mapping = {}
 
         try:

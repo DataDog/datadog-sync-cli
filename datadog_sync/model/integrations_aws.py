@@ -9,12 +9,12 @@ BASE_PATH = "/api/v1/integration/aws"
 
 
 class IntegrationsAWS(BaseResource):
-    def __init__(self, ctx):
-        super().__init__(ctx, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
+    def __init__(self, config):
+        super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
         integrations_aws = {}
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
 
         try:
             resp = source_client.get(self.base_path).json()
@@ -54,7 +54,7 @@ class IntegrationsAWS(BaseResource):
             self.create_resource(_id, integration_aws, local_destination_resources)
 
     def create_resource(self, _id, integration_aws, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         try:
             resp = destination_client.post(self.base_path, integration_aws).json()
             data = destination_client.get(self.base_path, params={"account_id": _id}).json()
@@ -70,7 +70,7 @@ class IntegrationsAWS(BaseResource):
         local_destination_resources[_id] = resp
 
     def update_resource(self, _id, integration_aws, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_excluded_attr(integration_aws)
 
         diff = self.check_diff(integration_aws, local_destination_resources[_id])

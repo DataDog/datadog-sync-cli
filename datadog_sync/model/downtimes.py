@@ -21,9 +21,9 @@ BASE_PATH = "/api/v1/downtime"
 
 
 class Downtimes(BaseResource):
-    def __init__(self, ctx):
+    def __init__(self, config):
         super().__init__(
-            ctx,
+            config,
             RESOURCE_TYPE,
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
@@ -33,7 +33,7 @@ class Downtimes(BaseResource):
 
     def import_resources(self):
         downtimes = {}
-        source_client = self.ctx.obj.get("source_client")
+        source_client = self.config.source_client
 
         try:
             resp = source_client.get(self.base_path).json()
@@ -64,7 +64,7 @@ class Downtimes(BaseResource):
             self.create_resource(_id, downtime, local_destination_resources)
 
     def create_resource(self, _id, downtime, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_non_nullable_attributes(downtime)
         try:
             resp = destination_client.post(self.base_path, downtime).json()
@@ -74,7 +74,7 @@ class Downtimes(BaseResource):
         local_destination_resources[_id] = resp
 
     def update_resource(self, _id, downtime, local_destination_resources):
-        destination_client = self.ctx.obj.get("destination_client")
+        destination_client = self.config.destination_client
 
         diff = self.check_diff(downtime, local_destination_resources[_id])
         self.remove_non_nullable_attributes(downtime)
