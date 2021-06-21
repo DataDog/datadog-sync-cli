@@ -18,7 +18,7 @@ EXCLUDED_ATTRIBUTES = [
     "root['overall_state']",
     "root['overall_state_modified']",
 ]
-RESOURCE_CONNECTIONS = {"monitors": ["query"]}
+RESOURCE_CONNECTIONS = {"monitors": ["query"], "roles": ["restricted_roles"]}
 BASE_PATH = "/api/v1/monitor"
 
 
