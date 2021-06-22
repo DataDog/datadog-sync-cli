@@ -227,22 +227,16 @@ def test_get_import_order_all_resources():
         IntegrationsAWS(None),
     ]
 
-    order_list, _ = get_import_order(resources)
+    order_list = get_import_order(resources)
 
-    assert order_list == [
-        "roles",
-        "users",
-        "synthetics_private_locations",
-        "synthetics_tests",
-        "synthetics_global_variables",
-        "monitors",
-        "downtimes",
-        "dashboards",
-        "dashboard_lists",
-        "service_level_objectives",
-        "logs_custom_pipelines",
-        "integrations_aws",
-    ]
+    for resource in resources:
+        if resource.resource_type not in order_list or not resource.resource_connections:
+            continue
+
+        resource_index = order_list.index(resource.resource_type)
+
+        # check that no dependency comes after the current resource in the order_list
+        assert len([dep for dep in resource.resource_connections if order_list.index(dep) > resource_index]) == 0
 
 
 def test_get_import_order_users():
@@ -250,7 +244,7 @@ def test_get_import_order_users():
         Users(None),
     ]
 
-    order_list, _ = get_import_order(resources)
+    order_list = get_import_order(resources)
 
     assert order_list == [
         "roles",
@@ -263,7 +257,7 @@ def test_get_import_synthetics_tests():
         SyntheticsTests(None),
     ]
 
-    order_list, _ = get_import_order(resources)
+    order_list = get_import_order(resources)
 
     assert order_list == [
         "synthetics_private_locations",
@@ -276,7 +270,7 @@ def test_get_import_monitors():
         Monitors(None),
     ]
 
-    order_list, _ = get_import_order(resources)
+    order_list = get_import_order(resources)
 
     assert order_list == ["monitors"]
 
@@ -286,7 +280,7 @@ def test_get_import_dashboards_lists():
         DashboardLists(None),
     ]
 
-    order_list, _ = get_import_order(resources)
+    order_list = get_import_order(resources)
 
     assert order_list == ["monitors", "dashboards", "dashboard_lists"]
 
@@ -296,6 +290,6 @@ def test_get_import_service_level_objectives():
         ServiceLevelObjectives(None),
     ]
 
-    order_list, _ = get_import_order(resources)
+    order_list = get_import_order(resources)
 
     assert order_list == ["synthetics_private_locations", "synthetics_tests", "monitors", "service_level_objectives"]
