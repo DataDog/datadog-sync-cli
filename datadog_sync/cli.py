@@ -19,6 +19,7 @@ from datadog_sync.models import (
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync.utils.log import Log
+from datadog_sync.utils.filter import Filter
 
 
 @group()
@@ -78,6 +79,7 @@ from datadog_sync.utils.log import Log
     is_flag=True,
     help="Enable verbose logging.",
 )
+@option("--filter", required=False, help="Filter imported resources.", multiple=True)
 @pass_context
 def cli(ctx, **kwargs):
     """Initialize cli"""
@@ -85,6 +87,9 @@ def cli(ctx, **kwargs):
 
     # configure logger
     logger = Log(kwargs.get("verbose"))
+
+    # configure Filter
+    _filter = Filter(kwargs.get("filter"))
 
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
@@ -104,7 +109,9 @@ def cli(ctx, **kwargs):
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
     # Initialize Configuration
-    config = Configuration(logger=logger, source_client=source_client, destination_client=destination_client)
+    config = Configuration(
+        logger=logger, source_client=source_client, destination_client=destination_client, _filter=_filter
+    )
     ctx.obj["config"] = config
 
     # Initialize resources
