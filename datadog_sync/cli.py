@@ -182,7 +182,6 @@ def get_resources_dependency_graph(resources):
     for r in resources:
         graph[r.resource_type] = []
 
-
     queue = [resource for resource in resources]
     # Breadth-First Search over the resources and dependencies
     while queue:
