@@ -23,7 +23,8 @@ class BaseResource:
         non_nullable_attr=None,
     ):
         self.config = config
-        self.logger = config.logger
+        if config:
+            self.logger = config.logger
         self.resource_type = resource_type
         self.base_path = base_path
         self.excluded_attributes = excluded_attributes
