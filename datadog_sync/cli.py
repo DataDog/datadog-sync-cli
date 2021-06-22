@@ -187,8 +187,6 @@ def get_resources_dependency_graph(resources):
     while queue:
         resource = queue.pop()
 
-        # for safety, to avoid processing the same resource twice
-
         if resource.resource_connections:
             for dependency in resource.resource_connections:
                 # some resources depend on similar type of resource e.g. composite monitors, this case should be ignored
