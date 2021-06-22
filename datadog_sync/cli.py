@@ -1,4 +1,5 @@
 from click import pass_context, group, option
+import click_config_file
 
 import datadog_sync.constants as constants
 from datadog_sync.commands import ALL_COMMANDS
@@ -80,6 +81,7 @@ from datadog_sync.utils.filter import Filter
     help="Enable verbose logging.",
 )
 @option("--filter", required=False, help="Filter imported resources.", multiple=True)
+@click_config_file.configuration_option()
 @pass_context
 def cli(ctx, **kwargs):
     """Initialize cli"""

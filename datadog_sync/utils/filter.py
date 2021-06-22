@@ -6,6 +6,8 @@ from datadog_sync.constants import LOGGER_NAME
 FILTER_TYPE = "Type"
 FILTER_NAME = "Name"
 FILTER_VALUE = "Value"
+FILTER_OPERATOR = "Operator"
+SUBSTRING_OPERATOR = "substring"
 
 log = logging.getLogger(LOGGER_NAME)
 
@@ -23,7 +25,18 @@ class Filter:
             return True
 
         for f_obj in self.filters[resource_type]:
-            pass
+            filter_attr = f_obj[FILTER_NAME]
+            filter_val = f_obj[FILTER_VALUE]
+            filter_operator = f_obj.get(FILTER_OPERATOR)
+
+            if filter_attr in resource:
+                if filter_operator and filter_operator.lower() == SUBSTRING_OPERATOR:
+                    return filter_val in str(resource[filter_attr])
+                else:
+                    return filter_val == str(resource[filter_attr])
+
+        # Filters for resource were specified but no matching attributes found
+        return False
 
     def _process_filters(self, filter_list):
         for _filter in filter_list:
