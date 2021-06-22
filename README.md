@@ -50,7 +50,6 @@ dashboards                    | monitors
 dashboard_lists               | dashboards
 service_level_objectives      | monitors, synthetics_tests
 logs_custom_pipelines         | -
-integrations_aws              | -
 
 ## Supported resources
 
@@ -65,4 +64,3 @@ integrations_aws              | -
 - **dashboard_lists**
 - **service_level_objectives**
 - **logs_custom_pipelines**
-- **integrations_aws**

@@ -11,7 +11,7 @@ from datadog_sync.models import (
     SyntheticsGlobalVariables,
     ServiceLevelObjectives,
     LogsCustomPipelines,
-    IntegrationsAWS,
+    # IntegrationsAWS,
 )
 from datadog_sync.cli import get_import_order, get_resources_dependency_graph
 
@@ -169,7 +169,7 @@ def test_get_resources_dependency_graph_all_resources():
         DashboardLists(None),
         ServiceLevelObjectives(None),
         LogsCustomPipelines(None),
-        IntegrationsAWS(None),
+        # IntegrationsAWS(None),
     ]
 
     graph, nbr_dependencies = get_resources_dependency_graph(resources)
@@ -224,7 +224,7 @@ def test_get_import_order_all_resources():
         DashboardLists(None),
         ServiceLevelObjectives(None),
         LogsCustomPipelines(None),
-        IntegrationsAWS(None),
+        # IntegrationsAWS(None),
     ]
 
     order_list = get_import_order(resources)

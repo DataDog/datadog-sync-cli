@@ -9,4 +9,4 @@ from datadog_sync.model.synthetics_tests import SyntheticsTests
 from datadog_sync.model.synthetics_private_locations import SyntheticsPrivateLocations
 from datadog_sync.model.synthetics_global_variables import SyntheticsGlobalVariables
 from datadog_sync.model.logs_custom_pipelines import LogsCustomPipelines
-from datadog_sync.model.integrations_aws import IntegrationsAWS
+# from datadog_sync.model.integrations_aws import IntegrationsAWS
