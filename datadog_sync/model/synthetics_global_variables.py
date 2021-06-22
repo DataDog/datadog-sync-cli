@@ -85,7 +85,7 @@ class SyntheticsGlobalVariables(BaseResource):
             self.create_resource(_id, synthetics_global_variable)
 
     def create_resource(self, _id, synthetics_global_variable):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_excluded_attr(synthetics_global_variable)
         self.remove_non_nullable_attributes(synthetics_global_variable)
 
@@ -97,7 +97,7 @@ class SyntheticsGlobalVariables(BaseResource):
         self.destination_resources[_id] = resp
 
     def update_resource(self, _id, synthetics_global_variable):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
 
         diff = self.check_diff(synthetics_global_variable, self.destination_resources[_id])
         if diff:
@@ -113,7 +113,7 @@ class SyntheticsGlobalVariables(BaseResource):
             self.destination_resources[_id].update(resp)
 
     def update_existing_resource(self, _id, synthetics_global_variable, destination_global_variables):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
 
         diff = self.check_diff(
             synthetics_global_variable, destination_global_variables[synthetics_global_variable["name"]]

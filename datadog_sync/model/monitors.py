@@ -35,12 +35,10 @@ class Monitors(BaseResource):
             BASE_PATH,
             resource_connections=RESOURCE_CONNECTIONS,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
-            source_resources={},
-            destination_resources={},
         )
 
     def import_resources(self):
-        source_client = self.config.obj.get("source_client")
+        source_client = self.config.source_client
         try:
             resp = source_client.get(self.base_path).json()
         except HTTPError as e:
@@ -49,17 +47,15 @@ class Monitors(BaseResource):
 
         self.import_resources_concurrently(resp)
 
-        # Write resources to file
-
-    def process_resource_import(self, monitor, monitors):
-        monitors[monitor["id"]] = monitor
+    def process_resource_import(self, monitor):
+        self.source_resources[monitor["id"]] = monitor
 
     def apply_resources(self):
-        source_resources, local_destination_resources = self.open_resources()
+        self.open_resources()
         simple_monitors = {}
         composite_monitors = {}
 
-        for _id, monitor in source_resources.items():
+        for _id, monitor in self.source_resources.items():
             if monitor["type"] == "synthetics alert":
                 continue
             if monitor["type"] == "composite":
@@ -68,15 +64,13 @@ class Monitors(BaseResource):
                 simple_monitors[_id] = monitor
 
         self.logger.info("Processing Simple Monitors")
-        self.apply_resources_concurrently(simple_monitors, local_destination_resources, {})
-        self.write_resources_file("destination", local_destination_resources)
+        self.apply_resources_concurrently(simple_monitors, {})
 
         self.logger.info("Processing Composite Monitors")
         connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(composite_monitors, local_destination_resources, connection_resource_obj)
-        self.write_resources_file("destination", local_destination_resources)
+        self.apply_resources_concurrently(composite_monitors, connection_resource_obj)
 
-    def prepare_resource_and_apply(self, _id, monitor, local_destination_resources, connection_resource_obj):
+    def prepare_resource_and_apply(self, _id, monitor, connection_resource_obj):
         self.connect_resources(monitor, connection_resource_obj)
 
         if _id in self.destination_resources:
@@ -85,7 +79,7 @@ class Monitors(BaseResource):
             self.create_resource(_id, monitor)
 
     def create_resource(self, _id, monitor):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
 
         try:
             resp = destination_client.post(self.base_path, monitor).json()
@@ -94,9 +88,8 @@ class Monitors(BaseResource):
             return
         self.destination_resources[_id] = resp
 
-
     def update_resource(self, _id, monitor):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
 
         diff = self.check_diff(monitor, self.destination_resources[_id])
         if diff:

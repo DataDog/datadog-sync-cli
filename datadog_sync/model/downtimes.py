@@ -34,12 +34,9 @@ class Downtimes(BaseResource):
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             resource_connections=RESOURCE_CONNECTIONS,
             non_nullable_attr=NON_NULLABLE_ATTRIBUTE,
-            source_resources={},
-            destination_resources={},
         )
 
     def import_resources(self):
-        downtimes = {}
         source_client = self.config.source_client
 
         try:
@@ -48,7 +45,7 @@ class Downtimes(BaseResource):
             self.logger.error("error importing downtimes %s", e)
             return
 
-        self.import_resources_concurrently(downtimes, resp)
+        self.import_resources_concurrently(resp)
 
         # Write resources to file
 
@@ -70,7 +67,7 @@ class Downtimes(BaseResource):
             self.create_resource(_id, downtime)
 
     def create_resource(self, _id, downtime):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_non_nullable_attributes(downtime)
         try:
             resp = destination_client.post(self.base_path, downtime).json()
@@ -80,7 +77,7 @@ class Downtimes(BaseResource):
         self.destination_resources[_id] = resp
 
     def update_resource(self, _id, downtime):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
 
         diff = self.check_diff(downtime, self.destination_resources[_id])
         self.remove_non_nullable_attributes(downtime)

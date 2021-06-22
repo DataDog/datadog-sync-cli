@@ -66,7 +66,7 @@ class LogsCustomPipelines(BaseResource):
             self.create_resource(_id, logs_custom_pipeline)
 
     def create_resource(self, _id, logs_custom_pipeline):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_excluded_attr(logs_custom_pipeline)
 
         try:
@@ -77,7 +77,7 @@ class LogsCustomPipelines(BaseResource):
         self.destination_resources[_id] = resp
 
     def update_resource(self, _id, logs_custom_pipeline):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_excluded_attr(logs_custom_pipeline)
 
         diff = self.check_diff(logs_custom_pipeline, self.destination_resources[_id])

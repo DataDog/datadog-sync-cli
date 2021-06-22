@@ -29,7 +29,7 @@ class Roles(BaseResource):
         super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
-        source_client = self.config.obj.get("source_client")
+        source_client = self.config.source_client
 
         try:
             resp = paginated_request(source_client.get)(self.base_path)
@@ -37,7 +37,7 @@ class Roles(BaseResource):
             self.logger.error("error importing roles: %s", e.response.text)
             return
 
-        self.import_resources_concurrently(roles, resp)
+        self.import_resources_concurrently(resp)
 
         # Write resources to file
 
@@ -58,7 +58,7 @@ class Roles(BaseResource):
             destination_roles_mapping=destination_roles_mapping,
         )
 
-    def prepare_resource_and_apply(self, _id, role, connection_resource_obj, **kwargs):
+    def prepare_resource_and_apply(self, _id, role, **kwargs):
         source_permission = kwargs.get("source_permission")
         destination_permission = kwargs.get("destination_permission")
         source_roles_mapping = kwargs.get("source_roles_mapping")
@@ -77,7 +77,7 @@ class Roles(BaseResource):
             self.create_role(_id, role)
 
     def create_role(self, _id, role):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
         role_copy = copy.deepcopy(role)
         self.remove_excluded_attr(role_copy)
 
@@ -90,7 +90,7 @@ class Roles(BaseResource):
         self.destination_resources[_id] = resp.json()["data"]
 
     def update_role(self, _id, role):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
         role_copy = copy.deepcopy(role)
         payload = {"data": role_copy}
         self.remove_excluded_attr(role_copy)

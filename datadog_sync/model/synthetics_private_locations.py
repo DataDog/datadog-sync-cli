@@ -73,7 +73,7 @@ class SyntheticsPrivateLocations(BaseResource):
             self.create_resource(_id, synthetics_private_location)
 
     def create_resource(self, _id, synthetics_private_location):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_excluded_attr(synthetics_private_location)
 
         try:
@@ -84,7 +84,7 @@ class SyntheticsPrivateLocations(BaseResource):
         self.destination_resources[_id] = resp
 
     def update_resource(self, _id, synthetics_private_location):
-        destination_client = self.config.obj.get("destination_client")
+        destination_client = self.config.destination_client
         self.remove_excluded_attr(synthetics_private_location)
 
         diff = self.check_diff(synthetics_private_location, self.destination_resources[_id])

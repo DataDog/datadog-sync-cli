@@ -21,8 +21,6 @@ class BaseResource:
         resource_filter=None,
         excluded_attributes_re=None,
         non_nullable_attr=None,
-        source_resources=None,
-        destination_resources=None,
     ):
         self.config = config
         self.logger = config.logger
@@ -33,15 +31,13 @@ class BaseResource:
         self.resource_connections = resource_connections
         self.excluded_attributes_re = excluded_attributes_re
         self.non_nullable_attr = non_nullable_attr
-        self.source_resources = source_resources
-        self.destination_resources = destination_resources
 
     def import_resources(self):
         pass
 
-    def import_resources_concurrently(self, resources_obj, resources):
+    def import_resources_concurrently(self, resources):
         with ThreadPoolExecutor() as executor:
-            futures = [executor.submit(self.process_resource_import, resource, resources_obj) for resource in resources]
+            futures = [executor.submit(self.process_resource_import, resource) for resource in resources]
             for future in futures:
                 try:
                     future.result()
@@ -53,7 +49,7 @@ class BaseResource:
 
         if self.resource_connections:
             for k in self.resource_connections.keys():
-                for resource in self.ctx.obj.get("resources"):
+                for resource in self.config.resources:
                     if k == resource.resource_type:
                         connection_resources[k] = resource.destination_resources
 
@@ -113,16 +109,14 @@ class BaseResource:
             k_list = key.split(".")
             self.del_null_attr(k_list, resource)
 
-    def apply_resources_sequentially(self, resources, local_destination_resources, connection_resource_obj, **kwargs):
+    def apply_resources_sequentially(self, resources, connection_resource_obj, **kwargs):
         for _id, resource in resources.items():
             try:
-                self.prepare_resource_and_apply(
-                    _id, resource, local_destination_resources, connection_resource_obj, **kwargs
-                )
+                self.prepare_resource_and_apply(_id, resource, connection_resource_obj, **kwargs)
             except BaseException:
                 self.logger.exception("error while applying resource")
 
-    def apply_resources_concurrently(self, resources, local_destination_resources, connection_resource_obj, **kwargs):
+    def apply_resources_concurrently(self, resources, connection_resource_obj, **kwargs):
         with ThreadPoolExecutor() as executor:
             futures = [
                 executor.submit(
