@@ -148,7 +148,7 @@ def get_import_order(resources):
     # See Kahn's algorithm: https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm
 
     queue = []
-    for resource, _ in graph.items():
+    for resource in graph:
         # dependencies_count == 0 meaning it doesn't have any unresolved dependency
         if dependencies_count[resource] == 0:
             queue.append(resource)
