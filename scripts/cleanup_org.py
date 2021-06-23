@@ -29,7 +29,7 @@ class Cleanup:
         self.cleanup_monitors()
         self.cleanup_users()
         self.cleanup_roles()
-        self.cleanup_integrations_aws()
+        # self.cleanup_integrations_aws()
 
     def validate_org(self):
         _id = os.getenv(TEST_ORG_ENV_NAME, DEFAULT_TEST_ORG)
