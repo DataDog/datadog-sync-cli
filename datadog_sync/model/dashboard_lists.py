@@ -21,6 +21,11 @@ DASH_LIST_ITEMS_PATH = "/api/v2/dashboard/lists/manual/{}/dashboards"
 
 
 class DashboardLists(BaseResource):
+    resource_type = "dashboard_lists"
+
+    source_resources = {}
+    destination_resources = {}
+
     def __init__(self, config):
         super().__init__(
             config,
@@ -31,7 +36,6 @@ class DashboardLists(BaseResource):
         )
 
     def import_resources(self):
-        dashboard_lists = {}
         source_client = self.config.source_client
 
         try:
@@ -40,12 +44,9 @@ class DashboardLists(BaseResource):
             self.logger.error("error importing dashboard_lists %s", e)
             return
 
-        self.import_resources_concurrently(dashboard_lists, resp["dashboard_lists"])
+        self.import_resources_concurrently(resp["dashboard_lists"])
 
-        # Write resources to file
-        self.write_resources_file("source", dashboard_lists)
-
-    def process_resource_import(self, dashboard_list, dashboard_lists):
+    def process_resource_import(self, dashboard_list):
         source_client = self.config.source_client
         resp = None
         try:
@@ -59,23 +60,22 @@ class DashboardLists(BaseResource):
                 dash_list_item = {"id": dash["id"], "type": dash["type"]}
                 dashboard_list["dashboards"].append(dash_list_item)
 
-        dashboard_lists[dashboard_list["id"]] = dashboard_list
+        self.destination_resources[dashboard_list["id"]] = dashboard_list
 
     def apply_resources(self):
-        source_resources, local_destination_resources = self.open_resources()
+        self.open_resources()
         connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(source_resources, local_destination_resources, connection_resource_obj)
-        self.write_resources_file("destination", local_destination_resources)
+        self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
 
-    def prepare_resource_and_apply(self, _id, dashboard_list, local_destination_resources, connection_resource_obj):
+    def prepare_resource_and_apply(self, _id, dashboard_list,  connection_resource_obj):
         self.connect_resources(dashboard_list, connection_resource_obj)
 
-        if _id in local_destination_resources:
-            self.update_resource(_id, dashboard_list, local_destination_resources)
+        if _id in self.destination_resources:
+            self.update_resource(_id, dashboard_list)
         else:
-            self.create_resource(_id, dashboard_list, local_destination_resources)
+            self.create_resource(_id, dashboard_list)
 
-    def create_resource(self, _id, dashboard_list, local_destination_resources):
+    def create_resource(self, _id, dashboard_list):
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(dashboard_list["dashboards"])
         dashboard_list.pop("dashboards")
@@ -86,29 +86,29 @@ class DashboardLists(BaseResource):
         except HTTPError as e:
             self.logger.error("error creating dashboard_list: %s", e.response.text)
             return
-        local_destination_resources[_id] = resp
+        self.destination_resources[_id] = resp
         self.update_dash_list_items(resp["id"], dashboards, resp)
 
-    def update_resource(self, _id, dashboard_list, local_destination_resources):
+    def update_resource(self, _id, dashboard_list):
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(dashboard_list["dashboards"])
         dashboard_list.pop("dashboards")
         self.remove_excluded_attr(dashboard_list)
-        dash_list_diff = self.check_diff(local_destination_resources[_id]["dashboards"], dashboards)
+        dash_list_diff = self.check_diff(self.destination_resources[_id]["dashboards"], dashboards)
 
-        diff = self.check_diff(dashboard_list, local_destination_resources[_id])
+        diff = self.check_diff(dashboard_list, self.destination_resources[_id])
         if diff:
             try:
                 resp = destination_client.put(
-                    self.base_path + f"/{local_destination_resources[_id]['id']}", dashboard_list
+                    self.base_path + f"/{self.destination_resources[_id]['id']}", dashboard_list
                 ).json()
             except HTTPError as e:
                 self.logger.error("error creating dashboard_list: %s", e.response.text)
                 return
-            local_destination_resources[_id] = resp
+            self.destination_resources[_id] = resp
         if dash_list_diff:
             self.update_dash_list_items(
-                local_destination_resources[_id]["id"], dashboards, local_destination_resources[_id]
+                self.destination_resources[_id]["id"], dashboards, self.destination_resources[_id]
             )
 
     def update_dash_list_items(self, _id, dashboards, dashboard_list):

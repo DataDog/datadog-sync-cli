@@ -122,7 +122,7 @@ def get_resources(cfg, resources_arg):
         Monitors(cfg),
         Downtimes(cfg),
         Dashboards(cfg),
-        # DashboardLists(cfg),
+        DashboardLists(cfg),
         # ServiceLevelObjectives(cfg),
         # LogsCustomPipelines(cfg),
         # IntegrationsAWS(cfg),
