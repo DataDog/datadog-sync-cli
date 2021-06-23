@@ -34,12 +34,9 @@ class SyntheticsGlobalVariables(BaseResource):
             resource_connections=RESOURCE_CONNECTIONS,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             non_nullable_attr=NON_NULLABLE_ATTRIBUTE,
-            source_resources={},
-            destination_resources={},
         )
 
     def import_resources(self):
-        synthetics_global_variables = {}
         source_client = self.config.source_client
 
         try:
@@ -48,9 +45,7 @@ class SyntheticsGlobalVariables(BaseResource):
             self.logger.error("error importing synthetics_global_variables: %s", e)
             return
 
-        self.import_resources_concurrently(synthetics_global_variables, resp["variables"])
-
-        # Write resources to file
+        self.import_resources_concurrently(resp["variables"])
 
     def process_resource_import(self, synthetics_global_variable):
         self.source_resources[synthetics_global_variable["id"]] = synthetics_global_variable
@@ -61,10 +56,10 @@ class SyntheticsGlobalVariables(BaseResource):
         destination_global_variables = self.get_destination_global_variables()
 
         self.apply_resources_concurrently(
+            self.source_resources,
             connection_resource_obj,
             destination_global_variables=destination_global_variables,
         )
-        self.write_resources_file("destination")
 
     def prepare_resource_and_apply(
         self,

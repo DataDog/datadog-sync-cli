@@ -118,7 +118,7 @@ def get_resources(cfg, resources_arg):
         # Users(cfg),
         SyntheticsPrivateLocations(cfg),
         SyntheticsTests(cfg),
-        # SyntheticsGlobalVariables(cfg),
+        SyntheticsGlobalVariables(cfg),
         Monitors(cfg),
         Downtimes(cfg),
         Dashboards(cfg),
