@@ -30,12 +30,9 @@ class Dashboards(BaseResource):
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             resource_connections=RESOURCE_CONNECTIONS,
-            source_resources={},
-            destination_resources={},
         )
 
     def import_resources(self):
-        dashboards = {}
         source_client = self.config.source_client
 
         try:
@@ -44,17 +41,16 @@ class Dashboards(BaseResource):
             self.logger.error("error importing dashboards %s", e)
             return
 
-        self.import_resources_concurrently(dashboards, resp["dashboards"])
+        self.import_resources_concurrently(resp["dashboards"])
 
-    def process_resource_import(self, dash_id):
+    def process_resource_import(self, dash):
         source_client = self.config.source_client
         try:
-            # TODO: check if dash_id['id'] or not
-            dashboard = source_client.get(self.base_path + f"/{dash_id}").json()
+            dashboard = source_client.get(self.base_path + f"/{dash['id']}").json()
         except HTTPError as e:
             self.logger.error("error retrieving dashboard: %s", e)
             return
-        dashboards[dash["id"]] = dashboard
+        self.source_resources[dash["id"]] = dashboard
 
     def apply_resources(self):
         self.open_resources()
