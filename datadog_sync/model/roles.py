@@ -26,7 +26,12 @@ class Roles(BaseResource):
     destination_resources = {}
 
     def __init__(self, config):
-        super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
+        super().__init__(
+            config,
+            RESOURCE_TYPE,
+            BASE_PATH,
+            excluded_attributes=EXCLUDED_ATTRIBUTES,
+        )
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -39,8 +44,6 @@ class Roles(BaseResource):
 
         self.import_resources_concurrently(resp)
 
-        # Write resources to file
-
     def process_resource_import(self, role):
         self.source_resources[role["id"]] = role
 
@@ -51,6 +54,7 @@ class Roles(BaseResource):
         destination_roles_mapping = self.get_destination_roles_mapping()
 
         self.apply_resources_concurrently(
+            self.source_resources,
             {},
             source_permission=source_permission,
             destination_permission=destination_permission,
@@ -58,7 +62,7 @@ class Roles(BaseResource):
             destination_roles_mapping=destination_roles_mapping,
         )
 
-    def prepare_resource_and_apply(self, _id, role, **kwargs):
+    def prepare_resource_and_apply(self, _id, role, connection_resources_obj, **kwargs):
         source_permission = kwargs.get("source_permission")
         destination_permission = kwargs.get("destination_permission")
         source_roles_mapping = kwargs.get("source_roles_mapping")
@@ -115,9 +119,6 @@ class Roles(BaseResource):
         for _id, role in self.source_resources.items():
             self.remap_permissions(role, source_permission, destination_permission)
             self.remap_role_id(role, source_roles_mapping, destination_roles_mapping)
-
-            # if self.resource_connections:
-            #     self.connect_resources(role, connection_resource_obj)
 
             if _id in self.destination_resources:
                 diff = self.check_diff(self.destination_resources[_id], role)
