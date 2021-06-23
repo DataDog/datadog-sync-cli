@@ -2,8 +2,8 @@ from click import pass_context, group, option
 from requests.api import get
 
 import datadog_sync.constants as constants
-from datadog_sync.commands import ALL_COMMANDS
 import datadog_sync.models as models
+from datadog_sync.commands import ALL_COMMANDS
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync.utils.log import Log
@@ -101,7 +101,7 @@ def cli(ctx, **kwargs):
 
 def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
-    str_to_class = dict([(cls.resource_type, cls) for name, cls in models.__dict__.items() if isinstance(cls, type)])
+    str_to_class = dict([(cls.resource_type, cls) for _, cls in models.__dict__.items() if isinstance(cls, type)])
 
     resource_instances = [
         value for key, value in str_to_class.items() if not resources_arg or key in resources_arg.split(",")
@@ -109,13 +109,11 @@ def get_resources(cfg, resources_arg):
 
     order_list = get_import_order(resource_instances, str_to_class)
 
-    tmp = [(cls.resource_type, getattr(models, name)) for name, cls in models.__dict__.items() if isinstance(cls, type) and cls.resource_type in order_list]
+    class_by_resource_type = [(cls.resource_type, getattr(models, name)) for name, cls in models.__dict__.items() if isinstance(cls, type) and cls.resource_type in order_list]
 
-    tmp.sort(key = lambda x: order_list.index(x[0]))
+    class_by_resource_type.sort(key = lambda x: order_list.index(x[0]))
 
-    resources = OrderedDict()
-    for (k, v) in tmp:
-        resources[k] = v(cfg)
+    resources = OrderedDict({key:cls(cfg) for (key, cls) in class_by_resource_type})
 
     return resources
 
