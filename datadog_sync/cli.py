@@ -116,7 +116,7 @@ def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
     resources = [
         Roles(cfg),
-        # Users(cfg),
+        Users(cfg),
         SyntheticsPrivateLocations(cfg),
         SyntheticsTests(cfg),
         SyntheticsGlobalVariables(cfg),

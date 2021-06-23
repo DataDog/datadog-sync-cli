@@ -64,7 +64,7 @@ class Users(BaseResource):
         connection_resource_obj = self.get_connection_resources()
 
         self.apply_resources_concurrently(
-            source_resources, connection_resource_obj, remote_users=remote_users
+            self.source_resources, connection_resource_obj, remote_users=remote_users
         )
 
     def prepare_resource_and_apply(self, _id, user, connection_resource_obj, **kwargs):
