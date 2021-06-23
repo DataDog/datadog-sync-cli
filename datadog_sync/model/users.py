@@ -6,45 +6,35 @@ from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.custom_client import paginated_request
 
 
-RESOURCE_TYPE = "users"
-EXCLUDED_ATTRIBUTES = [
-    "root['id']",
-    "root['attributes']['created_at']",
-    "root['attributes']['title']",
-    "root['attributes']['name']",
-    "root['attributes']['status']",
-    "root['attributes']['verified']",
-    "root['attributes']['service_account']",
-    "root['attributes']['handle']",
-    "root['attributes']['icon']",
-    "root['attributes']['modified_at']",
-    "root['relationships']['org']",
-]
-BASE_PATH = "/api/v2/users"
-ROLES_PATH = "/api/v2/roles/{}/users"
-RESOURCES_TO_CONNECT = {"roles": ["relationships.roles.data.id"]}
-GET_USERS_FILTER = {"filter[status]": "Active"}
-
-
 class Users(BaseResource):
     resource_type = "users"
-
-    resource_connections = RESOURCES_TO_CONNECT
+    resource_connections = {"roles": ["relationships.roles.data.id"]}
+    base_path = "/api/v2/users"
+    roles_path = "/api/v2/roles/{}/users"
+    get_users_filter = {"filter[status]": "active"}
+    excluded_attributes = [
+        "root['id']",
+        "root['attributes']['created_at']",
+        "root['attributes']['title']",
+        "root['attributes']['name']",
+        "root['attributes']['status']",
+        "root['attributes']['verified']",
+        "root['attributes']['service_account']",
+        "root['attributes']['handle']",
+        "root['attributes']['icon']",
+        "root['attributes']['modified_at']",
+        "root['relationships']['org']",
+    ]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(
-            config,
-            RESOURCE_TYPE,
-            BASE_PATH,
-            excluded_attributes=EXCLUDED_ATTRIBUTES,
-            resource_connections=RESOURCES_TO_CONNECT,
-        )
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client
 
         try:
-            resp = paginated_request(source_client.get)(self.base_path, params=GET_USERS_FILTER)
+            resp = paginated_request(source_client.get)(self.base_path, params=self.get_users_filter)
         except HTTPError as e:
             self.logger.error("Error while importing Users resource: %s", e)
             return
@@ -162,7 +152,7 @@ class Users(BaseResource):
         destination_client = self.config.destination_client
 
         try:
-            remote_users = paginated_request(destination_client.get)(self.base_path, params=GET_USERS_FILTER)
+            remote_users = paginated_request(destination_client.get)(self.base_path, params=self.get_users_filter)
         except HTTPError as e:
             self.logger.error("error retrieving remote users: %s", e)
             return
@@ -176,7 +166,7 @@ class Users(BaseResource):
         destination_client = self.config.destination_client
         payload = {"data": {"id": user_id, "type": "users"}}
         try:
-            destination_client.post(ROLES_PATH.format(role_id), payload)
+            destination_client.post(self.roles_path.format(role_id), payload)
         except HTTPError as e:
             self.logger.error("error adding user: %s to role %s: %s", user_id, role_id, e)
 
@@ -184,6 +174,6 @@ class Users(BaseResource):
         destination_client = self.config.destination_client
         payload = {"data": {"id": user_id, "type": "users"}}
         try:
-            destination_client.delete(ROLES_PATH.format(role_id), payload)
+            destination_client.delete(self.roles_path.format(role_id), payload)
         except HTTPError as e:
             self.logger.error("error removing user: %s from role %s: %s", user_id, role_id, e)

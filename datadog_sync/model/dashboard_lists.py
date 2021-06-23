@@ -5,33 +5,24 @@ from requests.exceptions import HTTPError
 from datadog_sync.utils.base_resource import BaseResource
 
 
-RESOURCE_TYPE = "dashboard_lists"
-EXCLUDED_ATTRIBUTES = [
-    "root['id']",
-    "root['type']",
-    "root['author']",
-    "root['created']",
-    "root['modified']",
-    "root['is_favorite']",
-    "root['dashboard_count']",
-]
-RESOURCES_TO_CONNECT = {"dashboards": ["dashboards.id"]}
-BASE_PATH = "/api/v1/dashboard/lists/manual"
-DASH_LIST_ITEMS_PATH = "/api/v2/dashboard/lists/manual/{}/dashboards"
-
-
 class DashboardLists(BaseResource):
     resource_type = "dashboard_lists"
-    resource_connections = RESOURCES_TO_CONNECT
+    resource_connections = {"dashboards": ["dashboards.id"]}
+    base_path = "/api/v1/dashboard/lists/manual"
+    dash_list_items_path = "/api/v2/dashboard/lists/manual/{}/dashboards"
+    excluded_attributes = [
+        "root['id']",
+        "root['type']",
+        "root['author']",
+        "root['created']",
+        "root['modified']",
+        "root['is_favorite']",
+        "root['dashboard_count']",
+    ]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(
-            config,
-            RESOURCE_TYPE,
-            BASE_PATH,
-            excluded_attributes=EXCLUDED_ATTRIBUTES,
-            resource_connections=RESOURCES_TO_CONNECT,
-        )
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -48,7 +39,7 @@ class DashboardLists(BaseResource):
         source_client = self.config.source_client
         resp = None
         try:
-            resp = source_client.get(DASH_LIST_ITEMS_PATH.format(dashboard_list["id"])).json()
+            resp = source_client.get(self.dash_list_items_path.format(dashboard_list["id"])).json()
         except HTTPError as e:
             self.logger.error("error retrieving dashboard_lists items %s", e)
 
@@ -112,7 +103,7 @@ class DashboardLists(BaseResource):
         payload = {"dashboards": dashboards}
         destination_client = self.config.destination_client
         try:
-            dashboards = destination_client.put(DASH_LIST_ITEMS_PATH.format(_id), payload).json()
+            dashboards = destination_client.put(self.dash_list_items_path.format(_id), payload).json()
         except HTTPError as e:
             self.logger.error("error updating dashboard list items: %s", e)
             return

@@ -3,35 +3,24 @@ from requests.exceptions import HTTPError
 from datadog_sync.utils.base_resource import BaseResource
 
 
-RESOURCE_TYPE = "synthetics_global_variables"
-EXCLUDED_ATTRIBUTES = [
-    "root['id']",
-    "root['modified_at']",
-    "root['created_at']",
-    "root['parse_test_extracted_at']",
-    "root['created_by']",
-    "root['is_totp']",
-    "root['parse_test_name']",
-]
-BASE_PATH = "/api/v1/synthetics/variables"
-NON_NULLABLE_ATTRIBUTE = ["parse_test_public_id", "parse_test_options"]
-RESOURCES_TO_CONNECT = {"synthetics_tests": ["parse_test_public_id"]}
-
-
 class SyntheticsGlobalVariables(BaseResource):
     resource_type = "synthetics_global_variables"
-
-    resource_connections = RESOURCES_TO_CONNECT
+    resource_connections = {"synthetics_tests": ["parse_test_public_id"]}
+    base_path = "/api/v1/synthetics/variables"
+    non_nullable_attribute = ["parse_test_public_id", "parse_test_options"]
+    excluded_attributes = [
+        "root['id']",
+        "root['modified_at']",
+        "root['created_at']",
+        "root['parse_test_extracted_at']",
+        "root['created_by']",
+        "root['is_totp']",
+        "root['parse_test_name']",
+    ]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(
-            config,
-            RESOURCE_TYPE,
-            BASE_PATH,
-            resource_connections=RESOURCES_TO_CONNECT,
-            excluded_attributes=EXCLUDED_ATTRIBUTES,
-            non_nullable_attr=NON_NULLABLE_ATTRIBUTE,
-        )
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client

@@ -3,36 +3,26 @@ from requests.exceptions import HTTPError
 from datadog_sync.utils.base_resource import BaseResource
 
 
-RESOURCE_TYPE = "monitors"
-EXCLUDED_ATTRIBUTES = [
-    "root['id']",
-    "root['matching_downtimes']",
-    "root['creator']",
-    "root['created']",
-    "root['deleted']",
-    "root['org_id']",
-    "root['created_at']",
-    "root['modified']",
-    "root['overall_state']",
-    "root['overall_state_modified']",
-]
-RESOURCES_TO_CONNECT = {"monitors": ["query"], "roles": ["restricted_roles"]}
-BASE_PATH = "/api/v1/monitor"
-
-
 class Monitors(BaseResource):
-    resource_type = RESOURCE_TYPE
-
-    resource_connections = RESOURCES_TO_CONNECT
+    resource_type = "monitors"
+    resource_connections = {"monitors": ["query"], "roles": ["restricted_roles"]}
+    base_path = "/api/v1/monitor"
+    excluded_attributes = [
+        "root['id']",
+        "root['matching_downtimes']",
+        "root['creator']",
+        "root['created']",
+        "root['deleted']",
+        "root['org_id']",
+        "root['created_at']",
+        "root['modified']",
+        "root['overall_state']",
+        "root['overall_state_modified']",
+    ]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(
-            config,
-            RESOURCE_TYPE,
-            BASE_PATH,
-            resource_connections=RESOURCES_TO_CONNECT,
-            excluded_attributes=EXCLUDED_ATTRIBUTES,
-        )
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client

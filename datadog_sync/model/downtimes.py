@@ -3,35 +3,24 @@ from requests.exceptions import HTTPError
 from datadog_sync.utils.base_resource import BaseResource
 
 
-RESOURCE_TYPE = "downtimes"
-EXCLUDED_ATTRIBUTES = [
-    "root['id']",
-    "root['updater_id']",
-    "root['created']",
-    "root['org_id']",
-    "root['modified']",
-    "root['creator_id']",
-    "root['active']",
-]
-RESOURCES_TO_CONNECT = {"monitors": ["monitor_id"]}
-NON_NULLABLE_ATTRIBUTE = ["recurrence.until_date", "recurrence.until_occurrences"]
-BASE_PATH = "/api/v1/downtime"
-
-
 class Downtimes(BaseResource):
-    resource_type = RESOURCE_TYPE
-    resource_connections = RESOURCES_TO_CONNECT
-
+    resource_type = "downtimes"
+    resource_connections = {"monitors": ["monitor_id"]}
+    non_nullable_attribute = ["recurrence.until_date", "recurrence.until_occurrences"]
+    base_path = "/api/v1/downtime"
+    excluded_attributes = [
+        "root['id']",
+        "root['updater_id']",
+        "root['created']",
+        "root['org_id']",
+        "root['modified']",
+        "root['creator_id']",
+        "root['active']",
+    ]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(
-            config,
-            RESOURCE_TYPE,
-            BASE_PATH,
-            excluded_attributes=EXCLUDED_ATTRIBUTES,
-            resource_connections=RESOURCES_TO_CONNECT,
-            non_nullable_attr=NON_NULLABLE_ATTRIBUTE,
-        )
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client

@@ -7,28 +7,21 @@ from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.custom_client import paginated_request
 
 
-RESOURCE_TYPE = "roles"
-EXCLUDED_ATTRIBUTES = [
-    "root['id']",
-    "root['attributes']['created_at']",
-    "root['attributes']['modified_at']",
-    "root['attributes']['user_count']",
-]
-BASE_PATH = "/api/v2/roles"
-PERMISSIONS_BASE_PATH = "/api/v2/permissions"
-
-
 class Roles(BaseResource):
     resource_type = "roles"
     resource_connections = None
+    base_path = "/api/v2/roles"
+    permissions_base_path = "/api/v2/permissions"
+    excluded_attributes = [
+        "root['id']",
+        "root['attributes']['created_at']",
+        "root['attributes']['modified_at']",
+        "root['attributes']['user_count']",
+    ]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(
-            config,
-            RESOURCE_TYPE,
-            BASE_PATH,
-            excluded_attributes=EXCLUDED_ATTRIBUTES,
-        )
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -131,8 +124,8 @@ class Roles(BaseResource):
         source_client = self.config.source_client
         destination_client = self.config.destination_client
         try:
-            source_permissions = source_client.get(PERMISSIONS_BASE_PATH).json()["data"]
-            destination_permissions = destination_client.get(PERMISSIONS_BASE_PATH).json()["data"]
+            source_permissions = source_client.get(self.permissions_base_path).json()["data"]
+            destination_permissions = destination_client.get(self.permissions_base_path).json()["data"]
         except HTTPError as e:
             self.logger.error("error getting permissions: %s", e.response.text)
             return

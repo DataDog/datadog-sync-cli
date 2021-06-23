@@ -3,30 +3,21 @@ from requests.exceptions import HTTPError
 from datadog_sync.utils.base_resource import BaseResource
 
 
-RESOURCE_TYPE = "service_level_objectives"
-EXCLUDED_ATTRIBUTES = [
-    "root['creator']",
-    "root['id']",
-    "root['monitor_ids']",
-    "root['created_at']",
-    "root['modified_at']",
-]
-BASE_PATH = "/api/v1/slo"
-RESOURCES_TO_CONNECT = {"monitors": ["monitor_ids"], "synthetics_tests": ["monitor_ids"]}
-
-
 class ServiceLevelObjectives(BaseResource):
     resource_type = "service_level_objectives"
-    resource_connections = RESOURCES_TO_CONNECT
+    resource_connections = {"monitors": ["monitor_ids"], "synthetics_tests": ["monitor_ids"]}
+    base_path = "/api/v1/slo"
+    excluded_attributes = [
+        "root['creator']",
+        "root['id']",
+        "root['monitor_ids']",
+        "root['created_at']",
+        "root['modified_at']",
+    ]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(
-            config,
-            RESOURCE_TYPE,
-            BASE_PATH,
-            resource_connections=RESOURCES_TO_CONNECT,
-            excluded_attributes=EXCLUDED_ATTRIBUTES,
-        )
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client

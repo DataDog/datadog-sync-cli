@@ -5,39 +5,30 @@ from requests.exceptions import HTTPError
 from datadog_sync.utils.base_resource import BaseResource
 
 
-RESOURCE_TYPE = "synthetics_private_locations"
-EXCLUDED_ATTRIBUTES = [
-    "root['id']",
-    "root['modifiedAt']",
-    "root['createdAt']",
-    "root['metadata']",
-    "root['secrets']",
-    "root['config']",
-]
-BASE_LOCATIONS_PATH = "/api/v1/synthetics/locations"
-BASE_PATH = "/api/v1/synthetics/private-locations"
-PL_ID_REGEX = re.compile("^pl:.*")
-
-
 class SyntheticsPrivateLocations(BaseResource):
     resource_type = "synthetics_private_locations"
-
     resource_connections = None
-
+    base_locations_path = "/api/v1/synthetics/locations"
+    base_path = "/api/v1/synthetics/private-locations"
+    pl_id_regex = re.compile("^pl:.*")
+    excluded_attributes = [
+        "root['id']",
+        "root['modifiedat']",
+        "root['createdat']",
+        "root['metadata']",
+        "root['secrets']",
+        "root['config']",
+    ]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(
-            config,
-            RESOURCE_TYPE,
-            BASE_PATH,
-            excluded_attributes=EXCLUDED_ATTRIBUTES,
-        )
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client
 
         try:
-            resp = source_client.get(BASE_LOCATIONS_PATH).json()
+            resp = source_client.get(self.base_locations_path).json()
         except HTTPError as e:
             self.logger.error("error importing synthetics_private_locations: %s", e)
             return
@@ -46,7 +37,7 @@ class SyntheticsPrivateLocations(BaseResource):
 
     def process_resource_import(self, synthetics_private_location):
         source_client = self.config.source_client
-        if PL_ID_REGEX.match(synthetics_private_location["id"]):
+        if self.pl_id_regex.match(synthetics_private_location["id"]):
             try:
                 pl = source_client.get(self.base_path + f"/{synthetics_private_location['id']}").json()
             except HTTPError as e:

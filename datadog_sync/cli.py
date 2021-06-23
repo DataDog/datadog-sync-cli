@@ -99,6 +99,7 @@ def cli(ctx, **kwargs):
     # Initialize resources
     config.resources = get_resources(config, kwargs.get("resources"))
 
+
 def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
     str_to_class = dict([(cls.resource_type, cls) for _, cls in models.__dict__.items() if isinstance(cls, type)])
@@ -109,11 +110,15 @@ def get_resources(cfg, resources_arg):
 
     order_list = get_import_order(resource_instances, str_to_class)
 
-    class_by_resource_type = [(cls.resource_type, getattr(models, name)) for name, cls in models.__dict__.items() if isinstance(cls, type) and cls.resource_type in order_list]
+    class_by_resource_type = [
+        (cls.resource_type, getattr(models, name))
+        for name, cls in models.__dict__.items()
+        if isinstance(cls, type) and cls.resource_type in order_list
+    ]
 
-    class_by_resource_type.sort(key = lambda x: order_list.index(x[0]))
+    class_by_resource_type.sort(key=lambda x: order_list.index(x[0]))
 
-    resources = OrderedDict({key:cls(cfg) for (key, cls) in class_by_resource_type})
+    resources = OrderedDict({key: cls(cfg) for (key, cls) in class_by_resource_type})
 
     return resources
 

@@ -3,21 +3,19 @@ from requests.exceptions import HTTPError
 from datadog_sync.utils.base_resource import BaseResource
 
 
-RESOURCE_TYPE = "logs_custom_pipelines"
-EXCLUDED_ATTRIBUTES = [
-    "root['id']",
-    "root['type']",
-    "root['is_read_only']",
-]
-BASE_PATH = "/api/v1/logs/config/pipelines"
-
-
 class LogsCustomPipelines(BaseResource):
     resource_type = "logs_custom_pipelines"
     resource_connections = None
+    base_path = "/api/v1/logs/config/pipelines"
+    excluded_attributes = [
+        "root['id']",
+        "root['type']",
+        "root['is_read_only']",
+    ]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client

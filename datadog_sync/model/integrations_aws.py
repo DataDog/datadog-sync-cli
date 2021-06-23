@@ -3,18 +3,15 @@ from requests.exceptions import HTTPError
 from datadog_sync.utils.base_resource import BaseResource
 
 
-RESOURCE_TYPE = "integrations_aws"
-EXCLUDED_ATTRIBUTES = ["root['external_id']", "root['errors']"]
-BASE_PATH = "/api/v1/integration/aws"
-
-
 class IntegrationsAWS(BaseResource):
     resource_type = "integrations_aws"
     resource_connections = None
-
+    base_path = "/api/v1/integration/aws"
+    excluded_attributes = ["root['external_id']", "root['errors']"]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client

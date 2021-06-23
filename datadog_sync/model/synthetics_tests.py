@@ -3,34 +3,22 @@ from requests.exceptions import HTTPError
 from datadog_sync.utils.base_resource import BaseResource
 
 
-RESOURCE_TYPE = "synthetics_tests"
-EXCLUDED_ATTRIBUTES = [
-    "root['deleted_at']",
-    "root['org_id']",
-    "root['public_id']",
-    "root['monitor_id']",
-    "root['modified_at']",
-    "root['created_at']",
-]
-EXCLUDED_ATTRIBUTES_RE = ["updatedAt", "notify_audit", "locked", "include_tags", "new_host_delay", "notify_no_data"]
-BASE_PATH = "/api/v1/synthetics/tests"
-RESOURCES_TO_CONNECT = {"synthetics_private_locations": ["locations"]}
-
-
 class SyntheticsTests(BaseResource):
     resource_type = "synthetics_tests"
-
-    resource_connections = RESOURCES_TO_CONNECT
+    resource_connections = {"synthetics_private_locations": ["locations"]}
+    base_path = "/api/v1/synthetics/tests"
+    excluded_attributes = [
+        "root['deleted_at']",
+        "root['org_id']",
+        "root['public_id']",
+        "root['monitor_id']",
+        "root['modified_at']",
+        "root['created_at']",
+    ]
+    excluded_attributes_re = ["updatedat", "notify_audit", "locked", "include_tags", "new_host_delay", "notify_no_data"]
 
     def __init__(self, config):
-        super().__init__(
-            config,
-            RESOURCE_TYPE,
-            BASE_PATH,
-            resource_connections=RESOURCES_TO_CONNECT,
-            excluded_attributes=EXCLUDED_ATTRIBUTES,
-            excluded_attributes_re=EXCLUDED_ATTRIBUTES_RE,
-        )
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client

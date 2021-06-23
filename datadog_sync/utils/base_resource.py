@@ -11,29 +11,18 @@ from datadog_sync.utils.resource_utils import replace
 
 
 class BaseResource:
-    def __init__(
-        self,
-        config,
-        resource_type,
-        base_path,
-        excluded_attributes=None,
-        resource_connections=None,
-        resource_filter=None,
-        excluded_attributes_re=None,
-        non_nullable_attr=None,
-    ):
+    def __init__(self, config):
         self.config = config
         if config:
             self.logger = config.logger
-        self.resource_type = resource_type
-        self.base_path = base_path
-        self.excluded_attributes = excluded_attributes
-        self.resource_filter = resource_filter
-        self.resource_connections = resource_connections
-        self.excluded_attributes_re = excluded_attributes_re
-        self.non_nullable_attr = non_nullable_attr
 
         self.source_resources, self.destination_resources = self.open_resources()
+
+    def __getattribute__(self, attr):
+        try:
+            return object.__getattribute__(self, attr)
+        except AttributeError:
+            return None
 
     def import_resources(self):
         pass
@@ -63,9 +52,10 @@ class BaseResource:
         pass
 
     def remove_excluded_attr(self, resource):
-        for key in self.excluded_attributes:
-            k_list = re.findall("\\['(.*?)'\\]", key)
-            self.del_attr(k_list, resource)
+        if self.excluded_attributes:
+            for key in self.excluded_attributes:
+                k_list = re.findall("\\['(.*?)'\\]", key)
+                self.del_attr(k_list, resource)
 
     def prepare_resource_and_apply(self, *args, **kwargs):
         pass
@@ -108,9 +98,10 @@ class BaseResource:
                 print("Resource to be added {}: \n {}".format(self.resource_type, pformat(resource)))
 
     def remove_non_nullable_attributes(self, resource):
-        for key in self.non_nullable_attr:
-            k_list = key.split(".")
-            self.del_null_attr(k_list, resource)
+        if self.non_nullable_attr:
+            for key in self.non_nullable_attr:
+                k_list = key.split(".")
+                self.del_null_attr(k_list, resource)
 
     def apply_resources_sequentially(self, resources, connection_resource_obj, **kwargs):
         for _id, resource in resources.items():

@@ -2,36 +2,27 @@ from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
 
-RESOURCE_TYPE = "dashboards"
-EXCLUDED_ATTRIBUTES = [
-    "root['id']",
-    "root['author_handle']",
-    "root['author_name']",
-    "root['url']",
-    "root['created_at']",
-    "root['modified_at']",
-]
-RESOURCES_TO_CONNECT = {
-    "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
-    "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
-    "roles": ["restricted_roles"],
-}
-BASE_PATH = "/api/v1/dashboard"
-
 
 class Dashboards(BaseResource):
     resource_type = "dashboards"
-
-    resource_connections = RESOURCES_TO_CONNECT
+    resource_connections = {
+        "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
+        "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
+        "roles": ["restricted_roles"],
+    }
+    base_path = "/api/v1/dashboard"
+    excluded_attributes = [
+        "root['id']",
+        "root['author_handle']",
+        "root['author_name']",
+        "root['url']",
+        "root['created_at']",
+        "root['modified_at']",
+    ]
+    excluded_attributes_re = None
 
     def __init__(self, config):
-        super().__init__(
-            config,
-            RESOURCE_TYPE,
-            BASE_PATH,
-            excluded_attributes=EXCLUDED_ATTRIBUTES,
-            resource_connections=RESOURCES_TO_CONNECT,
-        )
+        super().__init__(config)
 
     def import_resources(self):
         source_client = self.config.source_client
