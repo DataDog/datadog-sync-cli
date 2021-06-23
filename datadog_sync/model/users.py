@@ -40,12 +40,9 @@ class Users(BaseResource):
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             resource_connections=RESOURCE_CONNECTIONS,
-            source_resources={},
-            destination_resources={},
         )
 
     def import_resources(self):
-        users = {}
         source_client = self.config.source_client
 
         try:
@@ -54,7 +51,7 @@ class Users(BaseResource):
             self.logger.error("Error while importing Users resource: %s", e)
             return
 
-        self.import_resources_concurrently(users, resp)
+        self.import_resources_concurrently(resp)
 
         # Write resources to file
 
@@ -62,16 +59,15 @@ class Users(BaseResource):
         self.source_resources[user["id"]] = user
 
     def apply_resources(self):
-        source_resources, local_destination_resources = self.open_resources()
+        self.open_resources()
         remote_users = self.get_remote_destination_users()
         connection_resource_obj = self.get_connection_resources()
 
         self.apply_resources_concurrently(
-            source_resources, local_destination_resources, connection_resource_obj, remote_users=remote_users
+            source_resources, connection_resource_obj, remote_users=remote_users
         )
-        self.write_resources_file("destination", local_destination_resources)
 
-    def prepare_resource_and_apply(self, _id, user, local_destination_users, connection_resource_obj, **kwargs):
+    def prepare_resource_and_apply(self, _id, user, connection_resource_obj, **kwargs):
         destination_client = self.config.destination_client
         remote_users = kwargs.get("remote_users")
 
@@ -96,7 +92,7 @@ class Users(BaseResource):
                 except HTTPError as e:
                     self.logger.error("error updating user: %s", e.response.json())
                     return
-                local_destination_users[_id] = resp.json()["data"]
+                self.destination_resources[_id] = resp.json()["data"]
             else:
                 self.destination_resources[_id] = remote_user
         else:
@@ -110,7 +106,7 @@ class Users(BaseResource):
         try:
             resp = destination_client.post(self.base_path, {"data": user})
         except HTTPError as e:
-            log.error("error creating user: %s", e)
+            self.logger.error("error creating user: %s", e)
         self.destination_resources[_id] = resp.json()["data"]
 
     def update_resource(self, _id, user):
