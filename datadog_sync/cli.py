@@ -123,7 +123,7 @@ def get_resources(cfg, resources_arg):
         Downtimes(cfg),
         Dashboards(cfg),
         DashboardLists(cfg),
-        # ServiceLevelObjectives(cfg),
+        ServiceLevelObjectives(cfg),
         LogsCustomPipelines(cfg),
         # IntegrationsAWS(cfg),
     ]

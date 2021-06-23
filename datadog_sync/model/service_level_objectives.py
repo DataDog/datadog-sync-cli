@@ -18,6 +18,11 @@ RESOURCES_TO_CONNECT = {"monitors": ["monitor_ids"], "synthetics_tests": ["monit
 
 
 class ServiceLevelObjectives(BaseResource):
+    resource_type = "service_level_objectives"
+
+    source_resources = {}
+    destination_resources = {}
+
     def __init__(self, config):
         super().__init__(
             config,
@@ -28,7 +33,6 @@ class ServiceLevelObjectives(BaseResource):
         )
 
     def import_resources(self):
-        slos = {}
         source_client = self.config.source_client
 
         try:
@@ -37,39 +41,32 @@ class ServiceLevelObjectives(BaseResource):
             self.logger.error("error importing slo %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource_import, slo, slos) for slo in resp["data"]])
+        self.import_resources_concurrently(resp["data"])
 
-        # Write resources to file
-        self.write_resources_file("source", slos)
-
-    def process_resource_import(self, slo, slos):
-        slos[slo["id"]] = slo
+    def process_resource_import(self, slo):
+        self.source_resources[slo["id"]] = slo
 
     def apply_resources(self):
-        source_resources, local_destination_resources = self.open_resources()
+        self.open_resources()
 
         self.logger.info("Processing service_level_objectives")
 
         connection_resource_obj = self.get_connection_resources()
 
         self.apply_resources_concurrently(
-            source_resources,
-            local_destination_resources,
+            self.source_resources,
             connection_resource_obj,
         )
 
-        self.write_resources_file("destination", local_destination_resources)
-
-    def prepare_resource_and_apply(self, _id, slo, local_destination_resources, connection_resource_obj):
+    def prepare_resource_and_apply(self, _id, slo, connection_resource_obj):
         self.connect_resources(slo, connection_resource_obj)
 
-        if _id in local_destination_resources:
-            self.update_resource(_id, slo, local_destination_resources)
+        if _id in self.destination_resources:
+            self.update_resource(_id, slo)
         else:
-            self.create_resource(_id, slo, local_destination_resources)
+            self.create_resource(_id, slo)
 
-    def create_resource(self, _id, slo, local_destination_resources):
+    def create_resource(self, _id, slo):
         destination_client = self.config.destination_client
 
         try:
@@ -78,17 +75,16 @@ class ServiceLevelObjectives(BaseResource):
             self.logger.error("error creating slo: %s", e.response.text)
             return
 
-        # local_destination_resources[f"{_id}:{resp['monitor_id']}"] = resp
-        local_destination_resources[_id] = resp["data"][0]
+        self.destination_resources[_id] = resp["data"][0]
 
-    def update_resource(self, _id, slo, local_destination_resources):
+    def update_resource(self, _id, slo):
         destination_client = self.config.destination_client
 
-        diff = self.check_diff(slo, local_destination_resources[_id])
+        diff = self.check_diff(slo, self.destination_resources[_id])
         if diff:
             try:
-                resp = destination_client.put(self.base_path + f"/{local_destination_resources[_id]['id']}", slo).json()
+                resp = destination_client.put(self.base_path + f"/{self.destination_resources[_id]['id']}", slo).json()
             except HTTPError as e:
                 self.logger.error("error creating slo: %s", e.response.text)
                 return
-            local_destination_resources[_id] = resp["data"][0]
+            self.destination_resources[_id] = resp["data"][0]
