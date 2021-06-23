@@ -15,16 +15,14 @@ EXCLUDED_ATTRIBUTES = [
     "root['is_favorite']",
     "root['dashboard_count']",
 ]
-RESOURCE_CONNECTIONS = {"dashboards": ["dashboards.id"]}
+RESOURCES_TO_CONNECT = {"dashboards": ["dashboards.id"]}
 BASE_PATH = "/api/v1/dashboard/lists/manual"
 DASH_LIST_ITEMS_PATH = "/api/v2/dashboard/lists/manual/{}/dashboards"
 
 
 class DashboardLists(BaseResource):
     resource_type = "dashboard_lists"
-
-    source_resources = {}
-    destination_resources = {}
+    resource_connections = RESOURCES_TO_CONNECT
 
     def __init__(self, config):
         super().__init__(
@@ -32,7 +30,7 @@ class DashboardLists(BaseResource):
             RESOURCE_TYPE,
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
-            resource_connections=RESOURCE_CONNECTIONS,
+            resource_connections=RESOURCES_TO_CONNECT,
         )
 
     def import_resources(self):
@@ -63,7 +61,6 @@ class DashboardLists(BaseResource):
         self.destination_resources[dashboard_list["id"]] = dashboard_list
 
     def apply_resources(self):
-        self.open_resources()
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
 

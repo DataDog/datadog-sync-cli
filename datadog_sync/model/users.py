@@ -22,15 +22,14 @@ EXCLUDED_ATTRIBUTES = [
 ]
 BASE_PATH = "/api/v2/users"
 ROLES_PATH = "/api/v2/roles/{}/users"
-RESOURCE_CONNECTIONS = {"roles": ["relationships.roles.data.id"]}
+RESOURCES_TO_CONNECT = {"roles": ["relationships.roles.data.id"]}
 GET_USERS_FILTER = {"filter[status]": "Active"}
 
 
 class Users(BaseResource):
     resource_type = "users"
 
-    source_resources = {}
-    destination_resources = {}
+    resource_connections = RESOURCES_TO_CONNECT
 
     def __init__(self, config):
         super().__init__(
@@ -38,7 +37,7 @@ class Users(BaseResource):
             RESOURCE_TYPE,
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
-            resource_connections=RESOURCE_CONNECTIONS,
+            resource_connections=RESOURCES_TO_CONNECT,
         )
 
     def import_resources(self):
@@ -58,13 +57,11 @@ class Users(BaseResource):
         self.source_resources[user["id"]] = user
 
     def apply_resources(self):
-        self.open_resources()
+
         remote_users = self.get_remote_destination_users()
         connection_resource_obj = self.get_connection_resources()
 
-        self.apply_resources_concurrently(
-            self.source_resources, connection_resource_obj, remote_users=remote_users
-        )
+        self.apply_resources_concurrently(self.source_resources, connection_resource_obj, remote_users=remote_users)
 
     def prepare_resource_and_apply(self, _id, user, connection_resource_obj, **kwargs):
         destination_client = self.config.destination_client

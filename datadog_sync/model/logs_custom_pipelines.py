@@ -14,9 +14,7 @@ BASE_PATH = "/api/v1/logs/config/pipelines"
 
 class LogsCustomPipelines(BaseResource):
     resource_type = "logs_custom_pipelines"
-
-    source_resources = {}
-    destination_resources = {}
+    resource_connections = None
 
     def __init__(self, config):
         super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
@@ -37,7 +35,7 @@ class LogsCustomPipelines(BaseResource):
             self.source_resources[logs_custom_pipeline["id"]] = logs_custom_pipeline
 
     def apply_resources(self):
-        self.open_resources()
+
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_sequentially(self.source_resources, connection_resource_obj)
 

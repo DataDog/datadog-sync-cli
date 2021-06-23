@@ -20,9 +20,7 @@ PERMISSIONS_BASE_PATH = "/api/v2/permissions"
 
 class Roles(BaseResource):
     resource_type = "roles"
-
-    source_resources = {}
-    destination_resources = {}
+    resource_connections = None
 
     def __init__(self, config):
         super().__init__(
@@ -47,7 +45,7 @@ class Roles(BaseResource):
         self.source_resources[role["id"]] = role
 
     def apply_resources(self):
-        self.open_resources()
+
         source_permission, destination_permission = self.get_permissions()
         source_roles_mapping = self.get_source_roles_mapping()
         destination_roles_mapping = self.get_destination_roles_mapping()
@@ -110,7 +108,7 @@ class Roles(BaseResource):
             self.destination_resources[_id] = resp.json()["data"]
 
     def check_diffs(self):
-        self.open_resources()
+
         source_permission, destination_permission = self.get_permissions()
         source_roles_mapping = self.get_source_roles_mapping()
         destination_roles_mapping = self.get_destination_roles_mapping()

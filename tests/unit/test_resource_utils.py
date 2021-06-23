@@ -1,19 +1,9 @@
 from datadog_sync.utils.resource_utils import replace, replace_ids
-from datadog_sync.models import (
-    Roles,
-    Users,
-    Monitors,
-    Dashboards,
-    DashboardLists,
-    Downtimes,
-    SyntheticsPrivateLocations,
-    SyntheticsTests,
-    SyntheticsGlobalVariables,
-    ServiceLevelObjectives,
-    LogsCustomPipelines,
-    # IntegrationsAWS,
-)
+import datadog_sync.models as models
 from datadog_sync.cli import get_import_order
+
+
+str_to_class = dict([(cls.resource_type, cls) for name, cls in models.__dict__.items() if isinstance(cls, type)])
 
 
 def test_replace_one_level_key():
@@ -169,72 +159,73 @@ def validate_order_list(order_list, resources):
 
     return True
 
+
 def test_get_import_order_all_resources():
     resources = [
-        Roles(None),
-        Users(None),
-        SyntheticsPrivateLocations(None),
-        SyntheticsTests(None),
-        SyntheticsGlobalVariables(None),
-        Monitors(None),
-        Downtimes(None),
-        Dashboards(None),
-        DashboardLists(None),
-        ServiceLevelObjectives(None),
-        LogsCustomPipelines(None),
-        # IntegrationsAWS(None),
+        models.Roles(None),
+        models.Users(None),
+        models.SyntheticsPrivateLocations(None),
+        models.SyntheticsTests(None),
+        models.SyntheticsGlobalVariables(None),
+        models.Monitors(None),
+        models.Downtimes(None),
+        models.Dashboards(None),
+        models.DashboardLists(None),
+        models.ServiceLevelObjectives(None),
+        models.LogsCustomPipelines(None),
+        # models.IntegrationsAWS(None),
     ]
 
-    order_list = get_import_order(resources)
+    order_list = get_import_order(resources, str_to_class)
 
     assert validate_order_list(order_list, resources)
 
 
 def test_get_import_order_users():
     resources = [
-        Users(None),
+        models.Users(None),
     ]
 
-    order_list = get_import_order(resources)
+    order_list = get_import_order(resources, str_to_class)
 
     assert validate_order_list(order_list, resources)
 
 
 def test_get_import_synthetics_tests():
     resources = [
-        SyntheticsTests(None),
+        models.SyntheticsTests(None),
     ]
 
-    order_list = get_import_order(resources)
+    order_list = get_import_order(resources, str_to_class)
 
     assert validate_order_list(order_list, resources)
 
 
 def test_get_import_monitors():
     resources = [
-        Monitors(None),
+        models.Monitors(None),
     ]
 
-    order_list = get_import_order(resources)
+    order_list = get_import_order(resources, str_to_class)
 
     assert validate_order_list(order_list, resources)
 
 
 def test_get_import_dashboards_lists():
     resources = [
-        DashboardLists(None),
+        models.DashboardLists(None),
     ]
 
-    order_list = get_import_order(resources)
+    order_list = get_import_order(resources, str_to_class)
 
     assert validate_order_list(order_list, resources)
 
 
 def test_get_import_service_level_objectives():
     resources = [
-        ServiceLevelObjectives(None),
+        models.ServiceLevelObjectives(None),
     ]
 
-    order_list = get_import_order(resources)
+    order_list = get_import_order(resources, str_to_class)
 
     assert validate_order_list(order_list, resources)

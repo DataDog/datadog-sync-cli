@@ -15,21 +15,20 @@ EXCLUDED_ATTRIBUTES = [
 ]
 BASE_PATH = "/api/v1/synthetics/variables"
 NON_NULLABLE_ATTRIBUTE = ["parse_test_public_id", "parse_test_options"]
-RESOURCE_CONNECTIONS = {"synthetics_tests": ["parse_test_public_id"]}
+RESOURCES_TO_CONNECT = {"synthetics_tests": ["parse_test_public_id"]}
 
 
 class SyntheticsGlobalVariables(BaseResource):
     resource_type = "synthetics_global_variables"
 
-    source_resources = {}
-    destination_resources = {}
+    resource_connections = RESOURCES_TO_CONNECT
 
     def __init__(self, config):
         super().__init__(
             config,
             RESOURCE_TYPE,
             BASE_PATH,
-            resource_connections=RESOURCE_CONNECTIONS,
+            resource_connections=RESOURCES_TO_CONNECT,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             non_nullable_attr=NON_NULLABLE_ATTRIBUTE,
         )
@@ -49,7 +48,7 @@ class SyntheticsGlobalVariables(BaseResource):
         self.source_resources[synthetics_global_variable["id"]] = synthetics_global_variable
 
     def apply_resources(self):
-        self.open_resources()
+
         connection_resource_obj = self.get_connection_resources()
         destination_global_variables = self.get_destination_global_variables()
 

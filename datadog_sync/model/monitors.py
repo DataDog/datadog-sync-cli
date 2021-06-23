@@ -16,22 +16,21 @@ EXCLUDED_ATTRIBUTES = [
     "root['overall_state']",
     "root['overall_state_modified']",
 ]
-RESOURCE_CONNECTIONS = {"monitors": ["query"], "roles": ["restricted_roles"]}
+RESOURCES_TO_CONNECT = {"monitors": ["query"], "roles": ["restricted_roles"]}
 BASE_PATH = "/api/v1/monitor"
 
 
 class Monitors(BaseResource):
-    resource_type = "monitors"
+    resource_type = RESOURCE_TYPE
 
-    source_resources = {}
-    destination_resources = {}
+    resource_connections = RESOURCES_TO_CONNECT
 
     def __init__(self, config):
         super().__init__(
             config,
             RESOURCE_TYPE,
             BASE_PATH,
-            resource_connections=RESOURCE_CONNECTIONS,
+            resource_connections=RESOURCES_TO_CONNECT,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
         )
 
@@ -49,7 +48,7 @@ class Monitors(BaseResource):
         self.source_resources[monitor["id"]] = monitor
 
     def apply_resources(self):
-        self.open_resources()
+
         simple_monitors = {}
         composite_monitors = {}
 
@@ -66,6 +65,7 @@ class Monitors(BaseResource):
 
         self.logger.info("Processing Composite Monitors")
         connection_resource_obj = self.get_connection_resources()
+
         self.apply_resources_concurrently(composite_monitors, connection_resource_obj)
 
     def prepare_resource_and_apply(self, _id, monitor, connection_resource_obj):

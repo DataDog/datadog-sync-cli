@@ -13,16 +13,15 @@ EXCLUDED_ATTRIBUTES = [
     "root['creator_id']",
     "root['active']",
 ]
-RESOURCE_CONNECTIONS = {"monitors": ["monitor_id"]}
+RESOURCES_TO_CONNECT = {"monitors": ["monitor_id"]}
 NON_NULLABLE_ATTRIBUTE = ["recurrence.until_date", "recurrence.until_occurrences"]
 BASE_PATH = "/api/v1/downtime"
 
 
 class Downtimes(BaseResource):
-    resource_type = "downtimes"
+    resource_type = RESOURCE_TYPE
+    resource_connections = RESOURCES_TO_CONNECT
 
-    source_resources = {}
-    destination_resources = {}
 
     def __init__(self, config):
         super().__init__(
@@ -30,7 +29,7 @@ class Downtimes(BaseResource):
             RESOURCE_TYPE,
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
-            resource_connections=RESOURCE_CONNECTIONS,
+            resource_connections=RESOURCES_TO_CONNECT,
             non_nullable_attr=NON_NULLABLE_ATTRIBUTE,
         )
 
@@ -49,7 +48,7 @@ class Downtimes(BaseResource):
         self.source_resources[downtime["id"]] = downtime
 
     def apply_resources(self):
-        self.open_resources()
+
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
 

@@ -14,21 +14,20 @@ EXCLUDED_ATTRIBUTES = [
 ]
 EXCLUDED_ATTRIBUTES_RE = ["updatedAt", "notify_audit", "locked", "include_tags", "new_host_delay", "notify_no_data"]
 BASE_PATH = "/api/v1/synthetics/tests"
-RESOURCE_CONNECTIONS = {"synthetics_private_locations": ["locations"]}
+RESOURCES_TO_CONNECT = {"synthetics_private_locations": ["locations"]}
 
 
 class SyntheticsTests(BaseResource):
     resource_type = "synthetics_tests"
 
-    source_resources = {}
-    destination_resources = {}
+    resource_connections = RESOURCES_TO_CONNECT
 
     def __init__(self, config):
         super().__init__(
             config,
             RESOURCE_TYPE,
             BASE_PATH,
-            resource_connections=RESOURCE_CONNECTIONS,
+            resource_connections=RESOURCES_TO_CONNECT,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             excluded_attributes_re=EXCLUDED_ATTRIBUTES_RE,
         )
@@ -48,7 +47,7 @@ class SyntheticsTests(BaseResource):
         self.source_resources[f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"] = synthetics_test
 
     def apply_resources(self):
-        self.open_resources()
+
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
 

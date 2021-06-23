@@ -17,9 +17,7 @@ RESOURCES_TO_CONNECT = {"monitors": ["monitor_ids"], "synthetics_tests": ["monit
 
 class ServiceLevelObjectives(BaseResource):
     resource_type = "service_level_objectives"
-
-    source_resources = {}
-    destination_resources = {}
+    resource_connections = RESOURCES_TO_CONNECT
 
     def __init__(self, config):
         super().__init__(
@@ -45,8 +43,6 @@ class ServiceLevelObjectives(BaseResource):
         self.source_resources[slo["id"]] = slo
 
     def apply_resources(self):
-        self.open_resources()
-
         self.logger.info("Processing service_level_objectives")
 
         connection_resource_obj = self.get_connection_resources()

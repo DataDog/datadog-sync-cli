@@ -33,6 +33,8 @@ class BaseResource:
         self.excluded_attributes_re = excluded_attributes_re
         self.non_nullable_attr = non_nullable_attr
 
+        self.source_resources, self.destination_resources = self.open_resources()
+
     def import_resources(self):
         pass
 
@@ -49,10 +51,11 @@ class BaseResource:
         connection_resources = {}
 
         if self.resource_connections:
-            for k in self.resource_connections.keys():
-                for resource in self.config.resources:
-                    if k == resource.resource_type:
-                        connection_resources[k] = resource.destination_resources
+            for k in self.resource_connections:
+                if k in self.config.resources:
+                    connection_resources[k] = self.config.resources[k].destination_resources
+                else:
+                    self.logger.debug(f"{k} not found in resource_connections for {self.resource_type}")
 
         return connection_resources
 
@@ -89,7 +92,6 @@ class BaseResource:
         )
 
     def check_diffs(self):
-        self.open_resources()
         connection_resource_obj = self.get_connection_resources()
 
         for _id, resource in self.source_resources.items():
@@ -136,16 +138,21 @@ class BaseResource:
                 self.logger.exception("error while applying resource")
 
     def open_resources(self):
+        src_resources = {}
+        dest_resources = {}
+
         source_path = RESOURCE_FILE_PATH.format("source", self.resource_type)
         destination_path = RESOURCE_FILE_PATH.format("destination", self.resource_type)
-        
+
         if os.path.exists(source_path):
             with open(source_path, "r") as f:
-                source_resources = json.load(f)
-                
+                src_resources = json.load(f)
+
         if os.path.exists(destination_path):
             with open(destination_path, "r") as f:
-                self.destination_resources = json.load(f)
+                dest_resources = json.load(f)
+
+        return src_resources, dest_resources
 
     def write_resources_file(self, origin):
         # Write the resource to a file
@@ -164,7 +171,7 @@ class BaseResource:
             json.dump(resources, f, indent=2)
 
     def connect_resources(self, resource, connection_resources_obj=None):
-        if not (connection_resources_obj or self.resource_connections):
+        if not connection_resources_obj or not self.resource_connections:
             return
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:

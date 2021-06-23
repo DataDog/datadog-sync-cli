@@ -11,7 +11,7 @@ EXCLUDED_ATTRIBUTES = [
     "root['created_at']",
     "root['modified_at']",
 ]
-RESOURCE_CONNECTIONS = {
+RESOURCES_TO_CONNECT = {
     "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
     "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
     "roles": ["restricted_roles"],
@@ -22,8 +22,7 @@ BASE_PATH = "/api/v1/dashboard"
 class Dashboards(BaseResource):
     resource_type = "dashboards"
 
-    source_resources = {}
-    destination_resources = {}
+    resource_connections = RESOURCES_TO_CONNECT
 
     def __init__(self, config):
         super().__init__(
@@ -31,7 +30,7 @@ class Dashboards(BaseResource):
             RESOURCE_TYPE,
             BASE_PATH,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
-            resource_connections=RESOURCE_CONNECTIONS,
+            resource_connections=RESOURCES_TO_CONNECT,
         )
 
     def import_resources(self):
@@ -55,7 +54,7 @@ class Dashboards(BaseResource):
         self.source_resources[dash["id"]] = dashboard
 
     def apply_resources(self):
-        self.open_resources()
+
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
 

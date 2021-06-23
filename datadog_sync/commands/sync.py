@@ -14,20 +14,20 @@ def sync(ctx):
     start = time.time()
     os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
 
-    for resource in cfg.resources:
-        if os.path.exists(RESOURCE_FILE_PATH.format("source", resource.resource_type)):
+    for resource_type, resource in cfg.resources.items():
+        if os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type)):
             # Apply resources
-            cfg.logger.info("syncing resource: {}".format(resource.resource_type))
+            cfg.logger.info("syncing resource: {}".format(resource_type))
             resource.apply_resources()
-            cfg.logger.info("finished syncing resource: {}".format(resource.resource_type))
+            cfg.logger.info("finished syncing resource: {}".format(resource_type))
+
+    for resource_type, resource in cfg.resources.items():
+        if os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type)):
+            resource.write_resources_file("destination")
 
     cfg.logger.info(f"finished syncing resources: {time.time() - start}s")
 
     if cfg.logger.exception_logged:
         exit(1)
-
-    for resource in cfg.resources:
-        if os.path.exists(RESOURCE_FILE_PATH.format("source", resource.resource_type)):
-            resource.write_resources_file("destination")
 
     cfg.logger.info(f"finished syncing resources: {time.time() - start}s")
