@@ -19,6 +19,7 @@ from datadog_sync.models import (
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync.utils.log import Log
+from collections import defaultdict
 
 
 @group()
@@ -137,6 +138,75 @@ def get_resources(cfg, resources_arg):
         return new_resources
 
     return resources
+
+
+def get_import_order(resources):
+    """Returns the order of importing resources to guarantee that all resource dependencies are met"""
+    graph, dependencies_count = get_resources_dependency_graph(resources)
+    dependency_order = []
+
+    # See Kahn's algorithm: https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm
+
+    queue = []
+    for resource in graph:
+        # dependencies_count == 0 meaning it doesn't have any unresolved dependency
+        if dependencies_count[resource] == 0:
+            queue.append(resource)
+
+    # queue contains all resources that don't have any dependency to resolve
+    while queue:
+        current_resource = queue.pop()
+        dependency_order.append(current_resource)
+
+        # if current_resource has dependencies
+        if current_resource in graph:
+            for depender in graph[current_resource]:
+                # current_resource will be created, therefore the depender's number of dependencies is decremented by one
+                dependencies_count[depender] = max(0, dependencies_count[depender] - 1)
+
+                # if all it's dependencies are resolved, we can create it next
+                if dependencies_count[depender] == 0:
+                    queue.append(depender)
+
+    return dependency_order
+
+
+def get_resources_dependency_graph(resources):
+    """Returns a Directed Acyclic Graph of the resources. An edge between A and B means that resource A might require resource B"""
+    graph = defaultdict(list)
+    dependencies_count = defaultdict(int)
+
+    str_to_class = {r.resource_type: r for r in get_resources(None, None)}
+
+    # resources that don't have resource_connections need to be initialized manually or their key will never be created
+    for r in resources:
+        graph[r.resource_type] = []
+
+    queue = [resource for resource in resources]
+    # Breadth-First Search over the resources and dependencies
+    while queue:
+        resource = queue.pop()
+
+        if resource.resource_connections:
+            for dependency in resource.resource_connections:
+                # some resources depend on similar type of resource e.g. composite monitors, this case should be ignored
+                if dependency == resource.resource_type:
+                    continue
+
+                # add the dependency to the queue as it might need some dependencies aswell
+                if dependency not in [r.resource_type for r in queue]:
+                    queue.append(str_to_class[dependency])
+
+                # add an edge between resource and dependency in the form of [resource => [list of dependers]]
+                graph[dependency].append(resource.resource_type)
+
+                # update dependencies_count
+                dependencies_count[resource.resource_type] += 1
+
+    # make the graph read-only
+    graph.default_factory = None
+
+    return graph, dependencies_count
 
 
 # Register all click sub-commands
