@@ -13,7 +13,7 @@ from datadog_sync.models import (
     LogsCustomPipelines,
     # IntegrationsAWS,
 )
-from datadog_sync.cli import get_import_order, get_resources_dependency_graph
+from datadog_sync.cli import get_import_order, get_resources, get_resources_dependency_graph
 
 
 def test_replace_one_level_key():
@@ -156,60 +156,18 @@ def test_replace_ids_composite_monitors_with_overlapping_ids():
     assert r_obj == r_obj_expected
 
 
-def test_get_resources_dependency_graph_all_resources():
-    resources = [
-        Roles(None),
-        Users(None),
-        SyntheticsPrivateLocations(None),
-        SyntheticsTests(None),
-        SyntheticsGlobalVariables(None),
-        Monitors(None),
-        Downtimes(None),
-        Dashboards(None),
-        DashboardLists(None),
-        ServiceLevelObjectives(None),
-        LogsCustomPipelines(None),
-        # IntegrationsAWS(None),
-    ]
+def validate_order_list(order_list, resources):
+    # checks that no dependency comes after the current resource in the order_list
+    for resource in resources:
+        if resource.resource_type not in order_list or not resource.resource_connections:
+            continue
 
-    graph, nbr_dependencies = get_resources_dependency_graph(resources)
+        resource_index = order_list.index(resource.resource_type)
 
-    expected_graph = {
-        "roles": ["users"],
-        "users": [],
-        "synthetics_private_locations": ["synthetics_tests"],
-        "synthetics_tests": ["synthetics_global_variables", "service_level_objectives"],
-        "synthetics_global_variables": [],
-        "monitors": ["downtimes", "dashboards", "service_level_objectives"],
-        "downtimes": [],
-        "dashboards": ["dashboard_lists"],
-        "dashboard_lists": [],
-        "service_level_objectives": [],
-        "logs_custom_pipelines": [],
-        "integrations_aws": [],
-    }
+        if len([dep for dep in resource.resource_connections if order_list.index(dep) > resource_index]) != 0:
+            return False
 
-    expected_nbr_dependencies = {
-        "roles": 0,
-        "logs_custom_pipelines": 0,
-        "integrations_aws": 0,
-        "monitors": 0,
-        "synthetics_private_locations": 0,
-        "users": 1,
-        "synthetics_tests": 1,
-        "synthetics_global_variables": 1,
-        "downtimes": 1,
-        "dashboards": 1,
-        "dashboard_lists": 1,
-        "service_level_objectives": 2,
-    }
-
-    for resource, dependers in graph.items():
-        assert sorted(expected_graph.get(resource)) == sorted(dependers)
-
-    for resource, degree in nbr_dependencies.items():
-        assert degree == expected_nbr_dependencies.get(resource)
-
+    return True
 
 def test_get_import_order_all_resources():
     resources = [
@@ -229,14 +187,7 @@ def test_get_import_order_all_resources():
 
     order_list = get_import_order(resources)
 
-    for resource in resources:
-        if resource.resource_type not in order_list or not resource.resource_connections:
-            continue
-
-        resource_index = order_list.index(resource.resource_type)
-
-        # check that no dependency comes after the current resource in the order_list
-        assert len([dep for dep in resource.resource_connections if order_list.index(dep) > resource_index]) == 0
+    assert validate_order_list(order_list, resources)
 
 
 def test_get_import_order_users():
@@ -246,10 +197,7 @@ def test_get_import_order_users():
 
     order_list = get_import_order(resources)
 
-    assert order_list == [
-        "roles",
-        "users",
-    ]
+    assert validate_order_list(order_list, resources)
 
 
 def test_get_import_synthetics_tests():
@@ -259,10 +207,7 @@ def test_get_import_synthetics_tests():
 
     order_list = get_import_order(resources)
 
-    assert order_list == [
-        "synthetics_private_locations",
-        "synthetics_tests",
-    ]
+    assert validate_order_list(order_list, resources)
 
 
 def test_get_import_monitors():
@@ -272,7 +217,7 @@ def test_get_import_monitors():
 
     order_list = get_import_order(resources)
 
-    assert order_list == ["monitors"]
+    assert validate_order_list(order_list, resources)
 
 
 def test_get_import_dashboards_lists():
@@ -282,7 +227,7 @@ def test_get_import_dashboards_lists():
 
     order_list = get_import_order(resources)
 
-    assert order_list == ["monitors", "dashboards", "dashboard_lists"]
+    assert validate_order_list(order_list, resources)
 
 
 def test_get_import_service_level_objectives():
@@ -292,4 +237,4 @@ def test_get_import_service_level_objectives():
 
     order_list = get_import_order(resources)
 
-    assert order_list == ["synthetics_private_locations", "synthetics_tests", "monitors", "service_level_objectives"]
+    assert validate_order_list(order_list, resources)
