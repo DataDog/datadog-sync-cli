@@ -1,4 +1,5 @@
 import logging
+from re import match
 
 from datadog_sync.constants import LOGGER_NAME
 
@@ -31,9 +32,14 @@ class Filter:
 
             if filter_attr in resource:
                 if filter_operator and filter_operator.lower() == SUBSTRING_OPERATOR:
-                    return filter_val in str(resource[filter_attr])
+                    reg_exp = f".*{filter_val}.*"
                 else:
-                    return filter_val == str(resource[filter_attr])
+                    reg_exp = f"^{filter_val}$"
+
+                if isinstance(resource[filter_attr], list):
+                    return len(list(filter(lambda attr: match(reg_exp, str(attr)), resource[filter_attr])))
+
+                return match(reg_exp, str(resource[filter_attr])) is not None
 
         # Filters for resource were specified but no matching attributes found
         return False
