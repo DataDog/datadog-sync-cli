@@ -98,9 +98,11 @@ def paginated_request(func):
         page_number = 0
         remaining = 1
         resources = []
+        kwargs["params"] = kwargs.get("params", {}) or {}
+
         while remaining > 0:
             params = {"page[size]": page_size, "page[number]": page_number}
-            kwargs["params"] = kwargs.get("params", {}).update(params)
+            kwargs["params"].update(params)
 
             resp = func(*args, **kwargs)
             resp.raise_for_status()

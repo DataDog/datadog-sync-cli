@@ -122,9 +122,9 @@ def get_resources(cfg, resources_arg):
         SyntheticsGlobalVariables(cfg),
         Monitors(cfg),
         Downtimes(cfg),
+        ServiceLevelObjectives(cfg),
         Dashboards(cfg),
         DashboardLists(cfg),
-        ServiceLevelObjectives(cfg),
         LogsCustomPipelines(cfg),
         IntegrationsAWS(cfg),
     ]

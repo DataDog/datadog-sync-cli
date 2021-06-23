@@ -1,5 +1,4 @@
 import copy
-from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests import HTTPError
 
