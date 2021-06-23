@@ -1,5 +1,3 @@
-from concurrent.futures import ThreadPoolExecutor, wait
-
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -37,8 +35,7 @@ class ServiceLevelObjectives(BaseResource):
             self.logger.error("error importing slo %s", e)
             return
 
-        with ThreadPoolExecutor() as executor:
-            wait([executor.submit(self.process_resource_import, slo, slos) for slo in resp["data"]])
+        self.import_resources_concurrently(slos, resp["data"])
 
         # Write resources to file
         self.write_resources_file("source", slos)

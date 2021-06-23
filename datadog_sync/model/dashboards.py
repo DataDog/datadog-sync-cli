@@ -1,5 +1,3 @@
-from concurrent.futures import ThreadPoolExecutor, wait
-
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -13,7 +11,11 @@ EXCLUDED_ATTRIBUTES = [
     "root['created_at']",
     "root['modified_at']",
 ]
-RESOURCE_CONNECTIONS = {"monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"]}
+RESOURCE_CONNECTIONS = {
+    "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
+    "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
+    "roles": ["restricted_roles"],
+}
 BASE_PATH = "/api/v1/dashboard"
 
 

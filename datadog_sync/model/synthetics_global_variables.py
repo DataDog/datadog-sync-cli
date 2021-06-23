@@ -1,5 +1,3 @@
-from concurrent.futures import ThreadPoolExecutor, wait
-
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
