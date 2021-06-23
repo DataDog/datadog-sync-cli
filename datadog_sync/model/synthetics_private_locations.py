@@ -27,10 +27,14 @@ class SyntheticsPrivateLocations(BaseResource):
     destination_resources = {}
 
     def __init__(self, config):
-        super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
+        super().__init__(
+            config,
+            RESOURCE_TYPE,
+            BASE_PATH,
+            excluded_attributes=EXCLUDED_ATTRIBUTES,
+        )
 
     def import_resources(self):
-        synthetics_private_locations = {}
         source_client = self.config.source_client
 
         try:
@@ -39,11 +43,9 @@ class SyntheticsPrivateLocations(BaseResource):
             self.logger.error("error importing synthetics_private_locations: %s", e)
             return
 
-        self.import_resources_concurrently(synthetics_private_locations, resp["locations"])
+        self.import_resources_concurrently(resp["locations"])
 
-        # Write resources to file
-
-    def process_resource_import(self, synthetics_private_location, synthetics_private_locations):
+    def process_resource_import(self, synthetics_private_location):
         source_client = self.config.source_client
         if PL_ID_REGEX.match(synthetics_private_location["id"]):
             try:
@@ -63,7 +65,6 @@ class SyntheticsPrivateLocations(BaseResource):
         self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
 
     def prepare_resource_and_apply(self, _id, synthetics_private_location, connection_resource_obj=None):
-
         if self.resource_connections:
             self.connect_resources(synthetics_private_location, connection_resource_obj)
 
