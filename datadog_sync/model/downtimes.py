@@ -6,7 +6,7 @@ from datadog_sync.utils.base_resource import BaseResource
 class Downtimes(BaseResource):
     resource_type = "downtimes"
     resource_connections = {"monitors": ["monitor_id"]}
-    non_nullable_attribute = ["recurrence.until_date", "recurrence.until_occurrences"]
+    non_nullable_attr = ["recurrence.until_date", "recurrence.until_occurrences"]
     base_path = "/api/v1/downtime"
     excluded_attributes = [
         "root['id']",
@@ -17,7 +17,7 @@ class Downtimes(BaseResource):
         "root['creator_id']",
         "root['active']",
     ]
-    excluded_attributes_re = None
+
 
     def __init__(self, config):
         super().__init__(config)

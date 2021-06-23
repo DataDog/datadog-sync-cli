@@ -8,7 +8,7 @@ class IntegrationsAWS(BaseResource):
     resource_connections = None
     base_path = "/api/v1/integration/aws"
     excluded_attributes = ["root['external_id']", "root['errors']"]
-    excluded_attributes_re = None
+
 
     def __init__(self, config):
         super().__init__(config)

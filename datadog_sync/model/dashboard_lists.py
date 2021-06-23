@@ -19,7 +19,7 @@ class DashboardLists(BaseResource):
         "root['is_favorite']",
         "root['dashboard_count']",
     ]
-    excluded_attributes_re = None
+
 
     def __init__(self, config):
         super().__init__(config)

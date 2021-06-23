@@ -7,7 +7,7 @@ class SyntheticsGlobalVariables(BaseResource):
     resource_type = "synthetics_global_variables"
     resource_connections = {"synthetics_tests": ["parse_test_public_id"]}
     base_path = "/api/v1/synthetics/variables"
-    non_nullable_attribute = ["parse_test_public_id", "parse_test_options"]
+    non_nullable_attr = ["parse_test_public_id", "parse_test_options"]
     excluded_attributes = [
         "root['id']",
         "root['modified_at']",
@@ -17,7 +17,7 @@ class SyntheticsGlobalVariables(BaseResource):
         "root['is_totp']",
         "root['parse_test_name']",
     ]
-    excluded_attributes_re = None
+
 
     def __init__(self, config):
         super().__init__(config)

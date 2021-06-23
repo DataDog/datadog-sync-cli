@@ -18,7 +18,7 @@ class Roles(BaseResource):
         "root['attributes']['modified_at']",
         "root['attributes']['user_count']",
     ]
-    excluded_attributes_re = None
+
 
     def __init__(self, config):
         super().__init__(config)

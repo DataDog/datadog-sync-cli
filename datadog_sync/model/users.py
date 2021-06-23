@@ -25,7 +25,7 @@ class Users(BaseResource):
         "root['attributes']['modified_at']",
         "root['relationships']['org']",
     ]
-    excluded_attributes_re = None
+
 
     def __init__(self, config):
         super().__init__(config)

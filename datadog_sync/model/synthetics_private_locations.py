@@ -19,7 +19,7 @@ class SyntheticsPrivateLocations(BaseResource):
         "root['secrets']",
         "root['config']",
     ]
-    excluded_attributes_re = None
+
 
     def __init__(self, config):
         super().__init__(config)

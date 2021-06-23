@@ -19,7 +19,7 @@ class Dashboards(BaseResource):
         "root['created_at']",
         "root['modified_at']",
     ]
-    excluded_attributes_re = None
+
 
     def __init__(self, config):
         super().__init__(config)
