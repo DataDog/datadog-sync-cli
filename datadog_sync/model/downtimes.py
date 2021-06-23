@@ -47,8 +47,6 @@ class Downtimes(BaseResource):
 
         self.import_resources_concurrently(resp)
 
-        # Write resources to file
-
     def process_resource_import(self, downtime):
         self.source_resources[downtime["id"]] = downtime
 

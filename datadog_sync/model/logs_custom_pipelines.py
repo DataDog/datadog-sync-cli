@@ -34,8 +34,6 @@ class LogsCustomPipelines(BaseResource):
 
         self.import_resources_concurrently(resp)
 
-        # Write resources to file
-
     def process_resource_import(self, logs_custom_pipeline):
         if not logs_custom_pipeline["is_read_only"]:
             self.source_resources[logs_custom_pipeline["id"]] = logs_custom_pipeline
