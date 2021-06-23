@@ -33,12 +33,9 @@ class SyntheticsTests(BaseResource):
             resource_connections=RESOURCE_CONNECTIONS,
             excluded_attributes=EXCLUDED_ATTRIBUTES,
             excluded_attributes_re=EXCLUDED_ATTRIBUTES_RE,
-            source_resources={},
-            destination_resources={},
         )
 
     def import_resources(self):
-        synthetics_tests = {}
         source_client = self.config.source_client
 
         try:
@@ -47,12 +44,10 @@ class SyntheticsTests(BaseResource):
             self.logger.error("error importing synthetics_tests: %s", e)
             return
 
-        self.import_resources_concurrently(synthetics_tests, resp["tests"])
+        self.import_resources_concurrently(resp["tests"])
 
-        # Write resources to file
-
-    def process_resource_import(self, synthetics_test, synthetics_tests):
-        synthetics_tests[f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"] = synthetics_test
+    def process_resource_import(self, synthetics_test):
+        self.source_resources[f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"] = synthetics_test
 
     def apply_resources(self):
         self.open_resources()
