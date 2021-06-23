@@ -13,7 +13,7 @@ from datadog_sync.models import (
     LogsCustomPipelines,
     # IntegrationsAWS,
 )
-from datadog_sync.cli import get_import_order, get_resources, get_resources_dependency_graph
+from datadog_sync.cli import get_import_order
 
 
 def test_replace_one_level_key():
