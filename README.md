@@ -44,13 +44,12 @@ users                         | roles
 synthetics_private_locations  | -
 synthetics_tests              | synthetics_private_locations
 synthetics_global_variables   | synthetics_tests
-monitors                      | -
+monitors                      | roles
 downtimes                     | monitors
-dashboards                    | monitors
+dashboards                    | monitors, roles, service_level_objectives
 dashboard_lists               | dashboards
 service_level_objectives      | monitors, synthetics_tests
 logs_custom_pipelines         | -
-integrations_aws              | -
 
 ## Supported resources
 
@@ -61,8 +60,7 @@ integrations_aws              | -
 - **synthetics_global_variables**
 - **monitors**
 - **downtimes**
+- **service_level_objectives**
 - **dashboards**
 - **dashboard_lists**
-- **service_level_objectives**
 - **logs_custom_pipelines**
-- **integrations_aws**

@@ -22,7 +22,7 @@ def replace(keys_list, origin, r_obj, resource_to_connect, connection_resources_
 
 def replace_ids(key, origin, r_obj, resource_to_connect, connection_resources_obj):
     if resource_to_connect in connection_resources_obj:
-        if r_obj.get("type") == "composite":
+        if r_obj.get("type") == "composite" and key == "query":
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:
                 if _id in connection_resources_obj[resource_to_connect]:

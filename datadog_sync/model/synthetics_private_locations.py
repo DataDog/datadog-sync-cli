@@ -1,5 +1,4 @@
 import re
-from concurrent.futures import ThreadPoolExecutor, wait
 
 from requests.exceptions import HTTPError
 

@@ -138,10 +138,11 @@ class BaseResource:
     def open_resources(self):
         source_path = RESOURCE_FILE_PATH.format("source", self.resource_type)
         destination_path = RESOURCE_FILE_PATH.format("destination", self.resource_type)
-
-        with open(source_path, "r") as f:
-            self.source_resources = json.load(f)
-
+        
+        if os.path.exists(source_path):
+            with open(source_path, "r") as f:
+                source_resources = json.load(f)
+                
         if os.path.exists(destination_path):
             with open(destination_path, "r") as f:
                 self.destination_resources = json.load(f)
