@@ -24,7 +24,6 @@ class LogsCustomPipelines(BaseResource):
         super().__init__(config, RESOURCE_TYPE, BASE_PATH, excluded_attributes=EXCLUDED_ATTRIBUTES)
 
     def import_resources(self):
-        logs_custom_pipelines = {}
         source_client = self.config.source_client
 
         try:
@@ -33,7 +32,7 @@ class LogsCustomPipelines(BaseResource):
             self.logger.error("error importing logs_custom_pipelines %s", e)
             return
 
-        self.import_resources_concurrently(logs_custom_pipelines, resp)
+        self.import_resources_concurrently(resp)
 
         # Write resources to file
 
@@ -44,10 +43,7 @@ class LogsCustomPipelines(BaseResource):
     def apply_resources(self):
         self.open_resources()
         connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_sequentially(source_resources, local_destination_resources, connection_resource_obj)
-        self.write_resources_file("destination", local_destination_resources)
-
-        log.info(f"connection_resource_obj: {connection_resource_obj}")
+        self.apply_resources_sequentially(self.source_resources, connection_resource_obj)
 
         for _id, logs_custom_pipeline in self.source_resources.items():
             self.prepare_resource_and_apply(

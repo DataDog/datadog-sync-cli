@@ -124,7 +124,7 @@ def get_resources(cfg, resources_arg):
         Dashboards(cfg),
         DashboardLists(cfg),
         # ServiceLevelObjectives(cfg),
-        # LogsCustomPipelines(cfg),
+        LogsCustomPipelines(cfg),
         # IntegrationsAWS(cfg),
     ]
 
