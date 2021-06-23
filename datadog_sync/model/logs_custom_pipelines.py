@@ -13,7 +13,6 @@ class LogsCustomPipelines(BaseResource):
         "root['is_read_only']",
     ]
 
-
     def __init__(self, config):
         super().__init__(config)
 

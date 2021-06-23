@@ -18,7 +18,6 @@ class SyntheticsGlobalVariables(BaseResource):
         "root['parse_test_name']",
     ]
 
-
     def __init__(self, config):
         super().__init__(config)
 

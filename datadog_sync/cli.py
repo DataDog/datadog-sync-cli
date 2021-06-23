@@ -1,5 +1,4 @@
 from click import pass_context, group, option
-from requests.api import get
 
 import datadog_sync.constants as constants
 import datadog_sync.models as models
