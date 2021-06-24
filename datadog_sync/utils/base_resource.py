@@ -145,18 +145,8 @@ class BaseResource:
 
         return src_resources, dest_resources
 
-    def write_resources_file(self, origin):
-        # Write the resource to a file
+    def write_resources_file(self, origin, resources):
         resource_path = RESOURCE_FILE_PATH.format(origin, self.resource_type)
-
-        resources = {}
-
-        if origin == "source":
-            resources = self.source_resources
-        elif origin == "destination":
-            resources = self.destination_resources
-        else:
-            return
 
         with open(resource_path, "w") as f:
             json.dump(resources, f, indent=2)

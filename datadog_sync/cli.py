@@ -1,4 +1,4 @@
-from datadog_sync.utils.base_resource import BaseResource
+
 from click import pass_context, group, option
 
 from datadog_sync import constants
@@ -6,6 +6,7 @@ from datadog_sync import models
 from datadog_sync.commands import ALL_COMMANDS
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
+from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
 from collections import defaultdict, OrderedDict
 

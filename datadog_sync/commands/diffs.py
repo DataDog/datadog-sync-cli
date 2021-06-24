@@ -7,7 +7,7 @@ def diffs(ctx):
     """Log Datadog resources diffs."""
     cfg = ctx.obj.get("config")
 
-    for resource_type, resource in cfg.resources.items():
+    for resource in cfg.resources.values():
         resource.check_diffs()
 
     if cfg.logger.exception_logged:
