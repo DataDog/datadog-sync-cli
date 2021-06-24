@@ -26,5 +26,3 @@ def _import(ctx):
 
     for resource in cfg.resources.values():
         resource.write_resources_file("source", resource.source_resources)
-
-    cfg.logger.info(f"finished importing resources: {time.time() - start}s")

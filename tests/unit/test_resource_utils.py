@@ -1,5 +1,5 @@
 from datadog_sync.utils.resource_utils import replace, replace_ids
-import datadog_sync.models as models
+from datadog_sync import models
 from datadog_sync.cli import get_import_order
 
 
