@@ -67,6 +67,12 @@ from collections import defaultdict, OrderedDict
     is_flag=True,
     help="Enable verbose logging.",
 )
+@option(
+    "--allow-missing-dependencies",
+    required=False,
+    is_flag=True,
+    help="Enable the import of resources that might be required by the given resources.",
+)
 @pass_context
 def cli(ctx, **kwargs):
     """Initialize cli"""
@@ -96,24 +102,19 @@ def cli(ctx, **kwargs):
     config = Configuration(logger=logger, source_client=source_client, destination_client=destination_client)
     ctx.obj["config"] = config
 
+
     # Initialize resources
-    config.resources = get_resources(config, kwargs.get("resources"))
+    config.resources = get_resources(config, kwargs.get("resources"), kwargs.get("allow_missing_dependencies"))
 
 
 # TODO: add unit tests
-def get_resources(cfg, resources_arg):
+def get_resources(cfg, resources_arg, allow_missing_deps):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
-
-    all_resources = [
-        cls.resource_type
-        for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
-    ]
-
     if resources_arg:
-        resources_arg = resources_arg.split(",")
+        resources_args = resources_arg.split(",")
     else:
-        resources_arg = all_resources
+        resources_args = None
+        allow_missing_deps = True
 
     str_to_class = dict(
         (cls.resource_type, cls)
@@ -121,16 +122,19 @@ def get_resources(cfg, resources_arg):
         if isinstance(cls, type) and issubclass(cls, BaseResource)
     )
 
-    resources_classes = [
-        cls for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
+    resource_classes = [
+        cls
+        for resource_type, cls in str_to_class.items()
+        if not resources_arg or resource_type in resources_args
     ]
 
-    order_list = get_import_order(resources_classes, str_to_class)
+    order_list = get_import_order(resource_classes, str_to_class)
 
-    args_import_order = [resource_type for resource_type in order_list if resource_type in resources_arg]
+    if resources_args and len(order_list) != len(resources_args):
+        missing_deps = '\n'.join(["- " + resource for resource in order_list if resource not in resources_args])
+        cfg.logger.warning(f"The following dependencies are missing and might be required by the requested resources:\n{missing_deps}\nSee the \"--allow-missing-dependencies\" option.")
 
-    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in args_import_order})
+    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list if allow_missing_deps or resource_type})
 
     return resources
 
