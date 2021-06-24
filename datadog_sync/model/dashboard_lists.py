@@ -45,7 +45,7 @@ class DashboardLists(BaseResource):
                 dash_list_item = {"id": dash["id"], "type": dash["type"]}
                 dashboard_list["dashboards"].append(dash_list_item)
 
-        self.destination_resources[dashboard_list["id"]] = dashboard_list
+        self.source_resources[dashboard_list["id"]] = dashboard_list
 
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()
