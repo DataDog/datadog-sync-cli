@@ -37,8 +37,6 @@ class Users(BaseResource):
 
         self.import_resources_concurrently(resp)
 
-        # Write resources to file
-
     def process_resource_import(self, user):
         self.source_resources[user["id"]] = user
 
@@ -88,6 +86,7 @@ class Users(BaseResource):
             resp = destination_client.post(self.base_path, {"data": user})
         except HTTPError as e:
             self.logger.error("error creating user: %s", e)
+            return
 
         self.destination_resources[_id] = resp.json()["data"]
 
@@ -107,6 +106,7 @@ class Users(BaseResource):
                 )
             except HTTPError as e:
                 self.logger.error("error updating user: %s, %s", e.response.json())
+                return
             self.destination_resources[_id] = resp.json()["data"]
 
     def update_existing_user(self, _id, user, remote_users):

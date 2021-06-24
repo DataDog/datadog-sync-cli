@@ -13,8 +13,8 @@ class SyntheticsPrivateLocations(BaseResource):
     pl_id_regex = re.compile("^pl:.*")
     excluded_attributes = [
         "root['id']",
-        "root['modifiedat']",
-        "root['createdat']",
+        "root['modifiedAt']",
+        "root['createdAt']",
         "root['metadata']",
         "root['secrets']",
         "root['config']",

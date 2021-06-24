@@ -15,7 +15,7 @@ class SyntheticsTests(BaseResource):
         "root['modified_at']",
         "root['created_at']",
     ]
-    excluded_attributes_re = ["updatedat", "notify_audit", "locked", "include_tags", "new_host_delay", "notify_no_data"]
+    excluded_attributes_re = ["updatedAt", "notify_audit", "locked", "include_tags", "new_host_delay", "notify_no_data"]
 
     def import_resources(self):
         source_client = self.config.source_client
