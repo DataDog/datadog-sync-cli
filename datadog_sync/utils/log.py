@@ -33,5 +33,8 @@ class Log:
     def info(self, msg, *arg):
         self.logger.info(msg, *arg)
 
+    def warning(self, msg, *arg):
+        self.logger.warning(msg, *arg)
+
     def _exception_logged(self):
         self.exception_logged = True
