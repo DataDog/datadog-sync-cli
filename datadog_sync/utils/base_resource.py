@@ -11,18 +11,21 @@ from datadog_sync.utils.resource_utils import replace
 
 
 class BaseResource:
+    resource_type = None
+    resource_connections = None
+    base_path = None
+    non_nullable_attr = None
+    resource_filter = None
+    excluded_attributes = None
+    excluded_attributes_re = None
+
+
     def __init__(self, config):
         self.config = config
         if config:
             self.logger = config.logger
 
         self.source_resources, self.destination_resources = self.open_resources()
-
-    def __getattribute__(self, attr):
-        try:
-            return object.__getattribute__(self, attr)
-        except AttributeError:
-            return None
 
     def import_resources(self):
         pass
