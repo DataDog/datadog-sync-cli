@@ -1,7 +1,8 @@
+from datadog_sync.utils.base_resource import BaseResource
 from click import pass_context, group, option
 
-import datadog_sync.constants as constants
-import datadog_sync.models as models
+from datadog_sync import constants
+from datadog_sync import models
 from datadog_sync.commands import ALL_COMMANDS
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
@@ -99,25 +100,23 @@ def cli(ctx, **kwargs):
     config.resources = get_resources(config, kwargs.get("resources"))
 
 
+# TODO: add unit tests
 def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
-    str_to_class = dict([(cls.resource_type, cls) for _, cls in models.__dict__.items() if isinstance(cls, type)])
+    str_to_class = dict(
+        (cls.resource_type, cls)
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
+    )
 
-    resource_instances = [
-        value for key, value in str_to_class.items() if not resources_arg or key in resources_arg.split(",")
+    resource_classes = [
+        cls
+        for resource_type, cls in str_to_class.items()
+        if not resources_arg or resource_type in resources_arg.split(",")
     ]
 
-    order_list = get_import_order(resource_instances, str_to_class)
-
-    class_by_resource_type = [
-        (cls.resource_type, getattr(models, name))
-        for name, cls in models.__dict__.items()
-        if isinstance(cls, type) and cls.resource_type in order_list
-    ]
-
-    class_by_resource_type.sort(key=lambda x: order_list.index(x[0]))
-
-    resources = OrderedDict({key: cls(cfg) for (key, cls) in class_by_resource_type})
+    order_list = get_import_order(resource_classes, str_to_class)
+    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list})
 
     return resources
 

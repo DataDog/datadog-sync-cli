@@ -15,9 +15,6 @@ class ServiceLevelObjectives(BaseResource):
         "root['modified_at']",
     ]
 
-    def __init__(self, config):
-        super().__init__(config)
-
     def import_resources(self):
         source_client = self.config.source_client
 

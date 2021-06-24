@@ -17,9 +17,6 @@ class SyntheticsTests(BaseResource):
     ]
     excluded_attributes_re = ["updatedat", "notify_audit", "locked", "include_tags", "new_host_delay", "notify_no_data"]
 
-    def __init__(self, config):
-        super().__init__(config)
-
     def import_resources(self):
         source_client = self.config.source_client
 
