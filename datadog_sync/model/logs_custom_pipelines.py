@@ -32,8 +32,12 @@ class LogsCustomPipelines(BaseResource):
         self.write_resources_file("source", logs_custom_pipelines)
 
     def process_resource_import(self, logs_custom_pipeline, logs_custom_pipelines):
-        if not logs_custom_pipeline["is_read_only"]:
-            logs_custom_pipelines[logs_custom_pipeline["id"]] = logs_custom_pipeline
+        if logs_custom_pipeline["is_read_only"]:
+            return
+        if not self.config.filter.is_applicable(self.resource_type, logs_custom_pipeline):
+            return
+
+        logs_custom_pipelines[logs_custom_pipeline["id"]] = logs_custom_pipeline
 
     def apply_resources(self):
         source_resources, local_destination_resources = self.open_resources()

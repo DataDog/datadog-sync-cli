@@ -46,6 +46,9 @@ class Monitors(BaseResource):
         self.write_resources_file("source", monitors)
 
     def process_resource_import(self, monitor, monitors):
+        if not self.config.filter.is_applicable(self.resource_type, monitor) and monitor["type"] != "synthetics alert":
+            return
+
         monitors[monitor["id"]] = monitor
 
     def apply_resources(self):

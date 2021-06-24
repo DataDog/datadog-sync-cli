@@ -41,6 +41,9 @@ class ServiceLevelObjectives(BaseResource):
         self.write_resources_file("source", slos)
 
     def process_resource_import(self, slo, slos):
+        if not self.config.filter.is_applicable(self.resource_type, slo):
+            return
+
         slos[slo["id"]] = slo
 
     def apply_resources(self):

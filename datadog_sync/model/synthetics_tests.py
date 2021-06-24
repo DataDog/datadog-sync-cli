@@ -44,6 +44,9 @@ class SyntheticsTests(BaseResource):
         self.write_resources_file("source", synthetics_tests)
 
     def process_resource_import(self, synthetics_test, synthetics_tests):
+        if not self.config.filter.is_applicable(self.resource_type, synthetics_test):
+            return
+
         synthetics_tests[f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"] = synthetics_test
 
     def apply_resources(self):

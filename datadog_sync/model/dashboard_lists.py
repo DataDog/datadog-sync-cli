@@ -46,6 +46,9 @@ class DashboardLists(BaseResource):
         self.write_resources_file("source", dashboard_lists)
 
     def process_resource_import(self, dashboard_list, dashboard_lists):
+        if not self.config.filter.is_applicable(self.resource_type, dashboard_list):
+            return
+
         source_client = self.config.source_client
         resp = None
         try:

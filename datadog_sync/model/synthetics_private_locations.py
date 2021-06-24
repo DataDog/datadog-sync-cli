@@ -39,6 +39,9 @@ class SyntheticsPrivateLocations(BaseResource):
         self.write_resources_file("source", synthetics_private_locations)
 
     def process_resource_import(self, synthetics_private_location, synthetics_private_locations):
+        if not self.config.filter.is_applicable(self.resource_type, synthetics_private_location):
+            return
+
         source_client = self.config.source_client
         if PL_ID_REGEX.match(synthetics_private_location["id"]):
             try:

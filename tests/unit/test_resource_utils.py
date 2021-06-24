@@ -169,6 +169,7 @@ def validate_order_list(order_list, resources):
 
     return True
 
+
 def test_get_import_order_all_resources():
     resources = [
         Roles(None),

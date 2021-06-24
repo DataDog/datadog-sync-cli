@@ -28,6 +28,9 @@ class IntegrationsAWS(BaseResource):
         self.write_resources_file("source", integrations_aws)
 
     def process_resource_import(self, integration_aws, integrations_aws):
+        if not self.config.filter.is_applicable(self.resource_type, integration_aws):
+            return
+
         integrations_aws[integration_aws["account_id"]] = integration_aws
 
     def apply_resources(self):

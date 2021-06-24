@@ -52,6 +52,9 @@ class Users(BaseResource):
         self.write_resources_file("source", users)
 
     def process_resource_import(self, user, users):
+        if not self.config.filter.is_applicable(self.resource_type, user):
+            return
+
         users[user["id"]] = user
 
     def apply_resources(self):

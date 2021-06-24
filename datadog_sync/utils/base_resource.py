@@ -37,17 +37,13 @@ class BaseResource:
         pass
 
     def import_resources_concurrently(self, resources_obj, resources):
-        futures = []
         with ThreadPoolExecutor() as executor:
-            for resource in resources:
-                if self.config.filter.is_applicable(self.resource_type, resource):
-                    futures.append(executor.submit(self.process_resource_import, resource, resources_obj))
-
-        for future in futures:
-            try:
-                future.result()
-            except BaseException:
-                self.logger.exception("error while importing resource")
+            futures = [executor.submit(self.process_resource_import, resource, resources_obj) for resource in resources]
+            for future in futures:
+                try:
+                    future.result()
+                except BaseException:
+                    self.logger.exception("error while importing resource")
 
     def get_connection_resources(self):
         connection_resources = {}
@@ -137,7 +133,6 @@ class BaseResource:
                 )
                 for _id, resource in resources.items()
             ]
-
         for future in futures:
             try:
                 future.result()

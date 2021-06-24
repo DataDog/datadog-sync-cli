@@ -45,6 +45,9 @@ class Downtimes(BaseResource):
         self.write_resources_file("source", downtimes)
 
     def process_resource_import(self, downtime, downtimes):
+        if not self.config.filter.is_applicable(self.resource_type, downtime):
+            return
+
         downtimes[downtime["id"]] = downtime
 
     def apply_resources(self):

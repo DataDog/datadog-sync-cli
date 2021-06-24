@@ -45,6 +45,9 @@ class SyntheticsGlobalVariables(BaseResource):
         self.write_resources_file("source", synthetics_global_variables)
 
     def process_resource_import(self, synthetics_global_variable, synthetics_global_variables):
+        if not self.config.filter.is_applicable(self.resource_type, synthetics_global_variable):
+            return
+
         synthetics_global_variables[synthetics_global_variable["id"]] = synthetics_global_variable
 
     def apply_resources(self):

@@ -38,6 +38,9 @@ class Roles(BaseResource):
         self.write_resources_file("source", roles)
 
     def process_resource_import(self, role, roles):
+        if not self.config.filter.is_applicable(self.resource_type, role):
+            return
+
         roles[role["id"]] = role
 
     def apply_resources(self):
