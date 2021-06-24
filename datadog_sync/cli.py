@@ -1,4 +1,3 @@
-
 from click import pass_context, group, option
 
 from datadog_sync import constants

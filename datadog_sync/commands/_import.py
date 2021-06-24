@@ -19,10 +19,10 @@ def _import(ctx):
         resource.import_resources()
         cfg.logger.info("finished importing %s", resource_type)
 
+    for resource in cfg.resources.values():
+        resource.write_resources_file("source", resource.source_resources)
+
     cfg.logger.info(f"finished importing resources: {time.time() - start}s")
 
     if cfg.logger.exception_logged:
         exit(1)
-
-    for resource in cfg.resources.values():
-        resource.write_resources_file("source", resource.source_resources)

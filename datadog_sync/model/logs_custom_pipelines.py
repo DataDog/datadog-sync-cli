@@ -29,7 +29,6 @@ class LogsCustomPipelines(BaseResource):
             self.source_resources[logs_custom_pipeline["id"]] = logs_custom_pipeline
 
     def apply_resources(self):
-
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_sequentially(self.source_resources, connection_resource_obj)
 
@@ -40,9 +39,8 @@ class LogsCustomPipelines(BaseResource):
                 connection_resource_obj,
             )
 
-    def prepare_resource_and_apply(self, _id, logs_custom_pipeline, connection_resource_obj, **kwargs):
-        if self.resource_connections:
-            self.connect_resources(logs_custom_pipeline, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, logs_custom_pipeline, connection_resource_obj):
+        self.connect_resources(logs_custom_pipeline, connection_resource_obj)
 
         if _id in self.destination_resources:
             self.update_resource(_id, logs_custom_pipeline)

@@ -33,7 +33,6 @@ class SyntheticsGlobalVariables(BaseResource):
         self.source_resources[synthetics_global_variable["id"]] = synthetics_global_variable
 
     def apply_resources(self):
-
         connection_resource_obj = self.get_connection_resources()
         destination_global_variables = self.get_destination_global_variables()
 

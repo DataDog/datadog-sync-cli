@@ -34,7 +34,6 @@ class Roles(BaseResource):
         self.source_resources[role["id"]] = role
 
     def apply_resources(self):
-
         source_permission, destination_permission = self.get_permissions()
         source_roles_mapping = self.get_source_roles_mapping()
         destination_roles_mapping = self.get_destination_roles_mapping()

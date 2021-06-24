@@ -43,7 +43,6 @@ class Users(BaseResource):
         self.source_resources[user["id"]] = user
 
     def apply_resources(self):
-
         remote_users = self.get_remote_destination_users()
         connection_resource_obj = self.get_connection_resources()
 
@@ -89,6 +88,7 @@ class Users(BaseResource):
             resp = destination_client.post(self.base_path, {"data": user})
         except HTTPError as e:
             self.logger.error("error creating user: %s", e)
+
         self.destination_resources[_id] = resp.json()["data"]
 
     def update_resource(self, _id, user):

@@ -24,7 +24,6 @@ class IntegrationsAWS(BaseResource):
         self.source_resources[integration_aws["account_id"]] = integration_aws
 
     def apply_resources(self):
-
         self.logger.info("Processing integrations_aws")
 
         connection_resource_obj = self.get_connection_resources()
@@ -32,9 +31,8 @@ class IntegrationsAWS(BaseResource):
         # must not be done in parallel, api returns conflict error
         self.apply_resources_sequentially(self.source_resources, connection_resource_obj)
 
-    def prepare_resource_and_apply(self, _id, integration_aws, connection_resource_obj=None):
-        if self.resource_connections:
-            self.connect_resources(integration_aws, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, integration_aws, connection_resource_obj):
+        self.connect_resources(integration_aws, connection_resource_obj)
 
         if _id in self.destination_resources:
             self.update_resource(_id, integration_aws)
