@@ -6,6 +6,7 @@ Datadog cli tool to sync resources across organizations.
 - [Requirements](#requirements)
 - [Usage](#usage)
   - [Filtering](#filtering)
+  - [Config File](#config-file)
 - [Supported resources](#supported-resources)
 - [Best Practices](#best-practices)
 
@@ -36,8 +37,8 @@ Options:
                                         import. All supported resources are imported
                                         by default.
   -v, --verbose                         Enable verbose logging.
-  --filter TEXT                         Filter imported resources. See [Filtering] section for more details
-  --config FILE                         Read configuration from FILE.
+  --filter TEXT                         Filter imported resources. See [Filtering] section for more details.
+  --config FILE                         Read configuration from FILE. See [Config] section for more details.
   --help                                Show this message and exit.
 
 Commands:
@@ -62,6 +63,23 @@ Available keys:
 - `Operator`: Available operators are below. All invalid operator's default to `ExactMatch`.
   - `SubString`: Sub string matching
   - `ExactMatch`: Exact string match.
+
+#### Config file
+
+Custom config textfile can be passed in place of options. Example config file:
+```
+# config
+
+destination_api_url="https://api.datadoghq.eu"
+destination_api_key="<API_KEY>"
+destination_app_key="<APP_KEY>"
+source_api_key="<API_KEY>"
+source_app_key="<APP_KEY>"
+source_api_url="https://api.datadoghq.com"
+filter=["Type=Dashboards;Name=title;Value=Test screenboard", "Type=Monitors;Name=tags;Value=sync:true"]
+```
+
+Usage: `datadog-sync --config config import`
 
 ### Using the package
 
