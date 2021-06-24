@@ -76,12 +76,14 @@ class DashboardLists(BaseResource):
     def update_resource(self, _id, dashboard_list):
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(dashboard_list["dashboards"])
-        dashboard_list.pop("dashboards")
+
         self.remove_excluded_attr(dashboard_list)
         dash_list_diff = self.check_diff(self.destination_resources[_id]["dashboards"], dashboards)
-
         diff = self.check_diff(dashboard_list, self.destination_resources[_id])
+        dashboard_list.pop("dashboards")
+
         if diff:
+            self.logger.warning(f"diff produced:{diff}")
             try:
                 resp = destination_client.put(
                     self.base_path + f"/{self.destination_resources[_id]['id']}", dashboard_list
