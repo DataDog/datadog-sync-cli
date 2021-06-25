@@ -1,7 +1,7 @@
 import os
 import time
 
-from click import pass_context, command
+from click import pass_context, command, confirm
 
 from datadog_sync.constants import RESOURCE_FILE_PATH, DESTINATION_RESOURCES_DIR
 
@@ -14,13 +14,22 @@ def sync(ctx):
     start = time.time()
     os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
 
+    allow_missing_deps = ctx.obj.get("allow_missing_dependencies")
+
+    if not allow_missing_deps and cfg.missing_deps:
+        pretty_missing_deps = '\n'.join(["- " + resource for resource in cfg.missing_deps])
+        if confirm(f"The following dependencies are missing:\n{pretty_missing_deps}\nWould you like to import them?",):
+            allow_missing_deps = True
+
+
     for resource_type, resource in cfg.resources.items():
-        if os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type)):
-            cfg.logger.info("syncing resource: {}".format(resource_type))
-            resource.open_resources()
-            resource.apply_resources()
-            resource.write_resources_file("destination", resource.destination_resources)
-            cfg.logger.info("finished syncing resource: {}".format(resource_type))
+        if allow_missing_deps or resource_type not in cfg.missing_deps:
+            if os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type)):
+                cfg.logger.info("syncing resource: {}".format(resource_type))
+                resource.open_resources()
+                resource.apply_resources()
+                resource.write_resources_file("destination", resource.destination_resources)
+                cfg.logger.info("finished syncing resource: {}".format(resource_type))
 
     cfg.logger.info(f"finished syncing resources: {time.time() - start}s")
 

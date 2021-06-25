@@ -103,8 +103,10 @@ def cli(ctx, **kwargs):
     ctx.obj["config"] = config
 
 
-    # Initialize resources
-    config.resources = get_resources(config, kwargs.get("resources"), kwargs.get("allow_missing_dependencies"))
+    # Initialize resources and missing dependencies
+    config.resources, config.missing_deps = get_resources(config, kwargs.get("resources"), kwargs.get("allow_missing_dependencies"))
+
+    ctx.obj["allow_missing_dependencies"] = kwargs.get("allow_missing_dependencies")
 
 
 # TODO: add unit tests
@@ -130,13 +132,11 @@ def get_resources(cfg, resources_arg, allow_missing_deps):
 
     order_list = get_import_order(resource_classes, str_to_class)
 
-    if resources_args and len(order_list) != len(resources_args):
-        missing_deps = '\n'.join(["- " + resource for resource in order_list if resource not in resources_args])
-        cfg.logger.warning(f"The following dependencies are missing and might be required by the requested resources:\n{missing_deps}\nSee the \"--allow-missing-dependencies\" option.")
+    missing_deps = [resource for resource in order_list if resource not in resources_args]
 
     resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list if allow_missing_deps or resource_type})
 
-    return resources
+    return resources, missing_deps
 
 
 def get_import_order(resources, str_to_class):
