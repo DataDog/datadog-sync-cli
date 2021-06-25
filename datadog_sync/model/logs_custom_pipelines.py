@@ -30,7 +30,7 @@ class LogsCustomPipelines(BaseResource):
 
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_sequentially(self.source_resources, connection_resource_obj)
+        self.apply_resources_sequentially(connection_resource_obj)
 
     def prepare_resource_and_apply(self, _id, logs_custom_pipeline, connection_resource_obj):
         self.connect_resources(logs_custom_pipeline, connection_resource_obj)

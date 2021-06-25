@@ -36,7 +36,7 @@ class BaseResource:
                 try:
                     future.result()
                 except BaseException:
-                    self.logger.exception("error while importing resource")
+                    self.logger.exception(f"error while importing resource {self.resource_type}")
 
     def get_connection_resources(self):
         connection_resources = {}
@@ -105,14 +105,16 @@ class BaseResource:
                 k_list = key.split(".")
                 self.del_null_attr(k_list, resource)
 
-    def apply_resources_sequentially(self, resources, connection_resource_obj, **kwargs):
+    def apply_resources_sequentially(self, connection_resource_obj, **kwargs):
+        resources = kwargs.get("resources") or self.source_resources
         for _id, resource in resources.items():
             try:
                 self.prepare_resource_and_apply(_id, resource, connection_resource_obj, **kwargs)
             except BaseException:
-                self.logger.exception("error while applying resource")
+                self.logger.exception(f"error while applying resource {self.resource_type}")
 
-    def apply_resources_concurrently(self, resources, connection_resource_obj, **kwargs):
+    def apply_resources_concurrently(self, connection_resource_obj, **kwargs):
+        resources = kwargs.get("resources") or self.source_resources
         with ThreadPoolExecutor() as executor:
             futures = [
                 executor.submit(
@@ -128,7 +130,7 @@ class BaseResource:
             try:
                 future.result()
             except BaseException:
-                self.logger.exception("error while applying resource")
+                self.logger.exception(f"error while applying resource {self.resource_type}")
 
     def open_resources(self):
         source_resources = dict()

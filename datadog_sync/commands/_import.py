@@ -17,10 +17,9 @@ def _import(ctx):
     for resource_type, resource in cfg.resources.items():
         cfg.logger.info("importing %s", resource_type)
         resource.import_resources()
+        resource.write_resources_file("source", resource.source_resources)
         cfg.logger.info("finished importing %s", resource_type)
 
-    for resource in cfg.resources.values():
-        resource.write_resources_file("source", resource.source_resources)
 
     cfg.logger.info(f"finished importing resources: {time.time() - start}s")
 

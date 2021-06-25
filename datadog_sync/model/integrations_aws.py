@@ -29,7 +29,7 @@ class IntegrationsAWS(BaseResource):
         connection_resource_obj = self.get_connection_resources()
 
         # must not be done in parallel, api returns conflict error
-        self.apply_resources_sequentially(self.source_resources, connection_resource_obj)
+        self.apply_resources_sequentially(connection_resource_obj)
 
     def prepare_resource_and_apply(self, _id, integration_aws, connection_resource_obj):
         self.connect_resources(integration_aws, connection_resource_obj)

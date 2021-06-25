@@ -49,7 +49,7 @@ class DashboardLists(BaseResource):
 
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(self.source_resources, connection_resource_obj)
+        self.apply_resources_concurrently(connection_resource_obj)
 
     def prepare_resource_and_apply(self, _id, dashboard_list, connection_resource_obj):
         self.connect_resources(dashboard_list, connection_resource_obj)

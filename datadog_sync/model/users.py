@@ -44,7 +44,7 @@ class Users(BaseResource):
         remote_users = self.get_remote_destination_users()
         connection_resource_obj = self.get_connection_resources()
 
-        self.apply_resources_concurrently(self.source_resources, connection_resource_obj, remote_users=remote_users)
+        self.apply_resources_concurrently(connection_resource_obj, remote_users=remote_users)
 
     def prepare_resource_and_apply(self, _id, user, connection_resource_obj, **kwargs):
         destination_client = self.config.destination_client

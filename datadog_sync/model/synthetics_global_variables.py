@@ -37,7 +37,6 @@ class SyntheticsGlobalVariables(BaseResource):
         destination_global_variables = self.get_destination_global_variables()
 
         self.apply_resources_concurrently(
-            self.source_resources,
             connection_resource_obj,
             destination_global_variables=destination_global_variables,
         )

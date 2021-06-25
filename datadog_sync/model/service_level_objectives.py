@@ -35,7 +35,6 @@ class ServiceLevelObjectives(BaseResource):
         connection_resource_obj = self.get_connection_resources()
 
         self.apply_resources_concurrently(
-            self.source_resources,
             connection_resource_obj,
         )
 
