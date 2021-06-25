@@ -1,9 +1,12 @@
 from datadog_sync.utils.resource_utils import replace, replace_ids
 from datadog_sync import models
 from datadog_sync.cli import get_import_order
+import pytest
 
 
-str_to_class = dict([(cls.resource_type, cls) for name, cls in models.__dict__.items() if isinstance(cls, type)])
+@pytest.fixture(scope="class")
+def str_to_class():
+    return dict([(cls.resource_type, cls) for name, cls in models.__dict__.items() if isinstance(cls, type)])
 
 
 def test_replace_one_level_key():
@@ -160,7 +163,7 @@ def validate_order_list(order_list, resources):
     return True
 
 
-def test_get_import_order_all_resources():
+def test_get_import_order_all_resources(str_to_class):
     resources = [
         models.Roles(None),
         models.Users(None),
@@ -181,7 +184,7 @@ def test_get_import_order_all_resources():
     assert validate_order_list(order_list, resources)
 
 
-def test_get_import_order_users():
+def test_get_import_order_users(str_to_class):
     resources = [
         models.Users(None),
     ]
@@ -191,7 +194,7 @@ def test_get_import_order_users():
     assert validate_order_list(order_list, resources)
 
 
-def test_get_import_synthetics_tests():
+def test_get_import_synthetics_tests(str_to_class):
     resources = [
         models.SyntheticsTests(None),
     ]
@@ -201,7 +204,7 @@ def test_get_import_synthetics_tests():
     assert validate_order_list(order_list, resources)
 
 
-def test_get_import_monitors():
+def test_get_import_monitors(str_to_class):
     resources = [
         models.Monitors(None),
     ]
@@ -211,7 +214,7 @@ def test_get_import_monitors():
     assert validate_order_list(order_list, resources)
 
 
-def test_get_import_dashboards_lists():
+def test_get_import_dashboards_lists(str_to_class):
     resources = [
         models.DashboardLists(None),
     ]
@@ -221,7 +224,7 @@ def test_get_import_dashboards_lists():
     assert validate_order_list(order_list, resources)
 
 
-def test_get_import_service_level_objectives():
+def test_get_import_service_level_objectives(str_to_class):
     resources = [
         models.ServiceLevelObjectives(None),
     ]
