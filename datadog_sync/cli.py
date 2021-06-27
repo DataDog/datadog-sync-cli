@@ -132,7 +132,10 @@ def get_resources(cfg, resources_arg, allow_missing_deps):
 
     order_list = get_import_order(resource_classes, str_to_class)
 
-    missing_deps = [resource for resource in order_list if resource not in resources_args]
+    if resources_args:
+        missing_deps = [resource for resource in order_list if resource not in resources_args]
+    else:
+        missing_deps = None
 
     resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list if allow_missing_deps or resource_type})
 

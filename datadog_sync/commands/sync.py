@@ -14,7 +14,7 @@ def sync(ctx):
     start = time.time()
     os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
 
-    allow_missing_deps = ctx.obj.get("allow_missing_dependencies")
+    allow_missing_deps = ctx.obj.get("allow_missing_dependencies") or cfg.missing_deps == None
 
     if not allow_missing_deps and cfg.missing_deps:
         pretty_missing_deps = '\n'.join(["- " + resource for resource in cfg.missing_deps])
