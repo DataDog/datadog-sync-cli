@@ -102,9 +102,10 @@ def cli(ctx, **kwargs):
     config = Configuration(logger=logger, source_client=source_client, destination_client=destination_client)
     ctx.obj["config"] = config
 
-
     # Initialize resources and missing dependencies
-    config.resources, config.missing_deps = get_resources(config, kwargs.get("resources"), kwargs.get("allow_missing_dependencies"))
+    config.resources, config.missing_deps = get_resources(
+        config, kwargs.get("resources"), kwargs.get("allow_missing_dependencies")
+    )
 
     ctx.obj["allow_missing_dependencies"] = kwargs.get("allow_missing_dependencies")
 
@@ -125,9 +126,7 @@ def get_resources(cfg, resources_arg, allow_missing_deps):
     )
 
     resource_classes = [
-        cls
-        for resource_type, cls in str_to_class.items()
-        if not resources_arg or resource_type in resources_args
+        cls for resource_type, cls in str_to_class.items() if not resources_arg or resource_type in resources_args
     ]
 
     order_list = get_import_order(resource_classes, str_to_class)
@@ -137,7 +136,13 @@ def get_resources(cfg, resources_arg, allow_missing_deps):
     else:
         missing_deps = None
 
-    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list if allow_missing_deps or resource_type})
+    resources = OrderedDict(
+        {
+            resource_type: str_to_class[resource_type](cfg)
+            for resource_type in order_list
+            if allow_missing_deps or resource_type
+        }
+    )
 
     return resources, missing_deps
 
