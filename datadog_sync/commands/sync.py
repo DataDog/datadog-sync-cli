@@ -23,6 +23,14 @@ def sync(ctx):
         ):
             allow_missing_deps = True
 
+    if allow_missing_deps and cfg.missing_deps:
+        for dep in cfg.missing_deps:
+            resource = cfg.resources[dep]
+            cfg.logger.info("importing %s", resource.resource_type)
+            resource.import_resources()
+            resource.write_resources_file("source", resource.source_resources)
+            cfg.logger.info("finished importing %s", resource.resource_type)
+
     for resource_type, resource in cfg.resources.items():
         if allow_missing_deps or resource_type not in cfg.missing_deps:
             if os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type)):
