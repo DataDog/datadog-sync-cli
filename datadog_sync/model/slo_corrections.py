@@ -50,10 +50,10 @@ class SLOCorrections(BaseResource):
     def create_resource(self, _id, slo_correction):
         destination_client = self.config.destination_client
 
-        body = {"data": {"attributes": slo_correction["attributes"], "type": "correction"}}
+        payload = {"data": {"attributes": slo_correction["attributes"], "type": "correction"}}
 
         try:
-            resp = destination_client.post(self.base_path, body).json()
+            resp = destination_client.post(self.base_path, payload).json()
         except HTTPError as e:
             self.logger.error("error creating slo_correction: %s", e.response.text)
             return
@@ -66,9 +66,10 @@ class SLOCorrections(BaseResource):
         diff = self.check_diff(slo_correction, self.destination_resources[_id])
         if diff:
             try:
-                body = {"data": {"attributes": slo_correction["attributes"], "type": "correction"}}
-                resp = destination_client.put(self.base_path + f"/{self.destination_resources[_id]['id']}", body).json()
+                payload = {"data": {"attributes": slo_correction["attributes"], "type": "correction"}}
+                print(f"id:{self.destination_resources[_id]['id']} and payload:{payload}")
+                resp = destination_client.patch(self.base_path + f"/{self.destination_resources[_id]['id']}", payload).json()
             except HTTPError as e:
-                self.logger.error("error creating slo_correction: %s", e.response.text)
+                self.logger.error("error updating slo_correction: %s", e.response.text)
                 return
-            self.destination_resources[_id] = resp["data"][0]
+            self.destination_resources[_id] = resp["data"]
