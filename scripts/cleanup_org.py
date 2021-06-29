@@ -152,7 +152,6 @@ class Cleanup:
         for resource in res["data"]:
             self.delete_resource(resource["id"], path)
 
-
     def cleanup_integrations_aws(
         self,
     ):

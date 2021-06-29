@@ -7,11 +7,7 @@ class SLOCorrections(BaseResource):
     resource_type = "slo_corrections"
     resource_connections = {"service_level_objectives": ["attributes.slo_id"]}
     base_path = "/api/v1/slo/correction"
-    excluded_attributes = [
-        "root['id']",
-        "root['attributes']['slo_id']",
-        "root['attributes']['creator']"
-    ]
+    excluded_attributes = ["root['id']", "root['attributes']['slo_id']", "root['attributes']['creator']"]
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -65,8 +61,9 @@ class SLOCorrections(BaseResource):
         if diff:
             try:
                 payload = {"data": {"attributes": slo_correction["attributes"], "type": "correction"}}
-                print(f"id:{self.destination_resources[_id]['id']} and payload:{payload}")
-                resp = destination_client.patch(self.base_path + f"/{self.destination_resources[_id]['id']}", payload).json()
+                resp = destination_client.patch(
+                    self.base_path + f"/{self.destination_resources[_id]['id']}", payload
+                ).json()
             except HTTPError as e:
                 self.logger.error("error updating slo_correction: %s", e.response.text)
                 return
