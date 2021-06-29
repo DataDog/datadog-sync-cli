@@ -103,20 +103,26 @@ def cli(ctx, **kwargs):
 # TODO: add unit tests
 def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
+
+    all_resources = [
+        cls.resource_type
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
+    ]
+
+    if resources_arg:
+        resources_arg = resources_arg.split(",")
+    else:
+        resources_arg = all_resources
+
+
     str_to_class = dict(
         (cls.resource_type, cls)
         for cls in models.__dict__.values()
         if isinstance(cls, type) and issubclass(cls, BaseResource)
     )
 
-    resource_classes = [
-        cls
-        for resource_type, cls in str_to_class.items()
-        if not resources_arg or resource_type in resources_arg.split(",")
-    ]
-
-    order_list = get_import_order(resource_classes, str_to_class)
-    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list})
+    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in resources_arg})
 
     return resources
 
