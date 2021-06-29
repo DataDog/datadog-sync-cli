@@ -9,6 +9,12 @@ from datadog_sync.utils.filter import Filter
         (["Type=r_test;Name=attr;Value=exists;Operator=SubString"], "r_test", {"attr": "attr exists"}, True),
         (["Type=r_test;Name=attr;Value=exists"], "r_test", {"test": "attr Exists"}, False),
         (["Type=r_test_two;Name=attr;Value=exists"], "r_test", {"test": "attr exists"}, True),
+        (["Type=r_test_two;Name=test;Value=exists"], "r_test_two", {"test": ["attr", "exists"]}, True),
+        (["Type=r_test_two;Name=test;Value=exists"], "r_test_two", {"test": ["attr", "false"]}, False),
+        (["Type=r_test_two;Name=test;Value=1"], "r_test_two", {"test": ["attr", 1]}, True),
+        (["Type=r_test_two;Name=test;Value=1;Operator=NonExistent"], "r_test_two", {"test": ["attr", 1]}, True),
+        (["Type=r_test_two;Name=test;Value=1"], "r_test_two", {"test": ["attr", 123]}, False),
+        (["Type=r_test_two;Name=test;Value=1;Operator=SubString"], "r_test_two", {"test": ["attr", 123]}, True),
     ],
 )
 def test_filter(_filter, r_type, r_obj, expected):

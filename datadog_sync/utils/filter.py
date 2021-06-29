@@ -37,7 +37,7 @@ class Filter:
                     reg_exp = f"^{filter_val}$"
 
                 if isinstance(resource[filter_attr], list):
-                    return len(list(filter(lambda attr: match(reg_exp, str(attr)), resource[filter_attr])))
+                    return len(list(filter(lambda attr: match(reg_exp, str(attr)), resource[filter_attr]))) > 0
 
                 return match(reg_exp, str(resource[filter_attr])) is not None
 
