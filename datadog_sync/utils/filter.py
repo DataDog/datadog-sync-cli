@@ -55,7 +55,7 @@ class Filter:
             log.warning("invalid filter: %s", _filter)
             return
 
-        if not {FILTER_TYPE, FILTER_NAME, FILTER_VALUE} <= set(f_dict):
+        if not {FILTER_TYPE, FILTER_NAME, FILTER_VALUE}.issubset(set(f_dict)):
             log.warning("invalid filter: %s", _filter)
             return
 
