@@ -160,7 +160,7 @@ def validate_order_list(order_list, resources):
         if len([dep for dep in resource.resource_connections if order_list.index(dep) > resource_index]) != 0:
             return False
 
-    return True
+    return len(order_list) == len(set(order_list))
 
 
 def test_get_import_order_all_resources(str_to_class):

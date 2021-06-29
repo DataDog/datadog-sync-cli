@@ -91,7 +91,10 @@ class DashboardLists(BaseResource):
             except HTTPError as e:
                 self.logger.error("error creating dashboard_list: %s", e.response.text)
                 return
-            self.destination_resources[_id] = resp
+
+            resp.pop("dashboards")
+            local_destination_resources[_id].update(resp)
+
         if dash_list_diff:
             self.update_dash_list_items(
                 self.destination_resources[_id]["id"], dashboards, self.destination_resources[_id]
