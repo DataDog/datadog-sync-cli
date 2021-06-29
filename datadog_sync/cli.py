@@ -115,14 +115,22 @@ def get_resources(cfg, resources_arg):
     else:
         resources_arg = all_resources
 
-
     str_to_class = dict(
         (cls.resource_type, cls)
         for cls in models.__dict__.values()
         if isinstance(cls, type) and issubclass(cls, BaseResource)
     )
 
-    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in resources_arg})
+    resources_classes = [
+        cls for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
+    ]
+
+    order_list = get_import_order(resources_classes, str_to_class)
+
+    args_import_order = [resource_type for resource_type in order_list if resource_type in resources_arg]
+
+    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in args_import_order})
 
     return resources
 

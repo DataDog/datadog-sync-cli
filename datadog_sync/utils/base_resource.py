@@ -114,7 +114,9 @@ class BaseResource:
                 self.logger.exception(f"error while applying resource {self.resource_type}")
 
     def apply_resources_concurrently(self, connection_resource_obj, **kwargs):
-        resources = kwargs.get("resources") or self.source_resources
+        resources = kwargs.get("resources")
+        if resources == None:
+            resources = self.source_resources
         with ThreadPoolExecutor() as executor:
             futures = [
                 executor.submit(
