@@ -10,10 +10,7 @@ class SLOCorrections(BaseResource):
     excluded_attributes = [
         "root['id']",
         "root['attributes']['slo_id']",
-        "root['attributes']['creator']['data']['id']",
-        "root['attributes']['creator']['data']['attributes']['uuid']",
-        "root['attributes']['creator']['data']['attributes']['handle']",
-        "root['attributes']['creator']['data']['attributes']['email']",
+        "root['attributes']['creator']"
     ]
 
     def import_resources(self):
@@ -62,6 +59,7 @@ class SLOCorrections(BaseResource):
 
     def update_resource(self, _id, slo_correction):
         destination_client = self.config.destination_client
+        self.remove_excluded_attr(slo_correction)
 
         diff = self.check_diff(slo_correction, self.destination_resources[_id])
         if diff:
