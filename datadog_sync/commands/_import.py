@@ -14,10 +14,12 @@ def _import(ctx):
 
     os.makedirs(SOURCE_RESOURCES_DIR, exist_ok=True)
 
-    for resource in cfg.resources:
-        cfg.logger.info("importing %s", resource.resource_type)
+    for resource_type, resource in cfg.resources.items():
+        cfg.logger.info("importing %s", resource_type)
         resource.import_resources()
-        cfg.logger.info("finished importing %s", resource.resource_type)
+        resource.write_resources_file("source", resource.source_resources)
+        cfg.logger.info("finished importing %s", resource_type)
+
 
     cfg.logger.info(f"finished importing resources: {time.time() - start}s")
 
