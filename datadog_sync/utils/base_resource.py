@@ -47,7 +47,7 @@ class BaseResource:
                 if k in self.config.resources:
                     connection_resources[k] = self.config.resources[k].destination_resources
                 else:
-                    self.logger.debug(f"{k} not found in resource_connections for {self.resource_type}")
+                    self.logger.warning(f"{k} not found in resource_connections for {self.resource_type}")
 
         return connection_resources
 

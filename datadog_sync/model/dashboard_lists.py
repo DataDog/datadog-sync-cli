@@ -83,7 +83,6 @@ class DashboardLists(BaseResource):
         dashboard_list.pop("dashboards")
 
         if diff:
-            self.logger.warning(f"diff produced:{diff}")
             try:
                 resp = destination_client.put(
                     self.base_path + f"/{self.destination_resources[_id]['id']}", dashboard_list
@@ -93,7 +92,7 @@ class DashboardLists(BaseResource):
                 return
 
             resp.pop("dashboards")
-            local_destination_resources[_id].update(resp)
+            self.destination_resources[_id].update(resp)
 
         if dash_list_diff:
             self.update_dash_list_items(
