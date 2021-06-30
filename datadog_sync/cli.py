@@ -1,6 +1,5 @@
 from click import pass_context, group, option
 import click_config_file
-from collections import defaultdict
 
 from datadog_sync import constants
 from datadog_sync import models
@@ -115,9 +114,7 @@ def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
     all_resources = [
-        cls.resource_type
-        for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
+        cls.resource_type for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
     ]
 
     if resources_arg:
@@ -132,8 +129,7 @@ def get_resources(cfg, resources_arg):
     )
 
     resources_classes = [
-        cls for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
+        cls for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
     ]
 
     order_list = get_import_order(resources_classes, str_to_class)
