@@ -24,7 +24,8 @@ class BaseResource:
         if config:
             self.logger = config.logger
 
-        self.source_resources, self.destination_resources = self.open_resources()
+        self.source_resources = dict()
+        self.destination_resources = dict()
 
     def import_resources(self):
         pass
@@ -149,7 +150,8 @@ class BaseResource:
             with open(destination_path, "r") as f:
                 destination_resources = json.load(f)
 
-        return source_resources, destination_resources
+        self.source_resources = source_resources
+        self.destination_resources = destination_resources
 
     def write_resources_file(self, origin, resources):
         resource_path = RESOURCE_FILE_PATH.format(origin, self.resource_type)

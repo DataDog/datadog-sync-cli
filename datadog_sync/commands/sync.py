@@ -17,6 +17,7 @@ def sync(ctx):
     for resource_type, resource in cfg.resources.items():
         if os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type)):
             cfg.logger.info("syncing resource: {}".format(resource_type))
+            resource.open_resources()
             resource.apply_resources()
             resource.write_resources_file("destination", resource.destination_resources)
             cfg.logger.info("finished syncing resource: {}".format(resource_type))
