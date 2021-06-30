@@ -9,6 +9,7 @@ FILTER_NAME = "Name"
 FILTER_VALUE = "Value"
 FILTER_OPERATOR = "Operator"
 SUBSTRING_OPERATOR = "substring"
+REQUIRED_KEYS = [FILTER_TYPE, FILTER_NAME, FILTER_VALUE]
 
 log = logging.getLogger(LOGGER_NAME)
 
@@ -28,18 +29,12 @@ class Filter:
         for f_obj in self.filters[resource_type]:
             filter_attr = f_obj[FILTER_NAME]
             filter_val = f_obj[FILTER_VALUE]
-            filter_operator = f_obj.get(FILTER_OPERATOR)
 
             if filter_attr in resource:
-                if filter_operator and filter_operator.lower() == SUBSTRING_OPERATOR:
-                    reg_exp = f".*{filter_val}.*"
-                else:
-                    reg_exp = f"^{filter_val}$"
-
                 if isinstance(resource[filter_attr], list):
-                    return len(list(filter(lambda attr: match(reg_exp, str(attr)), resource[filter_attr]))) > 0
+                    return len(list(filter(lambda attr: match(filter_val, str(attr)), resource[filter_attr]))) > 0
 
-                return match(reg_exp, str(resource[filter_attr])) is not None
+                return match(filter_val, str(resource[filter_attr])) is not None
 
         # Filters for resource were specified but no matching attributes found
         return False
@@ -49,19 +44,37 @@ class Filter:
             self._process_filter(_filter)
 
     def _process_filter(self, _filter):
-        try:
-            f_dict = dict(f.split("=", 1) for f in _filter.split(";"))
-        except ValueError:
-            log.warning("invalid filter: %s", _filter)
-            return
+        f_dict = {}
+        f_list = _filter.split(";")
 
-        if not {FILTER_TYPE, FILTER_NAME, FILTER_VALUE}.issubset(set(f_dict)):
-            log.warning("invalid filter: %s", _filter)
-            return
+        for option in f_list:
+            try:
+                f_dict.update(dict([option.split("=", 1)]))
+            except ValueError:
+                log.warning("invalid filter option: %s, filter: %s", option, _filter)
+                return
+
+        # Check if required keys are present:
+        for k in REQUIRED_KEYS:
+            if k not in f_dict:
+                log.warning("invalid filter missing key %s in filter: %s", k, _filter)
+                return
+
+        # Build and assign matcher to VALUE key
+        f_dict[FILTER_VALUE] = self.build_regex(f_dict)
 
         resource = f_dict[FILTER_TYPE].lower()
         f_dict.pop(FILTER_TYPE)
         if resource not in self.filters:
-            self.filters[resource] = list()
+            self.filters[resource] = []
 
         self.filters[resource].append(f_dict)
+
+    @staticmethod
+    def build_regex(f_dict):
+        if FILTER_OPERATOR in f_dict and f_dict[FILTER_OPERATOR].lower() == SUBSTRING_OPERATOR:
+            reg_exp = f".*{f_dict[FILTER_VALUE]}.*"
+        else:
+            reg_exp = f"^{f_dict[FILTER_VALUE]}$"
+
+        return reg_exp
