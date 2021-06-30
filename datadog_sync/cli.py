@@ -72,7 +72,7 @@ from collections import defaultdict, OrderedDict
     required=False,
     is_flag=True,
     default=False,
-    help="Enable importing resources that could be potential dependencies to the requested resources.",
+    help="Force importing resources that could be potential dependencies to the requested resources.",
 )
 @pass_context
 def cli(ctx, **kwargs):
