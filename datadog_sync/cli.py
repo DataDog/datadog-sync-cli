@@ -68,7 +68,7 @@ from collections import defaultdict, OrderedDict
     help="Enable verbose logging.",
 )
 @option(
-    "--enable-missing-dependencies",
+    "--force-missing-dependencies",
     required=False,
     is_flag=True,
     default=False,
@@ -105,14 +105,14 @@ def cli(ctx, **kwargs):
 
     # Initialize resources and missing dependencies
     config.resources, config.missing_deps = get_resources(
-        config, kwargs.get("resources"), kwargs.get("enable_missing_dependencies")
+        config, kwargs.get("resources"), kwargs.get("force_missing_dependencies")
     )
 
-    ctx.obj["enable_missing_dependencies"] = kwargs.get("enable_missing_dependencies")
+    ctx.obj["force_missing_dependencies"] = kwargs.get("force_missing_dependencies")
 
 
 # TODO: add unit tests
-def get_resources(cfg, resources_arg, enable_missing_deps):
+def get_resources(cfg, resources_arg, force_missing_deps):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
     all_resources = [
@@ -144,7 +144,6 @@ def get_resources(cfg, resources_arg, enable_missing_deps):
         {
             resource_type: str_to_class[resource_type](cfg)
             for resource_type in order_list
-            if enable_missing_deps or resource_type in resources_arg
         }
     )
 
