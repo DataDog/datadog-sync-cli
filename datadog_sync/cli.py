@@ -2,26 +2,15 @@ from click import pass_context, group, option
 import click_config_file
 from collections import defaultdict
 
-import datadog_sync.constants as constants
+from datadog_sync import constants
+from datadog_sync import models
 from datadog_sync.commands import ALL_COMMANDS
-from datadog_sync.models import (
-    Roles,
-    Users,
-    Monitors,
-    Dashboards,
-    DashboardLists,
-    Downtimes,
-    SyntheticsPrivateLocations,
-    SyntheticsTests,
-    SyntheticsGlobalVariables,
-    ServiceLevelObjectives,
-    LogsCustomPipelines,
-    # IntegrationsAWS,
-)
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
+from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import Filter
+from collections import defaultdict, OrderedDict
 
 
 @group()
@@ -121,37 +110,44 @@ def cli(ctx, **kwargs):
     config.resources = get_resources(config, kwargs.get("resources"))
 
 
+# TODO: add unit tests
 def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
-    resources = [
-        Roles(cfg),
-        Users(cfg),
-        SyntheticsPrivateLocations(cfg),
-        SyntheticsTests(cfg),
-        SyntheticsGlobalVariables(cfg),
-        Monitors(cfg),
-        Downtimes(cfg),
-        ServiceLevelObjectives(cfg),
-        Dashboards(cfg),
-        DashboardLists(cfg),
-        LogsCustomPipelines(cfg),
-        # IntegrationsAWS(cfg),
+
+    all_resources = [
+        cls.resource_type
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
     ]
 
     if resources_arg:
-        new_resources = []
-        resources_arg_list = resources_arg.split(",")
-        for resource in resources:
-            if resource.resource_type in resources_arg_list:
-                new_resources.append(resource)
-        return new_resources
+        resources_arg = resources_arg.split(",")
+    else:
+        resources_arg = all_resources
+
+    str_to_class = dict(
+        (cls.resource_type, cls)
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
+    )
+
+    resources_classes = [
+        cls for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
+    ]
+
+    order_list = get_import_order(resources_classes, str_to_class)
+
+    args_import_order = [resource_type for resource_type in order_list if resource_type in resources_arg]
+
+    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in args_import_order})
 
     return resources
 
 
-def get_import_order(resources):
+def get_import_order(resources, str_to_class):
     """Returns the order of importing resources to guarantee that all resource dependencies are met"""
-    graph, dependencies_count = get_resources_dependency_graph(resources)
+    graph, dependencies_count = get_resources_dependency_graph(resources, str_to_class)
     dependency_order = []
 
     # See Kahn's algorithm: https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm
@@ -180,12 +176,10 @@ def get_import_order(resources):
     return dependency_order
 
 
-def get_resources_dependency_graph(resources):
+def get_resources_dependency_graph(resources, str_to_class):
     """Returns a Directed Acyclic Graph of the resources. An edge between A and B means that resource A might require resource B"""
     graph = defaultdict(list)
     dependencies_count = defaultdict(int)
-
-    str_to_class = {r.resource_type: r for r in get_resources(None, None)}
 
     # resources that don't have resource_connections need to be initialized manually or their key will never be created
     for r in resources:
