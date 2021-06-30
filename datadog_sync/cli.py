@@ -71,6 +71,7 @@ from collections import defaultdict, OrderedDict
     "--enable-missing-dependencies",
     required=False,
     is_flag=True,
+    default=False,
     help="Enable importing resources that could be potential dependencies to the requested resources.",
 )
 @pass_context
@@ -113,11 +114,17 @@ def cli(ctx, **kwargs):
 # TODO: add unit tests
 def get_resources(cfg, resources_arg, enable_missing_deps):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
+
+    all_resources = [
+        cls.resource_type
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
+    ]
+
     if resources_arg:
-        resources_args = resources_arg.split(",")
+        resources_arg = resources_arg.split(",")
     else:
-        resources_args = None
-        enable_missing_deps = True
+        resources_arg = all_resources
 
     str_to_class = dict(
         (cls.resource_type, cls)
@@ -125,22 +132,19 @@ def get_resources(cfg, resources_arg, enable_missing_deps):
         if isinstance(cls, type) and issubclass(cls, BaseResource)
     )
 
-    resource_classes = [
-        cls for resource_type, cls in str_to_class.items() if not resources_arg or resource_type in resources_args
+    resources_classes = [
+        str_to_class[resource_type] for resource_type in resources_arg
     ]
 
-    order_list = get_import_order(resource_classes, str_to_class)
+    order_list = get_import_order(resources_classes, str_to_class)
 
-    if resources_args:
-        missing_deps = [resource for resource in order_list if resource not in resources_args]
-    else:
-        missing_deps = None
+    missing_deps = [resource for resource in order_list if resource not in resources_arg]
 
     resources = OrderedDict(
         {
             resource_type: str_to_class[resource_type](cfg)
             for resource_type in order_list
-            if enable_missing_deps or resource_type
+            if enable_missing_deps or resource_type in resources_arg
         }
     )
 
