@@ -14,16 +14,16 @@ def sync(ctx):
     start = time.time()
     os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
 
-    allow_missing_deps = ctx.obj.get("allow_missing_dependencies") or cfg.missing_deps == None
+    enable_missing_deps = ctx.obj.get("enable_missing_dependencies") or cfg.missing_deps == None
 
-    if not allow_missing_deps and cfg.missing_deps:
+    if not enable_missing_deps and cfg.missing_deps:
         pretty_missing_deps = "\n".join(["- " + resource for resource in cfg.missing_deps])
         if confirm(
-            f"The following dependencies are missing:\n{pretty_missing_deps}\nWould you like to import them?",
+            f"The following dependencies are missing:\n{pretty_missing_deps}\nWould you like to import/sync them?",
         ):
-            allow_missing_deps = True
+            enable_missing_deps = True
 
-    if allow_missing_deps and cfg.missing_deps:
+    if enable_missing_deps and cfg.missing_deps:
         for dep in cfg.missing_deps:
             resource = cfg.resources[dep]
             cfg.logger.info("importing %s", resource.resource_type)
@@ -32,7 +32,7 @@ def sync(ctx):
             cfg.logger.info("finished importing %s", resource.resource_type)
 
     for resource_type, resource in cfg.resources.items():
-        if allow_missing_deps or resource_type not in cfg.missing_deps:
+        if enable_missing_deps or resource_type not in cfg.missing_deps:
             if os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type)):
                 cfg.logger.info("syncing resource: {}".format(resource_type))
                 resource.open_resources()

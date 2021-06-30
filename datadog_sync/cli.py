@@ -68,10 +68,10 @@ from collections import defaultdict, OrderedDict
     help="Enable verbose logging.",
 )
 @option(
-    "--allow-missing-dependencies",
+    "--enable-missing-dependencies",
     required=False,
     is_flag=True,
-    help="Enable the import of resources that might be required by the given resources.",
+    help="Enable importing resources that could be potential dependencies to the requested resources.",
 )
 @pass_context
 def cli(ctx, **kwargs):
@@ -104,20 +104,20 @@ def cli(ctx, **kwargs):
 
     # Initialize resources and missing dependencies
     config.resources, config.missing_deps = get_resources(
-        config, kwargs.get("resources"), kwargs.get("allow_missing_dependencies")
+        config, kwargs.get("resources"), kwargs.get("enable_missing_dependencies")
     )
 
-    ctx.obj["allow_missing_dependencies"] = kwargs.get("allow_missing_dependencies")
+    ctx.obj["enable_missing_dependencies"] = kwargs.get("enable_missing_dependencies")
 
 
 # TODO: add unit tests
-def get_resources(cfg, resources_arg, allow_missing_deps):
+def get_resources(cfg, resources_arg, enable_missing_deps):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
     if resources_arg:
         resources_args = resources_arg.split(",")
     else:
         resources_args = None
-        allow_missing_deps = True
+        enable_missing_deps = True
 
     str_to_class = dict(
         (cls.resource_type, cls)
@@ -140,7 +140,7 @@ def get_resources(cfg, resources_arg, allow_missing_deps):
         {
             resource_type: str_to_class[resource_type](cfg)
             for resource_type in order_list
-            if allow_missing_deps or resource_type
+            if enable_missing_deps or resource_type
         }
     )
 
