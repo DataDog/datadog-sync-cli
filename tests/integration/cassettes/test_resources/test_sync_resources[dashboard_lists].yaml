@@ -16,114 +16,6 @@ interactions:
     uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
   response:
     body:
-      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
-
-        '
-    headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '172'
-      Content-Type:
-      - application/json
-      Date:
-      - Thu, 01 Jul 2021 13:31:11 GMT
-      cache-control:
-      - no-cache
-      via:
-      - 1.1 haproxy
-    status:
-      code: 502
-      message: Bad Gateway
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
-  response:
-    body:
-      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
-
-        '
-    headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '172'
-      Content-Type:
-      - application/json
-      Date:
-      - Thu, 01 Jul 2021 13:31:11 GMT
-      cache-control:
-      - no-cache
-      via:
-      - 1.1 haproxy
-    status:
-      code: 502
-      message: Bad Gateway
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
-  response:
-    body:
-      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
-
-        '
-    headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '172'
-      Content-Type:
-      - application/json
-      Date:
-      - Thu, 01 Jul 2021 13:31:16 GMT
-      cache-control:
-      - no-cache
-      via:
-      - 1.1 haproxy
-    status:
-      code: 502
-      message: Bad Gateway
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
-  response:
-    body:
       string: '{"dashboard_lists":[{"is_favorite":false,"name":"Test list","dashboard_count":3,"author":{"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
         Karimov"},"created":"2021-06-14T20:10:23.247584+00:00","type":"manual_dashboard_list","dashboards":null,"modified":"2021-06-24T20:13:00.657023+00:00","id":213585}]}'
     headers:
@@ -132,7 +24,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:31:27 GMT
+      - Thu, 01 Jul 2021 18:49:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -150,48 +42,12 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - l4HFlaRP3QwYSqoGKhzbYfv7zgkK63HIRR7YkyVYZspq0lGjjTBwoK8V/alf+XYt
+      - Wjq53IVIwnB4SiR238oOYgHFMq/ZYP0LQ/Dv8C2fFLBwTje/dWJHu6pI6vIOK1zG
       x-frame-options:
       - SAMEORIGIN
     status:
       code: 200
       message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/dashboard/lists/manual/213585/dashboards
-  response:
-    body:
-      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
-
-        '
-    headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '172'
-      Content-Type:
-      - application/json
-      Date:
-      - Thu, 01 Jul 2021 13:31:27 GMT
-      cache-control:
-      - no-cache
-      via:
-      - 1.1 haproxy
-    status:
-      code: 502
-      message: Bad Gateway
 - request:
     body: null
     headers:
@@ -222,7 +78,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:31:27 GMT
+      - Thu, 01 Jul 2021 18:49:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -240,7 +96,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - dCmL/3rURV6BPeaqeP3Rxigq41m5CAb17XjrRE42uZ01zpr07HVhbL5/3TWMkvgu
+      - Um4CoU685QqAscnxhS5BD+goWu2yX1Jd4zCfGzSsEvPPIm1qURZaF8dlLl/OEY4I
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -265,7 +121,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
   response:
     body:
-      string: '{"is_favorite":false,"name":"Test list","dashboard_count":0,"author":{"handle":"frog@datadoghq.com","name":null},"created":"2021-07-01T13:31:27.545776+00:00","type":"manual_dashboard_list","dashboards":null,"modified":"2021-07-01T13:31:27.545886+00:00","id":9705}'
+      string: '{"is_favorite":false,"name":"Test list","dashboard_count":0,"author":{"handle":"frog@datadoghq.com","name":null},"created":"2021-07-01T18:49:45.077258+00:00","type":"manual_dashboard_list","dashboards":null,"modified":"2021-07-01T18:49:45.077282+00:00","id":9770}'
     headers:
       Alt-Svc:
       - clear
@@ -282,7 +138,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 13:31:27 GMT
+      - Thu, 01 Jul 2021 18:49:45 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -314,7 +170,7 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/9705/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/9770/dashboards
   response:
     body:
       string: '{"errors": ["custom_timeboard euw-cp8-hy6 not found"]}'
@@ -334,7 +190,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 13:31:27 GMT
+      - Thu, 01 Jul 2021 18:49:45 GMT
       pragma:
       - no-cache
       strict-transport-security:

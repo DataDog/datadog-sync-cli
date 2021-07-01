@@ -16,42 +16,6 @@ interactions:
     uri: https://api.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
-
-        '
-    headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '172'
-      Content-Type:
-      - application/json
-      Date:
-      - Thu, 01 Jul 2021 13:30:11 GMT
-      cache-control:
-      - no-cache
-      via:
-      - 1.1 haproxy
-    status:
-      code: 502
-      message: Bad Gateway
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/logs/config/pipelines
-  response:
-    body:
       string: '[{"id":"2r_tyuRBSjy83c1-WHOL3w","type":"pipeline","name":"Test pipeline
         1","is_enabled":true,"is_read_only":false,"filter":{"query":"source:foo"},"processors":[{"name":"sample
         arithmetic processor","is_enabled":true,"expression":"(time1 - time2)*1000","target":"my_arithmetic","is_replace_missing":true,"type":"arithmetic-processor"},{"name":"sample
@@ -103,7 +67,7 @@ interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Thu, 01 Jul 2021 13:30:13 GMT
+      - Thu, 01 Jul 2021 18:50:01 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -123,7 +87,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - FRgEFSxePHy8xt2+iFDxzhMqQHbD6gb2tfyVAba+XI40oQ0/fu9dPGCtDFr2ADF5
+      - L3ULR3HwCWYmEqCWGz2Yob3chcH4pjowBacBXkncP7o+/uPqKt9yGEYf/g1AJPzQ
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -131,9 +95,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '4995'
+      - '4997'
       x-ratelimit-reset:
-      - '1787'
+      - '599'
     status:
       code: 200
       message: OK
@@ -188,7 +152,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id":"HSLv1TsXTtC1lSHgTz1mTw","type":"pipeline","name":"Test pipeline
+      string: '{"id":"r4oX05G2RwW_KUJW3XGNLA","type":"pipeline","name":"Test pipeline
         1","is_enabled":true,"is_read_only":false,"filter":{"query":"source:foo"},"processors":[{"name":"sample
         arithmetic processor","is_enabled":true,"expression":"(time1 - time2)*1000","target":"my_arithmetic","is_replace_missing":true,"type":"arithmetic-processor"},{"name":"sample
         attribute processor","is_enabled":true,"sources":["db.instance"],"source_type":"tag","target":"db","target_type":"attribute","target_format":"string","preserve_source":true,"override_on_conflict":false,"type":"attribute-remapper"},{"name":"sample
@@ -227,7 +191,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Thu, 01 Jul 2021 13:30:13 GMT
+      - Thu, 01 Jul 2021 18:50:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -243,9 +207,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '83'
+      - '99'
       x-ratelimit-reset:
-      - '1787'
+      - '599'
     status:
       code: 200
       message: OK
@@ -272,7 +236,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id":"e62PDUkORFm2Dj9IIomu1A","type":"pipeline","name":"Test pipeline
+      string: '{"id":"NmK-QLThQKavaY8S60dtgQ","type":"pipeline","name":"Test pipeline
         2","is_enabled":true,"is_read_only":false,"filter":{"query":"test:query"},"processors":[{"name":"Grok
         Parser","is_enabled":true,"source":"message","samples":[],"grok":{"support_rules":"","match_rules":"rule
         %{word:word}"},"type":"grok-parser"},{"name":"","is_enabled":true,"sources":["test"],"type":"date-remapper"}]}'
@@ -294,7 +258,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Thu, 01 Jul 2021 13:30:13 GMT
+      - Thu, 01 Jul 2021 18:50:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -310,9 +274,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '82'
+      - '98'
       x-ratelimit-reset:
-      - '1787'
+      - '599'
     status:
       code: 200
       message: OK
@@ -336,7 +300,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id":"WXk-I25QRCO44A9Cuszcpg","type":"pipeline","name":"Test pipeline
+      string: '{"id":"VsGnWiRqSVidtgvh3QRUCg","type":"pipeline","name":"Test pipeline
         3","is_enabled":true,"is_read_only":false,"filter":{"query":"tes1232113"},"processors":[]}'
     headers:
       Alt-Svc:
@@ -356,7 +320,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Thu, 01 Jul 2021 13:30:14 GMT
+      - Thu, 01 Jul 2021 18:50:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -372,9 +336,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '81'
+      - '97'
       x-ratelimit-reset:
-      - '1786'
+      - '599'
     status:
       code: 200
       message: OK
@@ -429,7 +393,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id":"f6QhBUPBRdulEVACkjO0WQ","type":"pipeline","name":"Test Pipeline
+      string: '{"id":"ECVFK3IPRD6ulHJhX0IgsA","type":"pipeline","name":"Test Pipeline
         - Complex","is_enabled":true,"is_read_only":false,"filter":{"query":"source:foo"},"processors":[{"name":"sample
         arithmetic processor","is_enabled":true,"expression":"(time1 - time2)*1000","target":"my_arithmetic","is_replace_missing":true,"type":"arithmetic-processor"},{"name":"sample
         attribute processor","is_enabled":true,"sources":["db.instance"],"source_type":"tag","target":"db","target_type":"attribute","target_format":"string","preserve_source":true,"override_on_conflict":false,"type":"attribute-remapper"},{"name":"sample
@@ -468,7 +432,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Thu, 01 Jul 2021 13:30:14 GMT
+      - Thu, 01 Jul 2021 18:50:02 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -484,9 +448,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '80'
+      - '96'
       x-ratelimit-reset:
-      - '1786'
+      - '598'
     status:
       code: 200
       message: OK

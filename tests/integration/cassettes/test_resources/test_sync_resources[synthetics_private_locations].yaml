@@ -31,7 +31,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:32:11 GMT
+      - Thu, 01 Jul 2021 18:49:56 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -49,7 +49,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - PhosSd3Ch1B6B0DXI71steKUi7XhPDttnPiIP1NdXTw0VJNWpoUnYyBmODS5ne3q
+      - bgHykj7A9bfZx0Y5ZO3swhhp5tGUSNJHqFWR868+qg087CYrDOd5hQslC+noiEtH
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -57,9 +57,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '119'
+      - '117'
       x-ratelimit-reset:
-      - '49'
+      - '4'
     status:
       code: 200
       message: OK
@@ -88,7 +88,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:32:11 GMT
+      - Thu, 01 Jul 2021 18:49:57 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -106,7 +106,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - PhosSd3Ch1B6B0DXI71steKUi7XhPDttnPiIP1NdXTw0VJNWpoUnYyBmODS5ne3q
+      - Um4CoU685QqAscnxhS5BD+goWu2yX1Jd4zCfGzSsEvPPIm1qURZaF8dlLl/OEY4I
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -132,7 +132,15 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations
   response:
     body:
-      string: '{"errors": ["Access was denied to this resource."]}'
+      string: '{"private_location":{"name":"Test Private Variable","tags":["key:value"],"secrets":{"authentication":{"id":"d6eec01cca0b265b31dc1061aca85bf7","key":"a4d83bafc3f458e62683f7e5fe7b9e787b62be3ef436e130e4c7a821c143a890"},"config_decryption":{"id":"9617978c1dc1bad630e5020f9de4d2be","key":"-----BEGIN
+        RSA PRIVATE KEY-----\n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\n-----END
+        RSA PRIVATE KEY-----"}},"description":"datadog-sync-cli test","modifiedAt":"2021-07-01T18:49:58.706369+00:00","config":{"site":"datadoghq.eu"},"id":"pl:test-private-variable-f618a38bfaec1cd93ee1d70c5dac0966","createdAt":"2021-07-01T18:49:58.706369+00:00","metadata":{}},"config":{"accessKey":"d6eec01cca0b265b31dc1061aca85bf7","privateKey":"-----BEGIN
+        RSA PRIVATE KEY-----\n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\n-----END
+        RSA PRIVATE KEY-----","site":"datadoghq.eu","secretAccessKey":"a4d83bafc3f458e62683f7e5fe7b9e787b62be3ef436e130e4c7a821c143a890","publicKey":{"pem":"-----BEGIN
+        PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
+        PUBLIC KEY-----\n","fingerprint":"sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins="},"id":"pl:test-private-variable-f618a38bfaec1cd93ee1d70c5dac0966"},"result_encryption":{"id":"sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins=","key":"-----BEGIN
+        PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
+        PUBLIC KEY-----\n"}}'
     headers:
       Alt-Svc:
       - clear
@@ -143,13 +151,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '51'
+      - '9187'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 13:32:12 GMT
+      - Thu, 01 Jul 2021 18:49:58 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -161,6 +169,6 @@ interactions:
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
+      code: 200
+      message: OK
 version: 1

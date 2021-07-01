@@ -16,25 +16,102 @@ interactions:
     uri: https://api.datadoghq.com/api/v1/synthetics/locations
   response:
     body:
-      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
-
-        '
+      string: '{"locations":[{"id":"aws:ap-northeast-1","name":"Tokyo (AWS)"},{"id":"aws:ap-northeast-2","name":"Seoul
+        (AWS)"},{"id":"aws:ap-south-1","name":"Mumbai (AWS)"},{"id":"aws:ap-southeast-1","name":"Singapore
+        (AWS)"},{"id":"aws:ap-southeast-2","name":"Sydney (AWS)"},{"id":"aws:ca-central-1","name":"Canada
+        Central (AWS)"},{"id":"aws:eu-central-1","name":"Frankfurt (AWS)"},{"id":"aws:eu-north-1","name":"Stockholm
+        (AWS)"},{"id":"aws:eu-west-1","name":"Ireland (AWS)"},{"id":"aws:eu-west-2","name":"London
+        (AWS)"},{"id":"aws:eu-west-3","name":"Paris (AWS)"},{"id":"aws:sa-east-1","name":"S\u00e3o
+        Paulo (AWS)"},{"id":"aws:us-east-2","name":"Ohio (AWS)"},{"id":"aws:us-west-1","name":"N.
+        California (AWS)"},{"id":"aws:us-west-2","name":"Oregon (AWS)"},{"id":"pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451","name":"Test
+        Private Variable"}]}'
     headers:
       Connection:
       - keep-alive
-      Content-Length:
-      - '172'
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:31:55 GMT
+      - Thu, 01 Jul 2021 18:49:50 GMT
+      Transfer-Encoding:
+      - chunked
       cache-control:
       - no-cache
-      via:
-      - 1.1 haproxy
+      content-length:
+      - '844'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-dd-debug:
+      - LcgNasIYBRkNppmD6mCKE9J6iv0eEjosuuHR5V5zw2fWbR54i39C8dhdK8zDq/40
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '119'
+      x-ratelimit-reset:
+      - '10'
     status:
-      code: 502
-      message: Bad Gateway
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451
+  response:
+    body:
+      string: '{"name":"Test Private Variable","tags":["key:value"],"description":"datadog-sync-cli
+        test","modifiedAt":"2021-06-30T12:27:21.433291+00:00","id":"pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451","createdAt":"2021-06-30T12:27:21.433291+00:00","metadata":null}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 01 Jul 2021 18:49:50 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '267'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-dd-debug:
+      - PhosSd3Ch1B6B0DXI71steKUi7XhPDttnPiIP1NdXTw0VJNWpoUnYyBmODS5ne3q
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
 - request:
     body: null
     headers:
@@ -67,7 +144,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:31:56 GMT
+      - Thu, 01 Jul 2021 18:49:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -85,7 +162,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - F5gm0Rce1/Abr9/0Fw8HAqWfiz0FdiH8er/AXnN6lOn3L6KyGgbsLCwgPlob1No8
+      - nLnnBNvlCFDECRnZvzDb0z4sAO35G+IMidcAs8vrCKyjvsKWE8Yd9S3n6OjZ1qRN
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -93,84 +170,12 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '119'
+      - '118'
       x-ratelimit-reset:
-      - '4'
+      - '9'
     status:
       code: 200
       message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451
-  response:
-    body:
-      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
-
-        '
-    headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '172'
-      Content-Type:
-      - application/json
-      Date:
-      - Thu, 01 Jul 2021 13:31:56 GMT
-      cache-control:
-      - no-cache
-      via:
-      - 1.1 haproxy
-    status:
-      code: 502
-      message: Bad Gateway
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451
-  response:
-    body:
-      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
-
-        '
-    headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '172'
-      Content-Type:
-      - application/json
-      Date:
-      - Thu, 01 Jul 2021 13:31:57 GMT
-      cache-control:
-      - no-cache
-      via:
-      - 1.1 haproxy
-    status:
-      code: 502
-      message: Bad Gateway
 - request:
     body: null
     headers:
@@ -196,7 +201,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:32:03 GMT
+      - Thu, 01 Jul 2021 18:49:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -214,7 +219,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - nLnnBNvlCFDECRnZvzDb0z4sAO35G+IMidcAs8vrCKyjvsKWE8Yd9S3n6OjZ1qRN
+      - vdJ3/nHEY1ioXQ6pQrBVvsQK1s4yyc+wufBMPSoXql71qZVuP/xMdtNo6DafhOAk
       x-frame-options:
       - SAMEORIGIN
     status:

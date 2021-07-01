@@ -33,7 +33,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:30:10 GMT
+      - Thu, 01 Jul 2021 18:49:41 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -51,7 +51,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - twvpGlmuom5y6A0pjGtXzTf554cmwJgTcCZ71fK4H/RDi+v5ehBK0zQiRcTJQG5C
+      - FRgEFSxePHy8xt2+iFDxzhMqQHbD6gb2tfyVAba+XI40oQ0/fu9dPGCtDFr2ADF5
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -61,17 +61,17 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '50'
+      - '19'
     status:
       code: 200
       message: OK
 - request:
     body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
-      ["aws:eu-central-1"], "message": "Notify @pagerduty", "name": "TCP Test", "type":
-      "api", "subtype": "tcp", "config": {"request": {"host": "example.org", "port":
-      443}, "assertions": [{"operator": "lessThan", "type": "responseTime", "target":
-      2000}]}, "options": {"monitor_options": {"renotify_interval": 0}, "tick_every":
-      900, "min_location_failed": 1}}'
+      ["aws:eu-central-1"], "message": "Notify @pagerduty", "name": "SSL Test", "type":
+      "api", "subtype": "ssl", "config": {"request": {"host": "example.org", "port":
+      443}, "assertions": [{"operator": "isInMoreThan", "type": "certificate", "target":
+      30}]}, "options": {"monitor_options": {"renotify_interval": 0}, "min_location_failed":
+      1, "accept_self_signed": true, "tick_every": 900}}'
     headers:
       Accept:
       - '*/*'
@@ -80,7 +80,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '424'
+      - '453'
       Content-Type:
       - application/json
       User-Agent:
@@ -89,8 +89,8 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status":"live","public_id":"dq5-nbe-28m","tags":["foo:bar","foo","env:test"],"org_id":1000044987,"locations":["aws:eu-central-1"],"message":"Notify
-        @pagerduty","deleted_at":null,"name":"TCP Test","monitor_id":1323484,"type":"api","created_at":"2021-07-01T13:30:10.900203+00:00","modified_at":"2021-07-01T13:30:10.900203+00:00","subtype":"tcp","config":{"request":{"host":"example.org","port":443},"assertions":[{"operator":"lessThan","type":"responseTime","target":2000}]},"options":{"monitor_options":{"notify_audit":false,"locked":false,"include_tags":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0},"tick_every":900,"min_location_failed":1}}'
+      string: '{"status":"live","public_id":"jj5-fhh-yh5","tags":["foo:bar","foo","env:test"],"org_id":1000044987,"locations":["aws:eu-central-1"],"message":"Notify
+        @pagerduty","deleted_at":null,"name":"SSL Test","monitor_id":1326790,"type":"api","created_at":"2021-07-01T18:49:42.416889+00:00","modified_at":"2021-07-01T18:49:42.416889+00:00","subtype":"ssl","config":{"request":{"host":"example.org","port":443},"assertions":[{"operator":"isInMoreThan","type":"certificate","target":30}]},"options":{"accept_self_signed":true,"tick_every":900,"monitor_options":{"notify_audit":false,"locked":false,"include_tags":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0},"min_location_failed":1}}'
     headers:
       Alt-Svc:
       - clear
@@ -101,80 +101,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '670'
+      - '697'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 13:30:10 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '120'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '119'
-      x-ratelimit-reset:
-      - '50'
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"status": "paused", "tags": [], "locations": ["aws:us-west-1"], "message":
-      "", "name": "Browser Test", "type": "browser", "config": {"variables": [], "setCookie":
-      "", "request": {"url": "https://docs.datadoghq.com", "headers": {}, "method":
-      "GET"}, "assertions": [], "configVariables": []}, "options": {"retry": {"count":
-      0, "interval": 300}, "min_location_failed": 1, "min_failure_duration": 0, "noScreenshot":
-      false, "tick_every": 604800, "forwardProxy": false, "disableCors": false, "device_ids":
-      ["chrome.laptop_large", "firefox.laptop_large", "chrome.tablet", "chrome.mobile_small",
-      "firefox.mobile_small", "firefox.tablet"], "monitor_options": {"renotify_interval":
-      0}, "ignoreServerCertificateError": false}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '716'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests
-  response:
-    body:
-      string: '{"status":"paused","public_id":"szz-2v7-9u2","tags":[],"org_id":1000044987,"locations":["aws:us-west-1"],"message":"","deleted_at":null,"name":"Browser
-        Test","monitor_id":1323485,"type":"browser","created_at":"2021-07-01T13:30:10.992915+00:00","modified_at":"2021-07-01T13:30:10.992915+00:00","config":{"variables":[],"setCookie":"","request":{"url":"https://docs.datadoghq.com","headers":{},"method":"GET"},"assertions":[],"configVariables":[]},"options":{"retry":{"count":0,"interval":300},"min_location_failed":1,"min_failure_duration":0,"noScreenshot":false,"tick_every":604800,"forwardProxy":false,"disableCors":false,"device_ids":["chrome.laptop_large","firefox.laptop_large","chrome.tablet","chrome.mobile_small","firefox.mobile_small","firefox.tablet"],"monitor_options":{"notify_audit":false,"locked":false,"include_tags":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0},"ignoreServerCertificateError":false}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '941'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 01 Jul 2021 13:30:11 GMT
+      - Thu, 01 Jul 2021 18:49:42 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -192,7 +125,7 @@ interactions:
       x-ratelimit-remaining:
       - '114'
       x-ratelimit-reset:
-      - '50'
+      - '18'
     status:
       code: 200
       message: OK

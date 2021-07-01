@@ -23,7 +23,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:32:11 GMT
+      - Thu, 01 Jul 2021 18:49:45 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -46,12 +46,12 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"recurrence": {"week_days": [], "type": "days", "period": 1}, "end": null,
-      "monitor_tags": ["*"], "child_id": null, "canceled": null, "monitor_id": null,
-      "created": 1622234964, "org_id": 569509, "modified": 1622748066, "disabled":
-      false, "start": 2622234295, "creator_id": 2781302, "parent_id": null, "timezone":
-      "UTC", "active": false, "scope": ["*"], "message": "", "downtime_type": 0, "id":
-      1283896719, "updater_id": 2781275}'
+    body: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id": null,
+      "canceled": null, "monitor_id": 36593201, "created": 1623448636, "org_id": 569509,
+      "modified": 1623692629, "disabled": false, "start": 1654984560, "creator_id":
+      2781275, "parent_id": null, "timezone": "America/New_York", "active": false,
+      "scope": ["env:test"], "message": null, "downtime_type": 2, "id": 1303977668,
+      "updater_id": 2781275}'
     headers:
       Accept:
       - '*/*'
@@ -60,7 +60,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '429'
+      - '413'
       Content-Type:
       - application/json
       User-Agent:
@@ -69,35 +69,82 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/downtime
   response:
     body:
-      string: '{"errors": ["Access was denied to this resource."]}'
+      string: '{"errors": ["''monitor_id'' does not correspond to any monitor"]}'
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '51'
+      - '63'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 13:32:11 GMT
+      - Thu, 01 Jul 2021 18:49:45 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
+      code: 400
+      message: Bad Request
+- request:
+    body: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id": null,
+      "canceled": null, "monitor_id": 36593201, "created": 1623448636, "org_id": 569509,
+      "modified": 1623692629, "disabled": false, "start": 1654984560, "creator_id":
+      2781275, "parent_id": null, "timezone": "America/New_York", "active": false,
+      "scope": ["env:test"], "message": null, "downtime_type": 2, "id": 1303977668,
+      "updater_id": 2781275}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '413'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/downtime
+  response:
+    body:
+      string: '{"errors": ["''monitor_id'' does not correspond to any monitor"]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '63'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 01 Jul 2021 18:49:46 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 400
+      message: Bad Request
 version: 1

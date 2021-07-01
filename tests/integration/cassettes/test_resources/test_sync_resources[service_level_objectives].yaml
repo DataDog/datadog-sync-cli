@@ -34,7 +34,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:31:38 GMT
+      - Thu, 01 Jul 2021 18:49:39 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -60,7 +60,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '2'
+      - '1'
     status:
       code: 200
       message: OK
@@ -104,7 +104,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 13:31:38 GMT
+      - Thu, 01 Jul 2021 18:49:39 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -118,9 +118,70 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '497'
+      - '496'
       x-ratelimit-reset:
-      - '22'
+      - '21'
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: '{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags": [],
+      "creator": {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine",
+      "email": "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0,
+      "target_display": "99.", "timeframe": "7d"}], "type_id": 0, "id": "c4fa01c78d45542cb830598be4f68ad2",
+      "monitor_ids": [36553487, 36230659, 36239262, 37286153, 37286152], "name": "[Synthetics]
+      Multple Monitors based SLO", "created_at": 1623427531, "tags": ["noueman"],
+      "modified_at": 1623429352, "type": "monitor"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '549'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"errors": ["Invalid payload: invalid monitor ids: 37286152, 37286153,
+        36230659, 36239262, 36553487, monitors not found or not supported SLO"]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '143'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 01 Jul 2021 18:49:39 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '493'
+      x-ratelimit-reset:
+      - '21'
     status:
       code: 400
       message: Bad Request

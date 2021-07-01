@@ -69,7 +69,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 13:31:32 GMT
+      - Thu, 01 Jul 2021 18:49:40 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -95,7 +95,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '8'
+      - '10'
     status:
       code: 200
       message: OK
@@ -130,8 +130,8 @@ interactions:
   response:
     body:
       string: '{"restricted_roles":null,"tags":[],"deleted":null,"query":"avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50","message":"Test monitor ----------------","id":1323532,"multi":false,"name":"Composite
-        monitor - Child 2","created":"2021-07-01T13:31:32.744441+00:00","created_at":1625146292000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-01T13:31:32.744441+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
+        > 50","message":"Test monitor ----------------","id":1326782,"multi":false,"name":"Composite
+        monitor - Child 2","created":"2021-07-01T18:49:40.575062+00:00","created_at":1625165380000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-01T18:49:40.575062+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
         Data","type":"metric alert","options":{"notify_audit":false,"locked":false,"timeout_h":0,"silenced":{},"include_tags":true,"no_data_timeframe":null,"require_full_window":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0,"escalation_message":"","thresholds":{"critical":50.0}}}'
     headers:
       Alt-Svc:
@@ -149,7 +149,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 13:31:32 GMT
+      - Thu, 01 Jul 2021 18:49:40 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -165,9 +165,9 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '496'
+      - '497'
       x-ratelimit-reset:
-      - '8'
+      - '10'
     status:
       code: 200
       message: OK
@@ -214,7 +214,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 13:31:32 GMT
+      - Thu, 01 Jul 2021 18:49:40 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -230,7 +230,70 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '8'
+      - '10'
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "( 36239262
+      && 36230659 ) || !36239262", "message": "test", "matching_downtimes": [], "id":
+      36593201, "multi": false, "name": "Composite monitor", "created": "2021-06-03T18:55:48.515861+00:00",
+      "created_at": 1622746548000, "creator": {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com",
+      "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id":
+      569509, "modified": "2021-06-08T18:13:50.284433+00:00", "priority": null, "overall_state_modified":
+      "2021-06-03T18:56:43+00:00", "overall_state": "Alert", "type": "composite",
+      "options": {"notify_audit": false, "locked": false, "silenced": {"env:test":
+      null}, "include_tags": false, "new_host_delay": 300, "notify_no_data": false,
+      "renotify_interval": 0, "escalation_message": ""}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '819'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/monitor
+  response:
+    body:
+      string: '{"errors": ["Some monitor IDs are invalid"]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '44'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 01 Jul 2021 18:49:40 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '10'
+      x-ratelimit-remaining:
+      - '494'
+      x-ratelimit-reset:
+      - '10'
     status:
       code: 400
       message: Bad Request
