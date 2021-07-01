@@ -30,6 +30,8 @@ class LogsCustomPipelines(BaseResource):
         if not self.filter(logs_custom_pipeline):
             return
 
+        self.source_resources[logs_custom_pipeline["id"]] = logs_custom_pipeline
+
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()
         self.apply_resources_sequentially(connection_resource_obj)
