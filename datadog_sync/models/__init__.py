@@ -5,6 +5,7 @@ from datadog_sync.model.dashboard_lists import DashboardLists
 from datadog_sync.model.monitors import Monitors
 from datadog_sync.model.downtimes import Downtimes
 from datadog_sync.model.service_level_objectives import ServiceLevelObjectives
+from datadog_sync.model.security_monitoring_rules import SecurityMonitoringRules
 from datadog_sync.model.synthetics_tests import SyntheticsTests
 from datadog_sync.model.synthetics_private_locations import SyntheticsPrivateLocations
 from datadog_sync.model.synthetics_global_variables import SyntheticsGlobalVariables
