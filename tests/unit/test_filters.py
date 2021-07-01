@@ -1,6 +1,6 @@
 import pytest
 
-from datadog_sync.utils.filter import Filter
+from datadog_sync.utils.filter import Filter, process_filters
 
 
 @pytest.mark.parametrize(
@@ -8,7 +8,6 @@ from datadog_sync.utils.filter import Filter
     [
         (["Type=r_test;Name=attr;Value=exists;Operator=SubString"], "r_test", {"attr": "attr exists"}, True),
         (["Type=r_test;Name=attr;Value=exists"], "r_test", {"test": "attr Exists"}, False),
-        (["Type=r_test_two;Name=attr;Value=exists"], "r_test", {"test": "attr exists"}, True),
         (["Type=r_test_two;Name=test;Value=exists"], "r_test_two", {"test": ["attr", "exists"]}, True),
         (["Type=r_test_two;Name=test;Value=exists"], "r_test_two", {"test": ["attr", "false"]}, False),
         (["Type=r_test_two;Name=test;Value=1"], "r_test_two", {"test": ["attr", 1]}, True),
@@ -17,10 +16,10 @@ from datadog_sync.utils.filter import Filter
         (["Type=r_test_two;Name=test;Value=1;Operator=SubString"], "r_test_two", {"test": ["attr", 123]}, True),
     ],
 )
-def test_filter(_filter, r_type, r_obj, expected):
-    filter_instance = Filter(_filter)
+def test_filters(_filter, r_type, r_obj, expected):
+    filters = process_filters(_filter)
 
-    assert filter_instance.is_applicable(r_type, r_obj) == expected
+    assert filters[r_type][0].is_match(r_obj) == expected
 
 
 @pytest.mark.parametrize(
@@ -33,5 +32,5 @@ def test_filter(_filter, r_type, r_obj, expected):
     ],
 )
 def test_invalid_filter(caplog, _filter):
-    Filter(_filter)
+    process_filters(_filter)
     assert "invalid filter" in caplog.text

@@ -38,7 +38,7 @@ class Users(BaseResource):
         self.import_resources_concurrently(resp)
 
     def process_resource_import(self, user):
-        if not self.config.filter.is_applicable(self.resource_type, user):
+        if not self.filter(user):
             return
 
         self.source_resources[user["id"]] = user

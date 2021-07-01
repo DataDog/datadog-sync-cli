@@ -27,7 +27,7 @@ class ServiceLevelObjectives(BaseResource):
         self.import_resources_concurrently(resp["data"])
 
     def process_resource_import(self, slo):
-        if not self.config.filter.is_applicable(self.resource_type, slo):
+        if not self.filter(slo):
             return
 
         self.source_resources[slo["id"]] = slo

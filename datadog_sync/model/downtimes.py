@@ -30,7 +30,7 @@ class Downtimes(BaseResource):
         self.import_resources_concurrently(resp)
 
     def process_resource_import(self, downtime):
-        if not self.config.filter.is_applicable(self.resource_type, downtime):
+        if not self.filter(downtime):
             return
 
         self.source_resources[downtime["id"]] = downtime

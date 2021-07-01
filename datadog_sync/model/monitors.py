@@ -31,7 +31,7 @@ class Monitors(BaseResource):
         self.import_resources_concurrently(resp)
 
     def process_resource_import(self, monitor):
-        if not self.config.filter.is_applicable(self.resource_type, monitor) and monitor["type"] != "synthetics alert":
+        if not self.filter(monitor) and monitor["type"] != "synthetics alert":
             return
 
         self.source_resources[monitor["id"]] = monitor

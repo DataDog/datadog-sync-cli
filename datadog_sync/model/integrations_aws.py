@@ -21,7 +21,7 @@ class IntegrationsAWS(BaseResource):
         self.import_resources_concurrently(resp["accounts"])
 
     def process_resource_import(self, integration_aws):
-        if not self.config.filter.is_applicable(self.resource_type, integration_aws):
+        if not self.filter(integration_aws):
             return
 
         self.source_resources[integration_aws["account_id"]] = integration_aws

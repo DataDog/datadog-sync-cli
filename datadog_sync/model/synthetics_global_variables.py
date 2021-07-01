@@ -30,7 +30,7 @@ class SyntheticsGlobalVariables(BaseResource):
         self.import_resources_concurrently(resp["variables"])
 
     def process_resource_import(self, synthetics_global_variable):
-        if not self.config.filter.is_applicable(self.resource_type, synthetics_global_variable):
+        if not self.filter(synthetics_global_variable):
             return
 
         self.source_resources[synthetics_global_variable["id"]] = synthetics_global_variable

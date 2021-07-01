@@ -165,3 +165,13 @@ class BaseResource:
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
                 replace(attr_connection, self.resource_type, resource, resource_to_connect, connection_resources_obj)
+
+    def filter(self, resource):
+        if not self.config.filters or self.resource_type not in self.config.filters:
+            return True
+
+        for _filter in self.config.filters[self.resource_type]:
+            if _filter.is_match(resource):
+                return True
+        # Filter was specified for resource type but resource did not match any
+        return False

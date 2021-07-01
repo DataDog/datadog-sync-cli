@@ -27,7 +27,7 @@ class LogsCustomPipelines(BaseResource):
     def process_resource_import(self, logs_custom_pipeline):
         if logs_custom_pipeline["is_read_only"]:
             return
-        if not self.config.filter.is_applicable(self.resource_type, logs_custom_pipeline):
+        if not self.filter(logs_custom_pipeline):
             return
 
     def apply_resources(self):

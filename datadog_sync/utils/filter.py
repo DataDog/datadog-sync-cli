@@ -15,37 +15,26 @@ log = logging.getLogger(LOGGER_NAME)
 
 
 class Filter:
-    def __init__(self, filter_list):
-        self.filters = dict()
+    def __init__(self, resource_type, attr_name, attr_re):
+        self.resource_type = resource_type
+        self.attr_name = attr_name
+        self.attr_re = attr_re
 
-        if len(filter_list) == 0:
-            return
-        self._process_filters(filter_list)
+    def is_match(self, resource):
+        if self.attr_name in resource:
+            if isinstance(resource[self.attr_name], list):
+                return len(list(filter(lambda attr: match(self.attr_re, str(attr)), resource[self.attr_name]))) > 0
+            return match(self.attr_re, str(resource[self.attr_name])) is not None
 
-    def is_applicable(self, resource_type, resource):
-        if resource_type not in self.filters:
-            return True
-
-        for f_obj in self.filters[resource_type]:
-            filter_attr = f_obj[FILTER_NAME]
-            filter_val = f_obj[FILTER_VALUE]
-
-            if filter_attr in resource:
-                if isinstance(resource[filter_attr], list):
-                    return len(list(filter(lambda attr: match(filter_val, str(attr)), resource[filter_attr]))) > 0
-
-                return match(filter_val, str(resource[filter_attr])) is not None
-
-        # Filters for resource were specified but no matching attributes found
         return False
 
-    def _process_filters(self, filter_list):
-        for _filter in filter_list:
-            self._process_filter(_filter)
 
-    def _process_filter(self, _filter):
+def process_filters(filter_list):
+    filters = {}
+
+    for _filter in filter_list:
         f_dict = {}
-        f_list = _filter.split(";")
+        f_list = _filter.strip("; ").split(";")
 
         for option in f_list:
             try:
@@ -60,21 +49,22 @@ class Filter:
                 log.warning("invalid filter missing key %s in filter: %s", k, _filter)
                 return
 
-        # Build and assign matcher to VALUE key
-        f_dict[FILTER_VALUE] = self.build_regex(f_dict)
+        # Build and assign regex matcher to VALUE key
+        f_dict[FILTER_VALUE] = build_regex(f_dict)
 
-        resource = f_dict[FILTER_TYPE].lower()
-        f_dict.pop(FILTER_TYPE)
-        if resource not in self.filters:
-            self.filters[resource] = []
+        f_instance = Filter(f_dict[FILTER_TYPE].lower(), f_dict[FILTER_NAME], f_dict[FILTER_VALUE])
+        if f_instance.resource_type not in filters:
+            filters[f_instance.resource_type] = []
 
-        self.filters[resource].append(f_dict)
+        filters[f_instance.resource_type].append(f_instance)
 
-    @staticmethod
-    def build_regex(f_dict):
-        if FILTER_OPERATOR in f_dict and f_dict[FILTER_OPERATOR].lower() == SUBSTRING_OPERATOR:
-            reg_exp = f".*{f_dict[FILTER_VALUE]}.*"
-        else:
-            reg_exp = f"^{f_dict[FILTER_VALUE]}$"
+    return filters
 
-        return reg_exp
+
+def build_regex(f_dict):
+    if FILTER_OPERATOR in f_dict and f_dict[FILTER_OPERATOR].lower() == SUBSTRING_OPERATOR:
+        reg_exp = f".*{f_dict[FILTER_VALUE]}.*"
+    else:
+        reg_exp = f"^{f_dict[FILTER_VALUE]}$"
+
+    return reg_exp

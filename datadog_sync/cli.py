@@ -8,7 +8,7 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
-from datadog_sync.utils.filter import Filter
+from datadog_sync.utils.filter import process_filters
 from collections import defaultdict, OrderedDict
 
 
@@ -80,7 +80,7 @@ def cli(ctx, **kwargs):
     logger = Log(kwargs.get("verbose"))
 
     # configure Filter
-    _filter = Filter(kwargs.get("filter"))
+    filters = process_filters(kwargs.get("filter"))
 
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
@@ -101,7 +101,7 @@ def cli(ctx, **kwargs):
 
     # Initialize Configuration
     config = Configuration(
-        logger=logger, source_client=source_client, destination_client=destination_client, _filter=_filter
+        logger=logger, source_client=source_client, destination_client=destination_client, filters=filters
     )
     ctx.obj["config"] = config
 

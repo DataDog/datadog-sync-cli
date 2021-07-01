@@ -32,7 +32,7 @@ class SyntheticsPrivateLocations(BaseResource):
         self.import_resources_concurrently(resp["locations"])
 
     def process_resource_import(self, synthetics_private_location):
-        if not self.config.filter.is_applicable(self.resource_type, synthetics_private_location):
+        if not self.filter(synthetics_private_location):
             return
 
         source_client = self.config.source_client

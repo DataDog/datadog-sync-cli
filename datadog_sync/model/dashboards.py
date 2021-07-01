@@ -32,7 +32,7 @@ class Dashboards(BaseResource):
         self.import_resources_concurrently(resp["dashboards"])
 
     def process_resource_import(self, dash):
-        if not self.config.filter.is_applicable(self.resource_type, dash):
+        if not self.filter(dash):
             return
 
         source_client = self.config.source_client
