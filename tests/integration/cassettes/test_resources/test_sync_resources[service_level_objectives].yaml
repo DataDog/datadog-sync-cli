@@ -34,7 +34,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 12:49:00 GMT
+      - Thu, 01 Jul 2021 13:31:38 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -60,7 +60,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '10'
+      - '2'
     status:
       code: 200
       message: OK
@@ -104,7 +104,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 12:49:00 GMT
+      - Thu, 01 Jul 2021 13:31:38 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -118,9 +118,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '498'
+      - '497'
       x-ratelimit-reset:
-      - '60'
+      - '22'
     status:
       code: 400
       message: Bad Request

@@ -16,6 +16,42 @@ interactions:
     uri: https://api.datadoghq.com/api/v1/synthetics/locations
   response:
     body:
+      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
+
+        '
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '172'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 01 Jul 2021 13:31:55 GMT
+      cache-control:
+      - no-cache
+      via:
+      - 1.1 haproxy
+    status:
+      code: 502
+      message: Bad Gateway
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/locations
+  response:
+    body:
       string: '{"locations":[{"id":"aws:ap-northeast-1","name":"Tokyo (AWS)"},{"id":"aws:ap-northeast-2","name":"Seoul
         (AWS)"},{"id":"aws:ap-south-1","name":"Mumbai (AWS)"},{"id":"aws:ap-southeast-1","name":"Singapore
         (AWS)"},{"id":"aws:ap-southeast-2","name":"Sydney (AWS)"},{"id":"aws:ca-central-1","name":"Canada
@@ -31,7 +67,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 12:48:58 GMT
+      - Thu, 01 Jul 2021 13:31:56 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -49,7 +85,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - Wjq53IVIwnB4SiR238oOYgHFMq/ZYP0LQ/Dv8C2fFLBwTje/dWJHu6pI6vIOK1zG
+      - F5gm0Rce1/Abr9/0Fw8HAqWfiz0FdiH8er/AXnN6lOn3L6KyGgbsLCwgPlob1No8
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -59,10 +95,82 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '2'
+      - '4'
     status:
       code: 200
       message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451
+  response:
+    body:
+      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
+
+        '
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '172'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 01 Jul 2021 13:31:56 GMT
+      cache-control:
+      - no-cache
+      via:
+      - 1.1 haproxy
+    status:
+      code: 502
+      message: Bad Gateway
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451
+  response:
+    body:
+      string: '{"status":"error","code":502,"errors":["Bad Gateway"],"statuspage":"http://status.datadoghq.com","twitter":"http://twitter.com/datadogops","email":"support@datadoghq.com"}
+
+        '
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '172'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 01 Jul 2021 13:31:57 GMT
+      cache-control:
+      - no-cache
+      via:
+      - 1.1 haproxy
+    status:
+      code: 502
+      message: Bad Gateway
 - request:
     body: null
     headers:
@@ -88,7 +196,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 12:48:58 GMT
+      - Thu, 01 Jul 2021 13:32:03 GMT
       Transfer-Encoding:
       - chunked
       cache-control:

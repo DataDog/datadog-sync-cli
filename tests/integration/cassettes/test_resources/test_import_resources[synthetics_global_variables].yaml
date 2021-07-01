@@ -27,7 +27,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 12:48:59 GMT
+      - Thu, 01 Jul 2021 13:31:37 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -45,7 +45,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - l4HFlaRP3QwYSqoGKhzbYfv7zgkK63HIRR7YkyVYZspq0lGjjTBwoK8V/alf+XYt
+      - dCmL/3rURV6BPeaqeP3Rxigq41m5CAb17XjrRE42uZ01zpr07HVhbL5/3TWMkvgu
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -53,9 +53,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '119'
+      - '118'
       x-ratelimit-reset:
-      - '1'
+      - '23'
     status:
       code: 200
       message: OK

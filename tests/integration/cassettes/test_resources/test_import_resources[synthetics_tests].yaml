@@ -33,7 +33,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 12:49:03 GMT
+      - Thu, 01 Jul 2021 13:32:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -51,7 +51,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - /L+SFFO+m1pPY+hRCpk5325fvfrNl0KmiquUNJolBN/5hu3HIwflqjZSbJ6NxDFG
+      - 2328yjLSqI4XmR1pVqrPRR/SFcQsbafjEpPmZx7/3PfxUK1nJQQsX+wrMelyVyj+
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -61,70 +61,8 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '57'
+      - '47'
     status:
       code: 200
       message: OK
-- request:
-    body: '{"status": "paused", "tags": [], "locations": ["aws:us-west-1"], "message":
-      "", "name": "Browser Test", "type": "browser", "config": {"variables": [], "setCookie":
-      "", "request": {"url": "https://docs.datadoghq.com", "headers": {}, "method":
-      "GET"}, "assertions": [], "configVariables": []}, "options": {"retry": {"count":
-      0, "interval": 300}, "min_location_failed": 1, "min_failure_duration": 0, "noScreenshot":
-      false, "tick_every": 604800, "forwardProxy": false, "disableCors": false, "device_ids":
-      ["chrome.laptop_large", "firefox.laptop_large", "chrome.tablet", "chrome.mobile_small",
-      "firefox.mobile_small", "firefox.tablet"], "monitor_options": {"renotify_interval":
-      0}, "ignoreServerCertificateError": false}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '716'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests
-  response:
-    body:
-      string: '{"errors": ["Quota reached for browser tests: 5."]}'
-    headers:
-      Alt-Svc:
-      - clear
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '51'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 01 Jul 2021 12:49:03 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '120'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '115'
-      x-ratelimit-reset:
-      - '57'
-    status:
-      code: 402
-      message: Payment Required
 version: 1
