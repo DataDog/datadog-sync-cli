@@ -11,7 +11,6 @@ from datadog_sync.utils.base_resource import BaseResource
 def vcr_config():
     return dict(
         filter_headers=["DD-API-KEY", "DD-APPLICATION-KEY"],
-        record_mode="once",
         match_on=["method", "scheme", "host", "port", "path", "query", "body"],
         decode_compressed_response=True,
     )

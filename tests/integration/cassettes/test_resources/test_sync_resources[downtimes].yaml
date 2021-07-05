@@ -23,7 +23,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 15:23:51 GMT
+      - Mon, 05 Jul 2021 22:29:23 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -69,33 +69,37 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/downtime
   response:
     body:
-      string: '{"errors": ["''monitor_id'' does not correspond to any monitor"]}'
+      string: '{"errors": ["Access was denied to this resource."]}'
     headers:
       Alt-Svc:
       - clear
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '63'
+      - '51'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 05 Jul 2021 15:23:51 GMT
+      - Mon, 05 Jul 2021 22:29:23 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
+      vary:
+      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 400
-      message: Bad Request
+      code: 403
+      message: Forbidden
 - request:
     body: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id": null,
       "canceled": null, "monitor_id": 36593201, "created": 1623448636, "org_id": 569509,
@@ -120,31 +124,35 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/downtime
   response:
     body:
-      string: '{"errors": ["''monitor_id'' does not correspond to any monitor"]}'
+      string: '{"errors": ["Access was denied to this resource."]}'
     headers:
       Alt-Svc:
       - clear
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '63'
+      - '51'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 05 Jul 2021 15:23:51 GMT
+      - Mon, 05 Jul 2021 22:29:23 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
+      vary:
+      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 400
-      message: Bad Request
+      code: 403
+      message: Forbidden
 version: 1
