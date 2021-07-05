@@ -34,7 +34,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 18:49:39 GMT
+      - Mon, 05 Jul 2021 15:23:59 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -59,6 +59,70 @@ interactions:
       - '10'
       x-ratelimit-remaining:
       - '999'
+      x-ratelimit-reset:
+      - '1'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "noueman", "monitor_tags": [], "creator": {"handle": "noueman.khalikine@datadoghq.com",
+      "name": "Noueman Khalikine", "email": "noueman.khalikine@datadoghq.com"}, "thresholds":
+      [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 0,
+      "id": "b6eedbdc42a15b658b5d55ffc4f91082", "monitor_ids": [1373021], "name":
+      "[Synthetics] Test on google.com -tesst", "created_at": 1623421683, "tags":
+      [], "modified_at": 1623421683, "type": "monitor"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '471'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"data":[{"description":"noueman","monitor_tags":[],"creator":{"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"thresholds":[{"target":99.0,"target_display":"99.","timeframe":"7d"}],"type_id":0,"id":"fbe16cb7a9d55694bcc789022dd58a86","monitor_ids":[1373021],"name":"[Synthetics]
+        Test on google.com -tesst","created_at":1625498639,"tags":[],"modified_at":1625498639,"type":"monitor"}],"error":null}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '421'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Mon, 05 Jul 2021 15:23:59 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '497'
       x-ratelimit-reset:
       - '1'
     status:
@@ -104,7 +168,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 18:49:39 GMT
+      - Mon, 05 Jul 2021 15:24:00 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -118,9 +182,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '496'
+      - '499'
       x-ratelimit-reset:
-      - '21'
+      - '60'
     status:
       code: 400
       message: Bad Request
@@ -129,7 +193,7 @@ interactions:
       "creator": {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine",
       "email": "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0,
       "target_display": "99.", "timeframe": "7d"}], "type_id": 0, "id": "c4fa01c78d45542cb830598be4f68ad2",
-      "monitor_ids": [36553487, 36230659, 36239262, 37286153, 37286152], "name": "[Synthetics]
+      "monitor_ids": [1373021, 36230659, 36239262, 1373017, 1373019], "name": "[Synthetics]
       Multple Monitors based SLO", "created_at": 1623427531, "tags": ["noueman"],
       "modified_at": 1623429352, "type": "monitor"}'
     headers:
@@ -140,7 +204,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '549'
+      - '546'
       Content-Type:
       - application/json
       User-Agent:
@@ -149,8 +213,8 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
     body:
-      string: '{"errors": ["Invalid payload: invalid monitor ids: 37286152, 37286153,
-        36230659, 36239262, 36553487, monitors not found or not supported SLO"]}'
+      string: '{"errors": ["Invalid payload: invalid monitor ids: 36230659, 36239262,
+        monitors not found or not supported SLO"]}'
     headers:
       Alt-Svc:
       - clear
@@ -159,13 +223,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '143'
+      - '113'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 18:49:39 GMT
+      - Mon, 05 Jul 2021 15:24:00 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -179,9 +243,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '493'
+      - '498'
       x-ratelimit-reset:
-      - '21'
+      - '60'
     status:
       code: 400
       message: Bad Request

@@ -28,7 +28,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 18:50:02 GMT
+      - Mon, 05 Jul 2021 15:24:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -46,7 +46,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - HbtaOKlJ6OCrx9tMXO6ivMTrEM+g0c93HDp08trmOmgdHozC5J+vn10F0H4WPjCU
+      - dCmL/3rURV6BPeaqeP3Rxigq41m5CAb17XjrRE42uZ01zpr07HVhbL5/3TWMkvgu
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -56,7 +56,7 @@ interactions:
       x-ratelimit-remaining:
       - '59'
       x-ratelimit-reset:
-      - '58'
+      - '54'
     status:
       code: 200
       message: OK
@@ -86,7 +86,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 18:50:02 GMT
+      - Mon, 05 Jul 2021 15:24:07 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -104,56 +104,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - PhosSd3Ch1B6B0DXI71steKUi7XhPDttnPiIP1NdXTw0VJNWpoUnYyBmODS5ne3q
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/tuw-te2-pdj
-  response:
-    body:
-      string: '{"notify_list":[],"description":"","author_name":"Noueman Khalikine","template_variables":[],"is_read_only":false,"id":"tuw-te2-pdj","title":"datadog-sync-cli
-        Test Dashboard","url":"/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard","created_at":"2021-06-30T11:45:57.574935+00:00","modified_at":"2021-06-30T11:46:46.923260+00:00","reflow_type":"fixed","author_handle":"noueman.khalikine@datadoghq.com","widgets":[{"definition":{"title_size":"16","title":"","title_align":"left","precision":2,"time":{},"autoscale":true,"requests":[{"response_format":"scalar","queries":[{"query":"avg:system.cpu.user{*}","data_source":"metrics","name":"query1","aggregator":"avg"}]}],"type":"query_value"},"layout":{"y":0,"x":0,"height":2,"width":2},"id":6609238960092638}],"layout_type":"ordered"}'
-    headers:
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      Date:
-      - Thu, 01 Jul 2021 18:50:02 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '786'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-dd-debug:
-      - /L+SFFO+m1pPY+hRCpk5325fvfrNl0KmiquUNJolBN/5hu3HIwflqjZSbJ6NxDFG
+      - tpRCH6w417YjBovRJ8VmtuXmNONVYiRp2c8d2AxjPdGBn8PCtgG4vAztrx3qUZAN
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -183,7 +134,7 @@ interactions:
       "slo_id": "ae04001ea55f52f6ae4b85d9b1023909", "view_mode": "overall", "title":
       "", "global_time_target": "0", "type": "slo"}, "id": 1076364961367720}, {"definition":
       {"time_windows": ["7d"], "title_size": "16", "show_error_budget": true, "view_type":
-      "detail", "title_align": "left", "slo_id": "b6eedbdc42a15b658b5d55ffc4f91082",
+      "detail", "title_align": "left", "slo_id": "fbe16cb7a9d55694bcc789022dd58a86",
       "view_mode": "overall", "title": "", "global_time_target": "0", "type": "slo"},
       "id": 4123257207386936}], "layout_type": "ordered"}'
     headers:
@@ -203,9 +154,9 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/dashboard
   response:
     body:
-      string: '{"notify_list":[],"description":"","author_name":null,"template_variables":[],"is_read_only":false,"id":"45p-yqz-rsd","title":"Timeboard
-        Tue, Jun 1, 4:18:57 pm","url":"/dashboard/45p-yqz-rsd/timeboard-tue-jun-1-41857-pm","created_at":"2021-07-01T18:50:03.195031+00:00","modified_at":"2021-07-01T18:50:03.195031+00:00","reflow_type":"auto","author_handle":"frog@datadoghq.com","widgets":[{"definition":{"widgets":[{"definition":{"title_size":"16","viz_type":"timeseries","title":"","title_align":"left","alert_id":"36239262","type":"alert_graph"},"id":5316294948508728},{"definition":{"title_size":"16","title":"","title_align":"left","text_align":"left","precision":2,"alert_id":"36230659","type":"alert_value","unit":"auto"},"id":2269177794822700}],"layout_type":"ordered","type":"group","title":"New
-        group"},"id":2497183012091650},{"definition":{"title_size":"16","viz_type":"timeseries","title":"","title_align":"left","alert_id":"36239262","type":"alert_graph"},"id":4551400937275112},{"definition":{"title_size":"16","title":"","title_align":"left","precision":2,"autoscale":true,"requests":[{"q":"avg:synthetics.http.dns.time{*}","aggregator":"avg"}],"type":"query_value"},"id":7228117705299642},{"definition":{"title_size":"16","title":"","title_align":"left","text_align":"left","precision":2,"alert_id":"36230659","type":"alert_value","unit":"auto"},"id":2397823643167820},{"definition":{"time_windows":["7d"],"title_size":"16","show_error_budget":true,"view_type":"detail","title_align":"left","slo_id":"ae04001ea55f52f6ae4b85d9b1023909","view_mode":"overall","title":"","global_time_target":"0","type":"slo"},"id":1076364961367720},{"definition":{"time_windows":["7d"],"title_size":"16","show_error_budget":true,"view_type":"detail","title_align":"left","slo_id":"b6eedbdc42a15b658b5d55ffc4f91082","view_mode":"overall","title":"","global_time_target":"0","type":"slo"},"id":4123257207386936}],"layout_type":"ordered"}'
+      string: '{"notify_list":[],"description":"","author_name":null,"template_variables":[],"is_read_only":false,"id":"wk3-d5u-thj","title":"Timeboard
+        Tue, Jun 1, 4:18:57 pm","url":"/dashboard/wk3-d5u-thj/timeboard-tue-jun-1-41857-pm","created_at":"2021-07-05T15:24:07.722470+00:00","modified_at":"2021-07-05T15:24:07.722470+00:00","reflow_type":"auto","author_handle":"frog@datadoghq.com","widgets":[{"definition":{"widgets":[{"definition":{"title_size":"16","viz_type":"timeseries","title":"","title_align":"left","alert_id":"36239262","type":"alert_graph"},"id":5316294948508728},{"definition":{"title_size":"16","title":"","title_align":"left","text_align":"left","precision":2,"alert_id":"36230659","type":"alert_value","unit":"auto"},"id":2269177794822700}],"layout_type":"ordered","type":"group","title":"New
+        group"},"id":2497183012091650},{"definition":{"title_size":"16","viz_type":"timeseries","title":"","title_align":"left","alert_id":"36239262","type":"alert_graph"},"id":4551400937275112},{"definition":{"title_size":"16","title":"","title_align":"left","precision":2,"autoscale":true,"requests":[{"q":"avg:synthetics.http.dns.time{*}","aggregator":"avg"}],"type":"query_value"},"id":7228117705299642},{"definition":{"title_size":"16","title":"","title_align":"left","text_align":"left","precision":2,"alert_id":"36230659","type":"alert_value","unit":"auto"},"id":2397823643167820},{"definition":{"time_windows":["7d"],"title_size":"16","show_error_budget":true,"view_type":"detail","title_align":"left","slo_id":"ae04001ea55f52f6ae4b85d9b1023909","view_mode":"overall","title":"","global_time_target":"0","type":"slo"},"id":1076364961367720},{"definition":{"time_windows":["7d"],"title_size":"16","show_error_budget":true,"view_type":"detail","title_align":"left","slo_id":"fbe16cb7a9d55694bcc789022dd58a86","view_mode":"overall","title":"","global_time_target":"0","type":"slo"},"id":4123257207386936}],"layout_type":"ordered"}'
     headers:
       Alt-Svc:
       - clear
@@ -222,7 +173,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 18:50:03 GMT
+      - Mon, 05 Jul 2021 15:24:07 GMT
       pragma:
       - no-cache
       strict-transport-security:

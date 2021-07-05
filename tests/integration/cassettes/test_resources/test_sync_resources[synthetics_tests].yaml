@@ -33,7 +33,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 18:49:41 GMT
+      - Mon, 05 Jul 2021 15:23:54 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -51,7 +51,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - FRgEFSxePHy8xt2+iFDxzhMqQHbD6gb2tfyVAba+XI40oQ0/fu9dPGCtDFr2ADF5
+      - B1nwy/pPNqX+q4pQT22cdp1QCexE35IF8qwSHy0Nf7IW0Y881qtn4tXN1lpmzaKc
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -61,17 +61,18 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '19'
+      - '6'
     status:
       code: 200
       message: OK
 - request:
     body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
-      ["aws:eu-central-1"], "message": "Notify @pagerduty", "name": "SSL Test", "type":
-      "api", "subtype": "ssl", "config": {"request": {"host": "example.org", "port":
-      443}, "assertions": [{"operator": "isInMoreThan", "type": "certificate", "target":
-      30}]}, "options": {"monitor_options": {"renotify_interval": 0}, "min_location_failed":
-      1, "accept_self_signed": true, "tick_every": 900}}'
+      ["aws:eu-central-1"], "message": "Notify @pagerduty", "name": "HTTP Test", "type":
+      "api", "subtype": "http", "config": {"request": {"url": "https://www.example.org",
+      "headers": {"Authentication": "Token: 1234566789", "Content-Type": "application/json"},
+      "method": "GET"}, "assertions": [{"operator": "is", "type": "statusCode", "target":
+      200}]}, "options": {"monitor_options": {"renotify_interval": 100}, "retry":
+      {"count": 2, "interval": 300}, "tick_every": 900, "min_location_failed": 1}}'
     headers:
       Accept:
       - '*/*'
@@ -80,7 +81,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '453'
+      - '562'
       Content-Type:
       - application/json
       User-Agent:
@@ -89,8 +90,9 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status":"live","public_id":"jj5-fhh-yh5","tags":["foo:bar","foo","env:test"],"org_id":1000044987,"locations":["aws:eu-central-1"],"message":"Notify
-        @pagerduty","deleted_at":null,"name":"SSL Test","monitor_id":1326790,"type":"api","created_at":"2021-07-01T18:49:42.416889+00:00","modified_at":"2021-07-01T18:49:42.416889+00:00","subtype":"ssl","config":{"request":{"host":"example.org","port":443},"assertions":[{"operator":"isInMoreThan","type":"certificate","target":30}]},"options":{"accept_self_signed":true,"tick_every":900,"monitor_options":{"notify_audit":false,"locked":false,"include_tags":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0},"min_location_failed":1}}'
+      string: '{"status":"live","public_id":"qgz-ngc-in4","tags":["foo:bar","foo","env:test"],"org_id":1000044987,"locations":["aws:eu-central-1"],"message":"Notify
+        @pagerduty","deleted_at":null,"name":"HTTP Test","monitor_id":1373019,"type":"api","created_at":"2021-07-05T15:23:55.512365+00:00","modified_at":"2021-07-05T15:23:55.512365+00:00","subtype":"http","config":{"request":{"url":"https://www.example.org","headers":{"Authentication":"Token:
+        1234566789","Content-Type":"application/json"},"method":"GET"},"assertions":[{"operator":"is","type":"statusCode","target":200}]},"options":{"monitor_options":{"notify_audit":false,"locked":false,"include_tags":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":100},"retry":{"count":2,"interval":300},"tick_every":900,"min_location_failed":1}}'
     headers:
       Alt-Svc:
       - clear
@@ -101,13 +103,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '697'
+      - '798'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 18:49:42 GMT
+      - Mon, 05 Jul 2021 15:23:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -123,9 +125,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '114'
+      - '117'
       x-ratelimit-reset:
-      - '18'
+      - '5'
     status:
       code: 200
       message: OK

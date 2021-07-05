@@ -69,7 +69,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Jul 2021 18:49:40 GMT
+      - Mon, 05 Jul 2021 15:23:52 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -95,7 +95,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '10'
+      - '8'
     status:
       code: 200
       message: OK
@@ -130,8 +130,8 @@ interactions:
   response:
     body:
       string: '{"restricted_roles":null,"tags":[],"deleted":null,"query":"avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50","message":"Test monitor ----------------","id":1326782,"multi":false,"name":"Composite
-        monitor - Child 2","created":"2021-07-01T18:49:40.575062+00:00","created_at":1625165380000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-01T18:49:40.575062+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
+        > 50","message":"Test monitor ----------------","id":1373001,"multi":false,"name":"Composite
+        monitor - Child 2","created":"2021-07-05T15:23:52.362261+00:00","created_at":1625498632000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-05T15:23:52.362261+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
         Data","type":"metric alert","options":{"notify_audit":false,"locked":false,"timeout_h":0,"silenced":{},"include_tags":true,"no_data_timeframe":null,"require_full_window":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0,"escalation_message":"","thresholds":{"critical":50.0}}}'
     headers:
       Alt-Svc:
@@ -149,7 +149,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 18:49:40 GMT
+      - Mon, 05 Jul 2021 15:23:52 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -165,9 +165,9 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '497'
+      - '496'
       x-ratelimit-reset:
-      - '10'
+      - '8'
     status:
       code: 200
       message: OK
@@ -214,7 +214,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 18:49:40 GMT
+      - Mon, 05 Jul 2021 15:23:52 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -230,7 +230,7 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '10'
+      - '8'
     status:
       code: 400
       message: Bad Request
@@ -277,7 +277,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 01 Jul 2021 18:49:40 GMT
+      - Mon, 05 Jul 2021 15:23:52 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -293,7 +293,7 @@ interactions:
       x-ratelimit-remaining:
       - '494'
       x-ratelimit-reset:
-      - '10'
+      - '8'
     status:
       code: 400
       message: Bad Request
