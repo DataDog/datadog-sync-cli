@@ -13,5 +13,7 @@ RESOURCES_DIR = "resources/"
 RESOURCE_FILE_PATH = "resources/{}/{}.json"
 SOURCE_RESOURCES_DIR = "resources/source"
 DESTINATION_RESOURCES_DIR = "resources/destination"
+SOURCE_ORIGIN = "source"
+DESTINATION_ORIGIN = "destination"
 
 LOGGER_NAME = "datadog_sync_cli"

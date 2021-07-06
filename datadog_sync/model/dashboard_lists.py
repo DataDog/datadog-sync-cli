@@ -3,6 +3,7 @@ import copy
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
 
 
 class DashboardLists(BaseResource):
@@ -19,6 +20,7 @@ class DashboardLists(BaseResource):
         "root['is_favorite']",
         "root['dashboard_count']",
     ]
+    match_on = "name"
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -29,23 +31,33 @@ class DashboardLists(BaseResource):
             self.logger.error("error importing dashboard_lists %s", e)
             return
 
+        if self.config.import_existing:
+            self.get_destination_existing_resources()
+
         self.import_resources_concurrently(resp["dashboard_lists"])
 
     def process_resource_import(self, dashboard_list):
-        source_client = self.config.source_client
-        resp = None
-        try:
-            resp = source_client.get(self.dash_list_items_path.format(dashboard_list["id"])).json()
-        except HTTPError as e:
-            self.logger.error("error retrieving dashboard_lists items %s", e)
-
-        dashboard_list["dashboards"] = []
-        if resp:
-            for dash in resp.get("dashboards"):
-                dash_list_item = {"id": dash["id"], "type": dash["type"]}
-                dashboard_list["dashboards"].append(dash_list_item)
-
+        dashboard_list["dashboards"] = self.get_dashboards(dashboard_list["id"], SOURCE_ORIGIN)
         self.source_resources[dashboard_list["id"]] = dashboard_list
+
+        # Map existing resources
+        if self.config.import_existing:
+            if dashboard_list[self.match_on] in self.destination_existing_resources:
+                existing_dash_list = self.destination_existing_resources[dashboard_list[self.match_on]]
+                existing_dash_list["dashboards"] = self.get_dashboards(existing_dash_list["id"], DESTINATION_ORIGIN)
+                self.destination_resources[str(dashboard_list["id"])] = existing_dash_list
+
+    def get_destination_existing_resources(self):
+        destination_client = self.config.destination_client
+
+        try:
+            dest_resp = destination_client.get(self.base_path).json()
+        except HTTPError as e:
+            self.logger.error("error importing dashboard_lists %s", e)
+            return
+
+        for dash_list in dest_resp["dashboard_lists"]:
+            self.destination_existing_resources[dash_list[self.match_on]] = dash_list
 
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()
@@ -108,3 +120,22 @@ class DashboardLists(BaseResource):
             self.logger.error("error updating dashboard list items: %s", e)
             return
         dashboard_list.update(dashboards)
+
+    def get_dashboards(self, _id, origin):
+        if origin == SOURCE_ORIGIN:
+            client = self.config.source_client
+        else:
+            client = self.config.destination_client
+
+        resp = None
+        try:
+            resp = client.get(self.dash_list_items_path.format(_id)).json()
+        except HTTPError as e:
+            self.logger.error("error retrieving dashboard_lists items %s", e)
+
+        dashboards_list = []
+        if resp:
+            for dash in resp.get("dashboards"):
+                dash_list_item = {"id": dash["id"], "type": dash["type"]}
+                dashboards_list.append(dash_list_item)
+        return dashboards_list

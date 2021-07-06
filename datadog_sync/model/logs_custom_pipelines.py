@@ -12,6 +12,7 @@ class LogsCustomPipelines(BaseResource):
         "root['type']",
         "root['is_read_only']",
     ]
+    match_on = "name"
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -22,11 +23,32 @@ class LogsCustomPipelines(BaseResource):
             self.logger.error("error importing logs_custom_pipelines %s", e)
             return
 
+        if self.config.import_existing:
+            self.get_destination_existing_resources()
+
         self.import_resources_concurrently(resp)
 
     def process_resource_import(self, logs_custom_pipeline):
         if not logs_custom_pipeline["is_read_only"]:
             self.source_resources[logs_custom_pipeline["id"]] = logs_custom_pipeline
+
+            # Map existing resources
+            if self.config.import_existing:
+                if logs_custom_pipeline[self.match_on] in self.destination_existing_resources:
+                    existing_pipeline = self.destination_existing_resources[logs_custom_pipeline[self.match_on]]
+                    self.destination_resources[str(logs_custom_pipeline["id"])] = existing_pipeline
+
+    def get_destination_existing_resources(self):
+        destination_client = self.config.destination_client
+
+        try:
+            resp = destination_client.get(self.base_path).json()
+        except HTTPError as e:
+            self.logger.error("error importing logs_custom_pipelines %s", e)
+            return
+
+        for logs_custom_pipeline in resp:
+            self.destination_existing_resources[logs_custom_pipeline[self.match_on]] = logs_custom_pipeline
 
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()

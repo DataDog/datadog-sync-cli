@@ -8,6 +8,7 @@ from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
 from datadog_sync.utils.resource_utils import replace
+from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
 
 
 class BaseResource:
@@ -18,6 +19,7 @@ class BaseResource:
     resource_filter = None
     excluded_attributes = None
     excluded_attributes_re = None
+    match_on = None
 
     def __init__(self, config):
         self.config = config
@@ -26,6 +28,7 @@ class BaseResource:
 
         self.source_resources = dict()
         self.destination_resources = dict()
+        self.destination_existing_resources = dict()
 
     def import_resources(self):
         pass
@@ -116,7 +119,7 @@ class BaseResource:
 
     def apply_resources_concurrently(self, connection_resource_obj, **kwargs):
         resources = kwargs.get("resources")
-        if resources == None:
+        if resources is None:
             resources = self.source_resources
         with ThreadPoolExecutor() as executor:
             futures = [
@@ -139,7 +142,7 @@ class BaseResource:
         source_resources = dict()
         destination_resources = dict()
 
-        source_path = RESOURCE_FILE_PATH.format("source", self.resource_type)
+        source_path = RESOURCE_FILE_PATH.format(SOURCE_ORIGIN, self.resource_type)
         destination_path = RESOURCE_FILE_PATH.format("destination", self.resource_type)
 
         if os.path.exists(source_path):
@@ -150,8 +153,8 @@ class BaseResource:
             with open(destination_path, "r") as f:
                 destination_resources = json.load(f)
 
-        self.source_resources = source_resources
-        self.destination_resources = destination_resources
+        self.source_resources.update(source_resources)
+        self.destination_resources.update(destination_resources)
 
     def write_resources_file(self, origin, resources):
         resource_path = RESOURCE_FILE_PATH.format(origin, self.resource_type)

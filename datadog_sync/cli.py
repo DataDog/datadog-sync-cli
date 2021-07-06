@@ -61,6 +61,12 @@ from collections import defaultdict, OrderedDict
     help="Optional comma separated list of resource to import. All supported resources are imported by default.",
 )
 @option(
+    "--import-existing",
+    required=False,
+    is_flag=True,
+    help="Import and map existing resources from the destination organization. Supported on Import only.",
+)
+@option(
     "--verbose",
     "-v",
     required=False,
@@ -93,7 +99,12 @@ def cli(ctx, **kwargs):
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
     # Initialize Configuration
-    config = Configuration(logger=logger, source_client=source_client, destination_client=destination_client)
+    config = Configuration(
+        logger=logger,
+        source_client=source_client,
+        destination_client=destination_client,
+        import_existing=kwargs.get("import_existing"),
+    )
     ctx.obj["config"] = config
 
     # Initialize resources
@@ -105,9 +116,7 @@ def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
     all_resources = [
-        cls.resource_type
-        for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
+        cls.resource_type for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
     ]
 
     if resources_arg:
@@ -122,8 +131,7 @@ def get_resources(cfg, resources_arg):
     )
 
     resources_classes = [
-        cls for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
+        cls for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
     ]
 
     order_list = get_import_order(resources_classes, str_to_class)

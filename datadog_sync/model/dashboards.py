@@ -1,6 +1,7 @@
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
 
 
 class Dashboards(BaseResource):
@@ -19,6 +20,7 @@ class Dashboards(BaseResource):
         "root['created_at']",
         "root['modified_at']",
     ]
+    match_on = "title"
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -29,16 +31,31 @@ class Dashboards(BaseResource):
             self.logger.error("error importing dashboards %s", e)
             return
 
+        if self.config.import_existing:
+            self.get_destination_existing_resources()
+
         self.import_resources_concurrently(resp["dashboards"])
 
     def process_resource_import(self, dash):
-        source_client = self.config.source_client
+        self.source_resources[dash["id"]] = self.get_dashboard(dash['id'], SOURCE_ORIGIN)
+
+        # Map existing resources
+        if self.config.import_existing:
+            if dash[self.match_on] in self.destination_existing_resources:
+                existing_dash = self.destination_existing_resources[dash[self.match_on]]
+                self.destination_resources[str(dash["id"])] = self.get_dashboard(existing_dash["id"], DESTINATION_ORIGIN)
+
+    def get_destination_existing_resources(self):
+        destination_client = self.config.destination_client
+
         try:
-            dashboard = source_client.get(self.base_path + f"/{dash['id']}").json()
+            dest_resp = destination_client.get(self.base_path).json()
         except HTTPError as e:
-            self.logger.error("error retrieving dashboard: %s", e)
+            self.logger.error("error importing dashboards %s", e)
             return
-        self.source_resources[dash["id"]] = dashboard
+
+        for dashboard in dest_resp["dashboards"]:
+            self.destination_existing_resources[dashboard[self.match_on]] = dashboard
 
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()
@@ -75,3 +92,17 @@ class Dashboards(BaseResource):
                 self.logger.error("error creating dashboard: %s", e)
                 return
             self.destination_resources[_id] = resp
+
+    def get_dashboard(self, _id, origin):
+        if origin == SOURCE_ORIGIN:
+            client = self.config.source_client
+        else:
+            client = self.config.destination_client
+
+        try:
+            dashboard = client.get(self.base_path + f"/{_id}").json()
+        except HTTPError as e:
+            self.logger.error("error retrieving dashboard: %s", e)
+            return
+
+        return dashboard
