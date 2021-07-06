@@ -29,6 +29,9 @@ class SyntheticsTests(BaseResource):
         self.import_resources_concurrently(resp["tests"])
 
     def process_resource_import(self, synthetics_test):
+        if not self.filter(synthetics_test):
+            return
+
         self.source_resources[f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"] = synthetics_test
 
     def apply_resources(self):
