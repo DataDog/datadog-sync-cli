@@ -2,7 +2,7 @@ from click import option
 
 from datadog_sync import constants
 
-_auth_options = [
+_source_auth_options = [
     option(
         "--source-api-key",
         envvar=constants.DD_SOURCE_API_KEY,
@@ -21,6 +21,9 @@ _auth_options = [
         required=False,
         help="Datadog source organization API url.",
     ),
+]
+
+_destination_auth_options = [
     option(
         "--destination-api-key",
         envvar=constants.DD_DESTINATION_API_KEY,
@@ -66,13 +69,19 @@ _common_options = [
 ]
 
 
-def auth_options(func):
-    for _option in _auth_options:
-        func = _option(func)
-    return func
+def source_auth_options(func):
+    return _build_options_helper(func, _source_auth_options)
+
+
+def destination_auth_options(func):
+    return _build_options_helper(func, _destination_auth_options)
 
 
 def common_options(func):
-    for _option in _common_options:
+    return _build_options_helper(func, _common_options)
+
+
+def _build_options_helper(func, options):
+    for _option in options:
         func = _option(func)
     return func

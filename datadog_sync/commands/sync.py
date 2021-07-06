@@ -4,12 +4,13 @@ import time
 from click import command
 
 from datadog_sync.constants import RESOURCE_FILE_PATH, DESTINATION_RESOURCES_DIR
-from datadog_sync.shared.options import common_options, auth_options
+from datadog_sync.shared.options import common_options, source_auth_options, destination_auth_options
 from datadog_sync.utils.configuration import build_config
 
 
 @command("sync", short_help="Sync Datadog resources to destination.")
-@auth_options
+@source_auth_options
+@destination_auth_options
 @common_options
 def sync(**kwargs):
     """Sync Datadog resources to destination."""
