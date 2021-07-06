@@ -1,14 +1,15 @@
-from click import pass_context, command
+from click import command
 
-from datadog_sync.shared_options.options import common_options
+from datadog_sync.shared.options import common_options, auth_options
+from datadog_sync.utils.configuration import build_config
 
 
 @command("diffs", short_help="Log resource diffs.")
+@auth_options
 @common_options
-@pass_context
-def diffs(ctx, **kwargs):
+def diffs(**kwargs):
     """Log Datadog resources diffs."""
-    cfg = ctx.obj.get("config")
+    cfg = build_config(**kwargs)
 
     for resource in cfg.resources.values():
         resource.open_resources()

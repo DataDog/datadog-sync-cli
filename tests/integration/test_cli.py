@@ -1,5 +1,3 @@
-import os
-
 import pytest
 
 
@@ -7,10 +5,10 @@ import pytest
 def test_cli(tmpdir, script_runner):
     with tmpdir.as_cwd():
         # Import
-        ret = script_runner.run("datadog-sync", "-v", "import")
+        ret = script_runner.run("datadog-sync", "import",  "-v")
         assert ret.success
         #  Sync
-        ret = script_runner.run("datadog-sync", "-v", "sync")
+        ret = script_runner.run("datadog-sync", "sync", "-v")
         assert ret.success
         # Check diff
         ret = script_runner.run("datadog-sync", "diffs")
@@ -23,7 +21,7 @@ def test_cli(tmpdir, script_runner):
 def test_cli_diff(tmpdir, script_runner):
     with tmpdir.as_cwd():
         # Import
-        ret = script_runner.run("datadog-sync", "-v", "import")
+        ret = script_runner.run("datadog-sync", "import", "-v")
         assert ret.success
         # Check diff
         ret = script_runner.run("datadog-sync", "diffs")

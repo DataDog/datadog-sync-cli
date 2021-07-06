@@ -1,19 +1,20 @@
 import os
 import time
 
-from click import pass_context, command
+from click import command
 
 from datadog_sync.constants import RESOURCE_FILE_PATH, DESTINATION_RESOURCES_DIR
-from datadog_sync.shared_options.options import common_options, auth_options
+from datadog_sync.shared.options import common_options, auth_options
+from datadog_sync.utils.configuration import build_config
 
 
 @command("sync", short_help="Sync Datadog resources to destination.")
 @auth_options
 @common_options
-@pass_context
-def sync(ctx, **kwargs):
+def sync(**kwargs):
     """Sync Datadog resources to destination."""
-    cfg = ctx.obj.get("config")
+    cfg = build_config(**kwargs)
+
     start = time.time()
     os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
 
