@@ -1,4 +1,5 @@
 from click import pass_context, group, option
+import click_config_file
 
 from datadog_sync import constants
 from datadog_sync import models
@@ -7,6 +8,7 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
+from datadog_sync.utils.filter import process_filters
 from collections import defaultdict, OrderedDict
 
 
@@ -72,8 +74,11 @@ from collections import defaultdict, OrderedDict
     required=False,
     is_flag=True,
     default=False,
-    help="Force importing resources that could be potential dependencies to the requested resources.",
+    help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
 )
+@option("--filter", required=False, help="Filter imported resources.", multiple=True)
+@click_config_file.configuration_option()
+
 @pass_context
 def cli(ctx, **kwargs):
     """Initialize cli"""
@@ -81,6 +86,9 @@ def cli(ctx, **kwargs):
 
     # configure logger
     logger = Log(kwargs.get("verbose"))
+
+    # configure Filter
+    filters = process_filters(kwargs.get("filter"))
 
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
@@ -100,7 +108,9 @@ def cli(ctx, **kwargs):
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
     # Initialize Configuration
-    config = Configuration(logger=logger, source_client=source_client, destination_client=destination_client)
+    config = Configuration(
+        logger=logger, source_client=source_client, destination_client=destination_client, filters=filters
+    )
     ctx.obj["config"] = config
 
     # Initialize resources and missing dependencies
@@ -131,6 +141,7 @@ def get_resources(cfg, resources_arg, force_missing_deps):
     )
 
     resources_classes = [str_to_class[resource_type] for resource_type in resources_arg]
+
 
     order_list = get_import_order(resources_classes, str_to_class)
 

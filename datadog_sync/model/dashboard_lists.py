@@ -32,6 +32,9 @@ class DashboardLists(BaseResource):
         self.import_resources_concurrently(resp["dashboard_lists"])
 
     def process_resource_import(self, dashboard_list):
+        if not self.filter(dashboard_list):
+            return
+
         source_client = self.config.source_client
         resp = None
         try:
