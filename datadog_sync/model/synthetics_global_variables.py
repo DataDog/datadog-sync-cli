@@ -17,6 +17,7 @@ class SyntheticsGlobalVariables(BaseResource):
         "root['is_totp']",
         "root['parse_test_name']",
     ]
+    match_on = "name"
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -27,6 +28,9 @@ class SyntheticsGlobalVariables(BaseResource):
             self.logger.error("error importing synthetics_global_variables: %s", e)
             return
 
+        if self.config.import_existing:
+            self.populate_destination_existing_resources()
+
         self.import_resources_concurrently(resp["variables"])
 
     def process_resource_import(self, synthetics_global_variable):
@@ -34,6 +38,24 @@ class SyntheticsGlobalVariables(BaseResource):
             return
 
         self.source_resources[synthetics_global_variable["id"]] = synthetics_global_variable
+
+        # Map existing resources
+        if self.config.import_existing:
+            if synthetics_global_variable[self.match_on] in self.destination_existing_resources:
+                existing_slo = self.destination_existing_resources[synthetics_global_variable[self.match_on]]
+                self.destination_resources[str(synthetics_global_variable["id"])] = existing_slo
+
+    def populate_destination_existing_resources(self):
+        destination_client = self.config.destination_client
+
+        try:
+            resp = destination_client.get(self.base_path).json()
+        except HTTPError as e:
+            self.logger.error("error fetching destination monitors %s", e)
+            return
+
+        for variable in resp["variables"]:
+            self.destination_existing_resources[variable[self.match_on]] = variable
 
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()

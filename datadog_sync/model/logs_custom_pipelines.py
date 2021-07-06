@@ -24,7 +24,7 @@ class LogsCustomPipelines(BaseResource):
             return
 
         if self.config.import_existing:
-            self.get_destination_existing_resources()
+            self.populate_destination_existing_resources()
 
         self.import_resources_concurrently(resp)
 
@@ -42,13 +42,13 @@ class LogsCustomPipelines(BaseResource):
                 existing_pipeline = self.destination_existing_resources[logs_custom_pipeline[self.match_on]]
                 self.destination_resources[str(logs_custom_pipeline["id"])] = existing_pipeline
 
-    def get_destination_existing_resources(self):
+    def populate_destination_existing_resources(self):
         destination_client = self.config.destination_client
 
         try:
             resp = destination_client.get(self.base_path).json()
         except HTTPError as e:
-            self.logger.error("error importing logs_custom_pipelines %s", e)
+            self.logger.error("error fetchig destination logs_custom_pipelines %s", e)
             return
 
         for logs_custom_pipeline in resp:

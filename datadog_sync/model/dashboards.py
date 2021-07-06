@@ -32,7 +32,7 @@ class Dashboards(BaseResource):
             return
 
         if self.config.import_existing:
-            self.get_destination_existing_resources()
+            self.populate_destination_existing_resources()
 
         self.import_resources_concurrently(resp["dashboards"])
 
@@ -48,7 +48,7 @@ class Dashboards(BaseResource):
                 existing_dash = self.destination_existing_resources[dash[self.match_on]]
                 self.destination_resources[str(dash["id"])] = self.get_dashboard(existing_dash["id"], DESTINATION_ORIGIN)
 
-    def get_destination_existing_resources(self):
+    def populate_destination_existing_resources(self):
         destination_client = self.config.destination_client
 
         try:

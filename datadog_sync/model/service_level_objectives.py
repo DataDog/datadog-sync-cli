@@ -14,6 +14,7 @@ class ServiceLevelObjectives(BaseResource):
         "root['created_at']",
         "root['modified_at']",
     ]
+    match_on = "name"
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -24,6 +25,9 @@ class ServiceLevelObjectives(BaseResource):
             self.logger.error("error importing slo %s", e)
             return
 
+        if self.config.import_existing:
+            self.populate_destination_existing_resources()
+
         self.import_resources_concurrently(resp["data"])
 
     def process_resource_import(self, slo):
@@ -31,6 +35,24 @@ class ServiceLevelObjectives(BaseResource):
             return
 
         self.source_resources[slo["id"]] = slo
+
+        # Map existing resources
+        if self.config.import_existing:
+            if slo[self.match_on] in self.destination_existing_resources:
+                existing_slo = self.destination_existing_resources[slo[self.match_on]]
+                self.destination_resources[str(slo["id"])] = existing_slo
+
+    def populate_destination_existing_resources(self):
+        destination_client = self.config.destination_client
+
+        try:
+            resp = destination_client.get(self.base_path).json()
+        except HTTPError as e:
+            self.logger.error("error fetching destination monitors %s", e)
+            return
+
+        for slo in resp["data"]:
+            self.destination_existing_resources[slo[self.match_on]] = slo
 
     def apply_resources(self):
         self.logger.info("Processing service_level_objectives")

@@ -16,6 +16,7 @@ class SyntheticsTests(BaseResource):
         "root['created_at']",
     ]
     excluded_attributes_re = ["updatedAt", "notify_audit", "locked", "include_tags", "new_host_delay", "notify_no_data"]
+    match_on = "name"
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -26,13 +27,34 @@ class SyntheticsTests(BaseResource):
             self.logger.error("error importing synthetics_tests: %s", e)
             return
 
+        if self.config.import_existing:
+            self.populate_destination_existing_resources()
+
         self.import_resources_concurrently(resp["tests"])
 
     def process_resource_import(self, synthetics_test):
         if not self.filter(synthetics_test):
             return
 
-        self.source_resources[f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"] = synthetics_test
+        _id = f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"
+        self.source_resources[_id] = synthetics_test
+        # Map existing resources
+        if self.config.import_existing:
+            if synthetics_test[self.match_on] in self.destination_existing_resources:
+                existing_test = self.destination_existing_resources[synthetics_test[self.match_on]]
+                self.destination_resources[_id] = existing_test
+
+    def populate_destination_existing_resources(self):
+        destination_client = self.config.destination_client
+
+        try:
+            resp = destination_client.get(self.base_path).json()
+        except HTTPError as e:
+            self.logger.error("error fetching destination monitors %s", e)
+            return
+
+        for test in resp["tests"]:
+            self.destination_existing_resources[test[self.match_on]] = test
 
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()

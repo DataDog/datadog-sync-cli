@@ -19,6 +19,7 @@ class Monitors(BaseResource):
         "root['overall_state']",
         "root['overall_state_modified']",
     ]
+    match_on = "name"
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -28,6 +29,9 @@ class Monitors(BaseResource):
             self.logger.error("error importing monitors %s", e)
             return
 
+        if self.config.import_existing:
+            self.populate_destination_existing_resources()
+
         self.import_resources_concurrently(resp)
 
     def process_resource_import(self, monitor):
@@ -35,6 +39,24 @@ class Monitors(BaseResource):
             return
 
         self.source_resources[monitor["id"]] = monitor
+
+        # Map existing resources
+        if self.config.import_existing:
+            if monitor[self.match_on] in self.destination_existing_resources:
+                existing_pipeline = self.destination_existing_resources[monitor[self.match_on]]
+                self.destination_resources[str(monitor["id"])] = existing_pipeline
+
+    def populate_destination_existing_resources(self):
+        destination_client = self.config.destination_client
+
+        try:
+            resp = destination_client.get(self.base_path).json()
+        except HTTPError as e:
+            self.logger.error("error fetching destination monitors %s", e)
+            return
+
+        for monitor in resp:
+            self.destination_existing_resources[monitor[self.match_on]] = monitor
 
     def apply_resources(self):
         simple_monitors = {}
