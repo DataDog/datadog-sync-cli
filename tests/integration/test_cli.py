@@ -5,7 +5,7 @@ import pytest
 def test_cli(tmpdir, script_runner):
     with tmpdir.as_cwd():
         # Import
-        ret = script_runner.run("datadog-sync", "import",  "-v")
+        ret = script_runner.run("datadog-sync", "import", "-v")
         assert ret.success
         #  Sync
         ret = script_runner.run("datadog-sync", "sync", "-v")

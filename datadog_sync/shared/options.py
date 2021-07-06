@@ -3,43 +3,43 @@ from click import option
 from datadog_sync import constants
 
 _auth_options = [
-        option(
-            "--source-api-key",
-            envvar=constants.DD_SOURCE_API_KEY,
-            required=True,
-            help="Datadog source organization API key.",
-        ),
-        option(
-            "--source-app-key",
-            envvar=constants.DD_SOURCE_APP_KEY,
-            required=True,
-            help="Datadog source organization APP key.",
-        ),
-        option(
-            "--source-api-url",
-            envvar=constants.DD_SOURCE_API_URL,
-            required=False,
-            help="Datadog source organization API url.",
-        ),
-        option(
-            "--destination-api-key",
-            envvar=constants.DD_DESTINATION_API_KEY,
-            required=True,
-            help="Datadog destination organization API key.",
-        ),
-        option(
-            "--destination-app-key",
-            envvar=constants.DD_DESTINATION_APP_KEY,
-            required=True,
-            help="Datadog destination organization APP key.",
-        ),
-        option(
-            "--destination-api-url",
-            envvar=constants.DD_DESTINATION_API_URL,
-            required=False,
-            help="Datadog destination organization API url.",
-        ),
-    ]
+    option(
+        "--source-api-key",
+        envvar=constants.DD_SOURCE_API_KEY,
+        required=True,
+        help="Datadog source organization API key.",
+    ),
+    option(
+        "--source-app-key",
+        envvar=constants.DD_SOURCE_APP_KEY,
+        required=True,
+        help="Datadog source organization APP key.",
+    ),
+    option(
+        "--source-api-url",
+        envvar=constants.DD_SOURCE_API_URL,
+        required=False,
+        help="Datadog source organization API url.",
+    ),
+    option(
+        "--destination-api-key",
+        envvar=constants.DD_DESTINATION_API_KEY,
+        required=True,
+        help="Datadog destination organization API key.",
+    ),
+    option(
+        "--destination-app-key",
+        envvar=constants.DD_DESTINATION_APP_KEY,
+        required=True,
+        help="Datadog destination organization APP key.",
+    ),
+    option(
+        "--destination-api-url",
+        envvar=constants.DD_DESTINATION_API_URL,
+        required=False,
+        help="Datadog destination organization API url.",
+    ),
+]
 
 
 _common_options = [
@@ -62,7 +62,7 @@ _common_options = [
         required=False,
         is_flag=True,
         help="Enable verbose logging.",
-    )
+    ),
 ]
 
 
