@@ -4,11 +4,14 @@ import time
 from click import pass_context, command
 
 from datadog_sync.constants import RESOURCE_FILE_PATH, DESTINATION_RESOURCES_DIR
+from datadog_sync.shared_options.options import common_options, auth_options
 
 
 @command("sync", short_help="Sync Datadog resources to destination.")
+@auth_options
+@common_options
 @pass_context
-def sync(ctx):
+def sync(ctx, **kwargs):
     """Sync Datadog resources to destination."""
     cfg = ctx.obj.get("config")
     start = time.time()

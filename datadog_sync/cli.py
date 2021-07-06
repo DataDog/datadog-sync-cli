@@ -1,6 +1,5 @@
-from click import pass_context, group, option
+from click import pass_context, group
 
-from datadog_sync import constants
 from datadog_sync import models
 from datadog_sync.commands import ALL_COMMANDS
 from datadog_sync.utils.custom_client import CustomClient
@@ -11,62 +10,6 @@ from collections import defaultdict, OrderedDict
 
 
 @group()
-@option(
-    "--source-api-key",
-    envvar=constants.DD_SOURCE_API_KEY,
-    required=True,
-    help="Datadog source organization API key.",
-)
-@option(
-    "--source-app-key",
-    envvar=constants.DD_SOURCE_APP_KEY,
-    required=True,
-    help="Datadog source organization APP key.",
-)
-@option(
-    "--source-api-url",
-    envvar=constants.DD_SOURCE_API_URL,
-    required=False,
-    help="Datadog source organization API url.",
-)
-@option(
-    "--destination-api-key",
-    envvar=constants.DD_DESTINATION_API_KEY,
-    required=True,
-    help="Datadog destination organization API key.",
-)
-@option(
-    "--destination-app-key",
-    envvar=constants.DD_DESTINATION_APP_KEY,
-    required=True,
-    help="Datadog destination organization APP key.",
-)
-@option(
-    "--destination-api-url",
-    envvar=constants.DD_DESTINATION_API_URL,
-    required=False,
-    help="Datadog destination organization API url.",
-)
-@option(
-    "--http-client-retry-timeout",
-    envvar=constants.DD_HTTP_CLIENT_RETRY_TIMEOUT,
-    required=False,
-    type=int,
-    default=60,
-    help="The HTTP request retry timeout period. Defaults to 60s",
-)
-@option(
-    "--resources",
-    required=False,
-    help="Optional comma separated list of resource to import. All supported resources are imported by default.",
-)
-@option(
-    "--verbose",
-    "-v",
-    required=False,
-    is_flag=True,
-    help="Enable verbose logging.",
-)
 @pass_context
 def cli(ctx, **kwargs):
     """Initialize cli"""
@@ -156,7 +99,8 @@ def get_import_order(resources, str_to_class):
         # if current_resource has dependencies
         if current_resource in graph:
             for depender in graph[current_resource]:
-                # current_resource will be created, therefore the depender's number of dependencies is decremented by one
+                # current_resource will be created, therefore the depender's number of dependencies
+                # is decremented by one
                 dependencies_count[depender] = max(0, dependencies_count[depender] - 1)
 
                 # if all it's dependencies are resolved, we can create it next
@@ -167,7 +111,10 @@ def get_import_order(resources, str_to_class):
 
 
 def get_resources_dependency_graph(resources, str_to_class):
-    """Returns a Directed Acyclic Graph of the resources. An edge between A and B means that resource A might require resource B"""
+    """
+    Returns a Directed Acyclic Graph of the resources. An edge between A and B means that resource
+    A might require resource B
+    """
     graph = defaultdict(list)
     dependencies_count = defaultdict(int)
 
