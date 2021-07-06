@@ -32,6 +32,9 @@ class SyntheticsPrivateLocations(BaseResource):
         self.import_resources_concurrently(resp["locations"])
 
     def process_resource_import(self, synthetics_private_location):
+        if not self.filter(synthetics_private_location):
+            return
+
         source_client = self.config.source_client
         if self.pl_id_regex.match(synthetics_private_location["id"]):
             try:

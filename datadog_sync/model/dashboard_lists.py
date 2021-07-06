@@ -37,6 +37,9 @@ class DashboardLists(BaseResource):
         self.import_resources_concurrently(resp["dashboard_lists"])
 
     def process_resource_import(self, dashboard_list):
+        if not self.filter(dashboard_list):
+            return
+
         dashboard_list["dashboards"] = self.get_dashboards(dashboard_list["id"], SOURCE_ORIGIN)
         self.source_resources[dashboard_list["id"]] = dashboard_list
 

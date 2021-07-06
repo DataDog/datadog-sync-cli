@@ -31,6 +31,9 @@ class Roles(BaseResource):
         self.import_resources_concurrently(resp)
 
     def process_resource_import(self, role):
+        if not self.filter(role):
+            return
+
         self.source_resources[role["id"]] = role
 
     def apply_resources(self):
