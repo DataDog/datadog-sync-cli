@@ -63,12 +63,6 @@ from collections import defaultdict, OrderedDict
     help="Optional comma separated list of resource to import. All supported resources are imported by default.",
 )
 @option(
-    "--import-existing",
-    required=False,
-    is_flag=True,
-    help="Import and map existing resources from the destination organization. Supported on Import only.",
-)
-@option(
     "--verbose",
     "-v",
     required=False,
@@ -111,7 +105,6 @@ def cli(ctx, **kwargs):
         source_client=source_client,
         destination_client=destination_client,
         filters=filters,
-        import_existing=kwargs.get("import_existing"),
     )
     ctx.obj["config"] = config
 

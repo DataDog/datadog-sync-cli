@@ -1,5 +1,5 @@
 class Configuration(object):
-    def __init__(self, logger=None, source_client=None, destination_client=None, resources=None, filters=None, import_existing=None):
+    def __init__(self, logger=None, source_client=None, destination_client=None, resources=None, filters=None, import_existing=False):
         self.logger = logger
         self.source_client = source_client
         self.destination_client = destination_client
