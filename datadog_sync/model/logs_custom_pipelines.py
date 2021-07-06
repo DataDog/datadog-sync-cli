@@ -36,11 +36,11 @@ class LogsCustomPipelines(BaseResource):
 
         self.source_resources[logs_custom_pipeline["id"]] = logs_custom_pipeline
 
-            # Map existing resources
-            if self.config.import_existing:
-                if logs_custom_pipeline[self.match_on] in self.destination_existing_resources:
-                    existing_pipeline = self.destination_existing_resources[logs_custom_pipeline[self.match_on]]
-                    self.destination_resources[str(logs_custom_pipeline["id"])] = existing_pipeline
+        # Map existing resources
+        if self.config.import_existing:
+            if logs_custom_pipeline[self.match_on] in self.destination_existing_resources:
+                existing_pipeline = self.destination_existing_resources[logs_custom_pipeline[self.match_on]]
+                self.destination_resources[str(logs_custom_pipeline["id"])] = existing_pipeline
 
     def get_destination_existing_resources(self):
         destination_client = self.config.destination_client
