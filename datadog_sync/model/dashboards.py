@@ -32,6 +32,9 @@ class Dashboards(BaseResource):
         self.import_resources_concurrently(resp["dashboards"])
 
     def process_resource_import(self, dash):
+        if not self.filter(dash):
+            return
+
         source_client = self.config.source_client
         try:
             dashboard = source_client.get(self.base_path + f"/{dash['id']}").json()
