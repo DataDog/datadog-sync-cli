@@ -1,10 +1,12 @@
 import pytest
 import os
 import logging
+
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync import models
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync import constants
 
 
 @pytest.fixture(scope="module")
@@ -18,17 +20,18 @@ def vcr_config():
 
 @pytest.fixture(scope="module")
 def config():
-    source_api_url = os.getenv("DD_SOURCE_API_URL")
-    destination_api_url = os.getenv("DD_DESTINATION_API_URL")
+    source_api_url = os.getenv(constants.DD_SOURCE_API_URL)
+    destination_api_url = os.getenv(constants.DD_DESTINATION_API_URL)
+    max_workers = os.getenv(constants.MAX_WORKERS)
 
     # Initialize the datadog API Clients
     source_auth = {
-        "apiKeyAuth": os.getenv("DD_SOURCE_API_KEY"),
-        "appKeyAuth": os.getenv("DD_SOURCE_APP_KEY"),
+        "apiKeyAuth": os.getenv(constants.DD_SOURCE_API_KEY),
+        "appKeyAuth": os.getenv(constants.DD_SOURCE_APP_KEY),
     }
     destination_auth = {
-        "apiKeyAuth": os.getenv("DD_DESTINATION_API_KEY"),
-        "appKeyAuth": os.getenv("DD_DESTINATION_APP_KEY"),
+        "apiKeyAuth": os.getenv(constants.DD_DESTINATION_API_KEY),
+        "appKeyAuth": os.getenv(constants.DD_DESTINATION_APP_KEY),
     }
 
     retry_timeout = 60
@@ -37,7 +40,10 @@ def config():
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
     cfg = Configuration(
-        logger=logging.getLogger(__name__), source_client=source_client, destination_client=destination_client
+        logger=logging.getLogger(__name__),
+        source_client=source_client,
+        destination_client=destination_client,
+        max_workers=int(max_workers)
     )
 
     resources = {

@@ -1,4 +1,5 @@
 import re
+from concurrent.futures import ThreadPoolExecutor
 
 
 def replace(keys_list, origin, r_obj, resource_to_connect, connection_resources_obj):
@@ -64,3 +65,7 @@ def replace_ids(key, origin, r_obj, resource_to_connect, connection_resources_ob
                         r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['public_id']}"
                     else:
                         r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['id']}"
+
+
+def thread_pool_executor(max_workers=None):
+    return ThreadPoolExecutor(max_workers=max_workers)
