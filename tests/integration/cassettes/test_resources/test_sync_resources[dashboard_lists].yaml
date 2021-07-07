@@ -24,7 +24,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jul 2021 16:30:44 GMT
+      - Wed, 07 Jul 2021 15:59:35 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -42,7 +42,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - fIO2C4qGDheGHy4YbS+r3a3CXbh4cbRo7roILOimQyiHGjQdOat0cIpWCkupM1uX
+      - l8RQo2maZqJf6GFThBbKNE6dvthz6njusVtau3dPXJWL2RLFoN81H+BLPB/1xgs1
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -78,7 +78,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jul 2021 16:30:45 GMT
+      - Wed, 07 Jul 2021 15:59:35 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -96,7 +96,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - fIO2C4qGDheGHy4YbS+r3a3CXbh4cbRo7roILOimQyiHGjQdOat0cIpWCkupM1uX
+      - PhosSd3Ch1B6B0DXI71steKUi7XhPDttnPiIP1NdXTw0VJNWpoUnYyBmODS5ne3q
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -121,7 +121,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
   response:
     body:
-      string: '{"is_favorite":false,"name":"Test list","dashboard_count":0,"author":{"handle":"frog@datadoghq.com","name":null},"created":"2021-07-07T16:30:45.198859+00:00","type":"manual_dashboard_list","dashboards":null,"modified":"2021-07-07T16:30:45.198884+00:00","id":9945}'
+      string: '{"is_favorite":false,"name":"Test list","dashboard_count":0,"author":{"handle":"frog@datadoghq.com","name":null},"created":"2021-07-07T15:59:35.786338+00:00","type":"manual_dashboard_list","dashboards":null,"modified":"2021-07-07T15:59:35.786382+00:00","id":9940}'
     headers:
       Alt-Svc:
       - clear
@@ -138,7 +138,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 16:30:45 GMT
+      - Wed, 07 Jul 2021 15:59:35 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -153,8 +153,8 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"dashboards": [{"id": "c7a-2d3-6cj", "type": "custom_timeboard"}, {"id":
-      "pxh-9rj-2ah", "type": "custom_screenboard"}, {"id": "enx-kbd-yif", "type":
+    body: '{"dashboards": [{"id": "ety-5y5-rdc", "type": "custom_timeboard"}, {"id":
+      "y3d-tfy-apn", "type": "custom_screenboard"}, {"id": "57d-hv2-jrc", "type":
       "custom_timeboard"}]}'
     headers:
       Accept:
@@ -170,10 +170,10 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/9945/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/9940/dashboards
   response:
     body:
-      string: '{"dashboards":[{"type":"custom_timeboard","id":"c7a-2d3-6cj"},{"type":"custom_screenboard","id":"pxh-9rj-2ah"},{"type":"custom_timeboard","id":"enx-kbd-yif"}]}'
+      string: '{"dashboards":[{"type":"custom_timeboard","id":"ety-5y5-rdc"},{"type":"custom_screenboard","id":"y3d-tfy-apn"},{"type":"custom_timeboard","id":"57d-hv2-jrc"}]}'
     headers:
       Alt-Svc:
       - clear
@@ -190,7 +190,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 16:30:45 GMT
+      - Wed, 07 Jul 2021 15:59:36 GMT
       pragma:
       - no-cache
       strict-transport-security:
