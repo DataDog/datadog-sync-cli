@@ -27,7 +27,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 22:29:21 GMT
+      - Wed, 07 Jul 2021 16:30:48 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -45,7 +45,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - SY1h8ScsWq+kYmtbh63ltMLFAZsQjqfrgvdfAoRX+9TzT1sgMBRYaFRwfWWRRe9a
+      - /L+SFFO+m1pPY+hRCpk5325fvfrNl0KmiquUNJolBN/5hu3HIwflqjZSbJ6NxDFG
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -53,9 +53,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '119'
+      - '117'
       x-ratelimit-reset:
-      - '39'
+      - '12'
     status:
       code: 200
       message: OK
@@ -76,7 +76,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"errors": ["Access was denied to this resource."]}'
+      string: '{"variables":[{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":[],"created_at":"2021-07-07T16:29:38.772991+00:00","is_totp":null,"modified_at":"2021-07-07T16:29:38.772991+00:00","value":{"secure":false,"value":"test"},"parse_test_public_id":null,"parse_test_name":null,"created_by":null,"type":"variable","id":"c9c8e065-ea6f-40f6-bb04-0b6e1ee6fe18","name":"TEST"}]}'
     headers:
       Alt-Svc:
       - clear
@@ -87,13 +87,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '51'
+      - '402'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 05 Jul 2021 22:29:22 GMT
+      - Wed, 07 Jul 2021 16:30:48 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -104,9 +104,77 @@ interactions:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '119'
+      x-ratelimit-reset:
+      - '12'
     status:
-      code: 403
-      message: Forbidden
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "test", "tags": ["check_type:api"], "value": {"secure":
+      false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "type": "variable",
+      "name": "TEST_VARIABLE"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '173'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":["check_type:api"],"is_totp":null,"value":{"secure":false,"value":"TESTVALUELETSSEEdadsddsadsadadsadsad"},"parse_test_public_id":null,"parse_test_name":null,"type":"variable","id":"b52b1e3d-d962-4333-afed-23f41ff10f3a","name":"TEST_VARIABLE"}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '328'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Wed, 07 Jul 2021 16:30:48 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '119'
+      x-ratelimit-reset:
+      - '12'
+    status:
+      code: 200
+      message: OK
 - request:
     body: null
     headers:
@@ -124,7 +192,8 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"errors": ["Access was denied to this resource."]}'
+      string: '{"variables":[{"parse_test_options":null,"parse_test_extracted_at":null,"description":"Description
+        of the variable","tags":["foo:bar","env:test"],"created_at":"2021-07-07T16:30:48.652141+00:00","is_totp":null,"modified_at":"2021-07-07T16:30:48.652141+00:00","value":{"secure":false,"value":"variable-value"},"parse_test_public_id":null,"parse_test_name":null,"created_by":null,"type":"variable","id":"0f616355-f8a0-47ec-9859-f5cdc86935c8","name":"EXAMPLE_VARIABLE"},{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":["check_type:api"],"created_at":"2021-07-07T16:30:48.616825+00:00","is_totp":null,"modified_at":"2021-07-07T16:30:48.616825+00:00","value":{"secure":false,"value":"TESTVALUELETSSEEdadsddsadsadadsadsad"},"parse_test_public_id":null,"parse_test_name":null,"created_by":null,"type":"variable","id":"b52b1e3d-d962-4333-afed-23f41ff10f3a","name":"TEST_VARIABLE"},{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":[],"created_at":"2021-07-07T16:29:38.772991+00:00","is_totp":null,"modified_at":"2021-07-07T16:29:38.772991+00:00","value":{"secure":false,"value":"test"},"parse_test_public_id":null,"parse_test_name":null,"created_by":null,"type":"variable","id":"c9c8e065-ea6f-40f6-bb04-0b6e1ee6fe18","name":"TEST"}]}'
     headers:
       Alt-Svc:
       - clear
@@ -135,13 +204,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '51'
+      - '1298'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 05 Jul 2021 22:29:22 GMT
+      - Wed, 07 Jul 2021 16:30:48 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -152,7 +221,15 @@ interactions:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '118'
+      x-ratelimit-reset:
+      - '12'
     status:
-      code: 403
-      message: Forbidden
+      code: 200
+      message: OK
 version: 1

@@ -31,7 +31,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 22:29:09 GMT
+      - Wed, 07 Jul 2021 16:30:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -49,7 +49,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - EFjE6I+AUQmTiNqZcuE1nqoFeAjWD0Xtzy3edDrinkwlU/Wzr/2Dbl5kWk3qLVaQ
+      - LcgNasIYBRkNppmD6mCKE9J6iv0eEjosuuHR5V5zw2fWbR54i39C8dhdK8zDq/40
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -57,9 +57,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '119'
+      - '117'
       x-ratelimit-reset:
-      - '51'
+      - '15'
     status:
       code: 200
       message: OK
@@ -88,7 +88,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 22:29:09 GMT
+      - Wed, 07 Jul 2021 16:30:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -106,7 +106,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - fIO2C4qGDheGHy4YbS+r3a3CXbh4cbRo7roILOimQyiHGjQdOat0cIpWCkupM1uX
+      - FRgEFSxePHy8xt2+iFDxzhMqQHbD6gb2tfyVAba+XI40oQ0/fu9dPGCtDFr2ADF5
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -132,7 +132,15 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations
   response:
     body:
-      string: '{"errors": ["Access was denied to this resource."]}'
+      string: '{"private_location":{"name":"Test Private Variable","tags":["key:value"],"secrets":{"authentication":{"id":"b3980aa881b08cc6a4d334ba765338ca","key":"2c2b73835b5acc7774069579e689e1dbbe957a13a6ad4b4dac7319192df4a44b"},"config_decryption":{"id":"de2d7f9f3b0b13f0edab7ab459af02df","key":"-----BEGIN
+        RSA PRIVATE KEY-----\n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\n-----END
+        RSA PRIVATE KEY-----"}},"description":"datadog-sync-cli test","modifiedAt":"2021-07-07T16:30:47.228137+00:00","config":{"site":"datadoghq.eu"},"id":"pl:test-private-variable-76f82cdb0eea086be4b7fde7e7463e78","createdAt":"2021-07-07T16:30:47.228137+00:00","metadata":{}},"config":{"accessKey":"b3980aa881b08cc6a4d334ba765338ca","privateKey":"-----BEGIN
+        RSA PRIVATE KEY-----\n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\n-----END
+        RSA PRIVATE KEY-----","site":"datadoghq.eu","secretAccessKey":"2c2b73835b5acc7774069579e689e1dbbe957a13a6ad4b4dac7319192df4a44b","publicKey":{"pem":"-----BEGIN
+        PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
+        PUBLIC KEY-----\n","fingerprint":"sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins="},"id":"pl:test-private-variable-76f82cdb0eea086be4b7fde7e7463e78"},"result_encryption":{"id":"sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins=","key":"-----BEGIN
+        PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
+        PUBLIC KEY-----\n"}}'
     headers:
       Alt-Svc:
       - clear
@@ -143,13 +151,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '51'
+      - '9187'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 05 Jul 2021 22:29:09 GMT
+      - Wed, 07 Jul 2021 16:30:47 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -161,57 +169,6 @@ interactions:
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
-- request:
-    body: '{"name": "Test Private Variable", "tags": ["key:value"], "description":
-      "datadog-sync-cli test"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '96'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations
-  response:
-    body:
-      string: '{"errors": ["Access was denied to this resource."]}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '51'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Mon, 05 Jul 2021 22:29:09 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 403
-      message: Forbidden
+      code: 200
+      message: OK
 version: 1

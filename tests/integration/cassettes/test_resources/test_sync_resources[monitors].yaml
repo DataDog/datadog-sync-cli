@@ -42,8 +42,8 @@ interactions:
         Karimov","email":"sherzod.karimov@datadoghq.com"},"org_id":569509,"modified":"2021-06-08T18:17:53.020925+00:00","priority":null,"overall_state_modified":"2021-06-08T18:19:16+00:00","overall_state":"OK","type":"query
         alert","options":{"notify_audit":false,"locked":false,"timeout_h":0,"silenced":{},"include_tags":true,"no_data_timeframe":null,"require_full_window":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0,"escalation_message":"","threshold_windows":{"recovery_window":"last_15m","trigger_window":"last_15m"},"thresholds":{"critical":1.0,"critical_recovery":0.0}}},{"restricted_roles":null,"tags":["foo:bar","foo","env:test","probe_dc:aws:eu-central-1","check_type:api","check_status:live"],"deleted":null,"query":"no_query","message":"Notify
         @pagerduty","matching_downtimes":[],"id":37286152,"multi":false,"name":"[Synthetics]
-        HTTP Test","created":"2021-06-08T18:26:23.551649+00:00","created_at":1623176783000,"creator":{"id":2781275,"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
-        Karimov","email":"sherzod.karimov@datadoghq.com"},"org_id":569509,"modified":"2021-06-17T12:43:27.037517+00:00","priority":null,"overall_state_modified":"2021-06-08T18:27:54+00:00","overall_state":"OK","type":"synthetics
+        HTTP Test - example","created":"2021-06-08T18:26:23.551649+00:00","created_at":1623176783000,"creator":{"id":2781275,"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
+        Karimov","email":"sherzod.karimov@datadoghq.com"},"org_id":569509,"modified":"2021-07-06T20:16:31.543448+00:00","priority":null,"overall_state_modified":"2021-06-08T18:27:54+00:00","overall_state":"OK","type":"synthetics
         alert","options":{"notify_audit":false,"locked":false,"silenced":{},"include_tags":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":100}},{"restricted_roles":null,"tags":["foo:bar","foo","env:test","probe_dc:aws:eu-central-1","check_type:api-dns","check_status:live"],"deleted":null,"query":"no_query","message":"Notify
         @pagerduty","matching_downtimes":[],"id":37286153,"multi":false,"name":"[Synthetics]
         DNS Test","created":"2021-06-08T18:26:23.552685+00:00","created_at":1623176783000,"creator":{"id":2781275,"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
@@ -69,13 +69,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 22:29:11 GMT
+      - Wed, 07 Jul 2021 16:30:37 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '10059'
+      - '10069'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -95,7 +95,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '9'
+      - '3'
     status:
       code: 200
       message: OK
@@ -129,7 +129,10 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"errors": ["Access was denied to this resource."]}'
+      string: '{"restricted_roles":null,"tags":[],"deleted":null,"query":"avg(last_5m):avg:dd.dialtone.historical.metrics{*}
+        > 20","message":"Composite monitor - child 1","id":1403994,"multi":false,"name":"Composite
+        monitor - child 1","created":"2021-07-07T16:30:37.850502+00:00","created_at":1625675437000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-07T16:30:37.850502+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
+        Data","type":"metric alert","options":{"notify_audit":false,"locked":false,"timeout_h":0,"silenced":{},"include_tags":true,"no_data_timeframe":null,"require_full_window":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0,"escalation_message":"","thresholds":{"critical":20.0,"warning":10.0}}}'
     headers:
       Alt-Svc:
       - clear
@@ -140,13 +143,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '51'
+      - '835'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 05 Jul 2021 22:29:11 GMT
+      - Wed, 07 Jul 2021 16:30:37 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -157,9 +160,17 @@ interactions:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '10'
+      x-ratelimit-remaining:
+      - '497'
+      x-ratelimit-reset:
+      - '3'
     status:
-      code: 403
-      message: Forbidden
+      code: 200
+      message: OK
 - request:
     body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "( 36239262
       && 36230659 ) || !36239262", "message": "test", "matching_downtimes": [], "id":
@@ -188,98 +199,41 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"errors": ["Access was denied to this resource."]}'
+      string: '{"errors": ["Some monitor IDs are invalid"]}'
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '51'
+      - '44'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 05 Jul 2021 22:29:14 GMT
+      - Wed, 07 Jul 2021 16:30:38 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '10'
+      x-ratelimit-remaining:
+      - '495'
+      x-ratelimit-reset:
+      - '2'
     status:
-      code: 403
-      message: Forbidden
-- request:
-    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-      > 50", "message": "Test monitor ----------------", "matching_downtimes": [],
-      "id": 36230659, "multi": false, "name": "Composite monitor - Child 2", "created":
-      "2021-05-30T08:43:37.940520+00:00", "created_at": 1622364217000, "creator":
-      {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod
-      Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id": 569509, "modified":
-      "2021-06-08T18:14:12.441535+00:00", "priority": null, "overall_state_modified":
-      "2021-05-30T08:45:28+00:00", "overall_state": "OK", "type": "metric alert",
-      "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "silenced":
-      {}, "include_tags": true, "no_data_timeframe": null, "require_full_window":
-      true, "new_host_delay": 300, "notify_no_data": false, "renotify_interval": 0,
-      "escalation_message": "", "thresholds": {"critical": 50.0}}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '960'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/monitor
-  response:
-    body:
-      string: '{"errors": ["Access was denied to this resource."]}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '51'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Mon, 05 Jul 2021 22:29:14 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 403
-      message: Forbidden
+      code: 400
+      message: Bad Request
 - request:
     body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "( 36239262
       && 36230659 ) || !36239262", "message": "test", "matching_downtimes": [], "id":
@@ -308,35 +262,39 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"errors": ["Access was denied to this resource."]}'
+      string: '{"errors": ["Some monitor IDs are invalid"]}'
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '51'
+      - '44'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 05 Jul 2021 22:29:15 GMT
+      - Wed, 07 Jul 2021 16:30:38 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '10'
+      x-ratelimit-remaining:
+      - '494'
+      x-ratelimit-reset:
+      - '2'
     status:
-      code: 403
-      message: Forbidden
+      code: 400
+      message: Bad Request
 version: 1

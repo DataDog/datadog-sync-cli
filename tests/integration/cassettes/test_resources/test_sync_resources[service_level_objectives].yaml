@@ -34,7 +34,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 22:29:02 GMT
+      - Wed, 07 Jul 2021 16:30:28 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -58,9 +58,9 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '997'
+      - '999'
       x-ratelimit-reset:
-      - '8'
+      - '2'
     status:
       code: 200
       message: OK
@@ -104,7 +104,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 05 Jul 2021 22:29:02 GMT
+      - Wed, 07 Jul 2021 16:30:28 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -118,9 +118,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '496'
+      - '499'
       x-ratelimit-reset:
-      - '58'
+      - '32'
     status:
       code: 400
       message: Bad Request
@@ -164,7 +164,67 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 05 Jul 2021 22:29:02 GMT
+      - Wed, 07 Jul 2021 16:30:29 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '495'
+      x-ratelimit-reset:
+      - '31'
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: '{"description": "Updated Description Test", "monitor_tags": [], "creator":
+      {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov", "email":
+      "sherzod.karimov@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
+      "99.", "timeframe": "7d"}], "type_id": 0, "id": "ae04001ea55f52f6ae4b85d9b1023909",
+      "monitor_ids": [36230659, 37284891], "name": "Composite monitor - Child 2",
+      "created_at": 1623260678, "tags": [], "modified_at": 1625053391, "type": "monitor"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '482'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"errors": ["Invalid payload: invalid monitor ids: 36230659, 37284891,
+        monitors not found or not supported SLO"]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '113'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Wed, 07 Jul 2021 16:30:29 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -180,7 +240,7 @@ interactions:
       x-ratelimit-remaining:
       - '493'
       x-ratelimit-reset:
-      - '58'
+      - '31'
     status:
       code: 400
       message: Bad Request
