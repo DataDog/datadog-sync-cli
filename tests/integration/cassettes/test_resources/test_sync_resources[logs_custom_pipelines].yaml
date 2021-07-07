@@ -67,7 +67,7 @@ interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Mon, 05 Jul 2021 22:29:18 GMT
+      - Wed, 07 Jul 2021 15:59:07 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -87,7 +87,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - vdJ3/nHEY1ioXQ6pQrBVvsQK1s4yyc+wufBMPSoXql71qZVuP/xMdtNo6DafhOAk
+      - EFjE6I+AUQmTiNqZcuE1nqoFeAjWD0Xtzy3edDrinkwlU/Wzr/2Dbl5kWk3qLVaQ
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -95,9 +95,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '4980'
+      - '4965'
       x-ratelimit-reset:
-      - '1842'
+      - '53'
     status:
       code: 200
       message: OK
@@ -154,7 +154,7 @@ interactions:
     body:
       string: "\n\n\n<!DOCTYPE html>\n<!--\n______  _______ _______ _______ ______
         \  _____   ______\n|     \\ |_____|    |    |_____| |     \\ |     | |  ____\n|_____/
-        |     |    |    |     | |_____/ |_____| |_____|\n\n\nZ1FwGPsmhlFJET7exLGMy7+pqXz50tZU8NzN/R9JX9G0HGv/i4t50wpfL4vWGvI02D6ReMo0hdncYdAS9LGXW2u+OC+SCcvhxdGbaLifdWt+ZOo282rMKbKCG86+rVBEaxOtIYYG0yJjc7d+d1c0AizwYmBsH2WtLzx6q81/NZQyqmcvI5g9epblLsOJvozP4n3evucmGGEShE6zZoJBCQNtw/K0c6/PbbBly/Y7vQkUIMcyvgOEGZVWYVMxP3M5iWox9KD68SQLOmMGLxJaoCvAzpMF6cEp6bil/kkxCrXQcatt+4tiH4PitXtPD0CO5XinUAhBf+Zv00rcuHcAn/nLvVPebXF//Li4i+SuUrNK/gWYVckthV3rvHLvaojKBPZC3Ge3UJJaE1idf6G6HMeSdhy+d9Ewv65Rf3nhJvT88xmCNu5MPzZCHLM87XrkG0Ag1JLWsoyIN7fyPLpxtavgSgBoUwM1S41dXgC/V4FnAHRXkFHPie6JR+wqnbbQrUdJ8dxUg1Lsi5lxpN65vvXpfn3Hu+9zVeH4cULq7aI3Q0Zv58uk5IS/Qzc2Hmidih3QiBiUFuSC5w7WVEb7iqYs8tZ5ehLcMnC6UwjvWNdjFr+Glm2/VR4ja9JzzxCoObX2BkfbA1rtIUwN1WS7nWhj693HMkqcwVunBMcFCYGiKWJfaGBhRMoJBJudjmH4VTZP6E36ILD1tdnP76kxAskG2w==\n\n\n-->\n<html>\n
+        |     |    |    |     | |_____/ |_____| |_____|\n\n\nDAnK0D0lnZVhWTf9Vfv4oAenY/2SE86UXaUOUq1sSBNDPGwQ5QoDLgyWK716tk/mD4v3K/o1vUbn9XdlXWZRt9heoLRsJZDxBFLjEwDV8DaOzItIfi7Glu/AXHHWrj9WtmKQC8BIXmoJlbhnY8NRKH+xFWFpHfvzrEbE7a683xkUuSCVs3KKhbOPGQQBpjrkv/FLGSeQcTsnNX1M/eV5q7WiOy9axSEFWWkDtF2jsN1g93bLgVo8jU6NqIHJvtK9ERQm+pE7OwVm8LdUCGGKl3f2pMJkUODhUuC3AEkuHxZF4J5uJqdnDqE/BAcZlSqf4QFIPzEqkXYlZDgQqA0PgiAzxsrJcmKPiAs2L/BwSYbXcqaBI3kUK1w+MnVuOm6BX2iyurmoO/uogjA2fxRxmXHW2NUeYSrR0cEXRBsaC9+gvBy6s25rrIb5mhPu0HTgBURoP6fajF7rrhIZlmXDjl+1CfefG71f9cCuz9KF2nNR74o4BQKYyZBgJgRy/6cEaEfafDJUP+/Y2eBtgWp0ISPLspx5S6m+Mx6VlFDcIV+J25o2dshLYh+iG0PmRycqNazyR67/7I3QnLgEnprevPc8YHnAE8uquulFnTrtZbQPwSDDNk5feNm87u+qMWa/L34Cxy7ZsPbRb/KH0AbwbWkJGk1HZP/DD3n5KqxT8ZV9iJ6BUefAsJZqOBIFZHcpMsD3pduM/5gib2sT/GmG2Yetbebo17yKWDU3mGzhjFNKrBQ++zl8IDXzozuTeQZYJWfVWDiPJd9xHvfylHg6jeEWNmWLXI3nU4gK4VHEQJrxCoTtDlPR0TAGTgQdNH4AQD6Or2mAPVjDJciitwTuBfC9Kb7HldwBztchevKvv8TgfgdNcCW173o57B3jXerno5g60qpMW3v25mPdfdyJ7FBKLd5ony9qe5ViIN3fiQ5DumhKNCCzo4xJxsjLE6Of5fK7HE6PbDTpkoyCiRbAstv0zCFfBsa7rPILlKpiiLqPsi+hs+bpGA3GkcfQiP4CuIyAISBsfW2S2Bnq+5Fa5og6f/ScNdELFVF3tPAhCzYTZ5704FEfYWLcXb7DEeZ5xSP+s2ubAXFlQAnjxl3tomRWDMbqu10654MhjNKrFnACPKBKFOdQEqW1vx6IMPe98ll1uD96+8sTGWgd6MhFRZhoh+kFLfZeG0SEMxNInpveCv8HC/gVTgi0umk8tHbUF2v/zfdHsog/MibCUhkGBTKGTNWdDP51Kazzl9RASWLASCL1w9XFuoatC9svY+UtObK1xwOqFRCbVq8fcSpExLiHPz2KcDqX+g47QeuJtTl0KU1D242+o7PWHYADgCgWD9frn8Ul7Y+rgY5736S3iAfqBUd4h7fQtwlhaFeP4+t3P5DvnaA/MMxqdIhg\n\n\n-->\n<html>\n
         \   <head>\n        <meta name=\"viewport\" content=\"width=device-width,
         initial-scale=1\">\n        <style>\n            @viewport {\n                width:
         device-width;\n                initial-scale: 1;\n            }\n            body
@@ -163,24 +163,24 @@ interactions:
         picture.mako_picture img.mako_picture_dark {\n                display: none;\n
         \           }\n\n            img.mako_picture_dark {\n                filter:
         brightness(76%);\n            }\n        </style>\n        <title>\n          \n
-        \ Error 403 | Datadog\n |\n        Datadog\n        </title>\n        <link
-        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.css\"
+        \ Error 429 | Datadog\n |\n        Datadog\n        </title>\n        <link
+        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.css\"
         media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />\n        \n        \n
         \       \n        \n    </head>\n    <body class=\"\n\">\n        \n\n\n\n<div
         class=\"error_page clearfix\">\n  <div class=\"error_img\">\n    <picture
         class=\"mako_picture\">\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_light\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits.svg\" width=\"276\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits.svg\" width=\"276\"
         height=\"295\" />\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_dark\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits_reversed.svg\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits_reversed.svg\"
         width=\"276\" height=\"295\" />\n    </picture>\n  </div>\n  <div class=\"error_msg\">\n
         \   <p class=\"text-contrast-80 text-displayface\" style=\"margin: 0 0 0;
         font-size: 96px; font-weight: bold; line-height: 1;\">Arf.</p>\n    <h1 style=\"font-size:
-        48px; line-height: 1;\">403 Forbidden</h1>\n    <ul>\n      <li class=\"live-status\"
+        48px; line-height: 1;\">429 Too Many Requests</h1>\n    <ul>\n      <li class=\"live-status\"
         id=\"error-status\"></li>\n      <li><a href=\"/\">Datadog Homepage &rarr;</a></li>\n
         \     <li><a href=\"https://docs.datadoghq.com/help/\">Datadog Help &rarr;</a></li>\n
         \     <li><a href=\"/account/settings\">Datadog Setup Basics &rarr;</a></li>\n
         \   </ul>\n  </div>\n</div>\n\n<!--page--></div>\n\n\n\n\n\n        <script>\n
-        \           window.DD_version=\"35.4892550\";\n        </script>\n\n        \n\n<!--
+        \           window.DD_version=\"35.4907878\";\n        </script>\n\n        \n\n<!--
         DD JS -->\n\n<div style=\"display: none;\"><input id=\"config-init\" name=\"config-init\"
         type=\"hidden\" value=\"{&#34;browser_email.domain&#34;: &#34;synthetics.dtdg.eu&#34;,
         &#34;watchdog.default_shadow_pipeline&#34;: null, &#34;alerting.count_over_count_validation_min_id&#34;:
@@ -189,7 +189,7 @@ interactions:
         &#34;init_config&#34;: {&#34;forwardErrorsToLogs&#34;: &#34;true&#34;, &#34;service&#34;:
         &#34;web-ui&#34;, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;env&#34;: &#34;prod&#34;,
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;env&#34;: &#34;prod&#34;,
         &#34;clientToken&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;, &#34;useAlternateIntakeDomains&#34;:
         false, &#34;sampleRate&#34;: 100.0, &#34;replica&#34;: null}}, &#34;rum&#34;:
         {&#34;bundle_url&#34;: &#34;https://www.datadoghq-browser-agent.com/datadog-rum.js&#34;,
@@ -197,7 +197,7 @@ interactions:
         false, &#34;env&#34;: &#34;prod&#34;, &#34;service&#34;: &#34;web-ui&#34;,
         &#34;trackInteractions&#34;: true, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
         100.0, &#34;clientToken&#34;: &#34;pub5aca13241dc0292e597bbdee3b96d7e2&#34;,
         &#34;manualSessionReplayRecordingStart&#34;: true, &#34;sampleRate&#34;: 100.0,
         &#34;applicationId&#34;: &#34;d2e1d971-6cf8-45bf-84d4-ba4a3dc8089c&#34;}}},
@@ -305,14 +305,15 @@ interactions:
         &#34;container_orchestration_new_resource_menu&#34;, &#34;process_distribution_metrics&#34;,
         &#34;correlations_resource_change&#34;, &#34;logs-toolkit_leftright_groupby&#34;,
         &#34;amazon_dms&#34;, &#34;alibaba_cloud&#34;, &#34;template_var_value_support&#34;,
-        &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;, &#34;amazon_cloudfront&#34;,
-        &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;, &#34;trace_backend_powered_sublayer_metrics_ui&#34;,
-        &#34;billing_plan&#34;, &#34;k9_getting_started&#34;, &#34;query_alerts&#34;,
-        &#34;google_analytics&#34;, &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;,
-        &#34;google_cloud_spanner&#34;, &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;,
-        &#34;google_cloud_firestore&#34;, &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;,
-        &#34;logs_historical_views&#34;, &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;,
-        &#34;monitor_create_v2&#34;, &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
+        &#34;dataviz_vibrant_default_palette&#34;, &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;,
+        &#34;amazon_cloudfront&#34;, &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;,
+        &#34;trace_backend_powered_sublayer_metrics_ui&#34;, &#34;billing_plan&#34;,
+        &#34;k9_getting_started&#34;, &#34;query_alerts&#34;, &#34;google_analytics&#34;,
+        &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;, &#34;google_cloud_spanner&#34;,
+        &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;, &#34;google_cloud_firestore&#34;,
+        &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;, &#34;logs_historical_views&#34;,
+        &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;, &#34;monitor_create_v2&#34;,
+        &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
         &#34;php_fpm&#34;, &#34;metrics_summary_bulk_tag_config&#34;, &#34;logs_multi_gb_in_timeseries&#34;,
         &#34;amazon_network_firewall&#34;, &#34;azure_db_for_mysql&#34;, &#34;hostname_dropdown&#34;,
         &#34;allow_custom_integration_check_groups&#34;, &#34;amazon_sqs&#34;, &#34;watchdog_generate_aws_elb_insights&#34;,
@@ -341,13 +342,13 @@ interactions:
         &#34;metrics_summary_distributions&#34;, &#34;amazon_appstream&#34;, &#34;apm_new_settings&#34;,
         &#34;multisize_layout_integration&#34;, &#34;monitor_rrule_ui&#34;, &#34;kube_controller_manager&#34;,
         &#34;metadata_unit_labels&#34;, &#34;app_services_filtering&#34;, &#34;watchdog_show_nginx_stories&#34;,
-        &#34;multi_units_number_formatting&#34;, &#34;mcache&#34;, &#34;azure_notification_hubs&#34;,
-        &#34;watchdog_generate_aws_alb_insights&#34;, &#34;adv_event_queries&#34;,
-        &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;, &#34;amazon_app_runner&#34;,
-        &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;, &#34;infralist_usage_tracking&#34;,
-        &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;, &#34;azure_data_lake_store&#34;,
-        &#34;process_saved_views&#34;, &#34;users_v1_api&#34;, &#34;elastic&#34;,
-        &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
+        &#34;multi_units_number_formatting&#34;, &#34;container_orchestration_jobs_cronjobs_views&#34;,
+        &#34;mcache&#34;, &#34;azure_notification_hubs&#34;, &#34;watchdog_generate_aws_alb_insights&#34;,
+        &#34;adv_event_queries&#34;, &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;,
+        &#34;amazon_app_runner&#34;, &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;,
+        &#34;infralist_usage_tracking&#34;, &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;,
+        &#34;azure_data_lake_store&#34;, &#34;process_saved_views&#34;, &#34;users_v1_api&#34;,
+        &#34;elastic&#34;, &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
         &#34;query_value_custom_image&#34;, &#34;azure_express_route&#34;, &#34;trace_versions_k8s&#34;,
         &#34;amazon_neptune&#34;, &#34;amazon_elasticbeanstalk&#34;, &#34;crio&#34;,
         &#34;correlations_terminating_hosts&#34;, &#34;watchdog_show_aws_dynamodb_stories&#34;,
@@ -369,31 +370,32 @@ interactions:
         &#34;amazon_vpn&#34;, &#34;sketch_intake&#34;, &#34;amazon_billing&#34;, &#34;change_widget_no_interval&#34;,
         &#34;event_viewer&#34;, &#34;rum_geomap&#34;, &#34;amazon_mediaconvert&#34;,
         &#34;query_value_custom_colors&#34;, &#34;process_page_always_show_scatterplot&#34;,
-        &#34;amazon_appsync&#34;, &#34;notebooks_public_api&#34;, &#34;azure_logic_app&#34;,
-        &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;, &#34;google_cloud_run&#34;,
-        &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;, &#34;azure_usage_and_quotas&#34;,
-        &#34;watchdog_show_aws_nlb_stories&#34;, &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;,
-        &#34;aws_detailed_elb_deduped_metrics_log&#34;, &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;,
-        &#34;google_cloud_functions&#34;, &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;,
-        &#34;google_cloud_iot&#34;, &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;,
-        &#34;azure_app_services&#34;, &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;,
-        &#34;watchdog_show_dashboard_correlations_section&#34;, &#34;metrics_summary_tag_table&#34;,
-        &#34;amazon_elb&#34;, &#34;enable_distribution&#34;, &#34;amazon_ses&#34;,
-        &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;, &#34;azure_blob_storage&#34;,
-        &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;, &#34;1mo_alerts&#34;,
-        &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;, &#34;new_dashboards_list_onboarding&#34;,
-        &#34;metric_summary_meta_display&#34;, &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;,
-        &#34;monitors_forms_v2_type_log&#34;, &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;,
-        &#34;monitors_summary_ok_link&#34;, &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;,
-        &#34;synthetics&#34;, &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;,
-        &#34;amazon_mediaconnect&#34;, &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;,
-        &#34;watchdog_show_nginx_plus_stories&#34;, &#34;process_variable_time_range_support&#34;,
-        &#34;dashboard_allow_metric_boolean_filter&#34;, &#34;logs_group_by_selector_v2&#34;,
-        &#34;amazon_rekognition&#34;, &#34;spa_help&#34;, &#34;as_count_validation&#34;,
-        &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;, &#34;monitors_forms_v2_type_rum&#34;,
-        &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;, &#34;snyk&#34;, &#34;pagerduty_schedules&#34;,
-        &#34;watchdog_show_aws_elb_stories&#34;, &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;,
-        &#34;oracle_cloud_infrastructure&#34;, &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
+        &#34;amazon_appsync&#34;, &#34;incidents_datasource&#34;, &#34;notebooks_public_api&#34;,
+        &#34;azure_logic_app&#34;, &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;,
+        &#34;google_cloud_run&#34;, &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;,
+        &#34;azure_usage_and_quotas&#34;, &#34;watchdog_show_aws_nlb_stories&#34;,
+        &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;, &#34;aws_detailed_elb_deduped_metrics_log&#34;,
+        &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;, &#34;google_cloud_functions&#34;,
+        &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;, &#34;google_cloud_iot&#34;,
+        &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;, &#34;azure_app_services&#34;,
+        &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;, &#34;watchdog_show_dashboard_correlations_section&#34;,
+        &#34;metrics_summary_tag_table&#34;, &#34;amazon_elb&#34;, &#34;enable_distribution&#34;,
+        &#34;amazon_ses&#34;, &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;,
+        &#34;azure_blob_storage&#34;, &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;,
+        &#34;1mo_alerts&#34;, &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;,
+        &#34;new_dashboards_list_onboarding&#34;, &#34;metric_summary_meta_display&#34;,
+        &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;, &#34;monitors_forms_v2_type_log&#34;,
+        &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;, &#34;monitors_summary_ok_link&#34;,
+        &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;, &#34;synthetics&#34;,
+        &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;, &#34;amazon_mediaconnect&#34;,
+        &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;, &#34;watchdog_show_nginx_plus_stories&#34;,
+        &#34;process_variable_time_range_support&#34;, &#34;dashboard_allow_metric_boolean_filter&#34;,
+        &#34;logs_group_by_selector_v2&#34;, &#34;amazon_rekognition&#34;, &#34;spa_help&#34;,
+        &#34;as_count_validation&#34;, &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;,
+        &#34;monitors_forms_v2_type_rum&#34;, &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;,
+        &#34;snyk&#34;, &#34;pagerduty_schedules&#34;, &#34;watchdog_show_aws_elb_stories&#34;,
+        &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;, &#34;oracle_cloud_infrastructure&#34;,
+        &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
         &#34;k9_attrs_additional_dashboard_links&#34;, &#34;amazon_kinesis&#34;, &#34;google_cloud_router&#34;,
         &#34;events_explorer_saved_views&#34;, &#34;amazon_ec2_spot&#34;, &#34;amazon_athena&#34;,
         &#34;log_multi_monitors_release&#34;, &#34;k9_anomaly_graph&#34;, &#34;watchdog_generate_infra_partitions&#34;,
@@ -460,39 +462,35 @@ interactions:
         type=\"hidden\" value=\"&#34;https://static.datadoghq.eu&#34;\" /></div>\n<div
         style=\"display: none;\"><input id=\"castlerequestsignature\" name=\"castleRequestSignature\"
         type=\"hidden\" value=\"c8247eb245c6414c737020afec747d5af4b06c0168ca2fab50ed78f5deaaa84a\"
-        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.js\"
+        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.js\"
         type=\"text/javascript\"></script>\n\n\n    <script>DD.initApp();</script>\n\n
         \       \n\n    </body>\n</html>\n"
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '28417'
+      - '29227'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - text/html; charset=utf-8
       date:
-      - Mon, 05 Jul 2021 22:29:18 GMT
+      - Wed, 07 Jul 2021 15:59:07 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
+      code: 429
+      message: Too Many Requests
 - request:
     body: '{"name": "Test pipeline 2", "is_enabled": true, "filter": {"query": "test:query"},
       "processors": [{"name": "Grok Parser", "is_enabled": true, "source": "message",
@@ -518,7 +516,7 @@ interactions:
     body:
       string: "\n\n\n<!DOCTYPE html>\n<!--\n______  _______ _______ _______ ______
         \  _____   ______\n|     \\ |_____|    |    |_____| |     \\ |     | |  ____\n|_____/
-        |     |    |    |     | |_____/ |_____| |_____|\n\n\n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\n\n\n-->\n<html>\n
+        |     |    |    |     | |_____/ |_____| |_____|\n\n\n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\n\n\n-->\n<html>\n
         \   <head>\n        <meta name=\"viewport\" content=\"width=device-width,
         initial-scale=1\">\n        <style>\n            @viewport {\n                width:
         device-width;\n                initial-scale: 1;\n            }\n            body
@@ -527,24 +525,24 @@ interactions:
         picture.mako_picture img.mako_picture_dark {\n                display: none;\n
         \           }\n\n            img.mako_picture_dark {\n                filter:
         brightness(76%);\n            }\n        </style>\n        <title>\n          \n
-        \ Error 403 | Datadog\n |\n        Datadog\n        </title>\n        <link
-        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.css\"
+        \ Error 429 | Datadog\n |\n        Datadog\n        </title>\n        <link
+        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.css\"
         media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />\n        \n        \n
         \       \n        \n    </head>\n    <body class=\"\n\">\n        \n\n\n\n<div
         class=\"error_page clearfix\">\n  <div class=\"error_img\">\n    <picture
         class=\"mako_picture\">\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_light\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits.svg\" width=\"276\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits.svg\" width=\"276\"
         height=\"295\" />\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_dark\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits_reversed.svg\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits_reversed.svg\"
         width=\"276\" height=\"295\" />\n    </picture>\n  </div>\n  <div class=\"error_msg\">\n
         \   <p class=\"text-contrast-80 text-displayface\" style=\"margin: 0 0 0;
         font-size: 96px; font-weight: bold; line-height: 1;\">Arf.</p>\n    <h1 style=\"font-size:
-        48px; line-height: 1;\">403 Forbidden</h1>\n    <ul>\n      <li class=\"live-status\"
+        48px; line-height: 1;\">429 Too Many Requests</h1>\n    <ul>\n      <li class=\"live-status\"
         id=\"error-status\"></li>\n      <li><a href=\"/\">Datadog Homepage &rarr;</a></li>\n
         \     <li><a href=\"https://docs.datadoghq.com/help/\">Datadog Help &rarr;</a></li>\n
         \     <li><a href=\"/account/settings\">Datadog Setup Basics &rarr;</a></li>\n
         \   </ul>\n  </div>\n</div>\n\n<!--page--></div>\n\n\n\n\n\n        <script>\n
-        \           window.DD_version=\"35.4892550\";\n        </script>\n\n        \n\n<!--
+        \           window.DD_version=\"35.4907878\";\n        </script>\n\n        \n\n<!--
         DD JS -->\n\n<div style=\"display: none;\"><input id=\"config-init\" name=\"config-init\"
         type=\"hidden\" value=\"{&#34;browser_email.domain&#34;: &#34;synthetics.dtdg.eu&#34;,
         &#34;watchdog.default_shadow_pipeline&#34;: null, &#34;alerting.count_over_count_validation_min_id&#34;:
@@ -553,7 +551,7 @@ interactions:
         &#34;init_config&#34;: {&#34;forwardErrorsToLogs&#34;: &#34;true&#34;, &#34;service&#34;:
         &#34;web-ui&#34;, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;env&#34;: &#34;prod&#34;,
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;env&#34;: &#34;prod&#34;,
         &#34;clientToken&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;, &#34;useAlternateIntakeDomains&#34;:
         false, &#34;sampleRate&#34;: 100.0, &#34;replica&#34;: null}}, &#34;rum&#34;:
         {&#34;bundle_url&#34;: &#34;https://www.datadoghq-browser-agent.com/datadog-rum.js&#34;,
@@ -561,7 +559,7 @@ interactions:
         false, &#34;env&#34;: &#34;prod&#34;, &#34;service&#34;: &#34;web-ui&#34;,
         &#34;trackInteractions&#34;: true, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
         100.0, &#34;clientToken&#34;: &#34;pub5aca13241dc0292e597bbdee3b96d7e2&#34;,
         &#34;manualSessionReplayRecordingStart&#34;: true, &#34;sampleRate&#34;: 100.0,
         &#34;applicationId&#34;: &#34;d2e1d971-6cf8-45bf-84d4-ba4a3dc8089c&#34;}}},
@@ -669,14 +667,15 @@ interactions:
         &#34;container_orchestration_new_resource_menu&#34;, &#34;process_distribution_metrics&#34;,
         &#34;correlations_resource_change&#34;, &#34;logs-toolkit_leftright_groupby&#34;,
         &#34;amazon_dms&#34;, &#34;alibaba_cloud&#34;, &#34;template_var_value_support&#34;,
-        &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;, &#34;amazon_cloudfront&#34;,
-        &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;, &#34;trace_backend_powered_sublayer_metrics_ui&#34;,
-        &#34;billing_plan&#34;, &#34;k9_getting_started&#34;, &#34;query_alerts&#34;,
-        &#34;google_analytics&#34;, &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;,
-        &#34;google_cloud_spanner&#34;, &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;,
-        &#34;google_cloud_firestore&#34;, &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;,
-        &#34;logs_historical_views&#34;, &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;,
-        &#34;monitor_create_v2&#34;, &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
+        &#34;dataviz_vibrant_default_palette&#34;, &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;,
+        &#34;amazon_cloudfront&#34;, &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;,
+        &#34;trace_backend_powered_sublayer_metrics_ui&#34;, &#34;billing_plan&#34;,
+        &#34;k9_getting_started&#34;, &#34;query_alerts&#34;, &#34;google_analytics&#34;,
+        &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;, &#34;google_cloud_spanner&#34;,
+        &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;, &#34;google_cloud_firestore&#34;,
+        &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;, &#34;logs_historical_views&#34;,
+        &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;, &#34;monitor_create_v2&#34;,
+        &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
         &#34;php_fpm&#34;, &#34;metrics_summary_bulk_tag_config&#34;, &#34;logs_multi_gb_in_timeseries&#34;,
         &#34;amazon_network_firewall&#34;, &#34;azure_db_for_mysql&#34;, &#34;hostname_dropdown&#34;,
         &#34;allow_custom_integration_check_groups&#34;, &#34;amazon_sqs&#34;, &#34;watchdog_generate_aws_elb_insights&#34;,
@@ -705,13 +704,13 @@ interactions:
         &#34;metrics_summary_distributions&#34;, &#34;amazon_appstream&#34;, &#34;apm_new_settings&#34;,
         &#34;multisize_layout_integration&#34;, &#34;monitor_rrule_ui&#34;, &#34;kube_controller_manager&#34;,
         &#34;metadata_unit_labels&#34;, &#34;app_services_filtering&#34;, &#34;watchdog_show_nginx_stories&#34;,
-        &#34;multi_units_number_formatting&#34;, &#34;mcache&#34;, &#34;azure_notification_hubs&#34;,
-        &#34;watchdog_generate_aws_alb_insights&#34;, &#34;adv_event_queries&#34;,
-        &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;, &#34;amazon_app_runner&#34;,
-        &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;, &#34;infralist_usage_tracking&#34;,
-        &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;, &#34;azure_data_lake_store&#34;,
-        &#34;process_saved_views&#34;, &#34;users_v1_api&#34;, &#34;elastic&#34;,
-        &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
+        &#34;multi_units_number_formatting&#34;, &#34;container_orchestration_jobs_cronjobs_views&#34;,
+        &#34;mcache&#34;, &#34;azure_notification_hubs&#34;, &#34;watchdog_generate_aws_alb_insights&#34;,
+        &#34;adv_event_queries&#34;, &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;,
+        &#34;amazon_app_runner&#34;, &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;,
+        &#34;infralist_usage_tracking&#34;, &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;,
+        &#34;azure_data_lake_store&#34;, &#34;process_saved_views&#34;, &#34;users_v1_api&#34;,
+        &#34;elastic&#34;, &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
         &#34;query_value_custom_image&#34;, &#34;azure_express_route&#34;, &#34;trace_versions_k8s&#34;,
         &#34;amazon_neptune&#34;, &#34;amazon_elasticbeanstalk&#34;, &#34;crio&#34;,
         &#34;correlations_terminating_hosts&#34;, &#34;watchdog_show_aws_dynamodb_stories&#34;,
@@ -733,31 +732,32 @@ interactions:
         &#34;amazon_vpn&#34;, &#34;sketch_intake&#34;, &#34;amazon_billing&#34;, &#34;change_widget_no_interval&#34;,
         &#34;event_viewer&#34;, &#34;rum_geomap&#34;, &#34;amazon_mediaconvert&#34;,
         &#34;query_value_custom_colors&#34;, &#34;process_page_always_show_scatterplot&#34;,
-        &#34;amazon_appsync&#34;, &#34;notebooks_public_api&#34;, &#34;azure_logic_app&#34;,
-        &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;, &#34;google_cloud_run&#34;,
-        &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;, &#34;azure_usage_and_quotas&#34;,
-        &#34;watchdog_show_aws_nlb_stories&#34;, &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;,
-        &#34;aws_detailed_elb_deduped_metrics_log&#34;, &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;,
-        &#34;google_cloud_functions&#34;, &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;,
-        &#34;google_cloud_iot&#34;, &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;,
-        &#34;azure_app_services&#34;, &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;,
-        &#34;watchdog_show_dashboard_correlations_section&#34;, &#34;metrics_summary_tag_table&#34;,
-        &#34;amazon_elb&#34;, &#34;enable_distribution&#34;, &#34;amazon_ses&#34;,
-        &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;, &#34;azure_blob_storage&#34;,
-        &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;, &#34;1mo_alerts&#34;,
-        &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;, &#34;new_dashboards_list_onboarding&#34;,
-        &#34;metric_summary_meta_display&#34;, &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;,
-        &#34;monitors_forms_v2_type_log&#34;, &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;,
-        &#34;monitors_summary_ok_link&#34;, &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;,
-        &#34;synthetics&#34;, &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;,
-        &#34;amazon_mediaconnect&#34;, &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;,
-        &#34;watchdog_show_nginx_plus_stories&#34;, &#34;process_variable_time_range_support&#34;,
-        &#34;dashboard_allow_metric_boolean_filter&#34;, &#34;logs_group_by_selector_v2&#34;,
-        &#34;amazon_rekognition&#34;, &#34;spa_help&#34;, &#34;as_count_validation&#34;,
-        &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;, &#34;monitors_forms_v2_type_rum&#34;,
-        &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;, &#34;snyk&#34;, &#34;pagerduty_schedules&#34;,
-        &#34;watchdog_show_aws_elb_stories&#34;, &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;,
-        &#34;oracle_cloud_infrastructure&#34;, &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
+        &#34;amazon_appsync&#34;, &#34;incidents_datasource&#34;, &#34;notebooks_public_api&#34;,
+        &#34;azure_logic_app&#34;, &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;,
+        &#34;google_cloud_run&#34;, &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;,
+        &#34;azure_usage_and_quotas&#34;, &#34;watchdog_show_aws_nlb_stories&#34;,
+        &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;, &#34;aws_detailed_elb_deduped_metrics_log&#34;,
+        &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;, &#34;google_cloud_functions&#34;,
+        &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;, &#34;google_cloud_iot&#34;,
+        &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;, &#34;azure_app_services&#34;,
+        &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;, &#34;watchdog_show_dashboard_correlations_section&#34;,
+        &#34;metrics_summary_tag_table&#34;, &#34;amazon_elb&#34;, &#34;enable_distribution&#34;,
+        &#34;amazon_ses&#34;, &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;,
+        &#34;azure_blob_storage&#34;, &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;,
+        &#34;1mo_alerts&#34;, &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;,
+        &#34;new_dashboards_list_onboarding&#34;, &#34;metric_summary_meta_display&#34;,
+        &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;, &#34;monitors_forms_v2_type_log&#34;,
+        &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;, &#34;monitors_summary_ok_link&#34;,
+        &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;, &#34;synthetics&#34;,
+        &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;, &#34;amazon_mediaconnect&#34;,
+        &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;, &#34;watchdog_show_nginx_plus_stories&#34;,
+        &#34;process_variable_time_range_support&#34;, &#34;dashboard_allow_metric_boolean_filter&#34;,
+        &#34;logs_group_by_selector_v2&#34;, &#34;amazon_rekognition&#34;, &#34;spa_help&#34;,
+        &#34;as_count_validation&#34;, &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;,
+        &#34;monitors_forms_v2_type_rum&#34;, &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;,
+        &#34;snyk&#34;, &#34;pagerduty_schedules&#34;, &#34;watchdog_show_aws_elb_stories&#34;,
+        &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;, &#34;oracle_cloud_infrastructure&#34;,
+        &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
         &#34;k9_attrs_additional_dashboard_links&#34;, &#34;amazon_kinesis&#34;, &#34;google_cloud_router&#34;,
         &#34;events_explorer_saved_views&#34;, &#34;amazon_ec2_spot&#34;, &#34;amazon_athena&#34;,
         &#34;log_multi_monitors_release&#34;, &#34;k9_anomaly_graph&#34;, &#34;watchdog_generate_infra_partitions&#34;,
@@ -824,39 +824,35 @@ interactions:
         type=\"hidden\" value=\"&#34;https://static.datadoghq.eu&#34;\" /></div>\n<div
         style=\"display: none;\"><input id=\"castlerequestsignature\" name=\"castleRequestSignature\"
         type=\"hidden\" value=\"c8247eb245c6414c737020afec747d5af4b06c0168ca2fab50ed78f5deaaa84a\"
-        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.js\"
+        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.js\"
         type=\"text/javascript\"></script>\n\n\n    <script>DD.initApp();</script>\n\n
         \       \n\n    </body>\n</html>\n"
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '30317'
+      - '29907'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - text/html; charset=utf-8
       date:
-      - Mon, 05 Jul 2021 22:29:18 GMT
+      - Wed, 07 Jul 2021 15:59:07 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
+      code: 429
+      message: Too Many Requests
 - request:
     body: '{"name": "Test pipeline 3", "is_enabled": true, "filter": {"query": "tes1232113"},
       "processors": []}'
@@ -879,7 +875,7 @@ interactions:
     body:
       string: "\n\n\n<!DOCTYPE html>\n<!--\n______  _______ _______ _______ ______
         \  _____   ______\n|     \\ |_____|    |    |_____| |     \\ |     | |  ____\n|_____/
-        |     |    |    |     | |_____/ |_____| |_____|\n\n\nfGxSJS4UYjVLizjONk0uw2T8E/ts6LYs4+GBEf1E3tRphSaValcTcSZAFWw6o6pJ/eBBUYyVUu2Uqbnwehyl38qpa1XGjxQR13aw8U2M66CeUTi/4xm4HPZ7zU0YqwHYMeNpLjNztsInxO8LsajiWEL5DRuTNVA7NXnoCoO9RCApHOMWmkW+ImLpT5jJRn2V1YVWUsmTy+KtY6VThfbq4/V1Gs+gEOL8KVojPrPpiWtsp3MjKXSpMiqDOS4o2G7PnydZNVdS8d3Q1ZImysUxfekLUKTlSJPieMDXSPerQEsvorlH22dRbCsswlqSpvQazgigO/3F2xpSxNtI4MHLqEStYJ0OC/1RKuG34iR4OkNuqmUFfYHcmGOP2l8qYiJVW0Yp+KmhlhKu8R5IHc+MZzZ7n0o5etfDrOIxR+IlYMjP71qz94Z9+SBfYEbVD6IYVnsJBdAlH2TyhPXwlAfSnHEYSzWjXPI6t4COrV9m1chdbDbvQWlEdmzFVMguHWntlzjC1LdLFWVTSKlIS8VJFGfnqRT0X8qIEc2WjrLh83adk3ngRAWSBeQdhQTONqM2trSD425VdYpHLCicWB8tDF6f5Uut8LSpmPfmj1WF/sJKB9XD/22MlSGpA+wYyttHErqIaSQc2sruOwM51Q8KaxfHgcmI8thF9hwhEvpvpaEYoLK89OdZmMc72thjyC4Q4byfqRJK53rcDk4AfxP6wE5olAH2sBDeLs1c4UW2q/16MdOEoipgMQGXaQi+bE45sUOvzdyKOtdzwzgZ+6NF/K5nXpeMqhkZP198NwGvP5euzh0W5665126J4LSfYvDhnIyKMA2CF/RMDwnT7FcNgrblSKxBomhU5+QNwyYAH5Fht6ZvB4ElZcxWb+hG3ZEgmfhlPuJEBBJF803ooXDZvtsuRXh3geiz6LPMYis+Fk3KZ2GRsd53bQNpRGC3COx22axHksJbzE8c6839msT3soHoRMUExbF0jy9SGG21T1LRxpVkyQhOUxe4zORleTQe0LEiy15nOrFni07lIwnNy2Sqq7OUGU57XIL4Vhp3mDiyuRqkO2Ix0CnxoAD4Bh82+pjp2K4Q804lxCqZ3TkPNZqVQewHFw5cZIiQYXwgslxnKrHqa8GlgvPIWFDjRb9UuSZhmz8uJTSFt5ag1yAWLse12czvlLpK6/pLQ2OcjiYTLyITgUiLRyKeuWRd6fFV4yruUS79SbXDnEzGo4UP/AWFekIwyYwzgIAaDuNSIoOu/Q6O95++ZSgd8h6vmeAS9alaN8IGi4bZ7ptUS+ioNUdr136ruAkbzvCSK0VTb5aLXDzS0lNk2WqSLDTBikK4inCwUOn/GKFvoIfmG2pW3IdQSsa0zPgFUSqrAxcU59X+qRbO48IQuinrcdP2SXRIaA==\n\n\n-->\n<html>\n
+        |     |    |    |     | |_____/ |_____| |_____|\n\n\n73xAbt7vKNoHwucdCiybP+qB5bADQ/WPQX9UjAs2fspI+PfejC1JE3+zqj/Mdj26ziV0cJSedXg6vvyJcTexTqL+jb9yefc4u3NEQ07D+wo2NRnFKE5xWjLhezKA39OHeNznOFAlHIhAw7i7Stbvov8QT0kSy82RajRCeCA4849lM2n0euwReFVkRAYrzmIaT++vAXYPAL9JI9bptCwCHJid6CB2goP+3C0HRePdlWSZoKvfS6ixp0Vjq0lZ3MAHNO/JdrAZAyo8dycyfM9X3UEAwI+5tMLkpWUwGwoENKiaO3+rHtcMjpiNE93Lt+CffqG7LcIEUbST7wQMQxY/5WUSlDgMl+YpM9iaPtO1mMc4lNqvqVszh/+vxlPySjLgZ6xBUeBUFMJJ2K03gBS9VwfIGsde3f5/OjQsLhmMEqwX+DPk7GekiUEFEN1fPg4gkUe38lGUFNgZq5SZjDSc\n\n\n-->\n<html>\n
         \   <head>\n        <meta name=\"viewport\" content=\"width=device-width,
         initial-scale=1\">\n        <style>\n            @viewport {\n                width:
         device-width;\n                initial-scale: 1;\n            }\n            body
@@ -888,24 +884,24 @@ interactions:
         picture.mako_picture img.mako_picture_dark {\n                display: none;\n
         \           }\n\n            img.mako_picture_dark {\n                filter:
         brightness(76%);\n            }\n        </style>\n        <title>\n          \n
-        \ Error 403 | Datadog\n |\n        Datadog\n        </title>\n        <link
-        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.css\"
+        \ Error 429 | Datadog\n |\n        Datadog\n        </title>\n        <link
+        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.css\"
         media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />\n        \n        \n
         \       \n        \n    </head>\n    <body class=\"\n\">\n        \n\n\n\n<div
         class=\"error_page clearfix\">\n  <div class=\"error_img\">\n    <picture
         class=\"mako_picture\">\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_light\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits.svg\" width=\"276\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits.svg\" width=\"276\"
         height=\"295\" />\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_dark\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits_reversed.svg\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits_reversed.svg\"
         width=\"276\" height=\"295\" />\n    </picture>\n  </div>\n  <div class=\"error_msg\">\n
         \   <p class=\"text-contrast-80 text-displayface\" style=\"margin: 0 0 0;
         font-size: 96px; font-weight: bold; line-height: 1;\">Arf.</p>\n    <h1 style=\"font-size:
-        48px; line-height: 1;\">403 Forbidden</h1>\n    <ul>\n      <li class=\"live-status\"
+        48px; line-height: 1;\">429 Too Many Requests</h1>\n    <ul>\n      <li class=\"live-status\"
         id=\"error-status\"></li>\n      <li><a href=\"/\">Datadog Homepage &rarr;</a></li>\n
         \     <li><a href=\"https://docs.datadoghq.com/help/\">Datadog Help &rarr;</a></li>\n
         \     <li><a href=\"/account/settings\">Datadog Setup Basics &rarr;</a></li>\n
         \   </ul>\n  </div>\n</div>\n\n<!--page--></div>\n\n\n\n\n\n        <script>\n
-        \           window.DD_version=\"35.4892550\";\n        </script>\n\n        \n\n<!--
+        \           window.DD_version=\"35.4907878\";\n        </script>\n\n        \n\n<!--
         DD JS -->\n\n<div style=\"display: none;\"><input id=\"config-init\" name=\"config-init\"
         type=\"hidden\" value=\"{&#34;browser_email.domain&#34;: &#34;synthetics.dtdg.eu&#34;,
         &#34;watchdog.default_shadow_pipeline&#34;: null, &#34;alerting.count_over_count_validation_min_id&#34;:
@@ -914,7 +910,7 @@ interactions:
         &#34;init_config&#34;: {&#34;forwardErrorsToLogs&#34;: &#34;true&#34;, &#34;service&#34;:
         &#34;web-ui&#34;, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;env&#34;: &#34;prod&#34;,
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;env&#34;: &#34;prod&#34;,
         &#34;clientToken&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;, &#34;useAlternateIntakeDomains&#34;:
         false, &#34;sampleRate&#34;: 100.0, &#34;replica&#34;: null}}, &#34;rum&#34;:
         {&#34;bundle_url&#34;: &#34;https://www.datadoghq-browser-agent.com/datadog-rum.js&#34;,
@@ -922,7 +918,7 @@ interactions:
         false, &#34;env&#34;: &#34;prod&#34;, &#34;service&#34;: &#34;web-ui&#34;,
         &#34;trackInteractions&#34;: true, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
         100.0, &#34;clientToken&#34;: &#34;pub5aca13241dc0292e597bbdee3b96d7e2&#34;,
         &#34;manualSessionReplayRecordingStart&#34;: true, &#34;sampleRate&#34;: 100.0,
         &#34;applicationId&#34;: &#34;d2e1d971-6cf8-45bf-84d4-ba4a3dc8089c&#34;}}},
@@ -1030,14 +1026,15 @@ interactions:
         &#34;container_orchestration_new_resource_menu&#34;, &#34;process_distribution_metrics&#34;,
         &#34;correlations_resource_change&#34;, &#34;logs-toolkit_leftright_groupby&#34;,
         &#34;amazon_dms&#34;, &#34;alibaba_cloud&#34;, &#34;template_var_value_support&#34;,
-        &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;, &#34;amazon_cloudfront&#34;,
-        &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;, &#34;trace_backend_powered_sublayer_metrics_ui&#34;,
-        &#34;billing_plan&#34;, &#34;k9_getting_started&#34;, &#34;query_alerts&#34;,
-        &#34;google_analytics&#34;, &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;,
-        &#34;google_cloud_spanner&#34;, &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;,
-        &#34;google_cloud_firestore&#34;, &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;,
-        &#34;logs_historical_views&#34;, &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;,
-        &#34;monitor_create_v2&#34;, &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
+        &#34;dataviz_vibrant_default_palette&#34;, &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;,
+        &#34;amazon_cloudfront&#34;, &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;,
+        &#34;trace_backend_powered_sublayer_metrics_ui&#34;, &#34;billing_plan&#34;,
+        &#34;k9_getting_started&#34;, &#34;query_alerts&#34;, &#34;google_analytics&#34;,
+        &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;, &#34;google_cloud_spanner&#34;,
+        &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;, &#34;google_cloud_firestore&#34;,
+        &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;, &#34;logs_historical_views&#34;,
+        &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;, &#34;monitor_create_v2&#34;,
+        &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
         &#34;php_fpm&#34;, &#34;metrics_summary_bulk_tag_config&#34;, &#34;logs_multi_gb_in_timeseries&#34;,
         &#34;amazon_network_firewall&#34;, &#34;azure_db_for_mysql&#34;, &#34;hostname_dropdown&#34;,
         &#34;allow_custom_integration_check_groups&#34;, &#34;amazon_sqs&#34;, &#34;watchdog_generate_aws_elb_insights&#34;,
@@ -1066,13 +1063,13 @@ interactions:
         &#34;metrics_summary_distributions&#34;, &#34;amazon_appstream&#34;, &#34;apm_new_settings&#34;,
         &#34;multisize_layout_integration&#34;, &#34;monitor_rrule_ui&#34;, &#34;kube_controller_manager&#34;,
         &#34;metadata_unit_labels&#34;, &#34;app_services_filtering&#34;, &#34;watchdog_show_nginx_stories&#34;,
-        &#34;multi_units_number_formatting&#34;, &#34;mcache&#34;, &#34;azure_notification_hubs&#34;,
-        &#34;watchdog_generate_aws_alb_insights&#34;, &#34;adv_event_queries&#34;,
-        &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;, &#34;amazon_app_runner&#34;,
-        &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;, &#34;infralist_usage_tracking&#34;,
-        &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;, &#34;azure_data_lake_store&#34;,
-        &#34;process_saved_views&#34;, &#34;users_v1_api&#34;, &#34;elastic&#34;,
-        &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
+        &#34;multi_units_number_formatting&#34;, &#34;container_orchestration_jobs_cronjobs_views&#34;,
+        &#34;mcache&#34;, &#34;azure_notification_hubs&#34;, &#34;watchdog_generate_aws_alb_insights&#34;,
+        &#34;adv_event_queries&#34;, &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;,
+        &#34;amazon_app_runner&#34;, &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;,
+        &#34;infralist_usage_tracking&#34;, &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;,
+        &#34;azure_data_lake_store&#34;, &#34;process_saved_views&#34;, &#34;users_v1_api&#34;,
+        &#34;elastic&#34;, &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
         &#34;query_value_custom_image&#34;, &#34;azure_express_route&#34;, &#34;trace_versions_k8s&#34;,
         &#34;amazon_neptune&#34;, &#34;amazon_elasticbeanstalk&#34;, &#34;crio&#34;,
         &#34;correlations_terminating_hosts&#34;, &#34;watchdog_show_aws_dynamodb_stories&#34;,
@@ -1094,31 +1091,32 @@ interactions:
         &#34;amazon_vpn&#34;, &#34;sketch_intake&#34;, &#34;amazon_billing&#34;, &#34;change_widget_no_interval&#34;,
         &#34;event_viewer&#34;, &#34;rum_geomap&#34;, &#34;amazon_mediaconvert&#34;,
         &#34;query_value_custom_colors&#34;, &#34;process_page_always_show_scatterplot&#34;,
-        &#34;amazon_appsync&#34;, &#34;notebooks_public_api&#34;, &#34;azure_logic_app&#34;,
-        &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;, &#34;google_cloud_run&#34;,
-        &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;, &#34;azure_usage_and_quotas&#34;,
-        &#34;watchdog_show_aws_nlb_stories&#34;, &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;,
-        &#34;aws_detailed_elb_deduped_metrics_log&#34;, &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;,
-        &#34;google_cloud_functions&#34;, &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;,
-        &#34;google_cloud_iot&#34;, &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;,
-        &#34;azure_app_services&#34;, &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;,
-        &#34;watchdog_show_dashboard_correlations_section&#34;, &#34;metrics_summary_tag_table&#34;,
-        &#34;amazon_elb&#34;, &#34;enable_distribution&#34;, &#34;amazon_ses&#34;,
-        &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;, &#34;azure_blob_storage&#34;,
-        &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;, &#34;1mo_alerts&#34;,
-        &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;, &#34;new_dashboards_list_onboarding&#34;,
-        &#34;metric_summary_meta_display&#34;, &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;,
-        &#34;monitors_forms_v2_type_log&#34;, &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;,
-        &#34;monitors_summary_ok_link&#34;, &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;,
-        &#34;synthetics&#34;, &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;,
-        &#34;amazon_mediaconnect&#34;, &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;,
-        &#34;watchdog_show_nginx_plus_stories&#34;, &#34;process_variable_time_range_support&#34;,
-        &#34;dashboard_allow_metric_boolean_filter&#34;, &#34;logs_group_by_selector_v2&#34;,
-        &#34;amazon_rekognition&#34;, &#34;spa_help&#34;, &#34;as_count_validation&#34;,
-        &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;, &#34;monitors_forms_v2_type_rum&#34;,
-        &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;, &#34;snyk&#34;, &#34;pagerduty_schedules&#34;,
-        &#34;watchdog_show_aws_elb_stories&#34;, &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;,
-        &#34;oracle_cloud_infrastructure&#34;, &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
+        &#34;amazon_appsync&#34;, &#34;incidents_datasource&#34;, &#34;notebooks_public_api&#34;,
+        &#34;azure_logic_app&#34;, &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;,
+        &#34;google_cloud_run&#34;, &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;,
+        &#34;azure_usage_and_quotas&#34;, &#34;watchdog_show_aws_nlb_stories&#34;,
+        &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;, &#34;aws_detailed_elb_deduped_metrics_log&#34;,
+        &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;, &#34;google_cloud_functions&#34;,
+        &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;, &#34;google_cloud_iot&#34;,
+        &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;, &#34;azure_app_services&#34;,
+        &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;, &#34;watchdog_show_dashboard_correlations_section&#34;,
+        &#34;metrics_summary_tag_table&#34;, &#34;amazon_elb&#34;, &#34;enable_distribution&#34;,
+        &#34;amazon_ses&#34;, &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;,
+        &#34;azure_blob_storage&#34;, &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;,
+        &#34;1mo_alerts&#34;, &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;,
+        &#34;new_dashboards_list_onboarding&#34;, &#34;metric_summary_meta_display&#34;,
+        &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;, &#34;monitors_forms_v2_type_log&#34;,
+        &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;, &#34;monitors_summary_ok_link&#34;,
+        &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;, &#34;synthetics&#34;,
+        &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;, &#34;amazon_mediaconnect&#34;,
+        &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;, &#34;watchdog_show_nginx_plus_stories&#34;,
+        &#34;process_variable_time_range_support&#34;, &#34;dashboard_allow_metric_boolean_filter&#34;,
+        &#34;logs_group_by_selector_v2&#34;, &#34;amazon_rekognition&#34;, &#34;spa_help&#34;,
+        &#34;as_count_validation&#34;, &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;,
+        &#34;monitors_forms_v2_type_rum&#34;, &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;,
+        &#34;snyk&#34;, &#34;pagerduty_schedules&#34;, &#34;watchdog_show_aws_elb_stories&#34;,
+        &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;, &#34;oracle_cloud_infrastructure&#34;,
+        &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
         &#34;k9_attrs_additional_dashboard_links&#34;, &#34;amazon_kinesis&#34;, &#34;google_cloud_router&#34;,
         &#34;events_explorer_saved_views&#34;, &#34;amazon_ec2_spot&#34;, &#34;amazon_athena&#34;,
         &#34;log_multi_monitors_release&#34;, &#34;k9_anomaly_graph&#34;, &#34;watchdog_generate_infra_partitions&#34;,
@@ -1185,39 +1183,35 @@ interactions:
         type=\"hidden\" value=\"&#34;https://static.datadoghq.eu&#34;\" /></div>\n<div
         style=\"display: none;\"><input id=\"castlerequestsignature\" name=\"castleRequestSignature\"
         type=\"hidden\" value=\"c8247eb245c6414c737020afec747d5af4b06c0168ca2fab50ed78f5deaaa84a\"
-        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.js\"
+        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.js\"
         type=\"text/javascript\"></script>\n\n\n    <script>DD.initApp();</script>\n\n
         \       \n\n    </body>\n</html>\n"
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '29097'
+      - '28291'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - text/html; charset=utf-8
       date:
-      - Mon, 05 Jul 2021 22:29:18 GMT
+      - Wed, 07 Jul 2021 15:59:07 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
+      code: 429
+      message: Too Many Requests
 - request:
     body: '{"name": "Test Pipeline - Complex", "is_enabled": true, "filter": {"query":
       "source:foo"}, "processors": [{"name": "sample arithmetic processor", "is_enabled":
@@ -1271,7 +1265,7 @@ interactions:
     body:
       string: "\n\n\n<!DOCTYPE html>\n<!--\n______  _______ _______ _______ ______
         \  _____   ______\n|     \\ |_____|    |    |_____| |     \\ |     | |  ____\n|_____/
-        |     |    |    |     | |_____/ |_____| |_____|\n\n\noBDk9Uv7pVutk36XwvUE+YeAzIqxo2AdoYw4crUXNe8WU1hX+zCgvacZqgzN87quW3LDMtreRbEXoXV/QZNae9CTYhbnv7RVllX0pfbkWr1GRRtKdxga7bzse3mqGJuZdgoGrNwkKFS5OlkWjlBuPQ5mwAGUBgq6oYWALxgixd755NIjGIfkvjFdyL1c2rPEPEh3zZvKQojF+sC/2cAju3y/Da2KP2ObVHcTMyXM7LBFyBM6Nh4ZKehlGIp/cQ351vNLTVx7cr3105cZoy37Kt2W7xznrEgkYmMSEYE61Y9CxuGvWtPmd9JS+FXMrZFMb78N0iy+9MnqEBaVsVYBupz4lljig2FyBJzmRgVO7u23eAp7pScudqU5ok+qS9ClmJjxwZDwqnonQg1KfrmUdGqXBNA6WQ0xU/y30yZuy91Ji/UGliVKQzeMfVyIEwBgytpBHkQcU/zsbonHwuaCbfhB2m9lON0KSig19onTRIITYsoYQFCIA/FDXuNVj4a/zqGAttu5PGAi3MZjVYhPOZgHY424Ybfz4jwC48AHiyJFizY6cfUXz1d/z4cmfT1u0+V9sOPnHEFmik+h57gz4cCxBVahM0MTIQLjUSXWxtuWvCkpgDIkNwVm2jlBhCwZRFsrry+iJd4rQAB3VlMwNyI3i4DvvCQRV/DOG8WSWGKC1ihLrh4v7JrJ2P+jbgA/14p4JmUokvBL50+NQLJUgkHpsxeFFGmgD84E5D2Hj3mQX25mtTEoeGhp0yVhwr0gSPZSpsRO70W1++is4zxvNCsBGLH/9VEuAwFFniqW/ryu9W6JTGCOh7SXK3apQKT1rSAvVb9/2TwXp4HbYgYkdeHmOHp0pjQLNqpu0+6UvHiUbz24cBj7R7BYZLLP8ro2wJSvcEWOK3z0330XyCwRSAbv4P+GjNhPJZpZnWujYkEhJgsT4DsTcG+dD02Ke2ahv5XXQBQ3uNPSnDBQU9CqiEWROrTasOsz5KmvtHowiOQa8wEg3fMrdkgD2I5YdtsjAD+u+sSYeFokC4chJ1satfoUWO6FR4+pNmZQnSd6X+UFkJJjKu8iAqkc9XDaCH87Osf4psP6ctvv2zhzDB/6ESgQsWT5dfnzbuvQesx9WEajDjKNCCsBfCGH0tYuF7IUeVVhHLwu0ktb0mE/YOkJSVcXrOMp/JCuNZ4FS/3kaFaWjlb5xhUoOUWgN1p0yvj38DKCgBN44yMc/pN9qYzj83kmpvZoYfvhe9kWEsQZnjXGWDHMwg09GxhK7dhJhwuiBOp1Zj86JDL0xwnRo81ob5qdOdkxa2x0g5NoN/TtrK5y2UWZbQ==\n\n\n-->\n<html>\n
+        |     |    |    |     | |_____/ |_____| |_____|\n\n\nkVRdZ3DLHIvumNm2p396+9LYgYCQAwvP/mI97aXjyWEj4yR7T/KzKfXULyiRrVpAd6tmpIDSBc20rNqvUaB55aWhLzCUAYE8fqlufOGmct+GwPJC/dmREoJ5ZmTlOY33jxP8uiZnybltJ8V9KH/kvjnuH+uoxxJpguds0cgL4Buzo3cJQdy9yiv5aYNnVScenEktzywJXTBDiYdW0tpTmbe9gvKi41LKlFD3bcEE4IQSEZU8aixndE6hVZKX59GJtAmIjNa9FSt6cnR7m5dbndbMasEWJxPM+CWbTSwMKWqawjhSWjh+VCoRzq3y2JyTTrE6tesKqThvohD0lHSfke5C9OzWllsvE32TzbpW+xg0pJrFP+9LwQsFnNFSCelGslkHqr1cPCWEFTM+OQ1Up3jWvYlLX8Q+5fjL1Z42FyohucqUSLg+qmo/O62bgIkt86Y1SUcA8wwv+lnTd6xtWQWwqQFt7BQws3JA+/W6KN/j0HwaPBuyZMb2jHz0oS82zDqhlI9nduoxNYXJa95wZenajsTHKXLWqfGcrATAYP/WyzgbnkUDXjx+jI+3pO2TD3NFrXmGkhsJn1tPJDo9/OkIwkSHxqKgEx8xRGMszTZBMc/hbp+hDW6UPwhQQadhjte5IT2RNVXuYUhsF2xMeapkFQ+8y3Ja159BF3CiZds+anT6aYLcxBdocBajqvjLu2/Jrvcv8EJwVHUBbjeoBP1rnspASi5wkLaqNiTaovrwfLBuC0f2Ks9OL3N2mAMnSH9OEEPbLtEda1hw7FsmiA/xgi5Cyn0sEB3240mhNRAOZArkHqQLrzjzUKVUc+IvohzHtb6pN1HXq19rEfnPaEif2GGRZS3UIGJB7plerXAT5Nyvv6eO0Xe8waUUxqTKK9ZinExfJAoAaIkmJ5flKSUZMLkiLrT9MBBnU1neR81qEXFNAgGEiXD1bcivo6o6jYoGHhAh9j5R0P4889ktOpQsLwFStcsaGY1kOe2ShJiKjCVBce2goPDv/rnfFE09/BfqEe9H66wK4tsbQfJOR81faHqMjRjOBZCD9+kwWivPUpCkPJZn3w3zL7O3p2Jd5prLZCrYmjsXJXn4LjYG2U7fbDTViu69h0HqORWbzIWc2ZADngMc7LvJYdSFxI2paT3yuSfajp0AU5pRtK8rnJDKDKWiiv5yeYC4oiAOJ/uIwNuzy+raGfb/lc31Vm+BZimPIIZ34bV7GzW908Jt5/Kl8x5sceNA9Af5rjbK8ojeMbOx7gdhngr+idpHZ7aq61cnfQ5Wt7RvMOKCAmDZNC2lDfmNxOtIyJEhSyC9+lmhVkNd19qwMlHlbmkXRWvoFlX81WbMnZel11r0Eh6dJ+BN6K8BNslRfeODb0gd+abuq4a4zSHN34uP0O84XkEW3wPvSnjl727jA2hKJ4nvS67qLXCgNSUtmMGWOHTyMgsmNUMAtT1M+/jCdVDIKO/LCwDMTkiZSPYmJbIIuBJ7D+CpZrvVKyMUPEbsDfEuI/x2VSxxWVfGkOGBuZ3Gv3s8ahrvz4PNStBFRzKXK22OJg/Znj6tvDxhBEpHtkCfF2tDx5FYgvj3iEIA2wq/hgC7trv0fQf+acfCDTZ7X4Zm6Vp7DhxdCcEYEpyMNaa4tVynt3m0IOAs41gvQKurhxJIoH4p6fj14ovRxqEiFsCU/SlrVA88Jmp6bxQ5wFZF03yewtJDHsQGMoEL3IFitF1bDdCMaU9mYbvOujTy9P5UYBxDcoG4OOc4weATfx6FxcPOQ/0sWMqH2dtS/W34pJ8M4UMyvcVdvIVXLFP8oA7hhZRAF8vZGKhsdXfHzVrYPUYq5zf6BKfki0PZJaljLBpaCng=\n\n\n-->\n<html>\n
         \   <head>\n        <meta name=\"viewport\" content=\"width=device-width,
         initial-scale=1\">\n        <style>\n            @viewport {\n                width:
         device-width;\n                initial-scale: 1;\n            }\n            body
@@ -1280,24 +1274,24 @@ interactions:
         picture.mako_picture img.mako_picture_dark {\n                display: none;\n
         \           }\n\n            img.mako_picture_dark {\n                filter:
         brightness(76%);\n            }\n        </style>\n        <title>\n          \n
-        \ Error 403 | Datadog\n |\n        Datadog\n        </title>\n        <link
-        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.css\"
+        \ Error 429 | Datadog\n |\n        Datadog\n        </title>\n        <link
+        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.css\"
         media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />\n        \n        \n
         \       \n        \n    </head>\n    <body class=\"\n\">\n        \n\n\n\n<div
         class=\"error_page clearfix\">\n  <div class=\"error_img\">\n    <picture
         class=\"mako_picture\">\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_light\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits.svg\" width=\"276\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits.svg\" width=\"276\"
         height=\"295\" />\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_dark\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits_reversed.svg\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits_reversed.svg\"
         width=\"276\" height=\"295\" />\n    </picture>\n  </div>\n  <div class=\"error_msg\">\n
         \   <p class=\"text-contrast-80 text-displayface\" style=\"margin: 0 0 0;
         font-size: 96px; font-weight: bold; line-height: 1;\">Arf.</p>\n    <h1 style=\"font-size:
-        48px; line-height: 1;\">403 Forbidden</h1>\n    <ul>\n      <li class=\"live-status\"
+        48px; line-height: 1;\">429 Too Many Requests</h1>\n    <ul>\n      <li class=\"live-status\"
         id=\"error-status\"></li>\n      <li><a href=\"/\">Datadog Homepage &rarr;</a></li>\n
         \     <li><a href=\"https://docs.datadoghq.com/help/\">Datadog Help &rarr;</a></li>\n
         \     <li><a href=\"/account/settings\">Datadog Setup Basics &rarr;</a></li>\n
         \   </ul>\n  </div>\n</div>\n\n<!--page--></div>\n\n\n\n\n\n        <script>\n
-        \           window.DD_version=\"35.4892550\";\n        </script>\n\n        \n\n<!--
+        \           window.DD_version=\"35.4907878\";\n        </script>\n\n        \n\n<!--
         DD JS -->\n\n<div style=\"display: none;\"><input id=\"config-init\" name=\"config-init\"
         type=\"hidden\" value=\"{&#34;browser_email.domain&#34;: &#34;synthetics.dtdg.eu&#34;,
         &#34;watchdog.default_shadow_pipeline&#34;: null, &#34;alerting.count_over_count_validation_min_id&#34;:
@@ -1306,7 +1300,7 @@ interactions:
         &#34;init_config&#34;: {&#34;forwardErrorsToLogs&#34;: &#34;true&#34;, &#34;service&#34;:
         &#34;web-ui&#34;, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;env&#34;: &#34;prod&#34;,
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;env&#34;: &#34;prod&#34;,
         &#34;clientToken&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;, &#34;useAlternateIntakeDomains&#34;:
         false, &#34;sampleRate&#34;: 100.0, &#34;replica&#34;: null}}, &#34;rum&#34;:
         {&#34;bundle_url&#34;: &#34;https://www.datadoghq-browser-agent.com/datadog-rum.js&#34;,
@@ -1314,7 +1308,7 @@ interactions:
         false, &#34;env&#34;: &#34;prod&#34;, &#34;service&#34;: &#34;web-ui&#34;,
         &#34;trackInteractions&#34;: true, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
         100.0, &#34;clientToken&#34;: &#34;pub5aca13241dc0292e597bbdee3b96d7e2&#34;,
         &#34;manualSessionReplayRecordingStart&#34;: true, &#34;sampleRate&#34;: 100.0,
         &#34;applicationId&#34;: &#34;d2e1d971-6cf8-45bf-84d4-ba4a3dc8089c&#34;}}},
@@ -1422,14 +1416,15 @@ interactions:
         &#34;container_orchestration_new_resource_menu&#34;, &#34;process_distribution_metrics&#34;,
         &#34;correlations_resource_change&#34;, &#34;logs-toolkit_leftright_groupby&#34;,
         &#34;amazon_dms&#34;, &#34;alibaba_cloud&#34;, &#34;template_var_value_support&#34;,
-        &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;, &#34;amazon_cloudfront&#34;,
-        &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;, &#34;trace_backend_powered_sublayer_metrics_ui&#34;,
-        &#34;billing_plan&#34;, &#34;k9_getting_started&#34;, &#34;query_alerts&#34;,
-        &#34;google_analytics&#34;, &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;,
-        &#34;google_cloud_spanner&#34;, &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;,
-        &#34;google_cloud_firestore&#34;, &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;,
-        &#34;logs_historical_views&#34;, &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;,
-        &#34;monitor_create_v2&#34;, &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
+        &#34;dataviz_vibrant_default_palette&#34;, &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;,
+        &#34;amazon_cloudfront&#34;, &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;,
+        &#34;trace_backend_powered_sublayer_metrics_ui&#34;, &#34;billing_plan&#34;,
+        &#34;k9_getting_started&#34;, &#34;query_alerts&#34;, &#34;google_analytics&#34;,
+        &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;, &#34;google_cloud_spanner&#34;,
+        &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;, &#34;google_cloud_firestore&#34;,
+        &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;, &#34;logs_historical_views&#34;,
+        &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;, &#34;monitor_create_v2&#34;,
+        &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
         &#34;php_fpm&#34;, &#34;metrics_summary_bulk_tag_config&#34;, &#34;logs_multi_gb_in_timeseries&#34;,
         &#34;amazon_network_firewall&#34;, &#34;azure_db_for_mysql&#34;, &#34;hostname_dropdown&#34;,
         &#34;allow_custom_integration_check_groups&#34;, &#34;amazon_sqs&#34;, &#34;watchdog_generate_aws_elb_insights&#34;,
@@ -1458,13 +1453,13 @@ interactions:
         &#34;metrics_summary_distributions&#34;, &#34;amazon_appstream&#34;, &#34;apm_new_settings&#34;,
         &#34;multisize_layout_integration&#34;, &#34;monitor_rrule_ui&#34;, &#34;kube_controller_manager&#34;,
         &#34;metadata_unit_labels&#34;, &#34;app_services_filtering&#34;, &#34;watchdog_show_nginx_stories&#34;,
-        &#34;multi_units_number_formatting&#34;, &#34;mcache&#34;, &#34;azure_notification_hubs&#34;,
-        &#34;watchdog_generate_aws_alb_insights&#34;, &#34;adv_event_queries&#34;,
-        &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;, &#34;amazon_app_runner&#34;,
-        &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;, &#34;infralist_usage_tracking&#34;,
-        &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;, &#34;azure_data_lake_store&#34;,
-        &#34;process_saved_views&#34;, &#34;users_v1_api&#34;, &#34;elastic&#34;,
-        &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
+        &#34;multi_units_number_formatting&#34;, &#34;container_orchestration_jobs_cronjobs_views&#34;,
+        &#34;mcache&#34;, &#34;azure_notification_hubs&#34;, &#34;watchdog_generate_aws_alb_insights&#34;,
+        &#34;adv_event_queries&#34;, &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;,
+        &#34;amazon_app_runner&#34;, &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;,
+        &#34;infralist_usage_tracking&#34;, &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;,
+        &#34;azure_data_lake_store&#34;, &#34;process_saved_views&#34;, &#34;users_v1_api&#34;,
+        &#34;elastic&#34;, &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
         &#34;query_value_custom_image&#34;, &#34;azure_express_route&#34;, &#34;trace_versions_k8s&#34;,
         &#34;amazon_neptune&#34;, &#34;amazon_elasticbeanstalk&#34;, &#34;crio&#34;,
         &#34;correlations_terminating_hosts&#34;, &#34;watchdog_show_aws_dynamodb_stories&#34;,
@@ -1486,31 +1481,32 @@ interactions:
         &#34;amazon_vpn&#34;, &#34;sketch_intake&#34;, &#34;amazon_billing&#34;, &#34;change_widget_no_interval&#34;,
         &#34;event_viewer&#34;, &#34;rum_geomap&#34;, &#34;amazon_mediaconvert&#34;,
         &#34;query_value_custom_colors&#34;, &#34;process_page_always_show_scatterplot&#34;,
-        &#34;amazon_appsync&#34;, &#34;notebooks_public_api&#34;, &#34;azure_logic_app&#34;,
-        &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;, &#34;google_cloud_run&#34;,
-        &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;, &#34;azure_usage_and_quotas&#34;,
-        &#34;watchdog_show_aws_nlb_stories&#34;, &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;,
-        &#34;aws_detailed_elb_deduped_metrics_log&#34;, &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;,
-        &#34;google_cloud_functions&#34;, &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;,
-        &#34;google_cloud_iot&#34;, &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;,
-        &#34;azure_app_services&#34;, &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;,
-        &#34;watchdog_show_dashboard_correlations_section&#34;, &#34;metrics_summary_tag_table&#34;,
-        &#34;amazon_elb&#34;, &#34;enable_distribution&#34;, &#34;amazon_ses&#34;,
-        &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;, &#34;azure_blob_storage&#34;,
-        &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;, &#34;1mo_alerts&#34;,
-        &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;, &#34;new_dashboards_list_onboarding&#34;,
-        &#34;metric_summary_meta_display&#34;, &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;,
-        &#34;monitors_forms_v2_type_log&#34;, &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;,
-        &#34;monitors_summary_ok_link&#34;, &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;,
-        &#34;synthetics&#34;, &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;,
-        &#34;amazon_mediaconnect&#34;, &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;,
-        &#34;watchdog_show_nginx_plus_stories&#34;, &#34;process_variable_time_range_support&#34;,
-        &#34;dashboard_allow_metric_boolean_filter&#34;, &#34;logs_group_by_selector_v2&#34;,
-        &#34;amazon_rekognition&#34;, &#34;spa_help&#34;, &#34;as_count_validation&#34;,
-        &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;, &#34;monitors_forms_v2_type_rum&#34;,
-        &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;, &#34;snyk&#34;, &#34;pagerduty_schedules&#34;,
-        &#34;watchdog_show_aws_elb_stories&#34;, &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;,
-        &#34;oracle_cloud_infrastructure&#34;, &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
+        &#34;amazon_appsync&#34;, &#34;incidents_datasource&#34;, &#34;notebooks_public_api&#34;,
+        &#34;azure_logic_app&#34;, &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;,
+        &#34;google_cloud_run&#34;, &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;,
+        &#34;azure_usage_and_quotas&#34;, &#34;watchdog_show_aws_nlb_stories&#34;,
+        &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;, &#34;aws_detailed_elb_deduped_metrics_log&#34;,
+        &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;, &#34;google_cloud_functions&#34;,
+        &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;, &#34;google_cloud_iot&#34;,
+        &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;, &#34;azure_app_services&#34;,
+        &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;, &#34;watchdog_show_dashboard_correlations_section&#34;,
+        &#34;metrics_summary_tag_table&#34;, &#34;amazon_elb&#34;, &#34;enable_distribution&#34;,
+        &#34;amazon_ses&#34;, &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;,
+        &#34;azure_blob_storage&#34;, &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;,
+        &#34;1mo_alerts&#34;, &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;,
+        &#34;new_dashboards_list_onboarding&#34;, &#34;metric_summary_meta_display&#34;,
+        &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;, &#34;monitors_forms_v2_type_log&#34;,
+        &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;, &#34;monitors_summary_ok_link&#34;,
+        &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;, &#34;synthetics&#34;,
+        &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;, &#34;amazon_mediaconnect&#34;,
+        &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;, &#34;watchdog_show_nginx_plus_stories&#34;,
+        &#34;process_variable_time_range_support&#34;, &#34;dashboard_allow_metric_boolean_filter&#34;,
+        &#34;logs_group_by_selector_v2&#34;, &#34;amazon_rekognition&#34;, &#34;spa_help&#34;,
+        &#34;as_count_validation&#34;, &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;,
+        &#34;monitors_forms_v2_type_rum&#34;, &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;,
+        &#34;snyk&#34;, &#34;pagerduty_schedules&#34;, &#34;watchdog_show_aws_elb_stories&#34;,
+        &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;, &#34;oracle_cloud_infrastructure&#34;,
+        &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
         &#34;k9_attrs_additional_dashboard_links&#34;, &#34;amazon_kinesis&#34;, &#34;google_cloud_router&#34;,
         &#34;events_explorer_saved_views&#34;, &#34;amazon_ec2_spot&#34;, &#34;amazon_athena&#34;,
         &#34;log_multi_monitors_release&#34;, &#34;k9_anomaly_graph&#34;, &#34;watchdog_generate_infra_partitions&#34;,
@@ -1577,39 +1573,35 @@ interactions:
         type=\"hidden\" value=\"&#34;https://static.datadoghq.eu&#34;\" /></div>\n<div
         style=\"display: none;\"><input id=\"castlerequestsignature\" name=\"castleRequestSignature\"
         type=\"hidden\" value=\"c8247eb245c6414c737020afec747d5af4b06c0168ca2fab50ed78f5deaaa84a\"
-        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.js\"
+        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.js\"
         type=\"text/javascript\"></script>\n\n\n    <script>DD.initApp();</script>\n\n
         \       \n\n    </body>\n</html>\n"
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '29017'
+      - '29683'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - text/html; charset=utf-8
       date:
-      - Mon, 05 Jul 2021 22:29:18 GMT
+      - Wed, 07 Jul 2021 15:59:08 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
+      code: 429
+      message: Too Many Requests
 - request:
     body: '{"name": "Test pipeline 1", "is_enabled": true, "filter": {"query": "source:foo"},
       "processors": [{"name": "sample arithmetic processor", "is_enabled": true, "expression":
@@ -1663,7 +1655,7 @@ interactions:
     body:
       string: "\n\n\n<!DOCTYPE html>\n<!--\n______  _______ _______ _______ ______
         \  _____   ______\n|     \\ |_____|    |    |_____| |     \\ |     | |  ____\n|_____/
-        |     |    |    |     | |_____/ |_____| |_____|\n\n\nEHWgG5Y/Uc4KLrReGg5hm+7J3FH6lumpXjmGtsZpGo9GQB+KErqLTEc76jm5yy/Iohacqa1+aGPc6LsULSnBRmeRop4KVtN0TaxM9KLlKMDcfAMaFECS9NyGMvMyd1m45PTlC9mGyDQOgWA2qTKteISKM7FDzMrLrYYFWDhcjgAmB7ygjOp4hnCYUobhNr1NX4FXiJD/1NvTSNd9hAmCo7/ilwPLTofQ7FgvSMUyHeG6OrkFoVW1axydmGgYHEGD30vOlfwSkB4LAJa9TmT4AVpuQwCPk6Rkgt/NHkxB7iCkSb5g8cp5GVjIXSDITN2ZEh3jjKLz29cBUKyg1cbgk6BZESrYjEiWTtWSK19xFpKUjDfXjfDJt7Kk0MhBxm49O0SMCh2zAPZ5CEfn2PeVWtFAraBuXwQgIf1ij0tijkNeChvSD6GBV6cLrmohd8sShfeNDTChCbdro+m3zvuk6XGAAIBZtaWZmgY8zureLwSoLBo7lYRFiPyL1rOJE9QMK4V241G1nmbZYVJqk/404K6fKmwigO++F9wczQwQn68Z4P0zJHcFTKrxNdGz7Rje7LqawRExY2dRYrGx3YEPnZxAwKGCn3cUnEb17GFwwfRNaDZk+WUzFKzdfdDUDO6Oms/DeOm2ge7eq6sMm5wbpZryxV0oPYHYS/TrWJV8XrlIDkuXrGSQA3Du03kPZNyMGz3Hu4cyevIgfhEW2eNYsRG6cHAboLrCSBz1qnI7z07e8R6SRFzIXIF1ydLOAJjdH9xBulyg4QIC0mOuvGZiWlNAbFrwyg2aP+QcALrOnw+Z4W3h1vJSJRJ74UJNBszPjZLyvDgvb/EWE3B2gBV4AfKtnN5qVNHYgGU2tapXP4CfRgcZVwhxFfSOvllVptce+7HPhpL+mK7mF3RUhgfeig6rbQKHFiXrz9HyBvE7mLpCrMVOsVldGKmFaIywT75o+IqilCtYW1x1Srg6wuos6i8SVtkOHXgAANm73TUPc038C2jMTa/jTdyWcPaLZApMWweJQ6N+zcxC9O0O2Uo6VkZM/OHAnaOWrF6JTzE40pHGYp+U3fE9n0lB0+ZHh26YGum8rTIb6l225uIi+NmH/MsTElAiIyxFcKeXU/qEn7KEqyM1cflPp4ZsZRRLRMERefNHV1a/P4DYNJgV6aPiF31h5IkNMk2E9Nw3Wz2qT5bOLocnebeSY8RHuqKt5rVWz6PrQEiAIrzz/UrSlx9EWReHbcu5qih0pCFxwGXUB4e3Drodou1cVWN1yGd0zojOU1st1xQQtCjeXqghC0XMO4249SdSM+BArdT/lDzJw2XNMf63QAurozIQckMMzYPC9PES/Ox2ltHBO/Hjy37Kgx3JnLVyaBFEhSCW8c8jSScYZwO9dP8Si61Xzg4H0+6M7NgJLdOby5R6F4+nw7s0WkFWrIRXQQlJK+E5IrHr+SHczjNoUdD7WzAGZqN1vOytnGdDybSW7TeREcwlxMpRwAk2rOo75Gi2+9AftEJRXWMYsHDoaHjavbXXGRs4acX9YthZuUv4bJD1opTqWH90utUdXGn5vfA02eJ5fr4P5NIt3gFj1L0Y77ScpuboYcjaOyUCU8inNoCF0v90rR9s9F6gsU2qI3LkPkjeB1RjGe/DWrSYkpWRh4f6RPgttM5vt5gLwVTyK5fp5D9km3NXFtnOTxf/a9N42ovpGuv//SQX4+gOOVIvRhthUHMb3Pd6eFaa3NFm9QdFp8g/7H0Py6iXc0aiyId0aPKaLDX8Fl7QiKIeH2mhyxoGgZ59/iimnWoNGaa07gEkWvY/Lo7Gf4ssv9mqE2h/eKTB0NlXB12r6Kp2EL0wW27oXiDquOqSuMZiAlqj9+SkN75zLlwJmHvi3v3wc8VrLzqdtQ1wp1ROycRKpAYFTgkbZ8t1/mI6iDJwpJrVVbFnM1Ju6UDGMeAM3dTw4dyltMhGt5Oz/EP77OBtSsBsMZw9TwKPLMqHTg==\n\n\n-->\n<html>\n
+        |     |    |    |     | |_____/ |_____| |_____|\n\n\nQ8eV4PE0y2qS/6LlLM3H2Zh2g4YGruNlV4RYmod86DIxKPhljoxBBsKpKPRG+U2ujaFKJ0NHJt6xyoIp5rpzuWHbma2SLj16z9IeLPOFVVgg8kJVbgK0LRoXkzAI0Ifn/VoDjL9J3FBKzgZ7RqHXdtSF03ZXVJSkTxQZXyzEtrGqFMroVIMGYyO6g1V8ga67rvPM16LBZSDI60jYUlptblLpuu+S8bQ/kYMLqPzl7W6YPtNQdwFed8Bd0WxOh8zvla50jmI4WiOENGs6eUCcKT6lM+MMI6ngGbfG0DxRSYwsmb9+LySXa8ulAkUcEg7o9YAvwuxmGYRUyLbEe0Yz18dcKkKHbDl1etV4sIf5K1znRsoWXdy3IBvbD0FJ/J57Nn+mtU4u4IuWnbHJPfHEQRWr5O5hvyQ/adBQRiho1tRfEWODkXRZ+I8RR5FlpScwq+LB9tfaawhMQtCwbzR9IdAqI/Hf4kpoYCw4+nJjK2awFbcBev/+YSre9BYgX2dLyKjmSj1277XKkaabEejQ5TTpIy1p4re8r2MzSF2Y69nJmA/vUa77mMLnJeklDsx4dn8vO6A8gKtGQGtFYh3PV5FljrWWuMklFVO2eM4KzmPzr9+vO3h+jbGipxiZaQX9XaZy4MQ+Go5Vf87Q/Uwt2pWpKoM8+ENWpGzQnuKakoSdHP4f3uDr09T7jd/l7SoU3+PoWCIaq0tiBgYF4hMf64u4iQ3i0SL/uauhyg9A14D4cluXT1UDDMtJwi1BZzvpnH0F699LeAlcyTVSwXosM+/RDW9fAGg8m/+MfC+MC95Eek16nPvPq0EIeLrxvDmXoLc6tW2dKArkRhqnu24andMXUi/3\n\n\n-->\n<html>\n
         \   <head>\n        <meta name=\"viewport\" content=\"width=device-width,
         initial-scale=1\">\n        <style>\n            @viewport {\n                width:
         device-width;\n                initial-scale: 1;\n            }\n            body
@@ -1672,24 +1664,24 @@ interactions:
         picture.mako_picture img.mako_picture_dark {\n                display: none;\n
         \           }\n\n            img.mako_picture_dark {\n                filter:
         brightness(76%);\n            }\n        </style>\n        <title>\n          \n
-        \ Error 403 | Datadog\n |\n        Datadog\n        </title>\n        <link
-        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.css\"
+        \ Error 429 | Datadog\n |\n        Datadog\n        </title>\n        <link
+        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.css\"
         media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />\n        \n        \n
         \       \n        \n    </head>\n    <body class=\"\n\">\n        \n\n\n\n<div
         class=\"error_page clearfix\">\n  <div class=\"error_img\">\n    <picture
         class=\"mako_picture\">\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_light\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits.svg\" width=\"276\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits.svg\" width=\"276\"
         height=\"295\" />\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_dark\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits_reversed.svg\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits_reversed.svg\"
         width=\"276\" height=\"295\" />\n    </picture>\n  </div>\n  <div class=\"error_msg\">\n
         \   <p class=\"text-contrast-80 text-displayface\" style=\"margin: 0 0 0;
         font-size: 96px; font-weight: bold; line-height: 1;\">Arf.</p>\n    <h1 style=\"font-size:
-        48px; line-height: 1;\">403 Forbidden</h1>\n    <ul>\n      <li class=\"live-status\"
+        48px; line-height: 1;\">429 Too Many Requests</h1>\n    <ul>\n      <li class=\"live-status\"
         id=\"error-status\"></li>\n      <li><a href=\"/\">Datadog Homepage &rarr;</a></li>\n
         \     <li><a href=\"https://docs.datadoghq.com/help/\">Datadog Help &rarr;</a></li>\n
         \     <li><a href=\"/account/settings\">Datadog Setup Basics &rarr;</a></li>\n
         \   </ul>\n  </div>\n</div>\n\n<!--page--></div>\n\n\n\n\n\n        <script>\n
-        \           window.DD_version=\"35.4892550\";\n        </script>\n\n        \n\n<!--
+        \           window.DD_version=\"35.4907878\";\n        </script>\n\n        \n\n<!--
         DD JS -->\n\n<div style=\"display: none;\"><input id=\"config-init\" name=\"config-init\"
         type=\"hidden\" value=\"{&#34;browser_email.domain&#34;: &#34;synthetics.dtdg.eu&#34;,
         &#34;watchdog.default_shadow_pipeline&#34;: null, &#34;alerting.count_over_count_validation_min_id&#34;:
@@ -1698,7 +1690,7 @@ interactions:
         &#34;init_config&#34;: {&#34;forwardErrorsToLogs&#34;: &#34;true&#34;, &#34;service&#34;:
         &#34;web-ui&#34;, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;env&#34;: &#34;prod&#34;,
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;env&#34;: &#34;prod&#34;,
         &#34;clientToken&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;, &#34;useAlternateIntakeDomains&#34;:
         false, &#34;sampleRate&#34;: 100.0, &#34;replica&#34;: null}}, &#34;rum&#34;:
         {&#34;bundle_url&#34;: &#34;https://www.datadoghq-browser-agent.com/datadog-rum.js&#34;,
@@ -1706,7 +1698,7 @@ interactions:
         false, &#34;env&#34;: &#34;prod&#34;, &#34;service&#34;: &#34;web-ui&#34;,
         &#34;trackInteractions&#34;: true, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
         100.0, &#34;clientToken&#34;: &#34;pub5aca13241dc0292e597bbdee3b96d7e2&#34;,
         &#34;manualSessionReplayRecordingStart&#34;: true, &#34;sampleRate&#34;: 100.0,
         &#34;applicationId&#34;: &#34;d2e1d971-6cf8-45bf-84d4-ba4a3dc8089c&#34;}}},
@@ -1814,14 +1806,15 @@ interactions:
         &#34;container_orchestration_new_resource_menu&#34;, &#34;process_distribution_metrics&#34;,
         &#34;correlations_resource_change&#34;, &#34;logs-toolkit_leftright_groupby&#34;,
         &#34;amazon_dms&#34;, &#34;alibaba_cloud&#34;, &#34;template_var_value_support&#34;,
-        &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;, &#34;amazon_cloudfront&#34;,
-        &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;, &#34;trace_backend_powered_sublayer_metrics_ui&#34;,
-        &#34;billing_plan&#34;, &#34;k9_getting_started&#34;, &#34;query_alerts&#34;,
-        &#34;google_analytics&#34;, &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;,
-        &#34;google_cloud_spanner&#34;, &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;,
-        &#34;google_cloud_firestore&#34;, &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;,
-        &#34;logs_historical_views&#34;, &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;,
-        &#34;monitor_create_v2&#34;, &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
+        &#34;dataviz_vibrant_default_palette&#34;, &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;,
+        &#34;amazon_cloudfront&#34;, &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;,
+        &#34;trace_backend_powered_sublayer_metrics_ui&#34;, &#34;billing_plan&#34;,
+        &#34;k9_getting_started&#34;, &#34;query_alerts&#34;, &#34;google_analytics&#34;,
+        &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;, &#34;google_cloud_spanner&#34;,
+        &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;, &#34;google_cloud_firestore&#34;,
+        &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;, &#34;logs_historical_views&#34;,
+        &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;, &#34;monitor_create_v2&#34;,
+        &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
         &#34;php_fpm&#34;, &#34;metrics_summary_bulk_tag_config&#34;, &#34;logs_multi_gb_in_timeseries&#34;,
         &#34;amazon_network_firewall&#34;, &#34;azure_db_for_mysql&#34;, &#34;hostname_dropdown&#34;,
         &#34;allow_custom_integration_check_groups&#34;, &#34;amazon_sqs&#34;, &#34;watchdog_generate_aws_elb_insights&#34;,
@@ -1850,13 +1843,13 @@ interactions:
         &#34;metrics_summary_distributions&#34;, &#34;amazon_appstream&#34;, &#34;apm_new_settings&#34;,
         &#34;multisize_layout_integration&#34;, &#34;monitor_rrule_ui&#34;, &#34;kube_controller_manager&#34;,
         &#34;metadata_unit_labels&#34;, &#34;app_services_filtering&#34;, &#34;watchdog_show_nginx_stories&#34;,
-        &#34;multi_units_number_formatting&#34;, &#34;mcache&#34;, &#34;azure_notification_hubs&#34;,
-        &#34;watchdog_generate_aws_alb_insights&#34;, &#34;adv_event_queries&#34;,
-        &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;, &#34;amazon_app_runner&#34;,
-        &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;, &#34;infralist_usage_tracking&#34;,
-        &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;, &#34;azure_data_lake_store&#34;,
-        &#34;process_saved_views&#34;, &#34;users_v1_api&#34;, &#34;elastic&#34;,
-        &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
+        &#34;multi_units_number_formatting&#34;, &#34;container_orchestration_jobs_cronjobs_views&#34;,
+        &#34;mcache&#34;, &#34;azure_notification_hubs&#34;, &#34;watchdog_generate_aws_alb_insights&#34;,
+        &#34;adv_event_queries&#34;, &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;,
+        &#34;amazon_app_runner&#34;, &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;,
+        &#34;infralist_usage_tracking&#34;, &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;,
+        &#34;azure_data_lake_store&#34;, &#34;process_saved_views&#34;, &#34;users_v1_api&#34;,
+        &#34;elastic&#34;, &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
         &#34;query_value_custom_image&#34;, &#34;azure_express_route&#34;, &#34;trace_versions_k8s&#34;,
         &#34;amazon_neptune&#34;, &#34;amazon_elasticbeanstalk&#34;, &#34;crio&#34;,
         &#34;correlations_terminating_hosts&#34;, &#34;watchdog_show_aws_dynamodb_stories&#34;,
@@ -1878,31 +1871,32 @@ interactions:
         &#34;amazon_vpn&#34;, &#34;sketch_intake&#34;, &#34;amazon_billing&#34;, &#34;change_widget_no_interval&#34;,
         &#34;event_viewer&#34;, &#34;rum_geomap&#34;, &#34;amazon_mediaconvert&#34;,
         &#34;query_value_custom_colors&#34;, &#34;process_page_always_show_scatterplot&#34;,
-        &#34;amazon_appsync&#34;, &#34;notebooks_public_api&#34;, &#34;azure_logic_app&#34;,
-        &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;, &#34;google_cloud_run&#34;,
-        &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;, &#34;azure_usage_and_quotas&#34;,
-        &#34;watchdog_show_aws_nlb_stories&#34;, &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;,
-        &#34;aws_detailed_elb_deduped_metrics_log&#34;, &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;,
-        &#34;google_cloud_functions&#34;, &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;,
-        &#34;google_cloud_iot&#34;, &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;,
-        &#34;azure_app_services&#34;, &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;,
-        &#34;watchdog_show_dashboard_correlations_section&#34;, &#34;metrics_summary_tag_table&#34;,
-        &#34;amazon_elb&#34;, &#34;enable_distribution&#34;, &#34;amazon_ses&#34;,
-        &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;, &#34;azure_blob_storage&#34;,
-        &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;, &#34;1mo_alerts&#34;,
-        &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;, &#34;new_dashboards_list_onboarding&#34;,
-        &#34;metric_summary_meta_display&#34;, &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;,
-        &#34;monitors_forms_v2_type_log&#34;, &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;,
-        &#34;monitors_summary_ok_link&#34;, &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;,
-        &#34;synthetics&#34;, &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;,
-        &#34;amazon_mediaconnect&#34;, &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;,
-        &#34;watchdog_show_nginx_plus_stories&#34;, &#34;process_variable_time_range_support&#34;,
-        &#34;dashboard_allow_metric_boolean_filter&#34;, &#34;logs_group_by_selector_v2&#34;,
-        &#34;amazon_rekognition&#34;, &#34;spa_help&#34;, &#34;as_count_validation&#34;,
-        &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;, &#34;monitors_forms_v2_type_rum&#34;,
-        &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;, &#34;snyk&#34;, &#34;pagerduty_schedules&#34;,
-        &#34;watchdog_show_aws_elb_stories&#34;, &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;,
-        &#34;oracle_cloud_infrastructure&#34;, &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
+        &#34;amazon_appsync&#34;, &#34;incidents_datasource&#34;, &#34;notebooks_public_api&#34;,
+        &#34;azure_logic_app&#34;, &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;,
+        &#34;google_cloud_run&#34;, &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;,
+        &#34;azure_usage_and_quotas&#34;, &#34;watchdog_show_aws_nlb_stories&#34;,
+        &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;, &#34;aws_detailed_elb_deduped_metrics_log&#34;,
+        &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;, &#34;google_cloud_functions&#34;,
+        &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;, &#34;google_cloud_iot&#34;,
+        &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;, &#34;azure_app_services&#34;,
+        &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;, &#34;watchdog_show_dashboard_correlations_section&#34;,
+        &#34;metrics_summary_tag_table&#34;, &#34;amazon_elb&#34;, &#34;enable_distribution&#34;,
+        &#34;amazon_ses&#34;, &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;,
+        &#34;azure_blob_storage&#34;, &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;,
+        &#34;1mo_alerts&#34;, &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;,
+        &#34;new_dashboards_list_onboarding&#34;, &#34;metric_summary_meta_display&#34;,
+        &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;, &#34;monitors_forms_v2_type_log&#34;,
+        &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;, &#34;monitors_summary_ok_link&#34;,
+        &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;, &#34;synthetics&#34;,
+        &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;, &#34;amazon_mediaconnect&#34;,
+        &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;, &#34;watchdog_show_nginx_plus_stories&#34;,
+        &#34;process_variable_time_range_support&#34;, &#34;dashboard_allow_metric_boolean_filter&#34;,
+        &#34;logs_group_by_selector_v2&#34;, &#34;amazon_rekognition&#34;, &#34;spa_help&#34;,
+        &#34;as_count_validation&#34;, &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;,
+        &#34;monitors_forms_v2_type_rum&#34;, &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;,
+        &#34;snyk&#34;, &#34;pagerduty_schedules&#34;, &#34;watchdog_show_aws_elb_stories&#34;,
+        &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;, &#34;oracle_cloud_infrastructure&#34;,
+        &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
         &#34;k9_attrs_additional_dashboard_links&#34;, &#34;amazon_kinesis&#34;, &#34;google_cloud_router&#34;,
         &#34;events_explorer_saved_views&#34;, &#34;amazon_ec2_spot&#34;, &#34;amazon_athena&#34;,
         &#34;log_multi_monitors_release&#34;, &#34;k9_anomaly_graph&#34;, &#34;watchdog_generate_infra_partitions&#34;,
@@ -1969,39 +1963,35 @@ interactions:
         type=\"hidden\" value=\"&#34;https://static.datadoghq.eu&#34;\" /></div>\n<div
         style=\"display: none;\"><input id=\"castlerequestsignature\" name=\"castleRequestSignature\"
         type=\"hidden\" value=\"c8247eb245c6414c737020afec747d5af4b06c0168ca2fab50ed78f5deaaa84a\"
-        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.js\"
+        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.js\"
         type=\"text/javascript\"></script>\n\n\n    <script>DD.initApp();</script>\n\n
         \       \n\n    </body>\n</html>\n"
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '29673'
+      - '28683'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - text/html; charset=utf-8
       date:
-      - Mon, 05 Jul 2021 22:29:19 GMT
+      - Wed, 07 Jul 2021 15:59:08 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
+      code: 429
+      message: Too Many Requests
 - request:
     body: '{"name": "Test pipeline 2", "is_enabled": true, "filter": {"query": "test:query"},
       "processors": [{"name": "Grok Parser", "is_enabled": true, "source": "message",
@@ -2027,7 +2017,7 @@ interactions:
     body:
       string: "\n\n\n<!DOCTYPE html>\n<!--\n______  _______ _______ _______ ______
         \  _____   ______\n|     \\ |_____|    |    |_____| |     \\ |     | |  ____\n|_____/
-        |     |    |    |     | |_____/ |_____| |_____|\n\n\n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\n\n\n-->\n<html>\n
+        |     |    |    |     | |_____/ |_____| |_____|\n\n\nbrGYmovQcshWF1VlWUGbSYRqyCdLemevqba/gtpvf6oz7272Cfhn5EeBWG3s92zELkWj4oJIa3YksRu2T/+kBIMNbK9E46IqV6XVcm2x8se/r0DOnmdmLdtg37v4vPZJ9RTSTeqX91avSx85eyzA7CRXOak3Dri2CJL7J0rONSO5eJ43kBxzZHtRWlFjJ3E+8R01xSjDdN18/le6VM3u8a2EEQ/Dr52iYW/8T5/zG5GouyegrtdooMqs7JzQXgRY0nPnBAwHOGsg07AxUS1Ciryv8N7U1Fbh46z4qEJ2QPe0F/pNnfzxECy/pLWxlep2MZKDeZdTjxotxjcfOSxuWDO9JyXpYIONIyE+lzSrNumzkO7idC5FAm1I/PcT95oa32Pma1J6vqWLPdtfgR1sErouVXL/x7iEXSNCJ4iGz2O65lCVCTYDpCGEU9dxnOl22MS2+nyhwTCZcEn3ABiCBEABqugBsrlW4wWJrDUTEpDLRH/foToUziZTQL9HOXZfoiNRq1wYHLm8plNImrcnrRUdR8iwHC7RyxOQ4DKWT0IfGtMF3snGryGyxxg2cFR2cMtjIvksQkyGtz0LNOaz0H+TACPKCDbflneZauuNGT+V52ureIn/M22CRp2OJ826uNVm3riGi9pSB8WqvQCoBeu/0iCM2od1UGy8h4ZO1FOBRTfgy/J0jaT83v4yUwlr9jDMWltPUR3xuNgqRPtRsuCOdPUigIB3oTUNBCNaMWx4P9STubhEuTyg6SkijNvku2aSRCosL6Vr1fjzM2An+MzYV/pszchhbkj5waKZ9gNJlqxaqokBSTjwfCrLh37wezMY2MMoyPM8x/PF1dswsF9wwg2OqfX2mYSS8/2FMeHf2tpG+iiyPyabcbgbsGcRq3itaMLd7+EswR+9lnJXkkGZL7PhVfEonEMns6v9yk7VwTC85uLaMHK2ENyu6cZS9tabONIIshpdjGMuAekHC8qySZS2mnmOc8IrSiR4aPPjYVmlZsrhsa3Zs295TXTQwf//oF0XM+M4QHpSp0GOWlMXK9JETKWinwJ2n14oFLsa0EGqAM75og==\n\n\n-->\n<html>\n
         \   <head>\n        <meta name=\"viewport\" content=\"width=device-width,
         initial-scale=1\">\n        <style>\n            @viewport {\n                width:
         device-width;\n                initial-scale: 1;\n            }\n            body
@@ -2036,24 +2026,24 @@ interactions:
         picture.mako_picture img.mako_picture_dark {\n                display: none;\n
         \           }\n\n            img.mako_picture_dark {\n                filter:
         brightness(76%);\n            }\n        </style>\n        <title>\n          \n
-        \ Error 403 | Datadog\n |\n        Datadog\n        </title>\n        <link
-        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.css\"
+        \ Error 429 | Datadog\n |\n        Datadog\n        </title>\n        <link
+        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.css\"
         media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />\n        \n        \n
         \       \n        \n    </head>\n    <body class=\"\n\">\n        \n\n\n\n<div
         class=\"error_page clearfix\">\n  <div class=\"error_img\">\n    <picture
         class=\"mako_picture\">\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_light\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits.svg\" width=\"276\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits.svg\" width=\"276\"
         height=\"295\" />\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_dark\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits_reversed.svg\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits_reversed.svg\"
         width=\"276\" height=\"295\" />\n    </picture>\n  </div>\n  <div class=\"error_msg\">\n
         \   <p class=\"text-contrast-80 text-displayface\" style=\"margin: 0 0 0;
         font-size: 96px; font-weight: bold; line-height: 1;\">Arf.</p>\n    <h1 style=\"font-size:
-        48px; line-height: 1;\">403 Forbidden</h1>\n    <ul>\n      <li class=\"live-status\"
+        48px; line-height: 1;\">429 Too Many Requests</h1>\n    <ul>\n      <li class=\"live-status\"
         id=\"error-status\"></li>\n      <li><a href=\"/\">Datadog Homepage &rarr;</a></li>\n
         \     <li><a href=\"https://docs.datadoghq.com/help/\">Datadog Help &rarr;</a></li>\n
         \     <li><a href=\"/account/settings\">Datadog Setup Basics &rarr;</a></li>\n
         \   </ul>\n  </div>\n</div>\n\n<!--page--></div>\n\n\n\n\n\n        <script>\n
-        \           window.DD_version=\"35.4892550\";\n        </script>\n\n        \n\n<!--
+        \           window.DD_version=\"35.4907878\";\n        </script>\n\n        \n\n<!--
         DD JS -->\n\n<div style=\"display: none;\"><input id=\"config-init\" name=\"config-init\"
         type=\"hidden\" value=\"{&#34;browser_email.domain&#34;: &#34;synthetics.dtdg.eu&#34;,
         &#34;watchdog.default_shadow_pipeline&#34;: null, &#34;alerting.count_over_count_validation_min_id&#34;:
@@ -2062,7 +2052,7 @@ interactions:
         &#34;init_config&#34;: {&#34;forwardErrorsToLogs&#34;: &#34;true&#34;, &#34;service&#34;:
         &#34;web-ui&#34;, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;env&#34;: &#34;prod&#34;,
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;env&#34;: &#34;prod&#34;,
         &#34;clientToken&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;, &#34;useAlternateIntakeDomains&#34;:
         false, &#34;sampleRate&#34;: 100.0, &#34;replica&#34;: null}}, &#34;rum&#34;:
         {&#34;bundle_url&#34;: &#34;https://www.datadoghq-browser-agent.com/datadog-rum.js&#34;,
@@ -2070,7 +2060,7 @@ interactions:
         false, &#34;env&#34;: &#34;prod&#34;, &#34;service&#34;: &#34;web-ui&#34;,
         &#34;trackInteractions&#34;: true, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
         100.0, &#34;clientToken&#34;: &#34;pub5aca13241dc0292e597bbdee3b96d7e2&#34;,
         &#34;manualSessionReplayRecordingStart&#34;: true, &#34;sampleRate&#34;: 100.0,
         &#34;applicationId&#34;: &#34;d2e1d971-6cf8-45bf-84d4-ba4a3dc8089c&#34;}}},
@@ -2178,14 +2168,15 @@ interactions:
         &#34;container_orchestration_new_resource_menu&#34;, &#34;process_distribution_metrics&#34;,
         &#34;correlations_resource_change&#34;, &#34;logs-toolkit_leftright_groupby&#34;,
         &#34;amazon_dms&#34;, &#34;alibaba_cloud&#34;, &#34;template_var_value_support&#34;,
-        &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;, &#34;amazon_cloudfront&#34;,
-        &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;, &#34;trace_backend_powered_sublayer_metrics_ui&#34;,
-        &#34;billing_plan&#34;, &#34;k9_getting_started&#34;, &#34;query_alerts&#34;,
-        &#34;google_analytics&#34;, &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;,
-        &#34;google_cloud_spanner&#34;, &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;,
-        &#34;google_cloud_firestore&#34;, &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;,
-        &#34;logs_historical_views&#34;, &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;,
-        &#34;monitor_create_v2&#34;, &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
+        &#34;dataviz_vibrant_default_palette&#34;, &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;,
+        &#34;amazon_cloudfront&#34;, &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;,
+        &#34;trace_backend_powered_sublayer_metrics_ui&#34;, &#34;billing_plan&#34;,
+        &#34;k9_getting_started&#34;, &#34;query_alerts&#34;, &#34;google_analytics&#34;,
+        &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;, &#34;google_cloud_spanner&#34;,
+        &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;, &#34;google_cloud_firestore&#34;,
+        &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;, &#34;logs_historical_views&#34;,
+        &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;, &#34;monitor_create_v2&#34;,
+        &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
         &#34;php_fpm&#34;, &#34;metrics_summary_bulk_tag_config&#34;, &#34;logs_multi_gb_in_timeseries&#34;,
         &#34;amazon_network_firewall&#34;, &#34;azure_db_for_mysql&#34;, &#34;hostname_dropdown&#34;,
         &#34;allow_custom_integration_check_groups&#34;, &#34;amazon_sqs&#34;, &#34;watchdog_generate_aws_elb_insights&#34;,
@@ -2214,13 +2205,13 @@ interactions:
         &#34;metrics_summary_distributions&#34;, &#34;amazon_appstream&#34;, &#34;apm_new_settings&#34;,
         &#34;multisize_layout_integration&#34;, &#34;monitor_rrule_ui&#34;, &#34;kube_controller_manager&#34;,
         &#34;metadata_unit_labels&#34;, &#34;app_services_filtering&#34;, &#34;watchdog_show_nginx_stories&#34;,
-        &#34;multi_units_number_formatting&#34;, &#34;mcache&#34;, &#34;azure_notification_hubs&#34;,
-        &#34;watchdog_generate_aws_alb_insights&#34;, &#34;adv_event_queries&#34;,
-        &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;, &#34;amazon_app_runner&#34;,
-        &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;, &#34;infralist_usage_tracking&#34;,
-        &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;, &#34;azure_data_lake_store&#34;,
-        &#34;process_saved_views&#34;, &#34;users_v1_api&#34;, &#34;elastic&#34;,
-        &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
+        &#34;multi_units_number_formatting&#34;, &#34;container_orchestration_jobs_cronjobs_views&#34;,
+        &#34;mcache&#34;, &#34;azure_notification_hubs&#34;, &#34;watchdog_generate_aws_alb_insights&#34;,
+        &#34;adv_event_queries&#34;, &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;,
+        &#34;amazon_app_runner&#34;, &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;,
+        &#34;infralist_usage_tracking&#34;, &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;,
+        &#34;azure_data_lake_store&#34;, &#34;process_saved_views&#34;, &#34;users_v1_api&#34;,
+        &#34;elastic&#34;, &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
         &#34;query_value_custom_image&#34;, &#34;azure_express_route&#34;, &#34;trace_versions_k8s&#34;,
         &#34;amazon_neptune&#34;, &#34;amazon_elasticbeanstalk&#34;, &#34;crio&#34;,
         &#34;correlations_terminating_hosts&#34;, &#34;watchdog_show_aws_dynamodb_stories&#34;,
@@ -2242,31 +2233,32 @@ interactions:
         &#34;amazon_vpn&#34;, &#34;sketch_intake&#34;, &#34;amazon_billing&#34;, &#34;change_widget_no_interval&#34;,
         &#34;event_viewer&#34;, &#34;rum_geomap&#34;, &#34;amazon_mediaconvert&#34;,
         &#34;query_value_custom_colors&#34;, &#34;process_page_always_show_scatterplot&#34;,
-        &#34;amazon_appsync&#34;, &#34;notebooks_public_api&#34;, &#34;azure_logic_app&#34;,
-        &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;, &#34;google_cloud_run&#34;,
-        &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;, &#34;azure_usage_and_quotas&#34;,
-        &#34;watchdog_show_aws_nlb_stories&#34;, &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;,
-        &#34;aws_detailed_elb_deduped_metrics_log&#34;, &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;,
-        &#34;google_cloud_functions&#34;, &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;,
-        &#34;google_cloud_iot&#34;, &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;,
-        &#34;azure_app_services&#34;, &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;,
-        &#34;watchdog_show_dashboard_correlations_section&#34;, &#34;metrics_summary_tag_table&#34;,
-        &#34;amazon_elb&#34;, &#34;enable_distribution&#34;, &#34;amazon_ses&#34;,
-        &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;, &#34;azure_blob_storage&#34;,
-        &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;, &#34;1mo_alerts&#34;,
-        &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;, &#34;new_dashboards_list_onboarding&#34;,
-        &#34;metric_summary_meta_display&#34;, &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;,
-        &#34;monitors_forms_v2_type_log&#34;, &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;,
-        &#34;monitors_summary_ok_link&#34;, &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;,
-        &#34;synthetics&#34;, &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;,
-        &#34;amazon_mediaconnect&#34;, &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;,
-        &#34;watchdog_show_nginx_plus_stories&#34;, &#34;process_variable_time_range_support&#34;,
-        &#34;dashboard_allow_metric_boolean_filter&#34;, &#34;logs_group_by_selector_v2&#34;,
-        &#34;amazon_rekognition&#34;, &#34;spa_help&#34;, &#34;as_count_validation&#34;,
-        &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;, &#34;monitors_forms_v2_type_rum&#34;,
-        &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;, &#34;snyk&#34;, &#34;pagerduty_schedules&#34;,
-        &#34;watchdog_show_aws_elb_stories&#34;, &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;,
-        &#34;oracle_cloud_infrastructure&#34;, &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
+        &#34;amazon_appsync&#34;, &#34;incidents_datasource&#34;, &#34;notebooks_public_api&#34;,
+        &#34;azure_logic_app&#34;, &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;,
+        &#34;google_cloud_run&#34;, &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;,
+        &#34;azure_usage_and_quotas&#34;, &#34;watchdog_show_aws_nlb_stories&#34;,
+        &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;, &#34;aws_detailed_elb_deduped_metrics_log&#34;,
+        &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;, &#34;google_cloud_functions&#34;,
+        &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;, &#34;google_cloud_iot&#34;,
+        &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;, &#34;azure_app_services&#34;,
+        &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;, &#34;watchdog_show_dashboard_correlations_section&#34;,
+        &#34;metrics_summary_tag_table&#34;, &#34;amazon_elb&#34;, &#34;enable_distribution&#34;,
+        &#34;amazon_ses&#34;, &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;,
+        &#34;azure_blob_storage&#34;, &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;,
+        &#34;1mo_alerts&#34;, &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;,
+        &#34;new_dashboards_list_onboarding&#34;, &#34;metric_summary_meta_display&#34;,
+        &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;, &#34;monitors_forms_v2_type_log&#34;,
+        &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;, &#34;monitors_summary_ok_link&#34;,
+        &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;, &#34;synthetics&#34;,
+        &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;, &#34;amazon_mediaconnect&#34;,
+        &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;, &#34;watchdog_show_nginx_plus_stories&#34;,
+        &#34;process_variable_time_range_support&#34;, &#34;dashboard_allow_metric_boolean_filter&#34;,
+        &#34;logs_group_by_selector_v2&#34;, &#34;amazon_rekognition&#34;, &#34;spa_help&#34;,
+        &#34;as_count_validation&#34;, &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;,
+        &#34;monitors_forms_v2_type_rum&#34;, &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;,
+        &#34;snyk&#34;, &#34;pagerduty_schedules&#34;, &#34;watchdog_show_aws_elb_stories&#34;,
+        &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;, &#34;oracle_cloud_infrastructure&#34;,
+        &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
         &#34;k9_attrs_additional_dashboard_links&#34;, &#34;amazon_kinesis&#34;, &#34;google_cloud_router&#34;,
         &#34;events_explorer_saved_views&#34;, &#34;amazon_ec2_spot&#34;, &#34;amazon_athena&#34;,
         &#34;log_multi_monitors_release&#34;, &#34;k9_anomaly_graph&#34;, &#34;watchdog_generate_infra_partitions&#34;,
@@ -2333,39 +2325,35 @@ interactions:
         type=\"hidden\" value=\"&#34;https://static.datadoghq.eu&#34;\" /></div>\n<div
         style=\"display: none;\"><input id=\"castlerequestsignature\" name=\"castleRequestSignature\"
         type=\"hidden\" value=\"c8247eb245c6414c737020afec747d5af4b06c0168ca2fab50ed78f5deaaa84a\"
-        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.js\"
+        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.js\"
         type=\"text/javascript\"></script>\n\n\n    <script>DD.initApp();</script>\n\n
         \       \n\n    </body>\n</html>\n"
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '30381'
+      - '28903'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - text/html; charset=utf-8
       date:
-      - Mon, 05 Jul 2021 22:29:19 GMT
+      - Wed, 07 Jul 2021 15:59:08 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
+      code: 429
+      message: Too Many Requests
 - request:
     body: '{"name": "Test pipeline 3", "is_enabled": true, "filter": {"query": "tes1232113"},
       "processors": []}'
@@ -2388,7 +2376,7 @@ interactions:
     body:
       string: "\n\n\n<!DOCTYPE html>\n<!--\n______  _______ _______ _______ ______
         \  _____   ______\n|     \\ |_____|    |    |_____| |     \\ |     | |  ____\n|_____/
-        |     |    |    |     | |_____/ |_____| |_____|\n\n\ncSfYIrCuRsQ8jcqlfnlne5y6Hh3J+cGE4NxESjQoNZ3574MA8RlhEWF2APBPFGkQalkLY8LM6itt7/arEs+KN0pcgVobYYLmTK3x+CYCmsdWsBgjMcZ2ofad2204TbRtT+Giqvh9VLAsmSzC5hNPn6Oi5q3JY1R/xmGi6fSlias/MIa4MBwydGeykCJIxYqjvSAXFabgC4EX6vsHd9DQ/VViBI9BFusCIh2SjK9utdxWFGDPnTekamMmwpV3IrHhh0dNvVcTbCDHeEV2xsIWVD8DzKb1NwXgB9ynbFCbwdUhxtItutToBI+1/GByEs9PL2wFrCoctH9MTllY7+TB8vmKQg5Pg9ghGB7SM/fFP8+uFcuVIoI4HKl//T7qGyH1GZ9SPS0=\n\n\n-->\n<html>\n
+        |     |    |    |     | |_____/ |_____| |_____|\n\n\nDpK1KSvLpR6Fmfh3zwLBJyX1u853CV8arq6sOCsgWohEc3QReCsoGnfY5mLZFIXkU7CuJUGoP0ImZakBXhyeZxb5lnicxRE9IeJmUUcejNbwNpdll7Gb1oyzirF3+FQ69/uZAEJLqe2eNy9Ly5yMe/i3PmOHtvnUPFyOCq23RmvkG09gPkoqfgV64S1FcU94UUZiLyiIJ4irDePN+7Z3ZuGzPKZ5hzd+iguMA+M1XUmVQma/ez/C1fM74j1b5SqUA/yiSdxhIbCox9CI3vDI6bTIzUuLiFvh0iFF58SVvZd5cUtbs0DEmUl89p3AB+sUt5byL5RJYMUGz1fSH87+dw/DR1ovLLcuv14CDgTZaLezl8vT+bcjA0N8zhddnkcyd8g1WGQeL8pypdBMa5hXDpPqxySuTamGkVlMEP8sQ+a5fm9woKj0vy2fi972bNMYLKQVQHjfAPwopczBckoFPwz9O8CockR21XKZqMQ=\n\n\n-->\n<html>\n
         \   <head>\n        <meta name=\"viewport\" content=\"width=device-width,
         initial-scale=1\">\n        <style>\n            @viewport {\n                width:
         device-width;\n                initial-scale: 1;\n            }\n            body
@@ -2397,24 +2385,24 @@ interactions:
         picture.mako_picture img.mako_picture_dark {\n                display: none;\n
         \           }\n\n            img.mako_picture_dark {\n                filter:
         brightness(76%);\n            }\n        </style>\n        <title>\n          \n
-        \ Error 403 | Datadog\n |\n        Datadog\n        </title>\n        <link
-        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.css\"
+        \ Error 429 | Datadog\n |\n        Datadog\n        </title>\n        <link
+        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.css\"
         media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />\n        \n        \n
         \       \n        \n    </head>\n    <body class=\"\n\">\n        \n\n\n\n<div
         class=\"error_page clearfix\">\n  <div class=\"error_img\">\n    <picture
         class=\"mako_picture\">\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_light\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits.svg\" width=\"276\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits.svg\" width=\"276\"
         height=\"295\" />\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_dark\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits_reversed.svg\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits_reversed.svg\"
         width=\"276\" height=\"295\" />\n    </picture>\n  </div>\n  <div class=\"error_msg\">\n
         \   <p class=\"text-contrast-80 text-displayface\" style=\"margin: 0 0 0;
         font-size: 96px; font-weight: bold; line-height: 1;\">Arf.</p>\n    <h1 style=\"font-size:
-        48px; line-height: 1;\">403 Forbidden</h1>\n    <ul>\n      <li class=\"live-status\"
+        48px; line-height: 1;\">429 Too Many Requests</h1>\n    <ul>\n      <li class=\"live-status\"
         id=\"error-status\"></li>\n      <li><a href=\"/\">Datadog Homepage &rarr;</a></li>\n
         \     <li><a href=\"https://docs.datadoghq.com/help/\">Datadog Help &rarr;</a></li>\n
         \     <li><a href=\"/account/settings\">Datadog Setup Basics &rarr;</a></li>\n
         \   </ul>\n  </div>\n</div>\n\n<!--page--></div>\n\n\n\n\n\n        <script>\n
-        \           window.DD_version=\"35.4892550\";\n        </script>\n\n        \n\n<!--
+        \           window.DD_version=\"35.4907878\";\n        </script>\n\n        \n\n<!--
         DD JS -->\n\n<div style=\"display: none;\"><input id=\"config-init\" name=\"config-init\"
         type=\"hidden\" value=\"{&#34;browser_email.domain&#34;: &#34;synthetics.dtdg.eu&#34;,
         &#34;watchdog.default_shadow_pipeline&#34;: null, &#34;alerting.count_over_count_validation_min_id&#34;:
@@ -2423,7 +2411,7 @@ interactions:
         &#34;init_config&#34;: {&#34;forwardErrorsToLogs&#34;: &#34;true&#34;, &#34;service&#34;:
         &#34;web-ui&#34;, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;env&#34;: &#34;prod&#34;,
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;env&#34;: &#34;prod&#34;,
         &#34;clientToken&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;, &#34;useAlternateIntakeDomains&#34;:
         false, &#34;sampleRate&#34;: 100.0, &#34;replica&#34;: null}}, &#34;rum&#34;:
         {&#34;bundle_url&#34;: &#34;https://www.datadoghq-browser-agent.com/datadog-rum.js&#34;,
@@ -2431,7 +2419,7 @@ interactions:
         false, &#34;env&#34;: &#34;prod&#34;, &#34;service&#34;: &#34;web-ui&#34;,
         &#34;trackInteractions&#34;: true, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
         100.0, &#34;clientToken&#34;: &#34;pub5aca13241dc0292e597bbdee3b96d7e2&#34;,
         &#34;manualSessionReplayRecordingStart&#34;: true, &#34;sampleRate&#34;: 100.0,
         &#34;applicationId&#34;: &#34;d2e1d971-6cf8-45bf-84d4-ba4a3dc8089c&#34;}}},
@@ -2539,14 +2527,15 @@ interactions:
         &#34;container_orchestration_new_resource_menu&#34;, &#34;process_distribution_metrics&#34;,
         &#34;correlations_resource_change&#34;, &#34;logs-toolkit_leftright_groupby&#34;,
         &#34;amazon_dms&#34;, &#34;alibaba_cloud&#34;, &#34;template_var_value_support&#34;,
-        &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;, &#34;amazon_cloudfront&#34;,
-        &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;, &#34;trace_backend_powered_sublayer_metrics_ui&#34;,
-        &#34;billing_plan&#34;, &#34;k9_getting_started&#34;, &#34;query_alerts&#34;,
-        &#34;google_analytics&#34;, &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;,
-        &#34;google_cloud_spanner&#34;, &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;,
-        &#34;google_cloud_firestore&#34;, &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;,
-        &#34;logs_historical_views&#34;, &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;,
-        &#34;monitor_create_v2&#34;, &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
+        &#34;dataviz_vibrant_default_palette&#34;, &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;,
+        &#34;amazon_cloudfront&#34;, &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;,
+        &#34;trace_backend_powered_sublayer_metrics_ui&#34;, &#34;billing_plan&#34;,
+        &#34;k9_getting_started&#34;, &#34;query_alerts&#34;, &#34;google_analytics&#34;,
+        &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;, &#34;google_cloud_spanner&#34;,
+        &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;, &#34;google_cloud_firestore&#34;,
+        &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;, &#34;logs_historical_views&#34;,
+        &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;, &#34;monitor_create_v2&#34;,
+        &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
         &#34;php_fpm&#34;, &#34;metrics_summary_bulk_tag_config&#34;, &#34;logs_multi_gb_in_timeseries&#34;,
         &#34;amazon_network_firewall&#34;, &#34;azure_db_for_mysql&#34;, &#34;hostname_dropdown&#34;,
         &#34;allow_custom_integration_check_groups&#34;, &#34;amazon_sqs&#34;, &#34;watchdog_generate_aws_elb_insights&#34;,
@@ -2575,13 +2564,13 @@ interactions:
         &#34;metrics_summary_distributions&#34;, &#34;amazon_appstream&#34;, &#34;apm_new_settings&#34;,
         &#34;multisize_layout_integration&#34;, &#34;monitor_rrule_ui&#34;, &#34;kube_controller_manager&#34;,
         &#34;metadata_unit_labels&#34;, &#34;app_services_filtering&#34;, &#34;watchdog_show_nginx_stories&#34;,
-        &#34;multi_units_number_formatting&#34;, &#34;mcache&#34;, &#34;azure_notification_hubs&#34;,
-        &#34;watchdog_generate_aws_alb_insights&#34;, &#34;adv_event_queries&#34;,
-        &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;, &#34;amazon_app_runner&#34;,
-        &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;, &#34;infralist_usage_tracking&#34;,
-        &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;, &#34;azure_data_lake_store&#34;,
-        &#34;process_saved_views&#34;, &#34;users_v1_api&#34;, &#34;elastic&#34;,
-        &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
+        &#34;multi_units_number_formatting&#34;, &#34;container_orchestration_jobs_cronjobs_views&#34;,
+        &#34;mcache&#34;, &#34;azure_notification_hubs&#34;, &#34;watchdog_generate_aws_alb_insights&#34;,
+        &#34;adv_event_queries&#34;, &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;,
+        &#34;amazon_app_runner&#34;, &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;,
+        &#34;infralist_usage_tracking&#34;, &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;,
+        &#34;azure_data_lake_store&#34;, &#34;process_saved_views&#34;, &#34;users_v1_api&#34;,
+        &#34;elastic&#34;, &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
         &#34;query_value_custom_image&#34;, &#34;azure_express_route&#34;, &#34;trace_versions_k8s&#34;,
         &#34;amazon_neptune&#34;, &#34;amazon_elasticbeanstalk&#34;, &#34;crio&#34;,
         &#34;correlations_terminating_hosts&#34;, &#34;watchdog_show_aws_dynamodb_stories&#34;,
@@ -2603,31 +2592,32 @@ interactions:
         &#34;amazon_vpn&#34;, &#34;sketch_intake&#34;, &#34;amazon_billing&#34;, &#34;change_widget_no_interval&#34;,
         &#34;event_viewer&#34;, &#34;rum_geomap&#34;, &#34;amazon_mediaconvert&#34;,
         &#34;query_value_custom_colors&#34;, &#34;process_page_always_show_scatterplot&#34;,
-        &#34;amazon_appsync&#34;, &#34;notebooks_public_api&#34;, &#34;azure_logic_app&#34;,
-        &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;, &#34;google_cloud_run&#34;,
-        &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;, &#34;azure_usage_and_quotas&#34;,
-        &#34;watchdog_show_aws_nlb_stories&#34;, &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;,
-        &#34;aws_detailed_elb_deduped_metrics_log&#34;, &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;,
-        &#34;google_cloud_functions&#34;, &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;,
-        &#34;google_cloud_iot&#34;, &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;,
-        &#34;azure_app_services&#34;, &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;,
-        &#34;watchdog_show_dashboard_correlations_section&#34;, &#34;metrics_summary_tag_table&#34;,
-        &#34;amazon_elb&#34;, &#34;enable_distribution&#34;, &#34;amazon_ses&#34;,
-        &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;, &#34;azure_blob_storage&#34;,
-        &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;, &#34;1mo_alerts&#34;,
-        &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;, &#34;new_dashboards_list_onboarding&#34;,
-        &#34;metric_summary_meta_display&#34;, &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;,
-        &#34;monitors_forms_v2_type_log&#34;, &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;,
-        &#34;monitors_summary_ok_link&#34;, &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;,
-        &#34;synthetics&#34;, &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;,
-        &#34;amazon_mediaconnect&#34;, &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;,
-        &#34;watchdog_show_nginx_plus_stories&#34;, &#34;process_variable_time_range_support&#34;,
-        &#34;dashboard_allow_metric_boolean_filter&#34;, &#34;logs_group_by_selector_v2&#34;,
-        &#34;amazon_rekognition&#34;, &#34;spa_help&#34;, &#34;as_count_validation&#34;,
-        &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;, &#34;monitors_forms_v2_type_rum&#34;,
-        &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;, &#34;snyk&#34;, &#34;pagerduty_schedules&#34;,
-        &#34;watchdog_show_aws_elb_stories&#34;, &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;,
-        &#34;oracle_cloud_infrastructure&#34;, &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
+        &#34;amazon_appsync&#34;, &#34;incidents_datasource&#34;, &#34;notebooks_public_api&#34;,
+        &#34;azure_logic_app&#34;, &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;,
+        &#34;google_cloud_run&#34;, &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;,
+        &#34;azure_usage_and_quotas&#34;, &#34;watchdog_show_aws_nlb_stories&#34;,
+        &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;, &#34;aws_detailed_elb_deduped_metrics_log&#34;,
+        &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;, &#34;google_cloud_functions&#34;,
+        &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;, &#34;google_cloud_iot&#34;,
+        &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;, &#34;azure_app_services&#34;,
+        &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;, &#34;watchdog_show_dashboard_correlations_section&#34;,
+        &#34;metrics_summary_tag_table&#34;, &#34;amazon_elb&#34;, &#34;enable_distribution&#34;,
+        &#34;amazon_ses&#34;, &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;,
+        &#34;azure_blob_storage&#34;, &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;,
+        &#34;1mo_alerts&#34;, &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;,
+        &#34;new_dashboards_list_onboarding&#34;, &#34;metric_summary_meta_display&#34;,
+        &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;, &#34;monitors_forms_v2_type_log&#34;,
+        &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;, &#34;monitors_summary_ok_link&#34;,
+        &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;, &#34;synthetics&#34;,
+        &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;, &#34;amazon_mediaconnect&#34;,
+        &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;, &#34;watchdog_show_nginx_plus_stories&#34;,
+        &#34;process_variable_time_range_support&#34;, &#34;dashboard_allow_metric_boolean_filter&#34;,
+        &#34;logs_group_by_selector_v2&#34;, &#34;amazon_rekognition&#34;, &#34;spa_help&#34;,
+        &#34;as_count_validation&#34;, &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;,
+        &#34;monitors_forms_v2_type_rum&#34;, &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;,
+        &#34;snyk&#34;, &#34;pagerduty_schedules&#34;, &#34;watchdog_show_aws_elb_stories&#34;,
+        &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;, &#34;oracle_cloud_infrastructure&#34;,
+        &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
         &#34;k9_attrs_additional_dashboard_links&#34;, &#34;amazon_kinesis&#34;, &#34;google_cloud_router&#34;,
         &#34;events_explorer_saved_views&#34;, &#34;amazon_ec2_spot&#34;, &#34;amazon_athena&#34;,
         &#34;log_multi_monitors_release&#34;, &#34;k9_anomaly_graph&#34;, &#34;watchdog_generate_infra_partitions&#34;,
@@ -2694,39 +2684,35 @@ interactions:
         type=\"hidden\" value=\"&#34;https://static.datadoghq.eu&#34;\" /></div>\n<div
         style=\"display: none;\"><input id=\"castlerequestsignature\" name=\"castleRequestSignature\"
         type=\"hidden\" value=\"c8247eb245c6414c737020afec747d5af4b06c0168ca2fab50ed78f5deaaa84a\"
-        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.js\"
+        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.js\"
         type=\"text/javascript\"></script>\n\n\n    <script>DD.initApp();</script>\n\n
         \       \n\n    </body>\n</html>\n"
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '28077'
+      - '28311'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - text/html; charset=utf-8
       date:
-      - Mon, 05 Jul 2021 22:29:19 GMT
+      - Wed, 07 Jul 2021 15:59:09 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
+      code: 429
+      message: Too Many Requests
 - request:
     body: '{"name": "Test Pipeline - Complex", "is_enabled": true, "filter": {"query":
       "source:foo"}, "processors": [{"name": "sample arithmetic processor", "is_enabled":
@@ -2780,7 +2766,7 @@ interactions:
     body:
       string: "\n\n\n<!DOCTYPE html>\n<!--\n______  _______ _______ _______ ______
         \  _____   ______\n|     \\ |_____|    |    |_____| |     \\ |     | |  ____\n|_____/
-        |     |    |    |     | |_____/ |_____| |_____|\n\n\n9ZaJGWaNo6iRsEz114AgkdjhMawcrC29Xx8muJ5BGOwpE1JKE1Ylquy0XpBQFQkaHijhOoXUR42PhrC8LIJ2IqgglUsM4+g08GFUSLRtB/qdhQ3DZz3v1fL35cRPHaJDwgaUnhFIKV2eVd5+nwbjwr/nFTKotQIBkzKW8PyYpnKfL/yoFrn0miIEar87f1pGsi1+WmNkUX8dHs2SveIr50fA9BlqeJfiAdXC0ggj1jzdRVL87X0VCDsAXYv/uJRq9S1Xz8jv4sKl9qrUZ796AZqJ5wkJnQjPKkEx5R7hc0+nRI30QCZ6YcRqH7tdI6aRTu2IdUecjtBMvASRtRL+IbxpfmYWG+Iq1tLi8Pew7TRIlftL6OIEHiIIkrF+T3Gu2yNd2pKhuyAfinYzB5GevBLtnXl0NN8HxyRdOkQraqYYNRGVMcKAgkHhjBqmaS33Kk1D32jv4GcawaGtAWEj2cpDVQ7S/VzD7Jjw6M8hSWKl5eXHpJRkzrXS8mobEX7WyEQbcU6tBO9IcWOG1lhlzheYeijJxHSdwm8rpaxJawmp/91BdyplEen8YE8aIDVUG6pEH/0IxT4xvk4xMO1SRhUTgnpEWCuekLv5wDxDW/LQu62P7S9aYo16F4WldHHS5K513mnLNVANYEX9L9q0u0gIvBJ0lzZSgC6dYppgwgXMrqTTOzxryyh3n4NizHzoYTuQ2EroBz/tsqxTJXgTeC52sX8OY3OYhv8Fs7Skq+FYPTLcKdpakfpEMzj0lPUXKGJL07tF7xNSofQZ1E63SQ4w3tWQvdnCcCp1DcaRceEC0mrVW9x/AC/XQMwEDYiv3KpyHHNRC8SOGH6rdeH2EfCOeyfuXhDZIwTFXSLVmPj/8cqXr2P6LGJcVmY2+Z2QAMeadxspJteXmhQmJxcV+EQBwOi3UF1aBLfvf8bAZBJI5rqeFoLPb6u5aCrbsLZVTfUHP9nGa0KbmtUbjz5bG/p5dcAGd2eLfaGhmfjSVY39VW5VOvgJFRsOrP/qzb2oBozgUD19wlcBYfhW3Olh8id3y27yuC1GJT3ti9GAqPSRwJl8aYZGUeaAm/w0Fbeik63tqnf+YMCkWb+XodwyzuaIP1hYqLfXgjCkgiqf6HGhARZz3eVTyg/0R5DT9tTLN/VDXOLsFPHnJfqARYDD7NKeX6+9aWGh56p9cQc5cv/HJxn+8wqKHqMVuYz/IQ9MT8wtFK/J2de+OehP5+JO3bfmKw+Y0z/AijSd+UFdszbWeXKcGtinOUYZrTJMe7HC1kUgCVnMsBSmtva7uc7JwZLrss9wAA6LDal3Yv431bpHOCRbsE+sA+F9l2P9gRg47Xu5MZwBdzIy7yry4nIiNiZfxx2OWStboKAA0j9mk/S+RAKFcGInY6kHC5/VDRFfRca/oDCFAulof3GBJJhr8hs2CzUk9nBkzmXCj0/LUyxHmQCBtBUP96brMQqe11S1VmFyjaEH/7nFEubY2AEZyOXj0PrbRJKsGGA0i1KBb6VycjYcHO/O/fYKQDyOTqEiZPXMZzX7xkYcBqLYGbznK96/bHcAbApEZskvyAJSJ8qvMfr3XotUMhOudXd/uTRSKocQyTgXfVTU49Nla3qdJzCWv4GJM0Tz6WZjETYFs4iGRlmOe3RwyYoLE9gxhj1BtZ2az2Vio9rPMdqG8DqTKKXIT9g5nUA/Spfv5PqBZsBJ4vhMqcQPSSdo0w4uyvLWRtOQVATAGS6j08PksO1e55PPF00IatVlNl6+mIlwioikWHWPTn2c8xOJYOC5ZnI0XB8xrQPrdQ==\n\n\n-->\n<html>\n
+        |     |    |    |     | |_____/ |_____| |_____|\n\n\nAQ3uA046xnQ81LX9oGrkgzduwBnYxdXTIqndO+kUZ0bzopr4pKKvk7zw/Z8RK6jFa7vxo37nDXQL9aqoRC61n5e1gSJl+4eDI32aTQRxkNhm2ZhVdJ2Revj3vlcpgooeW9jS6s7cLxWKiCXMn81MnKf00YJIni+Z5Lhf7rrSIZ6C1EXinvtYxbnQHo1AU4UCeqsog581WNMBHvaw9l4EDjxpwCOBdUUHzagxT3Yo22YjCYpZlO0fAUfy8z6WDzlMEceYGyqfwuKGCzYUSyOpQbMiBJeHkSb9d6gqQErActJylGVCU0s6NX7WzoxyayrQecnoshK1a5j+crqcA8/w5YdfTxvgTT44nu7ucbcJ9DHoS2LLr8u1xlf4SzPQwplKEmeZ8Fye44lrHXQ1aDEw4PMRX9X4GYNK4cXZVofHuscbq4bonZhFqWUN3XJNqd3VfboVTYhRkq3977IgSrnaCeIY7BZ3GEww0IWZmB8XgBHbX2o3/nCWZxPAcBdghPbiNszyLPI92kEYxxNx/hwycEkcA90QsjLK1hSq/xNVXdXYXie/ppX2ta/Pa8j4Fq2hSgkVyTIN1UvGn/CgNo4+TAwcewugJ7C3YmsGKCrreAdjBZoMQbIHeBxCJxtTVR2vqphsrR5Wd3ibk9JwQ3dOWk268tcY5PySB5NrTz+IrUI244wWtucImWQGg/Tkr1D+49q+lxPdR2EOVik4TtiZ1t/0UrorDcmrumETXOprWV3LE9MsS029INxHiuPS730Cyho4bI9btIRmYUe9RlMuARLXieRCRYyA/6U1XrvBmJOXrfAlLxu3+pTI1S6OmXyLufvy2/vjPx7ZTlQgdW3OSR182Cp5wxQDkEkkFsiuZAF8TO493Nhgu5Je1GaAzPW5klzfoXscSU6TpQg82T8+ao0i\n\n\n-->\n<html>\n
         \   <head>\n        <meta name=\"viewport\" content=\"width=device-width,
         initial-scale=1\">\n        <style>\n            @viewport {\n                width:
         device-width;\n                initial-scale: 1;\n            }\n            body
@@ -2789,24 +2775,24 @@ interactions:
         picture.mako_picture img.mako_picture_dark {\n                display: none;\n
         \           }\n\n            img.mako_picture_dark {\n                filter:
         brightness(76%);\n            }\n        </style>\n        <title>\n          \n
-        \ Error 403 | Datadog\n |\n        Datadog\n        </title>\n        <link
-        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.css\"
+        \ Error 429 | Datadog\n |\n        Datadog\n        </title>\n        <link
+        crossorigin=\"anonymous\" href=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.css\"
         media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />\n        \n        \n
         \       \n        \n    </head>\n    <body class=\"\n\">\n        \n\n\n\n<div
         class=\"error_page clearfix\">\n  <div class=\"error_img\">\n    <picture
         class=\"mako_picture\">\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_light\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits.svg\" width=\"276\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits.svg\" width=\"276\"
         height=\"295\" />\n      <img alt=\"Sad Datadog Logo\" class=\"mako_picture_dark\"
-        src=\"https://static.datadoghq.eu/static/v/35.4892550/js/sad-bits_reversed.svg\"
+        src=\"https://static.datadoghq.eu/static/v/35.4907878/js/sad-bits_reversed.svg\"
         width=\"276\" height=\"295\" />\n    </picture>\n  </div>\n  <div class=\"error_msg\">\n
         \   <p class=\"text-contrast-80 text-displayface\" style=\"margin: 0 0 0;
         font-size: 96px; font-weight: bold; line-height: 1;\">Arf.</p>\n    <h1 style=\"font-size:
-        48px; line-height: 1;\">403 Forbidden</h1>\n    <ul>\n      <li class=\"live-status\"
+        48px; line-height: 1;\">429 Too Many Requests</h1>\n    <ul>\n      <li class=\"live-status\"
         id=\"error-status\"></li>\n      <li><a href=\"/\">Datadog Homepage &rarr;</a></li>\n
         \     <li><a href=\"https://docs.datadoghq.com/help/\">Datadog Help &rarr;</a></li>\n
         \     <li><a href=\"/account/settings\">Datadog Setup Basics &rarr;</a></li>\n
         \   </ul>\n  </div>\n</div>\n\n<!--page--></div>\n\n\n\n\n\n        <script>\n
-        \           window.DD_version=\"35.4892550\";\n        </script>\n\n        \n\n<!--
+        \           window.DD_version=\"35.4907878\";\n        </script>\n\n        \n\n<!--
         DD JS -->\n\n<div style=\"display: none;\"><input id=\"config-init\" name=\"config-init\"
         type=\"hidden\" value=\"{&#34;browser_email.domain&#34;: &#34;synthetics.dtdg.eu&#34;,
         &#34;watchdog.default_shadow_pipeline&#34;: null, &#34;alerting.count_over_count_validation_min_id&#34;:
@@ -2815,7 +2801,7 @@ interactions:
         &#34;init_config&#34;: {&#34;forwardErrorsToLogs&#34;: &#34;true&#34;, &#34;service&#34;:
         &#34;web-ui&#34;, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;env&#34;: &#34;prod&#34;,
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;env&#34;: &#34;prod&#34;,
         &#34;clientToken&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;, &#34;useAlternateIntakeDomains&#34;:
         false, &#34;sampleRate&#34;: 100.0, &#34;replica&#34;: null}}, &#34;rum&#34;:
         {&#34;bundle_url&#34;: &#34;https://www.datadoghq-browser-agent.com/datadog-rum.js&#34;,
@@ -2823,7 +2809,7 @@ interactions:
         false, &#34;env&#34;: &#34;prod&#34;, &#34;service&#34;: &#34;web-ui&#34;,
         &#34;trackInteractions&#34;: true, &#34;internalMonitoringApiKey&#34;: &#34;pub68f651ef61b1ed8a7a32e21b0d7b521f&#34;,
         &#34;site&#34;: &#34;datadoghq.eu&#34;, &#34;enableExperimentalFeatures&#34;:
-        [], &#34;version&#34;: &#34;35.4892550&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
+        [], &#34;version&#34;: &#34;35.4907878&#34;, &#34;replica&#34;: null, &#34;resourceSampleRate&#34;:
         100.0, &#34;clientToken&#34;: &#34;pub5aca13241dc0292e597bbdee3b96d7e2&#34;,
         &#34;manualSessionReplayRecordingStart&#34;: true, &#34;sampleRate&#34;: 100.0,
         &#34;applicationId&#34;: &#34;d2e1d971-6cf8-45bf-84d4-ba4a3dc8089c&#34;}}},
@@ -2931,14 +2917,15 @@ interactions:
         &#34;container_orchestration_new_resource_menu&#34;, &#34;process_distribution_metrics&#34;,
         &#34;correlations_resource_change&#34;, &#34;logs-toolkit_leftright_groupby&#34;,
         &#34;amazon_dms&#34;, &#34;alibaba_cloud&#34;, &#34;template_var_value_support&#34;,
-        &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;, &#34;amazon_cloudfront&#34;,
-        &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;, &#34;trace_backend_powered_sublayer_metrics_ui&#34;,
-        &#34;billing_plan&#34;, &#34;k9_getting_started&#34;, &#34;query_alerts&#34;,
-        &#34;google_analytics&#34;, &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;,
-        &#34;google_cloud_spanner&#34;, &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;,
-        &#34;google_cloud_firestore&#34;, &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;,
-        &#34;logs_historical_views&#34;, &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;,
-        &#34;monitor_create_v2&#34;, &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
+        &#34;dataviz_vibrant_default_palette&#34;, &#34;kyototycoon&#34;, &#34;dataviz-graph-inspector-refacto&#34;,
+        &#34;amazon_cloudfront&#34;, &#34;azure_search&#34;, &#34;amazon_auto_scaling&#34;,
+        &#34;trace_backend_powered_sublayer_metrics_ui&#34;, &#34;billing_plan&#34;,
+        &#34;k9_getting_started&#34;, &#34;query_alerts&#34;, &#34;google_analytics&#34;,
+        &#34;relevant_template_variables&#34;, &#34;azure_db_for_mariadb&#34;, &#34;google_cloud_spanner&#34;,
+        &#34;in_app_commit&#34;, &#34;infralist_live_metrics&#34;, &#34;google_cloud_firestore&#34;,
+        &#34;wildcard_email_sharing&#34;, &#34;google_stackdriver_logging&#34;, &#34;logs_historical_views&#34;,
+        &#34;k9_ip_dashboard&#34;, &#34;amazon_elasticache&#34;, &#34;monitor_create_v2&#34;,
+        &#34;msl_widget_windowing&#34;, &#34;uptime_widget_allow_service_check_alert&#34;,
         &#34;php_fpm&#34;, &#34;metrics_summary_bulk_tag_config&#34;, &#34;logs_multi_gb_in_timeseries&#34;,
         &#34;amazon_network_firewall&#34;, &#34;azure_db_for_mysql&#34;, &#34;hostname_dropdown&#34;,
         &#34;allow_custom_integration_check_groups&#34;, &#34;amazon_sqs&#34;, &#34;watchdog_generate_aws_elb_insights&#34;,
@@ -2967,13 +2954,13 @@ interactions:
         &#34;metrics_summary_distributions&#34;, &#34;amazon_appstream&#34;, &#34;apm_new_settings&#34;,
         &#34;multisize_layout_integration&#34;, &#34;monitor_rrule_ui&#34;, &#34;kube_controller_manager&#34;,
         &#34;metadata_unit_labels&#34;, &#34;app_services_filtering&#34;, &#34;watchdog_show_nginx_stories&#34;,
-        &#34;multi_units_number_formatting&#34;, &#34;mcache&#34;, &#34;azure_notification_hubs&#34;,
-        &#34;watchdog_generate_aws_alb_insights&#34;, &#34;adv_event_queries&#34;,
-        &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;, &#34;amazon_app_runner&#34;,
-        &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;, &#34;infralist_usage_tracking&#34;,
-        &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;, &#34;azure_data_lake_store&#34;,
-        &#34;process_saved_views&#34;, &#34;users_v1_api&#34;, &#34;elastic&#34;,
-        &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
+        &#34;multi_units_number_formatting&#34;, &#34;container_orchestration_jobs_cronjobs_views&#34;,
+        &#34;mcache&#34;, &#34;azure_notification_hubs&#34;, &#34;watchdog_generate_aws_alb_insights&#34;,
+        &#34;adv_event_queries&#34;, &#34;azure_devops&#34;, &#34;disable_kubernetes_vault_logins&#34;,
+        &#34;amazon_app_runner&#34;, &#34;rum_link_to_error_tracking&#34;, &#34;amazon_trusted_advisor&#34;,
+        &#34;infralist_usage_tracking&#34;, &#34;azure_container_service&#34;, &#34;k9_rule_type&#34;,
+        &#34;azure_data_lake_store&#34;, &#34;process_saved_views&#34;, &#34;users_v1_api&#34;,
+        &#34;elastic&#34;, &#34;azure_load_balancer&#34;, &#34;lightbendrp&#34;, &#34;watchdog_show_monitors&#34;,
         &#34;query_value_custom_image&#34;, &#34;azure_express_route&#34;, &#34;trace_versions_k8s&#34;,
         &#34;amazon_neptune&#34;, &#34;amazon_elasticbeanstalk&#34;, &#34;crio&#34;,
         &#34;correlations_terminating_hosts&#34;, &#34;watchdog_show_aws_dynamodb_stories&#34;,
@@ -2995,31 +2982,32 @@ interactions:
         &#34;amazon_vpn&#34;, &#34;sketch_intake&#34;, &#34;amazon_billing&#34;, &#34;change_widget_no_interval&#34;,
         &#34;event_viewer&#34;, &#34;rum_geomap&#34;, &#34;amazon_mediaconvert&#34;,
         &#34;query_value_custom_colors&#34;, &#34;process_page_always_show_scatterplot&#34;,
-        &#34;amazon_appsync&#34;, &#34;notebooks_public_api&#34;, &#34;azure_logic_app&#34;,
-        &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;, &#34;google_cloud_run&#34;,
-        &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;, &#34;azure_usage_and_quotas&#34;,
-        &#34;watchdog_show_aws_nlb_stories&#34;, &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;,
-        &#34;aws_detailed_elb_deduped_metrics_log&#34;, &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;,
-        &#34;google_cloud_functions&#34;, &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;,
-        &#34;google_cloud_iot&#34;, &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;,
-        &#34;azure_app_services&#34;, &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;,
-        &#34;watchdog_show_dashboard_correlations_section&#34;, &#34;metrics_summary_tag_table&#34;,
-        &#34;amazon_elb&#34;, &#34;enable_distribution&#34;, &#34;amazon_ses&#34;,
-        &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;, &#34;azure_blob_storage&#34;,
-        &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;, &#34;1mo_alerts&#34;,
-        &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;, &#34;new_dashboards_list_onboarding&#34;,
-        &#34;metric_summary_meta_display&#34;, &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;,
-        &#34;monitors_forms_v2_type_log&#34;, &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;,
-        &#34;monitors_summary_ok_link&#34;, &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;,
-        &#34;synthetics&#34;, &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;,
-        &#34;amazon_mediaconnect&#34;, &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;,
-        &#34;watchdog_show_nginx_plus_stories&#34;, &#34;process_variable_time_range_support&#34;,
-        &#34;dashboard_allow_metric_boolean_filter&#34;, &#34;logs_group_by_selector_v2&#34;,
-        &#34;amazon_rekognition&#34;, &#34;spa_help&#34;, &#34;as_count_validation&#34;,
-        &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;, &#34;monitors_forms_v2_type_rum&#34;,
-        &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;, &#34;snyk&#34;, &#34;pagerduty_schedules&#34;,
-        &#34;watchdog_show_aws_elb_stories&#34;, &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;,
-        &#34;oracle_cloud_infrastructure&#34;, &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
+        &#34;amazon_appsync&#34;, &#34;incidents_datasource&#34;, &#34;notebooks_public_api&#34;,
+        &#34;azure_logic_app&#34;, &#34;google_cloud_firebase&#34;, &#34;google_cloudsql&#34;,
+        &#34;google_cloud_run&#34;, &#34;azure_all_metrics&#34;, &#34;infralist_paginated_endpoint&#34;,
+        &#34;azure_usage_and_quotas&#34;, &#34;watchdog_show_aws_nlb_stories&#34;,
+        &#34;amazon_gamelift&#34;, &#34;amazon_ml&#34;, &#34;aws_detailed_elb_deduped_metrics_log&#34;,
+        &#34;amazon_mq&#34;, &#34;azure_automute_beta&#34;, &#34;google_cloud_functions&#34;,
+        &#34;display-tile-gsuite&#34;, &#34;google_cloud_composer&#34;, &#34;google_cloud_iot&#34;,
+        &#34;amazon_lambda&#34;, &#34;amazon_xray&#34;, &#34;azure_app_services&#34;,
+        &#34;azure_relay&#34;, &#34;trace_enhanced_service_page_metrics&#34;, &#34;watchdog_show_dashboard_correlations_section&#34;,
+        &#34;metrics_summary_tag_table&#34;, &#34;amazon_elb&#34;, &#34;enable_distribution&#34;,
+        &#34;amazon_ses&#34;, &#34;logzio&#34;, &#34;metrics_summary_tag_filtering&#34;,
+        &#34;azure_blob_storage&#34;, &#34;correlations_error_traces&#34;, &#34;google_cloud_bigtable&#34;,
+        &#34;1mo_alerts&#34;, &#34;k9_threat_intel_details&#34;, &#34;google_cloud_tpu&#34;,
+        &#34;new_dashboards_list_onboarding&#34;, &#34;metric_summary_meta_display&#34;,
+        &#34;amazon_storage_gateway&#34;, &#34;google_cloud_apis&#34;, &#34;monitors_forms_v2_type_log&#34;,
+        &#34;google_cloud_filestore&#34;, &#34;normalize_device_name&#34;, &#34;monitors_summary_ok_link&#34;,
+        &#34;amazon_shield&#34;, &#34;watchdog_generate_aws_nlb_insights&#34;, &#34;synthetics&#34;,
+        &#34;compatibility_check&#34;, &#34;amazon_workspaces&#34;, &#34;amazon_mediaconnect&#34;,
+        &#34;outages_mode&#34;, &#34;watchdog_activate_frontend_nav&#34;, &#34;watchdog_show_nginx_plus_stories&#34;,
+        &#34;process_variable_time_range_support&#34;, &#34;dashboard_allow_metric_boolean_filter&#34;,
+        &#34;logs_group_by_selector_v2&#34;, &#34;amazon_rekognition&#34;, &#34;spa_help&#34;,
+        &#34;as_count_validation&#34;, &#34;telemetry_time_react&#34;, &#34;process_containers_page&#34;,
+        &#34;monitors_forms_v2_type_rum&#34;, &#34;1w_alerts&#34;, &#34;infrastructure_list_spa&#34;,
+        &#34;snyk&#34;, &#34;pagerduty_schedules&#34;, &#34;watchdog_show_aws_elb_stories&#34;,
+        &#34;networks_in_apm&#34;, &#34;notebooks_export_as_pdf&#34;, &#34;oracle_cloud_infrastructure&#34;,
+        &#34;k9_projections_enabled&#34;, &#34;azure_app_service_environment&#34;,
         &#34;k9_attrs_additional_dashboard_links&#34;, &#34;amazon_kinesis&#34;, &#34;google_cloud_router&#34;,
         &#34;events_explorer_saved_views&#34;, &#34;amazon_ec2_spot&#34;, &#34;amazon_athena&#34;,
         &#34;log_multi_monitors_release&#34;, &#34;k9_anomaly_graph&#34;, &#34;watchdog_generate_infra_partitions&#34;,
@@ -3086,37 +3074,33 @@ interactions:
         type=\"hidden\" value=\"&#34;https://static.datadoghq.eu&#34;\" /></div>\n<div
         style=\"display: none;\"><input id=\"castlerequestsignature\" name=\"castleRequestSignature\"
         type=\"hidden\" value=\"c8247eb245c6414c737020afec747d5af4b06c0168ca2fab50ed78f5deaaa84a\"
-        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4892550/js/react-core.min.js\"
+        /></div>\n\n    <script crossorigin=\"anonymous\" src=\"https://static.datadoghq.eu/static/v/35.4907878/js/react-core.min.js\"
         type=\"text/javascript\"></script>\n\n\n    <script>DD.initApp();</script>\n\n
         \       \n\n    </body>\n</html>\n"
     headers:
       Alt-Svc:
       - clear
-      Transfer-Encoding:
-      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '29489'
+      - '28743'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - text/html; charset=utf-8
       date:
-      - Mon, 05 Jul 2021 22:29:19 GMT
+      - Wed, 07 Jul 2021 15:59:09 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
-      vary:
-      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
     status:
-      code: 403
-      message: Forbidden
+      code: 429
+      message: Too Many Requests
 version: 1

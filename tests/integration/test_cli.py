@@ -2,6 +2,8 @@ import os
 
 import pytest
 
+
+@pytest.mark.vcr
 @pytest.mark.integration
 def test_cli(tmpdir, script_runner):
     with tmpdir.as_cwd():
@@ -17,6 +19,8 @@ def test_cli(tmpdir, script_runner):
         assert not ret.stdout
         assert ret.success
 
+
+@pytest.mark.vcr
 @pytest.mark.integration
 def test_cli_diff(tmpdir, script_runner):
     with tmpdir.as_cwd():

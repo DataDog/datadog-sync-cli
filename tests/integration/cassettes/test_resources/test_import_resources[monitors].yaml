@@ -42,8 +42,8 @@ interactions:
         Karimov","email":"sherzod.karimov@datadoghq.com"},"org_id":569509,"modified":"2021-06-08T18:17:53.020925+00:00","priority":null,"overall_state_modified":"2021-06-08T18:19:16+00:00","overall_state":"OK","type":"query
         alert","options":{"notify_audit":false,"locked":false,"timeout_h":0,"silenced":{},"include_tags":true,"no_data_timeframe":null,"require_full_window":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0,"escalation_message":"","threshold_windows":{"recovery_window":"last_15m","trigger_window":"last_15m"},"thresholds":{"critical":1.0,"critical_recovery":0.0}}},{"restricted_roles":null,"tags":["foo:bar","foo","env:test","probe_dc:aws:eu-central-1","check_type:api","check_status:live"],"deleted":null,"query":"no_query","message":"Notify
         @pagerduty","matching_downtimes":[],"id":37286152,"multi":false,"name":"[Synthetics]
-        HTTP Test","created":"2021-06-08T18:26:23.551649+00:00","created_at":1623176783000,"creator":{"id":2781275,"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
-        Karimov","email":"sherzod.karimov@datadoghq.com"},"org_id":569509,"modified":"2021-06-17T12:43:27.037517+00:00","priority":null,"overall_state_modified":"2021-06-08T18:27:54+00:00","overall_state":"OK","type":"synthetics
+        HTTP Test - example","created":"2021-06-08T18:26:23.551649+00:00","created_at":1623176783000,"creator":{"id":2781275,"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
+        Karimov","email":"sherzod.karimov@datadoghq.com"},"org_id":569509,"modified":"2021-07-06T20:16:31.543448+00:00","priority":null,"overall_state_modified":"2021-06-08T18:27:54+00:00","overall_state":"OK","type":"synthetics
         alert","options":{"notify_audit":false,"locked":false,"silenced":{},"include_tags":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":100}},{"restricted_roles":null,"tags":["foo:bar","foo","env:test","probe_dc:aws:eu-central-1","check_type:api-dns","check_status:live"],"deleted":null,"query":"no_query","message":"Notify
         @pagerduty","matching_downtimes":[],"id":37286153,"multi":false,"name":"[Synthetics]
         DNS Test","created":"2021-06-08T18:26:23.552685+00:00","created_at":1623176783000,"creator":{"id":2781275,"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
@@ -69,13 +69,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 22:28:55 GMT
+      - Wed, 07 Jul 2021 15:59:04 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '10059'
+      - '10069'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -95,7 +95,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '5'
+      - '6'
     status:
       code: 200
       message: OK
@@ -142,8 +142,8 @@ interactions:
         Karimov","email":"sherzod.karimov@datadoghq.com"},"org_id":569509,"modified":"2021-06-08T18:17:53.020925+00:00","priority":null,"overall_state_modified":"2021-06-08T18:19:16+00:00","overall_state":"OK","type":"query
         alert","options":{"notify_audit":false,"locked":false,"timeout_h":0,"silenced":{},"include_tags":true,"no_data_timeframe":null,"require_full_window":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0,"escalation_message":"","threshold_windows":{"recovery_window":"last_15m","trigger_window":"last_15m"},"thresholds":{"critical":1.0,"critical_recovery":0.0}}},{"restricted_roles":null,"tags":["foo:bar","foo","env:test","probe_dc:aws:eu-central-1","check_type:api","check_status:live"],"deleted":null,"query":"no_query","message":"Notify
         @pagerduty","matching_downtimes":[],"id":37286152,"multi":false,"name":"[Synthetics]
-        HTTP Test","created":"2021-06-08T18:26:23.551649+00:00","created_at":1623176783000,"creator":{"id":2781275,"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
-        Karimov","email":"sherzod.karimov@datadoghq.com"},"org_id":569509,"modified":"2021-06-17T12:43:27.037517+00:00","priority":null,"overall_state_modified":"2021-06-08T18:27:54+00:00","overall_state":"OK","type":"synthetics
+        HTTP Test - example","created":"2021-06-08T18:26:23.551649+00:00","created_at":1623176783000,"creator":{"id":2781275,"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
+        Karimov","email":"sherzod.karimov@datadoghq.com"},"org_id":569509,"modified":"2021-07-06T20:16:31.543448+00:00","priority":null,"overall_state_modified":"2021-06-08T18:27:54+00:00","overall_state":"OK","type":"synthetics
         alert","options":{"notify_audit":false,"locked":false,"silenced":{},"include_tags":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":100}},{"restricted_roles":null,"tags":["foo:bar","foo","env:test","probe_dc:aws:eu-central-1","check_type:api-dns","check_status:live"],"deleted":null,"query":"no_query","message":"Notify
         @pagerduty","matching_downtimes":[],"id":37286153,"multi":false,"name":"[Synthetics]
         DNS Test","created":"2021-06-08T18:26:23.552685+00:00","created_at":1623176783000,"creator":{"id":2781275,"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
@@ -169,13 +169,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 22:28:55 GMT
+      - Wed, 07 Jul 2021 15:59:04 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '10059'
+      - '10069'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -195,7 +195,7 @@ interactions:
       x-ratelimit-remaining:
       - '998'
       x-ratelimit-reset:
-      - '5'
+      - '6'
     status:
       code: 200
       message: OK

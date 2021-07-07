@@ -24,7 +24,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 22:29:03 GMT
+      - Wed, 07 Jul 2021 15:59:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -42,7 +42,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-dd-debug:
-      - S1wfaMZOKGT/IoMw6fqAwAwGWo2vQ44sjF3YzuETnQfxZO2T5eJbs0aX3UKb9Dwu
+      - dCmL/3rURV6BPeaqeP3Rxigq41m5CAb17XjrRE42uZ01zpr07HVhbL5/3TWMkvgu
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -78,62 +78,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 22:29:03 GMT
+      - Wed, 07 Jul 2021 15:59:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
       - '1243'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-dd-debug:
-      - F5gm0Rce1/Abr9/0Fw8HAqWfiz0FdiH8er/AXnN6lOn3L6KyGgbsLCwgPlob1No8
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.25.1
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
-  response:
-    body:
-      string: '{"dashboard_lists":[{"is_favorite":false,"name":"Test list","dashboard_count":3,"author":{"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
-        Karimov"},"created":"2021-06-14T20:10:23.247584+00:00","type":"manual_dashboard_list","dashboards":null,"modified":"2021-06-24T20:13:00.657023+00:00","id":213585}]}'
-    headers:
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      Date:
-      - Mon, 05 Jul 2021 22:29:03 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '311'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -165,6 +116,55 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
+  response:
+    body:
+      string: '{"dashboard_lists":[{"is_favorite":false,"name":"Test list","dashboard_count":3,"author":{"handle":"sherzod.karimov@datadoghq.com","name":"Sherzod
+        Karimov"},"created":"2021-06-14T20:10:23.247584+00:00","type":"manual_dashboard_list","dashboards":null,"modified":"2021-06-24T20:13:00.657023+00:00","id":213585}]}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 07 Jul 2021 15:59:06 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '311'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-dd-debug:
+      - twvpGlmuom5y6A0pjGtXzTf554cmwJgTcCZ71fK4H/RDi+v5ehBK0zQiRcTJQG5C
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
     uri: https://api.datadoghq.com/api/v2/dashboard/lists/manual/213585/dashboards
   response:
     body:
@@ -181,7 +181,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 05 Jul 2021 22:29:03 GMT
+      - Wed, 07 Jul 2021 15:59:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
