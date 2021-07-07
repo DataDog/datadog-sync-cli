@@ -69,7 +69,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jul 2021 15:59:28 GMT
+      - Wed, 07 Jul 2021 21:28:18 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -130,8 +130,8 @@ interactions:
   response:
     body:
       string: '{"restricted_roles":null,"tags":[],"deleted":null,"query":"avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50","message":"Test monitor ----------------","id":1403647,"multi":false,"name":"Composite
-        monitor - Child 2","created":"2021-07-07T15:59:29.071297+00:00","created_at":1625673569000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-07T15:59:29.071297+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
+        > 50","message":"Test monitor ----------------","id":1406256,"multi":false,"name":"Composite
+        monitor - Child 2","created":"2021-07-07T21:28:18.250537+00:00","created_at":1625693298000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-07T21:28:18.250537+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
         Data","type":"metric alert","options":{"notify_audit":false,"locked":false,"timeout_h":0,"silenced":{},"include_tags":true,"no_data_timeframe":null,"require_full_window":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0,"escalation_message":"","thresholds":{"critical":50.0}}}'
     headers:
       Alt-Svc:
@@ -149,7 +149,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:29 GMT
+      - Wed, 07 Jul 2021 21:28:18 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -167,7 +167,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '1'
+      - '2'
     status:
       code: 200
       message: OK
@@ -202,8 +202,8 @@ interactions:
   response:
     body:
       string: '{"restricted_roles":null,"tags":[],"deleted":null,"query":"avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-        > 20","message":"Composite monitor - child 1","id":1403648,"multi":false,"name":"Composite
-        monitor - child 1","created":"2021-07-07T15:59:29.282874+00:00","created_at":1625673569000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-07T15:59:29.282874+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
+        > 20","message":"Composite monitor - child 1","id":1406257,"multi":false,"name":"Composite
+        monitor - child 1","created":"2021-07-07T21:28:18.404369+00:00","created_at":1625693298000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-07T21:28:18.404369+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
         Data","type":"metric alert","options":{"notify_audit":false,"locked":false,"timeout_h":0,"silenced":{},"include_tags":true,"no_data_timeframe":null,"require_full_window":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0,"escalation_message":"","thresholds":{"critical":20.0,"warning":10.0}}}'
     headers:
       Alt-Svc:
@@ -221,7 +221,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:29 GMT
+      - Wed, 07 Jul 2021 21:28:18 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -239,7 +239,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '1'
+      - '2'
     status:
       code: 200
       message: OK
@@ -273,7 +273,7 @@ interactions:
   response:
     body:
       string: '{"restricted_roles":null,"tags":[],"deleted":null,"query":"\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()","message":"Test
-        host monitor","id":1403649,"multi":true,"name":"Host monitor","created":"2021-07-07T15:59:29.583718+00:00","created_at":1625673569000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-07T15:59:29.583718+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
+        host monitor","id":1406258,"multi":true,"name":"Host monitor","created":"2021-07-07T21:28:18.546449+00:00","created_at":1625693298000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-07T21:28:18.546449+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
         Data","type":"service check","options":{"notify_audit":false,"locked":false,"timeout_h":0,"silenced":{},"include_tags":true,"thresholds":{"warning":1,"ok":1,"critical":1},"new_host_delay":300,"notify_no_data":true,"renotify_interval":0,"no_data_timeframe":2}}'
     headers:
       Alt-Svc:
@@ -291,7 +291,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:29 GMT
+      - Wed, 07 Jul 2021 21:28:18 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -309,7 +309,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '1'
+      - '2'
     status:
       code: 200
       message: OK
@@ -346,8 +346,8 @@ interactions:
     body:
       string: '{"restricted_roles":null,"tags":[],"deleted":null,"query":"avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
         ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
-        count_default_zero=''true'') >= 1","message":"Anomaly monitor","id":1403650,"multi":false,"name":"Anomaly
-        monitor","created":"2021-07-07T15:59:29.803677+00:00","created_at":1625673569000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-07T15:59:29.803677+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
+        count_default_zero=''true'') >= 1","message":"Anomaly monitor","id":1406259,"multi":false,"name":"Anomaly
+        monitor","created":"2021-07-07T21:28:18.700631+00:00","created_at":1625693298000,"creator":{"id":1000219667,"handle":"frog@datadoghq.com","name":null,"email":"frog@datadoghq.com"},"org_id":1000044987,"modified":"2021-07-07T21:28:18.700631+00:00","priority":null,"overall_state_modified":null,"overall_state":"No
         Data","type":"query alert","options":{"notify_audit":false,"locked":false,"timeout_h":0,"silenced":{},"include_tags":true,"no_data_timeframe":null,"require_full_window":true,"new_host_delay":300,"notify_no_data":false,"renotify_interval":0,"escalation_message":"","threshold_windows":{"recovery_window":"last_15m","trigger_window":"last_15m"},"thresholds":{"critical":1.0,"critical_recovery":0.0}}}'
     headers:
       Alt-Svc:
@@ -365,7 +365,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:29 GMT
+      - Wed, 07 Jul 2021 21:28:18 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -383,7 +383,7 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '1'
+      - '2'
     status:
       code: 200
       message: OK
@@ -430,7 +430,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:30 GMT
+      - Wed, 07 Jul 2021 21:28:18 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -444,9 +444,9 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '499'
+      - '495'
       x-ratelimit-reset:
-      - '10'
+      - '2'
     status:
       code: 400
       message: Bad Request
@@ -493,7 +493,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:30 GMT
+      - Wed, 07 Jul 2021 21:28:19 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -507,9 +507,9 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '498'
+      - '494'
       x-ratelimit-reset:
-      - '10'
+      - '1'
     status:
       code: 400
       message: Bad Request

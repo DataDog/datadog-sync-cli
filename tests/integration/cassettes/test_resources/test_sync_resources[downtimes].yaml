@@ -23,7 +23,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jul 2021 15:59:36 GMT
+      - Wed, 07 Jul 2021 21:28:10 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -84,7 +84,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:36 GMT
+      - Wed, 07 Jul 2021 21:28:10 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -120,7 +120,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/downtime
   response:
     body:
-      string: '{"recurrence":{"until_date":null,"until_occurrences":null,"week_days":[],"type":"days","period":1},"end":null,"monitor_tags":["*"],"child_id":null,"canceled":null,"monitor_id":null,"created":1625673576,"org_id":1000044987,"modified":1625673576,"disabled":false,"start":2622234295,"creator_id":1000219667,"parent_id":null,"timezone":"UTC","active":false,"scope":["*"],"message":"","downtime_type":0,"id":48342236,"updater_id":null}'
+      string: '{"recurrence":{"until_date":null,"until_occurrences":null,"week_days":[],"type":"days","period":1},"end":null,"monitor_tags":["*"],"child_id":null,"canceled":null,"monitor_id":null,"created":1625693290,"org_id":1000044987,"modified":1625693290,"disabled":false,"start":2622234295,"creator_id":1000219667,"parent_id":null,"timezone":"UTC","active":false,"scope":["*"],"message":"","downtime_type":0,"id":48383395,"updater_id":null}'
     headers:
       Alt-Svc:
       - clear
@@ -137,7 +137,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:37 GMT
+      - Wed, 07 Jul 2021 21:28:10 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -190,7 +190,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:37 GMT
+      - Wed, 07 Jul 2021 21:28:11 GMT
       pragma:
       - no-cache
       strict-transport-security:

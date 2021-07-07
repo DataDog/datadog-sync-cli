@@ -27,7 +27,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jul 2021 15:59:24 GMT
+      - Wed, 07 Jul 2021 21:28:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -44,8 +44,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-dd-debug:
-      - F5gm0Rce1/Abr9/0Fw8HAqWfiz0FdiH8er/AXnN6lOn3L6KyGgbsLCwgPlob1No8
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -53,9 +51,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '117'
+      - '119'
       x-ratelimit-reset:
-      - '36'
+      - '54'
     status:
       code: 200
       message: OK
@@ -91,7 +89,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:24 GMT
+      - Wed, 07 Jul 2021 21:28:07 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -107,7 +105,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '36'
+      - '54'
     status:
       code: 200
       message: OK
@@ -132,7 +130,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":["check_type:api"],"is_totp":null,"value":{"secure":false,"value":"TESTVALUELETSSEEdadsddsadsadadsadsad"},"parse_test_public_id":null,"parse_test_name":null,"type":"variable","id":"b6816f53-3393-495c-8441-c4acc0c334cb","name":"TEST_VARIABLE"}'
+      string: '{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":["check_type:api"],"is_totp":null,"value":{"secure":false,"value":"TESTVALUELETSSEEdadsddsadsadadsadsad"},"parse_test_public_id":null,"parse_test_name":null,"type":"variable","id":"d33b5cdb-af74-4d1d-9a07-d46665f5ba72","name":"TEST_VARIABLE"}'
     headers:
       Alt-Svc:
       - clear
@@ -149,7 +147,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:24 GMT
+      - Wed, 07 Jul 2021 21:28:07 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -167,7 +165,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '36'
+      - '53'
     status:
       code: 200
       message: OK
@@ -193,7 +191,7 @@ interactions:
   response:
     body:
       string: '{"parse_test_options":null,"parse_test_extracted_at":null,"description":"Description
-        of the variable","tags":["foo:bar","env:test"],"is_totp":null,"value":{"secure":false,"value":"variable-value"},"parse_test_public_id":null,"parse_test_name":null,"type":"variable","id":"297aa234-ee9c-440c-9d78-9f529c237a0a","name":"EXAMPLE_VARIABLE"}'
+        of the variable","tags":["foo:bar","env:test"],"is_totp":null,"value":{"secure":false,"value":"variable-value"},"parse_test_public_id":null,"parse_test_name":null,"type":"variable","id":"1c1e006a-0e2d-43e2-9f24-a81cbdb5993c","name":"EXAMPLE_VARIABLE"}'
     headers:
       Alt-Svc:
       - clear
@@ -210,7 +208,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:25 GMT
+      - Wed, 07 Jul 2021 21:28:07 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -228,7 +226,7 @@ interactions:
       x-ratelimit-remaining:
       - '118'
       x-ratelimit-reset:
-      - '35'
+      - '53'
     status:
       code: 200
       message: OK
@@ -252,7 +250,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":[],"is_totp":null,"value":{"secure":false,"value":"test"},"parse_test_public_id":null,"parse_test_name":null,"type":"variable","id":"ff06de42-90fd-42f8-98e2-6caf00cf6e1d","name":"TEST"}'
+      string: '{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":[],"is_totp":null,"value":{"secure":false,"value":"test"},"parse_test_public_id":null,"parse_test_name":null,"type":"variable","id":"655dd609-51f6-4c3e-8aa2-060e35714f18","name":"TEST"}'
     headers:
       Alt-Svc:
       - clear
@@ -269,7 +267,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:25 GMT
+      - Wed, 07 Jul 2021 21:28:07 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -287,7 +285,7 @@ interactions:
       x-ratelimit-remaining:
       - '117'
       x-ratelimit-reset:
-      - '35'
+      - '53'
     status:
       code: 200
       message: OK
@@ -309,7 +307,7 @@ interactions:
   response:
     body:
       string: '{"variables":[{"parse_test_options":null,"parse_test_extracted_at":null,"description":"Description
-        of the variable","tags":["foo:bar","env:test"],"created_at":"2021-07-07T15:59:25.244026+00:00","is_totp":null,"modified_at":"2021-07-07T15:59:25.244026+00:00","value":{"secure":false,"value":"variable-value"},"parse_test_public_id":null,"parse_test_name":null,"created_by":null,"type":"variable","id":"297aa234-ee9c-440c-9d78-9f529c237a0a","name":"EXAMPLE_VARIABLE"},{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":["check_type:api"],"created_at":"2021-07-07T15:59:24.965907+00:00","is_totp":null,"modified_at":"2021-07-07T15:59:24.965907+00:00","value":{"secure":false,"value":"TESTVALUELETSSEEdadsddsadsadadsadsad"},"parse_test_public_id":null,"parse_test_name":null,"created_by":null,"type":"variable","id":"b6816f53-3393-495c-8441-c4acc0c334cb","name":"TEST_VARIABLE"},{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":[],"created_at":"2021-07-07T15:59:25.589951+00:00","is_totp":null,"modified_at":"2021-07-07T15:59:25.589951+00:00","value":{"secure":false,"value":"test"},"parse_test_public_id":null,"parse_test_name":null,"created_by":null,"type":"variable","id":"ff06de42-90fd-42f8-98e2-6caf00cf6e1d","name":"TEST"}]}'
+        of the variable","tags":["foo:bar","env:test"],"created_at":"2021-07-07T21:28:07.346220+00:00","is_totp":null,"modified_at":"2021-07-07T21:28:07.346220+00:00","value":{"secure":false,"value":"variable-value"},"parse_test_public_id":null,"parse_test_name":null,"created_by":null,"type":"variable","id":"1c1e006a-0e2d-43e2-9f24-a81cbdb5993c","name":"EXAMPLE_VARIABLE"},{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":[],"created_at":"2021-07-07T21:28:07.553440+00:00","is_totp":null,"modified_at":"2021-07-07T21:28:07.553440+00:00","value":{"secure":false,"value":"test"},"parse_test_public_id":null,"parse_test_name":null,"created_by":null,"type":"variable","id":"655dd609-51f6-4c3e-8aa2-060e35714f18","name":"TEST"},{"parse_test_options":null,"parse_test_extracted_at":null,"description":"test","tags":["check_type:api"],"created_at":"2021-07-07T21:28:07.152848+00:00","is_totp":null,"modified_at":"2021-07-07T21:28:07.152848+00:00","value":{"secure":false,"value":"TESTVALUELETSSEEdadsddsadsadadsadsad"},"parse_test_public_id":null,"parse_test_name":null,"created_by":null,"type":"variable","id":"d33b5cdb-af74-4d1d-9a07-d46665f5ba72","name":"TEST_VARIABLE"}]}'
     headers:
       Alt-Svc:
       - clear
@@ -326,7 +324,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Wed, 07 Jul 2021 15:59:25 GMT
+      - Wed, 07 Jul 2021 21:28:07 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -344,7 +342,7 @@ interactions:
       x-ratelimit-remaining:
       - '118'
       x-ratelimit-reset:
-      - '35'
+      - '53'
     status:
       code: 200
       message: OK

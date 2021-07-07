@@ -67,7 +67,7 @@ interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Wed, 07 Jul 2021 15:59:03 GMT
+      - Wed, 07 Jul 2021 21:28:17 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -86,8 +86,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-dd-debug:
-      - l8RQo2maZqJf6GFThBbKNE6dvthz6njusVtau3dPXJWL2RLFoN81H+BLPB/1xgs1
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -95,9 +93,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '4967'
+      - '4997'
       x-ratelimit-reset:
-      - '58'
+      - '1903'
     status:
       code: 200
       message: OK
@@ -169,7 +167,7 @@ interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Wed, 07 Jul 2021 15:59:03 GMT
+      - Wed, 07 Jul 2021 21:28:17 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -188,8 +186,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-dd-debug:
-      - SY1h8ScsWq+kYmtbh63ltMLFAZsQjqfrgvdfAoRX+9TzT1sgMBRYaFRwfWWRRe9a
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -197,9 +193,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '4966'
+      - '4996'
       x-ratelimit-reset:
-      - '57'
+      - '1903'
     status:
       code: 200
       message: OK

@@ -31,7 +31,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jul 2021 15:59:03 GMT
+      - Wed, 07 Jul 2021 21:28:32 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -48,8 +48,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-dd-debug:
-      - PhosSd3Ch1B6B0DXI71steKUi7XhPDttnPiIP1NdXTw0VJNWpoUnYyBmODS5ne3q
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -57,9 +55,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '119'
+      - '118'
       x-ratelimit-reset:
-      - '57'
+      - '29'
     status:
       code: 200
       message: OK
@@ -88,7 +86,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jul 2021 15:59:03 GMT
+      - Wed, 07 Jul 2021 21:28:32 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -105,8 +103,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-dd-debug:
-      - L3ULR3HwCWYmEqCWGz2Yob3chcH4pjowBacBXkncP7o+/uPqKt9yGEYf/g1AJPzQ
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -144,7 +140,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jul 2021 15:59:03 GMT
+      - Wed, 07 Jul 2021 21:28:32 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -161,8 +157,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-dd-debug:
-      - L3ULR3HwCWYmEqCWGz2Yob3chcH4pjowBacBXkncP7o+/uPqKt9yGEYf/g1AJPzQ
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -170,9 +164,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '118'
+      - '117'
       x-ratelimit-reset:
-      - '57'
+      - '28'
     status:
       code: 200
       message: OK
@@ -201,7 +195,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jul 2021 15:59:03 GMT
+      - Wed, 07 Jul 2021 21:28:32 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -218,8 +212,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-dd-debug:
-      - fIO2C4qGDheGHy4YbS+r3a3CXbh4cbRo7roILOimQyiHGjQdOat0cIpWCkupM1uX
       x-frame-options:
       - SAMEORIGIN
     status:
