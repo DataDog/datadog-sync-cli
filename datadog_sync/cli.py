@@ -113,9 +113,7 @@ def cli(ctx, **kwargs):
     ctx.obj["config"] = config
 
     # Initialize resources and missing dependencies
-    config.resources, config.missing_deps = get_resources(
-        config, kwargs.get("resources"), kwargs.get("force_missing_dependencies")
-    )
+    config.resources, config.missing_deps = get_resources(config, kwargs.get("resources"))
 
     ctx.obj["force_missing_dependencies"] = kwargs.get("force_missing_dependencies")
 
