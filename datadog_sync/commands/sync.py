@@ -19,8 +19,9 @@ def sync(ctx):
     if not force_missing_deps and cfg.missing_deps:
         pretty_missing_deps = "\n".join(["- " + resource for resource in cfg.missing_deps])
 
-        cfg.logger.warning(f"Ensure following dependencies are up to date as well:\n{pretty_missing_deps}\nTo auto import and sync dependent resources, you may use the --force-missing-dependencies flag.",)
-
+        cfg.logger.warning(
+            f"Ensure following dependencies are up to date as well:\n{pretty_missing_deps}\nTo auto import and sync dependent resources, you may use the --force-missing-dependencies flag.",
+        )
 
     for resource_type, resource in cfg.resources.items():
         # import missing dependencies if force_missing_deps flag is passed
@@ -31,7 +32,11 @@ def sync(ctx):
             cfg.logger.info("finished importing %s", resource.resource_type)
 
         # sync resource
-        if force_missing_deps or resource_type not in cfg.missing_deps and os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type)):
+        if (
+            force_missing_deps
+            or resource_type not in cfg.missing_deps
+            and os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type))
+        ):
             cfg.logger.info("syncing resource: {}".format(resource_type))
             resource.apply_resources()
             resource.write_resources_file("destination", resource.destination_resources)
