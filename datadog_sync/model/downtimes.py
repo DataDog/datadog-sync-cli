@@ -33,7 +33,7 @@ class Downtimes(BaseResource):
         if not self.filter(downtime):
             return
 
-        self.source_resources[downtime["id"]] = downtime
+        self.source_resources[str(downtime["id"])] = downtime
 
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()

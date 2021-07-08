@@ -15,6 +15,9 @@ def _import(ctx):
     os.makedirs(SOURCE_RESOURCES_DIR, exist_ok=True)
 
     for resource_type, resource in cfg.resources.items():
+        if resource_type in cfg.missing_deps:
+            continue
+
         cfg.logger.info("importing %s", resource_type)
         resource.import_resources()
         resource.write_resources_file("source", resource.source_resources)

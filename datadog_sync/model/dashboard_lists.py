@@ -36,9 +36,10 @@ class DashboardLists(BaseResource):
             return
 
         source_client = self.config.source_client
+        _id = str(dashboard_list["id"])
         resp = None
         try:
-            resp = source_client.get(self.dash_list_items_path.format(dashboard_list["id"])).json()
+            resp = source_client.get(self.dash_list_items_path.format(_id)).json()
         except HTTPError as e:
             self.logger.error("error retrieving dashboard_lists items %s", e)
 
@@ -48,7 +49,7 @@ class DashboardLists(BaseResource):
                 dash_list_item = {"id": dash["id"], "type": dash["type"]}
                 dashboard_list["dashboards"].append(dash_list_item)
 
-        self.source_resources[dashboard_list["id"]] = dashboard_list
+        self.source_resources[_id] = dashboard_list
 
     def apply_resources(self):
         connection_resource_obj = self.get_connection_resources()
