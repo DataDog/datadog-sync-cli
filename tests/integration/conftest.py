@@ -1,6 +1,7 @@
 import pytest
 import os
 import logging
+import json
 
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
@@ -9,12 +10,32 @@ from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync import constants
 
 
+def filter_pl_secrets():
+    def before_record_response(response):
+        if 'body' not in response or 'string' not in response['body']:
+            return response
+
+        resp = json.loads(response['body']['string'])
+
+        if "private_location" in resp:
+            resp["private_location"].pop("secrets")
+            if "config" in resp:
+                resp.pop("config")
+
+        response['body']['string'] = json.dumps(resp)
+
+        return response
+
+    return before_record_response
+
 @pytest.fixture(scope="module")
 def vcr_config():
     return dict(
         filter_headers=["DD-API-KEY", "DD-APPLICATION-KEY"],
+        filter_query_parameters=("api_key", "application_key"),
         match_on=["method", "scheme", "host", "port", "path", "query", "body"],
         decode_compressed_response=True,
+        before_record_response=filter_pl_secrets()
     )
 
 

@@ -1,14 +1,10 @@
 import pytest
-import os
 import copy
 
-from datadog_sync import constants
 from datadog_sync import models
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.cli import get_import_order
 
-
-# TODO: Fix order of sync
 
 str_to_class = dict(
     (cls.resource_type, cls)

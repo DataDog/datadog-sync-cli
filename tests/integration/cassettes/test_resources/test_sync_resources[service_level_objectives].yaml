@@ -1,0 +1,514 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/slo
+  response:
+    body:
+      string: '{"metadata": {"page": {"total_filtered_count": 4, "total_count": 4}},
+        "data": [{"description": "Updated Description Test", "monitor_tags": [], "creator":
+        {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov", "email":
+        "sherzod.karimov@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
+        "99.", "timeframe": "7d"}], "type_id": 0, "id": "ae04001ea55f52f6ae4b85d9b1023909",
+        "monitor_ids": [36230659, 37284891], "name": "Composite monitor - Child 2",
+        "created_at": 1623260678, "tags": [], "modified_at": 1625053391, "type": "monitor"},
+        {"description": "noueman", "monitor_tags": [], "creator": {"handle": "noueman.khalikine@datadoghq.com",
+        "name": "Noueman Khalikine", "email": "noueman.khalikine@datadoghq.com"},
+        "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
+        "type_id": 0, "id": "b6eedbdc42a15b658b5d55ffc4f91082", "monitor_ids": [36553487],
+        "name": "[Synthetics] Test on google.com -tesst", "created_at": 1623421683,
+        "tags": [], "modified_at": 1623421683, "type": "monitor"}, {"description":
+        "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags": [], "creator": {"handle":
+        "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine", "email": "noueman.khalikine@datadoghq.com"},
+        "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
+        "type_id": 0, "id": "c4fa01c78d45542cb830598be4f68ad2", "monitor_ids": [36553487,
+        36230659, 36239262, 37286153, 37286152], "name": "[Synthetics] Multple Monitors
+        based SLO", "created_at": 1623427531, "tags": ["noueman"], "modified_at":
+        1623429352, "type": "monitor"}, {"description": "Test update creation", "monitor_tags":
+        [], "creator": {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman
+        Khalikine", "email": "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target":
+        99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 1, "query":
+        {"denominator": "sum:api.requests{*}.as_count()", "numerator": "sum:api.requests.status_ok{*}.as_count()"},
+        "id": "ba72d10835d75e0c8910597144f3733a", "name": "SLO tessssssst", "created_at":
+        1623658372, "tags": [], "modified_at": 1623658372, "type": "metric"}], "error":
+        null}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 08 Jul 2021 22:52:42 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '2003'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '1000'
+      x-ratelimit-period:
+      - '10'
+      x-ratelimit-remaining:
+      - '999'
+      x-ratelimit-reset:
+      - '8'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "Updated Description Test", "monitor_tags": [], "creator":
+      {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov", "email":
+      "sherzod.karimov@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
+      "99.", "timeframe": "7d"}], "type_id": 0, "id": "ae04001ea55f52f6ae4b85d9b1023909",
+      "monitor_ids": [36230659, 37284891], "name": "Composite monitor - Child 2",
+      "created_at": 1623260678, "tags": [], "modified_at": 1625053391, "type": "monitor"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '482'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"errors": ["Invalid payload: invalid monitor ids: 36230659, 37284891,
+        monitors not found or not supported SLO"]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '113'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 08 Jul 2021 22:52:42 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '499'
+      x-ratelimit-reset:
+      - '18'
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: '{"description": "noueman", "monitor_tags": [], "creator": {"handle": "noueman.khalikine@datadoghq.com",
+      "name": "Noueman Khalikine", "email": "noueman.khalikine@datadoghq.com"}, "thresholds":
+      [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 0,
+      "id": "b6eedbdc42a15b658b5d55ffc4f91082", "monitor_ids": [36553487], "name":
+      "[Synthetics] Test on google.com -tesst", "created_at": 1623421683, "tags":
+      [], "modified_at": 1623421683, "type": "monitor"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '472'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"errors": ["Invalid payload: invalid monitor ids: 36553487, monitors
+        not found or not supported SLO"]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '103'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 08 Jul 2021 22:52:42 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '498'
+      x-ratelimit-reset:
+      - '18'
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: '{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags": [],
+      "creator": {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine",
+      "email": "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0,
+      "target_display": "99.", "timeframe": "7d"}], "type_id": 0, "id": "c4fa01c78d45542cb830598be4f68ad2",
+      "monitor_ids": [36553487, 36230659, 36239262, 37286153, 37286152], "name": "[Synthetics]
+      Multple Monitors based SLO", "created_at": 1623427531, "tags": ["noueman"],
+      "modified_at": 1623429352, "type": "monitor"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '549'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"errors": ["Invalid payload: invalid monitor ids: 37286152, 37286153,
+        36230659, 36239262, 36553487, monitors not found or not supported SLO"]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '143'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 08 Jul 2021 22:52:42 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '497'
+      x-ratelimit-reset:
+      - '18'
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: '{"description": "Test update creation", "monitor_tags": [], "creator":
+      {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine", "email":
+      "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
+      "99.", "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()",
+      "numerator": "sum:api.requests.status_ok{*}.as_count()"}, "id": "ba72d10835d75e0c8910597144f3733a",
+      "name": "SLO tessssssst", "created_at": 1623658372, "tags": [], "modified_at":
+      1623658372, "type": "metric"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '550'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"data": [{"description": "Test update creation", "monitor_tags": [],
+        "creator": {"handle": "frog@datadoghq.com", "name": null, "email": "frog@datadoghq.com"},
+        "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
+        "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "9f077d2bfc2a50bb8bc404c3eac2f3c8",
+        "name": "SLO tessssssst", "created_at": 1625784762, "tags": [], "modified_at":
+        1625784762, "type": "metric"}], "error": null}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '497'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 08 Jul 2021 22:52:42 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '496'
+      x-ratelimit-reset:
+      - '18'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "Updated Description Test", "monitor_tags": [], "creator":
+      {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov", "email":
+      "sherzod.karimov@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
+      "99.", "timeframe": "7d"}], "type_id": 0, "id": "ae04001ea55f52f6ae4b85d9b1023909",
+      "monitor_ids": [36230659, 37284891], "name": "Composite monitor - Child 2",
+      "created_at": 1623260678, "tags": [], "modified_at": 1625053391, "type": "monitor"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '482'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"errors": ["Invalid payload: invalid monitor ids: 36230659, 37284891,
+        monitors not found or not supported SLO"]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '113'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 08 Jul 2021 22:52:43 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '495'
+      x-ratelimit-reset:
+      - '17'
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: '{"description": "noueman", "monitor_tags": [], "creator": {"handle": "noueman.khalikine@datadoghq.com",
+      "name": "Noueman Khalikine", "email": "noueman.khalikine@datadoghq.com"}, "thresholds":
+      [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 0,
+      "id": "b6eedbdc42a15b658b5d55ffc4f91082", "monitor_ids": [36553487], "name":
+      "[Synthetics] Test on google.com -tesst", "created_at": 1623421683, "tags":
+      [], "modified_at": 1623421683, "type": "monitor"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '472'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"errors": ["Invalid payload: invalid monitor ids: 36553487, monitors
+        not found or not supported SLO"]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '103'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 08 Jul 2021 22:52:43 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '494'
+      x-ratelimit-reset:
+      - '17'
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: '{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags": [],
+      "creator": {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine",
+      "email": "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0,
+      "target_display": "99.", "timeframe": "7d"}], "type_id": 0, "id": "c4fa01c78d45542cb830598be4f68ad2",
+      "monitor_ids": [36553487, 36230659, 36239262, 37286153, 37286152], "name": "[Synthetics]
+      Multple Monitors based SLO", "created_at": 1623427531, "tags": ["noueman"],
+      "modified_at": 1623429352, "type": "monitor"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '549'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"errors": ["Invalid payload: invalid monitor ids: 37286152, 37286153,
+        36230659, 36239262, 36553487, monitors not found or not supported SLO"]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '143'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 08 Jul 2021 22:52:43 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '493'
+      x-ratelimit-reset:
+      - '17'
+    status:
+      code: 400
+      message: Bad Request
+version: 1
