@@ -166,18 +166,18 @@ def validate_order_list(order_list, resources):
 
 def test_get_import_order_all_resources(str_to_class):
     resources = [
-        models.Roles(None),
-        models.Users(None),
-        models.SyntheticsPrivateLocations(None),
-        models.SyntheticsTests(None),
-        models.SyntheticsGlobalVariables(None),
-        models.Monitors(None),
-        models.Downtimes(None),
-        models.Dashboards(None),
-        models.DashboardLists(None),
-        models.ServiceLevelObjectives(None),
-        models.LogsCustomPipelines(None),
-        # models.IntegrationsAWS(None),
+        models.Roles,
+        models.Users,
+        models.SyntheticsPrivateLocations,
+        models.SyntheticsTests,
+        models.SyntheticsGlobalVariables,
+        models.Monitors,
+        models.Downtimes,
+        models.Dashboards,
+        models.DashboardLists,
+        models.ServiceLevelObjectives,
+        models.LogsCustomPipelines,
+        # models.IntegrationsAWS,
     ]
 
     order_list = get_import_order(resources, str_to_class)
@@ -187,7 +187,7 @@ def test_get_import_order_all_resources(str_to_class):
 
 def test_get_import_order_users(str_to_class):
     resources = [
-        models.Users(None),
+        models.Users,
     ]
 
     order_list = get_import_order(resources, str_to_class)
@@ -197,7 +197,7 @@ def test_get_import_order_users(str_to_class):
 
 def test_get_import_synthetics_tests(str_to_class):
     resources = [
-        models.SyntheticsTests(None),
+        models.SyntheticsTests,
     ]
 
     order_list = get_import_order(resources, str_to_class)
@@ -207,7 +207,7 @@ def test_get_import_synthetics_tests(str_to_class):
 
 def test_get_import_monitors(str_to_class):
     resources = [
-        models.Monitors(None),
+        models.Monitors,
     ]
 
     order_list = get_import_order(resources, str_to_class)
@@ -217,7 +217,7 @@ def test_get_import_monitors(str_to_class):
 
 def test_get_import_dashboards_lists(str_to_class):
     resources = [
-        models.DashboardLists(None),
+        models.DashboardLists,
     ]
 
     order_list = get_import_order(resources, str_to_class)
@@ -227,7 +227,7 @@ def test_get_import_dashboards_lists(str_to_class):
 
 def test_get_import_service_level_objectives(str_to_class):
     resources = [
-        models.ServiceLevelObjectives(None),
+        models.ServiceLevelObjectives,
     ]
 
     order_list = get_import_order(resources, str_to_class)
