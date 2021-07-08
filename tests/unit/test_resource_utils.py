@@ -165,20 +165,7 @@ def validate_order_list(order_list, resources):
 
 
 def test_get_import_order_all_resources(str_to_class):
-    resources = [
-        models.Roles,
-        models.Users,
-        models.SyntheticsPrivateLocations,
-        models.SyntheticsTests,
-        models.SyntheticsGlobalVariables,
-        models.Monitors,
-        models.Downtimes,
-        models.Dashboards,
-        models.DashboardLists,
-        models.ServiceLevelObjectives,
-        models.LogsCustomPipelines,
-        # models.IntegrationsAWS,
-    ]
+    resources = [cls for cls in models.__dict__.values() if isinstance(cls, type) and isinstance(cls, type)]
 
     order_list = get_import_order(resources, str_to_class)
 
