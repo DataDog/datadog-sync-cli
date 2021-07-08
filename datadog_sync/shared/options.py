@@ -1,4 +1,5 @@
 from click import option
+import click_config_file
 
 from datadog_sync import constants
 
@@ -66,6 +67,7 @@ _common_options = [
         is_flag=True,
         help="Enable verbose logging.",
     ),
+    click_config_file.configuration_option(),
 ]
 
 
