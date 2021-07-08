@@ -41,7 +41,9 @@ def build_config(**kwargs):
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
     # Initialize Configuration
-    config = Configuration(logger=logger, source_client=source_client, destination_client=destination_client)
+    config = Configuration(
+        logger=logger, source_client=source_client, destination_client=destination_client, filters=filters
+    )
 
     # Initialize resources
     config.resources = get_resources(config, kwargs.get("resources"))

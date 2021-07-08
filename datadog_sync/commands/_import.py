@@ -2,6 +2,7 @@ import os
 import time
 
 from click import command, option
+
 from datadog_sync.constants import SOURCE_RESOURCES_DIR
 from datadog_sync.shared.options import common_options, source_auth_options
 from datadog_sync.utils.configuration import build_config

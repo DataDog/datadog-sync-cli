@@ -32,6 +32,9 @@ class Filter:
 def process_filters(filter_list):
     filters = {}
 
+    if not filter_list:
+        return filter_list
+
     for _filter in filter_list:
         f_dict = {}
         f_list = _filter.strip("; ").split(";")
