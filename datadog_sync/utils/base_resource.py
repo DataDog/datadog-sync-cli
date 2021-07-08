@@ -20,11 +20,11 @@ class BaseResource:
 
     def __init__(self, config):
         self.config = config
-        if config:
-            self.logger = config.logger
-
+        self.logger = config.logger
         self.source_resources = dict()
         self.destination_resources = dict()
+        # Load in resources on initialization
+        self.open_resources()
 
     def import_resources(self):
         pass
