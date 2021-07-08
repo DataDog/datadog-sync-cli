@@ -69,6 +69,13 @@ from collections import defaultdict, OrderedDict
     is_flag=True,
     help="Enable verbose logging.",
 )
+@option(
+    "--force-missing-dependencies",
+    required=False,
+    is_flag=True,
+    default=False,
+    help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
+)
 @option("--filter", required=False, help="Filter imported resources.", multiple=True)
 @click_config_file.configuration_option()
 @pass_context
@@ -105,10 +112,13 @@ def cli(ctx, **kwargs):
     )
     ctx.obj["config"] = config
 
-    # Initialize resources
+    # Initialize resources and missing dependencies
     config.resources, config.missing_deps = get_resources(config, kwargs.get("resources"))
 
+    ctx.obj["force_missing_dependencies"] = kwargs.get("force_missing_dependencies")
 
+
+# TODO: add unit tests
 def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
