@@ -1,21 +1,27 @@
+from collections import defaultdict, OrderedDict
+
 from datadog_sync import models
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
-from collections import defaultdict, OrderedDict
+from datadog_sync.utils.filter import process_filters
 
 
 class Configuration(object):
-    def __init__(self, logger=None, source_client=None, destination_client=None, resources=None):
+    def __init__(self, logger=None, source_client=None, destination_client=None, resources=None, filters=None):
         self.logger = logger
         self.source_client = source_client
         self.destination_client = destination_client
         self.resources = resources
+        self.filters = filters
 
 
 def build_config(**kwargs):
     # configure logger
     logger = Log(kwargs.get("verbose"))
+
+    # configure Filter
+    filters = process_filters(kwargs.get("filter"))
 
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
