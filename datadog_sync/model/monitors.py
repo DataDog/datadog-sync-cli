@@ -34,7 +34,7 @@ class Monitors(BaseResource):
         if not self.filter(monitor) and monitor["type"] != "synthetics alert":
             return
 
-        self.source_resources[monitor["id"]] = monitor
+        self.source_resources[str(monitor["id"])] = monitor
 
     def apply_resources(self):
         simple_monitors = {}

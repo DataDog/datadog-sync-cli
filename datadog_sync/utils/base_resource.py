@@ -26,6 +26,8 @@ class BaseResource:
 
         self.source_resources = dict()
         self.destination_resources = dict()
+        # Load in resources on initialization
+        self.open_resources()
 
     def import_resources(self):
         pass

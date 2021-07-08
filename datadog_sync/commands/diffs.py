@@ -8,7 +8,6 @@ def diffs(ctx):
     cfg = ctx.obj.get("config")
 
     for resource in cfg.resources.values():
-        resource.open_resources()
         resource.check_diffs()
 
     if cfg.logger.exception_logged:
