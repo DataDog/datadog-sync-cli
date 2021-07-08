@@ -20,7 +20,7 @@ def sync(ctx):
         pretty_missing_deps = "\n".join(["- " + resource for resource in cfg.missing_deps])
 
         cfg.logger.warning(
-            f"Ensure following dependencies are up to date as well:\n{pretty_missing_deps}\nTo auto import and sync dependent resources, you may use the --force-missing-dependencies flag.",
+            f"Ensure following dependencies are up to date as well:\n{pretty_missing_deps}\nTo auto import and sync dependent resources, use --force-missing-dependencies flag.",
         )
 
     for resource_type, resource in cfg.resources.items():

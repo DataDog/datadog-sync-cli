@@ -121,7 +121,7 @@ def cli(ctx, **kwargs):
 
 
 # TODO: add unit tests
-def get_resources(cfg, resources_arg, force_missing_deps):
+def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
     all_resources = [
