@@ -32,7 +32,7 @@ def sync(ctx):
             cfg.logger.info("finished importing %s", resource.resource_type)
 
         # sync resource
-        if resource_type not in cfg.missing_deps and os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type)):
+        if force_missing_deps or resource_type not in cfg.missing_deps and os.path.exists(RESOURCE_FILE_PATH.format("source", resource_type)):
             cfg.logger.info("syncing resource: {}".format(resource_type))
             resource.open_resources()
             resource.apply_resources()
