@@ -144,11 +144,17 @@ class BaseResource:
 
         if os.path.exists(source_path):
             with open(source_path, "r") as f:
-                source_resources = json.load(f)
+                try:
+                    source_resources = json.load(f)
+                except json.decoder.JSONDecodeError:
+                    pass
 
         if os.path.exists(destination_path):
             with open(destination_path, "r") as f:
-                destination_resources = json.load(f)
+                try:
+                    destination_resources = json.load(f)
+                except json.decoder.JSONDecodeError:
+                    pass
 
         self.source_resources = source_resources
         self.destination_resources = destination_resources
