@@ -127,7 +127,9 @@ def get_resources(cfg, resources_arg):
         if isinstance(cls, type) and issubclass(cls, BaseResource)
     )
 
-    resources_classes = [str_to_class[resource_type] for resource_type in resources_arg if resource_type in str_to_class]
+    resources_classes = [
+        str_to_class[resource_type] for resource_type in resources_arg if resource_type in str_to_class
+    ]
 
     order_list = get_import_order(resources_classes, str_to_class)
 

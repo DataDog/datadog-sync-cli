@@ -19,6 +19,7 @@ def _import(ctx):
             continue
 
         cfg.logger.info("importing %s", resource_type)
+        resource.source_resources = {}  # Reset source resources on import
         resource.import_resources()
         resource.write_resources_file("source", resource.source_resources)
         cfg.logger.info("finished importing %s", resource_type)
