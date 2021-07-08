@@ -18,10 +18,9 @@ def sync(ctx):
 
     if not force_missing_deps and cfg.missing_deps:
         pretty_missing_deps = "\n".join(["- " + resource for resource in cfg.missing_deps])
-        if confirm(
-            f"The following dependencies are missing:\n{pretty_missing_deps}\nWould you like to import/sync them?",
-        ):
-            force_missing_deps = True
+
+        cfg.logger.warning(f"Ensure following dependencies are up to date as well:\n{pretty_missing_deps}\nTo auto import and sync dependent resources, you may use the --force-missing-dependencies flag.",)
+
 
     for resource_type, resource in cfg.resources.items():
         # import missing dependencies if force_missing_deps flag is passed
