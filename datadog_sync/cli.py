@@ -106,10 +106,9 @@ def cli(ctx, **kwargs):
     ctx.obj["config"] = config
 
     # Initialize resources
-    config.resources = get_resources(config, kwargs.get("resources"))
+    config.resources, config.missing_deps = get_resources(config, kwargs.get("resources"))
 
 
-# TODO: add unit tests
 def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
@@ -129,16 +128,16 @@ def get_resources(cfg, resources_arg):
     )
 
     resources_classes = [
-        cls for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
+        str_to_class[resource_type] for resource_type in resources_arg if resource_type in str_to_class
     ]
 
     order_list = get_import_order(resources_classes, str_to_class)
 
-    args_import_order = [resource_type for resource_type in order_list if resource_type in resources_arg]
+    missing_deps = [resource for resource in order_list if resource not in resources_arg]
 
-    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in args_import_order})
+    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list})
 
-    return resources
+    return resources, missing_deps
 
 
 def get_import_order(resources, str_to_class):
