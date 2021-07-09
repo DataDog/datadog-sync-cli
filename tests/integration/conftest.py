@@ -18,11 +18,11 @@ def filter_pl_secrets():
         resp = json.loads(response['body']['string'])
 
         if "private_location" in resp:
-            resp["private_location"].pop("secrets")
+            resp["private_location"].pop("secrets", None)
             if "config" in resp:
-                resp.pop("config")
+                resp.pop("config", None)
 
-        response['body']['string'] = json.dumps(resp)
+        response['body']['string'] = str.encode((json.dumps(resp)))
 
         return response
 

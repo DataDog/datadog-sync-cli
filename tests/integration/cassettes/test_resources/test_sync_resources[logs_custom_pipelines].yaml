@@ -98,7 +98,7 @@ interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Fri, 09 Jul 2021 00:10:43 GMT
+      - Fri, 09 Jul 2021 10:20:11 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -124,9 +124,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '4992'
+      - '4990'
       x-ratelimit-reset:
-      - '2957'
+      - '2389'
     status:
       code: 200
       message: OK
@@ -181,7 +181,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "GxMFJlPsRGqntFVoG7UK0g", "type": "pipeline", "name": "Test
+      string: '{"id": "uHrUzNSATsixNxF6bHd4Sw", "type": "pipeline", "name": "Test
         pipeline 1", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "source:foo"}, "processors": [{"name": "sample arithmetic processor", "is_enabled":
         true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic", "is_replace_missing":
@@ -233,7 +233,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Fri, 09 Jul 2021 00:10:43 GMT
+      - Fri, 09 Jul 2021 10:20:11 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -249,9 +249,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '71'
+      - '83'
       x-ratelimit-reset:
-      - '2957'
+      - '2389'
     status:
       code: 200
       message: OK
@@ -278,7 +278,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "XyKno9fQRHOAkRG1VwYwHA", "type": "pipeline", "name": "Test
+      string: '{"id": "pkfhiVOlTwySrQ9SXCiU3g", "type": "pipeline", "name": "Test
         pipeline 2", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "test:query"}, "processors": [{"name": "Grok Parser", "is_enabled": true,
         "source": "message", "samples": [], "grok": {"support_rules": "", "match_rules":
@@ -302,7 +302,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Fri, 09 Jul 2021 00:10:44 GMT
+      - Fri, 09 Jul 2021 10:20:11 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -318,9 +318,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '70'
+      - '82'
       x-ratelimit-reset:
-      - '2956'
+      - '2389'
     status:
       code: 200
       message: OK
@@ -344,7 +344,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "Lvy-gkPgRmKjC2XAm6WCDA", "type": "pipeline", "name": "Test
+      string: '{"id": "D2Ygs77PSwyIFmMI9YgT2A", "type": "pipeline", "name": "Test
         pipeline 3", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "tes1232113"}, "processors": []}'
     headers:
@@ -365,7 +365,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Fri, 09 Jul 2021 00:10:44 GMT
+      - Fri, 09 Jul 2021 10:20:12 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -381,9 +381,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '69'
+      - '81'
       x-ratelimit-reset:
-      - '2956'
+      - '2388'
     status:
       code: 200
       message: OK
@@ -438,7 +438,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "kZd5TfzFTj-YjU1u1idTjQ", "type": "pipeline", "name": "Test
+      string: '{"id": "nb6znlRgQYiSIacDFvGWzw", "type": "pipeline", "name": "Test
         Pipeline - Complex", "is_enabled": true, "is_read_only": false, "filter":
         {"query": "source:foo"}, "processors": [{"name": "sample arithmetic processor",
         "is_enabled": true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic",
@@ -490,7 +490,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Fri, 09 Jul 2021 00:10:44 GMT
+      - Fri, 09 Jul 2021 10:20:12 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -506,9 +506,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '68'
+      - '80'
       x-ratelimit-reset:
-      - '2956'
+      - '2388'
     status:
       code: 200
       message: OK

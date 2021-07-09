@@ -27,7 +27,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 00:10:44 GMT
+      - Fri, 09 Jul 2021 10:19:55 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -88,7 +88,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 00:10:45 GMT
+      - Fri, 09 Jul 2021 10:19:55 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -130,9 +130,9 @@ interactions:
   response:
     body:
       string: '{"is_favorite": false, "name": "Test list", "dashboard_count": 0, "author":
-        {"handle": "frog@datadoghq.com", "name": null}, "created": "2021-07-09T00:10:45.207734+00:00",
-        "type": "manual_dashboard_list", "dashboards": null, "modified": "2021-07-09T00:10:45.207779+00:00",
-        "id": 9993}'
+        {"handle": "frog@datadoghq.com", "name": null}, "created": "2021-07-09T10:19:55.743580+00:00",
+        "type": "manual_dashboard_list", "dashboards": null, "modified": "2021-07-09T10:19:55.743631+00:00",
+        "id": 10006}'
     headers:
       Alt-Svc:
       - clear
@@ -143,13 +143,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '263'
+      - '264'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 00:10:45 GMT
+      - Fri, 09 Jul 2021 10:19:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -181,7 +181,7 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/9993/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/10006/dashboards
   response:
     body:
       string: '{"errors": ["custom_timeboard euw-cp8-hy6 not found"]}'
@@ -201,7 +201,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 00:10:45 GMT
+      - Fri, 09 Jul 2021 10:19:56 GMT
       pragma:
       - no-cache
       strict-transport-security:
