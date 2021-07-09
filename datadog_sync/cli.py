@@ -55,7 +55,8 @@ from collections import defaultdict, OrderedDict
     required=False,
     type=int,
     default=60,
-    help="The HTTP request retry timeout period. Defaults to 60s",
+    show_default=True,
+    help="The HTTP request retry timeout period.",
 )
 @option(
     "--resources",
@@ -74,6 +75,7 @@ from collections import defaultdict, OrderedDict
     required=False,
     is_flag=True,
     default=False,
+    show_default=True,
     help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
 )
 @option("--filter", required=False, help="Filter imported resources.", multiple=True)
@@ -81,6 +83,7 @@ from collections import defaultdict, OrderedDict
     "--skip_failed_resource_connections",
     type=bool,
     default=True,
+    show_default=True,
     help="Skip resource when resource connection fails.",
 )
 @click_config_file.configuration_option()
