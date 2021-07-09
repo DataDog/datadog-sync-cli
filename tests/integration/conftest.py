@@ -54,7 +54,7 @@ def config():
         "appKeyAuth": os.getenv(constants.DD_DESTINATION_APP_KEY),
     }
 
-    retry_timeout = 60
+    retry_timeout = os.getenv(constants.DD_HTTP_CLIENT_RETRY_TIMEOUT, 60)
 
     source_client = CustomClient(source_api_url, source_auth, retry_timeout)
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)

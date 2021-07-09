@@ -1,8 +1,9 @@
+import pytest
+
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.resource_utils import replace, replace_ids
 from datadog_sync import models
 from datadog_sync.cli import get_import_order, get_resources
-import pytest
 
 
 @pytest.fixture(scope="class")

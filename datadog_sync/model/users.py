@@ -143,8 +143,7 @@ class Users(BaseResource):
             elif k == "values_changed":
                 for key, value in diff["values_changed"].items():
                     if "roles" in key:
-                        import pdb; pdb.set_trace()
-                        self.remove_user_from_role(_id, value["old_value"])
+                        # self.remove_user_from_role(_id, value["old_value"])
                         self.add_user_to_role(_id, value["new_value"])
 
     def get_remote_destination_users(self):

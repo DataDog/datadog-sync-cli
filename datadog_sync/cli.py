@@ -67,7 +67,6 @@ from collections import defaultdict, OrderedDict
     envvar=constants.MAX_WORKERS,
     required=False,
     type=int,
-    default=None,
     help="Max number of workers when running operations in multi-threads. Defaults to 'None'",
 )
 @option(
