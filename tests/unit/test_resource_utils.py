@@ -1,6 +1,6 @@
 import pytest
 
-from datadog_sync.utils.resource_utils import replace, replace_ids
+from datadog_sync.utils.resource_utils import replace, replace_ids, ResourceConnectionError
 from datadog_sync import models
 from datadog_sync.cli import get_import_order
 
@@ -68,9 +68,10 @@ def test_replace_multiple_levels_key_containing_an_array():
 
 def test_replace_ids_empty_resource():
     r_obj = {}
-    r_obj_expected = {}
-    replace_ids("key_example", "origin", r_obj, "resource_name", {})
-    assert r_obj == r_obj_expected
+    with pytest.raises(ResourceConnectionError) as e:
+        replace_ids("key_example", "origin", r_obj, "resource_name", {})
+
+    assert "missing resource connection" in str(e.value)
 
 
 def test_replace_ids_composite_monitors():
