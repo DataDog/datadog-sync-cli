@@ -1,6 +1,6 @@
 import pytest
 
-from datadog_sync.utils.filter import Filter, process_filters
+from datadog_sync.utils.filter import process_filters
 
 
 @pytest.mark.parametrize(

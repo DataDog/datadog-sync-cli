@@ -1,3 +1,4 @@
+import logging
 from collections import defaultdict, OrderedDict
 
 from datadog_sync import models
@@ -5,15 +6,30 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import process_filters
+from datadog_sync.constants import LOGGER_NAME
 
 
 class Configuration(object):
-    def __init__(self, logger=None, source_client=None, destination_client=None, resources=None, filters=None):
+    def __init__(
+        self,
+        logger=None,
+        source_client=None,
+        destination_client=None,
+        resources=None,
+        missing_deps=None,
+        filters=None,
+        force_missing_dependencies=None,
+    ):
+        if not logger:
+            # fallback to default logger if not provided
+            logger = logging.getLogger(LOGGER_NAME)
         self.logger = logger
         self.source_client = source_client
         self.destination_client = destination_client
         self.resources = resources
+        self.missing_deps = missing_deps
         self.filters = filters
+        self.force_missing_dependencies = force_missing_dependencies
 
 
 def build_config(**kwargs):
@@ -25,6 +41,8 @@ def build_config(**kwargs):
 
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
+
+    force_missing_dependencies = kwargs.get("force_missing_dependencies")
 
     # Initialize the datadog API Clients
     source_auth = {
@@ -42,11 +60,15 @@ def build_config(**kwargs):
 
     # Initialize Configuration
     config = Configuration(
-        logger=logger, source_client=source_client, destination_client=destination_client, filters=filters
+        logger=logger,
+        source_client=source_client,
+        destination_client=destination_client,
+        filters=filters,
+        force_missing_dependencies=force_missing_dependencies,
     )
 
     # Initialize resources
-    config.resources = get_resources(config, kwargs.get("resources"))
+    config.resources, config.missing_deps = get_resources(config, kwargs.get("resources"))
 
     return config
 
@@ -71,16 +93,16 @@ def get_resources(cfg, resources_arg):
     )
 
     resources_classes = [
-        cls for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
+        str_to_class[resource_type] for resource_type in resources_arg if resource_type in str_to_class
     ]
 
     order_list = get_import_order(resources_classes, str_to_class)
 
-    args_import_order = [resource_type for resource_type in order_list if resource_type in resources_arg]
+    missing_deps = [resource for resource in order_list if resource not in resources_arg]
 
-    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in args_import_order})
+    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list})
 
-    return resources
+    return resources, missing_deps
 
 
 def get_import_order(resources, str_to_class):
@@ -104,8 +126,7 @@ def get_import_order(resources, str_to_class):
         # if current_resource has dependencies
         if current_resource in graph:
             for depender in graph[current_resource]:
-                # current_resource will be created, therefore the depender's number of dependencies
-                # is decremented by one
+                # current_resource will be created, therefore the depender's number of dependencies is decremented by one
                 dependencies_count[depender] = max(0, dependencies_count[depender] - 1)
 
                 # if all it's dependencies are resolved, we can create it next
@@ -116,10 +137,7 @@ def get_import_order(resources, str_to_class):
 
 
 def get_resources_dependency_graph(resources, str_to_class):
-    """
-    Returns a Directed Acyclic Graph of the resources. An edge between A and B means that resource
-    A might require resource B
-    """
+    """Returns a Directed Acyclic Graph of the resources. An edge between A and B means that resource A might require resource B"""
     graph = defaultdict(list)
     dependencies_count = defaultdict(int)
 

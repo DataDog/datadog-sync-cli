@@ -13,7 +13,6 @@ def diffs(**kwargs):
     cfg = build_config(**kwargs)
 
     for resource in cfg.resources.values():
-        resource.open_resources()
         resource.check_diffs()
 
     if cfg.logger.exception_logged:
