@@ -98,7 +98,7 @@ interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Fri, 09 Jul 2021 18:33:21 GMT
+      - Fri, 09 Jul 2021 18:44:11 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -124,9 +124,9 @@ interactions:
       x-ratelimit-period:
       - '3600'
       x-ratelimit-remaining:
-      - '4995'
+      - '4989'
       x-ratelimit-reset:
-      - '1599'
+      - '949'
     status:
       code: 200
       message: OK
@@ -165,7 +165,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:21 GMT
+      - Fri, 09 Jul 2021 18:44:12 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -191,7 +191,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '39'
+      - '48'
     status:
       code: 200
       message: OK
@@ -222,7 +222,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:21 GMT
+      - Fri, 09 Jul 2021 18:44:12 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -332,7 +332,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:21 GMT
+      - Fri, 09 Jul 2021 18:44:12 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -358,7 +358,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '39'
+      - '48'
     status:
       code: 200
       message: OK
@@ -403,7 +403,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:21 GMT
+      - Fri, 09 Jul 2021 18:44:12 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -429,7 +429,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '39'
+      - '48'
     status:
       code: 200
       message: OK
@@ -552,7 +552,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:21 GMT
+      - Fri, 09 Jul 2021 18:44:12 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -578,7 +578,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '39'
+      - '48'
     status:
       code: 200
       message: OK
@@ -695,34 +695,28 @@ interactions:
         A user with this permission can suppress alerts from any monitor using a downtime,
         even if they do not have permission to edit those monitors explicitly.", "created":
         "2019-09-16T18:39:23.306702+00:00", "group_name": "Monitors", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e",
-        "attributes": {"name": "logs_read_index_data", "display_name": "Logs Read
-        Index Data", "description": "The ability to read all or some log indexes.
-        Can be granted in a limited capacity per index from the Logs interface or
-        APIs. If granted via the Roles interface or API the permission has global
-        scope.", "created": "2018-10-31T13:39:19.727450+00:00", "group_name": "Logs",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "46a301e0-ec5c-11ea-aa9f-6ba6cc675d8c", "attributes": {"name": "billing_edit",
-        "display_name": "Billing", "description": "The ability to manage your organization''s
-        subscription and payment method.", "created": "2020-09-01T14:06:05.444705+00:00",
-        "group_name": "Billing and Usage", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d",
-        "attributes": {"name": "user_access_invite", "display_name": "Invite User",
-        "description": "Allows users to invite other users to your organization.",
-        "created": "2020-08-25T19:17:23.539701+00:00", "group_name": "Access Management",
-        "display_type": "other", "restricted": false}}, {"type": "permissions", "id":
-        "43fa188e-2dce-11eb-84c0-835ad1fd6287", "attributes": {"name": "apm_retention_filter_read",
-        "display_name": "Manage Retention Filters", "description": "The ability to
-        read trace retention filters. A user with this permission can view the retention
-        filters page, list of filters, their statistics, and creation info.", "created":
-        "2020-11-23T20:55:49.190595+00:00", "group_name": "APM", "display_type": "read",
-        "restricted": false}}, {"type": "permissions", "id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39",
-        "attributes": {"name": "logs_write_facets", "display_name": "Logs Facets",
-        "description": "The capability to create or edit logs facets.", "created":
-        "2020-10-14T12:40:20.271908+00:00", "group_name": "Logs", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2",
-        "attributes": {"name": "dashboards_read", "display_name": "Dashboards", "description":
-        "The ability to view dashboards.", "created": "2019-09-10T14:39:51.955175+00:00",
+        "other", "restricted": false}}, {"type": "permissions", "id": "46a301e0-ec5c-11ea-aa9f-6ba6cc675d8c",
+        "attributes": {"name": "billing_edit", "display_name": "Billing", "description":
+        "The ability to manage your organization''s subscription and payment method.",
+        "created": "2020-09-01T14:06:05.444705+00:00", "group_name": "Billing and
+        Usage", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d", "attributes": {"name": "user_access_invite",
+        "display_name": "Invite User", "description": "Allows users to invite other
+        users to your organization.", "created": "2020-08-25T19:17:23.539701+00:00",
+        "group_name": "Access Management", "display_type": "other", "restricted":
+        false}}, {"type": "permissions", "id": "43fa188e-2dce-11eb-84c0-835ad1fd6287",
+        "attributes": {"name": "apm_retention_filter_read", "display_name": "Manage
+        Retention Filters", "description": "The ability to read trace retention filters.
+        A user with this permission can view the retention filters page, list of filters,
+        their statistics, and creation info.", "created": "2020-11-23T20:55:49.190595+00:00",
+        "group_name": "APM", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39", "attributes":
+        {"name": "logs_write_facets", "display_name": "Logs Facets", "description":
+        "The capability to create or edit logs facets.", "created": "2020-10-14T12:40:20.271908+00:00",
+        "group_name": "Logs", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2", "attributes":
+        {"name": "dashboards_read", "display_name": "Dashboards", "description": "The
+        ability to view dashboards.", "created": "2019-09-10T14:39:51.955175+00:00",
         "group_name": "Dashboards", "display_type": "read", "restricted": true}},
         {"type": "permissions", "id": "fcac2ad8-2843-11eb-8315-0fe47949d625", "attributes":
         {"name": "integrations_api", "display_name": "Integrations API Access", "description":
@@ -981,13 +975,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:22 GMT
+      - Fri, 09 Jul 2021 18:44:12 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '29665'
+      - '29193'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -1160,7 +1154,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:22 GMT
+      - Fri, 09 Jul 2021 18:44:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1186,7 +1180,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '8'
+      - '7'
     status:
       code: 200
       message: OK
@@ -1240,7 +1234,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:22 GMT
+      - Fri, 09 Jul 2021 18:44:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1266,7 +1260,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '8'
+      - '7'
     status:
       code: 200
       message: OK
@@ -1311,7 +1305,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:22 GMT
+      - Fri, 09 Jul 2021 18:44:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1337,7 +1331,7 @@ interactions:
       x-ratelimit-remaining:
       - '59'
       x-ratelimit-reset:
-      - '38'
+      - '47'
     status:
       code: 200
       message: OK
@@ -1390,7 +1384,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:22 GMT
+      - Fri, 09 Jul 2021 18:44:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1474,7 +1468,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:22 GMT
+      - Fri, 09 Jul 2021 18:44:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1608,7 +1602,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:23 GMT
+      - Fri, 09 Jul 2021 18:44:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1664,7 +1658,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:23 GMT
+      - Fri, 09 Jul 2021 18:44:14 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1714,7 +1708,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:23 GMT
+      - Fri, 09 Jul 2021 18:44:14 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1775,7 +1769,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:23 GMT
+      - Fri, 09 Jul 2021 18:44:14 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1832,7 +1826,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:23 GMT
+      - Fri, 09 Jul 2021 18:44:14 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2163,7 +2157,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:33:24 GMT
+      - Fri, 09 Jul 2021 18:44:14 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2504,7 +2498,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:33:24 GMT
+      - Fri, 09 Jul 2021 18:44:15 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -2647,7 +2641,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:33:24 GMT
+      - Fri, 09 Jul 2021 18:44:15 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -2663,9 +2657,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '497'
+      - '499'
       x-ratelimit-reset:
-      - '36'
+      - '45'
     status:
       code: 200
       message: OK

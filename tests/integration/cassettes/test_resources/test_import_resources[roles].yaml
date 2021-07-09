@@ -118,7 +118,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:47 GMT
+      - Fri, 09 Jul 2021 19:06:49 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -144,7 +144,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '13'
+      - '11'
     status:
       code: 200
       message: OK
@@ -267,7 +267,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:47 GMT
+      - Fri, 09 Jul 2021 19:06:49 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -293,7 +293,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '13'
+      - '11'
     status:
       code: 200
       message: OK

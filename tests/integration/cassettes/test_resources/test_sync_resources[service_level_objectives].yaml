@@ -49,7 +49,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:32 GMT
+      - Fri, 09 Jul 2021 19:06:11 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -73,9 +73,9 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '999'
+      - '997'
       x-ratelimit-reset:
-      - '8'
+      - '9'
     status:
       code: 200
       message: OK
@@ -84,7 +84,7 @@ interactions:
       {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov", "email":
       "sherzod.karimov@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
       "99.", "timeframe": "7d"}], "type_id": 0, "id": "ae04001ea55f52f6ae4b85d9b1023909",
-      "monitor_ids": [1430226, 1430228], "name": "Composite monitor - Child 2", "created_at":
+      "monitor_ids": [1430499, 1430501], "name": "Composite monitor - Child 2", "created_at":
       1623260678, "tags": [], "modified_at": 1625053391, "type": "monitor"}'
     headers:
       Accept:
@@ -106,9 +106,9 @@ interactions:
       string: '{"data": [{"description": "Updated Description Test", "monitor_tags":
         [], "creator": {"handle": "frog@datadoghq.com", "name": null, "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 0, "id": "5e614043f6715a358a0bd6a4ad58a19b", "monitor_ids": [1430226,
-        1430228], "name": "Composite monitor - Child 2", "created_at": 1625855552,
-        "tags": [], "modified_at": 1625855552, "type": "monitor"}], "error": null}'
+        "type_id": 0, "id": "54f76a8732d05c1f9e52d57babf2e1ae", "monitor_ids": [1430499,
+        1430501], "name": "Composite monitor - Child 2", "created_at": 1625857572,
+        "tags": [], "modified_at": 1625857572, "type": "monitor"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -125,7 +125,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:32 GMT
+      - Fri, 09 Jul 2021 19:06:12 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -143,7 +143,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '28'
+      - '48'
     status:
       code: 200
       message: OK
@@ -187,7 +187,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:33 GMT
+      - Fri, 09 Jul 2021 19:06:12 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -203,7 +203,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '27'
+      - '48'
     status:
       code: 400
       message: Bad Request
@@ -212,7 +212,7 @@ interactions:
       "creator": {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine",
       "email": "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0,
       "target_display": "99.", "timeframe": "7d"}], "type_id": 0, "id": "c4fa01c78d45542cb830598be4f68ad2",
-      "monitor_ids": [36553487, 1430226, 1430227, 37286153, 37286152], "name": "[Synthetics]
+      "monitor_ids": [36553487, 1430499, 1430500, 37286153, 37286152], "name": "[Synthetics]
       Multple Monitors based SLO", "created_at": 1623427531, "tags": ["noueman"],
       "modified_at": 1623429352, "type": "monitor"}'
     headers:
@@ -248,7 +248,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:33 GMT
+      - Fri, 09 Jul 2021 19:06:12 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -264,7 +264,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '27'
+      - '48'
     status:
       code: 400
       message: Bad Request
@@ -297,9 +297,9 @@ interactions:
         "creator": {"handle": "frog@datadoghq.com", "name": null, "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
         "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-        "sum:api.requests.status_ok{*}.as_count()"}, "id": "ede7c9e337f351fca89b47ee33dce96c",
-        "name": "SLO tessssssst", "created_at": 1625855553, "tags": [], "modified_at":
-        1625855553, "type": "metric"}], "error": null}'
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "e4edcd24ba13597a91353f11640224ad",
+        "name": "SLO tessssssst", "created_at": 1625857572, "tags": [], "modified_at":
+        1625857572, "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -316,7 +316,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:33 GMT
+      - Fri, 09 Jul 2021 19:06:12 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -334,7 +334,7 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '27'
+      - '48'
     status:
       code: 200
       message: OK
@@ -378,7 +378,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:33 GMT
+      - Fri, 09 Jul 2021 19:06:12 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -394,7 +394,7 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '27'
+      - '48'
     status:
       code: 400
       message: Bad Request
@@ -403,7 +403,7 @@ interactions:
       "creator": {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine",
       "email": "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0,
       "target_display": "99.", "timeframe": "7d"}], "type_id": 0, "id": "c4fa01c78d45542cb830598be4f68ad2",
-      "monitor_ids": [36553487, 1430226, 1430227, 37286153, 37286152], "name": "[Synthetics]
+      "monitor_ids": [36553487, 1430499, 1430500, 37286153, 37286152], "name": "[Synthetics]
       Multple Monitors based SLO", "created_at": 1623427531, "tags": ["noueman"],
       "modified_at": 1623429352, "type": "monitor"}'
     headers:
@@ -439,7 +439,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:33 GMT
+      - Fri, 09 Jul 2021 19:06:12 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -455,7 +455,7 @@ interactions:
       x-ratelimit-remaining:
       - '494'
       x-ratelimit-reset:
-      - '27'
+      - '48'
     status:
       code: 400
       message: Bad Request

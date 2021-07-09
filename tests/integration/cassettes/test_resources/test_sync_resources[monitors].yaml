@@ -156,7 +156,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:30 GMT
+      - Fri, 09 Jul 2021 19:06:01 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -182,7 +182,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '10'
+      - '9'
     status:
       code: 200
       message: OK
@@ -217,11 +217,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50", "message": "Test monitor ----------------", "id": 1430226, "multi":
-        false, "name": "Composite monitor - Child 2", "created": "2021-07-09T18:32:31.041554+00:00",
-        "created_at": 1625855551000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 50", "message": "Test monitor ----------------", "id": 1430499, "multi":
+        false, "name": "Composite monitor - Child 2", "created": "2021-07-09T19:06:01.423207+00:00",
+        "created_at": 1625857561000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": null, "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-09T18:32:31.041554+00:00", "priority": null, "overall_state_modified":
+        "2021-07-09T19:06:01.423207+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -243,7 +243,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:31 GMT
+      - Fri, 09 Jul 2021 19:06:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -296,11 +296,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-        > 20", "message": "Composite monitor - child 1", "id": 1430227, "multi": false,
-        "name": "Composite monitor - child 1", "created": "2021-07-09T18:32:31.193151+00:00",
-        "created_at": 1625855551000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 20", "message": "Composite monitor - child 1", "id": 1430500, "multi": false,
+        "name": "Composite monitor - child 1", "created": "2021-07-09T19:06:01.588888+00:00",
+        "created_at": 1625857561000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": null, "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-09T18:32:31.193151+00:00", "priority": null, "overall_state_modified":
+        "2021-07-09T19:06:01.588888+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -322,7 +322,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:31 GMT
+      - Fri, 09 Jul 2021 19:06:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -374,10 +374,10 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-        "message": "Test host monitor", "id": 1430228, "multi": true, "name": "Host
-        monitor", "created": "2021-07-09T18:32:31.338165+00:00", "created_at": 1625855551000,
+        "message": "Test host monitor", "id": 1430501, "multi": true, "name": "Host
+        monitor", "created": "2021-07-09T19:06:01.725859+00:00", "created_at": 1625857561000,
         "creator": {"id": 1000219667, "handle": "frog@datadoghq.com", "name": null,
-        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2021-07-09T18:32:31.338165+00:00",
+        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2021-07-09T19:06:01.725859+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "service check", "options": {"notify_audit": false, "locked": false,
         "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds": {"warning":
@@ -399,7 +399,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:31 GMT
+      - Fri, 09 Jul 2021 19:06:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -454,11 +454,11 @@ interactions:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
         ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
-        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 1430229,
-        "multi": false, "name": "Anomaly monitor", "created": "2021-07-09T18:32:31.473359+00:00",
-        "created_at": 1625855551000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 1430503,
+        "multi": false, "name": "Anomaly monitor", "created": "2021-07-09T19:06:01.880021+00:00",
+        "created_at": 1625857561000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": null, "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-09T18:32:31.473359+00:00", "priority": null, "overall_state_modified":
+        "2021-07-09T19:06:01.880021+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "query alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -481,7 +481,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:31 GMT
+      - Fri, 09 Jul 2021 19:06:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -504,8 +504,8 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "( 1430227
-      && 1430226 ) || !1430227", "message": "test", "matching_downtimes": [], "id":
+    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "( 1430500
+      && 1430499 ) || !1430500", "message": "test", "matching_downtimes": [], "id":
       36593201, "multi": false, "name": "Composite monitor", "created": "2021-06-03T18:55:48.515861+00:00",
       "created_at": 1622746548000, "creator": {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com",
       "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id":
@@ -532,11 +532,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "(
-        1430227 && 1430226 ) || !1430227", "message": "test", "id": 1430230, "multi":
-        false, "name": "Composite monitor", "created": "2021-07-09T18:32:31.630402+00:00",
-        "created_at": 1625855551000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        1430500 && 1430499 ) || !1430500", "message": "test", "id": 1430505, "multi":
+        false, "name": "Composite monitor", "created": "2021-07-09T19:06:02.091651+00:00",
+        "created_at": 1625857562000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": null, "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-09T18:32:31.630402+00:00", "priority": null, "overall_state_modified":
+        "2021-07-09T19:06:02.091651+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "composite", "options": {"notify_audit":
         false, "locked": false, "silenced": {"env:test": null}, "include_tags": false,
         "new_host_delay": 300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
@@ -557,7 +557,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 18:32:31 GMT
+      - Fri, 09 Jul 2021 19:06:02 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -575,7 +575,7 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '9'
+      - '8'
     status:
       code: 200
       message: OK

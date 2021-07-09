@@ -3,6 +3,7 @@ import copy
 
 from tests.utils.helpers import *
 
+
 @pytest.mark.vcr
 @pytest.mark.integration
 @pytest.mark.parametrize("resource_type", [resource_type for resource_type in all_resources])

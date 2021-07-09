@@ -40,7 +40,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:34 GMT
+      - Fri, 09 Jul 2021 19:06:17 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -64,9 +64,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '59'
+      - '58'
       x-ratelimit-reset:
-      - '26'
+      - '43'
     status:
       code: 200
       message: OK
@@ -119,7 +119,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:34 GMT
+      - Fri, 09 Jul 2021 19:06:17 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -203,7 +203,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:34 GMT
+      - Fri, 09 Jul 2021 19:06:17 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -337,7 +337,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:34 GMT
+      - Fri, 09 Jul 2021 19:06:18 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -393,7 +393,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:34 GMT
+      - Fri, 09 Jul 2021 19:06:18 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -456,7 +456,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:35 GMT
+      - Fri, 09 Jul 2021 19:06:18 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -480,9 +480,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '58'
+      - '57'
       x-ratelimit-reset:
-      - '25'
+      - '42'
     status:
       code: 200
       message: OK
@@ -535,7 +535,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:35 GMT
+      - Fri, 09 Jul 2021 19:06:18 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -619,7 +619,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:35 GMT
+      - Fri, 09 Jul 2021 19:06:18 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -753,7 +753,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:35 GMT
+      - Fri, 09 Jul 2021 19:06:41 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -809,7 +809,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 18:32:35 GMT
+      - Fri, 09 Jul 2021 19:06:42 GMT
       Transfer-Encoding:
       - chunked
       cache-control:

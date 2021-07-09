@@ -5,14 +5,13 @@ import json
 
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
-from datadog_sync import models
-from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync import constants
+from datadog_sync.cli import get_resources
 
 
 def filter_private_location_data(response):
     if "body" not in response or "string" not in response["body"]:
-            return response
+        return response
 
     resp = json.loads(response["body"]["string"])
 
@@ -30,6 +29,7 @@ def filter_response_data():
         # add filter functions below
         response = filter_private_location_data(response)
         return response
+
     return before_record_response
 
 
@@ -72,11 +72,7 @@ def config():
         max_workers=int(max_workers),
     )
 
-    resources = {
-        cls.resource_type: cls(cfg)
-        for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
-    }
+    resources, _ = get_resources(cfg, "")
 
     cfg.resources = resources
 
