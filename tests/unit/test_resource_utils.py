@@ -238,6 +238,13 @@ def test_get_resources_with_args():
     result, _ = get_resources(None, "monitors,downtimes,service_level_objectives")
     result_resources = [r[0] for r in result.items()]
 
-    resources_arg = ["roles", "synthetics_private_locations", "synthetics_tests", "monitors", "downtimes", "service_level_objectives"]
+    resources_arg = [
+        "roles",
+        "synthetics_private_locations",
+        "synthetics_tests",
+        "monitors",
+        "downtimes",
+        "service_level_objectives",
+    ]
 
     assert sorted(result_resources) == sorted(resources_arg)
