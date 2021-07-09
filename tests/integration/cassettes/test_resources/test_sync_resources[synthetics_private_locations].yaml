@@ -34,7 +34,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 10:20:06 GMT
+      - Fri, 09 Jul 2021 18:32:48 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -60,7 +60,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '54'
+      - '12'
     status:
       code: 200
       message: OK
@@ -91,7 +91,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 10:20:07 GMT
+      - Fri, 09 Jul 2021 18:32:48 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -134,9 +134,9 @@ interactions:
   response:
     body:
       string: '{"private_location": {"name": "Test Private Variable", "tags": ["key:value"],
-        "description": "datadog-sync-cli test", "modifiedAt": "2021-07-09T10:20:08.872032+00:00",
-        "config": {"site": "datadoghq.eu"}, "id": "pl:test-private-variable-a85b9b7294595b1f84b53f026dec9dd6",
-        "createdAt": "2021-07-09T10:20:08.872032+00:00", "metadata": {}}, "result_encryption":
+        "description": "datadog-sync-cli test", "modifiedAt": "2021-07-09T18:32:50.689355+00:00",
+        "config": {"site": "datadoghq.eu"}, "id": "pl:test-private-variable-502724f1f4e1c98d78db73340a7102a6",
+        "createdAt": "2021-07-09T18:32:50.689355+00:00", "metadata": {}}, "result_encryption":
         {"id": "sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins=", "key":
         "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
         PUBLIC KEY-----\n"}}'
@@ -156,7 +156,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 10:20:08 GMT
+      - Fri, 09 Jul 2021 18:32:50 GMT
       pragma:
       - no-cache
       strict-transport-security:

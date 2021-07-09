@@ -87,7 +87,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 09 Jul 2021 10:19:45 GMT
+      - Fri, 09 Jul 2021 18:32:43 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -113,7 +113,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '15'
+      - '17'
     status:
       code: 200
       message: OK
@@ -144,10 +144,10 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "paused", "public_id": "qvt-pj4-9uj", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "3vh-utv-zai", "tags": [], "org_id":
         1000044987, "locations": ["aws:ca-central-1"], "message": "Test synthetics
-        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 1425624, "type":
-        "api", "created_at": "2021-07-09T10:19:46.343891+00:00", "modified_at": "2021-07-09T10:19:46.343891+00:00",
+        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 1430231, "type":
+        "api", "created_at": "2021-07-09T18:32:43.802017+00:00", "modified_at": "2021-07-09T18:32:43.802017+00:00",
         "subtype": "http", "config": {"request": {"url": "https://google.com", "method":
         "GET"}, "assertions": [{"operator": "lessThan", "type": "responseTime", "target":
         1000}, {"operator": "is", "type": "statusCode", "target": 301}, {"operator":
@@ -173,7 +173,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 10:19:47 GMT
+      - Fri, 09 Jul 2021 18:32:43 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -191,7 +191,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '14'
+      - '17'
     status:
       code: 200
       message: OK
@@ -219,11 +219,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "fht-q3c-6g3", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "h2b-yr6-2em", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "DNS Test", "monitor_id":
-        1425625, "type": "api", "created_at": "2021-07-09T10:19:47.934971+00:00",
-        "modified_at": "2021-07-09T10:19:47.934971+00:00", "subtype": "dns", "config":
+        1430232, "type": "api", "created_at": "2021-07-09T18:32:44.157411+00:00",
+        "modified_at": "2021-07-09T18:32:44.157411+00:00", "subtype": "dns", "config":
         {"request": {"host": "example.org"}, "assertions": [{"operator": "is", "property":
         "A", "type": "recordSome", "target": "0.0.0.0"}]}, "options": {"monitor_options":
         {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
@@ -245,7 +245,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 10:19:48 GMT
+      - Fri, 09 Jul 2021 18:32:44 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -263,7 +263,7 @@ interactions:
       x-ratelimit-remaining:
       - '118'
       x-ratelimit-reset:
-      - '13'
+      - '16'
     status:
       code: 200
       message: OK
@@ -291,11 +291,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "9kf-tyt-5tc", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "ri5-ghd-8iy", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "SSL Test", "monitor_id":
-        1425626, "type": "api", "created_at": "2021-07-09T10:19:48.437934+00:00",
-        "modified_at": "2021-07-09T10:19:48.437934+00:00", "subtype": "ssl", "config":
+        1430233, "type": "api", "created_at": "2021-07-09T18:32:44.651694+00:00",
+        "modified_at": "2021-07-09T18:32:44.651694+00:00", "subtype": "ssl", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "isInMoreThan", "type": "certificate", "target": 30}]}, "options": {"accept_self_signed":
         true, "tick_every": 900, "monitor_options": {"notify_audit": false, "locked":
@@ -317,7 +317,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 10:19:48 GMT
+      - Fri, 09 Jul 2021 18:32:44 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -335,7 +335,7 @@ interactions:
       x-ratelimit-remaining:
       - '117'
       x-ratelimit-reset:
-      - '12'
+      - '16'
     status:
       code: 200
       message: OK
@@ -364,11 +364,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "rew-bx8-ysu", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "2p8-kfs-dq5", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "HTTP Test - example",
-        "monitor_id": 1425627, "type": "api", "created_at": "2021-07-09T10:19:49.042440+00:00",
-        "modified_at": "2021-07-09T10:19:49.042440+00:00", "subtype": "http", "config":
+        "monitor_id": 1430234, "type": "api", "created_at": "2021-07-09T18:32:45.020393+00:00",
+        "modified_at": "2021-07-09T18:32:45.020393+00:00", "subtype": "http", "config":
         {"request": {"url": "https://www.example.org", "headers": {"Authentication":
         "Token: 1234566789", "Content-Type": "application/json"}, "method": "GET"},
         "assertions": [{"operator": "is", "type": "statusCode", "target": 200}]},
@@ -392,7 +392,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 10:19:49 GMT
+      - Fri, 09 Jul 2021 18:32:45 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -410,7 +410,7 @@ interactions:
       x-ratelimit-remaining:
       - '116'
       x-ratelimit-reset:
-      - '12'
+      - '16'
     status:
       code: 200
       message: OK
@@ -438,11 +438,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "h3m-3q2-xjv", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "2ef-93z-4f7", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "TCP Test", "monitor_id":
-        1425628, "type": "api", "created_at": "2021-07-09T10:19:49.641095+00:00",
-        "modified_at": "2021-07-09T10:19:49.641095+00:00", "subtype": "tcp", "config":
+        1430235, "type": "api", "created_at": "2021-07-09T18:32:45.322004+00:00",
+        "modified_at": "2021-07-09T18:32:45.322004+00:00", "subtype": "tcp", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "lessThan", "type": "responseTime", "target": 2000}]}, "options": {"monitor_options":
         {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
@@ -464,7 +464,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 10:19:49 GMT
+      - Fri, 09 Jul 2021 18:32:45 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -482,7 +482,7 @@ interactions:
       x-ratelimit-remaining:
       - '115'
       x-ratelimit-reset:
-      - '11'
+      - '15'
     status:
       code: 200
       message: OK
@@ -513,10 +513,10 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "paused", "public_id": "6yb-h79-g9w", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "wej-5s8-n95", "tags": [], "org_id":
         1000044987, "locations": ["aws:us-west-1"], "message": "", "deleted_at": null,
-        "name": "Browser Test", "monitor_id": 1425629, "type": "browser", "created_at":
-        "2021-07-09T10:19:51.080927+00:00", "modified_at": "2021-07-09T10:19:51.080927+00:00",
+        "name": "Browser Test", "monitor_id": 1430236, "type": "browser", "created_at":
+        "2021-07-09T18:32:45.823033+00:00", "modified_at": "2021-07-09T18:32:45.823033+00:00",
         "config": {"variables": [], "setCookie": "", "request": {"url": "https://docs.datadoghq.com",
         "headers": {}, "method": "GET"}, "assertions": [], "configVariables": []},
         "options": {"retry": {"count": 0, "interval": 300}, "min_location_failed":
@@ -542,7 +542,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 10:19:51 GMT
+      - Fri, 09 Jul 2021 18:32:45 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -560,7 +560,7 @@ interactions:
       x-ratelimit-remaining:
       - '114'
       x-ratelimit-reset:
-      - '10'
+      - '15'
     status:
       code: 200
       message: OK
@@ -593,11 +593,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "avn-7ze-3zq", "tags": ["check_type:api",
+      string: '{"status": "live", "public_id": "w8p-mgi-8ki", "tags": ["check_type:api",
         "env:test", "test:update"], "org_id": 1000044987, "locations": ["aws:sa-east-1"],
         "message": "", "deleted_at": null, "name": "Multistep API Test", "monitor_id":
-        1425630, "type": "api", "created_at": "2021-07-09T10:19:51.586570+00:00",
-        "modified_at": "2021-07-09T10:19:51.586570+00:00", "subtype": "multi", "config":
+        1430237, "type": "api", "created_at": "2021-07-09T18:32:46.200184+00:00",
+        "modified_at": "2021-07-09T18:32:46.200184+00:00", "subtype": "multi", "config":
         {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
         "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
         "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
@@ -624,7 +624,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 09 Jul 2021 10:19:52 GMT
+      - Fri, 09 Jul 2021 18:32:46 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -642,7 +642,7 @@ interactions:
       x-ratelimit-remaining:
       - '113'
       x-ratelimit-reset:
-      - '9'
+      - '14'
     status:
       code: 200
       message: OK

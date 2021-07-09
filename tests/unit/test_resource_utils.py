@@ -223,8 +223,8 @@ def test_get_import_service_level_objectives(str_to_class):
     assert validate_order_list(order_list, resources)
 
 
-def test_get_resources_no_args():
-    result, _ = get_resources(None, "")
+def test_get_resources_no_args(config):
+    result, _ = get_resources(config, "")
     result_resources = [r[0] for r in result.items()]
 
     all_resources = [
@@ -234,8 +234,8 @@ def test_get_resources_no_args():
     assert sorted(result_resources) == sorted(all_resources)
 
 
-def test_get_resources_with_args():
-    result, _ = get_resources(None, "monitors,downtimes,service_level_objectives")
+def test_get_resources_with_args(config):
+    result, _ = get_resources(config, "monitors,downtimes,service_level_objectives")
     result_resources = [r[0] for r in result.items()]
 
     resources_arg = [

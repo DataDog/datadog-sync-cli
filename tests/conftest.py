@@ -10,22 +10,26 @@ from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync import constants
 
 
-def filter_pl_secrets():
-    def before_record_response(response):
-        if "body" not in response or "string" not in response["body"]:
+def filter_private_location_data(response):
+    if "body" not in response or "string" not in response["body"]:
             return response
 
-        resp = json.loads(response["body"]["string"])
+    resp = json.loads(response["body"]["string"])
 
-        if "private_location" in resp:
-            resp["private_location"].pop("secrets", None)
-            if "config" in resp:
-                resp.pop("config", None)
+    if "private_location" in resp:
+        resp["private_location"].pop("secrets", None)
+        if "config" in resp:
+            resp.pop("config", None)
 
-        response["body"]["string"] = str.encode((json.dumps(resp)))
+    response["body"]["string"] = str.encode((json.dumps(resp)))
+    return response
 
+
+def filter_response_data():
+    def before_record_response(response):
+        # add filter functions below
+        response = filter_private_location_data(response)
         return response
-
     return before_record_response
 
 
@@ -36,7 +40,7 @@ def vcr_config():
         filter_query_parameters=("api_key", "application_key"),
         match_on=["method", "scheme", "host", "port", "path", "query", "body"],
         decode_compressed_response=True,
-        before_record_response=filter_pl_secrets(),
+        before_record_response=filter_response_data(),
     )
 
 
