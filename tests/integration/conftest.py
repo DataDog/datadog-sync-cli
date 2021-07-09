@@ -38,7 +38,6 @@ def vcr_config():
         before_record_response=filter_pl_secrets()
     )
 
-
 @pytest.fixture(scope="module")
 def config():
     source_api_url = os.getenv(constants.DD_SOURCE_API_URL)
@@ -64,7 +63,7 @@ def config():
         logger=logging.getLogger(__name__),
         source_client=source_client,
         destination_client=destination_client,
-        max_workers=int(max_workers)
+        max_workers=int(max_workers),
     )
 
     resources = {

@@ -20,7 +20,8 @@ class BaseResource:
 
     def __init__(self, config):
         self.config = config
-        self.logger = config.logger
+        if config:
+            self.logger = config.logger
         self.source_resources = dict()
         self.destination_resources = dict()
         # Load in resources on initialization

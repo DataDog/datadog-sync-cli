@@ -49,7 +49,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 08 Jul 2021 22:52:42 GMT
+      - Fri, 09 Jul 2021 00:11:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -73,9 +73,9 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '999'
+      - '997'
       x-ratelimit-reset:
-      - '8'
+      - '4'
     status:
       code: 200
       message: OK
@@ -103,42 +103,37 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
     body:
-      string: '{"errors": ["Invalid payload: invalid monitor ids: 36230659, 37284891,
-        monitors not found or not supported SLO"]}'
+      string: '{"errors": ["Access was denied to this resource."]}'
     headers:
       Alt-Svc:
       - clear
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '113'
+      - '51'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 08 Jul 2021 22:52:42 GMT
+      - Fri, 09 Jul 2021 00:11:06 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
+      vary:
+      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
-      x-ratelimit-limit:
-      - '500'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '499'
-      x-ratelimit-reset:
-      - '18'
     status:
-      code: 400
-      message: Bad Request
+      code: 403
+      message: Forbidden
 - request:
     body: '{"description": "noueman", "monitor_tags": [], "creator": {"handle": "noueman.khalikine@datadoghq.com",
       "name": "Noueman Khalikine", "email": "noueman.khalikine@datadoghq.com"}, "thresholds":
@@ -163,42 +158,37 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
     body:
-      string: '{"errors": ["Invalid payload: invalid monitor ids: 36553487, monitors
-        not found or not supported SLO"]}'
+      string: '{"errors": ["Access was denied to this resource."]}'
     headers:
       Alt-Svc:
       - clear
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '103'
+      - '51'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 08 Jul 2021 22:52:42 GMT
+      - Fri, 09 Jul 2021 00:11:06 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
+      vary:
+      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
-      x-ratelimit-limit:
-      - '500'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '498'
-      x-ratelimit-reset:
-      - '18'
     status:
-      code: 400
-      message: Bad Request
+      code: 403
+      message: Forbidden
 - request:
     body: '{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags": [],
       "creator": {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine",
@@ -224,42 +214,37 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
     body:
-      string: '{"errors": ["Invalid payload: invalid monitor ids: 37286152, 37286153,
-        36230659, 36239262, 36553487, monitors not found or not supported SLO"]}'
+      string: '{"errors": ["Access was denied to this resource."]}'
     headers:
       Alt-Svc:
       - clear
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '143'
+      - '51'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 08 Jul 2021 22:52:42 GMT
+      - Fri, 09 Jul 2021 00:11:06 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
+      vary:
+      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
-      x-ratelimit-limit:
-      - '500'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '497'
-      x-ratelimit-reset:
-      - '18'
     status:
-      code: 400
-      message: Bad Request
+      code: 403
+      message: Forbidden
 - request:
     body: '{"description": "Test update creation", "monitor_tags": [], "creator":
       {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine", "email":
@@ -285,13 +270,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
     body:
-      string: '{"data": [{"description": "Test update creation", "monitor_tags": [],
-        "creator": {"handle": "frog@datadoghq.com", "name": null, "email": "frog@datadoghq.com"},
-        "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-        "sum:api.requests.status_ok{*}.as_count()"}, "id": "9f077d2bfc2a50bb8bc404c3eac2f3c8",
-        "name": "SLO tessssssst", "created_at": 1625784762, "tags": [], "modified_at":
-        1625784762, "type": "metric"}], "error": null}'
+      string: '{"errors": ["Access was denied to this resource."]}'
     headers:
       Alt-Svc:
       - clear
@@ -302,13 +281,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '497'
+      - '51'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 08 Jul 2021 22:52:42 GMT
+      - Fri, 09 Jul 2021 00:11:06 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -319,17 +298,9 @@ interactions:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
-      x-ratelimit-limit:
-      - '500'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '496'
-      x-ratelimit-reset:
-      - '18'
     status:
-      code: 200
-      message: OK
+      code: 403
+      message: Forbidden
 - request:
     body: '{"description": "Updated Description Test", "monitor_tags": [], "creator":
       {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov", "email":
@@ -354,42 +325,37 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
     body:
-      string: '{"errors": ["Invalid payload: invalid monitor ids: 36230659, 37284891,
-        monitors not found or not supported SLO"]}'
+      string: '{"errors": ["Access was denied to this resource."]}'
     headers:
       Alt-Svc:
       - clear
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '113'
+      - '51'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 08 Jul 2021 22:52:43 GMT
+      - Fri, 09 Jul 2021 00:11:06 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
+      vary:
+      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
-      x-ratelimit-limit:
-      - '500'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '495'
-      x-ratelimit-reset:
-      - '17'
     status:
-      code: 400
-      message: Bad Request
+      code: 403
+      message: Forbidden
 - request:
     body: '{"description": "noueman", "monitor_tags": [], "creator": {"handle": "noueman.khalikine@datadoghq.com",
       "name": "Noueman Khalikine", "email": "noueman.khalikine@datadoghq.com"}, "thresholds":
@@ -414,42 +380,37 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
     body:
-      string: '{"errors": ["Invalid payload: invalid monitor ids: 36553487, monitors
-        not found or not supported SLO"]}'
+      string: '{"errors": ["Access was denied to this resource."]}'
     headers:
       Alt-Svc:
       - clear
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '103'
+      - '51'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 08 Jul 2021 22:52:43 GMT
+      - Fri, 09 Jul 2021 00:11:06 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
+      vary:
+      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
-      x-ratelimit-limit:
-      - '500'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '494'
-      x-ratelimit-reset:
-      - '17'
     status:
-      code: 400
-      message: Bad Request
+      code: 403
+      message: Forbidden
 - request:
     body: '{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags": [],
       "creator": {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine",
@@ -475,40 +436,91 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
     body:
-      string: '{"errors": ["Invalid payload: invalid monitor ids: 37286152, 37286153,
-        36230659, 36239262, 36553487, monitors not found or not supported SLO"]}'
+      string: '{"errors": ["Access was denied to this resource."]}'
     headers:
       Alt-Svc:
       - clear
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 google
       cache-control:
       - no-cache
       content-length:
-      - '143'
+      - '51'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 08 Jul 2021 22:52:43 GMT
+      - Fri, 09 Jul 2021 00:11:06 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
+      vary:
+      - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
-      x-ratelimit-limit:
-      - '500'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '493'
-      x-ratelimit-reset:
-      - '17'
     status:
-      code: 400
-      message: Bad Request
+      code: 403
+      message: Forbidden
+- request:
+    body: '{"description": "Test update creation", "monitor_tags": [], "creator":
+      {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine", "email":
+      "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
+      "99.", "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()",
+      "numerator": "sum:api.requests.status_ok{*}.as_count()"}, "id": "ba72d10835d75e0c8910597144f3733a",
+      "name": "SLO tessssssst", "created_at": 1623658372, "tags": [], "modified_at":
+      1623658372, "type": "metric"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '550'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"errors": ["Access was denied to this resource."]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '51'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 09 Jul 2021 00:11:07 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 403
+      message: Forbidden
 version: 1
