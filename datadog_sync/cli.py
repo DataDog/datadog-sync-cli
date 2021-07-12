@@ -80,7 +80,7 @@ from collections import defaultdict, OrderedDict
 )
 @option("--filter", required=False, help="Filter imported resources.", multiple=True)
 @option(
-    "--skip_failed_resource_connections",
+    "--skip-failed-resource-connections",
     type=bool,
     default=True,
     show_default=True,
