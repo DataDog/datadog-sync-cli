@@ -92,7 +92,10 @@ class BaseResource:
             if resource.get("type") == "synthetics alert":
                 continue
             if self.resource_connections:
-                self.connect_resources(resource, connection_resource_obj)
+                try:
+                    self.connect_resources(resource, connection_resource_obj)
+                except ResourceConnectionError as e:
+                    self.logger.warning(str(e))
 
             if _id in self.destination_resources:
                 diff = self.check_diff(self.destination_resources[_id], resource)
@@ -172,6 +175,7 @@ class BaseResource:
                 except ResourceConnectionError as e:
                     if self.config.skip_failed_resource_connections:
                         self.logger.warning(str(e))
+                        continue
                     else:
                         raise e
 
