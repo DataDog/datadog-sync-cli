@@ -174,10 +174,10 @@ class BaseResource:
                     )
                 except ResourceConnectionError as e:
                     if self.config.skip_failed_resource_connections:
+                        raise e
+                    else:
                         self.logger.warning(str(e))
                         continue
-                    else:
-                        raise e
 
     def filter(self, resource):
         if not self.config.filters or self.resource_type not in self.config.filters:
