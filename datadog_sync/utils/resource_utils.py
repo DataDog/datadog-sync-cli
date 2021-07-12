@@ -13,7 +13,7 @@ class ResourceConnectionError(Exception):
 
 def replace(keys_list, origin, r_obj, resource_to_connect, connection_resources_obj):
     if resource_to_connect not in connection_resources_obj:
-        return
+        raise ResourceConnectionError(resource_to_connect)
 
     if isinstance(r_obj, list):
         for k in r_obj:
@@ -34,66 +34,63 @@ def replace(keys_list, origin, r_obj, resource_to_connect, connection_resources_
 
 
 def replace_ids(key, origin, r_obj, resource_to_connect, connection_resources_obj):
-    if resource_to_connect in connection_resources_obj:
-        if r_obj.get("type") == "composite" and key == "query":
-            ids = re.findall("[0-9]+", r_obj[key])
-            for _id in ids:
-                if _id in connection_resources_obj[resource_to_connect]:
-                    new_id = f"{connection_resources_obj[resource_to_connect][_id]['id']}"
-                    r_obj[key] = re.sub(_id + r"([^#]|$)", new_id + "# ", r_obj[key])
-                else:
-                    raise ResourceConnectionError(resource_to_connect, _id)
+    if r_obj.get("type") == "composite" and key == "query":
+        ids = re.findall("[0-9]+", r_obj[key])
+        for _id in ids:
+            if _id in connection_resources_obj[resource_to_connect]:
+                new_id = f"{connection_resources_obj[resource_to_connect][_id]['id']}"
+                r_obj[key] = re.sub(_id + r"([^#]|$)", new_id + "# ", r_obj[key])
+            else:
+                raise ResourceConnectionError(resource_to_connect, _id)
 
-            r_obj[key] = (r_obj[key].replace("#", "")).strip()
+        r_obj[key] = (r_obj[key].replace("#", "")).strip()
 
-            return
-        if resource_to_connect == "monitors" and key == "query":
-            return
+        return
+    if resource_to_connect == "monitors" and key == "query":
+        return
 
-        if origin == "service_level_objectives" and resource_to_connect == "synthetics_tests":
+    if origin == "service_level_objectives" and resource_to_connect == "synthetics_tests":
+        for i in range(len(r_obj[key])):
+            found = False
+            _id = str(r_obj[key][i])
+            for synthetic_id, val in connection_resources_obj[resource_to_connect].items():
+                if synthetic_id.endswith(_id):
+                    found = True
+                    r_obj[key][i] = val["monitor_id"]
+            if not found:
+                raise ResourceConnectionError(resource_to_connect, _id)
+        return
+
+    if isinstance(r_obj[key], list):
+        # case of monitor-based SLO
+        if r_obj.get("type") == "monitor":
             for i in range(len(r_obj[key])):
-                found = False
                 _id = str(r_obj[key][i])
-                for synthetic_id, val in connection_resources_obj[resource_to_connect].items():
-                    if synthetic_id.endswith(_id):
-                        found = True
-                        r_obj[key][i] = val["monitor_id"]
-                if not found:
-                    raise ResourceConnectionError(resource_to_connect, _id)
-            return
-
-        if isinstance(r_obj[key], list):
-            # case of monitor-based SLO
-            if r_obj.get("type") == "monitor":
-                for i in range(len(r_obj[key])):
-                    _id = str(r_obj[key][i])
-                    if _id in connection_resources_obj[resource_to_connect]:
-                        r_obj[key][i] = connection_resources_obj[resource_to_connect][_id]["id"]
-                    else:
-                        raise ResourceConnectionError(resource_to_connect, _id)
-            else:
-                for i in range(len(r_obj[key])):
-                    _id = r_obj[key][i]
-                    if _id in connection_resources_obj[resource_to_connect]:
-                        r_obj[key][i] = f"{connection_resources_obj[resource_to_connect][_id]['id']}"
-                    else:
-                        raise ResourceConnectionError(resource_to_connect, _id)
-        else:
-            if origin == "downtimes":
-                _id = str(r_obj[key])
                 if _id in connection_resources_obj[resource_to_connect]:
-                    r_obj[key] = connection_resources_obj[resource_to_connect][_id]["id"]
-                elif not r_obj[key]:
-                    return
+                    r_obj[key][i] = connection_resources_obj[resource_to_connect][_id]["id"]
                 else:
                     raise ResourceConnectionError(resource_to_connect, _id)
-            else:
-                if r_obj[key] in connection_resources_obj[resource_to_connect]:
-                    if resource_to_connect == "synthetics_tests":
-                        r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['public_id']}"
-                    else:
-                        r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['id']}"
+        else:
+            for i in range(len(r_obj[key])):
+                _id = r_obj[key][i]
+                if _id in connection_resources_obj[resource_to_connect]:
+                    r_obj[key][i] = f"{connection_resources_obj[resource_to_connect][_id]['id']}"
                 else:
-                    raise ResourceConnectionError(resource_to_connect, r_obj[key])
+                    raise ResourceConnectionError(resource_to_connect, _id)
     else:
-        raise ResourceConnectionError(resource_to_connect)
+        if origin == "downtimes":
+            _id = str(r_obj[key])
+            if _id in connection_resources_obj[resource_to_connect]:
+                r_obj[key] = connection_resources_obj[resource_to_connect][_id]["id"]
+            elif not r_obj[key]:
+                return
+            else:
+                raise ResourceConnectionError(resource_to_connect, _id)
+        else:
+            if r_obj[key] in connection_resources_obj[resource_to_connect]:
+                if resource_to_connect == "synthetics_tests":
+                    r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['public_id']}"
+                else:
+                    r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['id']}"
+            else:
+                raise ResourceConnectionError(resource_to_connect, r_obj[key])

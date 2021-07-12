@@ -7,7 +7,7 @@ from pprint import pformat
 from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
-from datadog_sync.utils.resource_utils import replace, ResourceConnectionError
+from datadog_sync.utils.resource_utils import replace
 
 
 class BaseResource:
@@ -111,8 +111,6 @@ class BaseResource:
         for _id, resource in resources.items():
             try:
                 self.prepare_resource_and_apply(_id, resource, connection_resource_obj, **kwargs)
-            except ResourceConnectionError as e:
-                self.logger.error(str(e))
             except BaseException:
                 self.logger.exception(f"error while applying resource {self.resource_type}")
 
@@ -134,8 +132,6 @@ class BaseResource:
         for future in futures:
             try:
                 future.result()
-            except ResourceConnectionError as e:
-                self.logger.error(str(e))
             except BaseException:
                 self.logger.exception(f"error while applying resource {self.resource_type}")
 
@@ -168,17 +164,7 @@ class BaseResource:
             return
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
-                try:
-                    replace(
-                        attr_connection, self.resource_type, resource, resource_to_connect, connection_resources_obj
-                    )
-                except ResourceConnectionError as e:
-                    if self.config.skip_failed_resource_connections:
-                        self.logger.warning(str(e))
-                        continue
-                    else:
-                        # Bubble up the exception
-                        raise e
+                replace(attr_connection, self.resource_type, resource, resource_to_connect, connection_resources_obj)
 
     def filter(self, resource):
         if not self.config.filters or self.resource_type not in self.config.filters:
