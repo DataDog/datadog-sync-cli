@@ -61,7 +61,7 @@ class Dashboards(BaseResource):
         try:
             resp = destination_client.post(self.base_path, dashboard).json()
         except HTTPError as e:
-            self.logger.error("error updating dashboard: %s", e)
+            self.logger.error("error creating dashboard: %s", e)
             return
         self.destination_resources[_id] = resp
 
@@ -75,6 +75,6 @@ class Dashboards(BaseResource):
                     self.base_path + f"/{self.destination_resources[_id]['id']}", dashboard
                 ).json()
             except HTTPError as e:
-                self.logger.error("error creating dashboard: %s", e)
+                self.logger.error("error updating dashboard: %s", e)
                 return
             self.destination_resources[_id] = resp

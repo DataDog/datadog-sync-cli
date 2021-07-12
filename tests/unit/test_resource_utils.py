@@ -69,7 +69,7 @@ def test_replace_multiple_levels_key_containing_an_array():
 def test_replace_ids_empty_resource():
     r_obj = {}
     with pytest.raises(ResourceConnectionError) as e:
-        replace_ids("key_example", "origin", r_obj, "resource_name", {})
+        replace("key_example", "origin", r_obj, "resource_name", {})
 
     assert "Failed to connect resource. Import and sync resource: resource_name" in str(e.value)
 

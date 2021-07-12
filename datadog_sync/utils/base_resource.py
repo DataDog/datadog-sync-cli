@@ -8,6 +8,7 @@ from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
 from datadog_sync.utils.resource_utils import replace
+from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class BaseResource:
@@ -36,8 +37,8 @@ class BaseResource:
             for future in futures:
                 try:
                     future.result()
-                except BaseException:
-                    self.logger.exception(f"error while importing resource {self.resource_type}")
+                except Exception as e:
+                    self.logger.error(f"error while importing resource {self.resource_type}: {str(e)}")
 
     def get_connection_resources(self):
         connection_resources = {}
@@ -111,8 +112,8 @@ class BaseResource:
         for _id, resource in resources.items():
             try:
                 self.prepare_resource_and_apply(_id, resource, connection_resource_obj, **kwargs)
-            except BaseException:
-                self.logger.exception(f"error while applying resource {self.resource_type}")
+            except Exception as e:
+                self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
 
     def apply_resources_concurrently(self, connection_resource_obj, **kwargs):
         resources = kwargs.get("resources")
@@ -132,8 +133,8 @@ class BaseResource:
         for future in futures:
             try:
                 future.result()
-            except BaseException:
-                self.logger.exception(f"error while applying resource {self.resource_type}")
+            except Exception as e:
+                self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
 
     def open_resources(self):
         source_resources = dict()
@@ -164,7 +165,15 @@ class BaseResource:
             return
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
-                replace(attr_connection, self.resource_type, resource, resource_to_connect, connection_resources_obj)
+                try:
+                    replace(
+                        attr_connection, self.resource_type, resource, resource_to_connect, connection_resources_obj
+                    )
+                except ResourceConnectionError as e:
+                    if self.config.skip_failed_resource_connections:
+                        self.logger.warning(str(e))
+                    else:
+                        raise e
 
     def filter(self, resource):
         if not self.config.filters or self.resource_type not in self.config.filters:
