@@ -71,7 +71,21 @@ def test_replace_ids_empty_resource():
     with pytest.raises(ResourceConnectionError) as e:
         replace_ids("key_example", "origin", r_obj, "resource_name", {})
 
-    assert "missing resource connection" in str(e.value)
+    assert "Failed to connect resource. Import and sync resource: resource_name" in str(e.value)
+
+
+def test_replace_ids_missing_id():
+    r_obj = {"id": "123456"}
+    connection_resources_obj = {
+        "resource_name": {
+            "11111111": {
+                "id": 2222222,
+            },
+        }
+    }
+    with pytest.raises(ResourceConnectionError) as e:
+        replace_ids("id", "origin", r_obj, "resource_name", connection_resources_obj)
+    assert "Failed to connect resource. Import and sync resource: resource_name with ID: 123456" in str(e.value)
 
 
 def test_replace_ids_composite_monitors():

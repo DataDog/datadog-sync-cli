@@ -7,7 +7,7 @@ class ResourceConnectionError(Exception):
         self._id = _id
 
         super(ResourceConnectionError, self).__init__(
-            "Failed to connect resource. Import and sync resource: {} with ID: {}".format(resource_type, _id)
+            f"Failed to connect resource. Import and sync resource: {resource_type} {'with ID: ' + _id if _id else ''}"
         )
 
 
