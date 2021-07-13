@@ -161,7 +161,14 @@ class BaseResource:
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
                 try:
-                    replace(attr_connection, self.resource_type, resource, resource_to_connect, self.config.resources)
+                    replace(
+                        attr_connection,
+                        self.resource_type,
+                        resource,
+                        resource_to_connect,
+                        self.config.resources[resource_to_connect].destination_resources,
+                        self.validate_id_re,
+                    )
                 except ResourceConnectionError as e:
                     if self.config.skip_failed_resource_connections:
                         raise e
@@ -178,8 +185,3 @@ class BaseResource:
                 return True
         # Filter was specified for resource type but resource did not match any
         return False
-
-    def validate_id(self, _id):
-        if self.validate_id_re:
-            return re.match(self.validate_id_re, _id) is not None
-        return True
