@@ -18,7 +18,7 @@ def test_replace_one_level_key():
         },
     }
     r_obj_expected = {"key_example": "2"}
-    replace("key_example", "origin", r_obj, "resource_name", resources)
+    replace("key_example", "origin", r_obj, "resource_name", resources, None)
     assert r_obj == r_obj_expected
 
 
@@ -33,7 +33,7 @@ def test_replace_multiple_levels_key():
 
     r_obj_expected = {"a": {"b": {"c": "2"}}}
 
-    replace("a.b.c", "origin", r_obj, "resource_name", resources)
+    replace("a.b.c", "origin", r_obj, "resource_name", resources, None)
 
     assert r_obj == r_obj_expected
 
@@ -55,17 +55,16 @@ def test_replace_multiple_levels_key_containing_an_array():
 
     r_obj_expected = {"a": {"b": [{"c": "2"}, {"c": "3"}, {"c": "4"}]}}
 
-    replace("a.b.c", "origin", r_obj, "resource_name", resources)
+    replace("a.b.c", "origin", r_obj, "resource_name", resources, None)
 
     assert r_obj == r_obj_expected
 
 
 def test_replace_ids_empty_resource():
     r_obj = {}
-    with pytest.raises(ResourceConnectionError) as e:
-        replace("key_example", "origin", r_obj, "resource_name", {})
-
-    assert "Failed to connect resource. Import and sync resource: resource_name" in str(e.value)
+    r_obj_expected = {}
+    replace("key_example", "origin", r_obj, "resource_name", {}, None)
+    assert r_obj == r_obj_expected
 
 
 def test_replace_ids_missing_id():
@@ -78,7 +77,7 @@ def test_replace_ids_missing_id():
         }
     }
     with pytest.raises(ResourceConnectionError) as e:
-        replace_ids("id", "origin", r_obj, "resource_name", connection_resources_obj)
+        replace_ids("id", "origin", r_obj, "resource_name", connection_resources_obj, None)
     assert "Failed to connect resource. Import and sync resource: resource_name with ID: 123456" in str(e.value)
 
 
@@ -93,7 +92,7 @@ def test_replace_ids_composite_monitors():
         },
     }
     r_obj_expected = {"query": "2222222 && 4444444 || ( !2222222 && !4444444 )", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", resources)
+    replace_ids("query", "origin", r_obj, "monitors", resources, None)
     assert r_obj == r_obj_expected
 
 
@@ -108,7 +107,7 @@ def test_replace_composite_monitors():
         },
     }
     r_obj_expected = {"query": "2222222 && 4444444 || ( !2222222 && !4444444 )", "type": "composite"}
-    replace("query", "origin", r_obj, "monitors", resources)
+    replace("query", "origin", r_obj, "monitors", resources, None)
     assert r_obj == r_obj_expected
 
 
@@ -120,7 +119,7 @@ def test_replace_ids_composite_monitors_with_single_id():
         }
     }
     r_obj_expected = {"query": "2 && 2", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", resources)
+    replace_ids("query", "origin", r_obj, "monitors", resources, None)
     assert r_obj == r_obj_expected
 
     r_obj = {"query": "1", "type": "composite"}
@@ -130,7 +129,7 @@ def test_replace_ids_composite_monitors_with_single_id():
         },
     }
     r_obj_expected = {"query": "2", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", resources)
+    replace_ids("query", "origin", r_obj, "monitors", resources, None)
     assert r_obj == r_obj_expected
 
 
@@ -145,7 +144,7 @@ def test_replace_ids_composite_monitors_with_overlapping_ids():
         },
     }
     r_obj_expected = {"query": "2 && 3 || ( !2 && !3 )", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", resources)
+    replace_ids("query", "origin", r_obj, "monitors", resources, None)
     assert r_obj == r_obj_expected
 
 
