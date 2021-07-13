@@ -19,6 +19,7 @@ class BaseResource:
     resource_filter = None
     excluded_attributes = None
     excluded_attributes_re = None
+    validate_id_re = None
 
     def __init__(self, config):
         self.config = config
@@ -39,18 +40,6 @@ class BaseResource:
                     future.result()
                 except Exception as e:
                     self.logger.error(f"error while importing resource {self.resource_type}: {str(e)}")
-
-    def get_connection_resources(self):
-        connection_resources = {}
-
-        if self.resource_connections:
-            for k in self.resource_connections:
-                if k in self.config.resources:
-                    connection_resources[k] = self.config.resources[k].destination_resources
-                else:
-                    self.logger.warning(f"{k} not found in resource_connections for {self.resource_type}")
-
-        return connection_resources
 
     def process_resource_import(self, *args):
         pass
@@ -86,14 +75,12 @@ class BaseResource:
         )
 
     def check_diffs(self):
-        connection_resource_obj = self.get_connection_resources()
-
         for _id, resource in self.source_resources.items():
             if resource.get("type") == "synthetics alert":
                 continue
             if self.resource_connections:
                 try:
-                    self.connect_resources(resource, connection_resource_obj)
+                    self.connect_resources(resource)
                 except ResourceConnectionError as e:
                     self.logger.warning(str(e))
 
@@ -110,15 +97,15 @@ class BaseResource:
                 k_list = key.split(".")
                 self.del_null_attr(k_list, resource)
 
-    def apply_resources_sequentially(self, connection_resource_obj, **kwargs):
+    def apply_resources_sequentially(self, **kwargs):
         resources = kwargs.get("resources") or self.source_resources
         for _id, resource in resources.items():
             try:
-                self.prepare_resource_and_apply(_id, resource, connection_resource_obj, **kwargs)
+                self.prepare_resource_and_apply(_id, resource, **kwargs)
             except Exception as e:
                 self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
 
-    def apply_resources_concurrently(self, connection_resource_obj, **kwargs):
+    def apply_resources_concurrently(self, **kwargs):
         resources = kwargs.get("resources")
         if resources == None:
             resources = self.source_resources
@@ -128,7 +115,6 @@ class BaseResource:
                     self.prepare_resource_and_apply,
                     _id,
                     resource,
-                    connection_resource_obj,
                     **kwargs,
                 )
                 for _id, resource in resources.items()
@@ -137,7 +123,7 @@ class BaseResource:
             try:
                 future.result()
             except Exception as e:
-                self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
+                self.logger.exception(f"error while applying resource {self.resource_type}: {str(e)}")
 
     def open_resources(self):
         source_resources = dict()
@@ -169,15 +155,13 @@ class BaseResource:
         with open(resource_path, "w") as f:
             json.dump(resources, f, indent=2)
 
-    def connect_resources(self, resource, connection_resources_obj=None):
+    def connect_resources(self, resource):
         if not self.resource_connections:
             return
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
                 try:
-                    replace(
-                        attr_connection, self.resource_type, resource, resource_to_connect, connection_resources_obj
-                    )
+                    replace(attr_connection, self.resource_type, resource, resource_to_connect, self.config.resources)
                 except ResourceConnectionError as e:
                     if self.config.skip_failed_resource_connections:
                         raise e
@@ -194,3 +178,8 @@ class BaseResource:
                 return True
         # Filter was specified for resource type but resource did not match any
         return False
+
+    def validate_id(self, _id):
+        if self.validate_id_re:
+            return re.match(self.validate_id_re, _id) is not None
+        return True

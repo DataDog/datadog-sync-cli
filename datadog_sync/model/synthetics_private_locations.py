@@ -10,7 +10,6 @@ class SyntheticsPrivateLocations(BaseResource):
     resource_connections = None
     base_locations_path = "/api/v1/synthetics/locations"
     base_path = "/api/v1/synthetics/private-locations"
-    pl_id_regex = re.compile("^pl:.*")
     excluded_attributes = [
         "root['id']",
         "root['modifiedAt']",
@@ -19,6 +18,7 @@ class SyntheticsPrivateLocations(BaseResource):
         "root['secrets']",
         "root['config']",
     ]
+    validate_id_re = re.compile("^pl:.*")
 
     def import_resources(self):
         source_client = self.config.source_client
@@ -36,7 +36,7 @@ class SyntheticsPrivateLocations(BaseResource):
             return
 
         source_client = self.config.source_client
-        if self.pl_id_regex.match(synthetics_private_location["id"]):
+        if self.validate_id_re.match(synthetics_private_location["id"]):
             try:
                 pl = source_client.get(self.base_path + f"/{synthetics_private_location['id']}").json()
             except HTTPError as e:
@@ -49,11 +49,10 @@ class SyntheticsPrivateLocations(BaseResource):
             self.source_resources[synthetics_private_location["id"]] = pl
 
     def apply_resources(self):
-        connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(connection_resource_obj)
+        self.apply_resources_concurrently()
 
-    def prepare_resource_and_apply(self, _id, synthetics_private_location, connection_resource_obj):
-        self.connect_resources(synthetics_private_location, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, synthetics_private_location):
+        self.connect_resources(synthetics_private_location)
 
         if _id in self.destination_resources:
             self.update_resource(_id, synthetics_private_location)

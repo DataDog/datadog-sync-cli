@@ -49,15 +49,13 @@ class Monitors(BaseResource):
                 simple_monitors[_id] = monitor
 
         self.logger.info("Processing Simple Monitors")
-        self.apply_resources_concurrently({}, resources=simple_monitors)
+        self.apply_resources_concurrently(resources=simple_monitors)
 
         self.logger.info("Processing Composite Monitors")
-        connection_resource_obj = self.get_connection_resources()
+        self.apply_resources_concurrently(resources=composite_monitors)
 
-        self.apply_resources_concurrently(connection_resource_obj, resources=composite_monitors)
-
-    def prepare_resource_and_apply(self, _id, monitor, connection_resource_obj, **kwargs):
-        self.connect_resources(monitor, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, monitor, **kwargs):
+        self.connect_resources(monitor)
 
         if _id in self.destination_resources:
             self.update_resource(_id, monitor)
