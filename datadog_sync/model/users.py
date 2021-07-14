@@ -45,15 +45,13 @@ class Users(BaseResource):
 
     def apply_resources(self):
         remote_users = self.get_remote_destination_users()
-        connection_resource_obj = self.get_connection_resources()
+        self.apply_resources_concurrently(remote_users=remote_users)
 
-        self.apply_resources_concurrently(connection_resource_obj, remote_users=remote_users)
-
-    def prepare_resource_and_apply(self, _id, user, connection_resource_obj, **kwargs):
+    def prepare_resource_and_apply(self, _id, user, **kwargs):
         destination_client = self.config.destination_client
         remote_users = kwargs.get("remote_users")
 
-        self.connect_resources(user, connection_resource_obj)
+        self.connect_resources(user)
 
         # Create copy
         resource_copy = copy.deepcopy(user)

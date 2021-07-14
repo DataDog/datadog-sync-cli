@@ -42,7 +42,6 @@ class Roles(BaseResource):
         destination_roles_mapping = self.get_destination_roles_mapping()
 
         self.apply_resources_concurrently(
-            {},
             source_permission=source_permission,
             destination_permission=destination_permission,
             source_roles_mapping=source_roles_mapping,

@@ -36,8 +36,8 @@ class BaseResource:
             for future in futures:
                 try:
                     future.result()
-                except BaseException:
-                    self.logger.exception(f"error while importing resource {self.resource_type}")
+                except Exception as e:
+                    self.logger.exception(f"error while importing resource {self.resource_type}: {str(e)}")
 
     def get_connection_resources(self):
         connection_resources = {}
@@ -85,13 +85,11 @@ class BaseResource:
         )
 
     def check_diffs(self):
-        connection_resource_obj = self.get_connection_resources()
-
         for _id, resource in self.source_resources.items():
             if resource.get("type") == "synthetics alert":
                 continue
             if self.resource_connections:
-                self.connect_resources(resource, connection_resource_obj)
+                self.connect_resources(resource)
 
             if _id in self.destination_resources:
                 diff = self.check_diff(self.destination_resources[_id], resource)
@@ -106,15 +104,15 @@ class BaseResource:
                 k_list = key.split(".")
                 self.del_null_attr(k_list, resource)
 
-    def apply_resources_sequentially(self, connection_resource_obj, **kwargs):
+    def apply_resources_sequentially(self, **kwargs):
         resources = kwargs.get("resources") or self.source_resources
         for _id, resource in resources.items():
             try:
-                self.prepare_resource_and_apply(_id, resource, connection_resource_obj, **kwargs)
-            except BaseException:
-                self.logger.exception(f"error while applying resource {self.resource_type}")
+                self.prepare_resource_and_apply(_id, resource, **kwargs)
+            except Exception as e:
+                self.logger.exception(f"error while applying resource {self.resource_type}: {str(e)}")
 
-    def apply_resources_concurrently(self, connection_resource_obj, **kwargs):
+    def apply_resources_concurrently(self, **kwargs):
         resources = kwargs.get("resources")
         if resources == None:
             resources = self.source_resources
@@ -124,7 +122,6 @@ class BaseResource:
                     self.prepare_resource_and_apply,
                     _id,
                     resource,
-                    connection_resource_obj,
                     **kwargs,
                 )
                 for _id, resource in resources.items()
@@ -132,8 +129,8 @@ class BaseResource:
         for future in futures:
             try:
                 future.result()
-            except BaseException:
-                self.logger.exception(f"error while applying resource {self.resource_type}")
+            except Exception as e:
+                self.logger.exception(f"error while applying resource {self.resource_type}: {str(e)}")
 
     def open_resources(self):
         source_resources = dict()
@@ -165,7 +162,7 @@ class BaseResource:
         with open(resource_path, "w") as f:
             json.dump(resources, f, indent=2)
 
-    def connect_resources(self, resource, connection_resources_obj=None):
+    def connect_resources(self, resource):
         if self.resource_connections is None:
             return
 

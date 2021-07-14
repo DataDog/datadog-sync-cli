@@ -34,15 +34,10 @@ class ServiceLevelObjectives(BaseResource):
 
     def apply_resources(self):
         self.logger.info("Processing service_level_objectives")
+        self.apply_resources_concurrently()
 
-        connection_resource_obj = self.get_connection_resources()
-
-        self.apply_resources_concurrently(
-            connection_resource_obj,
-        )
-
-    def prepare_resource_and_apply(self, _id, slo, connection_resource_obj):
-        self.connect_resources(slo, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, slo):
+        self.connect_resources(slo)
 
         if _id in self.destination_resources:
             self.update_resource(_id, slo)

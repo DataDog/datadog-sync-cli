@@ -36,11 +36,9 @@ class SyntheticsGlobalVariables(BaseResource):
         self.source_resources[synthetics_global_variable["id"]] = synthetics_global_variable
 
     def apply_resources(self):
-        connection_resource_obj = self.get_connection_resources()
         destination_global_variables = self.get_destination_global_variables()
 
         self.apply_resources_concurrently(
-            connection_resource_obj,
             destination_global_variables=destination_global_variables,
         )
 
@@ -48,12 +46,11 @@ class SyntheticsGlobalVariables(BaseResource):
         self,
         _id,
         synthetics_global_variable,
-        connection_resource_obj,
         **kwargs,
     ):
         destination_global_variables = kwargs.get("destination_global_variables")
 
-        self.connect_resources(synthetics_global_variable, connection_resource_obj)
+        self.connect_resources(synthetics_global_variable)
 
         if _id in self.destination_resources:
             self.update_resource(_id, synthetics_global_variable)
