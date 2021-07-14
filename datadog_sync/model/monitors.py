@@ -3,6 +3,7 @@ import re
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class Monitors(BaseResource):
@@ -97,4 +98,6 @@ class Monitors(BaseResource):
                 if _id in resources:
                     new_id = f"{resources[_id]['id']}"
                     r_obj[key] = re.sub(_id + r"([^#]|$)", new_id + "# ", r_obj[key])
+                else:
+                    raise ResourceConnectionError(resource_to_connect, _id=_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()

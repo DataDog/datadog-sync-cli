@@ -1,6 +1,7 @@
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class ServiceLevelObjectives(BaseResource):
@@ -78,7 +79,11 @@ class ServiceLevelObjectives(BaseResource):
                 r_obj[key][i] = monitors[_id]["id"]
                 continue
             # Fall back on Synthetics and check
+            found = False
             for k, v in synthetics_tests.items():
                 if k.endswith(_id):
                     r_obj[key][i] = v["monitor_id"]
+                    found = True
                     break
+            if not found:
+                raise ResourceConnectionError(resource_to_connect, _id=_id)

@@ -1,6 +1,7 @@
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class SyntheticsGlobalVariables(BaseResource):
@@ -125,7 +126,11 @@ class SyntheticsGlobalVariables(BaseResource):
 
     def connect_id(self, key, r_obj, resource_to_connect):
         resources = self.config.resources[resource_to_connect].destination_resources
+        found = False
         for k, v in resources.items():
             if k.startswith(r_obj[key]):
                 r_obj[key] = v["public_id"]
+                found = True
                 break
+        if not found:
+            raise ResourceConnectionError(resource_to_connect, _id=r_obj[key])

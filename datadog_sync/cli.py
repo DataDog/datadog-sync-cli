@@ -77,6 +77,13 @@ from collections import defaultdict, OrderedDict
     help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
 )
 @option("--filter", required=False, help="Filter imported resources.", multiple=True)
+@option(
+    "--skip-failed-resource-connections",
+    type=bool,
+    default=True,
+    show_default=True,
+    help="Skip resource if resource connection fails.",
+)
 @click_config_file.configuration_option()
 @pass_context
 def cli(ctx, **kwargs):
@@ -106,9 +113,15 @@ def cli(ctx, **kwargs):
     source_client = CustomClient(source_api_url, source_auth, retry_timeout)
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
+    skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
+
     # Initialize Configuration
     config = Configuration(
-        logger=logger, source_client=source_client, destination_client=destination_client, filters=filters
+        logger=logger,
+        source_client=source_client,
+        destination_client=destination_client,
+        filters=filters,
+        skip_failed_resource_connections=skip_failed_resource_connections,
     )
     ctx.obj["config"] = config
 

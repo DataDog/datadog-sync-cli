@@ -3,6 +3,7 @@ import re
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class SyntheticsTests(BaseResource):
@@ -82,3 +83,5 @@ class SyntheticsTests(BaseResource):
             if pl.pl_id_regex.match(r_obj[key][i]):
                 if r_obj[key][i] in resources:
                     r_obj[key][i] = resources[r_obj[key][i]]["id"]
+                else:
+                    raise ResourceConnectionError(resource_to_connect, _id=r_obj[key][i])

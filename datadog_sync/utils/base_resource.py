@@ -7,7 +7,7 @@ from pprint import pformat
 from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
-from datadog_sync.utils.resource_utils import find_attr
+from datadog_sync.utils.resource_utils import find_attr, ResourceConnectionError
 
 
 class BaseResource:
@@ -37,7 +37,7 @@ class BaseResource:
                 try:
                     future.result()
                 except Exception as e:
-                    self.logger.exception(f"error while importing resource {self.resource_type}: {str(e)}")
+                    self.logger.error(f"error while importing resource {self.resource_type}: {str(e)}")
 
     def get_connection_resources(self):
         connection_resources = {}
@@ -110,7 +110,7 @@ class BaseResource:
             try:
                 self.prepare_resource_and_apply(_id, resource, **kwargs)
             except Exception as e:
-                self.logger.exception(f"error while applying resource {self.resource_type}: {str(e)}")
+                self.logger.error.logger.exception(f"error while applying resource {self.resource_type}: {str(e)}")
 
     def apply_resources_concurrently(self, **kwargs):
         resources = kwargs.get("resources")
@@ -130,7 +130,7 @@ class BaseResource:
             try:
                 future.result()
             except Exception as e:
-                self.logger.exception(f"error while applying resource {self.resource_type}: {str(e)}")
+                self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
 
     def open_resources(self):
         source_resources = dict()
@@ -168,7 +168,13 @@ class BaseResource:
 
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
-                find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                try:
+                    find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                except ResourceConnectionError as e:
+                    if self.config.skip_failed_resource_connections:
+                        self.logger.warning(str(e))
+                    else:
+                        raise e
 
     def connect_id(self, key, r_obj, resource_to_connect):
         resources = self.config.resources[resource_to_connect].destination_resources
@@ -176,6 +182,8 @@ class BaseResource:
         if _id in resources:
             type_attr = type(r_obj[key])
             r_obj[key] = type_attr(resources[_id]["id"])
+        else:
+            raise ResourceConnectionError(resource_to_connect, _id=_id)
 
     def filter(self, resource):
         if not self.config.filters or self.resource_type not in self.config.filters:
