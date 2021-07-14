@@ -1,3 +1,5 @@
+import re
+
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -87,3 +89,14 @@ class Monitors(BaseResource):
                 self.logger.error("error creating monitor: %s", e.response.text)
                 return
             self.destination_resources[_id] = resp
+
+    def connect_id(self, key, r_obj, resource_to_connect):
+        resources = self.config.resources[resource_to_connect].destination_resources
+
+        if r_obj.get("type") == "composite" and key == "query":
+            ids = re.findall("[0-9]+", r_obj[key])
+            for _id in ids:
+                if _id in resources:
+                    new_id = f"{resources[_id]['id']}"
+                    r_obj[key] = re.sub(_id + r"([^#]|$)", new_id + "# ", r_obj[key])
+            r_obj[key] = (r_obj[key].replace("#", "")).strip()

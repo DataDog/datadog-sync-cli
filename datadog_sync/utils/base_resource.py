@@ -7,7 +7,7 @@ from pprint import pformat
 from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
-from datadog_sync.utils.resource_utils import replace
+from datadog_sync.utils.resource_utils import find_attr
 
 
 class BaseResource:
@@ -166,11 +166,19 @@ class BaseResource:
             json.dump(resources, f, indent=2)
 
     def connect_resources(self, resource, connection_resources_obj=None):
-        if not (connection_resources_obj or self.resource_connections):
+        if self.resource_connections is None:
             return
+
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
-                replace(attr_connection, self.resource_type, resource, resource_to_connect, connection_resources_obj)
+                find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+
+    def connect_id(self, key, r_obj, resource_to_connect):
+        resources = self.config.resources[resource_to_connect].destination_resources
+        if str(r_obj[key]) not in resources:
+            raise
+
+        r_obj[key] = resources[str(r_obj[key])]["id"]
 
     def filter(self, resource):
         if not self.config.filters or self.resource_type not in self.config.filters:

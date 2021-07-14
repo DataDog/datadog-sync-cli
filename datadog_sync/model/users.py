@@ -11,7 +11,7 @@ class Users(BaseResource):
     resource_connections = {"roles": ["relationships.roles.data.id"]}
     base_path = "/api/v2/users"
     roles_path = "/api/v2/roles/{}/users"
-    get_users_filter = {"filter[status]": "active"}
+    get_users_filter = {"filter[status]": "Active,Pending"}
     excluded_attributes = [
         "root['id']",
         "root['attributes']['created_at']",
@@ -151,7 +151,7 @@ class Users(BaseResource):
         destination_client = self.config.destination_client
 
         try:
-            remote_users = paginated_request(destination_client.get)(self.base_path, params=self.get_users_filter)
+            remote_users = paginated_request(destination_client.get)(self.base_path)
         except HTTPError as e:
             self.logger.error("error retrieving remote users: %s", e)
             return

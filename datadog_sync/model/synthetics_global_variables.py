@@ -125,3 +125,15 @@ class SyntheticsGlobalVariables(BaseResource):
             destination_global_variable_obj[variable["name"]] = variable
 
         return destination_global_variable_obj
+
+    def connect_id(self, key, r_obj, resource_to_connect):
+        resources = self.config.resources[resource_to_connect].destination_resources
+        found = False
+        for k, v in resources.items():
+            if k.startswith(r_obj[key]):
+                r_obj[key] = v["public_id"]
+                found = True
+                break
+
+        if not found:
+            raise

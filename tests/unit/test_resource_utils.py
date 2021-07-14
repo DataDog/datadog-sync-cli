@@ -20,7 +20,7 @@ def test_replace_one_level_key():
         }
     }
     r_obj_expected = {"key_example": "2"}
-    replace("key_example", "origin", r_obj, "resource_name", connection_resources_obj)
+    replace("key_example", "origin", r_obj, "resource_name")
     assert r_obj == r_obj_expected
 
 
@@ -37,7 +37,7 @@ def test_replace_multiple_levels_key():
 
     r_obj_expected = {"a": {"b": {"c": "2"}}}
 
-    replace("a.b.c", "origin", r_obj, "resource_name", connection_resources_obj)
+    replace("a.b.c", "origin", r_obj, "resource_name")
 
     assert r_obj == r_obj_expected
 
@@ -61,7 +61,7 @@ def test_replace_multiple_levels_key_containing_an_array():
 
     r_obj_expected = {"a": {"b": [{"c": "2"}, {"c": "3"}, {"c": "4"}]}}
 
-    replace("a.b.c", "origin", r_obj, "resource_name", connection_resources_obj)
+    replace("a.b.c", "origin", r_obj, "resource_name")
 
     assert r_obj == r_obj_expected
 
@@ -86,7 +86,7 @@ def test_replace_ids_composite_monitors():
         }
     }
     r_obj_expected = {"query": "2222222 && 4444444 || ( !2222222 && !4444444 )", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", connection_resources_obj)
+    replace_ids("query", "origin", r_obj, "monitors")
     assert r_obj == r_obj_expected
 
 
@@ -103,7 +103,7 @@ def test_replace_composite_monitors():
         }
     }
     r_obj_expected = {"query": "2222222 && 4444444 || ( !2222222 && !4444444 )", "type": "composite"}
-    replace("query", "origin", r_obj, "monitors", connection_resources_obj)
+    replace("query", "origin", r_obj, "monitors")
     assert r_obj == r_obj_expected
 
 
@@ -117,7 +117,7 @@ def test_replace_ids_composite_monitors_with_single_id():
         }
     }
     r_obj_expected = {"query": "2 && 2", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", connection_resources_obj)
+    replace_ids("query", "origin", r_obj, "monitors")
     assert r_obj == r_obj_expected
 
     r_obj = {"query": "1", "type": "composite"}
@@ -129,7 +129,7 @@ def test_replace_ids_composite_monitors_with_single_id():
         }
     }
     r_obj_expected = {"query": "2", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", connection_resources_obj)
+    replace_ids("query", "origin", r_obj, "monitors")
     assert r_obj == r_obj_expected
 
 
@@ -146,7 +146,7 @@ def test_replace_ids_composite_monitors_with_overlapping_ids():
         }
     }
     r_obj_expected = {"query": "2 && 3 || ( !2 && !3 )", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", connection_resources_obj)
+    replace_ids("query", "origin", r_obj, "monitors")
     assert r_obj == r_obj_expected
 
 
