@@ -83,11 +83,7 @@ class ServiceLevelObjectives(BaseResource):
                 r_obj[key][i] = monitors[_id]["id"]
                 continue
             # Fall back on Synthetics and check
-            found = False
             for k, v in synthetics_tests.items():
                 if k.endswith(_id):
                     r_obj[key][i] = v["monitor_id"]
-                    found = True
                     break
-            if not found:
-                raise

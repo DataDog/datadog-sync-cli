@@ -175,9 +175,6 @@ class BaseResource:
 
     def connect_id(self, key, r_obj, resource_to_connect):
         resources = self.config.resources[resource_to_connect].destination_resources
-        if str(r_obj[key]) not in resources:
-            raise
-
         r_obj[key] = resources[str(r_obj[key])]["id"]
 
     def filter(self, resource):
