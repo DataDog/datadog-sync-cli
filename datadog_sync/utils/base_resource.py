@@ -172,7 +172,10 @@ class BaseResource:
 
     def connect_id(self, key, r_obj, resource_to_connect):
         resources = self.config.resources[resource_to_connect].destination_resources
-        r_obj[key] = resources[str(r_obj[key])]["id"]
+        _id = str(r_obj[key])
+        if _id in resources:
+            type_attr = type(r_obj[key])
+            r_obj[key] = type_attr(resources[_id]["id"])
 
     def filter(self, resource):
         if not self.config.filters or self.resource_type not in self.config.filters:
