@@ -35,7 +35,7 @@ def request_with_retry(func):
                         raise e
                     time.sleep(sleep_duration)
                     continue
-                elif status_code >= 500:
+                elif status_code >= 500 or status_code == 429:
                     sleep_duration = retry_count * default_backoff
                     if (sleep_duration + time.time()) > timeout:
                         log.debug("retry timeout has or will exceed timeout duration")

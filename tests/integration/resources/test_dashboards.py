@@ -1,6 +1,6 @@
-from tests.integration.helpers import BaseResourceTestClass
+from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import Dashboards
 
 
-class TestDashboardsResource(BaseResourceTestClass):
+class TestDashboardsResources(BaseResourcesTestClass):
     resource_type = Dashboards.resource_type
