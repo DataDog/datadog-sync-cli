@@ -39,7 +39,7 @@ class Downtimes(BaseResource):
         self.apply_resources_concurrently()
 
     def prepare_resource_and_apply(self, _id, downtime):
-        self.connect_resources(downtime)
+        self.connect_resources(_id, downtime)
 
         if _id in self.destination_resources:
             self.update_resource(_id, downtime)

@@ -58,7 +58,7 @@ class Monitors(BaseResource):
         self.apply_resources_concurrently(resources=composite_monitors)
 
     def prepare_resource_and_apply(self, _id, monitor, **kwargs):
-        self.connect_resources(monitor)
+        self.connect_resources(_id, monitor)
 
         if _id in self.destination_resources:
             self.update_resource(_id, monitor)

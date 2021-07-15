@@ -51,7 +51,7 @@ class SyntheticsGlobalVariables(BaseResource):
     ):
         destination_global_variables = kwargs.get("destination_global_variables")
 
-        self.connect_resources(synthetics_global_variable)
+        self.connect_resources(_id, synthetics_global_variable)
 
         if _id in self.destination_resources:
             self.update_resource(_id, synthetics_global_variable)
