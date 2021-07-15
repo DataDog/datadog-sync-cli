@@ -34,10 +34,10 @@ jobs:
             - name: Install datadog-sync-cli
               run: pip install .\[tests\]
             - name: Run unit tests
-              run: python -m pytest -rP -v -m "not integration"
+              run: python -m pytest -ra -v -m "not integration"
             - name: Run integration tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
-              run: python -m pytest -rP -v -m "integration"
+              run: python -m pytest -ra -v -m "integration"
             - name: Cleanup
               if: always() && contains(github.event.pull_request.labels.*.name, 'ci/integration')
               run: python ./scripts/cleanup_org.py
