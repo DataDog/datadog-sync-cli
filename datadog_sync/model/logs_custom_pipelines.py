@@ -36,7 +36,7 @@ class LogsCustomPipelines(BaseResource):
         self.apply_resources_sequentially()
 
     def prepare_resource_and_apply(self, _id, logs_custom_pipeline):
-        self.connect_resources(logs_custom_pipeline)
+        self.connect_resources(_id, logs_custom_pipeline)
 
         if _id in self.destination_resources:
             self.update_resource(_id, logs_custom_pipeline)

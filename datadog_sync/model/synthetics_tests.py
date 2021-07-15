@@ -42,7 +42,7 @@ class SyntheticsTests(BaseResource):
 
     def prepare_resource_and_apply(self, _id, synthetics_test):
         if self.resource_connections:
-            self.connect_resources(synthetics_test)
+            self.connect_resources(_id, synthetics_test)
 
         if _id in self.destination_resources:
             self.update_resource(_id, synthetics_test)

@@ -86,10 +86,10 @@ class BaseResource:
 
     def check_diffs(self):
         for _id, resource in self.source_resources.items():
-            if resource.get("type") == "synthetics alert":
+            try:
+                self.connect_resources(_id, resource)
+            except ResourceConnectionError:
                 continue
-            if self.resource_connections:
-                self.connect_resources(resource)
 
             if _id in self.destination_resources:
                 diff = self.check_diff(self.destination_resources[_id], resource)
@@ -109,6 +109,9 @@ class BaseResource:
         for _id, resource in resources.items():
             try:
                 self.prepare_resource_and_apply(_id, resource, **kwargs)
+            except ResourceConnectionError:
+                # This should already be handled in connect_resource method
+                continue
             except Exception as e:
                 self.logger.error.logger.exception(f"error while applying resource {self.resource_type}: {str(e)}")
 
@@ -129,6 +132,9 @@ class BaseResource:
         for future in futures:
             try:
                 future.result()
+            except ResourceConnectionError:
+                # This should already be handled in connect_resource method
+                continue
             except Exception as e:
                 self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
 
@@ -162,7 +168,7 @@ class BaseResource:
         with open(resource_path, "w") as f:
             json.dump(resources, f, indent=2)
 
-    def connect_resources(self, resource):
+    def connect_resources(self, _id, resource):
         if self.resource_connections is None:
             return
 
@@ -172,9 +178,11 @@ class BaseResource:
                     find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
                 except ResourceConnectionError as e:
                     if self.config.skip_failed_resource_connections:
-                        self.logger.warning(str(e))
-                    else:
+                        self.logger.warning(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
                         raise e
+                    else:
+                        self.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
+                        continue
 
     def connect_id(self, key, r_obj, resource_to_connect):
         resources = self.config.resources[resource_to_connect].destination_resources
