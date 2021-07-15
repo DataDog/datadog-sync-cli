@@ -4,3 +4,4 @@ from datadog_sync.models import ServiceLevelObjectives
 
 class TestServiceLevelObjectivesResources(BaseResourcesTestClass):
     resource_type = ServiceLevelObjectives.resource_type
+    field_to_update = "description"

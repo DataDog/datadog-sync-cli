@@ -12,11 +12,11 @@ class Users(BaseResource):
     base_path = "/api/v2/users"
     roles_path = "/api/v2/roles/{}/users"
     get_users_filter = {"filter[status]": "Active,Pending"}
+    non_nullable_attr = ["attributes.name"]
     excluded_attributes = [
         "root['id']",
         "root['attributes']['created_at']",
         "root['attributes']['title']",
-        "root['attributes']['name']",
         "root['attributes']['status']",
         "root['attributes']['verified']",
         "root['attributes']['service_account']",
@@ -65,6 +65,7 @@ class Users(BaseResource):
             if diff:
                 self.update_user_roles(remote_user["id"], diff)
                 self.remove_excluded_attr(resource_copy)
+                self.remove_non_nullable_attributes(resource_copy)
                 resource_copy.pop("relationships", None)
                 resource_copy["id"] = remote_user["id"]
                 try:
@@ -80,6 +81,7 @@ class Users(BaseResource):
 
     def create_resource(self, _id, user):
         destination_client = self.config.destination_client
+        self.remove_non_nullable_attributes(user)
         self.remove_excluded_attr(user)
         user["attributes"].pop("disabled", None)
 
@@ -94,6 +96,7 @@ class Users(BaseResource):
     def update_resource(self, _id, user):
         destination_client = self.config.destination_client
         self.remove_excluded_attr(user)
+        self.remove_non_nullable_attributes(user)
 
         diff = self.check_diff(self.destination_resources[_id], user)
         if diff:

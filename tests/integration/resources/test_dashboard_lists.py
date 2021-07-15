@@ -4,3 +4,4 @@ from datadog_sync.models import DashboardLists
 
 class TestDashboardListsResources(BaseResourcesTestClass):
     resource_type = DashboardLists.resource_type
+    field_to_update = "name"

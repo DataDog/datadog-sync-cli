@@ -14,7 +14,7 @@ RESOURCE_SKIPPED_RE = re.compile("Skipping resource")
 @pytest.mark.integration
 class BaseResourcesTestClass:
     resource_type = None
-    resource_filter = None
+    field_to_update = None
 
     @pytest.fixture(autouse=True, scope="class")
     def setup(self, tmpdir_factory):
@@ -47,16 +47,49 @@ class BaseResourcesTestClass:
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(ret.stderr))
         source_resources, destination_resources = open_resources(self.resource_type)
 
-        assert len(source_resources) == len(destination_resources) + num_resources_skipped
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+
+    def test_resource_update_sync(self, script_runner):
+        source_resources, _ = open_resources(self.resource_type)
+
+        # update fields and save the file.
+        for resource in source_resources.values():
+            resource[self.field_to_update] = str(resource[self.field_to_update]) + "+ updated"
+        save_source_resources(self.resource_type, source_resources)
+
+        # assert diff is produced
+        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "diffs")
+        assert ret.stdout
+        assert ret.success
+
+        # sync the updated resources
+        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "sync")
+        assert ret.success
+
+        # assert diff is no longer produced
+        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "diffs")
+        assert ret.success
+        assert not ret.stdout
+
+        # Assert number of synced and imported resources match
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(ret.stderr))
+        source_resources, destination_resources = open_resources(self.resource_type)
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     def test_no_resource_diffs(self, script_runner):
-        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "sync")
+        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "diffs")
         assert not ret.stdout
         assert ret.success
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(ret.stderr))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == len(destination_resources) + num_resources_skipped
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+
+
+def save_source_resources(resource_type, resources):
+    source_path = RESOURCE_FILE_PATH.format("source", resource_type)
+    with open(source_path, "w") as f:
+        json.dump(resources, f, indent=2)
 
 
 def open_resources(resource_type):
