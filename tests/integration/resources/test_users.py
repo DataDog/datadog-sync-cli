@@ -9,6 +9,6 @@ class TestUsersResources(BaseResourcesTestClass):
     field_to_update = "name"
 
     # FIXME: reintroduce after nested attribute update support
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="nested attribute update is not currently supported in tests")
     def test_resource_update_sync(self):
         pass
