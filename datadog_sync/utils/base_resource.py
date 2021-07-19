@@ -163,7 +163,7 @@ class BaseResource:
             json.dump(resources, f, indent=2)
 
     def connect_resources(self, resource):
-        if self.resource_connections is None:
+        if not self.resource_connections:
             return
 
         for resource_to_connect, v in self.resource_connections.items():
