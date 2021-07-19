@@ -113,7 +113,7 @@ class BaseResource:
                 # This should already be handled in connect_resource method
                 continue
             except Exception as e:
-                self.logger.error.logger.exception(f"error while applying resource {self.resource_type}: {str(e)}")
+                self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
 
     def apply_resources_concurrently(self, **kwargs):
         resources = kwargs.get("resources")
