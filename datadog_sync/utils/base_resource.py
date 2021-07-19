@@ -39,18 +39,6 @@ class BaseResource:
                 except Exception as e:
                     self.logger.exception(f"error while importing resource {self.resource_type}: {str(e)}")
 
-    def get_connection_resources(self):
-        connection_resources = {}
-
-        if self.resource_connections:
-            for k in self.resource_connections:
-                if k in self.config.resources:
-                    connection_resources[k] = self.config.resources[k].destination_resources
-                else:
-                    self.logger.warning(f"{k} not found in resource_connections for {self.resource_type}")
-
-        return connection_resources
-
     def process_resource_import(self, *args):
         pass
 
