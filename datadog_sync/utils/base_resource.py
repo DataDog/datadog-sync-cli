@@ -113,7 +113,7 @@ class BaseResource:
                 # This should already be handled in connect_resource method
                 continue
             except Exception as e:
-                self.logger.error.logger.exception(f"error while applying resource {self.resource_type}: {str(e)}")
+                self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
 
     def apply_resources_concurrently(self, **kwargs):
         resources = kwargs.get("resources")
@@ -169,7 +169,7 @@ class BaseResource:
             json.dump(resources, f, indent=2)
 
     def connect_resources(self, _id, resource):
-        if self.resource_connections is None:
+        if not self.resource_connections:
             return
 
         for resource_to_connect, v in self.resource_connections.items():
