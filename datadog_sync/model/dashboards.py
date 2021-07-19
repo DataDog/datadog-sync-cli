@@ -49,6 +49,7 @@ class Dashboards(BaseResource):
 
     def prepare_resource_and_apply(self, _id, dashboard, connection_resource_obj):
         self.connect_resources(dashboard, connection_resource_obj)
+        self.remove_excluded_attr(dashboard)
 
         if _id in self.destination_resources:
             self.update_resource(_id, dashboard)
