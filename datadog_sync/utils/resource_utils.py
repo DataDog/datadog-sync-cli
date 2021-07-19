@@ -1,6 +1,4 @@
 import re
-from concurrent.futures import ThreadPoolExecutor
-
 
 def replace(keys_list, origin, r_obj, resource_to_connect, connection_resources_obj):
     if resource_to_connect not in connection_resources_obj:

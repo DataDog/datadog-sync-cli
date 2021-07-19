@@ -1,3 +1,4 @@
+from json.decoder import JSONDecodeError
 import pytest
 import os
 import logging
@@ -13,7 +14,10 @@ def filter_private_location_data(response):
     if "body" not in response or "string" not in response["body"]:
         return response
 
-    resp = json.loads(response["body"]["string"])
+    try:
+        resp = json.loads(response["body"]["string"])
+    except JSONDecodeError:
+        return
 
     if "private_location" in resp:
         resp["private_location"].pop("secrets", None)
