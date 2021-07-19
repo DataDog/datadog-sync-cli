@@ -72,8 +72,8 @@ class ServiceLevelObjectives(BaseResource):
         monitors = self.config.resources["monitors"].destination_resources
         synthetics_tests = self.config.resources["synthetics_tests"].destination_resources
 
-        for i in range(len(r_obj[key])):
-            _id = str(r_obj[key][i])
+        for i, obj in enumerate(r_obj[key]):
+            _id = str(obj)
             # Check if resource exists in monitors
             if _id in monitors:
                 r_obj[key][i] = monitors[_id]["id"]
