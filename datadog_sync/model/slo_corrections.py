@@ -7,7 +7,7 @@ class SLOCorrections(BaseResource):
     resource_type = "slo_corrections"
     resource_connections = {"service_level_objectives": ["attributes.slo_id"]}
     base_path = "/api/v1/slo/correction"
-    excluded_attributes = ["root['id']", "root['attributes']['slo_id']", "root['attributes']['creator']"]
+    excluded_attributes = ["root['id']", "root['attributes']['creator']"]
 
     def import_resources(self):
         source_client = self.config.source_client
