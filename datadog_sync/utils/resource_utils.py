@@ -59,8 +59,12 @@ def replace_ids(key, origin, r_obj, resource_to_connect, connection_resources_ob
                 if _id in connection_resources_obj[resource_to_connect]:
                     r_obj[key] = connection_resources_obj[resource_to_connect][_id]["id"]
             else:
-                if r_obj[key] in connection_resources_obj[resource_to_connect]:
-                    if resource_to_connect == "synthetics_tests":
-                        r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['public_id']}"
-                    else:
-                        r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['id']}"
+                if resource_to_connect == "synthetics_tests":
+                    if not r_obj[key]:
+                        return
+                    for k, v in connection_resources_obj[resource_to_connect].items():
+                        if k.startswith(r_obj[key]):
+                            r_obj[key] = f"{v['public_id']}"
+                            return
+                elif r_obj[key] in connection_resources_obj[resource_to_connect]:
+                    r_obj[key] = f"{connection_resources_obj[resource_to_connect][r_obj[key]]['id']}"
