@@ -78,7 +78,7 @@ class SyntheticsTests(BaseResource):
         pl = self.config.resources["synthetics_private_locations"]
         resources = self.config.resources[resource_to_connect].destination_resources
 
-        for i in range(len(r_obj[key])):
+        for i, obj in enumerate(r_obj[key]):
             if pl.pl_id_regex.match(r_obj[key][i]):
                 if r_obj[key][i] in resources:
                     r_obj[key][i] = resources[r_obj[key][i]]["id"]
