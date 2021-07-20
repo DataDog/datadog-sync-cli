@@ -60,7 +60,7 @@ class SLOCorrections(BaseResource):
         diff = self.check_diff(slo_correction, self.destination_resources[_id])
         if diff:
             try:
-                payload = {"data": {"attributes": slo_correction["attributes"], "type": "correction"}}
+                payload = {"data": slo_correction}
                 resp = destination_client.patch(
                     self.base_path + f"/{self.destination_resources[_id]['id']}", payload
                 ).json()
