@@ -1,8 +1,9 @@
 import pytest
 
+from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.resource_utils import replace, replace_ids
 from datadog_sync import models
-from datadog_sync.cli import get_import_order
+from datadog_sync.cli import get_import_order, get_resources
 
 
 @pytest.fixture(scope="class")
@@ -220,3 +221,30 @@ def test_get_import_service_level_objectives(str_to_class):
     order_list = get_import_order(resources, str_to_class)
 
     assert validate_order_list(order_list, resources)
+
+
+def test_get_resources_no_args(config):
+    result, _ = get_resources(config, "")
+    result_resources = [r[0] for r in result.items()]
+
+    all_resources = [
+        cls.resource_type for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
+    ]
+
+    assert sorted(result_resources) == sorted(all_resources)
+
+
+def test_get_resources_with_args(config):
+    result, _ = get_resources(config, "monitors,downtimes,service_level_objectives")
+    result_resources = [r[0] for r in result.items()]
+
+    resources_arg = [
+        "roles",
+        "synthetics_private_locations",
+        "synthetics_tests",
+        "monitors",
+        "downtimes",
+        "service_level_objectives",
+    ]
+
+    assert sorted(result_resources) == sorted(resources_arg)

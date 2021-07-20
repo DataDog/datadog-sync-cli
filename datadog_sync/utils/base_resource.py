@@ -1,13 +1,12 @@
 import os
 import json
 import re
-from concurrent.futures import ThreadPoolExecutor
 from pprint import pformat
 
 from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
-from datadog_sync.utils.resource_utils import replace
+from datadog_sync.utils.resource_utils import replace, thread_pool_executor
 
 
 class BaseResource:
@@ -31,7 +30,7 @@ class BaseResource:
         pass
 
     def import_resources_concurrently(self, resources):
-        with ThreadPoolExecutor() as executor:
+        with thread_pool_executor(self.config.max_workers) as executor:
             futures = [executor.submit(self.process_resource_import, resource) for resource in resources]
             for future in futures:
                 try:
@@ -118,7 +117,7 @@ class BaseResource:
         resources = kwargs.get("resources")
         if resources == None:
             resources = self.source_resources
-        with ThreadPoolExecutor() as executor:
+        with thread_pool_executor(self.config.max_workers) as executor:
             futures = [
                 executor.submit(
                     self.prepare_resource_and_apply,
