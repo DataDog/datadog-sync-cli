@@ -1,0 +1,72 @@
+interactions:
+- request:
+    body: '{"description": "Test update creation", "monitor_tags": [], "creator":
+      {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine", "email":
+      "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
+      "99.", "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()",
+      "numerator": "sum:api.requests.status_ok{*}.as_count()"}, "id": "ba72d10835d75e0c8910597144f3733a",
+      "name": "SLO test", "created_at": 1623658372, "tags": [], "modified_at": 1626358963,
+      "type": "metric"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '544'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"data": [{"description": "Test update creation", "monitor_tags": [],
+        "creator": {"handle": "frog@datadoghq.com", "name": null, "email": "frog@datadoghq.com"},
+        "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
+        "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "06e6ee0ac54052e38c2ff924822e2900",
+        "name": "SLO test", "created_at": 1626807209, "tags": [], "modified_at": 1626807209,
+        "type": "metric"}], "error": null}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '491'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Tue, 20 Jul 2021 18:53:29 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '499'
+      x-ratelimit-reset:
+      - '31'
+    status:
+      code: 200
+      message: OK
+version: 1

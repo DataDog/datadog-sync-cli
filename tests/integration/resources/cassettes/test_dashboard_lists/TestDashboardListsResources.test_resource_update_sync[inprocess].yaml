@@ -1,0 +1,55 @@
+interactions:
+- request:
+    body: '{"name": "Empty Test List+ updated"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '36'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual/10405
+  response:
+    body:
+      string: '{"is_favorite": false, "name": "Empty Test List+ updated", "dashboard_count":
+        0, "author": {"handle": "frog@datadoghq.com", "name": null}, "created": "2021-07-20T18:52:16.969543+00:00",
+        "type": "manual_dashboard_list", "dashboards": null, "modified": "2021-07-20T18:52:17.571631+00:00",
+        "id": 10405}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '279'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Tue, 20 Jul 2021 18:52:17 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,0 +1,253 @@
+interactions:
+- request:
+    body: '{"notify_list": [], "description": "Created using the Datadog provider
+      in Terraform", "template_variable_presets": [{"template_variables": [{"name":
+      "var_1", "value": "host.dc"}, {"name": "var_2", "value": "my_service"}], "name":
+      "preset_1"}], "template_variables": [{"default": "aws", "prefix": "host", "name":
+      "var_1"}, {"default": "autoscaling", "prefix": "service_name", "name": "var_2"}],
+      "is_read_only": false, "title": "Test screenboard", "widgets": [{"definition":
+      {"title_size": "16", "title": "Widget Title", "title_align": "left", "time":
+      {"live_span": "1h"}, "query": "*", "type": "event_stream", "event_size": "l"},
+      "layout": {"y": 5, "x": 5, "height": 43, "width": 32}, "id": 4066667513687323},
+      {"definition": {"title_size": "16", "title": "Widget Title", "title_align":
+      "left", "time": {"live_span": "1h"}, "query": "*", "type": "event_timeline"},
+      "layout": {"y": 73, "x": 42, "height": 9, "width": 65}, "id": 68713679518613},
+      {"definition": {"color": "#d00", "text": "free text content", "type": "free_text",
+      "font_size": "88", "text_align": "left"}, "layout": {"y": 5, "x": 42, "height":
+      20, "width": 30}, "id": 1117617615518455}, {"definition": {"url": "http://google.com",
+      "type": "iframe"}, "layout": {"y": 8, "x": 111, "height": 46, "width": 39},
+      "id": 3098118775539428}, {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
+      "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
+      77, "height": 20, "width": 30}, "id": 651713243056399}, {"definition": {"logset":
+      "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
+      "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
+      "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
+      "tag_source"]}, "layout": {"y": 51, "x": 5, "height": 36, "width": 32}, "id":
+      5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
+      "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts": true,
+      "start": 0, "summary_type": "monitors", "color_preference": "text", "query":
+      "type:metric", "show_last_triggered": false, "type": "manage_status", "display_format":
+      "countsAndList"}, "layout": {"y": 55, "x": 112, "height": 40, "width": 30},
+      "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query", "title_size":
+      "13", "service": "alerting-cassandra", "title": "alerting-cassandra #env:datad0g.com",
+      "size_format": "large", "show_hits": true, "show_latency": false, "title_align":
+      "center", "show_errors": true, "show_breakdown": true, "env": "datad0g.com",
+      "time": {"live_span": "1h"}, "show_distribution": true, "display_format": "three_column",
+      "type": "trace_service", "show_resource_list": false}, "layout": {"y": 28, "x":
+      40, "height": 38, "width": 67}, "id": 6949442529647217}], "layout_type": "free"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2895'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/dashboard
+  response:
+    body:
+      string: '{"notify_list": [], "description": "Created using the Datadog provider
+        in Terraform", "author_name": null, "template_variable_presets": [{"template_variables":
+        [{"name": "var_1", "value": "host.dc"}, {"name": "var_2", "value": "my_service"}],
+        "name": "preset_1"}], "template_variables": [{"default": "aws", "prefix":
+        "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
+        "name": "var_2"}], "is_read_only": false, "id": "qr6-ivw-nnb", "title": "Test
+        screenboard", "url": "/dashboard/qr6-ivw-nnb/test-screenboard", "created_at":
+        "2021-07-20T18:52:18.782284+00:00", "modified_at": "2021-07-20T18:52:18.782284+00:00",
+        "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"title_size":
+        "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
+        "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout":
+        {"y": 5, "x": 5, "width": 32, "height": 43}, "id": 4066667513687323}, {"definition":
+        {"title_size": "16", "title": "Widget Title", "title_align": "left", "time":
+        {"live_span": "1h"}, "query": "*", "type": "event_timeline"}, "layout": {"y":
+        73, "x": 42, "width": 65, "height": 9}, "id": 68713679518613}, {"definition":
+        {"color": "#d00", "text": "free text content", "type": "free_text", "font_size":
+        "88", "text_align": "left"}, "layout": {"y": 5, "x": 42, "width": 30, "height":
+        20}, "id": 1117617615518455}, {"definition": {"url": "http://google.com",
+        "type": "iframe"}, "layout": {"y": 8, "x": 111, "width": 39, "height": 46},
+        "id": 3098118775539428}, {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
+        "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
+        77, "width": 30, "height": 20}, "id": 651713243056399}, {"definition": {"logset":
+        "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
+        "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
+        "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
+        "tag_source"]}, "layout": {"y": 51, "x": 5, "width": 32, "height": 36}, "id":
+        5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
+        "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts":
+        true, "start": 0, "summary_type": "monitors", "color_preference": "text",
+        "query": "type:metric", "show_last_triggered": false, "type": "manage_status",
+        "display_format": "countsAndList"}, "layout": {"y": 55, "x": 112, "width":
+        30, "height": 40}, "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query",
+        "title_size": "13", "service": "alerting-cassandra", "title": "alerting-cassandra
+        #env:datad0g.com", "size_format": "large", "show_hits": true, "title_align":
+        "center", "show_errors": true, "show_breakdown": true, "type": "trace_service",
+        "env": "datad0g.com", "time": {"live_span": "1h"}, "show_distribution": true,
+        "display_format": "three_column", "show_latency": false, "show_resource_list":
+        false}, "layout": {"y": 28, "x": 40, "width": 67, "height": 38}, "id": 6949442529647217}],
+        "layout_type": "free"}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '2852'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Tue, 20 Jul 2021 18:52:18 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"notify_list": [], "description": "", "template_variables": [], "is_read_only":
+      false, "title": "datadog-sync-cli Test Dashboard", "reflow_type": "fixed", "widgets":
+      [{"definition": {"title_size": "16", "title": "", "title_align": "left", "precision":
+      2, "time": {}, "autoscale": true, "requests": [{"response_format": "scalar",
+      "queries": [{"query": "avg:system.cpu.user{*}", "data_source": "metrics", "name":
+      "query1", "aggregator": "avg"}]}], "type": "query_value"}, "layout": {"y": 0,
+      "x": 0, "height": 2, "width": 2}, "id": 6609238960092638}], "layout_type": "ordered"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '575'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/dashboard
+  response:
+    body:
+      string: '{"notify_list": [], "description": "", "author_name": null, "template_variables":
+        [], "is_read_only": false, "id": "tuc-jh9-jg5", "title": "datadog-sync-cli
+        Test Dashboard", "url": "/dashboard/tuc-jh9-jg5/datadog-sync-cli-test-dashboard",
+        "created_at": "2021-07-20T18:52:19.100622+00:00", "modified_at": "2021-07-20T18:52:19.100622+00:00",
+        "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
+        [{"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
+        2, "time": {}, "title_size": "16", "requests": [{"response_format": "scalar",
+        "queries": [{"query": "avg:system.cpu.user{*}", "data_source": "metrics",
+        "name": "query1", "aggregator": "avg"}]}], "type": "query_value"}, "layout":
+        {"y": 0, "x": 0, "width": 2, "height": 2}, "id": 6609238960092638}], "layout_type":
+        "ordered"}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '758'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Tue, 20 Jul 2021 18:52:19 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"notify_list": null, "description": null, "template_variables": null,
+      "is_read_only": false, "title": "{{ unique }} with timeseries widget", "widgets":
+      [{"definition": {"requests": [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec}
+      by {resource_name}.as_count()", "on_right_yaxis": false, "style": {"line_width":
+      "normal", "palette": "warm", "line_type": "solid"}, "display_type": "bars"}],
+      "type": "timeseries"}, "id": 4987671296932461}], "layout_type": "ordered"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '480'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/dashboard
+  response:
+    body:
+      string: '{"notify_list": null, "description": null, "author_name": null, "template_variables":
+        null, "is_read_only": false, "id": "xr4-zuk-amj", "title": "{{ unique }} with
+        timeseries widget", "url": "/dashboard/xr4-zuk-amj/-unique--with-timeseries-widget",
+        "created_at": "2021-07-20T18:52:19.430451+00:00", "modified_at": "2021-07-20T18:52:19.430451+00:00",
+        "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
+        [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
+        "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
+        "line_type": "solid"}, "display_type": "bars"}], "type": "timeseries"}, "id":
+        4987671296932461}], "layout_type": "ordered"}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '684'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Tue, 20 Jul 2021 18:52:19 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+version: 1
