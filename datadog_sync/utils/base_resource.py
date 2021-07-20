@@ -1,13 +1,12 @@
 import os
 import json
 import re
-from concurrent.futures import ThreadPoolExecutor
 from pprint import pformat
 
 from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
-from datadog_sync.utils.resource_utils import find_attr, ResourceConnectionError
+from datadog_sync.utils.resource_utils import find_attr, thread_pool_executor, ResourceConnectionError
 
 
 class BaseResource:
@@ -31,25 +30,13 @@ class BaseResource:
         pass
 
     def import_resources_concurrently(self, resources):
-        with ThreadPoolExecutor() as executor:
+        with thread_pool_executor(self.config.max_workers) as executor:
             futures = [executor.submit(self.process_resource_import, resource) for resource in resources]
             for future in futures:
                 try:
                     future.result()
                 except Exception as e:
                     self.logger.error(f"error while importing resource {self.resource_type}: {str(e)}")
-
-    def get_connection_resources(self):
-        connection_resources = {}
-
-        if self.resource_connections:
-            for k in self.resource_connections:
-                if k in self.config.resources:
-                    connection_resources[k] = self.config.resources[k].destination_resources
-                else:
-                    self.logger.warning(f"{k} not found in resource_connections for {self.resource_type}")
-
-        return connection_resources
 
     def process_resource_import(self, *args):
         pass
@@ -119,7 +106,7 @@ class BaseResource:
         resources = kwargs.get("resources")
         if resources == None:
             resources = self.source_resources
-        with ThreadPoolExecutor() as executor:
+        with thread_pool_executor(self.config.max_workers) as executor:
             futures = [
                 executor.submit(
                     self.prepare_resource_and_apply,
@@ -188,6 +175,7 @@ class BaseResource:
         resources = self.config.resources[resource_to_connect].destination_resources
         _id = str(r_obj[key])
         if _id in resources:
+            # Cast resource id to str on int based on source type
             type_attr = type(r_obj[key])
             r_obj[key] = type_attr(resources[_id]["id"])
         else:

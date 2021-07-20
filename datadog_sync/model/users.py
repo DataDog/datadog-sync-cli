@@ -134,14 +134,14 @@ class Users(BaseResource):
                 for key, value in diff["iterable_item_added"].items():
                     if "roles" in key:
                         self.add_user_to_role(_id, value["id"])
-            elif k == "iterable_item_removed":
-                for key, value in diff["iterable_item_removed"].items():
-                    if "roles" in key:
-                        self.remove_user_from_role(_id, value["id"])
+            # elif k == "iterable_item_removed":
+            #     for key, value in diff["iterable_item_removed"].items():
+            #         if "roles" in key:
+            #             self.remove_user_from_role(_id, value["id"])
             elif k == "values_changed":
                 for key, value in diff["values_changed"].items():
                     if "roles" in key:
-                        self.remove_user_from_role(_id, value["old_value"])
+                        # self.remove_user_from_role(_id, value["old_value"])
                         self.add_user_to_role(_id, value["new_value"])
 
     def get_remote_destination_users(self):

@@ -63,6 +63,13 @@ from collections import defaultdict, OrderedDict
     help="Optional comma separated list of resource to import. All supported resources are imported by default.",
 )
 @option(
+    "--max-workers",
+    envvar=constants.MAX_WORKERS,
+    required=False,
+    type=int,
+    help="Max number of workers when running operations in multi-threads. Defaults to 'None'",
+)
+@option(
     "--verbose",
     "-v",
     required=False,
@@ -109,6 +116,7 @@ def cli(ctx, **kwargs):
         "appKeyAuth": kwargs.get("destination_app_key"),
     }
     retry_timeout = kwargs.get("http_client_retry_timeout")
+    max_workers = kwargs.get("max_workers")
 
     source_client = CustomClient(source_api_url, source_auth, retry_timeout)
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
@@ -122,6 +130,7 @@ def cli(ctx, **kwargs):
         destination_client=destination_client,
         filters=filters,
         skip_failed_resource_connections=skip_failed_resource_connections,
+        max_workers=max_workers,
     )
     ctx.obj["config"] = config
 
