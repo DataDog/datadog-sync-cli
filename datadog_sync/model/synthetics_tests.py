@@ -1,3 +1,5 @@
+import re
+
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -35,12 +37,11 @@ class SyntheticsTests(BaseResource):
         self.source_resources[f"{synthetics_test['public_id']}#{synthetics_test['monitor_id']}"] = synthetics_test
 
     def apply_resources(self):
-        connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(connection_resource_obj)
+        self.apply_resources_concurrently()
 
-    def prepare_resource_and_apply(self, _id, synthetics_test, connection_resource_obj):
+    def prepare_resource_and_apply(self, _id, synthetics_test):
         if self.resource_connections:
-            self.connect_resources(synthetics_test, connection_resource_obj)
+            self.connect_resources(synthetics_test)
 
         if _id in self.destination_resources:
             self.update_resource(_id, synthetics_test)
@@ -72,3 +73,12 @@ class SyntheticsTests(BaseResource):
                 self.logger.error("error creating synthetics_test: %s", e.response.text)
                 return
             self.destination_resources[_id] = resp
+
+    def connect_id(self, key, r_obj, resource_to_connect):
+        pl = self.config.resources["synthetics_private_locations"]
+        resources = self.config.resources[resource_to_connect].destination_resources
+
+        for i, _id in enumerate(r_obj[key]):
+            if pl.pl_id_regex.match(_id):
+                if _id in resources:
+                    r_obj[key][i] = resources[_id]["id"]

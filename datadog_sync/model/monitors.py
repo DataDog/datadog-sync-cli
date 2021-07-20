@@ -1,3 +1,5 @@
+import re
+
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -31,7 +33,7 @@ class Monitors(BaseResource):
         self.import_resources_concurrently(resp)
 
     def process_resource_import(self, monitor):
-        if not self.filter(monitor) and monitor["type"] != "synthetics alert":
+        if not self.filter(monitor) or monitor["type"] == "synthetics alert":
             return
 
         self.source_resources[str(monitor["id"])] = monitor
@@ -49,15 +51,13 @@ class Monitors(BaseResource):
                 simple_monitors[_id] = monitor
 
         self.logger.info("Processing Simple Monitors")
-        self.apply_resources_concurrently({}, resources=simple_monitors)
+        self.apply_resources_concurrently(resources=simple_monitors)
 
         self.logger.info("Processing Composite Monitors")
-        connection_resource_obj = self.get_connection_resources()
+        self.apply_resources_concurrently(resources=composite_monitors)
 
-        self.apply_resources_concurrently(connection_resource_obj, resources=composite_monitors)
-
-    def prepare_resource_and_apply(self, _id, monitor, connection_resource_obj, **kwargs):
-        self.connect_resources(monitor, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, monitor, **kwargs):
+        self.connect_resources(monitor)
 
         if _id in self.destination_resources:
             self.update_resource(_id, monitor)
@@ -87,3 +87,14 @@ class Monitors(BaseResource):
                 self.logger.error("error creating monitor: %s", e.response.text)
                 return
             self.destination_resources[_id] = resp
+
+    def connect_id(self, key, r_obj, resource_to_connect):
+        resources = self.config.resources[resource_to_connect].destination_resources
+
+        if r_obj.get("type") == "composite" and key == "query":
+            ids = re.findall("[0-9]+", r_obj[key])
+            for _id in ids:
+                if _id in resources:
+                    new_id = f"{resources[_id]['id']}"
+                    r_obj[key] = re.sub(_id + r"([^#]|$)", new_id + "# ", r_obj[key])
+            r_obj[key] = (r_obj[key].replace("#", "")).strip()

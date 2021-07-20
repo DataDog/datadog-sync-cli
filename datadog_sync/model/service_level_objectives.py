@@ -5,7 +5,7 @@ from datadog_sync.utils.base_resource import BaseResource
 
 class ServiceLevelObjectives(BaseResource):
     resource_type = "service_level_objectives"
-    resource_connections = {"monitors": ["monitor_ids"], "synthetics_tests": ["monitor_ids"]}
+    resource_connections = {"monitors": ["monitor_ids"], "synthetics_tests": []}
     base_path = "/api/v1/slo"
     excluded_attributes = [
         "root['creator']",
@@ -34,15 +34,10 @@ class ServiceLevelObjectives(BaseResource):
 
     def apply_resources(self):
         self.logger.info("Processing service_level_objectives")
+        self.apply_resources_concurrently()
 
-        connection_resource_obj = self.get_connection_resources()
-
-        self.apply_resources_concurrently(
-            connection_resource_obj,
-        )
-
-    def prepare_resource_and_apply(self, _id, slo, connection_resource_obj):
-        self.connect_resources(slo, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, slo):
+        self.connect_resources(slo)
 
         if _id in self.destination_resources:
             self.update_resource(_id, slo)
@@ -71,3 +66,19 @@ class ServiceLevelObjectives(BaseResource):
                 self.logger.error("error creating slo: %s", e.response.text)
                 return
             self.destination_resources[_id] = resp["data"][0]
+
+    def connect_id(self, key, r_obj, resource_to_connect):
+        monitors = self.config.resources["monitors"].destination_resources
+        synthetics_tests = self.config.resources["synthetics_tests"].destination_resources
+
+        for i, obj in enumerate(r_obj[key]):
+            _id = str(obj)
+            # Check if resource exists in monitors
+            if _id in monitors:
+                r_obj[key][i] = monitors[_id]["id"]
+                continue
+            # Fall back on Synthetics and check
+            for k, v in synthetics_tests.items():
+                if k.endswith(_id):
+                    r_obj[key][i] = v["monitor_id"]
+                    break

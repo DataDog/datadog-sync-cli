@@ -42,14 +42,13 @@ class Roles(BaseResource):
         destination_roles_mapping = self.get_destination_roles_mapping()
 
         self.apply_resources_concurrently(
-            {},
             source_permission=source_permission,
             destination_permission=destination_permission,
             source_roles_mapping=source_roles_mapping,
             destination_roles_mapping=destination_roles_mapping,
         )
 
-    def prepare_resource_and_apply(self, _id, role, connection_resources_obj, **kwargs):
+    def prepare_resource_and_apply(self, _id, role, **kwargs):
         source_permission = kwargs.get("source_permission")
         destination_permission = kwargs.get("destination_permission")
         source_roles_mapping = kwargs.get("source_roles_mapping")

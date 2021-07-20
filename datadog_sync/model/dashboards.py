@@ -44,11 +44,10 @@ class Dashboards(BaseResource):
         self.source_resources[dash["id"]] = dashboard
 
     def apply_resources(self):
-        connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(connection_resource_obj)
+        self.apply_resources_concurrently()
 
-    def prepare_resource_and_apply(self, _id, dashboard, connection_resource_obj):
-        self.connect_resources(dashboard, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, dashboard):
+        self.connect_resources(dashboard)
         self.remove_excluded_attr(dashboard)
 
         if _id in self.destination_resources:
@@ -62,7 +61,7 @@ class Dashboards(BaseResource):
         try:
             resp = destination_client.post(self.base_path, dashboard).json()
         except HTTPError as e:
-            self.logger.error("error updating dashboard: %s", e)
+            self.logger.error("error creating dashboard: %s", e)
             return
         self.destination_resources[_id] = resp
 
@@ -76,6 +75,6 @@ class Dashboards(BaseResource):
                     self.base_path + f"/{self.destination_resources[_id]['id']}", dashboard
                 ).json()
             except HTTPError as e:
-                self.logger.error("error creating dashboard: %s", e)
+                self.logger.error("error updating dashboard: %s", e)
                 return
             self.destination_resources[_id] = resp

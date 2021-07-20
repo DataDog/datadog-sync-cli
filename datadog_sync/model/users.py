@@ -11,7 +11,7 @@ class Users(BaseResource):
     resource_connections = {"roles": ["relationships.roles.data.id"]}
     base_path = "/api/v2/users"
     roles_path = "/api/v2/roles/{}/users"
-    get_users_filter = {"filter[status]": "active"}
+    get_users_filter = {"filter[status]": "Active,Pending"}
     excluded_attributes = [
         "root['id']",
         "root['attributes']['created_at']",
@@ -45,15 +45,13 @@ class Users(BaseResource):
 
     def apply_resources(self):
         remote_users = self.get_remote_destination_users()
-        connection_resource_obj = self.get_connection_resources()
+        self.apply_resources_concurrently(remote_users=remote_users)
 
-        self.apply_resources_concurrently(connection_resource_obj, remote_users=remote_users)
-
-    def prepare_resource_and_apply(self, _id, user, connection_resource_obj, **kwargs):
+    def prepare_resource_and_apply(self, _id, user, **kwargs):
         destination_client = self.config.destination_client
         remote_users = kwargs.get("remote_users")
 
-        self.connect_resources(user, connection_resource_obj)
+        self.connect_resources(user)
 
         # Create copy
         resource_copy = copy.deepcopy(user)
@@ -151,7 +149,7 @@ class Users(BaseResource):
         destination_client = self.config.destination_client
 
         try:
-            remote_users = paginated_request(destination_client.get)(self.base_path, params=self.get_users_filter)
+            remote_users = paginated_request(destination_client.get)(self.base_path)
         except HTTPError as e:
             self.logger.error("error retrieving remote users: %s", e)
             return
