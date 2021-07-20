@@ -51,7 +51,7 @@ class Users(BaseResource):
         destination_client = self.config.destination_client
         remote_users = kwargs.get("remote_users")
 
-        self.connect_resources(user)
+        self.connect_resources(_id, user)
 
         # Create copy
         resource_copy = copy.deepcopy(user)

@@ -3,6 +3,7 @@ import copy
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class DashboardLists(BaseResource):
@@ -55,7 +56,7 @@ class DashboardLists(BaseResource):
         self.apply_resources_concurrently()
 
     def prepare_resource_and_apply(self, _id, dashboard_list):
-        self.connect_resources(dashboard_list)
+        self.connect_resources(_id, dashboard_list)
 
         if _id in self.destination_resources:
             self.update_resource(_id, dashboard_list)

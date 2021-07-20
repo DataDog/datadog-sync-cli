@@ -1,6 +1,16 @@
 from concurrent.futures import ThreadPoolExecutor
 
 
+class ResourceConnectionError(Exception):
+    def __init__(self, resource_type, _id=None):
+        self.resource_type = resource_type
+        self._id = _id
+
+        super(ResourceConnectionError, self).__init__(
+            f"Failed to connect resource. Import and sync resource: {resource_type} {'with ID: ' + _id if _id else ''}"
+        )
+
+
 def find_attr(keys_list, resource_to_connect, r_obj, connect_func):
     _id = None
     if isinstance(r_obj, list):

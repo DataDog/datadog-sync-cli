@@ -33,7 +33,7 @@ class IntegrationsAWS(BaseResource):
         self.apply_resources_sequentially()
 
     def prepare_resource_and_apply(self, _id, integration_aws):
-        self.connect_resources(integration_aws)
+        self.connect_resources(_id, integration_aws)
 
         if _id in self.destination_resources:
             self.update_resource(_id, integration_aws)

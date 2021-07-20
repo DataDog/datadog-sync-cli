@@ -3,6 +3,7 @@ import re
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class SyntheticsTests(BaseResource):
@@ -41,7 +42,7 @@ class SyntheticsTests(BaseResource):
 
     def prepare_resource_and_apply(self, _id, synthetics_test):
         if self.resource_connections:
-            self.connect_resources(synthetics_test)
+            self.connect_resources(_id, synthetics_test)
 
         if _id in self.destination_resources:
             self.update_resource(_id, synthetics_test)
@@ -82,3 +83,5 @@ class SyntheticsTests(BaseResource):
             if pl.pl_id_regex.match(_id):
                 if _id in resources:
                     r_obj[key][i] = resources[_id]["id"]
+                else:
+                    raise ResourceConnectionError(resource_to_connect, _id=_id)
