@@ -5,7 +5,14 @@ from datadog_sync.constants import LOGGER_NAME
 
 class Configuration(object):
     def __init__(
-        self, logger=None, source_client=None, destination_client=None, resources=None, missing_deps=None, filters=None
+        self,
+        logger=None,
+        source_client=None,
+        destination_client=None,
+        resources=None,
+        missing_deps=None,
+        filters=None,
+        max_workers=None,
     ):
         if not logger:
             # fallback to default logger if not provided
@@ -16,3 +23,4 @@ class Configuration(object):
         self.resources = resources
         self.missing_deps = missing_deps
         self.filters = filters
+        self.max_workers = max_workers
