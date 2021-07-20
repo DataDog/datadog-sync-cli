@@ -162,6 +162,7 @@ class BaseResource:
         resources = self.config.resources[resource_to_connect].destination_resources
         _id = str(r_obj[key])
         if _id in resources:
+            # Cast resource id to str on int based on source type
             type_attr = type(r_obj[key])
             r_obj[key] = type_attr(resources[_id]["id"])
 
