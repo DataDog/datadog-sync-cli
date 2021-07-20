@@ -11,12 +11,12 @@ class Users(BaseResource):
     resource_connections = {"roles": ["relationships.roles.data.id"]}
     base_path = "/api/v2/users"
     roles_path = "/api/v2/roles/{}/users"
-    get_users_filter = {"filter[status]": "active"}
+    get_users_filter = {"filter[status]": "Active,Pending"}
+    non_nullable_attr = ["attributes.name"]
     excluded_attributes = [
         "root['id']",
         "root['attributes']['created_at']",
         "root['attributes']['title']",
-        "root['attributes']['name']",
         "root['attributes']['status']",
         "root['attributes']['verified']",
         "root['attributes']['service_account']",
@@ -45,15 +45,13 @@ class Users(BaseResource):
 
     def apply_resources(self):
         remote_users = self.get_remote_destination_users()
-        connection_resource_obj = self.get_connection_resources()
+        self.apply_resources_concurrently(remote_users=remote_users)
 
-        self.apply_resources_concurrently(connection_resource_obj, remote_users=remote_users)
-
-    def prepare_resource_and_apply(self, _id, user, connection_resource_obj, **kwargs):
+    def prepare_resource_and_apply(self, _id, user, **kwargs):
         destination_client = self.config.destination_client
         remote_users = kwargs.get("remote_users")
 
-        self.connect_resources(user, connection_resource_obj)
+        self.connect_resources(_id, user)
 
         # Create copy
         resource_copy = copy.deepcopy(user)
@@ -67,6 +65,7 @@ class Users(BaseResource):
             if diff:
                 self.update_user_roles(remote_user["id"], diff)
                 self.remove_excluded_attr(resource_copy)
+                self.remove_non_nullable_attributes(resource_copy)
                 resource_copy.pop("relationships", None)
                 resource_copy["id"] = remote_user["id"]
                 try:
@@ -82,6 +81,7 @@ class Users(BaseResource):
 
     def create_resource(self, _id, user):
         destination_client = self.config.destination_client
+        self.remove_non_nullable_attributes(user)
         self.remove_excluded_attr(user)
         user["attributes"].pop("disabled", None)
 
@@ -96,6 +96,7 @@ class Users(BaseResource):
     def update_resource(self, _id, user):
         destination_client = self.config.destination_client
         self.remove_excluded_attr(user)
+        self.remove_non_nullable_attributes(user)
 
         diff = self.check_diff(self.destination_resources[_id], user)
         if diff:
@@ -151,7 +152,7 @@ class Users(BaseResource):
         destination_client = self.config.destination_client
 
         try:
-            remote_users = paginated_request(destination_client.get)(self.base_path, params=self.get_users_filter)
+            remote_users = paginated_request(destination_client.get)(self.base_path)
         except HTTPError as e:
             self.logger.error("error retrieving remote users: %s", e)
             return

@@ -1,0 +1,63 @@
+interactions:
+- request:
+    body: '{"recurrence": {"week_days": [], "type": "days", "period": 1}, "end": null,
+      "monitor_tags": ["*"], "child_id": null, "canceled": null, "monitor_id": null,
+      "created": 1622234964, "org_id": 569509, "modified": 1622748066, "disabled":
+      false, "start": 2622234295, "creator_id": 2781302, "parent_id": null, "timezone":
+      "UTC", "active": false, "scope": ["*"], "message": "", "downtime_type": 0, "id":
+      1283896719, "updater_id": 2781275}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '429'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/downtime
+  response:
+    body:
+      string: '{"recurrence": {"until_date": null, "until_occurrences": null, "week_days":
+        [], "type": "days", "period": 1}, "end": null, "monitor_tags": ["*"], "child_id":
+        null, "canceled": null, "monitor_id": null, "created": 1626807141, "org_id":
+        1000044987, "modified": 1626807141, "disabled": false, "start": 2622234295,
+        "creator_id": 1000219667, "parent_id": null, "timezone": "UTC", "active":
+        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 50258748,
+        "updater_id": null}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '430'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Tue, 20 Jul 2021 18:52:21 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+version: 1

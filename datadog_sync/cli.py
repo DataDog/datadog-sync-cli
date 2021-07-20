@@ -29,6 +29,7 @@ from collections import defaultdict, OrderedDict
     "--source-api-url",
     envvar=constants.DD_SOURCE_API_URL,
     required=False,
+    default=constants.DEFAULT_API_URL,
     help="Datadog source organization API url.",
 )
 @option(
@@ -47,6 +48,7 @@ from collections import defaultdict, OrderedDict
     "--destination-api-url",
     envvar=constants.DD_DESTINATION_API_URL,
     required=False,
+    default=constants.DEFAULT_API_URL,
     help="Datadog destination organization API url.",
 )
 @option(
@@ -84,6 +86,13 @@ from collections import defaultdict, OrderedDict
     help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
 )
 @option("--filter", required=False, help="Filter imported resources.", multiple=True)
+@option(
+    "--skip-failed-resource-connections",
+    type=bool,
+    default=True,
+    show_default=True,
+    help="Skip resource if resource connection fails.",
+)
 @click_config_file.configuration_option()
 @pass_context
 def cli(ctx, **kwargs):
@@ -114,12 +123,15 @@ def cli(ctx, **kwargs):
     source_client = CustomClient(source_api_url, source_auth, retry_timeout)
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
+    skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
+
     # Initialize Configuration
     config = Configuration(
         logger=logger,
         source_client=source_client,
         destination_client=destination_client,
         filters=filters,
+        skip_failed_resource_connections=skip_failed_resource_connections,
         max_workers=max_workers,
     )
     ctx.obj["config"] = config

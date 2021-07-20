@@ -6,7 +6,7 @@ from pprint import pformat
 from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
-from datadog_sync.utils.resource_utils import replace, thread_pool_executor
+from datadog_sync.utils.resource_utils import find_attr, thread_pool_executor, ResourceConnectionError
 
 
 class BaseResource:
@@ -35,20 +35,8 @@ class BaseResource:
             for future in futures:
                 try:
                     future.result()
-                except BaseException:
-                    self.logger.exception(f"error while importing resource {self.resource_type}")
-
-    def get_connection_resources(self):
-        connection_resources = {}
-
-        if self.resource_connections:
-            for k in self.resource_connections:
-                if k in self.config.resources:
-                    connection_resources[k] = self.config.resources[k].destination_resources
-                else:
-                    self.logger.warning(f"{k} not found in resource_connections for {self.resource_type}")
-
-        return connection_resources
+                except Exception as e:
+                    self.logger.error(f"error while importing resource {self.resource_type}: {str(e)}")
 
     def process_resource_import(self, *args):
         pass
@@ -84,13 +72,11 @@ class BaseResource:
         )
 
     def check_diffs(self):
-        connection_resource_obj = self.get_connection_resources()
-
         for _id, resource in self.source_resources.items():
-            if resource.get("type") == "synthetics alert":
+            try:
+                self.connect_resources(_id, resource)
+            except ResourceConnectionError:
                 continue
-            if self.resource_connections:
-                self.connect_resources(resource, connection_resource_obj)
 
             if _id in self.destination_resources:
                 diff = self.check_diff(self.destination_resources[_id], resource)
@@ -105,15 +91,18 @@ class BaseResource:
                 k_list = key.split(".")
                 self.del_null_attr(k_list, resource)
 
-    def apply_resources_sequentially(self, connection_resource_obj, **kwargs):
+    def apply_resources_sequentially(self, **kwargs):
         resources = kwargs.get("resources") or self.source_resources
         for _id, resource in resources.items():
             try:
-                self.prepare_resource_and_apply(_id, resource, connection_resource_obj, **kwargs)
-            except BaseException:
-                self.logger.exception(f"error while applying resource {self.resource_type}")
+                self.prepare_resource_and_apply(_id, resource, **kwargs)
+            except ResourceConnectionError:
+                # This should already be handled in connect_resource method
+                continue
+            except Exception as e:
+                self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
 
-    def apply_resources_concurrently(self, connection_resource_obj, **kwargs):
+    def apply_resources_concurrently(self, **kwargs):
         resources = kwargs.get("resources")
         if resources == None:
             resources = self.source_resources
@@ -123,7 +112,6 @@ class BaseResource:
                     self.prepare_resource_and_apply,
                     _id,
                     resource,
-                    connection_resource_obj,
                     **kwargs,
                 )
                 for _id, resource in resources.items()
@@ -131,8 +119,11 @@ class BaseResource:
         for future in futures:
             try:
                 future.result()
-            except BaseException:
-                self.logger.exception(f"error while applying resource {self.resource_type}")
+            except ResourceConnectionError:
+                # This should already be handled in connect_resource method
+                continue
+            except Exception as e:
+                self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
 
     def open_resources(self):
         source_resources = dict()
@@ -164,12 +155,31 @@ class BaseResource:
         with open(resource_path, "w") as f:
             json.dump(resources, f, indent=2)
 
-    def connect_resources(self, resource, connection_resources_obj=None):
-        if not (connection_resources_obj or self.resource_connections):
+    def connect_resources(self, _id, resource):
+        if not self.resource_connections:
             return
+
         for resource_to_connect, v in self.resource_connections.items():
             for attr_connection in v:
-                replace(attr_connection, self.resource_type, resource, resource_to_connect, connection_resources_obj)
+                try:
+                    find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                except ResourceConnectionError as e:
+                    if self.config.skip_failed_resource_connections:
+                        self.logger.warning(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
+                        raise e
+                    else:
+                        self.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
+                        continue
+
+    def connect_id(self, key, r_obj, resource_to_connect):
+        resources = self.config.resources[resource_to_connect].destination_resources
+        _id = str(r_obj[key])
+        if _id in resources:
+            # Cast resource id to str on int based on source type
+            type_attr = type(r_obj[key])
+            r_obj[key] = type_attr(resources[_id]["id"])
+        else:
+            raise ResourceConnectionError(resource_to_connect, _id=_id)
 
     def filter(self, resource):
         if not self.config.filters or self.resource_type not in self.config.filters:

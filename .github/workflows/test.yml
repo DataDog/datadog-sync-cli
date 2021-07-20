@@ -18,6 +18,7 @@ env:
     DD_SOURCE_API_KEY: ${{ secrets.DD_SOURCE_API_KEY }}
     DD_SOURCE_APP_KEY: ${{ secrets.DD_SOURCE_APP_KEY }}
     DD_SOURCE_API_URL: ${{ secrets.DD_SOURCE_API_URL }}
+    DD_HTTP_CLIENT_RETRY_TIMEOUT: 300
 
 jobs:
     test:
@@ -34,7 +35,7 @@ jobs:
             - name: Install datadog-sync-cli
               run: pip install .\[tests\]
             - name: Run unit tests
-              run: pytest --record-mode=none -rP -v
+              run: pytest --record-mode=none -ra -v
             - name: Run integration tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
               run: pytest --disable-recording -ra -v -m "integration"
