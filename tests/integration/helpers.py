@@ -101,10 +101,16 @@ def open_resources(resource_type):
 
     if os.path.exists(source_path):
         with open(source_path, "r") as f:
-            source_resources = json.load(f)
+            try:
+                source_resources = json.load(f)
+            except json.decoder.JSONDecodeError as e:
+                pytest.fail(e)
 
     if os.path.exists(destination_path):
         with open(destination_path, "r") as f:
-            destination_resources = json.load(f)
+            try:
+                destination_resources = json.load(f)
+            except json.decoder.JSONDecodeError as e:
+                pytest.fail(e)
 
     return source_resources, destination_resources
