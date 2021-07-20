@@ -13,6 +13,7 @@ class Configuration(object):
         missing_deps=None,
         filters=None,
         skip_failed_resource_connections=None,
+        max_workers=None,
     ):
         if not logger:
             # fallback to default logger if not provided
@@ -24,3 +25,4 @@ class Configuration(object):
         self.missing_deps = missing_deps
         self.filters = filters
         self.skip_failed_resource_connections = skip_failed_resource_connections
+        self.max_workers = max_workers
