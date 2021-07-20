@@ -11,6 +11,7 @@ RESOURCE_TO_ADD_RE = re.compile("Resource to be added")
 RESOURCE_SKIPPED_RE = re.compile("Skipping resource")
 
 
+@pytest.mark.vcr
 @pytest.mark.integration
 class BaseResourcesTestClass:
     resource_type = None
