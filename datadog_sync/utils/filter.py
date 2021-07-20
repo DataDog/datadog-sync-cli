@@ -33,7 +33,7 @@ def process_filters(filter_list):
     filters = {}
 
     if not filter_list:
-        return filter_list
+        return filters
 
     for _filter in filter_list:
         f_dict = {}
