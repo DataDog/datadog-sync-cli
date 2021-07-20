@@ -29,6 +29,7 @@ from collections import defaultdict, OrderedDict
     "--source-api-url",
     envvar=constants.DD_SOURCE_API_URL,
     required=False,
+    default=constants.DEFAULT_API_URL,
     help="Datadog source organization API url.",
 )
 @option(
@@ -47,6 +48,7 @@ from collections import defaultdict, OrderedDict
     "--destination-api-url",
     envvar=constants.DD_DESTINATION_API_URL,
     required=False,
+    default=constants.DEFAULT_API_URL,
     help="Datadog destination organization API url.",
 )
 @option(

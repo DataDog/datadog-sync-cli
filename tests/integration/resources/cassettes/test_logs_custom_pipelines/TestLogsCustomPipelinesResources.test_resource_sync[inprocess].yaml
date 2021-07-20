@@ -1,0 +1,190 @@
+interactions:
+- request:
+    body: '{"name": "Test pipeline", "is_enabled": true, "filter": {"query": "test:query"},
+      "processors": []}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '98'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
+  response:
+    body:
+      string: '{"id": "vgVxkrtSTjmsy7a519v6lg", "type": "pipeline", "name": "Test
+        pipeline", "is_enabled": true, "is_read_only": false, "filter": {"query":
+        "test:query"}, "processors": []}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-disposition:
+      - inline
+      content-length:
+      - '159'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json;charset=utf-8
+      date:
+      - Tue, 20 Jul 2021 18:52:22 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '2'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '1'
+      x-ratelimit-reset:
+      - '38'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "Test Pipeline - Complex", "is_enabled": true, "filter": {"query":
+      "source:foo"}, "processors": [{"name": "sample arithmetic processor", "is_enabled":
+      true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic", "is_replace_missing":
+      true, "type": "arithmetic-processor"}, {"name": "sample attribute processor",
+      "is_enabled": true, "sources": ["db.instance"], "source_type": "tag", "target":
+      "db", "target_type": "attribute", "target_format": "string", "preserve_source":
+      true, "override_on_conflict": false, "type": "attribute-remapper"}, {"name":
+      "sample category processor", "is_enabled": true, "categories": [{"filter": {"query":
+      "@severity: \".\""}, "name": "debug"}, {"filter": {"query": "@severity: \"-\""},
+      "name": "verbose"}], "target": "foo.severity", "type": "category-processor"},
+      {"name": "sample date remapper", "is_enabled": true, "sources": ["_timestamp",
+      "published_date"], "type": "date-remapper"}, {"name": "sample geo ip parser",
+      "is_enabled": true, "sources": ["network.client.ip"], "target": "network.client.geoip",
+      "ip_processing_behavior": "do-nothing", "type": "geo-ip-parser"}, {"name": "sample
+      grok parser", "is_enabled": true, "source": "message", "samples": ["sample log
+      1"], "grok": {"support_rules": "", "match_rules": "Rule %{word:my_word2} %{number:my_float2}"},
+      "type": "grok-parser"}, {"name": "sample lookup processor", "is_enabled": true,
+      "source": "service_id", "target": "service_name", "lookup_table": ["1,my service"],
+      "default_lookup": "unknown service", "type": "lookup-processor"}, {"name": "sample
+      message remapper", "is_enabled": true, "sources": ["msg"], "type": "message-remapper"},
+      {"type": "pipeline", "name": "nested pipeline", "is_enabled": true, "filter":
+      {"query": "source:foo"}, "processors": [{"name": "sample url parser", "is_enabled":
+      false, "sources": ["url", "extra"], "target": "http_url", "normalize_ending_slashes":
+      true, "type": "url-parser"}]}, {"name": "sample service remapper", "is_enabled":
+      true, "sources": ["service"], "type": "service-remapper"}, {"name": "sample
+      status remapper", "is_enabled": true, "sources": ["info", "trace"], "type":
+      "status-remapper"}, {"name": "sample string builder processor", "is_enabled":
+      true, "template": "%{user.name} logged in at %{timestamp}", "target": "user_activity",
+      "is_replace_missing": false, "type": "string-builder-processor"}, {"name": "sample
+      trace id remapper", "is_enabled": true, "sources": ["dd.trace_id"], "type":
+      "trace-id-remapper"}, {"name": "sample user agent parser", "is_enabled": true,
+      "sources": ["user", "agent"], "target": "http_agent", "is_encoded": false, "type":
+      "user-agent-parser"}]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2639'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
+  response:
+    body:
+      string: '{"id": "vGn2wEjUR_usNLtqm2IdvA", "type": "pipeline", "name": "Test
+        Pipeline - Complex", "is_enabled": true, "is_read_only": false, "filter":
+        {"query": "source:foo"}, "processors": [{"name": "sample arithmetic processor",
+        "is_enabled": true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic",
+        "is_replace_missing": true, "type": "arithmetic-processor"}, {"name": "sample
+        attribute processor", "is_enabled": true, "sources": ["db.instance"], "source_type":
+        "tag", "target": "db", "target_type": "attribute", "target_format": "string",
+        "preserve_source": true, "override_on_conflict": false, "type": "attribute-remapper"},
+        {"name": "sample category processor", "is_enabled": true, "categories": [{"filter":
+        {"query": "@severity: \".\""}, "name": "debug"}, {"filter": {"query": "@severity:
+        \"-\""}, "name": "verbose"}], "target": "foo.severity", "type": "category-processor"},
+        {"name": "sample date remapper", "is_enabled": true, "sources": ["_timestamp",
+        "published_date"], "type": "date-remapper"}, {"name": "sample geo ip parser",
+        "is_enabled": true, "sources": ["network.client.ip"], "target": "network.client.geoip",
+        "ip_processing_behavior": "do-nothing", "type": "geo-ip-parser"}, {"name":
+        "sample grok parser", "is_enabled": true, "source": "message", "samples":
+        ["sample log 1"], "grok": {"support_rules": "", "match_rules": "Rule %{word:my_word2}
+        %{number:my_float2}"}, "type": "grok-parser"}, {"name": "sample lookup processor",
+        "is_enabled": true, "source": "service_id", "target": "service_name", "lookup_table":
+        ["1,my service"], "default_lookup": "unknown service", "type": "lookup-processor"},
+        {"name": "sample message remapper", "is_enabled": true, "sources": ["msg"],
+        "type": "message-remapper"}, {"type": "pipeline", "name": "nested pipeline",
+        "is_enabled": true, "filter": {"query": "source:foo"}, "processors": [{"name":
+        "sample url parser", "is_enabled": false, "sources": ["url", "extra"], "target":
+        "http_url", "normalize_ending_slashes": true, "type": "url-parser"}]}, {"name":
+        "sample service remapper", "is_enabled": true, "sources": ["service"], "type":
+        "service-remapper"}, {"name": "sample status remapper", "is_enabled": true,
+        "sources": ["info", "trace"], "type": "status-remapper"}, {"name": "sample
+        string builder processor", "is_enabled": true, "template": "%{user.name} logged
+        in at %{timestamp}", "target": "user_activity", "is_replace_missing": false,
+        "type": "string-builder-processor"}, {"name": "sample trace id remapper",
+        "is_enabled": true, "sources": ["dd.trace_id"], "type": "trace-id-remapper"},
+        {"name": "sample user agent parser", "is_enabled": true, "sources": ["user",
+        "agent"], "target": "http_agent", "is_encoded": false, "type": "user-agent-parser"}]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-disposition:
+      - inline
+      content-length:
+      - '2519'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json;charset=utf-8
+      date:
+      - Tue, 20 Jul 2021 18:52:22 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '2'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '0'
+      x-ratelimit-reset:
+      - '38'
+    status:
+      code: 200
+      message: OK
+version: 1

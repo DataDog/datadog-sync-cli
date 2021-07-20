@@ -1,0 +1,337 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard
+  response:
+    body:
+      string: '{"dashboards": [{"created_at": "2021-06-01T20:18:57.486260+00:00",
+        "author_handle": "sherzod.karimov@datadoghq.com", "is_read_only": false, "description":
+        "", "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "url": "/dashboard/euw-cp8-hy6/timeboard-tue-jun-1-41857-pm",
+        "layout_type": "ordered", "modified_at": "2021-06-21T17:24:39.527924+00:00",
+        "id": "euw-cp8-hy6"}, {"created_at": "2021-06-08T18:26:23.515662+00:00", "author_handle":
+        "sherzod.karimov@datadoghq.com", "is_read_only": false, "description": "Created
+        using the Datadog provider in Terraform", "title": "Test screenboard", "url":
+        "/dashboard/dns-jst-h98/test-screenboard", "layout_type": "free", "modified_at":
+        "2021-06-22T19:35:38.981348+00:00", "id": "dns-jst-h98"}, {"created_at": "2021-06-30T11:45:57.574935+00:00",
+        "author_handle": "noueman.khalikine@datadoghq.com", "is_read_only": false,
+        "description": "", "title": "datadog-sync-cli Test Dashboard", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
+        "layout_type": "ordered", "modified_at": "2021-06-30T11:46:46.923260+00:00",
+        "id": "tuw-te2-pdj"}, {"created_at": "2021-07-16T12:08:14.666223+00:00", "author_handle":
+        "frog@datadoghq.com", "is_read_only": false, "description": null, "title":
+        "{{ unique }} with timeseries widget", "url": "/dashboard/ys9-5v2-zxt/-unique--with-timeseries-widget",
+        "layout_type": "ordered", "modified_at": "2021-07-16T12:08:14.666223+00:00",
+        "id": "ys9-5v2-zxt"}]}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 20 Jul 2021 18:52:18 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '1357'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '60'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '59'
+      x-ratelimit-reset:
+      - '43'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/euw-cp8-hy6
+  response:
+    body:
+      string: '{"notify_list": [], "description": "", "author_name": "Sherzod Karimov",
+        "template_variables": [], "is_read_only": false, "id": "euw-cp8-hy6", "title":
+        "Timeboard Tue, Jun 1, 4:18:57 pm", "url": "/dashboard/euw-cp8-hy6/timeboard-tue-jun-1-41857-pm",
+        "created_at": "2021-06-01T20:18:57.486260+00:00", "modified_at": "2021-06-21T17:24:39.527924+00:00",
+        "reflow_type": "auto", "author_handle": "sherzod.karimov@datadoghq.com", "widgets":
+        [{"definition": {"widgets": [{"definition": {"title_size": "16", "viz_type":
+        "timeseries", "title": "", "title_align": "left", "alert_id": "36239262",
+        "type": "alert_graph"}, "id": 5316294948508728}, {"definition": {"title_size":
+        "16", "title": "", "title_align": "left", "text_align": "left", "precision":
+        2, "alert_id": "36230659", "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}],
+        "layout_type": "ordered", "type": "group", "title": "New group"}, "id": 2497183012091650},
+        {"definition": {"title_size": "16", "viz_type": "timeseries", "title": "",
+        "title_align": "left", "alert_id": "36239262", "type": "alert_graph"}, "id":
+        4551400937275112}, {"definition": {"autoscale": true, "title": "", "title_align":
+        "left", "precision": 2, "title_size": "16", "requests": [{"q": "avg:synthetics.http.dns.time{*}",
+        "aggregator": "avg"}], "type": "query_value"}, "id": 7228117705299642}, {"definition":
+        {"title_size": "16", "title": "", "title_align": "left", "text_align": "left",
+        "precision": 2, "alert_id": "36230659", "type": "alert_value", "unit": "auto"},
+        "id": 2397823643167820}, {"definition": {"time_windows": ["7d"], "title_size":
+        "16", "show_error_budget": true, "view_type": "detail", "title_align": "left",
+        "slo_id": "ae04001ea55f52f6ae4b85d9b1023909", "view_mode": "overall", "title":
+        "", "global_time_target": "0", "type": "slo"}, "id": 1076364961367720}, {"definition":
+        {"time_windows": ["7d"], "title_size": "16", "show_error_budget": true, "view_type":
+        "detail", "title_align": "left", "slo_id": "b6eedbdc42a15b658b5d55ffc4f91082",
+        "view_mode": "overall", "title": "", "global_time_target": "0", "type": "slo"},
+        "id": 4123257207386936}], "layout_type": "ordered"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 20 Jul 2021 18:52:18 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '1953'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/dns-jst-h98
+  response:
+    body:
+      string: '{"notify_list": [], "description": "Created using the Datadog provider
+        in Terraform", "author_name": "Sherzod Karimov", "template_variable_presets":
+        [{"template_variables": [{"name": "var_1", "value": "host.dc"}, {"name": "var_2",
+        "value": "my_service"}], "name": "preset_1"}], "template_variables": [{"default":
+        "aws", "prefix": "host", "name": "var_1"}, {"default": "autoscaling", "prefix":
+        "service_name", "name": "var_2"}], "is_read_only": false, "id": "dns-jst-h98",
+        "title": "Test screenboard", "url": "/dashboard/dns-jst-h98/test-screenboard",
+        "created_at": "2021-06-08T18:26:23.515662+00:00", "modified_at": "2021-06-22T19:35:38.981348+00:00",
+        "author_handle": "sherzod.karimov@datadoghq.com", "widgets": [{"definition":
+        {"title_size": "16", "title": "Widget Title", "title_align": "left", "time":
+        {"live_span": "1h"}, "query": "*", "type": "event_stream", "event_size": "l"},
+        "layout": {"y": 5, "x": 5, "height": 43, "width": 32}, "id": 4066667513687323},
+        {"definition": {"title_size": "16", "title": "Widget Title", "title_align":
+        "left", "time": {"live_span": "1h"}, "query": "*", "type": "event_timeline"},
+        "layout": {"y": 73, "x": 42, "height": 9, "width": 65}, "id": 68713679518613},
+        {"definition": {"color": "#d00", "text": "free text content", "type": "free_text",
+        "font_size": "88", "text_align": "left"}, "layout": {"y": 5, "x": 42, "height":
+        20, "width": 30}, "id": 1117617615518455}, {"definition": {"url": "http://google.com",
+        "type": "iframe"}, "layout": {"y": 8, "x": 111, "height": 46, "width": 39},
+        "id": 3098118775539428}, {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
+        "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
+        77, "height": 20, "width": 30}, "id": 651713243056399}, {"definition": {"logset":
+        "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
+        "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
+        "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
+        "tag_source"]}, "layout": {"y": 51, "x": 5, "height": 36, "width": 32}, "id":
+        5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
+        "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts":
+        true, "start": 0, "summary_type": "monitors", "color_preference": "text",
+        "query": "type:metric", "show_last_triggered": false, "type": "manage_status",
+        "display_format": "countsAndList"}, "layout": {"y": 55, "x": 112, "height":
+        40, "width": 30}, "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query",
+        "title_size": "13", "service": "alerting-cassandra", "title": "alerting-cassandra
+        #env:datad0g.com", "size_format": "large", "show_hits": true, "show_latency":
+        false, "title_align": "center", "show_errors": true, "show_breakdown": true,
+        "env": "datad0g.com", "time": {"live_span": "1h"}, "show_distribution": true,
+        "display_format": "three_column", "type": "trace_service", "show_resource_list":
+        false}, "layout": {"y": 28, "x": 40, "height": 38, "width": 67}, "id": 6949442529647217}],
+        "layout_type": "free"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 20 Jul 2021 18:52:18 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '2876'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/tuw-te2-pdj
+  response:
+    body:
+      string: '{"notify_list": [], "description": "", "author_name": "Noueman Khalikine",
+        "template_variables": [], "is_read_only": false, "id": "tuw-te2-pdj", "title":
+        "datadog-sync-cli Test Dashboard", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
+        "created_at": "2021-06-30T11:45:57.574935+00:00", "modified_at": "2021-06-30T11:46:46.923260+00:00",
+        "reflow_type": "fixed", "author_handle": "noueman.khalikine@datadoghq.com",
+        "widgets": [{"definition": {"title_size": "16", "title": "", "title_align":
+        "left", "precision": 2, "time": {}, "autoscale": true, "requests": [{"response_format":
+        "scalar", "queries": [{"query": "avg:system.cpu.user{*}", "data_source": "metrics",
+        "name": "query1", "aggregator": "avg"}]}], "type": "query_value"}, "layout":
+        {"y": 0, "x": 0, "height": 2, "width": 2}, "id": 6609238960092638}], "layout_type":
+        "ordered"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 20 Jul 2021 18:52:18 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '786'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/ys9-5v2-zxt
+  response:
+    body:
+      string: '{"notify_list": null, "description": null, "author_name": null, "template_variables":
+        null, "is_read_only": false, "id": "ys9-5v2-zxt", "title": "{{ unique }} with
+        timeseries widget", "url": "/dashboard/ys9-5v2-zxt/-unique--with-timeseries-widget",
+        "created_at": "2021-07-16T12:08:14.666223+00:00", "modified_at": "2021-07-16T12:08:14.666223+00:00",
+        "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
+        [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
+        "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
+        "line_type": "solid"}, "display_type": "bars"}], "type": "timeseries"}, "id":
+        4987671296932461}], "layout_type": "ordered"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 20 Jul 2021 18:52:18 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '684'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+version: 1
