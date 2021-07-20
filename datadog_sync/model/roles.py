@@ -110,9 +110,9 @@ class Roles(BaseResource):
             if _id in self.destination_resources:
                 diff = self.check_diff(self.destination_resources[_id], role)
                 if diff:
-                    self.logger.info("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
+                    print("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
             else:
-                self.logger.info("Resource to be added %s: \n %s", self.resource_type, pformat(role))
+                print("Resource to be added %s: \n %s", self.resource_type, pformat(role))
 
     def get_permissions(self):
         source_permission_obj = {}
