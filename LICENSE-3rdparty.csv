@@ -8,3 +8,4 @@ black,https://pypi.org/project/black/,MIT License
 pytest,https://pypi.org/project/pytest/,MIT License
 pytest-black,https://pypi.org/project/pytest-black/,MIT License
 pytest-console-scripts,https://pypi.org/project/pytest-console-scripts/,MIT License
+pytest-recording,https://pypi.org/project/pytest-recording/,MIT License
