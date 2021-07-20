@@ -83,3 +83,5 @@ class SyntheticsTests(BaseResource):
             if pl.pl_id_regex.match(_id):
                 if _id in resources:
                     r_obj[key][i] = resources[_id]["id"]
+                else:
+                    raise ResourceConnectionError(resource_to_connect, _id=_id)
