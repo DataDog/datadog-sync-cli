@@ -54,7 +54,10 @@ class BaseResourcesTestClass:
 
         # update fields and save the file.
         for resource in source_resources.values():
-            resource[self.field_to_update] = str(resource[self.field_to_update]) + "+ updated"
+            try:
+                pathUpdate(resource, self.field_to_update, str(resource[self.field_to_update]) + "+ updated")
+            except Exception:
+                continue
         save_source_resources(self.resource_type, source_resources)
 
         # assert diff is produced
@@ -114,3 +117,20 @@ def open_resources(resource_type):
                 pytest.fail(e)
 
     return source_resources, destination_resources
+
+
+def pathUpdate(obj, path, value):
+    path = path.split('.', 1)
+    if len(path) == 1:
+        if path[0] in obj:
+            obj[path[0]] = value
+        else:
+            raise Exception(f"cannot update obj, invalid key : {path}")
+    else:
+        if path[0] in obj:
+            pathUpdate(obj[path[0]], path[1], value)
+        else:
+            raise Exception(f"cannot update obj, invalid key : {path}")
+
+
+
