@@ -30,14 +30,16 @@ class Downtimes(BaseResource):
         self.import_resources_concurrently(resp)
 
     def process_resource_import(self, downtime):
-        self.source_resources[downtime["id"]] = downtime
+        if not self.filter(downtime):
+            return
+
+        self.source_resources[str(downtime["id"])] = downtime
 
     def apply_resources(self):
-        connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(connection_resource_obj)
+        self.apply_resources_concurrently()
 
-    def prepare_resource_and_apply(self, _id, downtime, connection_resource_obj):
-        self.connect_resources(downtime, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, downtime):
+        self.connect_resources(_id, downtime)
 
         if _id in self.destination_resources:
             self.update_resource(_id, downtime)

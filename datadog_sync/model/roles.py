@@ -31,6 +31,9 @@ class Roles(BaseResource):
         self.import_resources_concurrently(resp)
 
     def process_resource_import(self, role):
+        if not self.filter(role):
+            return
+
         self.source_resources[role["id"]] = role
 
     def apply_resources(self):
@@ -39,14 +42,13 @@ class Roles(BaseResource):
         destination_roles_mapping = self.get_destination_roles_mapping()
 
         self.apply_resources_concurrently(
-            {},
             source_permission=source_permission,
             destination_permission=destination_permission,
             source_roles_mapping=source_roles_mapping,
             destination_roles_mapping=destination_roles_mapping,
         )
 
-    def prepare_resource_and_apply(self, _id, role, connection_resources_obj, **kwargs):
+    def prepare_resource_and_apply(self, _id, role, **kwargs):
         source_permission = kwargs.get("source_permission")
         destination_permission = kwargs.get("destination_permission")
         source_roles_mapping = kwargs.get("source_roles_mapping")
@@ -107,9 +109,9 @@ class Roles(BaseResource):
             if _id in self.destination_resources:
                 diff = self.check_diff(self.destination_resources[_id], role)
                 if diff:
-                    self.logger.info("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
+                    print("%s resource ID %s diff: \n %s", self.resource_type, _id, pformat(diff))
             else:
-                self.logger.info("Resource to be added %s: \n %s", self.resource_type, pformat(role))
+                print("Resource to be added %s: \n %s", self.resource_type, pformat(role))
 
     def get_permissions(self):
         source_permission_obj = {}

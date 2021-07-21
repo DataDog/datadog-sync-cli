@@ -114,11 +114,12 @@ class Cleanup:
         self,
     ):
         path = "/api/v1/synthetics/locations"
+        delete_path = "/api/v1/synthetics/private-locations"
         pl_id = re.compile("^pl:.*")
         res = self.get_resources(path)
         for resource in res["locations"]:
             if pl_id.match(resource["id"]):
-                self.delete_resource(resource["id"], path)
+                self.delete_resource(resource["id"], delete_path)
 
     def cleanup_synthetics_tests(
         self,
@@ -142,7 +143,7 @@ class Cleanup:
         path = "/api/v1/slo"
         res = self.get_resources(path)
         for resource in res["data"]:
-            self.delete_resource(resource["id"], path)
+            self.delete_resource(resource["id"], path, params={"force": True})
 
     def cleanup_integrations_aws(
         self,

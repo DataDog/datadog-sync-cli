@@ -3,6 +3,7 @@ import copy
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class DashboardLists(BaseResource):
@@ -32,10 +33,14 @@ class DashboardLists(BaseResource):
         self.import_resources_concurrently(resp["dashboard_lists"])
 
     def process_resource_import(self, dashboard_list):
+        if not self.filter(dashboard_list):
+            return
+
         source_client = self.config.source_client
+        _id = str(dashboard_list["id"])
         resp = None
         try:
-            resp = source_client.get(self.dash_list_items_path.format(dashboard_list["id"])).json()
+            resp = source_client.get(self.dash_list_items_path.format(_id)).json()
         except HTTPError as e:
             self.logger.error("error retrieving dashboard_lists items %s", e)
 
@@ -45,14 +50,13 @@ class DashboardLists(BaseResource):
                 dash_list_item = {"id": dash["id"], "type": dash["type"]}
                 dashboard_list["dashboards"].append(dash_list_item)
 
-        self.source_resources[dashboard_list["id"]] = dashboard_list
+        self.source_resources[_id] = dashboard_list
 
     def apply_resources(self):
-        connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(connection_resource_obj)
+        self.apply_resources_concurrently()
 
-    def prepare_resource_and_apply(self, _id, dashboard_list, connection_resource_obj):
-        self.connect_resources(dashboard_list, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, dashboard_list):
+        self.connect_resources(_id, dashboard_list)
 
         if _id in self.destination_resources:
             self.update_resource(_id, dashboard_list)

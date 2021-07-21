@@ -1,4 +1,5 @@
 from click import pass_context, group, option
+import click_config_file
 
 from datadog_sync import constants
 from datadog_sync import models
@@ -7,6 +8,7 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
+from datadog_sync.utils.filter import process_filters
 from collections import defaultdict, OrderedDict
 
 
@@ -27,6 +29,7 @@ from collections import defaultdict, OrderedDict
     "--source-api-url",
     envvar=constants.DD_SOURCE_API_URL,
     required=False,
+    default=constants.DEFAULT_API_URL,
     help="Datadog source organization API url.",
 )
 @option(
@@ -45,6 +48,7 @@ from collections import defaultdict, OrderedDict
     "--destination-api-url",
     envvar=constants.DD_DESTINATION_API_URL,
     required=False,
+    default=constants.DEFAULT_API_URL,
     help="Datadog destination organization API url.",
 )
 @option(
@@ -61,12 +65,35 @@ from collections import defaultdict, OrderedDict
     help="Optional comma separated list of resource to import. All supported resources are imported by default.",
 )
 @option(
+    "--max-workers",
+    envvar=constants.MAX_WORKERS,
+    required=False,
+    type=int,
+    help="Max number of workers when running operations in multi-threads. Defaults to 'None'",
+)
+@option(
     "--verbose",
     "-v",
     required=False,
     is_flag=True,
     help="Enable verbose logging.",
 )
+@option(
+    "--force-missing-dependencies",
+    required=False,
+    is_flag=True,
+    default=False,
+    help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
+)
+@option("--filter", required=False, help="Filter imported resources.", multiple=True)
+@option(
+    "--skip-failed-resource-connections",
+    type=bool,
+    default=True,
+    show_default=True,
+    help="Skip resource if resource connection fails.",
+)
+@click_config_file.configuration_option()
 @pass_context
 def cli(ctx, **kwargs):
     """Initialize cli"""
@@ -74,6 +101,9 @@ def cli(ctx, **kwargs):
 
     # configure logger
     logger = Log(kwargs.get("verbose"))
+
+    # configure Filter
+    filters = process_filters(kwargs.get("filter"))
 
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
@@ -88,16 +118,28 @@ def cli(ctx, **kwargs):
         "appKeyAuth": kwargs.get("destination_app_key"),
     }
     retry_timeout = kwargs.get("http_client_retry_timeout")
+    max_workers = kwargs.get("max_workers")
 
     source_client = CustomClient(source_api_url, source_auth, retry_timeout)
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
+    skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
+
     # Initialize Configuration
-    config = Configuration(logger=logger, source_client=source_client, destination_client=destination_client)
+    config = Configuration(
+        logger=logger,
+        source_client=source_client,
+        destination_client=destination_client,
+        filters=filters,
+        skip_failed_resource_connections=skip_failed_resource_connections,
+        max_workers=max_workers,
+    )
     ctx.obj["config"] = config
 
-    # Initialize resources
-    config.resources = get_resources(config, kwargs.get("resources"))
+    # Initialize resources and missing dependencies
+    config.resources, config.missing_deps = get_resources(config, kwargs.get("resources"))
+
+    ctx.obj["force_missing_dependencies"] = kwargs.get("force_missing_dependencies")
 
 
 # TODO: add unit tests
@@ -105,9 +147,7 @@ def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
     all_resources = [
-        cls.resource_type
-        for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
+        cls.resource_type for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
     ]
 
     if resources_arg:
@@ -122,17 +162,16 @@ def get_resources(cfg, resources_arg):
     )
 
     resources_classes = [
-        cls for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
+        str_to_class[resource_type] for resource_type in resources_arg if resource_type in str_to_class
     ]
 
     order_list = get_import_order(resources_classes, str_to_class)
 
-    args_import_order = [resource_type for resource_type in order_list if resource_type in resources_arg]
+    missing_deps = [resource for resource in order_list if resource not in resources_arg]
 
-    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in args_import_order})
+    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list})
 
-    return resources
+    return resources, missing_deps
 
 
 def get_import_order(resources, str_to_class):

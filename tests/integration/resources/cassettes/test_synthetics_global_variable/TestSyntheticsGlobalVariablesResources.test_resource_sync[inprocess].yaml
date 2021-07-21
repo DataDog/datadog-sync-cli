@@ -1,0 +1,244 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"variables": []}'
+    headers:
+      Alt-Svc:
+      - clear
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '16'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Tue, 20 Jul 2021 18:53:31 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '119'
+      x-ratelimit-reset:
+      - '29'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "test", "tags": ["check_type:api"], "value": {"secure":
+      false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "type": "variable",
+      "name": "TEST_VARIABLE"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '173'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
+        "test", "tags": ["check_type:api"], "is_totp": null, "value": {"secure": false,
+        "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
+        null, "parse_test_name": null, "type": "variable", "id": "83811736-c08a-4ba2-83d2-63b6597bf076",
+        "name": "TEST_VARIABLE"}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '328'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Tue, 20 Jul 2021 18:53:31 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '119'
+      x-ratelimit-reset:
+      - '29'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "Description of the variable", "tags": ["foo:bar", "env:test"],
+      "value": {"secure": false, "value": "variable-value"}, "type": "variable", "name":
+      "EXAMPLE_VARIABLE"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '182'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
+        "Description of the variable", "tags": ["foo:bar", "env:test"], "is_totp":
+        null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
+        null, "parse_test_name": null, "type": "variable", "id": "bb11ff75-9ffc-4b3b-9306-fcc88e6f225b",
+        "name": "EXAMPLE_VARIABLE"}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '336'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Tue, 20 Jul 2021 18:53:32 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '118'
+      x-ratelimit-reset:
+      - '29'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "test", "tags": [], "value": {"secure": false, "value":
+      "test"}, "type": "variable", "name": "TEST"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '116'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
+        "test", "tags": [], "is_totp": null, "value": {"secure": false, "value": "test"},
+        "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
+        "id": "b34f66d1-3832-476d-962f-fc6b5c6a6da4", "name": "TEST"}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '271'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Tue, 20 Jul 2021 18:53:33 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '117'
+      x-ratelimit-reset:
+      - '27'
+    status:
+      code: 200
+      message: OK
+version: 1

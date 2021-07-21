@@ -25,15 +25,18 @@ class LogsCustomPipelines(BaseResource):
         self.import_resources_concurrently(resp)
 
     def process_resource_import(self, logs_custom_pipeline):
-        if not logs_custom_pipeline["is_read_only"]:
-            self.source_resources[logs_custom_pipeline["id"]] = logs_custom_pipeline
+        if logs_custom_pipeline["is_read_only"]:
+            return
+        if not self.filter(logs_custom_pipeline):
+            return
+
+        self.source_resources[logs_custom_pipeline["id"]] = logs_custom_pipeline
 
     def apply_resources(self):
-        connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_sequentially(connection_resource_obj)
+        self.apply_resources_sequentially()
 
-    def prepare_resource_and_apply(self, _id, logs_custom_pipeline, connection_resource_obj):
-        self.connect_resources(logs_custom_pipeline, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, logs_custom_pipeline):
+        self.connect_resources(_id, logs_custom_pipeline)
 
         if _id in self.destination_resources:
             self.update_resource(_id, logs_custom_pipeline)
