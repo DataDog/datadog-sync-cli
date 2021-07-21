@@ -30,6 +30,7 @@ class SLOCorrections(BaseResource):
 
     def prepare_resource_and_apply(self, _id, slo_correction):
         self.connect_resources(slo_correction)
+        self.remove_excluded_attr(slo_correction)
 
         if _id in self.destination_resources:
             self.update_resource(_id, slo_correction)
@@ -51,7 +52,6 @@ class SLOCorrections(BaseResource):
 
     def update_resource(self, _id, slo_correction):
         destination_client = self.config.destination_client
-        self.remove_excluded_attr(slo_correction)
 
         diff = self.check_diff(slo_correction, self.destination_resources[_id])
         if diff:
@@ -64,13 +64,3 @@ class SLOCorrections(BaseResource):
                 self.logger.error("error updating slo_correction: %s", e.response.text)
                 return
             self.destination_resources[_id] = resp["data"]
-
-    def connect_id(self, key, r_obj, resource_to_connect):
-        slos = self.config.resources["service_level_objectives"].destination_resources
-        for _, obj in enumerate(r_obj[key]):
-            _id = str(obj)
-            if _id in slos:
-                type_attr = type(r_obj[key])
-                r_obj[key] = type_attr(slos[_id]["id"])
-            else:
-                raise ResourceConnectionError(resource_to_connect, _id=_id)
