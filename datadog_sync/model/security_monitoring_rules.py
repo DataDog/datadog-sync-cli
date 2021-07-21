@@ -31,16 +31,11 @@ class SecurityMonitoringRules(BaseResource):
         self.source_resources[security_monitoring_rule["id"]] = security_monitoring_rule
 
     def apply_resources(self):
-        self.logger.info("Processing service_level_objectives")
+        self.logger.info("Processing security_monitoring_rules")
+        self.apply_resources_concurrently()
 
-        connection_resource_obj = self.get_connection_resources()
-
-        self.apply_resources_concurrently(
-            connection_resource_obj,
-        )
-
-    def prepare_resource_and_apply(self, _id, security_monitoring_rule, connection_resource_obj):
-        self.connect_resources(security_monitoring_rule, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, security_monitoring_rule):
+        self.connect_resources(_id, security_monitoring_rule)
 
         if _id in self.destination_resources:
             self.update_resource(_id, security_monitoring_rule)
