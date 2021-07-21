@@ -1,8 +1,10 @@
 import pytest
+from unittest.mock import MagicMock, call
 
-from datadog_sync.utils.resource_utils import replace, replace_ids
 from datadog_sync import models
-from datadog_sync.utils.configuration import get_import_order
+from datadog_sync.utils.configuration import get_import_order, get_resources
+from datadog_sync.utils.resource_utils import find_attr
+from datadog_sync.utils.base_resource import BaseResource
 
 
 @pytest.fixture(scope="class")
@@ -10,144 +12,43 @@ def str_to_class():
     return dict([(cls.resource_type, cls) for name, cls in models.__dict__.items() if isinstance(cls, type)])
 
 
-def test_replace_one_level_key():
-    r_obj = {"key_example": "1"}
-    connection_resources_obj = {
-        "resource_name": {
-            "1": {
-                "id": 2,
-            },
-        }
-    }
-    r_obj_expected = {"key_example": "2"}
-    replace("key_example", "origin", r_obj, "resource_name", connection_resources_obj)
-    assert r_obj == r_obj_expected
+def test_find_attr():
+    keys_list = "attribute"
+    resource_to_connect = "test"
+    r_obj = {"attribute": "value"}
+    connect_func = MagicMock()
+
+    find_attr(keys_list, resource_to_connect, r_obj, connect_func)
+
+    connect_func.assert_called_once()
+    connect_func.assert_called_with("attribute", {"attribute": "value"}, "test")
 
 
-def test_replace_multiple_levels_key():
-    r_obj = {"a": {"b": {"c": "1"}}}
+def test_find_nested_attr():
+    keys_list = "test.attribute"
+    resource_to_connect = "test"
+    r_obj = {"test": {"attribute": "value"}}
+    connect_func = MagicMock()
 
-    connection_resources_obj = {
-        "resource_name": {
-            "1": {
-                "id": 2,
-            },
-        }
-    }
+    find_attr(keys_list, resource_to_connect, r_obj, connect_func)
 
-    r_obj_expected = {"a": {"b": {"c": "2"}}}
-
-    replace("a.b.c", "origin", r_obj, "resource_name", connection_resources_obj)
-
-    assert r_obj == r_obj_expected
+    connect_func.assert_called_once()
+    connect_func.assert_called_with("attribute", {"attribute": "value"}, "test")
 
 
-def test_replace_multiple_levels_key_containing_an_array():
-    r_obj = {"a": {"b": [{"c": "1"}, {"c": "2"}, {"c": "3"}]}}
+def test_find_nested_list_attr():
+    keys_list = "test.attribute"
+    resource_to_connect = "test"
+    r_obj = {"test": [{"attribute": "value"}, {"attribute": "value2"}]}
+    connect_func = MagicMock()
 
-    connection_resources_obj = {
-        "resource_name": {
-            "1": {
-                "id": 2,
-            },
-            "2": {
-                "id": 3,
-            },
-            "3": {
-                "id": 4,
-            },
-        }
-    }
+    find_attr(keys_list, resource_to_connect, r_obj, connect_func)
 
-    r_obj_expected = {"a": {"b": [{"c": "2"}, {"c": "3"}, {"c": "4"}]}}
-
-    replace("a.b.c", "origin", r_obj, "resource_name", connection_resources_obj)
-
-    assert r_obj == r_obj_expected
-
-
-def test_replace_ids_empty_resource():
-    r_obj = {}
-    r_obj_expected = {}
-    replace_ids("key_example", "origin", r_obj, "resource_name", {})
-    assert r_obj == r_obj_expected
-
-
-def test_replace_ids_composite_monitors():
-    r_obj = {"query": "11111111 && 33333333 || ( !11111111 && !33333333 )", "type": "composite"}
-    connection_resources_obj = {
-        "monitors": {
-            "11111111": {
-                "id": 2222222,
-            },
-            "33333333": {
-                "id": 4444444,
-            },
-        }
-    }
-    r_obj_expected = {"query": "2222222 && 4444444 || ( !2222222 && !4444444 )", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", connection_resources_obj)
-    assert r_obj == r_obj_expected
-
-
-def test_replace_composite_monitors():
-    r_obj = {"query": "11111111 && 33333333 || ( !11111111 && !33333333 )", "type": "composite"}
-    connection_resources_obj = {
-        "monitors": {
-            "11111111": {
-                "id": 2222222,
-            },
-            "33333333": {
-                "id": 4444444,
-            },
-        }
-    }
-    r_obj_expected = {"query": "2222222 && 4444444 || ( !2222222 && !4444444 )", "type": "composite"}
-    replace("query", "origin", r_obj, "monitors", connection_resources_obj)
-    assert r_obj == r_obj_expected
-
-
-def test_replace_ids_composite_monitors_with_single_id():
-    r_obj = {"query": "1 && 1", "type": "composite"}
-    connection_resources_obj = {
-        "monitors": {
-            "1": {
-                "id": 2,
-            }
-        }
-    }
-    r_obj_expected = {"query": "2 && 2", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", connection_resources_obj)
-    assert r_obj == r_obj_expected
-
-    r_obj = {"query": "1", "type": "composite"}
-    connection_resources_obj = {
-        "monitors": {
-            "1": {
-                "id": 2,
-            }
-        }
-    }
-    r_obj_expected = {"query": "2", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", connection_resources_obj)
-    assert r_obj == r_obj_expected
-
-
-def test_replace_ids_composite_monitors_with_overlapping_ids():
-    r_obj = {"query": "1 && 2 || ( !1 && !2 )", "type": "composite"}
-    connection_resources_obj = {
-        "monitors": {
-            "1": {
-                "id": 2,
-            },
-            "2": {
-                "id": 3,
-            },
-        }
-    }
-    r_obj_expected = {"query": "2 && 3 || ( !2 && !3 )", "type": "composite"}
-    replace_ids("query", "origin", r_obj, "monitors", connection_resources_obj)
-    assert r_obj == r_obj_expected
+    assert connect_func.call_args_list == [
+        call("attribute", {"attribute": "value"}, "test"),
+        call("attribute", {"attribute": "value2"}, "test"),
+    ]
+    assert connect_func.call_count == 2
 
 
 def validate_order_list(order_list, resources):
@@ -220,3 +121,30 @@ def test_get_import_service_level_objectives(str_to_class):
     order_list = get_import_order(resources, str_to_class)
 
     assert validate_order_list(order_list, resources)
+
+
+def test_get_resources_no_args(config):
+    result, _ = get_resources(config, "")
+    result_resources = [r[0] for r in result.items()]
+
+    all_resources = [
+        cls.resource_type for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
+    ]
+
+    assert sorted(result_resources) == sorted(all_resources)
+
+
+def test_get_resources_with_args(config):
+    result, _ = get_resources(config, "monitors,downtimes,service_level_objectives")
+    result_resources = [r[0] for r in result.items()]
+
+    resources_arg = [
+        "roles",
+        "synthetics_private_locations",
+        "synthetics_tests",
+        "monitors",
+        "downtimes",
+        "service_level_objectives",
+    ]
+
+    assert sorted(result_resources) == sorted(resources_arg)

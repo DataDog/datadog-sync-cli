@@ -1,6 +1,7 @@
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class SyntheticsGlobalVariables(BaseResource):
@@ -36,11 +37,9 @@ class SyntheticsGlobalVariables(BaseResource):
         self.source_resources[synthetics_global_variable["id"]] = synthetics_global_variable
 
     def apply_resources(self):
-        connection_resource_obj = self.get_connection_resources()
         destination_global_variables = self.get_destination_global_variables()
 
         self.apply_resources_concurrently(
-            connection_resource_obj,
             destination_global_variables=destination_global_variables,
         )
 
@@ -48,12 +47,11 @@ class SyntheticsGlobalVariables(BaseResource):
         self,
         _id,
         synthetics_global_variable,
-        connection_resource_obj,
         **kwargs,
     ):
         destination_global_variables = kwargs.get("destination_global_variables")
 
-        self.connect_resources(synthetics_global_variable, connection_resource_obj)
+        self.connect_resources(_id, synthetics_global_variable)
 
         if _id in self.destination_resources:
             self.update_resource(_id, synthetics_global_variable)
@@ -125,3 +123,14 @@ class SyntheticsGlobalVariables(BaseResource):
             destination_global_variable_obj[variable["name"]] = variable
 
         return destination_global_variable_obj
+
+    def connect_id(self, key, r_obj, resource_to_connect):
+        resources = self.config.resources[resource_to_connect].destination_resources
+        found = False
+        for k, v in resources.items():
+            if k.startswith(r_obj[key]):
+                r_obj[key] = v["public_id"]
+                found = True
+                break
+        if not found:
+            raise ResourceConnectionError(resource_to_connect, _id=r_obj[key])

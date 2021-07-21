@@ -49,11 +49,10 @@ class SyntheticsPrivateLocations(BaseResource):
             self.source_resources[synthetics_private_location["id"]] = pl
 
     def apply_resources(self):
-        connection_resource_obj = self.get_connection_resources()
-        self.apply_resources_concurrently(connection_resource_obj)
+        self.apply_resources_concurrently()
 
-    def prepare_resource_and_apply(self, _id, synthetics_private_location, connection_resource_obj):
-        self.connect_resources(synthetics_private_location, connection_resource_obj)
+    def prepare_resource_and_apply(self, _id, synthetics_private_location):
+        self.connect_resources(_id, synthetics_private_location)
 
         if _id in self.destination_resources:
             self.update_resource(_id, synthetics_private_location)

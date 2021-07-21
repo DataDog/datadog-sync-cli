@@ -19,6 +19,8 @@ class Configuration(object):
         missing_deps=None,
         filters=None,
         force_missing_dependencies=None,
+        skip_failed_resource_connections=None,
+        max_workers=None,
     ):
         if not logger:
             # fallback to default logger if not provided
@@ -30,6 +32,8 @@ class Configuration(object):
         self.missing_deps = missing_deps
         self.filters = filters
         self.force_missing_dependencies = force_missing_dependencies
+        self.skip_failed_resource_connections = skip_failed_resource_connections
+        self.max_workers = max_workers
 
 
 def build_config(**kwargs):
@@ -43,6 +47,7 @@ def build_config(**kwargs):
     destination_api_url = kwargs.get("destination_api_url")
 
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
+    skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
 
     # Initialize the datadog API Clients
     source_auth = {
@@ -58,6 +63,8 @@ def build_config(**kwargs):
     source_client = CustomClient(source_api_url, source_auth, retry_timeout)
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
+    max_workers = kwargs.get("max_workers")
+
     # Initialize Configuration
     config = Configuration(
         logger=logger,
@@ -65,6 +72,8 @@ def build_config(**kwargs):
         destination_client=destination_client,
         filters=filters,
         force_missing_dependencies=force_missing_dependencies,
+        skip_failed_resource_connections=skip_failed_resource_connections,
+        max_workers=max_workers,
     )
 
     # Initialize resources

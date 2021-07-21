@@ -19,6 +19,13 @@ from datadog_sync.utils.configuration import build_config
     default=False,
     help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
 )
+@option(
+    "--skip-failed-resource-connections",
+    type=bool,
+    default=True,
+    show_default=True,
+    help="Skip resource if resource connection fails.",
+)
 def sync(**kwargs):
     """Sync Datadog resources to destination."""
     cfg = build_config(**kwargs)
