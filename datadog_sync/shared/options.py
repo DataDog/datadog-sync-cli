@@ -20,6 +20,7 @@ _source_auth_options = [
         "--source-api-url",
         envvar=constants.DD_SOURCE_API_URL,
         required=False,
+        default=constants.DEFAULT_API_URL,
         help="Datadog source organization API url.",
     ),
 ]
@@ -41,6 +42,7 @@ _destination_auth_options = [
         "--destination-api-url",
         envvar=constants.DD_DESTINATION_API_URL,
         required=False,
+        default=constants.DEFAULT_API_URL,
         help="Datadog destination organization API url.",
     ),
 ]
@@ -66,6 +68,13 @@ _common_options = [
         required=False,
         is_flag=True,
         help="Enable verbose logging.",
+    ),
+    option(
+        "--max-workers",
+        envvar=constants.MAX_WORKERS,
+        required=False,
+        type=int,
+        help="Max number of workers when running operations in multi-threads. Defaults to 'None'",
     ),
     click_config_file.configuration_option(),
 ]

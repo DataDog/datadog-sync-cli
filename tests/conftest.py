@@ -4,10 +4,9 @@ import os
 import logging
 import json
 
-from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync import constants
-from datadog_sync.cli import get_resources
+from datadog_sync.utils.configuration import get_resources
 
 
 def filter_private_location_data(response):

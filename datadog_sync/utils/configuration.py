@@ -46,9 +46,6 @@ def build_config(**kwargs):
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
 
-    force_missing_dependencies = kwargs.get("force_missing_dependencies")
-    skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
-
     # Initialize the datadog API Clients
     source_auth = {
         "apiKeyAuth": kwargs.get("source_api_key"),
@@ -63,6 +60,9 @@ def build_config(**kwargs):
     source_client = CustomClient(source_api_url, source_auth, retry_timeout)
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
+    # Additional settings
+    force_missing_dependencies = kwargs.get("force_missing_dependencies")
+    skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
     max_workers = kwargs.get("max_workers")
 
     # Initialize Configuration
