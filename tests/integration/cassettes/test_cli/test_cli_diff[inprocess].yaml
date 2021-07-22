@@ -59,7 +59,7 @@ interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Thu, 22 Jul 2021 18:06:12 GMT
+      - Thu, 22 Jul 2021 18:56:05 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -87,7 +87,7 @@ interactions:
       x-ratelimit-remaining:
       - '83'
       x-ratelimit-reset:
-      - '48'
+      - '55'
     status:
       code: 200
       message: OK
@@ -126,7 +126,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:12 GMT
+      - Thu, 22 Jul 2021 18:56:05 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -152,7 +152,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '48'
+      - '55'
     status:
       code: 200
       message: OK
@@ -183,7 +183,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:12 GMT
+      - Thu, 22 Jul 2021 18:56:05 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -293,7 +293,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:12 GMT
+      - Thu, 22 Jul 2021 18:56:05 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -319,7 +319,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '48'
+      - '55'
     status:
       code: 200
       message: OK
@@ -371,7 +371,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:12 GMT
+      - Thu, 22 Jul 2021 18:56:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -397,7 +397,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '48'
+      - '54'
     status:
       code: 200
       message: OK
@@ -527,7 +527,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:12 GMT
+      - Thu, 22 Jul 2021 18:56:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -553,7 +553,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '48'
+      - '54'
     status:
       code: 200
       message: OK
@@ -585,7 +585,14 @@ interactions:
         "display_name": "Default Settings", "description": "The ability to edit default
         settings for Synthetics Monitoring.", "created": "2020-09-17T20:21:38.818771+00:00",
         "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "984d2f00-d3b4-11e8-a200-bb47109e9987",
+        false}}, {"type": "permissions", "id": "7d7c98ac-dd12-11e8-9e56-93700598622d",
+        "attributes": {"name": "logs_write_exclusion_filters", "display_name": "Logs
+        Write Exclusion Filters", "description": "The ability to add and change exclusion
+        filters for all or some log indexes. Can be granted in a limited capacity
+        per index to specific roles via the Logs interface or API. If granted from
+        the Roles interface or API, the permission has global scope.", "created":
+        "2018-10-31T13:40:11.926613+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "984d2f00-d3b4-11e8-a200-bb47109e9987",
         "attributes": {"name": "standard", "display_name": "Standard Access", "description":
         "This permission gives you the ability to view and edit components in your
         Datadog organization that do not have explicitly defined permissions. This
@@ -664,14 +671,14 @@ interactions:
         {"name": "incident_settings_read", "display_name": "Incidents Settings", "description":
         "The ability to view incidents Settings.", "created": "2021-06-22T15:11:09.259568+00:00",
         "group_name": "Incidents", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "attributes":
-        {"name": "security_monitoring_rules_read", "display_name": "Detection Rules",
-        "description": "The ability to read Detection rules.", "created": "2020-06-09T13:52:25.279909+00:00",
-        "group_name": "Security Monitoring", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f",
-        "attributes": {"name": "monitors_downtime", "display_name": "Monitors Manage
-        Downtimes", "description": "The ability to set downtimes for your organization.
-        A user with this permission can suppress alerts from any monitor using a downtime,
+        {"type": "permissions", "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002", "attributes":
+        {"name": "incident_read", "display_name": "Incidents App Experience", "description":
+        "The ability to view the Incident App and see incidents.", "created": "2021-06-22T15:11:09.255499+00:00",
+        "group_name": "Incidents", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f", "attributes":
+        {"name": "monitors_downtime", "display_name": "Monitors Manage Downtimes",
+        "description": "The ability to set downtimes for your organization. A user
+        with this permission can suppress alerts from any monitor using a downtime,
         even if they do not have permission to edit those monitors explicitly.", "created":
         "2019-09-16T18:39:23.306702+00:00", "group_name": "Monitors", "display_type":
         "other", "restricted": false}}, {"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e",
@@ -785,39 +792,39 @@ interactions:
         "description": "The ability to access and edit logs configurations via the
         API.", "created": "2019-05-02T08:13:01.731092+00:00", "group_name": "Logs",
         "display_type": "other", "restricted": false}}, {"type": "permissions", "id":
-        "46a301db-ec5c-11ea-aa9f-2fe72193d60e", "attributes": {"name": "org_app_keys_read",
-        "display_name": "Organization Application Keys", "description": "The ability
-        to view Application Keys owned by all users in the organization.", "created":
-        "2020-09-01T14:06:05.444705+00:00", "group_name": "API and Application Keys",
+        "372896c4-f923-11ea-adbc-4fecd107156d", "attributes": {"name": "api_keys_read",
+        "display_name": "API Keys", "description": "The ability to list and retrive
+        the key values of all API Keys in your organization.", "created": "2020-09-17T20:20:23.279769+00:00",
+        "group_name": "API and Application Keys", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "87b00304-dd12-11e8-9e59-cbeb5f71f72f",
+        "attributes": {"name": "logs_write_archives", "display_name": "Logs Archives",
+        "description": "The ability to add and edit log archive locations.", "created":
+        "2018-10-31T13:40:29.040786+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc",
+        "attributes": {"name": "metric_tags_write", "display_name": "Manage Tags for
+        Metrics", "description": "The ability to edit and save tag configurations
+        for custom metrics.", "created": "2020-09-01T14:06:05.444705+00:00", "group_name":
+        "Metrics", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9", "attributes": {"name": "synthetics_global_variable_read",
+        "display_name": "Global Variables", "description": "The ability to view, search
+        and use in tests the list of global variables available for Synthetics.",
+        "created": "2020-09-17T20:20:48.446916+00:00", "group_name": "Synthetic Monitoring",
         "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "87b00304-dd12-11e8-9e59-cbeb5f71f72f", "attributes": {"name": "logs_write_archives",
-        "display_name": "Logs Archives", "description": "The ability to add and edit
-        log archive locations.", "created": "2018-10-31T13:40:29.040786+00:00", "group_name":
-        "Logs", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc", "attributes": {"name": "metric_tags_write",
-        "display_name": "Manage Tags for Metrics", "description": "The ability to
-        edit and save tag configurations for custom metrics.", "created": "2020-09-01T14:06:05.444705+00:00",
-        "group_name": "Metrics", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9", "attributes":
-        {"name": "synthetics_global_variable_read", "display_name": "Global Variables",
-        "description": "The ability to view, search and use in tests the list of global
-        variables available for Synthetics.", "created": "2020-09-17T20:20:48.446916+00:00",
-        "group_name": "Synthetic Monitoring", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002",
-        "attributes": {"name": "incident_read", "display_name": "Incidents App Experience",
-        "description": "The ability to view the Incident App and see incidents.",
-        "created": "2021-06-22T15:11:09.255499+00:00", "group_name": "Incidents",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "46a301e2-ec5c-11ea-aa9f-1f511b7305fd", "attributes": {"name": "usage_edit",
+        "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "attributes": {"name": "security_monitoring_rules_read",
+        "display_name": "Detection Rules", "description": "The ability to read Detection
+        rules.", "created": "2020-06-09T13:52:25.279909+00:00", "group_name": "Security
+        Monitoring", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "46a301e2-ec5c-11ea-aa9f-1f511b7305fd", "attributes": {"name": "usage_edit",
         "display_name": "Usage", "description": "The ability to manage your organization''s
         usage attribution set-up.", "created": "2020-09-01T14:06:05.444705+00:00",
         "group_name": "Billing and Usage", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "80de1ec0-aa58-11ea-95e2-aff381626d5d",
-        "attributes": {"name": "security_monitoring_signals_read", "display_name":
-        "Security Signals", "description": "The ability to view Security signals.",
-        "created": "2020-06-09T13:52:48.410398+00:00", "group_name": "Security Monitoring",
-        "display_type": "read", "restricted": false}}, {"type": "roles", "id": "fa017a35-bfcb-11eb-a4d7-da7ad0900002",
-        "attributes": {"name": "Datadog Admin Role", "created_at": "2021-05-28T15:47:15.884751+00:00",
+        false}}, {"type": "permissions", "id": "46a301db-ec5c-11ea-aa9f-2fe72193d60e",
+        "attributes": {"name": "org_app_keys_read", "display_name": "Organization
+        Application Keys", "description": "The ability to view Application Keys owned
+        by all users in the organization.", "created": "2020-09-01T14:06:05.444705+00:00",
+        "group_name": "API and Application Keys", "display_type": "read", "restricted":
+        false}}, {"type": "roles", "id": "fa017a35-bfcb-11eb-a4d7-da7ad0900002", "attributes":
+        {"name": "Datadog Admin Role", "created_at": "2021-05-28T15:47:15.884751+00:00",
         "modified_at": "2021-05-28T15:47:15.884751+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "984a2bd4-d3b4-11e8-a1ff-a7f660d43029"},
         {"type": "permissions", "id": "62cc036c-dd12-11e8-9e54-db9995643092"}, {"type":
@@ -917,16 +924,20 @@ interactions:
         "Security Filters", "description": "The ability to create, edit and delete
         Security Filters.", "created": "2021-05-10T08:56:23.680551+00:00", "group_name":
         "Security Monitoring", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "attributes":
-        {"name": "logs_read_data", "display_name": "Logs Read Data", "description":
-        "The ability to read log data. Can be restricted with restriction queries.",
-        "created": "2020-04-06T16:24:35.989108+00:00", "group_name": "Logs", "display_type":
-        "read", "restricted": false}}, {"type": "permissions", "id": "12efc210-d36c-11eb-a9b8-da7ad0900002",
-        "attributes": {"name": "incident_settings_write", "display_name": "Incidents
-        Settings", "description": "The ability to configure incidents Settings.",
-        "created": "2021-06-22T15:11:09.261986+00:00", "group_name": "Incidents",
-        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "48ef71ea-d8b1-11e9-a77a-93f408470ad0", "attributes": {"name": "monitors_write",
+        "permissions", "id": "80de1ec0-aa58-11ea-95e2-aff381626d5d", "attributes":
+        {"name": "security_monitoring_signals_read", "display_name": "Security Signals",
+        "description": "The ability to view Security signals.", "created": "2020-06-09T13:52:48.410398+00:00",
+        "group_name": "Security Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb",
+        "attributes": {"name": "logs_read_data", "display_name": "Logs Read Data",
+        "description": "The ability to read log data. Can be restricted with restriction
+        queries.", "created": "2020-04-06T16:24:35.989108+00:00", "group_name": "Logs",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "12efc210-d36c-11eb-a9b8-da7ad0900002", "attributes": {"name": "incident_settings_write",
+        "display_name": "Incidents Settings", "description": "The ability to configure
+        incidents Settings.", "created": "2021-06-22T15:11:09.261986+00:00", "group_name":
+        "Incidents", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "48ef71ea-d8b1-11e9-a77a-93f408470ad0", "attributes": {"name": "monitors_write",
         "display_name": "Monitors", "description": "The ability to change, mute, and
         delete individual monitors.", "created": "2019-09-16T18:39:15.597109+00:00",
         "group_name": "Monitors", "display_type": "write", "restricted": false}},
@@ -946,13 +957,8 @@ interactions:
         {"name": "user_app_keys", "display_name": "User Application Keys", "description":
         "The ability to view and manage Application Keys owned by the user.", "created":
         "2020-09-01T14:06:05.444705+00:00", "group_name": "API and Application Keys",
-        "display_type": "other", "restricted": false}}, {"type": "permissions", "id":
-        "372896c4-f923-11ea-adbc-4fecd107156d", "attributes": {"name": "api_keys_read",
-        "display_name": "API Keys", "description": "The ability to list and retrive
-        the key values of all API Keys in your organization.", "created": "2020-09-17T20:20:23.279769+00:00",
-        "group_name": "API and Application Keys", "display_type": "read", "restricted":
-        false}}, {"type": "roles", "id": "fa017a37-bfcb-11eb-a4d7-da7ad0900002", "attributes":
-        {"name": "Datadog Read Only Role", "created_at": "2021-05-28T15:47:16.084615+00:00",
+        "display_type": "other", "restricted": false}}, {"type": "roles", "id": "fa017a37-bfcb-11eb-a4d7-da7ad0900002",
+        "attributes": {"name": "Datadog Read Only Role", "created_at": "2021-05-28T15:47:16.084615+00:00",
         "modified_at": "2021-05-28T15:47:16.084615+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e"},
         {"type": "permissions", "id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73"}, {"type":
@@ -1018,13 +1024,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:13 GMT
+      - Thu, 22 Jul 2021 18:56:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '34499'
+      - '35038'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -1198,7 +1204,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:13 GMT
+      - Thu, 22 Jul 2021 18:56:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1224,7 +1230,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '7'
+      - '4'
     status:
       code: 200
       message: OK
@@ -1278,7 +1284,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:13 GMT
+      - Thu, 22 Jul 2021 18:56:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1304,7 +1310,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '7'
+      - '4'
     status:
       code: 200
       message: OK
@@ -1348,7 +1354,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:13 GMT
+      - Thu, 22 Jul 2021 18:56:06 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1374,7 +1380,7 @@ interactions:
       x-ratelimit-remaining:
       - '59'
       x-ratelimit-reset:
-      - '47'
+      - '54'
     status:
       code: 200
       message: OK
@@ -1427,7 +1433,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:14 GMT
+      - Thu, 22 Jul 2021 18:56:07 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1511,7 +1517,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:14 GMT
+      - Thu, 22 Jul 2021 18:56:07 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1567,7 +1573,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:14 GMT
+      - Thu, 22 Jul 2021 18:56:07 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1621,7 +1627,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:14 GMT
+      - Thu, 22 Jul 2021 18:56:07 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1675,7 +1681,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:14 GMT
+      - Thu, 22 Jul 2021 18:56:07 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1721,7 +1727,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:14 GMT
+      - Thu, 22 Jul 2021 18:56:08 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1777,7 +1783,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:15 GMT
+      - Thu, 22 Jul 2021 18:56:08 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1830,7 +1836,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:15 GMT
+      - Thu, 22 Jul 2021 18:56:08 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1856,7 +1862,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '45'
+      - '52'
     status:
       code: 200
       message: OK
@@ -1895,7 +1901,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:15 GMT
+      - Thu, 22 Jul 2021 18:56:08 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2243,7 +2249,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 18:06:16 GMT
+      - Thu, 22 Jul 2021 18:56:08 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2601,7 +2607,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 22 Jul 2021 18:06:16 GMT
+      - Thu, 22 Jul 2021 18:56:09 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -2751,7 +2757,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 22 Jul 2021 18:06:16 GMT
+      - Thu, 22 Jul 2021 18:56:09 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -2767,9 +2773,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '497'
+      - '498'
       x-ratelimit-reset:
-      - '44'
+      - '51'
     status:
       code: 200
       message: OK
