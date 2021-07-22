@@ -29,7 +29,7 @@ class SLOCorrections(BaseResource):
         self.apply_resources_concurrently()
 
     def prepare_resource_and_apply(self, _id, slo_correction):
-        self.connect_resources(slo_correction)
+        self.connect_resources(_id, slo_correction)
         self.remove_excluded_attr(slo_correction)
 
         if _id in self.destination_resources:
@@ -40,7 +40,7 @@ class SLOCorrections(BaseResource):
     def create_resource(self, _id, slo_correction):
         destination_client = self.config.destination_client
 
-        payload = {"data": slo_correction["attributes"]}
+        payload = {"data": {"attributes": slo_correction["attributes"], "type": "correction"}}
 
         try:
             resp = destination_client.post(self.base_path, payload).json()
