@@ -1,6 +1,4 @@
-from datadog_sync.utils.resource_utils import ResourceConnectionError
 from requests.exceptions import HTTPError
-
 from datadog_sync.utils.base_resource import BaseResource
 
 
