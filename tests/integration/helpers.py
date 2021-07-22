@@ -125,12 +125,12 @@ def pathUpdate(obj, path, value):
         if path[0] in obj:
             obj[path[0]] = value
         else:
-            raise Exception(f"cannot update obj, invalid key : {path}")
+            raise Exception(f"pathUpdate error: invalid key {path}")
     else:
         if path[0] in obj:
             pathUpdate(obj[path[0]], path[1], value)
         else:
-            raise Exception(f"cannot update obj, invalid key : {path}")
+            raise Exception(f"pathUpdate error: invalid key {path}")
 
 
 
