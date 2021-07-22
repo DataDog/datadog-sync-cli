@@ -40,7 +40,7 @@ class SLOCorrections(BaseResource):
     def create_resource(self, _id, slo_correction):
         destination_client = self.config.destination_client
 
-        payload = {"data": {"attributes": slo_correction["attributes"], "type": "correction"}}
+        payload = {"data": slo_correction}
 
         try:
             resp = destination_client.post(self.base_path, payload).json()
