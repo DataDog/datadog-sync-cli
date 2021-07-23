@@ -1,3 +1,5 @@
+### *Note: This is alpha level software. Do not use on production organizations*
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 
@@ -26,20 +28,26 @@ Usage: datadog-sync COMMAND [OPTIONS]
   Initialize cli
 
 Options:
-  --source-api-key TEXT                 Datadog source organization API key. [required]
-  --source-app-key TEXT                 Datadog source organization APP key. [required]
-  --source-api-url TEXT                 Datadog source organization API url.
-  --destination-api-key TEXT            Datadog destination organization API key. [required]
-  --destination-app-key TEXT            Datadog destination organization APP key. [required]
-  --destination-api-url TEXT            Datadog destination organization API url.
-  --http-client-retry-timeout INTEGER   The HTTP request retry timeout period. Defaults to `60s`.
-  --resources TEXT                      Optional comma separated list of resource to
-                                        import. All supported resources are imported
-                                        by default.
-  -v, --verbose                         Enable verbose logging.
-  --filter TEXT                         Filter imported resources. See [Filtering] section for more details. [import only]
-  --config FILE                         Read configuration from FILE. See [Config] section for more details.
-  --help                                Show this message and exit.
+  --source-api-key TEXT                       Datadog source organization API key. [required]
+  --source-app-key TEXT                       Datadog source organization APP key. [required]
+  --source-api-url TEXT                       Datadog source organization API url.
+  --destination-api-key TEXT                  Datadog destination organization API key. [required]
+  --destination-app-key TEXT                  Datadog destination organization APP key. [required]
+  --destination-api-url TEXT                  Datadog destination organization API url.
+  --http-client-retry-timeout INTEGER         The HTTP request retry timeout period. Defaults to `60s`.
+  --resources TEXT                            Optional comma separated list of resource to
+                                              import. All supported resources are imported
+                                              by default.
+  -v, --verbose                               Enable verbose logging.
+  --filter TEXT                               Filter imported resources. See [Filtering] section for more details. [import only]
+  --config FILE                               Read configuration from FILE. See [Config] section for more details.
+  --max-workers INTEGER                       Max number of workers when running
+                                              operations in multi-threads. Defaults to the number of processors on the machine, multiplied by 5.
+  --skip-failed-resource-connections BOOLEAN  Skip resource if resource connection fails. [default: True]  [sync + import only]
+  --force-missing-dependencies                Force importing and syncing resources that
+                                              could be potential dependencies to the
+                                              requested resources. [sync only]
+  --help                                      Show this message and exit.
 
 Commands:
   diffs   Log resource diffs.
@@ -113,6 +121,7 @@ Note: The above docker run command will mount your current working directory to 
 - **monitors**
 - **downtimes**
 - **service_level_objectives**
+- **slo_corrections**
 - **dashboards**
 - **dashboard_lists**
 - **logs_custom_pipelines**
@@ -135,4 +144,5 @@ downtimes                     | monitors
 dashboards                    | monitors, roles, service_level_objectives
 dashboard_lists               | dashboards
 service_level_objectives      | monitors, synthetics_tests
+slo_corrections               | service_level_objectives
 logs_custom_pipelines         | -

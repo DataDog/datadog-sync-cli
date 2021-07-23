@@ -6,13 +6,13 @@
 import pytest
 
 from tests.integration.helpers import BaseResourcesTestClass
-from datadog_sync.models import Roles
+from datadog_sync.models import SLOCorrections
 
 
-class TestRolesResources(BaseResourcesTestClass):
-    resource_type = Roles.resource_type
-    field_to_update = "attributes.name"
+class TestSLOCorrections(BaseResourcesTestClass):
+    resource_type = SLOCorrections.resource_type
+    field_to_update = "attributes.description"
 
-    @pytest.mark.skip(reason="We cannot run this test as the test org does not have RBAC enabled")
+    @pytest.mark.skip(reason="nested attribute update is not currently supported in tests")
     def test_resource_update_sync(self):
         pass

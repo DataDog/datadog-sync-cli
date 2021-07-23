@@ -1,9 +1,13 @@
+# Unless explicitly stated otherwise all files in this repository are licensed
+# under the 3-clause BSD style license (see LICENSE).
+# This product includes software developed at Datadog (https://www.datadoghq.com/).
+# Copyright 2019 Datadog, Inc.
+
 import copy
 
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
-from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class DashboardLists(BaseResource):
