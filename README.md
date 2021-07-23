@@ -121,6 +121,7 @@ Note: The above docker run command will mount your current working directory to 
 - **monitors**
 - **downtimes**
 - **service_level_objectives**
+- **slo_corrections**
 - **dashboards**
 - **dashboard_lists**
 - **logs_custom_pipelines**
@@ -143,4 +144,5 @@ downtimes                     | monitors
 dashboards                    | monitors, roles, service_level_objectives
 dashboard_lists               | dashboards
 service_level_objectives      | monitors, synthetics_tests
+slo_corrections               | service_level_objectives
 logs_custom_pipelines         | -

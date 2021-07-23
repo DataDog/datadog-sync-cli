@@ -1,0 +1,63 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/slo/correction
+  response:
+    body:
+      string: '{"meta": {"page": {"total_filtered_count": 1, "total_count": 1}}, "data":
+        [{"type": "correction", "id": "010e1dae-d819-11eb-ac2c-da7ad0900002", "attributes":
+        {"slo_id": "ba72d10835d75e0c8910597144f3733a", "start": 1735707000, "end":
+        1735718600, "description": "correction example Updated via terraform-provider",
+        "category": "Scheduled Maintenance", "timezone": "UTC", "creator": {"data":
+        {"type": "users", "id": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002", "attributes":
+        {"uuid": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002", "handle": "frog@datadoghq.com",
+        "email": "frog@datadoghq.com", "name": null, "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro"}}}}}]}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 22 Jul 2021 19:49:09 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '650'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '12000'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '11999'
+      x-ratelimit-reset:
+      - '51'
+    status:
+      code: 200
+      message: OK
+version: 1

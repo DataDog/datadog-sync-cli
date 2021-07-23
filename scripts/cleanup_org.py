@@ -24,6 +24,7 @@ class Cleanup:
 
         # Delete all supported resources
         self.cleanup_service_level_objectives()
+        self.cleanup_slo_corrections()
         self.cleanup_synthetics_tests()
         self.cleanup_synthetics_private_locations()
         self.cleanup_synthetics_global_variables()
@@ -149,6 +150,12 @@ class Cleanup:
         res = self.get_resources(path)
         for resource in res["data"]:
             self.delete_resource(resource["id"], path, params={"force": True})
+
+    def cleanup_slo_corrections(self):
+        path = "/api/v1/slo/correction"
+        res = self.get_resources(path)
+        for resource in res["data"]:
+            self.delete_resource(resource["id"], path)
 
     def cleanup_integrations_aws(
         self,
