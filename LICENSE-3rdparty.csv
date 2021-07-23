@@ -1,12 +1,12 @@
-Component,Origin,License
-click,https://pypi.org/project/click/,BSD-3-Clause License
-click-config-file,https://pypi.org/project/click-config-file/,MIT License
-requests,https://pypi.org/project/requests/,Apache Software License
-deepdiff,https://pypi.org/project/deepdiff/,MIT License
-setuptools,https://pypi.org/project/setuptools/,MIT License
-black,https://pypi.org/project/black/,MIT License
-pytest,https://pypi.org/project/pytest/,MIT License
-pytest-black,https://pypi.org/project/pytest-black/,MIT License
-pytest-console-scripts,https://pypi.org/project/pytest-console-scripts/,MIT License
-pytest-recording,https://pypi.org/project/pytest-recording/,MIT License
-pytest-env,https://pypi.org/project/pytest-env/,MIT License
+Component,Origin,License,Copyright
+click,https://pypi.org/project/click/,BSD-3-Clause,Copyright 2014 Pallets
+click-config-file,https://pypi.org/project/click-config-file/,MIT,Copyright (c) 2018 Philipp Hack
+requests,https://pypi.org/project/requests/,Apache-2.0,Copyright 2020 Kenneth Reitz
+deepdiff,https://pypi.org/project/deepdiff/,MIT,Copyright (c) 2014 - 2021 Sep Dehpour (Seperman) and contributors
+setuptools,https://pypi.org/project/setuptools/,MIT,Copyright Jason R. Coombs
+black,https://pypi.org/project/black/,MIT,Copyright (c) 2018 Łukasz Langa
+pytest,https://pypi.org/project/pytest/,MIT,Copyright (c) 2004-2021 Holger Krekel and others
+pytest-black,https://pypi.org/project/pytest-black/,MIT,Copyright (c) 2018 ShopKeep Inc
+pytest-console-scripts,https://pypi.org/project/pytest-console-scripts/,MIT,Copyright (c) 2016 Vasily Kuznetsov
+pytest-recording,https://pypi.org/project/pytest-recording/,MIT,Copyright (c) 2019 Kiwi.com
+pytest-env,https://pypi.org/project/pytest-env/,MIT,
