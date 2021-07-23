@@ -1,6 +1,16 @@
-from click import command, option
+# Unless explicitly stated otherwise all files in this repository are licensed
+# under the 3-clause BSD style license (see LICENSE).
+# This product includes software developed at Datadog (https://www.datadoghq.com/).
+# Copyright 2019 Datadog, Inc.
 
-from datadog_sync.shared.options import common_options, source_auth_options, destination_auth_options
+from click import command
+
+from datadog_sync.commands.shared.options import (
+    common_options,
+    source_auth_options,
+    destination_auth_options,
+    non_import_common_options,
+)
 from datadog_sync.utils.configuration import build_config
 
 
@@ -8,13 +18,7 @@ from datadog_sync.utils.configuration import build_config
 @source_auth_options
 @destination_auth_options
 @common_options
-@option(
-    "--skip-failed-resource-connections",
-    type=bool,
-    default=True,
-    show_default=True,
-    help="Skip resource if resource connection fails.",
-)
+@non_import_common_options
 def diffs(**kwargs):
     """Log Datadog resources diffs."""
     cfg = build_config(**kwargs)
