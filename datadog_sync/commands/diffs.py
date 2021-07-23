@@ -1,6 +1,11 @@
-from click import command, option
+from click import command
 
-from datadog_sync.shared.options import common_options, source_auth_options, destination_auth_options
+from datadog_sync.commands.shared.options import (
+    common_options,
+    source_auth_options,
+    destination_auth_options,
+    non_import_common_options,
+)
 from datadog_sync.utils.configuration import build_config
 
 
@@ -8,13 +13,7 @@ from datadog_sync.utils.configuration import build_config
 @source_auth_options
 @destination_auth_options
 @common_options
-@option(
-    "--skip-failed-resource-connections",
-    type=bool,
-    default=True,
-    show_default=True,
-    help="Skip resource if resource connection fails.",
-)
+@non_import_common_options
 def diffs(**kwargs):
     """Log Datadog resources diffs."""
     cfg = build_config(**kwargs)

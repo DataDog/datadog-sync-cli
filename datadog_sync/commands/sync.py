@@ -4,7 +4,12 @@ import time
 from click import command, option
 
 from datadog_sync.constants import RESOURCE_FILE_PATH, DESTINATION_RESOURCES_DIR
-from datadog_sync.shared.options import common_options, source_auth_options, destination_auth_options
+from datadog_sync.commands.shared.options import (
+    common_options,
+    source_auth_options,
+    destination_auth_options,
+    non_import_common_options,
+)
 from datadog_sync.utils.configuration import build_config
 
 
@@ -12,19 +17,13 @@ from datadog_sync.utils.configuration import build_config
 @source_auth_options
 @destination_auth_options
 @common_options
+@non_import_common_options
 @option(
     "--force-missing-dependencies",
     required=False,
     is_flag=True,
     default=False,
     help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
-)
-@option(
-    "--skip-failed-resource-connections",
-    type=bool,
-    default=True,
-    show_default=True,
-    help="Skip resource if resource connection fails.",
 )
 def sync(**kwargs):
     """Sync Datadog resources to destination."""

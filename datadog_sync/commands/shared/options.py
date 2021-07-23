@@ -21,6 +21,7 @@ _source_auth_options = [
         envvar=constants.DD_SOURCE_API_URL,
         required=False,
         default=constants.DEFAULT_API_URL,
+        show_default=True,
         help="Datadog source organization API url.",
     ),
 ]
@@ -43,6 +44,7 @@ _destination_auth_options = [
         envvar=constants.DD_DESTINATION_API_URL,
         required=False,
         default=constants.DEFAULT_API_URL,
+        show_default=True,
         help="Datadog destination organization API url.",
     ),
 ]
@@ -55,6 +57,7 @@ _common_options = [
         required=False,
         type=int,
         default=60,
+        show_default=True,
         help="The HTTP request retry timeout period. Defaults to 60s",
     ),
     option(
@@ -74,9 +77,20 @@ _common_options = [
         envvar=constants.MAX_WORKERS,
         required=False,
         type=int,
-        help="Max number of workers when running operations in multi-threads. Defaults to 'None'",
+        help="Max number of workers when running operations in multi-threads.",
     ),
     click_config_file.configuration_option(),
+]
+
+
+_non_import_common_options = [
+    option(
+        "--skip-failed-resource-connections",
+        type=bool,
+        default=True,
+        show_default=True,
+        help="Skip resource if resource connection fails.",
+    )
 ]
 
 
@@ -90,6 +104,10 @@ def destination_auth_options(func):
 
 def common_options(func):
     return _build_options_helper(func, _common_options)
+
+
+def non_import_common_options(func):
+    return _build_options_helper(func, _non_import_common_options)
 
 
 def _build_options_helper(func, options):

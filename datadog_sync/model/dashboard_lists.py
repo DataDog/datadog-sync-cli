@@ -3,7 +3,6 @@ import copy
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource
-from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class DashboardLists(BaseResource):
