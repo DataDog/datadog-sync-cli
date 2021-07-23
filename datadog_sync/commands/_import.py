@@ -1,15 +1,20 @@
 import os
 import time
 
-from click import pass_context, command
+from click import command, option
+
 from datadog_sync.constants import SOURCE_RESOURCES_DIR
+from datadog_sync.shared.options import common_options, source_auth_options
+from datadog_sync.utils.configuration import build_config
 
 
 @command("import", short_help="Import Datadog resources.")
-@pass_context
-def _import(ctx):
+@source_auth_options
+@common_options
+@option("--filter", required=False, help="Filter imported resources.", multiple=True)
+def _import(**kwargs):
     """Import Datadog resources."""
-    cfg = ctx.obj.get("config")
+    cfg = build_config(**kwargs)
     start = time.time()
 
     os.makedirs(SOURCE_RESOURCES_DIR, exist_ok=True)

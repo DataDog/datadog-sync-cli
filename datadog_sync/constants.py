@@ -9,7 +9,7 @@ DD_HTTP_CLIENT_RETRY_TIMEOUT = "DD_HTTP_CLIENT_RETRY_TIMEOUT"
 MAX_WORKERS = "MAX_WORKERS"
 
 # Default variables
-DEFAULT_API_URL = "https://api.datadoghq.com/"
+DEFAULT_API_URL = "https://api.datadoghq.com"
 RESOURCES_DIR = "resources/"
 RESOURCE_FILE_PATH = "resources/{}/{}.json"
 SOURCE_RESOURCES_DIR = "resources/source"

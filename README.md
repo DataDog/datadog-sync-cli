@@ -21,7 +21,7 @@ The purpose of the datadog-sync-cli package is providing an easy way to sync res
 ## Usage
 
 ```
-Usage: datadog-sync [OPTIONS] COMMAND [ARGS]...
+Usage: datadog-sync COMMAND [OPTIONS]
 
   Initialize cli
 
@@ -37,7 +37,7 @@ Options:
                                         import. All supported resources are imported
                                         by default.
   -v, --verbose                         Enable verbose logging.
-  --filter TEXT                         Filter imported resources. See [Filtering] section for more details.
+  --filter TEXT                         Filter imported resources. See [Filtering] section for more details. [import only]
   --config FILE                         Read configuration from FILE. See [Config] section for more details.
   --help                                Show this message and exit.
 
@@ -48,7 +48,7 @@ Commands:
 ```
 #### Filtering
 
-Datadog sync cli tool supports filtering resources during import. Multiple filter flags can be passed. 
+Datadog sync cli tool supports filtering resources during import. Multiple filter flags can be passed.
 
 Filter option accepts a string made up of `key=value` pairs separated by `;`. For example
 ```
@@ -85,7 +85,7 @@ Usage: `datadog-sync --config config import`
 
 1) Clone the project repo
 2) CD into the repo directory and install the datadog-sync-cli via `pip install .`
-3) Run cli tool `datadog-sync <options> <command>`
+3) Run cli tool `datadog-sync <command> <options>`
 
 ### Using the package with docker
 1) Clone the project repo
@@ -99,7 +99,7 @@ docker run --rm -v $(pwd):/datadog-sync:rw \
   -e DD_DESTINATION_API_KEY=<DATADOG_API_KEY> \
   -e DD_DESTINATION_APP_KEY=<DATADOG_APP_KEY> \
   -e DD_DESTINATION_API_URL=<DATADOG_API_URL> \
-  datadog-sync:latest <options> <command>
+  datadog-sync:latest <command> <options>
 ```
 Note: The above docker run command will mount your current working directory to the container.
 

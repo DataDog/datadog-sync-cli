@@ -11,6 +11,7 @@ RESOURCE_TO_ADD_RE = re.compile("Resource to be added")
 RESOURCE_SKIPPED_RE = re.compile("Skipping resource")
 
 
+@pytest.mark.vcr
 @pytest.mark.integration
 class BaseResourcesTestClass:
     resource_type = None
@@ -22,7 +23,7 @@ class BaseResourcesTestClass:
         os.chdir(my_tmpdir)
 
     def test_resource_import(self, script_runner):
-        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "import")
+        ret = script_runner.run("datadog-sync", "import", f"--resources={self.resource_type}")
         assert ret.success
 
         # Assert at lease one resource is imported
@@ -32,7 +33,7 @@ class BaseResourcesTestClass:
         # Disable skipping on resource connection failure
         # From stdout, count the  number of resources to be added and ensure they match the import len()
         ret = script_runner.run(
-            "datadog-sync", f"--resources={self.resource_type}", "--skip-failed-resource-connections=false", "diffs"
+            "datadog-sync", "diffs", f"--resources={self.resource_type}", "--skip-failed-resource-connections=false"
         )
         assert ret.success
 
@@ -40,7 +41,7 @@ class BaseResourcesTestClass:
         assert num_resources_to_add == len(source_resources)
 
     def test_resource_sync(self, script_runner):
-        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "sync")
+        ret = script_runner.run("datadog-sync", "sync", f"--resources={self.resource_type}")
         assert ret.success
 
         # By default, resources  with failed connections are skipped. Hence count number of skipped + success
@@ -61,16 +62,16 @@ class BaseResourcesTestClass:
         save_source_resources(self.resource_type, source_resources)
 
         # assert diff is produced
-        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "diffs")
+        ret = script_runner.run("datadog-sync", "diffs", f"--resources={self.resource_type}")
         assert ret.stdout
         assert ret.success
 
         # sync the updated resources
-        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "sync")
+        ret = script_runner.run("datadog-sync", "sync", f"--resources={self.resource_type}")
         assert ret.success
 
         # assert diff is no longer produced
-        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "diffs")
+        ret = script_runner.run("datadog-sync", "diffs", f"--resources={self.resource_type}")
         assert ret.success
         assert not ret.stdout
 
@@ -80,7 +81,7 @@ class BaseResourcesTestClass:
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     def test_no_resource_diffs(self, script_runner):
-        ret = script_runner.run("datadog-sync", f"--resources={self.resource_type}", "diffs")
+        ret = script_runner.run("datadog-sync", "diffs", f"--resources={self.resource_type}")
         assert not ret.stdout
         assert ret.success
 

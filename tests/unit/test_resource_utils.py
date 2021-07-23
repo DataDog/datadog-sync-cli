@@ -2,9 +2,9 @@ import pytest
 from unittest.mock import MagicMock, call
 
 from datadog_sync import models
+from datadog_sync.utils.configuration import get_import_order, get_resources
 from datadog_sync.utils.resource_utils import find_attr
 from datadog_sync.utils.base_resource import BaseResource
-from datadog_sync.cli import get_import_order, get_resources
 
 
 @pytest.fixture(scope="class")
