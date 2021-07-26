@@ -156,5 +156,3 @@ def pathUpdate(obj, path, value):
             pathUpdate(obj[path[0]], path[1], value)
         else:
             raise Exception(f"pathUpdate error: invalid key {path}")
-
-
