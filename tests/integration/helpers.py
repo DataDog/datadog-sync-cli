@@ -67,7 +67,8 @@ class BaseResourcesTestClass:
 
                 pathUpdate(resource, self.field_to_update, current_value + "Updated")
             except Exception as e:
-                print("test_resource_update_sync error: " + str(e))
+                pytest.fail(e)
+
         save_source_resources(self.resource_type, source_resources)
 
         # assert diff is produced
