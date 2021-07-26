@@ -61,7 +61,8 @@ class BaseResourcesTestClass:
         # update fields and save the file.
         for resource in source_resources.values():
             try:
-                updated_value = str(pathLookup(resource, self.field_to_update)) + "+ updated"
+                current_value = pathLookup(resource, self.field_to_update)
+                updated_value = (str(current_value) if current_value else "")  + "+ updated"
                 pathUpdate(resource, self.field_to_update, updated_value)
             except Exception as e:
                 print("ERROR:" + str(e))
