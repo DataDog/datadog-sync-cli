@@ -16,10 +16,10 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/vgVxkrtSTjmsy7a519v6lg
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/620nLgCfSJy--RQbDSgplA
   response:
     body:
-      string: '{"id": "vgVxkrtSTjmsy7a519v6lg", "type": "pipeline", "name": "Test
+      string: '{"id": "620nLgCfSJy--RQbDSgplA", "type": "pipeline", "name": "Test
         pipeline+ updated", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "test:query"}, "processors": []}'
     headers:
@@ -40,7 +40,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Tue, 20 Jul 2021 18:53:14 GMT
+      - Mon, 26 Jul 2021 13:28:45 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -52,13 +52,13 @@ interactions:
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
-      - '2'
+      - '10'
       x-ratelimit-period:
-      - '60'
+      - '300'
       x-ratelimit-remaining:
-      - '1'
+      - '6'
       x-ratelimit-reset:
-      - '46'
+      - '75'
     status:
       code: 200
       message: OK
@@ -110,10 +110,10 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/vGn2wEjUR_usNLtqm2IdvA
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/QuvZdWwNQ_y0gBcGU0AwDw
   response:
     body:
-      string: '{"id": "vGn2wEjUR_usNLtqm2IdvA", "type": "pipeline", "name": "Test
+      string: '{"id": "QuvZdWwNQ_y0gBcGU0AwDw", "type": "pipeline", "name": "Test
         Pipeline - Complex+ updated", "is_enabled": true, "is_read_only": false, "filter":
         {"query": "source:foo"}, "processors": [{"name": "sample arithmetic processor",
         "is_enabled": true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic",
@@ -165,7 +165,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Tue, 20 Jul 2021 18:53:14 GMT
+      - Mon, 26 Jul 2021 13:28:45 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -177,13 +177,13 @@ interactions:
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
-      - '2'
+      - '10'
       x-ratelimit-period:
-      - '60'
+      - '300'
       x-ratelimit-remaining:
-      - '0'
+      - '5'
       x-ratelimit-reset:
-      - '46'
+      - '75'
     status:
       code: 200
       message: OK

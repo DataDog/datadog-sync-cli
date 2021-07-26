@@ -19,7 +19,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "vgVxkrtSTjmsy7a519v6lg", "type": "pipeline", "name": "Test
+      string: '{"id": "620nLgCfSJy--RQbDSgplA", "type": "pipeline", "name": "Test
         pipeline", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "test:query"}, "processors": []}'
     headers:
@@ -40,7 +40,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Tue, 20 Jul 2021 18:52:22 GMT
+      - Mon, 26 Jul 2021 13:28:45 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -52,13 +52,13 @@ interactions:
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
-      - '2'
+      - '10'
       x-ratelimit-period:
-      - '60'
+      - '300'
       x-ratelimit-remaining:
-      - '1'
+      - '8'
       x-ratelimit-reset:
-      - '38'
+      - '75'
     status:
       code: 200
       message: OK
@@ -113,7 +113,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "vGn2wEjUR_usNLtqm2IdvA", "type": "pipeline", "name": "Test
+      string: '{"id": "QuvZdWwNQ_y0gBcGU0AwDw", "type": "pipeline", "name": "Test
         Pipeline - Complex", "is_enabled": true, "is_read_only": false, "filter":
         {"query": "source:foo"}, "processors": [{"name": "sample arithmetic processor",
         "is_enabled": true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic",
@@ -165,7 +165,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Tue, 20 Jul 2021 18:52:22 GMT
+      - Mon, 26 Jul 2021 13:28:45 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -177,13 +177,13 @@ interactions:
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
-      - '2'
+      - '10'
       x-ratelimit-period:
-      - '60'
+      - '300'
       x-ratelimit-remaining:
-      - '0'
+      - '7'
       x-ratelimit-reset:
-      - '38'
+      - '75'
     status:
       code: 200
       message: OK

@@ -19,10 +19,9 @@ interactions:
       string: '{"meta": {"page": {"total_filtered_count": 1, "total_count": 1}}, "data":
         [{"type": "correction", "id": "010e1dae-d819-11eb-ac2c-da7ad0900002", "attributes":
         {"slo_id": "ba72d10835d75e0c8910597144f3733a", "start": 1735707000, "end":
-        1735718600, "description": "correction example Updated via terraform-provider",
-        "category": "Scheduled Maintenance", "timezone": "UTC", "creator": {"data":
-        {"type": "users", "id": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002", "attributes":
-        {"uuid": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002", "handle": "frog@datadoghq.com",
+        1735718600, "description": "correction example", "category": "Scheduled Maintenance",
+        "timezone": "UTC", "creator": {"data": {"type": "users", "id": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002",
+        "attributes": {"uuid": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002", "handle": "frog@datadoghq.com",
         "email": "frog@datadoghq.com", "name": null, "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro"}}}}}]}'
     headers:
       Connection:
@@ -30,13 +29,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Jul 2021 19:49:09 GMT
+      - Mon, 26 Jul 2021 13:25:20 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '650'
+      - '619'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -56,7 +55,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '51'
+      - '40'
     status:
       code: 200
       message: OK

@@ -31,7 +31,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:53:31 GMT
+      - Mon, 26 Jul 2021 13:25:21 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -47,7 +47,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '29'
+      - '39'
     status:
       code: 200
       message: OK
@@ -75,7 +75,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "test", "tags": ["check_type:api"], "is_totp": null, "value": {"secure": false,
         "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "83811736-c08a-4ba2-83d2-63b6597bf076",
+        null, "parse_test_name": null, "type": "variable", "id": "39314d96-7d9f-4681-88b1-971bbc14321e",
         "name": "TEST_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -93,7 +93,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:53:31 GMT
+      - Mon, 26 Jul 2021 13:25:21 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -111,7 +111,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '29'
+      - '39'
     status:
       code: 200
       message: OK
@@ -139,7 +139,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "Description of the variable", "tags": ["foo:bar", "env:test"], "is_totp":
         null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "bb11ff75-9ffc-4b3b-9306-fcc88e6f225b",
+        null, "parse_test_name": null, "type": "variable", "id": "69c8023f-6e5d-4db8-b402-39ed55dc23e2",
         "name": "EXAMPLE_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -157,7 +157,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:53:32 GMT
+      - Mon, 26 Jul 2021 13:25:22 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -175,7 +175,7 @@ interactions:
       x-ratelimit-remaining:
       - '118'
       x-ratelimit-reset:
-      - '29'
+      - '39'
     status:
       code: 200
       message: OK
@@ -202,7 +202,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "test", "tags": [], "is_totp": null, "value": {"secure": false, "value": "test"},
         "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "b34f66d1-3832-476d-962f-fc6b5c6a6da4", "name": "TEST"}'
+        "id": "db0b98e9-89c0-4cad-8f48-be39d4910a18", "name": "TEST"}'
     headers:
       Alt-Svc:
       - clear
@@ -219,7 +219,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:53:33 GMT
+      - Mon, 26 Jul 2021 13:25:22 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -237,7 +237,7 @@ interactions:
       x-ratelimit-remaining:
       - '117'
       x-ratelimit-reset:
-      - '27'
+      - '38'
     status:
       code: 200
       message: OK

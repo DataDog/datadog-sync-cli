@@ -16,7 +16,7 @@ interactions:
     uri: https://api.datadoghq.com/api/v1/slo
   response:
     body:
-      string: '{"metadata": {"page": {"total_filtered_count": 4, "total_count": 4}},
+      string: '{"metadata": {"page": {"total_filtered_count": 5, "total_count": 5}},
         "data": [{"description": "Updated Description Test", "monitor_tags": [], "creator":
         {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov", "email":
         "sherzod.karimov@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
@@ -41,21 +41,28 @@ interactions:
         99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 1, "query":
         {"denominator": "sum:api.requests{*}.as_count()", "numerator": "sum:api.requests.status_ok{*}.as_count()"},
         "id": "ba72d10835d75e0c8910597144f3733a", "name": "SLO test", "created_at":
-        1623658372, "tags": [], "modified_at": 1626358963, "type": "metric"}], "error":
-        null}'
+        1623658372, "tags": [], "modified_at": 1626358963, "type": "metric"}, {"description":
+        "some updated description about example_slo SLO", "monitor_tags": [], "creator":
+        {"handle": "frog@datadoghq.com", "name": null, "email": "frog@datadoghq.com"},
+        "thresholds": [{"warning": 99.8, "warning_display": "99.8", "target": 99.5,
+        "target_display": "99.5", "timeframe": "7d"}], "type_id": 1, "query": {"denominator":
+        "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
+        "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "c0db62b13ab351f59181e942f77ebda4",
+        "name": "example slo", "created_at": 1627063076, "tags": ["foo:bar"], "modified_at":
+        1627063076, "type": "metric"}], "error": null}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:53:29 GMT
+      - Mon, 26 Jul 2021 13:25:19 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '1997'
+      - '2581'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:

@@ -20,15 +20,15 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/downtime/50258748
+    uri: https://api.datadoghq.eu/api/v1/downtime/51530382
   response:
     body:
       string: '{"recurrence": {"until_date": null, "until_occurrences": null, "week_days":
         [], "type": "days", "period": 1}, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": null, "created": 1626807141, "org_id":
-        1000044987, "modified": 1626807141, "disabled": false, "start": 2622234295,
+        null, "canceled": null, "monitor_id": null, "created": 1627305725, "org_id":
+        1000044987, "modified": 1627305725, "disabled": false, "start": 2622234295,
         "creator_id": 1000219667, "parent_id": null, "timezone": "UTC", "active":
-        false, "scope": ["*"], "message": "+ updated", "downtime_type": 0, "id": 50258748,
+        false, "scope": ["*"], "message": "+ updated", "downtime_type": 0, "id": 51530382,
         "updater_id": 1000219667}'
     headers:
       Alt-Svc:
@@ -46,7 +46,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:52:21 GMT
+      - Mon, 26 Jul 2021 13:22:05 GMT
       pragma:
       - no-cache
       strict-transport-security:

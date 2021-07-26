@@ -49,17 +49,17 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/qr6-ivw-nnb
+    uri: https://api.datadoghq.eu/api/v1/dashboard/3zy-wvn-aqs
   response:
     body:
       string: '{"notify_list": [], "description": "Created using the Datadog provider
-        in Terraform", "author_name": null, "template_variable_presets": [{"template_variables":
-        [{"name": "var_1", "value": "host.dc"}, {"name": "var_2", "value": "my_service"}],
-        "name": "preset_1"}], "template_variables": [{"default": "aws", "prefix":
-        "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
-        "name": "var_2"}], "is_read_only": false, "id": "qr6-ivw-nnb", "title": "Test
-        screenboard+ updated", "url": "/dashboard/qr6-ivw-nnb/test-screenboard-updated",
-        "created_at": "2021-07-20T18:52:18.782284+00:00", "modified_at": "2021-07-20T18:52:19.852764+00:00",
+        in Terraform", "author_name": "None+ updated", "template_variable_presets":
+        [{"template_variables": [{"name": "var_1", "value": "host.dc"}, {"name": "var_2",
+        "value": "my_service"}], "name": "preset_1"}], "template_variables": [{"default":
+        "aws", "prefix": "host", "name": "var_1"}, {"default": "autoscaling", "prefix":
+        "service_name", "name": "var_2"}], "is_read_only": false, "id": "3zy-wvn-aqs",
+        "title": "Test screenboard+ updated", "url": "/dashboard/3zy-wvn-aqs/test-screenboard-updated",
+        "created_at": "2021-07-26T13:22:02.974384+00:00", "modified_at": "2021-07-26T13:22:04.074998+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"title_size":
         "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
         "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout":
@@ -101,13 +101,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '2869'
+      - '2880'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:52:19 GMT
+      - Mon, 26 Jul 2021 13:22:04 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -144,13 +144,13 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/tuc-jh9-jg5
+    uri: https://api.datadoghq.eu/api/v1/dashboard/rd7-deb-kp9
   response:
     body:
-      string: '{"notify_list": [], "description": "", "author_name": null, "template_variables":
-        [], "is_read_only": false, "id": "tuc-jh9-jg5", "title": "datadog-sync-cli
-        Test Dashboard+ updated", "url": "/dashboard/tuc-jh9-jg5/datadog-sync-cli-test-dashboard-updated",
-        "created_at": "2021-07-20T18:52:19.100622+00:00", "modified_at": "2021-07-20T18:52:20.280060+00:00",
+      string: '{"notify_list": [], "description": "", "author_name": "None+ updated",
+        "template_variables": [], "is_read_only": false, "id": "rd7-deb-kp9", "title":
+        "datadog-sync-cli Test Dashboard+ updated", "url": "/dashboard/rd7-deb-kp9/datadog-sync-cli-test-dashboard-updated",
+        "created_at": "2021-07-26T13:22:03.360910+00:00", "modified_at": "2021-07-26T13:22:04.600530+00:00",
         "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
         [{"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
         2, "time": {}, "title_size": "16", "requests": [{"response_format": "scalar",
@@ -168,13 +168,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '775'
+      - '786'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:52:20 GMT
+      - Mon, 26 Jul 2021 13:22:04 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -209,13 +209,13 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/xr4-zuk-amj
+    uri: https://api.datadoghq.eu/api/v1/dashboard/sqw-n4x-t8r
   response:
     body:
-      string: '{"notify_list": null, "description": null, "author_name": null, "template_variables":
-        null, "is_read_only": false, "id": "xr4-zuk-amj", "title": "{{ unique }} with
-        timeseries widget+ updated", "url": "/dashboard/xr4-zuk-amj/-unique--with-timeseries-widget-updated",
-        "created_at": "2021-07-20T18:52:19.430451+00:00", "modified_at": "2021-07-20T18:52:20.761025+00:00",
+      string: '{"notify_list": null, "description": null, "author_name": "None+ updated",
+        "template_variables": null, "is_read_only": false, "id": "sqw-n4x-t8r", "title":
+        "{{ unique }} with timeseries widget+ updated", "url": "/dashboard/sqw-n4x-t8r/-unique--with-timeseries-widget-updated",
+        "created_at": "2021-07-26T13:22:03.647489+00:00", "modified_at": "2021-07-26T13:22:05.039232+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
         [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
         "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
@@ -231,13 +231,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '701'
+      - '712'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:52:20 GMT
+      - Mon, 26 Jul 2021 13:22:05 GMT
       pragma:
       - no-cache
       strict-transport-security:

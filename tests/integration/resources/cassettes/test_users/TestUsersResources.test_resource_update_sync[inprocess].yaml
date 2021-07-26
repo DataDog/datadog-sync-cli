@@ -33,7 +33,14 @@ interactions:
         {"name": "data_scanner_write", "display_name": "Data Scanner", "description":
         "Edit data scanner configuration.", "created": "2021-03-29T16:56:27.219481+00:00",
         "group_name": "Access Management", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f",
+        false}}, {"type": "permissions", "id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039",
+        "attributes": {"name": "logs_write_exclusion_filters", "display_name": "Logs
+        Write Exclusion Filters", "description": "The ability to add and change exclusion
+        filters for all or some log indexes. Can be granted in a limited capacity
+        per index to specific roles via the Logs interface or API. If granted from
+        the Roles interface or API, the permission has global scope.", "created":
+        "2018-10-31T14:00:23.699543+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f",
         "attributes": {"name": "billing_read", "display_name": "Billing", "description":
         "The ability to view your organization''s subscription and payment method
         but not make edits.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name":
@@ -341,11 +348,18 @@ interactions:
         "display_name": "Access Management", "description": "Grants the permission
         to disable users, manage user roles and SAML-to-role mappings.", "created":
         "2020-08-25T19:10:12.116164+00:00", "group_name": "Access Management", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f",
-        "attributes": {"name": "security_monitoring_rules_read", "display_name": "Detection
-        Rules", "description": "The ability to read Detection rules.", "created":
-        "2020-06-09T13:55:12.166762+00:00", "group_name": "Security Monitoring", "display_type":
-        "read", "restricted": false}}, {"type": "permissions", "id": "d23cc894-2dce-11eb-9145-37bf7b2dadc2",
+        "other", "restricted": false}}, {"type": "permissions", "id": "505f4538-dd15-11e8-9308-47a4732f715f",
+        "attributes": {"name": "logs_write_processors", "display_name": "Log Write
+        Processors", "description": "The ability to add and change some or all log
+        processor configurations. Can be granted in a limited capacity per pipeline
+        to specific roles via the Logs interface or API. If granted via the Roles
+        interface or API the permission has global scope.", "created": "2018-10-31T14:00:24.726927+00:00",
+        "group_name": "Logs", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "attributes":
+        {"name": "security_monitoring_rules_read", "display_name": "Detection Rules",
+        "description": "The ability to read Detection rules.", "created": "2020-06-09T13:55:12.166762+00:00",
+        "group_name": "Security Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "d23cc894-2dce-11eb-9145-37bf7b2dadc2",
         "attributes": {"name": "apm_apdex_manage_write", "display_name": "Apdex Management",
         "description": "The ability to set Apdex T value on any service. A user with
         this permission can set the T value from the Apdex graph on the service page.",
@@ -424,14 +438,14 @@ interactions:
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005", "attributes":
         {"name": "test-user", "handle": "new@example.com", "created_at": "2021-06-08T19:40:17.395117+00:00",
-        "modified_at": "2021-07-23T18:40:08.083815+00:00", "email": "new@example.com",
+        "modified_at": "2021-07-26T13:25:39.964079+00:00", "email": "new@example.com",
         "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
         {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "8538c2fe-c7cb-11eb-8f0a-da7ad0900005", "attributes":
         {"name": "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com",
-        "created_at": "2021-06-07T20:04:09.228318+00:00", "modified_at": "2021-07-23T14:51:32.970437+00:00",
+        "created_at": "2021-06-07T20:04:09.228318+00:00", "modified_at": "2021-07-23T20:17:35.630880+00:00",
         "email": "noueman.khalikine@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/92d6421ea95d9f7b8d60c8270c95d84a?s=48&d=retro",
         "title": null, "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Active"}, "relationships": {"roles":
@@ -439,7 +453,7 @@ interactions:
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "1458158c-bfcc-11eb-8e11-da7ad0900005", "attributes":
         {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "created_at":
-        "2021-05-28T15:48:00.045949+00:00", "modified_at": "2021-07-23T14:51:33.330554+00:00",
+        "2021-05-28T15:48:00.045949+00:00", "modified_at": "2021-07-23T20:17:35.867803+00:00",
         "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Active"}, "relationships": {"roles":
@@ -448,15 +462,15 @@ interactions:
         {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes":
         {"name": "None+ updated", "handle": "test-user-example@datadoghq.com", "created_at":
-        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-07-23T18:40:08.360727+00:00",
+        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-07-26T13:21:40.098318+00:00",
         "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
-        "title": null, "verified": false, "service_account": false, "disabled": false,
-        "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
         {"data": [{"type": "roles", "id": "140f3a7e-bfcc-11eb-8e11-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "9ea447a8-ebdf-11eb-8ad5-da7ad0900005", "attributes":
-        {"name": "None+ updated", "handle": "user_without_role@example.com", "created_at":
-        "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-07-23T18:40:08.693897+00:00",
+        {"name": "+ updated", "handle": "user_without_role@example.com", "created_at":
+        "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-07-26T13:25:40.361692+00:00",
         "email": "user_without_role@example.com", "icon": "https://secure.gravatar.com/avatar/a0985e94ca4206b92a3504c0222b3f7e?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -471,13 +485,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '35162'
+      - '36217'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Fri, 23 Jul 2021 18:40:47 GMT
+      - Mon, 26 Jul 2021 13:25:40 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -492,7 +506,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "users", "attributes": {"name": "None+ updated", "email":
+    body: '{"data": {"type": "users", "attributes": {"name": "+ updated", "email":
       "new@example.com", "disabled": false, "allowed_login_methods": []}, "id": "5a322106-c891-11eb-873a-da7ad0900005"}}'
     headers:
       Accept:
@@ -502,7 +516,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '190'
+      - '186'
       Content-Type:
       - application/json
       User-Agent:
@@ -512,8 +526,8 @@ interactions:
   response:
     body:
       string: '{"data": {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005",
-        "attributes": {"name": "None+ updated", "handle": "new@example.com", "created_at":
-        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2021-07-23T18:40:47.209926+00:00",
+        "attributes": {"name": "+ updated", "handle": "new@example.com", "created_at":
+        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2021-07-26T13:25:41.581090+00:00",
         "email": "new@example.com", "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -528,13 +542,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '577'
+      - '573'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Fri, 23 Jul 2021 18:40:47 GMT
+      - Mon, 26 Jul 2021 13:25:41 GMT
       pragma:
       - no-cache
       strict-transport-security:

@@ -62,7 +62,7 @@ class BaseResourcesTestClass:
         for resource in source_resources.values():
             try:
                 current_value = pathLookup(resource, self.field_to_update)
-                updated_value = (str(current_value) if current_value else "")  + "+ updated"
+                updated_value = (str(current_value) if current_value else "") + "+ updated"
                 pathUpdate(resource, self.field_to_update, updated_value)
             except Exception as e:
                 print("ERROR:" + str(e))
