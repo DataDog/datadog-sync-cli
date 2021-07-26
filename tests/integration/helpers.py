@@ -60,7 +60,15 @@ class BaseResourcesTestClass:
 
         # update fields and save the file.
         for resource in source_resources.values():
-            resource[self.field_to_update] = str(resource[self.field_to_update]) + "+ updated"
+            try:
+                current_value = pathLookup(resource, self.field_to_update)
+                if current_value is None:
+                    current_value = ""
+
+                pathUpdate(resource, self.field_to_update, current_value + "Updated")
+            except Exception as e:
+                pytest.fail(e)
+
         save_source_resources(self.resource_type, source_resources)
 
         # assert diff is produced
@@ -120,3 +128,31 @@ def open_resources(resource_type):
                 pytest.fail(e)
 
     return source_resources, destination_resources
+
+
+def pathLookup(obj, path):
+    path = path.split(".", 1)
+    if len(path) == 1:
+        if path[0] in obj:
+            return obj[path[0]]
+        else:
+            raise Exception(f"pathLookup error: invalid key {path}")
+    else:
+        if path[0] in obj:
+            pathLookup(obj[path[0]], path[1])
+        else:
+            raise Exception(f"pathLookup error: invalid key {path}")
+
+
+def pathUpdate(obj, path, value):
+    path = path.split(".", 1)
+    if len(path) == 1:
+        if path[0] in obj:
+            obj[path[0]] = value
+        else:
+            raise Exception(f"pathUpdate error: invalid key {path}")
+    else:
+        if path[0] in obj:
+            pathUpdate(obj[path[0]], path[1], value)
+        else:
+            raise Exception(f"pathUpdate error: invalid key {path}")

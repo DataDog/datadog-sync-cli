@@ -69,7 +69,7 @@ interactions:
         "permissions", "id": "12efc210-d36c-11eb-a9b8-da7ad0900002"}]}}}, {"type":
         "roles", "id": "fa017a37-bfcb-11eb-a4d7-da7ad0900002", "attributes": {"name":
         "Datadog Read Only Role", "created_at": "2021-05-28T15:47:16.084615+00:00",
-        "modified_at": "2021-05-28T15:47:16.084615+00:00", "user_count": 2}, "relationships":
+        "modified_at": "2021-05-28T15:47:16.084615+00:00", "user_count": 1}, "relationships":
         {"permissions": {"data": [{"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e"},
         {"type": "permissions", "id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73"}, {"type":
         "permissions", "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions",
@@ -125,7 +125,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:53:18 GMT
+      - Mon, 26 Jul 2021 20:37:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -149,9 +149,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '499'
+      - '497'
       x-ratelimit-reset:
-      - '42'
+      - '16'
     status:
       code: 200
       message: OK
@@ -481,7 +481,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:53:18 GMT
+      - Mon, 26 Jul 2021 20:37:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -839,7 +839,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:53:18 GMT
+      - Mon, 26 Jul 2021 20:37:44 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -923,7 +923,7 @@ interactions:
         "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005"}]}}}, {"type":
         "roles", "id": "140f3a7e-bfcc-11eb-8e11-da7ad0900005", "attributes": {"name":
         "Datadog Read Only Role", "created_at": "2021-05-28T15:47:59.570548+00:00",
-        "modified_at": "2021-05-28T15:47:59.570548+00:00", "user_count": 0}, "relationships":
+        "modified_at": "2021-05-28T15:47:59.570548+00:00", "user_count": 1}, "relationships":
         {"permissions": {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
         "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
@@ -989,7 +989,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:53:19 GMT
+      - Mon, 26 Jul 2021 20:37:44 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -1005,9 +1005,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '499'
+      - '493'
       x-ratelimit-reset:
-      - '41'
+      - '16'
     status:
       code: 200
       message: OK

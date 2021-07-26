@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: '{"name": "Empty Test List+ updated"}'
+    body: '{"name": "Empty Test ListUpdated"}'
     headers:
       Accept:
       - '*/*'
@@ -9,19 +9,19 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '36'
+      - '34'
       Content-Type:
       - application/json
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual/10405
+    uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual/10696
   response:
     body:
-      string: '{"is_favorite": false, "name": "Empty Test List+ updated", "dashboard_count":
-        0, "author": {"handle": "frog@datadoghq.com", "name": null}, "created": "2021-07-20T18:52:16.969543+00:00",
-        "type": "manual_dashboard_list", "dashboards": null, "modified": "2021-07-20T18:52:17.571631+00:00",
-        "id": 10405}'
+      string: '{"is_favorite": false, "name": "Empty Test ListUpdated", "dashboard_count":
+        0, "author": {"handle": "frog@datadoghq.com", "name": "Frog"}, "created":
+        "2021-07-26T20:37:35.671682+00:00", "type": "manual_dashboard_list", "dashboards":
+        null, "modified": "2021-07-26T20:37:36.028501+00:00", "id": 10696}'
     headers:
       Alt-Svc:
       - clear
@@ -38,7 +38,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:52:17 GMT
+      - Mon, 26 Jul 2021 20:37:36 GMT
       pragma:
       - no-cache
       strict-transport-security:

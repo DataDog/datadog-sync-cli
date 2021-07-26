@@ -325,7 +325,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:53:27 GMT
+      - Mon, 26 Jul 2021 20:37:45 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -683,7 +683,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:53:27 GMT
+      - Mon, 26 Jul 2021 20:37:46 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -767,7 +767,7 @@ interactions:
         "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005"}]}}}, {"type":
         "roles", "id": "140f3a7e-bfcc-11eb-8e11-da7ad0900005", "attributes": {"name":
         "Datadog Read Only Role", "created_at": "2021-05-28T15:47:59.570548+00:00",
-        "modified_at": "2021-05-28T15:47:59.570548+00:00", "user_count": 0}, "relationships":
+        "modified_at": "2021-05-28T15:47:59.570548+00:00", "user_count": 1}, "relationships":
         {"permissions": {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
         "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
@@ -833,7 +833,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:53:28 GMT
+      - Mon, 26 Jul 2021 20:37:46 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -849,9 +849,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '497'
+      - '491'
       x-ratelimit-reset:
-      - '32'
+      - '14'
     status:
       code: 200
       message: OK

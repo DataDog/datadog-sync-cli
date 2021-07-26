@@ -4,7 +4,7 @@ interactions:
       "monitor_tags": ["*"], "child_id": null, "canceled": null, "monitor_id": null,
       "created": 1622234964, "org_id": 569509, "modified": 1622748066, "disabled":
       false, "start": 2622234295, "creator_id": 2781302, "parent_id": null, "timezone":
-      "UTC", "active": false, "scope": ["*"], "message": "+ updated", "downtime_type":
+      "UTC", "active": false, "scope": ["*"], "message": "Updated", "downtime_type":
       0, "id": 1283896719, "updater_id": 2781275}'
     headers:
       Accept:
@@ -14,21 +14,21 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '438'
+      - '436'
       Content-Type:
       - application/json
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/downtime/50258748
+    uri: https://api.datadoghq.eu/api/v1/downtime/51615753
   response:
     body:
       string: '{"recurrence": {"until_date": null, "until_occurrences": null, "week_days":
         [], "type": "days", "period": 1}, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": null, "created": 1626807141, "org_id":
-        1000044987, "modified": 1626807141, "disabled": false, "start": 2622234295,
+        null, "canceled": null, "monitor_id": null, "created": 1627331859, "org_id":
+        1000044987, "modified": 1627331859, "disabled": false, "start": 2622234295,
         "creator_id": 1000219667, "parent_id": null, "timezone": "UTC", "active":
-        false, "scope": ["*"], "message": "+ updated", "downtime_type": 0, "id": 50258748,
+        false, "scope": ["*"], "message": "Updated", "downtime_type": 0, "id": 51615753,
         "updater_id": 1000219667}'
     headers:
       Alt-Svc:
@@ -40,13 +40,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '445'
+      - '443'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Tue, 20 Jul 2021 18:52:21 GMT
+      - Mon, 26 Jul 2021 20:37:39 GMT
       pragma:
       - no-cache
       strict-transport-security:

@@ -16,11 +16,11 @@ interactions:
     uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
   response:
     body:
-      string: '{"dashboard_lists": [{"is_favorite": true, "name": "Empty Test List",
+      string: '{"dashboard_lists": [{"is_favorite": false, "name": "Empty Test List",
         "dashboard_count": 0, "author": {"handle": "sherzod.karimov@datadoghq.com",
         "name": "Sherzod Karimov"}, "created": "2021-07-15T14:16:13.319119+00:00",
         "type": "manual_dashboard_list", "dashboards": null, "modified": "2021-07-15T14:16:34.123734+00:00",
-        "id": 221363}, {"is_favorite": true, "name": "Test list", "dashboard_count":
+        "id": 221363}, {"is_favorite": false, "name": "Test list", "dashboard_count":
         2, "author": {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod
         Karimov"}, "created": "2021-06-14T20:10:23.247584+00:00", "type": "manual_dashboard_list",
         "dashboards": null, "modified": "2021-06-24T20:13:00.657023+00:00", "id":
@@ -31,13 +31,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:52:16 GMT
+      - Mon, 26 Jul 2021 20:37:35 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '605'
+      - '607'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -77,7 +77,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:52:16 GMT
+      - Mon, 26 Jul 2021 20:37:35 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -133,7 +133,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:52:16 GMT
+      - Mon, 26 Jul 2021 20:37:35 GMT
       Transfer-Encoding:
       - chunked
       cache-control:

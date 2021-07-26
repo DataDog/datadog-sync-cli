@@ -39,7 +39,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:52:18 GMT
+      - Mon, 26 Jul 2021 20:37:36 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -63,9 +63,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '59'
+      - '57'
       x-ratelimit-reset:
-      - '43'
+      - '24'
     status:
       code: 200
       message: OK
@@ -118,7 +118,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:52:18 GMT
+      - Mon, 26 Jul 2021 20:37:36 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -202,7 +202,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:52:18 GMT
+      - Mon, 26 Jul 2021 20:37:36 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -258,7 +258,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:52:18 GMT
+      - Mon, 26 Jul 2021 20:37:36 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -297,7 +297,7 @@ interactions:
     uri: https://api.datadoghq.com/api/v1/dashboard/ys9-5v2-zxt
   response:
     body:
-      string: '{"notify_list": null, "description": null, "author_name": null, "template_variables":
+      string: '{"notify_list": null, "description": null, "author_name": "Frog", "template_variables":
         null, "is_read_only": false, "id": "ys9-5v2-zxt", "title": "{{ unique }} with
         timeseries widget", "url": "/dashboard/ys9-5v2-zxt/-unique--with-timeseries-widget",
         "created_at": "2021-07-16T12:08:14.666223+00:00", "modified_at": "2021-07-16T12:08:14.666223+00:00",
@@ -312,13 +312,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 20 Jul 2021 18:52:18 GMT
+      - Mon, 26 Jul 2021 20:37:37 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '684'
+      - '686'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
