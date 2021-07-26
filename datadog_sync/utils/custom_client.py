@@ -93,8 +93,13 @@ def build_default_headers(auth_obj):
         "DD-API-KEY": auth_obj["apiKeyAuth"],
         "DD-APPLICATION-KEY": auth_obj["appKeyAuth"],
         "Content-Type": "application/json",
+        "User-Agent": user_agent(),
     }
     return headers
+
+
+def user_agent():
+    return "datadog-sync-cli"
 
 
 def paginated_request(func):
