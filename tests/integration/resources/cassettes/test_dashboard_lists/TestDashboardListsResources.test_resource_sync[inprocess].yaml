@@ -19,9 +19,9 @@ interactions:
   response:
     body:
       string: '{"is_favorite": false, "name": "Empty Test List", "dashboard_count":
-        0, "author": {"handle": "frog@datadoghq.com", "name": "None+ updated"}, "created":
-        "2021-07-26T13:22:00.817459+00:00", "type": "manual_dashboard_list", "dashboards":
-        null, "modified": "2021-07-26T13:22:00.817490+00:00", "id": 10678}'
+        0, "author": {"handle": "frog@datadoghq.com", "name": "Frog"}, "created":
+        "2021-07-26T20:37:35.671682+00:00", "type": "manual_dashboard_list", "dashboards":
+        null, "modified": "2021-07-26T20:37:35.671719+00:00", "id": 10696}'
     headers:
       Alt-Svc:
       - clear
@@ -32,13 +32,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '281'
+      - '272'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 13:22:00 GMT
+      - Mon, 26 Jul 2021 20:37:35 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -68,7 +68,7 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/10678/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/10696/dashboards
   response:
     body:
       string: '{"dashboards": []}'
@@ -86,7 +86,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 13:22:01 GMT
+      - Mon, 26 Jul 2021 20:37:35 GMT
       pragma:
       - no-cache
       strict-transport-security:

@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: '{"description": "Test update creation+ updated", "monitor_tags": [], "creator":
+    body: '{"description": "Test update creationUpdated", "monitor_tags": [], "creator":
       {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine", "email":
       "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
       "99.", "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()",
@@ -15,21 +15,21 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '553'
+      - '551'
       Content-Type:
       - application/json
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/slo/87d6ffb27c7558d295c5d46ccebd51a7
+    uri: https://api.datadoghq.eu/api/v1/slo/77545a1fd8f25b1f879406e044063ab7
   response:
     body:
-      string: '{"data": [{"description": "Test update creation+ updated", "monitor_tags":
-        [], "creator": {"handle": "frog@datadoghq.com", "name": "None+ updated", "email":
-        "frog@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display": "99.",
-        "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()",
-        "numerator": "sum:api.requests.status_ok{*}.as_count()"}, "id": "87d6ffb27c7558d295c5d46ccebd51a7",
-        "name": "SLO test", "created_at": 1627305919, "tags": [], "modified_at": 1627305920,
+      string: '{"data": [{"description": "Test update creationUpdated", "monitor_tags":
+        [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
+        "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
+        "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "77545a1fd8f25b1f879406e044063ab7",
+        "name": "SLO test", "created_at": 1627331866, "tags": [], "modified_at": 1627331867,
         "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
@@ -41,13 +41,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '511'
+      - '500'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 13:25:20 GMT
+      - Mon, 26 Jul 2021 20:37:47 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -65,13 +65,13 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '41'
+      - '13'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"description": "some updated description about example_slo SLO+ updated",
-      "monitor_tags": [], "creator": {"handle": "frog@datadoghq.com", "name": null,
+    body: '{"description": "some updated description about example_slo SLOUpdated",
+      "monitor_tags": [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog",
       "email": "frog@datadoghq.com"}, "thresholds": [{"warning": 99.8, "warning_display":
       "99.8", "target": 99.5, "target_display": "99.5", "timeframe": "7d"}], "type_id":
       1, "query": {"denominator": "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
@@ -92,17 +92,17 @@ interactions:
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/slo/1042ee1f8fa25c768794c6cfa7fa5baf
+    uri: https://api.datadoghq.eu/api/v1/slo/84a0f28d57fb5927b773c7e8bc2e4607
   response:
     body:
       string: '{"data": [{"description": "some updated description about example_slo
-        SLO+ updated", "monitor_tags": [], "creator": {"handle": "frog@datadoghq.com",
-        "name": "None+ updated", "email": "frog@datadoghq.com"}, "thresholds": [{"warning":
+        SLOUpdated", "monitor_tags": [], "creator": {"handle": "frog@datadoghq.com",
+        "name": "Frog", "email": "frog@datadoghq.com"}, "thresholds": [{"warning":
         99.8, "warning_display": "99.8", "target": 99.5, "target_display": "99.5",
         "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:my.metric{type:good}.as_count()
         + sum:my.metric{type:bad}.as_count()", "numerator": "sum:my.metric{type:good}.as_count()"},
-        "id": "1042ee1f8fa25c768794c6cfa7fa5baf", "name": "example slo", "created_at":
-        1627305919, "tags": ["foo:bar"], "modified_at": 1627305920, "type": "metric"}],
+        "id": "84a0f28d57fb5927b773c7e8bc2e4607", "name": "example slo", "created_at":
+        1627331866, "tags": ["foo:bar"], "modified_at": 1627331867, "type": "metric"}],
         "error": null}'
     headers:
       Alt-Svc:
@@ -114,13 +114,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '627'
+      - '616'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 13:25:20 GMT
+      - Mon, 26 Jul 2021 20:37:47 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -138,7 +138,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '40'
+      - '13'
     status:
       code: 200
       message: OK

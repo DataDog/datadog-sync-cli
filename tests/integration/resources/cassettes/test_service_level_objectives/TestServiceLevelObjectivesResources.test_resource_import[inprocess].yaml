@@ -43,7 +43,7 @@ interactions:
         "id": "ba72d10835d75e0c8910597144f3733a", "name": "SLO test", "created_at":
         1623658372, "tags": [], "modified_at": 1626358963, "type": "metric"}, {"description":
         "some updated description about example_slo SLO", "monitor_tags": [], "creator":
-        {"handle": "frog@datadoghq.com", "name": null, "email": "frog@datadoghq.com"},
+        {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"warning": 99.8, "warning_display": "99.8", "target": 99.5,
         "target_display": "99.5", "timeframe": "7d"}], "type_id": 1, "query": {"denominator":
         "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
@@ -56,13 +56,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 26 Jul 2021 13:25:19 GMT
+      - Mon, 26 Jul 2021 20:37:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '2581'
+      - '2583'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -82,7 +82,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '1'
+      - '4'
     status:
       code: 200
       message: OK

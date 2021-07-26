@@ -22,20 +22,20 @@ interactions:
         1735718600, "description": "correction example", "category": "Scheduled Maintenance",
         "timezone": "UTC", "creator": {"data": {"type": "users", "id": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002",
         "attributes": {"uuid": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002", "handle": "frog@datadoghq.com",
-        "email": "frog@datadoghq.com", "name": null, "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro"}}}}}]}'
+        "email": "frog@datadoghq.com", "name": "Frog", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro"}}}}}]}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 26 Jul 2021 13:25:20 GMT
+      - Mon, 26 Jul 2021 20:37:47 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '619'
+      - '621'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -53,9 +53,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11999'
+      - '11997'
       x-ratelimit-reset:
-      - '40'
+      - '13'
     status:
       code: 200
       message: OK

@@ -62,10 +62,12 @@ class BaseResourcesTestClass:
         for resource in source_resources.values():
             try:
                 current_value = pathLookup(resource, self.field_to_update)
-                updated_value = (str(current_value) if current_value else "") + "+ updated"
-                pathUpdate(resource, self.field_to_update, updated_value)
+                if current_value is None:
+                    current_value = ""
+
+                pathUpdate(resource, self.field_to_update, current_value + "Updated")
             except Exception as e:
-                print("ERROR:" + str(e))
+                print("test_resource_update_sync error: " + str(e))
         save_source_resources(self.resource_type, source_resources)
 
         # assert diff is produced

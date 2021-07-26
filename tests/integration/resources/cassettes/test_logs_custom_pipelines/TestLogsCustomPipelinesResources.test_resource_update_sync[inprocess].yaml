@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: '{"name": "Test pipeline+ updated", "is_enabled": true, "filter": {"query":
+    body: '{"name": "Test pipelineUpdated", "is_enabled": true, "filter": {"query":
       "test:query"}, "processors": []}'
     headers:
       Accept:
@@ -10,17 +10,17 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '107'
+      - '105'
       Content-Type:
       - application/json
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/620nLgCfSJy--RQbDSgplA
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/uoYKjpbZSLiyhZTgTHdTkg
   response:
     body:
-      string: '{"id": "620nLgCfSJy--RQbDSgplA", "type": "pipeline", "name": "Test
-        pipeline+ updated", "is_enabled": true, "is_read_only": false, "filter": {"query":
+      string: '{"id": "uoYKjpbZSLiyhZTgTHdTkg", "type": "pipeline", "name": "Test
+        pipelineUpdated", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "test:query"}, "processors": []}'
     headers:
       Alt-Svc:
@@ -34,13 +34,13 @@ interactions:
       content-disposition:
       - inline
       content-length:
-      - '168'
+      - '166'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json;charset=utf-8
       date:
-      - Mon, 26 Jul 2021 13:28:45 GMT
+      - Mon, 26 Jul 2021 20:37:40 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -56,14 +56,14 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '6'
+      - '5'
       x-ratelimit-reset:
-      - '75'
+      - '140'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"name": "Test Pipeline - Complex+ updated", "is_enabled": true, "filter":
+    body: '{"name": "Test Pipeline - ComplexUpdated", "is_enabled": true, "filter":
       {"query": "source:foo"}, "processors": [{"name": "sample arithmetic processor",
       "is_enabled": true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic",
       "is_replace_missing": true, "type": "arithmetic-processor"}, {"name": "sample
@@ -104,17 +104,17 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '2648'
+      - '2646'
       Content-Type:
       - application/json
       User-Agent:
       - python-requests/2.25.1
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/QuvZdWwNQ_y0gBcGU0AwDw
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/SOlelPLGRCWlrZ0jYXRfhg
   response:
     body:
-      string: '{"id": "QuvZdWwNQ_y0gBcGU0AwDw", "type": "pipeline", "name": "Test
-        Pipeline - Complex+ updated", "is_enabled": true, "is_read_only": false, "filter":
+      string: '{"id": "SOlelPLGRCWlrZ0jYXRfhg", "type": "pipeline", "name": "Test
+        Pipeline - ComplexUpdated", "is_enabled": true, "is_read_only": false, "filter":
         {"query": "source:foo"}, "processors": [{"name": "sample arithmetic processor",
         "is_enabled": true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic",
         "is_replace_missing": true, "type": "arithmetic-processor"}, {"name": "sample
@@ -159,13 +159,13 @@ interactions:
       content-disposition:
       - inline
       content-length:
-      - '2528'
+      - '2526'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json;charset=utf-8
       date:
-      - Mon, 26 Jul 2021 13:28:45 GMT
+      - Mon, 26 Jul 2021 20:37:40 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -181,9 +181,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '5'
+      - '4'
       x-ratelimit-reset:
-      - '75'
+      - '140'
     status:
       code: 200
       message: OK
