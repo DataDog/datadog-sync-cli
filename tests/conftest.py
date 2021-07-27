@@ -41,9 +41,18 @@ def filter_response_data():
     return before_record_response
 
 
+def get_record_mode():
+    record = os.getenv("RECORD", "none")
+    if record.lower() == "true":
+        return "all"
+    else:
+        return "none"
+
+
 @pytest.fixture(scope="module")
 def vcr_config():
     return dict(
+        record_mode=get_record_mode(),
         filter_headers=["DD-API-KEY", "DD-APPLICATION-KEY"],
         filter_query_parameters=("api_key", "application_key"),
         match_on=["method", "scheme", "host", "port", "path", "query", "body"],
