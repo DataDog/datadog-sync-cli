@@ -42,11 +42,7 @@ def filter_response_data():
 
 
 def get_record_mode():
-    record = os.getenv("RECORD", "none")
-    if record.lower() == "true":
-        return "all"
-    else:
-        return "none"
+    return {"false": "none", "true": "rewrite", "none": "new_episodes",}[os.getenv("RECORD", "false").lower()]
 
 
 @pytest.fixture(scope="module")
