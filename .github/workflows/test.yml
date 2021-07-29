@@ -42,7 +42,7 @@ jobs:
             - name: Install pytest
               run: pip install pytest==6.2.4
             - name: Install datadog-sync-cli
-              run: pip install .\[tests\]
+              run: pip install .\[apm,tests\]
             - name: Run unit tests
               run: pytest --record-mode=none -ra -v
             - name: Run integration tests
