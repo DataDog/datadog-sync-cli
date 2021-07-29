@@ -3,6 +3,15 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+tracer = None
+try:
+    from ddtrace import config, patch
+
+    config.httplib["distributed_tracing"] = True
+    patch(httplib=True)
+except ImportError:
+    pass
+
 from json.decoder import JSONDecodeError
 import pytest
 import os
