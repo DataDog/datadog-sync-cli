@@ -7,6 +7,7 @@ import abc
 from dataclasses import dataclass
 from typing import Optional
 from concurrent.futures import wait
+from pprint import pformat
 
 from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
 from datadog_sync.utils.resource_utils import (
@@ -127,6 +128,22 @@ class BaseResource(abc.ABC):
                 self.config.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
 
         write_resources_file(self.resource_type, DESTINATION_ORIGIN, self.resource_config.destination_resources)
+
+    def check_diffs(self):
+        for _id, resource in self.resource_config.source_resources.items():
+            prep_resource(self.resource_config, resource)
+
+            try:
+                self.connect_resources(_id, resource)
+            except ResourceConnectionError:
+                continue
+
+            if _id in self.resource_config.destination_resources:
+                diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
+                if diff:
+                    print("{} resource ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
+            else:
+                print("Resource to be added {}: \n {}".format(self.resource_type, pformat(resource)))
 
     def apply_resource(self, _id, resource) -> None:
         self.pre_resource_action_hook(resource)

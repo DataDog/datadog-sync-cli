@@ -26,4 +26,12 @@ def apply_resources(config):
     for resource_type, resource in config.resources.items():
         # sync resource
         if force_missing_deps or resource_type not in config.missing_deps:
-            resource.apply_res.ources()
+            resource.apply_resources()
+
+
+def check_diffs(config):
+    for resource_type, resource in config.resources.items():
+        if resource_type in config.missing_deps:
+            continue
+
+        resource.check_diffs()

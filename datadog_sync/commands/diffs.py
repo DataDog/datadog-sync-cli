@@ -12,6 +12,7 @@ from datadog_sync.commands.shared.options import (
     non_import_common_options,
 )
 from datadog_sync.utils.configuration import build_config
+from datadog_sync.utils.resources_handler import check_diffs
 
 
 @command("diffs", short_help="Log resource diffs.")
@@ -23,12 +24,7 @@ def diffs(**kwargs):
     """Log Datadog resources diffs."""
     cfg = build_config(**kwargs)
 
-    for resource in cfg.resources.values():
-        # Skip missing deps resources when outputting diffs
-        if resource.resource_type in cfg.missing_deps:
-            continue
-
-        resource.check_diffs()
+    check_diffs(cfg)
 
     if cfg.logger.exception_logged:
         exit(1)
