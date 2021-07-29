@@ -21,3 +21,5 @@ SOURCE_RESOURCES_DIR = "resources/source"
 DESTINATION_RESOURCES_DIR = "resources/destination"
 
 LOGGER_NAME = "datadog_sync_cli"
+SOURCE_ORIGIN = "source"
+DESTINATION_ORIGIN = "destination"

@@ -2,84 +2,79 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
+from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
 
 
-class Dashboards(BaseResource):
+class Dashboards(BaseResourceModel):
     resource_type = "dashboards"
-    resource_connections = {
-        "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
-        "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
-        "roles": ["restricted_roles"],
-    }
-    base_path = "/api/v1/dashboard"
-    excluded_attributes = [
-        "root['id']",
-        "root['author_handle']",
-        "root['author_name']",
-        "root['url']",
-        "root['created_at']",
-        "root['modified_at']",
-    ]
+    resource_config = ResourceConfig(
+        resource_connections={
+            "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
+            "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
+            "roles": ["restricted_roles"],
+        },
+        base_path="/api/v1/dashboard",
+        excluded_attributes=[
+            "root['id']",
+            "root['author_handle']",
+            "root['author_name']",
+            "root['url']",
+            "root['created_at']",
+            "root['modified_at']",
+        ],
+    )
+    # Additional Dashboards specific attributes
 
-    def import_resources(self):
-        source_client = self.config.source_client
-
+    def get_resources(self, client) -> list:
         try:
-            resp = source_client.get(self.base_path).json()
+            resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.logger.error("error importing dashboards %s", e)
-            return
+            self.config.logger.error("error importing dashboards %s", e)
+            return []
 
-        self.import_resources_concurrently(resp["dashboards"])
+        return resp["dashboards"]
 
-    def process_resource_import(self, dash):
-        if not self.filter(dash):
-            return
-
+    def import_resource(self, resource) -> None:
         source_client = self.config.source_client
         try:
-            dashboard = source_client.get(self.base_path + f"/{dash['id']}").json()
+            dashboard = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
         except HTTPError as e:
-            self.logger.error("error retrieving dashboard: %s", e)
+            self.config.logger.error("error retrieving dashboard: %s", e)
             return
-        self.source_resources[dash["id"]] = dashboard
 
-    def apply_resources(self):
-        self.apply_resources_concurrently()
+        self.resource_config.source_resources[resource["id"]] = dashboard
 
-    def prepare_resource_and_apply(self, _id, dashboard):
-        self.connect_resources(_id, dashboard)
-        self.remove_excluded_attr(dashboard)
+    def pre_resource_action_hook(self, resource) -> None:
+        pass
 
-        if _id in self.destination_resources:
-            self.update_resource(_id, dashboard)
-        else:
-            self.create_resource(_id, dashboard)
+    def pre_apply_hook(self, resources) -> Optional[list]:
+        pass
 
-    def create_resource(self, _id, dashboard):
+    def create_resource(self, _id, resource) -> None:
         destination_client = self.config.destination_client
 
         try:
-            resp = destination_client.post(self.base_path, dashboard).json()
+            resp = destination_client.post(self.resource_config.base_path, resource).json()
         except HTTPError as e:
-            self.logger.error("error creating dashboard: %s", e)
+            self.config.logger.error("error creating dashboard: %s", e)
             return
-        self.destination_resources[_id] = resp
+        self.resource_config.destination_resources[_id] = resp
 
-    def update_resource(self, _id, dashboard):
+    def update_resource(self, _id, resource) -> None:
         destination_client = self.config.destination_client
 
-        diff = self.check_diff(dashboard, self.destination_resources[_id])
-        if diff:
-            try:
-                resp = destination_client.put(
-                    self.base_path + f"/{self.destination_resources[_id]['id']}", dashboard
-                ).json()
-            except HTTPError as e:
-                self.logger.error("error updating dashboard: %s", e)
-                return
-            self.destination_resources[_id] = resp
+        try:
+            resp = destination_client.put(
+                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+            ).json()
+        except HTTPError as e:
+            self.config.logger.error("error updating dashboard: %s", e)
+            return
+        self.resource_config.destination_resources[_id] = resp
+
+    def connect_id(self, key, r_obj, resource_to_connect) -> None:
+        super(Dashboards, self).connect_id(key, r_obj, resource_to_connect)

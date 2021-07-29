@@ -2,80 +2,72 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
+from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
 from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
-class ServiceLevelObjectives(BaseResource):
+class ServiceLevelObjectives(BaseResourceModel):
     resource_type = "service_level_objectives"
-    resource_connections = {"monitors": ["monitor_ids"], "synthetics_tests": []}
-    base_path = "/api/v1/slo"
-    excluded_attributes = [
-        "root['creator']",
-        "root['id']",
-        "root['monitor_ids']",
-        "root['created_at']",
-        "root['modified_at']",
-    ]
+    resource_config = ResourceConfig(
+        resource_connections={"monitors": ["monitor_ids"], "synthetics_tests": []},
+        base_path="/api/v1/slo",
+        excluded_attributes=[
+            "root['creator']",
+            "root['id']",
+            "root['created_at']",
+            "root['modified_at']",
+        ],
+    )
+    # Additional ServiceLevelObjectives specific attributes
 
-    def import_resources(self):
-        source_client = self.config.source_client
-
+    def get_resources(self, client) -> list:
         try:
-            resp = source_client.get(self.base_path).json()
+            resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.logger.error("error importing slo %s", e)
-            return
+            self.config.logger.error("error importing slo %s", e)
+            return []
 
-        self.import_resources_concurrently(resp["data"])
+        return resp["data"]
 
-    def process_resource_import(self, slo):
-        if not self.filter(slo):
-            return
+    def import_resource(self, resource) -> None:
+        self.resource_config.source_resources[resource["id"]] = resource
 
-        self.source_resources[slo["id"]] = slo
+    def pre_resource_action_hook(self, resource) -> None:
+        pass
 
-    def apply_resources(self):
-        self.logger.info("Processing service_level_objectives")
-        self.apply_resources_concurrently()
+    def pre_apply_hook(self, resources) -> Optional[list]:
+        pass
 
-    def prepare_resource_and_apply(self, _id, slo):
-        self.connect_resources(_id, slo)
-
-        if _id in self.destination_resources:
-            self.update_resource(_id, slo)
-        else:
-            self.create_resource(_id, slo)
-
-    def create_resource(self, _id, slo):
+    def create_resource(self, _id, resource) -> None:
         destination_client = self.config.destination_client
 
         try:
-            resp = destination_client.post(self.base_path, slo).json()
+            resp = destination_client.post(self.resource_config.base_path, resource).json()
         except HTTPError as e:
-            self.logger.error("error creating slo: %s", e.response.text)
+            self.config.logger.error("error creating slo: %s", e.response.text)
             return
 
-        self.destination_resources[_id] = resp["data"][0]
+        self.resource_config.destination_resources[_id] = resp["data"][0]
 
-    def update_resource(self, _id, slo):
+    def update_resource(self, _id, resource) -> None:
         destination_client = self.config.destination_client
 
-        diff = self.check_diff(slo, self.destination_resources[_id])
-        if diff:
-            try:
-                resp = destination_client.put(self.base_path + f"/{self.destination_resources[_id]['id']}", slo).json()
-            except HTTPError as e:
-                self.logger.error("error creating slo: %s", e.response.text)
-                return
-            self.destination_resources[_id] = resp["data"][0]
+        try:
+            resp = destination_client.put(
+                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+            ).json()
+        except HTTPError as e:
+            self.config.logger.error("error creating slo: %s", e.response.text)
+            return
+        self.resource_config.destination_resources[_id] = resp["data"][0]
 
-    def connect_id(self, key, r_obj, resource_to_connect):
-        monitors = self.config.resources["monitors"].destination_resources
-        synthetics_tests = self.config.resources["synthetics_tests"].destination_resources
+    def connect_id(self, key, r_obj, resource_to_connect) -> None:
+        monitors = self.config.resources["monitors"].resource_config.destination_resources
+        synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
 
         for i, obj in enumerate(r_obj[key]):
             _id = str(obj)

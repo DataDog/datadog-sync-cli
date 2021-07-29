@@ -3,55 +3,47 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from typing import Optional
+
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
 
 
-class IntegrationsAWS(BaseResource):
+class IntegrationsAWS(BaseResourceModel):
     resource_type = "integrations_aws"
-    resource_connections = None
-    base_path = "/api/v1/integration/aws"
-    excluded_attributes = ["root['external_id']", "root['errors']"]
+    resource_config = ResourceConfig(
+        concurrent=False,
+        base_path="/api/v1/integration/aws",
+        excluded_attributes=["root['external_id']", "root['errors']"],
+    )
+    # Additional LogsCustomPipelines specific attributes
 
-    def import_resources(self):
-        source_client = self.config.source_client
-
+    def get_resources(self, client) -> list:
         try:
-            resp = source_client.get(self.base_path).json()
+            resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.logger.error("error importing integrations_aws %s", e)
-            return
+            self.config.logger.error("error importing integrations_aws %s", e)
+            return []
 
-        self.import_resources_concurrently(resp["accounts"])
+        return resp["accounts"]
 
-    def process_resource_import(self, integration_aws):
-        if not self.filter(integration_aws):
-            return
+    def import_resource(self, resource) -> None:
+        self.resource_config.source_resources[resource["account_id"]] = resource
 
-        self.source_resources[integration_aws["account_id"]] = integration_aws
+    def pre_resource_action_hook(self, resource) -> None:
+        pass
 
-    def apply_resources(self):
-        self.logger.info("Processing integrations_aws")
+    def pre_apply_hook(self, resources) -> Optional[list]:
+        pass
 
-        # must not be done in parallel, api returns conflict error
-        self.apply_resources_sequentially()
-
-    def prepare_resource_and_apply(self, _id, integration_aws):
-        self.connect_resources(_id, integration_aws)
-
-        if _id in self.destination_resources:
-            self.update_resource(_id, integration_aws)
-        else:
-            self.create_resource(_id, integration_aws)
-
-    def create_resource(self, _id, integration_aws):
+    def create_resource(self, _id, resource) -> None:
         destination_client = self.config.destination_client
         try:
-            resp = destination_client.post(self.base_path, integration_aws).json()
-            data = destination_client.get(self.base_path, params={"account_id": _id}).json()
+            resp = destination_client.post(self.resource_config.base_path, resource).json()
+            data = destination_client.get(self.resource_config.base_path, params={"account_id": _id}).json()
         except HTTPError as e:
-            self.logger.error("error creating integration_aws: %s", e.response.text)
+            self.config.logger.error("error creating integration_aws: %s", e.response.text)
             return
 
         if "accounts" in data:
@@ -59,22 +51,20 @@ class IntegrationsAWS(BaseResource):
 
         print(f"integrations_aws created with external_id: {resp['external_id']}")
 
-        self.destination_resources[_id] = resp
-
-    def update_resource(self, _id, integration_aws):
+    def update_resource(self, _id, resource) -> None:
         destination_client = self.config.destination_client
-        self.remove_excluded_attr(integration_aws)
 
-        diff = self.check_diff(integration_aws, self.destination_resources[_id])
-        if diff:
-            account_id = integration_aws.pop("account_id", None)
-            try:
-                destination_client.put(
-                    self.base_path,
-                    integration_aws,
-                    params={"account_id": account_id, "role_name": integration_aws["role_name"]},
-                ).json()
-            except HTTPError as e:
-                self.logger.error("error updating integration_aws: %s", e.response.text)
-                return
-            self.destination_resources[_id].update(integration_aws)
+        account_id = resource.pop("account_id", None)
+        try:
+            destination_client.put(
+                self.resource_config.base_path,
+                resource,
+                params={"account_id": account_id, "role_name": resource["role_name"]},
+            ).json()
+        except HTTPError as e:
+            self.config.logger.error("error updating integration_aws: %s", e.response.text)
+            return
+        self.resource_config.destination_resources[_id].update(resource)
+
+    def connect_id(self, key, r_obj, resource_to_connect) -> None:
+        super(IntegrationsAWS, self).connect_id(key, r_obj, resource_to_connect)

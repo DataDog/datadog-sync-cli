@@ -2,139 +2,110 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
-
-import copy
+from typing import Optional
 
 from requests import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
 from datadog_sync.utils.custom_client import paginated_request
+from datadog_sync.utils.resource_utils import check_diff
 
 
-class Users(BaseResource):
+class Users(BaseResourceModel):
     resource_type = "users"
-    resource_connections = {"roles": ["relationships.roles.data.id"]}
-    base_path = "/api/v2/users"
+    resource_config = ResourceConfig(
+        resource_connections={"roles": ["relationships.roles.data.id"]},
+        base_path="/api/v2/users",
+        non_nullable_attr=["attributes.name"],
+        excluded_attributes=[
+            "root['id']",
+            "root['attributes']['created_at']",
+            "root['attributes']['disabled']",
+            "root['attributes']['title']",
+            "root['attributes']['status']",
+            "root['attributes']['verified']",
+            "root['attributes']['service_account']",
+            "root['attributes']['handle']",
+            "root['attributes']['icon']",
+            "root['attributes']['modified_at']",
+            "root['relationships']['org']",
+        ],
+    )
+    # Additional Users specific attributes
     roles_path = "/api/v2/roles/{}/users"
-    get_users_filter = {"filter[status]": "Active,Pending"}
-    non_nullable_attr = ["attributes.name"]
-    excluded_attributes = [
-        "root['id']",
-        "root['attributes']['created_at']",
-        "root['attributes']['title']",
-        "root['attributes']['status']",
-        "root['attributes']['verified']",
-        "root['attributes']['service_account']",
-        "root['attributes']['handle']",
-        "root['attributes']['icon']",
-        "root['attributes']['modified_at']",
-        "root['relationships']['org']",
-    ]
+    remote_destination_users = None
 
-    def import_resources(self):
-        source_client = self.config.source_client
-
+    def get_resources(self, client) -> list:
         try:
-            resp = paginated_request(source_client.get)(self.base_path, params=self.get_users_filter)
+            resp = paginated_request(client.get)(self.resource_config.base_path)
         except HTTPError as e:
-            self.logger.error("Error while importing Users resource: %s", e)
+            self.config.logger.error("Error while importing Users resource: %s", e)
+            return []
+
+        return resp
+
+    def import_resource(self, resource) -> None:
+        if resource["attributes"]["disabled"]:
             return
 
-        self.import_resources_concurrently(resp)
+        self.resource_config.source_resources[resource["id"]] = resource
 
-    def process_resource_import(self, user):
-        if not self.filter(user):
+    def pre_resource_action_hook(self, resource) -> None:
+        pass
+
+    def pre_apply_hook(self, resources) -> Optional[list]:
+        self.remote_destination_users = self.get_remote_destination_users()
+        return
+
+    def create_resource(self, _id, resource) -> {}:
+        if resource["attributes"]["email"] in self.remote_destination_users:
+            self.resource_config.destination_resources[_id] = self.remote_destination_users[
+                resource["attributes"]["email"]
+            ]
+
+            self.update_resource(_id, resource)
             return
 
-        self.source_resources[user["id"]] = user
-
-    def apply_resources(self):
-        remote_users = self.get_remote_destination_users()
-        self.apply_resources_concurrently(remote_users=remote_users)
-
-    def prepare_resource_and_apply(self, _id, user, **kwargs):
         destination_client = self.config.destination_client
-        remote_users = kwargs.get("remote_users")
-
-        self.connect_resources(_id, user)
-
-        # Create copy
-        resource_copy = copy.deepcopy(user)
-
-        payload = {"data": resource_copy}
-        if _id in self.destination_resources:
-            self.update_resource(_id, user)
-        elif user["attributes"]["handle"] in remote_users:
-            remote_user = remote_users[user["attributes"]["handle"]]
-            diff = self.check_diff(remote_user, user)
-            if diff:
-                self.update_user_roles(remote_user["id"], diff)
-                self.remove_excluded_attr(resource_copy)
-                self.remove_non_nullable_attributes(resource_copy)
-                resource_copy.pop("relationships", None)
-                resource_copy["id"] = remote_user["id"]
-                try:
-                    resp = destination_client.patch(self.base_path + f"/{remote_user['id']}", payload)
-                except HTTPError as e:
-                    self.logger.error("error updating user: %s", e.response.json())
-                    return
-                self.destination_resources[_id] = resp.json()["data"]
-            else:
-                self.destination_resources[_id] = remote_user
-        else:
-            self.create_resource(_id, user)
-
-    def create_resource(self, _id, user):
-        destination_client = self.config.destination_client
-        self.remove_non_nullable_attributes(user)
-        self.remove_excluded_attr(user)
-        user["attributes"].pop("disabled", None)
-
         try:
-            resp = destination_client.post(self.base_path, {"data": user})
+            resp = destination_client.post(self.resource_config.base_path, {"data": resource})
         except HTTPError as e:
-            self.logger.error("error creating user: %s", e)
+            self.config.logger.error("error creating user: %s", e)
             return
 
-        self.destination_resources[_id] = resp.json()["data"]
+        self.resource_config.destination_resources[_id] = resp.json()["data"]
 
-    def update_resource(self, _id, user):
+    def update_resource(self, _id, resource) -> {}:
         destination_client = self.config.destination_client
-        self.remove_excluded_attr(user)
-        self.remove_non_nullable_attributes(user)
 
-        diff = self.check_diff(self.destination_resources[_id], user)
+        diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
         if diff:
-            self.update_user_roles(self.destination_resources[_id]["id"], diff)
-            self.remove_excluded_attr(user)
-            user["id"] = self.destination_resources[_id]["id"]
-            user.pop("relationships", None)
+            self.update_user_roles(self.resource_config.destination_resources[_id]["id"], diff)
+            resource["id"] = self.resource_config.destination_resources[_id]["id"]
+            resource.pop("relationships", None)
+
             try:
                 resp = destination_client.patch(
-                    self.base_path + f"/{self.destination_resources[_id]['id']}", {"data": user}
+                    self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
+                    {"data": resource},
                 )
             except HTTPError as e:
-                self.logger.error("error updating user: %s, %s", e.response.json())
+                self.config.logger.error("error updating user: %s, %s", e.response.json())
                 return
-            self.destination_resources[_id] = resp.json()["data"]
+            self.resource_config.destination_resources[_id] = resp.json()["data"]
 
-    def update_existing_user(self, _id, user, remote_users):
+    def connect_id(self, key, r_obj, resource_to_connect):
+        super(Users, self).connect_id(key, r_obj, resource_to_connect)
+
+    def get_remote_destination_users(self):
+        remote_user_obj = {}
         destination_client = self.config.destination_client
-        remote_user = remote_users[user["attributes"]["handle"]]
+        remote_users = self.get_resources(destination_client)
 
-        diff = self.check_diff(remote_user, user)
-        if diff:
-            self.remove_excluded_attr(user)
-            self.update_user_roles(remote_user["id"], diff)
-            user.pop("relationships", None)
-            user["id"] = remote_user["id"]
-            try:
-                resp = destination_client.patch(self.base_path + f"/{remote_user['id']}", {"data": user})
-            except HTTPError as e:
-                self.logger.error("error updating user: %s", e.response.json())
-            self.destination_resources[_id] = resp.json()["data"]
-        else:
-            self.destination_resources[_id] = remote_user
+        for user in remote_users:
+            remote_user_obj[user["attributes"]["email"]] = user
+
+        return remote_user_obj
 
     def update_user_roles(self, _id, diff):
         for k, v in diff.items():
@@ -152,28 +123,13 @@ class Users(BaseResource):
                         # self.remove_user_from_role(_id, value["old_value"])
                         self.add_user_to_role(_id, value["new_value"])
 
-    def get_remote_destination_users(self):
-        remote_user_obj = {}
-        destination_client = self.config.destination_client
-
-        try:
-            remote_users = paginated_request(destination_client.get)(self.base_path)
-        except HTTPError as e:
-            self.logger.error("error retrieving remote users: %s", e)
-            return
-
-        for user in remote_users:
-            remote_user_obj[user["attributes"]["email"]] = user
-
-        return remote_user_obj
-
     def add_user_to_role(self, user_id, role_id):
         destination_client = self.config.destination_client
         payload = {"data": {"id": user_id, "type": "users"}}
         try:
             destination_client.post(self.roles_path.format(role_id), payload)
         except HTTPError as e:
-            self.logger.error("error adding user: %s to role %s: %s", user_id, role_id, e)
+            self.config.logger.error("error adding user: %s to role %s: %s", user_id, role_id, e)
 
     def remove_user_from_role(self, user_id, role_id):
         destination_client = self.config.destination_client
@@ -181,4 +137,4 @@ class Users(BaseResource):
         try:
             destination_client.delete(self.roles_path.format(role_id), payload)
         except HTTPError as e:
-            self.logger.error("error removing user: %s from role %s: %s", user_id, role_id, e)
+            self.config.logger.error("error removing user: %s from role %s: %s", user_id, role_id, e)

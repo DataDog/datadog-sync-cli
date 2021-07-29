@@ -8,7 +8,7 @@ from collections import defaultdict, OrderedDict
 
 from datadog_sync import models
 from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResourceModel
 from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import process_filters
 from datadog_sync.constants import LOGGER_NAME
@@ -92,7 +92,9 @@ def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
     all_resources = [
-        cls.resource_type for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
+        cls.resource_type
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResourceModel)
     ]
 
     if resources_arg:
@@ -103,7 +105,7 @@ def get_resources(cfg, resources_arg):
     str_to_class = dict(
         (cls.resource_type, cls)
         for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
+        if isinstance(cls, type) and issubclass(cls, BaseResourceModel)
     )
 
     resources_classes = [
@@ -140,7 +142,7 @@ def get_import_order(resources, str_to_class):
         # if current_resource has dependencies
         if current_resource in graph:
             for depender in graph[current_resource]:
-                # current_resource will be created, therefore the depender's number of dependencies is decremented by one
+                # current_resource will be created. The depender's number of dependencies is decremented by one
                 dependencies_count[depender] = max(0, dependencies_count[depender] - 1)
 
                 # if all it's dependencies are resolved, we can create it next
@@ -151,7 +153,10 @@ def get_import_order(resources, str_to_class):
 
 
 def get_resources_dependency_graph(resources, str_to_class):
-    """Returns a Directed Acyclic Graph of the resources. An edge between A and B means that resource A might require resource B"""
+    """
+    Returns a Directed Acyclic Graph of the resources. An edge between A and B means that resource
+    A might require resource B
+    """
     graph = defaultdict(list)
     dependencies_count = defaultdict(int)
 
@@ -164,8 +169,8 @@ def get_resources_dependency_graph(resources, str_to_class):
     while queue:
         resource = queue.pop()
 
-        if resource.resource_connections:
-            for dependency in resource.resource_connections:
+        if resource.resource_config.resource_connections:
+            for dependency in resource.resource_config.resource_connections:
                 # some resources depend on similar type of resource e.g. composite monitors, this case should be ignored
                 if dependency == resource.resource_type:
                     continue

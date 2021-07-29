@@ -2,68 +2,64 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
+from typing import Optional
 
 from requests.exceptions import HTTPError
-from datadog_sync.utils.base_resource import BaseResource
+
+from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
 
 
-class SLOCorrections(BaseResource):
+class SLOCorrections(BaseResourceModel):
     resource_type = "slo_corrections"
-    resource_connections = {"service_level_objectives": ["attributes.slo_id"]}
-    base_path = "/api/v1/slo/correction"
-    excluded_attributes = ["root['id']", "root['attributes']['creator']"]
+    resource_config = ResourceConfig(
+        resource_connections={"service_level_objectives": ["attributes.slo_id"]},
+        base_path="/api/v1/slo/correction",
+        excluded_attributes=["root['id']", "root['attributes']['creator']"],
+    )
+    # Additional SLOCorrections specific attributes
 
-    def import_resources(self):
-        source_client = self.config.source_client
-
+    def get_resources(self, client) -> list:
         try:
-            resp = source_client.get(self.base_path).json()
+            resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.logger.error("error importing slo_correction %s", e)
-            return
+            self.config.logger.error("error importing slo_correction %s", e)
+            return []
 
-        self.import_resources_concurrently(resp["data"])
+        return resp["data"]
 
-    def process_resource_import(self, slo_correction):
-        self.source_resources[slo_correction["id"]] = slo_correction
+    def import_resource(self, resource) -> None:
+        self.resource_config.source_resources[resource["id"]] = resource
 
-    def apply_resources(self):
-        self.logger.info("Processing slo_corrections")
-        self.apply_resources_concurrently()
+    def pre_resource_action_hook(self, resource) -> None:
+        pass
 
-    def prepare_resource_and_apply(self, _id, slo_correction):
-        self.connect_resources(_id, slo_correction)
-        self.remove_excluded_attr(slo_correction)
+    def pre_apply_hook(self, resources) -> Optional[list]:
+        pass
 
-        if _id in self.destination_resources:
-            self.update_resource(_id, slo_correction)
-        else:
-            self.create_resource(_id, slo_correction)
-
-    def create_resource(self, _id, slo_correction):
+    def create_resource(self, _id, resource) -> None:
         destination_client = self.config.destination_client
 
-        payload = {"data": slo_correction}
-
+        payload = {"data": resource}
         try:
-            resp = destination_client.post(self.base_path, payload).json()
+            resp = destination_client.post(self.resource_config.base_path, payload).json()
         except HTTPError as e:
-            self.logger.error("error creating slo_correction: %s", e.response.text)
+            self.config.logger.error("error creating slo_correction: %s", e.response.text)
             return
 
-        self.destination_resources[_id] = resp["data"]
+        self.resource_config.destination_resources[_id] = resp["data"]
 
-    def update_resource(self, _id, slo_correction):
+    def update_resource(self, _id, resource) -> None:
         destination_client = self.config.destination_client
 
-        diff = self.check_diff(slo_correction, self.destination_resources[_id])
-        if diff:
-            try:
-                payload = {"data": slo_correction}
-                resp = destination_client.patch(
-                    self.base_path + f"/{self.destination_resources[_id]['id']}", payload
-                ).json()
-            except HTTPError as e:
-                self.logger.error("error updating slo_correction: %s", e.response.text)
-                return
-            self.destination_resources[_id] = resp["data"]
+        payload = {"data": resource}
+        try:
+            resp = destination_client.patch(
+                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", payload
+            ).json()
+        except HTTPError as e:
+            self.config.logger.error("error updating slo_correction: %s", e.response.text)
+            return
+        self.resource_config.destination_resources[_id] = resp["data"]
+
+    def connect_id(self, key, r_obj, resource_to_connect) -> None:
+        super(SLOCorrections, self).connect_id(key, r_obj, resource_to_connect)

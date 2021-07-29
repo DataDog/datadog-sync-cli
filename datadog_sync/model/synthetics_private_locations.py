@@ -7,85 +7,76 @@ import re
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
 
 
-class SyntheticsPrivateLocations(BaseResource):
+class SyntheticsPrivateLocations(BaseResourceModel):
     resource_type = "synthetics_private_locations"
-    resource_connections = None
+    resource_config = ResourceConfig(
+        base_path="/api/v1/synthetics/private-locations",
+        excluded_attributes=[
+            "root['id']",
+            "root['modifiedAt']",
+            "root['createdAt']",
+            "root['metadata']",
+            "root['secrets']",
+            "root['config']",
+        ],
+    )
+    # Additional SyntheticsPrivateLocations specific attributes
     base_locations_path = "/api/v1/synthetics/locations"
-    base_path = "/api/v1/synthetics/private-locations"
     pl_id_regex = re.compile("^pl:.*")
-    excluded_attributes = [
-        "root['id']",
-        "root['modifiedAt']",
-        "root['createdAt']",
-        "root['metadata']",
-        "root['secrets']",
-        "root['config']",
-    ]
 
-    def import_resources(self):
-        source_client = self.config.source_client
-
+    def get_resources(self, client) -> list:
         try:
-            resp = source_client.get(self.base_locations_path).json()
+            resp = client.get(self.base_locations_path).json()
         except HTTPError as e:
-            self.logger.error("error importing synthetics_private_locations: %s", e)
-            return
+            self.config.logger.error("error importing synthetics_private_locations: %s", e)
+            return []
 
-        self.import_resources_concurrently(resp["locations"])
+        return resp["locations"]
 
-    def process_resource_import(self, synthetics_private_location):
-        if not self.filter(synthetics_private_location):
-            return
-
+    def import_resource(self, resource) -> None:
         source_client = self.config.source_client
-        if self.pl_id_regex.match(synthetics_private_location["id"]):
+        if self.pl_id_regex.match(resource["id"]):
             try:
-                pl = source_client.get(self.base_path + f"/{synthetics_private_location['id']}").json()
+                pl = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
             except HTTPError as e:
-                self.logger.error(
+                self.config.logger.error(
                     "error getting synthetics_private_location %s: %s",
-                    synthetics_private_location["id"],
+                    resource["id"],
                     e.response.text,
                 )
                 return
-            self.source_resources[synthetics_private_location["id"]] = pl
+            self.resource_config.source_resources[resource["id"]] = pl
 
-    def apply_resources(self):
-        self.apply_resources_concurrently()
+    def pre_resource_action_hook(self, resource):
+        pass
 
-    def prepare_resource_and_apply(self, _id, synthetics_private_location):
-        self.connect_resources(_id, synthetics_private_location)
+    def pre_apply_hook(self, resources) -> []:
+        pass
 
-        if _id in self.destination_resources:
-            self.update_resource(_id, synthetics_private_location)
-        else:
-            self.create_resource(_id, synthetics_private_location)
-
-    def create_resource(self, _id, synthetics_private_location):
+    def create_resource(self, _id, resource) -> {}:
         destination_client = self.config.destination_client
-        self.remove_excluded_attr(synthetics_private_location)
 
         try:
-            resp = destination_client.post(self.base_path, synthetics_private_location).json()["private_location"]
+            resp = destination_client.post(self.resource_config.base_path, resource).json()["private_location"]
         except HTTPError as e:
-            self.logger.error("error creating synthetics_private_location: %s", e.response.text)
+            self.config.logger.error("error creating synthetics_private_location: %s", e.response.text)
             return
-        self.destination_resources[_id] = resp
+        self.resource_config.destination_resources[_id] = resp
 
-    def update_resource(self, _id, synthetics_private_location):
+    def update_resource(self, _id, resource) -> {}:
         destination_client = self.config.destination_client
-        self.remove_excluded_attr(synthetics_private_location)
 
-        diff = self.check_diff(synthetics_private_location, self.destination_resources[_id])
-        if diff:
-            try:
-                resp = destination_client.put(
-                    self.base_path + f"/{self.destination_resources[_id]['id']}", synthetics_private_location
-                ).json()
-            except HTTPError as e:
-                self.logger.error("error creating synthetics_private_location: %s", e.response.text)
-                return
-            self.destination_resources[_id].update(resp)
+        try:
+            resp = destination_client.put(
+                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+            ).json()
+        except HTTPError as e:
+            self.config.logger.error("error creating synthetics_private_location: %s", e.response.text)
+            return
+        self.resource_config.destination_resources[_id].update(resp)
+
+    def connect_id(self, key, r_obj, resource_to_connect) -> {}:
+        super(SyntheticsPrivateLocations, self).connect_id(key, r_obj, resource_to_connect)
