@@ -7,10 +7,10 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
 
-class IntegrationsAWS(BaseResourceModel):
+class IntegrationsAWS(BaseResource):
     resource_type = "integrations_aws"
     resource_config = ResourceConfig(
         concurrent=False,

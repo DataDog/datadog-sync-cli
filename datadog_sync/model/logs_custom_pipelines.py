@@ -6,10 +6,10 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
 
-class LogsCustomPipelines(BaseResourceModel):
+class LogsCustomPipelines(BaseResource):
     resource_type = "logs_custom_pipelines"
     resource_config = ResourceConfig(
         concurrent=False,

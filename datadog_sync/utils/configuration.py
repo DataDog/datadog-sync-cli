@@ -8,7 +8,7 @@ from collections import defaultdict, OrderedDict
 
 from datadog_sync import models
 from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.base_resource import BaseResourceModel
+from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import process_filters
 from datadog_sync.constants import LOGGER_NAME
@@ -92,9 +92,7 @@ def get_resources(cfg, resources_arg):
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
     all_resources = [
-        cls.resource_type
-        for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResourceModel)
+        cls.resource_type for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
     ]
 
     if resources_arg:
@@ -105,7 +103,7 @@ def get_resources(cfg, resources_arg):
     str_to_class = dict(
         (cls.resource_type, cls)
         for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResourceModel)
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
     )
 
     resources_classes = [

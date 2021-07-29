@@ -6,10 +6,10 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
 
-class Dashboards(BaseResourceModel):
+class Dashboards(BaseResource):
     resource_type = "dashboards"
     resource_config = ResourceConfig(
         resource_connections={

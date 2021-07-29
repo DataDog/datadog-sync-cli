@@ -6,10 +6,10 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
 
-class Downtimes(BaseResourceModel):
+class Downtimes(BaseResource):
     resource_type = "downtimes"
     resource_config = ResourceConfig(
         resource_connections={"monitors": ["monitor_id"]},

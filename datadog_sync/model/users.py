@@ -6,12 +6,12 @@ from typing import Optional
 
 from requests import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import paginated_request
 from datadog_sync.utils.resource_utils import check_diff
 
 
-class Users(BaseResourceModel):
+class Users(BaseResource):
     resource_type = "users"
     resource_config = ResourceConfig(
         resource_connections={"roles": ["relationships.roles.data.id"]},

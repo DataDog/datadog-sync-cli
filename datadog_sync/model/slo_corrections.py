@@ -6,10 +6,10 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
 
-class SLOCorrections(BaseResourceModel):
+class SLOCorrections(BaseResource):
     resource_type = "slo_corrections"
     resource_config = ResourceConfig(
         resource_connections={"service_level_objectives": ["attributes.slo_id"]},

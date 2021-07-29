@@ -8,11 +8,11 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
-class Monitors(BaseResourceModel):
+class Monitors(BaseResource):
     resource_type = "monitors"
     resource_config = ResourceConfig(
         resource_connections={"monitors": ["query"], "roles": ["restricted_roles"]},

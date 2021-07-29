@@ -6,11 +6,11 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
-class SyntheticsGlobalVariables(BaseResourceModel):
+class SyntheticsGlobalVariables(BaseResource):
     resource_type = "synthetics_global_variables"
     resource_config = ResourceConfig(
         resource_connections={"synthetics_tests": ["parse_test_public_id"]},

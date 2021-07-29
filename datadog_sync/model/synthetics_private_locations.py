@@ -7,10 +7,10 @@ import re
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
 
-class SyntheticsPrivateLocations(BaseResourceModel):
+class SyntheticsPrivateLocations(BaseResource):
     resource_type = "synthetics_private_locations"
     resource_config = ResourceConfig(
         base_path="/api/v1/synthetics/private-locations",

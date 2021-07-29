@@ -8,11 +8,11 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import check_diff
 
 
-class DashboardLists(BaseResourceModel):
+class DashboardLists(BaseResource):
     resource_type = "dashboard_lists"
     resource_config = ResourceConfig(
         resource_connections={"dashboards": ["dashboards.id"]},

@@ -32,7 +32,7 @@ class ResourceConfig:
     destination_resources: dict = None
 
 
-class BaseResourceModel(abc.ABC):
+class BaseResource(abc.ABC):
     def __init__(self, config):
         self.config = config
         self.resource_config.source_resources, self.resource_config.destination_resources = open_resources(

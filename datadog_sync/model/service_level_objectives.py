@@ -6,11 +6,11 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
-class ServiceLevelObjectives(BaseResourceModel):
+class ServiceLevelObjectives(BaseResource):
     resource_type = "service_level_objectives"
     resource_config = ResourceConfig(
         resource_connections={"monitors": ["monitor_ids"], "synthetics_tests": []},

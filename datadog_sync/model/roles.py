@@ -8,12 +8,12 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResourceModel, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import check_diff
 from datadog_sync.utils.custom_client import paginated_request
 
 
-class Roles(BaseResourceModel):
+class Roles(BaseResource):
     resource_type = "roles"
     resource_config = ResourceConfig(
         base_path="/api/v2/roles",
