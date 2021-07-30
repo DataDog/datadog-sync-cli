@@ -5,9 +5,10 @@
 
 import abc
 from dataclasses import dataclass
-from typing import Optional
 from concurrent.futures import wait
 from pprint import pformat
+from typing import Optional, Dict, List
+
 
 from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
 from datadog_sync.utils.resource_utils import (
@@ -24,10 +25,10 @@ from datadog_sync.utils.resource_utils import (
 @dataclass
 class ResourceConfig:
     base_path: str
-    resource_connections: dict[str, list[str]] = None
-    non_nullable_attr: Optional[list[str]] = None
-    excluded_attributes: Optional[list[str]] = None
-    excluded_attributes_re: Optional[list[str]] = None
+    resource_connections: Optional[Dict[str, List[str]]] = None
+    non_nullable_attr: Optional[List[str]] = None
+    excluded_attributes: Optional[List[str]] = None
+    excluded_attributes_re: Optional[List[str]] = None
     concurrent: bool = True
     source_resources: dict = None
     destination_resources: dict = None
