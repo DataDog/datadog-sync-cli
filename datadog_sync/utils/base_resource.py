@@ -131,7 +131,7 @@ class BaseResource(abc.ABC):
 
     def check_diffs(self):
         for _id, resource in self.resource_config.source_resources.items():
-            prep_resource(self.resource_config, resource)
+            self.pre_resource_action_hook(resource)
 
             try:
                 self.connect_resources(_id, resource)

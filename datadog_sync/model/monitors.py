@@ -42,6 +42,8 @@ class Monitors(BaseResource):
         return resp
 
     def import_resource(self, resource) -> None:
+        if resource["type"] == "synthetics alert":
+            return
         self.resource_config.source_resources[str(resource["id"])] = resource
 
     def pre_resource_action_hook(self, resource) -> None:
@@ -52,8 +54,6 @@ class Monitors(BaseResource):
         composite_monitors = {}
 
         for _id, monitor in self.resource_config.source_resources.items():
-            if monitor["type"] == "synthetics alert":
-                continue
             if monitor["type"] == "composite":
                 composite_monitors[_id] = monitor
             else:
