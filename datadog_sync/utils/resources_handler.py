@@ -4,10 +4,9 @@ def import_resources(config, import_missing_deps=False):
         resources = {k: v for k, v in config.resources.items() if k in config.missing_deps}
 
     for resource_type, resource in resources.items():
-        if resource_type in config.missing_deps:
-            continue
-
+        config.logger.info("importing %s", resource_type)
         resource.import_resources()
+        config.logger.info("finished importing %s", resource_type)
 
 
 def apply_resources(config):
@@ -26,7 +25,9 @@ def apply_resources(config):
     for resource_type, resource in config.resources.items():
         # sync resource
         if force_missing_deps or resource_type not in config.missing_deps:
+            config.logger.info("syncing resource: {}".format(resource_type))
             resource.apply_resources()
+            config.logger.info("finished syncing resource: {}".format(resource_type))
 
 
 def check_diffs(config):
