@@ -6,11 +6,15 @@
 import os
 import re
 import json
+import logging
 from concurrent.futures import ThreadPoolExecutor
 
 from deepdiff import DeepDiff
 
-from datadog_sync.constants import RESOURCE_FILE_PATH
+from datadog_sync.constants import RESOURCE_FILE_PATH, LOGGER_NAME
+
+
+log = logging.getLogger(LOGGER_NAME)
 
 
 class ResourceConnectionError(Exception):
@@ -98,11 +102,17 @@ def open_resources(resource_type):
 
     if os.path.exists(source_path):
         with open(source_path, "r") as f:
-            source_resources = json.load(f)
+            try:
+                source_resources = json.load(f)
+            except json.decoder.JSONDecodeError:
+                log.warning(f"invalid json in source resource file: {resource_type}")
 
     if os.path.exists(destination_path):
         with open(destination_path, "r") as f:
-            destination_resources = json.load(f)
+            try:
+                destination_resources = json.load(f)
+            except json.decoder.JSONDecodeError:
+                log.warning(f"invalid json in destination resource file: {resource_type}")
 
     return source_resources, destination_resources
 

@@ -4,6 +4,9 @@ def import_resources(config, import_missing_deps=False):
         resources = {k: v for k, v in config.resources.items() if k in config.missing_deps}
 
     for resource_type, resource in resources.items():
+        if not import_missing_deps and resource_type in config.missing_deps:
+            continue
+
         config.logger.info("importing %s", resource_type)
         resource.import_resources()
         config.logger.info("finished importing %s", resource_type)
