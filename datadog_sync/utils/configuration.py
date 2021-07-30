@@ -45,7 +45,7 @@ class Configuration(object):
 
 def build_config(**kwargs: Any) -> Configuration:
     # configure logger
-    logger: Log = Log(kwargs.get("verbose"))
+    logger = Log(kwargs.get("verbose"))
 
     # configure Filter
     filters = process_filters(kwargs.get("filter"))
