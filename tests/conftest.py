@@ -13,6 +13,12 @@ from datadog_sync.utils.configuration import Configuration
 from datadog_sync import constants
 from datadog_sync.utils.configuration import get_resources
 
+@pytest.fixture()
+def runner():
+    from click.testing import CliRunner
+
+    return CliRunner(mix_stderr=False)
+
 
 def filter_private_location_data(response):
     if "body" not in response or "string" not in response["body"]:
