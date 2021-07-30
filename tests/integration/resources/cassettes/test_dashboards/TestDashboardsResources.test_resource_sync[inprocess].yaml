@@ -47,7 +47,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard
   response:
@@ -57,9 +57,9 @@ interactions:
         [{"name": "var_1", "value": "host.dc"}, {"name": "var_2", "value": "my_service"}],
         "name": "preset_1"}], "template_variables": [{"default": "aws", "prefix":
         "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
-        "name": "var_2"}], "is_read_only": false, "id": "v2y-qx4-5f4", "title": "Test
-        screenboard", "url": "/dashboard/v2y-qx4-5f4/test-screenboard", "created_at":
-        "2021-07-26T20:37:37.418681+00:00", "modified_at": "2021-07-26T20:37:37.418681+00:00",
+        "name": "var_2"}], "is_read_only": false, "id": "b6k-y6y-ric", "title": "Test
+        screenboard", "url": "/dashboard/b6k-y6y-ric/test-screenboard", "created_at":
+        "2021-07-30T14:36:27.690231+00:00", "modified_at": "2021-07-30T14:36:27.690231+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"title_size":
         "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
         "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout":
@@ -107,11 +107,9 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 20:37:37 GMT
+      - Fri, 30 Jul 2021 14:36:27 GMT
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -141,15 +139,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard
   response:
     body:
       string: '{"notify_list": [], "description": "", "author_name": "Frog", "template_variables":
-        [], "is_read_only": false, "id": "vsg-ds8-tvf", "title": "datadog-sync-cli
-        Test Dashboard", "url": "/dashboard/vsg-ds8-tvf/datadog-sync-cli-test-dashboard",
-        "created_at": "2021-07-26T20:37:37.676937+00:00", "modified_at": "2021-07-26T20:37:37.676937+00:00",
+        [], "is_read_only": false, "id": "du5-vgm-74s", "title": "datadog-sync-cli
+        Test Dashboard", "url": "/dashboard/du5-vgm-74s/datadog-sync-cli-test-dashboard",
+        "created_at": "2021-07-30T14:36:28.115507+00:00", "modified_at": "2021-07-30T14:36:28.115507+00:00",
         "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
         [{"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
         2, "time": {}, "title_size": "16", "requests": [{"response_format": "scalar",
@@ -173,11 +171,9 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 20:37:37 GMT
+      - Fri, 30 Jul 2021 14:36:28 GMT
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -206,15 +202,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard
   response:
     body:
       string: '{"notify_list": null, "description": null, "author_name": "Frog", "template_variables":
-        null, "is_read_only": false, "id": "8tc-8hh-3cw", "title": "{{ unique }} with
-        timeseries widget", "url": "/dashboard/8tc-8hh-3cw/-unique--with-timeseries-widget",
-        "created_at": "2021-07-26T20:37:37.896642+00:00", "modified_at": "2021-07-26T20:37:37.896642+00:00",
+        null, "is_read_only": false, "id": "bic-f5b-4qe", "title": "{{ unique }} with
+        timeseries widget", "url": "/dashboard/bic-f5b-4qe/-unique--with-timeseries-widget",
+        "created_at": "2021-07-30T14:36:28.480699+00:00", "modified_at": "2021-07-30T14:36:28.480699+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
         [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
         "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
@@ -236,11 +232,9 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 20:37:37 GMT
+      - Fri, 30 Jul 2021 14:36:28 GMT
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:

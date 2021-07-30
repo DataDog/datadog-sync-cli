@@ -1,12 +1,9 @@
 interactions:
 - request:
-    body: '{"description": "Test update creation", "monitor_tags": [], "creator":
-      {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine", "email":
-      "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
-      "99.", "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()",
-      "numerator": "sum:api.requests.status_ok{*}.as_count()"}, "id": "ba72d10835d75e0c8910597144f3733a",
-      "name": "SLO test", "created_at": 1623658372, "tags": [], "modified_at": 1626358963,
-      "type": "metric"}'
+    body: '{"description": "Test update creation", "monitor_tags": [], "thresholds":
+      [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 1,
+      "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator": "sum:api.requests.status_ok{*}.as_count()"},
+      "name": "SLO test", "tags": [], "type": "metric"}'
     headers:
       Accept:
       - '*/*'
@@ -15,11 +12,11 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '544'
+      - '318'
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
@@ -28,8 +25,8 @@ interactions:
         "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
         "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-        "sum:api.requests.status_ok{*}.as_count()"}, "id": "77545a1fd8f25b1f879406e044063ab7",
-        "name": "SLO test", "created_at": 1627331866, "tags": [], "modified_at": 1627331866,
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "54567c5b9fe356df8d89d9c9e5ac6923",
+        "name": "SLO test", "created_at": 1627655799, "tags": [], "modified_at": 1627655799,
         "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
@@ -47,11 +44,9 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 20:37:46 GMT
+      - Fri, 30 Jul 2021 14:36:39 GMT
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -63,21 +58,19 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '494'
+      - '499'
       x-ratelimit-reset:
-      - '14'
+      - '21'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "some updated description about example_slo SLO", "monitor_tags":
-      [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
-      "thresholds": [{"warning": 99.8, "warning_display": "99.8", "target": 99.5,
+      [], "thresholds": [{"warning": 99.8, "warning_display": "99.8", "target": 99.5,
       "target_display": "99.5", "timeframe": "7d"}], "type_id": 1, "query": {"denominator":
       "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
-      "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "c0db62b13ab351f59181e942f77ebda4",
-      "name": "example slo", "created_at": 1627063076, "tags": ["foo:bar"], "modified_at":
-      1627063076, "type": "metric"}'
+      "numerator": "sum:my.metric{type:good}.as_count()"}, "name": "example slo",
+      "tags": ["foo:bar"], "type": "metric"}'
     headers:
       Accept:
       - '*/*'
@@ -86,11 +79,11 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '625'
+      - '438'
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
@@ -100,9 +93,9 @@ interactions:
         "Frog", "email": "frog@datadoghq.com"}, "thresholds": [{"warning": 99.8, "warning_display":
         "99.8", "target": 99.5, "target_display": "99.5", "timeframe": "7d"}], "type_id":
         1, "query": {"denominator": "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
-        "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "84a0f28d57fb5927b773c7e8bc2e4607",
-        "name": "example slo", "created_at": 1627331866, "tags": ["foo:bar"], "modified_at":
-        1627331866, "type": "metric"}], "error": null}'
+        "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "383ede5871ca52b190cf7f19bf8ba6f4",
+        "name": "example slo", "created_at": 1627655799, "tags": ["foo:bar"], "modified_at":
+        1627655799, "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -119,11 +112,9 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 20:37:47 GMT
+      - Fri, 30 Jul 2021 14:36:39 GMT
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -135,9 +126,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '493'
+      - '498'
       x-ratelimit-reset:
-      - '14'
+      - '21'
     status:
       code: 200
       message: OK

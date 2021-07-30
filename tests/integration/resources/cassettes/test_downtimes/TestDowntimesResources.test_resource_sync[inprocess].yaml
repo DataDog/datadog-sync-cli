@@ -2,10 +2,8 @@ interactions:
 - request:
     body: '{"recurrence": {"week_days": [], "type": "days", "period": 1}, "end": null,
       "monitor_tags": ["*"], "child_id": null, "canceled": null, "monitor_id": null,
-      "created": 1622234964, "org_id": 569509, "modified": 1622748066, "disabled":
-      false, "start": 2622234295, "creator_id": 2781302, "parent_id": null, "timezone":
-      "UTC", "active": false, "scope": ["*"], "message": "", "downtime_type": 0, "id":
-      1283896719, "updater_id": 2781275}'
+      "disabled": false, "start": 2622234295, "parent_id": null, "timezone": "UTC",
+      "scope": ["*"], "message": "", "downtime_type": 0}'
     headers:
       Accept:
       - '*/*'
@@ -14,21 +12,21 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '429'
+      - '283'
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/downtime
   response:
     body:
       string: '{"recurrence": {"until_date": null, "until_occurrences": null, "week_days":
         [], "type": "days", "period": 1}, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": null, "created": 1627331859, "org_id":
-        1000044987, "modified": 1627331859, "disabled": false, "start": 2622234295,
+        null, "canceled": null, "monitor_id": null, "created": 1627655790, "org_id":
+        1000044987, "modified": 1627655790, "disabled": false, "start": 2622234295,
         "creator_id": 1000219667, "parent_id": null, "timezone": "UTC", "active":
-        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 51615753,
+        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 52386757,
         "updater_id": null}'
     headers:
       Alt-Svc:
@@ -46,11 +44,9 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 20:37:39 GMT
+      - Fri, 30 Jul 2021 14:36:30 GMT
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:

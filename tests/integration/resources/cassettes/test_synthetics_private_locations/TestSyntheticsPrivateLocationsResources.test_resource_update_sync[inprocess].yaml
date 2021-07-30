@@ -14,14 +14,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-private-variable-0905a0dae32de13e2ddb9cae9e36d1e1
+    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-private-variable-373db8e9d3e4718c7b1c088dfd8aa027
   response:
     body:
-      string: '{"modifiedAt": "2021-07-26T20:37:52.395935+00:00", "name": "Test Private
-        VariableUpdated", "tags": ["key:value"], "metadata": null, "id": "pl:test-private-variable-0905a0dae32de13e2ddb9cae9e36d1e1",
-        "createdAt": "2021-07-26T20:37:52.094345+00:00", "description": "datadog-sync-cli
+      string: '{"modifiedAt": "2021-07-30T14:36:47.117735+00:00", "name": "Test Private
+        VariableUpdated", "tags": ["key:value"], "metadata": null, "id": "pl:test-private-variable-373db8e9d3e4718c7b1c088dfd8aa027",
+        "createdAt": "2021-07-30T14:36:46.625172+00:00", "description": "datadog-sync-cli
         test"}'
     headers:
       Alt-Svc:
@@ -39,11 +39,9 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 26 Jul 2021 20:37:52 GMT
+      - Fri, 30 Jul 2021 14:36:47 GMT
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:

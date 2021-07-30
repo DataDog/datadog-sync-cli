@@ -11,7 +11,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard
   response:
@@ -39,7 +39,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 26 Jul 2021 20:37:36 GMT
+      - Fri, 30 Jul 2021 14:36:26 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -63,9 +63,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '57'
+      - '59'
       x-ratelimit-reset:
-      - '24'
+      - '34'
     status:
       code: 200
       message: OK
@@ -81,7 +81,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/euw-cp8-hy6
   response:
@@ -118,7 +118,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 26 Jul 2021 20:37:36 GMT
+      - Fri, 30 Jul 2021 14:36:27 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -152,7 +152,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/dns-jst-h98
   response:
@@ -202,7 +202,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 26 Jul 2021 20:37:36 GMT
+      - Fri, 30 Jul 2021 14:36:27 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -236,7 +236,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/tuw-te2-pdj
   response:
@@ -258,7 +258,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 26 Jul 2021 20:37:36 GMT
+      - Fri, 30 Jul 2021 14:36:27 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -292,7 +292,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.25.1
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/ys9-5v2-zxt
   response:
@@ -312,7 +312,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 26 Jul 2021 20:37:37 GMT
+      - Fri, 30 Jul 2021 14:36:27 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
