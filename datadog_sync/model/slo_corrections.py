@@ -14,7 +14,7 @@ class SLOCorrections(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={"service_level_objectives": ["attributes.slo_id"]},
         base_path="/api/v1/slo/correction",
-        excluded_attributes=["root['id']", "root['attributes']['creator']"],
+        excluded_attributes=["id", "attributes.creator"],
     )
     # Additional SLOCorrections specific attributes
 

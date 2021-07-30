@@ -33,6 +33,14 @@ class ResourceConfig:
     source_resources: dict = None
     destination_resources: dict = None
 
+    def __post_init__(self):
+        self.build_excluded_attributes()
+
+    def build_excluded_attributes(self):
+        if self.excluded_attributes:
+            for i, attr in enumerate(self.excluded_attributes):
+                self.excluded_attributes[i] = "root" + "".join(["['{}']".format(v) for v in attr.split(".")])
+
 
 class BaseResource(abc.ABC):
     def __init__(self, config):

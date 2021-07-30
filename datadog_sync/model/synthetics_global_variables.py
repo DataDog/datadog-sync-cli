@@ -17,13 +17,13 @@ class SyntheticsGlobalVariables(BaseResource):
         base_path="/api/v1/synthetics/variables",
         non_nullable_attr=["parse_test_public_id", "parse_test_options"],
         excluded_attributes=[
-            "root['id']",
-            "root['modified_at']",
-            "root['created_at']",
-            "root['parse_test_extracted_at']",
-            "root['created_by']",
-            "root['is_totp']",
-            "root['parse_test_name']",
+            "id",
+            "modified_at",
+            "created_at",
+            "parse_test_extracted_at",
+            "created_by",
+            "is_totp",
+            "parse_test_name",
         ],
     )
     # Additional SyntheticsGlobalVariables specific attributes

@@ -17,15 +17,7 @@ class DashboardLists(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={"dashboards": ["dashboards.id"]},
         base_path="/api/v1/dashboard/lists/manual",
-        excluded_attributes=[
-            "root['id']",
-            "root['type']",
-            "root['author']",
-            "root['created']",
-            "root['modified']",
-            "root['is_favorite']",
-            "root['dashboard_count']",
-        ],
+        excluded_attributes=["id", "type", "author", "created", "modified", "is_favorite", "dashboard_count"],
     )
     # Additional Dashboards specific attributes
     dash_list_items_path = "/api/v2/dashboard/lists/manual/{}/dashboards"

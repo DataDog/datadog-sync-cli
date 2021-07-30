@@ -14,11 +14,7 @@ class LogsCustomPipelines(BaseResource):
     resource_config = ResourceConfig(
         concurrent=False,
         base_path="/api/v1/logs/config/pipelines",
-        excluded_attributes=[
-            "root['id']",
-            "root['type']",
-            "root['is_read_only']",
-        ],
+        excluded_attributes=["id", "type", "is_read_only"],
     )
     # Additional LogsCustomPipelines specific attributes
 

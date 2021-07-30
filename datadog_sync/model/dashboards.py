@@ -18,14 +18,7 @@ class Dashboards(BaseResource):
             "roles": ["restricted_roles"],
         },
         base_path="/api/v1/dashboard",
-        excluded_attributes=[
-            "root['id']",
-            "root['author_handle']",
-            "root['author_name']",
-            "root['url']",
-            "root['created_at']",
-            "root['modified_at']",
-        ],
+        excluded_attributes=["id", "author_handle", "author_name", "url", "created_at", "modified_at"],
     )
     # Additional Dashboards specific attributes
 

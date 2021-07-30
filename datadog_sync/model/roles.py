@@ -17,12 +17,7 @@ class Roles(BaseResource):
     resource_type = "roles"
     resource_config = ResourceConfig(
         base_path="/api/v2/roles",
-        excluded_attributes=[
-            "root['id']",
-            "root['attributes']['created_at']",
-            "root['attributes']['modified_at']",
-            "root['attributes']['user_count']",
-        ],
+        excluded_attributes=["id", "attributes.created_at", "attributes.modified_at", "attributes.user_count"],
     )
     # Additional Roles specific attributes
     source_permissions = None

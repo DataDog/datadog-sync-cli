@@ -15,7 +15,7 @@ class IntegrationsAWS(BaseResource):
     resource_config = ResourceConfig(
         concurrent=False,
         base_path="/api/v1/integration/aws",
-        excluded_attributes=["root['external_id']", "root['errors']"],
+        excluded_attributes=["external_id", "errors"],
     )
     # Additional LogsCustomPipelines specific attributes
 
