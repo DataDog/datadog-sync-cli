@@ -23,14 +23,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/9gy-r9z-hmh
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/442-nua-yni
   response:
     body:
-      string: '{"status": "paused", "public_id": "9gy-r9z-hmh", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "442-nua-yni", "tags": [], "org_id":
         1000044987, "locations": ["aws:ca-central-1"], "message": "Test synthetics
-        Updated", "deleted_at": null, "name": "HTTP Test", "monitor_id": 1699910,
-        "type": "api", "created_at": "2021-07-30T14:36:47.766851+00:00", "modified_at":
-        "2021-07-30T14:36:51.402721+00:00", "subtype": "http", "config": {"request":
+        Updated", "deleted_at": null, "name": "HTTP Test", "monitor_id": 1700239,
+        "type": "api", "created_at": "2021-07-30T15:20:57.399443+00:00", "modified_at":
+        "2021-07-30T15:21:00.302980+00:00", "subtype": "http", "config": {"request":
         {"url": "https://google.com", "method": "GET"}, "assertions": [{"operator":
         "lessThan", "type": "responseTime", "target": 1000}, {"operator": "is", "type":
         "statusCode", "target": 301}, {"operator": "is", "property": "content-type",
@@ -55,7 +55,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:51 GMT
+      - Fri, 30 Jul 2021 15:21:00 GMT
       pragma:
       - no-cache
       vary:
@@ -71,7 +71,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '9'
+      - '60'
     status:
       code: 200
       message: OK
@@ -96,14 +96,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/zf6-duk-p5k
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/56e-6ze-z28
   response:
     body:
-      string: '{"status": "live", "public_id": "zf6-duk-p5k", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "56e-6ze-z28", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerdutyUpdated", "deleted_at": null, "name": "DNS Test",
-        "monitor_id": 1699911, "type": "api", "created_at": "2021-07-30T14:36:48.163566+00:00",
-        "modified_at": "2021-07-30T14:36:51.804181+00:00", "subtype": "dns", "config":
+        "monitor_id": 1700240, "type": "api", "created_at": "2021-07-30T15:20:57.784635+00:00",
+        "modified_at": "2021-07-30T15:21:00.691493+00:00", "subtype": "dns", "config":
         {"request": {"host": "example.org"}, "assertions": [{"operator": "is", "property":
         "A", "type": "recordSome", "target": "0.0.0.0"}]}, "options": {"monitor_options":
         {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
@@ -125,7 +125,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:51 GMT
+      - Fri, 30 Jul 2021 15:21:00 GMT
       pragma:
       - no-cache
       vary:
@@ -141,7 +141,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '9'
+      - '60'
     status:
       code: 200
       message: OK
@@ -166,14 +166,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/kix-vkq-u26
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/md3-fxw-ph3
   response:
     body:
-      string: '{"status": "live", "public_id": "kix-vkq-u26", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "md3-fxw-ph3", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerdutyUpdated", "deleted_at": null, "name": "SSL Test",
-        "monitor_id": 1699912, "type": "api", "created_at": "2021-07-30T14:36:48.541929+00:00",
-        "modified_at": "2021-07-30T14:36:52.218413+00:00", "subtype": "ssl", "config":
+        "monitor_id": 1700241, "type": "api", "created_at": "2021-07-30T15:20:58.231002+00:00",
+        "modified_at": "2021-07-30T15:21:01.145786+00:00", "subtype": "ssl", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "isInMoreThan", "type": "certificate", "target": 30}]}, "options": {"accept_self_signed":
         true, "tick_every": 900, "monitor_options": {"notify_audit": false, "locked":
@@ -195,7 +195,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:52 GMT
+      - Fri, 30 Jul 2021 15:21:01 GMT
       pragma:
       - no-cache
       vary:
@@ -211,7 +211,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '8'
+      - '59'
     status:
       code: 200
       message: OK
@@ -236,14 +236,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/xt5-ucy-pbz
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/dff-6hy-b4s
   response:
     body:
-      string: '{"status": "live", "public_id": "xt5-ucy-pbz", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "dff-6hy-b4s", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerdutyUpdated", "deleted_at": null, "name": "TCP Test",
-        "monitor_id": 1699913, "type": "api", "created_at": "2021-07-30T14:36:48.993754+00:00",
-        "modified_at": "2021-07-30T14:36:52.692277+00:00", "subtype": "tcp", "config":
+        "monitor_id": 1700242, "type": "api", "created_at": "2021-07-30T15:20:58.624045+00:00",
+        "modified_at": "2021-07-30T15:21:01.646099+00:00", "subtype": "tcp", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "lessThan", "type": "responseTime", "target": 2000}]}, "options": {"monitor_options":
         {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
@@ -265,7 +265,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:52 GMT
+      - Fri, 30 Jul 2021 15:21:01 GMT
       pragma:
       - no-cache
       vary:
@@ -281,7 +281,7 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '8'
+      - '59'
     status:
       code: 200
       message: OK
@@ -309,13 +309,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/kjw-f2y-nij
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/kwq-me2-b6f
   response:
     body:
-      string: '{"status": "paused", "public_id": "kjw-f2y-nij", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "kwq-me2-b6f", "tags": [], "org_id":
         1000044987, "locations": ["aws:us-west-1"], "message": "Updated", "deleted_at":
-        null, "name": "Browser Test", "monitor_id": 1699914, "type": "browser", "created_at":
-        "2021-07-30T14:36:49.485697+00:00", "modified_at": "2021-07-30T14:36:53.218288+00:00",
+        null, "name": "Browser Test", "monitor_id": 1700243, "type": "browser", "created_at":
+        "2021-07-30T15:20:59.118132+00:00", "modified_at": "2021-07-30T15:21:02.201532+00:00",
         "config": {"variables": [], "setCookie": "", "request": {"url": "https://docs.datadoghq.com",
         "headers": {}, "method": "GET"}, "assertions": [], "configVariables": []},
         "options": {"retry": {"count": 0, "interval": 300}, "min_location_failed":
@@ -341,7 +341,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:53 GMT
+      - Fri, 30 Jul 2021 15:21:02 GMT
       pragma:
       - no-cache
       vary:
@@ -357,7 +357,7 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '7'
+      - '58'
     status:
       code: 200
       message: OK
@@ -387,14 +387,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/hhr-4be-3p8
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/n38-uaj-btn
   response:
     body:
-      string: '{"status": "live", "public_id": "hhr-4be-3p8", "tags": ["check_type:api",
+      string: '{"status": "live", "public_id": "n38-uaj-btn", "tags": ["check_type:api",
         "env:test", "test:update"], "org_id": 1000044987, "locations": ["aws:sa-east-1"],
         "message": "Updated", "deleted_at": null, "name": "Multistep API Test", "monitor_id":
-        1699915, "type": "api", "created_at": "2021-07-30T14:36:49.882759+00:00",
-        "modified_at": "2021-07-30T14:36:53.864754+00:00", "subtype": "multi", "config":
+        1700244, "type": "api", "created_at": "2021-07-30T15:20:59.555291+00:00",
+        "modified_at": "2021-07-30T15:21:02.682369+00:00", "subtype": "multi", "config":
         {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
         "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
         "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
@@ -421,7 +421,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:53 GMT
+      - Fri, 30 Jul 2021 15:21:02 GMT
       pragma:
       - no-cache
       vary:
@@ -437,7 +437,7 @@ interactions:
       x-ratelimit-remaining:
       - '494'
       x-ratelimit-reset:
-      - '7'
+      - '58'
     status:
       code: 200
       message: OK

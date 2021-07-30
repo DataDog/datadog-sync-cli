@@ -59,7 +59,7 @@ interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Fri, 30 Jul 2021 14:25:23 GMT
+      - Fri, 30 Jul 2021 15:18:50 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -87,7 +87,7 @@ interactions:
       x-ratelimit-remaining:
       - '419'
       x-ratelimit-reset:
-      - '277'
+      - '70'
     status:
       code: 200
       message: OK
@@ -126,7 +126,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:23 GMT
+      - Fri, 30 Jul 2021 15:18:50 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -152,7 +152,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '37'
+      - '10'
     status:
       code: 200
       message: OK
@@ -183,7 +183,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:23 GMT
+      - Fri, 30 Jul 2021 15:18:50 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -293,7 +293,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:23 GMT
+      - Fri, 30 Jul 2021 15:18:50 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -319,7 +319,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '37'
+      - '10'
     status:
       code: 200
       message: OK
@@ -371,7 +371,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:24 GMT
+      - Fri, 30 Jul 2021 15:18:50 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -397,7 +397,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '36'
+      - '10'
     status:
       code: 200
       message: OK
@@ -527,7 +527,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:24 GMT
+      - Fri, 30 Jul 2021 15:18:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -553,7 +553,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '36'
+      - '9'
     status:
       code: 200
       message: OK
@@ -585,12 +585,10 @@ interactions:
         "display_name": "Default Settings", "description": "The ability to edit default
         settings for Synthetics Monitoring.", "created": "2020-09-17T20:21:38.818771+00:00",
         "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "984d2f00-d3b4-11e8-a200-bb47109e9987",
-        "attributes": {"name": "standard", "display_name": "Standard Access", "description":
-        "This permission gives you the ability to view and edit components in your
-        Datadog organization that do not have explicitly defined permissions. This
-        includes Notebooks, Events, and other non-Account Management functionality.",
-        "created": "2018-10-19T15:35:23.756736+00:00", "group_name": "General", "display_type":
+        false}}, {"type": "permissions", "id": "d90f6832-d3d8-11e9-a77a-bf8a2607f864",
+        "attributes": {"name": "dashboards_public_share", "display_name": "Dashboards
+        Share", "description": "The ability to share dashboards externally.", "created":
+        "2019-09-10T14:39:51.967094+00:00", "group_name": "Dashboards", "display_type":
         "other", "restricted": false}}, {"type": "permissions", "id": "5c6b88e2-f923-11ea-adbc-abf57d079420",
         "attributes": {"name": "synthetics_default_settings_read", "display_name":
         "Default Settings", "description": "The ability to view default settings for
@@ -605,20 +603,22 @@ interactions:
         "display_name": "Logs Live Tail Access", "description": "The ability to view
         the live tail feed for all log indexes, even if otherwise specifically restricted.",
         "created": "2018-10-31T13:39:48.292879+00:00", "group_name": "Logs", "display_type":
-        "read", "restricted": false}}, {"type": "permissions", "id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e",
-        "attributes": {"name": "logs_write_historical_view", "display_name": "Logs
-        Historical View", "description": "The capability to rehydrate logs from Archives.",
-        "created": "2020-09-16T08:38:44.242076+00:00", "group_name": "Logs", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "46a301e2-ec5c-11ea-aa9f-1f511b7305fd",
+        "attributes": {"name": "usage_edit", "display_name": "Usage", "description":
+        "The ability to manage your organization''s usage attribution set-up.", "created":
+        "2020-09-01T14:06:05.444705+00:00", "group_name": "Billing and Usage", "display_type":
         "write", "restricted": false}}, {"type": "permissions", "id": "4e3f02b4-2dce-11eb-84c0-2fca946a6efc",
         "attributes": {"name": "apm_service_ingest_write", "display_name": "Manage
         Service Ingestion", "description": "The ability to edit Service Ingestion
         pages root services. A user with this permission can edit the root service
         ingestion and generate a code snippet to increase ingestion per service.",
         "created": "2020-11-23T20:56:06.419518+00:00", "group_name": "APM", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "d90f6832-d3d8-11e9-a77a-bf8a2607f864",
-        "attributes": {"name": "dashboards_public_share", "display_name": "Dashboards
-        Share", "description": "The ability to share dashboards externally.", "created":
-        "2019-09-10T14:39:51.967094+00:00", "group_name": "Dashboards", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "984d2f00-d3b4-11e8-a200-bb47109e9987",
+        "attributes": {"name": "standard", "display_name": "Standard Access", "description":
+        "This permission gives you the ability to view and edit components in your
+        Datadog organization that do not have explicitly defined permissions. This
+        includes Notebooks, Events, and other non-Account Management functionality.",
+        "created": "2018-10-19T15:35:23.756736+00:00", "group_name": "General", "display_type":
         "other", "restricted": false}}, {"type": "permissions", "id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0",
         "attributes": {"name": "apm_read", "display_name": "APM Read Access", "description":
         "The ability to read and query APM and Trace Analytics.", "created": "2020-11-23T20:55:45.006110+00:00",
@@ -639,53 +639,52 @@ interactions:
         "display_name": "Data Scanner", "description": "Edit data scanner configuration.",
         "created": "2021-03-29T16:56:46.398584+00:00", "group_name": "Access Management",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "7b516476-aa58-11ea-95e2-93718cd56369", "attributes": {"name": "security_monitoring_rules_write",
-        "display_name": "Detection Rules", "description": "The ability to create and
-        edit Detection rules.", "created": "2020-06-09T13:52:39.099413+00:00", "group_name":
-        "Security Monitoring", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "984a2bd4-d3b4-11e8-a1ff-a7f660d43029", "attributes":
-        {"name": "admin", "display_name": "Privileged Access", "description": "This
-        permission gives you the ability to view and edit everything in your Datadog
-        organization that does not have an explicitly defined permission. This includes
-        organization settings and SAML management. This permission is inclusive of
-        all Standard access permissions.", "created": "2018-10-19T15:35:23.734317+00:00",
-        "group_name": "General", "display_type": "other", "restricted": false}}, {"type":
-        "permissions", "id": "46a301de-ec5c-11ea-aa9f-a73252c24806", "attributes":
-        {"name": "synthetics_private_location_write", "display_name": "Private Locations",
-        "description": "The ability to create and delete private locations as well
-        as seeing the associated installation guidelines.", "created": "2020-09-01T14:06:05.444705+00:00",
-        "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "46a301df-ec5c-11ea-aa9f-970a9ae645e5",
-        "attributes": {"name": "billing_read", "display_name": "Billing", "description":
-        "The ability to view your organization''s subscription and payment method
-        but not make edits.", "created": "2020-09-01T14:06:05.444705+00:00", "group_name":
-        "Billing and Usage", "display_type": "read", "restricted": false}}, {"type":
-        "permissions", "id": "12efc20f-d36c-11eb-a9b8-da7ad0900002", "attributes":
-        {"name": "incident_settings_read", "display_name": "Incidents Settings", "description":
-        "The ability to view incidents Settings.", "created": "2021-06-22T15:11:09.259568+00:00",
-        "group_name": "Incidents", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "attributes":
-        {"name": "security_monitoring_rules_read", "display_name": "Detection Rules",
-        "description": "The ability to read Detection rules.", "created": "2020-06-09T13:52:25.279909+00:00",
-        "group_name": "Security Monitoring", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f",
-        "attributes": {"name": "monitors_downtime", "display_name": "Monitors Manage
-        Downtimes", "description": "The ability to set downtimes for your organization.
-        A user with this permission can suppress alerts from any monitor using a downtime,
-        even if they do not have permission to edit those monitors explicitly.", "created":
-        "2019-09-16T18:39:23.306702+00:00", "group_name": "Monitors", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e",
-        "attributes": {"name": "logs_read_index_data", "display_name": "Logs Read
-        Index Data", "description": "The ability to read all or some log indexes.
-        Can be granted in a limited capacity per index from the Logs interface or
-        APIs. If granted via the Roles interface or API the permission has global
-        scope.", "created": "2018-10-31T13:39:19.727450+00:00", "group_name": "Logs",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "46a301e0-ec5c-11ea-aa9f-6ba6cc675d8c", "attributes": {"name": "billing_edit",
-        "display_name": "Billing", "description": "The ability to manage your organization''s
-        subscription and payment method.", "created": "2020-09-01T14:06:05.444705+00:00",
-        "group_name": "Billing and Usage", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d",
+        "87b00304-dd12-11e8-9e59-cbeb5f71f72f", "attributes": {"name": "logs_write_archives",
+        "display_name": "Logs Archives", "description": "The ability to add and edit
+        log archive locations.", "created": "2018-10-31T13:40:29.040786+00:00", "group_name":
+        "Logs", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "984a2bd4-d3b4-11e8-a1ff-a7f660d43029", "attributes": {"name": "admin",
+        "display_name": "Privileged Access", "description": "This permission gives
+        you the ability to view and edit everything in your Datadog organization that
+        does not have an explicitly defined permission. This includes organization
+        settings and SAML management. This permission is inclusive of all Standard
+        access permissions.", "created": "2018-10-19T15:35:23.734317+00:00", "group_name":
+        "General", "display_type": "other", "restricted": false}}, {"type": "permissions",
+        "id": "46a301de-ec5c-11ea-aa9f-a73252c24806", "attributes": {"name": "synthetics_private_location_write",
+        "display_name": "Private Locations", "description": "The ability to create
+        and delete private locations as well as seeing the associated installation
+        guidelines.", "created": "2020-09-01T14:06:05.444705+00:00", "group_name":
+        "Synthetic Monitoring", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "46a301df-ec5c-11ea-aa9f-970a9ae645e5", "attributes":
+        {"name": "billing_read", "display_name": "Billing", "description": "The ability
+        to view your organization''s subscription and payment method but not make
+        edits.", "created": "2020-09-01T14:06:05.444705+00:00", "group_name": "Billing
+        and Usage", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "12efc20f-d36c-11eb-a9b8-da7ad0900002", "attributes": {"name": "incident_settings_read",
+        "display_name": "Incidents Settings", "description": "The ability to view
+        incidents Settings.", "created": "2021-06-22T15:11:09.259568+00:00", "group_name":
+        "Incidents", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "attributes": {"name": "security_monitoring_rules_read",
+        "display_name": "Detection Rules", "description": "The ability to read Detection
+        rules.", "created": "2020-06-09T13:52:25.279909+00:00", "group_name": "Security
+        Monitoring", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f", "attributes": {"name": "monitors_downtime",
+        "display_name": "Monitors Manage Downtimes", "description": "The ability to
+        set downtimes for your organization. A user with this permission can suppress
+        alerts from any monitor using a downtime, even if they do not have permission
+        to edit those monitors explicitly.", "created": "2019-09-16T18:39:23.306702+00:00",
+        "group_name": "Monitors", "display_type": "other", "restricted": false}},
+        {"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e", "attributes":
+        {"name": "logs_read_index_data", "display_name": "Logs Read Index Data", "description":
+        "The ability to read all or some log indexes. Can be granted in a limited
+        capacity per index from the Logs interface or APIs. If granted via the Roles
+        interface or API the permission has global scope.", "created": "2018-10-31T13:39:19.727450+00:00",
+        "group_name": "Logs", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "46a301e0-ec5c-11ea-aa9f-6ba6cc675d8c", "attributes":
+        {"name": "billing_edit", "display_name": "Billing", "description": "The ability
+        to manage your organization''s subscription and payment method.", "created":
+        "2020-09-01T14:06:05.444705+00:00", "group_name": "Billing and Usage", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d",
         "attributes": {"name": "user_access_invite", "display_name": "Invite User",
         "description": "Allows users to invite other users to your organization.",
         "created": "2020-08-25T19:17:23.539701+00:00", "group_name": "Access Management",
@@ -695,11 +694,7 @@ interactions:
         read trace retention filters. A user with this permission can view the retention
         filters page, list of filters, their statistics, and creation info.", "created":
         "2020-11-23T20:55:49.190595+00:00", "group_name": "APM", "display_type": "read",
-        "restricted": false}}, {"type": "permissions", "id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39",
-        "attributes": {"name": "logs_write_facets", "display_name": "Logs Facets",
-        "description": "The capability to create or edit logs facets.", "created":
-        "2020-10-14T12:40:20.271908+00:00", "group_name": "Logs", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2",
+        "restricted": false}}, {"type": "permissions", "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2",
         "attributes": {"name": "dashboards_read", "display_name": "Dashboards", "description":
         "The ability to view dashboards.", "created": "2019-09-10T14:39:51.955175+00:00",
         "group_name": "Dashboards", "display_type": "read", "restricted": true}},
@@ -718,15 +713,20 @@ interactions:
         "Grants the permission to disable users, manage user roles and SAML-to-role
         mappings.", "created": "2020-08-25T19:17:28.810412+00:00", "group_name": "Access
         Management", "display_type": "other", "restricted": false}}, {"type": "permissions",
-        "id": "4441648c-d8b1-11e9-a77a-1b899a04b304", "attributes": {"name": "monitors_read",
-        "display_name": "Monitors", "description": "The ability to view monitors.",
-        "created": "2019-09-16T18:39:07.744297+00:00", "group_name": "Monitors", "display_type":
-        "read", "restricted": true}}, {"type": "permissions", "id": "53950c54-2dce-11eb-84c0-a79ae108f6f8",
-        "attributes": {"name": "apm_apdex_manage_write", "display_name": "Apdex Management",
-        "description": "The ability to set Apdex T value on any service. A user with
-        this permission can set the T value from the Apdex graph on the service page.",
-        "created": "2020-11-23T20:56:15.371926+00:00", "group_name": "APM", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "811ac4ca-dd12-11e8-9e57-676a7f0beef9",
+        "id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39", "attributes": {"name": "logs_write_facets",
+        "display_name": "Logs Facets", "description": "The capability to create or
+        edit logs facets.", "created": "2020-10-14T12:40:20.271908+00:00", "group_name":
+        "Logs", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "46a301e1-ec5c-11ea-aa9f-afa39f6f3e36", "attributes": {"name": "usage_read",
+        "display_name": "Usage", "description": "The ability to view your organization''s
+        usage and usage attribution.", "created": "2020-09-01T14:06:05.444705+00:00",
+        "group_name": "Billing and Usage", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "53950c54-2dce-11eb-84c0-a79ae108f6f8", "attributes":
+        {"name": "apm_apdex_manage_write", "display_name": "Apdex Management", "description":
+        "The ability to set Apdex T value on any service. A user with this permission
+        can set the T value from the Apdex graph on the service page.", "created":
+        "2020-11-23T20:56:15.371926+00:00", "group_name": "APM", "display_type": "write",
+        "restricted": false}}, {"type": "permissions", "id": "811ac4ca-dd12-11e8-9e57-676a7f0beef9",
         "attributes": {"name": "logs_write_pipelines", "display_name": "Logs Write
         Pipelines", "description": "The ability to add and change log pipeline configurations,
         including the ability to grant the Logs Write Processors permission to other
@@ -783,29 +783,29 @@ interactions:
         to view Application Keys owned by all users in the organization.", "created":
         "2020-09-01T14:06:05.444705+00:00", "group_name": "API and Application Keys",
         "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "87b00304-dd12-11e8-9e59-cbeb5f71f72f", "attributes": {"name": "logs_write_archives",
-        "display_name": "Logs Archives", "description": "The ability to add and edit
-        log archive locations.", "created": "2018-10-31T13:40:29.040786+00:00", "group_name":
-        "Logs", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc", "attributes": {"name": "metric_tags_write",
-        "display_name": "Manage Tags for Metrics", "description": "The ability to
-        edit and save tag configurations for custom metrics.", "created": "2020-09-01T14:06:05.444705+00:00",
-        "group_name": "Metrics", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9", "attributes":
-        {"name": "synthetics_global_variable_read", "display_name": "Global Variables",
-        "description": "The ability to view, search and use in tests the list of global
-        variables available for Synthetics.", "created": "2020-09-17T20:20:48.446916+00:00",
-        "group_name": "Synthetic Monitoring", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002",
-        "attributes": {"name": "incident_read", "display_name": "Incidents App Experience",
-        "description": "The ability to view the Incident App and see incidents.",
-        "created": "2021-06-22T15:11:09.255499+00:00", "group_name": "Incidents",
+        "7b516476-aa58-11ea-95e2-93718cd56369", "attributes": {"name": "security_monitoring_rules_write",
+        "display_name": "Detection Rules", "description": "The ability to create and
+        edit Detection rules.", "created": "2020-06-09T13:52:39.099413+00:00", "group_name":
+        "Security Monitoring", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc", "attributes":
+        {"name": "metric_tags_write", "display_name": "Manage Tags for Metrics", "description":
+        "The ability to edit and save tag configurations for custom metrics.", "created":
+        "2020-09-01T14:06:05.444705+00:00", "group_name": "Metrics", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9",
+        "attributes": {"name": "synthetics_global_variable_read", "display_name":
+        "Global Variables", "description": "The ability to view, search and use in
+        tests the list of global variables available for Synthetics.", "created":
+        "2020-09-17T20:20:48.446916+00:00", "group_name": "Synthetic Monitoring",
         "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "46a301e2-ec5c-11ea-aa9f-1f511b7305fd", "attributes": {"name": "usage_edit",
-        "display_name": "Usage", "description": "The ability to manage your organization''s
-        usage attribution set-up.", "created": "2020-09-01T14:06:05.444705+00:00",
-        "group_name": "Billing and Usage", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "80de1ec0-aa58-11ea-95e2-aff381626d5d",
+        "12efc20e-d36c-11eb-a9b8-da7ad0900002", "attributes": {"name": "incident_read",
+        "display_name": "Incidents App Experience", "description": "The ability to
+        view the Incident App and see incidents.", "created": "2021-06-22T15:11:09.255499+00:00",
+        "group_name": "Incidents", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "attributes":
+        {"name": "logs_write_historical_view", "display_name": "Logs Historical View",
+        "description": "The capability to rehydrate logs from Archives.", "created":
+        "2020-09-16T08:38:44.242076+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "80de1ec0-aa58-11ea-95e2-aff381626d5d",
         "attributes": {"name": "security_monitoring_signals_read", "display_name":
         "Security Signals", "description": "The ability to view Security signals.",
         "created": "2020-06-09T13:52:48.410398+00:00", "group_name": "Security Monitoring",
@@ -927,13 +927,13 @@ interactions:
         {"name": "security_monitoring_filters_read", "display_name": "Security Filters",
         "description": "The ability to read Security Filters.", "created": "2021-05-10T08:56:23.676833+00:00",
         "group_name": "Security Monitoring", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "46a301e1-ec5c-11ea-aa9f-afa39f6f3e36",
-        "attributes": {"name": "usage_read", "display_name": "Usage", "description":
-        "The ability to view your organization''s usage and usage attribution.", "created":
-        "2020-09-01T14:06:05.444705+00:00", "group_name": "Billing and Usage", "display_type":
-        "read", "restricted": false}}, {"type": "permissions", "id": "bf0dcf7c-90af-11eb-9b82-da7ad0900002",
-        "attributes": {"name": "data_scanner_read", "display_name": "Data Scanner",
-        "description": "View data scanner configuration.", "created": "2021-03-29T16:56:46.394971+00:00",
+        false}}, {"type": "permissions", "id": "4441648c-d8b1-11e9-a77a-1b899a04b304",
+        "attributes": {"name": "monitors_read", "display_name": "Monitors", "description":
+        "The ability to view monitors.", "created": "2019-09-16T18:39:07.744297+00:00",
+        "group_name": "Monitors", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "bf0dcf7c-90af-11eb-9b82-da7ad0900002", "attributes":
+        {"name": "data_scanner_read", "display_name": "Data Scanner", "description":
+        "View data scanner configuration.", "created": "2021-03-29T16:56:46.394971+00:00",
         "group_name": "Access Management", "display_type": "read", "restricted": false}},
         {"type": "permissions", "id": "46a301da-ec5c-11ea-aa9f-73bedeab67ee", "attributes":
         {"name": "user_app_keys", "display_name": "User Application Keys", "description":
@@ -1025,7 +1025,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:24 GMT
+      - Fri, 30 Jul 2021 15:18:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1205,7 +1205,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:24 GMT
+      - Fri, 30 Jul 2021 15:18:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1231,7 +1231,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '6'
+      - '9'
     status:
       code: 200
       message: OK
@@ -1292,7 +1292,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:25 GMT
+      - Fri, 30 Jul 2021 15:18:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1318,7 +1318,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '5'
+      - '9'
     status:
       code: 200
       message: OK
@@ -1362,7 +1362,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:25 GMT
+      - Fri, 30 Jul 2021 15:18:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1388,7 +1388,7 @@ interactions:
       x-ratelimit-remaining:
       - '59'
       x-ratelimit-reset:
-      - '35'
+      - '9'
     status:
       code: 200
       message: OK
@@ -1441,7 +1441,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:25 GMT
+      - Fri, 30 Jul 2021 15:18:52 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1525,7 +1525,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:25 GMT
+      - Fri, 30 Jul 2021 15:18:52 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1581,7 +1581,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:25 GMT
+      - Fri, 30 Jul 2021 15:18:52 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1635,7 +1635,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:25 GMT
+      - Fri, 30 Jul 2021 15:18:52 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1689,7 +1689,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:25 GMT
+      - Fri, 30 Jul 2021 15:18:52 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1735,7 +1735,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:25 GMT
+      - Fri, 30 Jul 2021 15:18:52 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1791,7 +1791,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:26 GMT
+      - Fri, 30 Jul 2021 15:18:52 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1843,7 +1843,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:26 GMT
+      - Fri, 30 Jul 2021 15:18:52 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1869,7 +1869,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '34'
+      - '8'
     status:
       code: 200
       message: OK
@@ -1908,7 +1908,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:26 GMT
+      - Fri, 30 Jul 2021 15:18:52 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1950,7 +1950,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "8QQGmJPCSRWqkXbXqlAFEA", "type": "pipeline", "name": "Test
+      string: '{"id": "K448IC0XRVqA6D-BYhOvhQ", "type": "pipeline", "name": "Test
         pipeline", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "test:query"}, "processors": []}'
     headers:
@@ -1971,7 +1971,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Fri, 30 Jul 2021 14:25:26 GMT
+      - Fri, 30 Jul 2021 15:18:53 GMT
       pragma:
       - no-cache
       vary:
@@ -1987,7 +1987,7 @@ interactions:
       x-ratelimit-remaining:
       - '9'
       x-ratelimit-reset:
-      - '274'
+      - '67'
     status:
       code: 200
       message: OK
@@ -2042,7 +2042,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "MRv_nI3DS3CyfbMb9za13Q", "type": "pipeline", "name": "Test
+      string: '{"id": "EVp08p6ARbaDSl_RyRC_ow", "type": "pipeline", "name": "Test
         Pipeline - Complex", "is_enabled": true, "is_read_only": false, "filter":
         {"query": "source:foo"}, "processors": [{"name": "sample arithmetic processor",
         "is_enabled": true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic",
@@ -2094,7 +2094,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Fri, 30 Jul 2021 14:25:26 GMT
+      - Fri, 30 Jul 2021 15:18:53 GMT
       pragma:
       - no-cache
       vary:
@@ -2110,7 +2110,7 @@ interactions:
       x-ratelimit-remaining:
       - '8'
       x-ratelimit-reset:
-      - '274'
+      - '67'
     status:
       code: 200
       message: OK
@@ -2135,9 +2135,9 @@ interactions:
   response:
     body:
       string: '{"private_location": {"name": "Test Private Variable", "tags": ["key:value"],
-        "description": "datadog-sync-cli test", "modifiedAt": "2021-07-30T14:25:27.880560+00:00",
-        "config": {"site": "datadoghq.eu"}, "id": "pl:test-private-variable-be6269729f1f65fe60c817d5f3cd71cb",
-        "createdAt": "2021-07-30T14:25:27.880560+00:00", "metadata": null}, "result_encryption":
+        "description": "datadog-sync-cli test", "modifiedAt": "2021-07-30T15:18:55.568079+00:00",
+        "config": {"site": "datadoghq.eu"}, "id": "pl:test-private-variable-381f37b2c7c29e2f2c06dd7e950a87f8",
+        "createdAt": "2021-07-30T15:18:55.568079+00:00", "metadata": null}, "result_encryption":
         {"id": "sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins=", "key":
         "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
         PUBLIC KEY-----\n"}}'
@@ -2157,7 +2157,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:27 GMT
+      - Fri, 30 Jul 2021 15:18:55 GMT
       pragma:
       - no-cache
       vary:
@@ -2196,10 +2196,10 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "paused", "public_id": "sxp-bip-8vr", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "2cj-ndj-j2m", "tags": [], "org_id":
         1000044987, "locations": ["aws:ca-central-1"], "message": "Test synthetics
-        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 1699498, "type":
-        "api", "created_at": "2021-07-30T14:25:28.359556+00:00", "modified_at": "2021-07-30T14:25:28.359556+00:00",
+        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 1700220, "type":
+        "api", "created_at": "2021-07-30T15:18:56.004399+00:00", "modified_at": "2021-07-30T15:18:56.004399+00:00",
         "subtype": "http", "config": {"request": {"url": "https://google.com", "method":
         "GET"}, "assertions": [{"operator": "lessThan", "type": "responseTime", "target":
         1000}, {"operator": "is", "type": "statusCode", "target": 301}, {"operator":
@@ -2225,7 +2225,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:28 GMT
+      - Fri, 30 Jul 2021 15:18:56 GMT
       pragma:
       - no-cache
       vary:
@@ -2241,7 +2241,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '32'
+      - '5'
     status:
       code: 200
       message: OK
@@ -2269,11 +2269,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "cs5-hf5-yks", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "tpq-re7-dhq", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "DNS Test", "monitor_id":
-        1699499, "type": "api", "created_at": "2021-07-30T14:25:28.801272+00:00",
-        "modified_at": "2021-07-30T14:25:28.801272+00:00", "subtype": "dns", "config":
+        1700221, "type": "api", "created_at": "2021-07-30T15:18:56.481808+00:00",
+        "modified_at": "2021-07-30T15:18:56.481808+00:00", "subtype": "dns", "config":
         {"request": {"host": "example.org"}, "assertions": [{"operator": "is", "property":
         "A", "type": "recordSome", "target": "0.0.0.0"}]}, "options": {"monitor_options":
         {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
@@ -2295,7 +2295,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:28 GMT
+      - Fri, 30 Jul 2021 15:18:56 GMT
       pragma:
       - no-cache
       vary:
@@ -2311,7 +2311,7 @@ interactions:
       x-ratelimit-remaining:
       - '11998'
       x-ratelimit-reset:
-      - '32'
+      - '4'
     status:
       code: 200
       message: OK
@@ -2339,11 +2339,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "jxv-wur-gep", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "jzx-96p-yaw", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "SSL Test", "monitor_id":
-        1699500, "type": "api", "created_at": "2021-07-30T14:25:29.310765+00:00",
-        "modified_at": "2021-07-30T14:25:29.310765+00:00", "subtype": "ssl", "config":
+        1700222, "type": "api", "created_at": "2021-07-30T15:18:56.964296+00:00",
+        "modified_at": "2021-07-30T15:18:56.964296+00:00", "subtype": "ssl", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "isInMoreThan", "type": "certificate", "target": 30}]}, "options": {"accept_self_signed":
         true, "tick_every": 900, "monitor_options": {"notify_audit": false, "locked":
@@ -2365,7 +2365,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:29 GMT
+      - Fri, 30 Jul 2021 15:18:57 GMT
       pragma:
       - no-cache
       vary:
@@ -2381,13 +2381,13 @@ interactions:
       x-ratelimit-remaining:
       - '11997'
       x-ratelimit-reset:
-      - '31'
+      - '4'
     status:
       code: 200
       message: OK
 - request:
     body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
-      ["pl:test-private-variable-be6269729f1f65fe60c817d5f3cd71cb", "aws:eu-central-1"],
+      ["pl:test-private-variable-381f37b2c7c29e2f2c06dd7e950a87f8", "aws:eu-central-1"],
       "message": "Notify @pagerduty", "name": "HTTP Test - example", "type": "api",
       "subtype": "http", "config": {"request": {"url": "https://www.example.org",
       "headers": {"Authentication": "Token: 1234566789", "Content-Type": "application/json"},
@@ -2411,11 +2411,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "bqk-dvc-tdt", "tags": ["foo:bar",
-        "foo", "env:test"], "org_id": 1000044987, "locations": ["pl:test-private-variable-be6269729f1f65fe60c817d5f3cd71cb",
+      string: '{"status": "live", "public_id": "hxm-rdp-xee", "tags": ["foo:bar",
+        "foo", "env:test"], "org_id": 1000044987, "locations": ["pl:test-private-variable-381f37b2c7c29e2f2c06dd7e950a87f8",
         "aws:eu-central-1"], "message": "Notify @pagerduty", "deleted_at": null, "name":
-        "HTTP Test - example", "monitor_id": 1699501, "type": "api", "created_at":
-        "2021-07-30T14:25:29.901211+00:00", "modified_at": "2021-07-30T14:25:29.901211+00:00",
+        "HTTP Test - example", "monitor_id": 1700223, "type": "api", "created_at":
+        "2021-07-30T15:18:57.460998+00:00", "modified_at": "2021-07-30T15:18:57.460998+00:00",
         "subtype": "http", "config": {"request": {"url": "https://www.example.org",
         "headers": {"Authentication": "Token: 1234566789", "Content-Type": "application/json"},
         "method": "GET"}, "assertions": [{"operator": "is", "type": "statusCode",
@@ -2439,7 +2439,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:30 GMT
+      - Fri, 30 Jul 2021 15:18:57 GMT
       pragma:
       - no-cache
       vary:
@@ -2455,7 +2455,7 @@ interactions:
       x-ratelimit-remaining:
       - '11996'
       x-ratelimit-reset:
-      - '31'
+      - '3'
     status:
       code: 200
       message: OK
@@ -2483,11 +2483,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "guw-tp2-8g6", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "deg-aja-t9h", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "TCP Test", "monitor_id":
-        1699502, "type": "api", "created_at": "2021-07-30T14:25:30.402352+00:00",
-        "modified_at": "2021-07-30T14:25:30.402352+00:00", "subtype": "tcp", "config":
+        1700224, "type": "api", "created_at": "2021-07-30T15:18:57.958572+00:00",
+        "modified_at": "2021-07-30T15:18:57.958572+00:00", "subtype": "tcp", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "lessThan", "type": "responseTime", "target": 2000}]}, "options": {"monitor_options":
         {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
@@ -2509,7 +2509,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:30 GMT
+      - Fri, 30 Jul 2021 15:18:58 GMT
       pragma:
       - no-cache
       vary:
@@ -2525,7 +2525,7 @@ interactions:
       x-ratelimit-remaining:
       - '11995'
       x-ratelimit-reset:
-      - '30'
+      - '3'
     status:
       code: 200
       message: OK
@@ -2556,10 +2556,10 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "paused", "public_id": "k9t-dhn-buq", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "rzt-sgi-acg", "tags": [], "org_id":
         1000044987, "locations": ["aws:us-west-1"], "message": "", "deleted_at": null,
-        "name": "Browser Test", "monitor_id": 1699503, "type": "browser", "created_at":
-        "2021-07-30T14:25:31.003839+00:00", "modified_at": "2021-07-30T14:25:31.003839+00:00",
+        "name": "Browser Test", "monitor_id": 1700225, "type": "browser", "created_at":
+        "2021-07-30T15:18:58.517393+00:00", "modified_at": "2021-07-30T15:18:58.517393+00:00",
         "config": {"variables": [], "setCookie": "", "request": {"url": "https://docs.datadoghq.com",
         "headers": {}, "method": "GET"}, "assertions": [], "configVariables": []},
         "options": {"retry": {"count": 0, "interval": 300}, "min_location_failed":
@@ -2585,7 +2585,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:31 GMT
+      - Fri, 30 Jul 2021 15:18:58 GMT
       pragma:
       - no-cache
       vary:
@@ -2601,7 +2601,7 @@ interactions:
       x-ratelimit-remaining:
       - '11994'
       x-ratelimit-reset:
-      - '30'
+      - '2'
     status:
       code: 200
       message: OK
@@ -2634,11 +2634,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "8iv-kmg-5qa", "tags": ["check_type:api",
+      string: '{"status": "live", "public_id": "fbv-x74-v6z", "tags": ["check_type:api",
         "env:test", "test:update"], "org_id": 1000044987, "locations": ["aws:sa-east-1"],
         "message": "", "deleted_at": null, "name": "Multistep API Test", "monitor_id":
-        1699504, "type": "api", "created_at": "2021-07-30T14:25:31.503526+00:00",
-        "modified_at": "2021-07-30T14:25:31.503526+00:00", "subtype": "multi", "config":
+        1700226, "type": "api", "created_at": "2021-07-30T15:18:58.976416+00:00",
+        "modified_at": "2021-07-30T15:18:58.976416+00:00", "subtype": "multi", "config":
         {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
         "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
         "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
@@ -2665,7 +2665,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:31 GMT
+      - Fri, 30 Jul 2021 15:18:59 GMT
       pragma:
       - no-cache
       vary:
@@ -2681,7 +2681,7 @@ interactions:
       x-ratelimit-remaining:
       - '11993'
       x-ratelimit-reset:
-      - '29'
+      - '2'
     status:
       code: 200
       message: OK
@@ -2717,7 +2717,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:31 GMT
+      - Fri, 30 Jul 2021 15:18:59 GMT
       pragma:
       - no-cache
       x-content-type-options:
@@ -2729,9 +2729,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11999'
+      - '11998'
       x-ratelimit-reset:
-      - '29'
+      - '1'
     status:
       code: 200
       message: OK
@@ -2759,7 +2759,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "test", "tags": ["check_type:api"], "is_totp": null, "value": {"secure": false,
         "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "7d23e0ff-5523-4971-9e9c-0adb5749f006",
+        null, "parse_test_name": null, "type": "variable", "id": "f3f8c773-aaa4-4ffc-9832-f6f95de12233",
         "name": "TEST_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -2777,7 +2777,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:32 GMT
+      - Fri, 30 Jul 2021 15:18:59 GMT
       pragma:
       - no-cache
       vary:
@@ -2793,7 +2793,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '28'
+      - '1'
     status:
       code: 200
       message: OK
@@ -2821,7 +2821,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "Description of the variable", "tags": ["foo:bar", "env:test"], "is_totp":
         null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "e848a39b-fe4f-4581-a06b-9396b7982386",
+        null, "parse_test_name": null, "type": "variable", "id": "33c55fcb-5fc7-4928-b005-b1a2f11735b6",
         "name": "EXAMPLE_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -2839,7 +2839,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:32 GMT
+      - Fri, 30 Jul 2021 15:18:59 GMT
       pragma:
       - no-cache
       vary:
@@ -2855,7 +2855,7 @@ interactions:
       x-ratelimit-remaining:
       - '11998'
       x-ratelimit-reset:
-      - '28'
+      - '1'
     status:
       code: 200
       message: OK
@@ -2882,7 +2882,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "test", "tags": [], "is_totp": null, "value": {"secure": false, "value": "test"},
         "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "0715802c-1d2f-487e-b2a2-b223767326c8", "name": "TEST"}'
+        "id": "be567455-fad7-40cb-96e6-0f0be4f83b6d", "name": "TEST"}'
     headers:
       Alt-Svc:
       - clear
@@ -2899,7 +2899,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:32 GMT
+      - Fri, 30 Jul 2021 15:19:00 GMT
       pragma:
       - no-cache
       vary:
@@ -2913,16 +2913,16 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11997'
+      - '11999'
       x-ratelimit-reset:
-      - '28'
+      - '60'
     status:
       code: 200
       message: OK
 - request:
     body: '{"parse_test_options": {"field": "alt-svc", "parser": {"type": "regex",
       "value": "h3=\"(.*)\";"}, "type": "http_header"}, "description": "", "tags":
-      [], "value": {"secure": false, "value": ""}, "parse_test_public_id": "sxp-bip-8vr",
+      [], "value": {"secure": false, "value": ""}, "parse_test_public_id": "2cj-ndj-j2m",
       "attributes": {"role_uuids": []}, "type": "variable", "name": "TEST_FROM_HTTP"}'
     headers:
       Accept:
@@ -2944,8 +2944,8 @@ interactions:
       string: '{"parse_test_options": {"field": "alt-svc", "parser": {"type": "regex",
         "value": "h3=\"(.*)\";"}, "type": "http_header"}, "parse_test_extracted_at":
         null, "description": "", "tags": [], "is_totp": null, "value": {"secure":
-        false, "value": ""}, "parse_test_public_id": "sxp-bip-8vr", "parse_test_name":
-        null, "attributes": {"role_uuids": []}, "type": "variable", "id": "2e1f0785-9056-474b-9bd5-47680bda0038",
+        false, "value": ""}, "parse_test_public_id": "2cj-ndj-j2m", "parse_test_name":
+        null, "attributes": {"role_uuids": []}, "type": "variable", "id": "c28c69eb-a9d8-47b1-8989-571a68706266",
         "name": "TEST_FROM_HTTP"}'
     headers:
       Alt-Svc:
@@ -2963,7 +2963,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:33 GMT
+      - Fri, 30 Jul 2021 15:19:00 GMT
       pragma:
       - no-cache
       vary:
@@ -2977,9 +2977,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11996'
+      - '11998'
       x-ratelimit-reset:
-      - '27'
+      - '60'
     status:
       code: 200
       message: OK
@@ -3119,7 +3119,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:33 GMT
+      - Fri, 30 Jul 2021 15:19:01 GMT
       pragma:
       - no-cache
       vary:
@@ -3135,7 +3135,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '27'
+      - '59'
     status:
       code: 200
       message: OK
@@ -3465,7 +3465,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:33 GMT
+      - Fri, 30 Jul 2021 15:19:01 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -3823,7 +3823,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:34 GMT
+      - Fri, 30 Jul 2021 15:19:01 GMT
       pragma:
       - no-cache
       vary:
@@ -4274,7 +4274,7 @@ interactions:
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005", "attributes":
         {"name": "test-user", "handle": "new@example.com", "created_at": "2021-06-08T19:40:17.395117+00:00",
-        "modified_at": "2021-07-29T18:58:57.861111+00:00", "email": "new@example.com",
+        "modified_at": "2021-07-30T15:12:32.758344+00:00", "email": "new@example.com",
         "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
@@ -4327,7 +4327,407 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:34 GMT
+      - Fri, 30 Jul 2021 15:19:01 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "users", "attributes": {"name": "test-user", "email":
+      "new@example.com", "disabled": false, "allowed_login_methods": []}, "id": "5a322106-c891-11eb-873a-da7ad0900005"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '186'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/users/5a322106-c891-11eb-873a-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005",
+        "attributes": {"name": "test-user", "handle": "new@example.com", "created_at":
+        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2021-07-30T15:19:02.232894+00:00",
+        "email": "new@example.com", "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": false,
+        "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
+        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '573'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 30 Jul 2021 15:19:02 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "users", "attributes": {"name": "None+ updated", "email":
+      "test-user-example@datadoghq.com", "disabled": false, "allowed_login_methods":
+      []}, "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '206'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/users/e0c5d064-c7b0-11eb-944d-da7ad0900005
+  response:
+    body:
+      string: '{"included": [{"type": "permissions", "id": "046682c4-ec5c-11ea-9483-2727954feb30",
+        "attributes": {"name": "user_app_keys", "display_name": "User Application
+        Keys", "description": "The ability to view and manage Application Keys owned
+        by the user.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name":
+        "API and Application Keys", "display_type": "other", "restricted": false}},
+        {"type": "permissions", "id": "123098f2-d36c-11eb-b2bf-da7ad0900005", "attributes":
+        {"name": "incident_write", "display_name": "Incidents App Experience", "description":
+        "The ability to create, view and manage incidents in the Incident App.", "created":
+        "2021-06-22T15:11:08.003239+00:00", "group_name": "Incidents", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d",
+        "attributes": {"name": "monitors_read", "display_name": "Monitors", "description":
+        "The ability to view monitors.", "created": "2019-09-16T18:49:59.270746+00:00",
+        "group_name": "Monitors", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039", "attributes":
+        {"name": "logs_write_exclusion_filters", "display_name": "Logs Write Exclusion
+        Filters", "description": "The ability to add and change exclusion filters
+        for all or some log indexes. Can be granted in a limited capacity per index
+        to specific roles via the Logs interface or API. If granted from the Roles
+        interface or API, the permission has global scope.", "created": "2018-10-31T14:00:23.699543+00:00",
+        "group_name": "Logs", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14", "attributes":
+        {"name": "security_monitoring_rules_write", "display_name": "Detection Rules",
+        "description": "The ability to create and edit Detection rules.", "created":
+        "2020-06-09T13:55:21.036857+00:00", "group_name": "Security Monitoring", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc",
+        "attributes": {"name": "logs_generate_metrics", "display_name": "Log Generate
+        Metrics", "description": "The ability to create custom metrics from logs.",
+        "created": "2019-07-25T12:37:55.949477+00:00", "group_name": "Logs", "display_type":
+        "other", "restricted": false}}, {"type": "permissions", "id": "93654d1c-e706-11ea-9a85-d320ff02824d",
+        "attributes": {"name": "user_access_invite", "display_name": "Invite User",
+        "description": "Allows users to invite other users to your organization.",
+        "created": "2020-08-25T19:10:01.692112+00:00", "group_name": "Access Management",
+        "display_type": "other", "restricted": false}}, {"type": "permissions", "id":
+        "ae2f8fbe-f925-11ea-b51c-67ba7de17f88", "attributes": {"name": "synthetics_global_variable_write",
+        "display_name": "Global Variables", "description": "The ability to create,
+        edit, and delete global variables for Synthetics.", "created": "2020-09-17T20:38:01.966230+00:00",
+        "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4",
+        "attributes": {"name": "logs_write_pipelines", "display_name": "Logs Write
+        Pipelines", "description": "The ability to add and change log pipeline configurations,
+        including the ability to grant the Logs Write Processors permission to other
+        roles, for some or all pipelines. This permission also grants global Log Processor
+        Write implicitly.", "created": "2018-10-31T14:00:23.710821+00:00", "group_name":
+        "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
+        "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "attributes": {"name": "dashboards_read",
+        "display_name": "Dashboards", "description": "The ability to view dashboards.",
+        "created": "2019-09-10T14:41:53.120685+00:00", "group_name": "Dashboards",
+        "display_type": "read", "restricted": true}}, {"type": "permissions", "id":
+        "da1b47fc-2dce-11eb-9145-5783a37d467c", "attributes": {"name": "apm_tag_management_write",
+        "display_name": "Primary Tag Management", "description": "The ability to edit
+        second primary tag selection. A user with this permission can modify the second
+        primary tag dropdown in the APM settings page.", "created": "2020-11-23T21:00:01.066421+00:00",
+        "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "attributes":
+        {"name": "apm_service_ingest_read", "display_name": "Manage Service Ingestion",
+        "description": "The ability to access Service Ingestion pages. A user with
+        this permission can view the service ingestion page, list of root service,
+        their statistics, and creation info.", "created": "2020-11-23T20:59:25.933546+00:00",
+        "group_name": "APM", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005", "attributes":
+        {"name": "incident_read", "display_name": "Incidents App Experience", "description":
+        "The ability to view the Incident App and see incidents.", "created": "2021-06-22T15:11:07.986072+00:00",
+        "group_name": "Incidents", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "d3159858-d8b2-11e9-a336-e363d6ef331b", "attributes":
+        {"name": "monitors_downtime", "display_name": "Monitors Manage Downtimes",
+        "description": "The ability to set downtimes for your organization. A user
+        with this permission can suppress alerts from any monitor using a downtime,
+        even if they do not have permission to edit those monitors explicitly.", "created":
+        "2019-09-16T18:50:16.869407+00:00", "group_name": "Monitors", "display_type":
+        "other", "restricted": false}}, {"type": "permissions", "id": "e49aeb24-2dce-11eb-9145-6b8664bc9097",
+        "attributes": {"name": "apm_primary_operation_write", "display_name": "Primary
+        Operation", "description": "The ability to edit the operation name value selection.
+        A user with this permission can modify the operation name list in the APM
+        settings page and can modify the operation name controller on the service
+        page.", "created": "2020-11-23T21:00:18.680068+00:00", "group_name": "APM",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "04668dd2-ec5c-11ea-9483-f7c5fcc9418b", "attributes": {"name": "synthetics_private_location_read",
+        "display_name": "Private Locations", "description": "The ability to view,
+        search and use in tests the list of private locations available.", "created":
+        "2020-09-01T14:04:14.317866+00:00", "group_name": "Synthetic Monitoring",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "b6858556-f925-11ea-9222-1f47b8677b93", "attributes": {"name": "synthetics_read",
+        "display_name": "Synthetic Tests", "description": "The ability to list and
+        view configured Synthetic tests.", "created": "2020-09-17T20:38:15.951574+00:00",
+        "group_name": "Synthetic Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9",
+        "attributes": {"name": "security_monitoring_signals_read", "display_name":
+        "Security Signals", "description": "The ability to view Security signals.",
+        "created": "2020-06-09T13:55:29.398066+00:00", "group_name": "Security Monitoring",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee", "attributes": {"name": "logs_write_facets",
+        "display_name": "Logs Facets", "description": "The capability to create or
+        edit logs facets.", "created": "2020-10-14T12:54:16.607129+00:00", "group_name":
+        "Logs", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a", "attributes": {"name": "org_app_keys_read",
+        "display_name": "Organization Application Keys", "description": "The ability
+        to view Application Keys owned by all users in the organization.", "created":
+        "2020-09-01T14:04:14.317866+00:00", "group_name": "API and Application Keys",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "bd5bb850-f925-11ea-a3a2-77cbb581c92a", "attributes": {"name": "synthetics_write",
+        "display_name": "Synthetic Tests", "description": "The ability to create,
+        edit, and delete Synthetic tests.", "created": "2020-09-17T20:38:27.421632+00:00",
+        "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "f1666372-d87d-11e8-acac-6be484ba794a",
+        "attributes": {"name": "standard", "display_name": "Standard Access", "description":
+        "This permission gives you the ability to view and edit components in your
+        Datadog organization that do not have explicitly defined permissions. This
+        includes Notebooks, Events, and other non-Account Management functionality.",
+        "created": "2018-10-25T17:46:46.732810+00:00", "group_name": "General", "display_type":
+        "other", "restricted": false}}, {"type": "permissions", "id": "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8",
+        "attributes": {"name": "monitors_write", "display_name": "Monitors", "description":
+        "The ability to change, mute, and delete individual monitors.", "created":
+        "2019-09-16T18:50:07.944781+00:00", "group_name": "Monitors", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c",
+        "attributes": {"name": "logs_modify_indexes", "display_name": "Logs Modify
+        Indexes", "description": "The ability to read and modify all indexes in your
+        account. This includes the ability to grant the Logs Read Index Data and Logs
+        Write Exclusion Filter permission to other roles, for some or all indexes.
+        This permission also grants global Log Index Read and Log Exclusion Filter
+        Write implicitly.", "created": "2018-10-31T14:00:23.664332+00:00", "group_name":
+        "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
+        "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "attributes": {"name": "logs_read_index_data",
+        "display_name": "Logs Read Index Data", "description": "The ability to read
+        all or some log indexes. Can be granted in a limited capacity per index from
+        the Logs interface or APIs. If granted via the Roles interface or API the
+        permission has global scope.", "created": "2018-10-31T14:00:23.650159+00:00",
+        "group_name": "Logs", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "37e36580-5440-11eb-91d4-03a23fd3e1d1", "attributes":
+        {"name": "rum_apps_write", "display_name": "RUM Applications", "description":
+        "The ability to create, edit, and delete RUM Applications.", "created": "2021-01-11T19:07:15.721075+00:00",
+        "group_name": "Real User Monitoring", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5",
+        "attributes": {"name": "logs_live_tail", "display_name": "Logs Live Tail Access",
+        "description": "The ability to view the live tail feed for all log indexes,
+        even if otherwise specifically restricted.", "created": "2018-10-31T14:00:23.676180+00:00",
+        "group_name": "Logs", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "ca8897be-f925-11ea-a3a2-d30492cbe671", "attributes":
+        {"name": "synthetics_default_settings_read", "display_name": "Default Settings",
+        "description": "The ability to view default settings for Synthetics Monitoring.",
+        "created": "2020-09-17T20:38:49.527477+00:00", "group_name": "Synthetic Monitoring",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "2149e512-d3d9-11e9-a614-bb8f0dcf0205", "attributes": {"name": "dashboards_write",
+        "display_name": "Dashboards", "description": "The ability to create and change
+        dashboards.", "created": "2019-09-10T14:41:53.136336+00:00", "group_name":
+        "Dashboards", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "505f4538-dd15-11e8-9308-47a4732f715f", "attributes": {"name": "logs_write_processors",
+        "display_name": "Log Write Processors", "description": "The ability to add
+        and change some or all log processor configurations. Can be granted in a limited
+        capacity per pipeline to specific roles via the Logs interface or API. If
+        granted via the Roles interface or API the permission has global scope.",
+        "created": "2018-10-31T14:00:24.726927+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005",
+        "attributes": {"name": "incident_settings_read", "display_name": "Incidents
+        Settings", "description": "The ability to view incidents Settings.", "created":
+        "2021-06-22T15:11:07.995787+00:00", "group_name": "Incidents", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a",
+        "attributes": {"name": "apm_retention_filter_read", "display_name": "Manage
+        Retention Filters", "description": "The ability to read trace retention filters.
+        A user with this permission can view the retention filters page, list of filters,
+        their statistics, and creation info.", "created": "2020-11-23T20:59:11.833795+00:00",
+        "group_name": "APM", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "cf223140-f925-11ea-a3a2-df370532bcf7", "attributes":
+        {"name": "synthetics_default_settings_write", "display_name": "Default Settings",
+        "description": "The ability to edit default settings for Synthetics Monitoring.",
+        "created": "2020-09-17T20:38:57.244987+00:00", "group_name": "Synthetic Monitoring",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "bfafd0ce-7823-11ea-9689-c3e5118805ee", "attributes": {"name": "logs_read_data",
+        "display_name": "Logs Read Data", "description": "The ability to read log
+        data. Can be restricted with restriction queries.", "created": "2020-04-06T16:29:12.337169+00:00",
+        "group_name": "Logs", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005", "attributes":
+        {"name": "security_monitoring_filters_read", "display_name": "Security Filters",
+        "description": "The ability to read Security Filters.", "created": "2021-05-10T08:56:24.514661+00:00",
+        "group_name": "Security Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90",
+        "attributes": {"name": "logs_read_archives", "display_name": "Logs Archives",
+        "description": "The ability to read logs archives location and use it for
+        rehydration.", "created": "2020-04-23T07:45:13.801938+00:00", "group_name":
+        "Logs", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "9311970e-f925-11ea-ab4d-1760e76381c1", "attributes": {"name": "api_keys_read",
+        "display_name": "API Keys", "description": "The ability to list and retrieve
+        the key values of all API Keys in your organization.", "created": "2020-09-17T20:37:16.471514+00:00",
+        "group_name": "API and Application Keys", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f",
+        "attributes": {"name": "security_monitoring_rules_read", "display_name": "Detection
+        Rules", "description": "The ability to read Detection rules.", "created":
+        "2020-06-09T13:55:12.166762+00:00", "group_name": "Security Monitoring", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "046692fa-ec5c-11ea-9483-d713671ea3a9",
+        "attributes": {"name": "metric_tags_write", "display_name": "Manage Tags for
+        Metrics", "description": "The ability to edit and save tag configurations
+        for custom metrics.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name":
+        "Metrics", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a", "attributes": {"name": "integrations_api",
+        "display_name": "Integrations API Access", "description": "The ability to
+        use the Integrations APIs to configure Integrations that the user has access
+        to. This permission does not restrict or grant access to Integrations.", "created":
+        "2020-11-16T19:44:13.810028+00:00", "group_name": "Integrations", "display_type":
+        "other", "restricted": false}}, {"type": "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a",
+        "attributes": {"name": "apm_read", "display_name": "APM Read Access", "description":
+        "The ability to read and query APM and Trace Analytics.", "created": "2020-11-23T20:59:02.902692+00:00",
+        "group_name": "APM", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152", "attributes":
+        {"name": "logs_write_historical_view", "display_name": "Logs Historical View",
+        "description": "The capability to rehydrate logs from Archives.", "created":
+        "2020-09-16T08:42:43.928080+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "roles", "id": "140f3a7e-bfcc-11eb-8e11-da7ad0900005",
+        "attributes": {"name": "Datadog Read Only Role", "created_at": "2021-05-28T15:47:59.570548+00:00",
+        "modified_at": "2021-05-28T15:47:59.570548+00:00"}, "relationships": {"permissions":
+        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
+        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
+        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
+        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
+        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
+        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
+        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
+        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
+        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
+        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
+        "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}]}}}, {"type": "permissions",
+        "id": "214c10b2-d3d9-11e9-a614-3759c7ad528f", "attributes": {"name": "dashboards_public_share",
+        "display_name": "Dashboards Share", "description": "The ability to share dashboards
+        externally.", "created": "2019-09-10T14:41:53.150548+00:00", "group_name":
+        "Dashboards", "display_type": "other", "restricted": false}}, {"type": "permissions",
+        "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb", "attributes": {"name": "synthetics_global_variable_read",
+        "display_name": "Global Variables", "description": "The ability to view, search
+        and use in tests the list of global variables available for Synthetics.",
+        "created": "2020-09-17T20:37:50.165103+00:00", "group_name": "Synthetic Monitoring",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "122ff9c4-d36c-11eb-b2bf-da7ad0900005", "attributes": {"name": "incident_settings_write",
+        "display_name": "Incidents Settings", "description": "The ability to configure
+        incidents Settings.", "created": "2021-06-22T15:11:07.999194+00:00", "group_name":
+        "Incidents", "display_type": "write", "restricted": false}}], "data": {"type":
+        "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes": {"name":
+        "None+ updated", "handle": "test-user-example@datadoghq.com", "created_at":
+        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-07-30T15:19:02.543784+00:00",
+        "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": false,
+        "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "140f3a7e-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '18824'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 30 Jul 2021 15:19:02 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "users", "attributes": {"name": "Updated", "email": "user_without_role@example.com",
+      "disabled": false, "allowed_login_methods": []}, "id": "9ea447a8-ebdf-11eb-8ad5-da7ad0900005"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '198'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/users/9ea447a8-ebdf-11eb-8ad5-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "users", "id": "9ea447a8-ebdf-11eb-8ad5-da7ad0900005",
+        "attributes": {"name": "Updated", "handle": "user_without_role@example.com",
+        "created_at": "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-07-30T15:19:02.863851+00:00",
+        "email": "user_without_role@example.com", "icon": "https://secure.gravatar.com/avatar/a0985e94ca4206b92a3504c0222b3f7e?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": false,
+        "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
+        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '599'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 30 Jul 2021 15:19:02 GMT
       pragma:
       - no-cache
       vary:
@@ -4365,11 +4765,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50", "message": "Test monitor ----------------", "id": 1699505, "multi":
-        false, "name": "Composite monitor - Child 2", "created": "2021-07-30T14:25:34.704164+00:00",
-        "created_at": 1627655134000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 50", "message": "Test monitor ----------------", "id": 1700227, "multi":
+        false, "name": "Composite monitor - Child 2", "created": "2021-07-30T15:19:03.174898+00:00",
+        "created_at": 1627658343000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-30T14:25:34.704164+00:00", "priority": null, "overall_state_modified":
+        "2021-07-30T15:19:03.174898+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -4391,7 +4791,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:34 GMT
+      - Fri, 30 Jul 2021 15:19:03 GMT
       pragma:
       - no-cache
       vary:
@@ -4407,7 +4807,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '6'
+      - '7'
     status:
       code: 200
       message: OK
@@ -4437,11 +4837,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-        > 20", "message": "Composite monitor - child 1", "id": 1699506, "multi": false,
-        "name": "Composite monitor - child 1", "created": "2021-07-30T14:25:34.948219+00:00",
-        "created_at": 1627655134000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 20", "message": "Composite monitor - child 1", "id": 1700228, "multi": false,
+        "name": "Composite monitor - child 1", "created": "2021-07-30T15:19:03.484302+00:00",
+        "created_at": 1627658343000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-30T14:25:34.948219+00:00", "priority": null, "overall_state_modified":
+        "2021-07-30T15:19:03.484302+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -4463,7 +4863,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:34 GMT
+      - Fri, 30 Jul 2021 15:19:03 GMT
       pragma:
       - no-cache
       vary:
@@ -4479,7 +4879,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '6'
+      - '7'
     status:
       code: 200
       message: OK
@@ -4508,10 +4908,10 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-        "message": "Test host monitor", "id": 1699507, "multi": true, "name": "Host
-        monitor", "created": "2021-07-30T14:25:35.195879+00:00", "created_at": 1627655135000,
+        "message": "Test host monitor", "id": 1700229, "multi": true, "name": "Host
+        monitor", "created": "2021-07-30T15:19:03.757168+00:00", "created_at": 1627658343000,
         "creator": {"id": 1000219667, "handle": "frog@datadoghq.com", "name": "Frog",
-        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2021-07-30T14:25:35.195879+00:00",
+        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2021-07-30T15:19:03.757168+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "service check", "options": {"notify_audit": false, "locked": false,
         "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds": {"warning":
@@ -4533,7 +4933,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:35 GMT
+      - Fri, 30 Jul 2021 15:19:03 GMT
       pragma:
       - no-cache
       vary:
@@ -4549,7 +4949,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '5'
+      - '7'
     status:
       code: 200
       message: OK
@@ -4582,11 +4982,11 @@ interactions:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
         ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
-        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 1699508,
-        "multi": false, "name": "Anomaly monitor", "created": "2021-07-30T14:25:35.448100+00:00",
-        "created_at": 1627655135000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 1700230,
+        "multi": false, "name": "Anomaly monitor", "created": "2021-07-30T15:19:04.146551+00:00",
+        "created_at": 1627658344000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-30T14:25:35.448100+00:00", "priority": null, "overall_state_modified":
+        "2021-07-30T15:19:04.146551+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "query alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -4609,7 +5009,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:35 GMT
+      - Fri, 30 Jul 2021 15:19:04 GMT
       pragma:
       - no-cache
       vary:
@@ -4625,13 +5025,13 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '5'
+      - '6'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"restricted_roles": null, "tags": [], "query": "( 1699506 && 1699505 )
-      || !1699506", "message": "test", "multi": false, "name": "Composite monitor",
+    body: '{"restricted_roles": null, "tags": [], "query": "( 1700228 && 1700227 )
+      || !1700228", "message": "test", "multi": false, "name": "Composite monitor",
       "priority": null, "type": "composite", "options": {"notify_audit": false, "locked":
       false, "silenced": {"env:test": null}, "include_tags": false, "new_host_delay":
       300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
@@ -4654,11 +5054,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "(
-        1699506 && 1699505 ) || !1699506", "message": "test", "id": 1699509, "multi":
-        false, "name": "Composite monitor", "created": "2021-07-30T14:25:35.723586+00:00",
-        "created_at": 1627655135000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        1700228 && 1700227 ) || !1700228", "message": "test", "id": 1700231, "multi":
+        false, "name": "Composite monitor", "created": "2021-07-30T15:19:04.438066+00:00",
+        "created_at": 1627658344000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-30T14:25:35.723586+00:00", "priority": null, "overall_state_modified":
+        "2021-07-30T15:19:04.438066+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "composite", "options": {"notify_audit":
         false, "locked": false, "silenced": {"env:test": null}, "include_tags": false,
         "new_host_delay": 300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
@@ -4679,7 +5079,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:35 GMT
+      - Fri, 30 Jul 2021 15:19:04 GMT
       pragma:
       - no-cache
       vary:
@@ -4695,14 +5095,14 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '5'
+      - '6'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "Updated Description Test", "monitor_tags": [], "thresholds":
       [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 0,
-      "monitor_ids": [1699505, 1699507], "name": "Composite monitor - Child 2", "tags":
+      "monitor_ids": [1700227, 1700229], "name": "Composite monitor - Child 2", "tags":
       [], "type": "monitor"}'
     headers:
       Accept:
@@ -4724,9 +5124,9 @@ interactions:
       string: '{"data": [{"description": "Updated Description Test", "monitor_tags":
         [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 0, "id": "c21ac826e59e522e9a6b38fef6fcfd2c", "monitor_ids": [1699505,
-        1699507], "name": "Composite monitor - Child 2", "created_at": 1627655135,
-        "tags": [], "modified_at": 1627655135, "type": "monitor"}], "error": null}'
+        "type_id": 0, "id": "1b7d2290fa585d1882c2ae7180acdeb9", "monitor_ids": [1700227,
+        1700229], "name": "Composite monitor - Child 2", "created_at": 1627658344,
+        "tags": [], "modified_at": 1627658344, "type": "monitor"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -4743,7 +5143,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:36 GMT
+      - Fri, 30 Jul 2021 15:19:04 GMT
       pragma:
       - no-cache
       vary:
@@ -4759,14 +5159,14 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '25'
+      - '56'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "noueman", "monitor_tags": [], "thresholds": [{"target":
       99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 0, "monitor_ids":
-      [1699498], "name": "[Synthetics] Test on google.com -tesst", "tags": [], "type":
+      [1700220], "name": "[Synthetics] Test on google.com -tesst", "tags": [], "type":
       "monitor"}'
     headers:
       Accept:
@@ -4788,9 +5188,9 @@ interactions:
       string: '{"data": [{"description": "noueman", "monitor_tags": [], "creator":
         {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 0, "id": "85e600adcde85bc1a4797478d7644feb", "monitor_ids": [1699498],
-        "name": "[Synthetics] Test on google.com -tesst", "created_at": 1627655136,
-        "tags": [], "modified_at": 1627655136, "type": "monitor"}], "error": null}'
+        "type_id": 0, "id": "96ee7d89929450f4ba5bdcd20b009600", "monitor_ids": [1700220],
+        "name": "[Synthetics] Test on google.com -tesst", "created_at": 1627658345,
+        "tags": [], "modified_at": 1627658345, "type": "monitor"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -4807,7 +5207,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:36 GMT
+      - Fri, 30 Jul 2021 15:19:05 GMT
       pragma:
       - no-cache
       vary:
@@ -4823,14 +5223,14 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '24'
+      - '55'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags": [],
       "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-      "type_id": 0, "monitor_ids": [1699498, 1699505, 1699506, 1699499, 1699501],
+      "type_id": 0, "monitor_ids": [1700220, 1700227, 1700228, 1700221, 1700223],
       "name": "[Synthetics] Multple Monitors based SLO", "tags": ["noueman"], "type":
       "monitor"}'
     headers:
@@ -4853,10 +5253,10 @@ interactions:
       string: '{"data": [{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags":
         [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 0, "id": "b1e853b7eb8e57bcab3d697c824a6187", "monitor_ids": [1699498,
-        1699505, 1699506, 1699499, 1699501], "name": "[Synthetics] Multple Monitors
-        based SLO", "created_at": 1627655136, "tags": ["noueman"], "modified_at":
-        1627655136, "type": "monitor"}], "error": null}'
+        "type_id": 0, "id": "418c9524b65f51f786a38ee68c980529", "monitor_ids": [1700220,
+        1700227, 1700228, 1700221, 1700223], "name": "[Synthetics] Multple Monitors
+        based SLO", "created_at": 1627658345, "tags": ["noueman"], "modified_at":
+        1627658345, "type": "monitor"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -4873,7 +5273,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:36 GMT
+      - Fri, 30 Jul 2021 15:19:05 GMT
       pragma:
       - no-cache
       vary:
@@ -4889,7 +5289,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '24'
+      - '55'
     status:
       code: 200
       message: OK
@@ -4919,8 +5319,8 @@ interactions:
         "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
         "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-        "sum:api.requests.status_ok{*}.as_count()"}, "id": "c7ef13d761a85565bbeccc56ae0dac92",
-        "name": "SLO test", "created_at": 1627655136, "tags": [], "modified_at": 1627655136,
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "83c2961671ce5561a3dd9d4dbde2ad7a",
+        "name": "SLO test", "created_at": 1627658345, "tags": [], "modified_at": 1627658345,
         "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
@@ -4938,7 +5338,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:36 GMT
+      - Fri, 30 Jul 2021 15:19:05 GMT
       pragma:
       - no-cache
       vary:
@@ -4954,7 +5354,7 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '24'
+      - '55'
     status:
       code: 200
       message: OK
@@ -4987,9 +5387,9 @@ interactions:
         "Frog", "email": "frog@datadoghq.com"}, "thresholds": [{"warning": 99.8, "warning_display":
         "99.8", "target": 99.5, "target_display": "99.5", "timeframe": "7d"}], "type_id":
         1, "query": {"denominator": "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
-        "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "2b86c4e1d4a85b0aacd39d04e53e438b",
-        "name": "example slo", "created_at": 1627655136, "tags": ["foo:bar"], "modified_at":
-        1627655136, "type": "metric"}], "error": null}'
+        "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "3712c8a4bcd3566fad05777fe4ecedfc",
+        "name": "example slo", "created_at": 1627658346, "tags": ["foo:bar"], "modified_at":
+        1627658346, "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -5006,7 +5406,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:36 GMT
+      - Fri, 30 Jul 2021 15:19:06 GMT
       pragma:
       - no-cache
       vary:
@@ -5022,7 +5422,7 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '24'
+      - '54'
     status:
       code: 200
       message: OK
@@ -5030,24 +5430,24 @@ interactions:
     body: '{"notify_list": [], "description": "", "template_variables": [], "is_read_only":
       false, "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "reflow_type": "auto", "widgets":
       [{"definition": {"widgets": [{"definition": {"title_size": "16", "viz_type":
-      "timeseries", "title": "", "title_align": "left", "alert_id": "1699506", "type":
+      "timeseries", "title": "", "title_align": "left", "alert_id": "1700228", "type":
       "alert_graph"}, "id": 5316294948508728}, {"definition": {"title_size": "16",
       "title": "", "title_align": "left", "text_align": "left", "precision": 2, "alert_id":
-      "1699505", "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}],
+      "1700227", "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}],
       "layout_type": "ordered", "type": "group", "title": "New group"}, "id": 2497183012091650},
       {"definition": {"title_size": "16", "viz_type": "timeseries", "title": "", "title_align":
-      "left", "alert_id": "1699506", "type": "alert_graph"}, "id": 4551400937275112},
+      "left", "alert_id": "1700228", "type": "alert_graph"}, "id": 4551400937275112},
       {"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
       2, "title_size": "16", "requests": [{"q": "avg:synthetics.http.dns.time{*}",
       "aggregator": "avg"}], "type": "query_value"}, "id": 7228117705299642}, {"definition":
       {"title_size": "16", "title": "", "title_align": "left", "text_align": "left",
-      "precision": 2, "alert_id": "1699505", "type": "alert_value", "unit": "auto"},
+      "precision": 2, "alert_id": "1700227", "type": "alert_value", "unit": "auto"},
       "id": 2397823643167820}, {"definition": {"time_windows": ["7d"], "title_size":
       "16", "show_error_budget": true, "view_type": "detail", "title_align": "left",
-      "slo_id": "c21ac826e59e522e9a6b38fef6fcfd2c", "view_mode": "overall", "title":
+      "slo_id": "1b7d2290fa585d1882c2ae7180acdeb9", "view_mode": "overall", "title":
       "", "global_time_target": "0", "type": "slo"}, "id": 1076364961367720}, {"definition":
       {"time_windows": ["7d"], "title_size": "16", "show_error_budget": true, "view_type":
-      "detail", "title_align": "left", "slo_id": "85e600adcde85bc1a4797478d7644feb",
+      "detail", "title_align": "left", "slo_id": "96ee7d89929450f4ba5bdcd20b009600",
       "view_mode": "overall", "title": "", "global_time_target": "0", "type": "slo"},
       "id": 4123257207386936}], "layout_type": "ordered"}'
     headers:
@@ -5068,29 +5468,29 @@ interactions:
   response:
     body:
       string: '{"notify_list": [], "description": "", "author_name": "Frog", "template_variables":
-        [], "is_read_only": false, "id": "2em-d7x-vn2", "title": "Timeboard Tue, Jun
-        1, 4:18:57 pm", "url": "/dashboard/2em-d7x-vn2/timeboard-tue-jun-1-41857-pm",
-        "created_at": "2021-07-30T14:25:37.329735+00:00", "modified_at": "2021-07-30T14:25:37.329735+00:00",
+        [], "is_read_only": false, "id": "2ps-sfp-5gr", "title": "Timeboard Tue, Jun
+        1, 4:18:57 pm", "url": "/dashboard/2ps-sfp-5gr/timeboard-tue-jun-1-41857-pm",
+        "created_at": "2021-07-30T15:19:06.560755+00:00", "modified_at": "2021-07-30T15:19:06.560755+00:00",
         "reflow_type": "auto", "author_handle": "frog@datadoghq.com", "widgets": [{"definition":
         {"widgets": [{"definition": {"title_size": "16", "viz_type": "timeseries",
-        "title": "", "title_align": "left", "alert_id": "1699506", "type": "alert_graph"},
+        "title": "", "title_align": "left", "alert_id": "1700228", "type": "alert_graph"},
         "id": 5316294948508728}, {"definition": {"title_size": "16", "title": "",
-        "title_align": "left", "text_align": "left", "precision": 2, "alert_id": "1699505",
+        "title_align": "left", "text_align": "left", "precision": 2, "alert_id": "1700227",
         "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}], "layout_type":
         "ordered", "type": "group", "title": "New group"}, "id": 2497183012091650},
         {"definition": {"title_size": "16", "viz_type": "timeseries", "title": "",
-        "title_align": "left", "alert_id": "1699506", "type": "alert_graph"}, "id":
+        "title_align": "left", "alert_id": "1700228", "type": "alert_graph"}, "id":
         4551400937275112}, {"definition": {"title_size": "16", "title": "", "title_align":
         "left", "precision": 2, "autoscale": true, "requests": [{"q": "avg:synthetics.http.dns.time{*}",
         "aggregator": "avg"}], "type": "query_value"}, "id": 7228117705299642}, {"definition":
         {"title_size": "16", "title": "", "title_align": "left", "text_align": "left",
-        "precision": 2, "alert_id": "1699505", "type": "alert_value", "unit": "auto"},
+        "precision": 2, "alert_id": "1700227", "type": "alert_value", "unit": "auto"},
         "id": 2397823643167820}, {"definition": {"time_windows": ["7d"], "title_size":
         "16", "show_error_budget": true, "view_type": "detail", "title_align": "left",
-        "slo_id": "c21ac826e59e522e9a6b38fef6fcfd2c", "view_mode": "overall", "title":
+        "slo_id": "1b7d2290fa585d1882c2ae7180acdeb9", "view_mode": "overall", "title":
         "", "global_time_target": "0", "type": "slo"}, "id": 1076364961367720}, {"definition":
         {"time_windows": ["7d"], "title_size": "16", "show_error_budget": true, "view_type":
-        "detail", "title_align": "left", "slo_id": "85e600adcde85bc1a4797478d7644feb",
+        "detail", "title_align": "left", "slo_id": "96ee7d89929450f4ba5bdcd20b009600",
         "view_mode": "overall", "title": "", "global_time_target": "0", "type": "slo"},
         "id": 4123257207386936}], "layout_type": "ordered"}'
     headers:
@@ -5109,7 +5509,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:37 GMT
+      - Fri, 30 Jul 2021 15:19:06 GMT
       pragma:
       - no-cache
       vary:
@@ -5179,9 +5579,9 @@ interactions:
         [{"name": "var_1", "value": "host.dc"}, {"name": "var_2", "value": "my_service"}],
         "name": "preset_1"}], "template_variables": [{"default": "aws", "prefix":
         "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
-        "name": "var_2"}], "is_read_only": false, "id": "pn7-8zf-vfk", "title": "Test
-        screenboard", "url": "/dashboard/pn7-8zf-vfk/test-screenboard", "created_at":
-        "2021-07-30T14:25:37.703757+00:00", "modified_at": "2021-07-30T14:25:37.703757+00:00",
+        "name": "var_2"}], "is_read_only": false, "id": "rib-yjt-f5j", "title": "Test
+        screenboard", "url": "/dashboard/rib-yjt-f5j/test-screenboard", "created_at":
+        "2021-07-30T15:19:07.000855+00:00", "modified_at": "2021-07-30T15:19:07.000855+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"title_size":
         "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
         "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout":
@@ -5229,7 +5629,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:37 GMT
+      - Fri, 30 Jul 2021 15:19:07 GMT
       pragma:
       - no-cache
       vary:
@@ -5267,9 +5667,9 @@ interactions:
   response:
     body:
       string: '{"notify_list": [], "description": "", "author_name": "Frog", "template_variables":
-        [], "is_read_only": false, "id": "xer-vjx-dju", "title": "datadog-sync-cli
-        Test Dashboard", "url": "/dashboard/xer-vjx-dju/datadog-sync-cli-test-dashboard",
-        "created_at": "2021-07-30T14:25:38.087246+00:00", "modified_at": "2021-07-30T14:25:38.087246+00:00",
+        [], "is_read_only": false, "id": "98z-k2b-eat", "title": "datadog-sync-cli
+        Test Dashboard", "url": "/dashboard/98z-k2b-eat/datadog-sync-cli-test-dashboard",
+        "created_at": "2021-07-30T15:19:07.371112+00:00", "modified_at": "2021-07-30T15:19:07.371112+00:00",
         "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
         [{"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
         2, "time": {}, "title_size": "16", "requests": [{"response_format": "scalar",
@@ -5293,7 +5693,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:38 GMT
+      - Fri, 30 Jul 2021 15:19:07 GMT
       pragma:
       - no-cache
       vary:
@@ -5330,9 +5730,9 @@ interactions:
   response:
     body:
       string: '{"notify_list": null, "description": null, "author_name": "Frog", "template_variables":
-        null, "is_read_only": false, "id": "aik-ibz-9fw", "title": "{{ unique }} with
-        timeseries widget", "url": "/dashboard/aik-ibz-9fw/-unique--with-timeseries-widget",
-        "created_at": "2021-07-30T14:25:38.493391+00:00", "modified_at": "2021-07-30T14:25:38.493391+00:00",
+        null, "is_read_only": false, "id": "hve-sud-civ", "title": "{{ unique }} with
+        timeseries widget", "url": "/dashboard/hve-sud-civ/-unique--with-timeseries-widget",
+        "created_at": "2021-07-30T15:19:07.776045+00:00", "modified_at": "2021-07-30T15:19:07.776045+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
         [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
         "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
@@ -5354,7 +5754,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:38 GMT
+      - Fri, 30 Jul 2021 15:19:07 GMT
       pragma:
       - no-cache
       vary:
@@ -5387,8 +5787,8 @@ interactions:
     body:
       string: '{"is_favorite": false, "name": "Empty Test List", "dashboard_count":
         0, "author": {"handle": "frog@datadoghq.com", "name": "Frog"}, "created":
-        "2021-07-30T14:25:38.785371+00:00", "type": "manual_dashboard_list", "dashboards":
-        null, "modified": "2021-07-30T14:25:38.785401+00:00", "id": 10771}'
+        "2021-07-30T15:19:08.133703+00:00", "type": "manual_dashboard_list", "dashboards":
+        null, "modified": "2021-07-30T15:19:08.133744+00:00", "id": 10777}'
     headers:
       Alt-Svc:
       - clear
@@ -5405,7 +5805,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:38 GMT
+      - Fri, 30 Jul 2021 15:19:08 GMT
       pragma:
       - no-cache
       vary:
@@ -5433,7 +5833,7 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/10771/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/10777/dashboards
   response:
     body:
       string: '{"dashboards": []}'
@@ -5451,7 +5851,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:39 GMT
+      - Fri, 30 Jul 2021 15:19:08 GMT
       pragma:
       - no-cache
       x-content-type-options:
@@ -5481,9 +5881,9 @@ interactions:
   response:
     body:
       string: '{"is_favorite": false, "name": "Test list", "dashboard_count": 0, "author":
-        {"handle": "frog@datadoghq.com", "name": "Frog"}, "created": "2021-07-30T14:25:39.299384+00:00",
-        "type": "manual_dashboard_list", "dashboards": null, "modified": "2021-07-30T14:25:39.299443+00:00",
-        "id": 10772}'
+        {"handle": "frog@datadoghq.com", "name": "Frog"}, "created": "2021-07-30T15:19:08.709513+00:00",
+        "type": "manual_dashboard_list", "dashboards": null, "modified": "2021-07-30T15:19:08.709549+00:00",
+        "id": 10778}'
     headers:
       Alt-Svc:
       - clear
@@ -5500,7 +5900,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:39 GMT
+      - Fri, 30 Jul 2021 15:19:08 GMT
       pragma:
       - no-cache
       vary:
@@ -5513,8 +5913,8 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"dashboards": [{"id": "2em-d7x-vn2", "type": "custom_timeboard"}, {"id":
-      "pn7-8zf-vfk", "type": "custom_screenboard"}]}'
+    body: '{"dashboards": [{"id": "2ps-sfp-5gr", "type": "custom_timeboard"}, {"id":
+      "rib-yjt-f5j", "type": "custom_screenboard"}]}'
     headers:
       Accept:
       - '*/*'
@@ -5529,11 +5929,11 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/10772/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/10778/dashboards
   response:
     body:
-      string: '{"dashboards": [{"type": "custom_timeboard", "id": "2em-d7x-vn2"},
-        {"type": "custom_screenboard", "id": "pn7-8zf-vfk"}]}'
+      string: '{"dashboards": [{"type": "custom_timeboard", "id": "2ps-sfp-5gr"},
+        {"type": "custom_screenboard", "id": "rib-yjt-f5j"}]}'
     headers:
       Alt-Svc:
       - clear
@@ -5550,7 +5950,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:39 GMT
+      - Fri, 30 Jul 2021 15:19:09 GMT
       pragma:
       - no-cache
       vary:
@@ -5563,7 +5963,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "correction", "attributes": {"slo_id": "c7ef13d761a85565bbeccc56ae0dac92",
+    body: '{"data": {"type": "correction", "attributes": {"slo_id": "83c2961671ce5561a3dd9d4dbde2ad7a",
       "start": 1735707000, "end": 1735718600, "description": "correction example",
       "category": "Scheduled Maintenance", "timezone": "UTC"}}}'
     headers:
@@ -5583,8 +5983,8 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/slo/correction
   response:
     body:
-      string: '{"data": {"type": "correction", "id": "03e9a6f0-f142-11eb-9717-da7ad0900005",
-        "attributes": {"slo_id": "c7ef13d761a85565bbeccc56ae0dac92", "start": 1735707000,
+      string: '{"data": {"type": "correction", "id": "7cce4164-f149-11eb-bf9c-da7ad0900005",
+        "attributes": {"slo_id": "83c2961671ce5561a3dd9d4dbde2ad7a", "start": 1735707000,
         "end": 1735718600, "description": "correction example", "category": "Scheduled
         Maintenance", "timezone": "UTC", "creator": {"data": {"type": "users", "id":
         "3af5af64-bfcd-11eb-b483-da7ad0900005", "attributes": {"uuid": "3af5af64-bfcd-11eb-b483-da7ad0900005",
@@ -5606,7 +6006,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:40 GMT
+      - Fri, 30 Jul 2021 15:19:09 GMT
       pragma:
       - no-cache
       vary:
@@ -5622,13 +6022,13 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '20'
+      - '51'
     status:
       code: 200
       message: OK
 - request:
     body: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id": null,
-      "canceled": null, "monitor_id": 1699509, "disabled": false, "start": 1654984560,
+      "canceled": null, "monitor_id": 1700231, "disabled": false, "start": 1654984560,
       "parent_id": null, "timezone": "America/New_York", "scope": ["env:test"], "message":
       null, "downtime_type": 2}'
     headers:
@@ -5649,11 +6049,11 @@ interactions:
   response:
     body:
       string: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": 1699509, "created": 1627655140, "org_id":
-        1000044987, "modified": 1627655140, "disabled": false, "start": 1654984560,
+        null, "canceled": null, "monitor_id": 1700231, "created": 1627658349, "org_id":
+        1000044987, "modified": 1627658349, "disabled": false, "start": 1654984560,
         "creator_id": 1000219667, "parent_id": null, "timezone": "America/New_York",
         "active": false, "scope": ["env:test"], "message": null, "downtime_type":
-        2, "id": 52385334, "updater_id": null}'
+        2, "id": 52391752, "updater_id": null}'
     headers:
       Alt-Svc:
       - clear
@@ -5670,7 +6070,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:40 GMT
+      - Fri, 30 Jul 2021 15:19:09 GMT
       pragma:
       - no-cache
       vary:
@@ -5706,10 +6106,10 @@ interactions:
     body:
       string: '{"recurrence": {"until_date": null, "until_occurrences": null, "week_days":
         [], "type": "days", "period": 1}, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": null, "created": 1627655140, "org_id":
-        1000044987, "modified": 1627655140, "disabled": false, "start": 2622234295,
+        null, "canceled": null, "monitor_id": null, "created": 1627658349, "org_id":
+        1000044987, "modified": 1627658349, "disabled": false, "start": 2622234295,
         "creator_id": 1000219667, "parent_id": null, "timezone": "UTC", "active":
-        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 52385335,
+        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 52391776,
         "updater_id": null}'
     headers:
       Alt-Svc:
@@ -5727,7 +6127,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:40 GMT
+      - Fri, 30 Jul 2021 15:19:09 GMT
       pragma:
       - no-cache
       vary:
@@ -6065,7 +6465,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:25:41 GMT
+      - Fri, 30 Jul 2021 15:19:10 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -6423,7 +6823,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:25:41 GMT
+      - Fri, 30 Jul 2021 15:19:10 GMT
       pragma:
       - no-cache
       vary:

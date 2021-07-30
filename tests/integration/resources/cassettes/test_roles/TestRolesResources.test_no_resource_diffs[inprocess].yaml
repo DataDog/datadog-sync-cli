@@ -325,7 +325,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 30 Jul 2021 14:36:38 GMT
+      - Fri, 30 Jul 2021 15:20:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -336,8 +336,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -683,7 +681,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:38 GMT
+      - Fri, 30 Jul 2021 15:20:44 GMT
       pragma:
       - no-cache
       vary:

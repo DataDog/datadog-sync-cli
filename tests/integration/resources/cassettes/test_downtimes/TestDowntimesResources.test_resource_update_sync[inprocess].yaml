@@ -18,15 +18,15 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/downtime/52386757
+    uri: https://api.datadoghq.eu/api/v1/downtime/52391937
   response:
     body:
       string: '{"recurrence": {"until_date": null, "until_occurrences": null, "week_days":
         [], "type": "days", "period": 1}, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": null, "created": 1627655790, "org_id":
-        1000044987, "modified": 1627655790, "disabled": false, "start": 2622234295,
+        null, "canceled": null, "monitor_id": null, "created": 1627658435, "org_id":
+        1000044987, "modified": 1627658435, "disabled": false, "start": 2622234295,
         "creator_id": 1000219667, "parent_id": null, "timezone": "UTC", "active":
-        false, "scope": ["*"], "message": "Updated", "downtime_type": 0, "id": 52386757,
+        false, "scope": ["*"], "message": "Updated", "downtime_type": 0, "id": 52391937,
         "updater_id": 1000219667}'
     headers:
       Alt-Svc:
@@ -44,7 +44,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:30 GMT
+      - Fri, 30 Jul 2021 15:20:35 GMT
       pragma:
       - no-cache
       vary:

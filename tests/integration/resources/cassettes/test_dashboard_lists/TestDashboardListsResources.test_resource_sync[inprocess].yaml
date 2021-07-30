@@ -20,8 +20,8 @@ interactions:
     body:
       string: '{"is_favorite": false, "name": "Empty Test List", "dashboard_count":
         0, "author": {"handle": "frog@datadoghq.com", "name": "Frog"}, "created":
-        "2021-07-30T14:36:26.138621+00:00", "type": "manual_dashboard_list", "dashboards":
-        null, "modified": "2021-07-30T14:36:26.138656+00:00", "id": 10775}'
+        "2021-07-30T15:20:30.347290+00:00", "type": "manual_dashboard_list", "dashboards":
+        null, "modified": "2021-07-30T15:20:30.347336+00:00", "id": 10779}'
     headers:
       Alt-Svc:
       - clear
@@ -38,7 +38,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:26 GMT
+      - Fri, 30 Jul 2021 15:20:30 GMT
       pragma:
       - no-cache
       vary:
@@ -66,7 +66,7 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/10775/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/10779/dashboards
   response:
     body:
       string: '{"dashboards": []}'
@@ -84,7 +84,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:26 GMT
+      - Fri, 30 Jul 2021 15:20:30 GMT
       pragma:
       - no-cache
       x-content-type-options:

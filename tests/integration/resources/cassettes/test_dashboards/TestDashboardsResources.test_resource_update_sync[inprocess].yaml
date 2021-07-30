@@ -49,7 +49,7 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/b6k-y6y-ric
+    uri: https://api.datadoghq.eu/api/v1/dashboard/gis-q4b-h8t
   response:
     body:
       string: '{"notify_list": [], "description": "Created using the Datadog provider
@@ -57,9 +57,9 @@ interactions:
         [{"name": "var_1", "value": "host.dc"}, {"name": "var_2", "value": "my_service"}],
         "name": "preset_1"}], "template_variables": [{"default": "aws", "prefix":
         "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
-        "name": "var_2"}], "is_read_only": false, "id": "b6k-y6y-ric", "title": "Test
-        screenboardUpdated", "url": "/dashboard/b6k-y6y-ric/test-screenboardupdated",
-        "created_at": "2021-07-30T14:36:27.690231+00:00", "modified_at": "2021-07-30T14:36:28.888646+00:00",
+        "name": "var_2"}], "is_read_only": false, "id": "gis-q4b-h8t", "title": "Test
+        screenboardUpdated", "url": "/dashboard/gis-q4b-h8t/test-screenboardupdated",
+        "created_at": "2021-07-30T15:20:32.538255+00:00", "modified_at": "2021-07-30T15:20:33.669311+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"title_size":
         "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
         "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout":
@@ -107,7 +107,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:28 GMT
+      - Fri, 30 Jul 2021 15:20:33 GMT
       pragma:
       - no-cache
       vary:
@@ -142,13 +142,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/du5-vgm-74s
+    uri: https://api.datadoghq.eu/api/v1/dashboard/sib-p7m-j2s
   response:
     body:
       string: '{"notify_list": [], "description": "", "author_name": "Frog", "template_variables":
-        [], "is_read_only": false, "id": "du5-vgm-74s", "title": "datadog-sync-cli
-        Test DashboardUpdated", "url": "/dashboard/du5-vgm-74s/datadog-sync-cli-test-dashboardupdated",
-        "created_at": "2021-07-30T14:36:28.115507+00:00", "modified_at": "2021-07-30T14:36:29.323827+00:00",
+        [], "is_read_only": false, "id": "sib-p7m-j2s", "title": "datadog-sync-cli
+        Test DashboardUpdated", "url": "/dashboard/sib-p7m-j2s/datadog-sync-cli-test-dashboardupdated",
+        "created_at": "2021-07-30T15:20:32.856438+00:00", "modified_at": "2021-07-30T15:20:34.056506+00:00",
         "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
         [{"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
         2, "time": {}, "title_size": "16", "requests": [{"response_format": "scalar",
@@ -172,7 +172,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:29 GMT
+      - Fri, 30 Jul 2021 15:20:34 GMT
       pragma:
       - no-cache
       vary:
@@ -205,13 +205,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/bic-f5b-4qe
+    uri: https://api.datadoghq.eu/api/v1/dashboard/mit-afc-hia
   response:
     body:
       string: '{"notify_list": null, "description": null, "author_name": "Frog", "template_variables":
-        null, "is_read_only": false, "id": "bic-f5b-4qe", "title": "{{ unique }} with
-        timeseries widgetUpdated", "url": "/dashboard/bic-f5b-4qe/-unique--with-timeseries-widgetupdated",
-        "created_at": "2021-07-30T14:36:28.480699+00:00", "modified_at": "2021-07-30T14:36:29.679742+00:00",
+        null, "is_read_only": false, "id": "mit-afc-hia", "title": "{{ unique }} with
+        timeseries widgetUpdated", "url": "/dashboard/mit-afc-hia/-unique--with-timeseries-widgetupdated",
+        "created_at": "2021-07-30T15:20:33.222582+00:00", "modified_at": "2021-07-30T15:20:34.395026+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
         [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
         "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
@@ -233,7 +233,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 14:36:29 GMT
+      - Fri, 30 Jul 2021 15:20:34 GMT
       pragma:
       - no-cache
       vary:

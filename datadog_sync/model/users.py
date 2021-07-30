@@ -20,7 +20,6 @@ class Users(BaseResource):
         excluded_attributes=[
             "root['id']",
             "root['attributes']['created_at']",
-            "root['attributes']['disabled']",
             "root['attributes']['title']",
             "root['attributes']['status']",
             "root['attributes']['verified']",
@@ -67,6 +66,7 @@ class Users(BaseResource):
             return
 
         destination_client = self.config.destination_client
+        resource["attributes"].pop("disabled", None)
         try:
             resp = destination_client.post(self.resource_config.base_path, {"data": resource})
         except HTTPError as e:
