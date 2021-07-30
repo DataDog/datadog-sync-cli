@@ -2,11 +2,13 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
-from typing import Optional
+
+from typing import Optional, List, Dict
 
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import CustomClient
 
 
 class Dashboards(BaseResource):
@@ -29,7 +31,7 @@ class Dashboards(BaseResource):
     )
     # Additional Dashboards specific attributes
 
-    def get_resources(self, client) -> list:
+    def get_resources(self, client: CustomClient) -> List[Dict]:
         try:
             resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
@@ -38,7 +40,7 @@ class Dashboards(BaseResource):
 
         return resp["dashboards"]
 
-    def import_resource(self, resource) -> None:
+    def import_resource(self, resource: Dict) -> None:
         source_client = self.config.source_client
         try:
             dashboard = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
@@ -48,13 +50,13 @@ class Dashboards(BaseResource):
 
         self.resource_config.source_resources[resource["id"]] = dashboard
 
-    def pre_resource_action_hook(self, resource) -> None:
+    def pre_resource_action_hook(self, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources) -> Optional[list]:
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         pass
 
-    def create_resource(self, _id, resource) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
 
         try:
@@ -64,7 +66,7 @@ class Dashboards(BaseResource):
             return
         self.resource_config.destination_resources[_id] = resp
 
-    def update_resource(self, _id, resource) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
 
         try:
@@ -76,5 +78,5 @@ class Dashboards(BaseResource):
             return
         self.resource_config.destination_resources[_id] = resp
 
-    def connect_id(self, key, r_obj, resource_to_connect) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         super(Dashboards, self).connect_id(key, r_obj, resource_to_connect)

@@ -6,8 +6,10 @@
 import re
 
 from requests.exceptions import HTTPError
+from typing import List, Dict, Optional
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import CustomClient
 
 
 class SyntheticsPrivateLocations(BaseResource):
@@ -27,7 +29,7 @@ class SyntheticsPrivateLocations(BaseResource):
     base_locations_path = "/api/v1/synthetics/locations"
     pl_id_regex = re.compile("^pl:.*")
 
-    def get_resources(self, client) -> list:
+    def get_resources(self, client: CustomClient) -> List[Dict]:
         try:
             resp = client.get(self.base_locations_path).json()
         except HTTPError as e:
@@ -36,7 +38,7 @@ class SyntheticsPrivateLocations(BaseResource):
 
         return resp["locations"]
 
-    def import_resource(self, resource) -> None:
+    def import_resource(self, resource: Dict) -> None:
         source_client = self.config.source_client
         if self.pl_id_regex.match(resource["id"]):
             try:
@@ -47,16 +49,16 @@ class SyntheticsPrivateLocations(BaseResource):
                     resource["id"],
                     e.response.text,
                 )
-                return
+                return None
             self.resource_config.source_resources[resource["id"]] = pl
 
-    def pre_resource_action_hook(self, resource):
+    def pre_resource_action_hook(self, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources) -> []:
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         pass
 
-    def create_resource(self, _id, resource) -> {}:
+    def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
 
         try:
@@ -66,7 +68,7 @@ class SyntheticsPrivateLocations(BaseResource):
             return
         self.resource_config.destination_resources[_id] = resp
 
-    def update_resource(self, _id, resource) -> {}:
+    def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
 
         try:
@@ -78,5 +80,5 @@ class SyntheticsPrivateLocations(BaseResource):
             return
         self.resource_config.destination_resources[_id].update(resp)
 
-    def connect_id(self, key, r_obj, resource_to_connect) -> {}:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         super(SyntheticsPrivateLocations, self).connect_id(key, r_obj, resource_to_connect)
