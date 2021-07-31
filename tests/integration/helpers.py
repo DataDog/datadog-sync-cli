@@ -46,7 +46,6 @@ class BaseResourcesTestClass:
         assert num_resources_to_add == len(source_resources)
 
     def test_resource_sync(self, runner, caplog):
-        caplog.set_level(logging.DEBUG)
         ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
         assert 0 == ret.exit_code
 
@@ -94,14 +93,14 @@ class BaseResourcesTestClass:
         source_resources, destination_resources = open_resources(self.resource_type)
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
-    # def test_no_resource_diffs(self, runner):
-    #     ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
-    #     assert not ret.output
-    #     assert 0 == ret.exit_code
+    def test_no_resource_diffs(self, runner, caplog):
+        ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
+        assert not ret.output
+        assert 0 == ret.exit_code
 
-    #     num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(ret.stderr))
-    #     source_resources, destination_resources = open_resources(self.resource_type)
-    #     assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
+        source_resources, destination_resources = open_resources(self.resource_type)
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
 
 def save_source_resources(resource_type, resources):
