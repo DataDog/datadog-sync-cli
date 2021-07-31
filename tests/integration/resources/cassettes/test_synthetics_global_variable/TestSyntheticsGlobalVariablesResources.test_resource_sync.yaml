@@ -1,0 +1,79 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"variables": [{"parse_test_options": null, "parse_test_extracted_at":
+        null, "description": "test", "tags": [], "created_at": "2021-07-31T01:18:32.549740+00:00",
+        "is_totp": null, "modified_at": "2021-07-31T01:18:32.549740+00:00", "value":
+        {"secure": false, "value": "test"}, "parse_test_public_id": null, "parse_test_name":
+        null, "created_by": "Frog", "type": "variable", "id": "bc8f7ac1-db31-475f-b991-4ca6dd54838e",
+        "name": "TEST"}, {"parse_test_options": {"field": "alt-svc", "parser": {"type":
+        "regex", "value": "h3=\"(.*)\";"}, "type": "http_header"}, "parse_test_extracted_at":
+        null, "description": "", "tags": [], "created_at": "2021-07-31T01:18:32.755177+00:00",
+        "is_totp": null, "modified_at": "2021-07-31T19:45:01.226747+00:00", "value":
+        {"secure": false, "value": ""}, "parse_test_public_id": "kz2-3t2-g92", "parse_test_name":
+        "HTTP Test", "created_by": "Frog", "attributes": {"role_uuids": []}, "type":
+        "variable", "id": "bff6d088-e6c1-4a00-b5f3-b56f883b3722", "name": "TEST_FROM_HTTP"},
+        {"parse_test_options": null, "parse_test_extracted_at": null, "description":
+        "Description of the variable", "tags": ["foo:bar", "env:test"], "created_at":
+        "2021-07-31T01:18:32.327793+00:00", "is_totp": null, "modified_at": "2021-07-31T01:18:32.327793+00:00",
+        "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
+        null, "parse_test_name": null, "created_by": "Frog", "type": "variable", "id":
+        "e1d64108-37c6-4b49-91f1-888f87453fac", "name": "EXAMPLE_VARIABLE"}, {"parse_test_options":
+        null, "parse_test_extracted_at": null, "description": "test", "tags": ["check_type:api"],
+        "created_at": "2021-07-31T01:18:32.146113+00:00", "is_totp": null, "modified_at":
+        "2021-07-31T01:18:32.146113+00:00", "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"},
+        "parse_test_public_id": null, "parse_test_name": null, "created_by": "Frog",
+        "type": "variable", "id": "ebd0c9df-83b3-4e9d-9da5-b83e90bfa071", "name":
+        "TEST_VARIABLE"}]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '1827'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Sat, 31 Jul 2021 19:45:25 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '12000'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '11998'
+      x-ratelimit-reset:
+      - '35'
+    status:
+      code: 200
+      message: OK
+version: 1

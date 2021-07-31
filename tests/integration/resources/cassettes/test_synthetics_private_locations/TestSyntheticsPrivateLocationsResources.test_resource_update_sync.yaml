@@ -1,0 +1,54 @@
+interactions:
+- request:
+    body: '{"name": "Test Private VariableUpdated", "tags": ["key:value"], "description":
+      "datadog-sync-cli test"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '103'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-private-variable-0ef3ff8e82dfa3a934a5ef4ae09464ec
+  response:
+    body:
+      string: '{"modifiedAt": "2021-07-30T23:15:58.248860+00:00", "name": "Test Private
+        VariableUpdated", "tags": ["key:value"], "metadata": null, "id": "pl:test-private-variable-0ef3ff8e82dfa3a934a5ef4ae09464ec",
+        "createdAt": "2021-07-30T23:15:58.009660+00:00", "description": "datadog-sync-cli
+        test"}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '274'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 30 Jul 2021 23:15:58 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+version: 1

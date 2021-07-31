@@ -1,0 +1,444 @@
+interactions:
+- request:
+    body: '{"status": "paused", "tags": [], "locations": ["aws:ca-central-1"], "message":
+      "Test synthetics Updated", "name": "HTTP Test", "type": "api", "subtype": "http",
+      "config": {"request": {"url": "https://google.com", "method": "GET"}, "assertions":
+      [{"operator": "lessThan", "type": "responseTime", "target": 1000}, {"operator":
+      "is", "type": "statusCode", "target": 301}, {"operator": "is", "property": "content-type",
+      "type": "header", "target": "text/html; charset=UTF-8"}]}, "options": {"retry":
+      {"count": 1, "interval": 300}, "min_location_failed": 1, "monitor_options":
+      {"renotify_interval": 120}, "min_failure_duration": 120, "monitor_priority":
+      3, "tick_every": 604800}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '674'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/4e6-sny-547
+  response:
+    body:
+      string: '{"status": "paused", "public_id": "4e6-sny-547", "tags": [], "org_id":
+        1000044987, "locations": ["aws:ca-central-1"], "message": "Test synthetics
+        Updated", "deleted_at": null, "name": "HTTP Test", "monitor_id": 1703649,
+        "type": "api", "created_at": "2021-07-30T23:15:59.036916+00:00", "modified_at":
+        "2021-07-30T23:16:01.142930+00:00", "subtype": "http", "config": {"request":
+        {"url": "https://google.com", "method": "GET"}, "assertions": [{"operator":
+        "lessThan", "type": "responseTime", "target": 1000}, {"operator": "is", "type":
+        "statusCode", "target": 301}, {"operator": "is", "property": "content-type",
+        "type": "header", "target": "text/html; charset=UTF-8"}]}, "options": {"retry":
+        {"count": 1, "interval": 300}, "min_location_failed": 1, "monitor_options":
+        {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
+        300, "notify_no_data": false, "renotify_interval": 120}, "tick_every": 604800,
+        "monitor_priority": 3, "min_failure_duration": 120}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '899'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 30 Jul 2021 23:16:01 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '499'
+      x-ratelimit-reset:
+      - '59'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
+      ["aws:eu-central-1"], "message": "Notify @pagerdutyUpdated", "name": "DNS Test",
+      "type": "api", "subtype": "dns", "config": {"request": {"host": "example.org"},
+      "assertions": [{"operator": "is", "property": "A", "type": "recordSome", "target":
+      "0.0.0.0"}]}, "options": {"monitor_options": {"renotify_interval": 0}, "tick_every":
+      900, "min_location_failed": 1}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '432'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/dx8-2k8-iju
+  response:
+    body:
+      string: '{"status": "live", "public_id": "dx8-2k8-iju", "tags": ["foo:bar",
+        "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
+        "message": "Notify @pagerdutyUpdated", "deleted_at": null, "name": "DNS Test",
+        "monitor_id": 1703650, "type": "api", "created_at": "2021-07-30T23:15:59.362824+00:00",
+        "modified_at": "2021-07-30T23:16:01.474594+00:00", "subtype": "dns", "config":
+        {"request": {"host": "example.org"}, "assertions": [{"operator": "is", "property":
+        "A", "type": "recordSome", "target": "0.0.0.0"}]}, "options": {"monitor_options":
+        {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
+        300, "notify_no_data": false, "renotify_interval": 0}, "tick_every": 900,
+        "min_location_failed": 1}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '678'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 30 Jul 2021 23:16:01 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '498'
+      x-ratelimit-reset:
+      - '59'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
+      ["aws:eu-central-1"], "message": "Notify @pagerdutyUpdated", "name": "SSL Test",
+      "type": "api", "subtype": "ssl", "config": {"request": {"host": "example.org",
+      "port": 443}, "assertions": [{"operator": "isInMoreThan", "type": "certificate",
+      "target": 30}]}, "options": {"monitor_options": {"renotify_interval": 0}, "min_location_failed":
+      1, "accept_self_signed": true, "tick_every": 900}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '460'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/mz9-vvb-h6d
+  response:
+    body:
+      string: '{"status": "live", "public_id": "mz9-vvb-h6d", "tags": ["foo:bar",
+        "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
+        "message": "Notify @pagerdutyUpdated", "deleted_at": null, "name": "SSL Test",
+        "monitor_id": 1703651, "type": "api", "created_at": "2021-07-30T23:15:59.739038+00:00",
+        "modified_at": "2021-07-30T23:16:01.819607+00:00", "subtype": "ssl", "config":
+        {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
+        "isInMoreThan", "type": "certificate", "target": 30}]}, "options": {"accept_self_signed":
+        true, "tick_every": 900, "monitor_options": {"notify_audit": false, "locked":
+        false, "include_tags": true, "new_host_delay": 300, "notify_no_data": false,
+        "renotify_interval": 0}, "min_location_failed": 1}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '704'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 30 Jul 2021 23:16:01 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '497'
+      x-ratelimit-reset:
+      - '59'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
+      ["aws:eu-central-1"], "message": "Notify @pagerdutyUpdated", "name": "TCP Test",
+      "type": "api", "subtype": "tcp", "config": {"request": {"host": "example.org",
+      "port": 443}, "assertions": [{"operator": "lessThan", "type": "responseTime",
+      "target": 2000}]}, "options": {"monitor_options": {"renotify_interval": 0},
+      "tick_every": 900, "min_location_failed": 1}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '431'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/sr3-qik-rg3
+  response:
+    body:
+      string: '{"status": "live", "public_id": "sr3-qik-rg3", "tags": ["foo:bar",
+        "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
+        "message": "Notify @pagerdutyUpdated", "deleted_at": null, "name": "TCP Test",
+        "monitor_id": 1703652, "type": "api", "created_at": "2021-07-30T23:16:00.064326+00:00",
+        "modified_at": "2021-07-30T23:16:02.130604+00:00", "subtype": "tcp", "config":
+        {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
+        "lessThan", "type": "responseTime", "target": 2000}]}, "options": {"monitor_options":
+        {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
+        300, "notify_no_data": false, "renotify_interval": 0}, "tick_every": 900,
+        "min_location_failed": 1}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '677'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 30 Jul 2021 23:16:02 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '496'
+      x-ratelimit-reset:
+      - '58'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"status": "paused", "tags": [], "locations": ["aws:us-west-1"], "message":
+      "Updated", "name": "Browser Test", "type": "browser", "config": {"variables":
+      [], "setCookie": "", "request": {"url": "https://docs.datadoghq.com", "headers":
+      {}, "method": "GET"}, "assertions": [], "configVariables": []}, "options": {"retry":
+      {"count": 0, "interval": 300}, "min_location_failed": 1, "min_failure_duration":
+      0, "noScreenshot": false, "tick_every": 604800, "forwardProxy": false, "disableCors":
+      false, "device_ids": ["chrome.laptop_large", "firefox.laptop_large", "chrome.tablet",
+      "chrome.mobile_small", "firefox.mobile_small", "firefox.tablet"], "monitor_options":
+      {"renotify_interval": 0}, "ignoreServerCertificateError": false}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '723'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/9ea-ch7-u8s
+  response:
+    body:
+      string: '{"status": "paused", "public_id": "9ea-ch7-u8s", "tags": [], "org_id":
+        1000044987, "locations": ["aws:us-west-1"], "message": "Updated", "deleted_at":
+        null, "name": "Browser Test", "monitor_id": 1703653, "type": "browser", "created_at":
+        "2021-07-30T23:16:00.405951+00:00", "modified_at": "2021-07-30T23:16:02.647416+00:00",
+        "config": {"variables": [], "setCookie": "", "request": {"url": "https://docs.datadoghq.com",
+        "headers": {}, "method": "GET"}, "assertions": [], "configVariables": []},
+        "options": {"retry": {"count": 0, "interval": 300}, "min_location_failed":
+        1, "min_failure_duration": 0, "noScreenshot": false, "tick_every": 604800,
+        "forwardProxy": false, "disableCors": false, "device_ids": ["chrome.laptop_large",
+        "firefox.laptop_large", "chrome.tablet", "chrome.mobile_small", "firefox.mobile_small",
+        "firefox.tablet"], "monitor_options": {"notify_audit": false, "locked": false,
+        "include_tags": true, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
+        0}, "ignoreServerCertificateError": false}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '948'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 30 Jul 2021 23:16:02 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '495'
+      x-ratelimit-reset:
+      - '58'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"status": "live", "tags": ["check_type:api", "env:test", "test:update"],
+      "locations": ["aws:sa-east-1"], "message": "Updated", "name": "Multistep API
+      Test", "type": "api", "subtype": "multi", "config": {"steps": [{"retry": {"count":
+      0, "interval": 300}, "name": "Test on datadoghq.com", "request": {"url": "https://datadoghq.com",
+      "headers": {"content-type": "text/html"}, "method": "GET"}, "subtype": "http",
+      "allowFailure": false, "extractedValues": [], "isCritical": true, "id": "vek-567-n38",
+      "assertions": [{"operator": "lessThan", "type": "responseTime", "target": 1000},
+      {"operator": "is", "type": "statusCode", "target": 301}]}], "configVariables":
+      []}, "options": {"monitor_options": {"renotify_interval": 0}, "retry": {"count":
+      0, "interval": 300}, "min_location_failed": 1, "min_failure_duration": 0, "tick_every":
+      604800}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '835'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/mvr-y6b-c8d
+  response:
+    body:
+      string: '{"status": "live", "public_id": "mvr-y6b-c8d", "tags": ["check_type:api",
+        "env:test", "test:update"], "org_id": 1000044987, "locations": ["aws:sa-east-1"],
+        "message": "Updated", "deleted_at": null, "name": "Multistep API Test", "monitor_id":
+        1703654, "type": "api", "created_at": "2021-07-30T23:16:00.774737+00:00",
+        "modified_at": "2021-07-30T23:16:03.142459+00:00", "subtype": "multi", "config":
+        {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
+        "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
+        "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
+        [], "isCritical": true, "id": "vek-567-n38", "assertions": [{"operator": "lessThan",
+        "type": "responseTime", "target": 1000}, {"operator": "is", "type": "statusCode",
+        "target": 301}]}], "configVariables": []}, "options": {"monitor_options":
+        {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
+        300, "notify_no_data": false, "renotify_interval": 0}, "retry": {"count":
+        0, "interval": 300}, "min_location_failed": 1, "min_failure_duration": 0,
+        "tick_every": 604800}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '1045'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 30 Jul 2021 23:16:03 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '494'
+      x-ratelimit-reset:
+      - '57'
+    status:
+      code: 200
+      message: OK
+version: 1

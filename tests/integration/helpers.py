@@ -6,6 +6,7 @@
 import os
 import re
 import json
+import logging
 
 import pytest
 
@@ -44,15 +45,16 @@ class BaseResourcesTestClass:
         num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(ret.output))
         assert num_resources_to_add == len(source_resources)
 
-    # def test_resource_sync(self, runner):
-    #     ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
-    #     assert 0 == ret.exit_code
+    def test_resource_sync(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+        ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
+        assert 0 == ret.exit_code
 
-    #     # By default, resources  with failed connections are skipped. Hence count number of skipped + success
-    #     num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(ret.stderr))
-    #     source_resources, destination_resources = open_resources(self.resource_type)
+        # By default, resources  with failed connections are skipped. Hence count number of skipped + success
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
+        source_resources, destination_resources = open_resources(self.resource_type)
 
-    #     assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     # def test_resource_update_sync(self, runner):
     #     source_resources, _ = open_resources(self.resource_type)
