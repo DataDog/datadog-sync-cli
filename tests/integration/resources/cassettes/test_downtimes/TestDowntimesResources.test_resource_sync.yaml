@@ -25,10 +25,10 @@ interactions:
     body:
       string: '{"recurrence": {"until_date": null, "until_occurrences": null, "week_days":
         [], "type": "days", "period": 1}, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": null, "created": 1627760719, "org_id":
-        1000044987, "modified": 1627760719, "disabled": false, "start": 2622234295,
+        null, "canceled": null, "monitor_id": null, "created": 1627769927, "org_id":
+        1000044987, "modified": 1627769927, "disabled": false, "start": 2622234295,
         "creator_id": 1000219667, "parent_id": null, "timezone": "UTC", "active":
-        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 52542778,
+        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 52553007,
         "updater_id": null}'
     headers:
       Alt-Svc:
@@ -46,7 +46,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 19:45:19 GMT
+      - Sat, 31 Jul 2021 22:18:47 GMT
       pragma:
       - no-cache
       vary:

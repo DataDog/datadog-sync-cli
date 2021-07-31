@@ -28,8 +28,8 @@ interactions:
         "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
         "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-        "sum:api.requests.status_ok{*}.as_count()"}, "id": "76ddd8d2ebec535db2d51cae609c9a57",
-        "name": "SLO test", "created_at": 1627760724, "tags": [], "modified_at": 1627760724,
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "0d6cacd554005ac7a9b96aa7bbbe8a70",
+        "name": "SLO test", "created_at": 1627769933, "tags": [], "modified_at": 1627769933,
         "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
@@ -47,7 +47,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 19:45:24 GMT
+      - Sat, 31 Jul 2021 22:18:53 GMT
       pragma:
       - no-cache
       vary:
@@ -63,7 +63,7 @@ interactions:
       x-ratelimit-remaining:
       - '494'
       x-ratelimit-reset:
-      - '36'
+      - '7'
     status:
       code: 200
       message: OK
@@ -98,9 +98,9 @@ interactions:
         "Frog", "email": "frog@datadoghq.com"}, "thresholds": [{"warning": 99.8, "warning_display":
         "99.8", "target": 99.5, "target_display": "99.5", "timeframe": "7d"}], "type_id":
         1, "query": {"denominator": "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
-        "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "0ac4918d440e5469955d224c80c0dda6",
-        "name": "example slo", "created_at": 1627760724, "tags": ["foo:bar"], "modified_at":
-        1627760724, "type": "metric"}], "error": null}'
+        "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "68eed29956895425a28baf14dbf93919",
+        "name": "example slo", "created_at": 1627769934, "tags": ["foo:bar"], "modified_at":
+        1627769934, "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -117,7 +117,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 19:45:24 GMT
+      - Sat, 31 Jul 2021 22:18:54 GMT
       pragma:
       - no-cache
       vary:
@@ -133,7 +133,7 @@ interactions:
       x-ratelimit-remaining:
       - '493'
       x-ratelimit-reset:
-      - '36'
+      - '6'
     status:
       code: 200
       message: OK

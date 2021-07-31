@@ -26,13 +26,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/1703644
+    uri: https://api.datadoghq.eu/api/v1/monitor/1714192
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50", "message": "Test monitor ----------------", "id": 1703644, "multi":
-        false, "name": "Composite monitor - Child 2Updated", "created": "2021-07-30T23:15:47.167285+00:00",
-        "created_at": 1627686947000, "org_id": 1000044987, "modified": "2021-07-30T23:15:48.097897+00:00",
+        > 50", "message": "Test monitor ----------------", "id": 1714192, "multi":
+        false, "name": "Composite monitor - Child 2Updated", "created": "2021-07-31T22:18:49.701749+00:00",
+        "created_at": 1627769929000, "org_id": 1000044987, "modified": "2021-07-31T22:18:50.568183+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "metric alert", "options": {"notify_audit": false, "locked": false,
         "timeout_h": 0, "silenced": {}, "include_tags": true, "no_data_timeframe":
@@ -55,7 +55,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:48 GMT
+      - Sat, 31 Jul 2021 22:18:50 GMT
       pragma:
       - no-cache
       vary:
@@ -71,7 +71,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '2'
+      - '10'
     status:
       code: 200
       message: OK
@@ -102,13 +102,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/1703645
+    uri: https://api.datadoghq.eu/api/v1/monitor/1714193
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-        > 20", "message": "Composite monitor - child 1", "id": 1703645, "multi": false,
-        "name": "Composite monitor - child 1Updated", "created": "2021-07-30T23:15:47.337582+00:00",
-        "created_at": 1627686947000, "org_id": 1000044987, "modified": "2021-07-30T23:15:48.271274+00:00",
+        > 20", "message": "Composite monitor - child 1", "id": 1714193, "multi": false,
+        "name": "Composite monitor - child 1Updated", "created": "2021-07-31T22:18:49.836588+00:00",
+        "created_at": 1627769929000, "org_id": 1000044987, "modified": "2021-07-31T22:18:50.815746+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "metric alert", "options": {"notify_audit": false, "locked": false,
         "timeout_h": 0, "silenced": {}, "include_tags": true, "no_data_timeframe":
@@ -131,7 +131,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:48 GMT
+      - Sat, 31 Jul 2021 22:18:50 GMT
       pragma:
       - no-cache
       vary:
@@ -147,7 +147,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '2'
+      - '10'
     status:
       code: 200
       message: OK
@@ -177,13 +177,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/1703646
+    uri: https://api.datadoghq.eu/api/v1/monitor/1714194
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-        "message": "Test host monitor", "id": 1703646, "multi": true, "name": "Host
-        monitorUpdated", "created": "2021-07-30T23:15:47.530292+00:00", "created_at":
-        1627686947000, "org_id": 1000044987, "modified": "2021-07-30T23:15:48.475163+00:00",
+        "message": "Test host monitor", "id": 1714194, "multi": true, "name": "Host
+        monitorUpdated", "created": "2021-07-31T22:18:49.985024+00:00", "created_at":
+        1627769929000, "org_id": 1000044987, "modified": "2021-07-31T22:18:50.976758+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "service check", "options": {"notify_audit": false, "locked": false,
         "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds": {"warning":
@@ -205,7 +205,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:48 GMT
+      - Sat, 31 Jul 2021 22:18:51 GMT
       pragma:
       - no-cache
       vary:
@@ -221,7 +221,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '2'
+      - '10'
     status:
       code: 200
       message: OK
@@ -253,14 +253,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/1703647
+    uri: https://api.datadoghq.eu/api/v1/monitor/1714195
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
         ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
-        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 1703647,
-        "multi": false, "name": "Anomaly monitorUpdated", "created": "2021-07-30T23:15:47.683038+00:00",
-        "created_at": 1627686947000, "org_id": 1000044987, "modified": "2021-07-30T23:15:48.688728+00:00",
+        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 1714195,
+        "multi": false, "name": "Anomaly monitorUpdated", "created": "2021-07-31T22:18:50.149128+00:00",
+        "created_at": 1627769930000, "org_id": 1000044987, "modified": "2021-07-31T22:18:51.131524+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "query alert", "options": {"notify_audit": false, "locked": false,
         "timeout_h": 0, "silenced": {}, "include_tags": true, "no_data_timeframe":
@@ -284,7 +284,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:48 GMT
+      - Sat, 31 Jul 2021 22:18:51 GMT
       pragma:
       - no-cache
       vary:
@@ -300,13 +300,13 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '2'
+      - '9'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "( 1703645
-      && 1703644 ) || !1703645", "message": "test", "matching_downtimes": [], "id":
+    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "( 1714193
+      && 1714192 ) || !1714193", "message": "test", "matching_downtimes": [], "id":
       36593201, "multi": false, "name": "Composite monitorUpdated", "created": "2021-06-03T18:55:48.515861+00:00",
       "created_at": 1622746548000, "creator": {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com",
       "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id":
@@ -329,13 +329,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/1703648
+    uri: https://api.datadoghq.eu/api/v1/monitor/1714196
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "(
-        1703645 && 1703644 ) || !1703645", "message": "test", "id": 1703648, "multi":
-        false, "name": "Composite monitorUpdated", "created": "2021-07-30T23:15:47.828754+00:00",
-        "created_at": 1627686947000, "org_id": 1000044987, "modified": "2021-07-30T23:15:48.868263+00:00",
+        1714193 && 1714192 ) || !1714193", "message": "test", "id": 1714196, "multi":
+        false, "name": "Composite monitorUpdated", "created": "2021-07-31T22:18:50.322750+00:00",
+        "created_at": 1627769930000, "org_id": 1000044987, "modified": "2021-07-31T22:18:51.321139+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "composite", "options": {"notify_audit": false, "locked": false, "silenced":
         {"env:test": null}, "include_tags": false, "new_host_delay": 300, "notify_no_data":
@@ -356,7 +356,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:48 GMT
+      - Sat, 31 Jul 2021 22:18:51 GMT
       pragma:
       - no-cache
       vary:
@@ -372,7 +372,7 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '2'
+      - '9'
     status:
       code: 200
       message: OK

@@ -19,7 +19,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "HkOHgBwGTMOM8poWfLTn4g", "type": "pipeline", "name": "Test
+      string: '{"id": "c71baghCRyO00yOU2WimWg", "type": "pipeline", "name": "Test
         pipeline", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "test:query"}, "processors": []}'
     headers:
@@ -40,7 +40,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Sat, 31 Jul 2021 19:45:19 GMT
+      - Sat, 31 Jul 2021 22:18:48 GMT
       pragma:
       - no-cache
       vary:
@@ -54,9 +54,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '9'
+      - '7'
       x-ratelimit-reset:
-      - '281'
+      - '72'
     status:
       code: 200
       message: OK
@@ -111,7 +111,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "56tMJZWgTOCdCN5HHhtpQQ", "type": "pipeline", "name": "Test
+      string: '{"id": "55X50n6WRDGmbiLTiwXeCQ", "type": "pipeline", "name": "Test
         Pipeline - Complex", "is_enabled": true, "is_read_only": false, "filter":
         {"query": "source:foo"}, "processors": [{"name": "sample arithmetic processor",
         "is_enabled": true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic",
@@ -163,7 +163,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Sat, 31 Jul 2021 19:45:19 GMT
+      - Sat, 31 Jul 2021 22:18:48 GMT
       pragma:
       - no-cache
       vary:
@@ -177,9 +177,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '8'
+      - '6'
       x-ratelimit-reset:
-      - '281'
+      - '72'
     status:
       code: 200
       message: OK

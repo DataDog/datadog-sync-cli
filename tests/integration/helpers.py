@@ -56,40 +56,43 @@ class BaseResourcesTestClass:
 
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
-    # def test_resource_update_sync(self, runner):
-    #     source_resources, _ = open_resources(self.resource_type)
+    def test_resource_update_sync(self, runner, caplog):
+        source_resources, _ = open_resources(self.resource_type)
 
-    #     # update fields and save the file.
-    #     for resource in source_resources.values():
-    #         try:
-    #             current_value = pathLookup(resource, self.field_to_update)
-    #             if current_value is None:
-    #                 current_value = ""
+        # update fields and save the file.
+        for resource in source_resources.values():
+            try:
+                current_value = pathLookup(resource, self.field_to_update)
+                if current_value is None:
+                    current_value = ""
 
-    #             pathUpdate(resource, self.field_to_update, current_value + "Updated")
-    #         except Exception as e:
-    #             pytest.fail(e)
+                pathUpdate(resource, self.field_to_update, current_value + "Updated")
+            except Exception as e:
+                pytest.fail(e)
 
-    #     save_source_resources(self.resource_type, source_resources)
+        save_source_resources(self.resource_type, source_resources)
 
-    #     # assert diff is produced
-    #     ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
-    #     assert ret.output
-    #     assert 0 == ret.exit_code
+        # assert diff is produced
+        ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
+        assert ret.output
+        assert 0 == ret.exit_code
 
-    #     # sync the updated resources
-    #     ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
-    #     assert 0 == ret.exit_code
 
-    #     # assert diff is no longer produced
-    #     ret = runner.invoke(["diffs", f"--resources={self.resource_type}"])
-    #     assert 0 == ret.exit_code
-    #     assert not ret.output
+        # sync the updated resources
+        ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
+        assert 0 == ret.exit_code
+        caplog.clear()
 
-    #     # Assert number of synced and imported resources match
-    #     num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(ret.stderr))
-    #     source_resources, destination_resources = open_resources(self.resource_type)
-    #     assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+
+        # assert diff is no longer produced
+        ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
+        assert 0 == ret.exit_code
+        assert not ret.output
+
+        # Assert number of synced and imported resources match
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
+        source_resources, destination_resources = open_resources(self.resource_type)
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     # def test_no_resource_diffs(self, runner):
     #     ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])

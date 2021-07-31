@@ -21,15 +21,15 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/slo/33a7541e798e5b09b4a4e26855175547
+    uri: https://api.datadoghq.eu/api/v1/slo/0d6cacd554005ac7a9b96aa7bbbe8a70
   response:
     body:
       string: '{"data": [{"description": "Test update creationUpdated", "monitor_tags":
         [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
         "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-        "sum:api.requests.status_ok{*}.as_count()"}, "id": "33a7541e798e5b09b4a4e26855175547",
-        "name": "SLO test", "created_at": 1627686952, "tags": [], "modified_at": 1627686952,
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "0d6cacd554005ac7a9b96aa7bbbe8a70",
+        "name": "SLO test", "created_at": 1627769933, "tags": [], "modified_at": 1627769934,
         "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
@@ -47,7 +47,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:52 GMT
+      - Sat, 31 Jul 2021 22:18:54 GMT
       pragma:
       - no-cache
       vary:
@@ -63,7 +63,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '8'
+      - '6'
     status:
       code: 200
       message: OK
@@ -90,7 +90,7 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/slo/a7f66748878558e999c5d7a8b03c3ffa
+    uri: https://api.datadoghq.eu/api/v1/slo/68eed29956895425a28baf14dbf93919
   response:
     body:
       string: '{"data": [{"description": "some updated description about example_slo
@@ -99,8 +99,8 @@ interactions:
         99.8, "warning_display": "99.8", "target": 99.5, "target_display": "99.5",
         "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:my.metric{type:good}.as_count()
         + sum:my.metric{type:bad}.as_count()", "numerator": "sum:my.metric{type:good}.as_count()"},
-        "id": "a7f66748878558e999c5d7a8b03c3ffa", "name": "example slo", "created_at":
-        1627686952, "tags": ["foo:bar"], "modified_at": 1627686952, "type": "metric"}],
+        "id": "68eed29956895425a28baf14dbf93919", "name": "example slo", "created_at":
+        1627769934, "tags": ["foo:bar"], "modified_at": 1627769934, "type": "metric"}],
         "error": null}'
     headers:
       Alt-Svc:
@@ -118,7 +118,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:53 GMT
+      - Sat, 31 Jul 2021 22:18:54 GMT
       pragma:
       - no-cache
       vary:
@@ -134,7 +134,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '8'
+      - '6'
     status:
       code: 200
       message: OK

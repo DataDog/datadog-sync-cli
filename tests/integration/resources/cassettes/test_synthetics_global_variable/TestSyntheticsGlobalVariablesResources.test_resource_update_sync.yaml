@@ -16,30 +16,29 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"parse_test_options": {"field": "alt-svc", "parser":
-        {"type": "regex", "value": "h3=\"(.*)\";"}, "type": "http_header"}, "parse_test_extracted_at":
-        null, "description": "", "tags": [], "created_at": "2021-07-30T22:46:01.801297+00:00",
-        "is_totp": null, "modified_at": "2021-07-30T23:15:23.943745+00:00", "value":
-        {"secure": false, "value": ""}, "parse_test_public_id": "v3p-tbq-mza", "parse_test_name":
-        "HTTP Test", "created_by": "Frog", "attributes": {"role_uuids": []}, "type":
-        "variable", "id": "12156dae-442b-49b2-b042-8dceb7be8fa3", "name": "TEST_FROM_HTTP"},
-        {"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "test", "tags": ["check_type:api"], "created_at": "2021-07-30T22:46:01.233809+00:00",
-        "is_totp": null, "modified_at": "2021-07-30T22:46:01.233809+00:00", "value":
+      string: '{"variables": [{"parse_test_options": null, "parse_test_extracted_at":
+        null, "description": "test", "tags": ["check_type:api"], "created_at": "2021-07-31T22:18:26.959908+00:00",
+        "is_totp": null, "modified_at": "2021-07-31T22:18:26.959908+00:00", "value":
         {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
         null, "parse_test_name": null, "created_by": "Frog", "type": "variable", "id":
-        "3e6390c2-7b58-4f02-8265-f9846c04db9c", "name": "TEST_VARIABLE"}, {"parse_test_options":
+        "08017d93-d87e-4014-934f-4dc33cee1add", "name": "TEST_VARIABLE"}, {"parse_test_options":
         null, "parse_test_extracted_at": null, "description": "Description of the
-        variable", "tags": ["foo:bar", "env:test"], "created_at": "2021-07-30T22:46:01.409665+00:00",
-        "is_totp": null, "modified_at": "2021-07-30T22:46:01.409665+00:00", "value":
+        variable", "tags": ["foo:bar", "env:test"], "created_at": "2021-07-31T22:18:27.318480+00:00",
+        "is_totp": null, "modified_at": "2021-07-31T22:18:27.318480+00:00", "value":
         {"secure": false, "value": "variable-value"}, "parse_test_public_id": null,
-        "parse_test_name": null, "created_by": "Frog", "type": "variable", "id": "b91da40d-487c-4266-9d30-b9b0c522ca30",
+        "parse_test_name": null, "created_by": "Frog", "type": "variable", "id": "15cea06b-7c29-4dc9-8fe9-6a6a16f90f4b",
         "name": "EXAMPLE_VARIABLE"}, {"parse_test_options": null, "parse_test_extracted_at":
-        null, "description": "test", "tags": [], "created_at": "2021-07-30T22:46:01.593282+00:00",
-        "is_totp": null, "modified_at": "2021-07-30T22:46:01.593282+00:00", "value":
+        null, "description": "test", "tags": [], "created_at": "2021-07-31T22:18:27.548763+00:00",
+        "is_totp": null, "modified_at": "2021-07-31T22:18:27.548763+00:00", "value":
         {"secure": false, "value": "test"}, "parse_test_public_id": null, "parse_test_name":
-        null, "created_by": "Frog", "type": "variable", "id": "d70c2af4-3fcd-480f-a296-0d1fe97189bd",
-        "name": "TEST"}]}'
+        null, "created_by": "Frog", "type": "variable", "id": "2ab9f3c1-9405-4380-91e2-e9aa424412ca",
+        "name": "TEST"}, {"parse_test_options": {"field": "alt-svc", "parser": {"type":
+        "regex", "value": "h3=\"(.*)\";"}, "type": "http_header"}, "parse_test_extracted_at":
+        null, "description": "", "tags": [], "created_at": "2021-07-31T22:18:27.849458+00:00",
+        "is_totp": null, "modified_at": "2021-07-31T22:18:27.849458+00:00", "value":
+        {"secure": false, "value": ""}, "parse_test_public_id": "xjc-56z-nxc", "parse_test_name":
+        "HTTP Test", "created_by": "Frog", "attributes": {"role_uuids": []}, "type":
+        "variable", "id": "52e8d7cc-bc51-4132-b293-99676ce72235", "name": "TEST_FROM_HTTP"}]}'
     headers:
       Alt-Svc:
       - clear
@@ -56,7 +55,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:54 GMT
+      - Sat, 31 Jul 2021 22:18:55 GMT
       pragma:
       - no-cache
       vary:
@@ -72,7 +71,7 @@ interactions:
       x-ratelimit-remaining:
       - '11997'
       x-ratelimit-reset:
-      - '6'
+      - '5'
     status:
       code: 200
       message: OK
@@ -94,13 +93,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/3e6390c2-7b58-4f02-8265-f9846c04db9c
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/08017d93-d87e-4014-934f-4dc33cee1add
   response:
     body:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "testUpdated", "tags": ["check_type:api"], "is_totp": null, "value": {"secure":
         false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "3e6390c2-7b58-4f02-8265-f9846c04db9c",
+        null, "parse_test_name": null, "type": "variable", "id": "08017d93-d87e-4014-934f-4dc33cee1add",
         "name": "TEST_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -118,7 +117,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:54 GMT
+      - Sat, 31 Jul 2021 22:18:55 GMT
       pragma:
       - no-cache
       vary:
@@ -132,9 +131,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11998'
+      - '11999'
       x-ratelimit-reset:
-      - '6'
+      - '5'
     status:
       code: 200
       message: OK
@@ -156,13 +155,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/b91da40d-487c-4266-9d30-b9b0c522ca30
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/15cea06b-7c29-4dc9-8fe9-6a6a16f90f4b
   response:
     body:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "Description of the variableUpdated", "tags": ["foo:bar", "env:test"], "is_totp":
         null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "b91da40d-487c-4266-9d30-b9b0c522ca30",
+        null, "parse_test_name": null, "type": "variable", "id": "15cea06b-7c29-4dc9-8fe9-6a6a16f90f4b",
         "name": "EXAMPLE_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -180,7 +179,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:54 GMT
+      - Sat, 31 Jul 2021 22:18:56 GMT
       pragma:
       - no-cache
       vary:
@@ -194,9 +193,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11997'
+      - '11998'
       x-ratelimit-reset:
-      - '6'
+      - '5'
     status:
       code: 200
       message: OK
@@ -217,13 +216,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/d70c2af4-3fcd-480f-a296-0d1fe97189bd
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/2ab9f3c1-9405-4380-91e2-e9aa424412ca
   response:
     body:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "testUpdated", "tags": [], "is_totp": null, "value": {"secure": false, "value":
         "test"}, "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "d70c2af4-3fcd-480f-a296-0d1fe97189bd", "name": "TEST"}'
+        "id": "2ab9f3c1-9405-4380-91e2-e9aa424412ca", "name": "TEST"}'
     headers:
       Alt-Svc:
       - clear
@@ -240,7 +239,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 30 Jul 2021 23:15:55 GMT
+      - Sat, 31 Jul 2021 22:18:56 GMT
       pragma:
       - no-cache
       vary:
@@ -254,9 +253,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11996'
+      - '11997'
       x-ratelimit-reset:
-      - '6'
+      - '4'
     status:
       code: 200
       message: OK

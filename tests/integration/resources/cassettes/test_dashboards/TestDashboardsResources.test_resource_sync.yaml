@@ -57,9 +57,9 @@ interactions:
         [{"name": "var_1", "value": "host.dc"}, {"name": "var_2", "value": "my_service"}],
         "name": "preset_1"}], "template_variables": [{"default": "aws", "prefix":
         "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
-        "name": "var_2"}], "is_read_only": false, "id": "qqu-bw6-9w3", "title": "Test
-        screenboard", "url": "/dashboard/qqu-bw6-9w3/test-screenboard", "created_at":
-        "2021-07-31T19:45:17.827631+00:00", "modified_at": "2021-07-31T19:45:17.827631+00:00",
+        "name": "var_2"}], "is_read_only": false, "id": "4ez-qs3-kms", "title": "Test
+        screenboard", "url": "/dashboard/4ez-qs3-kms/test-screenboard", "created_at":
+        "2021-07-31T22:18:45.897651+00:00", "modified_at": "2021-07-31T22:18:45.897651+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"title_size":
         "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
         "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout":
@@ -107,7 +107,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 19:45:17 GMT
+      - Sat, 31 Jul 2021 22:18:45 GMT
       pragma:
       - no-cache
       vary:
@@ -145,9 +145,9 @@ interactions:
   response:
     body:
       string: '{"notify_list": [], "description": "", "author_name": "Frog", "template_variables":
-        [], "is_read_only": false, "id": "pjz-h2z-iza", "title": "datadog-sync-cli
-        Test Dashboard", "url": "/dashboard/pjz-h2z-iza/datadog-sync-cli-test-dashboard",
-        "created_at": "2021-07-31T19:45:18.125302+00:00", "modified_at": "2021-07-31T19:45:18.125302+00:00",
+        [], "is_read_only": false, "id": "pz2-ern-y73", "title": "datadog-sync-cli
+        Test Dashboard", "url": "/dashboard/pz2-ern-y73/datadog-sync-cli-test-dashboard",
+        "created_at": "2021-07-31T22:18:46.144824+00:00", "modified_at": "2021-07-31T22:18:46.144824+00:00",
         "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
         [{"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
         2, "time": {}, "title_size": "16", "requests": [{"response_format": "scalar",
@@ -171,7 +171,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 19:45:18 GMT
+      - Sat, 31 Jul 2021 22:18:46 GMT
       pragma:
       - no-cache
       vary:
@@ -208,9 +208,9 @@ interactions:
   response:
     body:
       string: '{"notify_list": null, "description": null, "author_name": "Frog", "template_variables":
-        null, "is_read_only": false, "id": "idb-xdk-2pb", "title": "{{ unique }} with
-        timeseries widget", "url": "/dashboard/idb-xdk-2pb/-unique--with-timeseries-widget",
-        "created_at": "2021-07-31T19:45:18.433910+00:00", "modified_at": "2021-07-31T19:45:18.433910+00:00",
+        null, "is_read_only": false, "id": "6i5-x35-izr", "title": "{{ unique }} with
+        timeseries widget", "url": "/dashboard/6i5-x35-izr/-unique--with-timeseries-widget",
+        "created_at": "2021-07-31T22:18:46.355240+00:00", "modified_at": "2021-07-31T22:18:46.355240+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
         [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
         "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
@@ -232,7 +232,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 19:45:18 GMT
+      - Sat, 31 Jul 2021 22:18:46 GMT
       pragma:
       - no-cache
       vary:

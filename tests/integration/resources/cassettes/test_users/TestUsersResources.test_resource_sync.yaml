@@ -29,39 +29,44 @@ interactions:
         "attributes": {"name": "monitors_read", "display_name": "Monitors", "description":
         "The ability to view monitors.", "created": "2019-09-16T18:49:59.270746+00:00",
         "group_name": "Monitors", "display_type": "read", "restricted": true}}, {"type":
-        "permissions", "id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039", "attributes":
-        {"name": "logs_write_exclusion_filters", "display_name": "Logs Write Exclusion
-        Filters", "description": "The ability to add and change exclusion filters
-        for all or some log indexes. Can be granted in a limited capacity per index
-        to specific roles via the Logs interface or API. If granted from the Roles
-        interface or API, the permission has global scope.", "created": "2018-10-31T14:00:23.699543+00:00",
-        "group_name": "Logs", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f", "attributes":
-        {"name": "billing_read", "display_name": "Billing", "description": "The ability
-        to view your organization''s subscription and payment method but not make
-        edits.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name": "Billing
-        and Usage", "display_type": "read", "restricted": false}}, {"type": "permissions",
-        "id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14", "attributes": {"name": "security_monitoring_rules_write",
-        "display_name": "Detection Rules", "description": "The ability to create and
-        edit Detection rules.", "created": "2020-06-09T13:55:21.036857+00:00", "group_name":
-        "Security Monitoring", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "04669020-ec5c-11ea-9483-db5dbf9f0b02", "attributes":
-        {"name": "billing_edit", "display_name": "Billing", "description": "The ability
-        to manage your organization''s subscription and payment method.", "created":
-        "2020-09-01T14:04:14.317866+00:00", "group_name": "Billing and Usage", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc",
-        "attributes": {"name": "logs_generate_metrics", "display_name": "Log Generate
-        Metrics", "description": "The ability to create custom metrics from logs.",
-        "created": "2019-07-25T12:37:55.949477+00:00", "group_name": "Logs", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb",
-        "attributes": {"name": "synthetics_global_variable_read", "display_name":
-        "Global Variables", "description": "The ability to view, search and use in
-        tests the list of global variables available for Synthetics.", "created":
-        "2020-09-17T20:37:50.165103+00:00", "group_name": "Synthetic Monitoring",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "ae2f8fbe-f925-11ea-b51c-67ba7de17f88", "attributes": {"name": "synthetics_global_variable_write",
-        "display_name": "Global Variables", "description": "The ability to create,
-        edit, and delete global variables for Synthetics.", "created": "2020-09-17T20:38:01.966230+00:00",
+        "permissions", "id": "b39fb79a-90af-11eb-9428-da7ad0900005", "attributes":
+        {"name": "data_scanner_write", "display_name": "Data Scanner", "description":
+        "Edit data scanner configuration.", "created": "2021-03-29T16:56:27.219481+00:00",
+        "group_name": "Access Management", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039",
+        "attributes": {"name": "logs_write_exclusion_filters", "display_name": "Logs
+        Write Exclusion Filters", "description": "The ability to add and change exclusion
+        filters for all or some log indexes. Can be granted in a limited capacity
+        per index to specific roles via the Logs interface or API. If granted from
+        the Roles interface or API, the permission has global scope.", "created":
+        "2018-10-31T14:00:23.699543+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f",
+        "attributes": {"name": "billing_read", "display_name": "Billing", "description":
+        "The ability to view your organization''s subscription and payment method
+        but not make edits.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name":
+        "Billing and Usage", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14", "attributes":
+        {"name": "security_monitoring_rules_write", "display_name": "Detection Rules",
+        "description": "The ability to create and edit Detection rules.", "created":
+        "2020-06-09T13:55:21.036857+00:00", "group_name": "Security Monitoring", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "04669020-ec5c-11ea-9483-db5dbf9f0b02",
+        "attributes": {"name": "billing_edit", "display_name": "Billing", "description":
+        "The ability to manage your organization''s subscription and payment method.",
+        "created": "2020-09-01T14:04:14.317866+00:00", "group_name": "Billing and
+        Usage", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc", "attributes": {"name": "logs_generate_metrics",
+        "display_name": "Log Generate Metrics", "description": "The ability to create
+        custom metrics from logs.", "created": "2019-07-25T12:37:55.949477+00:00",
+        "group_name": "Logs", "display_type": "other", "restricted": false}}, {"type":
+        "permissions", "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb", "attributes":
+        {"name": "synthetics_global_variable_read", "display_name": "Global Variables",
+        "description": "The ability to view, search and use in tests the list of global
+        variables available for Synthetics.", "created": "2020-09-17T20:37:50.165103+00:00",
+        "group_name": "Synthetic Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "ae2f8fbe-f925-11ea-b51c-67ba7de17f88",
+        "attributes": {"name": "synthetics_global_variable_write", "display_name":
+        "Global Variables", "description": "The ability to create, edit, and delete
+        global variables for Synthetics.", "created": "2020-09-17T20:38:01.966230+00:00",
         "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
         false}}, {"type": "permissions", "id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4",
         "attributes": {"name": "logs_write_pipelines", "display_name": "Logs Write
@@ -433,7 +438,7 @@ interactions:
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005", "attributes":
         {"name": "test-user", "handle": "new@example.com", "created_at": "2021-06-08T19:40:17.395117+00:00",
-        "modified_at": "2021-07-31T01:18:34.044838+00:00", "email": "new@example.com",
+        "modified_at": "2021-07-31T22:18:29.174231+00:00", "email": "new@example.com",
         "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -457,7 +462,7 @@ interactions:
         {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes":
         {"name": "None+ updated", "handle": "test-user-example@datadoghq.com", "created_at":
-        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-07-31T01:18:34.263204+00:00",
+        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-07-31T22:18:29.500018+00:00",
         "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -465,7 +470,7 @@ interactions:
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "9ea447a8-ebdf-11eb-8ad5-da7ad0900005", "attributes":
         {"name": "Updated", "handle": "user_without_role@example.com", "created_at":
-        "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-07-31T01:18:34.508206+00:00",
+        "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-07-31T22:18:29.897382+00:00",
         "email": "user_without_role@example.com", "icon": "https://secure.gravatar.com/avatar/a0985e94ca4206b92a3504c0222b3f7e?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -480,13 +485,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '35898'
+      - '36207'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 19:45:33 GMT
+      - Sat, 31 Jul 2021 22:19:04 GMT
       pragma:
       - no-cache
       vary:
