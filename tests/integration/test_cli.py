@@ -5,33 +5,35 @@
 
 import pytest
 
+from datadog_sync.cli import cli
+
 
 @pytest.mark.vcr
 @pytest.mark.integration
-def test_cli(tmpdir, script_runner):
+def test_cli(tmpdir, runner):
     with tmpdir.as_cwd():
         # Import
-        ret = script_runner.run("datadog-sync", "import")
-        assert ret.success
+        ret = runner.invoke(cli, ["import"])
+        assert 0 == ret.exit_code
         #  Sync
-        ret = script_runner.run("datadog-sync", "sync", "--skip-failed-resource-connections=False")
-        assert ret.success
+        ret = runner.invoke(cli, ["sync", "--skip-failed-resource-connections=False"])
+        assert 0 == ret.exit_code
         # Check diff
-        ret = script_runner.run("datadog-sync", "diffs", "--skip-failed-resource-connections=False")
+        ret = runner.invoke(cli, ["diffs", "--skip-failed-resource-connections=False"])
         # assert no diffs are produced
-        assert not ret.stdout
-        assert ret.success
+        assert not ret.output
+        assert 0 == ret.exit_code
 
 
 @pytest.mark.vcr
 @pytest.mark.integration
-def test_cli_diff(tmpdir, script_runner):
+def test_cli_diff(tmpdir, runner):
     with tmpdir.as_cwd():
         # Import
-        ret = script_runner.run("datadog-sync", "import")
-        assert ret.success
+        ret = runner.invoke(cli, ["import"])
+        assert 0 == ret.exit_code
         # Check diff
-        ret = script_runner.run("datadog-sync", "diffs", "--skip-failed-resource-connections=False")
+        ret = runner.invoke(cli, ["diffs", "--skip-failed-resource-connections=False"])
         # assert diffs are produced
-        assert ret.stdout
-        assert ret.success
+        assert ret.output
+        assert 0 == ret.exit_code

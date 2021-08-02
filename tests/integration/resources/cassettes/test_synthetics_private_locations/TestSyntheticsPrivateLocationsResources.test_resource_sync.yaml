@@ -1,0 +1,57 @@
+interactions:
+- request:
+    body: '{"name": "Test Private Variable", "tags": ["key:value"], "description":
+      "datadog-sync-cli test"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '96'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations
+  response:
+    body:
+      string: '{"private_location": {"name": "Test Private Variable", "tags": ["key:value"],
+        "description": "datadog-sync-cli test", "modifiedAt": "2021-07-31T22:18:57.458314+00:00",
+        "config": {"site": "datadoghq.eu"}, "id": "pl:test-private-variable-877c5fb3df7cdf9677a3f9298b07012d",
+        "createdAt": "2021-07-31T22:18:57.458314+00:00", "metadata": null}, "result_encryption":
+        {"id": "sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins=", "key":
+        "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
+        PUBLIC KEY-----\n"}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '9189'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Sat, 31 Jul 2021 22:18:57 GMT
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+version: 1

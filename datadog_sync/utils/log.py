@@ -23,6 +23,8 @@ class Log:
 
         self.exception_logged = False
         self.logger = logging.getLogger(LOGGER_NAME)
+        self.logger.propagate = True
+
 
     def debug(self, msg, *arg):
         self.logger.debug(msg, *arg)
