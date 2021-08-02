@@ -41,6 +41,17 @@ def filter_response_data():
     return before_record_response
 
 
+def _disable_recording():
+    """Disable VCR.py integration."""
+    return os.getenv("RECORD", "false").lower() == "none"
+
+
+@pytest.fixture(scope="session")
+def disable_recording(request):
+    """Disable VCR.py integration."""
+    return _disable_recording()
+
+
 def get_record_mode():
     return {"false": "none", "true": "rewrite", "none": "new_episodes",}[os.getenv("RECORD", "false").lower()]
 
