@@ -5,6 +5,7 @@
 
 import time
 import logging
+import platform
 
 import requests
 
@@ -93,8 +94,20 @@ def build_default_headers(auth_obj):
         "DD-API-KEY": auth_obj["apiKeyAuth"],
         "DD-APPLICATION-KEY": auth_obj["appKeyAuth"],
         "Content-Type": "application/json",
+        "User-Agent": _get_user_agent(),
     }
     return headers
+
+
+def _get_user_agent():
+    from datadog_sync._version import __version__ as version
+
+    return "datadog-sync-cli/{version} (python {pyver}; os {os}; arch {arch})".format(
+        version=version,
+        pyver=platform.python_version(),
+        os=platform.system().lower(),
+        arch=platform.machine().lower(),
+    )
 
 
 def paginated_request(func):

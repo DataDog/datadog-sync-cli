@@ -3,6 +3,15 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+tracer = None
+try:
+    from ddtrace import config, patch
+
+    config.httplib["distributed_tracing"] = True
+    patch(httplib=True)
+except ImportError:
+    pass
+
 from json.decoder import JSONDecodeError
 import pytest
 import os
@@ -12,6 +21,12 @@ import json
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync import constants
 from datadog_sync.utils.configuration import get_resources
+
+@pytest.fixture()
+def runner():
+    from click.testing import CliRunner
+
+    return CliRunner(mix_stderr=False)
 
 
 def filter_private_location_data(response):
