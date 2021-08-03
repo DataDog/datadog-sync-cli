@@ -93,8 +93,6 @@ class BaseResource(abc.ABC):
         self.resource_config.source_resources.clear()
 
         get_resp = self.get_resources(self.config.source_client)
-
-        max_workers = 1 if not self.resource_config.concurrent else self.config.max_workers
         futures = []
         with thread_pool_executor(self.config.max_workers) as executor:
             for r in get_resp:
