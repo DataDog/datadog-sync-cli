@@ -6,10 +6,12 @@
 import os
 import re
 import json
+import logging
 
 import pytest
 
 from datadog_sync.constants import RESOURCE_FILE_PATH
+from datadog_sync.cli import cli
 
 
 RESOURCE_TO_ADD_RE = re.compile("Resource to be added")
@@ -27,9 +29,9 @@ class BaseResourcesTestClass:
         my_tmpdir = tmpdir_factory.mktemp("tmp")
         os.chdir(my_tmpdir)
 
-    def test_resource_import(self, script_runner):
-        ret = script_runner.run("datadog-sync", "import", f"--resources={self.resource_type}")
-        assert ret.success
+    def test_resource_import(self, runner):
+        ret = runner.invoke(cli, ["import", f"--resources={self.resource_type}"])
+        assert 0 == ret.exit_code
 
         # Assert at lease one resource is imported
         source_resources, _ = open_resources(self.resource_type)
@@ -37,25 +39,23 @@ class BaseResourcesTestClass:
 
         # Disable skipping on resource connection failure
         # From stdout, count the  number of resources to be added and ensure they match the import len()
-        ret = script_runner.run(
-            "datadog-sync", "diffs", f"--resources={self.resource_type}", "--skip-failed-resource-connections=false"
-        )
-        assert ret.success
+        ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}", "--skip-failed-resource-connections=false"])
+        assert 0 == ret.exit_code
 
-        num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(ret.stdout))
+        num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(ret.output))
         assert num_resources_to_add == len(source_resources)
 
-    def test_resource_sync(self, script_runner):
-        ret = script_runner.run("datadog-sync", "sync", f"--resources={self.resource_type}")
-        assert ret.success
+    def test_resource_sync(self, runner, caplog):
+        ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
+        assert 0 == ret.exit_code
 
         # By default, resources  with failed connections are skipped. Hence count number of skipped + success
-        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(ret.stderr))
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
 
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
-    def test_resource_update_sync(self, script_runner):
+    def test_resource_update_sync(self, runner, caplog):
         source_resources, _ = open_resources(self.resource_type)
 
         # update fields and save the file.
@@ -72,30 +72,33 @@ class BaseResourcesTestClass:
         save_source_resources(self.resource_type, source_resources)
 
         # assert diff is produced
-        ret = script_runner.run("datadog-sync", "diffs", f"--resources={self.resource_type}")
-        assert ret.stdout
-        assert ret.success
+        ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
+        assert ret.output
+        assert 0 == ret.exit_code
+
 
         # sync the updated resources
-        ret = script_runner.run("datadog-sync", "sync", f"--resources={self.resource_type}")
-        assert ret.success
+        ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
+        assert 0 == ret.exit_code
+        caplog.clear()
+
 
         # assert diff is no longer produced
-        ret = script_runner.run("datadog-sync", "diffs", f"--resources={self.resource_type}")
-        assert ret.success
-        assert not ret.stdout
+        ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
+        assert 0 == ret.exit_code
+        assert not ret.output
 
         # Assert number of synced and imported resources match
-        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(ret.stderr))
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
-    def test_no_resource_diffs(self, script_runner):
-        ret = script_runner.run("datadog-sync", "diffs", f"--resources={self.resource_type}")
-        assert not ret.stdout
-        assert ret.success
+    def test_no_resource_diffs(self, runner, caplog):
+        ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
+        assert not ret.output
+        assert 0 == ret.exit_code
 
-        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(ret.stderr))
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 

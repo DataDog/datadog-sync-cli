@@ -23,6 +23,15 @@ env:
 jobs:
     test:
         runs-on: ubuntu-latest
+        services:
+            datadog-agent:
+                image: datadog/agent:latest
+                ports:
+                    - 8126:8126
+                env:
+                    DD_API_KEY: ${{ secrets.DD_API_KEY }}
+                    DD_HOSTNAME: "none"
+                    DD_INSIDE_CI: "true"
         steps:
             - name: Install Python
               uses: actions/setup-python@v2
@@ -33,12 +42,20 @@ jobs:
             - name: Install pytest
               run: pip install pytest==6.2.4
             - name: Install datadog-sync-cli
-              run: pip install .\[tests\]
+              run: pip install .\[apm,tests\]
             - name: Run unit tests
-              run: pytest --record-mode=none -ra -v
+              run: pytest -ra -v
             - name: Run integration tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
-              run: pytest --disable-recording -ra -v -m "integration"
+              run: pytest -ra -v -m "integration"
+              env:
+                  DD_AGENT_HOST: localhost
+                  DD_ENV: ci
+                  DD_SERVICE: datadog-sync-cli
+                  DD_TAGS: "team:integration-tools-and-libraries"
+                  DD_TRACE_ANALYTICS_ENABLED: "true"
+                  RECORD: "none"
+                  PYTEST_ADDOPTS: "--ddtrace"
             - name: Cleanup
               if: always() && contains(github.event.pull_request.labels.*.name, 'ci/integration')
               run: python ./scripts/cleanup_org.py
