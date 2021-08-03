@@ -4,13 +4,14 @@
 # Copyright 2019 Datadog, Inc.
 
 import abc
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from concurrent.futures import wait
 from pprint import pformat
 from typing import Optional, Dict, List
 
 
 from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
+from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
     open_resources,
     write_resources_file,
@@ -30,8 +31,8 @@ class ResourceConfig:
     excluded_attributes: Optional[List[str]] = None
     excluded_attributes_re: Optional[List[str]] = None
     concurrent: bool = True
-    source_resources: dict = None
-    destination_resources: dict = None
+    source_resources: dict = field(default_factory=dict)
+    destination_resources: dict = field(default_factory=dict)
 
     def __post_init__(self):
         self.build_excluded_attributes()
@@ -43,47 +44,41 @@ class ResourceConfig:
 
 
 class BaseResource(abc.ABC):
+    resource_type: str
+    resource_config: ResourceConfig
+
     def __init__(self, config):
         self.config = config
         self.resource_config.source_resources, self.resource_config.destination_resources = open_resources(
             self.resource_type
         )
 
-    @classmethod
-    def resource_type(cls):
-        pass
-
-    @property
     @abc.abstractmethod
-    def resource_config(self):
+    def get_resources(self, client: CustomClient) -> List[Dict]:
         pass
 
     @abc.abstractmethod
-    def get_resources(self, client) -> list:
+    def import_resource(self, resource: Dict) -> None:
         pass
 
     @abc.abstractmethod
-    def import_resource(self, resource) -> None:
+    def pre_resource_action_hook(self, resource: Dict) -> None:
         pass
 
     @abc.abstractmethod
-    def pre_resource_action_hook(self, resource) -> None:
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         pass
 
     @abc.abstractmethod
-    def pre_apply_hook(self, resources) -> Optional[list]:
+    def create_resource(self, _id: str, resource: Dict) -> None:
         pass
 
     @abc.abstractmethod
-    def create_resource(self, _id, resource) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> None:
         pass
 
     @abc.abstractmethod
-    def update_resource(self, _id, resource) -> None:
-        pass
-
-    @abc.abstractmethod
-    def connect_id(self, key, r_obj, resource_to_connect) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         resources = self.config.resources[resource_to_connect].resource_config.destination_resources
         _id = str(r_obj[key])
         if _id in resources:
@@ -154,7 +149,7 @@ class BaseResource(abc.ABC):
             else:
                 print("Resource to be added {}: \n {}".format(self.resource_type, pformat(resource)))
 
-    def apply_resource(self, _id, resource) -> None:
+    def apply_resource(self, _id: str, resource: Dict) -> None:
         self.pre_resource_action_hook(resource)
         self.connect_resources(_id, resource)
 
@@ -167,7 +162,7 @@ class BaseResource(abc.ABC):
             prep_resource(self.resource_config, resource)
             self.create_resource(_id, resource)
 
-    def connect_resources(self, _id, resource) -> None:
+    def connect_resources(self, _id: str, resource: Dict) -> None:
         if not self.resource_config.resource_connections:
             return
 
@@ -183,7 +178,7 @@ class BaseResource(abc.ABC):
                         self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
                         continue
 
-    def filter(self, resource) -> bool:
+    def filter(self, resource: Dict) -> bool:
         if not self.config.filters or self.resource_type not in self.config.filters:
             return True
 

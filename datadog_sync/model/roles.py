@@ -4,13 +4,13 @@
 # Copyright 2019 Datadog, Inc.
 
 import copy
-from typing import Optional
+from typing import Optional, List, Dict
 
 from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import check_diff
-from datadog_sync.utils.custom_client import paginated_request
+from datadog_sync.utils.custom_client import paginated_request, CustomClient
 
 
 class Roles(BaseResource):
@@ -25,7 +25,7 @@ class Roles(BaseResource):
     destination_roles_mapping = None
     permissions_base_path = "/api/v2/permissions"
 
-    def get_resources(self, client) -> list:
+    def get_resources(self, client: CustomClient) -> List[Dict]:
         try:
             resp = paginated_request(client.get)(self.resource_config.base_path)
         except HTTPError as e:
@@ -34,14 +34,14 @@ class Roles(BaseResource):
 
         return resp
 
-    def import_resource(self, resource) -> None:
+    def import_resource(self, resource: Dict) -> None:
         self.resource_config.source_resources[resource["id"]] = resource
 
-    def pre_apply_hook(self, resources) -> Optional[list]:
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         self.destination_roles_mapping = self.get_destination_roles_mapping()
-        return
+        return None
 
-    def pre_resource_action_hook(self, resource) -> None:
+    def pre_resource_action_hook(self, resource: Dict) -> None:
         self.remap_permissions(resource)
 
     def create_resource(self, _id, resource):
@@ -63,7 +63,7 @@ class Roles(BaseResource):
             return
         self.resource_config.destination_resources[_id] = resp.json()["data"]
 
-    def update_resource(self, _id, resource) -> {}:
+    def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
         payload = {"data": resource}
 
@@ -77,7 +77,7 @@ class Roles(BaseResource):
 
         self.resource_config.destination_resources[_id] = resp.json()["data"]
 
-    def connect_id(self, key, r_obj, resource_to_connect) -> {}:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         pass
 
     def remap_permissions(self, resource):

@@ -5,43 +5,45 @@
 
 import logging
 from collections import defaultdict, OrderedDict
+from dataclasses import dataclass
+from typing import (
+    Type,
+    Any,
+    Union,
+    Dict,
+    Tuple,
+    DefaultDict,
+    OrderedDict as _OrderedDict,
+    List,
+    Optional,
+)
 
 from datadog_sync import models
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
-from datadog_sync.utils.filter import process_filters
+from datadog_sync.utils.filter import Filter, process_filters
 from datadog_sync.constants import LOGGER_NAME
 
 
+@dataclass
 class Configuration(object):
-    def __init__(
-        self,
-        logger=None,
-        source_client=None,
-        destination_client=None,
-        resources=None,
-        missing_deps=None,
-        filters=None,
-        force_missing_dependencies=None,
-        skip_failed_resource_connections=None,
-        max_workers=None,
-    ):
-        if not logger:
-            # fallback to default logger if not provided
-            logger = logging.getLogger(LOGGER_NAME)
-        self.logger = logger
-        self.source_client = source_client
-        self.destination_client = destination_client
-        self.resources = resources
-        self.missing_deps = missing_deps
-        self.filters = filters
-        self.force_missing_dependencies = force_missing_dependencies
-        self.skip_failed_resource_connections = skip_failed_resource_connections
-        self.max_workers = max_workers
+    logger: Union[Log, logging.Logger, None] = None
+    source_client: Optional[CustomClient] = None
+    destination_client: Optional[CustomClient] = None
+    resources: Union[_OrderedDict[str, BaseResource], None] = None
+    missing_deps: Optional[List[str]] = None
+    filters: Optional[Dict[str, Filter]] = None
+    force_missing_dependencies: Optional[bool] = None
+    skip_failed_resource_connections: Optional[bool] = None
+    max_workers: Optional[int] = None
+
+    def __post_init__(self):
+        if not self.logger:
+            self.logger = logging.getLogger(LOGGER_NAME)
 
 
-def build_config(**kwargs):
+def build_config(**kwargs: Any) -> Configuration:
     # configure logger
     logger = Log(kwargs.get("verbose"))
 
@@ -88,7 +90,7 @@ def build_config(**kwargs):
 
 
 # TODO: add unit tests
-def get_resources(cfg, resources_arg):
+def get_resources(cfg: Configuration, resources_arg: Optional[str]) -> Tuple[OrderedDict, List[str]]:
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
     all_resources = [
@@ -96,9 +98,9 @@ def get_resources(cfg, resources_arg):
     ]
 
     if resources_arg:
-        resources_arg = resources_arg.split(",")
+        resources_list = resources_arg.split(",")
     else:
-        resources_arg = all_resources
+        resources_list = all_resources
 
     str_to_class = dict(
         (cls.resource_type, cls)
@@ -107,19 +109,19 @@ def get_resources(cfg, resources_arg):
     )
 
     resources_classes = [
-        str_to_class[resource_type] for resource_type in resources_arg if resource_type in str_to_class
+        str_to_class[resource_type] for resource_type in resources_list if resource_type in str_to_class
     ]
 
     order_list = get_import_order(resources_classes, str_to_class)
 
-    missing_deps = [resource for resource in order_list if resource not in resources_arg]
+    missing_deps = [resource for resource in order_list if resource not in resources_list]
 
     resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list})
 
     return resources, missing_deps
 
 
-def get_import_order(resources, str_to_class):
+def get_import_order(resources: List[Type[BaseResource]], str_to_class):
     """Returns the order of importing resources to guarantee that all resource dependencies are met"""
     graph, dependencies_count = get_resources_dependency_graph(resources, str_to_class)
     dependency_order = []
@@ -150,7 +152,9 @@ def get_import_order(resources, str_to_class):
     return dependency_order
 
 
-def get_resources_dependency_graph(resources, str_to_class):
+def get_resources_dependency_graph(
+    resources: List[Type[BaseResource]], str_to_class: Dict[str, Type[BaseResource]]
+) -> Tuple[DefaultDict[str, List[str]], DefaultDict[str, int]]:
     """
     Returns a Directed Acyclic Graph of the resources. An edge between A and B means that resource
     A might require resource B

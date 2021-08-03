@@ -2,12 +2,13 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
-from typing import Optional
+
+from typing import Optional, List, Dict
 
 from requests import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.custom_client import paginated_request
+from datadog_sync.utils.custom_client import paginated_request, CustomClient
 from datadog_sync.utils.resource_utils import check_diff
 
 
@@ -31,10 +32,10 @@ class Users(BaseResource):
         ],
     )
     # Additional Users specific attributes
-    roles_path = "/api/v2/roles/{}/users"
-    remote_destination_users = None
+    roles_path: str = "/api/v2/roles/{}/users"
+    remote_destination_users: Dict[str, Dict] = dict()
 
-    def get_resources(self, client) -> list:
+    def get_resources(self, client: CustomClient) -> List[Dict]:
         try:
             resp = paginated_request(client.get)(self.resource_config.base_path)
         except HTTPError as e:
@@ -43,20 +44,20 @@ class Users(BaseResource):
 
         return resp
 
-    def import_resource(self, resource) -> None:
+    def import_resource(self, resource: Dict) -> None:
         if resource["attributes"]["disabled"]:
             return
 
         self.resource_config.source_resources[resource["id"]] = resource
 
-    def pre_resource_action_hook(self, resource) -> None:
+    def pre_resource_action_hook(self, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources) -> Optional[list]:
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         self.remote_destination_users = self.get_remote_destination_users()
-        return
+        return None
 
-    def create_resource(self, _id, resource) -> {}:
+    def create_resource(self, _id: str, resource: Dict) -> None:
         if resource["attributes"]["email"] in self.remote_destination_users:
             self.resource_config.destination_resources[_id] = self.remote_destination_users[
                 resource["attributes"]["email"]
@@ -75,7 +76,7 @@ class Users(BaseResource):
 
         self.resource_config.destination_resources[_id] = resp.json()["data"]
 
-    def update_resource(self, _id, resource) -> {}:
+    def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
 
         diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
