@@ -1,12 +1,9 @@
 interactions:
 - request:
-    body: '{"description": "Test update creationUpdated", "monitor_tags": [], "creator":
-      {"handle": "noueman.khalikine@datadoghq.com", "name": "Noueman Khalikine", "email":
-      "noueman.khalikine@datadoghq.com"}, "thresholds": [{"target": 99.0, "target_display":
-      "99.", "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()",
-      "numerator": "sum:api.requests.status_ok{*}.as_count()"}, "id": "ba72d10835d75e0c8910597144f3733a",
-      "name": "SLO test", "created_at": 1623658372, "tags": [], "modified_at": 1626358963,
-      "type": "metric"}'
+    body: '{"description": "Test update creationUpdated", "monitor_tags": [], "thresholds":
+      [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 1,
+      "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator": "sum:api.requests.status_ok{*}.as_count()"},
+      "name": "SLO test", "tags": [], "type": "metric"}'
     headers:
       Accept:
       - '*/*'
@@ -15,21 +12,21 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '551'
+      - '325'
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/slo/0d6cacd554005ac7a9b96aa7bbbe8a70
+    uri: https://api.datadoghq.eu/api/v1/slo/33ca6eb1b6ad501685403fad57fa29ce
   response:
     body:
       string: '{"data": [{"description": "Test update creationUpdated", "monitor_tags":
         [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
         "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-        "sum:api.requests.status_ok{*}.as_count()"}, "id": "0d6cacd554005ac7a9b96aa7bbbe8a70",
-        "name": "SLO test", "created_at": 1627769933, "tags": [], "modified_at": 1627769934,
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "33ca6eb1b6ad501685403fad57fa29ce",
+        "name": "SLO test", "created_at": 1628000208, "tags": [], "modified_at": 1628000209,
         "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
@@ -47,7 +44,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:54 GMT
+      - Tue, 03 Aug 2021 14:16:49 GMT
       pragma:
       - no-cache
       vary:
@@ -63,19 +60,17 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '6'
+      - '11'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "some updated description about example_slo SLOUpdated",
-      "monitor_tags": [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog",
-      "email": "frog@datadoghq.com"}, "thresholds": [{"warning": 99.8, "warning_display":
-      "99.8", "target": 99.5, "target_display": "99.5", "timeframe": "7d"}], "type_id":
-      1, "query": {"denominator": "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
-      "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "c0db62b13ab351f59181e942f77ebda4",
-      "name": "example slo", "created_at": 1627063076, "tags": ["foo:bar"], "modified_at":
-      1627063076, "type": "metric"}'
+      "monitor_tags": [], "thresholds": [{"warning": 99.8, "warning_display": "99.8",
+      "target": 99.5, "target_display": "99.5", "timeframe": "7d"}], "type_id": 1,
+      "query": {"denominator": "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
+      "numerator": "sum:my.metric{type:good}.as_count()"}, "name": "example slo",
+      "tags": ["foo:bar"], "type": "metric"}'
     headers:
       Accept:
       - '*/*'
@@ -84,13 +79,13 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '632'
+      - '445'
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/slo/68eed29956895425a28baf14dbf93919
+    uri: https://api.datadoghq.eu/api/v1/slo/72638755b46c5ac4b42dce2aad337ddb
   response:
     body:
       string: '{"data": [{"description": "some updated description about example_slo
@@ -99,8 +94,8 @@ interactions:
         99.8, "warning_display": "99.8", "target": 99.5, "target_display": "99.5",
         "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:my.metric{type:good}.as_count()
         + sum:my.metric{type:bad}.as_count()", "numerator": "sum:my.metric{type:good}.as_count()"},
-        "id": "68eed29956895425a28baf14dbf93919", "name": "example slo", "created_at":
-        1627769934, "tags": ["foo:bar"], "modified_at": 1627769934, "type": "metric"}],
+        "id": "72638755b46c5ac4b42dce2aad337ddb", "name": "example slo", "created_at":
+        1628000209, "tags": ["foo:bar"], "modified_at": 1628000209, "type": "metric"}],
         "error": null}'
     headers:
       Alt-Svc:
@@ -118,7 +113,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:54 GMT
+      - Tue, 03 Aug 2021 14:16:49 GMT
       pragma:
       - no-cache
       vary:
@@ -134,7 +129,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '6'
+      - '11'
     status:
       code: 200
       message: OK

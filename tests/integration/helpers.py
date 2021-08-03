@@ -39,7 +39,9 @@ class BaseResourcesTestClass:
 
         # Disable skipping on resource connection failure
         # From stdout, count the  number of resources to be added and ensure they match the import len()
-        ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}", "--skip-failed-resource-connections=false"])
+        ret = runner.invoke(
+            cli, ["diffs", f"--resources={self.resource_type}", "--skip-failed-resource-connections=false"]
+        )
         assert 0 == ret.exit_code
 
         num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(ret.output))
@@ -76,12 +78,10 @@ class BaseResourcesTestClass:
         assert ret.output
         assert 0 == ret.exit_code
 
-
         # sync the updated resources
         ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
         assert 0 == ret.exit_code
         caplog.clear()
-
 
         # assert diff is no longer produced
         ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])

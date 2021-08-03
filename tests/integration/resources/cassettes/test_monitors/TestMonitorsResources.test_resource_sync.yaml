@@ -1,17 +1,12 @@
 interactions:
 - request:
-    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-      > 50", "message": "Test monitor ----------------", "matching_downtimes": [],
-      "id": 36230659, "multi": false, "name": "Composite monitor - Child 2", "created":
-      "2021-05-30T08:43:37.940520+00:00", "created_at": 1622364217000, "creator":
-      {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod
-      Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id": 569509, "modified":
-      "2021-06-08T18:14:12.441535+00:00", "priority": null, "overall_state_modified":
-      "2021-05-30T08:45:28+00:00", "overall_state": "OK", "type": "metric alert",
-      "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "silenced":
-      {}, "include_tags": true, "no_data_timeframe": null, "require_full_window":
-      true, "new_host_delay": 300, "notify_no_data": false, "renotify_interval": 0,
-      "escalation_message": "", "thresholds": {"critical": 50.0}}}'
+    body: '{"restricted_roles": null, "tags": [], "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
+      > 50", "message": "Test monitor ----------------", "multi": false, "name": "Composite
+      monitor - Child 2", "priority": null, "type": "metric alert", "options": {"notify_audit":
+      false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
+      "no_data_timeframe": null, "require_full_window": true, "new_host_delay": 300,
+      "notify_no_data": false, "renotify_interval": 0, "escalation_message": "", "thresholds":
+      {"critical": 50.0}}}'
     headers:
       Accept:
       - '*/*'
@@ -20,21 +15,21 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '960'
+      - '541'
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50", "message": "Test monitor ----------------", "id": 1714192, "multi":
-        false, "name": "Composite monitor - Child 2", "created": "2021-07-31T22:18:49.701749+00:00",
-        "created_at": 1627769929000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 50", "message": "Test monitor ----------------", "id": 1745142, "multi":
+        false, "name": "Composite monitor - Child 2", "created": "2021-08-03T14:16:43.390357+00:00",
+        "created_at": 1628000203000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-31T22:18:49.701749+00:00", "priority": null, "overall_state_modified":
+        "2021-08-03T14:16:43.390357+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -56,7 +51,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:49 GMT
+      - Tue, 03 Aug 2021 14:16:43 GMT
       pragma:
       - no-cache
       vary:
@@ -72,23 +67,18 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '1'
+      - '7'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-      > 20", "message": "Composite monitor - child 1", "matching_downtimes": [], "id":
-      36239262, "multi": false, "name": "Composite monitor - child 1", "created":
-      "2021-05-30T19:49:11.945913+00:00", "created_at": 1622404151000, "creator":
-      {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod
-      Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id": 569509, "modified":
-      "2021-06-08T18:13:33.317204+00:00", "priority": null, "overall_state_modified":
-      "2021-05-30T19:52:07+00:00", "overall_state": "OK", "type": "metric alert",
-      "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "silenced":
-      {}, "include_tags": true, "no_data_timeframe": null, "require_full_window":
-      true, "new_host_delay": 300, "notify_no_data": false, "renotify_interval": 0,
-      "escalation_message": "", "thresholds": {"critical": 20.0, "warning": 10.0}}}'
+    body: '{"restricted_roles": null, "tags": [], "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
+      > 20", "message": "Composite monitor - child 1", "multi": false, "name": "Composite
+      monitor - child 1", "priority": null, "type": "metric alert", "options": {"notify_audit":
+      false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
+      "no_data_timeframe": null, "require_full_window": true, "new_host_delay": 300,
+      "notify_no_data": false, "renotify_interval": 0, "escalation_message": "", "thresholds":
+      {"critical": 20.0, "warning": 10.0}}}'
     headers:
       Accept:
       - '*/*'
@@ -97,21 +87,21 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '976'
+      - '557'
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-        > 20", "message": "Composite monitor - child 1", "id": 1714193, "multi": false,
-        "name": "Composite monitor - child 1", "created": "2021-07-31T22:18:49.836588+00:00",
-        "created_at": 1627769929000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 20", "message": "Composite monitor - child 1", "id": 1745143, "multi": false,
+        "name": "Composite monitor - child 1", "created": "2021-08-03T14:16:43.622265+00:00",
+        "created_at": 1628000203000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-31T22:18:49.836588+00:00", "priority": null, "overall_state_modified":
+        "2021-08-03T14:16:43.622265+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -133,7 +123,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:49 GMT
+      - Tue, 03 Aug 2021 14:16:43 GMT
       pragma:
       - no-cache
       vary:
@@ -149,22 +139,17 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '1'
+      - '7'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-      "message": "Test host monitor", "matching_downtimes": [], "id": 37284891, "multi":
-      true, "name": "Host monitor", "created": "2021-06-08T18:17:01.656132+00:00",
-      "created_at": 1623176221000, "creator": {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com",
-      "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id":
-      569509, "modified": "2021-06-08T18:30:56.067327+00:00", "priority": null, "overall_state_modified":
-      "2021-06-08T18:18:53+00:00", "overall_state": "No Data", "type": "service check",
-      "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "silenced":
-      {}, "include_tags": true, "thresholds": {"warning": 1, "ok": 1, "critical":
-      1}, "new_host_delay": 300, "notify_no_data": true, "renotify_interval": 0, "no_data_timeframe":
-      2}}'
+    body: '{"restricted_roles": null, "tags": [], "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
+      "message": "Test host monitor", "multi": true, "name": "Host monitor", "priority":
+      null, "type": "service check", "options": {"notify_audit": false, "locked":
+      false, "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds": {"warning":
+      1, "ok": 1, "critical": 1}, "new_host_delay": 300, "notify_no_data": true, "renotify_interval":
+      0, "no_data_timeframe": 2}}'
     headers:
       Accept:
       - '*/*'
@@ -173,20 +158,20 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '916'
+      - '492'
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-        "message": "Test host monitor", "id": 1714194, "multi": true, "name": "Host
-        monitor", "created": "2021-07-31T22:18:49.985024+00:00", "created_at": 1627769929000,
+        "message": "Test host monitor", "id": 1745144, "multi": true, "name": "Host
+        monitor", "created": "2021-08-03T14:16:43.856678+00:00", "created_at": 1628000203000,
         "creator": {"id": 1000219667, "handle": "frog@datadoghq.com", "name": "Frog",
-        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2021-07-31T22:18:49.985024+00:00",
+        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2021-08-03T14:16:43.856678+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "service check", "options": {"notify_audit": false, "locked": false,
         "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds": {"warning":
@@ -208,7 +193,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:50 GMT
+      - Tue, 03 Aug 2021 14:16:43 GMT
       pragma:
       - no-cache
       vary:
@@ -224,24 +209,20 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '1'
+      - '7'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
+    body: '{"restricted_roles": null, "tags": [], "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
       ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60, count_default_zero=''true'')
-      >= 1", "message": "Anomaly monitor", "matching_downtimes": [], "id": 37284965,
-      "multi": false, "name": "Anomaly monitor", "created": "2021-06-08T18:17:53.020925+00:00",
-      "created_at": 1623176273000, "creator": {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com",
-      "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id":
-      569509, "modified": "2021-06-08T18:17:53.020925+00:00", "priority": null, "overall_state_modified":
-      "2021-06-08T18:19:16+00:00", "overall_state": "OK", "type": "query alert", "options":
-      {"notify_audit": false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags":
-      true, "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
-      300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
-      "", "threshold_windows": {"recovery_window": "last_15m", "trigger_window": "last_15m"},
-      "thresholds": {"critical": 1.0, "critical_recovery": 0.0}}}'
+      >= 1", "message": "Anomaly monitor", "multi": false, "name": "Anomaly monitor",
+      "priority": null, "type": "query alert", "options": {"notify_audit": false,
+      "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true, "no_data_timeframe":
+      null, "require_full_window": true, "new_host_delay": 300, "notify_no_data":
+      false, "renotify_interval": 0, "escalation_message": "", "threshold_windows":
+      {"recovery_window": "last_15m", "trigger_window": "last_15m"}, "thresholds":
+      {"critical": 1.0, "critical_recovery": 0.0}}}'
     headers:
       Accept:
       - '*/*'
@@ -250,22 +231,22 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '1149'
+      - '730'
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
         ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
-        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 1714195,
-        "multi": false, "name": "Anomaly monitor", "created": "2021-07-31T22:18:50.149128+00:00",
-        "created_at": 1627769930000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 1745145,
+        "multi": false, "name": "Anomaly monitor", "created": "2021-08-03T14:16:44.083933+00:00",
+        "created_at": 1628000204000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-31T22:18:50.149128+00:00", "priority": null, "overall_state_modified":
+        "2021-08-03T14:16:44.083933+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "query alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -288,7 +269,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:50 GMT
+      - Tue, 03 Aug 2021 14:16:44 GMT
       pragma:
       - no-cache
       vary:
@@ -302,23 +283,19 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '499'
+      - '496'
       x-ratelimit-reset:
-      - '10'
+      - '6'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "( 1714193
-      && 1714192 ) || !1714193", "message": "test", "matching_downtimes": [], "id":
-      36593201, "multi": false, "name": "Composite monitor", "created": "2021-06-03T18:55:48.515861+00:00",
-      "created_at": 1622746548000, "creator": {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com",
-      "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id":
-      569509, "modified": "2021-06-08T18:13:50.284433+00:00", "priority": null, "overall_state_modified":
-      "2021-06-03T18:56:43+00:00", "overall_state": "Alert", "type": "composite",
-      "options": {"notify_audit": false, "locked": false, "silenced": {"env:test":
-      null}, "include_tags": false, "new_host_delay": 300, "notify_no_data": false,
-      "renotify_interval": 0, "escalation_message": ""}}'
+    body: '{"restricted_roles": null, "tags": [], "query": "( 1745143 && 1745142 )
+      || !1745143", "message": "test", "multi": false, "name": "Composite monitor",
+      "priority": null, "type": "composite", "options": {"notify_audit": false, "locked":
+      false, "silenced": {"env:test": null}, "include_tags": false, "new_host_delay":
+      300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
+      ""}}'
     headers:
       Accept:
       - '*/*'
@@ -327,21 +304,21 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '816'
+      - '394'
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "(
-        1714193 && 1714192 ) || !1714193", "message": "test", "id": 1714196, "multi":
-        false, "name": "Composite monitor", "created": "2021-07-31T22:18:50.322750+00:00",
-        "created_at": 1627769930000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        1745143 && 1745142 ) || !1745143", "message": "test", "id": 1745146, "multi":
+        false, "name": "Composite monitor", "created": "2021-08-03T14:16:44.327814+00:00",
+        "created_at": 1628000204000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-07-31T22:18:50.322750+00:00", "priority": null, "overall_state_modified":
+        "2021-08-03T14:16:44.327814+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "composite", "options": {"notify_audit":
         false, "locked": false, "silenced": {"env:test": null}, "include_tags": false,
         "new_host_delay": 300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
@@ -362,7 +339,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:50 GMT
+      - Tue, 03 Aug 2021 14:16:44 GMT
       pragma:
       - no-cache
       vary:
@@ -376,9 +353,9 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '498'
+      - '495'
       x-ratelimit-reset:
-      - '10'
+      - '6'
     status:
       code: 200
       message: OK

@@ -22,6 +22,7 @@ from datadog_sync.utils.configuration import Configuration
 from datadog_sync import constants
 from datadog_sync.utils.configuration import get_resources
 
+
 @pytest.fixture()
 def runner():
     from click.testing import CliRunner
@@ -68,7 +69,11 @@ def disable_recording(request):
 
 
 def get_record_mode():
-    return {"false": "none", "true": "rewrite", "none": "new_episodes",}[os.getenv("RECORD", "false").lower()]
+    return {
+        "false": "none",
+        "true": "rewrite",
+        "none": "new_episodes",
+    }[os.getenv("RECORD", "false").lower()]
 
 
 @pytest.fixture(scope="module")

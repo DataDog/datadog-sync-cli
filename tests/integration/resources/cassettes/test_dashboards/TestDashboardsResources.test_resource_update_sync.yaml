@@ -47,9 +47,9 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/4ez-qs3-kms
+    uri: https://api.datadoghq.eu/api/v1/dashboard/hzb-qpy-qnv
   response:
     body:
       string: '{"notify_list": [], "description": "Created using the Datadog provider
@@ -57,9 +57,9 @@ interactions:
         [{"name": "var_1", "value": "host.dc"}, {"name": "var_2", "value": "my_service"}],
         "name": "preset_1"}], "template_variables": [{"default": "aws", "prefix":
         "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
-        "name": "var_2"}], "is_read_only": false, "id": "4ez-qs3-kms", "title": "Test
-        screenboardUpdated", "url": "/dashboard/4ez-qs3-kms/test-screenboardupdated",
-        "created_at": "2021-07-31T22:18:45.897651+00:00", "modified_at": "2021-07-31T22:18:46.603012+00:00",
+        "name": "var_2"}], "is_read_only": false, "id": "hzb-qpy-qnv", "title": "Test
+        screenboardUpdated", "url": "/dashboard/hzb-qpy-qnv/test-screenboardupdated",
+        "created_at": "2021-08-03T14:16:38.814674+00:00", "modified_at": "2021-08-03T14:16:39.873575+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"title_size":
         "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
         "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout":
@@ -107,7 +107,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:46 GMT
+      - Tue, 03 Aug 2021 14:16:39 GMT
       pragma:
       - no-cache
       vary:
@@ -140,15 +140,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/pz2-ern-y73
+    uri: https://api.datadoghq.eu/api/v1/dashboard/25i-pxu-skq
   response:
     body:
       string: '{"notify_list": [], "description": "", "author_name": "Frog", "template_variables":
-        [], "is_read_only": false, "id": "pz2-ern-y73", "title": "datadog-sync-cli
-        Test DashboardUpdated", "url": "/dashboard/pz2-ern-y73/datadog-sync-cli-test-dashboardupdated",
-        "created_at": "2021-07-31T22:18:46.144824+00:00", "modified_at": "2021-07-31T22:18:46.881988+00:00",
+        [], "is_read_only": false, "id": "25i-pxu-skq", "title": "datadog-sync-cli
+        Test DashboardUpdated", "url": "/dashboard/25i-pxu-skq/datadog-sync-cli-test-dashboardupdated",
+        "created_at": "2021-08-03T14:16:39.189729+00:00", "modified_at": "2021-08-03T14:16:40.267903+00:00",
         "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
         [{"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
         2, "time": {}, "title_size": "16", "requests": [{"response_format": "scalar",
@@ -172,7 +172,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:46 GMT
+      - Tue, 03 Aug 2021 14:16:40 GMT
       pragma:
       - no-cache
       vary:
@@ -203,15 +203,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/6i5-x35-izr
+    uri: https://api.datadoghq.eu/api/v1/dashboard/25r-a5b-c8x
   response:
     body:
       string: '{"notify_list": null, "description": null, "author_name": "Frog", "template_variables":
-        null, "is_read_only": false, "id": "6i5-x35-izr", "title": "{{ unique }} with
-        timeseries widgetUpdated", "url": "/dashboard/6i5-x35-izr/-unique--with-timeseries-widgetupdated",
-        "created_at": "2021-07-31T22:18:46.355240+00:00", "modified_at": "2021-07-31T22:18:47.160730+00:00",
+        null, "is_read_only": false, "id": "25r-a5b-c8x", "title": "{{ unique }} with
+        timeseries widgetUpdated", "url": "/dashboard/25r-a5b-c8x/-unique--with-timeseries-widgetupdated",
+        "created_at": "2021-08-03T14:16:39.477455+00:00", "modified_at": "2021-08-03T14:16:40.622747+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
         [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
         "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
@@ -233,7 +233,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:47 GMT
+      - Tue, 03 Aug 2021 14:16:40 GMT
       pragma:
       - no-cache
       vary:

@@ -11,16 +11,16 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
   response:
     body:
-      string: '{"dashboard_lists": [{"is_favorite": false, "name": "Empty Test List",
+      string: '{"dashboard_lists": [{"is_favorite": true, "name": "Empty Test List",
         "dashboard_count": 0, "author": {"handle": "sherzod.karimov@datadoghq.com",
         "name": "Sherzod Karimov"}, "created": "2021-07-15T14:16:13.319119+00:00",
         "type": "manual_dashboard_list", "dashboards": null, "modified": "2021-07-15T14:16:34.123734+00:00",
-        "id": 221363}, {"is_favorite": false, "name": "Test list", "dashboard_count":
+        "id": 221363}, {"is_favorite": true, "name": "Test list", "dashboard_count":
         2, "author": {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod
         Karimov"}, "created": "2021-06-14T20:10:23.247584+00:00", "type": "manual_dashboard_list",
         "dashboards": null, "modified": "2021-06-24T20:13:00.657023+00:00", "id":
@@ -31,13 +31,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 31 Jul 2021 22:18:43 GMT
+      - Tue, 03 Aug 2021 14:16:36 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '607'
+      - '605'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -65,7 +65,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/dashboard/lists/manual/221363/dashboards
   response:
@@ -77,7 +77,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 31 Jul 2021 22:18:43 GMT
+      - Tue, 03 Aug 2021 14:16:36 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -111,29 +111,29 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/dashboard/lists/manual/213585/dashboards
   response:
     body:
-      string: '{"total": 2, "dashboards": [{"popularity": 5, "title": "Timeboard Tue,
-        Jun 1, 4:18:57 pm", "is_favorite": false, "id": "euw-cp8-hy6", "icon": null,
-        "integration_id": null, "is_shared": false, "author": {"handle": "sherzod.karimov@datadoghq.com",
-        "name": "Sherzod Karimov"}, "url": "/dashboard/euw-cp8-hy6/timeboard-tue-jun-1-41857-pm",
-        "created": "2021-06-01T20:18:57.486260+00:00", "modified": "2021-06-21T17:24:39.527924+00:00",
-        "is_read_only": false, "type": "custom_timeboard"}, {"popularity": 5, "title":
-        "Test screenboard", "is_favorite": false, "id": "dns-jst-h98", "icon": null,
-        "integration_id": null, "is_shared": false, "author": {"handle": "sherzod.karimov@datadoghq.com",
+      string: '{"total": 2, "dashboards": [{"popularity": 5, "title": "Test screenboard",
+        "is_favorite": false, "id": "dns-jst-h98", "icon": null, "integration_id":
+        null, "is_shared": false, "author": {"handle": "sherzod.karimov@datadoghq.com",
         "name": "Sherzod Karimov"}, "url": "/dashboard/dns-jst-h98/test-screenboard",
         "created": "2021-06-08T18:26:23.515662+00:00", "modified": "2021-06-22T19:35:38.981348+00:00",
-        "is_read_only": false, "type": "custom_screenboard"}]}'
+        "is_read_only": false, "type": "custom_screenboard"}, {"popularity": 5, "title":
+        "Timeboard Tue, Jun 1, 4:18:57 pm", "is_favorite": false, "id": "euw-cp8-hy6",
+        "icon": null, "integration_id": null, "is_shared": false, "author": {"handle":
+        "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov"}, "url": "/dashboard/euw-cp8-hy6/timeboard-tue-jun-1-41857-pm",
+        "created": "2021-06-01T20:18:57.486260+00:00", "modified": "2021-06-21T17:24:39.527924+00:00",
+        "is_read_only": false, "type": "custom_timeboard"}]}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Sat, 31 Jul 2021 22:18:44 GMT
+      - Tue, 03 Aug 2021 14:16:36 GMT
       Transfer-Encoding:
       - chunked
       cache-control:

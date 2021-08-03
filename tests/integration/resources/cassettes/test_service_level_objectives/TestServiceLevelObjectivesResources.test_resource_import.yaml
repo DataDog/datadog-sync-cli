@@ -11,7 +11,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/slo
   response:
@@ -56,7 +56,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 31 Jul 2021 22:18:53 GMT
+      - Tue, 03 Aug 2021 14:16:48 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -82,7 +82,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '7'
+      - '2'
     status:
       code: 200
       message: OK
