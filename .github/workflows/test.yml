@@ -44,10 +44,10 @@ jobs:
             - name: Install datadog-sync-cli
               run: pip install .\[apm,tests\]
             - name: Run unit tests
-              run: pytest --record-mode=none -ra -v
+              run: pytest -ra -v
             - name: Run integration tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
-              run: pytest --disable-recording -ra -v -m "integration"
+              run: pytest -ra -v -m "integration"
               env:
                   DD_AGENT_HOST: localhost
                   DD_ENV: ci
