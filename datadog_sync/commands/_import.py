@@ -16,7 +16,6 @@ from datadog_sync.utils.resources_handler import import_resources
 @command("import", short_help="Import Datadog resources.")
 @source_auth_options
 @common_options
-@option("--filter", required=False, help="Filter imported resources.", multiple=True)
 def _import(**kwargs):
     """Import Datadog resources."""
     cfg = build_config(**kwargs)

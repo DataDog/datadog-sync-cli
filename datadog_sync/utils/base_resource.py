@@ -91,8 +91,13 @@ class BaseResource(abc.ABC):
     def import_resources(self) -> None:
         get_resp = self.get_resources(self.config.source_client)
 
+        max_workers = 1 if not self.resource_config.concurrent else self.config.max_workers
+        futures = []
         with thread_pool_executor(self.config.max_workers) as executor:
-            futures = [executor.submit(self.import_resource, r) for r in get_resp]
+            for r in get_resp:
+                if not self.filter(r):
+                    continue
+                futures.append(executor.submit(self.import_resource, r))
 
         for future in futures:
             try:
@@ -113,13 +118,13 @@ class BaseResource(abc.ABC):
                 for r_list in resources_list:
                     for _id, resource in r_list.items():
                         if not self.filter(resource):
-                            return
+                            continue
                         futures.append(executor.submit(self.apply_resource, _id, resource))
                     wait(futures)
             else:
                 for _id, resource in self.resource_config.source_resources.items():
                     if not self.filter(resource):
-                        return
+                        continue
                     futures.append(executor.submit(self.apply_resource, _id, resource))
 
         for future in futures:
@@ -135,6 +140,8 @@ class BaseResource(abc.ABC):
 
     def check_diffs(self):
         for _id, resource in self.resource_config.source_resources.items():
+            if not self.filter(resource):
+                continue
             self.pre_resource_action_hook(resource)
 
             try:
