@@ -25,8 +25,7 @@ class Downtimes(BaseResource):
         try:
             resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.config.logger.error("error importing downtimes %s", e)
-            return []
+            raise e
 
         return resp
 
@@ -45,8 +44,7 @@ class Downtimes(BaseResource):
         try:
             resp = destination_client.post(self.resource_config.base_path, resource).json()
         except HTTPError as e:
-            self.config.logger.error("error creating downtime: %s", e.response.text)
-            return
+            raise e
 
         self.resource_config.destination_resources[_id] = resp
 
@@ -57,8 +55,7 @@ class Downtimes(BaseResource):
                 self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
             ).json()
         except HTTPError as e:
-            self.config.logger.error("error creating downtime: %s", e.response.text)
-            return
+            raise e
 
         self.resource_config.destination_resources[_id] = resp
 

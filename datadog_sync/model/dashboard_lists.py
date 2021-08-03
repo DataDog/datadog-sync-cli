@@ -27,8 +27,7 @@ class DashboardLists(BaseResource):
         try:
             resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.config.logger.error("error importing dashboard_lists %s", e)
-            return []
+            raise e
 
         return resp["dashboard_lists"]
 
@@ -63,8 +62,8 @@ class DashboardLists(BaseResource):
         try:
             resp = destination_client.post(self.resource_config.base_path, resource).json()
         except HTTPError as e:
-            self.config.logger.error("error creating dashboard_list: %s", e.response.text)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id] = resp
         self.update_dash_list_items(resp["id"], dashboards, resp)
 
@@ -81,8 +80,7 @@ class DashboardLists(BaseResource):
                 self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
             ).json()
         except HTTPError as e:
-            self.config.logger.error("error creating dashboard_list: %s", e.response.text)
-            return
+            raise e
 
         resp.pop("dashboards")
         self.resource_config.destination_resources[_id].update(resp)

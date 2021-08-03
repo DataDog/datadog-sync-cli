@@ -33,8 +33,7 @@ class SyntheticsTests(BaseResource):
         try:
             resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.config.logger.error("error importing synthetics_tests: %s", e)
-            return []
+            raise e
 
         return resp["tests"]
 
@@ -53,8 +52,8 @@ class SyntheticsTests(BaseResource):
         try:
             resp = destination_client.post(self.resource_config.base_path, resource).json()
         except HTTPError as e:
-            self.config.logger.error("error creating synthetics_test: %s", e.response.text)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id] = resp
 
     def update_resource(self, _id: str, resource: Dict) -> None:
@@ -66,8 +65,8 @@ class SyntheticsTests(BaseResource):
                 resource,
             ).json()
         except HTTPError as e:
-            self.config.logger.error("error creating synthetics_test: %s", e.response.text)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id] = resp
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:

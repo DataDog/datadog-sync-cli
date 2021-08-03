@@ -24,8 +24,7 @@ class IntegrationsAWS(BaseResource):
         try:
             resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.config.logger.error("error importing integrations_aws %s", e)
-            return []
+            raise e
 
         return resp["accounts"]
 
@@ -44,8 +43,7 @@ class IntegrationsAWS(BaseResource):
             resp = destination_client.post(self.resource_config.base_path, resource).json()
             data = destination_client.get(self.resource_config.base_path, params={"account_id": _id}).json()
         except HTTPError as e:
-            self.config.logger.error("error creating integration_aws: %s", e.response.text)
-            return
+            raise e
 
         if "accounts" in data:
             resp.update(data["accounts"][0])
@@ -63,8 +61,8 @@ class IntegrationsAWS(BaseResource):
                 params={"account_id": account_id, "role_name": resource["role_name"]},
             ).json()
         except HTTPError as e:
-            self.config.logger.error("error updating integration_aws: %s", e.response.text)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id].update(resource)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:

@@ -24,8 +24,7 @@ class ServiceLevelObjectives(BaseResource):
         try:
             resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.config.logger.error("error importing slo %s", e)
-            return []
+            raise e
 
         return resp["data"]
 
@@ -44,8 +43,7 @@ class ServiceLevelObjectives(BaseResource):
         try:
             resp = destination_client.post(self.resource_config.base_path, resource).json()
         except HTTPError as e:
-            self.config.logger.error("error creating slo: %s", e.response.text)
-            return
+            raise e
 
         self.resource_config.destination_resources[_id] = resp["data"][0]
 
@@ -57,8 +55,8 @@ class ServiceLevelObjectives(BaseResource):
                 self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
             ).json()
         except HTTPError as e:
-            self.config.logger.error("error creating slo: %s", e.response.text)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id] = resp["data"][0]
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:

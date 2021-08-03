@@ -92,7 +92,12 @@ class BaseResource(abc.ABC):
         # reset source resources obj
         self.resource_config.source_resources.clear()
 
-        get_resp = self.get_resources(self.config.source_client)
+        try:
+            get_resp = self.get_resources(self.config.source_client)
+        except Exception as e:
+            self.config.logger.error(f"error while importing resources {self.resource_type}: {str(e)}")
+            return
+
         futures = []
         with thread_pool_executor(self.config.max_workers) as executor:
             for r in get_resp:
@@ -110,10 +115,15 @@ class BaseResource(abc.ABC):
 
     def apply_resources(self) -> None:
         max_workers = 1 if not self.resource_config.concurrent else self.config.max_workers
-        # Run pre-apply hook with the resources
-        resources_list = self.pre_apply_hook(self.resource_config.source_resources)
-        futures = []
 
+        # Run pre-apply hook with the resources
+        try:
+            resources_list = self.pre_apply_hook(self.resource_config.source_resources)
+        except Exception as e:
+            self.config.logger.error(f"error while applying resources {self.resource_type}: {str(e)}")
+            return
+
+        futures = []
         with thread_pool_executor(max_workers) as executor:
             if resources_list:
                 for r_list in resources_list:
@@ -143,6 +153,7 @@ class BaseResource(abc.ABC):
         for _id, resource in self.resource_config.source_resources.items():
             if not self.filter(resource):
                 continue
+
             self.pre_resource_action_hook(resource)
 
             try:
@@ -165,10 +176,16 @@ class BaseResource(abc.ABC):
             diff = check_diff(self.resource_config, resource, self.resource_config.destination_resources[_id])
             if diff:
                 prep_resource(self.resource_config, resource)
-                self.update_resource(_id, resource)
+                try:
+                    self.update_resource(_id, resource)
+                except Exception as e:
+                    self.config.logger.error(f"error while updating resource {self.resource_type}. Error: {str(e)}")
         else:
             prep_resource(self.resource_config, resource)
-            self.create_resource(_id, resource)
+            try:
+                self.create_resource(_id, resource)
+            except Exception as e:
+                self.config.logger.error(f"error while creating resource {self.resource_type}. Error: {str(e)}")
 
     def connect_resources(self, _id: str, resource: Dict) -> None:
         if not self.resource_config.resource_connections:

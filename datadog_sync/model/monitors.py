@@ -37,14 +37,14 @@ class Monitors(BaseResource):
         try:
             resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.config.logger.error("error importing monitors %s", e)
-            return []
+            raise e
 
         return resp
 
     def import_resource(self, resource: Dict) -> None:
         if resource["type"] == "synthetics alert":
             return
+
         self.resource_config.source_resources[str(resource["id"])] = resource
 
     def pre_resource_action_hook(self, resource: Dict) -> None:
@@ -67,8 +67,8 @@ class Monitors(BaseResource):
         try:
             resp = destination_client.post(self.resource_config.base_path, resource).json()
         except HTTPError as e:
-            self.config.logger.error("error creating monitor: %s", e.response.text)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id] = resp
 
     def update_resource(self, _id: str, resource: Dict) -> None:
@@ -79,8 +79,8 @@ class Monitors(BaseResource):
                 self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
             ).json()
         except HTTPError as e:
-            self.config.logger.error("error creating monitor: %s", e.response.text)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id] = resp
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:

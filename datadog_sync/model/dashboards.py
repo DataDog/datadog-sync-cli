@@ -28,8 +28,7 @@ class Dashboards(BaseResource):
         try:
             resp = client.get(self.resource_config.base_path).json()
         except HTTPError as e:
-            self.config.logger.error("error importing dashboards %s", e)
-            return []
+            raise e
 
         return resp["dashboards"]
 
@@ -38,8 +37,7 @@ class Dashboards(BaseResource):
         try:
             dashboard = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
         except HTTPError as e:
-            self.config.logger.error("error retrieving dashboard: %s", e)
-            return
+            raise e
 
         self.resource_config.source_resources[resource["id"]] = dashboard
 
@@ -55,8 +53,8 @@ class Dashboards(BaseResource):
         try:
             resp = destination_client.post(self.resource_config.base_path, resource).json()
         except HTTPError as e:
-            self.config.logger.error("error creating dashboard: %s", e)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id] = resp
 
     def update_resource(self, _id: str, resource: Dict) -> None:
@@ -67,8 +65,8 @@ class Dashboards(BaseResource):
                 self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
             ).json()
         except HTTPError as e:
-            self.config.logger.error("error updating dashboard: %s", e)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id] = resp
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:

@@ -26,8 +26,7 @@ class SyntheticsPrivateLocations(BaseResource):
         try:
             resp = client.get(self.base_locations_path).json()
         except HTTPError as e:
-            self.config.logger.error("error importing synthetics_private_locations: %s", e)
-            return []
+            raise e
 
         return resp["locations"]
 
@@ -37,12 +36,8 @@ class SyntheticsPrivateLocations(BaseResource):
             try:
                 pl = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
             except HTTPError as e:
-                self.config.logger.error(
-                    "error getting synthetics_private_location %s: %s",
-                    resource["id"],
-                    e.response.text,
-                )
-                return None
+                raise e
+
             self.resource_config.source_resources[resource["id"]] = pl
 
     def pre_resource_action_hook(self, resource: Dict) -> None:
@@ -57,8 +52,8 @@ class SyntheticsPrivateLocations(BaseResource):
         try:
             resp = destination_client.post(self.resource_config.base_path, resource).json()["private_location"]
         except HTTPError as e:
-            self.config.logger.error("error creating synthetics_private_location: %s", e.response.text)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id] = resp
 
     def update_resource(self, _id: str, resource: Dict) -> None:
@@ -69,8 +64,8 @@ class SyntheticsPrivateLocations(BaseResource):
                 self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
             ).json()
         except HTTPError as e:
-            self.config.logger.error("error creating synthetics_private_location: %s", e.response.text)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id].update(resp)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:

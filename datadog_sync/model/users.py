@@ -39,8 +39,7 @@ class Users(BaseResource):
         try:
             resp = paginated_request(client.get)(self.resource_config.base_path)
         except HTTPError as e:
-            self.config.logger.error("Error while importing Users resource: %s", e)
-            return []
+            raise e
 
         return resp
 
@@ -71,8 +70,7 @@ class Users(BaseResource):
         try:
             resp = destination_client.post(self.resource_config.base_path, {"data": resource})
         except HTTPError as e:
-            self.config.logger.error("error creating user: %s", e)
-            return
+            raise e
 
         self.resource_config.destination_resources[_id] = resp.json()["data"]
 
@@ -91,8 +89,8 @@ class Users(BaseResource):
                     {"data": resource},
                 )
             except HTTPError as e:
-                self.config.logger.error("error updating user: %s, %s", e.response.json())
-                return
+                raise e
+
             self.resource_config.destination_resources[_id] = resp.json()["data"]
 
     def connect_id(self, key, r_obj, resource_to_connect):

@@ -29,8 +29,7 @@ class Roles(BaseResource):
         try:
             resp = paginated_request(client.get)(self.resource_config.base_path)
         except HTTPError as e:
-            self.config.logger.error("error importing roles: %s", e.response.text)
-            return []
+            raise e
 
         return resp
 
@@ -59,8 +58,8 @@ class Roles(BaseResource):
         try:
             resp = destination_client.post(self.resource_config.base_path, payload)
         except HTTPError as e:
-            self.config.logger.error("error creating role: %s", e.response.text)
-            return
+            raise e
+
         self.resource_config.destination_resources[_id] = resp.json()["data"]
 
     def update_resource(self, _id: str, resource: Dict) -> None:
@@ -72,8 +71,7 @@ class Roles(BaseResource):
                 self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", payload
             )
         except HTTPError as e:
-            self.config.logger.error("error updating role: %s", e.response.text)
-            return
+            raise e
 
         self.resource_config.destination_resources[_id] = resp.json()["data"]
 
