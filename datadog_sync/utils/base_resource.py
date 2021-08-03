@@ -89,6 +89,9 @@ class BaseResource(abc.ABC):
             raise ResourceConnectionError(resource_to_connect, _id=_id)
 
     def import_resources(self) -> None:
+        # reset source resources obj
+        self.resource_config.source_resources.clear()
+
         get_resp = self.get_resources(self.config.source_client)
 
         max_workers = 1 if not self.resource_config.concurrent else self.config.max_workers
