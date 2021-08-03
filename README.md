@@ -39,7 +39,7 @@ Options:
                                               import. All supported resources are imported
                                               by default.
   -v, --verbose                               Enable verbose logging.
-  --filter TEXT                               Filter imported resources. See [Filtering] section for more details. [import only]
+  --filter TEXT                               Filter imported resources. See [Filtering] section for more details.
   --config FILE                               Read configuration from FILE. See [Config] section for more details.
   --max-workers INTEGER                       Max number of workers when running
                                               operations in multi-threads. Defaults to the number of processors on the machine, multiplied by 5.
