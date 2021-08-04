@@ -59,13 +59,9 @@ class Roles(BaseResource):
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
         payload = {"data": resource}
-
-        try:
-            resp = destination_client.patch(
-                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", payload
-            )
-        except HTTPError as e:
-            raise e
+        resp = destination_client.patch(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", payload
+        )
 
         self.resource_config.destination_resources[_id] = resp.json()["data"]
 
