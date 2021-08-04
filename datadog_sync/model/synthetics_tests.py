@@ -5,8 +5,6 @@
 
 from typing import Optional, List, Dict
 
-from requests.exceptions import HTTPError
-
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import ResourceConnectionError

@@ -5,7 +5,6 @@
 
 import re
 
-from requests.exceptions import HTTPError
 from typing import List, Dict, Optional
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
