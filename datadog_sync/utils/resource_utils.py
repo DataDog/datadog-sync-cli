@@ -19,9 +19,6 @@ log = logging.getLogger(LOGGER_NAME)
 
 class ResourceConnectionError(Exception):
     def __init__(self, resource_type, _id=None):
-        resource_type = resource_type
-        _id = _id
-
         super(ResourceConnectionError, self).__init__(
             f"Failed to connect resource. Import and sync resource: {resource_type} {'with ID: ' + _id if _id else ''}"
         )
