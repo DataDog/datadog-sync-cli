@@ -6,8 +6,6 @@
 import re
 from typing import Optional, List, Dict
 
-from requests.exceptions import HTTPError
-
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import ResourceConnectionError
@@ -34,10 +32,7 @@ class Monitors(BaseResource):
     # Additional Monitors specific attributes
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        try:
-            resp = client.get(self.resource_config.base_path).json()
-        except HTTPError as e:
-            raise e
+        resp = client.get(self.resource_config.base_path).json()
 
         return resp
 
@@ -63,23 +58,15 @@ class Monitors(BaseResource):
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-
-        try:
-            resp = destination_client.post(self.resource_config.base_path, resource).json()
-        except HTTPError as e:
-            raise e
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
 
         self.resource_config.destination_resources[_id] = resp
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-
-        try:
-            resp = destination_client.put(
-                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
-            ).json()
-        except HTTPError as e:
-            raise e
+        resp = destination_client.put(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+        ).json()
 
         self.resource_config.destination_resources[_id] = resp
 

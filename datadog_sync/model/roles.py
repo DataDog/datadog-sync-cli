@@ -26,10 +26,7 @@ class Roles(BaseResource):
     permissions_base_path = "/api/v2/permissions"
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        try:
-            resp = paginated_request(client.get)(self.resource_config.base_path)
-        except HTTPError as e:
-            raise e
+        resp = paginated_request(client.get)(self.resource_config.base_path)
 
         return resp
 
@@ -55,10 +52,7 @@ class Roles(BaseResource):
 
         destination_client = self.config.destination_client
         payload = {"data": resource}
-        try:
-            resp = destination_client.post(self.resource_config.base_path, payload)
-        except HTTPError as e:
-            raise e
+        resp = destination_client.post(self.resource_config.base_path, payload)
 
         self.resource_config.destination_resources[_id] = resp.json()["data"]
 

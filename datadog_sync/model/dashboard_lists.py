@@ -24,10 +24,7 @@ class DashboardLists(BaseResource):
     dash_list_items_path = "/api/v2/dashboard/lists/manual/{}/dashboards"
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        try:
-            resp = client.get(self.resource_config.base_path).json()
-        except HTTPError as e:
-            raise e
+        resp = client.get(self.resource_config.base_path).json()
 
         return resp["dashboard_lists"]
 
@@ -58,11 +55,7 @@ class DashboardLists(BaseResource):
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(resource["dashboards"])
         resource.pop("dashboards")
-
-        try:
-            resp = destination_client.post(self.resource_config.base_path, resource).json()
-        except HTTPError as e:
-            raise e
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
 
         self.resource_config.destination_resources[_id] = resp
         self.update_dash_list_items(resp["id"], dashboards, resp)
@@ -75,12 +68,9 @@ class DashboardLists(BaseResource):
         )
         resource.pop("dashboards")
 
-        try:
-            resp = destination_client.put(
-                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
-            ).json()
-        except HTTPError as e:
-            raise e
+        resp = destination_client.put(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+        ).json()
 
         resp.pop("dashboards")
         self.resource_config.destination_resources[_id].update(resp)

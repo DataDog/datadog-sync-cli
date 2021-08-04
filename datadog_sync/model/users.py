@@ -36,10 +36,7 @@ class Users(BaseResource):
     remote_destination_users: Dict[str, Dict] = dict()
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        try:
-            resp = paginated_request(client.get)(self.resource_config.base_path)
-        except HTTPError as e:
-            raise e
+        resp = paginated_request(client.get)(self.resource_config.base_path)
 
         return resp
 
@@ -67,10 +64,7 @@ class Users(BaseResource):
 
         destination_client = self.config.destination_client
         resource["attributes"].pop("disabled", None)
-        try:
-            resp = destination_client.post(self.resource_config.base_path, {"data": resource})
-        except HTTPError as e:
-            raise e
+        resp = destination_client.post(self.resource_config.base_path, {"data": resource})
 
         self.resource_config.destination_resources[_id] = resp.json()["data"]
 
@@ -82,14 +76,10 @@ class Users(BaseResource):
             self.update_user_roles(self.resource_config.destination_resources[_id]["id"], diff)
             resource["id"] = self.resource_config.destination_resources[_id]["id"]
             resource.pop("relationships", None)
-
-            try:
-                resp = destination_client.patch(
-                    self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
-                    {"data": resource},
-                )
-            except HTTPError as e:
-                raise e
+            resp = destination_client.patch(
+                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
+                {"data": resource},
+            )
 
             self.resource_config.destination_resources[_id] = resp.json()["data"]
 

@@ -25,19 +25,13 @@ class Dashboards(BaseResource):
     # Additional Dashboards specific attributes
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        try:
-            resp = client.get(self.resource_config.base_path).json()
-        except HTTPError as e:
-            raise e
+        resp = client.get(self.resource_config.base_path).json()
 
         return resp["dashboards"]
 
     def import_resource(self, resource: Dict) -> None:
         source_client = self.config.source_client
-        try:
-            dashboard = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
-        except HTTPError as e:
-            raise e
+        dashboard = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
 
         self.resource_config.source_resources[resource["id"]] = dashboard
 
@@ -49,23 +43,15 @@ class Dashboards(BaseResource):
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-
-        try:
-            resp = destination_client.post(self.resource_config.base_path, resource).json()
-        except HTTPError as e:
-            raise e
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
 
         self.resource_config.destination_resources[_id] = resp
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-
-        try:
-            resp = destination_client.put(
-                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
-            ).json()
-        except HTTPError as e:
-            raise e
+        resp = destination_client.put(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+        ).json()
 
         self.resource_config.destination_resources[_id] = resp
 

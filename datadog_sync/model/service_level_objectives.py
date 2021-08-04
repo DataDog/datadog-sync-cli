@@ -21,10 +21,7 @@ class ServiceLevelObjectives(BaseResource):
     # Additional ServiceLevelObjectives specific attributes
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        try:
-            resp = client.get(self.resource_config.base_path).json()
-        except HTTPError as e:
-            raise e
+        resp = client.get(self.resource_config.base_path).json()
 
         return resp["data"]
 
@@ -39,23 +36,15 @@ class ServiceLevelObjectives(BaseResource):
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-
-        try:
-            resp = destination_client.post(self.resource_config.base_path, resource).json()
-        except HTTPError as e:
-            raise e
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
 
         self.resource_config.destination_resources[_id] = resp["data"][0]
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-
-        try:
-            resp = destination_client.put(
-                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
-            ).json()
-        except HTTPError as e:
-            raise e
+        resp = destination_client.put(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+        ).json()
 
         self.resource_config.destination_resources[_id] = resp["data"][0]
 

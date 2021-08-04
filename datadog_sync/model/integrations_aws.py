@@ -21,10 +21,7 @@ class IntegrationsAWS(BaseResource):
     # Additional LogsCustomPipelines specific attributes
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        try:
-            resp = client.get(self.resource_config.base_path).json()
-        except HTTPError as e:
-            raise e
+        resp = client.get(self.resource_config.base_path).json()
 
         return resp["accounts"]
 
@@ -39,12 +36,8 @@ class IntegrationsAWS(BaseResource):
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        try:
-            resp = destination_client.post(self.resource_config.base_path, resource).json()
-            data = destination_client.get(self.resource_config.base_path, params={"account_id": _id}).json()
-        except HTTPError as e:
-            raise e
-
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
+        data = destination_client.get(self.resource_config.base_path, params={"account_id": _id}).json()
         if "accounts" in data:
             resp.update(data["accounts"][0])
 
@@ -52,16 +45,12 @@ class IntegrationsAWS(BaseResource):
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-
         account_id = resource.pop("account_id", None)
-        try:
-            destination_client.put(
-                self.resource_config.base_path,
-                resource,
-                params={"account_id": account_id, "role_name": resource["role_name"]},
-            ).json()
-        except HTTPError as e:
-            raise e
+        destination_client.put(
+            self.resource_config.base_path,
+            resource,
+            params={"account_id": account_id, "role_name": resource["role_name"]},
+        ).json()
 
         self.resource_config.destination_resources[_id].update(resource)
 
