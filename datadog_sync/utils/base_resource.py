@@ -123,20 +123,16 @@ class BaseResource(abc.ABC):
             self.config.logger.error(f"error while applying resources {self.resource_type}: {str(e)}")
             return
 
+        if not resources_list:
+            resources_list = [self.resource_config.source_resources]
         futures = []
         with thread_pool_executor(max_workers) as executor:
-            if resources_list:
-                for r_list in resources_list:
-                    for _id, resource in r_list.items():
-                        if not self.filter(resource):
-                            continue
-                        futures.append(executor.submit(self.apply_resource, _id, resource))
-                    wait(futures)
-            else:
-                for _id, resource in self.resource_config.source_resources.items():
+            for r_list in resources_list:
+                for _id, resource in r_list.items():
                     if not self.filter(resource):
                         continue
                     futures.append(executor.submit(self.apply_resource, _id, resource))
+                wait(futures)
 
         for future in futures:
             try:
