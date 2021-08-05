@@ -3,83 +3,55 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from requests.exceptions import HTTPError
+from typing import Optional, List, Dict
 
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import CustomClient
 
 
 class Dashboards(BaseResource):
     resource_type = "dashboards"
-    resource_connections = {
-        "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
-        "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
-        "roles": ["restricted_roles"],
-    }
-    base_path = "/api/v1/dashboard"
-    excluded_attributes = [
-        "root['id']",
-        "root['author_handle']",
-        "root['author_name']",
-        "root['url']",
-        "root['created_at']",
-        "root['modified_at']",
-    ]
+    resource_config = ResourceConfig(
+        resource_connections={
+            "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
+            "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
+            "roles": ["restricted_roles"],
+        },
+        base_path="/api/v1/dashboard",
+        excluded_attributes=["id", "author_handle", "author_name", "url", "created_at", "modified_at"],
+    )
+    # Additional Dashboards specific attributes
 
-    def import_resources(self):
+    def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = client.get(self.resource_config.base_path).json()
+
+        return resp["dashboards"]
+
+    def import_resource(self, resource: Dict) -> None:
         source_client = self.config.source_client
+        dashboard = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
 
-        try:
-            resp = source_client.get(self.base_path).json()
-        except HTTPError as e:
-            self.logger.error("error importing dashboards %s", e)
-            return
+        self.resource_config.source_resources[resource["id"]] = dashboard
 
-        self.import_resources_concurrently(resp["dashboards"])
+    def pre_resource_action_hook(self, resource: Dict) -> None:
+        pass
 
-    def process_resource_import(self, dash):
-        if not self.filter(dash):
-            return
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+        pass
 
-        source_client = self.config.source_client
-        try:
-            dashboard = source_client.get(self.base_path + f"/{dash['id']}").json()
-        except HTTPError as e:
-            self.logger.error("error retrieving dashboard: %s", e)
-            return
-        self.source_resources[dash["id"]] = dashboard
-
-    def apply_resources(self):
-        self.apply_resources_concurrently()
-
-    def prepare_resource_and_apply(self, _id, dashboard):
-        self.connect_resources(_id, dashboard)
-        self.remove_excluded_attr(dashboard)
-
-        if _id in self.destination_resources:
-            self.update_resource(_id, dashboard)
-        else:
-            self.create_resource(_id, dashboard)
-
-    def create_resource(self, _id, dashboard):
+    def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
 
-        try:
-            resp = destination_client.post(self.base_path, dashboard).json()
-        except HTTPError as e:
-            self.logger.error("error creating dashboard: %s", e)
-            return
-        self.destination_resources[_id] = resp
+        self.resource_config.destination_resources[_id] = resp
 
-    def update_resource(self, _id, dashboard):
+    def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
+        resp = destination_client.put(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+        ).json()
 
-        diff = self.check_diff(dashboard, self.destination_resources[_id])
-        if diff:
-            try:
-                resp = destination_client.put(
-                    self.base_path + f"/{self.destination_resources[_id]['id']}", dashboard
-                ).json()
-            except HTTPError as e:
-                self.logger.error("error updating dashboard: %s", e)
-                return
-            self.destination_resources[_id] = resp
+        self.resource_config.destination_resources[_id] = resp
+
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+        super(Dashboards, self).connect_id(key, r_obj, resource_to_connect)

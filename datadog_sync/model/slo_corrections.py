@@ -3,67 +3,50 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from requests.exceptions import HTTPError
-from datadog_sync.utils.base_resource import BaseResource
+from typing import Optional, List, Dict
+
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import CustomClient
 
 
 class SLOCorrections(BaseResource):
     resource_type = "slo_corrections"
-    resource_connections = {"service_level_objectives": ["attributes.slo_id"]}
-    base_path = "/api/v1/slo/correction"
-    excluded_attributes = ["root['id']", "root['attributes']['creator']"]
+    resource_config = ResourceConfig(
+        resource_connections={"service_level_objectives": ["attributes.slo_id"]},
+        base_path="/api/v1/slo/correction",
+        excluded_attributes=["id", "attributes.creator"],
+    )
+    # Additional SLOCorrections specific attributes
 
-    def import_resources(self):
-        source_client = self.config.source_client
+    def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = client.get(self.resource_config.base_path).json()
 
-        try:
-            resp = source_client.get(self.base_path).json()
-        except HTTPError as e:
-            self.logger.error("error importing slo_correction %s", e)
-            return
+        return resp["data"]
 
-        self.import_resources_concurrently(resp["data"])
+    def import_resource(self, resource: Dict) -> None:
+        self.resource_config.source_resources[resource["id"]] = resource
 
-    def process_resource_import(self, slo_correction):
-        self.source_resources[slo_correction["id"]] = slo_correction
+    def pre_resource_action_hook(self, resource: Dict) -> None:
+        pass
 
-    def apply_resources(self):
-        self.logger.info("Processing slo_corrections")
-        self.apply_resources_concurrently()
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+        pass
 
-    def prepare_resource_and_apply(self, _id, slo_correction):
-        self.connect_resources(_id, slo_correction)
-        self.remove_excluded_attr(slo_correction)
-
-        if _id in self.destination_resources:
-            self.update_resource(_id, slo_correction)
-        else:
-            self.create_resource(_id, slo_correction)
-
-    def create_resource(self, _id, slo_correction):
+    def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
+        payload = {"data": resource}
+        resp = destination_client.post(self.resource_config.base_path, payload).json()
 
-        payload = {"data": slo_correction}
+        self.resource_config.destination_resources[_id] = resp["data"]
 
-        try:
-            resp = destination_client.post(self.base_path, payload).json()
-        except HTTPError as e:
-            self.logger.error("error creating slo_correction: %s", e.response.text)
-            return
-
-        self.destination_resources[_id] = resp["data"]
-
-    def update_resource(self, _id, slo_correction):
+    def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
+        payload = {"data": resource}
+        resp = destination_client.patch(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", payload
+        ).json()
 
-        diff = self.check_diff(slo_correction, self.destination_resources[_id])
-        if diff:
-            try:
-                payload = {"data": slo_correction}
-                resp = destination_client.patch(
-                    self.base_path + f"/{self.destination_resources[_id]['id']}", payload
-                ).json()
-            except HTTPError as e:
-                self.logger.error("error updating slo_correction: %s", e.response.text)
-                return
-            self.destination_resources[_id] = resp["data"]
+        self.resource_config.destination_resources[_id] = resp["data"]
+
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+        super(SLOCorrections, self).connect_id(key, r_obj, resource_to_connect)

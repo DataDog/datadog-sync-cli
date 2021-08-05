@@ -3,181 +3,83 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-import os
-import json
-import re
+import abc
+from dataclasses import dataclass, field
+from concurrent.futures import wait
 from pprint import pformat
-
-from deepdiff import DeepDiff
-
-from datadog_sync.constants import RESOURCE_FILE_PATH
-from datadog_sync.utils.resource_utils import find_attr, thread_pool_executor, ResourceConnectionError
+from typing import Optional, Dict, List
 
 
-class BaseResource:
-    resource_type = None
-    resource_connections = None
-    base_path = None
-    non_nullable_attr = None
-    resource_filter = None
-    excluded_attributes = None
-    excluded_attributes_re = None
+from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
+from datadog_sync.utils.custom_client import CustomClient
+from datadog_sync.utils.resource_utils import (
+    open_resources,
+    write_resources_file,
+    find_attr,
+    ResourceConnectionError,
+    thread_pool_executor,
+    check_diff,
+    prep_resource,
+)
+
+
+@dataclass
+class ResourceConfig:
+    base_path: str
+    resource_connections: Optional[Dict[str, List[str]]] = None
+    non_nullable_attr: Optional[List[str]] = None
+    excluded_attributes: Optional[List[str]] = None
+    excluded_attributes_re: Optional[List[str]] = None
+    concurrent: bool = True
+    source_resources: dict = field(default_factory=dict)
+    destination_resources: dict = field(default_factory=dict)
+
+    def __post_init__(self):
+        self.build_excluded_attributes()
+
+    def build_excluded_attributes(self):
+        if self.excluded_attributes:
+            for i, attr in enumerate(self.excluded_attributes):
+                self.excluded_attributes[i] = "root" + "".join(["['{}']".format(v) for v in attr.split(".")])
+
+
+class BaseResource(abc.ABC):
+    resource_type: str
+    resource_config: ResourceConfig
 
     def __init__(self, config):
         self.config = config
-        self.logger = config.logger
-        self.source_resources = dict()
-        self.destination_resources = dict()
-        # Load in resources on initialization
-        self.open_resources()
-
-    def import_resources(self):
-        pass
-
-    def import_resources_concurrently(self, resources):
-        with thread_pool_executor(self.config.max_workers) as executor:
-            futures = [executor.submit(self.process_resource_import, resource) for resource in resources]
-            for future in futures:
-                try:
-                    future.result()
-                except Exception as e:
-                    self.logger.error(f"error while importing resource {self.resource_type}: {str(e)}")
-
-    def process_resource_import(self, *args):
-        pass
-
-    def remove_excluded_attr(self, resource):
-        if self.excluded_attributes:
-            for key in self.excluded_attributes:
-                k_list = re.findall("\\['(.*?)'\\]", key)
-                self.del_attr(k_list, resource)
-
-    def prepare_resource_and_apply(self, *args, **kwargs):
-        pass
-
-    def del_attr(self, k_list, resource):
-        if len(k_list) == 1:
-            resource.pop(k_list[0], None)
-        else:
-            self.del_attr(k_list[1:], resource[k_list[0]])
-
-    def del_null_attr(self, k_list, resource):
-        if len(k_list) == 1 and resource[k_list[0]] is None:
-            resource.pop(k_list[0], None)
-        elif len(k_list) > 1 and resource[k_list[0]] is not None:
-            self.del_null_attr(k_list[1:], resource[k_list[0]])
-
-    def check_diff(self, resource, state):
-        return DeepDiff(
-            resource,
-            state,
-            ignore_order=True,
-            exclude_paths=self.excluded_attributes,
-            exclude_regex_paths=self.excluded_attributes_re,
+        self.resource_config.source_resources, self.resource_config.destination_resources = open_resources(
+            self.resource_type
         )
 
-    def check_diffs(self):
-        for _id, resource in self.source_resources.items():
-            try:
-                self.connect_resources(_id, resource)
-            except ResourceConnectionError:
-                continue
+    @abc.abstractmethod
+    def get_resources(self, client: CustomClient) -> List[Dict]:
+        pass
 
-            if _id in self.destination_resources:
-                diff = self.check_diff(self.destination_resources[_id], resource)
-                if diff:
-                    print("{} resource ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
-            else:
-                print("Resource to be added {}: \n {}".format(self.resource_type, pformat(resource)))
+    @abc.abstractmethod
+    def import_resource(self, resource: Dict) -> None:
+        pass
 
-    def remove_non_nullable_attributes(self, resource):
-        if self.non_nullable_attr:
-            for key in self.non_nullable_attr:
-                k_list = key.split(".")
-                self.del_null_attr(k_list, resource)
+    @abc.abstractmethod
+    def pre_resource_action_hook(self, resource: Dict) -> None:
+        pass
 
-    def apply_resources_sequentially(self, **kwargs):
-        resources = kwargs.get("resources") or self.source_resources
-        for _id, resource in resources.items():
-            try:
-                self.prepare_resource_and_apply(_id, resource, **kwargs)
-            except ResourceConnectionError:
-                # This should already be handled in connect_resource method
-                continue
-            except Exception as e:
-                self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
+    @abc.abstractmethod
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+        pass
 
-    def apply_resources_concurrently(self, **kwargs):
-        resources = kwargs.get("resources")
-        if resources == None:
-            resources = self.source_resources
-        with thread_pool_executor(self.config.max_workers) as executor:
-            futures = [
-                executor.submit(
-                    self.prepare_resource_and_apply,
-                    _id,
-                    resource,
-                    **kwargs,
-                )
-                for _id, resource in resources.items()
-            ]
-        for future in futures:
-            try:
-                future.result()
-            except ResourceConnectionError:
-                # This should already be handled in connect_resource method
-                continue
-            except Exception as e:
-                self.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
+    @abc.abstractmethod
+    def create_resource(self, _id: str, resource: Dict) -> None:
+        pass
 
-    def open_resources(self):
-        source_resources = dict()
-        destination_resources = dict()
+    @abc.abstractmethod
+    def update_resource(self, _id: str, resource: Dict) -> None:
+        pass
 
-        source_path = RESOURCE_FILE_PATH.format("source", self.resource_type)
-        destination_path = RESOURCE_FILE_PATH.format("destination", self.resource_type)
-
-        if os.path.exists(source_path):
-            with open(source_path, "r") as f:
-                try:
-                    source_resources = json.load(f)
-                except json.decoder.JSONDecodeError:
-                    self.logger.warning(f"invalid json in source resource file: {self.resource_type}")
-
-        if os.path.exists(destination_path):
-            with open(destination_path, "r") as f:
-                try:
-                    destination_resources = json.load(f)
-                except json.decoder.JSONDecodeError:
-                    self.logger.warning(f"invalid json in destination resource file: {self.resource_type}")
-
-        self.source_resources = source_resources
-        self.destination_resources = destination_resources
-
-    def write_resources_file(self, origin, resources):
-        resource_path = RESOURCE_FILE_PATH.format(origin, self.resource_type)
-
-        with open(resource_path, "w") as f:
-            json.dump(resources, f, indent=2)
-
-    def connect_resources(self, _id, resource):
-        if not self.resource_connections:
-            return
-
-        for resource_to_connect, v in self.resource_connections.items():
-            for attr_connection in v:
-                try:
-                    find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
-                except ResourceConnectionError as e:
-                    if self.config.skip_failed_resource_connections:
-                        self.logger.warning(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
-                        raise e
-                    else:
-                        self.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
-                        continue
-
-    def connect_id(self, key, r_obj, resource_to_connect):
-        resources = self.config.resources[resource_to_connect].destination_resources
+    @abc.abstractmethod
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+        resources = self.config.resources[resource_to_connect].resource_config.destination_resources
         _id = str(r_obj[key])
         if _id in resources:
             # Cast resource id to str on int based on source type
@@ -186,7 +88,118 @@ class BaseResource:
         else:
             raise ResourceConnectionError(resource_to_connect, _id=_id)
 
-    def filter(self, resource):
+    def import_resources(self) -> None:
+        # reset source resources obj
+        self.resource_config.source_resources.clear()
+
+        try:
+            get_resp = self.get_resources(self.config.source_client)
+        except Exception as e:
+            self.config.logger.error(f"error while importing resources {self.resource_type}: {str(e)}")
+            return
+
+        futures = []
+        with thread_pool_executor(self.config.max_workers) as executor:
+            for r in get_resp:
+                if not self.filter(r):
+                    continue
+                futures.append(executor.submit(self.import_resource, r))
+
+        for future in futures:
+            try:
+                future.result()
+            except Exception as e:
+                self.config.logger.error(f"error while importing resource {self.resource_type}: {str(e)}")
+
+        write_resources_file(self.resource_type, SOURCE_ORIGIN, self.resource_config.source_resources)
+
+    def apply_resources(self) -> None:
+        max_workers = 1 if not self.resource_config.concurrent else self.config.max_workers
+
+        # Run pre-apply hook with the resources
+        try:
+            resources_list = self.pre_apply_hook(self.resource_config.source_resources)
+        except Exception as e:
+            self.config.logger.error(f"error while applying resources {self.resource_type}: {str(e)}")
+            return
+
+        if not resources_list:
+            resources_list = [self.resource_config.source_resources]
+        futures = []
+        with thread_pool_executor(max_workers) as executor:
+            for r_list in resources_list:
+                for _id, resource in r_list.items():
+                    if not self.filter(resource):
+                        continue
+                    futures.append(executor.submit(self.apply_resource, _id, resource))
+                wait(futures)
+
+        for future in futures:
+            try:
+                future.result()
+            except ResourceConnectionError:
+                # This should already be handled in connect_resource method
+                continue
+            except Exception as e:
+                self.config.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
+
+        write_resources_file(self.resource_type, DESTINATION_ORIGIN, self.resource_config.destination_resources)
+
+    def check_diffs(self):
+        for _id, resource in self.resource_config.source_resources.items():
+            if not self.filter(resource):
+                continue
+
+            self.pre_resource_action_hook(resource)
+
+            try:
+                self.connect_resources(_id, resource)
+            except ResourceConnectionError:
+                continue
+
+            if _id in self.resource_config.destination_resources:
+                diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
+                if diff:
+                    print("{} resource ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
+            else:
+                print("Resource to be added {}: \n {}".format(self.resource_type, pformat(resource)))
+
+    def apply_resource(self, _id: str, resource: Dict) -> None:
+        self.pre_resource_action_hook(resource)
+        self.connect_resources(_id, resource)
+
+        if _id in self.resource_config.destination_resources:
+            diff = check_diff(self.resource_config, resource, self.resource_config.destination_resources[_id])
+            if diff:
+                prep_resource(self.resource_config, resource)
+                try:
+                    self.update_resource(_id, resource)
+                except Exception as e:
+                    self.config.logger.error(f"error while updating resource {self.resource_type}. Error: {str(e)}")
+        else:
+            prep_resource(self.resource_config, resource)
+            try:
+                self.create_resource(_id, resource)
+            except Exception as e:
+                self.config.logger.error(f"error while creating resource {self.resource_type}. Error: {str(e)}")
+
+    def connect_resources(self, _id: str, resource: Dict) -> None:
+        if not self.resource_config.resource_connections:
+            return
+
+        for resource_to_connect, v in self.resource_config.resource_connections.items():
+            for attr_connection in v:
+                try:
+                    find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                except ResourceConnectionError as e:
+                    if self.config.skip_failed_resource_connections:
+                        self.config.logger.warning(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
+                        raise e
+                    else:
+                        self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
+                        continue
+
+    def filter(self, resource: Dict) -> bool:
         if not self.config.filters or self.resource_type not in self.config.filters:
             return True
 

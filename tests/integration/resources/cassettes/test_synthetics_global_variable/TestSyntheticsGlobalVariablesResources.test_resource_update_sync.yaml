@@ -11,34 +11,28 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
       string: '{"variables": [{"parse_test_options": null, "parse_test_extracted_at":
-        null, "description": "test", "tags": ["check_type:api"], "created_at": "2021-07-31T22:18:26.959908+00:00",
-        "is_totp": null, "modified_at": "2021-07-31T22:18:26.959908+00:00", "value":
+        null, "description": "test", "tags": [], "created_at": "2021-08-03T14:16:51.598336+00:00",
+        "is_totp": null, "modified_at": "2021-08-03T14:16:51.598336+00:00", "value":
+        {"secure": false, "value": "test"}, "parse_test_public_id": null, "parse_test_name":
+        null, "created_by": "Frog", "type": "variable", "id": "92ebe280-06a3-4285-b006-87312ce32389",
+        "name": "TEST"}, {"parse_test_options": null, "parse_test_extracted_at": null,
+        "description": "Description of the variable", "tags": ["foo:bar", "env:test"],
+        "created_at": "2021-08-03T14:16:51.185967+00:00", "is_totp": null, "modified_at":
+        "2021-08-03T14:16:51.185967+00:00", "value": {"secure": false, "value": "variable-value"},
+        "parse_test_public_id": null, "parse_test_name": null, "created_by": "Frog",
+        "type": "variable", "id": "b72825e3-8b39-479f-ad36-a28b5f2826ba", "name":
+        "EXAMPLE_VARIABLE"}, {"parse_test_options": null, "parse_test_extracted_at":
+        null, "description": "test", "tags": ["check_type:api"], "created_at": "2021-08-03T14:16:50.766693+00:00",
+        "is_totp": null, "modified_at": "2021-08-03T14:16:50.766693+00:00", "value":
         {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
         null, "parse_test_name": null, "created_by": "Frog", "type": "variable", "id":
-        "08017d93-d87e-4014-934f-4dc33cee1add", "name": "TEST_VARIABLE"}, {"parse_test_options":
-        null, "parse_test_extracted_at": null, "description": "Description of the
-        variable", "tags": ["foo:bar", "env:test"], "created_at": "2021-07-31T22:18:27.318480+00:00",
-        "is_totp": null, "modified_at": "2021-07-31T22:18:27.318480+00:00", "value":
-        {"secure": false, "value": "variable-value"}, "parse_test_public_id": null,
-        "parse_test_name": null, "created_by": "Frog", "type": "variable", "id": "15cea06b-7c29-4dc9-8fe9-6a6a16f90f4b",
-        "name": "EXAMPLE_VARIABLE"}, {"parse_test_options": null, "parse_test_extracted_at":
-        null, "description": "test", "tags": [], "created_at": "2021-07-31T22:18:27.548763+00:00",
-        "is_totp": null, "modified_at": "2021-07-31T22:18:27.548763+00:00", "value":
-        {"secure": false, "value": "test"}, "parse_test_public_id": null, "parse_test_name":
-        null, "created_by": "Frog", "type": "variable", "id": "2ab9f3c1-9405-4380-91e2-e9aa424412ca",
-        "name": "TEST"}, {"parse_test_options": {"field": "alt-svc", "parser": {"type":
-        "regex", "value": "h3=\"(.*)\";"}, "type": "http_header"}, "parse_test_extracted_at":
-        null, "description": "", "tags": [], "created_at": "2021-07-31T22:18:27.849458+00:00",
-        "is_totp": null, "modified_at": "2021-07-31T22:18:27.849458+00:00", "value":
-        {"secure": false, "value": ""}, "parse_test_public_id": "xjc-56z-nxc", "parse_test_name":
-        "HTTP Test", "created_by": "Frog", "attributes": {"role_uuids": []}, "type":
-        "variable", "id": "52e8d7cc-bc51-4132-b293-99676ce72235", "name": "TEST_FROM_HTTP"}]}'
+        "f76d7513-a278-41c5-bb81-ccbcef33250f", "name": "TEST_VARIABLE"}]}'
     headers:
       Alt-Svc:
       - clear
@@ -49,13 +43,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '1827'
+      - '1304'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:55 GMT
+      - Tue, 03 Aug 2021 14:16:52 GMT
       pragma:
       - no-cache
       vary:
@@ -69,9 +63,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11997'
+      - '11998'
       x-ratelimit-reset:
-      - '5'
+      - '9'
     status:
       code: 200
       message: OK
@@ -91,15 +85,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/08017d93-d87e-4014-934f-4dc33cee1add
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/f76d7513-a278-41c5-bb81-ccbcef33250f
   response:
     body:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "testUpdated", "tags": ["check_type:api"], "is_totp": null, "value": {"secure":
         false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "08017d93-d87e-4014-934f-4dc33cee1add",
+        null, "parse_test_name": null, "type": "variable", "id": "f76d7513-a278-41c5-bb81-ccbcef33250f",
         "name": "TEST_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -117,7 +111,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:55 GMT
+      - Tue, 03 Aug 2021 14:16:52 GMT
       pragma:
       - no-cache
       vary:
@@ -133,7 +127,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '5'
+      - '8'
     status:
       code: 200
       message: OK
@@ -153,15 +147,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/15cea06b-7c29-4dc9-8fe9-6a6a16f90f4b
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/b72825e3-8b39-479f-ad36-a28b5f2826ba
   response:
     body:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "Description of the variableUpdated", "tags": ["foo:bar", "env:test"], "is_totp":
         null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "15cea06b-7c29-4dc9-8fe9-6a6a16f90f4b",
+        null, "parse_test_name": null, "type": "variable", "id": "b72825e3-8b39-479f-ad36-a28b5f2826ba",
         "name": "EXAMPLE_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -179,7 +173,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:56 GMT
+      - Tue, 03 Aug 2021 14:16:52 GMT
       pragma:
       - no-cache
       vary:
@@ -195,7 +189,7 @@ interactions:
       x-ratelimit-remaining:
       - '11998'
       x-ratelimit-reset:
-      - '5'
+      - '8'
     status:
       code: 200
       message: OK
@@ -214,15 +208,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/2ab9f3c1-9405-4380-91e2-e9aa424412ca
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/92ebe280-06a3-4285-b006-87312ce32389
   response:
     body:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "testUpdated", "tags": [], "is_totp": null, "value": {"secure": false, "value":
         "test"}, "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "2ab9f3c1-9405-4380-91e2-e9aa424412ca", "name": "TEST"}'
+        "id": "92ebe280-06a3-4285-b006-87312ce32389", "name": "TEST"}'
     headers:
       Alt-Svc:
       - clear
@@ -239,7 +233,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:56 GMT
+      - Tue, 03 Aug 2021 14:16:53 GMT
       pragma:
       - no-cache
       vary:
@@ -255,7 +249,7 @@ interactions:
       x-ratelimit-remaining:
       - '11997'
       x-ratelimit-reset:
-      - '4'
+      - '8'
     status:
       code: 200
       message: OK

@@ -84,6 +84,7 @@ _common_options = [
         type=int,
         help="Max number of workers when running operations in multi-threads.",
     ),
+    option("--filter", required=False, help="Filter resources.", multiple=True),
     click_config_file.configuration_option(),
 ]
 

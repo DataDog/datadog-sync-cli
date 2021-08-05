@@ -3,73 +3,50 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from requests.exceptions import HTTPError
+from typing import Optional, List, Dict
 
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import CustomClient
 
 
 class LogsCustomPipelines(BaseResource):
     resource_type = "logs_custom_pipelines"
-    resource_connections = None
-    base_path = "/api/v1/logs/config/pipelines"
-    excluded_attributes = [
-        "root['id']",
-        "root['type']",
-        "root['is_read_only']",
-    ]
+    resource_config = ResourceConfig(
+        concurrent=False,
+        base_path="/api/v1/logs/config/pipelines",
+        excluded_attributes=["id", "type", "is_read_only"],
+    )
+    # Additional LogsCustomPipelines specific attributes
 
-    def import_resources(self):
-        source_client = self.config.source_client
+    def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = client.get(self.resource_config.base_path).json()
 
-        try:
-            resp = source_client.get(self.base_path).json()
-        except HTTPError as e:
-            self.logger.error("error importing logs_custom_pipelines %s", e)
+        return resp
+
+    def import_resource(self, resource: Dict) -> None:
+        if resource["is_read_only"]:
             return
+        self.resource_config.source_resources[resource["id"]] = resource
 
-        self.import_resources_concurrently(resp)
+    def pre_resource_action_hook(self, resource: Dict) -> None:
+        pass
 
-    def process_resource_import(self, logs_custom_pipeline):
-        if logs_custom_pipeline["is_read_only"]:
-            return
-        if not self.filter(logs_custom_pipeline):
-            return
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+        pass
 
-        self.source_resources[logs_custom_pipeline["id"]] = logs_custom_pipeline
-
-    def apply_resources(self):
-        self.apply_resources_sequentially()
-
-    def prepare_resource_and_apply(self, _id, logs_custom_pipeline):
-        self.connect_resources(_id, logs_custom_pipeline)
-
-        if _id in self.destination_resources:
-            self.update_resource(_id, logs_custom_pipeline)
-        else:
-            self.create_resource(_id, logs_custom_pipeline)
-
-    def create_resource(self, _id, logs_custom_pipeline):
+    def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        self.remove_excluded_attr(logs_custom_pipeline)
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
 
-        try:
-            resp = destination_client.post(self.base_path, logs_custom_pipeline).json()
-        except HTTPError as e:
-            self.logger.error("error creating logs_custom_pipeline: %s", e.response.text)
-            return
-        self.destination_resources[_id] = resp
+        self.resource_config.destination_resources[_id] = resp
 
-    def update_resource(self, _id, logs_custom_pipeline):
+    def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        self.remove_excluded_attr(logs_custom_pipeline)
+        resp = destination_client.put(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+        ).json()
 
-        diff = self.check_diff(logs_custom_pipeline, self.destination_resources[_id])
-        if diff:
-            try:
-                resp = destination_client.put(
-                    self.base_path + f"/{self.destination_resources[_id]['id']}", logs_custom_pipeline
-                ).json()
-            except HTTPError as e:
-                self.logger.error("error creating logs_custom_pipeline: %s", e.response.text)
-                return
-            self.destination_resources[_id] = resp
+        self.resource_config.destination_resources[_id] = resp
+
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+        super(LogsCustomPipelines, self).connect_id(key, r_obj, resource_to_connect)

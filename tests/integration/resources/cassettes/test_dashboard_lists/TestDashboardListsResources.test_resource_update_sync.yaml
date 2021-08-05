@@ -13,15 +13,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual/10887
+    uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual/10930
   response:
     body:
       string: '{"is_favorite": false, "name": "Empty Test ListUpdated", "dashboard_count":
         0, "author": {"handle": "frog@datadoghq.com", "name": "Frog"}, "created":
-        "2021-07-31T22:18:44.332381+00:00", "type": "manual_dashboard_list", "dashboards":
-        null, "modified": "2021-07-31T22:18:44.617004+00:00", "id": 10887}'
+        "2021-08-03T14:16:37.181031+00:00", "type": "manual_dashboard_list", "dashboards":
+        null, "modified": "2021-08-03T14:16:37.766836+00:00", "id": 10930}'
     headers:
       Alt-Svc:
       - clear
@@ -38,7 +38,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Sat, 31 Jul 2021 22:18:44 GMT
+      - Tue, 03 Aug 2021 14:16:37 GMT
       pragma:
       - no-cache
       vary:

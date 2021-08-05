@@ -4,99 +4,74 @@
 # Copyright 2019 Datadog, Inc.
 
 import re
+from typing import Optional, List, Dict
 
-from requests.exceptions import HTTPError
-
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
 class Monitors(BaseResource):
     resource_type = "monitors"
-    resource_connections = {"monitors": ["query"], "roles": ["restricted_roles"]}
-    base_path = "/api/v1/monitor"
-    excluded_attributes = [
-        "root['id']",
-        "root['matching_downtimes']",
-        "root['creator']",
-        "root['created']",
-        "root['deleted']",
-        "root['org_id']",
-        "root['created_at']",
-        "root['modified']",
-        "root['overall_state']",
-        "root['overall_state_modified']",
-    ]
+    resource_config = ResourceConfig(
+        resource_connections={"monitors": ["query"], "roles": ["restricted_roles"]},
+        base_path="/api/v1/monitor",
+        excluded_attributes=[
+            "id",
+            "matching_downtimes",
+            "creator",
+            "created",
+            "deleted",
+            "org_id",
+            "created_at",
+            "modified",
+            "overall_state",
+            "overall_state_modified",
+        ],
+    )
+    # Additional Monitors specific attributes
 
-    def import_resources(self):
-        source_client = self.config.source_client
-        try:
-            resp = source_client.get(self.base_path).json()
-        except HTTPError as e:
-            self.logger.error("error importing monitors %s", e)
+    def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = client.get(self.resource_config.base_path).json()
+
+        return resp
+
+    def import_resource(self, resource: Dict) -> None:
+        if resource["type"] == "synthetics alert":
             return
 
-        self.import_resources_concurrently(resp)
+        self.resource_config.source_resources[str(resource["id"])] = resource
 
-    def process_resource_import(self, monitor):
-        if not self.filter(monitor) or monitor["type"] == "synthetics alert":
-            return
+    def pre_resource_action_hook(self, resource: Dict) -> None:
+        pass
 
-        self.source_resources[str(monitor["id"])] = monitor
-
-    def apply_resources(self):
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         simple_monitors = {}
         composite_monitors = {}
 
-        for _id, monitor in self.source_resources.items():
-            if monitor["type"] == "synthetics alert":
-                continue
+        for _id, monitor in self.resource_config.source_resources.items():
             if monitor["type"] == "composite":
                 composite_monitors[_id] = monitor
             else:
                 simple_monitors[_id] = monitor
+        return [simple_monitors, composite_monitors]
 
-        self.logger.info("Processing Simple Monitors")
-        self.apply_resources_concurrently(resources=simple_monitors)
-
-        self.logger.info("Processing Composite Monitors")
-        self.apply_resources_concurrently(resources=composite_monitors)
-
-    def prepare_resource_and_apply(self, _id, monitor, **kwargs):
-        self.connect_resources(_id, monitor)
-
-        if _id in self.destination_resources:
-            self.update_resource(_id, monitor)
-        else:
-            self.create_resource(_id, monitor)
-
-    def create_resource(self, _id, monitor):
+    def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
 
-        try:
-            resp = destination_client.post(self.base_path, monitor).json()
-        except HTTPError as e:
-            self.logger.error("error creating monitor: %s", e.response.text)
-            return
-        self.destination_resources[_id] = resp
+        self.resource_config.destination_resources[_id] = resp
 
-    def update_resource(self, _id, monitor):
+    def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
+        resp = destination_client.put(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+        ).json()
 
-        diff = self.check_diff(monitor, self.destination_resources[_id])
-        if diff:
-            try:
-                resp = destination_client.put(
-                    self.base_path + f"/{self.destination_resources[_id]['id']}", monitor
-                ).json()
-            except HTTPError as e:
-                self.logger.error("error creating monitor: %s", e.response.text)
-                return
-            self.destination_resources[_id] = resp
+        self.resource_config.destination_resources[_id] = resp
 
-    def connect_id(self, key, r_obj, resource_to_connect):
-        resources = self.config.resources[resource_to_connect].destination_resources
-
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+        resources = self.config.resources[resource_to_connect].resource_config.destination_resources
         if r_obj.get("type") == "composite" and key == "query":
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:

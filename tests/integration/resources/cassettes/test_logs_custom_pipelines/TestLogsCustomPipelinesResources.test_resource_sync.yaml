@@ -14,12 +14,12 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "c71baghCRyO00yOU2WimWg", "type": "pipeline", "name": "Test
+      string: '{"id": "INEd4p3aSa2-CYeH-LSw-A", "type": "pipeline", "name": "Test
         pipeline", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "test:query"}, "processors": []}'
     headers:
@@ -40,7 +40,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Sat, 31 Jul 2021 22:18:48 GMT
+      - Tue, 03 Aug 2021 14:16:41 GMT
       pragma:
       - no-cache
       vary:
@@ -56,7 +56,7 @@ interactions:
       x-ratelimit-remaining:
       - '7'
       x-ratelimit-reset:
-      - '72'
+      - '199'
     status:
       code: 200
       message: OK
@@ -106,12 +106,12 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.7.9; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "55X50n6WRDGmbiLTiwXeCQ", "type": "pipeline", "name": "Test
+      string: '{"id": "WY6GnTiZS6uKp0vhKJxE-g", "type": "pipeline", "name": "Test
         Pipeline - Complex", "is_enabled": true, "is_read_only": false, "filter":
         {"query": "source:foo"}, "processors": [{"name": "sample arithmetic processor",
         "is_enabled": true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic",
@@ -163,7 +163,7 @@ interactions:
       content-type:
       - application/json;charset=utf-8
       date:
-      - Sat, 31 Jul 2021 22:18:48 GMT
+      - Tue, 03 Aug 2021 14:16:42 GMT
       pragma:
       - no-cache
       vary:
@@ -179,7 +179,7 @@ interactions:
       x-ratelimit-remaining:
       - '6'
       x-ratelimit-reset:
-      - '72'
+      - '198'
     status:
       code: 200
       message: OK

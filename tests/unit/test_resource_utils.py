@@ -59,12 +59,17 @@ def test_find_nested_list_attr():
 def validate_order_list(order_list, resources):
     # checks that no dependency comes after the current resource in the order_list
     for resource in resources:
-        if resource.resource_type not in order_list or not resource.resource_connections:
+        if resource.resource_type not in order_list or not resource.resource_config.resource_connections:
             continue
 
         resource_index = order_list.index(resource.resource_type)
 
-        if len([dep for dep in resource.resource_connections if order_list.index(dep) > resource_index]) != 0:
+        if (
+            len(
+                [dep for dep in resource.resource_config.resource_connections if order_list.index(dep) > resource_index]
+            )
+            != 0
+        ):
             return False
 
     return len(order_list) == len(set(order_list))

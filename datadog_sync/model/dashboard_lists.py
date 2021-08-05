@@ -4,115 +4,93 @@
 # Copyright 2019 Datadog, Inc.
 
 import copy
+from typing import Optional, List, Dict
 
 from requests.exceptions import HTTPError
 
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import CustomClient
+from datadog_sync.utils.resource_utils import check_diff
 
 
 class DashboardLists(BaseResource):
     resource_type = "dashboard_lists"
-    resource_connections = {"dashboards": ["dashboards.id"]}
-    base_path = "/api/v1/dashboard/lists/manual"
+    resource_config = ResourceConfig(
+        resource_connections={"dashboards": ["dashboards.id"]},
+        base_path="/api/v1/dashboard/lists/manual",
+        excluded_attributes=["id", "type", "author", "created", "modified", "is_favorite", "dashboard_count"],
+    )
+    # Additional Dashboards specific attributes
     dash_list_items_path = "/api/v2/dashboard/lists/manual/{}/dashboards"
-    excluded_attributes = [
-        "root['id']",
-        "root['type']",
-        "root['author']",
-        "root['created']",
-        "root['modified']",
-        "root['is_favorite']",
-        "root['dashboard_count']",
-    ]
 
-    def import_resources(self):
+    def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = client.get(self.resource_config.base_path).json()
+
+        return resp["dashboard_lists"]
+
+    def import_resource(self, resource: Dict) -> None:
         source_client = self.config.source_client
-
-        try:
-            resp = source_client.get(self.base_path).json()
-        except HTTPError as e:
-            self.logger.error("error importing dashboard_lists %s", e)
-            return
-
-        self.import_resources_concurrently(resp["dashboard_lists"])
-
-    def process_resource_import(self, dashboard_list):
-        if not self.filter(dashboard_list):
-            return
-
-        source_client = self.config.source_client
-        _id = str(dashboard_list["id"])
+        _id = str(resource["id"])
         resp = None
         try:
             resp = source_client.get(self.dash_list_items_path.format(_id)).json()
         except HTTPError as e:
-            self.logger.error("error retrieving dashboard_lists items %s", e)
+            self.config.logger.error("error retrieving dashboard_lists items %s", e)
 
-        dashboard_list["dashboards"] = []
+        resource["dashboards"] = []
         if resp:
             for dash in resp.get("dashboards"):
                 dash_list_item = {"id": dash["id"], "type": dash["type"]}
-                dashboard_list["dashboards"].append(dash_list_item)
+                resource["dashboards"].append(dash_list_item)
 
-        self.source_resources[_id] = dashboard_list
+        self.resource_config.source_resources[_id] = resource
 
-    def apply_resources(self):
-        self.apply_resources_concurrently()
+    def pre_resource_action_hook(self, resource: Dict) -> None:
+        pass
 
-    def prepare_resource_and_apply(self, _id, dashboard_list):
-        self.connect_resources(_id, dashboard_list)
+    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+        pass
 
-        if _id in self.destination_resources:
-            self.update_resource(_id, dashboard_list)
-        else:
-            self.create_resource(_id, dashboard_list)
-
-    def create_resource(self, _id, dashboard_list):
+    def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        dashboards = copy.deepcopy(dashboard_list["dashboards"])
-        dashboard_list.pop("dashboards")
-        self.remove_excluded_attr(dashboard_list)
+        dashboards = copy.deepcopy(resource["dashboards"])
+        resource.pop("dashboards")
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
 
-        try:
-            resp = destination_client.post(self.base_path, dashboard_list).json()
-        except HTTPError as e:
-            self.logger.error("error creating dashboard_list: %s", e.response.text)
-            return
-        self.destination_resources[_id] = resp
+        self.resource_config.destination_resources[_id] = resp
         self.update_dash_list_items(resp["id"], dashboards, resp)
 
-    def update_resource(self, _id, dashboard_list):
+    def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        dashboards = copy.deepcopy(dashboard_list["dashboards"])
+        dashboards = copy.deepcopy(resource["dashboards"])
+        dash_list_diff = check_diff(
+            self.resource_config, self.resource_config.destination_resources[_id]["dashboards"], dashboards
+        )
+        resource.pop("dashboards")
 
-        self.remove_excluded_attr(dashboard_list)
-        dash_list_diff = self.check_diff(self.destination_resources[_id]["dashboards"], dashboards)
-        diff = self.check_diff(dashboard_list, self.destination_resources[_id])
-        dashboard_list.pop("dashboards")
+        resp = destination_client.put(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+        ).json()
 
-        if diff:
-            try:
-                resp = destination_client.put(
-                    self.base_path + f"/{self.destination_resources[_id]['id']}", dashboard_list
-                ).json()
-            except HTTPError as e:
-                self.logger.error("error creating dashboard_list: %s", e.response.text)
-                return
-
-            resp.pop("dashboards")
-            self.destination_resources[_id].update(resp)
+        resp.pop("dashboards")
+        self.resource_config.destination_resources[_id].update(resp)
 
         if dash_list_diff:
             self.update_dash_list_items(
-                self.destination_resources[_id]["id"], dashboards, self.destination_resources[_id]
+                self.resource_config.destination_resources[_id]["id"],
+                dashboards,
+                self.resource_config.destination_resources[_id],
             )
 
-    def update_dash_list_items(self, _id, dashboards, dashboard_list):
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+        super(DashboardLists, self).connect_id(key, r_obj, resource_to_connect)
+
+    def update_dash_list_items(self, _id: str, dashboards: Dict, dashboard_list: dict):
         payload = {"dashboards": dashboards}
         destination_client = self.config.destination_client
         try:
             dashboards = destination_client.put(self.dash_list_items_path.format(_id), payload).json()
         except HTTPError as e:
-            self.logger.error("error updating dashboard list items: %s", e)
+            self.config.logger.error("error updating dashboard list items: %s", e)
             return
         dashboard_list.update(dashboards)
