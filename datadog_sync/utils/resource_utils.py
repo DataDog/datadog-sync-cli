@@ -24,23 +24,22 @@ class ResourceConnectionError(Exception):
         )
 
 
-def find_attr(keys_list, resource_to_connect, r_obj, connect_func):
-    _id = None
+def find_attr(attr_path, resource_to_connect, r_obj, connect_func):
     if isinstance(r_obj, list):
         for k in r_obj:
-            find_attr(keys_list, resource_to_connect, k, connect_func)
+            find_attr(attr_path, resource_to_connect, k, connect_func)
     else:
-        keys_list = keys_list.split(".", 1)
+        attr_path = attr_path.split(".", 1)
 
-        if len(keys_list) == 1 and keys_list[0] in r_obj:
-            if not r_obj[keys_list[0]]:
+        if len(attr_path) == 1 and attr_path[0] in r_obj:
+            if not r_obj[attr_path[0]]:
                 return
-            connect_func(keys_list[0], r_obj, resource_to_connect)
+            connect_func(attr_path[0], r_obj, resource_to_connect)
             return
 
         if isinstance(r_obj, dict):
-            if keys_list[0] in r_obj:
-                find_attr(keys_list[1], resource_to_connect, r_obj[keys_list[0]], connect_func)
+            if attr_path[0] in r_obj:
+                find_attr(attr_path[1], resource_to_connect, r_obj[attr_path[0]], connect_func)
 
 
 def prep_resource(resource_config, resource):
