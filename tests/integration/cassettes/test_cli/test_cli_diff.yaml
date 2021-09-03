@@ -11,7 +11,206 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/notebooks?include_cells=True&page%5Bnumber%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"meta": {"page": {"total_filtered_count": 4, "total_count": 4}}, "data":
+        [{"type": "notebooks", "id": 1249391, "attributes": {"name": "Test Notebook",
+        "cells": [{"attributes": {"definition": {"show_legend": true, "title": "Test
+        Notebook", "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}",
+        "style": {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
+        "display_type": "line"}], "yaxis": {"scale": "linear"}}, "graph_size": "m",
+        "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
+        "id": "2fsbpu0n"}, {"attributes": {"definition": {"text": "Test message",
+        "type": "markdown"}}, "type": "notebook_cells", "id": "dp2x1d2e"}, {"attributes":
+        {"definition": {"requests": [{"formulas": [{"formula": "query1"}], "response_format":
+        "scalar", "queries": [{"query": "avg:system.load.1{*}", "data_source": "metrics",
+        "name": "query1", "aggregator": "avg"}]}], "type": "toplist"}, "graph_size":
+        "m", "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
+        "id": "qoavau2o"}], "time": {"live_span": "1h"}, "status": "published", "modified":
+        "2021-09-03T14:35:02.427223+00:00", "created": "2021-09-03T14:34:56.849312+00:00",
+        "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
+        {"type": "notebooks", "id": 1249389, "attributes": {"name": "RFC: [title]
+        (from template)", "cells": [{"attributes": {"definition": {"text": "Property                 |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Author(s)**              |
+        Name (Team name, Role), Name (Team name, Role)            \n**Status:**     |Draft
+        / Review / Accepted / Closed        \n**Date Created:**              |HH:mm
+        UTC MM/dd/yyyy                    \n\n_Use this template to outline your proposal,
+        including graphs, code snippets, and images where necessary._ ", "type": "markdown"}},
+        "type": "notebook_cells", "id": "l8rkjzhd"}, {"attributes": {"definition":
+        {"text": "\n# Overview\n_Concisely describe the problem you need to solve
+        and your recommended solution._\n\n\n# Problem\n_Describe the motivation for
+        this proposal. Why is it important to solve?_\n\n# Constraints\n_Note any
+        requirements that a solution must fulfill._\n\n1. \n2. \n\n\n\n", "type":
+        "markdown"}}, "type": "notebook_cells", "id": "2te0gswu"}, {"attributes":
+        {"definition": {"show_legend": true, "type": "timeseries", "requests": [{"q":
+        "avg:system.load.1{*}", "style": {"line_width": "normal", "palette": "purple",
+        "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale": "linear"}},
+        "graph_size": "xs", "split_by": {"keys": [], "tags": []}, "time": null}, "type":
+        "notebook_cells", "id": "z8youq6a"}, {"attributes": {"definition": {"text":
+        "# Proposed Solution\n_Describe your solution in detail. Explain why it''s
+        better than the current state and other options considered. Address any critical
+        operational issues like failure modes, failover, redundancy, performance,
+        etc. Include graphs and code snippets of design details where necessary._\n\n-
+        Strengths\n     - Example: takes up minimal disk space\n     -\n- Weaknesses\n     -
+        Example: hash isn''t human-readable\n     -\n- Failure Modes\n   \n", "type":
+        "markdown"}}, "type": "notebook_cells", "id": "7dacumjb"}, {"attributes":
+        {"definition": {"text": "```json\n{ \n  \"data\": {\n    \"type\": \"notebooks\",\n    \"id\":
+        0,\n    \"attributes\": {\n      \"cells\": [\n        {\n          \"type\":
+        \"notebook_cells\",\n          \"id\": \"abcd1234\"\n        }\n      ],\n      \"status\":
+        \"published\",\n      \"name\": \"Example Notebook\",\n      \"author\": {\n        \"name\":
+        \"string\",\n        \"handle\": \"string\",\n        \"created_at\": \"2021-03-17T16:42:17.382Z\",  \n        \"email\":
+        \"string\",\n        \"icon\": \"string\",\n        \"title\": \"string\",\n        \"verified\":
+        true,\n        \"disabled\": true,\n        \"status\": \"string\"\n        }\n    }\n  }\n}\n```",
+        "type": "markdown"}}, "type": "notebook_cells", "id": "34uin7xs"}, {"attributes":
+        {"definition": {"text": "# Alternatives Considered\n_Describe other options
+        considered and the tradeoffs relative to the recommended solution._\n## Solution
+        1\n## Solution 2\n\n", "type": "markdown"}}, "type": "notebook_cells", "id":
+        "0ryy65ac"}, {"attributes": {"definition": {"text": "# Open Questions\n_Note
+        relevant questions and design topics._\n\n# Appendix\n_[Link](/) relevant
+        documents or references._", "type": "markdown"}}, "type": "notebook_cells",
+        "id": "5xnxosip"}], "time": {"live_span": "1h"}, "status": "published", "modified":
+        "2021-09-03T14:34:37.029613+00:00", "created": "2021-09-03T14:34:37.029613+00:00",
+        "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
+        {"type": "notebooks", "id": 1249388, "attributes": {"name": "Gameday YYYY-MM-DD:
+        [App Name] (from template)", "cells": [{"attributes": {"definition": {"text":
+        "Game days provide a framework to help us discover weaknesses, create more
+        useful alerts, and deploy fixes that improve the way our services respond
+        to failures.\n\n**Using this template:**\n- Record your test plan ahead of
+        time\n- Set the time frame to match your planned failures\n- Use graphs to
+        visualize signals you monitored and responded to\n- Collaborate on follow-up
+        tasks\n\n---", "type": "markdown"}}, "type": "notebook_cells", "id": "vcwaa3le"},
+        {"attributes": {"definition": {"text": "# Participants:\n- Name (Team name,
+        Role)\n- Name (Team name, Role)\n", "type": "markdown"}}, "type": "notebook_cells",
+        "id": "w6f782jr"}, {"attributes": {"definition": {"text": "# Goal\n_What is
+        the purpose of this gameday?_\n\n# Dependencies\n_Which services does the
+        app depend on to function properly? Include graphs where necessary._\n\n#
+        Related services\n_Which related services does the app depend on? Include
+        graphs where necessary._\n- [Related Dashboards](/dashboard/lists)\n\n# Related
+        outages\n_Optional: what outages relate to this exercise?_\n\n", "type": "markdown"}},
+        "type": "notebook_cells", "id": "6iuzz8ye"}, {"attributes": {"definition":
+        {"text": "### [replace this graph with relevant service ]", "type": "markdown"}},
+        "type": "notebook_cells", "id": "rpj42y2g"}, {"attributes": {"definition":
+        {"show_legend": true, "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}
+        by {service}", "style": {"line_width": "normal", "palette": "dog_classic",
+        "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale": "linear"}},
+        "graph_size": "xs", "split_by": {"keys": [], "tags": []}, "time": null}, "type":
+        "notebook_cells", "id": "rw9np336"}, {"attributes": {"definition": {"text":
+        "# Test 1: [name]\n_Clone this cell to create more tests_\n## Prerequisites\n_Optional
+        tasks to complete before the test_\n- [X] ~~Prereq 1~~\n- [ ] Prereq 2\n\n##
+        Action\n_Actions to take during the test (script to run, instance to shutdown,
+        etc.)_\n- [ ] Action 1\n- [ ] Action 2\n\n## Observability\n_Dashboards, graphs,
+        log files, and other resources to monitor during the test. Include relevant
+        graphs._\n- [Related Dashboards](/dashboard/lists)\n\n\n## Cleanup\n_Optional
+        tasks to go back to a clean state_\n- [ ] Task 1\n- [ ] Task 2\n\nExpected
+        Results | Actual Results|  Comments | \n------------------------|--------------------
+        | ---------------- |\nExample: Monitor ID 1234567890 should trigger  |PASS
+        / FAIL / UNKNOWN |  This went wrong, we believe this is the issue     |\n_  |
+        PASS / FAIL / UNKNOWN   | _ |\n_  | PASS / FAIL / UNKNOWN   | _ |\n\n\n###
+        Notes\n- Optional\n- Interesting graphs, loglines, general comments on the
+        test, etc.", "type": "markdown"}}, "type": "notebook_cells", "id": "08zotnlb"},
+        {"attributes": {"definition": {"show_legend": true, "type": "timeseries",
+        "requests": [{"q": "avg:system.load.1{*} by {service}", "style": {"line_width":
+        "normal", "palette": "dog_classic", "line_type": "solid"}, "display_type":
+        "area"}], "yaxis": {"scale": "linear"}}, "graph_size": "xs", "split_by": {"keys":
+        [], "tags": []}, "time": null}, "type": "notebook_cells", "id": "8uzbdxoc"},
+        {"attributes": {"definition": {"text": "## Follow-up work\nFor each issue/improvement
+        identified, create a follow-up action with an owner, priority, and due date.
+        \n**This is the most important part of the gameday!**\n\n- Issue 1: [Link
+        to follow-up item](/)\n- Issue 2: [Link to follow-up item](/)\n", "type":
+        "markdown"}}, "type": "notebook_cells", "id": "wwhju4ds"}], "time": {"live_span":
+        "1h"}, "status": "published", "modified": "2021-09-03T14:34:33.365896+00:00",
+        "created": "2021-09-03T14:34:33.365896+00:00", "author": {"name": "Sherzod
+        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
+        {"type": "notebooks", "id": 1249387, "attributes": {"name": "Postmortem IR-xxxx:
+        [outage name] (from template)", "cells": [{"attributes": {"definition": {"text":
+        "Incident Property                  |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Status:**                |Active/Stable/Resolved                  \n**Severity:**     |SEV-X                      \n**Started:**              |HH:mm
+        UTC MM/dd/yyyy                  \n**Commander:**     |[name]                 \n**Incident
+        Overview:** | [IR-xxxx] (/incidents)                 \n**Slack Channel:**        |[#IR-xxxx]
+        (/link)                 \n\n_You can generate a postmortem [from any resolved
+        incident](/incidents?query=state%3Aresolved) with these fields pre-fillled,
+        along with incident metadata and timeline._ ", "type": "markdown"}}, "type":
+        "notebook_cells", "id": "pp1vm0s8"}, {"attributes": {"definition": {"text":
+        "# What happened?\n### Impact on customers\n_How did this incident impact
+        external users?_", "type": "markdown"}}, "type": "notebook_cells", "id": "dci6b8sg"},
+        {"attributes": {"definition": {"text": "# Why did it happen?\n### Root cause\n_A
+        deep dive into the causes and what went particularly wrong._", "type": "markdown"}},
+        "type": "notebook_cells", "id": "zcm3akyt"}, {"attributes": {"definition":
+        {"text": "# Timeline\n\n_A detailed sequence of the events that led to the
+        incident, including contributing factors, notification, and remediation actions._\n\n_You
+        can add graphs that show what happened and scope them to the exact time range
+        of the incident._\n\n", "type": "markdown"}}, "type": "notebook_cells", "id":
+        "xwhr4e9q"}, {"attributes": {"definition": {"text": "- [timestamp] event\n-
+        [timestamp] event", "type": "markdown"}}, "type": "notebook_cells", "id":
+        "hy9zij5i"}, {"attributes": {"definition": {"show_legend": true, "type": "timeseries",
+        "requests": [{"q": "avg:system.load.1{*}", "style": {"line_width": "normal",
+        "palette": "dog_classic", "line_type": "solid"}, "display_type": "area"}],
+        "yaxis": {"scale": "linear"}}, "graph_size": "m", "split_by": {"keys": [],
+        "tags": []}, "time": null}, "type": "notebook_cells", "id": "kmp003ky"}, {"attributes":
+        {"definition": {"text": "# How do we prevent it in the future?\n### Action
+        Items\n_Include both short-term and long-term steps to prevent this in the
+        future. Link to any relevant action items, and include when the action items
+        are planned._\n\n\n### Short-term\n- [X] ~~Action 1~~\n- [ ] Action 2\n\n###
+        Long-term\n- [ ] Action 1\n- [ ] Action 2", "type": "markdown"}}, "type":
+        "notebook_cells", "id": "gajt34ww"}], "time": {"live_span": "1h"}, "status":
+        "published", "modified": "2021-09-03T14:34:28.816850+00:00", "created": "2021-09-03T14:34:28.816850+00:00",
+        "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}}}]}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Sep 2021 17:21:23 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '11978'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '90'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '88'
+      x-ratelimit-reset:
+      - '37'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/logs/config/pipelines
   response:
@@ -59,7 +258,7 @@ interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Tue, 03 Aug 2021 14:11:23 GMT
+      - Fri, 03 Sep 2021 17:21:23 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -72,8 +271,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -103,7 +300,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/locations
   response:
@@ -118,27 +315,26 @@ interactions:
         {"id": "aws:eu-west-3", "name": "Paris (AWS)"}, {"id": "aws:sa-east-1", "name":
         "S\u00e3o Paulo (AWS)"}, {"id": "aws:us-east-2", "name": "Ohio (AWS)"}, {"id":
         "aws:us-west-1", "name": "N. California (AWS)"}, {"id": "aws:us-west-2", "name":
-        "Oregon (AWS)"}, {"id": "pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451",
-        "name": "Test Private Variable"}]}'
+        "Oregon (AWS)"}, {"id": "azure:eastus", "name": "Virginia (Azure)"}, {"id":
+        "pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451", "name": "Test
+        Private Variable"}]}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:23 GMT
+      - Fri, 03 Sep 2021 17:21:23 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '844'
+      - '892'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -168,7 +364,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451
   response:
@@ -183,7 +379,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:24 GMT
+      - Fri, 03 Sep 2021 17:21:24 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -194,8 +390,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -217,7 +411,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/tests
   response:
@@ -293,7 +487,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:24 GMT
+      - Fri, 03 Sep 2021 17:21:24 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -304,8 +498,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -335,55 +527,58 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"parse_test_options": null, "parse_test_extracted_at":
-        null, "description": "test", "tags": ["check_type:api"], "created_at": "2021-06-03T18:18:16.703730+00:00",
-        "is_totp": null, "modified_at": "2021-06-03T18:36:04.287393+00:00", "value":
-        {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
-        null, "parse_test_name": null, "created_by": "Sherzod Karimov", "type": "variable",
-        "id": "7478e601-cbe3-4a7d-babf-d48702b6b833", "name": "TEST_VARIABLE"}, {"parse_test_options":
-        null, "parse_test_extracted_at": null, "description": "Description of the
-        variable", "tags": ["foo:bar", "env:test"], "created_at": "2021-06-08T18:26:23.679434+00:00",
-        "is_totp": null, "modified_at": "2021-06-08T18:26:23.679434+00:00", "value":
-        {"secure": false, "value": "variable-value"}, "parse_test_public_id": null,
-        "parse_test_name": null, "created_by": "Sherzod Karimov", "type": "variable",
-        "id": "7dfd62d2-e1bf-466d-b47b-f337d4a82877", "name": "EXAMPLE_VARIABLE"},
-        {"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "test", "tags": [], "created_at": "2021-06-03T18:38:06.646796+00:00", "is_totp":
-        null, "modified_at": "2021-06-03T18:38:06.646796+00:00", "value": {"secure":
-        false, "value": "test"}, "parse_test_public_id": null, "parse_test_name":
-        null, "created_by": "Sherzod Karimov", "type": "variable", "id": "971dc27b-9b1e-4d21-80f5-cbc6cb485e4f",
-        "name": "TEST"}, {"parse_test_options": {"field": "alt-svc", "parser": {"type":
-        "regex", "value": "h3=\"(.*)\";"}, "type": "http_header"}, "parse_test_extracted_at":
-        null, "description": "", "tags": [], "created_at": "2021-07-13T21:43:15.652450+00:00",
-        "is_totp": null, "modified_at": "2021-07-13T21:43:15.652450+00:00", "value":
-        {"secure": false, "value": ""}, "parse_test_public_id": "w7p-ux5-hhc", "parse_test_name":
-        "HTTP Test", "created_by": "Sherzod Karimov", "attributes": {"role_uuids":
-        []}, "type": "variable", "id": "cd272ea4-7cc2-4b88-bc1f-e271c96b695f", "name":
-        "TEST_FROM_HTTP"}]}'
+      string: '{"variables": [{"parse_test_extracted_at": null, "description": "test",
+        "tags": ["check_type:api"], "last_error": null, "parse_test_public_id": null,
+        "is_totp": null, "id": "7478e601-cbe3-4a7d-babf-d48702b6b833", "parse_test_options":
+        null, "name": "TEST_VARIABLE", "created_at": "2021-06-03T18:18:16.703730+00:00",
+        "creator": {"handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov"}, "modified_at": "2021-06-03T18:36:04.287393+00:00",
+        "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"},
+        "parse_test_name": null, "type": "variable"}, {"parse_test_extracted_at":
+        null, "description": "Description of the variable", "tags": ["foo:bar", "env:test"],
+        "last_error": null, "parse_test_public_id": null, "is_totp": null, "id": "7dfd62d2-e1bf-466d-b47b-f337d4a82877",
+        "parse_test_options": null, "name": "EXAMPLE_VARIABLE", "created_at": "2021-06-08T18:26:23.679434+00:00",
+        "creator": {"handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov"}, "modified_at": "2021-06-08T18:26:23.679434+00:00",
+        "value": {"secure": false, "value": "variable-value"}, "parse_test_name":
+        null, "type": "variable"}, {"parse_test_extracted_at": null, "description":
+        "test", "tags": [], "last_error": null, "parse_test_public_id": null, "is_totp":
+        null, "id": "971dc27b-9b1e-4d21-80f5-cbc6cb485e4f", "parse_test_options":
+        null, "name": "TEST", "created_at": "2021-06-03T18:38:06.646796+00:00", "creator":
+        {"handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov"}, "modified_at": "2021-06-03T18:38:06.646796+00:00",
+        "value": {"secure": false, "value": "test"}, "parse_test_name": null, "type":
+        "variable"}, {"parse_test_extracted_at": null, "description": "", "tags":
+        [], "last_error": null, "parse_test_public_id": "w7p-ux5-hhc", "is_totp":
+        null, "id": "cd272ea4-7cc2-4b88-bc1f-e271c96b695f", "parse_test_options":
+        {"field": "alt-svc", "parser": {"type": "regex", "value": "h3=\"(.*)\";"},
+        "type": "http_header"}, "name": "TEST_FROM_HTTP", "created_at": "2021-07-13T21:43:15.652450+00:00",
+        "creator": {"handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov"}, "modified_at": "2021-07-13T21:43:15.652450+00:00",
+        "value": {"secure": false, "value": ""}, "parse_test_name": "HTTP Test", "attributes":
+        {"role_uuids": []}, "type": "variable"}]}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:24 GMT
+      - Fri, 03 Sep 2021 17:21:24 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '1871'
+      - '2291'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -413,7 +608,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/roles?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -527,7 +722,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:24 GMT
+      - Fri, 03 Sep 2021 17:21:24 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -538,8 +733,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -569,7 +762,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -800,8 +993,8 @@ interactions:
         "12efc20e-d36c-11eb-a9b8-da7ad0900002", "attributes": {"name": "incident_read",
         "display_name": "Incidents App Experience", "description": "The ability to
         view the Incident App and see incidents.", "created": "2021-06-22T15:11:09.255499+00:00",
-        "group_name": "Incidents", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "attributes":
+        "group_name": "Incidents", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "attributes":
         {"name": "logs_write_historical_view", "display_name": "Logs Historical View",
         "description": "The capability to rehydrate logs from Archives.", "created":
         "2020-09-16T08:38:44.242076+00:00", "group_name": "Logs", "display_type":
@@ -1025,19 +1218,17 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:24 GMT
+      - Fri, 03 Sep 2021 17:21:24 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '35147'
+      - '35146'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1059,7 +1250,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/monitor
   response:
@@ -1205,7 +1396,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:24 GMT
+      - Fri, 03 Sep 2021 17:21:24 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1216,8 +1407,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1247,7 +1436,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/slo
   response:
@@ -1292,7 +1481,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:24 GMT
+      - Fri, 03 Sep 2021 17:21:24 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1303,8 +1492,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1334,7 +1521,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard
   response:
@@ -1347,22 +1534,22 @@ interactions:
         "author_handle": "sherzod.karimov@datadoghq.com", "is_read_only": false, "description":
         "", "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "url": "/dashboard/euw-cp8-hy6/timeboard-tue-jun-1-41857-pm",
         "layout_type": "ordered", "modified_at": "2021-06-21T17:24:39.527924+00:00",
-        "id": "euw-cp8-hy6"}, {"created_at": "2021-06-30T11:45:57.574935+00:00", "author_handle":
-        "noueman.khalikine@datadoghq.com", "is_read_only": false, "description": "",
-        "title": "datadog-sync-cli Test Dashboard", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
-        "layout_type": "ordered", "modified_at": "2021-06-30T11:46:46.923260+00:00",
-        "id": "tuw-te2-pdj"}, {"created_at": "2021-07-16T12:08:14.666223+00:00", "author_handle":
+        "id": "euw-cp8-hy6"}, {"created_at": "2021-07-16T12:08:14.666223+00:00", "author_handle":
         "frog@datadoghq.com", "is_read_only": false, "description": null, "title":
         "{{ unique }} with timeseries widget", "url": "/dashboard/ys9-5v2-zxt/-unique--with-timeseries-widget",
         "layout_type": "ordered", "modified_at": "2021-07-16T12:08:14.666223+00:00",
-        "id": "ys9-5v2-zxt"}]}'
+        "id": "ys9-5v2-zxt"}, {"created_at": "2021-06-30T11:45:57.574935+00:00", "author_handle":
+        "noueman.khalikine@datadoghq.com", "is_read_only": false, "description": "",
+        "title": "datadog-sync-cli Test Dashboard", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
+        "layout_type": "ordered", "modified_at": "2021-06-30T11:46:46.923260+00:00",
+        "id": "tuw-te2-pdj"}]}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:24 GMT
+      - Fri, 03 Sep 2021 17:21:24 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1402,7 +1589,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/dns-jst-h98
   response:
@@ -1452,7 +1639,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:24 GMT
+      - Fri, 03 Sep 2021 17:21:24 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1463,8 +1650,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1486,7 +1671,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/euw-cp8-hy6
   response:
@@ -1523,7 +1708,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:25 GMT
+      - Fri, 03 Sep 2021 17:21:25 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1534,8 +1719,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1557,7 +1740,59 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/ys9-5v2-zxt
+  response:
+    body:
+      string: '{"notify_list": null, "description": null, "author_name": "Frog", "template_variables":
+        null, "is_read_only": false, "id": "ys9-5v2-zxt", "title": "{{ unique }} with
+        timeseries widget", "url": "/dashboard/ys9-5v2-zxt/-unique--with-timeseries-widget",
+        "created_at": "2021-07-16T12:08:14.666223+00:00", "modified_at": "2021-07-16T12:08:14.666223+00:00",
+        "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
+        [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
+        "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
+        "line_type": "solid"}, "display_type": "bars"}], "type": "timeseries"}, "id":
+        4987671296932461}], "layout_type": "ordered"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Sep 2021 17:21:25 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '686'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/tuw-te2-pdj
   response:
@@ -1579,7 +1814,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:25 GMT
+      - Fri, 03 Sep 2021 17:21:25 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1590,8 +1825,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1613,61 +1846,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/ys9-5v2-zxt
-  response:
-    body:
-      string: '{"notify_list": null, "description": null, "author_name": "Frog", "template_variables":
-        null, "is_read_only": false, "id": "ys9-5v2-zxt", "title": "{{ unique }} with
-        timeseries widget", "url": "/dashboard/ys9-5v2-zxt/-unique--with-timeseries-widget",
-        "created_at": "2021-07-16T12:08:14.666223+00:00", "modified_at": "2021-07-16T12:08:14.666223+00:00",
-        "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
-        [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
-        "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
-        "line_type": "solid"}, "display_type": "bars"}], "type": "timeseries"}, "id":
-        4987671296932461}], "layout_type": "ordered"}'
-    headers:
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      Date:
-      - Tue, 03 Aug 2021 14:11:25 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '686'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
   response:
@@ -1687,7 +1866,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:25 GMT
+      - Fri, 03 Sep 2021 17:21:25 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1698,8 +1877,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1721,7 +1898,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/dashboard/lists/manual/221363/dashboards
   response:
@@ -1733,7 +1910,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:25 GMT
+      - Fri, 03 Sep 2021 17:21:25 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1744,8 +1921,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1767,17 +1942,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/dashboard/lists/manual/213585/dashboards
   response:
     body:
-      string: '{"total": 2, "dashboards": [{"popularity": 5, "title": "Test screenboard",
+      string: '{"total": 2, "dashboards": [{"popularity": 4, "title": "Test screenboard",
         "is_favorite": false, "id": "dns-jst-h98", "icon": null, "integration_id":
         null, "is_shared": false, "author": {"handle": "sherzod.karimov@datadoghq.com",
         "name": "Sherzod Karimov"}, "url": "/dashboard/dns-jst-h98/test-screenboard",
         "created": "2021-06-08T18:26:23.515662+00:00", "modified": "2021-06-22T19:35:38.981348+00:00",
-        "is_read_only": false, "type": "custom_screenboard"}, {"popularity": 5, "title":
+        "is_read_only": false, "type": "custom_screenboard"}, {"popularity": 2, "title":
         "Timeboard Tue, Jun 1, 4:18:57 pm", "is_favorite": false, "id": "euw-cp8-hy6",
         "icon": null, "integration_id": null, "is_shared": false, "author": {"handle":
         "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov"}, "url": "/dashboard/euw-cp8-hy6/timeboard-tue-jun-1-41857-pm",
@@ -1789,7 +1964,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:25 GMT
+      - Fri, 03 Sep 2021 17:21:25 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1800,8 +1975,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1823,7 +1996,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/slo/correction
   response:
@@ -1841,7 +2014,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:25 GMT
+      - Fri, 03 Sep 2021 17:21:25 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1852,8 +2025,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1883,7 +2054,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/downtime
   response:
@@ -1906,7 +2077,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:25 GMT
+      - Fri, 03 Sep 2021 17:21:25 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1917,8 +2088,6 @@ interactions:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -1940,7 +2109,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/permissions
   response:
@@ -2234,7 +2403,7 @@ interactions:
         "attributes": {"name": "incident_read", "display_name": "Incidents App Experience",
         "description": "The ability to view the Incident App and see incidents.",
         "created": "2021-06-22T15:11:09.255499+00:00", "group_name": "Incidents",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "display_type": "read", "restricted": true}}, {"type": "permissions", "id":
         "12efc211-d36c-11eb-a9b8-da7ad0900002", "attributes": {"name": "incident_write",
         "display_name": "Incidents App Experience", "description": "The ability to
         create, view and manage incidents in the Incident App.", "created": "2021-06-22T15:11:09.264369+00:00",
@@ -2254,19 +2423,17 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:11:25 GMT
+      - Fri, 03 Sep 2021 17:21:26 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '23312'
+      - '23311'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -2288,7 +2455,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v2/permissions
   response:
@@ -2582,7 +2749,7 @@ interactions:
         "attributes": {"name": "incident_read", "display_name": "Incidents App Experience",
         "description": "The ability to view the Incident App and see incidents.",
         "created": "2021-06-22T15:11:07.986072+00:00", "group_name": "Incidents",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "display_type": "read", "restricted": true}}, {"type": "permissions", "id":
         "123098f2-d36c-11eb-b2bf-da7ad0900005", "attributes": {"name": "incident_write",
         "display_name": "Incidents App Experience", "description": "The ability to
         create, view and manage incidents in the Incident App.", "created": "2021-06-22T15:11:08.003239+00:00",
@@ -2606,19 +2773,21 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '23312'
+      - '23311'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Tue, 03 Aug 2021 14:11:26 GMT
+      - Fri, 03 Sep 2021 17:21:26 GMT
       pragma:
       - no-cache
       vary:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '86'
       x-frame-options:
       - SAMEORIGIN
     status:

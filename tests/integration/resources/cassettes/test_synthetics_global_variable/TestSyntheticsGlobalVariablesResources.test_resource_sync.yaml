@@ -11,7 +11,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
@@ -31,11 +31,13 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 03 Aug 2021 14:16:50 GMT
+      - Fri, 03 Sep 2021 17:23:36 GMT
       pragma:
       - no-cache
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '144'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -45,14 +47,14 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '10'
+      - '24'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"description": "test", "tags": ["check_type:api"], "value": {"secure":
-      false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "type": "variable",
-      "name": "TEST_VARIABLE"}'
+    body: '{"description": "test", "tags": ["check_type:api"], "name": "TEST_VARIABLE",
+      "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"},
+      "type": "variable"}'
     headers:
       Accept:
       - '*/*'
@@ -65,15 +67,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "test", "tags": ["check_type:api"], "is_totp": null, "value": {"secure": false,
-        "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "f76d7513-a278-41c5-bb81-ccbcef33250f",
+        "test", "tags": ["check_type:api"], "last_error": null, "is_totp": null, "value":
+        {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
+        null, "parse_test_name": null, "type": "variable", "id": "b267c3bf-6c26-4283-b856-c694ec76ac3b",
         "name": "TEST_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -85,19 +87,21 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '328'
+      - '346'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Tue, 03 Aug 2021 14:16:50 GMT
+      - Fri, 03 Sep 2021 17:23:36 GMT
       pragma:
       - no-cache
       vary:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '108'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -107,14 +111,14 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '10'
+      - '24'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "Description of the variable", "tags": ["foo:bar", "env:test"],
-      "value": {"secure": false, "value": "variable-value"}, "type": "variable", "name":
-      "EXAMPLE_VARIABLE"}'
+      "name": "EXAMPLE_VARIABLE", "value": {"secure": false, "value": "variable-value"},
+      "type": "variable"}'
     headers:
       Accept:
       - '*/*'
@@ -127,16 +131,16 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "Description of the variable", "tags": ["foo:bar", "env:test"], "is_totp":
-        null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "b72825e3-8b39-479f-ad36-a28b5f2826ba",
-        "name": "EXAMPLE_VARIABLE"}'
+        "Description of the variable", "tags": ["foo:bar", "env:test"], "last_error":
+        null, "is_totp": null, "value": {"secure": false, "value": "variable-value"},
+        "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
+        "id": "a538f445-4e7c-4964-9a17-d00f3c220d58", "name": "EXAMPLE_VARIABLE"}'
     headers:
       Alt-Svc:
       - clear
@@ -147,19 +151,21 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '336'
+      - '354'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Tue, 03 Aug 2021 14:16:51 GMT
+      - Fri, 03 Sep 2021 17:23:36 GMT
       pragma:
       - no-cache
       vary:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '159'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -169,13 +175,13 @@ interactions:
       x-ratelimit-remaining:
       - '11998'
       x-ratelimit-reset:
-      - '9'
+      - '24'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"description": "test", "tags": [], "value": {"secure": false, "value":
-      "test"}, "type": "variable", "name": "TEST"}'
+    body: '{"description": "test", "tags": [], "name": "TEST", "value": {"secure":
+      false, "value": "test"}, "type": "variable"}'
     headers:
       Accept:
       - '*/*'
@@ -188,15 +194,16 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "test", "tags": [], "is_totp": null, "value": {"secure": false, "value": "test"},
-        "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "92ebe280-06a3-4285-b006-87312ce32389", "name": "TEST"}'
+        "test", "tags": [], "last_error": null, "is_totp": null, "value": {"secure":
+        false, "value": "test"}, "parse_test_public_id": null, "parse_test_name":
+        null, "type": "variable", "id": "1e5b4dbc-f91a-4da0-8c0c-023c6f5bf1b3", "name":
+        "TEST"}'
     headers:
       Alt-Svc:
       - clear
@@ -207,19 +214,21 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '271'
+      - '289'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Tue, 03 Aug 2021 14:16:51 GMT
+      - Fri, 03 Sep 2021 17:23:37 GMT
       pragma:
       - no-cache
       vary:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '173'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -229,7 +238,7 @@ interactions:
       x-ratelimit-remaining:
       - '11997'
       x-ratelimit-reset:
-      - '9'
+      - '23'
     status:
       code: 200
       message: OK
