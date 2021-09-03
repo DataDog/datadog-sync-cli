@@ -66,6 +66,8 @@ def del_attr(k_list, resource):
     if len(k_list) == 1:
         resource.pop(k_list[0], None)
     else:
+        if k_list[0] not in resource:
+            return
         del_attr(k_list[1:], resource[k_list[0]])
 
 
