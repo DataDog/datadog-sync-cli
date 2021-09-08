@@ -10,7 +10,7 @@ import platform
 import requests
 
 from datadog_sync.constants import LOGGER_NAME
-
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 log = logging.getLogger(LOGGER_NAME)
 
@@ -38,18 +38,18 @@ def request_with_retry(func):
                         retry_count += 1
                     if (sleep_duration + time.time()) > timeout:
                         log.debug("retry timeout has or will exceed timeout duration")
-                        raise e
+                        raise CustomClientHTTPError(e.response)
                     time.sleep(sleep_duration)
                     continue
                 elif status_code >= 500 or status_code == 429:
                     sleep_duration = retry_count * default_backoff
                     if (sleep_duration + time.time()) > timeout:
                         log.debug("retry timeout has or will exceed timeout duration")
-                        raise e
+                        raise CustomClientHTTPError(e.response)
                     time.sleep(retry_count * default_backoff)
                     retry_count += 1
                     continue
-                raise e
+                raise CustomClientHTTPError(e.response)
         return resp
 
     return wrapper
