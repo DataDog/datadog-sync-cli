@@ -86,8 +86,10 @@ def check_diff(resource_config, resource, state):
     )
 
 
-def thread_pool_executor(max_workers=None):
-    return ThreadPoolExecutor(max_workers=max_workers)
+def thread_pool_executor(cfg, max_workers=None):
+    executor = ThreadPoolExecutor(max_workers=max_workers)
+    cfg.current_executor = executor
+    return executor
 
 
 def open_resources(resource_type):

@@ -7,6 +7,7 @@ import os
 
 from click import command, option
 
+from datadog_sync.commands.shared.utils import handle_interrupt
 from datadog_sync.constants import DESTINATION_RESOURCES_DIR
 from datadog_sync.commands.shared.options import (
     common_options,
@@ -30,6 +31,7 @@ from datadog_sync.utils.configuration import build_config
     default=False,
     help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
 )
+@handle_interrupt
 def sync(**kwargs):
     """Sync Datadog resources to destination."""
     cfg = build_config(**kwargs)

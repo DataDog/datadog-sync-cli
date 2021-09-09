@@ -3,15 +3,16 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from click import group
+from click import group, pass_context
 
 from datadog_sync.commands import ALL_COMMANDS
 
 
 @group()
-def cli():
+@pass_context
+def cli(ctx):
     """Initialize cli"""
-    pass
+    ctx.obj = dict()
 
 
 # Register all click sub-commands

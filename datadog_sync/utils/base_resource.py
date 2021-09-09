@@ -99,11 +99,14 @@ class BaseResource(abc.ABC):
             return
 
         futures = []
-        with thread_pool_executor(self.config.max_workers) as executor:
+        with thread_pool_executor(self.config, max_workers=self.config.max_workers) as executor:
+            self.config.current_executor = executor
             for r in get_resp:
                 if not self.filter(r):
                     continue
                 futures.append(executor.submit(self.import_resource, r))
+        # Executor is shutdown reset current_executor to None
+        self.config.current_executor = None
 
         for future in futures:
             try:
@@ -126,13 +129,16 @@ class BaseResource(abc.ABC):
         if not resources_list:
             resources_list = [self.resource_config.source_resources]
         futures = []
-        with thread_pool_executor(max_workers) as executor:
+        with thread_pool_executor(self.config, max_workers=max_workers) as executor:
+            self.config.current_executor = executor
             for r_list in resources_list:
                 for _id, resource in r_list.items():
                     if not self.filter(resource):
                         continue
                     futures.append(executor.submit(self.apply_resource, _id, resource))
                 wait(futures)
+        # Executor is shutdown reset current_executor to None
+        self.config.current_executor = None
 
         for future in futures:
             try:

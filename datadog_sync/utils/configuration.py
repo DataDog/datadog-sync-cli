@@ -5,6 +5,7 @@
 
 import logging
 from collections import defaultdict, OrderedDict
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import (
     Type,
@@ -37,6 +38,7 @@ class Configuration(object):
     force_missing_dependencies: Optional[bool] = None
     skip_failed_resource_connections: Optional[bool] = None
     max_workers: Optional[int] = None
+    current_executor: ThreadPoolExecutor = None
 
     def __post_init__(self):
         if not self.logger:
