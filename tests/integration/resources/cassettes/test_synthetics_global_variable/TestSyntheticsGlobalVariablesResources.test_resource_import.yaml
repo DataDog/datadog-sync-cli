@@ -11,55 +11,58 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"parse_test_options": null, "parse_test_extracted_at":
-        null, "description": "test", "tags": ["check_type:api"], "created_at": "2021-06-03T18:18:16.703730+00:00",
-        "is_totp": null, "modified_at": "2021-06-03T18:36:04.287393+00:00", "value":
-        {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
-        null, "parse_test_name": null, "created_by": "Sherzod Karimov", "type": "variable",
-        "id": "7478e601-cbe3-4a7d-babf-d48702b6b833", "name": "TEST_VARIABLE"}, {"parse_test_options":
-        null, "parse_test_extracted_at": null, "description": "Description of the
-        variable", "tags": ["foo:bar", "env:test"], "created_at": "2021-06-08T18:26:23.679434+00:00",
-        "is_totp": null, "modified_at": "2021-06-08T18:26:23.679434+00:00", "value":
-        {"secure": false, "value": "variable-value"}, "parse_test_public_id": null,
-        "parse_test_name": null, "created_by": "Sherzod Karimov", "type": "variable",
-        "id": "7dfd62d2-e1bf-466d-b47b-f337d4a82877", "name": "EXAMPLE_VARIABLE"},
-        {"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "test", "tags": [], "created_at": "2021-06-03T18:38:06.646796+00:00", "is_totp":
-        null, "modified_at": "2021-06-03T18:38:06.646796+00:00", "value": {"secure":
-        false, "value": "test"}, "parse_test_public_id": null, "parse_test_name":
-        null, "created_by": "Sherzod Karimov", "type": "variable", "id": "971dc27b-9b1e-4d21-80f5-cbc6cb485e4f",
-        "name": "TEST"}, {"parse_test_options": {"field": "alt-svc", "parser": {"type":
-        "regex", "value": "h3=\"(.*)\";"}, "type": "http_header"}, "parse_test_extracted_at":
-        null, "description": "", "tags": [], "created_at": "2021-07-13T21:43:15.652450+00:00",
-        "is_totp": null, "modified_at": "2021-07-13T21:43:15.652450+00:00", "value":
-        {"secure": false, "value": ""}, "parse_test_public_id": "w7p-ux5-hhc", "parse_test_name":
-        "HTTP Test", "created_by": "Sherzod Karimov", "attributes": {"role_uuids":
-        []}, "type": "variable", "id": "cd272ea4-7cc2-4b88-bc1f-e271c96b695f", "name":
-        "TEST_FROM_HTTP"}]}'
+      string: '{"variables": [{"parse_test_extracted_at": null, "description": "test",
+        "tags": ["check_type:api"], "last_error": null, "parse_test_public_id": null,
+        "is_totp": null, "id": "7478e601-cbe3-4a7d-babf-d48702b6b833", "parse_test_options":
+        null, "name": "TEST_VARIABLE", "created_at": "2021-06-03T18:18:16.703730+00:00",
+        "creator": {"handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov"}, "modified_at": "2021-06-03T18:36:04.287393+00:00",
+        "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"},
+        "parse_test_name": null, "type": "variable"}, {"parse_test_extracted_at":
+        null, "description": "Description of the variable", "tags": ["foo:bar", "env:test"],
+        "last_error": null, "parse_test_public_id": null, "is_totp": null, "id": "7dfd62d2-e1bf-466d-b47b-f337d4a82877",
+        "parse_test_options": null, "name": "EXAMPLE_VARIABLE", "created_at": "2021-06-08T18:26:23.679434+00:00",
+        "creator": {"handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov"}, "modified_at": "2021-06-08T18:26:23.679434+00:00",
+        "value": {"secure": false, "value": "variable-value"}, "parse_test_name":
+        null, "type": "variable"}, {"parse_test_extracted_at": null, "description":
+        "test", "tags": [], "last_error": null, "parse_test_public_id": null, "is_totp":
+        null, "id": "971dc27b-9b1e-4d21-80f5-cbc6cb485e4f", "parse_test_options":
+        null, "name": "TEST", "created_at": "2021-06-03T18:38:06.646796+00:00", "creator":
+        {"handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov"}, "modified_at": "2021-06-03T18:38:06.646796+00:00",
+        "value": {"secure": false, "value": "test"}, "parse_test_name": null, "type":
+        "variable"}, {"parse_test_extracted_at": null, "description": "", "tags":
+        [], "last_error": null, "parse_test_public_id": "w7p-ux5-hhc", "is_totp":
+        null, "id": "cd272ea4-7cc2-4b88-bc1f-e271c96b695f", "parse_test_options":
+        {"field": "alt-svc", "parser": {"type": "regex", "value": "h3=\"(.*)\";"},
+        "type": "http_header"}, "name": "TEST_FROM_HTTP", "created_at": "2021-07-13T21:43:15.652450+00:00",
+        "creator": {"handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov"}, "modified_at": "2021-07-13T21:43:15.652450+00:00",
+        "value": {"secure": false, "value": ""}, "parse_test_name": "HTTP Test", "attributes":
+        {"role_uuids": []}, "type": "variable"}]}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:16:50 GMT
+      - Fri, 03 Sep 2021 17:23:36 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '1871'
+      - '2291'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
-      strict-transport-security:
-      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -73,7 +76,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '10'
+      - '24'
     status:
       code: 200
       message: OK

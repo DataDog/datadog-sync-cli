@@ -142,7 +142,7 @@ def pathLookup(obj, path):
             raise Exception(f"pathLookup error: invalid key {path}")
     else:
         if path[0] in obj:
-            pathLookup(obj[path[0]], path[1])
+            return pathLookup(obj[path[0]], path[1])
         else:
             raise Exception(f"pathLookup error: invalid key {path}")
 

@@ -33,6 +33,7 @@ class Cleanup:
         self.cleanup_downtimes()
         self.cleanup_logs_custom_pipelines()
         self.cleanup_monitors()
+        self.cleanup_notebooks()
         self.cleanup_users()
         self.cleanup_roles()
         # self.cleanup_integrations_aws()
@@ -153,6 +154,12 @@ class Cleanup:
 
     def cleanup_slo_corrections(self):
         path = "/api/v1/slo/correction"
+        res = self.get_resources(path)
+        for resource in res["data"]:
+            self.delete_resource(resource["id"], path)
+
+    def cleanup_notebooks(self):
+        path = "/api/v1/notebooks"
         res = self.get_resources(path)
         for resource in res["data"]:
             self.delete_resource(resource["id"], path)

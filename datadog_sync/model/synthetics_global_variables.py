@@ -18,12 +18,15 @@ class SyntheticsGlobalVariables(BaseResource):
         non_nullable_attr=["parse_test_public_id", "parse_test_options"],
         excluded_attributes=[
             "id",
+            "creator",
+            "last_error",
             "modified_at",
             "created_at",
             "parse_test_extracted_at",
             "created_by",
             "is_totp",
             "parse_test_name",
+            "attributes",
         ],
     )
     # Additional SyntheticsGlobalVariables specific attributes

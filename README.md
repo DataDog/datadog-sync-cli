@@ -125,6 +125,7 @@ Note: The above docker run command will mount your current working directory to 
 - **dashboards**
 - **dashboard_lists**
 - **logs_custom_pipelines**
+- **notebooks**
 
 ## Best practices
 
@@ -141,8 +142,9 @@ synthetics_tests              | synthetics_private_locations
 synthetics_global_variables   | synthetics_tests
 monitors                      | roles
 downtimes                     | monitors
-dashboards                    | monitors, roles, service_level_objectives
-dashboard_lists               | dashboards
 service_level_objectives      | monitors, synthetics_tests
 slo_corrections               | service_level_objectives
+dashboards                    | monitors, roles, service_level_objectives
+dashboard_lists               | dashboards
 logs_custom_pipelines         | -
+notebooks                     | -
