@@ -26,7 +26,7 @@ class ResourceConnectionError(Exception):
 
 class CustomClientHTTPError(Exception):
     def __init__(self, response):
-        super(CustomClientHTTPError, self).__init__(f"{response.status_code} {response.reason} - {response.text}")
+        super().__init__(f"{response.status_code} {response.reason} - {response.text}")
 
 
 def find_attr(keys_list, resource_to_connect, r_obj, connect_func):
