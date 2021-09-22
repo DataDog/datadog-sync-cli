@@ -35,6 +35,12 @@ class SyntheticsGlobalVariables(BaseResource):
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path).json()
 
+        # case of secret variable
+        for variable in resp["variables"]:
+            if "value" in variable:
+                if variable["value"]["secure"]:
+                    variable["value"]["value"] = "SECRET"
+
         return resp["variables"]
 
     def import_resource(self, resource: Dict) -> None:
