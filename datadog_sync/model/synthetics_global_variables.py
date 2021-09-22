@@ -32,14 +32,18 @@ class SyntheticsGlobalVariables(BaseResource):
     # Additional SyntheticsGlobalVariables specific attributes
     destination_global_variables: Dict[str, Dict] = dict()
 
+    def pre_process(self, resource: Dict) -> None:
+        # case of secret variable
+        if "value" in resource:
+            if resource["value"]["secure"]:
+                resource["value"]["value"] = "SECRET"
+        return resource
+
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path).json()
 
-        # case of secret variable
         for variable in resp["variables"]:
-            if "value" in variable:
-                if variable["value"]["secure"]:
-                    variable["value"]["value"] = "SECRET"
+            variable = self.pre_process(variable)
 
         return resp["variables"]
 
@@ -62,7 +66,7 @@ class SyntheticsGlobalVariables(BaseResource):
         destination_client = self.config.destination_client
         resp = destination_client.post(self.resource_config.base_path, resource).json()
 
-        self.resource_config.destination_resources[_id] = resp
+        self.resource_config.destination_resources[_id] = self.pre_process(resp)
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
@@ -70,7 +74,7 @@ class SyntheticsGlobalVariables(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
         ).json()
 
-        self.resource_config.destination_resources[_id].update(resp)
+        self.resource_config.destination_resources[_id].update(self.pre_process(resp))
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         resources = self.config.resources[resource_to_connect].resource_config.destination_resources
@@ -88,6 +92,7 @@ class SyntheticsGlobalVariables(BaseResource):
         destination_client = self.config.destination_client
 
         resp = self.get_resources(destination_client)
+
         for variable in resp:
             destination_global_variable_obj[variable["name"]] = variable
 
