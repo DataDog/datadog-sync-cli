@@ -15,7 +15,7 @@ class Notebooks(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={},
         base_path="/api/v1/notebooks",
-        excluded_attributes=["id", "attributes.created", "attributes.modified", "attributes.author"],
+        excluded_attributes=["id", "attributes.created", "attributes.modified", "attributes.author", "attributes.metadata"],
     )
     # Additional Notebooks specific attributes
 
