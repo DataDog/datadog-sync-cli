@@ -35,10 +35,6 @@ class SyntheticsGlobalVariables(BaseResource):
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path).json()
-
-        for variable in resp["variables"]:
-            variable = variable
-
         return resp["variables"]
 
     def import_resource(self, resource: Dict) -> None:
@@ -90,7 +86,6 @@ class SyntheticsGlobalVariables(BaseResource):
         destination_client = self.config.destination_client
 
         resp = self.get_resources(destination_client)
-
         for variable in resp:
             destination_global_variable_obj[variable["name"]] = variable
 
