@@ -32,7 +32,6 @@ class SyntheticsGlobalVariables(BaseResource):
     # Additional SyntheticsGlobalVariables specific attributes
     destination_global_variables: Dict[str, Dict] = dict()
 
-
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path).json()
         return resp["variables"]
