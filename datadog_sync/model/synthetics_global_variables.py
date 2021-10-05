@@ -34,7 +34,6 @@ class SyntheticsGlobalVariables(BaseResource):
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path).json()
-
         return resp["variables"]
 
     def import_resource(self, resource: Dict) -> None:
@@ -54,6 +53,10 @@ class SyntheticsGlobalVariables(BaseResource):
             return
 
         destination_client = self.config.destination_client
+
+        if "value" not in resource["value"]:
+            resource["value"]["value"] = "SECRET"
+
         resp = destination_client.post(self.resource_config.base_path, resource).json()
 
         self.resource_config.destination_resources[_id] = resp

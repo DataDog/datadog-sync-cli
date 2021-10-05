@@ -15,7 +15,7 @@ class SyntheticsTests(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={"synthetics_private_locations": ["locations"]},
         base_path="/api/v1/synthetics/tests",
-        excluded_attributes=["deleted_at", "org_id", "public_id", "monitor_id", "modified_at", "created_at"],
+        excluded_attributes=["deleted_at", "org_id", "public_id", "monitor_id", "modified_at", "created_at", "creator"],
         excluded_attributes_re=[
             "updatedAt",
             "notify_audit",
