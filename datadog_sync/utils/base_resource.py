@@ -80,13 +80,23 @@ class BaseResource(abc.ABC):
     @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         resources = self.config.resources[resource_to_connect].resource_config.destination_resources
-        _id = str(r_obj[key])
-        if _id in resources:
-            # Cast resource id to str on int based on source type
-            type_attr = type(r_obj[key])
-            r_obj[key] = type_attr(resources[_id]["id"])
+        if isinstance(r_obj[key], list):
+            for i, v in enumerate(r_obj[key]):
+                _id = str(v)
+                if _id in resources:
+                    # Cast resource id to str or int based on source type
+                    type_attr = type(v)
+                    r_obj[key][i] = type_attr(resources[_id]["id"])
+                else:
+                    raise ResourceConnectionError(resource_to_connect, _id=_id)
         else:
-            raise ResourceConnectionError(resource_to_connect, _id=_id)
+            _id = str(r_obj[key])
+            if _id in resources:
+                # Cast resource id to str on int based on source type
+                type_attr = type(r_obj[key])
+                r_obj[key] = type_attr(resources[_id]["id"])
+            else:
+                raise ResourceConnectionError(resource_to_connect, _id=_id)
 
     def import_resources(self) -> None:
         # reset source resources obj
