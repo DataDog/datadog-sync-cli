@@ -14,7 +14,7 @@ from datadog_sync.utils.resource_utils import ResourceConnectionError
 class Monitors(BaseResource):
     resource_type = "monitors"
     resource_config = ResourceConfig(
-        resource_connections={"monitors": ["query"], "roles": ["restricted_roles"]},
+        resource_connections={"monitors": ["query"], "roles": ["restricted_roles"], "synthetics_tests": []},
         base_path="/api/v1/monitor",
         excluded_attributes=[
             "id",
@@ -71,13 +71,23 @@ class Monitors(BaseResource):
         self.resource_config.destination_resources[_id] = resp
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+        monitors = self.config.resources[resource_to_connect].resource_config.destination_resources
+        synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
+
         if r_obj.get("type") == "composite" and key == "query":
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:
-                if _id in resources:
-                    new_id = f"{resources[_id]['id']}"
+                found = False
+                if _id in monitors:
+                    found = True
+                    new_id = f"{monitors[_id]['id']}"
                     r_obj[key] = re.sub(_id + r"([^#]|$)", new_id + "# ", r_obj[key])
                 else:
+                    # Check if it is a synthetics monitor
+                    for k, v in synthetics_tests.items():
+                        if k.endswith(_id):
+                            found = True
+                            r_obj[key] = re.sub(_id + r"([^#]|$)", str(v["monitor_id"]) + "# ", r_obj[key])
+                if not found:
                     raise ResourceConnectionError(resource_to_connect, _id=_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()
