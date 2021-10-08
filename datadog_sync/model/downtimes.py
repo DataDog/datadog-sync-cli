@@ -4,9 +4,18 @@
 # Copyright 2019 Datadog, Inc.
 
 from typing import Optional, List, Dict
+from datetime import datetime
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
+
+
+RECURRING_TIMES = {
+    "days": 86400,
+    "weeks": 604800,
+    "months": 2592000,
+    "years": 31536000,
+}
 
 
 class Downtimes(BaseResource):
@@ -25,18 +34,30 @@ class Downtimes(BaseResource):
         return resp
 
     def import_resource(self, resource: Dict) -> None:
-        self.resource_config.source_resources[str(resource["id"])] = resource
+        if not resource["canceled"]:
+            self.resource_config.source_resources[str(resource["id"])] = resource
 
-    def pre_resource_action_hook(self, resource: Dict) -> None:
-        pass
+    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+        if _id not in self.resource_config.destination_resources:
+            current_time = round(datetime.now().timestamp())
+            if resource["recurrence"] is None:
+                # If the downtime start time is in the past, convert it to now + 1min
+                if resource["start"] and resource["start"] <= current_time:
+                    resource["start"] = current_time + 60
+            else:
+                r_type = resource["recurrence"]["type"]
+                r_period = resource["recurrence"]["period"]
+                if resource["start"] and resource["start"] <= current_time:
+                    resource["start"] += RECURRING_TIMES[r_type] * r_period
+                    resource["end"] += RECURRING_TIMES[r_type] * r_period
 
     def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        resp = destination_client.post(self.resource_config.base_path, resource).json()
 
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
         self.resource_config.destination_resources[_id] = resp
 
     def update_resource(self, _id: str, resource: Dict) -> None:

@@ -42,7 +42,7 @@ class Monitors(BaseResource):
 
         self.resource_config.source_resources[str(resource["id"])] = resource
 
-    def pre_resource_action_hook(self, resource: Dict) -> None:
+    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
     def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:

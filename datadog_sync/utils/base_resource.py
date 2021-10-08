@@ -62,7 +62,7 @@ class BaseResource(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def pre_resource_action_hook(self, resource: Dict) -> None:
+    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
     @abc.abstractmethod
@@ -160,7 +160,7 @@ class BaseResource(abc.ABC):
             if not self.filter(resource):
                 continue
 
-            self.pre_resource_action_hook(resource)
+            self.pre_resource_action_hook(_id, resource)
 
             try:
                 self.connect_resources(_id, resource)
@@ -170,12 +170,12 @@ class BaseResource(abc.ABC):
             if _id in self.resource_config.destination_resources:
                 diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
                 if diff:
-                    print("{} resource ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
+                    print("{} resource source ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
             else:
-                print("Resource to be added {}: \n {}".format(self.resource_type, pformat(resource)))
+                print("Resource to be added {} source ID {}: \n {}".format(self.resource_type, _id, pformat(resource)))
 
     def apply_resource(self, _id: str, resource: Dict) -> None:
-        self.pre_resource_action_hook(resource)
+        self.pre_resource_action_hook(_id, resource)
         self.connect_resources(_id, resource)
 
         if _id in self.resource_config.destination_resources:
