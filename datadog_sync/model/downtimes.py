@@ -2,7 +2,7 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
-
+import math
 from typing import Optional, List, Dict
 from datetime import datetime
 
@@ -34,8 +34,13 @@ class Downtimes(BaseResource):
         return resp
 
     def import_resource(self, resource: Dict) -> None:
-        if not resource["canceled"]:
-            self.resource_config.source_resources[str(resource["id"])] = resource
+        if resource["canceled"]:
+            return
+        # Dispose the recurring child downtimes and only retain the parent
+        if resource["recurrence"] and resource["parent_id"]:
+            return
+
+        self.resource_config.source_resources[str(resource["id"])] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.resource_config.destination_resources:
@@ -45,11 +50,15 @@ class Downtimes(BaseResource):
                 if resource["start"] and resource["start"] <= current_time:
                     resource["start"] = current_time + 60
             else:
-                r_type = resource["recurrence"]["type"]
+                # Calculate the next recurrence `start` time by counting the number of recurrences
+                # that has occurred since `start` and round it up
+                r_time = RECURRING_TIMES[resource["recurrence"]["type"]]
                 r_period = resource["recurrence"]["period"]
+                r_interval = r_time * r_period
                 if resource["start"] and resource["start"] <= current_time:
-                    resource["start"] += RECURRING_TIMES[r_type] * r_period
-                    resource["end"] += RECURRING_TIMES[r_type] * r_period
+                    num_of_recurrences_since_start = math.ceil((current_time - resource["start"]) / r_interval)
+                    resource["start"] += r_interval * num_of_recurrences_since_start
+                    resource["end"] += r_interval * num_of_recurrences_since_start
 
     def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         pass
