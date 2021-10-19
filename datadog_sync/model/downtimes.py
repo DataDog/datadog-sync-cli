@@ -2,11 +2,20 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
-
+import math
 from typing import Optional, List, Dict
+from datetime import datetime
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
+
+
+RECURRING_TIMES = {
+    "days": 86400,
+    "weeks": 604800,
+    "months": 2592000,
+    "years": 31536000,
+}
 
 
 class Downtimes(BaseResource):
@@ -25,18 +34,39 @@ class Downtimes(BaseResource):
         return resp
 
     def import_resource(self, resource: Dict) -> None:
+        if resource["canceled"]:
+            return
+        # Dispose the recurring child downtimes and only retain the parent
+        if resource["recurrence"] and resource["parent_id"]:
+            return
+
         self.resource_config.source_resources[str(resource["id"])] = resource
 
-    def pre_resource_action_hook(self, resource: Dict) -> None:
-        pass
+    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+        if _id not in self.resource_config.destination_resources:
+            current_time = round(datetime.now().timestamp())
+            if resource["recurrence"] is None:
+                # If the downtime start time is in the past, convert it to now + 1min
+                if resource["start"] and resource["start"] <= current_time:
+                    resource["start"] = current_time + 60
+            else:
+                # Calculate the next recurrence `start` time by counting the number of recurrences
+                # that has occurred since `start` and round it up
+                r_time = RECURRING_TIMES[resource["recurrence"]["type"]]
+                r_period = resource["recurrence"]["period"]
+                r_interval = r_time * r_period
+                if resource["start"] and resource["start"] <= current_time:
+                    num_of_recurrences_since_start = math.ceil((current_time - resource["start"]) / r_interval)
+                    resource["start"] += r_interval * num_of_recurrences_since_start
+                    resource["end"] += r_interval * num_of_recurrences_since_start
 
     def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        resp = destination_client.post(self.resource_config.base_path, resource).json()
 
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
         self.resource_config.destination_resources[_id] = resp
 
     def update_resource(self, _id: str, resource: Dict) -> None:

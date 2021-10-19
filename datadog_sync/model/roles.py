@@ -37,7 +37,7 @@ class Roles(BaseResource):
         self.destination_roles_mapping = self.get_destination_roles_mapping()
         return None
 
-    def pre_resource_action_hook(self, resource: Dict) -> None:
+    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         self.remap_permissions(resource)
 
     def create_resource(self, _id, resource):

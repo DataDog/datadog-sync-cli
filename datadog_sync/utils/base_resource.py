@@ -62,7 +62,7 @@ class BaseResource(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def pre_resource_action_hook(self, resource: Dict) -> None:
+    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
     @abc.abstractmethod
@@ -80,13 +80,23 @@ class BaseResource(abc.ABC):
     @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         resources = self.config.resources[resource_to_connect].resource_config.destination_resources
-        _id = str(r_obj[key])
-        if _id in resources:
-            # Cast resource id to str on int based on source type
-            type_attr = type(r_obj[key])
-            r_obj[key] = type_attr(resources[_id]["id"])
+        if isinstance(r_obj[key], list):
+            for i, v in enumerate(r_obj[key]):
+                _id = str(v)
+                if _id in resources:
+                    # Cast resource id to str or int based on source type
+                    type_attr = type(v)
+                    r_obj[key][i] = type_attr(resources[_id]["id"])
+                else:
+                    raise ResourceConnectionError(resource_to_connect, _id=_id)
         else:
-            raise ResourceConnectionError(resource_to_connect, _id=_id)
+            _id = str(r_obj[key])
+            if _id in resources:
+                # Cast resource id to str on int based on source type
+                type_attr = type(r_obj[key])
+                r_obj[key] = type_attr(resources[_id]["id"])
+            else:
+                raise ResourceConnectionError(resource_to_connect, _id=_id)
 
     def import_resources(self) -> None:
         # reset source resources obj
@@ -150,7 +160,7 @@ class BaseResource(abc.ABC):
             if not self.filter(resource):
                 continue
 
-            self.pre_resource_action_hook(resource)
+            self.pre_resource_action_hook(_id, resource)
 
             try:
                 self.connect_resources(_id, resource)
@@ -160,12 +170,12 @@ class BaseResource(abc.ABC):
             if _id in self.resource_config.destination_resources:
                 diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
                 if diff:
-                    print("{} resource ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
+                    print("{} resource source ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
             else:
-                print("Resource to be added {}: \n {}".format(self.resource_type, pformat(resource)))
+                print("Resource to be added {} source ID {}: \n {}".format(self.resource_type, _id, pformat(resource)))
 
     def apply_resource(self, _id: str, resource: Dict) -> None:
-        self.pre_resource_action_hook(resource)
+        self.pre_resource_action_hook(_id, resource)
         self.connect_resources(_id, resource)
 
         if _id in self.resource_config.destination_resources:
@@ -175,13 +185,17 @@ class BaseResource(abc.ABC):
                 try:
                     self.update_resource(_id, resource)
                 except Exception as e:
-                    self.config.logger.error(f"error while updating resource {self.resource_type}. Error: {str(e)}")
+                    self.config.logger.error(
+                        f"error while updating resource {self.resource_type}. source ID: {_id} -  Error: {str(e)}"
+                    )
         else:
             prep_resource(self.resource_config, resource)
             try:
                 self.create_resource(_id, resource)
             except Exception as e:
-                self.config.logger.error(f"error while creating resource {self.resource_type}. Error: {str(e)}")
+                self.config.logger.error(
+                    f"error while creating resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
+                )
 
     def connect_resources(self, _id: str, resource: Dict) -> None:
         if not self.resource_config.resource_connections:
