@@ -36,6 +36,9 @@ class Cleanup:
         self.cleanup_notebooks()
         self.cleanup_users()
         self.cleanup_roles()
+        self.cleanup_logs_metrics()
+        self.cleanup_metric_configurations()
+        self.cleanup_host_tags()
         # self.cleanup_integrations_aws()
 
     def validate_org(self):
@@ -182,6 +185,25 @@ class Cleanup:
                 print("deleted resource ", url, resource["account_id"])
             except requests.exceptions.HTTPError as e:
                 print("Error deleting resource: %s", e)
+
+    def cleanup_logs_metrics(self):
+        path = "/api/v2/logs/config/metrics"
+        res = self.get_resources(path)
+        for resource in res["data"]:
+            self.delete_resource(resource["id"], path)
+
+    def cleanup_metric_configurations(self):
+        path = "/api/v2/metrics"
+        res = self.get_resources(path, params={"filter[configured]": "true"})
+        for resource in res["data"]:
+            self.delete_resource(f"{resource['id']}/tags", path)
+
+    def cleanup_host_tags(self):
+        path = "/api/v1/tags/hosts"
+        res = self.get_resources(path)
+        for host_list in res["tags"].values():
+            for host in host_list:
+                self.delete_resource(host, path)
 
     def get_resources(self, path, *args, **kwargs):
         url = self.base_url + path
