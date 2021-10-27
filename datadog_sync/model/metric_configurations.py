@@ -15,11 +15,12 @@ class MetricConfigurations(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={},
         base_path="/api/v2/metrics",
+        excluded_attributes=["attributes.created_at", "attributes.modified_at"],
     )
-    # Additional LogsMetrics specific attributes
+    # Additional MetricConfigurations specific attributes
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path).json()
+        resp = client.get(self.resource_config.base_path, params={"filter[configured]": "true"}).json()
 
         return resp["data"]
 
@@ -36,7 +37,7 @@ class MetricConfigurations(BaseResource):
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = destination_client.post(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}/tags", payload
+            self.resource_config.base_path + f"/{self.resource_config.source_resources[_id]['id']}/tags", payload
         ).json()
 
         self.resource_config.destination_resources[_id] = resp["data"]
