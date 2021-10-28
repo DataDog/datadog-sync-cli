@@ -8,18 +8,36 @@ import pytest
 from datadog_sync.cli import cli
 
 
+# We test resources with resource dependencies only. The rest of the resources are
+# tested in the individual resource test files
+resource_types = [
+    "roles",
+    "users",
+    "dashboards",
+    "dashboard_lists",
+    "synthetics_global_variables",
+    "synthetics_private_locations",
+    "synthetics_tests",
+    "monitors",
+    "downtimes",
+    "service_level_objectives",
+    "slo_corrections",
+]
+
+
 @pytest.mark.vcr
 @pytest.mark.integration
 def test_cli(tmpdir, runner):
+    resources = ",".join(resource_types)
     with tmpdir.as_cwd():
         # Import
         ret = runner.invoke(cli, ["import"])
         assert 0 == ret.exit_code
         #  Sync
-        ret = runner.invoke(cli, ["sync", "--skip-failed-resource-connections=False"])
+        ret = runner.invoke(cli, ["sync", f"--resources={resources}", "--skip-failed-resource-connections=False"])
         assert 0 == ret.exit_code
         # Check diff
-        ret = runner.invoke(cli, ["diffs", "--skip-failed-resource-connections=False"])
+        ret = runner.invoke(cli, ["diffs", f"--resources={resources}", "--skip-failed-resource-connections=False"])
         # assert no diffs are produced
         assert not ret.output
         assert 0 == ret.exit_code

@@ -26,7 +26,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:30 GMT
+      - Thu, 28 Oct 2021 17:49:42 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -52,7 +52,7 @@ interactions:
       x-ratelimit-remaining:
       - '49'
       x-ratelimit-reset:
-      - '30'
+      - '18'
     status:
       code: 200
       message: OK
@@ -80,7 +80,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:30 GMT
+      - Thu, 28 Oct 2021 17:49:42 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -128,7 +128,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:30 GMT
+      - Thu, 28 Oct 2021 17:49:42 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -152,9 +152,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '417'
+      - '419'
       x-ratelimit-reset:
-      - '30'
+      - '18'
     status:
       code: 200
       message: OK
@@ -346,7 +346,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:30 GMT
+      - Thu, 28 Oct 2021 17:49:42 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -372,7 +372,7 @@ interactions:
       x-ratelimit-remaining:
       - '89'
       x-ratelimit-reset:
-      - '30'
+      - '18'
     status:
       code: 200
       message: OK
@@ -460,7 +460,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:30 GMT
+      - Thu, 28 Oct 2021 17:49:42 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -484,9 +484,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '417'
+      - '419'
       x-ratelimit-reset:
-      - '30'
+      - '18'
     status:
       code: 200
       message: OK
@@ -526,7 +526,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:30 GMT
+      - Thu, 28 Oct 2021 17:49:43 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -552,7 +552,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '30'
+      - '17'
     status:
       code: 200
       message: OK
@@ -583,7 +583,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:31 GMT
+      - Thu, 28 Oct 2021 17:49:43 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -702,7 +702,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:31 GMT
+      - Thu, 28 Oct 2021 17:49:43 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -728,7 +728,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '29'
+      - '17'
     status:
       code: 200
       message: OK
@@ -791,7 +791,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:31 GMT
+      - Thu, 28 Oct 2021 17:49:43 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -817,7 +817,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '29'
+      - '17'
     status:
       code: 200
       message: OK
@@ -961,7 +961,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:31 GMT
+      - Thu, 28 Oct 2021 17:49:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -987,7 +987,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '29'
+      - '16'
     status:
       code: 200
       message: OK
@@ -1526,7 +1526,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:31 GMT
+      - Thu, 28 Oct 2021 17:49:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1616,7 +1616,7 @@ interactions:
         "created_at": 1623176221000, "creator": {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com",
         "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id":
         569509, "modified": "2021-06-08T18:30:56.067327+00:00", "priority": null,
-        "overall_state_modified": "2021-10-28T13:29:51+00:00", "overall_state": "OK",
+        "overall_state_modified": "2021-10-28T17:40:51+00:00", "overall_state": "OK",
         "type": "service check", "options": {"notify_audit": false, "locked": false,
         "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds": {"warning":
         1, "ok": 1, "critical": 1}, "new_host_delay": 300, "notify_no_data": true,
@@ -1728,7 +1728,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:31 GMT
+      - Thu, 28 Oct 2021 17:49:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1754,7 +1754,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '9'
+      - '6'
     status:
       code: 200
       message: OK
@@ -1815,7 +1815,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:31 GMT
+      - Thu, 28 Oct 2021 17:49:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1841,7 +1841,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '9'
+      - '6'
     status:
       code: 200
       message: OK
@@ -1893,7 +1893,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:32 GMT
+      - Thu, 28 Oct 2021 17:49:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1919,7 +1919,7 @@ interactions:
       x-ratelimit-remaining:
       - '59'
       x-ratelimit-reset:
-      - '28'
+      - '16'
     status:
       code: 200
       message: OK
@@ -1955,7 +1955,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:32 GMT
+      - Thu, 28 Oct 2021 17:49:45 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2015,7 +2015,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:32 GMT
+      - Thu, 28 Oct 2021 17:49:45 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2067,7 +2067,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:32 GMT
+      - Thu, 28 Oct 2021 17:49:45 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2123,7 +2123,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:32 GMT
+      - Thu, 28 Oct 2021 17:49:45 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2207,7 +2207,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:32 GMT
+      - Thu, 28 Oct 2021 17:49:45 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2278,7 +2278,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:32 GMT
+      - Thu, 28 Oct 2021 17:49:45 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2332,7 +2332,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:32 GMT
+      - Thu, 28 Oct 2021 17:49:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2378,7 +2378,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:33 GMT
+      - Thu, 28 Oct 2021 17:49:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2434,7 +2434,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:33 GMT
+      - Thu, 28 Oct 2021 17:49:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2488,7 +2488,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:33 GMT
+      - Thu, 28 Oct 2021 17:49:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2514,7 +2514,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '27'
+      - '14'
     status:
       code: 200
       message: OK
@@ -2553,7 +2553,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:33 GMT
+      - Thu, 28 Oct 2021 17:49:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2572,966 +2572,6 @@ interactions:
       - nosniff
       x-frame-options:
       - SAMEORIGIN
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"data": {"type": "manage_tags", "id": "test.metric.distribution.example",
-      "attributes": {"tags": ["datacenter", "app"], "include_percentiles": false,
-      "metric_type": "distribution"}}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '183'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/metrics/test.metric.distribution.example/tags
-  response:
-    body:
-      string: '{"data": {"type": "manage_tags", "id": "test.metric.distribution.example",
-        "attributes": {"tags": ["datacenter", "app"], "include_percentiles": false,
-        "created_at": "2021-10-27T18:28:53.198032+00:00", "modified_at": "2021-10-28T14:49:33.664379+00:00",
-        "metric_type": "distribution"}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '268'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:49:33 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '164'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '50'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '49'
-      x-ratelimit-reset:
-      - '27'
-    status:
-      code: 201
-      message: Created
-- request:
-    body: '{"tags": ["test:tag"]}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '22'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/tags/hosts/docker-desktop
-  response:
-    body:
-      string: '{"host": "docker-desktop", "tags": ["test:tag"]}'
-    headers:
-      Alt-Svc:
-      - clear
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '45'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:49:34 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '100'
-      x-ratelimit-period:
-      - '3600'
-      x-ratelimit-remaining:
-      - '97'
-      x-ratelimit-reset:
-      - '627'
-    status:
-      code: 201
-      message: Created
-- request:
-    body: '{"data": {"attributes": {"filter": {"query": "source:cloudtrail @usr.account_id:$usrAccountId"},
-      "group_by": [{"path": "service", "tag_name": "service"}], "compute": {"aggregation_type":
-      "count"}}, "type": "logs_metrics", "id": "test.metric"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '243'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/logs/config/metrics
-  response:
-    body:
-      string: '{"data": {"attributes": {"filter": {"query": "source:cloudtrail @usr.account_id:$usrAccountId"},
-        "group_by": [{"path": "service", "tag_name": "service"}], "compute": {"aggregation_type":
-        "count"}}, "type": "logs_metrics", "id": "test.metric"}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '227'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:49:34 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '216'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '10'
-      x-ratelimit-period:
-      - '300'
-      x-ratelimit-remaining:
-      - '7'
-      x-ratelimit-reset:
-      - '26'
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"data": {"type": "notebooks", "attributes": {"name": "Noueman Notebook",
-      "cells": [{"attributes": {"definition": {"show_legend": true, "type": "timeseries",
-      "requests": [{"q": "avg:system.load.1{*}", "style": {"line_width": "normal",
-      "palette": "dog_classic", "line_type": "solid"}, "display_type": "line"}], "yaxis":
-      {"scale": "linear"}}, "graph_size": "m", "split_by": {"keys": [], "tags": []},
-      "time": null}, "type": "notebook_cells", "id": "g6x1knta"}, {"attributes": {"definition":
-      {"text": "Teeeeeest", "type": "markdown"}}, "type": "notebook_cells", "id":
-      "sf3x5n03"}], "time": {"live_span": "1h"}, "status": "published"}}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '631'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/notebooks
-  response:
-    body:
-      string: '{"data": {"type": "notebooks", "id": 18588, "attributes": {"name":
-        "Noueman Notebook", "cells": [{"attributes": {"definition": {"show_legend":
-        true, "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}", "style":
-        {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
-        "display_type": "line"}], "yaxis": {"scale": "linear"}}, "graph_size": "m",
-        "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
-        "id": "g6x1knta"}, {"attributes": {"definition": {"text": "Teeeeeest", "type":
-        "markdown"}}, "type": "notebook_cells", "id": "sf3x5n03"}], "time": {"live_span":
-        "1h"}, "metadata": {"is_template": false, "type": null, "take_snapshots":
-        false}, "status": "published", "modified": "2021-10-28T14:49:34.952190+00:00",
-        "created": "2021-10-28T14:49:34.952190+00:00", "author": {"name": "Frog",
-        "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
-        "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '984'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:49:35 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '219'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '30'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '29'
-      x-ratelimit-reset:
-      - '26'
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"data": {"type": "notebooks", "attributes": {"name": "Test Notebook",
-      "cells": [{"attributes": {"definition": {"show_legend": true, "title": "Test
-      Notebook", "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}",
-      "style": {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
-      "display_type": "line"}], "yaxis": {"scale": "linear"}}, "graph_size": "m",
-      "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
-      "id": "2fsbpu0n"}, {"attributes": {"definition": {"text": "Test message", "type":
-      "markdown"}}, "type": "notebook_cells", "id": "dp2x1d2e"}, {"attributes": {"definition":
-      {"requests": [{"formulas": [{"formula": "query1"}], "response_format": "scalar",
-      "queries": [{"query": "avg:system.load.1{*}", "data_source": "metrics", "name":
-      "query1", "aggregator": "avg"}]}], "type": "toplist"}, "graph_size": "m", "split_by":
-      {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells", "id": "qoavau2o"}],
-      "time": {"live_span": "1h"}, "status": "published"}}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '1020'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/notebooks
-  response:
-    body:
-      string: '{"data": {"type": "notebooks", "id": 18589, "attributes": {"name":
-        "Test Notebook", "cells": [{"attributes": {"definition": {"show_legend": true,
-        "title": "Test Notebook", "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}",
-        "style": {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
-        "display_type": "line"}], "yaxis": {"scale": "linear"}}, "graph_size": "m",
-        "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
-        "id": "2fsbpu0n"}, {"attributes": {"definition": {"text": "Test message",
-        "type": "markdown"}}, "type": "notebook_cells", "id": "dp2x1d2e"}, {"attributes":
-        {"definition": {"requests": [{"formulas": [{"formula": "query1"}], "response_format":
-        "scalar", "queries": [{"query": "avg:system.load.1{*}", "data_source": "metrics",
-        "name": "query1", "aggregator": "avg"}]}], "type": "toplist"}, "graph_size":
-        "m", "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
-        "id": "qoavau2o"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
-        false, "type": null, "take_snapshots": false}, "status": "published", "modified":
-        "2021-10-28T14:49:35.349400+00:00", "created": "2021-10-28T14:49:35.349400+00:00",
-        "author": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
-        "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '1339'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:49:35 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '236'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '30'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '28'
-      x-ratelimit-reset:
-      - '25'
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"data": {"type": "notebooks", "attributes": {"name": "RFC: [title] (from
-      template)", "cells": [{"attributes": {"definition": {"text": "Property                 |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Author(s)**              |
-      Name (Team name, Role), Name (Team name, Role)            \n**Status:**     |Draft
-      / Review / Accepted / Closed        \n**Date Created:**              |HH:mm
-      UTC MM/dd/yyyy                    \n\n_Use this template to outline your proposal,
-      including graphs, code snippets, and images where necessary._ ", "type": "markdown"}},
-      "type": "notebook_cells", "id": "l8rkjzhd"}, {"attributes": {"definition": {"text":
-      "\n# Overview\n_Concisely describe the problem you need to solve and your recommended
-      solution._\n\n\n# Problem\n_Describe the motivation for this proposal. Why is
-      it important to solve?_\n\n# Constraints\n_Note any requirements that a solution
-      must fulfill._\n\n1. \n2. \n\n\n\n", "type": "markdown"}}, "type": "notebook_cells",
-      "id": "2te0gswu"}, {"attributes": {"definition": {"show_legend": true, "type":
-      "timeseries", "requests": [{"q": "avg:system.load.1{*}", "style": {"line_width":
-      "normal", "palette": "purple", "line_type": "solid"}, "display_type": "area"}],
-      "yaxis": {"scale": "linear"}}, "graph_size": "xs", "split_by": {"keys": [],
-      "tags": []}, "time": null}, "type": "notebook_cells", "id": "z8youq6a"}, {"attributes":
-      {"definition": {"text": "# Proposed Solution\n_Describe your solution in detail.
-      Explain why it''s better than the current state and other options considered.
-      Address any critical operational issues like failure modes, failover, redundancy,
-      performance, etc. Include graphs and code snippets of design details where necessary._\n\n-
-      Strengths\n     - Example: takes up minimal disk space\n     -\n- Weaknesses\n     -
-      Example: hash isn''t human-readable\n     -\n- Failure Modes\n   \n", "type":
-      "markdown"}}, "type": "notebook_cells", "id": "7dacumjb"}, {"attributes": {"definition":
-      {"text": "```json\n{ \n  \"data\": {\n    \"type\": \"notebooks\",\n    \"id\":
-      0,\n    \"attributes\": {\n      \"cells\": [\n        {\n          \"type\":
-      \"notebook_cells\",\n          \"id\": \"abcd1234\"\n        }\n      ],\n      \"status\":
-      \"published\",\n      \"name\": \"Example Notebook\",\n      \"author\": {\n        \"name\":
-      \"string\",\n        \"handle\": \"string\",\n        \"created_at\": \"2021-03-17T16:42:17.382Z\",  \n        \"email\":
-      \"string\",\n        \"icon\": \"string\",\n        \"title\": \"string\",\n        \"verified\":
-      true,\n        \"disabled\": true,\n        \"status\": \"string\"\n        }\n    }\n  }\n}\n```",
-      "type": "markdown"}}, "type": "notebook_cells", "id": "34uin7xs"}, {"attributes":
-      {"definition": {"text": "# Alternatives Considered\n_Describe other options
-      considered and the tradeoffs relative to the recommended solution._\n## Solution
-      1\n## Solution 2\n\n", "type": "markdown"}}, "type": "notebook_cells", "id":
-      "0ryy65ac"}, {"attributes": {"definition": {"text": "# Open Questions\n_Note
-      relevant questions and design topics._\n\n# Appendix\n_[Link](/) relevant documents
-      or references._", "type": "markdown"}}, "type": "notebook_cells", "id": "5xnxosip"}],
-      "time": {"live_span": "1h"}, "status": "published"}}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '3392'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/notebooks
-  response:
-    body:
-      string: '{"data": {"type": "notebooks", "id": 18590, "attributes": {"name":
-        "RFC: [title] (from template)", "cells": [{"attributes": {"definition": {"text":
-        "Property                 |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Author(s)**              |
-        Name (Team name, Role), Name (Team name, Role)            \n**Status:**     |Draft
-        / Review / Accepted / Closed        \n**Date Created:**              |HH:mm
-        UTC MM/dd/yyyy                    \n\n_Use this template to outline your proposal,
-        including graphs, code snippets, and images where necessary._ ", "type": "markdown"}},
-        "type": "notebook_cells", "id": "l8rkjzhd"}, {"attributes": {"definition":
-        {"text": "\n# Overview\n_Concisely describe the problem you need to solve
-        and your recommended solution._\n\n\n# Problem\n_Describe the motivation for
-        this proposal. Why is it important to solve?_\n\n# Constraints\n_Note any
-        requirements that a solution must fulfill._\n\n1. \n2. \n\n\n\n", "type":
-        "markdown"}}, "type": "notebook_cells", "id": "2te0gswu"}, {"attributes":
-        {"definition": {"show_legend": true, "type": "timeseries", "requests": [{"q":
-        "avg:system.load.1{*}", "style": {"line_width": "normal", "palette": "purple",
-        "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale": "linear"}},
-        "graph_size": "xs", "split_by": {"keys": [], "tags": []}, "time": null}, "type":
-        "notebook_cells", "id": "z8youq6a"}, {"attributes": {"definition": {"text":
-        "# Proposed Solution\n_Describe your solution in detail. Explain why it''s
-        better than the current state and other options considered. Address any critical
-        operational issues like failure modes, failover, redundancy, performance,
-        etc. Include graphs and code snippets of design details where necessary._\n\n-
-        Strengths\n     - Example: takes up minimal disk space\n     -\n- Weaknesses\n     -
-        Example: hash isn''t human-readable\n     -\n- Failure Modes\n   \n", "type":
-        "markdown"}}, "type": "notebook_cells", "id": "7dacumjb"}, {"attributes":
-        {"definition": {"text": "```json\n{ \n  \"data\": {\n    \"type\": \"notebooks\",\n    \"id\":
-        0,\n    \"attributes\": {\n      \"cells\": [\n        {\n          \"type\":
-        \"notebook_cells\",\n          \"id\": \"abcd1234\"\n        }\n      ],\n      \"status\":
-        \"published\",\n      \"name\": \"Example Notebook\",\n      \"author\": {\n        \"name\":
-        \"string\",\n        \"handle\": \"string\",\n        \"created_at\": \"2021-03-17T16:42:17.382Z\",  \n        \"email\":
-        \"string\",\n        \"icon\": \"string\",\n        \"title\": \"string\",\n        \"verified\":
-        true,\n        \"disabled\": true,\n        \"status\": \"string\"\n        }\n    }\n  }\n}\n```",
-        "type": "markdown"}}, "type": "notebook_cells", "id": "34uin7xs"}, {"attributes":
-        {"definition": {"text": "# Alternatives Considered\n_Describe other options
-        considered and the tradeoffs relative to the recommended solution._\n## Solution
-        1\n## Solution 2\n\n", "type": "markdown"}}, "type": "notebook_cells", "id":
-        "0ryy65ac"}, {"attributes": {"definition": {"text": "# Open Questions\n_Note
-        relevant questions and design topics._\n\n# Appendix\n_[Link](/) relevant
-        documents or references._", "type": "markdown"}}, "type": "notebook_cells",
-        "id": "5xnxosip"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
-        false, "type": null, "take_snapshots": false}, "status": "published", "modified":
-        "2021-10-28T14:49:35.681418+00:00", "created": "2021-10-28T14:49:35.681418+00:00",
-        "author": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
-        "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '3695'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:49:35 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '184'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '30'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '27'
-      x-ratelimit-reset:
-      - '25'
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"data": {"type": "notebooks", "attributes": {"name": "Gameday YYYY-MM-DD:
-      [App Name] (from template)", "cells": [{"attributes": {"definition": {"text":
-      "Game days provide a framework to help us discover weaknesses, create more useful
-      alerts, and deploy fixes that improve the way our services respond to failures.\n\n**Using
-      this template:**\n- Record your test plan ahead of time\n- Set the time frame
-      to match your planned failures\n- Use graphs to visualize signals you monitored
-      and responded to\n- Collaborate on follow-up tasks\n\n---", "type": "markdown"}},
-      "type": "notebook_cells", "id": "vcwaa3le"}, {"attributes": {"definition": {"text":
-      "# Participants:\n- Name (Team name, Role)\n- Name (Team name, Role)\n", "type":
-      "markdown"}}, "type": "notebook_cells", "id": "w6f782jr"}, {"attributes": {"definition":
-      {"text": "# Goal\n_What is the purpose of this gameday?_\n\n# Dependencies\n_Which
-      services does the app depend on to function properly? Include graphs where necessary._\n\n#
-      Related services\n_Which related services does the app depend on? Include graphs
-      where necessary._\n- [Related Dashboards](/dashboard/lists)\n\n# Related outages\n_Optional:
-      what outages relate to this exercise?_\n\n", "type": "markdown"}}, "type": "notebook_cells",
-      "id": "6iuzz8ye"}, {"attributes": {"definition": {"text": "### [replace this
-      graph with relevant service ]", "type": "markdown"}}, "type": "notebook_cells",
-      "id": "rpj42y2g"}, {"attributes": {"definition": {"show_legend": true, "type":
-      "timeseries", "requests": [{"q": "avg:system.load.1{*} by {service}", "style":
-      {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"}, "display_type":
-      "area"}], "yaxis": {"scale": "linear"}}, "graph_size": "xs", "split_by": {"keys":
-      [], "tags": []}, "time": null}, "type": "notebook_cells", "id": "rw9np336"},
-      {"attributes": {"definition": {"text": "# Test 1: [name]\n_Clone this cell to
-      create more tests_\n## Prerequisites\n_Optional tasks to complete before the
-      test_\n- [X] ~~Prereq 1~~\n- [ ] Prereq 2\n\n## Action\n_Actions to take during
-      the test (script to run, instance to shutdown, etc.)_\n- [ ] Action 1\n- [ ]
-      Action 2\n\n## Observability\n_Dashboards, graphs, log files, and other resources
-      to monitor during the test. Include relevant graphs._\n- [Related Dashboards](/dashboard/lists)\n\n\n##
-      Cleanup\n_Optional tasks to go back to a clean state_\n- [ ] Task 1\n- [ ] Task
-      2\n\nExpected Results | Actual Results|  Comments | \n------------------------|--------------------
-      | ---------------- |\nExample: Monitor ID 1234567890 should trigger  |PASS /
-      FAIL / UNKNOWN |  This went wrong, we believe this is the issue     |\n_  |
-      PASS / FAIL / UNKNOWN   | _ |\n_  | PASS / FAIL / UNKNOWN   | _ |\n\n\n### Notes\n-
-      Optional\n- Interesting graphs, loglines, general comments on the test, etc.",
-      "type": "markdown"}}, "type": "notebook_cells", "id": "08zotnlb"}, {"attributes":
-      {"definition": {"show_legend": true, "type": "timeseries", "requests": [{"q":
-      "avg:system.load.1{*} by {service}", "style": {"line_width": "normal", "palette":
-      "dog_classic", "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale":
-      "linear"}}, "graph_size": "xs", "split_by": {"keys": [], "tags": []}, "time":
-      null}, "type": "notebook_cells", "id": "8uzbdxoc"}, {"attributes": {"definition":
-      {"text": "## Follow-up work\nFor each issue/improvement identified, create a
-      follow-up action with an owner, priority, and due date. \n**This is the most
-      important part of the gameday!**\n\n- Issue 1: [Link to follow-up item](/)\n-
-      Issue 2: [Link to follow-up item](/)\n", "type": "markdown"}}, "type": "notebook_cells",
-      "id": "wwhju4ds"}], "time": {"live_span": "1h"}, "status": "published"}}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '3699'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/notebooks
-  response:
-    body:
-      string: '{"data": {"type": "notebooks", "id": 18591, "attributes": {"name":
-        "Gameday YYYY-MM-DD: [App Name] (from template)", "cells": [{"attributes":
-        {"definition": {"text": "Game days provide a framework to help us discover
-        weaknesses, create more useful alerts, and deploy fixes that improve the way
-        our services respond to failures.\n\n**Using this template:**\n- Record your
-        test plan ahead of time\n- Set the time frame to match your planned failures\n-
-        Use graphs to visualize signals you monitored and responded to\n- Collaborate
-        on follow-up tasks\n\n---", "type": "markdown"}}, "type": "notebook_cells",
-        "id": "vcwaa3le"}, {"attributes": {"definition": {"text": "# Participants:\n-
-        Name (Team name, Role)\n- Name (Team name, Role)\n", "type": "markdown"}},
-        "type": "notebook_cells", "id": "w6f782jr"}, {"attributes": {"definition":
-        {"text": "# Goal\n_What is the purpose of this gameday?_\n\n# Dependencies\n_Which
-        services does the app depend on to function properly? Include graphs where
-        necessary._\n\n# Related services\n_Which related services does the app depend
-        on? Include graphs where necessary._\n- [Related Dashboards](/dashboard/lists)\n\n#
-        Related outages\n_Optional: what outages relate to this exercise?_\n\n", "type":
-        "markdown"}}, "type": "notebook_cells", "id": "6iuzz8ye"}, {"attributes":
-        {"definition": {"text": "### [replace this graph with relevant service ]",
-        "type": "markdown"}}, "type": "notebook_cells", "id": "rpj42y2g"}, {"attributes":
-        {"definition": {"show_legend": true, "type": "timeseries", "requests": [{"q":
-        "avg:system.load.1{*} by {service}", "style": {"line_width": "normal", "palette":
-        "dog_classic", "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale":
-        "linear"}}, "graph_size": "xs", "split_by": {"keys": [], "tags": []}, "time":
-        null}, "type": "notebook_cells", "id": "rw9np336"}, {"attributes": {"definition":
-        {"text": "# Test 1: [name]\n_Clone this cell to create more tests_\n## Prerequisites\n_Optional
-        tasks to complete before the test_\n- [X] ~~Prereq 1~~\n- [ ] Prereq 2\n\n##
-        Action\n_Actions to take during the test (script to run, instance to shutdown,
-        etc.)_\n- [ ] Action 1\n- [ ] Action 2\n\n## Observability\n_Dashboards, graphs,
-        log files, and other resources to monitor during the test. Include relevant
-        graphs._\n- [Related Dashboards](/dashboard/lists)\n\n\n## Cleanup\n_Optional
-        tasks to go back to a clean state_\n- [ ] Task 1\n- [ ] Task 2\n\nExpected
-        Results | Actual Results|  Comments | \n------------------------|--------------------
-        | ---------------- |\nExample: Monitor ID 1234567890 should trigger  |PASS
-        / FAIL / UNKNOWN |  This went wrong, we believe this is the issue     |\n_  |
-        PASS / FAIL / UNKNOWN   | _ |\n_  | PASS / FAIL / UNKNOWN   | _ |\n\n\n###
-        Notes\n- Optional\n- Interesting graphs, loglines, general comments on the
-        test, etc.", "type": "markdown"}}, "type": "notebook_cells", "id": "08zotnlb"},
-        {"attributes": {"definition": {"show_legend": true, "type": "timeseries",
-        "requests": [{"q": "avg:system.load.1{*} by {service}", "style": {"line_width":
-        "normal", "palette": "dog_classic", "line_type": "solid"}, "display_type":
-        "area"}], "yaxis": {"scale": "linear"}}, "graph_size": "xs", "split_by": {"keys":
-        [], "tags": []}, "time": null}, "type": "notebook_cells", "id": "8uzbdxoc"},
-        {"attributes": {"definition": {"text": "## Follow-up work\nFor each issue/improvement
-        identified, create a follow-up action with an owner, priority, and due date.
-        \n**This is the most important part of the gameday!**\n\n- Issue 1: [Link
-        to follow-up item](/)\n- Issue 2: [Link to follow-up item](/)\n", "type":
-        "markdown"}}, "type": "notebook_cells", "id": "wwhju4ds"}], "time": {"live_span":
-        "1h"}, "metadata": {"is_template": false, "type": null, "take_snapshots":
-        false}, "status": "published", "modified": "2021-10-28T14:49:36.439161+00:00",
-        "created": "2021-10-28T14:49:36.439161+00:00", "author": {"name": "Frog",
-        "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
-        "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '3968'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:49:36 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '335'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '30'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '26'
-      x-ratelimit-reset:
-      - '24'
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"data": {"type": "notebooks", "attributes": {"name": "Postmortem IR-xxxx:
-      [outage name] (from template)", "cells": [{"attributes": {"definition": {"text":
-      "Incident Property                  |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Status:**                |Active/Stable/Resolved                  \n**Severity:**     |SEV-X                      \n**Started:**              |HH:mm
-      UTC MM/dd/yyyy                  \n**Commander:**     |[name]                 \n**Incident
-      Overview:** | [IR-xxxx] (/incidents)                 \n**Slack Channel:**        |[#IR-xxxx]
-      (/link)                 \n\n_You can generate a postmortem [from any resolved
-      incident](/incidents?query=state%3Aresolved) with these fields pre-fillled,
-      along with incident metadata and timeline._ ", "type": "markdown"}}, "type":
-      "notebook_cells", "id": "pp1vm0s8"}, {"attributes": {"definition": {"text":
-      "# What happened?\n### Impact on customers\n_How did this incident impact external
-      users?_", "type": "markdown"}}, "type": "notebook_cells", "id": "dci6b8sg"},
-      {"attributes": {"definition": {"text": "# Why did it happen?\n### Root cause\n_A
-      deep dive into the causes and what went particularly wrong._", "type": "markdown"}},
-      "type": "notebook_cells", "id": "zcm3akyt"}, {"attributes": {"definition": {"text":
-      "# Timeline\n\n_A detailed sequence of the events that led to the incident,
-      including contributing factors, notification, and remediation actions._\n\n_You
-      can add graphs that show what happened and scope them to the exact time range
-      of the incident._\n\n", "type": "markdown"}}, "type": "notebook_cells", "id":
-      "xwhr4e9q"}, {"attributes": {"definition": {"text": "- [timestamp] event\n-
-      [timestamp] event", "type": "markdown"}}, "type": "notebook_cells", "id": "hy9zij5i"},
-      {"attributes": {"definition": {"show_legend": true, "type": "timeseries", "requests":
-      [{"q": "avg:system.load.1{*}", "style": {"line_width": "normal", "palette":
-      "dog_classic", "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale":
-      "linear"}}, "graph_size": "m", "split_by": {"keys": [], "tags": []}, "time":
-      null}, "type": "notebook_cells", "id": "kmp003ky"}, {"attributes": {"definition":
-      {"text": "# How do we prevent it in the future?\n### Action Items\n_Include
-      both short-term and long-term steps to prevent this in the future. Link to any
-      relevant action items, and include when the action items are planned._\n\n\n###
-      Short-term\n- [X] ~~Action 1~~\n- [ ] Action 2\n\n### Long-term\n- [ ] Action
-      1\n- [ ] Action 2", "type": "markdown"}}, "type": "notebook_cells", "id": "gajt34ww"}],
-      "time": {"live_span": "1h"}, "status": "published"}}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '2768'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/notebooks
-  response:
-    body:
-      string: '{"data": {"type": "notebooks", "id": 18592, "attributes": {"name":
-        "Postmortem IR-xxxx: [outage name] (from template)", "cells": [{"attributes":
-        {"definition": {"text": "Incident Property                  |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Status:**                |Active/Stable/Resolved                  \n**Severity:**     |SEV-X                      \n**Started:**              |HH:mm
-        UTC MM/dd/yyyy                  \n**Commander:**     |[name]                 \n**Incident
-        Overview:** | [IR-xxxx] (/incidents)                 \n**Slack Channel:**        |[#IR-xxxx]
-        (/link)                 \n\n_You can generate a postmortem [from any resolved
-        incident](/incidents?query=state%3Aresolved) with these fields pre-fillled,
-        along with incident metadata and timeline._ ", "type": "markdown"}}, "type":
-        "notebook_cells", "id": "pp1vm0s8"}, {"attributes": {"definition": {"text":
-        "# What happened?\n### Impact on customers\n_How did this incident impact
-        external users?_", "type": "markdown"}}, "type": "notebook_cells", "id": "dci6b8sg"},
-        {"attributes": {"definition": {"text": "# Why did it happen?\n### Root cause\n_A
-        deep dive into the causes and what went particularly wrong._", "type": "markdown"}},
-        "type": "notebook_cells", "id": "zcm3akyt"}, {"attributes": {"definition":
-        {"text": "# Timeline\n\n_A detailed sequence of the events that led to the
-        incident, including contributing factors, notification, and remediation actions._\n\n_You
-        can add graphs that show what happened and scope them to the exact time range
-        of the incident._\n\n", "type": "markdown"}}, "type": "notebook_cells", "id":
-        "xwhr4e9q"}, {"attributes": {"definition": {"text": "- [timestamp] event\n-
-        [timestamp] event", "type": "markdown"}}, "type": "notebook_cells", "id":
-        "hy9zij5i"}, {"attributes": {"definition": {"show_legend": true, "type": "timeseries",
-        "requests": [{"q": "avg:system.load.1{*}", "style": {"line_width": "normal",
-        "palette": "dog_classic", "line_type": "solid"}, "display_type": "area"}],
-        "yaxis": {"scale": "linear"}}, "graph_size": "m", "split_by": {"keys": [],
-        "tags": []}, "time": null}, "type": "notebook_cells", "id": "kmp003ky"}, {"attributes":
-        {"definition": {"text": "# How do we prevent it in the future?\n### Action
-        Items\n_Include both short-term and long-term steps to prevent this in the
-        future. Link to any relevant action items, and include when the action items
-        are planned._\n\n\n### Short-term\n- [X] ~~Action 1~~\n- [ ] Action 2\n\n###
-        Long-term\n- [ ] Action 1\n- [ ] Action 2", "type": "markdown"}}, "type":
-        "notebook_cells", "id": "gajt34ww"}], "time": {"live_span": "1h"}, "metadata":
-        {"is_template": false, "type": null, "take_snapshots": false}, "status": "published",
-        "modified": "2021-10-28T14:49:36.922096+00:00", "created": "2021-10-28T14:49:36.922096+00:00",
-        "author": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
-        "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '3071'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:49:36 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '295'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '30'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '25'
-      x-ratelimit-reset:
-      - '24'
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"is_enabled": true, "name": "Test pipeline", "filter": {"query": "test:query"},
-      "processors": []}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '98'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
-  response:
-    body:
-      string: '{"is_enabled": true, "name": "Test pipeline", "filter": {"query": "test:query"},
-        "is_read_only": false, "type": "pipeline", "id": "59N8vYHfToezciUCeKEODw",
-        "processors": []}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '159'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:49:37 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '134'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '10'
-      x-ratelimit-period:
-      - '300'
-      x-ratelimit-remaining:
-      - '5'
-      x-ratelimit-reset:
-      - '23'
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"is_enabled": true, "name": "Test Pipeline - Complex", "filter": {"query":
-      "source:foo"}, "processors": [{"is_enabled": true, "name": "sample arithmetic
-      processor", "expression": "(time1 - time2)*1000", "is_replace_missing": true,
-      "type": "arithmetic-processor", "target": "my_arithmetic"}, {"is_enabled": true,
-      "override_on_conflict": false, "target": "db", "target_format": "string", "source_type":
-      "tag", "target_type": "attribute", "sources": ["db.instance"], "preserve_source":
-      true, "type": "attribute-remapper", "name": "sample attribute processor"}, {"is_enabled":
-      true, "type": "category-processor", "name": "sample category processor", "categories":
-      [{"filter": {"query": "@severity: \".\""}, "name": "debug"}, {"filter": {"query":
-      "@severity: \"-\""}, "name": "verbose"}], "target": "foo.severity"}, {"is_enabled":
-      true, "sources": ["_timestamp", "published_date"], "type": "date-remapper",
-      "name": "sample date remapper"}, {"is_enabled": true, "ip_processing_behavior":
-      "do-nothing", "name": "sample geo ip parser", "sources": ["network.client.ip"],
-      "type": "geo-ip-parser", "target": "network.client.geoip"}, {"is_enabled": true,
-      "grok": {"support_rules": "", "match_rules": "Rule %{word:my_word2} %{number:my_float2}"},
-      "name": "sample grok parser", "source": "message", "samples": ["sample log 1"],
-      "type": "grok-parser"}, {"is_enabled": true, "name": "sample lookup processor",
-      "source": "service_id", "lookup_table": ["1,my service"], "default_lookup":
-      "unknown service", "type": "lookup-processor", "target": "service_name"}, {"is_enabled":
-      true, "sources": ["msg"], "type": "message-remapper", "name": "sample message
-      remapper"}, {"is_enabled": true, "filter": {"query": "source:foo"}, "type":
-      "pipeline", "name": "nested pipeline", "processors": [{"is_enabled": false,
-      "name": "sample url parser", "sources": ["url", "extra"], "target": "http_url",
-      "type": "url-parser", "normalize_ending_slashes": true}]}, {"is_enabled": true,
-      "sources": ["service"], "type": "service-remapper", "name": "sample service
-      remapper"}, {"is_enabled": true, "sources": ["info", "trace"], "type": "status-remapper",
-      "name": "sample status remapper"}, {"is_enabled": true, "name": "sample string
-      builder processor", "is_replace_missing": false, "template": "%{user.name} logged
-      in at %{timestamp}", "type": "string-builder-processor", "target": "user_activity"},
-      {"is_enabled": true, "sources": ["dd.trace_id"], "type": "trace-id-remapper",
-      "name": "sample trace id remapper"}, {"is_enabled": true, "name": "sample user
-      agent parser", "sources": ["user", "agent"], "is_encoded": false, "type": "user-agent-parser",
-      "target": "http_agent"}]}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '2639'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
-  response:
-    body:
-      string: '{"is_enabled": true, "name": "Test Pipeline - Complex", "filter": {"query":
-        "source:foo"}, "is_read_only": false, "type": "pipeline", "id": "u13mBne7RU6TYdSoM74V3Q",
-        "processors": [{"is_enabled": true, "name": "sample arithmetic processor",
-        "expression": "(time1 - time2)*1000", "is_replace_missing": true, "type":
-        "arithmetic-processor", "target": "my_arithmetic"}, {"is_enabled": true, "override_on_conflict":
-        false, "target": "db", "target_format": "string", "source_type": "tag", "target_type":
-        "attribute", "sources": ["db.instance"], "preserve_source": true, "type":
-        "attribute-remapper", "name": "sample attribute processor"}, {"is_enabled":
-        true, "type": "category-processor", "name": "sample category processor", "categories":
-        [{"filter": {"query": "@severity: \".\""}, "name": "debug"}, {"filter": {"query":
-        "@severity: \"-\""}, "name": "verbose"}], "target": "foo.severity"}, {"is_enabled":
-        true, "sources": ["_timestamp", "published_date"], "type": "date-remapper",
-        "name": "sample date remapper"}, {"is_enabled": true, "ip_processing_behavior":
-        "do-nothing", "name": "sample geo ip parser", "sources": ["network.client.ip"],
-        "type": "geo-ip-parser", "target": "network.client.geoip"}, {"is_enabled":
-        true, "grok": {"support_rules": "", "match_rules": "Rule %{word:my_word2}
-        %{number:my_float2}"}, "name": "sample grok parser", "source": "message",
-        "samples": ["sample log 1"], "type": "grok-parser"}, {"is_enabled": true,
-        "name": "sample lookup processor", "source": "service_id", "lookup_table":
-        ["1,my service"], "default_lookup": "unknown service", "type": "lookup-processor",
-        "target": "service_name"}, {"is_enabled": true, "sources": ["msg"], "type":
-        "message-remapper", "name": "sample message remapper"}, {"is_enabled": true,
-        "filter": {"query": "source:foo"}, "type": "pipeline", "name": "nested pipeline",
-        "processors": [{"is_enabled": false, "name": "sample url parser", "sources":
-        ["url", "extra"], "target": "http_url", "type": "url-parser", "normalize_ending_slashes":
-        true}]}, {"is_enabled": true, "sources": ["service"], "type": "service-remapper",
-        "name": "sample service remapper"}, {"is_enabled": true, "sources": ["info",
-        "trace"], "type": "status-remapper", "name": "sample status remapper"}, {"is_enabled":
-        true, "name": "sample string builder processor", "is_replace_missing": false,
-        "template": "%{user.name} logged in at %{timestamp}", "type": "string-builder-processor",
-        "target": "user_activity"}, {"is_enabled": true, "sources": ["dd.trace_id"],
-        "type": "trace-id-remapper", "name": "sample trace id remapper"}, {"is_enabled":
-        true, "name": "sample user agent parser", "sources": ["user", "agent"], "is_encoded":
-        false, "type": "user-agent-parser", "target": "http_agent"}]}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '2519'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:49:37 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '106'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '10'
-      x-ratelimit-period:
-      - '300'
-      x-ratelimit-remaining:
-      - '4'
-      x-ratelimit-reset:
-      - '23'
     status:
       code: 200
       message: OK
@@ -3556,9 +2596,9 @@ interactions:
   response:
     body:
       string: '{"private_location": {"name": "Test Private Variable", "tags": ["key:value"],
-        "description": "datadog-sync-cli test", "modifiedAt": "2021-10-28T14:49:38.352471+00:00",
-        "config": {"site": "datadoghq.eu"}, "id": "pl:test-private-variable-b5ac1a2de6527b0f6200f07550ddcd2a",
-        "createdAt": "2021-10-28T14:49:38.352471+00:00", "metadata": null}, "result_encryption":
+        "description": "datadog-sync-cli test", "modifiedAt": "2021-10-28T17:49:47.793004+00:00",
+        "config": {"site": "datadoghq.eu"}, "id": "pl:test-private-variable-653028d3ef7f1528029f53f9ccd10991",
+        "createdAt": "2021-10-28T17:49:47.793004+00:00", "metadata": null}, "result_encryption":
         {"id": "sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins=", "key":
         "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
         PUBLIC KEY-----\n"}}'
@@ -3578,7 +2618,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:38 GMT
+      - Thu, 28 Oct 2021 17:49:47 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3588,7 +2628,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '752'
+      - '1091'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -3621,10 +2661,10 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "paused", "public_id": "tg7-3tq-9fr", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "rir-se2-edi", "tags": [], "org_id":
         1000044987, "locations": ["aws:ca-central-1"], "message": "Test synthetics
-        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 2916419, "type":
-        "api", "created_at": "2021-10-28T14:49:38.906627+00:00", "modified_at": "2021-10-28T14:49:38.906627+00:00",
+        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 2918211, "type":
+        "api", "created_at": "2021-10-28T17:49:48.303380+00:00", "modified_at": "2021-10-28T17:49:48.303380+00:00",
         "subtype": "http", "config": {"request": {"url": "https://google.com", "method":
         "GET"}, "assertions": [{"operator": "lessThan", "type": "responseTime", "target":
         1000}, {"operator": "is", "type": "statusCode", "target": 301}, {"operator":
@@ -3650,7 +2690,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:38 GMT
+      - Thu, 28 Oct 2021 17:49:48 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3668,7 +2708,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '22'
+      - '12'
     status:
       code: 200
       message: OK
@@ -3696,11 +2736,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "igh-u2i-zr6", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "6k6-xu2-6sq", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "DNS Test", "monitor_id":
-        2916420, "type": "api", "created_at": "2021-10-28T14:49:39.439245+00:00",
-        "modified_at": "2021-10-28T14:49:39.439245+00:00", "subtype": "dns", "config":
+        2918212, "type": "api", "created_at": "2021-10-28T17:49:48.677325+00:00",
+        "modified_at": "2021-10-28T17:49:48.677325+00:00", "subtype": "dns", "config":
         {"request": {"host": "example.org"}, "assertions": [{"operator": "is", "property":
         "A", "type": "recordSome", "target": "0.0.0.0"}]}, "options": {"monitor_options":
         {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
@@ -3722,7 +2762,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:39 GMT
+      - Thu, 28 Oct 2021 17:49:48 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3732,7 +2772,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '383'
+      - '261'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -3742,7 +2782,7 @@ interactions:
       x-ratelimit-remaining:
       - '11998'
       x-ratelimit-reset:
-      - '21'
+      - '12'
     status:
       code: 200
       message: OK
@@ -3770,11 +2810,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "q24-39r-edy", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "fnk-chc-qfa", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "SSL Test", "monitor_id":
-        2916421, "type": "api", "created_at": "2021-10-28T14:49:39.918329+00:00",
-        "modified_at": "2021-10-28T14:49:39.918329+00:00", "subtype": "ssl", "config":
+        2918213, "type": "api", "created_at": "2021-10-28T17:49:49.150786+00:00",
+        "modified_at": "2021-10-28T17:49:49.150786+00:00", "subtype": "ssl", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "isInMoreThan", "type": "certificate", "target": 30}]}, "options": {"accept_self_signed":
         true, "tick_every": 900, "monitor_options": {"notify_audit": false, "locked":
@@ -3796,7 +2836,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:40 GMT
+      - Thu, 28 Oct 2021 17:49:49 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3805,6 +2845,8 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '308'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -3814,13 +2856,13 @@ interactions:
       x-ratelimit-remaining:
       - '11997'
       x-ratelimit-reset:
-      - '21'
+      - '12'
     status:
       code: 200
       message: OK
 - request:
     body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
-      ["pl:test-private-variable-b5ac1a2de6527b0f6200f07550ddcd2a", "aws:eu-central-1"],
+      ["pl:test-private-variable-653028d3ef7f1528029f53f9ccd10991", "aws:eu-central-1"],
       "message": "Notify @pagerduty", "name": "HTTP Test - example", "type": "api",
       "subtype": "http", "config": {"request": {"url": "https://www.example.org",
       "headers": {"Authentication": "Token: 1234566789", "Content-Type": "application/json"},
@@ -3844,11 +2886,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "88g-szf-a5t", "tags": ["foo:bar",
-        "foo", "env:test"], "org_id": 1000044987, "locations": ["pl:test-private-variable-b5ac1a2de6527b0f6200f07550ddcd2a",
+      string: '{"status": "live", "public_id": "qu3-mxb-b3n", "tags": ["foo:bar",
+        "foo", "env:test"], "org_id": 1000044987, "locations": ["pl:test-private-variable-653028d3ef7f1528029f53f9ccd10991",
         "aws:eu-central-1"], "message": "Notify @pagerduty", "deleted_at": null, "name":
-        "HTTP Test - example", "monitor_id": 2916422, "type": "api", "created_at":
-        "2021-10-28T14:49:40.482636+00:00", "modified_at": "2021-10-28T14:49:40.482636+00:00",
+        "HTTP Test - example", "monitor_id": 2918214, "type": "api", "created_at":
+        "2021-10-28T17:49:49.686802+00:00", "modified_at": "2021-10-28T17:49:49.686802+00:00",
         "subtype": "http", "config": {"request": {"url": "https://www.example.org",
         "headers": {"Authentication": "Token: 1234566789", "Content-Type": "application/json"},
         "method": "GET"}, "assertions": [{"operator": "is", "type": "statusCode",
@@ -3872,7 +2914,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:40 GMT
+      - Thu, 28 Oct 2021 17:49:49 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3882,7 +2924,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '350'
+      - '344'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -3892,7 +2934,7 @@ interactions:
       x-ratelimit-remaining:
       - '11996'
       x-ratelimit-reset:
-      - '20'
+      - '11'
     status:
       code: 200
       message: OK
@@ -3920,11 +2962,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "prs-6ta-qjy", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "kfn-hvk-4bc", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "TCP Test", "monitor_id":
-        2916423, "type": "api", "created_at": "2021-10-28T14:49:41.015157+00:00",
-        "modified_at": "2021-10-28T14:49:41.015157+00:00", "subtype": "tcp", "config":
+        2918215, "type": "api", "created_at": "2021-10-28T17:49:50.113256+00:00",
+        "modified_at": "2021-10-28T17:49:50.113256+00:00", "subtype": "tcp", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "lessThan", "type": "responseTime", "target": 2000}]}, "options": {"monitor_options":
         {"notify_audit": false, "locked": false, "include_tags": true, "new_host_delay":
@@ -3946,7 +2988,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:41 GMT
+      - Thu, 28 Oct 2021 17:49:50 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3956,7 +2998,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '252'
+      - '284'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -3966,7 +3008,7 @@ interactions:
       x-ratelimit-remaining:
       - '11995'
       x-ratelimit-reset:
-      - '20'
+      - '11'
     status:
       code: 200
       message: OK
@@ -3997,10 +3039,10 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "paused", "public_id": "bu8-44h-mhz", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "vz8-p9e-8nq", "tags": [], "org_id":
         1000044987, "locations": ["aws:us-west-1"], "message": "", "deleted_at": null,
-        "name": "Browser Test", "monitor_id": 2916424, "type": "browser", "created_at":
-        "2021-10-28T14:49:41.434426+00:00", "modified_at": "2021-10-28T14:49:41.434426+00:00",
+        "name": "Browser Test", "monitor_id": 2918216, "type": "browser", "created_at":
+        "2021-10-28T17:49:50.578669+00:00", "modified_at": "2021-10-28T17:49:50.578669+00:00",
         "config": {"variables": [], "setCookie": "", "request": {"url": "https://docs.datadoghq.com",
         "headers": {}, "method": "GET"}, "assertions": [], "configVariables": []},
         "options": {"retry": {"count": 0, "interval": 300}, "min_location_failed":
@@ -4026,7 +3068,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:41 GMT
+      - Thu, 28 Oct 2021 17:49:50 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4036,7 +3078,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '257'
+      - '250'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -4046,7 +3088,7 @@ interactions:
       x-ratelimit-remaining:
       - '11994'
       x-ratelimit-reset:
-      - '19'
+      - '10'
     status:
       code: 200
       message: OK
@@ -4079,11 +3121,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "pj7-msk-fqe", "tags": ["check_type:api",
+      string: '{"status": "live", "public_id": "5de-3qa-qs4", "tags": ["check_type:api",
         "env:test", "test:update"], "org_id": 1000044987, "locations": ["aws:sa-east-1"],
         "message": "", "deleted_at": null, "name": "Multistep API Test", "monitor_id":
-        2916425, "type": "api", "created_at": "2021-10-28T14:49:42.549224+00:00",
-        "modified_at": "2021-10-28T14:49:42.549224+00:00", "subtype": "multi", "config":
+        2918217, "type": "api", "created_at": "2021-10-28T17:49:51.047056+00:00",
+        "modified_at": "2021-10-28T17:49:51.047056+00:00", "subtype": "multi", "config":
         {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
         "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
         "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
@@ -4110,7 +3152,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:42 GMT
+      - Thu, 28 Oct 2021 17:49:51 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4120,7 +3162,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '587'
+      - '325'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -4130,7 +3172,7 @@ interactions:
       x-ratelimit-remaining:
       - '11993'
       x-ratelimit-reset:
-      - '18'
+      - '10'
     status:
       code: 200
       message: OK
@@ -4166,7 +3208,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:43 GMT
+      - Thu, 28 Oct 2021 17:49:51 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4174,7 +3216,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '129'
+      - '105'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -4182,9 +3224,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11999'
+      - '11998'
       x-ratelimit-reset:
-      - '17'
+      - '9'
     status:
       code: 200
       message: OK
@@ -4212,7 +3254,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "test", "tags": ["check_type:api"], "last_error": null, "is_totp": null, "value":
         {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "c69c6e25-a6ee-4bc2-a1a4-fbc8b2e1d1e2",
+        null, "parse_test_name": null, "type": "variable", "id": "204971fc-dbff-4d2f-b439-cbe188ba0c36",
         "name": "TEST_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -4230,7 +3272,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:43 GMT
+      - Thu, 28 Oct 2021 17:49:52 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4239,8 +3281,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-envoy-upstream-service-time:
-      - '148'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -4250,7 +3290,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '17'
+      - '8'
     status:
       code: 200
       message: OK
@@ -4279,7 +3319,7 @@ interactions:
         "Description of the variable", "tags": ["foo:bar", "env:test"], "last_error":
         null, "is_totp": null, "value": {"secure": false, "value": "variable-value"},
         "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "af1c4cf4-93f0-4f2c-8ae0-bca932fccebf", "name": "EXAMPLE_VARIABLE"}'
+        "id": "0c88e930-4d92-4e55-a8b9-c5e26e18f92d", "name": "EXAMPLE_VARIABLE"}'
     headers:
       Alt-Svc:
       - clear
@@ -4296,7 +3336,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:43 GMT
+      - Thu, 28 Oct 2021 17:49:52 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4305,6 +3345,8 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '200'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -4314,7 +3356,7 @@ interactions:
       x-ratelimit-remaining:
       - '11998'
       x-ratelimit-reset:
-      - '17'
+      - '8'
     status:
       code: 200
       message: OK
@@ -4341,7 +3383,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "test", "tags": [], "last_error": null, "is_totp": null, "value": {"secure":
         false, "value": "test"}, "parse_test_public_id": null, "parse_test_name":
-        null, "type": "variable", "id": "e88e7bd8-fa02-4e4c-8e9e-5616d3999e55", "name":
+        null, "type": "variable", "id": "aafa34e7-cdb5-4a3a-9274-27dbd65014e6", "name":
         "TEST"}'
     headers:
       Alt-Svc:
@@ -4359,7 +3401,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:44 GMT
+      - Thu, 28 Oct 2021 17:49:52 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4369,7 +3411,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '174'
+      - '145'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -4379,12 +3421,12 @@ interactions:
       x-ratelimit-remaining:
       - '11997'
       x-ratelimit-reset:
-      - '17'
+      - '8'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"description": "", "tags": [], "parse_test_public_id": "tg7-3tq-9fr",
+    body: '{"description": "", "tags": [], "parse_test_public_id": "rir-se2-edi",
       "parse_test_options": {"field": "alt-svc", "parser": {"type": "regex", "value":
       "h3=\"(.*)\";"}, "type": "http_header"}, "name": "TEST_FROM_HTTP", "value":
       {"secure": false, "value": ""}, "type": "variable"}'
@@ -4408,8 +3450,8 @@ interactions:
       string: '{"parse_test_options": {"field": "alt-svc", "parser": {"type": "regex",
         "value": "h3=\"(.*)\";"}, "type": "http_header"}, "parse_test_extracted_at":
         null, "description": "", "tags": [], "last_error": null, "is_totp": null,
-        "value": {"secure": false, "value": ""}, "parse_test_public_id": "tg7-3tq-9fr",
-        "parse_test_name": null, "type": "variable", "id": "03b2a011-adf3-4794-b774-3ee7136e92c7",
+        "value": {"secure": false, "value": ""}, "parse_test_public_id": "rir-se2-edi",
+        "parse_test_name": null, "type": "variable", "id": "11d8e34f-ba9c-4b01-b59a-ec231b441306",
         "name": "TEST_FROM_HTTP"}'
     headers:
       Alt-Svc:
@@ -4427,7 +3469,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:44 GMT
+      - Thu, 28 Oct 2021 17:49:53 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4437,7 +3479,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '231'
+      - '130'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -4447,7 +3489,7 @@ interactions:
       x-ratelimit-remaining:
       - '11996'
       x-ratelimit-reset:
-      - '16'
+      - '7'
     status:
       code: 200
       message: OK
@@ -4474,7 +3516,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "", "tags": [], "last_error": null, "is_totp": null, "value": {"secure": true},
         "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "23bb145d-074b-4855-b87e-3861f8feddcd", "name": "TEST_SECRETS"}'
+        "id": "9f32af00-db1d-4f80-98c9-46cdb5e0ff4d", "name": "TEST_SECRETS"}'
     headers:
       Alt-Svc:
       - clear
@@ -4491,7 +3533,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:44 GMT
+      - Thu, 28 Oct 2021 17:49:53 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4501,7 +3543,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '109'
+      - '157'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -4511,7 +3553,7 @@ interactions:
       x-ratelimit-remaining:
       - '11995'
       x-ratelimit-reset:
-      - '16'
+      - '7'
     status:
       code: 200
       message: OK
@@ -4648,7 +3690,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:44 GMT
+      - Thu, 28 Oct 2021 17:49:53 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4658,7 +3700,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '129'
+      - '138'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -4666,9 +3708,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '499'
+      - '498'
       x-ratelimit-reset:
-      - '16'
+      - '7'
     status:
       code: 200
       message: OK
@@ -5036,7 +4078,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:45 GMT
+      - Thu, 28 Oct 2021 17:49:53 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -5432,7 +4474,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:45 GMT
+      - Thu, 28 Oct 2021 17:49:54 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -5442,7 +4484,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '133'
+      - '98'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -5481,9 +4523,9 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/roles
   response:
     body:
-      string: '{"data": {"type": "roles", "id": "4ad0e1e8-37fe-11ec-8445-da7ad0900005",
-        "attributes": {"name": "Datadog Read Only Role", "created_at": "2021-10-28T14:49:45.805751+00:00",
-        "modified_at": "2021-10-28T14:49:45.805751+00:00"}, "relationships": {"permissions":
+      string: '{"data": {"type": "roles", "id": "752a3c46-3817-11ec-af1f-da7ad0900005",
+        "attributes": {"name": "Datadog Read Only Role", "created_at": "2021-10-28T17:49:54.273779+00:00",
+        "modified_at": "2021-10-28T17:49:54.273779+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
         "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
@@ -5514,7 +4556,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:45 GMT
+      - Thu, 28 Oct 2021 17:49:54 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -5524,7 +4566,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '237'
+      - '207'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -5532,9 +4574,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '498'
+      - '497'
       x-ratelimit-reset:
-      - '15'
+      - '6'
     status:
       code: 200
       message: OK
@@ -6550,8 +5592,8 @@ interactions:
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
         {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005", "attributes":
-        {"name": "test-user", "handle": "new@example.com", "created_at": "2021-06-08T19:40:17.395117+00:00",
-        "modified_at": "2021-10-28T14:48:49.116182+00:00", "email": "new@example.com",
+        {"name": "test-userupdated", "handle": "new@example.com", "created_at": "2021-06-08T19:40:17.395117+00:00",
+        "modified_at": "2021-10-28T17:20:38.372253+00:00", "email": "new@example.com",
         "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
@@ -6575,14 +5617,14 @@ interactions:
         {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes":
         {"name": "None+ updated", "handle": "test-user-example@datadoghq.com", "created_at":
-        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-10-28T14:48:49.517310+00:00",
+        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-10-28T17:20:38.871548+00:00",
         "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
         {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "9ea447a8-ebdf-11eb-8ad5-da7ad0900005", "attributes":
-        {"name": "Updated", "handle": "user_without_role@example.com", "created_at":
-        "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-10-28T14:48:50.126267+00:00",
+        {"name": "Updatedupdated", "handle": "user_without_role@example.com", "created_at":
+        "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-10-28T17:20:39.331193+00:00",
         "email": "user_without_role@example.com", "icon": "https://secure.gravatar.com/avatar/a0985e94ca4206b92a3504c0222b3f7e?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
@@ -6597,13 +5639,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '82827'
+      - '82841'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:46 GMT
+      - Thu, 28 Oct 2021 17:49:54 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6613,7 +5655,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '176'
+      - '185'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -6641,7 +5683,7 @@ interactions:
     body:
       string: '{"data": {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005",
         "attributes": {"name": "test-user", "handle": "new@example.com", "created_at":
-        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2021-10-28T14:49:46.610617+00:00",
+        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2021-10-28T17:49:54.979276+00:00",
         "email": "new@example.com", "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -6662,7 +5704,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:46 GMT
+      - Thu, 28 Oct 2021 17:49:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6672,7 +5714,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '205'
+      - '153'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -6694,17 +5736,17 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
-    uri: https://api.datadoghq.eu/api/v2/roles/4ad0e1e8-37fe-11ec-8445-da7ad0900005/users
+    uri: https://api.datadoghq.eu/api/v2/roles/752a3c46-3817-11ec-af1f-da7ad0900005/users
   response:
     body:
       string: '{"meta": {"page": {"total_count": 1}}, "data": [{"type": "users", "id":
         "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes": {"name": "None+ updated",
         "handle": "test-user-example@datadoghq.com", "created_at": "2021-06-07T16:53:26.412706+00:00",
-        "modified_at": "2021-10-28T14:48:49.517310+00:00", "email": "test-user-example@datadoghq.com",
+        "modified_at": "2021-10-28T17:20:38.871548+00:00", "email": "test-user-example@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
-        {"data": [{"type": "roles", "id": "4ad0e1e8-37fe-11ec-8445-da7ad0900005"}]},
+        {"data": [{"type": "roles", "id": "752a3c46-3817-11ec-af1f-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}}]}'
     headers:
       Alt-Svc:
@@ -6722,7 +5764,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:46 GMT
+      - Thu, 28 Oct 2021 17:49:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6732,7 +5774,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '194'
+      - '191'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -6740,9 +5782,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '497'
+      - '496'
       x-ratelimit-reset:
-      - '14'
+      - '5'
     status:
       code: 200
       message: OK
@@ -6780,35 +5822,43 @@ interactions:
         "attributes": {"name": "monitors_read", "display_name": "Monitors", "description":
         "The ability to view monitors.", "created": "2019-09-16T18:49:59.270746+00:00",
         "group_name": "Monitors", "display_type": "read", "restricted": true}}, {"type":
-        "permissions", "id": "f07f557a-e894-11eb-ab79-da7ad0900005", "attributes":
-        {"name": "appsec_event_rule_write", "display_name": "Application Security
-        Event Rules", "description": "The ability to edit Application Security Event
-        Rules.", "created": "2021-07-19T13:26:35.260787+00:00", "group_name": "Application
-        Security", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "b39fb79a-90af-11eb-9428-da7ad0900005", "attributes": {"name": "data_scanner_write",
-        "display_name": "Data Scanner", "description": "Edit data scanner configuration.",
-        "created": "2021-03-29T16:56:27.219481+00:00", "group_name": "Access Management",
-        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "4fc2807c-dd15-11e8-9308-d3bfffb7f039", "attributes": {"name": "logs_write_exclusion_filters",
+        "permissions", "id": "b39fb79a-90af-11eb-9428-da7ad0900005", "attributes":
+        {"name": "data_scanner_write", "display_name": "Data Scanner", "description":
+        "Edit data scanner configuration.", "created": "2021-03-29T16:56:27.219481+00:00",
+        "group_name": "Access Management", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c",
+        "attributes": {"name": "logs_modify_indexes", "display_name": "Logs Modify
+        Indexes", "description": "The ability to read and modify all indexes in your
+        account. This includes the ability to grant the Logs Read Index Data and Logs
+        Write Exclusion Filter permission to other roles, for some or all indexes.
+        This permission also grants global Log Index Read and Log Exclusion Filter
+        Write implicitly.", "created": "2018-10-31T14:00:23.664332+00:00", "group_name":
+        "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
+        "id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039", "attributes": {"name": "logs_write_exclusion_filters",
         "display_name": "Logs Write Exclusion Filters", "description": "The ability
         to add and change exclusion filters for all or some log indexes. Can be granted
         in a limited capacity per index to specific roles via the Logs interface or
         API. If granted from the Roles interface or API, the permission has global
         scope.", "created": "2018-10-31T14:00:23.699543+00:00", "group_name": "Logs",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "dbd71214-aa58-11ea-8f98-d71d49bb1d14", "attributes": {"name": "security_monitoring_rules_write",
-        "display_name": "Detection Rules", "description": "The ability to create and
-        edit Detection rules.", "created": "2020-06-09T13:55:21.036857+00:00", "group_name":
-        "Security Monitoring", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "04669020-ec5c-11ea-9483-db5dbf9f0b02", "attributes":
-        {"name": "billing_edit", "display_name": "Billing", "description": "The ability
-        to manage your organization''s subscription and payment method.", "created":
-        "2020-09-01T14:04:14.317866+00:00", "group_name": "Billing and Usage", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc",
-        "attributes": {"name": "logs_generate_metrics", "display_name": "Logs Generate
-        Metrics", "description": "The ability to create custom metrics from logs.",
-        "created": "2019-07-25T12:37:55.949477+00:00", "group_name": "Logs", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9",
+        "f07e4234-e894-11eb-ab79-da7ad0900005", "attributes": {"name": "appsec_event_rule_read",
+        "display_name": "Application Security Event Rules", "description": "The ability
+        to view Application Security Event Rules.", "created": "2021-07-19T13:26:35.252432+00:00",
+        "group_name": "Application Security", "display_type": "read", "restricted":
+        true}}, {"type": "permissions", "id": "04669020-ec5c-11ea-9483-db5dbf9f0b02",
+        "attributes": {"name": "billing_edit", "display_name": "Billing", "description":
+        "The ability to manage your organization''s subscription and payment method.",
+        "created": "2020-09-01T14:04:14.317866+00:00", "group_name": "Billing and
+        Usage", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc", "attributes": {"name": "logs_generate_metrics",
+        "display_name": "Logs Generate Metrics", "description": "The ability to create
+        custom metrics from logs.", "created": "2019-07-25T12:37:55.949477+00:00",
+        "group_name": "Logs", "display_type": "other", "restricted": false}}, {"type":
+        "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "attributes":
+        {"name": "security_monitoring_rules_read", "display_name": "Detection Rules",
+        "description": "The ability to read Detection rules.", "created": "2020-06-09T13:55:12.166762+00:00",
+        "group_name": "Security Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9",
         "attributes": {"name": "security_monitoring_signals_read", "display_name":
         "Security Signals", "description": "The ability to view Security signals.",
         "created": "2020-06-09T13:55:29.398066+00:00", "group_name": "Security Monitoring",
@@ -6817,12 +5867,14 @@ interactions:
         "display_name": "Global Variables", "description": "The ability to create,
         edit, and delete global variables for Synthetics.", "created": "2020-09-17T20:38:01.966230+00:00",
         "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "60759a94-ff6d-11eb-a4f0-da7ad0900005",
-        "attributes": {"name": "security_monitoring_signals_write", "display_name":
-        "Security Signals", "description": "The ability to modify Security signals.",
-        "created": "2021-08-17T15:11:19.976019+00:00", "group_name": "Security Monitoring",
-        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "04669192-ec5c-11ea-9483-e375d2a7bddf", "attributes": {"name": "usage_edit",
+        false}}, {"type": "permissions", "id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4",
+        "attributes": {"name": "logs_write_pipelines", "display_name": "Logs Write
+        Pipelines", "description": "The ability to add and change log pipeline configurations,
+        including the ability to grant the Logs Write Processors permission to other
+        roles, for some or all pipelines. This permission also grants global Log Processor
+        Write implicitly.", "created": "2018-10-31T14:00:23.710821+00:00", "group_name":
+        "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
+        "id": "04669192-ec5c-11ea-9483-e375d2a7bddf", "attributes": {"name": "usage_edit",
         "display_name": "Usage", "description": "The ability to manage your organization''s
         usage attribution set-up.", "created": "2020-09-01T14:04:14.317866+00:00",
         "group_name": "Billing and Usage", "display_type": "write", "restricted":
@@ -6879,19 +5931,20 @@ interactions:
         "Private Locations", "description": "The ability to view, search and use in
         tests the list of private locations available.", "created": "2020-09-01T14:04:14.317866+00:00",
         "group_name": "Synthetic Monitoring", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "b6858556-f925-11ea-9222-1f47b8677b93",
-        "attributes": {"name": "synthetics_read", "display_name": "Synthetic Tests",
-        "description": "The ability to list and view configured Synthetic tests.",
-        "created": "2020-09-17T20:38:15.951574+00:00", "group_name": "Synthetic Monitoring",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "99397470-b16d-11eb-a891-da7ad0900005", "attributes": {"name": "security_monitoring_filters_read",
-        "display_name": "Security Filters", "description": "The ability to read Security
-        Filters.", "created": "2021-05-10T08:56:24.514661+00:00", "group_name": "Security
-        Monitoring", "display_type": "read", "restricted": false}}, {"type": "permissions",
-        "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb", "attributes": {"name": "synthetics_global_variable_read",
-        "display_name": "Global Variables", "description": "The ability to view, search
-        and use in tests the list of global variables available for Synthetics.",
-        "created": "2020-09-17T20:37:50.165103+00:00", "group_name": "Synthetic Monitoring",
+        false}}, {"type": "permissions", "id": "f07f557a-e894-11eb-ab79-da7ad0900005",
+        "attributes": {"name": "appsec_event_rule_write", "display_name": "Application
+        Security Event Rules", "description": "The ability to edit Application Security
+        Event Rules.", "created": "2021-07-19T13:26:35.260787+00:00", "group_name":
+        "Application Security", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005", "attributes":
+        {"name": "security_monitoring_filters_read", "display_name": "Security Filters",
+        "description": "The ability to read Security Filters.", "created": "2021-05-10T08:56:24.514661+00:00",
+        "group_name": "Security Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb",
+        "attributes": {"name": "synthetics_global_variable_read", "display_name":
+        "Global Variables", "description": "The ability to view, search and use in
+        tests the list of global variables available for Synthetics.", "created":
+        "2020-09-17T20:37:50.165103+00:00", "group_name": "Synthetic Monitoring",
         "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
         "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee", "attributes": {"name": "logs_write_facets",
         "display_name": "Logs Facets", "description": "The capability to create or
@@ -6906,38 +5959,34 @@ interactions:
         "display_name": "Synthetic Tests", "description": "The ability to create,
         edit, and delete Synthetic tests.", "created": "2020-09-17T20:38:27.421632+00:00",
         "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "f1666372-d87d-11e8-acac-6be484ba794a",
-        "attributes": {"name": "standard", "display_name": "Standard Access", "description":
-        "This permission gives you the ability to view and edit components in your
-        Datadog organization that do not have explicitly defined permissions. This
-        includes Notebooks, Events, and other non-Account Management functionality.",
-        "created": "2018-10-25T17:46:46.732810+00:00", "group_name": "General", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "72bc07d8-1472-11eb-a97b-8bff514d7382",
-        "attributes": {"name": "service_account_write", "display_name": "Service Accounts",
-        "description": "The ability to create, disable and use Service Accounts in
-        your organization.", "created": "2020-10-22T14:25:34.868208+00:00", "group_name":
-        "Access Management", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "8b753262-f925-11ea-82fc-93f07fd96e76", "attributes":
-        {"name": "audit_logs_read", "display_name": "Audit Logs", "description": "The
-        ability to view Audit Logs in your organization.", "created": "2020-09-17T20:37:03.702585+00:00",
-        "group_name": "Organization Management", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f",
-        "attributes": {"name": "billing_read", "display_name": "Billing", "description":
-        "The ability to view your organization''s subscription and payment method
-        but not make edits.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name":
-        "Billing and Usage", "display_type": "read", "restricted": false}}, {"type":
-        "permissions", "id": "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8", "attributes":
-        {"name": "monitors_write", "display_name": "Monitors", "description": "The
-        ability to change, mute, and delete individual monitors.", "created": "2019-09-16T18:50:07.944781+00:00",
+        false}}, {"type": "permissions", "id": "cf223140-f925-11ea-a3a2-df370532bcf7",
+        "attributes": {"name": "synthetics_default_settings_write", "display_name":
+        "Default Settings", "description": "The ability to edit default settings for
+        Synthetics Monitoring.", "created": "2020-09-17T20:38:57.244987+00:00", "group_name":
+        "Synthetic Monitoring", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "72bc07d8-1472-11eb-a97b-8bff514d7382", "attributes":
+        {"name": "service_account_write", "display_name": "Service Accounts", "description":
+        "The ability to create, disable and use Service Accounts in your organization.",
+        "created": "2020-10-22T14:25:34.868208+00:00", "group_name": "Access Management",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "8b753262-f925-11ea-82fc-93f07fd96e76", "attributes": {"name": "audit_logs_read",
+        "display_name": "Audit Logs", "description": "The ability to view Audit Logs
+        in your organization.", "created": "2020-09-17T20:37:03.702585+00:00", "group_name":
+        "Organization Management", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f", "attributes":
+        {"name": "billing_read", "display_name": "Billing", "description": "The ability
+        to view your organization''s subscription and payment method but not make
+        edits.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name": "Billing
+        and Usage", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8", "attributes": {"name": "monitors_write",
+        "display_name": "Monitors", "description": "The ability to change, mute, and
+        delete individual monitors.", "created": "2019-09-16T18:50:07.944781+00:00",
         "group_name": "Monitors", "display_type": "write", "restricted": false}},
-        {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c", "attributes":
-        {"name": "logs_modify_indexes", "display_name": "Logs Modify Indexes", "description":
-        "The ability to read and modify all indexes in your account. This includes
-        the ability to grant the Logs Read Index Data and Logs Write Exclusion Filter
-        permission to other roles, for some or all indexes. This permission also grants
-        global Log Index Read and Log Exclusion Filter Write implicitly.", "created":
-        "2018-10-31T14:00:23.664332+00:00", "group_name": "Logs", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7",
+        {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "attributes":
+        {"name": "rum_apps_read", "display_name": "RUM Applications", "description":
+        "The ability to view RUM Applications data.", "created": "2021-08-02T09:46:22.567371+00:00",
+        "group_name": "Real User Monitoring", "display_type": "read", "restricted":
+        true}}, {"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7",
         "attributes": {"name": "logs_read_index_data", "display_name": "Logs Read
         Index Data", "description": "The ability to read all or some log indexes.
         Can be granted in a limited capacity per index from the Logs interface or
@@ -6948,19 +5997,10 @@ interactions:
         "display_name": "RUM Applications", "description": "The ability to create,
         edit, and delete RUM Applications.", "created": "2021-01-11T19:07:15.721075+00:00",
         "group_name": "Real User Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152",
-        "attributes": {"name": "logs_write_historical_view", "display_name": "Logs
-        Historical View", "description": "The capability to rehydrate logs from Archives.",
-        "created": "2020-09-16T08:42:43.928080+00:00", "group_name": "Logs", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005",
-        "attributes": {"name": "appsec_event_rule_read", "display_name": "Application
-        Security Event Rules", "description": "The ability to view Application Security
-        Event Rules.", "created": "2021-07-19T13:26:35.252432+00:00", "group_name":
-        "Application Security", "display_type": "read", "restricted": true}}, {"type":
-        "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "attributes":
-        {"name": "logs_live_tail", "display_name": "Logs Live Tail Access", "description":
-        "The ability to view the live tail feed for all log indexes, even if otherwise
-        specifically restricted.", "created": "2018-10-31T14:00:23.676180+00:00",
+        false}}, {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5",
+        "attributes": {"name": "logs_live_tail", "display_name": "Logs Live Tail Access",
+        "description": "The ability to view the live tail feed for all log indexes,
+        even if otherwise specifically restricted.", "created": "2018-10-31T14:00:23.676180+00:00",
         "group_name": "Logs", "display_type": "read", "restricted": false}}, {"type":
         "permissions", "id": "ca8897be-f925-11ea-a3a2-d30492cbe671", "attributes":
         {"name": "synthetics_default_settings_read", "display_name": "Default Settings",
@@ -6980,11 +6020,13 @@ interactions:
         "display_name": "Dashboards", "description": "The ability to create and change
         dashboards.", "created": "2019-09-10T14:41:53.136336+00:00", "group_name":
         "Dashboards", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "9311970e-f925-11ea-ab4d-1760e76381c1", "attributes": {"name": "api_keys_read",
-        "display_name": "API Keys", "description": "The ability to list and retrieve
-        the key values of all API Keys in your organization.", "created": "2020-09-17T20:37:16.471514+00:00",
-        "group_name": "API and Application Keys", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005",
+        "id": "505f4538-dd15-11e8-9308-47a4732f715f", "attributes": {"name": "logs_write_processors",
+        "display_name": "Logs Write Processors", "description": "The ability to add
+        and change some or all log processor configurations. Can be granted in a limited
+        capacity per pipeline to specific roles via the Logs interface or API. If
+        granted via the Roles interface or API the permission has global scope.",
+        "created": "2018-10-31T14:00:24.726927+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005",
         "attributes": {"name": "incident_settings_read", "display_name": "Incidents
         Settings", "description": "The ability to view incidents Settings.", "created":
         "2021-06-22T15:11:07.995787+00:00", "group_name": "Incidents", "display_type":
@@ -6992,7 +6034,17 @@ interactions:
         "attributes": {"name": "apm_generate_metrics", "display_name": "Generate Metrics",
         "description": "The ability to create custom metrics from spans.", "created":
         "2021-09-16T15:31:28.639581+00:00", "group_name": "APM", "display_type": "other",
-        "restricted": false}}, {"type": "permissions", "id": "93654d1c-e706-11ea-9a85-d320ff02824d",
+        "restricted": false}}, {"type": "permissions", "id": "9311970e-f925-11ea-ab4d-1760e76381c1",
+        "attributes": {"name": "api_keys_read", "display_name": "API Keys", "description":
+        "The ability to list and retrieve the key values of all API Keys in your organization.",
+        "created": "2020-09-17T20:37:16.471514+00:00", "group_name": "API and Application
+        Keys", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a", "attributes": {"name": "integrations_api",
+        "display_name": "Integrations API Access", "description": "The ability to
+        use the Integrations APIs to configure Integrations that the user has access
+        to. This permission does not restrict or grant access to Integrations.", "created":
+        "2020-11-16T19:44:13.810028+00:00", "group_name": "Integrations", "display_type":
+        "other", "restricted": false}}, {"type": "permissions", "id": "93654d1c-e706-11ea-9a85-d320ff02824d",
         "attributes": {"name": "user_access_invite", "display_name": "Invite User",
         "description": "Allows users to invite other users to your organization.",
         "created": "2020-08-25T19:10:01.692112+00:00", "group_name": "Access Management",
@@ -7002,89 +6054,53 @@ interactions:
         to manage Application Keys owned by all users in the organization.", "created":
         "2020-09-01T14:04:14.317866+00:00", "group_name": "API and Application Keys",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "cf223140-f925-11ea-a3a2-df370532bcf7", "attributes": {"name": "synthetics_default_settings_write",
-        "display_name": "Default Settings", "description": "The ability to edit default
-        settings for Synthetics Monitoring.", "created": "2020-09-17T20:38:57.244987+00:00",
-        "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "c8654332-2dce-11eb-9145-d33d26eeb65f",
+        "f1666372-d87d-11e8-acac-6be484ba794a", "attributes": {"name": "standard",
+        "display_name": "Standard Access", "description": "This permission gives you
+        the ability to view and edit components in your Datadog organization that
+        do not have explicitly defined permissions. This includes Notebooks, Events,
+        and other non-Account Management functionality.", "created": "2018-10-25T17:46:46.732810+00:00",
+        "group_name": "General", "display_type": "other", "restricted": false}}, {"type":
+        "permissions", "id": "f1624684-d87d-11e8-acac-efb4dbffab1c", "attributes":
+        {"name": "admin", "display_name": "Privileged Access", "description": "This
+        permission gives you the ability to view and edit everything in your Datadog
+        organization that does not have an explicitly defined permission. This includes
+        organization settings and SAML management. This permission is inclusive of
+        all Standard access permissions.", "created": "2018-10-25T17:46:46.704903+00:00",
+        "group_name": "General", "display_type": "other", "restricted": false}}, {"type":
+        "permissions", "id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "attributes":
+        {"name": "logs_read_data", "display_name": "Logs Read Data", "description":
+        "The ability to read log data. Can be restricted with restriction queries.",
+        "created": "2020-04-06T16:29:12.337169+00:00", "group_name": "Logs", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "214c10b2-d3d9-11e9-a614-3759c7ad528f",
+        "attributes": {"name": "dashboards_public_share", "display_name": "Dashboards
+        Share", "description": "The ability to share dashboards externally.", "created":
+        "2019-09-10T14:41:53.150548+00:00", "group_name": "Dashboards", "display_type":
+        "other", "restricted": false}}, {"type": "permissions", "id": "c8654332-2dce-11eb-9145-d33d26eeb65f",
         "attributes": {"name": "apm_service_ingest_write", "display_name": "Manage
         Service Ingestion", "description": "The ability to edit Service Ingestion
         pages root services. A user with this permission can edit the root service
         ingestion and generate a code snippet to increase ingestion per service.",
         "created": "2020-11-23T20:59:31.352238+00:00", "group_name": "APM", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "bfafd0ce-7823-11ea-9689-c3e5118805ee",
-        "attributes": {"name": "logs_read_data", "display_name": "Logs Read Data",
-        "description": "The ability to read log data. Can be restricted with restriction
-        queries.", "created": "2020-04-06T16:29:12.337169+00:00", "group_name": "Logs",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "214c10b2-d3d9-11e9-a614-3759c7ad528f", "attributes": {"name": "dashboards_public_share",
-        "display_name": "Dashboards Share", "description": "The ability to share dashboards
-        externally.", "created": "2019-09-10T14:41:53.150548+00:00", "group_name":
-        "Dashboards", "display_type": "other", "restricted": false}}, {"type": "permissions",
-        "id": "f1624684-d87d-11e8-acac-efb4dbffab1c", "attributes": {"name": "admin",
-        "display_name": "Privileged Access", "description": "This permission gives
-        you the ability to view and edit everything in your Datadog organization that
-        does not have an explicitly defined permission. This includes organization
-        settings and SAML management. This permission is inclusive of all Standard
-        access permissions.", "created": "2018-10-25T17:46:46.704903+00:00", "group_name":
-        "General", "display_type": "other", "restricted": false}}, {"type": "permissions",
-        "id": "046690de-ec5c-11ea-9483-bbcd905fcdca", "attributes": {"name": "usage_read",
-        "display_name": "Usage", "description": "The ability to view your organization''s
-        usage and usage attribution.", "created": "2020-09-01T14:04:14.317866+00:00",
-        "group_name": "Billing and Usage", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90", "attributes":
-        {"name": "logs_read_archives", "display_name": "Logs Archives", "description":
-        "The ability to read logs archives location and use it for rehydration.",
-        "created": "2020-04-23T07:45:13.801938+00:00", "group_name": "Logs", "display_type":
-        "read", "restricted": false}}, {"type": "permissions", "id": "999bc3fa-e706-11ea-9a85-3b29fe548c19",
-        "attributes": {"name": "user_access_manage", "display_name": "Access Management",
-        "description": "Grants the permission to disable users, manage user roles
-        and SAML-to-role mappings.", "created": "2020-08-25T19:10:12.116164+00:00",
-        "group_name": "Access Management", "display_type": "other", "restricted":
-        false}}, {"type": "permissions", "id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4",
-        "attributes": {"name": "logs_write_pipelines", "display_name": "Logs Write
-        Pipelines", "description": "The ability to add and change log pipeline configurations,
-        including the ability to grant the Logs Write Processors permission to other
-        roles, for some or all pipelines. This permission also grants global Log Processor
-        Write implicitly.", "created": "2018-10-31T14:00:23.710821+00:00", "group_name":
-        "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
-        "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "attributes": {"name": "security_monitoring_rules_read",
-        "display_name": "Detection Rules", "description": "The ability to read Detection
-        rules.", "created": "2020-06-09T13:55:12.166762+00:00", "group_name": "Security
-        Monitoring", "display_type": "read", "restricted": false}}, {"type": "permissions",
-        "id": "d23cc894-2dce-11eb-9145-37bf7b2dadc2", "attributes": {"name": "apm_apdex_manage_write",
-        "display_name": "Apdex Management", "description": "The ability to set Apdex
-        T value on any service. A user with this permission can set the T value from
-        the Apdex graph on the service page.", "created": "2020-11-23T20:59:47.864214+00:00",
-        "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "046692fa-ec5c-11ea-9483-d713671ea3a9", "attributes":
-        {"name": "metric_tags_write", "display_name": "Manage Tags for Metrics", "description":
-        "The ability to edit and save tag configurations for custom metrics.", "created":
-        "2020-09-01T14:04:14.317866+00:00", "group_name": "Metrics", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a",
-        "attributes": {"name": "integrations_api", "display_name": "Integrations API
-        Access", "description": "The ability to use the Integrations APIs to configure
-        Integrations that the user has access to. This permission does not restrict
-        or grant access to Integrations.", "created": "2020-11-16T19:44:13.810028+00:00",
-        "group_name": "Integrations", "display_type": "other", "restricted": false}},
-        {"type": "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "attributes":
-        {"name": "apm_read", "display_name": "APM Read Access", "description": "The
-        ability to read and query APM and Trace Analytics.", "created": "2020-11-23T20:59:02.902692+00:00",
-        "group_name": "APM", "display_type": "read", "restricted": true}}, {"type":
-        "permissions", "id": "998aabac-f925-11ea-b43d-8f1f42f3894e", "attributes":
-        {"name": "api_keys_write", "display_name": "API Keys", "description": "The
-        ability to create, rename, and revoke API Keys for your organization.", "created":
-        "2020-09-17T20:37:27.331389+00:00", "group_name": "API and Application Keys",
-        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "505f4538-dd15-11e8-9308-47a4732f715f", "attributes": {"name": "logs_write_processors",
-        "display_name": "Logs Write Processors", "description": "The ability to add
-        and change some or all log processor configurations. Can be granted in a limited
-        capacity per pipeline to specific roles via the Logs interface or API. If
-        granted via the Roles interface or API the permission has global scope.",
-        "created": "2018-10-31T14:00:24.726927+00:00", "group_name": "Logs", "display_type":
-        "write", "restricted": false}}, {"type": "roles", "id": "4ad0e1e8-37fe-11ec-8445-da7ad0900005",
-        "attributes": {"name": "Datadog Read Only Role", "created_at": "2021-10-28T14:49:45.805751+00:00",
-        "modified_at": "2021-10-28T14:49:45.805751+00:00"}, "relationships": {"permissions":
+        "write", "restricted": false}}, {"type": "permissions", "id": "046690de-ec5c-11ea-9483-bbcd905fcdca",
+        "attributes": {"name": "usage_read", "display_name": "Usage", "description":
+        "The ability to view your organization''s usage and usage attribution.", "created":
+        "2020-09-01T14:04:14.317866+00:00", "group_name": "Billing and Usage", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90",
+        "attributes": {"name": "logs_read_archives", "display_name": "Logs Archives",
+        "description": "The ability to read logs archives location and use it for
+        rehydration.", "created": "2020-04-23T07:45:13.801938+00:00", "group_name":
+        "Logs", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "999bc3fa-e706-11ea-9a85-3b29fe548c19", "attributes": {"name": "user_access_manage",
+        "display_name": "Access Management", "description": "Grants the permission
+        to disable users, manage user roles and SAML-to-role mappings.", "created":
+        "2020-08-25T19:10:12.116164+00:00", "group_name": "Access Management", "display_type":
+        "other", "restricted": false}}, {"type": "permissions", "id": "60759a94-ff6d-11eb-a4f0-da7ad0900005",
+        "attributes": {"name": "security_monitoring_signals_write", "display_name":
+        "Security Signals", "description": "The ability to modify Security signals.",
+        "created": "2021-08-17T15:11:19.976019+00:00", "group_name": "Security Monitoring",
+        "display_type": "write", "restricted": false}}, {"type": "roles", "id": "752a3c46-3817-11ec-af1f-da7ad0900005",
+        "attributes": {"name": "Datadog Read Only Role", "created_at": "2021-10-28T17:49:54.273779+00:00",
+        "modified_at": "2021-10-28T17:49:54.273779+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
         "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
@@ -7099,39 +6115,66 @@ interactions:
         "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id":
         "f07e4234-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"},
         {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}]}}},
-        {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "attributes":
-        {"name": "rum_session_replay_read", "display_name": "Session Replay", "description":
-        "The ability to view session replays.", "created": "2021-08-02T09:46:22.572685+00:00",
-        "group_name": "Real User Monitoring", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "b39da144-90af-11eb-9428-da7ad0900005",
-        "attributes": {"name": "data_scanner_read", "display_name": "Data Scanner",
-        "description": "View data scanner configuration.", "created": "2021-03-29T16:56:27.205044+00:00",
-        "group_name": "Access Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "attributes":
-        {"name": "rum_apps_read", "display_name": "RUM Applications", "description":
-        "The ability to view RUM Applications data.", "created": "2021-08-02T09:46:22.567371+00:00",
-        "group_name": "Real User Monitoring", "display_type": "read", "restricted":
-        true}}, {"type": "permissions", "id": "04668e9a-ec5c-11ea-9483-8f29a8272bdc",
-        "attributes": {"name": "synthetics_private_location_write", "display_name":
-        "Private Locations", "description": "The ability to create and delete private
-        locations as well as seeing the associated installation guidelines.", "created":
-        "2020-09-01T14:04:14.317866+00:00", "group_name": "Synthetic Monitoring",
-        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "505fd138-dd15-11e8-9308-afd2db62791e", "attributes": {"name": "logs_write_archives",
-        "display_name": "Logs Archives", "description": "The ability to add and edit
-        log archive locations.", "created": "2018-10-31T14:00:24.730570+00:00", "group_name":
-        "Logs", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005", "attributes": {"name": "incident_settings_write",
-        "display_name": "Incidents Settings", "description": "The ability to configure
-        incident settings.", "created": "2021-06-22T15:11:07.999194+00:00", "group_name":
-        "Incidents", "display_type": "write", "restricted": false}}], "data": {"type":
-        "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes": {"name":
-        "None+ updated", "handle": "test-user-example@datadoghq.com", "created_at":
-        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-10-28T14:49:47.345817+00:00",
+        {"type": "permissions", "id": "d23cc894-2dce-11eb-9145-37bf7b2dadc2", "attributes":
+        {"name": "apm_apdex_manage_write", "display_name": "Apdex Management", "description":
+        "The ability to set Apdex T value on any service. A user with this permission
+        can set the T value from the Apdex graph on the service page.", "created":
+        "2020-11-23T20:59:47.864214+00:00", "group_name": "APM", "display_type": "write",
+        "restricted": false}}, {"type": "permissions", "id": "046692fa-ec5c-11ea-9483-d713671ea3a9",
+        "attributes": {"name": "metric_tags_write", "display_name": "Manage Tags for
+        Metrics", "description": "The ability to edit and save tag configurations
+        for custom metrics.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name":
+        "Metrics", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "b6858556-f925-11ea-9222-1f47b8677b93", "attributes": {"name": "synthetics_read",
+        "display_name": "Synthetic Tests", "description": "The ability to list and
+        view configured Synthetic tests.", "created": "2020-09-17T20:38:15.951574+00:00",
+        "group_name": "Synthetic Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14",
+        "attributes": {"name": "security_monitoring_rules_write", "display_name":
+        "Detection Rules", "description": "The ability to create and edit Detection
+        rules.", "created": "2020-06-09T13:55:21.036857+00:00", "group_name": "Security
+        Monitoring", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "998aabac-f925-11ea-b43d-8f1f42f3894e", "attributes": {"name": "api_keys_write",
+        "display_name": "API Keys", "description": "The ability to create, rename,
+        and revoke API Keys for your organization.", "created": "2020-09-17T20:37:27.331389+00:00",
+        "group_name": "API and Application Keys", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a",
+        "attributes": {"name": "apm_read", "display_name": "APM Read Access", "description":
+        "The ability to read and query APM and Trace Analytics.", "created": "2020-11-23T20:59:02.902692+00:00",
+        "group_name": "APM", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152", "attributes":
+        {"name": "logs_write_historical_view", "display_name": "Logs Historical View",
+        "description": "The capability to rehydrate logs from Archives.", "created":
+        "2020-09-16T08:42:43.928080+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005",
+        "attributes": {"name": "rum_session_replay_read", "display_name": "Session
+        Replay", "description": "The ability to view session replays.", "created":
+        "2021-08-02T09:46:22.572685+00:00", "group_name": "Real User Monitoring",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "b39da144-90af-11eb-9428-da7ad0900005", "attributes": {"name": "data_scanner_read",
+        "display_name": "Data Scanner", "description": "View data scanner configuration.",
+        "created": "2021-03-29T16:56:27.205044+00:00", "group_name": "Access Management",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "04668e9a-ec5c-11ea-9483-8f29a8272bdc", "attributes": {"name": "synthetics_private_location_write",
+        "display_name": "Private Locations", "description": "The ability to create
+        and delete private locations as well as seeing the associated installation
+        guidelines.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name":
+        "Synthetic Monitoring", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "505fd138-dd15-11e8-9308-afd2db62791e", "attributes":
+        {"name": "logs_write_archives", "display_name": "Logs Archives", "description":
+        "The ability to add and edit log archive locations.", "created": "2018-10-31T14:00:24.730570+00:00",
+        "group_name": "Logs", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005", "attributes":
+        {"name": "incident_settings_write", "display_name": "Incidents Settings",
+        "description": "The ability to configure incident settings.", "created": "2021-06-22T15:11:07.999194+00:00",
+        "group_name": "Incidents", "display_type": "write", "restricted": false}}],
+        "data": {"type": "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes":
+        {"name": "None+ updated", "handle": "test-user-example@datadoghq.com", "created_at":
+        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-10-28T17:49:55.613482+00:00",
         "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
-        {"data": [{"type": "roles", "id": "4ad0e1e8-37fe-11ec-8445-da7ad0900005"}]},
+        {"data": [{"type": "roles", "id": "752a3c46-3817-11ec-af1f-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}}}'
     headers:
       Alt-Svc:
@@ -7149,7 +6192,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:47 GMT
+      - Thu, 28 Oct 2021 17:49:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7159,7 +6202,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '147'
+      - '162'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -7187,7 +6230,7 @@ interactions:
     body:
       string: '{"data": {"type": "users", "id": "9ea447a8-ebdf-11eb-8ad5-da7ad0900005",
         "attributes": {"name": "Updated", "handle": "user_without_role@example.com",
-        "created_at": "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-10-28T14:49:47.695343+00:00",
+        "created_at": "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-10-28T17:49:55.981477+00:00",
         "email": "user_without_role@example.com", "icon": "https://secure.gravatar.com/avatar/a0985e94ca4206b92a3504c0222b3f7e?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -7208,7 +6251,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:47 GMT
+      - Thu, 28 Oct 2021 17:49:56 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7218,7 +6261,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '169'
+      - '148'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -7250,11 +6293,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50", "message": "Test monitor ----------------", "id": 2916427, "multi":
-        false, "name": "Composite monitor - Child 2", "created": "2021-10-28T14:49:48.075440+00:00",
-        "created_at": 1635432588000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 50", "message": "Test monitor ----------------", "id": 2918218, "multi":
+        false, "name": "Composite monitor - Child 2", "created": "2021-10-28T17:49:56.302062+00:00",
+        "created_at": 1635443396000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-10-28T14:49:48.075440+00:00", "priority": null, "overall_state_modified":
+        "2021-10-28T17:49:56.302062+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -7276,7 +6319,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:48 GMT
+      - Thu, 28 Oct 2021 17:49:56 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7286,7 +6329,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '120'
+      - '182'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -7296,7 +6339,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '2'
+      - '4'
     status:
       code: 200
       message: OK
@@ -7326,11 +6369,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-        > 20", "message": "Composite monitor - child 1", "id": 2916428, "multi": false,
-        "name": "Composite monitor - child 1", "created": "2021-10-28T14:49:48.374691+00:00",
-        "created_at": 1635432588000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 20", "message": "Composite monitor - child 1", "id": 2918219, "multi": false,
+        "name": "Composite monitor - child 1", "created": "2021-10-28T17:49:56.585441+00:00",
+        "created_at": 1635443396000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-10-28T14:49:48.374691+00:00", "priority": null, "overall_state_modified":
+        "2021-10-28T17:49:56.585441+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -7352,7 +6395,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:48 GMT
+      - Thu, 28 Oct 2021 17:49:56 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7362,7 +6405,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '194'
+      - '126'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -7372,7 +6415,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '2'
+      - '4'
     status:
       code: 200
       message: OK
@@ -7401,10 +6444,10 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-        "message": "Test host monitor", "id": 2916429, "multi": true, "name": "Host
-        monitor", "created": "2021-10-28T14:49:48.729339+00:00", "created_at": 1635432588000,
+        "message": "Test host monitor", "id": 2918220, "multi": true, "name": "Host
+        monitor", "created": "2021-10-28T17:49:56.887868+00:00", "created_at": 1635443396000,
         "creator": {"id": 1000219667, "handle": "frog@datadoghq.com", "name": "Frog",
-        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2021-10-28T14:49:48.729339+00:00",
+        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2021-10-28T17:49:56.887868+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "service check", "options": {"notify_audit": false, "locked": false,
         "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds": {"warning":
@@ -7426,7 +6469,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:48 GMT
+      - Thu, 28 Oct 2021 17:49:56 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7436,7 +6479,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '157'
+      - '119'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -7446,7 +6489,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '2'
+      - '4'
     status:
       code: 200
       message: OK
@@ -7479,11 +6522,11 @@ interactions:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
         ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
-        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 2916430,
-        "multi": false, "name": "Anomaly monitor", "created": "2021-10-28T14:49:49.070053+00:00",
-        "created_at": 1635432589000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 2918221,
+        "multi": false, "name": "Anomaly monitor", "created": "2021-10-28T17:49:57.149511+00:00",
+        "created_at": 1635443397000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-10-28T14:49:49.070053+00:00", "priority": null, "overall_state_modified":
+        "2021-10-28T17:49:57.149511+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "query alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -7506,7 +6549,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:49 GMT
+      - Thu, 28 Oct 2021 17:49:57 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7516,7 +6559,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '150'
+      - '132'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -7526,7 +6569,7 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '1'
+      - '3'
     status:
       code: 200
       message: OK
@@ -7556,11 +6599,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50", "message": "Test monitor Via Dogshell CLI", "id": 2916431, "multi":
-        false, "name": "Composite monitor - Child 2 - via dogshell", "created": "2021-10-28T14:49:49.366874+00:00",
-        "created_at": 1635432589000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 50", "message": "Test monitor Via Dogshell CLI", "id": 2918222, "multi":
+        false, "name": "Composite monitor - Child 2 - via dogshell", "created": "2021-10-28T17:49:57.406298+00:00",
+        "created_at": 1635443397000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-10-28T14:49:49.366874+00:00", "priority": null, "overall_state_modified":
+        "2021-10-28T17:49:57.406298+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -7582,7 +6625,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:49 GMT
+      - Thu, 28 Oct 2021 17:49:57 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7592,7 +6635,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '133'
+      - '121'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -7602,7 +6645,7 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '1'
+      - '3'
     status:
       code: 200
       message: OK
@@ -7631,11 +6674,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "events(''priority:all'').rollup(''count'').last(''5m'')
-        > 100", "message": "Test event monitor", "id": 2916432, "multi": false, "name":
-        "Test event monitor", "created": "2021-10-28T14:49:49.695319+00:00", "created_at":
-        1635432589000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 100", "message": "Test event monitor", "id": 2918223, "multi": false, "name":
+        "Test event monitor", "created": "2021-10-28T17:49:57.691023+00:00", "created_at":
+        1635443397000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-10-28T14:49:49.695319+00:00", "priority": null, "overall_state_modified":
+        "2021-10-28T17:49:57.691023+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "event alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "thresholds": {"critical": 100.0}, "new_host_delay": 300, "notify_no_data":
@@ -7656,7 +6699,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:49 GMT
+      - Thu, 28 Oct 2021 17:49:57 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7676,13 +6719,13 @@ interactions:
       x-ratelimit-remaining:
       - '494'
       x-ratelimit-reset:
-      - '1'
+      - '3'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"restricted_roles": null, "tags": [], "query": "( 2916428 && 2916427 )
-      || !2916428", "message": "test", "multi": false, "name": "Composite monitor",
+    body: '{"restricted_roles": null, "tags": [], "query": "( 2918219 && 2918218 )
+      || !2918219", "message": "test", "multi": false, "name": "Composite monitor",
       "priority": null, "type": "composite", "options": {"notify_audit": false, "locked":
       false, "silenced": {"env:test": null}, "include_tags": false, "new_host_delay":
       300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
@@ -7705,11 +6748,11 @@ interactions:
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "(
-        2916428 && 2916427 ) || !2916428", "message": "test", "id": 2916433, "multi":
-        false, "name": "Composite monitor", "created": "2021-10-28T14:49:50.167255+00:00",
-        "created_at": 1635432590000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        2918219 && 2918218 ) || !2918219", "message": "test", "id": 2918224, "multi":
+        false, "name": "Composite monitor", "created": "2021-10-28T17:49:58.052304+00:00",
+        "created_at": 1635443398000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2021-10-28T14:49:50.167255+00:00", "priority": null, "overall_state_modified":
+        "2021-10-28T17:49:58.052304+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "composite", "options": {"notify_audit":
         false, "locked": false, "silenced": {"env:test": null}, "include_tags": false,
         "new_host_delay": 300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
@@ -7730,7 +6773,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:50 GMT
+      - Thu, 28 Oct 2021 17:49:58 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7740,7 +6783,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '159'
+      - '189'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -7748,16 +6791,16 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '499'
+      - '493'
       x-ratelimit-reset:
-      - '10'
+      - '2'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "Updated Description Test", "monitor_tags": [], "thresholds":
       [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 0,
-      "monitor_ids": [2916427, 2916429], "name": "Composite monitor - Child 2", "tags":
+      "monitor_ids": [2918218, 2918220], "name": "Composite monitor - Child 2", "tags":
       [], "type": "monitor"}'
     headers:
       Accept:
@@ -7779,9 +6822,9 @@ interactions:
       string: '{"data": [{"description": "Updated Description Test", "monitor_tags":
         [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 0, "id": "3762bf70f41a51309b8135912b7a9c84", "monitor_ids": [2916427,
-        2916429], "name": "Composite monitor - Child 2", "created_at": 1635432590,
-        "tags": [], "modified_at": 1635432590, "type": "monitor"}], "error": null}'
+        "type_id": 0, "id": "0846c5ee94f3516a923052645e3cd4dd", "monitor_ids": [2918218,
+        2918220], "name": "Composite monitor - Child 2", "created_at": 1635443398,
+        "tags": [], "modified_at": 1635443398, "type": "monitor"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -7798,7 +6841,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:50 GMT
+      - Thu, 28 Oct 2021 17:49:58 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7808,7 +6851,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '171'
+      - '156'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -7818,14 +6861,14 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '10'
+      - '2'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "noueman", "monitor_tags": [], "thresholds": [{"target":
       99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 0, "monitor_ids":
-      [2916419], "name": "[Synthetics] Test on google.com -tesst", "tags": [], "type":
+      [2918211], "name": "[Synthetics] Test on google.com -tesst", "tags": [], "type":
       "monitor"}'
     headers:
       Accept:
@@ -7847,9 +6890,9 @@ interactions:
       string: '{"data": [{"description": "noueman", "monitor_tags": [], "creator":
         {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 0, "id": "8be140e15f005382890e89804091cd62", "monitor_ids": [2916419],
-        "name": "[Synthetics] Test on google.com -tesst", "created_at": 1635432590,
-        "tags": [], "modified_at": 1635432590, "type": "monitor"}], "error": null}'
+        "type_id": 0, "id": "7f5de31ad49c52428faddf968bbe064f", "monitor_ids": [2918211],
+        "name": "[Synthetics] Test on google.com -tesst", "created_at": 1635443398,
+        "tags": [], "modified_at": 1635443398, "type": "monitor"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -7866,7 +6909,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:50 GMT
+      - Thu, 28 Oct 2021 17:49:58 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7876,7 +6919,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '119'
+      - '136'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -7886,14 +6929,14 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '10'
+      - '2'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags": [],
       "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-      "type_id": 0, "monitor_ids": [2916419, 2916427, 2916428, 2916420, 2916422],
+      "type_id": 0, "monitor_ids": [2918211, 2918218, 2918219, 2918212, 2918214],
       "name": "[Synthetics] Multple Monitors based SLO", "tags": ["noueman"], "type":
       "monitor"}'
     headers:
@@ -7916,10 +6959,10 @@ interactions:
       string: '{"data": [{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags":
         [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 0, "id": "babd1be772d4535c9de64152a2494044", "monitor_ids": [2916419,
-        2916427, 2916428, 2916420, 2916422], "name": "[Synthetics] Multple Monitors
-        based SLO", "created_at": 1635432591, "tags": ["noueman"], "modified_at":
-        1635432591, "type": "monitor"}], "error": null}'
+        "type_id": 0, "id": "43ed1cb7d6bb50b299d4c12ca9e23313", "monitor_ids": [2918211,
+        2918218, 2918219, 2918212, 2918214], "name": "[Synthetics] Multple Monitors
+        based SLO", "created_at": 1635443399, "tags": ["noueman"], "modified_at":
+        1635443399, "type": "monitor"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -7936,7 +6979,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:51 GMT
+      - Thu, 28 Oct 2021 17:49:59 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7946,7 +6989,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '124'
+      - '126'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -7956,7 +6999,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '9'
+      - '1'
     status:
       code: 200
       message: OK
@@ -7986,8 +7029,8 @@ interactions:
         "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
         "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-        "sum:api.requests.status_ok{*}.as_count()"}, "id": "fd5fa5919e9358f7ba9921350f9aae0f",
-        "name": "SLO test", "created_at": 1635432591, "tags": [], "modified_at": 1635432591,
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "c9cd28eace9a5d328d065dabbc5800fa",
+        "name": "SLO test", "created_at": 1635443399, "tags": [], "modified_at": 1635443399,
         "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
@@ -8005,7 +7048,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:51 GMT
+      - Thu, 28 Oct 2021 17:49:59 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8015,7 +7058,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '168'
+      - '106'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -8025,7 +7068,7 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '9'
+      - '1'
     status:
       code: 200
       message: OK
@@ -8058,9 +7101,9 @@ interactions:
         "Frog", "email": "frog@datadoghq.com"}, "thresholds": [{"warning": 99.8, "warning_display":
         "99.8", "target": 99.5, "target_display": "99.5", "timeframe": "7d"}], "type_id":
         1, "query": {"denominator": "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
-        "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "2271ae40838b53b59c7c48332f4260c3",
-        "name": "example slo", "created_at": 1635432592, "tags": ["foo:bar"], "modified_at":
-        1635432592, "type": "metric"}], "error": null}'
+        "numerator": "sum:my.metric{type:good}.as_count()"}, "id": "e0adeb0cd3a25359b4c6da16cb3a9d70",
+        "name": "example slo", "created_at": 1635443399, "tags": ["foo:bar"], "modified_at":
+        1635443399, "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
       - clear
@@ -8077,7 +7120,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:52 GMT
+      - Thu, 28 Oct 2021 17:49:59 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8087,7 +7130,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '114'
+      - '199'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -8097,7 +7140,7 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '8'
+      - '1'
     status:
       code: 200
       message: OK
@@ -8127,9 +7170,9 @@ interactions:
     body:
       string: '{"notify_list": null, "description": null, "restricted_roles": [],
         "author_name": "Frog", "template_variables": null, "is_read_only": false,
-        "id": "d44-27j-ba5", "title": "{{ unique }} with timeseries widget", "url":
-        "/dashboard/d44-27j-ba5/-unique--with-timeseries-widget", "created_at": "2021-10-28T14:49:52.428870+00:00",
-        "modified_at": "2021-10-28T14:49:52.428870+00:00", "author_handle": "frog@datadoghq.com",
+        "id": "dre-rtb-2uv", "title": "{{ unique }} with timeseries widget", "url":
+        "/dashboard/dre-rtb-2uv/-unique--with-timeseries-widget", "created_at": "2021-10-28T17:50:00.072285+00:00",
+        "modified_at": "2021-10-28T17:50:00.072285+00:00", "author_handle": "frog@datadoghq.com",
         "widgets": [{"definition": {"requests": [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec}
         by {resource_name}.as_count()", "on_right_yaxis": false, "style": {"line_width":
         "normal", "palette": "warm", "line_type": "solid"}, "display_type": "bars"}],
@@ -8150,7 +7193,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:52 GMT
+      - Thu, 28 Oct 2021 17:50:00 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8160,7 +7203,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '172'
+      - '199'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -8196,9 +7239,9 @@ interactions:
   response:
     body:
       string: '{"notify_list": [], "description": "", "restricted_roles": [], "author_name":
-        "Frog", "template_variables": [], "is_read_only": false, "id": "t3g-zyg-dkm",
-        "title": "Sherzod''s Dashboard Mon, Oct 25, 3:36:13 pm", "url": "/dashboard/t3g-zyg-dkm/sherzods-dashboard-mon-oct-25-33613-pm",
-        "created_at": "2021-10-28T14:49:52.882145+00:00", "modified_at": "2021-10-28T14:49:52.882145+00:00",
+        "Frog", "template_variables": [], "is_read_only": false, "id": "4y5-4yf-zuu",
+        "title": "Sherzod''s Dashboard Mon, Oct 25, 3:36:13 pm", "url": "/dashboard/4y5-4yf-zuu/sherzods-dashboard-mon-oct-25-33613-pm",
+        "created_at": "2021-10-28T17:50:00.452212+00:00", "modified_at": "2021-10-28T17:50:00.452212+00:00",
         "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
         [{"definition": {"title_size": "16", "legend_columns": ["avg", "min", "max",
         "value", "sum"], "yaxis": {"include_zero": true, "label": "", "scale": "linear",
@@ -8225,7 +7268,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:52 GMT
+      - Thu, 28 Oct 2021 17:50:00 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8235,7 +7278,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '203'
+      - '172'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -8264,9 +7307,9 @@ interactions:
     body:
       string: '{"notify_list": null, "description": null, "restricted_roles": [],
         "author_name": "Frog", "template_variables": null, "is_read_only": false,
-        "id": "3up-42r-gay", "title": "Sherzod''s Screenboard Thu, Sep 30, 4:21:42
-        pm", "url": "/dashboard/3up-42r-gay/sherzods-screenboard-thu-sep-30-42142-pm",
-        "created_at": "2021-10-28T14:49:53.263556+00:00", "modified_at": "2021-10-28T14:49:53.263556+00:00",
+        "id": "gv5-8zc-rud", "title": "Sherzod''s Screenboard Thu, Sep 30, 4:21:42
+        pm", "url": "/dashboard/gv5-8zc-rud/sherzods-screenboard-thu-sep-30-42142-pm",
+        "created_at": "2021-10-28T17:50:00.851914+00:00", "modified_at": "2021-10-28T17:50:00.851914+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [], "layout_type": "free"}'
     headers:
       Alt-Svc:
@@ -8284,7 +7327,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:53 GMT
+      - Thu, 28 Oct 2021 17:50:00 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8294,7 +7337,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '195'
+      - '139'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -8327,9 +7370,9 @@ interactions:
   response:
     body:
       string: '{"notify_list": [], "description": "", "restricted_roles": [], "author_name":
-        "Frog", "template_variables": [], "is_read_only": false, "id": "5gw-z53-agu",
-        "title": "datadog-sync-cli Test Dashboard", "url": "/dashboard/5gw-z53-agu/datadog-sync-cli-test-dashboard",
-        "created_at": "2021-10-28T14:49:53.677987+00:00", "modified_at": "2021-10-28T14:49:53.677987+00:00",
+        "Frog", "template_variables": [], "is_read_only": false, "id": "xmp-qm3-xdb",
+        "title": "datadog-sync-cli Test Dashboard", "url": "/dashboard/xmp-qm3-xdb/datadog-sync-cli-test-dashboard",
+        "created_at": "2021-10-28T17:50:01.693850+00:00", "modified_at": "2021-10-28T17:50:01.693850+00:00",
         "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
         [{"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
         2, "time": {}, "title_size": "16", "requests": [{"response_format": "scalar",
@@ -8353,7 +7396,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:53 GMT
+      - Thu, 28 Oct 2021 17:50:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8363,7 +7406,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '180'
+      - '162'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -8427,9 +7470,9 @@ interactions:
         [{"template_variables": [{"name": "var_1", "value": "host.dc"}, {"name": "var_2",
         "value": "my_service"}], "name": "preset_1"}], "template_variables": [{"default":
         "aws", "prefix": "host", "name": "var_1"}, {"default": "autoscaling", "prefix":
-        "service_name", "name": "var_2"}], "is_read_only": false, "id": "rab-r9a-a3u",
-        "title": "Test screenboard", "url": "/dashboard/rab-r9a-a3u/test-screenboard",
-        "created_at": "2021-10-28T14:49:54.106499+00:00", "modified_at": "2021-10-28T14:49:54.106499+00:00",
+        "service_name", "name": "var_2"}], "is_read_only": false, "id": "5ij-h4b-snp",
+        "title": "Test screenboard", "url": "/dashboard/5ij-h4b-snp/test-screenboard",
+        "created_at": "2021-10-28T17:50:02.101424+00:00", "modified_at": "2021-10-28T17:50:02.101424+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"title_size":
         "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
         "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout":
@@ -8477,7 +7520,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:54 GMT
+      - Thu, 28 Oct 2021 17:50:02 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8486,6 +7529,8 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '204'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -8496,23 +7541,23 @@ interactions:
       [], "is_read_only": false, "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "reflow_type":
       "auto", "widgets": [{"definition": {"widgets": [{"definition": {"title_size":
       "16", "viz_type": "timeseries", "title": "", "title_align": "left", "alert_id":
-      "2916428", "type": "alert_graph"}, "id": 5316294948508728}, {"definition": {"title_size":
+      "2918219", "type": "alert_graph"}, "id": 5316294948508728}, {"definition": {"title_size":
       "16", "title": "", "title_align": "left", "text_align": "left", "precision":
-      2, "alert_id": "2916427", "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}],
+      2, "alert_id": "2918218", "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}],
       "layout_type": "ordered", "type": "group", "title": "New group"}, "id": 2497183012091650},
       {"definition": {"title_size": "16", "viz_type": "timeseries", "title": "", "title_align":
-      "left", "alert_id": "2916428", "type": "alert_graph"}, "id": 4551400937275112},
+      "left", "alert_id": "2918219", "type": "alert_graph"}, "id": 4551400937275112},
       {"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
       2, "title_size": "16", "requests": [{"q": "avg:synthetics.http.dns.time{*}",
       "aggregator": "avg"}], "type": "query_value"}, "id": 7228117705299642}, {"definition":
       {"title_size": "16", "title": "", "title_align": "left", "text_align": "left",
-      "precision": 2, "alert_id": "2916427", "type": "alert_value", "unit": "auto"},
+      "precision": 2, "alert_id": "2918218", "type": "alert_value", "unit": "auto"},
       "id": 2397823643167820}, {"definition": {"time_windows": ["7d"], "title_size":
       "16", "show_error_budget": true, "view_type": "detail", "title_align": "left",
-      "slo_id": "3762bf70f41a51309b8135912b7a9c84", "view_mode": "overall", "title":
+      "slo_id": "0846c5ee94f3516a923052645e3cd4dd", "view_mode": "overall", "title":
       "", "global_time_target": "0", "type": "slo"}, "id": 1076364961367720}, {"definition":
       {"time_windows": ["7d"], "title_size": "16", "show_error_budget": true, "view_type":
-      "detail", "title_align": "left", "slo_id": "8be140e15f005382890e89804091cd62",
+      "detail", "title_align": "left", "slo_id": "7f5de31ad49c52428faddf968bbe064f",
       "view_mode": "overall", "title": "", "global_time_target": "0", "type": "slo"},
       "id": 4123257207386936}], "layout_type": "ordered"}'
     headers:
@@ -8533,29 +7578,29 @@ interactions:
   response:
     body:
       string: '{"notify_list": [], "description": "", "restricted_roles": [], "author_name":
-        "Frog", "template_variables": [], "is_read_only": false, "id": "6yq-2c3-q39",
-        "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "url": "/dashboard/6yq-2c3-q39/timeboard-tue-jun-1-41857-pm",
-        "created_at": "2021-10-28T14:49:54.559880+00:00", "modified_at": "2021-10-28T14:49:54.559880+00:00",
+        "Frog", "template_variables": [], "is_read_only": false, "id": "ihk-hh9-mg6",
+        "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "url": "/dashboard/ihk-hh9-mg6/timeboard-tue-jun-1-41857-pm",
+        "created_at": "2021-10-28T17:50:02.506181+00:00", "modified_at": "2021-10-28T17:50:02.506181+00:00",
         "reflow_type": "auto", "author_handle": "frog@datadoghq.com", "widgets": [{"definition":
         {"widgets": [{"definition": {"title_size": "16", "viz_type": "timeseries",
-        "title": "", "title_align": "left", "alert_id": "2916428", "type": "alert_graph"},
+        "title": "", "title_align": "left", "alert_id": "2918219", "type": "alert_graph"},
         "id": 5316294948508728}, {"definition": {"title_size": "16", "title": "",
-        "title_align": "left", "text_align": "left", "precision": 2, "alert_id": "2916427",
+        "title_align": "left", "text_align": "left", "precision": 2, "alert_id": "2918218",
         "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}], "layout_type":
         "ordered", "type": "group", "title": "New group"}, "id": 2497183012091650},
         {"definition": {"title_size": "16", "viz_type": "timeseries", "title": "",
-        "title_align": "left", "alert_id": "2916428", "type": "alert_graph"}, "id":
+        "title_align": "left", "alert_id": "2918219", "type": "alert_graph"}, "id":
         4551400937275112}, {"definition": {"title_size": "16", "title": "", "title_align":
         "left", "precision": 2, "autoscale": true, "requests": [{"q": "avg:synthetics.http.dns.time{*}",
         "aggregator": "avg"}], "type": "query_value"}, "id": 7228117705299642}, {"definition":
         {"title_size": "16", "title": "", "title_align": "left", "text_align": "left",
-        "precision": 2, "alert_id": "2916427", "type": "alert_value", "unit": "auto"},
+        "precision": 2, "alert_id": "2918218", "type": "alert_value", "unit": "auto"},
         "id": 2397823643167820}, {"definition": {"time_windows": ["7d"], "title_size":
         "16", "show_error_budget": true, "view_type": "detail", "title_align": "left",
-        "slo_id": "3762bf70f41a51309b8135912b7a9c84", "view_mode": "overall", "title":
+        "slo_id": "0846c5ee94f3516a923052645e3cd4dd", "view_mode": "overall", "title":
         "", "global_time_target": "0", "type": "slo"}, "id": 1076364961367720}, {"definition":
         {"time_windows": ["7d"], "title_size": "16", "show_error_budget": true, "view_type":
-        "detail", "title_align": "left", "slo_id": "8be140e15f005382890e89804091cd62",
+        "detail", "title_align": "left", "slo_id": "7f5de31ad49c52428faddf968bbe064f",
         "view_mode": "overall", "title": "", "global_time_target": "0", "type": "slo"},
         "id": 4123257207386936}], "layout_type": "ordered"}'
     headers:
@@ -8574,7 +7619,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:54 GMT
+      - Thu, 28 Oct 2021 17:50:02 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8584,7 +7629,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '216'
+      - '210'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -8611,8 +7656,8 @@ interactions:
     body:
       string: '{"is_favorite": false, "name": "Empty Test List", "dashboard_count":
         0, "author": {"handle": "frog@datadoghq.com", "name": "Frog"}, "created":
-        "2021-10-28T14:49:54.867321+00:00", "type": "manual_dashboard_list", "dashboards":
-        null, "modified": "2021-10-28T14:49:54.867369+00:00", "id": 13697}'
+        "2021-10-28T17:50:02.823300+00:00", "type": "manual_dashboard_list", "dashboards":
+        null, "modified": "2021-10-28T17:50:02.823338+00:00", "id": 13705}'
     headers:
       Alt-Svc:
       - clear
@@ -8629,7 +7674,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:54 GMT
+      - Thu, 28 Oct 2021 17:50:02 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8639,7 +7684,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '100'
+      - '106'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -8661,7 +7706,7 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/13697/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/13705/dashboards
   response:
     body:
       string: '{"dashboards": []}'
@@ -8679,15 +7724,13 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:55 GMT
+      - Thu, 28 Oct 2021 17:50:03 GMT
       pragma:
       - no-cache
       strict-transport-security:
       - max-age=15724800;
       x-content-type-options:
       - nosniff
-      x-envoy-upstream-service-time:
-      - '155'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -8713,9 +7756,9 @@ interactions:
   response:
     body:
       string: '{"is_favorite": false, "name": "Test list", "dashboard_count": 0, "author":
-        {"handle": "frog@datadoghq.com", "name": "Frog"}, "created": "2021-10-28T14:49:55.474612+00:00",
-        "type": "manual_dashboard_list", "dashboards": null, "modified": "2021-10-28T14:49:55.474655+00:00",
-        "id": 13698}'
+        {"handle": "frog@datadoghq.com", "name": "Frog"}, "created": "2021-10-28T17:50:03.428922+00:00",
+        "type": "manual_dashboard_list", "dashboards": null, "modified": "2021-10-28T17:50:03.428952+00:00",
+        "id": 13706}'
     headers:
       Alt-Svc:
       - clear
@@ -8732,7 +7775,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:55 GMT
+      - Thu, 28 Oct 2021 17:50:03 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8742,15 +7785,15 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '100'
+      - '107'
       x-frame-options:
       - SAMEORIGIN
     status:
       code: 200
       message: OK
 - request:
-    body: '{"dashboards": [{"id": "rab-r9a-a3u", "type": "custom_screenboard"}, {"id":
-      "6yq-2c3-q39", "type": "custom_timeboard"}]}'
+    body: '{"dashboards": [{"id": "5ij-h4b-snp", "type": "custom_screenboard"}, {"id":
+      "ihk-hh9-mg6", "type": "custom_timeboard"}]}'
     headers:
       Accept:
       - '*/*'
@@ -8765,11 +7808,11 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/13698/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/13706/dashboards
   response:
     body:
-      string: '{"dashboards": [{"type": "custom_screenboard", "id": "rab-r9a-a3u"},
-        {"type": "custom_timeboard", "id": "6yq-2c3-q39"}]}'
+      string: '{"dashboards": [{"type": "custom_screenboard", "id": "5ij-h4b-snp"},
+        {"type": "custom_timeboard", "id": "ihk-hh9-mg6"}]}'
     headers:
       Alt-Svc:
       - clear
@@ -8786,7 +7829,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:56 GMT
+      - Thu, 28 Oct 2021 17:50:03 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8796,14 +7839,14 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '211'
+      - '254'
       x-frame-options:
       - SAMEORIGIN
     status:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "correction", "attributes": {"slo_id": "fd5fa5919e9358f7ba9921350f9aae0f",
+    body: '{"data": {"type": "correction", "attributes": {"slo_id": "c9cd28eace9a5d328d065dabbc5800fa",
       "start": 1735707000, "end": 1735718600, "description": "correction example",
       "category": "Scheduled Maintenance", "timezone": "UTC", "modifier": null}}}'
     headers:
@@ -8823,8 +7866,8 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/slo/correction
   response:
     body:
-      string: '{"data": {"type": "correction", "id": "512ac69e-37fe-11ec-b3f9-da7ad0900005",
-        "attributes": {"slo_id": "fd5fa5919e9358f7ba9921350f9aae0f", "start": 1735707000,
+      string: '{"data": {"type": "correction", "id": "7b09a624-3817-11ec-891f-da7ad0900005",
+        "attributes": {"slo_id": "c9cd28eace9a5d328d065dabbc5800fa", "start": 1735707000,
         "end": 1735718600, "description": "correction example", "category": "Scheduled
         Maintenance", "timezone": "UTC", "created_at": null, "modified_at": null,
         "rrule": null, "duration": null, "creator": {"data": {"type": "users", "id":
@@ -8848,7 +7891,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:56 GMT
+      - Thu, 28 Oct 2021 17:50:04 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8858,7 +7901,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '153'
+      - '142'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -8868,13 +7911,13 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '4'
+      - '56'
     status:
       code: 200
       message: OK
 - request:
     body: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id": null,
-      "canceled": null, "monitor_id": 2916433, "disabled": false, "start": 1654984560,
+      "canceled": null, "monitor_id": 2918224, "disabled": false, "start": 1654984560,
       "parent_id": null, "timezone": "America/New_York", "scope": ["env:test"], "message":
       null, "downtime_type": 2}'
     headers:
@@ -8895,11 +7938,11 @@ interactions:
   response:
     body:
       string: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": 2916433, "created": 1635432596, "org_id":
-        1000044987, "modified": 1635432596, "disabled": false, "start": 1654984560,
+        null, "canceled": null, "monitor_id": 2918224, "created": 1635443404, "org_id":
+        1000044987, "modified": 1635443404, "disabled": false, "start": 1654984560,
         "creator_id": 1000219667, "parent_id": null, "timezone": "America/New_York",
         "active": false, "scope": ["env:test"], "message": null, "downtime_type":
-        2, "id": 67559824, "updater_id": null}'
+        2, "id": 67590696, "updater_id": null}'
     headers:
       Alt-Svc:
       - clear
@@ -8916,7 +7959,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:56 GMT
+      - Thu, 28 Oct 2021 17:50:04 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8926,7 +7969,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '171'
+      - '208'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -8956,10 +7999,10 @@ interactions:
     body:
       string: '{"recurrence": {"until_date": null, "until_occurrences": null, "week_days":
         [], "type": "days", "period": 1}, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": null, "created": 1635432597, "org_id":
-        1000044987, "modified": 1635432597, "disabled": false, "start": 2622234295,
+        null, "canceled": null, "monitor_id": null, "created": 1635443404, "org_id":
+        1000044987, "modified": 1635443404, "disabled": false, "start": 2622234295,
         "creator_id": 1000219667, "parent_id": null, "timezone": "UTC", "active":
-        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 67559825,
+        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 67590698,
         "updater_id": null}'
     headers:
       Alt-Svc:
@@ -8977,7 +8020,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:57 GMT
+      - Thu, 28 Oct 2021 17:50:04 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8987,7 +8030,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '120'
+      - '112'
       x-frame-options:
       - SAMEORIGIN
     status:
@@ -9357,7 +8400,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 28 Oct 2021 14:49:57 GMT
+      - Thu, 28 Oct 2021 17:50:05 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -9753,7 +8796,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:49:57 GMT
+      - Thu, 28 Oct 2021 17:50:05 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -9763,7 +8806,7 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '87'
+      - '92'
       x-frame-options:
       - SAMEORIGIN
     status:

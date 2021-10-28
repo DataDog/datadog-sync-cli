@@ -8,8 +8,6 @@ from datadog_sync.models import MetricTagConfigurations
 from tests.integration.helpers import BaseResourcesTestClass
 
 
-# We skip this test for now as it is also ran by test_cli.py
-# TODO: introduce submitting unique distribution metrics from tests and creating this resource
 @pytest.mark.skip
 class TestMetricConfigurationResources(BaseResourcesTestClass):
     resource_type = MetricTagConfigurations.resource_type
