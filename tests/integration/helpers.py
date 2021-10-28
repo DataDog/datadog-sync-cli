@@ -6,7 +6,6 @@
 import os
 import re
 import json
-import logging
 
 import pytest
 
@@ -54,7 +53,6 @@ class BaseResourcesTestClass:
         # By default, resources  with failed connections are skipped. Hence count number of skipped + success
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     def test_resource_update_sync(self, runner, caplog):
@@ -67,7 +65,7 @@ class BaseResourcesTestClass:
                 if current_value is None:
                     current_value = ""
 
-                pathUpdate(resource, self.field_to_update, current_value + "Updated")
+                pathUpdate(resource, self.field_to_update, current_value + "updated")
             except Exception as e:
                 pytest.fail(e)
 
@@ -135,9 +133,12 @@ def open_resources(resource_type):
 
 def pathLookup(obj, path):
     path = path.split(".", 1)
+
     if len(path) == 1:
         if path[0] in obj:
             return obj[path[0]]
+        elif isinstance(obj, list):
+            return ""
         else:
             raise Exception(f"pathLookup error: invalid key {path}")
     else:
@@ -152,6 +153,8 @@ def pathUpdate(obj, path, value):
     if len(path) == 1:
         if path[0] in obj:
             obj[path[0]] = value
+        elif isinstance(obj, list):
+            obj.append(value)
         else:
             raise Exception(f"pathUpdate error: invalid key {path}")
     else:

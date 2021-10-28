@@ -11,13 +11,26 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/notebooks?include_cells=True&page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
     body:
-      string: '{"meta": {"page": {"total_filtered_count": 4, "total_count": 4}}, "data":
-        [{"type": "notebooks", "id": 1249391, "attributes": {"name": "Test Notebook",
+      string: '{"meta": {"page": {"total_filtered_count": 5, "total_count": 5}}, "data":
+        [{"type": "notebooks", "id": 1340258, "attributes": {"name": "Noueman Notebook",
+        "cells": [{"attributes": {"definition": {"show_legend": true, "type": "timeseries",
+        "requests": [{"q": "avg:system.load.1{*}", "style": {"line_width": "normal",
+        "palette": "dog_classic", "line_type": "solid"}, "display_type": "line"}],
+        "yaxis": {"scale": "linear"}}, "graph_size": "m", "split_by": {"keys": [],
+        "tags": []}, "time": null}, "type": "notebook_cells", "id": "g6x1knta"}, {"attributes":
+        {"definition": {"text": "Teeeeeest", "type": "markdown"}}, "type": "notebook_cells",
+        "id": "sf3x5n03"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
+        false, "type": null, "take_snapshots": false}, "status": "published", "modified":
+        "2021-09-23T23:10:10.033807+00:00", "created": "2021-09-23T23:10:10.033807+00:00",
+        "author": {"name": "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com",
+        "email": "noueman.khalikine@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/92d6421ea95d9f7b8d60c8270c95d84a?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
+        {"type": "notebooks", "id": 1249391, "attributes": {"name": "Test Notebook",
         "cells": [{"attributes": {"definition": {"show_legend": true, "title": "Test
         Notebook", "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}",
         "style": {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
@@ -29,8 +42,9 @@ interactions:
         "scalar", "queries": [{"query": "avg:system.load.1{*}", "data_source": "metrics",
         "name": "query1", "aggregator": "avg"}]}], "type": "toplist"}, "graph_size":
         "m", "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
-        "id": "qoavau2o"}], "time": {"live_span": "1h"}, "status": "published", "modified":
-        "2021-09-03T14:35:02.427223+00:00", "created": "2021-09-03T14:34:56.849312+00:00",
+        "id": "qoavau2o"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
+        false, "type": null, "take_snapshots": false}, "status": "published", "modified":
+        "2021-09-23T21:45:36.493252+00:00", "created": "2021-09-03T14:34:56.849312+00:00",
         "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
         "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}},
@@ -72,7 +86,8 @@ interactions:
         "0ryy65ac"}, {"attributes": {"definition": {"text": "# Open Questions\n_Note
         relevant questions and design topics._\n\n# Appendix\n_[Link](/) relevant
         documents or references._", "type": "markdown"}}, "type": "notebook_cells",
-        "id": "5xnxosip"}], "time": {"live_span": "1h"}, "status": "published", "modified":
+        "id": "5xnxosip"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
+        false, "type": null, "take_snapshots": false}, "status": "published", "modified":
         "2021-09-03T14:34:37.029613+00:00", "created": "2021-09-03T14:34:37.029613+00:00",
         "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
         "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
@@ -124,7 +139,8 @@ interactions:
         \n**This is the most important part of the gameday!**\n\n- Issue 1: [Link
         to follow-up item](/)\n- Issue 2: [Link to follow-up item](/)\n", "type":
         "markdown"}}, "type": "notebook_cells", "id": "wwhju4ds"}], "time": {"live_span":
-        "1h"}, "status": "published", "modified": "2021-09-03T14:34:33.365896+00:00",
+        "1h"}, "metadata": {"is_template": false, "type": null, "take_snapshots":
+        false}, "status": "published", "modified": "2021-09-03T14:34:33.365896+00:00",
         "created": "2021-09-03T14:34:33.365896+00:00", "author": {"name": "Sherzod
         Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
@@ -159,7 +175,8 @@ interactions:
         future. Link to any relevant action items, and include when the action items
         are planned._\n\n\n### Short-term\n- [X] ~~Action 1~~\n- [ ] Action 2\n\n###
         Long-term\n- [ ] Action 1\n- [ ] Action 2", "type": "markdown"}}, "type":
-        "notebook_cells", "id": "gajt34ww"}], "time": {"live_span": "1h"}, "status":
+        "notebook_cells", "id": "gajt34ww"}], "time": {"live_span": "1h"}, "metadata":
+        {"is_template": false, "type": "postmortem", "take_snapshots": false}, "status":
         "published", "modified": "2021-09-03T14:34:28.816850+00:00", "created": "2021-09-03T14:34:28.816850+00:00",
         "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
         "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
@@ -170,17 +187,19 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 03 Sep 2021 15:07:49 GMT
+      - Thu, 28 Oct 2021 14:52:00 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '11978'
+      - '13275'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
       - no-cache
+      strict-transport-security:
+      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
@@ -194,7 +213,7 @@ interactions:
       x-ratelimit-remaining:
       - '89'
       x-ratelimit-reset:
-      - '11'
+      - '60'
     status:
       code: 200
       message: OK

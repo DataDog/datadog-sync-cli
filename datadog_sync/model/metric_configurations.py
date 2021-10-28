@@ -44,6 +44,8 @@ class MetricConfigurations(BaseResource):
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
+        if "attributes" in resource:
+            resource["attributes"].pop("metric_type", None)
         payload = {"data": resource}
         resp = destination_client.patch(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}/tags", payload

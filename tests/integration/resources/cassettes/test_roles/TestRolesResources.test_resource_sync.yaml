@@ -11,12 +11,12 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v2/roles?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
     body:
-      string: '{"meta": {"page": {"total_filtered_count": 3, "total_count": 3}}, "data":
+      string: '{"meta": {"page": {"total_filtered_count": 2, "total_count": 2}}, "data":
         [{"type": "roles", "id": "138d5c0c-bfcc-11eb-8e11-da7ad0900005", "attributes":
         {"name": "Datadog Admin Role", "created_at": "2021-05-28T15:47:58.719345+00:00",
         "modified_at": "2021-05-28T15:47:58.719345+00:00", "user_count": 3}, "relationships":
@@ -35,90 +35,87 @@ interactions:
         "5de1e178-8536-11ea-968a-2fd9395bff90"}, {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"},
         {"type": "permissions", "id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14"}, {"type":
         "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
-        "id": "93654d1c-e706-11ea-9a85-d320ff02824d"}, {"type": "permissions", "id":
-        "999bc3fa-e706-11ea-9a85-3b29fe548c19"}, {"type": "permissions", "id": "046682c4-ec5c-11ea-9483-2727954feb30"},
-        {"type": "permissions", "id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a"}, {"type":
-        "permissions", "id": "04668d0a-ec5c-11ea-9483-37d199df4587"}, {"type": "permissions",
-        "id": "04668dd2-ec5c-11ea-9483-f7c5fcc9418b"}, {"type": "permissions", "id":
-        "04668e9a-ec5c-11ea-9483-8f29a8272bdc"}, {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f"},
-        {"type": "permissions", "id": "04669020-ec5c-11ea-9483-db5dbf9f0b02"}, {"type":
-        "permissions", "id": "046690de-ec5c-11ea-9483-bbcd905fcdca"}, {"type": "permissions",
-        "id": "04669192-ec5c-11ea-9483-e375d2a7bddf"}, {"type": "permissions", "id":
-        "046692fa-ec5c-11ea-9483-d713671ea3a9"}, {"type": "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152"},
-        {"type": "permissions", "id": "9311970e-f925-11ea-ab4d-1760e76381c1"}, {"type":
-        "permissions", "id": "998aabac-f925-11ea-b43d-8f1f42f3894e"}, {"type": "permissions",
-        "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb"}, {"type": "permissions", "id":
-        "ae2f8fbe-f925-11ea-b51c-67ba7de17f88"}, {"type": "permissions", "id": "b6858556-f925-11ea-9222-1f47b8677b93"},
-        {"type": "permissions", "id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a"}, {"type":
-        "permissions", "id": "ca8897be-f925-11ea-a3a2-d30492cbe671"}, {"type": "permissions",
-        "id": "cf223140-f925-11ea-a3a2-df370532bcf7"}, {"type": "permissions", "id":
-        "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee"}, {"type": "permissions", "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a"},
-        {"type": "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type":
-        "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"}, {"type": "permissions",
-        "id": "c1598bd4-2dce-11eb-9145-5b865e3c112e"}, {"type": "permissions", "id":
-        "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type": "permissions", "id": "c8654332-2dce-11eb-9145-d33d26eeb65f"},
-        {"type": "permissions", "id": "d23cc894-2dce-11eb-9145-37bf7b2dadc2"}, {"type":
-        "permissions", "id": "da1b47fc-2dce-11eb-9145-5783a37d467c"}, {"type": "permissions",
-        "id": "e49aeb24-2dce-11eb-9145-6b8664bc9097"}, {"type": "permissions", "id":
-        "37e36580-5440-11eb-91d4-03a23fd3e1d1"}, {"type": "permissions", "id": "b39da144-90af-11eb-9428-da7ad0900005"},
-        {"type": "permissions", "id": "b39fb79a-90af-11eb-9428-da7ad0900005"}, {"type":
-        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
-        "id": "993b34d6-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
-        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "123098f2-d36c-11eb-b2bf-da7ad0900005"},
-        {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005"}, {"type":
-        "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005"}]}}}, {"type":
-        "roles", "id": "140f3a7e-bfcc-11eb-8e11-da7ad0900005", "attributes": {"name":
-        "Datadog Read Only Role", "created_at": "2021-05-28T15:47:59.570548+00:00",
-        "modified_at": "2021-05-28T15:47:59.570548+00:00", "user_count": 0}, "relationships":
-        {"permissions": {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
-        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
-        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
-        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
-        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
-        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
-        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
-        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
-        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
-        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
-        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
-        "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}]}}}, {"type": "roles", "id":
-        "13e640f6-bfcc-11eb-8e11-da7ad0900005", "attributes": {"name": "Datadog Standard
-        Role", "created_at": "2021-05-28T15:47:59.301945+00:00", "modified_at": "2021-05-28T15:47:59.301945+00:00",
-        "user_count": 1}, "relationships": {"permissions": {"data": [{"type": "permissions",
-        "id": "f1666372-d87d-11e8-acac-6be484ba794a"}, {"type": "permissions", "id":
-        "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c"}, {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"},
-        {"type": "permissions", "id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4"}, {"type":
-        "permissions", "id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc"}, {"type": "permissions",
-        "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions", "id":
-        "2149e512-d3d9-11e9-a614-bb8f0dcf0205"}, {"type": "permissions", "id": "214c10b2-d3d9-11e9-a614-3759c7ad528f"},
-        {"type": "permissions", "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type":
-        "permissions", "id": "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8"}, {"type": "permissions",
-        "id": "d3159858-d8b2-11e9-a336-e363d6ef331b"}, {"type": "permissions", "id":
-        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
-        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
-        "permissions", "id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14"}, {"type": "permissions",
-        "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions", "id":
-        "93654d1c-e706-11ea-9a85-d320ff02824d"}, {"type": "permissions", "id": "046682c4-ec5c-11ea-9483-2727954feb30"},
-        {"type": "permissions", "id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a"}, {"type":
-        "permissions", "id": "04668dd2-ec5c-11ea-9483-f7c5fcc9418b"}, {"type": "permissions",
-        "id": "046692fa-ec5c-11ea-9483-d713671ea3a9"}, {"type": "permissions", "id":
-        "96a0c17a-f7f8-11ea-add4-d3659d81b152"}, {"type": "permissions", "id": "9311970e-f925-11ea-ab4d-1760e76381c1"},
-        {"type": "permissions", "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb"}, {"type":
-        "permissions", "id": "ae2f8fbe-f925-11ea-b51c-67ba7de17f88"}, {"type": "permissions",
-        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
-        "bd5bb850-f925-11ea-a3a2-77cbb581c92a"}, {"type": "permissions", "id": "ca8897be-f925-11ea-a3a2-d30492cbe671"},
-        {"type": "permissions", "id": "cf223140-f925-11ea-a3a2-df370532bcf7"}, {"type":
-        "permissions", "id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee"}, {"type": "permissions",
+        "id": "60759a94-ff6d-11eb-a4f0-da7ad0900005"}, {"type": "permissions", "id":
+        "93654d1c-e706-11ea-9a85-d320ff02824d"}, {"type": "permissions", "id": "999bc3fa-e706-11ea-9a85-3b29fe548c19"},
+        {"type": "permissions", "id": "046682c4-ec5c-11ea-9483-2727954feb30"}, {"type":
+        "permissions", "id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a"}, {"type": "permissions",
+        "id": "04668d0a-ec5c-11ea-9483-37d199df4587"}, {"type": "permissions", "id":
+        "04668dd2-ec5c-11ea-9483-f7c5fcc9418b"}, {"type": "permissions", "id": "04668e9a-ec5c-11ea-9483-8f29a8272bdc"},
+        {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f"}, {"type":
+        "permissions", "id": "04669020-ec5c-11ea-9483-db5dbf9f0b02"}, {"type": "permissions",
+        "id": "046690de-ec5c-11ea-9483-bbcd905fcdca"}, {"type": "permissions", "id":
+        "04669192-ec5c-11ea-9483-e375d2a7bddf"}, {"type": "permissions", "id": "046692fa-ec5c-11ea-9483-d713671ea3a9"},
+        {"type": "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152"}, {"type":
+        "permissions", "id": "8b753262-f925-11ea-82fc-93f07fd96e76"}, {"type": "permissions",
+        "id": "9311970e-f925-11ea-ab4d-1760e76381c1"}, {"type": "permissions", "id":
+        "998aabac-f925-11ea-b43d-8f1f42f3894e"}, {"type": "permissions", "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb"},
+        {"type": "permissions", "id": "ae2f8fbe-f925-11ea-b51c-67ba7de17f88"}, {"type":
+        "permissions", "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions",
+        "id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a"}, {"type": "permissions", "id":
+        "ca8897be-f925-11ea-a3a2-d30492cbe671"}, {"type": "permissions", "id": "cf223140-f925-11ea-a3a2-df370532bcf7"},
+        {"type": "permissions", "id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee"}, {"type":
+        "permissions", "id": "72bc07d8-1472-11eb-a97b-8bff514d7382"}, {"type": "permissions",
         "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a"}, {"type": "permissions", "id":
         "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
-        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
-        "permissions", "id": "da1b47fc-2dce-11eb-9145-5783a37d467c"}, {"type": "permissions",
-        "id": "e49aeb24-2dce-11eb-9145-6b8664bc9097"}, {"type": "permissions", "id":
-        "37e36580-5440-11eb-91d4-03a23fd3e1d1"}, {"type": "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"},
-        {"type": "permissions", "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type":
-        "permissions", "id": "123098f2-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions",
-        "id": "122f7508-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id":
-        "122ff9c4-d36c-11eb-b2bf-da7ad0900005"}]}}}]}'
+        {"type": "permissions", "id": "c1598bd4-2dce-11eb-9145-5b865e3c112e"}, {"type":
+        "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type": "permissions",
+        "id": "c8654332-2dce-11eb-9145-d33d26eeb65f"}, {"type": "permissions", "id":
+        "d23cc894-2dce-11eb-9145-37bf7b2dadc2"}, {"type": "permissions", "id": "da1b47fc-2dce-11eb-9145-5783a37d467c"},
+        {"type": "permissions", "id": "e49aeb24-2dce-11eb-9145-6b8664bc9097"}, {"type":
+        "permissions", "id": "19570d26-3409-11eb-9ac2-ab9b978f6c4a"}, {"type": "permissions",
+        "id": "37e36580-5440-11eb-91d4-03a23fd3e1d1"}, {"type": "permissions", "id":
+        "b39da144-90af-11eb-9428-da7ad0900005"}, {"type": "permissions", "id": "b39fb79a-90af-11eb-9428-da7ad0900005"},
+        {"type": "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type":
+        "permissions", "id": "993b34d6-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
+        "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id":
+        "123098f2-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005"},
+        {"type": "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005"}, {"type":
+        "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions",
+        "id": "f07f557a-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions", "id":
+        "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"}, {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"},
+        {"type": "permissions", "id": "294580e0-1703-11ec-9b92-da7ad0900005"}]}}},
+        {"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005", "attributes":
+        {"name": "Datadog Standard Role", "created_at": "2021-05-28T15:47:59.301945+00:00",
+        "modified_at": "2021-05-28T15:47:59.301945+00:00", "user_count": 1}, "relationships":
+        {"permissions": {"data": [{"type": "permissions", "id": "f1666372-d87d-11e8-acac-6be484ba794a"},
+        {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c"}, {"type":
+        "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type": "permissions",
+        "id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4"}, {"type": "permissions", "id":
+        "06f715e2-aed9-11e9-aac6-eb5723c0dffc"}, {"type": "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"},
+        {"type": "permissions", "id": "2149e512-d3d9-11e9-a614-bb8f0dcf0205"}, {"type":
+        "permissions", "id": "214c10b2-d3d9-11e9-a614-3759c7ad528f"}, {"type": "permissions",
+        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
+        "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8"}, {"type": "permissions", "id": "d3159858-d8b2-11e9-a336-e363d6ef331b"},
+        {"type": "permissions", "id": "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type":
+        "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"}, {"type": "permissions",
+        "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type": "permissions", "id":
+        "dbd71214-aa58-11ea-8f98-d71d49bb1d14"}, {"type": "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"},
+        {"type": "permissions", "id": "60759a94-ff6d-11eb-a4f0-da7ad0900005"}, {"type":
+        "permissions", "id": "93654d1c-e706-11ea-9a85-d320ff02824d"}, {"type": "permissions",
+        "id": "046682c4-ec5c-11ea-9483-2727954feb30"}, {"type": "permissions", "id":
+        "04668bde-ec5c-11ea-9483-fb6cb6586c6a"}, {"type": "permissions", "id": "04668dd2-ec5c-11ea-9483-f7c5fcc9418b"},
+        {"type": "permissions", "id": "046692fa-ec5c-11ea-9483-d713671ea3a9"}, {"type":
+        "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152"}, {"type": "permissions",
+        "id": "9311970e-f925-11ea-ab4d-1760e76381c1"}, {"type": "permissions", "id":
+        "a726d3bc-f925-11ea-8c05-476d8eebc4cb"}, {"type": "permissions", "id": "ae2f8fbe-f925-11ea-b51c-67ba7de17f88"},
+        {"type": "permissions", "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type":
+        "permissions", "id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a"}, {"type": "permissions",
+        "id": "ca8897be-f925-11ea-a3a2-d30492cbe671"}, {"type": "permissions", "id":
+        "cf223140-f925-11ea-a3a2-df370532bcf7"}, {"type": "permissions", "id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee"},
+        {"type": "permissions", "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a"}, {"type":
+        "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions",
+        "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"}, {"type": "permissions", "id":
+        "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type": "permissions", "id": "da1b47fc-2dce-11eb-9145-5783a37d467c"},
+        {"type": "permissions", "id": "e49aeb24-2dce-11eb-9145-6b8664bc9097"}, {"type":
+        "permissions", "id": "37e36580-5440-11eb-91d4-03a23fd3e1d1"}, {"type": "permissions",
+        "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
+        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "123098f2-d36c-11eb-b2bf-da7ad0900005"},
+        {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005"}, {"type":
+        "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions",
+        "id": "f07e4234-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions", "id":
+        "f07f557a-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"},
+        {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}, {"type":
+        "permissions", "id": "294580e0-1703-11ec-9b92-da7ad0900005"}]}}}]}'
     headers:
       Alt-Svc:
       - clear
@@ -129,19 +126,23 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '8491'
+      - '8295'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Tue, 03 Aug 2021 14:16:47 GMT
+      - Thu, 28 Oct 2021 14:52:07 GMT
       pragma:
       - no-cache
+      strict-transport-security:
+      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '133'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -151,7 +152,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '13'
+      - '53'
     status:
       code: 200
       message: OK
@@ -167,7 +168,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/permissions
   response:
@@ -219,7 +220,7 @@ interactions:
         implicitly.", "created": "2018-10-31T13:40:17.996379+00:00", "group_name":
         "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
         "id": "84aa3ae4-dd12-11e8-9e58-a373a514ccd0", "attributes": {"name": "logs_write_processors",
-        "display_name": "Log Write Processors", "description": "The ability to add
+        "display_name": "Logs Write Processors", "description": "The ability to add
         and change some or all log processor configurations. Can be granted in a limited
         capacity per pipeline to specific roles via the Logs interface or API. If
         granted via the Roles interface or API the permission has global scope.",
@@ -234,7 +235,7 @@ interactions:
         via the API.", "created": "2019-05-02T08:13:01.731092+00:00", "group_name":
         "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
         "id": "979df720-aed7-11e9-99c6-a7eb8373165a", "attributes": {"name": "logs_generate_metrics",
-        "display_name": "Log Generate Metrics", "description": "The ability to create
+        "display_name": "Logs Generate Metrics", "description": "The ability to create
         custom metrics from logs.", "created": "2019-07-25T12:27:39.640758+00:00",
         "group_name": "Logs", "display_type": "other", "restricted": false}}, {"type":
         "permissions", "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2", "attributes":
@@ -285,9 +286,13 @@ interactions:
         "display_name": "Security Signals", "description": "The ability to view Security
         signals.", "created": "2020-06-09T13:52:48.410398+00:00", "group_name": "Security
         Monitoring", "display_type": "read", "restricted": false}}, {"type": "permissions",
-        "id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d", "attributes": {"name": "user_access_invite",
-        "display_name": "Invite User", "description": "Allows users to invite other
-        users to your organization.", "created": "2020-08-25T19:17:23.539701+00:00",
+        "id": "58b412cc-ff6d-11eb-bc9c-da7ad0900002", "attributes": {"name": "security_monitoring_signals_write",
+        "display_name": "Security Signals", "description": "The ability to modify
+        Security signals.", "created": "2021-08-17T15:11:06.963503+00:00", "group_name":
+        "Security Monitoring", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d", "attributes":
+        {"name": "user_access_invite", "display_name": "Invite User", "description":
+        "Allows users to invite other users to your organization.", "created": "2020-08-25T19:17:23.539701+00:00",
         "group_name": "Access Management", "display_type": "other", "restricted":
         false}}, {"type": "permissions", "id": "9de604d8-e707-11ea-aa2d-93f1a783b3a3",
         "attributes": {"name": "user_access_manage", "display_name": "Access Management",
@@ -345,9 +350,13 @@ interactions:
         "display_name": "Logs Historical View", "description": "The capability to
         rehydrate logs from Archives.", "created": "2020-09-16T08:38:44.242076+00:00",
         "group_name": "Logs", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "372896c4-f923-11ea-adbc-4fecd107156d", "attributes":
-        {"name": "api_keys_read", "display_name": "API Keys", "description": "The
-        ability to list and retrieve the key values of all API Keys in your organization.",
+        "permissions", "id": "2fbdac76-f923-11ea-adbc-07f3823e2b43", "attributes":
+        {"name": "audit_logs_read", "display_name": "Audit Logs", "description": "The
+        ability to view Audit Logs in your organization.", "created": "2020-09-17T20:20:10.834252+00:00",
+        "group_name": "Organization Management", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "372896c4-f923-11ea-adbc-4fecd107156d",
+        "attributes": {"name": "api_keys_read", "display_name": "API Keys", "description":
+        "The ability to list and retrieve the key values of all API Keys in your organization.",
         "created": "2020-09-17T20:20:23.279769+00:00", "group_name": "API and Application
         Keys", "display_type": "read", "restricted": false}}, {"type": "permissions",
         "id": "3e4d4d28-f923-11ea-adbc-e3565938c12e", "attributes": {"name": "api_keys_write",
@@ -387,14 +396,19 @@ interactions:
         "display_name": "Logs Facets", "description": "The capability to create or
         edit logs facets.", "created": "2020-10-14T12:40:20.271908+00:00", "group_name":
         "Logs", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "fcac2ad8-2843-11eb-8315-0fe47949d625", "attributes": {"name": "integrations_api",
-        "display_name": "Integrations API Access", "description": "The ability to
-        use the Integrations APIs to configure Integrations that the user has access
-        to. This permission does not restrict or grant access to Integrations.", "created":
-        "2020-11-16T19:43:23.198568+00:00", "group_name": "Integrations", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0",
-        "attributes": {"name": "apm_read", "display_name": "APM Read Access", "description":
-        "The ability to read and query APM and Trace Analytics.", "created": "2020-11-23T20:55:45.006110+00:00",
+        "id": "a42e94b2-1476-11eb-bd08-efda28c04248", "attributes": {"name": "service_account_write",
+        "display_name": "Service Accounts", "description": "The ability to create,
+        disable and use Service Accounts in your organization.", "created": "2020-10-22T14:55:35.814239+00:00",
+        "group_name": "Access Management", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "fcac2ad8-2843-11eb-8315-0fe47949d625",
+        "attributes": {"name": "integrations_api", "display_name": "Integrations API
+        Access", "description": "The ability to use the Integrations APIs to configure
+        Integrations that the user has access to. This permission does not restrict
+        or grant access to Integrations.", "created": "2020-11-16T19:43:23.198568+00:00",
+        "group_name": "Integrations", "display_type": "other", "restricted": false}},
+        {"type": "permissions", "id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0", "attributes":
+        {"name": "apm_read", "display_name": "APM Read Access", "description": "The
+        ability to read and query APM and Trace Analytics.", "created": "2020-11-23T20:55:45.006110+00:00",
         "group_name": "APM", "display_type": "read", "restricted": true}}, {"type":
         "permissions", "id": "43fa188e-2dce-11eb-84c0-835ad1fd6287", "attributes":
         {"name": "apm_retention_filter_read", "display_name": "Manage Retention Filters",
@@ -436,58 +450,83 @@ interactions:
         operation name list in the APM settings page and can modify the operation
         name controller on the service page.", "created": "2020-11-23T20:56:38.658649+00:00",
         "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "8106300a-54f7-11eb-8cbc-7781a434a67b", "attributes":
-        {"name": "rum_apps_write", "display_name": "RUM Applications", "description":
-        "The ability to create, edit, and delete RUM Applications.", "created": "2021-01-12T16:59:16.324480+00:00",
-        "group_name": "Real User Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "bf0dcf7c-90af-11eb-9b82-da7ad0900002",
-        "attributes": {"name": "data_scanner_read", "display_name": "Data Scanner",
-        "description": "View data scanner configuration.", "created": "2021-03-29T16:56:46.394971+00:00",
-        "group_name": "Access Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "bf0dcf7d-90af-11eb-9b82-da7ad0900002", "attributes":
-        {"name": "data_scanner_write", "display_name": "Data Scanner", "description":
-        "Edit data scanner configuration.", "created": "2021-03-29T16:56:46.398584+00:00",
-        "group_name": "Access Management", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "98b984f4-b16d-11eb-a2c6-da7ad0900002",
-        "attributes": {"name": "security_monitoring_filters_read", "display_name":
-        "Security Filters", "description": "The ability to read Security Filters.",
-        "created": "2021-05-10T08:56:23.676833+00:00", "group_name": "Security Monitoring",
+        "permissions", "id": "04bc1cf2-340a-11eb-873a-43b973c760dd", "attributes":
+        {"name": "audit_logs_write", "display_name": "Audit Logs", "description":
+        "The ability to configure Audit Logs in your organization.", "created": "2020-12-01T19:18:39.866516+00:00",
+        "group_name": "Organization Management", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "8106300a-54f7-11eb-8cbc-7781a434a67b",
+        "attributes": {"name": "rum_apps_write", "display_name": "RUM Applications",
+        "description": "The ability to create, edit, and delete RUM Applications.",
+        "created": "2021-01-12T16:59:16.324480+00:00", "group_name": "Real User Monitoring",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "bf0dcf7c-90af-11eb-9b82-da7ad0900002", "attributes": {"name": "data_scanner_read",
+        "display_name": "Data Scanner", "description": "View data scanner configuration.",
+        "created": "2021-03-29T16:56:46.394971+00:00", "group_name": "Access Management",
         "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "98b984f5-b16d-11eb-a2c6-da7ad0900002", "attributes": {"name": "security_monitoring_filters_write",
+        "bf0dcf7d-90af-11eb-9b82-da7ad0900002", "attributes": {"name": "data_scanner_write",
+        "display_name": "Data Scanner", "description": "Edit data scanner configuration.",
+        "created": "2021-03-29T16:56:46.398584+00:00", "group_name": "Access Management",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "98b984f4-b16d-11eb-a2c6-da7ad0900002", "attributes": {"name": "security_monitoring_filters_read",
+        "display_name": "Security Filters", "description": "The ability to read Security
+        Filters.", "created": "2021-05-10T08:56:23.676833+00:00", "group_name": "Security
+        Monitoring", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "98b984f5-b16d-11eb-a2c6-da7ad0900002", "attributes": {"name": "security_monitoring_filters_write",
         "display_name": "Security Filters", "description": "The ability to create,
         edit and delete Security Filters.", "created": "2021-05-10T08:56:23.680551+00:00",
         "group_name": "Security Monitoring", "display_type": "write", "restricted":
         false}}, {"type": "permissions", "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002",
         "attributes": {"name": "incident_read", "display_name": "Incidents App Experience",
-        "description": "The ability to view the Incident App and see incidents.",
-        "created": "2021-06-22T15:11:09.255499+00:00", "group_name": "Incidents",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "12efc211-d36c-11eb-a9b8-da7ad0900002", "attributes": {"name": "incident_write",
-        "display_name": "Incidents App Experience", "description": "The ability to
-        create, view and manage incidents in the Incident App.", "created": "2021-06-22T15:11:09.264369+00:00",
-        "group_name": "Incidents", "display_type": "write", "restricted": false}},
-        {"type": "permissions", "id": "12efc20f-d36c-11eb-a9b8-da7ad0900002", "attributes":
-        {"name": "incident_settings_read", "display_name": "Incidents Settings", "description":
-        "The ability to view incidents Settings.", "created": "2021-06-22T15:11:09.259568+00:00",
-        "group_name": "Incidents", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "12efc210-d36c-11eb-a9b8-da7ad0900002", "attributes":
-        {"name": "incident_settings_write", "display_name": "Incidents Settings",
-        "description": "The ability to configure incidents Settings.", "created":
+        "description": "The ability to view incidents in Datadog.", "created": "2021-06-22T15:11:09.255499+00:00",
+        "group_name": "Incidents", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "12efc211-d36c-11eb-a9b8-da7ad0900002", "attributes":
+        {"name": "incident_write", "display_name": "Incidents App Experience", "description":
+        "The ability to create, view, and manage incidents in Datadog.", "created":
+        "2021-06-22T15:11:09.264369+00:00", "group_name": "Incidents", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "12efc20f-d36c-11eb-a9b8-da7ad0900002",
+        "attributes": {"name": "incident_settings_read", "display_name": "Incidents
+        Settings", "description": "The ability to view incidents Settings.", "created":
+        "2021-06-22T15:11:09.259568+00:00", "group_name": "Incidents", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "12efc210-d36c-11eb-a9b8-da7ad0900002",
+        "attributes": {"name": "incident_settings_write", "display_name": "Incidents
+        Settings", "description": "The ability to configure incident settings.", "created":
         "2021-06-22T15:11:09.261986+00:00", "group_name": "Incidents", "display_type":
-        "write", "restricted": false}}]}'
+        "write", "restricted": false}}, {"type": "permissions", "id": "97971c1c-e895-11eb-b13c-da7ad0900002",
+        "attributes": {"name": "appsec_event_rule_read", "display_name": "Application
+        Security Event Rules", "description": "The ability to view Application Security
+        Event Rules.", "created": "2021-07-19T13:31:15.595771+00:00", "group_name":
+        "Application Security", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "97971c1d-e895-11eb-b13c-da7ad0900002", "attributes":
+        {"name": "appsec_event_rule_write", "display_name": "Application Security
+        Event Rules", "description": "The ability to edit Application Security Event
+        Rules.", "created": "2021-07-19T13:31:15.598808+00:00", "group_name": "Application
+        Security", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "7605ef24-f376-11eb-b90b-da7ad0900002", "attributes": {"name": "rum_apps_read",
+        "display_name": "RUM Applications", "description": "The ability to view RUM
+        Applications data.", "created": "2021-08-02T09:46:07.671535+00:00", "group_name":
+        "Real User Monitoring", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "7605ef25-f376-11eb-b90b-da7ad0900002", "attributes":
+        {"name": "rum_session_replay_read", "display_name": "Session Replay", "description":
+        "The ability to view session replays.", "created": "2021-08-02T09:46:07.674640+00:00",
+        "group_name": "Real User Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "26c79920-1703-11ec-85d2-da7ad0900002",
+        "attributes": {"name": "apm_generate_metrics", "display_name": "Generate Metrics",
+        "description": "The ability to create custom metrics from spans.", "created":
+        "2021-09-16T15:31:24.458963+00:00", "group_name": "APM", "display_type": "other",
+        "restricted": false}}]}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:16:47 GMT
+      - Thu, 28 Oct 2021 14:52:07 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '23312'
+      - '26324'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -515,7 +554,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v2/permissions
   response:
@@ -567,7 +606,7 @@ interactions:
         implicitly.", "created": "2018-10-31T14:00:23.710821+00:00", "group_name":
         "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
         "id": "505f4538-dd15-11e8-9308-47a4732f715f", "attributes": {"name": "logs_write_processors",
-        "display_name": "Log Write Processors", "description": "The ability to add
+        "display_name": "Logs Write Processors", "description": "The ability to add
         and change some or all log processor configurations. Can be granted in a limited
         capacity per pipeline to specific roles via the Logs interface or API. If
         granted via the Roles interface or API the permission has global scope.",
@@ -582,7 +621,7 @@ interactions:
         via the API.", "created": "2019-05-02T08:17:35.098960+00:00", "group_name":
         "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
         "id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc", "attributes": {"name": "logs_generate_metrics",
-        "display_name": "Log Generate Metrics", "description": "The ability to create
+        "display_name": "Logs Generate Metrics", "description": "The ability to create
         custom metrics from logs.", "created": "2019-07-25T12:37:55.949477+00:00",
         "group_name": "Logs", "display_type": "other", "restricted": false}}, {"type":
         "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "attributes":
@@ -633,9 +672,13 @@ interactions:
         "display_name": "Security Signals", "description": "The ability to view Security
         signals.", "created": "2020-06-09T13:55:29.398066+00:00", "group_name": "Security
         Monitoring", "display_type": "read", "restricted": false}}, {"type": "permissions",
-        "id": "93654d1c-e706-11ea-9a85-d320ff02824d", "attributes": {"name": "user_access_invite",
-        "display_name": "Invite User", "description": "Allows users to invite other
-        users to your organization.", "created": "2020-08-25T19:10:01.692112+00:00",
+        "id": "60759a94-ff6d-11eb-a4f0-da7ad0900005", "attributes": {"name": "security_monitoring_signals_write",
+        "display_name": "Security Signals", "description": "The ability to modify
+        Security signals.", "created": "2021-08-17T15:11:19.976019+00:00", "group_name":
+        "Security Monitoring", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "93654d1c-e706-11ea-9a85-d320ff02824d", "attributes":
+        {"name": "user_access_invite", "display_name": "Invite User", "description":
+        "Allows users to invite other users to your organization.", "created": "2020-08-25T19:10:01.692112+00:00",
         "group_name": "Access Management", "display_type": "other", "restricted":
         false}}, {"type": "permissions", "id": "999bc3fa-e706-11ea-9a85-3b29fe548c19",
         "attributes": {"name": "user_access_manage", "display_name": "Access Management",
@@ -693,9 +736,13 @@ interactions:
         "display_name": "Logs Historical View", "description": "The capability to
         rehydrate logs from Archives.", "created": "2020-09-16T08:42:43.928080+00:00",
         "group_name": "Logs", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "9311970e-f925-11ea-ab4d-1760e76381c1", "attributes":
-        {"name": "api_keys_read", "display_name": "API Keys", "description": "The
-        ability to list and retrieve the key values of all API Keys in your organization.",
+        "permissions", "id": "8b753262-f925-11ea-82fc-93f07fd96e76", "attributes":
+        {"name": "audit_logs_read", "display_name": "Audit Logs", "description": "The
+        ability to view Audit Logs in your organization.", "created": "2020-09-17T20:37:03.702585+00:00",
+        "group_name": "Organization Management", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "9311970e-f925-11ea-ab4d-1760e76381c1",
+        "attributes": {"name": "api_keys_read", "display_name": "API Keys", "description":
+        "The ability to list and retrieve the key values of all API Keys in your organization.",
         "created": "2020-09-17T20:37:16.471514+00:00", "group_name": "API and Application
         Keys", "display_type": "read", "restricted": false}}, {"type": "permissions",
         "id": "998aabac-f925-11ea-b43d-8f1f42f3894e", "attributes": {"name": "api_keys_write",
@@ -735,14 +782,19 @@ interactions:
         "display_name": "Logs Facets", "description": "The capability to create or
         edit logs facets.", "created": "2020-10-14T12:54:16.607129+00:00", "group_name":
         "Logs", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a", "attributes": {"name": "integrations_api",
-        "display_name": "Integrations API Access", "description": "The ability to
-        use the Integrations APIs to configure Integrations that the user has access
-        to. This permission does not restrict or grant access to Integrations.", "created":
-        "2020-11-16T19:44:13.810028+00:00", "group_name": "Integrations", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a",
-        "attributes": {"name": "apm_read", "display_name": "APM Read Access", "description":
-        "The ability to read and query APM and Trace Analytics.", "created": "2020-11-23T20:59:02.902692+00:00",
+        "id": "72bc07d8-1472-11eb-a97b-8bff514d7382", "attributes": {"name": "service_account_write",
+        "display_name": "Service Accounts", "description": "The ability to create,
+        disable and use Service Accounts in your organization.", "created": "2020-10-22T14:25:34.868208+00:00",
+        "group_name": "Access Management", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a",
+        "attributes": {"name": "integrations_api", "display_name": "Integrations API
+        Access", "description": "The ability to use the Integrations APIs to configure
+        Integrations that the user has access to. This permission does not restrict
+        or grant access to Integrations.", "created": "2020-11-16T19:44:13.810028+00:00",
+        "group_name": "Integrations", "display_type": "other", "restricted": false}},
+        {"type": "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "attributes":
+        {"name": "apm_read", "display_name": "APM Read Access", "description": "The
+        ability to read and query APM and Trace Analytics.", "created": "2020-11-23T20:59:02.902692+00:00",
         "group_name": "APM", "display_type": "read", "restricted": true}}, {"type":
         "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a", "attributes":
         {"name": "apm_retention_filter_read", "display_name": "Manage Retention Filters",
@@ -784,45 +836,70 @@ interactions:
         operation name list in the APM settings page and can modify the operation
         name controller on the service page.", "created": "2020-11-23T21:00:18.680068+00:00",
         "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "37e36580-5440-11eb-91d4-03a23fd3e1d1", "attributes":
-        {"name": "rum_apps_write", "display_name": "RUM Applications", "description":
-        "The ability to create, edit, and delete RUM Applications.", "created": "2021-01-11T19:07:15.721075+00:00",
-        "group_name": "Real User Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "b39da144-90af-11eb-9428-da7ad0900005",
-        "attributes": {"name": "data_scanner_read", "display_name": "Data Scanner",
-        "description": "View data scanner configuration.", "created": "2021-03-29T16:56:27.205044+00:00",
-        "group_name": "Access Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "b39fb79a-90af-11eb-9428-da7ad0900005", "attributes":
-        {"name": "data_scanner_write", "display_name": "Data Scanner", "description":
-        "Edit data scanner configuration.", "created": "2021-03-29T16:56:27.219481+00:00",
-        "group_name": "Access Management", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005",
-        "attributes": {"name": "security_monitoring_filters_read", "display_name":
-        "Security Filters", "description": "The ability to read Security Filters.",
-        "created": "2021-05-10T08:56:24.514661+00:00", "group_name": "Security Monitoring",
+        "permissions", "id": "19570d26-3409-11eb-9ac2-ab9b978f6c4a", "attributes":
+        {"name": "audit_logs_write", "display_name": "Audit Logs", "description":
+        "The ability to configure Audit Logs in your organization.", "created": "2020-12-01T19:12:04.940111+00:00",
+        "group_name": "Organization Management", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "37e36580-5440-11eb-91d4-03a23fd3e1d1",
+        "attributes": {"name": "rum_apps_write", "display_name": "RUM Applications",
+        "description": "The ability to create, edit, and delete RUM Applications.",
+        "created": "2021-01-11T19:07:15.721075+00:00", "group_name": "Real User Monitoring",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "b39da144-90af-11eb-9428-da7ad0900005", "attributes": {"name": "data_scanner_read",
+        "display_name": "Data Scanner", "description": "View data scanner configuration.",
+        "created": "2021-03-29T16:56:27.205044+00:00", "group_name": "Access Management",
         "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "993b34d6-b16d-11eb-a891-da7ad0900005", "attributes": {"name": "security_monitoring_filters_write",
+        "b39fb79a-90af-11eb-9428-da7ad0900005", "attributes": {"name": "data_scanner_write",
+        "display_name": "Data Scanner", "description": "Edit data scanner configuration.",
+        "created": "2021-03-29T16:56:27.219481+00:00", "group_name": "Access Management",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "99397470-b16d-11eb-a891-da7ad0900005", "attributes": {"name": "security_monitoring_filters_read",
+        "display_name": "Security Filters", "description": "The ability to read Security
+        Filters.", "created": "2021-05-10T08:56:24.514661+00:00", "group_name": "Security
+        Monitoring", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "993b34d6-b16d-11eb-a891-da7ad0900005", "attributes": {"name": "security_monitoring_filters_write",
         "display_name": "Security Filters", "description": "The ability to create,
         edit and delete Security Filters.", "created": "2021-05-10T08:56:24.527411+00:00",
         "group_name": "Security Monitoring", "display_type": "write", "restricted":
         false}}, {"type": "permissions", "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005",
         "attributes": {"name": "incident_read", "display_name": "Incidents App Experience",
-        "description": "The ability to view the Incident App and see incidents.",
-        "created": "2021-06-22T15:11:07.986072+00:00", "group_name": "Incidents",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "123098f2-d36c-11eb-b2bf-da7ad0900005", "attributes": {"name": "incident_write",
-        "display_name": "Incidents App Experience", "description": "The ability to
-        create, view and manage incidents in the Incident App.", "created": "2021-06-22T15:11:08.003239+00:00",
-        "group_name": "Incidents", "display_type": "write", "restricted": false}},
-        {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005", "attributes":
-        {"name": "incident_settings_read", "display_name": "Incidents Settings", "description":
-        "The ability to view incidents Settings.", "created": "2021-06-22T15:11:07.995787+00:00",
-        "group_name": "Incidents", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005", "attributes":
-        {"name": "incident_settings_write", "display_name": "Incidents Settings",
-        "description": "The ability to configure incidents Settings.", "created":
+        "description": "The ability to view incidents in Datadog.", "created": "2021-06-22T15:11:07.986072+00:00",
+        "group_name": "Incidents", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "123098f2-d36c-11eb-b2bf-da7ad0900005", "attributes":
+        {"name": "incident_write", "display_name": "Incidents App Experience", "description":
+        "The ability to create, view, and manage incidents in Datadog.", "created":
+        "2021-06-22T15:11:08.003239+00:00", "group_name": "Incidents", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005",
+        "attributes": {"name": "incident_settings_read", "display_name": "Incidents
+        Settings", "description": "The ability to view incidents Settings.", "created":
+        "2021-06-22T15:11:07.995787+00:00", "group_name": "Incidents", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005",
+        "attributes": {"name": "incident_settings_write", "display_name": "Incidents
+        Settings", "description": "The ability to configure incident settings.", "created":
         "2021-06-22T15:11:07.999194+00:00", "group_name": "Incidents", "display_type":
-        "write", "restricted": false}}]}'
+        "write", "restricted": false}}, {"type": "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005",
+        "attributes": {"name": "appsec_event_rule_read", "display_name": "Application
+        Security Event Rules", "description": "The ability to view Application Security
+        Event Rules.", "created": "2021-07-19T13:26:35.252432+00:00", "group_name":
+        "Application Security", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "f07f557a-e894-11eb-ab79-da7ad0900005", "attributes":
+        {"name": "appsec_event_rule_write", "display_name": "Application Security
+        Event Rules", "description": "The ability to edit Application Security Event
+        Rules.", "created": "2021-07-19T13:26:35.260787+00:00", "group_name": "Application
+        Security", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "attributes": {"name": "rum_apps_read",
+        "display_name": "RUM Applications", "description": "The ability to view RUM
+        Applications data.", "created": "2021-08-02T09:46:22.567371+00:00", "group_name":
+        "Real User Monitoring", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "attributes":
+        {"name": "rum_session_replay_read", "display_name": "Session Replay", "description":
+        "The ability to view session replays.", "created": "2021-08-02T09:46:22.572685+00:00",
+        "group_name": "Real User Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "294580e0-1703-11ec-9b92-da7ad0900005",
+        "attributes": {"name": "apm_generate_metrics", "display_name": "Generate Metrics",
+        "description": "The ability to create custom metrics from spans.", "created":
+        "2021-09-16T15:31:28.639581+00:00", "group_name": "APM", "display_type": "other",
+        "restricted": false}}]}'
     headers:
       Alt-Svc:
       - clear
@@ -833,21 +910,115 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '23312'
+      - '26324'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Tue, 03 Aug 2021 14:16:47 GMT
+      - Thu, 28 Oct 2021 14:52:08 GMT
       pragma:
       - no-cache
+      strict-transport-security:
+      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '124'
       x-frame-options:
       - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "roles", "attributes": {"name": "Datadog Read Only Role"},
+      "relationships": {"permissions": {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+      {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
+      "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
+      "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
+      "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
+      {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
+      "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
+      "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
+      "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
+      {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
+      "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
+      "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id":
+      "f07e4234-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"},
+      {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}]}}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1330'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/roles
+  response:
+    body:
+      string: '{"data": {"type": "roles", "id": "9fc0c4b6-37fe-11ec-82fa-da7ad0900005",
+        "attributes": {"name": "Datadog Read Only Role", "created_at": "2021-10-28T14:52:08.306614+00:00",
+        "modified_at": "2021-10-28T14:52:08.306614+00:00"}, "relationships": {"permissions":
+        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
+        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
+        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
+        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
+        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
+        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
+        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
+        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
+        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
+        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
+        "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id":
+        "f07e4234-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"},
+        {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}]}}}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '1395'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Thu, 28 Oct 2021 14:52:08 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-envoy-upstream-service-time:
+      - '204'
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '500'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '498'
+      x-ratelimit-reset:
+      - '52'
     status:
       code: 200
       message: OK
