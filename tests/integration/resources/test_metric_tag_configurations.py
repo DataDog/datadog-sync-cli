@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 import pytest
 
-from datadog_sync.models import MetricConfigurations
+from datadog_sync.models import MetricTagConfigurations
 from tests.integration.helpers import BaseResourcesTestClass
 
 
@@ -12,5 +12,5 @@ from tests.integration.helpers import BaseResourcesTestClass
 # TODO: introduce submitting unique distribution metrics from tests and creating this resource
 @pytest.mark.skip
 class TestMetricConfigurationResources(BaseResourcesTestClass):
-    resource_type = MetricConfigurations.resource_type
+    resource_type = MetricTagConfigurations.resource_type
     field_to_update = "attributes.tags."

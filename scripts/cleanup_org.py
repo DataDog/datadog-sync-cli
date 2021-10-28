@@ -37,7 +37,7 @@ class Cleanup:
         self.cleanup_users()
         self.cleanup_roles()
         self.cleanup_logs_metrics()
-        self.cleanup_metric_configurations()
+        self.cleanup_metric_tag_configurations()
         self.cleanup_host_tags()
         # self.cleanup_integrations_aws()
 
@@ -192,7 +192,7 @@ class Cleanup:
         for resource in res["data"]:
             self.delete_resource(resource["id"], path)
 
-    def cleanup_metric_configurations(self):
+    def cleanup_metric_tag_configurations(self):
         path = "/api/v2/metrics"
         res = self.get_resources(path, params={"filter[configured]": "true"})
         for resource in res["data"]:

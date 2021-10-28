@@ -10,14 +10,14 @@ from datadog_sync.utils.custom_client import CustomClient, paginated_request
 from datadog_sync.utils.resource_utils import ResourceConnectionError
 
 
-class MetricConfigurations(BaseResource):
-    resource_type = "metric_configurations"
+class MetricTagConfigurations(BaseResource):
+    resource_type = "metric_tag_configurations"
     resource_config = ResourceConfig(
         resource_connections={},
         base_path="/api/v2/metrics",
         excluded_attributes=["attributes.created_at", "attributes.modified_at"],
     )
-    # Additional MetricConfigurations specific attributes
+    # Additional MetricTagConfigurations specific attributes
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path, params={"filter[configured]": "true"}).json()
@@ -54,4 +54,4 @@ class MetricConfigurations(BaseResource):
         self.resource_config.destination_resources[_id] = resp["data"]
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(MetricConfigurations, self).connect_id(key, r_obj, resource_to_connect)
+        super(MetricTagConfigurations, self).connect_id(key, r_obj, resource_to_connect)

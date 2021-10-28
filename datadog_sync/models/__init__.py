@@ -18,6 +18,6 @@ from datadog_sync.model.logs_custom_pipelines import LogsCustomPipelines
 from datadog_sync.model.notebooks import Notebooks
 from datadog_sync.model.logs_metrics import LogsMetrics
 from datadog_sync.model.host_tags import HostTags
-from datadog_sync.model.metric_configurations import MetricConfigurations
+from datadog_sync.model.metric_tag_configurations import MetricTagConfigurations
 
 # from datadog_sync.model.integrations_aws import IntegrationsAWS
