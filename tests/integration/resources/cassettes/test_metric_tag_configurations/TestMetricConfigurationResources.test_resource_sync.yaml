@@ -1,0 +1,67 @@
+interactions:
+- request:
+    body: '{"data": {"type": "manage_tags", "id": "test.metric.distribution.example",
+      "attributes": {"tags": ["datacenter", "app"], "include_percentiles": false,
+      "metric_type": "distribution"}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '183'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/metrics/test.metric.distribution.example/tags
+  response:
+    body:
+      string: '{"data": {"type": "manage_tags", "id": "test.metric.distribution.example",
+        "attributes": {"tags": ["datacenter", "app"], "include_percentiles": false,
+        "created_at": "2021-10-27T18:28:53.198032+00:00", "modified_at": "2021-10-29T17:19:12.657787+00:00",
+        "metric_type": "distribution"}}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '268'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
+      content-type:
+      - application/json
+      date:
+      - Fri, 29 Oct 2021 17:19:12 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-envoy-upstream-service-time:
+      - '150'
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '50'
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '49'
+      x-ratelimit-reset:
+      - '48'
+    status:
+      code: 201
+      message: Created
+version: 1
