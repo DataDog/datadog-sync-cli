@@ -11,41 +11,49 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"dashboards": [{"created_at": "2021-06-08T18:26:23.515662+00:00",
-        "author_handle": "sherzod.karimov@datadoghq.com", "is_read_only": false, "description":
-        "Created using the Datadog provider in Terraform", "title": "Test screenboard",
-        "url": "/dashboard/dns-jst-h98/test-screenboard", "layout_type": "free", "modified_at":
+      string: '{"dashboards": [{"created_at": "2021-07-16T12:08:14.666223+00:00",
+        "author_handle": "frog@datadoghq.com", "is_read_only": false, "description":
+        null, "title": "{{ unique }} with timeseries widget", "url": "/dashboard/ys9-5v2-zxt/-unique--with-timeseries-widget",
+        "layout_type": "ordered", "modified_at": "2021-07-16T12:08:14.666223+00:00",
+        "id": "ys9-5v2-zxt"}, {"created_at": "2021-10-25T19:36:13.830241+00:00", "author_handle":
+        "sherzod.karimov@datadoghq.com", "is_read_only": false, "description": "",
+        "title": "Sherzod''s Dashboard Mon, Oct 25, 3:36:13 pm", "url": "/dashboard/eb8-fih-pcd/sherzods-dashboard-mon-oct-25-33613-pm",
+        "layout_type": "ordered", "modified_at": "2021-10-25T19:36:25.164474+00:00",
+        "id": "eb8-fih-pcd"}, {"created_at": "2021-09-30T20:21:42.640864+00:00", "author_handle":
+        "sherzod.karimov@datadoghq.com", "is_read_only": false, "description": null,
+        "title": "Sherzod''s Screenboard Thu, Sep 30, 4:21:42 pm", "url": "/dashboard/qky-6ud-aik/sherzods-screenboard-thu-sep-30-42142-pm",
+        "layout_type": "free", "modified_at": "2021-09-30T20:21:42.640864+00:00",
+        "id": "qky-6ud-aik"}, {"created_at": "2021-06-30T11:45:57.574935+00:00", "author_handle":
+        "noueman.khalikine@datadoghq.com", "is_read_only": false, "description": "",
+        "title": "datadog-sync-cli Test Dashboard", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
+        "layout_type": "ordered", "modified_at": "2021-06-30T11:46:46.923260+00:00",
+        "id": "tuw-te2-pdj"}, {"created_at": "2021-06-08T18:26:23.515662+00:00", "author_handle":
+        "sherzod.karimov@datadoghq.com", "is_read_only": false, "description": "Created
+        using the Datadog provider in Terraform", "title": "Test screenboard", "url":
+        "/dashboard/dns-jst-h98/test-screenboard", "layout_type": "free", "modified_at":
         "2021-06-22T19:35:38.981348+00:00", "id": "dns-jst-h98"}, {"created_at": "2021-06-01T20:18:57.486260+00:00",
         "author_handle": "sherzod.karimov@datadoghq.com", "is_read_only": false, "description":
         "", "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "url": "/dashboard/euw-cp8-hy6/timeboard-tue-jun-1-41857-pm",
         "layout_type": "ordered", "modified_at": "2021-06-21T17:24:39.527924+00:00",
-        "id": "euw-cp8-hy6"}, {"created_at": "2021-06-30T11:45:57.574935+00:00", "author_handle":
-        "noueman.khalikine@datadoghq.com", "is_read_only": false, "description": "",
-        "title": "datadog-sync-cli Test Dashboard", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
-        "layout_type": "ordered", "modified_at": "2021-06-30T11:46:46.923260+00:00",
-        "id": "tuw-te2-pdj"}, {"created_at": "2021-07-16T12:08:14.666223+00:00", "author_handle":
-        "frog@datadoghq.com", "is_read_only": false, "description": null, "title":
-        "{{ unique }} with timeseries widget", "url": "/dashboard/ys9-5v2-zxt/-unique--with-timeseries-widget",
-        "layout_type": "ordered", "modified_at": "2021-07-16T12:08:14.666223+00:00",
-        "id": "ys9-5v2-zxt"}]}'
+        "id": "euw-cp8-hy6"}]}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:16:38 GMT
+      - Thu, 28 Oct 2021 14:51:43 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '1357'
+      - '2064'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -65,7 +73,7 @@ interactions:
       x-ratelimit-remaining:
       - '59'
       x-ratelimit-reset:
-      - '22'
+      - '17'
     status:
       code: 200
       message: OK
@@ -81,13 +89,235 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/ys9-5v2-zxt
+  response:
+    body:
+      string: '{"notify_list": null, "description": null, "restricted_roles": [],
+        "author_name": "Frog", "template_variables": null, "is_read_only": false,
+        "id": "ys9-5v2-zxt", "title": "{{ unique }} with timeseries widget", "url":
+        "/dashboard/ys9-5v2-zxt/-unique--with-timeseries-widget", "created_at": "2021-07-16T12:08:14.666223+00:00",
+        "modified_at": "2021-07-16T12:08:14.666223+00:00", "author_handle": "frog@datadoghq.com",
+        "widgets": [{"definition": {"requests": [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec}
+        by {resource_name}.as_count()", "on_right_yaxis": false, "style": {"line_width":
+        "normal", "palette": "warm", "line_type": "solid"}, "display_type": "bars"}],
+        "type": "timeseries"}, "id": 4987671296932461}], "layout_type": "ordered"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 28 Oct 2021 14:51:44 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '708'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/eb8-fih-pcd
+  response:
+    body:
+      string: '{"notify_list": [], "description": "", "restricted_roles": [], "author_name":
+        "Sherzod Karimov", "template_variables": [], "is_read_only": false, "id":
+        "eb8-fih-pcd", "title": "Sherzod''s Dashboard Mon, Oct 25, 3:36:13 pm", "url":
+        "/dashboard/eb8-fih-pcd/sherzods-dashboard-mon-oct-25-33613-pm", "created_at":
+        "2021-10-25T19:36:13.830241+00:00", "modified_at": "2021-10-25T19:36:25.164474+00:00",
+        "reflow_type": "fixed", "author_handle": "sherzod.karimov@datadoghq.com",
+        "widgets": [{"definition": {"title_size": "16", "legend_columns": ["avg",
+        "min", "max", "value", "sum"], "yaxis": {"include_zero": true, "max": "auto",
+        "scale": "linear", "min": "auto", "label": ""}, "title_align": "left", "markers":
+        [], "legend_layout": "auto", "show_legend": true, "time": {}, "title": "",
+        "requests": [{"style": {"line_width": "normal", "palette": "dog_classic",
+        "line_type": "solid"}, "display_type": "line", "response_format": "timeseries",
+        "queries": [{"query": "avg:system.cpu.user{*}", "data_source": "metrics",
+        "name": "query1"}]}], "type": "timeseries"}, "layout": {"y": 0, "x": 0, "height":
+        2, "width": 4}, "id": 7153121417398810}], "layout_type": "ordered"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 28 Oct 2021 14:51:44 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '1064'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/qky-6ud-aik
+  response:
+    body:
+      string: '{"notify_list": null, "description": null, "restricted_roles": [],
+        "author_name": "Sherzod Karimov", "template_variables": null, "is_read_only":
+        false, "id": "qky-6ud-aik", "title": "Sherzod''s Screenboard Thu, Sep 30,
+        4:21:42 pm", "url": "/dashboard/qky-6ud-aik/sherzods-screenboard-thu-sep-30-42142-pm",
+        "created_at": "2021-09-30T20:21:42.640864+00:00", "modified_at": "2021-09-30T20:21:42.640864+00:00",
+        "author_handle": "sherzod.karimov@datadoghq.com", "widgets": [], "layout_type":
+        "free"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 28 Oct 2021 14:51:44 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '466'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/tuw-te2-pdj
+  response:
+    body:
+      string: '{"notify_list": [], "description": "", "restricted_roles": [], "author_name":
+        "Noueman Khalikine", "template_variables": [], "is_read_only": false, "id":
+        "tuw-te2-pdj", "title": "datadog-sync-cli Test Dashboard", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
+        "created_at": "2021-06-30T11:45:57.574935+00:00", "modified_at": "2021-06-30T11:46:46.923260+00:00",
+        "reflow_type": "fixed", "author_handle": "noueman.khalikine@datadoghq.com",
+        "widgets": [{"definition": {"title_size": "16", "title": "", "title_align":
+        "left", "precision": 2, "time": {}, "autoscale": true, "requests": [{"response_format":
+        "scalar", "queries": [{"query": "avg:system.cpu.user{*}", "data_source": "metrics",
+        "name": "query1", "aggregator": "avg"}]}], "type": "query_value"}, "layout":
+        {"y": 0, "x": 0, "height": 2, "width": 2}, "id": 6609238960092638}], "layout_type":
+        "ordered"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 28 Oct 2021 14:51:44 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '808'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/dns-jst-h98
   response:
     body:
       string: '{"notify_list": [], "description": "Created using the Datadog provider
-        in Terraform", "author_name": "Sherzod Karimov", "template_variable_presets":
+        in Terraform", "restricted_roles": [], "author_name": "Sherzod Karimov", "template_variable_presets":
         [{"template_variables": [{"name": "var_1", "value": "host.dc"}, {"name": "var_2",
         "value": "my_service"}], "name": "preset_1"}], "template_variables": [{"default":
         "aws", "prefix": "host", "name": "var_1"}, {"default": "autoscaling", "prefix":
@@ -131,13 +361,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:16:38 GMT
+      - Thu, 28 Oct 2021 14:51:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '2876'
+      - '2898'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:
@@ -165,14 +395,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/euw-cp8-hy6
   response:
     body:
-      string: '{"notify_list": [], "description": "", "author_name": "Sherzod Karimov",
-        "template_variables": [], "is_read_only": false, "id": "euw-cp8-hy6", "title":
-        "Timeboard Tue, Jun 1, 4:18:57 pm", "url": "/dashboard/euw-cp8-hy6/timeboard-tue-jun-1-41857-pm",
+      string: '{"notify_list": [], "description": "", "restricted_roles": [], "author_name":
+        "Sherzod Karimov", "template_variables": [], "is_read_only": false, "id":
+        "euw-cp8-hy6", "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "url": "/dashboard/euw-cp8-hy6/timeboard-tue-jun-1-41857-pm",
         "created_at": "2021-06-01T20:18:57.486260+00:00", "modified_at": "2021-06-21T17:24:39.527924+00:00",
         "reflow_type": "auto", "author_handle": "sherzod.karimov@datadoghq.com", "widgets":
         [{"definition": {"widgets": [{"definition": {"title_size": "16", "viz_type":
@@ -202,123 +432,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:16:38 GMT
+      - Thu, 28 Oct 2021 14:51:44 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '1953'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/tuw-te2-pdj
-  response:
-    body:
-      string: '{"notify_list": [], "description": "", "author_name": "Noueman Khalikine",
-        "template_variables": [], "is_read_only": false, "id": "tuw-te2-pdj", "title":
-        "datadog-sync-cli Test Dashboard", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
-        "created_at": "2021-06-30T11:45:57.574935+00:00", "modified_at": "2021-06-30T11:46:46.923260+00:00",
-        "reflow_type": "fixed", "author_handle": "noueman.khalikine@datadoghq.com",
-        "widgets": [{"definition": {"title_size": "16", "title": "", "title_align":
-        "left", "precision": 2, "time": {}, "autoscale": true, "requests": [{"response_format":
-        "scalar", "queries": [{"query": "avg:system.cpu.user{*}", "data_source": "metrics",
-        "name": "query1", "aggregator": "avg"}]}], "type": "query_value"}, "layout":
-        {"y": 0, "x": 0, "height": 2, "width": 2}, "id": 6609238960092638}], "layout_type":
-        "ordered"}'
-    headers:
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      Date:
-      - Tue, 03 Aug 2021 14:16:38 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '786'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/ys9-5v2-zxt
-  response:
-    body:
-      string: '{"notify_list": null, "description": null, "author_name": "Frog", "template_variables":
-        null, "is_read_only": false, "id": "ys9-5v2-zxt", "title": "{{ unique }} with
-        timeseries widget", "url": "/dashboard/ys9-5v2-zxt/-unique--with-timeseries-widget",
-        "created_at": "2021-07-16T12:08:14.666223+00:00", "modified_at": "2021-07-16T12:08:14.666223+00:00",
-        "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
-        [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
-        "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
-        "line_type": "solid"}, "display_type": "bars"}], "type": "timeseries"}, "id":
-        4987671296932461}], "layout_type": "ordered"}'
-    headers:
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json
-      Date:
-      - Tue, 03 Aug 2021 14:16:38 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '686'
+      - '1975'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:

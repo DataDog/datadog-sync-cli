@@ -1,6 +1,8 @@
 interactions:
 - request:
-    body: '{"name": "Empty Test Listupdated"}'
+    body: '{"data": {"attributes": {"filter": {"query": "source:cloudtrail @usr.account_id:$usrAccountId"},
+      "group_by": [{"path": "service", "tag_name": "service"}], "compute": {"aggregation_type":
+      "count"}}, "type": "logs_metrics", "id": "test.metric"}}'
     headers:
       Accept:
       - '*/*'
@@ -9,19 +11,18 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '34'
+      - '243'
       Content-Type:
       - application/json
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual/13699
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/logs/config/metrics
   response:
     body:
-      string: '{"is_favorite": false, "name": "Empty Test Listupdated", "dashboard_count":
-        0, "author": {"handle": "frog@datadoghq.com", "name": "Frog"}, "created":
-        "2021-10-28T14:51:43.028097+00:00", "type": "manual_dashboard_list", "dashboards":
-        null, "modified": "2021-10-28T14:51:43.547283+00:00", "id": 13699}'
+      string: '{"data": {"attributes": {"filter": {"query": "source:cloudtrail @usr.account_id:$usrAccountId"},
+        "group_by": [{"path": "service", "tag_name": "service"}], "compute": {"aggregation_type":
+        "count"}}, "type": "logs_metrics", "id": "test.metric"}}'
     headers:
       Alt-Svc:
       - clear
@@ -32,13 +33,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '279'
+      - '227'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:51:43 GMT
+      - Thu, 28 Oct 2021 14:51:52 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -47,10 +48,16 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-envoy-upstream-service-time:
-      - '120'
       x-frame-options:
       - SAMEORIGIN
+      x-ratelimit-limit:
+      - '10'
+      x-ratelimit-period:
+      - '300'
+      x-ratelimit-remaining:
+      - '8'
+      x-ratelimit-reset:
+      - '188'
     status:
       code: 200
       message: OK

@@ -3,7 +3,7 @@ interactions:
     body: '{"recurrence": {"week_days": [], "type": "days", "period": 1}, "end": null,
       "monitor_tags": ["*"], "child_id": null, "canceled": null, "monitor_id": null,
       "disabled": false, "start": 2622234295, "parent_id": null, "timezone": "UTC",
-      "scope": ["*"], "message": "Updated", "downtime_type": 0}'
+      "scope": ["*"], "message": "updated", "downtime_type": 0}'
     headers:
       Accept:
       - '*/*'
@@ -16,17 +16,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/downtime/52951282
+    uri: https://api.datadoghq.eu/api/v1/downtime/67560115
   response:
     body:
       string: '{"recurrence": {"until_date": null, "until_occurrences": null, "week_days":
         [], "type": "days", "period": 1}, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": null, "created": 1628000201, "org_id":
-        1000044987, "modified": 1628000201, "disabled": false, "start": 2622234295,
+        null, "canceled": null, "monitor_id": null, "created": 1635432708, "org_id":
+        1000044987, "modified": 1635432709, "disabled": false, "start": 2622234295,
         "creator_id": 1000219667, "parent_id": null, "timezone": "UTC", "active":
-        false, "scope": ["*"], "message": "Updated", "downtime_type": 0, "id": 52951282,
+        false, "scope": ["*"], "message": "updated", "downtime_type": 0, "id": 67560115,
         "updater_id": 1000219667}'
     headers:
       Alt-Svc:
@@ -44,13 +44,17 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 03 Aug 2021 14:16:41 GMT
+      - Thu, 28 Oct 2021 14:51:49 GMT
       pragma:
       - no-cache
+      strict-transport-security:
+      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
+      x-envoy-upstream-service-time:
+      - '114'
       x-frame-options:
       - SAMEORIGIN
     status:

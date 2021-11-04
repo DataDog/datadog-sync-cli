@@ -11,7 +11,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -23,7 +23,7 @@ interactions:
         "API and Application Keys", "display_type": "other", "restricted": false}},
         {"type": "permissions", "id": "123098f2-d36c-11eb-b2bf-da7ad0900005", "attributes":
         {"name": "incident_write", "display_name": "Incidents App Experience", "description":
-        "The ability to create, view and manage incidents in the Incident App.", "created":
+        "The ability to create, view, and manage incidents in Datadog.", "created":
         "2021-06-22T15:11:08.003239+00:00", "group_name": "Incidents", "display_type":
         "write", "restricted": false}}, {"type": "permissions", "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d",
         "attributes": {"name": "monitors_read", "display_name": "Monitors", "description":
@@ -40,41 +40,34 @@ interactions:
         per index to specific roles via the Logs interface or API. If granted from
         the Roles interface or API, the permission has global scope.", "created":
         "2018-10-31T14:00:23.699543+00:00", "group_name": "Logs", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f",
-        "attributes": {"name": "billing_read", "display_name": "Billing", "description":
-        "The ability to view your organization''s subscription and payment method
-        but not make edits.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name":
-        "Billing and Usage", "display_type": "read", "restricted": false}}, {"type":
-        "permissions", "id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14", "attributes":
-        {"name": "security_monitoring_rules_write", "display_name": "Detection Rules",
-        "description": "The ability to create and edit Detection rules.", "created":
-        "2020-06-09T13:55:21.036857+00:00", "group_name": "Security Monitoring", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "04669020-ec5c-11ea-9483-db5dbf9f0b02",
-        "attributes": {"name": "billing_edit", "display_name": "Billing", "description":
-        "The ability to manage your organization''s subscription and payment method.",
-        "created": "2020-09-01T14:04:14.317866+00:00", "group_name": "Billing and
-        Usage", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc", "attributes": {"name": "logs_generate_metrics",
-        "display_name": "Log Generate Metrics", "description": "The ability to create
-        custom metrics from logs.", "created": "2019-07-25T12:37:55.949477+00:00",
-        "group_name": "Logs", "display_type": "other", "restricted": false}}, {"type":
-        "permissions", "id": "93654d1c-e706-11ea-9a85-d320ff02824d", "attributes":
-        {"name": "user_access_invite", "display_name": "Invite User", "description":
-        "Allows users to invite other users to your organization.", "created": "2020-08-25T19:10:01.692112+00:00",
-        "group_name": "Access Management", "display_type": "other", "restricted":
-        false}}, {"type": "permissions", "id": "ae2f8fbe-f925-11ea-b51c-67ba7de17f88",
-        "attributes": {"name": "synthetics_global_variable_write", "display_name":
-        "Global Variables", "description": "The ability to create, edit, and delete
-        global variables for Synthetics.", "created": "2020-09-17T20:38:01.966230+00:00",
+        "write", "restricted": false}}, {"type": "permissions", "id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14",
+        "attributes": {"name": "security_monitoring_rules_write", "display_name":
+        "Detection Rules", "description": "The ability to create and edit Detection
+        rules.", "created": "2020-06-09T13:55:21.036857+00:00", "group_name": "Security
+        Monitoring", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "04669020-ec5c-11ea-9483-db5dbf9f0b02", "attributes": {"name": "billing_edit",
+        "display_name": "Billing", "description": "The ability to manage your organization''s
+        subscription and payment method.", "created": "2020-09-01T14:04:14.317866+00:00",
+        "group_name": "Billing and Usage", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc",
+        "attributes": {"name": "logs_generate_metrics", "display_name": "Logs Generate
+        Metrics", "description": "The ability to create custom metrics from logs.",
+        "created": "2019-07-25T12:37:55.949477+00:00", "group_name": "Logs", "display_type":
+        "other", "restricted": false}}, {"type": "permissions", "id": "93654d1c-e706-11ea-9a85-d320ff02824d",
+        "attributes": {"name": "user_access_invite", "display_name": "Invite User",
+        "description": "Allows users to invite other users to your organization.",
+        "created": "2020-08-25T19:10:01.692112+00:00", "group_name": "Access Management",
+        "display_type": "other", "restricted": false}}, {"type": "permissions", "id":
+        "ae2f8fbe-f925-11ea-b51c-67ba7de17f88", "attributes": {"name": "synthetics_global_variable_write",
+        "display_name": "Global Variables", "description": "The ability to create,
+        edit, and delete global variables for Synthetics.", "created": "2020-09-17T20:38:01.966230+00:00",
         "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4",
-        "attributes": {"name": "logs_write_pipelines", "display_name": "Logs Write
-        Pipelines", "description": "The ability to add and change log pipeline configurations,
-        including the ability to grant the Logs Write Processors permission to other
-        roles, for some or all pipelines. This permission also grants global Log Processor
-        Write implicitly.", "created": "2018-10-31T14:00:23.710821+00:00", "group_name":
-        "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
-        "id": "04669192-ec5c-11ea-9483-e375d2a7bddf", "attributes": {"name": "usage_edit",
+        false}}, {"type": "permissions", "id": "60759a94-ff6d-11eb-a4f0-da7ad0900005",
+        "attributes": {"name": "security_monitoring_signals_write", "display_name":
+        "Security Signals", "description": "The ability to modify Security signals.",
+        "created": "2021-08-17T15:11:19.976019+00:00", "group_name": "Security Monitoring",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "04669192-ec5c-11ea-9483-e375d2a7bddf", "attributes": {"name": "usage_edit",
         "display_name": "Usage", "description": "The ability to manage your organization''s
         usage attribution set-up.", "created": "2020-09-01T14:04:14.317866+00:00",
         "group_name": "Billing and Usage", "display_type": "write", "restricted":
@@ -87,11 +80,12 @@ interactions:
         "description": "The ability to create, edit and delete Security Filters.",
         "created": "2021-05-10T08:56:24.527411+00:00", "group_name": "Security Monitoring",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "046690de-ec5c-11ea-9483-bbcd905fcdca", "attributes": {"name": "usage_read",
-        "display_name": "Usage", "description": "The ability to view your organization''s
-        usage and usage attribution.", "created": "2020-09-01T14:04:14.317866+00:00",
-        "group_name": "Billing and Usage", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "attributes":
+        "da1b47fc-2dce-11eb-9145-5783a37d467c", "attributes": {"name": "apm_tag_management_write",
+        "display_name": "Primary Tag Management", "description": "The ability to edit
+        second primary tag selection. A user with this permission can modify the second
+        primary tag dropdown in the APM settings page.", "created": "2020-11-23T21:00:01.066421+00:00",
+        "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "attributes":
         {"name": "apm_service_ingest_read", "display_name": "Manage Service Ingestion",
         "description": "The ability to access Service Ingestion pages. A user with
         this permission can view the service ingestion page, list of root service,
@@ -99,7 +93,7 @@ interactions:
         "group_name": "APM", "display_type": "read", "restricted": false}}, {"type":
         "permissions", "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005", "attributes":
         {"name": "incident_read", "display_name": "Incidents App Experience", "description":
-        "The ability to view the Incident App and see incidents.", "created": "2021-06-22T15:11:07.986072+00:00",
+        "The ability to view incidents in Datadog.", "created": "2021-06-22T15:11:07.986072+00:00",
         "group_name": "Incidents", "display_type": "read", "restricted": true}}, {"type":
         "permissions", "id": "c1598bd4-2dce-11eb-9145-5b865e3c112e", "attributes":
         {"name": "apm_retention_filter_write", "display_name": "Manage Retention Filters",
@@ -129,8 +123,12 @@ interactions:
         "display_name": "Synthetic Tests", "description": "The ability to list and
         view configured Synthetic tests.", "created": "2020-09-17T20:38:15.951574+00:00",
         "group_name": "Synthetic Monitoring", "display_type": "read", "restricted":
-        false}}, {"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005", "attributes":
-        {"name": "Datadog Standard Role", "created_at": "2021-05-28T15:47:59.301945+00:00",
+        false}}, {"type": "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005",
+        "attributes": {"name": "security_monitoring_filters_read", "display_name":
+        "Security Filters", "description": "The ability to read Security Filters.",
+        "created": "2021-05-10T08:56:24.514661+00:00", "group_name": "Security Monitoring",
+        "display_type": "read", "restricted": false}}, {"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005",
+        "attributes": {"name": "Datadog Standard Role", "created_at": "2021-05-28T15:47:59.301945+00:00",
         "modified_at": "2021-05-28T15:47:59.301945+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "f1666372-d87d-11e8-acac-6be484ba794a"},
         {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c"}, {"type":
@@ -145,28 +143,93 @@ interactions:
         "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"}, {"type": "permissions",
         "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type": "permissions", "id":
         "dbd71214-aa58-11ea-8f98-d71d49bb1d14"}, {"type": "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"},
-        {"type": "permissions", "id": "93654d1c-e706-11ea-9a85-d320ff02824d"}, {"type":
-        "permissions", "id": "046682c4-ec5c-11ea-9483-2727954feb30"}, {"type": "permissions",
-        "id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a"}, {"type": "permissions", "id":
-        "04668dd2-ec5c-11ea-9483-f7c5fcc9418b"}, {"type": "permissions", "id": "046692fa-ec5c-11ea-9483-d713671ea3a9"},
-        {"type": "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152"}, {"type":
-        "permissions", "id": "9311970e-f925-11ea-ab4d-1760e76381c1"}, {"type": "permissions",
-        "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb"}, {"type": "permissions", "id":
-        "ae2f8fbe-f925-11ea-b51c-67ba7de17f88"}, {"type": "permissions", "id": "b6858556-f925-11ea-9222-1f47b8677b93"},
-        {"type": "permissions", "id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a"}, {"type":
-        "permissions", "id": "ca8897be-f925-11ea-a3a2-d30492cbe671"}, {"type": "permissions",
-        "id": "cf223140-f925-11ea-a3a2-df370532bcf7"}, {"type": "permissions", "id":
-        "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee"}, {"type": "permissions", "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a"},
-        {"type": "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type":
-        "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"}, {"type": "permissions",
-        "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type": "permissions", "id":
-        "da1b47fc-2dce-11eb-9145-5783a37d467c"}, {"type": "permissions", "id": "e49aeb24-2dce-11eb-9145-6b8664bc9097"},
-        {"type": "permissions", "id": "37e36580-5440-11eb-91d4-03a23fd3e1d1"}, {"type":
-        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
-        "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id":
-        "123098f2-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005"},
-        {"type": "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005"}]}}},
-        {"type": "roles", "id": "138d5c0c-bfcc-11eb-8e11-da7ad0900005", "attributes":
+        {"type": "permissions", "id": "60759a94-ff6d-11eb-a4f0-da7ad0900005"}, {"type":
+        "permissions", "id": "93654d1c-e706-11ea-9a85-d320ff02824d"}, {"type": "permissions",
+        "id": "046682c4-ec5c-11ea-9483-2727954feb30"}, {"type": "permissions", "id":
+        "04668bde-ec5c-11ea-9483-fb6cb6586c6a"}, {"type": "permissions", "id": "04668dd2-ec5c-11ea-9483-f7c5fcc9418b"},
+        {"type": "permissions", "id": "046692fa-ec5c-11ea-9483-d713671ea3a9"}, {"type":
+        "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152"}, {"type": "permissions",
+        "id": "9311970e-f925-11ea-ab4d-1760e76381c1"}, {"type": "permissions", "id":
+        "a726d3bc-f925-11ea-8c05-476d8eebc4cb"}, {"type": "permissions", "id": "ae2f8fbe-f925-11ea-b51c-67ba7de17f88"},
+        {"type": "permissions", "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type":
+        "permissions", "id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a"}, {"type": "permissions",
+        "id": "ca8897be-f925-11ea-a3a2-d30492cbe671"}, {"type": "permissions", "id":
+        "cf223140-f925-11ea-a3a2-df370532bcf7"}, {"type": "permissions", "id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee"},
+        {"type": "permissions", "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a"}, {"type":
+        "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions",
+        "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"}, {"type": "permissions", "id":
+        "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type": "permissions", "id": "da1b47fc-2dce-11eb-9145-5783a37d467c"},
+        {"type": "permissions", "id": "e49aeb24-2dce-11eb-9145-6b8664bc9097"}, {"type":
+        "permissions", "id": "37e36580-5440-11eb-91d4-03a23fd3e1d1"}, {"type": "permissions",
+        "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
+        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "123098f2-d36c-11eb-b2bf-da7ad0900005"},
+        {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005"}, {"type":
+        "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions",
+        "id": "f07e4234-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions", "id":
+        "f07f557a-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"},
+        {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}, {"type":
+        "permissions", "id": "294580e0-1703-11ec-9b92-da7ad0900005"}]}}}, {"type":
+        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9", "attributes":
+        {"name": "security_monitoring_signals_read", "display_name": "Security Signals",
+        "description": "The ability to view Security signals.", "created": "2020-06-09T13:55:29.398066+00:00",
+        "group_name": "Security Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee",
+        "attributes": {"name": "logs_write_facets", "display_name": "Logs Facets",
+        "description": "The capability to create or edit logs facets.", "created":
+        "2020-10-14T12:54:16.607129+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a",
+        "attributes": {"name": "org_app_keys_read", "display_name": "Organization
+        Application Keys", "description": "The ability to view Application Keys owned
+        by all users in the organization.", "created": "2020-09-01T14:04:14.317866+00:00",
+        "group_name": "API and Application Keys", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a",
+        "attributes": {"name": "synthetics_write", "display_name": "Synthetic Tests",
+        "description": "The ability to create, edit, and delete Synthetic tests.",
+        "created": "2020-09-17T20:38:27.421632+00:00", "group_name": "Synthetic Monitoring",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "f1666372-d87d-11e8-acac-6be484ba794a", "attributes": {"name": "standard",
+        "display_name": "Standard Access", "description": "This permission gives you
+        the ability to view and edit components in your Datadog organization that
+        do not have explicitly defined permissions. This includes Notebooks, Events,
+        and other non-Account Management functionality.", "created": "2018-10-25T17:46:46.732810+00:00",
+        "group_name": "General", "display_type": "other", "restricted": false}}, {"type":
+        "permissions", "id": "72bc07d8-1472-11eb-a97b-8bff514d7382", "attributes":
+        {"name": "service_account_write", "display_name": "Service Accounts", "description":
+        "The ability to create, disable and use Service Accounts in your organization.",
+        "created": "2020-10-22T14:25:34.868208+00:00", "group_name": "Access Management",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "8b753262-f925-11ea-82fc-93f07fd96e76", "attributes": {"name": "audit_logs_read",
+        "display_name": "Audit Logs", "description": "The ability to view Audit Logs
+        in your organization.", "created": "2020-09-17T20:37:03.702585+00:00", "group_name":
+        "Organization Management", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f", "attributes":
+        {"name": "billing_read", "display_name": "Billing", "description": "The ability
+        to view your organization''s subscription and payment method but not make
+        edits.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name": "Billing
+        and Usage", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8", "attributes": {"name": "monitors_write",
+        "display_name": "Monitors", "description": "The ability to change, mute, and
+        delete individual monitors.", "created": "2019-09-16T18:50:07.944781+00:00",
+        "group_name": "Monitors", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c", "attributes":
+        {"name": "logs_modify_indexes", "display_name": "Logs Modify Indexes", "description":
+        "The ability to read and modify all indexes in your account. This includes
+        the ability to grant the Logs Read Index Data and Logs Write Exclusion Filter
+        permission to other roles, for some or all indexes. This permission also grants
+        global Log Index Read and Log Exclusion Filter Write implicitly.", "created":
+        "2018-10-31T14:00:23.664332+00:00", "group_name": "Logs", "display_type":
+        "other", "restricted": false}}, {"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7",
+        "attributes": {"name": "logs_read_index_data", "display_name": "Logs Read
+        Index Data", "description": "The ability to read all or some log indexes.
+        Can be granted in a limited capacity per index from the Logs interface or
+        APIs. If granted via the Roles interface or API the permission has global
+        scope.", "created": "2018-10-31T14:00:23.650159+00:00", "group_name": "Logs",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "37e36580-5440-11eb-91d4-03a23fd3e1d1", "attributes": {"name": "rum_apps_write",
+        "display_name": "RUM Applications", "description": "The ability to create,
+        edit, and delete RUM Applications.", "created": "2021-01-11T19:07:15.721075+00:00",
+        "group_name": "Real User Monitoring", "display_type": "write", "restricted":
+        false}}, {"type": "roles", "id": "138d5c0c-bfcc-11eb-8e11-da7ad0900005", "attributes":
         {"name": "Datadog Admin Role", "created_at": "2021-05-28T15:47:58.719345+00:00",
         "modified_at": "2021-05-28T15:47:58.719345+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "f1624684-d87d-11e8-acac-efb4dbffab1c"},
@@ -184,85 +247,51 @@ interactions:
         "5de1e178-8536-11ea-968a-2fd9395bff90"}, {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"},
         {"type": "permissions", "id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14"}, {"type":
         "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
-        "id": "93654d1c-e706-11ea-9a85-d320ff02824d"}, {"type": "permissions", "id":
-        "999bc3fa-e706-11ea-9a85-3b29fe548c19"}, {"type": "permissions", "id": "046682c4-ec5c-11ea-9483-2727954feb30"},
-        {"type": "permissions", "id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a"}, {"type":
-        "permissions", "id": "04668d0a-ec5c-11ea-9483-37d199df4587"}, {"type": "permissions",
-        "id": "04668dd2-ec5c-11ea-9483-f7c5fcc9418b"}, {"type": "permissions", "id":
-        "04668e9a-ec5c-11ea-9483-8f29a8272bdc"}, {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f"},
-        {"type": "permissions", "id": "04669020-ec5c-11ea-9483-db5dbf9f0b02"}, {"type":
-        "permissions", "id": "046690de-ec5c-11ea-9483-bbcd905fcdca"}, {"type": "permissions",
-        "id": "04669192-ec5c-11ea-9483-e375d2a7bddf"}, {"type": "permissions", "id":
-        "046692fa-ec5c-11ea-9483-d713671ea3a9"}, {"type": "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152"},
-        {"type": "permissions", "id": "9311970e-f925-11ea-ab4d-1760e76381c1"}, {"type":
-        "permissions", "id": "998aabac-f925-11ea-b43d-8f1f42f3894e"}, {"type": "permissions",
-        "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb"}, {"type": "permissions", "id":
-        "ae2f8fbe-f925-11ea-b51c-67ba7de17f88"}, {"type": "permissions", "id": "b6858556-f925-11ea-9222-1f47b8677b93"},
-        {"type": "permissions", "id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a"}, {"type":
-        "permissions", "id": "ca8897be-f925-11ea-a3a2-d30492cbe671"}, {"type": "permissions",
-        "id": "cf223140-f925-11ea-a3a2-df370532bcf7"}, {"type": "permissions", "id":
-        "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee"}, {"type": "permissions", "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a"},
-        {"type": "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type":
-        "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"}, {"type": "permissions",
-        "id": "c1598bd4-2dce-11eb-9145-5b865e3c112e"}, {"type": "permissions", "id":
-        "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type": "permissions", "id": "c8654332-2dce-11eb-9145-d33d26eeb65f"},
-        {"type": "permissions", "id": "d23cc894-2dce-11eb-9145-37bf7b2dadc2"}, {"type":
-        "permissions", "id": "da1b47fc-2dce-11eb-9145-5783a37d467c"}, {"type": "permissions",
-        "id": "e49aeb24-2dce-11eb-9145-6b8664bc9097"}, {"type": "permissions", "id":
-        "37e36580-5440-11eb-91d4-03a23fd3e1d1"}, {"type": "permissions", "id": "b39da144-90af-11eb-9428-da7ad0900005"},
-        {"type": "permissions", "id": "b39fb79a-90af-11eb-9428-da7ad0900005"}, {"type":
-        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
-        "id": "993b34d6-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
-        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "123098f2-d36c-11eb-b2bf-da7ad0900005"},
-        {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005"}, {"type":
-        "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005"}]}}}, {"type":
-        "permissions", "id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee", "attributes":
-        {"name": "logs_write_facets", "display_name": "Logs Facets", "description":
-        "The capability to create or edit logs facets.", "created": "2020-10-14T12:54:16.607129+00:00",
-        "group_name": "Logs", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a", "attributes":
-        {"name": "org_app_keys_read", "display_name": "Organization Application Keys",
-        "description": "The ability to view Application Keys owned by all users in
-        the organization.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name":
-        "API and Application Keys", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a", "attributes":
-        {"name": "synthetics_write", "display_name": "Synthetic Tests", "description":
-        "The ability to create, edit, and delete Synthetic tests.", "created": "2020-09-17T20:38:27.421632+00:00",
-        "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "cf223140-f925-11ea-a3a2-df370532bcf7",
-        "attributes": {"name": "synthetics_default_settings_write", "display_name":
-        "Default Settings", "description": "The ability to edit default settings for
-        Synthetics Monitoring.", "created": "2020-09-17T20:38:57.244987+00:00", "group_name":
-        "Synthetic Monitoring", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "04668e9a-ec5c-11ea-9483-8f29a8272bdc", "attributes":
-        {"name": "synthetics_private_location_write", "display_name": "Private Locations",
-        "description": "The ability to create and delete private locations as well
-        as seeing the associated installation guidelines.", "created": "2020-09-01T14:04:14.317866+00:00",
-        "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8",
-        "attributes": {"name": "monitors_write", "display_name": "Monitors", "description":
-        "The ability to change, mute, and delete individual monitors.", "created":
-        "2019-09-16T18:50:07.944781+00:00", "group_name": "Monitors", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c",
-        "attributes": {"name": "logs_modify_indexes", "display_name": "Logs Modify
-        Indexes", "description": "The ability to read and modify all indexes in your
-        account. This includes the ability to grant the Logs Read Index Data and Logs
-        Write Exclusion Filter permission to other roles, for some or all indexes.
-        This permission also grants global Log Index Read and Log Exclusion Filter
-        Write implicitly.", "created": "2018-10-31T14:00:23.664332+00:00", "group_name":
-        "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
-        "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "attributes": {"name": "logs_read_index_data",
-        "display_name": "Logs Read Index Data", "description": "The ability to read
-        all or some log indexes. Can be granted in a limited capacity per index from
-        the Logs interface or APIs. If granted via the Roles interface or API the
-        permission has global scope.", "created": "2018-10-31T14:00:23.650159+00:00",
-        "group_name": "Logs", "display_type": "read", "restricted": false}}, {"type":
-        "permissions", "id": "bd837a80-6cb2-11e9-8fc4-339b4b012214", "attributes":
-        {"name": "logs_public_config_api", "display_name": "Logs Public Config API",
-        "description": "The ability to access and edit logs configurations via the
-        API.", "created": "2019-05-02T08:17:35.098960+00:00", "group_name": "Logs",
-        "display_type": "other", "restricted": false}}, {"type": "permissions", "id":
-        "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "attributes": {"name": "logs_live_tail",
+        "id": "60759a94-ff6d-11eb-a4f0-da7ad0900005"}, {"type": "permissions", "id":
+        "93654d1c-e706-11ea-9a85-d320ff02824d"}, {"type": "permissions", "id": "999bc3fa-e706-11ea-9a85-3b29fe548c19"},
+        {"type": "permissions", "id": "046682c4-ec5c-11ea-9483-2727954feb30"}, {"type":
+        "permissions", "id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a"}, {"type": "permissions",
+        "id": "04668d0a-ec5c-11ea-9483-37d199df4587"}, {"type": "permissions", "id":
+        "04668dd2-ec5c-11ea-9483-f7c5fcc9418b"}, {"type": "permissions", "id": "04668e9a-ec5c-11ea-9483-8f29a8272bdc"},
+        {"type": "permissions", "id": "04668f62-ec5c-11ea-9483-0fe541ab993f"}, {"type":
+        "permissions", "id": "04669020-ec5c-11ea-9483-db5dbf9f0b02"}, {"type": "permissions",
+        "id": "046690de-ec5c-11ea-9483-bbcd905fcdca"}, {"type": "permissions", "id":
+        "04669192-ec5c-11ea-9483-e375d2a7bddf"}, {"type": "permissions", "id": "046692fa-ec5c-11ea-9483-d713671ea3a9"},
+        {"type": "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152"}, {"type":
+        "permissions", "id": "8b753262-f925-11ea-82fc-93f07fd96e76"}, {"type": "permissions",
+        "id": "9311970e-f925-11ea-ab4d-1760e76381c1"}, {"type": "permissions", "id":
+        "998aabac-f925-11ea-b43d-8f1f42f3894e"}, {"type": "permissions", "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb"},
+        {"type": "permissions", "id": "ae2f8fbe-f925-11ea-b51c-67ba7de17f88"}, {"type":
+        "permissions", "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions",
+        "id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a"}, {"type": "permissions", "id":
+        "ca8897be-f925-11ea-a3a2-d30492cbe671"}, {"type": "permissions", "id": "cf223140-f925-11ea-a3a2-df370532bcf7"},
+        {"type": "permissions", "id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee"}, {"type":
+        "permissions", "id": "72bc07d8-1472-11eb-a97b-8bff514d7382"}, {"type": "permissions",
+        "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a"}, {"type": "permissions", "id":
+        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
+        {"type": "permissions", "id": "c1598bd4-2dce-11eb-9145-5b865e3c112e"}, {"type":
+        "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type": "permissions",
+        "id": "c8654332-2dce-11eb-9145-d33d26eeb65f"}, {"type": "permissions", "id":
+        "d23cc894-2dce-11eb-9145-37bf7b2dadc2"}, {"type": "permissions", "id": "da1b47fc-2dce-11eb-9145-5783a37d467c"},
+        {"type": "permissions", "id": "e49aeb24-2dce-11eb-9145-6b8664bc9097"}, {"type":
+        "permissions", "id": "19570d26-3409-11eb-9ac2-ab9b978f6c4a"}, {"type": "permissions",
+        "id": "37e36580-5440-11eb-91d4-03a23fd3e1d1"}, {"type": "permissions", "id":
+        "b39da144-90af-11eb-9428-da7ad0900005"}, {"type": "permissions", "id": "b39fb79a-90af-11eb-9428-da7ad0900005"},
+        {"type": "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type":
+        "permissions", "id": "993b34d6-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
+        "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id":
+        "123098f2-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "122f7508-d36c-11eb-b2bf-da7ad0900005"},
+        {"type": "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005"}, {"type":
+        "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions",
+        "id": "f07f557a-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions", "id":
+        "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"}, {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"},
+        {"type": "permissions", "id": "294580e0-1703-11ec-9b92-da7ad0900005"}]}}},
+        {"type": "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005", "attributes":
+        {"name": "appsec_event_rule_read", "display_name": "Application Security Event
+        Rules", "description": "The ability to view Application Security Event Rules.",
+        "created": "2021-07-19T13:26:35.252432+00:00", "group_name": "Application
+        Security", "display_type": "read", "restricted": true}}, {"type": "permissions",
+        "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "attributes": {"name": "logs_live_tail",
         "display_name": "Logs Live Tail Access", "description": "The ability to view
         the live tail feed for all log indexes, even if otherwise specifically restricted.",
         "created": "2018-10-31T14:00:23.676180+00:00", "group_name": "Logs", "display_type":
@@ -271,6 +300,20 @@ interactions:
         "Default Settings", "description": "The ability to view default settings for
         Synthetics Monitoring.", "created": "2020-09-17T20:38:49.527477+00:00", "group_name":
         "Synthetic Monitoring", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "19570d26-3409-11eb-9ac2-ab9b978f6c4a", "attributes":
+        {"name": "audit_logs_write", "display_name": "Audit Logs", "description":
+        "The ability to configure Audit Logs in your organization.", "created": "2020-12-01T19:12:04.940111+00:00",
+        "group_name": "Organization Management", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb",
+        "attributes": {"name": "synthetics_global_variable_read", "display_name":
+        "Global Variables", "description": "The ability to view, search and use in
+        tests the list of global variables available for Synthetics.", "created":
+        "2020-09-17T20:37:50.165103+00:00", "group_name": "Synthetic Monitoring",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "bd837a80-6cb2-11e9-8fc4-339b4b012214", "attributes": {"name": "logs_public_config_api",
+        "display_name": "Logs Public Config API", "description": "The ability to access
+        and edit logs configurations via the API.", "created": "2019-05-02T08:17:35.098960+00:00",
+        "group_name": "Logs", "display_type": "other", "restricted": false}}, {"type":
         "permissions", "id": "2149e512-d3d9-11e9-a614-bb8f0dcf0205", "attributes":
         {"name": "dashboards_write", "display_name": "Dashboards", "description":
         "The ability to create and change dashboards.", "created": "2019-09-10T14:41:53.136336+00:00",
@@ -284,38 +327,37 @@ interactions:
         "display_name": "Incidents Settings", "description": "The ability to view
         incidents Settings.", "created": "2021-06-22T15:11:07.995787+00:00", "group_name":
         "Incidents", "display_type": "read", "restricted": false}}, {"type": "permissions",
-        "id": "e0d31696-aa58-11ea-af96-3b02991750c9", "attributes": {"name": "security_monitoring_signals_read",
-        "display_name": "Security Signals", "description": "The ability to view Security
-        signals.", "created": "2020-06-09T13:55:29.398066+00:00", "group_name": "Security
-        Monitoring", "display_type": "read", "restricted": false}}, {"type": "permissions",
-        "id": "5de1e178-8536-11ea-968a-2fd9395bff90", "attributes": {"name": "logs_read_archives",
-        "display_name": "Logs Archives", "description": "The ability to read logs
-        archives location and use it for rehydration.", "created": "2020-04-23T07:45:13.801938+00:00",
-        "group_name": "Logs", "display_type": "read", "restricted": false}}, {"type":
-        "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a", "attributes":
-        {"name": "apm_retention_filter_read", "display_name": "Manage Retention Filters",
-        "description": "The ability to read trace retention filters. A user with this
-        permission can view the retention filters page, list of filters, their statistics,
-        and creation info.", "created": "2020-11-23T20:59:11.833795+00:00", "group_name":
-        "APM", "display_type": "read", "restricted": false}}, {"type": "permissions",
-        "id": "04668d0a-ec5c-11ea-9483-37d199df4587", "attributes": {"name": "org_app_keys_write",
-        "display_name": "Organization Application Keys", "description": "The ability
-        to manage Application Keys owned by all users in the organization.", "created":
-        "2020-09-01T14:04:14.317866+00:00", "group_name": "API and Application Keys",
-        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "f1666372-d87d-11e8-acac-6be484ba794a", "attributes": {"name": "standard",
-        "display_name": "Standard Access", "description": "This permission gives you
-        the ability to view and edit components in your Datadog organization that
-        do not have explicitly defined permissions. This includes Notebooks, Events,
-        and other non-Account Management functionality.", "created": "2018-10-25T17:46:46.732810+00:00",
-        "group_name": "General", "display_type": "other", "restricted": false}}, {"type":
-        "permissions", "id": "f1624684-d87d-11e8-acac-efb4dbffab1c", "attributes":
-        {"name": "admin", "display_name": "Privileged Access", "description": "This
-        permission gives you the ability to view and edit everything in your Datadog
-        organization that does not have an explicitly defined permission. This includes
-        organization settings and SAML management. This permission is inclusive of
-        all Standard access permissions.", "created": "2018-10-25T17:46:46.704903+00:00",
-        "group_name": "General", "display_type": "other", "restricted": false}}, {"type":
+        "id": "294580e0-1703-11ec-9b92-da7ad0900005", "attributes": {"name": "apm_generate_metrics",
+        "display_name": "Generate Metrics", "description": "The ability to create
+        custom metrics from spans.", "created": "2021-09-16T15:31:28.639581+00:00",
+        "group_name": "APM", "display_type": "other", "restricted": false}}, {"type":
+        "permissions", "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a", "attributes":
+        {"name": "integrations_api", "display_name": "Integrations API Access", "description":
+        "The ability to use the Integrations APIs to configure Integrations that the
+        user has access to. This permission does not restrict or grant access to Integrations.",
+        "created": "2020-11-16T19:44:13.810028+00:00", "group_name": "Integrations",
+        "display_type": "other", "restricted": false}}, {"type": "permissions", "id":
+        "bcc2fb14-2dce-11eb-9145-9b27b816190a", "attributes": {"name": "apm_retention_filter_read",
+        "display_name": "Manage Retention Filters", "description": "The ability to
+        read trace retention filters. A user with this permission can view the retention
+        filters page, list of filters, their statistics, and creation info.", "created":
+        "2020-11-23T20:59:11.833795+00:00", "group_name": "APM", "display_type": "read",
+        "restricted": false}}, {"type": "permissions", "id": "04668d0a-ec5c-11ea-9483-37d199df4587",
+        "attributes": {"name": "org_app_keys_write", "display_name": "Organization
+        Application Keys", "description": "The ability to manage Application Keys
+        owned by all users in the organization.", "created": "2020-09-01T14:04:14.317866+00:00",
+        "group_name": "API and Application Keys", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "cf223140-f925-11ea-a3a2-df370532bcf7",
+        "attributes": {"name": "synthetics_default_settings_write", "display_name":
+        "Default Settings", "description": "The ability to edit default settings for
+        Synthetics Monitoring.", "created": "2020-09-17T20:38:57.244987+00:00", "group_name":
+        "Synthetic Monitoring", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "c8654332-2dce-11eb-9145-d33d26eeb65f", "attributes":
+        {"name": "apm_service_ingest_write", "display_name": "Manage Service Ingestion",
+        "description": "The ability to edit Service Ingestion pages root services.
+        A user with this permission can edit the root service ingestion and generate
+        a code snippet to increase ingestion per service.", "created": "2020-11-23T20:59:31.352238+00:00",
+        "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
         "permissions", "id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "attributes":
         {"name": "logs_read_data", "display_name": "Logs Read Data", "description":
         "The ability to read log data. Can be restricted with restriction queries.",
@@ -324,105 +366,637 @@ interactions:
         "attributes": {"name": "dashboards_public_share", "display_name": "Dashboards
         Share", "description": "The ability to share dashboards externally.", "created":
         "2019-09-10T14:41:53.150548+00:00", "group_name": "Dashboards", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "c8654332-2dce-11eb-9145-d33d26eeb65f",
-        "attributes": {"name": "apm_service_ingest_write", "display_name": "Manage
-        Service Ingestion", "description": "The ability to edit Service Ingestion
-        pages root services. A user with this permission can edit the root service
-        ingestion and generate a code snippet to increase ingestion per service.",
-        "created": "2020-11-23T20:59:31.352238+00:00", "group_name": "APM", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005",
-        "attributes": {"name": "security_monitoring_filters_read", "display_name":
-        "Security Filters", "description": "The ability to read Security Filters.",
-        "created": "2021-05-10T08:56:24.514661+00:00", "group_name": "Security Monitoring",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "37e36580-5440-11eb-91d4-03a23fd3e1d1", "attributes": {"name": "rum_apps_write",
-        "display_name": "RUM Applications", "description": "The ability to create,
-        edit, and delete RUM Applications.", "created": "2021-01-11T19:07:15.721075+00:00",
-        "group_name": "Real User Monitoring", "display_type": "write", "restricted":
-        false}}, {"type": "permissions", "id": "999bc3fa-e706-11ea-9a85-3b29fe548c19",
+        "other", "restricted": false}}, {"type": "permissions", "id": "f1624684-d87d-11e8-acac-efb4dbffab1c",
+        "attributes": {"name": "admin", "display_name": "Privileged Access", "description":
+        "This permission gives you the ability to view and edit everything in your
+        Datadog organization that does not have an explicitly defined permission.
+        This includes organization settings and SAML management. This permission is
+        inclusive of all Standard access permissions.", "created": "2018-10-25T17:46:46.704903+00:00",
+        "group_name": "General", "display_type": "other", "restricted": false}}, {"type":
+        "permissions", "id": "046690de-ec5c-11ea-9483-bbcd905fcdca", "attributes":
+        {"name": "usage_read", "display_name": "Usage", "description": "The ability
+        to view your organization''s usage and usage attribution.", "created": "2020-09-01T14:04:14.317866+00:00",
+        "group_name": "Billing and Usage", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90", "attributes":
+        {"name": "logs_read_archives", "display_name": "Logs Archives", "description":
+        "The ability to read logs archives location and use it for rehydration.",
+        "created": "2020-04-23T07:45:13.801938+00:00", "group_name": "Logs", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "999bc3fa-e706-11ea-9a85-3b29fe548c19",
         "attributes": {"name": "user_access_manage", "display_name": "Access Management",
         "description": "Grants the permission to disable users, manage user roles
         and SAML-to-role mappings.", "created": "2020-08-25T19:10:12.116164+00:00",
         "group_name": "Access Management", "display_type": "other", "restricted":
-        false}}, {"type": "permissions", "id": "505f4538-dd15-11e8-9308-47a4732f715f",
-        "attributes": {"name": "logs_write_processors", "display_name": "Log Write
-        Processors", "description": "The ability to add and change some or all log
-        processor configurations. Can be granted in a limited capacity per pipeline
-        to specific roles via the Logs interface or API. If granted via the Roles
-        interface or API the permission has global scope.", "created": "2018-10-31T14:00:24.726927+00:00",
-        "group_name": "Logs", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "attributes":
-        {"name": "security_monitoring_rules_read", "display_name": "Detection Rules",
-        "description": "The ability to read Detection rules.", "created": "2020-06-09T13:55:12.166762+00:00",
-        "group_name": "Security Monitoring", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "d23cc894-2dce-11eb-9145-37bf7b2dadc2",
-        "attributes": {"name": "apm_apdex_manage_write", "display_name": "Apdex Management",
-        "description": "The ability to set Apdex T value on any service. A user with
-        this permission can set the T value from the Apdex graph on the service page.",
-        "created": "2020-11-23T20:59:47.864214+00:00", "group_name": "APM", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "046692fa-ec5c-11ea-9483-d713671ea3a9",
-        "attributes": {"name": "metric_tags_write", "display_name": "Manage Tags for
-        Metrics", "description": "The ability to edit and save tag configurations
-        for custom metrics.", "created": "2020-09-01T14:04:14.317866+00:00", "group_name":
-        "Metrics", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "1ad6fd30-2844-11eb-a18d-5f72a244f27a", "attributes": {"name": "integrations_api",
-        "display_name": "Integrations API Access", "description": "The ability to
-        use the Integrations APIs to configure Integrations that the user has access
-        to. This permission does not restrict or grant access to Integrations.", "created":
-        "2020-11-16T19:44:13.810028+00:00", "group_name": "Integrations", "display_type":
-        "other", "restricted": false}}, {"type": "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a",
-        "attributes": {"name": "apm_read", "display_name": "APM Read Access", "description":
-        "The ability to read and query APM and Trace Analytics.", "created": "2020-11-23T20:59:02.902692+00:00",
+        false}}, {"type": "permissions", "id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4",
+        "attributes": {"name": "logs_write_pipelines", "display_name": "Logs Write
+        Pipelines", "description": "The ability to add and change log pipeline configurations,
+        including the ability to grant the Logs Write Processors permission to other
+        roles, for some or all pipelines. This permission also grants global Log Processor
+        Write implicitly.", "created": "2018-10-31T14:00:23.710821+00:00", "group_name":
+        "Logs", "display_type": "other", "restricted": false}}, {"type": "permissions",
+        "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "attributes": {"name": "security_monitoring_rules_read",
+        "display_name": "Detection Rules", "description": "The ability to read Detection
+        rules.", "created": "2020-06-09T13:55:12.166762+00:00", "group_name": "Security
+        Monitoring", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "d23cc894-2dce-11eb-9145-37bf7b2dadc2", "attributes": {"name": "apm_apdex_manage_write",
+        "display_name": "Apdex Management", "description": "The ability to set Apdex
+        T value on any service. A user with this permission can set the T value from
+        the Apdex graph on the service page.", "created": "2020-11-23T20:59:47.864214+00:00",
+        "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "046692fa-ec5c-11ea-9483-d713671ea3a9", "attributes":
+        {"name": "metric_tags_write", "display_name": "Manage Tags for Metrics", "description":
+        "The ability to edit and save tag configurations for custom metrics.", "created":
+        "2020-09-01T14:04:14.317866+00:00", "group_name": "Metrics", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "f07f557a-e894-11eb-ab79-da7ad0900005",
+        "attributes": {"name": "appsec_event_rule_write", "display_name": "Application
+        Security Event Rules", "description": "The ability to edit Application Security
+        Event Rules.", "created": "2021-07-19T13:26:35.260787+00:00", "group_name":
+        "Application Security", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "attributes":
+        {"name": "apm_read", "display_name": "APM Read Access", "description": "The
+        ability to read and query APM and Trace Analytics.", "created": "2020-11-23T20:59:02.902692+00:00",
         "group_name": "APM", "display_type": "read", "restricted": true}}, {"type":
         "permissions", "id": "998aabac-f925-11ea-b43d-8f1f42f3894e", "attributes":
         {"name": "api_keys_write", "display_name": "API Keys", "description": "The
         ability to create, rename, and revoke API Keys for your organization.", "created":
         "2020-09-17T20:37:27.331389+00:00", "group_name": "API and Application Keys",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "da1b47fc-2dce-11eb-9145-5783a37d467c", "attributes": {"name": "apm_tag_management_write",
-        "display_name": "Primary Tag Management", "description": "The ability to edit
-        second primary tag selection. A user with this permission can modify the second
-        primary tag dropdown in the APM settings page.", "created": "2020-11-23T21:00:01.066421+00:00",
-        "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
-        "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152", "attributes":
-        {"name": "logs_write_historical_view", "display_name": "Logs Historical View",
-        "description": "The capability to rehydrate logs from Archives.", "created":
-        "2020-09-16T08:42:43.928080+00:00", "group_name": "Logs", "display_type":
-        "write", "restricted": false}}, {"type": "roles", "id": "140f3a7e-bfcc-11eb-8e11-da7ad0900005",
-        "attributes": {"name": "Datadog Read Only Role", "created_at": "2021-05-28T15:47:59.570548+00:00",
-        "modified_at": "2021-05-28T15:47:59.570548+00:00"}, "relationships": {"permissions":
-        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
-        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
-        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
-        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
-        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
-        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
-        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
-        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
-        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
-        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
-        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
-        "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}]}}}, {"type": "permissions",
-        "id": "b39da144-90af-11eb-9428-da7ad0900005", "attributes": {"name": "data_scanner_read",
+        "505f4538-dd15-11e8-9308-47a4732f715f", "attributes": {"name": "logs_write_processors",
+        "display_name": "Logs Write Processors", "description": "The ability to add
+        and change some or all log processor configurations. Can be granted in a limited
+        capacity per pipeline to specific roles via the Logs interface or API. If
+        granted via the Roles interface or API the permission has global scope.",
+        "created": "2018-10-31T14:00:24.726927+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "96a0c17a-f7f8-11ea-add4-d3659d81b152",
+        "attributes": {"name": "logs_write_historical_view", "display_name": "Logs
+        Historical View", "description": "The capability to rehydrate logs from Archives.",
+        "created": "2020-09-16T08:42:43.928080+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005",
+        "attributes": {"name": "rum_session_replay_read", "display_name": "Session
+        Replay", "description": "The ability to view session replays.", "created":
+        "2021-08-02T09:46:22.572685+00:00", "group_name": "Real User Monitoring",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "b39da144-90af-11eb-9428-da7ad0900005", "attributes": {"name": "data_scanner_read",
         "display_name": "Data Scanner", "description": "View data scanner configuration.",
         "created": "2021-03-29T16:56:27.205044+00:00", "group_name": "Access Management",
         "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "a726d3bc-f925-11ea-8c05-476d8eebc4cb", "attributes": {"name": "synthetics_global_variable_read",
-        "display_name": "Global Variables", "description": "The ability to view, search
-        and use in tests the list of global variables available for Synthetics.",
-        "created": "2020-09-17T20:37:50.165103+00:00", "group_name": "Synthetic Monitoring",
-        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "505fd138-dd15-11e8-9308-afd2db62791e", "attributes": {"name": "logs_write_archives",
-        "display_name": "Logs Archives", "description": "The ability to add and edit
-        log archive locations.", "created": "2018-10-31T14:00:24.730570+00:00", "group_name":
-        "Logs", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005", "attributes": {"name": "incident_settings_write",
-        "display_name": "Incidents Settings", "description": "The ability to configure
-        incidents Settings.", "created": "2021-06-22T15:11:07.999194+00:00", "group_name":
-        "Incidents", "display_type": "write", "restricted": false}}], "meta": {"page":
-        {"total_filtered_count": 7, "total_count": 7}}, "data": [{"type": "users",
-        "id": "3af5af64-bfcd-11eb-b483-da7ad0900005", "attributes": {"name": "Frog",
-        "handle": "frog@datadoghq.com", "created_at": "2021-05-28T15:56:14.326839+00:00",
+        "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "attributes": {"name": "rum_apps_read",
+        "display_name": "RUM Applications", "description": "The ability to view RUM
+        Applications data.", "created": "2021-08-02T09:46:22.567371+00:00", "group_name":
+        "Real User Monitoring", "display_type": "read", "restricted": true}}, {"type":
+        "permissions", "id": "04668e9a-ec5c-11ea-9483-8f29a8272bdc", "attributes":
+        {"name": "synthetics_private_location_write", "display_name": "Private Locations",
+        "description": "The ability to create and delete private locations as well
+        as seeing the associated installation guidelines.", "created": "2020-09-01T14:04:14.317866+00:00",
+        "group_name": "Synthetic Monitoring", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "505fd138-dd15-11e8-9308-afd2db62791e",
+        "attributes": {"name": "logs_write_archives", "display_name": "Logs Archives",
+        "description": "The ability to add and edit log archive locations.", "created":
+        "2018-10-31T14:00:24.730570+00:00", "group_name": "Logs", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005",
+        "attributes": {"name": "incident_settings_write", "display_name": "Incidents
+        Settings", "description": "The ability to configure incident settings.", "created":
+        "2021-06-22T15:11:07.999194+00:00", "group_name": "Incidents", "display_type":
+        "write", "restricted": false}}], "meta": {"page": {"total_filtered_count":
+        75, "total_count": 75}}, "data": [{"type": "users", "id": "0d258cfa-0fe4-11ec-a7f3-da7ad0900005",
+        "attributes": {"name": "Aaqib Kufran", "handle": "aaqib.kufran@grabtaxi.com",
+        "created_at": "2021-09-07T14:01:08.914336+00:00", "modified_at": "2021-09-07T14:20:35.722260+00:00",
+        "email": "aaqib.kufran@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/efea0bfb9f43c8a441b8d32f29d48aab?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d29b6ae-0fe4-11ec-aed8-da7ad0900005", "attributes":
+        {"name": "Abby Alcantara", "handle": "abby.alcantara@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:08.941836+00:00", "modified_at": "2021-09-07T14:20:36.235407+00:00",
+        "email": "abby.alcantara@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/8e069bb75a0db1eb37b14c6742b034ea?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d278794-0fe4-11ec-98c6-da7ad0900005", "attributes":
+        {"name": "Abdullah Mamun", "handle": "abdullah.mamun@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:08.927482+00:00", "modified_at": "2021-09-07T14:20:36.814559+00:00",
+        "email": "abdullah.mamun@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/1e3f76b7a84bea0b6142f6b55dfb98f7?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d2e48f4-0fe4-11ec-b5c1-da7ad0900005", "attributes":
+        {"name": "Abdul Rahman Hakim", "handle": "abdul.rahman@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:08.971477+00:00", "modified_at": "2021-09-07T14:20:37.188702+00:00",
+        "email": "abdul.rahman@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/541395ef4d1fa47c24b087547704310f?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d2deb02-0fe4-11ec-af43-da7ad0900005", "attributes":
+        {"name": "Abhinav Mittal", "handle": "abhinav.mittal@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:08.969414+00:00", "modified_at": "2021-09-07T14:20:37.718918+00:00",
+        "email": "abhinav.mittal@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/e598bf8c72803e9d73174fe0fcc48fce?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d2952a4-0fe4-11ec-b3cf-da7ad0900005", "attributes":
+        {"name": "Abhishek Biswas", "handle": "abhishek.biswas@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:08.939146+00:00", "modified_at": "2021-09-07T14:20:38.319643+00:00",
+        "email": "abhishek.biswas@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/477f04606b4dfcb4fecb0f85d5b59260?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d39866a-0fe4-11ec-b88d-da7ad0900005", "attributes":
+        {"name": "Abhishek Jagetiya", "handle": "abhishek.jagetiya@grabtaxi.com",
+        "created_at": "2021-09-07T14:01:09.045213+00:00", "modified_at": "2021-09-07T14:20:38.833242+00:00",
+        "email": "abhishek.jagetiya@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/95c2de0541e5f1fb526e1acfa1cc118c?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d30ea46-0fe4-11ec-aca6-da7ad0900005", "attributes":
+        {"name": "Abhishek Jagwani", "handle": "abhishek.jagwani@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:08.988740+00:00", "modified_at": "2021-09-07T14:20:39.426260+00:00",
+        "email": "abhishek.jagwani@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/40d2f5ec5e5455ac6206caa17f94b06a?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d3658c8-0fe4-11ec-b59e-da7ad0900005", "attributes":
+        {"name": "Abhishek Jain", "handle": "abhishek.jain@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:09.024700+00:00", "modified_at": "2021-09-07T14:20:39.955825+00:00",
+        "email": "abhishek.jain@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/61ea9c85dc89cf30326286e87b7f7076?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d04c09c-0fe4-11ec-8e5c-da7ad0900005", "attributes":
+        {"name": "Abhishek Jain", "handle": "abhishek.j@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:08.699697+00:00", "modified_at": "2021-09-07T14:20:40.515875+00:00",
+        "email": "abhishek.j@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/ba5c133dedacf02ef4cbb7b62267b340?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d2e30c6-0fe4-11ec-a2c5-da7ad0900005", "attributes":
+        {"name": "Abhishek Kapoor", "handle": "abhishek.kapoor@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:08.971011+00:00", "modified_at": "2021-09-07T14:21:00.967556+00:00",
+        "email": "abhishek.kapoor@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/a059b3ea9dbaaca41f3ccf52df0a46c7?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0d3b4e46-0fe4-11ec-8fbe-da7ad0900005", "attributes":
+        {"name": "Abhishek Macherla", "handle": "abhishek.macherla@grabtaxi.com",
+        "created_at": "2021-09-07T14:01:09.057255+00:00", "modified_at": "2021-09-07T14:21:01.516852+00:00",
+        "email": "abhishek.macherla@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/4a3fd2e2ba3b1c443c1cfbcc1a587f36?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0dbc22e6-0fe4-11ec-a90e-da7ad0900005", "attributes":
+        {"name": "Abhishek Prasad", "handle": "abhishek.prasad@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:09.901651+00:00", "modified_at": "2021-09-07T14:21:02.071104+00:00",
+        "email": "abhishek.prasad@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/c971badc712165427fe6705a3547d6fb?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0dd370fe-0fe4-11ec-84d6-da7ad0900005", "attributes":
+        {"name": "Abhishek Seth", "handle": "abhishek.seth@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:10.053438+00:00", "modified_at": "2021-09-07T14:21:02.439126+00:00",
+        "email": "abhishek.seth@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/65b3af1bec1f01099229ae90ca47f3c9?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0dc7aa9e-0fe4-11ec-a90e-da7ad0900005", "attributes":
+        {"name": "Abigail Bondoc", "handle": "abigail.bondoc@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:09.977677+00:00", "modified_at": "2021-09-07T14:21:02.954006+00:00",
+        "email": "abigail.bondoc@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/6b699dd22005591e98698c76ce465f5b?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0dcef20e-0fe4-11ec-8d5a-da7ad0900005", "attributes":
+        {"name": null, "handle": "abriyani.muharomah@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:10.025456+00:00", "modified_at": "2021-09-07T14:21:04.422179+00:00",
+        "email": "abriyani.muharomah@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/2ecb061c6af981ae77ce4a90894f9db1?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0dd19248-0fe4-11ec-a300-da7ad0900005", "attributes":
+        {"name": "Acerleef Sunyu", "handle": "acerleef.sunyu@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:10.041869+00:00", "modified_at": "2021-09-07T14:21:04.744303+00:00",
+        "email": "acerleef.sunyu@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/e7688558e0cf53d65ffaa0235f4bd583?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0dcb6846-0fe4-11ec-b7a0-da7ad0900005", "attributes":
+        {"name": "Adair Xiong", "handle": "adair.xiong@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:10.001559+00:00", "modified_at": "2021-09-07T14:21:05.326690+00:00",
+        "email": "adair.xiong@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/b7c62e6c6b6a1eb9ffff807711c8b5df?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0dd38468-0fe4-11ec-80aa-da7ad0900005", "attributes":
+        {"name": "Adam Ilyas", "handle": "adam.ilyas@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:10.055271+00:00", "modified_at": "2021-09-07T14:21:05.914716+00:00",
+        "email": "adam.ilyas@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/0bc99f75b2bdba72d1e435db9d16950a?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0dd6af9e-0fe4-11ec-af43-da7ad0900005", "attributes":
+        {"name": "Adam Seyer", "handle": "adam.seyer@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:10.076280+00:00", "modified_at": "2021-09-07T14:21:06.431211+00:00",
+        "email": "adam.seyer@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/6c15646b2671ddcd81741416ae16a59e?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "138d5c0c-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0de4395c-0fe4-11ec-8d68-da7ad0900005", "attributes":
+        {"name": "Adarsh Koyya", "handle": "adarsh.koyya@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:10.164224+00:00", "modified_at": "2021-09-07T14:21:21.376239+00:00",
+        "email": "adarsh.koyya@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/54c843db541eafaa13b3199bef66ff88?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0de5817c-0fe4-11ec-a7ee-da7ad0900005", "attributes":
+        {"name": "Adarsh Kumar", "handle": "adarsh.kumar@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:10.172941+00:00", "modified_at": "2021-09-07T14:21:21.776472+00:00",
+        "email": "adarsh.kumar@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/47091cc327477c54db71e34e8fe73870?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0dea248e-0fe4-11ec-9a91-da7ad0900005", "attributes":
+        {"name": "Addy Darmawan", "handle": "addy.darmawan@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:10.202331+00:00", "modified_at": "2021-09-07T14:21:22.393879+00:00",
+        "email": "addy.darmawan@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/d4643110f5d45e5c28be84b382410421?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e26bdd6-0fe4-11ec-a30c-da7ad0900005", "attributes":
+        {"name": "Mhd Adeeb Masoud", "handle": "adeeb.masoud@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:10.600725+00:00", "modified_at": "2021-09-07T14:21:22.922164+00:00",
+        "email": "adeeb.masoud@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/8af53a3f4ee299352be9b7bdcdd64cfc?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e7fa98c-0fe4-11ec-a30c-da7ad0900005", "attributes":
+        {"name": "Adhika Setya Pramudita", "handle": "adhika.pramudita@grabtaxi.com",
+        "created_at": "2021-09-07T14:01:11.183661+00:00", "modified_at": "2021-09-07T14:21:23.596869+00:00",
+        "email": "adhika.pramudita@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/48c6751c889248564abbc2d64dd5b9a9?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e6d7f46-0fe4-11ec-a33d-da7ad0900005", "attributes":
+        {"name": "Adhi Utama", "handle": "adhi.utama@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.064345+00:00", "modified_at": "2021-09-07T14:21:24.208000+00:00",
+        "email": "adhi.utama@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/f1d8d073b3813342eed5f3cfaee2bb8b?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e6ab644-0fe4-11ec-98c6-da7ad0900005", "attributes":
+        {"name": "Aditya Dalal", "handle": "aditya.dalal@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.045970+00:00", "modified_at": "2021-09-07T14:21:24.551135+00:00",
+        "email": "aditya.dalal@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/dfde8a14cb674230305d8108b93eece7?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e71963a-0fe4-11ec-a90e-da7ad0900005", "attributes":
+        {"name": "Aditya Lad", "handle": "aditya.lad@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.091332+00:00", "modified_at": "2021-09-07T14:21:25.063252+00:00",
+        "email": "aditya.lad@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/53da76945e3a78c3ef6ba8259068b829?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e71cdf8-0fe4-11ec-aca6-da7ad0900005", "attributes":
+        {"name": "Aditya Mallik", "handle": "aditya.mallik@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.092406+00:00", "modified_at": "2021-09-07T14:21:25.668587+00:00",
+        "email": "aditya.mallik@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/ff1b42a022cad023b557cc50b8de55fb?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e801822-0fe4-11ec-8b81-da7ad0900005", "attributes":
+        {"name": "Adnan Azeem", "handle": "adnan.azeem@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.186078+00:00", "modified_at": "2021-09-07T14:21:26.145539+00:00",
+        "email": "adnan.azeem@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/e5a2e690f3661196f9ad1502d2b0ecf9?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e7f6b3e-0fe4-11ec-890c-da7ad0900005", "attributes":
+        {"name": "Adrian Aisemberg", "handle": "adrian.aisemberg@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.181472+00:00", "modified_at": "2021-09-07T14:21:38.871297+00:00",
+        "email": "adrian.aisemberg@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/aba91c970d9dd1e4c29c13c68272ce30?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e81cfd2-0fe4-11ec-91a9-da7ad0900005", "attributes":
+        {"name": "Zhen Yuan Ang", "handle": "adrian.ang@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.197230+00:00", "modified_at": "2021-09-07T14:21:39.253402+00:00",
+        "email": "adrian.ang@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/76fcc7484d7fb2061d4834af61134466?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e853a1e-0fe4-11ec-bdd7-da7ad0900005", "attributes":
+        {"name": "Adrian Jiwantoro", "handle": "adrian.jiwantoro@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.219608+00:00", "modified_at": "2021-09-07T14:21:39.559734+00:00",
+        "email": "adrian.jiwantoro@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/78a7cb73925ae7ec3663a9aff8090c5d?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0e81ce1a-0fe4-11ec-a7f3-da7ad0900005", "attributes":
+        {"name": "Adrian Ke", "handle": "adrian.ke@grabtaxi.com", "created_at": "2021-09-07T14:01:11.197232+00:00",
+        "modified_at": "2021-09-07T14:21:40.025051+00:00", "email": "adrian.ke@grabtaxi.com",
+        "icon": "https://secure.gravatar.com/avatar/b524bde8fc00e95e065cbe7a17e95f6b?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0ebd9e4a-0fe4-11ec-a7f3-da7ad0900005", "attributes":
+        {"name": "Adrian Lin", "handle": "adrian.lin@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.588416+00:00", "modified_at": "2021-09-07T14:21:40.378637+00:00",
+        "email": "adrian.lin@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/663a465f94de6f07e7c8d6a4209921cd?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0ec27dca-0fe4-11ec-87e1-da7ad0900005", "attributes":
+        {"name": "Adrian Margin", "handle": "adrian.margin@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.621386+00:00", "modified_at": "2021-09-07T14:21:40.794707+00:00",
+        "email": "adrian.margin@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/4a7b22b9e3a718d80566353facadb1ff?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0efac0c2-0fe4-11ec-98c6-da7ad0900005", "attributes":
+        {"name": "Adrian Neo", "handle": "adrian.neo@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:11.990347+00:00", "modified_at": "2021-09-07T14:21:41.346352+00:00",
+        "email": "adrian.neo@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/67258a9f894dfbf42c2344b2daa4e147?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f017818-0fe4-11ec-b88d-da7ad0900005", "attributes":
+        {"name": "Adrien Rey Herme", "handle": "adrienrey.herme@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.034507+00:00", "modified_at": "2021-09-07T14:21:41.906424+00:00",
+        "email": "adrienrey.herme@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/3a022a6d362f25f1c9ff9b4e539ad9d7?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f1ddfd0-0fe4-11ec-ab74-da7ad0900005", "attributes":
+        {"name": "Adrish Ghosh", "handle": "adrish.ghosh@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.219686+00:00", "modified_at": "2021-09-07T14:21:42.499254+00:00",
+        "email": "adrish.ghosh@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/c7a96365804ec9d6837fe7a19fbd03b0?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f12e134-0fe4-11ec-a90e-da7ad0900005", "attributes":
+        {"name": "Advitiya Vashist", "handle": "advitiya.vashist@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.148637+00:00", "modified_at": "2021-09-07T14:21:43.003531+00:00",
+        "email": "advitiya.vashist@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/b15e2ec192cc97479cc4088912c042c3?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f1202d2-0fe4-11ec-aed8-da7ad0900005", "attributes":
+        {"name": "Afrizal Fikri", "handle": "afrizal.fikri@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.142673+00:00", "modified_at": "2021-09-07T14:22:02.952793+00:00",
+        "email": "afrizal.fikri@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/1d0dfaf0282d395063afb3ccc993cc0b?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f2369f0-0fe4-11ec-a90e-da7ad0900005", "attributes":
+        {"name": "Agus Sri", "handle": "agus.sri@grabtaxi.com", "created_at": "2021-09-07T14:01:12.256843+00:00",
+        "modified_at": "2021-09-07T14:22:03.646173+00:00", "email": "agus.sri@grabtaxi.com",
+        "icon": "https://secure.gravatar.com/avatar/8b864d8f0dd2f792b45c64c401aaf82e?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f4798f2-0fe4-11ec-aeb1-da7ad0900005", "attributes":
+        {"name": "Aik Siang Ang", "handle": "aiksiang.ang@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.493608+00:00", "modified_at": "2021-09-07T14:22:04.172244+00:00",
+        "email": "aiksiang.ang@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/6916d39fa58cbc7c1d98abe63c03c973?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f1afcc0-0fe4-11ec-9a91-da7ad0900005", "attributes":
+        {"name": "Ainun Najib", "handle": "ainun.najib@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.201259+00:00", "modified_at": "2021-09-07T14:22:04.746329+00:00",
+        "email": "ainun.najib@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/9f9ba0b122028af8877ef1aa689941fe?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f1e9970-0fe4-11ec-af43-da7ad0900005", "attributes":
+        {"name": "Ai Ring Lee", "handle": "airing.lee@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.224716+00:00", "modified_at": "2021-09-07T14:22:05.305367+00:00",
+        "email": "airing.lee@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/02f2d312c0baf0b13ca2a7ab28557f9f?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f31209a-0fe4-11ec-a989-da7ad0900005", "attributes":
+        {"name": "Ajay Srivastava", "handle": "ajay.srivastava@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.346384+00:00", "modified_at": "2021-09-07T14:22:05.790378+00:00",
+        "email": "ajay.srivastava@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/49d2ff7b9c73d912ba8506b09149c73f?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f5cbf7a-0fe4-11ec-8377-da7ad0900005", "attributes":
+        {"name": "Akanksha Valecha", "handle": "akanksha.valecha@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.632339+00:00", "modified_at": "2021-09-07T14:22:06.181601+00:00",
+        "email": "akanksha.valecha@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/3d4f75366e4a432e6d5669cfb0788056?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f6cc2d0-0fe4-11ec-b696-da7ad0900005", "attributes":
+        {"name": "Akash Gupta", "handle": "akash.gupta@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.736122+00:00", "modified_at": "2021-09-07T14:22:06.698959+00:00",
+        "email": "akash.gupta@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/61f14a79c7951f76893439367c4c3125?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0f90eeb2-0fe4-11ec-8fbe-da7ad0900005", "attributes":
+        {"name": "Akash Shah", "handle": "akash.shah@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:12.973154+00:00", "modified_at": "2021-09-07T14:22:07.108995+00:00",
+        "email": "akash.shah@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/2524d361efd37f50847410292e5de380?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0fa55b22-0fe4-11ec-b59e-da7ad0900005", "attributes":
+        {"name": "Akbar Firdaus", "handle": "akbar.firdaus@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:13.108330+00:00", "modified_at": "2021-09-07T14:22:07.521883+00:00",
+        "email": "akbar.firdaus@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/e73216dc7653c7f04096a3cc34ffa935?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0fa06040-0fe4-11ec-b618-da7ad0900005", "attributes":
+        {"name": "Akhil Agarwal", "handle": "akhil.agarwal@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:13.074541+00:00", "modified_at": "2021-09-07T14:22:22.283154+00:00",
+        "email": "akhil.agarwal@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/5fe66c7a7d9eda433efdc9cd8d86c114?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0fa99160-0fe4-11ec-aeb1-da7ad0900005", "attributes":
+        {"name": "Akilesh Sethu Piramanayagam", "handle": "akilesh.sethu@grabtaxi.com",
+        "created_at": "2021-09-07T14:01:13.136164+00:00", "modified_at": "2021-09-07T14:22:22.633783+00:00",
+        "email": "akilesh.sethu@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/2c55003281f7efb0bd779498deb42bf1?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0fab0e96-0fe4-11ec-a65a-da7ad0900005", "attributes":
+        {"name": "Akkarachai Raungthai", "handle": "akkarachai.ra@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:13.144541+00:00", "modified_at": "2021-09-07T14:22:23.255757+00:00",
+        "email": "akkarachai.ra@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/93e33585361f62aa77fdf3bf6520c8fc?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0fc5af26-0fe4-11ec-b696-da7ad0900005", "attributes":
+        {"name": "Akshayan Venkatakrishnan", "handle": "akshayan.v@grabtaxi.com",
+        "created_at": "2021-09-07T14:01:13.319599+00:00", "modified_at": "2021-09-07T14:22:23.818524+00:00",
+        "email": "akshayan.v@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/fb3145c39780d584ed85ccbbab9ae5c9?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0fbc7bea-0fe4-11ec-8fbe-da7ad0900005", "attributes":
+        {"name": "Akshay Hajare", "handle": "akshay.hajare@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:13.259778+00:00", "modified_at": "2021-09-07T14:22:24.358353+00:00",
+        "email": "akshay.hajare@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/5195b392c1672243fee08a79f0e16bec?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0fbf3e84-0fe4-11ec-a2a7-da7ad0900005", "attributes":
+        {"name": "Akshay Kumar", "handle": "akshay.kumar@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:13.273813+00:00", "modified_at": "2021-09-07T14:22:24.805191+00:00",
+        "email": "akshay.kumar@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/73bbb0a04663770389385960a2608ba9?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0fc36400-0fe4-11ec-91a9-da7ad0900005", "attributes":
+        {"name": "Akshay Lanke", "handle": "akshay.lanke@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:13.305213+00:00", "modified_at": "2021-09-07T14:22:25.494548+00:00",
+        "email": "akshay.lanke@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/da115769e1a640af07691d5619836e8f?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0fe26c9c-0fe4-11ec-8377-da7ad0900005", "attributes":
+        {"name": "Akshay Misra", "handle": "akshay.misra@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:13.508604+00:00", "modified_at": "2021-09-07T14:22:26.011371+00:00",
+        "email": "akshay.misra@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/dd23d7857aa1f30507265db96143c015?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "138d5c0c-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "0ff803e0-0fe4-11ec-a30c-da7ad0900005", "attributes":
+        {"name": "Akshit Ahuja", "handle": "akshit.ahuja@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:13.650284+00:00", "modified_at": "2021-09-07T14:22:26.516817+00:00",
+        "email": "akshit.ahuja@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/b789e08490cf30b1366ddad8d5395f94?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "1011f75a-0fe4-11ec-b696-da7ad0900005", "attributes":
+        {"name": "Alan Ambrose", "handle": "alan.ambrose@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:13.819917+00:00", "modified_at": "2021-09-07T14:22:27.091966+00:00",
+        "email": "alan.ambrose@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/49899a73bf05e1d430daede72875bbe0?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "102f9260-0fe4-11ec-80aa-da7ad0900005", "attributes":
+        {"name": "Albert Boon Fui Lee", "handle": "albert.lee@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:14.013920+00:00", "modified_at": "2021-09-07T14:22:36.574138+00:00",
+        "email": "albert.lee@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/9d2e251bab905533126fe2a2cb35e1dd?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "1030bad2-0fe4-11ec-8e5c-da7ad0900005", "attributes":
+        {"name": "Ying Poh Albert Lim", "handle": "albert.lim@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:14.021794+00:00", "modified_at": "2021-09-07T14:22:37.166002+00:00",
+        "email": "albert.lim@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/7c1c7d32d97aa975e2ac547cf7d992e7?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "1032d808-0fe4-11ec-9a11-da7ad0900005", "attributes":
+        {"name": "Vinsensius Albert", "handle": "albert.vinsensius@grabtaxi.com",
+        "created_at": "2021-09-07T14:01:14.034680+00:00", "modified_at": "2021-09-07T14:22:37.726114+00:00",
+        "email": "albert.vinsensius@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/9782382f1e8d48aa8f3b866c999f7df2?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "103dc43e-0fe4-11ec-95cf-da7ad0900005", "attributes":
+        {"name": "Alexander Lim", "handle": "alexander.lim@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:14.106632+00:00", "modified_at": "2021-09-07T14:22:38.279991+00:00",
+        "email": "alexander.lim@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/01e7c18496c59f598d47cf82e58c89d0?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "138d5c0c-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "10458cf0-0fe4-11ec-ab74-da7ad0900005", "attributes":
+        {"name": "Alexandre Montecucco", "handle": "alexandre.montecucco@grabtaxi.com",
+        "created_at": "2021-09-07T14:01:14.158179+00:00", "modified_at": "2021-09-07T14:22:38.790879+00:00",
+        "email": "alexandre.montecucco@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/d59ef323e3f5a1d0ebbb7373a9250a22?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "10544e34-0fe4-11ec-a33d-da7ad0900005", "attributes":
+        {"name": "Alex Dobrev", "handle": "alex.dobrev@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:14.254748+00:00", "modified_at": "2021-09-07T14:22:39.355731+00:00",
+        "email": "alex.dobrev@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/5e3d151baa713010c620790d49735a8b?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "104f4f06-0fe4-11ec-bbab-da7ad0900005", "attributes":
+        {"name": "Alex Fong", "handle": "alex.fong@grabtaxi.com", "created_at": "2021-09-07T14:01:14.222074+00:00",
+        "modified_at": "2021-09-07T14:22:39.920813+00:00", "email": "alex.fong@grabtaxi.com",
+        "icon": "https://secure.gravatar.com/avatar/69d14d8b333972f6b25d4fc0c73b1775?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "105663e0-0fe4-11ec-ab0e-da7ad0900005", "attributes":
+        {"name": "Alex Huang", "handle": "alex.huang@grabtaxi.com", "created_at":
+        "2021-09-07T14:01:14.267663+00:00", "modified_at": "2021-09-07T14:22:40.409726+00:00",
+        "email": "alex.huang@grabtaxi.com", "icon": "https://secure.gravatar.com/avatar/2698a74fa9ca466121a322f3cce4d9a0?s=48&d=retro",
+        "title": null, "verified": false, "service_account": false, "disabled": true,
+        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "13e640f6-bfcc-11eb-8e11-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"type": "users", "id": "3af5af64-bfcd-11eb-b483-da7ad0900005", "attributes":
+        {"name": "Frog", "handle": "frog@datadoghq.com", "created_at": "2021-05-28T15:56:14.326839+00:00",
         "modified_at": "2021-07-26T19:00:42.269739+00:00", "email": "frog@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
         "title": null, "verified": true, "service_account": false, "disabled": false,
@@ -435,11 +1009,10 @@ interactions:
         "icon": "https://secure.gravatar.com/avatar/4df2a0457aa2d2f4bff089e88d1ed8e4?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
-        {"data": [{"type": "roles", "id": "140f3a7e-bfcc-11eb-8e11-da7ad0900005"}]},
-        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005", "attributes":
         {"name": "test-user", "handle": "new@example.com", "created_at": "2021-06-08T19:40:17.395117+00:00",
-        "modified_at": "2021-09-03T15:08:22.083281+00:00", "email": "new@example.com",
+        "modified_at": "2021-10-28T14:52:24.732596+00:00", "email": "new@example.com",
         "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -463,15 +1036,14 @@ interactions:
         {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes":
         {"name": "None+ updated", "handle": "test-user-example@datadoghq.com", "created_at":
-        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-08-09T19:07:41.193362+00:00",
+        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2021-10-28T14:51:08.003889+00:00",
         "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
-        {"data": [{"type": "roles", "id": "140f3a7e-bfcc-11eb-8e11-da7ad0900005"}]},
-        "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
+        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "9ea447a8-ebdf-11eb-8ad5-da7ad0900005", "attributes":
         {"name": "Updated", "handle": "user_without_role@example.com", "created_at":
-        "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-09-03T15:08:22.334230+00:00",
+        "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-10-28T14:52:25.035182+00:00",
         "email": "user_without_role@example.com", "icon": "https://secure.gravatar.com/avatar/a0985e94ca4206b92a3504c0222b3f7e?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -486,28 +1058,30 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '36206'
+      - '82827'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Fri, 03 Sep 2021 15:08:22 GMT
+      - Thu, 28 Oct 2021 14:52:25 GMT
       pragma:
       - no-cache
+      strict-transport-security:
+      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '144'
+      - '175'
       x-frame-options:
       - SAMEORIGIN
     status:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "users", "attributes": {"name": "test-userUpdated", "email":
+    body: '{"data": {"type": "users", "attributes": {"name": "test-userupdated", "email":
       "new@example.com", "disabled": false, "allowed_login_methods": []}, "id": "5a322106-c891-11eb-873a-da7ad0900005"}}'
     headers:
       Accept:
@@ -521,14 +1095,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PATCH
     uri: https://api.datadoghq.eu/api/v2/users/5a322106-c891-11eb-873a-da7ad0900005
   response:
     body:
       string: '{"data": {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005",
-        "attributes": {"name": "test-userUpdated", "handle": "new@example.com", "created_at":
-        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2021-09-03T15:08:22.939349+00:00",
+        "attributes": {"name": "test-userupdated", "handle": "new@example.com", "created_at":
+        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2021-10-28T14:52:25.660794+00:00",
         "email": "new@example.com", "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -549,22 +1123,24 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 03 Sep 2021 15:08:23 GMT
+      - Thu, 28 Oct 2021 14:52:25 GMT
       pragma:
       - no-cache
+      strict-transport-security:
+      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '183'
+      - '113'
       x-frame-options:
       - SAMEORIGIN
     status:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "users", "attributes": {"name": "UpdatedUpdated", "email":
+    body: '{"data": {"type": "users", "attributes": {"name": "Updatedupdated", "email":
       "user_without_role@example.com", "disabled": false, "allowed_login_methods":
       []}, "id": "9ea447a8-ebdf-11eb-8ad5-da7ad0900005"}}'
     headers:
@@ -579,14 +1155,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.6; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PATCH
     uri: https://api.datadoghq.eu/api/v2/users/9ea447a8-ebdf-11eb-8ad5-da7ad0900005
   response:
     body:
       string: '{"data": {"type": "users", "id": "9ea447a8-ebdf-11eb-8ad5-da7ad0900005",
-        "attributes": {"name": "UpdatedUpdated", "handle": "user_without_role@example.com",
-        "created_at": "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-09-03T15:08:23.198155+00:00",
+        "attributes": {"name": "Updatedupdated", "handle": "user_without_role@example.com",
+        "created_at": "2021-07-23T17:58:43.669432+00:00", "modified_at": "2021-10-28T14:52:25.926946+00:00",
         "email": "user_without_role@example.com", "icon": "https://secure.gravatar.com/avatar/a0985e94ca4206b92a3504c0222b3f7e?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -607,15 +1183,17 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 03 Sep 2021 15:08:23 GMT
+      - Thu, 28 Oct 2021 14:52:25 GMT
       pragma:
       - no-cache
+      strict-transport-security:
+      - max-age=15724800;
       vary:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '131'
+      - '166'
       x-frame-options:
       - SAMEORIGIN
     status:

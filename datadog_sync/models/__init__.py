@@ -16,5 +16,8 @@ from datadog_sync.model.synthetics_private_locations import SyntheticsPrivateLoc
 from datadog_sync.model.synthetics_global_variables import SyntheticsGlobalVariables
 from datadog_sync.model.logs_custom_pipelines import LogsCustomPipelines
 from datadog_sync.model.notebooks import Notebooks
+from datadog_sync.model.logs_metrics import LogsMetrics
+from datadog_sync.model.host_tags import HostTags
+from datadog_sync.model.metric_tag_configurations import MetricTagConfigurations
 
 # from datadog_sync.model.integrations_aws import IntegrationsAWS

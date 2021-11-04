@@ -11,7 +11,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.1; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/monitor
   response:
@@ -67,12 +67,12 @@ interactions:
         "created_at": 1623176221000, "creator": {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com",
         "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id":
         569509, "modified": "2021-06-08T18:30:56.067327+00:00", "priority": null,
-        "overall_state_modified": "2021-06-08T18:18:53+00:00", "overall_state": "No
-        Data", "type": "service check", "options": {"notify_audit": false, "locked":
-        false, "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds":
-        {"warning": 1, "ok": 1, "critical": 1}, "new_host_delay": 300, "notify_no_data":
-        true, "renotify_interval": 0, "no_data_timeframe": 2}}, {"restricted_roles":
-        null, "tags": [], "deleted": null, "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
+        "overall_state_modified": "2021-10-28T13:29:51+00:00", "overall_state": "OK",
+        "type": "service check", "options": {"notify_audit": false, "locked": false,
+        "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds": {"warning":
+        1, "ok": 1, "critical": 1}, "new_host_delay": 300, "notify_no_data": true,
+        "renotify_interval": 0, "no_data_timeframe": 2}}, {"restricted_roles": null,
+        "tags": [], "deleted": null, "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
         ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
         count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "matching_downtimes":
         [], "id": 37284965, "multi": false, "name": "Anomaly monitor", "created":
@@ -150,20 +150,42 @@ interactions:
         "2021-06-14T15:15:43+00:00", "overall_state": "OK", "type": "synthetics alert",
         "options": {"notify_audit": false, "locked": false, "silenced": {}, "include_tags":
         true, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
-        0}}]'
+        0}}, {"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
+        > 50", "message": "Test monitor Via Dogshell CLI", "matching_downtimes": [],
+        "id": 45989631, "multi": false, "name": "Composite monitor - Child 2 - via
+        dogshell", "created": "2021-09-13T10:21:40.107382+00:00", "created_at": 1631528500000,
+        "creator": {"id": 2781302, "handle": "frog@datadoghq.com", "name": "Frog",
+        "email": "frog@datadoghq.com"}, "org_id": 569509, "modified": "2021-09-13T10:21:40.107382+00:00",
+        "priority": null, "overall_state_modified": "2021-10-27T19:18:51+00:00", "overall_state":
+        "OK", "type": "metric alert", "options": {"notify_audit": false, "locked":
+        false, "timeout_h": 0, "silenced": {}, "include_tags": true, "no_data_timeframe":
+        null, "require_full_window": true, "new_host_delay": 300, "notify_no_data":
+        false, "renotify_interval": 0, "escalation_message": "", "thresholds": {"critical":
+        50.0}}}, {"restricted_roles": null, "tags": [], "deleted": null, "query":
+        "events(''priority:all'').rollup(''count'').last(''5m'') > 100", "message":
+        "Test event monitor", "matching_downtimes": [], "id": 48082348, "multi": false,
+        "name": "Test event monitor", "created": "2021-10-01T15:17:07.719807+00:00",
+        "created_at": 1633101427000, "creator": {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id":
+        569509, "modified": "2021-10-01T15:17:07.719807+00:00", "priority": null,
+        "overall_state_modified": "2021-10-01T15:19:59+00:00", "overall_state": "OK",
+        "type": "event alert", "options": {"notify_audit": false, "locked": false,
+        "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds": {"critical":
+        100.0}, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
+        0, "escalation_message": ""}}]'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Aug 2021 14:16:43 GMT
+      - Thu, 28 Oct 2021 14:51:53 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '10138'
+      - '11830'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
       pragma:

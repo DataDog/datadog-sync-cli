@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: '{"name": "Empty Test Listupdated"}'
+    body: '{"tags": ["test:tag"]}'
     headers:
       Accept:
       - '*/*'
@@ -9,19 +9,16 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '34'
+      - '22'
       Content-Type:
       - application/json
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual/13699
+    uri: https://api.datadoghq.eu/api/v1/tags/hosts/docker-desktop
   response:
     body:
-      string: '{"is_favorite": false, "name": "Empty Test Listupdated", "dashboard_count":
-        0, "author": {"handle": "frog@datadoghq.com", "name": "Frog"}, "created":
-        "2021-10-28T14:51:43.028097+00:00", "type": "manual_dashboard_list", "dashboards":
-        null, "modified": "2021-10-28T14:51:43.547283+00:00", "id": 13699}'
+      string: '{"host": "docker-desktop", "tags": ["test:tag"]}'
     headers:
       Alt-Svc:
       - clear
@@ -32,13 +29,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '279'
+      - '45'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:51:43 GMT
+      - Thu, 28 Oct 2021 14:51:49 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -48,10 +45,18 @@ interactions:
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '120'
+      - '129'
       x-frame-options:
       - SAMEORIGIN
+      x-ratelimit-limit:
+      - '100'
+      x-ratelimit-period:
+      - '3600'
+      x-ratelimit-remaining:
+      - '96'
+      x-ratelimit-reset:
+      - '491'
     status:
-      code: 200
-      message: OK
+      code: 201
+      message: Created
 version: 1
