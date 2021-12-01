@@ -126,6 +126,9 @@ Note: The above docker run command will mount your current working directory to 
 - **dashboard_lists**
 - **logs_custom_pipelines**
 - **notebooks**
+- **host_tags**
+- **logs_metrics**
+- **metric_tag_configurations**
 
 ## Best practices
 
@@ -148,3 +151,6 @@ dashboards                    | monitors, roles, service_level_objectives
 dashboard_lists               | dashboards
 logs_custom_pipelines         | -
 notebooks                     | -
+host_tags                     | -
+logs_metrics                  | -
+metric_tag_configurations     | -
