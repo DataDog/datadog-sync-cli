@@ -13,7 +13,10 @@ from datadog_sync.utils.resource_utils import ResourceConnectionError
 class SyntheticsTests(BaseResource):
     resource_type = "synthetics_tests"
     resource_config = ResourceConfig(
-        resource_connections={"synthetics_private_locations": ["locations"]},
+        resource_connections={
+            "synthetics_private_locations": ["locations"],
+            # "synthetics_global_variables": ["config.configVariables.id"],
+        },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=["deleted_at", "org_id", "public_id", "monitor_id", "modified_at", "created_at", "creator"],
         excluded_attributes_re=[
@@ -57,12 +60,15 @@ class SyntheticsTests(BaseResource):
         self.resource_config.destination_resources[_id] = resp
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        pl = self.config.resources["synthetics_private_locations"]
-        resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+        if resource_to_connect == "synthetics_private_locations":
+            pl = self.config.resources["synthetics_private_locations"]
+            resources = self.config.resources[resource_to_connect].resource_config.destination_resources
 
-        for i, _id in enumerate(r_obj[key]):
-            if pl.pl_id_regex.match(_id):
-                if _id in resources:
-                    r_obj[key][i] = resources[_id]["id"]
-                else:
-                    raise ResourceConnectionError(resource_to_connect, _id=_id)
+            for i, _id in enumerate(r_obj[key]):
+                if pl.pl_id_regex.match(_id):
+                    if _id in resources:
+                        r_obj[key][i] = resources[_id]["id"]
+                    else:
+                        raise ResourceConnectionError(resource_to_connect, _id=_id)
+        else:
+            super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)

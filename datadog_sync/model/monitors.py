@@ -91,3 +91,6 @@ class Monitors(BaseResource):
                 if not found:
                     raise ResourceConnectionError(resource_to_connect, _id=_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()
+        elif key != "query":
+            # Use default connect_id method in base class when not haandling special case for `query`
+            super(Monitors, self).connect_id(key, r_obj, resource_to_connect)
