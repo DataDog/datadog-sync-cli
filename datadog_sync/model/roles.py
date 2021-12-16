@@ -10,7 +10,7 @@ from requests.exceptions import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import check_diff
-from datadog_sync.utils.custom_client import paginated_request, CustomClient
+from datadog_sync.utils.custom_client import CustomClient
 
 
 class Roles(BaseResource):
@@ -26,7 +26,7 @@ class Roles(BaseResource):
     permissions_base_path = "/api/v2/permissions"
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = paginated_request(client.get)(self.resource_config.base_path)
+        resp = client.paginated_request(client.get)(self.resource_config.base_path)
 
         return resp
 
@@ -104,7 +104,9 @@ class Roles(BaseResource):
 
         # Destination roles mapping
         try:
-            destination_roles_resp = paginated_request(destination_client.get)(self.resource_config.base_path)
+            destination_roles_resp = destination_client.paginated_request(destination_client.get)(
+                self.resource_config.base_path
+            )
         except HTTPError as e:
             self.config.logger.error("error retrieving roles: %s", e.response.text)
             return destination_roles_mapping

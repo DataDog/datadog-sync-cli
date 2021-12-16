@@ -6,7 +6,7 @@
 from typing import Optional, List, Dict
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.custom_client import CustomClient, paginated_request
+from datadog_sync.utils.custom_client import CustomClient, PaginationConfig
 
 
 class Notebooks(BaseResource):
@@ -23,9 +23,18 @@ class Notebooks(BaseResource):
         ],
     )
     # Additional Notebooks specific attributes
+    pagination_config = PaginationConfig(
+        page_size_param="count",
+        page_number_param="start",
+        remaining_func=lambda idx, resp, page_size, page_number: (resp["meta"]["page"]["total_count"])
+        - (page_size * (idx + 1)),
+        page_number_func=lambda idx, page_size, page_number: page_size * (idx + 1),
+    )
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = paginated_request(client.get)(self.resource_config.base_path, params={"include_cells": True})
+        resp = client.paginated_request(client.get)(
+            self.resource_config.base_path, params={"include_cells": True}, pagination_config=self.pagination_config
+        )
 
         return resp
 

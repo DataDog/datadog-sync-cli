@@ -8,7 +8,7 @@ from typing import Optional, List, Dict
 from requests import HTTPError
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.custom_client import paginated_request, CustomClient
+from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import check_diff
 
 
@@ -36,7 +36,7 @@ class Users(BaseResource):
     remote_destination_users: Dict[str, Dict] = dict()
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = paginated_request(client.get)(self.resource_config.base_path)
+        resp = client.paginated_request(client.get)(self.resource_config.base_path)
 
         return resp
 

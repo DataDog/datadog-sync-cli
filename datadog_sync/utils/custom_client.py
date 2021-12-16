@@ -6,6 +6,8 @@
 import time
 import logging
 import platform
+from dataclasses import dataclass
+from typing import Optional, Callable
 
 import requests
 
@@ -62,6 +64,7 @@ class CustomClient:
         self.session = requests.Session()
         self.retry_timeout = retry_timeout
         self.session.headers.update(build_default_headers(auth))
+        self.default_pagination = PaginationConfig()
 
     @request_with_retry
     def get(self, path, **kwargs):
@@ -88,6 +91,39 @@ class CustomClient:
         url = self.host + path
         return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
 
+    def paginated_request(self, func):
+        def wrapper(*args, **kwargs):
+            pagination_config = kwargs.pop("pagination_config", self.default_pagination)
+
+            page_size = pagination_config.page_size
+            page_number = pagination_config.page_number
+            remaining = 1
+            resources = []
+            kwargs["params"] = kwargs.get("params", {}) or {}
+            idx = 0
+            while remaining > 0:
+                print("hellllooo", page_size, page_number, remaining)
+                params = {
+                    pagination_config.page_size_param: page_size,
+                    pagination_config.page_number_param: page_number,
+                }
+                kwargs["params"].update(params)
+
+                resp = func(*args, **kwargs)
+                resp.raise_for_status()
+
+                resp_json = resp.json()
+                resources.extend(resp_json["data"])
+                remaining = int(pagination_config.remaining_func(idx, resp_json, page_size, page_number))
+                page_number = pagination_config.page_number_func(idx, page_size, page_number)
+                idx += 1
+            import pdb
+
+            pdb.set_trace()
+            return resources
+
+        return wrapper
+
 
 def build_default_headers(auth_obj):
     headers = {
@@ -110,25 +146,13 @@ def _get_user_agent():
     )
 
 
-def paginated_request(func):
-    def wrapper(*args, **kwargs):
-        page_size = 100
-        page_number = 0
-        remaining = 1
-        resources = []
-        kwargs["params"] = kwargs.get("params", {}) or {}
-
-        while remaining > 0:
-            params = {"page[size]": page_size, "page[number]": page_number}
-            kwargs["params"].update(params)
-
-            resp = func(*args, **kwargs)
-            resp.raise_for_status()
-
-            resp_json = resp.json()
-            resources.extend(resp_json["data"])
-            remaining = int(resp_json["meta"]["page"]["total_count"]) - (page_size * (page_number + 1))
-            page_number += 1
-        return resources
-
-    return wrapper
+@dataclass
+class PaginationConfig(object):
+    page_size: Optional[int] = 100
+    page_size_param: Optional[str] = "page[size]"
+    page_number: Optional[int] = 0
+    page_number_param: Optional[str] = "page[number]"
+    remaining_func: Optional[Callable] = lambda idx, resp, page_size, page_number: (
+        resp["meta"]["page"]["total_count"]
+    ) - (page_size * (page_number + 1))
+    page_number_func: Optional[Callable] = lambda idx, page_size, page_number: page_number + 1
