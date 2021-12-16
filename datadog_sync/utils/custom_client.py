@@ -102,7 +102,6 @@ class CustomClient:
             kwargs["params"] = kwargs.get("params", {}) or {}
             idx = 0
             while remaining > 0:
-                print("hellllooo", page_size, page_number, remaining)
                 params = {
                     pagination_config.page_size_param: page_size,
                     pagination_config.page_number_param: page_number,
@@ -114,12 +113,9 @@ class CustomClient:
 
                 resp_json = resp.json()
                 resources.extend(resp_json["data"])
-                remaining = int(pagination_config.remaining_func(idx, resp_json, page_size, page_number))
+                remaining = pagination_config.remaining_func(idx, resp_json, page_size, page_number)
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
                 idx += 1
-            import pdb
-
-            pdb.set_trace()
             return resources
 
         return wrapper

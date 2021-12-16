@@ -21,6 +21,7 @@ class Notebooks(BaseResource):
             "attributes.author",
             "attributes.metadata",
         ],
+        non_nullable_attr=["attributes.template_variables"],
     )
     # Additional Notebooks specific attributes
     pagination_config = PaginationConfig(
