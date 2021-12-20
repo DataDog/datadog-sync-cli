@@ -21,7 +21,6 @@ class Notebooks(BaseResource):
             "attributes.author",
             "attributes.metadata",
         ],
-        non_nullable_attr=["attributes.template_variables"],
     )
     # Additional Notebooks specific attributes
     pagination_config = PaginationConfig(
@@ -40,6 +39,7 @@ class Notebooks(BaseResource):
         return resp
 
     def import_resource(self, resource: Dict) -> None:
+        self.handle_special_case_attr(resource)
         self.resource_config.source_resources[resource["id"]] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
@@ -52,6 +52,7 @@ class Notebooks(BaseResource):
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = destination_client.post(self.resource_config.base_path, payload).json()
+        self.handle_special_case_attr(resp["data"])
 
         self.resource_config.destination_resources[_id] = resp["data"]
 
@@ -61,8 +62,15 @@ class Notebooks(BaseResource):
         resp = destination_client.put(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", payload
         ).json()
+        self.handle_special_case_attr(resp["data"])
 
         self.resource_config.destination_resources[_id] = resp["data"]
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         super(Notebooks, self).connect_id(key, r_obj, resource_to_connect)
+
+    @staticmethod
+    def handle_special_case_attr(resource):
+        # Handle template_variables attribute
+        if "template_variables" in resource["attributes"] and not resource["attributes"]["template_variables"]:
+            resource["attributes"].pop("template_variables")
