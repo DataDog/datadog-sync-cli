@@ -6,8 +6,7 @@
 from typing import Optional, List, Dict
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.custom_client import CustomClient, paginated_request
-from datadog_sync.utils.resource_utils import ResourceConnectionError
+from datadog_sync.utils.custom_client import CustomClient
 
 
 class HostTags(BaseResource):

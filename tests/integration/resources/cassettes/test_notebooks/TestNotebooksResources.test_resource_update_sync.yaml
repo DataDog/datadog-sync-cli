@@ -20,12 +20,18 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
+      x-datadog-parent-id:
+      - '13312498539124563971'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-trace-id:
+      - '5287282156018102167'
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/notebooks/18595
+    uri: https://api.datadoghq.eu/api/v1/notebooks/21998
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 18595, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 21998, "attributes": {"name":
         "Noueman Notebookupdated", "cells": [{"attributes": {"definition": {"show_legend":
         true, "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}", "style":
         {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
@@ -34,8 +40,8 @@ interactions:
         "id": "g6x1knta"}, {"attributes": {"definition": {"text": "Teeeeeest", "type":
         "markdown"}}, "type": "notebook_cells", "id": "sf3x5n03"}], "time": {"live_span":
         "1h"}, "metadata": {"is_template": false, "type": null, "take_snapshots":
-        false}, "status": "published", "modified": "2021-10-28T14:52:02.983638+00:00",
-        "created": "2021-10-28T14:52:01.031297+00:00", "author": {"name": "Frog",
+        false}, "template_variables": [], "status": "published", "modified": "2021-12-20T14:51:40.681527+00:00",
+        "created": "2021-12-20T14:51:38.856547+00:00", "author": {"name": "Frog",
         "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
     headers:
@@ -48,13 +54,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '991'
+      - '1015'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:52:03 GMT
+      - Mon, 20 Dec 2021 14:51:41 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -63,8 +69,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-envoy-upstream-service-time:
-      - '581'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -74,7 +78,7 @@ interactions:
       x-ratelimit-remaining:
       - '29'
       x-ratelimit-reset:
-      - '58'
+      - '20'
     status:
       code: 200
       message: OK
@@ -104,12 +108,18 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
+      x-datadog-parent-id:
+      - '13712202546016515087'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-trace-id:
+      - '8202991774109723365'
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/notebooks/18596
+    uri: https://api.datadoghq.eu/api/v1/notebooks/21999
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 18596, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 21999, "attributes": {"name":
         "Test Notebookupdated", "cells": [{"attributes": {"definition": {"show_legend":
         true, "yaxis": {"scale": "linear"}, "type": "timeseries", "requests": [{"q":
         "avg:system.load.1{*}", "style": {"line_width": "normal", "palette": "dog_classic",
@@ -123,8 +133,8 @@ interactions:
         "toplist"}, "graph_size": "m", "split_by": {"keys": [], "tags": []}, "time":
         null}, "type": "notebook_cells", "id": "qoavau2o"}], "time": {"live_span":
         "1h"}, "metadata": {"is_template": false, "type": null, "take_snapshots":
-        false}, "status": "published", "modified": "2021-10-28T14:52:03.717337+00:00",
-        "created": "2021-10-28T14:52:01.458466+00:00", "author": {"name": "Frog",
+        false}, "template_variables": [], "status": "published", "modified": "2021-12-20T14:51:41.648633+00:00",
+        "created": "2021-12-20T14:51:39.209008+00:00", "author": {"name": "Frog",
         "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
     headers:
@@ -137,13 +147,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '1346'
+      - '1370'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:52:04 GMT
+      - Mon, 20 Dec 2021 14:51:42 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -152,8 +162,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-envoy-upstream-service-time:
-      - '626'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -163,7 +171,7 @@ interactions:
       x-ratelimit-remaining:
       - '28'
       x-ratelimit-reset:
-      - '57'
+      - '19'
     status:
       code: 200
       message: OK
@@ -218,12 +226,18 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
+      x-datadog-parent-id:
+      - '12546894065941086735'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-trace-id:
+      - '16518465482537654713'
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/notebooks/18597
+    uri: https://api.datadoghq.eu/api/v1/notebooks/22000
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 18597, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 22000, "attributes": {"name":
         "RFC: [title] (from template)updated", "cells": [{"attributes": {"definition":
         {"text": "Property                 |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Author(s)**              |
         Name (Team name, Role), Name (Team name, Role)            \n**Status:**     |Draft
@@ -263,8 +277,8 @@ interactions:
         relevant questions and design topics._\n\n# Appendix\n_[Link](/) relevant
         documents or references._", "type": "markdown"}}, "type": "notebook_cells",
         "id": "5xnxosip"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
-        false, "type": null, "take_snapshots": false}, "status": "published", "modified":
-        "2021-10-28T14:52:04.456270+00:00", "created": "2021-10-28T14:52:01.884542+00:00",
+        false, "type": null, "take_snapshots": false}, "template_variables": [], "status":
+        "published", "modified": "2021-12-20T14:51:42.403602+00:00", "created": "2021-12-20T14:51:39.529679+00:00",
         "author": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
@@ -278,13 +292,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '3702'
+      - '3726'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:52:04 GMT
+      - Mon, 20 Dec 2021 14:51:42 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -293,8 +307,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-envoy-upstream-service-time:
-      - '618'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -304,7 +316,7 @@ interactions:
       x-ratelimit-remaining:
       - '27'
       x-ratelimit-reset:
-      - '56'
+      - '18'
     status:
       code: 200
       message: OK
@@ -367,12 +379,18 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
+      x-datadog-parent-id:
+      - '8233964704258287826'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-trace-id:
+      - '1971463950510276227'
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/notebooks/18598
+    uri: https://api.datadoghq.eu/api/v1/notebooks/22001
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 18598, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 22001, "attributes": {"name":
         "Gameday YYYY-MM-DD: [App Name] (from template)updated", "cells": [{"attributes":
         {"definition": {"text": "Game days provide a framework to help us discover
         weaknesses, create more useful alerts, and deploy fixes that improve the way
@@ -420,8 +438,8 @@ interactions:
         to follow-up item](/)\n- Issue 2: [Link to follow-up item](/)\n", "type":
         "markdown"}}, "type": "notebook_cells", "id": "wwhju4ds"}], "time": {"live_span":
         "1h"}, "metadata": {"is_template": false, "type": null, "take_snapshots":
-        false}, "status": "published", "modified": "2021-10-28T14:52:05.235280+00:00",
-        "created": "2021-10-28T14:52:02.231708+00:00", "author": {"name": "Frog",
+        false}, "template_variables": [], "status": "published", "modified": "2021-12-20T14:51:43.248210+00:00",
+        "created": "2021-12-20T14:51:39.981356+00:00", "author": {"name": "Frog",
         "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
     headers:
@@ -434,13 +452,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '3975'
+      - '3999'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:52:05 GMT
+      - Mon, 20 Dec 2021 14:51:43 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -449,8 +467,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-envoy-upstream-service-time:
-      - '646'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -460,7 +476,7 @@ interactions:
       x-ratelimit-remaining:
       - '26'
       x-ratelimit-reset:
-      - '55'
+      - '17'
     status:
       code: 200
       message: OK
@@ -508,12 +524,18 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
+      x-datadog-parent-id:
+      - '9796091297659156482'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-trace-id:
+      - '10169857085963854250'
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/notebooks/18599
+    uri: https://api.datadoghq.eu/api/v1/notebooks/22002
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 18599, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 22002, "attributes": {"name":
         "Postmortem IR-xxxx: [outage name] (from template)updated", "cells": [{"attributes":
         {"definition": {"text": "Incident Property                  |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Status:**                |Active/Stable/Resolved                  \n**Severity:**     |SEV-X                      \n**Started:**              |HH:mm
         UTC MM/dd/yyyy                  \n**Commander:**     |[name]                 \n**Incident
@@ -544,10 +566,10 @@ interactions:
         are planned._\n\n\n### Short-term\n- [X] ~~Action 1~~\n- [ ] Action 2\n\n###
         Long-term\n- [ ] Action 1\n- [ ] Action 2", "type": "markdown"}}, "type":
         "notebook_cells", "id": "gajt34ww"}], "time": {"live_span": "1h"}, "metadata":
-        {"is_template": false, "type": null, "take_snapshots": false}, "status": "published",
-        "modified": "2021-10-28T14:52:05.971543+00:00", "created": "2021-10-28T14:52:02.589376+00:00",
-        "author": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
+        {"is_template": false, "type": null, "take_snapshots": false}, "template_variables":
+        [], "status": "published", "modified": "2021-12-20T14:51:43.976139+00:00",
+        "created": "2021-12-20T14:51:40.310014+00:00", "author": {"name": "Frog",
+        "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
     headers:
       Alt-Svc:
@@ -559,13 +581,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '3078'
+      - '3102'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
       content-type:
       - application/json
       date:
-      - Thu, 28 Oct 2021 14:52:06 GMT
+      - Mon, 20 Dec 2021 14:51:44 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -574,8 +596,6 @@ interactions:
       - Accept-Encoding
       x-content-type-options:
       - nosniff
-      x-envoy-upstream-service-time:
-      - '623'
       x-frame-options:
       - SAMEORIGIN
       x-ratelimit-limit:
@@ -585,7 +605,7 @@ interactions:
       x-ratelimit-remaining:
       - '25'
       x-ratelimit-reset:
-      - '55'
+      - '17'
     status:
       code: 200
       message: OK
