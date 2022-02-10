@@ -115,7 +115,7 @@ Note: The above docker run command will mount your current working directory to 
 
 To use the tool, first run the `import` command, which will read the wanted items from the specified resources and save them locally.
 
-Then, you can run the `sync` command which will use that local cache (unless `--force-missing-deps` is passed) to create
+Then, you can run the `sync` command which will use that local cache (unless `--force-missing-dependencies` is passed) to create
 the resources on the destination, and saves locally what has been pushed.
 
 ## Supported resources
