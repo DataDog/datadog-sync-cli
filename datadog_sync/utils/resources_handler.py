@@ -7,9 +7,9 @@ def import_resources(config, import_missing_deps=False):
         if not import_missing_deps and resource_type in config.missing_deps:
             continue
 
-        config.logger.info("importing %s", resource_type)
-        resource.import_resources()
-        config.logger.info("finished importing %s", resource_type)
+        config.logger.info("Importing %s", resource_type)
+        successes, errors = resource.import_resources()
+        config.logger.info(f"Finished importing {resource_type}: {successes} elements, {errors} errors")
 
 
 def apply_resources(config):
@@ -26,11 +26,10 @@ def apply_resources(config):
         import_resources(config, import_missing_deps=True)
 
     for resource_type, resource in config.resources.items():
-        # sync resource
         if force_missing_deps or resource_type not in config.missing_deps:
-            config.logger.info("syncing resource: {}".format(resource_type))
-            resource.apply_resources()
-            config.logger.info("finished syncing resource: {}".format(resource_type))
+            config.logger.info("Syncing resource: {}".format(resource_type))
+            successes, errors = resource.apply_resources()
+            config.logger.info(f"Finished syncing {resource_type}: {successes} elements, {errors} errors")
 
 
 def check_diffs(config):

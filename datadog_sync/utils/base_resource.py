@@ -98,15 +98,15 @@ class BaseResource(abc.ABC):
             else:
                 raise ResourceConnectionError(resource_to_connect, _id=_id)
 
-    def import_resources(self) -> None:
+    def import_resources(self) -> (int, int):
         # reset source resources obj
         self.resource_config.source_resources.clear()
 
         try:
             get_resp = self.get_resources(self.config.source_client)
         except Exception as e:
-            self.config.logger.error(f"error while importing resources {self.resource_type}: {str(e)}")
-            return
+            self.config.logger.error(f"Error while importing resources {self.resource_type}: {str(e)}")
+            return 0, 0
 
         futures = []
         with thread_pool_executor(self.config.max_workers) as executor:
@@ -115,23 +115,28 @@ class BaseResource(abc.ABC):
                     continue
                 futures.append(executor.submit(self.import_resource, r))
 
+        successes = errors = 0
         for future in futures:
             try:
                 future.result()
             except Exception as e:
-                self.config.logger.error(f"error while importing resource {self.resource_type}: {str(e)}")
+                self.config.logger.error(f"Error while importing resource {self.resource_type}: {str(e)}")
+                errors += 1
+            else:
+                successes += 1
 
         write_resources_file(self.resource_type, SOURCE_ORIGIN, self.resource_config.source_resources)
+        return successes, errors
 
-    def apply_resources(self) -> None:
+    def apply_resources(self) -> (int, int):
         max_workers = 1 if not self.resource_config.concurrent else self.config.max_workers
 
         # Run pre-apply hook with the resources
         try:
             resources_list = self.pre_apply_hook(self.resource_config.source_resources)
         except Exception as e:
-            self.config.logger.error(f"error while applying resources {self.resource_type}: {str(e)}")
-            return
+            self.config.logger.error(f"Error while applying resources {self.resource_type}: {str(e)}")
+            return 0, 0
 
         if not resources_list:
             resources_list = [self.resource_config.source_resources]
@@ -144,6 +149,7 @@ class BaseResource(abc.ABC):
                     futures.append(executor.submit(self.apply_resource, _id, resource))
                 wait(futures)
 
+        successes = errors = 0
         for future in futures:
             try:
                 future.result()
@@ -151,9 +157,13 @@ class BaseResource(abc.ABC):
                 # This should already be handled in connect_resource method
                 continue
             except Exception as e:
-                self.config.logger.error(f"error while applying resource {self.resource_type}: {str(e)}")
+                self.config.logger.error(f"Error while applying resource {self.resource_type}: {str(e)}")
+                errors += 1
+            else:
+                successes += 1
 
         write_resources_file(self.resource_type, DESTINATION_ORIGIN, self.resource_config.destination_resources)
+        return successes, errors
 
     def check_diffs(self):
         for _id, resource in self.resource_config.source_resources.items():
@@ -186,7 +196,7 @@ class BaseResource(abc.ABC):
                     self.update_resource(_id, resource)
                 except Exception as e:
                     self.config.logger.error(
-                        f"error while updating resource {self.resource_type}. source ID: {_id} -  Error: {str(e)}"
+                        f"Error while updating resource {self.resource_type}. source ID: {_id} -  Error: {str(e)}"
                     )
         else:
             prep_resource(self.resource_config, resource)
@@ -194,7 +204,7 @@ class BaseResource(abc.ABC):
                 self.create_resource(_id, resource)
             except Exception as e:
                 self.config.logger.error(
-                    f"error while creating resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
+                    f"Error while creating resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
                 )
 
     def connect_resources(self, _id: str, resource: Dict) -> None:
