@@ -17,6 +17,7 @@ class MetricTagConfigurations(BaseResource):
         excluded_attributes=["attributes.created_at", "attributes.modified_at"],
     )
     # Additional MetricTagConfigurations specific attributes
+    destination_metric_tag_configurations: Dict[str, Dict] = dict()
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path, params={"filter[configured]": "true"}).json()
@@ -33,6 +34,11 @@ class MetricTagConfigurations(BaseResource):
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
+        if _id in self.destination_metric_tag_configurations:
+            self.resource_config.destination_resources[_id] = self.destination_metric_tag_configurations[resource[_id]]
+            self.update_resource(_id, resource)
+            return
+
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = destination_client.post(
@@ -54,3 +60,13 @@ class MetricTagConfigurations(BaseResource):
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         super(MetricTagConfigurations, self).connect_id(key, r_obj, resource_to_connect)
+
+    def get_destination_metric_tag_configuration(self) -> Dict[str, Dict]:
+        destination_metric_tag_configurations = {}
+        destination_client = self.config.destination_client
+
+        resp = self.get_resources(destination_client)
+        for metric_tag_config in resp:
+            destination_metric_tag_configurations[metric_tag_config["id"]] = metric_tag_config
+
+        return destination_metric_tag_configurations
