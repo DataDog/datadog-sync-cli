@@ -31,11 +31,12 @@ class MetricTagConfigurations(BaseResource):
         pass
 
     def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
-        pass
+        self.destination_metric_tag_configurations = self.get_destination_metric_tag_configuration()
+        return None
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         if _id in self.destination_metric_tag_configurations:
-            self.resource_config.destination_resources[_id] = self.destination_metric_tag_configurations[resource[_id]]
+            self.resource_config.destination_resources[_id] = self.destination_metric_tag_configurations[_id]
             self.update_resource(_id, resource)
             return
 
