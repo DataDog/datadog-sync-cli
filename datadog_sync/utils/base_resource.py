@@ -192,20 +192,10 @@ class BaseResource(abc.ABC):
             diff = check_diff(self.resource_config, resource, self.resource_config.destination_resources[_id])
             if diff:
                 prep_resource(self.resource_config, resource)
-                try:
-                    self.update_resource(_id, resource)
-                except Exception as e:
-                    self.config.logger.error(
-                        f"Error while updating resource {self.resource_type}. source ID: {_id} -  Error: {str(e)}"
-                    )
+                self.update_resource(_id, resource)
         else:
             prep_resource(self.resource_config, resource)
-            try:
-                self.create_resource(_id, resource)
-            except Exception as e:
-                self.config.logger.error(
-                    f"Error while creating resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
-                )
+            self.create_resource(_id, resource)
 
     def connect_resources(self, _id: str, resource: Dict) -> None:
         if not self.resource_config.resource_connections:
