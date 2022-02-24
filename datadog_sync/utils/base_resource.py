@@ -23,6 +23,10 @@ from datadog_sync.utils.resource_utils import (
 )
 
 
+class LoggedException(Exception):
+    """Raise this when an error was already logged."""
+
+
 @dataclass
 class ResourceConfig:
     base_path: str
@@ -153,9 +157,8 @@ class BaseResource(abc.ABC):
         for future in futures:
             try:
                 future.result()
-            except ResourceConnectionError:
-                # This should already be handled in connect_resource method
-                continue
+            except LoggedException:
+                errors += 1
             except Exception as e:
                 self.config.logger.error(f"Error while applying resource {self.resource_type}: {str(e)}")
                 errors += 1
@@ -192,10 +195,22 @@ class BaseResource(abc.ABC):
             diff = check_diff(self.resource_config, resource, self.resource_config.destination_resources[_id])
             if diff:
                 prep_resource(self.resource_config, resource)
-                self.update_resource(_id, resource)
+                try:
+                    self.update_resource(_id, resource)
+                except Exception as e:
+                    self.config.logger.error(
+                        f"Error while updating resource {self.resource_type}. source ID: {_id} -  Error: {str(e)}"
+                    )
+                    raise LoggedException(e)
         else:
             prep_resource(self.resource_config, resource)
-            self.create_resource(_id, resource)
+            try:
+                self.create_resource(_id, resource)
+            except Exception as e:
+                self.config.logger.error(
+                    f"Error while creating resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
+                )
+                raise LoggedException(e)
 
     def connect_resources(self, _id: str, resource: Dict) -> None:
         if not self.resource_config.resource_connections:
@@ -207,8 +222,8 @@ class BaseResource(abc.ABC):
                     find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
                 except ResourceConnectionError as e:
                     if self.config.skip_failed_resource_connections:
-                        self.config.logger.warning(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
-                        raise e
+                        self.config.logger.error(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
+                        raise LoggedException(e)
                     else:
                         self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
                         continue
