@@ -20,11 +20,8 @@ from datadog_sync.utils.resource_utils import (
     thread_pool_executor,
     check_diff,
     prep_resource,
+    LoggedException,
 )
-
-
-class LoggedException(Exception):
-    """Raise this when an error was already logged."""
 
 
 @dataclass
