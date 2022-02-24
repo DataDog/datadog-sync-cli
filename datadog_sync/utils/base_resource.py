@@ -157,6 +157,9 @@ class BaseResource(abc.ABC):
         for future in futures:
             try:
                 future.result()
+            except ResourceConnectionError:
+                # This should already be handled in connect_resource method
+                continue
             except LoggedException:
                 errors += 1
             except Exception as e:
@@ -179,7 +182,6 @@ class BaseResource(abc.ABC):
                 self.connect_resources(_id, resource)
             except ResourceConnectionError:
                 continue
-
             if _id in self.resource_config.destination_resources:
                 diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
                 if diff:
@@ -222,8 +224,8 @@ class BaseResource(abc.ABC):
                     find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
                 except ResourceConnectionError as e:
                     if self.config.skip_failed_resource_connections:
-                        self.config.logger.error(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
-                        raise LoggedException(e)
+                        self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
+                        raise e
                     else:
                         self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
                         continue

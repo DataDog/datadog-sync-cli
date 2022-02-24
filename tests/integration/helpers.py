@@ -2,7 +2,7 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
-
+import logging
 import os
 import re
 import json
@@ -47,6 +47,7 @@ class BaseResourcesTestClass:
         assert num_resources_to_add == len(source_resources)
 
     def test_resource_sync(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
         ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
         assert 0 == ret.exit_code
 
@@ -56,6 +57,7 @@ class BaseResourcesTestClass:
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     def test_resource_update_sync(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
         source_resources, _ = open_resources(self.resource_type)
 
         # update fields and save the file.
@@ -92,6 +94,7 @@ class BaseResourcesTestClass:
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     def test_no_resource_diffs(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
         ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
         assert not ret.output
         assert 0 == ret.exit_code
