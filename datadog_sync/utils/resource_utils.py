@@ -29,6 +29,10 @@ class CustomClientHTTPError(Exception):
         super().__init__(f"{response.status_code} {response.reason} - {response.text}")
 
 
+class LoggedException(Exception):
+    """Raise this when an error was already logged."""
+
+
 def find_attr(keys_list, resource_to_connect, r_obj, connect_func):
     _id = None
     if isinstance(r_obj, list):

@@ -9,7 +9,7 @@ def import_resources(config, import_missing_deps=False):
 
         config.logger.info("Importing %s", resource_type)
         successes, errors = resource.import_resources()
-        config.logger.info(f"Finished importing {resource_type}: {successes} elements, {errors} errors")
+        config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
 
 
 def apply_resources(config):
@@ -29,7 +29,7 @@ def apply_resources(config):
         if force_missing_deps or resource_type not in config.missing_deps:
             config.logger.info("Syncing resource: {}".format(resource_type))
             successes, errors = resource.apply_resources()
-            config.logger.info(f"Finished syncing {resource_type}: {successes} elements, {errors} errors")
+            config.logger.info(f"Finished syncing {resource_type}: {successes} successes, {errors} errors")
 
 
 def check_diffs(config):

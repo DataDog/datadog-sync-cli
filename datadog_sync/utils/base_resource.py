@@ -20,6 +20,7 @@ from datadog_sync.utils.resource_utils import (
     thread_pool_executor,
     check_diff,
     prep_resource,
+    LoggedException,
 )
 
 
@@ -156,6 +157,8 @@ class BaseResource(abc.ABC):
             except ResourceConnectionError:
                 # This should already be handled in connect_resource method
                 continue
+            except LoggedException:
+                errors += 1
             except Exception as e:
                 self.config.logger.error(f"Error while applying resource {self.resource_type}: {str(e)}")
                 errors += 1
@@ -176,7 +179,6 @@ class BaseResource(abc.ABC):
                 self.connect_resources(_id, resource)
             except ResourceConnectionError:
                 continue
-
             if _id in self.resource_config.destination_resources:
                 diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
                 if diff:
@@ -198,6 +200,7 @@ class BaseResource(abc.ABC):
                     self.config.logger.error(
                         f"Error while updating resource {self.resource_type}. source ID: {_id} -  Error: {str(e)}"
                     )
+                    raise LoggedException(e)
         else:
             prep_resource(self.resource_config, resource)
             try:
@@ -206,6 +209,7 @@ class BaseResource(abc.ABC):
                 self.config.logger.error(
                     f"Error while creating resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
                 )
+                raise LoggedException(e)
 
     def connect_resources(self, _id: str, resource: Dict) -> None:
         if not self.resource_config.resource_connections:
@@ -217,7 +221,7 @@ class BaseResource(abc.ABC):
                     find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
                 except ResourceConnectionError as e:
                     if self.config.skip_failed_resource_connections:
-                        self.config.logger.warning(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
+                        self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
                         raise e
                     else:
                         self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
