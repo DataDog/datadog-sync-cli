@@ -56,4 +56,6 @@ jobs:
                   PYTEST_ADDOPTS: "--ddtrace"
             - name: Cleanup
               if: always() && contains(github.event.pull_request.labels.*.name, 'ci/integration')
-              run: python ./scripts/cleanup_org.py
+              run: |
+                  python -m pip install requests
+                  python ./scripts/cleanup_org.py
