@@ -39,10 +39,8 @@ jobs:
                   python-version: 3.8
             - name: Checkout code
               uses: actions/checkout@v2
-            - name: Install pytest
-              run: pip install pytest==6.2.4
-            - name: Install datadog-sync-cli
-              run: pip install .\[apm,tests\]
+            - name: Install tox
+              run: pip install tox
             - name: Run unit tests
               run: tox
             - name: Run integration tests
