@@ -39,15 +39,13 @@ jobs:
                   python-version: 3.8
             - name: Checkout code
               uses: actions/checkout@v2
-            - name: Install pytest
-              run: pip install pytest==6.2.4
-            - name: Install datadog-sync-cli
-              run: pip install .\[apm,tests\]
+            - name: Install tox
+              run: pip install tox
             - name: Run unit tests
-              run: pytest -ra -v
+              run: tox
             - name: Run integration tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
-              run: pytest -ra -v -m "integration"
+              run: tox -e integration
               env:
                   DD_AGENT_HOST: localhost
                   DD_ENV: ci
@@ -58,4 +56,6 @@ jobs:
                   PYTEST_ADDOPTS: "--ddtrace"
             - name: Cleanup
               if: always() && contains(github.event.pull_request.labels.*.name, 'ci/integration')
-              run: python ./scripts/cleanup_org.py
+              run: |
+                  python -m pip install requests
+                  python ./scripts/cleanup_org.py
