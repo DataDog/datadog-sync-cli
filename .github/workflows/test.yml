@@ -45,7 +45,7 @@ jobs:
               run: tox
             - name: Run integration tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
-              run: tox
+              run: tox -e integration
               env:
                   DD_AGENT_HOST: localhost
                   DD_ENV: ci
