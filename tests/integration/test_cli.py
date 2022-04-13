@@ -10,6 +10,8 @@ from datadog_sync.cli import cli
 
 # We test resources with resource dependencies only. The rest of the resources are
 # tested in the individual resource test files
+from tests.conftest import get_record_mode
+
 resource_types = [
     "roles",
     "users",
@@ -27,6 +29,7 @@ resource_types = [
 
 @pytest.mark.vcr
 @pytest.mark.integration
+# @pytest.mark.skipif(get_record_mode() != "none", reason="Test is flaky.")
 def test_cli(tmpdir, runner):
     resources = ",".join(resource_types)
     with tmpdir.as_cwd():
