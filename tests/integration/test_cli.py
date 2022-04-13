@@ -29,7 +29,7 @@ resource_types = [
 
 @pytest.mark.vcr
 @pytest.mark.integration
-# @pytest.mark.skipif(get_record_mode() != "none", reason="Test is flaky.")
+@pytest.mark.skipif(get_record_mode() != "none")
 def test_cli(tmpdir, runner):
     resources = ",".join(resource_types)
     with tmpdir.as_cwd():
