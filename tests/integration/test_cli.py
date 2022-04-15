@@ -10,8 +10,6 @@ from datadog_sync.cli import cli
 
 # We test resources with resource dependencies only. The rest of the resources are
 # tested in the individual resource test files
-from tests.conftest import get_record_mode
-
 resource_types = [
     "roles",
     "users",
@@ -33,7 +31,7 @@ def test_cli(tmpdir, runner):
     resources = ",".join(resource_types)
     with tmpdir.as_cwd():
         # Import
-        ret = runner.invoke(cli, ["import"])
+        ret = runner.invoke(cli, ["import"], f"--resources={resources}")
         assert 0 == ret.exit_code
         #  Sync
         ret = runner.invoke(cli, ["sync", f"--resources={resources}", "--skip-failed-resource-connections=False"])

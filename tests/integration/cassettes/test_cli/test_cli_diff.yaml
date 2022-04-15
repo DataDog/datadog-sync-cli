@@ -24,7 +24,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:50 GMT
+      - Fri, 15 Apr 2022 19:24:38 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -50,9 +50,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '417'
+      - '416'
       x-ratelimit-reset:
-      - '130'
+      - '22'
     status:
       code: 200
       message: OK
@@ -86,7 +86,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:50 GMT
+      - Fri, 15 Apr 2022 19:24:38 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -114,7 +114,7 @@ interactions:
       x-ratelimit-remaining:
       - '48'
       x-ratelimit-reset:
-      - '10'
+      - '22'
     status:
       code: 200
       message: OK
@@ -144,7 +144,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:50 GMT
+      - Fri, 15 Apr 2022 19:24:38 GMT
       cache-control:
       - no-cache
       content-security-policy:
@@ -162,9 +162,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10153'
+      - '10981'
       x-ratelimit-reset:
-      - '10'
+      - '22'
     status:
       code: 200
       message: OK
@@ -194,7 +194,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:50 GMT
+      - Fri, 15 Apr 2022 19:24:38 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -220,9 +220,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '417'
+      - '416'
       x-ratelimit-reset:
-      - '130'
+      - '22'
     status:
       code: 200
       message: OK
@@ -418,7 +418,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:50 GMT
+      - Fri, 15 Apr 2022 19:24:39 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -446,7 +446,7 @@ interactions:
       x-ratelimit-remaining:
       - '88'
       x-ratelimit-reset:
-      - '10'
+      - '21'
     status:
       code: 200
       message: OK
@@ -534,7 +534,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:50 GMT
+      - Fri, 15 Apr 2022 19:24:39 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -560,9 +560,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '417'
+      - '416'
       x-ratelimit-reset:
-      - '130'
+      - '21'
     status:
       code: 200
       message: OK
@@ -602,7 +602,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:50 GMT
+      - Fri, 15 Apr 2022 19:24:39 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -630,7 +630,7 @@ interactions:
       x-ratelimit-remaining:
       - '11995'
       x-ratelimit-reset:
-      - '10'
+      - '21'
     status:
       code: 200
       message: OK
@@ -661,7 +661,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:50 GMT
+      - Fri, 15 Apr 2022 19:24:39 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -685,9 +685,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10127'
+      - '10963'
       x-ratelimit-reset:
-      - '10'
+      - '21'
     status:
       code: 200
       message: OK
@@ -792,7 +792,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:51 GMT
+      - Fri, 15 Apr 2022 19:24:39 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -820,7 +820,7 @@ interactions:
       x-ratelimit-remaining:
       - '11994'
       x-ratelimit-reset:
-      - '9'
+      - '21'
     status:
       code: 200
       message: OK
@@ -883,7 +883,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:52 GMT
+      - Fri, 15 Apr 2022 19:24:39 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -911,7 +911,7 @@ interactions:
       x-ratelimit-remaining:
       - '11993'
       x-ratelimit-reset:
-      - '9'
+      - '21'
     status:
       code: 200
       message: OK
@@ -1074,7 +1074,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:52 GMT
+      - Fri, 15 Apr 2022 19:24:40 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1102,7 +1102,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '8'
+      - '21'
     status:
       code: 200
       message: OK
@@ -1686,7 +1686,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:52 GMT
+      - Fri, 15 Apr 2022 19:24:40 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1710,9 +1710,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10100'
+      - '10946'
       x-ratelimit-reset:
-      - '8'
+      - '20'
     status:
       code: 200
       message: OK
@@ -1775,10 +1775,10 @@ interactions:
         Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id": 569509, "modified":
         "2021-06-08T18:13:50.284433+00:00", "priority": null, "overall_state_modified":
         "2021-06-03T18:56:43+00:00", "overall_state": "Alert", "type": "composite",
-        "options": {"notify_audit": false, "locked": false, "silenced": {"env:test":
-        null}, "include_tags": false, "new_host_delay": 300, "notify_no_data": false,
-        "renotify_interval": 0, "escalation_message": ""}}, {"restricted_roles": null,
-        "tags": [], "deleted": null, "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
+        "options": {"notify_audit": false, "locked": false, "silenced": {}, "include_tags":
+        false, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
+        0, "escalation_message": ""}}, {"restricted_roles": null, "tags": [], "deleted":
+        null, "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
         "message": "Test host monitor", "matching_downtimes": [], "id": 37284891,
         "multi": true, "name": "Host monitor", "created": "2021-06-08T18:17:01.656132+00:00",
         "created_at": 1623176221000, "creator": {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com",
@@ -1879,28 +1879,15 @@ interactions:
         null, "require_full_window": true, "new_host_delay": 300, "notify_no_data":
         false, "renotify_interval": 0, "escalation_message": "", "thresholds": {"critical":
         50.0}}}, {"restricted_roles": null, "tags": [], "deleted": null, "query":
-        "events(''priority:all'').rollup(''count'').last(''5m'') > 100", "message":
-        "Test event monitor", "matching_downtimes": [{"end": null, "monitor_id": 48082348,
-        "start": 1647980372, "groups": [], "active": true, "scope": ["*"], "id": 1825288423}],
-        "id": 48082348, "multi": false, "name": "(legacy) Test event monitor", "created":
-        "2021-10-01T15:17:07.719807+00:00", "created_at": 1633101427000, "creator":
-        {"id": 2781275, "handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod
-        Karimov", "email": "sherzod.karimov@datadoghq.com"}, "org_id": 569509, "modified":
-        "2022-03-22T20:19:33.211288+00:00", "priority": null, "overall_state_modified":
-        "2021-10-01T15:19:59+00:00", "overall_state": "OK", "type": "event alert",
-        "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "silenced":
-        {"*": null}, "include_tags": true, "thresholds": {"critical": 100.0}, "new_host_delay":
-        300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
-        ""}}, {"restricted_roles": null, "tags": [], "deleted": null, "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
-        by {location_id} < 1", "message": "Private location {{location_id.name}} stopped
-        reporting to Datadog.", "matching_downtimes": [], "id": 52549314, "multi":
-        true, "name": "[Synthetic Private Locations] {{location_id.name}} stopped
-        reporting", "created": "2021-11-02T13:42:18.175788+00:00", "created_at": 1635860538000,
-        "creator": {"id": 2808025, "handle": "noueman.khalikine@datadoghq.com", "name":
-        "Noueman Khalikine", "email": "noueman.khalikine@datadoghq.com"}, "org_id":
-        569509, "modified": "2021-11-02T13:42:18.175788+00:00", "priority": null,
-        "overall_state_modified": "2021-11-02T13:45:14+00:00", "overall_state": "No
-        Data", "type": "metric alert", "options": {"notify_audit": false, "locked":
+        "min(last_5m):avg:synthetics.pl.worker.running{*} by {location_id} < 1", "message":
+        "Private location {{location_id.name}} stopped reporting to Datadog.", "matching_downtimes":
+        [], "id": 52549314, "multi": true, "name": "[Synthetic Private Locations]
+        {{location_id.name}} stopped reporting", "created": "2021-11-02T13:42:18.175788+00:00",
+        "created_at": 1635860538000, "creator": {"id": 2808025, "handle": "noueman.khalikine@datadoghq.com",
+        "name": "Noueman Khalikine", "email": "noueman.khalikine@datadoghq.com"},
+        "org_id": 569509, "modified": "2021-11-02T13:42:18.175788+00:00", "priority":
+        null, "overall_state_modified": "2021-11-02T13:45:14+00:00", "overall_state":
+        "No Data", "type": "metric alert", "options": {"notify_audit": false, "locked":
         false, "silenced": {}, "include_tags": true, "thresholds": {"critical": 1.0},
         "new_host_delay": 300, "notify_no_data": true}}, {"restricted_roles": null,
         "tags": [], "deleted": null, "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*}
@@ -1932,21 +1919,8 @@ interactions:
         "No Data", "type": "metric alert", "options": {"notify_audit": false, "locked":
         false, "silenced": {}, "include_tags": true, "thresholds": {"critical": 1.5},
         "new_host_delay": 300, "notify_no_data": false}}, {"restricted_roles": null,
-        "tags": ["baz", "foo:bar"], "deleted": null, "query": "avg(last_1h):avg:aws.ec2.cpu{environment:foo,host:foo}
-        by {host} > 4", "message": "Monitor triggered. Notify: @hipchat-channel",
-        "matching_downtimes": [], "id": 60737647, "multi": true, "name": "Terraform
-        Event Sending Test 1", "created": "2022-01-12T23:22:56.194746+00:00", "created_at":
-        1642029776000, "creator": {"id": 2781302, "handle": "frog@datadoghq.com",
-        "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 569509, "modified":
-        "2022-01-12T23:22:56.194746+00:00", "priority": null, "overall_state_modified":
-        "2022-01-12T23:24:19+00:00", "overall_state": "No Data", "type": "query alert",
-        "options": {"notify_audit": false, "locked": false, "silenced": {}, "include_tags":
-        true, "thresholds": {"critical": 4.0, "warning": 2.0, "critical_recovery":
-        3.0, "warning_recovery": 1.0}, "require_full_window": true, "new_host_delay":
-        300, "notify_no_data": false, "renotify_interval": 60, "escalation_message":
-        "Escalation message @pagerduty"}}, {"restricted_roles": null, "tags": [],
-        "deleted": null, "query": "events(\"\").rollup(\"count\").last(\"5m\") > 100",
-        "message": "Test event monitor", "matching_downtimes": [], "id": 66666697,
+        "tags": [], "deleted": null, "query": "events(\"\").rollup(\"count\").last(\"5m\")
+        > 100", "message": "Test event monitor", "matching_downtimes": [], "id": 66666697,
         "multi": false, "name": "Test event monitor", "created": "2022-03-22T20:19:31.437344+00:00",
         "created_at": 1647980371000, "creator": {"id": 3205966, "handle": "support-datadogsynccliustestorg-1137936",
         "name": "Datadog Support", "email": "support-user-prod@datadoghq.com"}, "org_id":
@@ -1963,13 +1937,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:52 GMT
+      - Fri, 15 Apr 2022 19:24:40 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '16990'
+      - '15067'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
       pragma:
@@ -1991,7 +1965,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '8'
+      - '10'
     status:
       code: 200
       message: OK
@@ -2045,7 +2019,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:52 GMT
+      - Fri, 15 Apr 2022 19:24:40 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2073,7 +2047,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '8'
+      - '10'
     status:
       code: 200
       message: OK
@@ -2114,7 +2088,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:52 GMT
+      - Fri, 15 Apr 2022 19:24:40 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2142,7 +2116,7 @@ interactions:
       x-ratelimit-remaining:
       - '58'
       x-ratelimit-reset:
-      - '8'
+      - '20'
     status:
       code: 200
       message: OK
@@ -2180,7 +2154,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:52 GMT
+      - Fri, 15 Apr 2022 19:24:40 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2204,9 +2178,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10081'
+      - '10936'
       x-ratelimit-reset:
-      - '8'
+      - '20'
     status:
       code: 200
       message: OK
@@ -2272,7 +2246,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:52 GMT
+      - Fri, 15 Apr 2022 19:24:40 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2296,9 +2270,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10078'
+      - '10934'
       x-ratelimit-reset:
-      - '8'
+      - '20'
     status:
       code: 200
       message: OK
@@ -2351,7 +2325,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:52 GMT
+      - Fri, 15 Apr 2022 19:24:40 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2375,9 +2349,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10077'
+      - '10932'
       x-ratelimit-reset:
-      - '8'
+      - '20'
     status:
       code: 200
       message: OK
@@ -2413,7 +2387,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:53 GMT
+      - Fri, 15 Apr 2022 19:24:40 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2437,9 +2411,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10075'
+      - '10931'
       x-ratelimit-reset:
-      - '8'
+      - '20'
     status:
       code: 200
       message: OK
@@ -2469,7 +2443,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:53 GMT
+      - Fri, 15 Apr 2022 19:24:41 GMT
       cache-control:
       - no-cache
       content-security-policy:
@@ -2487,9 +2461,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10074'
+      - '10929'
       x-ratelimit-reset:
-      - '7'
+      - '19'
     status:
       code: 200
       message: OK
@@ -2527,7 +2501,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:53 GMT
+      - Fri, 15 Apr 2022 19:24:41 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2551,9 +2525,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10073'
+      - '10928'
       x-ratelimit-reset:
-      - '7'
+      - '19'
     status:
       code: 200
       message: OK
@@ -2589,7 +2563,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:53 GMT
+      - Fri, 15 Apr 2022 19:24:41 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2617,7 +2591,7 @@ interactions:
       x-ratelimit-remaining:
       - '11992'
       x-ratelimit-reset:
-      - '7'
+      - '19'
     status:
       code: 200
       message: OK
@@ -2639,36 +2613,62 @@ interactions:
   response:
     body:
       string: '[{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": 48082348, "mute_first_recovery_notification":
-        false, "created": 1647980372, "org_id": 569509, "modified": 1647980372, "disabled":
-        false, "start": 1647980372, "creator_id": 3205966, "parent_id": null, "timezone":
-        "UTC", "active": true, "scope": ["*"], "message": null, "downtime_type": 0,
-        "id": 1825288423, "updater_id": null}, {"recurrence": null, "end": null, "monitor_tags":
-        ["*"], "child_id": null, "canceled": null, "monitor_id": 36593201, "mute_first_recovery_notification":
-        false, "created": 1623448636, "org_id": 569509, "modified": 1623692629, "disabled":
-        false, "start": 1654984560, "creator_id": 2781275, "parent_id": null, "timezone":
+        null, "canceled": 1650050167, "monitor_id": null, "mute_first_recovery_notification":
+        false, "created": 1650042665, "org_id": 569509, "modified": 1650050167, "disabled":
+        true, "start": 1650042600, "creator_id": 2781275, "parent_id": null, "timezone":
+        "America/New_York", "active": false, "scope": ["*"], "message": "", "downtime_type":
+        0, "id": 1881903003, "updater_id": 2781275}, {"recurrence": {"until_date":
+        null, "until_occurrences": null, "week_days": ["Mon"], "type": "weeks", "period":
+        1}, "end": 1650046618, "monitor_tags": ["*"], "child_id": 1882017297, "canceled":
+        null, "monitor_id": 36593201, "mute_first_recovery_notification": false, "created":
+        1650043054, "org_id": 569509, "modified": 1650046655, "disabled": false, "start":
+        1650043018, "creator_id": 2781275, "parent_id": null, "timezone": "America/New_York",
+        "active": false, "scope": ["*"], "message": "Test recurring downtime", "downtime_type":
+        0, "id": 1881914181, "updater_id": null}, {"recurrence": {"until_date": null,
+        "until_occurrences": null, "week_days": ["Mon"], "type": "weeks", "period":
+        1}, "end": 1650305818, "monitor_tags": ["*"], "child_id": null, "canceled":
+        1650049689, "monitor_id": 36593201, "mute_first_recovery_notification": false,
+        "created": 1650046655, "org_id": 569509, "modified": 1650049689, "disabled":
+        true, "start": 1650302218, "creator_id": 2781275, "parent_id": 1881914181,
+        "timezone": "America/New_York", "active": false, "scope": ["*"], "message":
+        "Test recurring downtime", "downtime_type": 0, "id": 1882017297, "updater_id":
+        2781275}, {"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id":
+        null, "canceled": 1650050126, "monitor_id": 36593201, "mute_first_recovery_notification":
+        false, "created": 1623448636, "org_id": 569509, "modified": 1650050126, "disabled":
+        true, "start": 1654984560, "creator_id": 2781275, "parent_id": null, "timezone":
         "America/New_York", "active": false, "scope": ["env:test"], "message": null,
         "downtime_type": 2, "id": 1303977668, "updater_id": 2781275}, {"recurrence":
-        {"until_date": null, "until_occurrences": null, "week_days": [], "type": "days",
-        "period": 1}, "end": null, "monitor_tags": ["*"], "child_id": null, "canceled":
-        null, "monitor_id": null, "mute_first_recovery_notification": false, "created":
-        1622234964, "org_id": 569509, "modified": 1622748066, "disabled": false, "start":
-        2622234295, "creator_id": 2781302, "parent_id": null, "timezone": "UTC", "active":
-        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 1283896719,
-        "updater_id": 2781275}]'
+        null, "end": null, "monitor_tags": ["*"], "child_id": null, "canceled": null,
+        "monitor_id": null, "mute_first_recovery_notification": false, "created":
+        1650050263, "org_id": 569509, "modified": 1650050263, "disabled": false, "start":
+        1777521600, "creator_id": 2781275, "parent_id": null, "timezone": "America/New_York",
+        "active": false, "scope": ["*"], "message": "Sample downtime message", "downtime_type":
+        0, "id": 1882120397, "updater_id": null}, {"recurrence": null, "end": null,
+        "monitor_tags": ["*"], "child_id": null, "canceled": null, "monitor_id": null,
+        "mute_first_recovery_notification": false, "created": 1650050211, "org_id":
+        569509, "modified": 1650050211, "disabled": false, "start": 1807675200, "creator_id":
+        2781275, "parent_id": null, "timezone": "America/New_York", "active": false,
+        "scope": ["*"], "message": "Sample message", "downtime_type": 0, "id": 1882118744,
+        "updater_id": null}, {"recurrence": {"until_date": null, "until_occurrences":
+        null, "week_days": [], "type": "days", "period": 1}, "end": null, "monitor_tags":
+        ["*"], "child_id": null, "canceled": 1650042678, "monitor_id": null, "mute_first_recovery_notification":
+        false, "created": 1622234964, "org_id": 569509, "modified": 1650042678, "disabled":
+        true, "start": 2622234295, "creator_id": 2781302, "parent_id": null, "timezone":
+        "UTC", "active": false, "scope": ["*"], "message": "", "downtime_type": 0,
+        "id": 1283896719, "updater_id": 2781275}]'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:53 GMT
+      - Fri, 15 Apr 2022 19:24:41 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '1279'
+      - '3200'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
       pragma:
@@ -2686,9 +2686,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10071'
+      - '10926'
       x-ratelimit-reset:
-      - '7'
+      - '19'
     status:
       code: 200
       message: OK
@@ -2721,7 +2721,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:53 GMT
+      - Fri, 15 Apr 2022 19:24:41 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2747,9 +2747,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '413'
+      - '410'
       x-ratelimit-reset:
-      - '127'
+      - '19'
     status:
       code: 200
       message: OK
@@ -2784,7 +2784,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:53 GMT
+      - Fri, 15 Apr 2022 19:24:41 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2810,9 +2810,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '412'
+      - '409'
       x-ratelimit-reset:
-      - '127'
+      - '19'
     status:
       code: 200
       message: OK
@@ -2843,7 +2843,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:53 GMT
+      - Fri, 15 Apr 2022 19:24:41 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2869,9 +2869,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '411'
+      - '408'
       x-ratelimit-reset:
-      - '127'
+      - '19'
     status:
       code: 200
       message: OK
@@ -3262,7 +3262,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:17:53 GMT
+      - Fri, 15 Apr 2022 19:24:41 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -3286,9 +3286,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10066'
+      - '10909'
       x-ratelimit-reset:
-      - '7'
+      - '19'
     status:
       code: 200
       message: OK
@@ -3689,7 +3689,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 15 Apr 2022 15:17:54 GMT
+      - Fri, 15 Apr 2022 19:24:42 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3705,9 +3705,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11725'
+      - '11933'
       x-ratelimit-reset:
-      - '6'
+      - '18'
     status:
       code: 200
       message: OK

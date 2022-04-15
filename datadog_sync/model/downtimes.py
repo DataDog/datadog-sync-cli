@@ -24,7 +24,7 @@ class Downtimes(BaseResource):
         resource_connections={"monitors": ["monitor_id"]},
         non_nullable_attr=["recurrence.until_date", "recurrence.until_occurrences"],
         base_path="/api/v1/downtime",
-        excluded_attributes=["id", "updater_id", "created", "org_id", "modified", "creator_id", "active"],
+        excluded_attributes=["id", "updater_id", "created", "org_id", "modified", "creator_id", "active", "child_id"],
     )
     # Additional Downtimes specific attributes
 
@@ -59,6 +59,15 @@ class Downtimes(BaseResource):
                     num_of_recurrences_since_start = math.ceil((current_time - resource["start"]) / r_interval)
                     resource["start"] += r_interval * num_of_recurrences_since_start
                     resource["end"] += r_interval * num_of_recurrences_since_start
+        else:
+            # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
+            # this is to avoid unnecessary diff outputs
+            if resource.get("start") and self.resource_config.destination_resources[_id].get("start"):
+                if resource["start"] < self.resource_config.destination_resources[_id]["start"]:
+                    resource["start"] = self.resource_config.destination_resources[_id]["start"]
+            if resource.get("end") and self.resource_config.destination_resources[_id].get("end"):
+                if resource["end"] < self.resource_config.destination_resources[_id]["end"]:
+                    resource["end"] = self.resource_config.destination_resources[_id]["end"]
 
     def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         pass

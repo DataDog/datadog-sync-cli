@@ -17,36 +17,62 @@ interactions:
   response:
     body:
       string: '[{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": 48082348, "mute_first_recovery_notification":
-        false, "created": 1647980372, "org_id": 569509, "modified": 1647980372, "disabled":
-        false, "start": 1647980372, "creator_id": 3205966, "parent_id": null, "timezone":
-        "UTC", "active": true, "scope": ["*"], "message": null, "downtime_type": 0,
-        "id": 1825288423, "updater_id": null}, {"recurrence": null, "end": null, "monitor_tags":
-        ["*"], "child_id": null, "canceled": null, "monitor_id": 36593201, "mute_first_recovery_notification":
-        false, "created": 1623448636, "org_id": 569509, "modified": 1623692629, "disabled":
-        false, "start": 1654984560, "creator_id": 2781275, "parent_id": null, "timezone":
+        null, "canceled": 1650050167, "monitor_id": null, "mute_first_recovery_notification":
+        false, "created": 1650042665, "org_id": 569509, "modified": 1650050167, "disabled":
+        true, "start": 1650042600, "creator_id": 2781275, "parent_id": null, "timezone":
+        "America/New_York", "active": false, "scope": ["*"], "message": "", "downtime_type":
+        0, "id": 1881903003, "updater_id": 2781275}, {"recurrence": {"until_date":
+        null, "until_occurrences": null, "week_days": ["Mon"], "type": "weeks", "period":
+        1}, "end": 1650046618, "monitor_tags": ["*"], "child_id": 1882017297, "canceled":
+        null, "monitor_id": 36593201, "mute_first_recovery_notification": false, "created":
+        1650043054, "org_id": 569509, "modified": 1650046655, "disabled": false, "start":
+        1650043018, "creator_id": 2781275, "parent_id": null, "timezone": "America/New_York",
+        "active": false, "scope": ["*"], "message": "Test recurring downtime", "downtime_type":
+        0, "id": 1881914181, "updater_id": null}, {"recurrence": {"until_date": null,
+        "until_occurrences": null, "week_days": ["Mon"], "type": "weeks", "period":
+        1}, "end": 1650305818, "monitor_tags": ["*"], "child_id": null, "canceled":
+        1650049689, "monitor_id": 36593201, "mute_first_recovery_notification": false,
+        "created": 1650046655, "org_id": 569509, "modified": 1650049689, "disabled":
+        true, "start": 1650302218, "creator_id": 2781275, "parent_id": 1881914181,
+        "timezone": "America/New_York", "active": false, "scope": ["*"], "message":
+        "Test recurring downtime", "downtime_type": 0, "id": 1882017297, "updater_id":
+        2781275}, {"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id":
+        null, "canceled": 1650050126, "monitor_id": 36593201, "mute_first_recovery_notification":
+        false, "created": 1623448636, "org_id": 569509, "modified": 1650050126, "disabled":
+        true, "start": 1654984560, "creator_id": 2781275, "parent_id": null, "timezone":
         "America/New_York", "active": false, "scope": ["env:test"], "message": null,
         "downtime_type": 2, "id": 1303977668, "updater_id": 2781275}, {"recurrence":
-        {"until_date": null, "until_occurrences": null, "week_days": [], "type": "days",
-        "period": 1}, "end": null, "monitor_tags": ["*"], "child_id": null, "canceled":
-        null, "monitor_id": null, "mute_first_recovery_notification": false, "created":
-        1622234964, "org_id": 569509, "modified": 1622748066, "disabled": false, "start":
-        2622234295, "creator_id": 2781302, "parent_id": null, "timezone": "UTC", "active":
-        false, "scope": ["*"], "message": "", "downtime_type": 0, "id": 1283896719,
-        "updater_id": 2781275}]'
+        null, "end": null, "monitor_tags": ["*"], "child_id": null, "canceled": null,
+        "monitor_id": null, "mute_first_recovery_notification": false, "created":
+        1650050263, "org_id": 569509, "modified": 1650050263, "disabled": false, "start":
+        1777521600, "creator_id": 2781275, "parent_id": null, "timezone": "America/New_York",
+        "active": false, "scope": ["*"], "message": "Sample downtime message", "downtime_type":
+        0, "id": 1882120397, "updater_id": null}, {"recurrence": null, "end": null,
+        "monitor_tags": ["*"], "child_id": null, "canceled": null, "monitor_id": null,
+        "mute_first_recovery_notification": false, "created": 1650050211, "org_id":
+        569509, "modified": 1650050211, "disabled": false, "start": 1807675200, "creator_id":
+        2781275, "parent_id": null, "timezone": "America/New_York", "active": false,
+        "scope": ["*"], "message": "Sample message", "downtime_type": 0, "id": 1882118744,
+        "updater_id": null}, {"recurrence": {"until_date": null, "until_occurrences":
+        null, "week_days": [], "type": "days", "period": 1}, "end": null, "monitor_tags":
+        ["*"], "child_id": null, "canceled": 1650042678, "monitor_id": null, "mute_first_recovery_notification":
+        false, "created": 1622234964, "org_id": 569509, "modified": 1650042678, "disabled":
+        true, "start": 2622234295, "creator_id": 2781302, "parent_id": null, "timezone":
+        "UTC", "active": false, "scope": ["*"], "message": "", "downtime_type": 0,
+        "id": 1283896719, "updater_id": 2781275}]'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Fri, 15 Apr 2022 15:04:33 GMT
+      - Fri, 15 Apr 2022 19:25:22 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
       - no-cache
       content-length:
-      - '1279'
+      - '3200'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
       pragma:
@@ -64,9 +90,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '10853'
+      - '11531'
       x-ratelimit-reset:
-      - '27'
+      - '38'
     status:
       code: 200
       message: OK
