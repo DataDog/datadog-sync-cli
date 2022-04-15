@@ -4,9 +4,9 @@
 # Copyright 2019 Datadog, Inc.
 
 from tests.integration.helpers import BaseResourcesTestClass
-from datadog_sync.models import LogsIndexes
+from datadog_sync.models import LogsRestrictionQueries
 
 
-class TestLogsIndexesResources(BaseResourcesTestClass):
-    resource_type = LogsIndexes.resource_type
-    field_to_update = "filter.query"
+class TestLogsRestrictionQueries(BaseResourcesTestClass):
+    resource_type = LogsRestrictionQueries.resource_type
+    field_to_update = "data.attributes.restriction_query"
