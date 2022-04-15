@@ -1,0 +1,127 @@
+interactions:
+- request:
+    body: '{"data": {"type": "logs_restriction_queries", "attributes": {"restriction_query":
+      "service:non-existentupdated"}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '114'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v2/logs/config/restriction_queries/e0b95e42-bcce-11ec-ae39-da7ad0900005
+  response:
+    body:
+      string: '{"errors": ["Rate limit of 2 requests in 30 seconds reached. Please
+        try again later."]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '87'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
+      content-type:
+      - application/json
+      date:
+      - Fri, 15 Apr 2022 15:15:26 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '2'
+      x-ratelimit-name:
+      - logs_public_config_api_restriction_queries_write
+      x-ratelimit-period:
+      - '30'
+      x-ratelimit-remaining:
+      - '0'
+      x-ratelimit-reset:
+      - '4'
+    status:
+      code: 429
+      message: Too Many Requests
+- request:
+    body: '{"data": {"type": "logs_restriction_queries", "attributes": {"restriction_query":
+      "service:non-existentupdated"}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '114'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v2/logs/config/restriction_queries/e0b95e42-bcce-11ec-ae39-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "logs_restriction_queries", "id": "e0b95e42-bcce-11ec-ae39-da7ad0900005",
+        "attributes": {"restriction_query": "service:non-existentupdated", "created_at":
+        "2022-04-15T15:15:26.116038+00:00", "modified_at": "2022-04-15T15:15:30.616187+00:00"}}}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '250'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
+      content-type:
+      - application/json
+      date:
+      - Fri, 15 Apr 2022 15:15:30 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '2'
+      x-ratelimit-name:
+      - logs_public_config_api_restriction_queries_write
+      x-ratelimit-period:
+      - '30'
+      x-ratelimit-remaining:
+      - '1'
+      x-ratelimit-reset:
+      - '30'
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,0 +1,59 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/logs/config/indexes
+  response:
+    body:
+      string: '{"indexes": [{"num_retention_days": 15, "name": "main", "is_rate_limited":
+        false, "filter": {"query": ""}, "exclusion_filters": [], "daily_limit": null}]}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 15 Apr 2022 15:04:57 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '141'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '420'
+      x-ratelimit-name:
+      - logs_public_config_api_indexes_read
+      x-ratelimit-period:
+      - '300'
+      x-ratelimit-remaining:
+      - '419'
+      x-ratelimit-reset:
+      - '3'
+    status:
+      code: 200
+      message: OK
+version: 1

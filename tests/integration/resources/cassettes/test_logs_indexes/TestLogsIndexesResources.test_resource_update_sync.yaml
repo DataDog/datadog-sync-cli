@@ -1,0 +1,123 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/indexes
+  response:
+    body:
+      string: '{"indexes": [{"num_retention_days": 15, "name": "main", "is_rate_limited":
+        false, "filter": {"query": ""}, "exclusion_filters": [], "daily_limit": null}]}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '141'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
+      content-type:
+      - application/json
+      date:
+      - Fri, 15 Apr 2022 15:04:59 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '42'
+      x-ratelimit-name:
+      - logs_public_config_api_indexes_read
+      x-ratelimit-period:
+      - '30'
+      x-ratelimit-remaining:
+      - '40'
+      x-ratelimit-reset:
+      - '1'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"num_retention_days": 15, "filter": {"query": "updated"}, "exclusion_filters":
+      [], "disable_daily_limit": true}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '112'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/logs/config/indexes/main
+  response:
+    body:
+      string: '{"num_retention_days": 15, "name": "main", "is_rate_limited": false,
+        "filter": {"query": "updated"}, "exclusion_filters": [], "daily_limit": null}'
+    headers:
+      Alt-Svc:
+      - clear
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 google
+      cache-control:
+      - no-cache
+      content-length:
+      - '134'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
+      content-type:
+      - application/json
+      date:
+      - Fri, 15 Apr 2022 15:05:00 GMT
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '2'
+      x-ratelimit-name:
+      - logs_public_config_api_indexes_write
+      x-ratelimit-period:
+      - '30'
+      x-ratelimit-remaining:
+      - '0'
+      x-ratelimit-reset:
+      - '1'
+    status:
+      code: 200
+      message: OK
+version: 1

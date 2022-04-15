@@ -38,7 +38,7 @@ class LogsRestrictionQueries(BaseResource):
     def import_resource(self, resource: Dict) -> None:
         source_client = self.config.source_client
         r_query = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
-        r_query.pop("included")
+        r_query.pop("included", None)
         self.resource_config.source_resources[resource["id"]] = r_query
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
@@ -73,6 +73,7 @@ class LogsRestrictionQueries(BaseResource):
         if check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource):
             resp = destination_client.put(self.resource_config.base_path + f"/{dest_id}", resource).json()
             self.resource_config.destination_resources[_id].update(resp)
+            self.resource_config.destination_resources[_id]["data"]["relationships"] = old_relationships
 
         if added_role_ids or removed_role_ids:
             succ_added, succ_removed = self.update_log_restriction_query_roles(
