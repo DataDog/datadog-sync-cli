@@ -24,7 +24,7 @@ class Downtimes(BaseResource):
         resource_connections={"monitors": ["monitor_id"]},
         non_nullable_attr=["recurrence.until_date", "recurrence.until_occurrences"],
         base_path="/api/v1/downtime",
-        excluded_attributes=["id", "updater_id", "created", "org_id", "modified", "creator_id", "active", "start"],
+        excluded_attributes=["id", "updater_id", "created", "org_id", "modified", "creator_id", "active"],
     )
     # Additional Downtimes specific attributes
 
