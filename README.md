@@ -134,7 +134,9 @@ the resources on the destination, and saves locally what has been pushed.
 - **logs_custom_pipelines**
 - **notebooks**
 - **host_tags**
+- **logs_indexes**
 - **logs_metrics**
+- **logs_restriction_queries**
 - **metric_tag_configurations**
 
 ## Best practices
@@ -159,5 +161,7 @@ dashboard_lists               | dashboards
 logs_custom_pipelines         | -
 notebooks                     | -
 host_tags                     | -
+logs_indexes                  | -
 logs_metrics                  | -
+logs_restriction_queries      | roles
 metric_tag_configurations     | -
