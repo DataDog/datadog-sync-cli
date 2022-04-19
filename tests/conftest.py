@@ -12,20 +12,28 @@ try:
 except ImportError:
     pass
 
-from json.decoder import JSONDecodeError
 import pytest
 import os
 import logging
 import json
+import re
+import pathlib
+from datetime import datetime
+from json.decoder import JSONDecodeError
 
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync import constants
 from datadog_sync.utils.configuration import get_resources
 
+PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")
+
 
 @pytest.fixture()
-def runner():
+@pytest.mark.freeze_time
+def runner(freezed_time, freezer):
     from click.testing import CliRunner
+
+    freezer.move_to(freezed_time)
 
     return CliRunner(mix_stderr=False)
 
@@ -78,7 +86,7 @@ def get_record_mode():
 
 @pytest.fixture(scope="module")
 def vcr_config():
-    return dict(
+    config = dict(
         record_mode=get_record_mode(),
         filter_headers=["DD-API-KEY", "DD-APPLICATION-KEY"],
         filter_query_parameters=("api_key", "application_key"),
@@ -86,6 +94,13 @@ def vcr_config():
         decode_compressed_response=True,
         before_record_response=filter_response_data(),
     )
+
+    if tracer:
+        from urllib.parse import urlparse
+
+        config["ignore_hosts"] = [urlparse(tracer._writer.agent_url).hostname]
+
+    return config
 
 
 @pytest.fixture(scope="module")
@@ -102,3 +117,33 @@ def config():
     cfg.resources = resources
 
     return cfg
+
+
+@pytest.fixture
+def default_cassette_name(default_cassette_name):
+    return PATTERN_DOUBLE_UNDERSCORE.sub("_", default_cassette_name)
+
+
+@pytest.fixture
+def freezed_time(default_cassette_name, vcr):
+    from dateutil import parser
+
+    if get_record_mode() in {"new_episodes", "rewrite"}:
+        tzinfo = datetime.now().astimezone().tzinfo
+        freeze_at = datetime.now().replace(tzinfo=tzinfo).isoformat()
+        if get_record_mode() == "rewrite":
+            pathlib.Path(vcr._path).parent.mkdir(parents=True, exist_ok=True)
+            with pathlib.Path(vcr._path).with_suffix(".frozen").open("w+") as f:
+                f.write(freeze_at)
+    else:
+        freeze_file = pathlib.Path(vcr._path).with_suffix(".frozen")
+        if not freeze_file.exists():
+            msg = (
+                "Time file '{}' not found: create one setting `RECORD=true` or "
+                "ignore it using `RECORD=none`".format(freeze_file)
+            )
+            raise RuntimeError(msg)
+        with freeze_file.open("r") as f:
+            freeze_at = f.readline().strip()
+
+    return parser.isoparse(freeze_at)
