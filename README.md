@@ -14,7 +14,7 @@ Datadog cli tool to sync resources across organizations.
 
 The purpose of the datadog-sync-cli package is providing an easy way to sync resources across Datadog organizations.
 
-The source organization will not be modified, but the destination organization will have resources created and updated during by `sync command.
+The source organization will not be modified, but the destination organization will have resources created and updated during by `sync` command.
 
 ## Requirements
 
