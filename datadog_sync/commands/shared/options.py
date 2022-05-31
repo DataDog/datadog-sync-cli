@@ -67,6 +67,7 @@ _common_options = [
     ),
     option(
         "--resources",
+        envvar=constants.DD_RESOURCES,
         required=False,
         help="Optional comma separated list of resource to import. All supported resources are imported by default.",
     ),
