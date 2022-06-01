@@ -14,7 +14,6 @@ class LogsIndexes(BaseResource):
     resource_config = ResourceConfig(
         base_path="/api/v1/logs/config/indexes",
         excluded_attributes=[
-            "name",
             "is_rate_limited",
         ],
         non_nullable_attr=["daily_limit"],
@@ -53,6 +52,8 @@ class LogsIndexes(BaseResource):
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
+        # Can't update name so remove it
+        resource.pop("name")
         resp = destination_client.put(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['name']}", resource
         ).json()
