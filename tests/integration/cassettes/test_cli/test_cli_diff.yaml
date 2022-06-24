@@ -11,7 +11,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/logs/config/indexes
   response:
@@ -28,7 +28,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:52 GMT
+      - Fri, 24 Jun 2022 14:08:07 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -54,9 +54,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '416'
+      - '418'
       x-ratelimit-reset:
-      - '68'
+      - '113'
     status:
       code: 200
       message: OK
@@ -72,7 +72,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/metrics?filter%5Bconfigured%5D=true
   response:
@@ -90,7 +90,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:52 GMT
+      - Fri, 24 Jun 2022 14:08:08 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -116,9 +116,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '48'
+      - '49'
       x-ratelimit-reset:
-      - '8'
+      - '52'
     status:
       code: 200
       message: OK
@@ -134,7 +134,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/tags/hosts
   response:
@@ -148,7 +148,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:52 GMT
+      - Fri, 24 Jun 2022 14:08:08 GMT
       cache-control:
       - no-cache
       content-security-policy:
@@ -166,9 +166,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11968'
+      - '11996'
       x-ratelimit-reset:
-      - '8'
+      - '52'
     status:
       code: 200
       message: OK
@@ -184,7 +184,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/logs/config/metrics
   response:
@@ -198,7 +198,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:52 GMT
+      - Fri, 24 Jun 2022 14:08:08 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -224,9 +224,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '416'
+      - '418'
       x-ratelimit-reset:
-      - '68'
+      - '112'
     status:
       code: 200
       message: OK
@@ -242,7 +242,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/notebooks?count=100&include_cells=True&start=0
   response:
@@ -422,7 +422,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:52 GMT
+      - Fri, 24 Jun 2022 14:08:08 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -448,9 +448,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '88'
+      - '89'
       x-ratelimit-reset:
-      - '8'
+      - '52'
     status:
       code: 200
       message: OK
@@ -466,7 +466,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/logs/config/pipelines
   response:
@@ -538,7 +538,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:53 GMT
+      - Fri, 24 Jun 2022 14:08:08 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -564,9 +564,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '417'
+      - '418'
       x-ratelimit-reset:
-      - '67'
+      - '112'
     status:
       code: 200
       message: OK
@@ -582,7 +582,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/locations
   response:
@@ -608,7 +608,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:53 GMT
+      - Fri, 24 Jun 2022 14:08:09 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -634,9 +634,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11994'
+      - '11999'
       x-ratelimit-reset:
-      - '7'
+      - '51'
     status:
       code: 200
       message: OK
@@ -652,7 +652,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451
   response:
@@ -667,7 +667,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:53 GMT
+      - Fri, 24 Jun 2022 14:08:09 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -691,9 +691,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11963'
+      - '11991'
       x-ratelimit-reset:
-      - '7'
+      - '51'
     status:
       code: 200
       message: OK
@@ -709,7 +709,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/tests
   response:
@@ -798,7 +798,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:54 GMT
+      - Fri, 24 Jun 2022 14:08:09 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -824,9 +824,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11993'
+      - '11998'
       x-ratelimit-reset:
-      - '7'
+      - '51'
     status:
       code: 200
       message: OK
@@ -842,7 +842,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/variables
   response:
@@ -889,7 +889,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:54 GMT
+      - Fri, 24 Jun 2022 14:08:09 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -915,9 +915,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11992'
+      - '11997'
       x-ratelimit-reset:
-      - '6'
+      - '51'
     status:
       code: 200
       message: OK
@@ -933,7 +933,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/roles?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -1084,7 +1084,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:54 GMT
+      - Fri, 24 Jun 2022 14:08:09 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1110,9 +1110,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '498'
+      - '499'
       x-ratelimit-reset:
-      - '6'
+      - '51'
     status:
       code: 200
       message: OK
@@ -1128,7 +1128,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -1725,7 +1725,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:54 GMT
+      - Fri, 24 Jun 2022 14:08:10 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1749,9 +1749,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11959'
+      - '11987'
       x-ratelimit-reset:
-      - '6'
+      - '50'
     status:
       code: 200
       message: OK
@@ -1767,7 +1767,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/monitor
   response:
@@ -1976,7 +1976,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:55 GMT
+      - Fri, 24 Jun 2022 14:08:10 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2004,7 +2004,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '6'
+      - '10'
     status:
       code: 200
       message: OK
@@ -2020,7 +2020,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/slo
   response:
@@ -2058,7 +2058,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:55 GMT
+      - Fri, 24 Jun 2022 14:08:10 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2086,7 +2086,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '5'
+      - '10'
     status:
       code: 200
       message: OK
@@ -2102,7 +2102,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard
   response:
@@ -2127,7 +2127,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:55 GMT
+      - Fri, 24 Jun 2022 14:08:11 GMT
       Transfer-Encoding:
       - chunked
       content-length:
@@ -2149,9 +2149,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '58'
+      - '59'
       x-ratelimit-reset:
-      - '5'
+      - '49'
     status:
       code: 200
       message: OK
@@ -2167,7 +2167,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/tuw-te2-pdj
   response:
@@ -2189,7 +2189,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:55 GMT
+      - Fri, 24 Jun 2022 14:08:11 GMT
       Transfer-Encoding:
       - chunked
       content-length:
@@ -2209,9 +2209,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11955'
+      - '11983'
       x-ratelimit-reset:
-      - '5'
+      - '49'
     status:
       code: 200
       message: OK
@@ -2227,7 +2227,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/dns-jst-h98
   response:
@@ -2277,7 +2277,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:55 GMT
+      - Fri, 24 Jun 2022 14:08:11 GMT
       Transfer-Encoding:
       - chunked
       content-length:
@@ -2297,9 +2297,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11954'
+      - '11982'
       x-ratelimit-reset:
-      - '5'
+      - '49'
     status:
       code: 200
       message: OK
@@ -2315,7 +2315,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/euw-cp8-hy6
   response:
@@ -2352,7 +2352,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:56 GMT
+      - Fri, 24 Jun 2022 14:08:12 GMT
       Transfer-Encoding:
       - chunked
       content-length:
@@ -2372,9 +2372,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11953'
+      - '11981'
       x-ratelimit-reset:
-      - '4'
+      - '49'
     status:
       code: 200
       message: OK
@@ -2390,7 +2390,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
   response:
@@ -2410,7 +2410,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:56 GMT
+      - Fri, 24 Jun 2022 14:08:12 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2434,9 +2434,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11952'
+      - '11980'
       x-ratelimit-reset:
-      - '4'
+      - '48'
     status:
       code: 200
       message: OK
@@ -2452,7 +2452,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/dashboard/lists/manual/221363/dashboards
   response:
@@ -2466,7 +2466,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:56 GMT
+      - Fri, 24 Jun 2022 14:08:12 GMT
       cache-control:
       - no-cache
       content-security-policy:
@@ -2484,9 +2484,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11951'
+      - '11979'
       x-ratelimit-reset:
-      - '4'
+      - '48'
     status:
       code: 200
       message: OK
@@ -2502,7 +2502,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/dashboard/lists/manual/213585/dashboards
   response:
@@ -2524,7 +2524,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:56 GMT
+      - Fri, 24 Jun 2022 14:08:12 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2548,9 +2548,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11950'
+      - '11978'
       x-ratelimit-reset:
-      - '4'
+      - '48'
     status:
       code: 200
       message: OK
@@ -2566,7 +2566,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/slo/correction
   response:
@@ -2593,7 +2593,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:57 GMT
+      - Fri, 24 Jun 2022 14:08:12 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2619,9 +2619,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11991'
+      - '11996'
       x-ratelimit-reset:
-      - '4'
+      - '48'
     status:
       code: 200
       message: OK
@@ -2637,7 +2637,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/downtime
   response:
@@ -2660,7 +2660,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:57 GMT
+      - Fri, 24 Jun 2022 14:08:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2684,9 +2684,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11948'
+      - '11976'
       x-ratelimit-reset:
-      - '3'
+      - '47'
     status:
       code: 200
       message: OK
@@ -2702,7 +2702,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/logs/config/restriction_queries?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -2719,7 +2719,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:57 GMT
+      - Fri, 24 Jun 2022 14:08:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2747,7 +2747,7 @@ interactions:
       x-ratelimit-remaining:
       - '416'
       x-ratelimit-reset:
-      - '63'
+      - '107'
     status:
       code: 200
       message: OK
@@ -2763,7 +2763,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/logs/config/restriction_queries/f1edd8e6-bcc4-11ec-971a-da7ad0900002
   response:
@@ -2782,7 +2782,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:57 GMT
+      - Fri, 24 Jun 2022 14:08:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2810,7 +2810,7 @@ interactions:
       x-ratelimit-remaining:
       - '415'
       x-ratelimit-reset:
-      - '63'
+      - '107'
     status:
       code: 200
       message: OK
@@ -2826,7 +2826,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/logs/config/restriction_queries/bbb5bc46-bccc-11ec-971e-da7ad0900002
   response:
@@ -2841,7 +2841,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:57 GMT
+      - Fri, 24 Jun 2022 14:08:13 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2869,7 +2869,7 @@ interactions:
       x-ratelimit-remaining:
       - '414'
       x-ratelimit-reset:
-      - '63'
+      - '107'
     status:
       code: 200
       message: OK
@@ -2885,7 +2885,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/permissions
   response:
@@ -3288,7 +3288,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:58 GMT
+      - Fri, 24 Jun 2022 14:08:14 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -3312,9 +3312,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11944'
+      - '11972'
       x-ratelimit-reset:
-      - '2'
+      - '46'
     status:
       code: 200
       message: OK
@@ -3330,7 +3330,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v2/permissions
   response:
@@ -3743,7 +3743,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:58 GMT
+      - Fri, 24 Jun 2022 14:08:14 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3759,9 +3759,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11935'
+      - '11983'
       x-ratelimit-reset:
-      - '2'
+      - '46'
     status:
       code: 200
       message: OK

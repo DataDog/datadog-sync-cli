@@ -11,7 +11,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/logs/config/indexes
   response:
@@ -28,7 +28,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:33 GMT
+      - Fri, 24 Jun 2022 14:07:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -54,9 +54,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '417'
+      - '419'
       x-ratelimit-reset:
-      - '87'
+      - '134'
     status:
       code: 200
       message: OK
@@ -72,7 +72,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/metrics?filter%5Bconfigured%5D=true
   response:
@@ -90,7 +90,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:34 GMT
+      - Fri, 24 Jun 2022 14:07:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -118,7 +118,7 @@ interactions:
       x-ratelimit-remaining:
       - '49'
       x-ratelimit-reset:
-      - '26'
+      - '14'
     status:
       code: 200
       message: OK
@@ -134,7 +134,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/tags/hosts
   response:
@@ -148,7 +148,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:34 GMT
+      - Fri, 24 Jun 2022 14:07:46 GMT
       cache-control:
       - no-cache
       content-security-policy:
@@ -166,9 +166,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11996'
+      - '11997'
       x-ratelimit-reset:
-      - '26'
+      - '14'
     status:
       code: 200
       message: OK
@@ -184,7 +184,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/logs/config/metrics
   response:
@@ -198,7 +198,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:34 GMT
+      - Fri, 24 Jun 2022 14:07:46 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -224,9 +224,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '417'
+      - '419'
       x-ratelimit-reset:
-      - '86'
+      - '134'
     status:
       code: 200
       message: OK
@@ -242,7 +242,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/notebooks?count=100&include_cells=True&start=0
   response:
@@ -422,7 +422,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:34 GMT
+      - Fri, 24 Jun 2022 14:07:47 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -450,7 +450,7 @@ interactions:
       x-ratelimit-remaining:
       - '89'
       x-ratelimit-reset:
-      - '26'
+      - '13'
     status:
       code: 200
       message: OK
@@ -466,7 +466,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/logs/config/pipelines
   response:
@@ -538,7 +538,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:34 GMT
+      - Fri, 24 Jun 2022 14:07:47 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -564,9 +564,9 @@ interactions:
       x-ratelimit-period:
       - '300'
       x-ratelimit-remaining:
-      - '418'
+      - '419'
       x-ratelimit-reset:
-      - '86'
+      - '133'
     status:
       code: 200
       message: OK
@@ -582,7 +582,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/locations
   response:
@@ -608,7 +608,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:34 GMT
+      - Fri, 24 Jun 2022 14:07:47 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -634,9 +634,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11998'
+      - '11999'
       x-ratelimit-reset:
-      - '26'
+      - '13'
     status:
       code: 200
       message: OK
@@ -652,7 +652,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451
   response:
@@ -667,7 +667,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:35 GMT
+      - Fri, 24 Jun 2022 14:07:47 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -691,9 +691,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11991'
+      - '11992'
       x-ratelimit-reset:
-      - '25'
+      - '13'
     status:
       code: 200
       message: OK
@@ -709,7 +709,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/tests
   response:
@@ -798,7 +798,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:35 GMT
+      - Fri, 24 Jun 2022 14:07:48 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -824,9 +824,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11997'
+      - '11998'
       x-ratelimit-reset:
-      - '25'
+      - '13'
     status:
       code: 200
       message: OK
@@ -842,7 +842,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/variables
   response:
@@ -889,7 +889,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:35 GMT
+      - Fri, 24 Jun 2022 14:07:48 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -915,9 +915,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11996'
+      - '11997'
       x-ratelimit-reset:
-      - '25'
+      - '12'
     status:
       code: 200
       message: OK
@@ -933,7 +933,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/roles?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -1084,7 +1084,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:35 GMT
+      - Fri, 24 Jun 2022 14:07:48 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1112,7 +1112,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '25'
+      - '12'
     status:
       code: 200
       message: OK
@@ -1128,7 +1128,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -1725,7 +1725,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:36 GMT
+      - Fri, 24 Jun 2022 14:07:48 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -1749,9 +1749,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11987'
+      - '11988'
       x-ratelimit-reset:
-      - '24'
+      - '12'
     status:
       code: 200
       message: OK
@@ -1767,7 +1767,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/monitor
   response:
@@ -1976,7 +1976,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:36 GMT
+      - Fri, 24 Jun 2022 14:07:48 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2004,7 +2004,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '4'
+      - '2'
     status:
       code: 200
       message: OK
@@ -2020,7 +2020,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/slo
   response:
@@ -2058,7 +2058,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:36 GMT
+      - Fri, 24 Jun 2022 14:07:49 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2086,7 +2086,7 @@ interactions:
       x-ratelimit-remaining:
       - '999'
       x-ratelimit-reset:
-      - '4'
+      - '1'
     status:
       code: 200
       message: OK
@@ -2102,7 +2102,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard
   response:
@@ -2127,7 +2127,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:36 GMT
+      - Fri, 24 Jun 2022 14:07:49 GMT
       Transfer-Encoding:
       - chunked
       content-length:
@@ -2151,7 +2151,7 @@ interactions:
       x-ratelimit-remaining:
       - '59'
       x-ratelimit-reset:
-      - '24'
+      - '11'
     status:
       code: 200
       message: OK
@@ -2167,7 +2167,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/tuw-te2-pdj
   response:
@@ -2189,7 +2189,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:37 GMT
+      - Fri, 24 Jun 2022 14:07:49 GMT
       Transfer-Encoding:
       - chunked
       content-length:
@@ -2209,9 +2209,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11983'
+      - '11984'
       x-ratelimit-reset:
-      - '23'
+      - '11'
     status:
       code: 200
       message: OK
@@ -2227,7 +2227,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/dns-jst-h98
   response:
@@ -2277,7 +2277,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:37 GMT
+      - Fri, 24 Jun 2022 14:07:49 GMT
       Transfer-Encoding:
       - chunked
       content-length:
@@ -2297,9 +2297,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11982'
+      - '11983'
       x-ratelimit-reset:
-      - '23'
+      - '11'
     status:
       code: 200
       message: OK
@@ -2315,7 +2315,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/euw-cp8-hy6
   response:
@@ -2352,7 +2352,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:37 GMT
+      - Fri, 24 Jun 2022 14:07:50 GMT
       Transfer-Encoding:
       - chunked
       content-length:
@@ -2372,9 +2372,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11981'
+      - '11982'
       x-ratelimit-reset:
-      - '23'
+      - '11'
     status:
       code: 200
       message: OK
@@ -2390,7 +2390,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/dashboard/lists/manual
   response:
@@ -2410,7 +2410,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:37 GMT
+      - Fri, 24 Jun 2022 14:07:50 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2434,9 +2434,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11980'
+      - '11981'
       x-ratelimit-reset:
-      - '23'
+      - '10'
     status:
       code: 200
       message: OK
@@ -2452,7 +2452,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/dashboard/lists/manual/221363/dashboards
   response:
@@ -2466,7 +2466,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:37 GMT
+      - Fri, 24 Jun 2022 14:07:50 GMT
       cache-control:
       - no-cache
       content-security-policy:
@@ -2484,9 +2484,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11979'
+      - '11980'
       x-ratelimit-reset:
-      - '23'
+      - '10'
     status:
       code: 200
       message: OK
@@ -2502,7 +2502,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/dashboard/lists/manual/213585/dashboards
   response:
@@ -2524,7 +2524,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:38 GMT
+      - Fri, 24 Jun 2022 14:07:50 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2548,9 +2548,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11978'
+      - '11979'
       x-ratelimit-reset:
-      - '22'
+      - '10'
     status:
       code: 200
       message: OK
@@ -2566,7 +2566,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/slo/correction
   response:
@@ -2593,7 +2593,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:38 GMT
+      - Fri, 24 Jun 2022 14:07:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2619,9 +2619,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11995'
+      - '11996'
       x-ratelimit-reset:
-      - '22'
+      - '9'
     status:
       code: 200
       message: OK
@@ -2637,7 +2637,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/downtime
   response:
@@ -2660,7 +2660,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:38 GMT
+      - Fri, 24 Jun 2022 14:07:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2684,9 +2684,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11976'
+      - '11977'
       x-ratelimit-reset:
-      - '22'
+      - '9'
     status:
       code: 200
       message: OK
@@ -2702,7 +2702,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/logs/config/restriction_queries?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -2719,7 +2719,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:38 GMT
+      - Fri, 24 Jun 2022 14:07:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2747,7 +2747,7 @@ interactions:
       x-ratelimit-remaining:
       - '419'
       x-ratelimit-reset:
-      - '82'
+      - '129'
     status:
       code: 200
       message: OK
@@ -2763,7 +2763,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/logs/config/restriction_queries/f1edd8e6-bcc4-11ec-971a-da7ad0900002
   response:
@@ -2782,7 +2782,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:38 GMT
+      - Fri, 24 Jun 2022 14:07:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2810,7 +2810,7 @@ interactions:
       x-ratelimit-remaining:
       - '418'
       x-ratelimit-reset:
-      - '82'
+      - '129'
     status:
       code: 200
       message: OK
@@ -2826,7 +2826,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/logs/config/restriction_queries/bbb5bc46-bccc-11ec-971e-da7ad0900002
   response:
@@ -2841,7 +2841,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:39 GMT
+      - Fri, 24 Jun 2022 14:07:51 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -2869,7 +2869,7 @@ interactions:
       x-ratelimit-remaining:
       - '417'
       x-ratelimit-reset:
-      - '81'
+      - '129'
     status:
       code: 200
       message: OK
@@ -2888,15 +2888,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations
   response:
     body:
       string: '{"private_location": {"name": "Test Private Variable", "tags": ["key:value"],
-        "modifiedAt": "2022-06-24T10:28:40.275017+00:00", "createdBy": "frog@datadoghq.com",
-        "metadata": null, "config": {"site": "datadoghq.eu"}, "id": "pl:test-private-variable-51a42305530526a5a325561ffbb8d4ff",
-        "createdAt": "2022-06-24T10:28:40.275017+00:00", "description": "datadog-sync-cli
+        "modifiedAt": "2022-06-24T14:07:52.706043+00:00", "createdBy": "frog@datadoghq.com",
+        "metadata": null, "config": {"site": "datadoghq.eu"}, "id": "pl:test-private-variable-1dff0606e6498090adad919cba6c504d",
+        "createdAt": "2022-06-24T14:07:52.706043+00:00", "description": "datadog-sync-cli
         test"}, "result_encryption": {"id": "sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins=",
         "key": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
         PUBLIC KEY-----\n"}}'
@@ -2916,7 +2916,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:40 GMT
+      - Fri, 24 Jun 2022 14:07:52 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -2932,9 +2932,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11981'
+      - '11999'
       x-ratelimit-reset:
-      - '21'
+      - '8'
     status:
       code: 200
       message: OK
@@ -2960,15 +2960,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "paused", "public_id": "9wi-n8k-g68", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "5z4-mi7-nfi", "tags": [], "org_id":
         1000044987, "locations": ["aws:ca-central-1"], "message": "Test synthetics
-        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 6483316, "type":
-        "api", "created_at": "2022-06-24T10:28:40.636676+00:00", "modified_at": "2022-06-24T10:28:40.636676+00:00",
+        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 6485545, "type":
+        "api", "created_at": "2022-06-24T14:07:53.077901+00:00", "modified_at": "2022-06-24T14:07:53.077901+00:00",
         "subtype": "http", "config": {"request": {"url": "https://google.com", "method":
         "GET"}, "assertions": [{"operator": "lessThan", "type": "responseTime", "target":
         1000}, {"operator": "is", "type": "statusCode", "target": 301}, {"operator":
@@ -2993,7 +2993,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:40 GMT
+      - Fri, 24 Jun 2022 14:07:53 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3011,9 +3011,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11995'
+      - '11999'
       x-ratelimit-reset:
-      - '20'
+      - '8'
     status:
       code: 200
       message: OK
@@ -3036,16 +3036,16 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "s7u-8v7-imu", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "9bm-9md-ush", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "DNS Test", "monitor_id":
-        6483317, "type": "api", "created_at": "2022-06-24T10:28:40.960270+00:00",
-        "modified_at": "2022-06-24T10:28:40.960270+00:00", "subtype": "dns", "config":
+        6485547, "type": "api", "created_at": "2022-06-24T14:07:53.281082+00:00",
+        "modified_at": "2022-06-24T14:07:53.281082+00:00", "subtype": "dns", "config":
         {"request": {"host": "example.org"}, "assertions": [{"operator": "is", "property":
         "A", "type": "recordSome", "target": "0.0.0.0"}]}, "options": {"monitor_options":
         {"include_tags": true, "notify_no_data": false, "notify_audit": false, "new_host_delay":
@@ -3066,7 +3066,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:41 GMT
+      - Fri, 24 Jun 2022 14:07:53 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3084,9 +3084,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11994'
+      - '11998'
       x-ratelimit-reset:
-      - '20'
+      - '7'
     status:
       code: 200
       message: OK
@@ -3109,16 +3109,16 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "x9c-8jj-tma", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "9jc-rpp-ur5", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "SSL Test", "monitor_id":
-        6483318, "type": "api", "created_at": "2022-06-24T10:28:41.220979+00:00",
-        "modified_at": "2022-06-24T10:28:41.220979+00:00", "subtype": "ssl", "config":
+        6485548, "type": "api", "created_at": "2022-06-24T14:07:53.500420+00:00",
+        "modified_at": "2022-06-24T14:07:53.500420+00:00", "subtype": "ssl", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "isInMoreThan", "type": "certificate", "target": 30}]}, "options": {"accept_self_signed":
         true, "tick_every": 900, "monitor_options": {"include_tags": true, "notify_no_data":
@@ -3140,7 +3140,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:41 GMT
+      - Fri, 24 Jun 2022 14:07:53 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3158,15 +3158,15 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11993'
+      - '11997'
       x-ratelimit-reset:
-      - '19'
+      - '7'
     status:
       code: 200
       message: OK
 - request:
     body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
-      ["pl:test-private-variable-51a42305530526a5a325561ffbb8d4ff", "aws:eu-central-1"],
+      ["pl:test-private-variable-1dff0606e6498090adad919cba6c504d", "aws:eu-central-1"],
       "message": "Notify @pagerduty", "name": "HTTP Test - example", "type": "api",
       "subtype": "http", "config": {"request": {"url": "https://www.example.org",
       "headers": {"Authentication": "Token: 1234566789", "Content-Type": "application/json"},
@@ -3186,23 +3186,24 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "2uv-acb-3nv", "tags": ["foo:bar",
-        "foo", "env:test"], "org_id": 1000044987, "locations": ["pl:test-private-variable-51a42305530526a5a325561ffbb8d4ff",
-        "aws:eu-central-1"], "message": "Notify @pagerduty", "deleted_at": null, "name":
-        "HTTP Test - example", "monitor_id": 6483319, "type": "api", "created_at":
-        "2022-06-24T10:28:41.686801+00:00", "modified_at": "2022-06-24T10:28:41.686801+00:00",
-        "subtype": "http", "config": {"request": {"url": "https://www.example.org",
-        "headers": {"Authentication": "Token: 1234566789", "Content-Type": "application/json"},
-        "method": "GET"}, "assertions": [{"operator": "is", "type": "statusCode",
-        "target": 200}]}, "options": {"httpVersion": "http1", "monitor_options": {"include_tags":
-        true, "notify_no_data": false, "notify_audit": false, "new_host_delay": 300,
-        "renotify_interval": 90}, "retry": {"count": 2, "interval": 300}, "min_location_failed":
-        1, "tick_every": 900}}'
+      string: '{"status": "live", "public_id": "b8q-nnw-r4w", "tags": ["foo:bar",
+        "foo", "env:test"], "org_id": 1000044987, "locations":
+      ["pl:test-private-variable-1dff0606e6498090adad919cba6c504d", "aws:eu-central-1"], "message": "Notify
+        @pagerduty", "deleted_at": null, "name": "HTTP Test - example", "monitor_id":
+        6485549, "type": "api", "created_at": "2022-06-24T14:07:53.775676+00:00",
+        "modified_at": "2022-06-24T14:07:53.775676+00:00", "subtype": "http", "config":
+        {"request": {"url": "https://www.example.org", "headers": {"Authentication":
+        "Token: 1234566789", "Content-Type": "application/json"}, "method": "GET"},
+        "assertions": [{"operator": "is", "type": "statusCode", "target": 200}]},
+        "options": {"httpVersion": "http1", "monitor_options": {"include_tags": true,
+        "notify_no_data": false, "notify_audit": false, "new_host_delay": 300, "renotify_interval":
+        90}, "retry": {"count": 2, "interval": 300}, "min_location_failed": 1, "tick_every":
+        900}}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
@@ -3213,13 +3214,13 @@ interactions:
       cache-control:
       - no-cache
       content-length:
-      - '874'
+      - '798'
       content-security-policy:
       - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:41 GMT
+      - Fri, 24 Jun 2022 14:07:53 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3237,9 +3238,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11992'
+      - '11996'
       x-ratelimit-reset:
-      - '19'
+      - '7'
     status:
       code: 200
       message: OK
@@ -3262,16 +3263,16 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "7dq-avv-hxs", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "s97-f3q-yrf", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "TCP Test", "monitor_id":
-        6483320, "type": "api", "created_at": "2022-06-24T10:28:41.966649+00:00",
-        "modified_at": "2022-06-24T10:28:41.966649+00:00", "subtype": "tcp", "config":
+        6485550, "type": "api", "created_at": "2022-06-24T14:07:54.048821+00:00",
+        "modified_at": "2022-06-24T14:07:54.048821+00:00", "subtype": "tcp", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "lessThan", "type": "responseTime", "target": 2000}]}, "options": {"monitor_options":
         {"include_tags": true, "notify_no_data": false, "notify_audit": false, "new_host_delay":
@@ -3292,7 +3293,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:42 GMT
+      - Fri, 24 Jun 2022 14:07:54 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3310,9 +3311,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11991'
+      - '11995'
       x-ratelimit-reset:
-      - '19'
+      - '7'
     status:
       code: 200
       message: OK
@@ -3340,15 +3341,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "paused", "public_id": "5yj-ha7-hrz", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "dbc-uus-2nz", "tags": [], "org_id":
         1000044987, "locations": ["aws:us-west-1"], "message": "", "deleted_at": null,
-        "name": "Browser Test", "monitor_id": 6483321, "type": "browser", "created_at":
-        "2022-06-24T10:28:42.210381+00:00", "modified_at": "2022-06-24T10:28:42.210381+00:00",
+        "name": "Browser Test", "monitor_id": 6485551, "type": "browser", "created_at":
+        "2022-06-24T14:07:54.347967+00:00", "modified_at": "2022-06-24T14:07:54.347967+00:00",
         "config": {"variables": [], "setCookie": "", "request": {"url": "https://docs.datadoghq.com",
         "headers": {"test": "{{ TEST_VARIABLE }}", "test_two": "{{ TEST_VAR_LOCAL
         }}"}, "method": "GET"}, "assertions": [], "configVariables": [{"pattern":
@@ -3376,7 +3377,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:42 GMT
+      - Fri, 24 Jun 2022 14:07:54 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3394,9 +3395,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11990'
+      - '11994'
       x-ratelimit-reset:
-      - '18'
+      - '6'
     status:
       code: 200
       message: OK
@@ -3424,16 +3425,16 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "g3u-97n-fuq", "tags": ["check_type:api",
+      string: '{"status": "live", "public_id": "wfb-3kq-5q5", "tags": ["check_type:api",
         "env:test", "test:update"], "org_id": 1000044987, "locations": ["aws:sa-east-1"],
         "message": "", "deleted_at": null, "name": "Multistep API Test", "monitor_id":
-        6483322, "type": "api", "created_at": "2022-06-24T10:28:42.460674+00:00",
-        "modified_at": "2022-06-24T10:28:42.460674+00:00", "subtype": "multi", "config":
+        6485552, "type": "api", "created_at": "2022-06-24T14:07:54.616074+00:00",
+        "modified_at": "2022-06-24T14:07:54.616074+00:00", "subtype": "multi", "config":
         {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
         "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
         "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
@@ -3459,7 +3460,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:42 GMT
+      - Fri, 24 Jun 2022 14:07:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3477,9 +3478,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11989'
+      - '11993'
       x-ratelimit-reset:
-      - '18'
+      - '6'
     status:
       code: 200
       message: OK
@@ -3495,7 +3496,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
@@ -3515,7 +3516,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:42 GMT
+      - Fri, 24 Jun 2022 14:07:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3531,9 +3532,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11988'
+      - '11992'
       x-ratelimit-reset:
-      - '18'
+      - '5'
     status:
       code: 200
       message: OK
@@ -3553,7 +3554,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
@@ -3561,7 +3562,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "test", "tags": ["check_type:api"], "last_error": null, "is_totp": null, "value":
         {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "d93097f5-5ccc-4b23-917c-df31d005289b",
+        null, "parse_test_name": null, "type": "variable", "id": "2a2df1d1-e984-422c-9b6d-f296f1d48e15",
         "name": "TEST_VARIABLE"}'
     headers:
       Alt-Svc:
@@ -3579,7 +3580,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:42 GMT
+      - Fri, 24 Jun 2022 14:07:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3597,9 +3598,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11987'
+      - '11991'
       x-ratelimit-reset:
-      - '18'
+      - '5'
     status:
       code: 200
       message: OK
@@ -3619,7 +3620,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
@@ -3628,7 +3629,7 @@ interactions:
         "Description of the variable", "tags": ["foo:bar", "env:test"], "last_error":
         null, "is_totp": null, "value": {"secure": false, "value": "variable-value"},
         "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "04783993-613c-46d1-a726-a204d59fb4af", "name": "EXAMPLE_VARIABLE"}'
+        "id": "2885e212-300f-4fc1-a021-ae19b9fe2088", "name": "EXAMPLE_VARIABLE"}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
@@ -3645,7 +3646,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:43 GMT
+      - Fri, 24 Jun 2022 14:07:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3663,9 +3664,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11986'
+      - '11990'
       x-ratelimit-reset:
-      - '18'
+      - '5'
     status:
       code: 200
       message: OK
@@ -3684,7 +3685,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
@@ -3692,7 +3693,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "test", "tags": [], "last_error": null, "is_totp": null, "value": {"secure":
         false, "value": "test"}, "parse_test_public_id": null, "parse_test_name":
-        null, "type": "variable", "id": "47f621ca-fea1-4619-a3d0-8de319054064", "name":
+        null, "type": "variable", "id": "aac27d2f-1ed6-4707-976e-be3deee916f2", "name":
         "TEST"}'
     headers:
       Alt-Svc:
@@ -3710,7 +3711,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:43 GMT
+      - Fri, 24 Jun 2022 14:07:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3728,14 +3729,14 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11985'
+      - '11989'
       x-ratelimit-reset:
-      - '17'
+      - '5'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"description": "", "tags": [], "parse_test_public_id": "9wi-n8k-g68",
+    body: '{"description": "", "tags": [], "parse_test_public_id": "5z4-mi7-nfi",
       "parse_test_options": {"field": "alt-svc", "parser": {"type": "regex", "value":
       "h3=\"(.*)\";"}, "type": "http_header"}, "name": "TEST_FROM_HTTP", "value":
       {"secure": false, "value": ""}, "type": "variable"}'
@@ -3751,7 +3752,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
@@ -3759,8 +3760,8 @@ interactions:
       string: '{"parse_test_options": {"field": "alt-svc", "parser": {"type": "regex",
         "value": "h3=\"(.*)\";"}, "type": "http_header"}, "parse_test_extracted_at":
         null, "description": "", "tags": [], "last_error": null, "is_totp": null,
-        "value": {"secure": false, "value": ""}, "parse_test_public_id": "9wi-n8k-g68",
-        "parse_test_name": null, "type": "variable", "id": "d10e7935-747c-467d-a362-e951935246f0",
+        "value": {"secure": false, "value": ""}, "parse_test_public_id": "5z4-mi7-nfi",
+        "parse_test_name": null, "type": "variable", "id": "6361d049-5aef-409b-ae62-0c7121ce4772",
         "name": "TEST_FROM_HTTP"}'
     headers:
       Alt-Svc:
@@ -3778,7 +3779,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:43 GMT
+      - Fri, 24 Jun 2022 14:07:55 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3796,9 +3797,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11984'
+      - '11988'
       x-ratelimit-reset:
-      - '17'
+      - '5'
     status:
       code: 200
       message: OK
@@ -3817,7 +3818,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
@@ -3825,7 +3826,7 @@ interactions:
       string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
         "", "tags": [], "last_error": null, "is_totp": null, "value": {"secure": true},
         "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "94123868-e722-4d91-a137-12ca397f30c9", "name": "TEST_SECRETS"}'
+        "id": "225e8e4b-8df0-40d4-baa1-495c2277c10b", "name": "TEST_SECRETS"}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
@@ -3842,7 +3843,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:43 GMT
+      - Fri, 24 Jun 2022 14:07:56 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -3860,9 +3861,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11983'
+      - '11987'
       x-ratelimit-reset:
-      - '17'
+      - '4'
     status:
       code: 200
       message: OK
@@ -3878,7 +3879,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v2/roles?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -4020,7 +4021,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:43 GMT
+      - Fri, 24 Jun 2022 14:07:56 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4038,9 +4039,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '498'
+      - '499'
       x-ratelimit-reset:
-      - '17'
+      - '4'
     status:
       code: 200
       message: OK
@@ -4056,7 +4057,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/permissions
   response:
@@ -4459,7 +4460,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:44 GMT
+      - Fri, 24 Jun 2022 14:07:56 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -4483,9 +4484,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11972'
+      - '11973'
       x-ratelimit-reset:
-      - '16'
+      - '4'
     status:
       code: 200
       message: OK
@@ -4501,7 +4502,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v2/permissions
   response:
@@ -4914,7 +4915,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:44 GMT
+      - Fri, 24 Jun 2022 14:07:56 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -4930,9 +4931,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11966'
+      - '11984'
       x-ratelimit-reset:
-      - '16'
+      - '4'
     status:
       code: 200
       message: OK
@@ -4967,14 +4968,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v2/roles
   response:
     body:
-      string: '{"data": {"type": "roles", "id": "6cbaac56-f3a8-11ec-bec0-da7ad0900005",
-        "attributes": {"name": "Datadog Read Only Role", "created_at": "2022-06-24T10:28:44.585846+00:00",
-        "modified_at": "2022-06-24T10:28:44.753219+00:00"}, "relationships": {"permissions":
+      string: '{"data": {"type": "roles", "id": "0c3bfe88-f3c7-11ec-8305-da7ad0900005",
+        "attributes": {"name": "Datadog Read Only Role", "created_at": "2022-06-24T14:07:57.093319+00:00",
+        "modified_at": "2022-06-24T14:07:57.224060+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
         "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
@@ -5008,7 +5009,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:44 GMT
+      - Fri, 24 Jun 2022 14:07:57 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -5026,9 +5027,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '497'
+      - '498'
       x-ratelimit-reset:
-      - '16'
+      - '3'
     status:
       code: 200
       message: OK
@@ -5044,7 +5045,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -6113,7 +6114,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005", "attributes":
         {"name": "test-user", "handle": "new@example.com", "created_at": "2021-06-08T19:40:17.395117+00:00",
-        "modified_at": "2022-06-24T10:25:58.974975+00:00", "email": "new@example.com",
+        "modified_at": "2022-06-24T14:05:47.071038+00:00", "email": "new@example.com",
         "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
@@ -6137,7 +6138,7 @@ interactions:
         {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes":
         {"name": "None+ updated", "handle": "test-user-example@datadoghq.com", "created_at":
-        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2022-06-24T10:25:59.247593+00:00",
+        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2022-06-24T14:05:47.513162+00:00",
         "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
@@ -6165,7 +6166,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:45 GMT
+      - Fri, 24 Jun 2022 14:07:57 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6181,9 +6182,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11964'
+      - '11982'
       x-ratelimit-reset:
-      - '16'
+      - '3'
     status:
       code: 200
       message: OK
@@ -6202,14 +6203,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PATCH
     uri: https://api.datadoghq.eu/api/v2/users/5a322106-c891-11eb-873a-da7ad0900005
   response:
     body:
       string: '{"data": {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005",
         "attributes": {"name": "test-user", "handle": "new@example.com", "created_at":
-        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2022-06-24T10:28:45.243403+00:00",
+        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2022-06-24T14:07:57.608606+00:00",
         "email": "new@example.com", "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -6230,7 +6231,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:45 GMT
+      - Fri, 24 Jun 2022 14:07:57 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6246,9 +6247,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11963'
+      - '11981'
       x-ratelimit-reset:
-      - '15'
+      - '3'
     status:
       code: 200
       message: OK
@@ -6266,19 +6267,19 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
-    uri: https://api.datadoghq.eu/api/v2/roles/6cbaac56-f3a8-11ec-bec0-da7ad0900005/users
+    uri: https://api.datadoghq.eu/api/v2/roles/0c3bfe88-f3c7-11ec-8305-da7ad0900005/users
   response:
     body:
       string: '{"meta": {"page": {"total_count": 1}}, "data": [{"type": "users", "id":
         "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes": {"name": "None+ updated",
         "handle": "test-user-example@datadoghq.com", "created_at": "2021-06-07T16:53:26.412706+00:00",
-        "modified_at": "2022-06-24T10:25:59.247593+00:00", "email": "test-user-example@datadoghq.com",
+        "modified_at": "2022-06-24T14:05:47.513162+00:00", "email": "test-user-example@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
-        {"data": [{"type": "roles", "id": "6cbaac56-f3a8-11ec-bec0-da7ad0900005"}]},
+        {"data": [{"type": "roles", "id": "0c3bfe88-f3c7-11ec-8305-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}}]}'
     headers:
       Alt-Svc:
@@ -6296,7 +6297,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:45 GMT
+      - Fri, 24 Jun 2022 14:07:57 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6314,9 +6315,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '496'
+      - '497'
       x-ratelimit-reset:
-      - '15'
+      - '3'
     status:
       code: 200
       message: OK
@@ -6336,7 +6337,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PATCH
     uri: https://api.datadoghq.eu/api/v2/users/e0c5d064-c7b0-11eb-944d-da7ad0900005
   response:
@@ -6361,13 +6362,27 @@ interactions:
         "read", "restricted": false}}, {"type": "permissions", "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d",
         "attributes": {"name": "monitors_read", "display_name": "Monitors Read", "description":
         "View monitors.", "created": "2019-09-16T18:49:59.270746+00:00", "group_name":
-        "Monitors", "display_type": "read", "restricted": true}}, {"type": "permissions",
-        "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a", "attributes": {"name": "apm_retention_filter_read",
-        "display_name": "APM Retention Filter Read", "description": "Read trace retention
-        filters. A user with this permission can view the retention filters page,
-        list of filters, their statistics, and creation info.", "created": "2020-11-23T20:59:11.833795+00:00",
-        "group_name": "APM", "display_type": "read", "restricted": false}}, {"type":
-        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005", "attributes":
+        "Monitors", "display_type": "read", "restricted": true}}, {"type": "roles",
+        "id": "0c3bfe88-f3c7-11ec-8305-da7ad0900005", "attributes": {"name": "Datadog
+        Read Only Role", "created_at": "2022-06-24T14:07:57.093319+00:00", "modified_at":
+        "2022-06-24T14:07:57.224060+00:00"}, "relationships": {"permissions": {"data":
+        [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"}, {"type":
+        "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type": "permissions",
+        "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions", "id":
+        "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id": "bfafd0ce-7823-11ea-9689-c3e5118805ee"},
+        {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"}, {"type":
+        "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type": "permissions",
+        "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions", "id":
+        "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"},
+        {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"}, {"type":
+        "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type": "permissions",
+        "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
+        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005"},
+        {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"}, {"type":
+        "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}, {"type": "permissions",
+        "id": "cf873174-574f-11ec-9869-da7ad0900005"}, {"type": "permissions", "id":
+        "95e9a5ce-5884-11ec-8b3a-da7ad0900005"}, {"type": "permissions", "id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005"}]}}},
+        {"type": "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005", "attributes":
         {"name": "security_monitoring_filters_read", "display_name": "Security Filters
         Read", "description": "Read Security Filters.", "created": "2021-05-10T08:56:24.514661+00:00",
         "group_name": "Cloud Security Platform", "display_type": "read", "restricted":
@@ -6411,27 +6426,13 @@ interactions:
         {"name": "apm_read", "display_name": "APM Read", "description": "Read and
         query APM and Trace Analytics.", "created": "2020-11-23T20:59:02.902692+00:00",
         "group_name": "APM", "display_type": "read", "restricted": true}}, {"type":
-        "roles", "id": "6cbaac56-f3a8-11ec-bec0-da7ad0900005", "attributes": {"name":
-        "Datadog Read Only Role", "created_at": "2022-06-24T10:28:44.585846+00:00",
-        "modified_at": "2022-06-24T10:28:44.753219+00:00"}, "relationships": {"permissions":
-        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
-        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
-        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
-        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
-        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
-        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
-        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
-        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
-        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
-        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
-        "permissions", "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions",
-        "id": "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id":
-        "f07e4234-e894-11eb-ab79-da7ad0900005"}, {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"},
-        {"type": "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}, {"type":
-        "permissions", "id": "cf873174-574f-11ec-9869-da7ad0900005"}, {"type": "permissions",
-        "id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005"}, {"type": "permissions", "id":
-        "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005"}]}}}, {"type": "permissions", "id":
-        "7ee7941c-f376-11eb-a5a7-da7ad0900005", "attributes": {"name": "rum_session_replay_read",
+        "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a", "attributes":
+        {"name": "apm_retention_filter_read", "display_name": "APM Retention Filter
+        Read", "description": "Read trace retention filters. A user with this permission
+        can view the retention filters page, list of filters, their statistics, and
+        creation info.", "created": "2020-11-23T20:59:11.833795+00:00", "group_name":
+        "APM", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "attributes": {"name": "rum_session_replay_read",
         "display_name": "RUM Session Replay Read", "description": "View Session Replays.",
         "created": "2021-08-02T09:46:22.572685+00:00", "group_name": "Real User Monitoring",
         "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
@@ -6454,11 +6455,11 @@ interactions:
         "group_name": "Notebooks", "display_type": "read", "restricted": true}}],
         "data": {"type": "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes":
         {"name": "None+ updated", "handle": "test-user-example@datadoghq.com", "created_at":
-        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2022-06-24T10:28:45.610271+00:00",
+        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2022-06-24T14:07:57.981919+00:00",
         "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
-        {"data": [{"type": "roles", "id": "6cbaac56-f3a8-11ec-bec0-da7ad0900005"}]},
+        {"data": [{"type": "roles", "id": "0c3bfe88-f3c7-11ec-8305-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}}}'
     headers:
       Alt-Svc:
@@ -6476,7 +6477,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:45 GMT
+      - Fri, 24 Jun 2022 14:07:58 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6492,9 +6493,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11961'
+      - '11979'
       x-ratelimit-reset:
-      - '15'
+      - '3'
     status:
       code: 200
       message: OK
@@ -6518,17 +6519,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50", "message": "Test monitor ----------------", "id": 6483323, "multi":
-        false, "name": "Composite monitor - Child 2", "created": "2022-06-24T10:28:45.779254+00:00",
-        "created_at": 1656066525000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 50", "message": "Test monitor ----------------", "id": 6485561, "multi":
+        false, "name": "Composite monitor - Child 2", "created": "2022-06-24T14:07:58.202326+00:00",
+        "created_at": 1656079678000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2022-06-24T10:28:45.779254+00:00", "priority": null, "overall_state_modified":
+        "2022-06-24T14:07:58.202326+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -6550,7 +6551,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:45 GMT
+      - Fri, 24 Jun 2022 14:07:58 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6570,7 +6571,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '5'
+      - '2'
     status:
       code: 200
       message: OK
@@ -6594,17 +6595,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-        > 20", "message": "Composite monitor - child 1", "id": 6483324, "multi": false,
-        "name": "Composite monitor - child 1", "created": "2022-06-24T10:28:45.937671+00:00",
-        "created_at": 1656066525000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 20", "message": "Composite monitor - child 1", "id": 6485562, "multi": false,
+        "name": "Composite monitor - child 1", "created": "2022-06-24T14:07:58.421953+00:00",
+        "created_at": 1656079678000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2022-06-24T10:28:45.937671+00:00", "priority": null, "overall_state_modified":
+        "2022-06-24T14:07:58.421953+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -6626,7 +6627,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:45 GMT
+      - Fri, 24 Jun 2022 14:07:58 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6646,7 +6647,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '5'
+      - '2'
     status:
       code: 200
       message: OK
@@ -6669,16 +6670,16 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-        "message": "Test host monitor", "id": 6483325, "multi": true, "name": "Host
-        monitor", "created": "2022-06-24T10:28:46.093270+00:00", "created_at": 1656066526000,
+        "message": "Test host monitor", "id": 6485563, "multi": true, "name": "Host
+        monitor", "created": "2022-06-24T14:07:58.642828+00:00", "created_at": 1656079678000,
         "creator": {"id": 1000219667, "handle": "frog@datadoghq.com", "name": "Frog",
-        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2022-06-24T10:28:46.093270+00:00",
+        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2022-06-24T14:07:58.642828+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "service check", "options": {"notify_audit": false, "locked": false,
         "timeout_h": 0, "silenced": {}, "include_tags": true, "thresholds": {"warning":
@@ -6700,7 +6701,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:46 GMT
+      - Fri, 24 Jun 2022 14:07:58 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6720,7 +6721,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '4'
+      - '2'
     status:
       code: 200
       message: OK
@@ -6746,18 +6747,18 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
         ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
-        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 6483326,
-        "multi": false, "name": "Anomaly monitor", "created": "2022-06-24T10:28:46.274121+00:00",
-        "created_at": 1656066526000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        count_default_zero=''true'') >= 1", "message": "Anomaly monitor", "id": 6485564,
+        "multi": false, "name": "Anomaly monitor", "created": "2022-06-24T14:07:58.871904+00:00",
+        "created_at": 1656079678000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2022-06-24T10:28:46.274121+00:00", "priority": null, "overall_state_modified":
+        "2022-06-24T14:07:58.871904+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "query alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -6780,7 +6781,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:46 GMT
+      - Fri, 24 Jun 2022 14:07:58 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6800,7 +6801,7 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '4'
+      - '2'
     status:
       code: 200
       message: OK
@@ -6824,17 +6825,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50", "message": "Test monitor Via Dogshell CLI", "id": 6483327, "multi":
-        false, "name": "Composite monitor - Child 2 - via dogshell", "created": "2022-06-24T10:28:46.453547+00:00",
-        "created_at": 1656066526000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 50", "message": "Test monitor Via Dogshell CLI", "id": 6485565, "multi":
+        false, "name": "Composite monitor - Child 2 - via dogshell", "created": "2022-06-24T14:07:59.104553+00:00",
+        "created_at": 1656079679000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2022-06-24T10:28:46.453547+00:00", "priority": null, "overall_state_modified":
+        "2022-06-24T14:07:59.104553+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -6856,7 +6857,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:46 GMT
+      - Fri, 24 Jun 2022 14:07:59 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6876,7 +6877,7 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '4'
+      - '1'
     status:
       code: 200
       message: OK
@@ -6900,18 +6901,18 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
         by {location_id} < 1", "message": "Private location {{location_id.name}} stopped
-        reporting to Datadog.", "id": 6483328, "multi": true, "name": "[Synthetic
-        Private Locations] {{location_id.name}} stopped reporting", "created": "2022-06-24T10:28:46.634825+00:00",
-        "created_at": 1656066526000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        reporting to Datadog.", "id": 6485566, "multi": true, "name": "[Synthetic
+        Private Locations] {{location_id.name}} stopped reporting", "created": "2022-06-24T14:07:59.303792+00:00",
+        "created_at": 1656079679000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2022-06-24T10:28:46.634825+00:00", "priority": null, "overall_state_modified":
+        "2022-06-24T14:07:59.303792+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "silenced": {}, "include_tags": true, "thresholds":
         {"critical": 1.0}, "new_host_delay": 300, "notify_no_data": true}}'
@@ -6931,7 +6932,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:46 GMT
+      - Fri, 24 Jun 2022 14:07:59 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -6951,7 +6952,7 @@ interactions:
       x-ratelimit-remaining:
       - '494'
       x-ratelimit-reset:
-      - '4'
+      - '1'
     status:
       code: 200
       message: OK
@@ -6978,7 +6979,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
@@ -6989,11 +6990,11 @@ interactions:
         use on your [Private locations page](https://app.datadoghq.com/synthetics/settings/private-locations?id={{location_id.name}})
         and upgrade workers to the most recent version of the image by pulling the
         `datadog/synthetics-private-location-worker` image with the `latest` tag.",
-        "id": 6483329, "multi": true, "name": "[Synthetic Private Locations] {{location_id.name}}
-        uses an outdated image version", "created": "2022-06-24T10:28:46.833152+00:00",
-        "created_at": 1656066526000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        "id": 6485567, "multi": true, "name": "[Synthetic Private Locations] {{location_id.name}}
+        uses an outdated image version", "created": "2022-06-24T14:07:59.549817+00:00",
+        "created_at": 1656079679000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2022-06-24T10:28:46.833152+00:00", "priority": null, "overall_state_modified":
+        "2022-06-24T14:07:59.549817+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "metric alert", "options": {"notify_audit":
         false, "locked": false, "silenced": {}, "include_tags": true, "thresholds":
         {"critical": 0.0}, "new_host_delay": 300, "notify_no_data": false}}'
@@ -7013,7 +7014,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:46 GMT
+      - Fri, 24 Jun 2022 14:07:59 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7033,7 +7034,7 @@ interactions:
       x-ratelimit-remaining:
       - '493'
       x-ratelimit-reset:
-      - '4'
+      - '1'
     status:
       code: 200
       message: OK
@@ -7058,7 +7059,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
@@ -7066,11 +7067,11 @@ interactions:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*}
         by {location_id} < 1.5", "message": "Private location {{location_id.name}}
         is underprovisioned.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#dimension-your-private-location)
-        to learn how to scale your private location.", "id": 6483330, "multi": true,
+        to learn how to scale your private location.", "id": 6485568, "multi": true,
         "name": "[Synthetic Private Locations] {{location_id.name}} is underprovisioned",
-        "created": "2022-06-24T10:28:47.020506+00:00", "created_at": 1656066527000,
+        "created": "2022-06-24T14:07:59.766665+00:00", "created_at": 1656079679000,
         "creator": {"id": 1000219667, "handle": "frog@datadoghq.com", "name": "Frog",
-        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2022-06-24T10:28:47.020506+00:00",
+        "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified": "2022-06-24T14:07:59.766665+00:00",
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "type": "metric alert", "options": {"notify_audit": false, "locked": false,
         "silenced": {}, "include_tags": true, "thresholds": {"critical": 1.5}, "new_host_delay":
@@ -7091,7 +7092,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:47 GMT
+      - Fri, 24 Jun 2022 14:07:59 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7111,7 +7112,7 @@ interactions:
       x-ratelimit-remaining:
       - '492'
       x-ratelimit-reset:
-      - '4'
+      - '1'
     status:
       code: 200
       message: OK
@@ -7135,17 +7136,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "events(\"\").rollup(\"count\").last(\"5m\")
-        > 100", "message": "Test event monitor", "id": 6483331, "multi": false, "name":
-        "Test event monitor", "created": "2022-06-24T10:28:47.220461+00:00", "created_at":
-        1656066527000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        > 100", "message": "Test event monitor", "id": 6485569, "multi": false, "name":
+        "Test event monitor", "created": "2022-06-24T14:08:00.022543+00:00", "created_at":
+        1656079680000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2022-06-24T10:28:47.220461+00:00", "priority": null, "overall_state_modified":
+        "2022-06-24T14:08:00.022543+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "event-v2 alert", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "silenced": {}, "include_tags": true,
         "restriction_query": null, "new_host_delay": 300, "notify_no_data": false,
@@ -7167,7 +7168,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:47 GMT
+      - Fri, 24 Jun 2022 14:08:00 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7187,13 +7188,13 @@ interactions:
       x-ratelimit-remaining:
       - '491'
       x-ratelimit-reset:
-      - '3'
+      - '1'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"restricted_roles": null, "tags": [], "query": "( 6483324 && 6483323 )
-      || !6483324", "message": "test", "multi": false, "name": "Composite monitor",
+    body: '{"restricted_roles": null, "tags": [], "query": "( 6485562 && 6485561 )
+      || !6485562", "message": "test", "multi": false, "name": "Composite monitor",
       "priority": null, "type": "composite", "options": {"notify_audit": false, "locked":
       false, "silenced": {}, "include_tags": false, "new_host_delay": 300, "notify_no_data":
       false, "renotify_interval": 0, "escalation_message": ""}}'
@@ -7209,17 +7210,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
       string: '{"restricted_roles": null, "tags": [], "deleted": null, "query": "(
-        6483324 && 6483323 ) || !6483324", "message": "test", "id": 6483332, "multi":
-        false, "name": "Composite monitor", "created": "2022-06-24T10:28:47.398838+00:00",
-        "created_at": 1656066527000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
+        6485562 && 6485561 ) || !6485562", "message": "test", "id": 6485570, "multi":
+        false, "name": "Composite monitor", "created": "2022-06-24T14:08:00.872886+00:00",
+        "created_at": 1656079680000, "creator": {"id": 1000219667, "handle": "frog@datadoghq.com",
         "name": "Frog", "email": "frog@datadoghq.com"}, "org_id": 1000044987, "modified":
-        "2022-06-24T10:28:47.398838+00:00", "priority": null, "overall_state_modified":
+        "2022-06-24T14:08:00.872886+00:00", "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "type": "composite", "options": {"notify_audit":
         false, "locked": false, "silenced": {}, "include_tags": false, "new_host_delay":
         300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
@@ -7240,7 +7241,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:47 GMT
+      - Fri, 24 Jun 2022 14:08:00 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7258,16 +7259,16 @@ interactions:
       x-ratelimit-period:
       - '10'
       x-ratelimit-remaining:
-      - '490'
+      - '499'
       x-ratelimit-reset:
-      - '3'
+      - '10'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "Updated Description Test", "monitor_tags": [], "thresholds":
       [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 0,
-      "monitor_ids": [6483323, 6483325], "name": "Composite monitor - Child 2", "tags":
+      "monitor_ids": [6485561, 6485563], "name": "Composite monitor - Child 2", "tags":
       [], "type": "monitor"}'
     headers:
       Accept:
@@ -7281,7 +7282,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
@@ -7289,9 +7290,9 @@ interactions:
       string: '{"data": [{"description": "Updated Description Test", "monitor_tags":
         [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 0, "id": "8d93b049754655669dafd3b03a5c0b47", "monitor_ids": [6483323,
-        6483325], "name": "Composite monitor - Child 2", "created_at": 1656066527,
-        "tags": [], "modified_at": 1656066527, "type": "monitor"}], "error": null}'
+        "type_id": 0, "id": "eeba9f07855c5e459dccaebc24208c90", "monitor_ids": [6485561,
+        6485563], "name": "Composite monitor - Child 2", "created_at": 1656079681,
+        "tags": [], "modified_at": 1656079681, "type": "monitor"}], "error": null}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
@@ -7308,7 +7309,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:47 GMT
+      - Fri, 24 Jun 2022 14:08:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7328,14 +7329,14 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '13'
+      - '59'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "noueman", "monitor_tags": [], "thresholds": [{"target":
       99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 0, "monitor_ids":
-      [6483316], "name": "[Synthetics] Test on google.com -tesst", "tags": [], "type":
+      [6485545], "name": "[Synthetics] Test on google.com -tesst", "tags": [], "type":
       "monitor"}'
     headers:
       Accept:
@@ -7349,7 +7350,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
@@ -7357,9 +7358,9 @@ interactions:
       string: '{"data": [{"description": "noueman", "monitor_tags": [], "creator":
         {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 0, "id": "c6e471211f8c51a89076a0a9cd2323b0", "monitor_ids": [6483316],
-        "name": "[Synthetics] Test on google.com -tesst", "created_at": 1656066527,
-        "tags": [], "modified_at": 1656066527, "type": "monitor"}], "error": null}'
+        "type_id": 0, "id": "b9bf326ef59e50938027c6ada1be4a88", "monitor_ids": [6485545],
+        "name": "[Synthetics] Test on google.com -tesst", "created_at": 1656079681,
+        "tags": [], "modified_at": 1656079681, "type": "monitor"}], "error": null}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
@@ -7376,7 +7377,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:47 GMT
+      - Fri, 24 Jun 2022 14:08:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7396,14 +7397,14 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '13'
+      - '59'
     status:
       code: 200
       message: OK
 - request:
     body: '{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags": [],
       "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-      "type_id": 0, "monitor_ids": [6483316, 6483323, 6483324, 6483317, 6483319],
+      "type_id": 0, "monitor_ids": [6485545, 6485561, 6485562, 6485547, 6485549],
       "name": "[Synthetics] Multple Monitors based SLO", "tags": ["noueman"], "type":
       "monitor"}'
     headers:
@@ -7418,7 +7419,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
@@ -7426,10 +7427,10 @@ interactions:
       string: '{"data": [{"description": "teeeeeeeeeeeeeeeeeest updated desc", "monitor_tags":
         [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 0, "id": "0222cb593f615b8080417b5f44a90a5f", "monitor_ids": [6483316,
-        6483323, 6483324, 6483317, 6483319], "name": "[Synthetics] Multple Monitors
-        based SLO", "created_at": 1656066528, "tags": ["noueman"], "modified_at":
-        1656066528, "type": "monitor"}], "error": null}'
+        "type_id": 0, "id": "c092400c177f5338827b0339eaff7aef", "monitor_ids": [6485545,
+        6485561, 6485562, 6485547, 6485549], "name": "[Synthetics] Multple Monitors
+        based SLO", "created_at": 1656079681, "tags": ["noueman"], "modified_at":
+        1656079681, "type": "monitor"}], "error": null}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
@@ -7446,7 +7447,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:48 GMT
+      - Fri, 24 Jun 2022 14:08:01 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7466,7 +7467,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '12'
+      - '59'
     status:
       code: 200
       message: OK
@@ -7487,7 +7488,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/slo
   response:
@@ -7496,8 +7497,8 @@ interactions:
         "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
         "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
         "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-        "sum:api.requests.status_ok{*}.as_count()"}, "id": "35070b9391e75b60bbcd946ada597678",
-        "name": "SLO test", "created_at": 1656066528, "tags": [], "modified_at": 1656066528,
+        "sum:api.requests.status_ok{*}.as_count()"}, "id": "340c03d5c2d3541ead982f9cbc556229",
+        "name": "SLO test", "created_at": 1656079682, "tags": [], "modified_at": 1656079682,
         "type": "metric"}], "error": null}'
     headers:
       Alt-Svc:
@@ -7515,7 +7516,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:48 GMT
+      - Fri, 24 Jun 2022 14:08:02 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7535,7 +7536,7 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '12'
+      - '58'
     status:
       code: 200
       message: OK
@@ -7560,15 +7561,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard
   response:
     body:
       string: '{"notify_list": [], "description": "", "restricted_roles": [], "author_name":
-        "Frog", "template_variables": [], "is_read_only": false, "id": "ktq-4fv-k9i",
-        "title": "datadog-sync-cli Test Dashboard", "url": "/dashboard/ktq-4fv-k9i/datadog-sync-cli-test-dashboard",
-        "created_at": "2022-06-24T10:28:48.559870+00:00", "modified_at": "2022-06-24T10:28:48.559870+00:00",
+        "Frog", "template_variables": [], "is_read_only": false, "id": "dre-2gd-yu8",
+        "title": "datadog-sync-cli Test Dashboard", "url": "/dashboard/dre-2gd-yu8/datadog-sync-cli-test-dashboard",
+        "created_at": "2022-06-24T14:08:02.541762+00:00", "modified_at": "2022-06-24T14:08:02.541762+00:00",
         "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
         [{"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
         2, "time": {}, "title_size": "16", "requests": [{"response_format": "scalar",
@@ -7590,7 +7591,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:48 GMT
+      - Fri, 24 Jun 2022 14:08:02 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -7604,9 +7605,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11946'
+      - '11994'
       x-ratelimit-reset:
-      - '12'
+      - '58'
     status:
       code: 200
       message: OK
@@ -7658,7 +7659,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard
   response:
@@ -7668,9 +7669,9 @@ interactions:
         [{"template_variables": [{"name": "var_1", "value": "host.dc"}, {"name": "var_2",
         "value": "my_service"}], "name": "preset_1"}], "template_variables": [{"default":
         "aws", "prefix": "host", "name": "var_1"}, {"default": "autoscaling", "prefix":
-        "service_name", "name": "var_2"}], "is_read_only": false, "id": "iad-pmm-qmv",
-        "title": "Test screenboard", "url": "/dashboard/iad-pmm-qmv/test-screenboard",
-        "created_at": "2022-06-24T10:28:48.801718+00:00", "modified_at": "2022-06-24T10:28:48.801718+00:00",
+        "service_name", "name": "var_2"}], "is_read_only": false, "id": "z9d-2e9-eye",
+        "title": "Test screenboard", "url": "/dashboard/z9d-2e9-eye/test-screenboard",
+        "created_at": "2022-06-24T14:08:03.287980+00:00", "modified_at": "2022-06-24T14:08:03.287980+00:00",
         "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"title_size":
         "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
         "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout":
@@ -7716,7 +7717,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:48 GMT
+      - Fri, 24 Jun 2022 14:08:03 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -7730,9 +7731,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11945'
+      - '11993'
       x-ratelimit-reset:
-      - '12'
+      - '57'
     status:
       code: 200
       message: OK
@@ -7741,23 +7742,23 @@ interactions:
       [], "is_read_only": false, "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "reflow_type":
       "auto", "widgets": [{"definition": {"widgets": [{"definition": {"title_size":
       "16", "viz_type": "timeseries", "title": "", "title_align": "left", "alert_id":
-      "6483324", "type": "alert_graph"}, "id": 5316294948508728}, {"definition": {"title_size":
+      "6485562", "type": "alert_graph"}, "id": 5316294948508728}, {"definition": {"title_size":
       "16", "title": "", "title_align": "left", "text_align": "left", "precision":
-      2, "alert_id": "6483323", "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}],
+      2, "alert_id": "6485561", "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}],
       "layout_type": "ordered", "type": "group", "title": "New group"}, "id": 2497183012091650},
       {"definition": {"title_size": "16", "viz_type": "timeseries", "title": "", "title_align":
-      "left", "alert_id": "6483324", "type": "alert_graph"}, "id": 4551400937275112},
+      "left", "alert_id": "6485562", "type": "alert_graph"}, "id": 4551400937275112},
       {"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
       2, "title_size": "16", "requests": [{"q": "avg:synthetics.http.dns.time{*}",
       "aggregator": "avg"}], "type": "query_value"}, "id": 7228117705299642}, {"definition":
       {"title_size": "16", "title": "", "title_align": "left", "text_align": "left",
-      "precision": 2, "alert_id": "6483323", "type": "alert_value", "unit": "auto"},
+      "precision": 2, "alert_id": "6485561", "type": "alert_value", "unit": "auto"},
       "id": 2397823643167820}, {"definition": {"time_windows": ["7d"], "title_size":
       "16", "show_error_budget": true, "view_type": "detail", "title_align": "left",
-      "slo_id": "8d93b049754655669dafd3b03a5c0b47", "view_mode": "overall", "title":
+      "slo_id": "eeba9f07855c5e459dccaebc24208c90", "view_mode": "overall", "title":
       "", "global_time_target": "0", "type": "slo"}, "id": 1076364961367720}, {"definition":
       {"time_windows": ["7d"], "title_size": "16", "show_error_budget": true, "view_type":
-      "detail", "title_align": "left", "slo_id": "c6e471211f8c51a89076a0a9cd2323b0",
+      "detail", "title_align": "left", "slo_id": "b9bf326ef59e50938027c6ada1be4a88",
       "view_mode": "overall", "title": "", "global_time_target": "0", "type": "slo"},
       "id": 4123257207386936}], "layout_type": "ordered"}'
     headers:
@@ -7772,35 +7773,35 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard
   response:
     body:
       string: '{"notify_list": [], "description": "", "restricted_roles": [], "author_name":
-        "Frog", "template_variables": [], "is_read_only": false, "id": "2v4-b9g-922",
-        "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "url": "/dashboard/2v4-b9g-922/timeboard-tue-jun-1-41857-pm",
-        "created_at": "2022-06-24T10:28:49.057241+00:00", "modified_at": "2022-06-24T10:28:49.057241+00:00",
+        "Frog", "template_variables": [], "is_read_only": false, "id": "rxh-w62-8nm",
+        "title": "Timeboard Tue, Jun 1, 4:18:57 pm", "url": "/dashboard/rxh-w62-8nm/timeboard-tue-jun-1-41857-pm",
+        "created_at": "2022-06-24T14:08:03.975044+00:00", "modified_at": "2022-06-24T14:08:03.975044+00:00",
         "reflow_type": "auto", "author_handle": "frog@datadoghq.com", "widgets": [{"definition":
         {"widgets": [{"definition": {"title_size": "16", "viz_type": "timeseries",
-        "title": "", "title_align": "left", "alert_id": "6483324", "type": "alert_graph"},
+        "title": "", "title_align": "left", "alert_id": "6485562", "type": "alert_graph"},
         "id": 5316294948508728}, {"definition": {"title_size": "16", "title": "",
-        "title_align": "left", "text_align": "left", "precision": 2, "alert_id": "6483323",
+        "title_align": "left", "text_align": "left", "precision": 2, "alert_id": "6485561",
         "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}], "layout_type":
         "ordered", "type": "group", "title": "New group"}, "id": 2497183012091650},
         {"definition": {"title_size": "16", "viz_type": "timeseries", "title": "",
-        "title_align": "left", "alert_id": "6483324", "type": "alert_graph"}, "id":
+        "title_align": "left", "alert_id": "6485562", "type": "alert_graph"}, "id":
         4551400937275112}, {"definition": {"title_size": "16", "title": "", "title_align":
         "left", "precision": 2, "autoscale": true, "requests": [{"q": "avg:synthetics.http.dns.time{*}",
         "aggregator": "avg"}], "type": "query_value"}, "id": 7228117705299642}, {"definition":
         {"title_size": "16", "title": "", "title_align": "left", "text_align": "left",
-        "precision": 2, "alert_id": "6483323", "type": "alert_value", "unit": "auto"},
+        "precision": 2, "alert_id": "6485561", "type": "alert_value", "unit": "auto"},
         "id": 2397823643167820}, {"definition": {"time_windows": ["7d"], "title_size":
         "16", "show_error_budget": true, "view_type": "detail", "title_align": "left",
-        "slo_id": "8d93b049754655669dafd3b03a5c0b47", "view_mode": "overall", "title":
+        "slo_id": "eeba9f07855c5e459dccaebc24208c90", "view_mode": "overall", "title":
         "", "global_time_target": "0", "type": "slo"}, "id": 1076364961367720}, {"definition":
         {"time_windows": ["7d"], "title_size": "16", "show_error_budget": true, "view_type":
-        "detail", "title_align": "left", "slo_id": "c6e471211f8c51a89076a0a9cd2323b0",
+        "detail", "title_align": "left", "slo_id": "b9bf326ef59e50938027c6ada1be4a88",
         "view_mode": "overall", "title": "", "global_time_target": "0", "type": "slo"},
         "id": 4123257207386936}], "layout_type": "ordered"}'
     headers:
@@ -7817,7 +7818,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:49 GMT
+      - Fri, 24 Jun 2022 14:08:04 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -7831,9 +7832,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11944'
+      - '11992'
       x-ratelimit-reset:
-      - '12'
+      - '57'
     status:
       code: 200
       message: OK
@@ -7851,15 +7852,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
   response:
     body:
       string: '{"is_favorite": false, "name": "Empty Test List", "dashboard_count":
         0, "author": {"handle": "frog@datadoghq.com", "name": "Frog"}, "created":
-        "2022-06-24T10:28:49.267183+00:00", "type": "manual_dashboard_list", "dashboards":
-        null, "modified": "2022-06-24T10:28:49.267193+00:00", "id": 18170}'
+        "2022-06-24T14:08:04.796767+00:00", "type": "manual_dashboard_list", "dashboards":
+        null, "modified": "2022-06-24T14:08:04.796778+00:00", "id": 18176}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
@@ -7876,7 +7877,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:49 GMT
+      - Fri, 24 Jun 2022 14:08:04 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7892,9 +7893,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11943'
+      - '11991'
       x-ratelimit-reset:
-      - '11'
+      - '56'
     status:
       code: 200
       message: OK
@@ -7912,9 +7913,9 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/18170/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/18176/dashboards
   response:
     body:
       string: '{"dashboards": []}'
@@ -7932,7 +7933,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:49 GMT
+      - Fri, 24 Jun 2022 14:08:05 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -7946,9 +7947,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11942'
+      - '11990'
       x-ratelimit-reset:
-      - '11'
+      - '55'
     status:
       code: 200
       message: OK
@@ -7966,15 +7967,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
   response:
     body:
       string: '{"is_favorite": false, "name": "Test list", "dashboard_count": 0, "author":
-        {"handle": "frog@datadoghq.com", "name": "Frog"}, "created": "2022-06-24T10:28:49.583922+00:00",
-        "type": "manual_dashboard_list", "dashboards": null, "modified": "2022-06-24T10:28:49.583932+00:00",
-        "id": 18171}'
+        {"handle": "frog@datadoghq.com", "name": "Frog"}, "created": "2022-06-24T14:08:05.247860+00:00",
+        "type": "manual_dashboard_list", "dashboards": null, "modified": "2022-06-24T14:08:05.247868+00:00",
+        "id": 18177}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
@@ -7991,7 +7992,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:49 GMT
+      - Fri, 24 Jun 2022 14:08:05 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8007,15 +8008,15 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11941'
+      - '11989'
       x-ratelimit-reset:
-      - '11'
+      - '55'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"dashboards": [{"id": "iad-pmm-qmv", "type": "custom_screenboard"}, {"id":
-      "2v4-b9g-922", "type": "custom_timeboard"}]}'
+    body: '{"dashboards": [{"id": "z9d-2e9-eye", "type": "custom_screenboard"}, {"id":
+      "rxh-w62-8nm", "type": "custom_timeboard"}]}'
     headers:
       Accept:
       - '*/*'
@@ -8028,13 +8029,13 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/18171/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/18177/dashboards
   response:
     body:
-      string: '{"dashboards": [{"type": "custom_screenboard", "id": "iad-pmm-qmv"},
-        {"type": "custom_timeboard", "id": "2v4-b9g-922"}]}'
+      string: '{"dashboards": [{"type": "custom_screenboard", "id": "z9d-2e9-eye"},
+        {"type": "custom_timeboard", "id": "rxh-w62-8nm"}]}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
@@ -8051,7 +8052,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:49 GMT
+      - Fri, 24 Jun 2022 14:08:05 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8067,14 +8068,14 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11940'
+      - '11988'
       x-ratelimit-reset:
-      - '11'
+      - '55'
     status:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "correction", "attributes": {"slo_id": "0222cb593f615b8080417b5f44a90a5f",
+    body: '{"data": {"type": "correction", "attributes": {"slo_id": "c092400c177f5338827b0339eaff7aef",
       "start": 1656064450, "end": 1656066450, "description": "", "category": "Scheduled
       Maintenance", "timezone": "UTC", "modifier": null}}}'
     headers:
@@ -8089,13 +8090,13 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/slo/correction
   response:
     body:
-      string: '{"data": {"type": "correction", "id": "70146982-f3a8-11ec-a558-da7ad0902005",
-        "attributes": {"slo_id": "0222cb593f615b8080417b5f44a90a5f", "start": 1656064450,
+      string: '{"data": {"type": "correction", "id": "11937c76-f3c7-11ec-8d73-da7ad0902005",
+        "attributes": {"slo_id": "c092400c177f5338827b0339eaff7aef", "start": 1656064450,
         "end": 1656066450, "description": "", "category": "Scheduled Maintenance",
         "timezone": "UTC", "created_at": null, "modified_at": null, "rrule": null,
         "duration": null, "creator": {"data": {"type": "users", "id": "3af5af64-bfcd-11eb-b483-da7ad0900005",
@@ -8118,7 +8119,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:50 GMT
+      - Fri, 24 Jun 2022 14:08:06 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8136,9 +8137,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11982'
+      - '11999'
       x-ratelimit-reset:
-      - '10'
+      - '55'
     status:
       code: 200
       message: OK
@@ -8159,17 +8160,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/downtime
   response:
     body:
       string: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id":
         null, "canceled": null, "monitor_id": null, "mute_first_recovery_notification":
-        false, "created": 1656066530, "org_id": 1000044987, "modified": 1656066530,
+        false, "created": 1656079686, "org_id": 1000044987, "modified": 1656079686,
         "disabled": false, "start": 1777521600, "creator_id": 1000219667, "parent_id":
         null, "timezone": "America/New_York", "active": false, "scope": ["*"], "message":
-        "Sample downtime message", "downtime_type": 0, "id": 131560406, "updater_id":
+        "Sample downtime message", "downtime_type": 0, "id": 131618304, "updater_id":
         null}'
     headers:
       Alt-Svc:
@@ -8187,7 +8188,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:50 GMT
+      - Fri, 24 Jun 2022 14:08:06 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8203,9 +8204,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11938'
+      - '11986'
       x-ratelimit-reset:
-      - '10'
+      - '54'
     status:
       code: 200
       message: OK
@@ -8226,17 +8227,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/downtime
   response:
     body:
       string: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id":
         null, "canceled": null, "monitor_id": null, "mute_first_recovery_notification":
-        false, "created": 1656066530, "org_id": 1000044987, "modified": 1656066530,
+        false, "created": 1656079686, "org_id": 1000044987, "modified": 1656079686,
         "disabled": false, "start": 1807675200, "creator_id": 1000219667, "parent_id":
         null, "timezone": "America/New_York", "active": false, "scope": ["*"], "message":
-        "Sample message", "downtime_type": 0, "id": 131560407, "updater_id": null}'
+        "Sample message", "downtime_type": 0, "id": 131618305, "updater_id": null}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
@@ -8253,7 +8254,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:50 GMT
+      - Fri, 24 Jun 2022 14:08:06 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -8269,9 +8270,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11937'
+      - '11985'
       x-ratelimit-reset:
-      - '10'
+      - '54'
     status:
       code: 200
       message: OK
@@ -8287,7 +8288,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/permissions
   response:
@@ -8690,7 +8691,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 24 Jun 2022 10:28:51 GMT
+      - Fri, 24 Jun 2022 14:08:07 GMT
       Transfer-Encoding:
       - chunked
       cache-control:
@@ -8714,9 +8715,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11971'
+      - '11999'
       x-ratelimit-reset:
-      - '9'
+      - '53'
     status:
       code: 200
       message: OK
@@ -8732,7 +8733,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.12; os darwin; arch x86_64)
+      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v2/permissions
   response:
@@ -9145,7 +9146,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 24 Jun 2022 10:28:51 GMT
+      - Fri, 24 Jun 2022 14:08:07 GMT
       pragma:
       - no-cache
       strict-transport-security:
@@ -9161,9 +9162,9 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '11936'
+      - '11984'
       x-ratelimit-reset:
-      - '9'
+      - '53'
     status:
       code: 200
       message: OK
