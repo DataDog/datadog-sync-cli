@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from typing import Optional, List, Dict
+from datetime import datetime
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
@@ -25,6 +26,9 @@ class SLOCorrections(BaseResource):
         return resp["data"]
 
     def import_resource(self, resource: Dict) -> None:
+        if resource["attributes"].get("end", False):
+            if (round(datetime.now().timestamp()) - int(resource["attributes"]["end"])) / 86400 > 90:
+                return
         self.resource_config.source_resources[resource["id"]] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
