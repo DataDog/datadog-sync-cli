@@ -13,6 +13,7 @@ class LogsIndexes(BaseResource):
     resource_type = "logs_indexes"
     resource_config = ResourceConfig(
         base_path="/api/v1/logs/config/indexes",
+        concurrent=False,
         excluded_attributes=[
             "is_rate_limited",
         ],
@@ -62,7 +63,7 @@ class LogsIndexes(BaseResource):
         if not self.resource_config.destination_resources[_id].get("daily_limit"):
             self.resource_config.destination_resources[_id]["disable_daily_limit"] = True
         else:
-            self.resource_config.destination_resources[_id].pop("disable_daily_limit")
+            self.resource_config.destination_resources[_id].pop("disable_daily_limit", None)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         super(LogsIndexes, self).connect_id(key, r_obj, resource_to_connect)
