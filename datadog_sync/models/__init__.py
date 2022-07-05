@@ -19,5 +19,7 @@ from datadog_sync.model.notebooks import Notebooks
 from datadog_sync.model.logs_metrics import LogsMetrics
 from datadog_sync.model.host_tags import HostTags
 from datadog_sync.model.metric_tag_configurations import MetricTagConfigurations
+from datadog_sync.model.logs_indexes import LogsIndexes
+from datadog_sync.model.logs_restriction_queries import LogsRestrictionQueries
 
 # from datadog_sync.model.integrations_aws import IntegrationsAWS

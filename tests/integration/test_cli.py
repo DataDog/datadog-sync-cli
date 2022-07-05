@@ -31,7 +31,7 @@ def test_cli(tmpdir, runner):
     resources = ",".join(resource_types)
     with tmpdir.as_cwd():
         # Import
-        ret = runner.invoke(cli, ["import"])
+        ret = runner.invoke(cli, ["import"], f"--resources={resources}")
         assert 0 == ret.exit_code
         #  Sync
         ret = runner.invoke(cli, ["sync", f"--resources={resources}", "--skip-failed-resource-connections=False"])

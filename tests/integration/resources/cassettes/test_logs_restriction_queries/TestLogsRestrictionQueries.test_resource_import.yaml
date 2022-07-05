@@ -1,0 +1,185 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/logs/config/restriction_queries?page%5Bnumber%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"data": [{"type": "logs_restriction_queries", "id": "f1edd8e6-bcc4-11ec-971a-da7ad0900002",
+        "attributes": {"restriction_query": "service:random", "created_at": "2022-04-15T14:04:20.014801+00:00",
+        "modified_at": "2022-04-15T14:04:20.014801+00:00"}}, {"type": "logs_restriction_queries",
+        "id": "bbb5bc46-bccc-11ec-971e-da7ad0900002", "attributes": {"restriction_query":
+        "service:non-existent", "created_at": "2022-04-15T15:00:05.023258+00:00",
+        "modified_at": "2022-04-15T15:00:05.023258+00:00"}}]}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 15 Apr 2022 15:15:25 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '474'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '420'
+      x-ratelimit-name:
+      - logs_public_config_api_restriction_queries_read
+      x-ratelimit-period:
+      - '300'
+      x-ratelimit-remaining:
+      - '419'
+      x-ratelimit-reset:
+      - '275'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/logs/config/restriction_queries/f1edd8e6-bcc4-11ec-971a-da7ad0900002
+  response:
+    body:
+      string: '{"included": [{"type": "roles", "id": "fa017a36-bfcb-11eb-a4d7-da7ad0900002",
+        "attributes": {"name": "Datadog Standard Role"}}, {"type": "roles", "id":
+        "fa017a37-bfcb-11eb-a4d7-da7ad0900002", "attributes": {"name": "Datadog Read
+        Only Role"}}], "data": {"type": "logs_restriction_queries", "id": "f1edd8e6-bcc4-11ec-971a-da7ad0900002",
+        "attributes": {"restriction_query": "service:random", "created_at": "2022-04-15T14:04:20.014801+00:00",
+        "modified_at": "2022-04-15T14:04:20.014801+00:00"}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "fa017a37-bfcb-11eb-a4d7-da7ad0900002"},
+        {"type": "roles", "id": "fa017a36-bfcb-11eb-a4d7-da7ad0900002"}]}}}}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 15 Apr 2022 15:15:25 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '624'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '420'
+      x-ratelimit-name:
+      - logs_public_config_api_restriction_queries_read
+      x-ratelimit-period:
+      - '300'
+      x-ratelimit-remaining:
+      - '418'
+      x-ratelimit-reset:
+      - '275'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/logs/config/restriction_queries/bbb5bc46-bccc-11ec-971e-da7ad0900002
+  response:
+    body:
+      string: '{"data": {"type": "logs_restriction_queries", "id": "bbb5bc46-bccc-11ec-971e-da7ad0900002",
+        "attributes": {"restriction_query": "service:non-existent", "created_at":
+        "2022-04-15T15:00:05.023258+00:00", "modified_at": "2022-04-15T15:00:05.023258+00:00"},
+        "relationships": {"roles": {"data": []}}}}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 15 Apr 2022 15:15:25 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-length:
+      - '281'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '420'
+      x-ratelimit-name:
+      - logs_public_config_api_restriction_queries_read
+      x-ratelimit-period:
+      - '300'
+      x-ratelimit-remaining:
+      - '417'
+      x-ratelimit-reset:
+      - '275'
+    status:
+      code: 200
+      message: OK
+version: 1

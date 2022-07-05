@@ -113,6 +113,9 @@ class CustomClient:
 
                 resp_json = resp.json()
                 resources.extend(resp_json["data"])
+                if len(resp_json["data"]) < page_size:
+                    remaining = 0
+                    continue
                 remaining = pagination_config.remaining_func(idx, resp_json, page_size, page_number)
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
                 idx += 1

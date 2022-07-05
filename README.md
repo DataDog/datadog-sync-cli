@@ -134,7 +134,9 @@ the resources on the destination, and saves locally what has been pushed.
 - **logs_custom_pipelines**
 - **notebooks**
 - **host_tags**
+- **logs_indexes**
 - **logs_metrics**
+- **logs_restriction_queries**
 - **metric_tag_configurations**
 
 ## Best practices
@@ -143,21 +145,23 @@ Many Datadog resources are interdependent. For example, Users resource reference
 
 If importing/syncing resources individually, ensure resource dependencies are imported and synced as well:
 
-Resource                      | Dependencies
----                           | ---
-roles                         | -
-users                         | roles
-synthetics_private_locations  | -
-synthetics_tests              | synthetics_private_locations
-synthetics_global_variables   | synthetics_tests
-monitors                      | roles
-downtimes                     | monitors
-service_level_objectives      | monitors, synthetics_tests
-slo_corrections               | service_level_objectives
-dashboards                    | monitors, roles, service_level_objectives
-dashboard_lists               | dashboards
-logs_custom_pipelines         | -
-notebooks                     | -
-host_tags                     | -
-logs_metrics                  | -
-metric_tag_configurations     | -
+| Resource                     | Dependencies                              |
+|------------------------------|-------------------------------------------|
+| roles                        | -                                         |
+| users                        | roles                                     |
+| synthetics_private_locations | -                                         |
+| synthetics_tests             | synthetics_private_locations              |
+| synthetics_global_variables  | synthetics_tests                          |
+| monitors                     | roles                                     |
+| downtimes                    | monitors                                  |
+| service_level_objectives     | monitors, synthetics_tests                |
+| slo_corrections              | service_level_objectives                  |
+| dashboards                   | monitors, roles, service_level_objectives |
+| dashboard_lists              | dashboards                                |
+| logs_custom_pipelines        | -                                         |
+| notebooks                    | -                                         |
+| host_tags                    | -                                         |
+| logs_indexes                 | -                                         |
+| logs_metrics                 | -                                         |
+| logs_restriction_queries     | roles                                     |
+| metric_tag_configurations    | -                                         |
