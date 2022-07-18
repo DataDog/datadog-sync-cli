@@ -5,6 +5,7 @@
 
 from click import option
 import click_config_file
+import configobj
 
 from datadog_sync import constants
 
@@ -55,6 +56,11 @@ _destination_auth_options = [
 ]
 
 
+def click_config_file_provider(file_path, cmd_name):
+    config = configobj.ConfigObj(file_path, unrepr=True, file_error=True)
+    return config
+
+
 _common_options = [
     option(
         "--http-client-retry-timeout",
@@ -86,7 +92,7 @@ _common_options = [
         help="Max number of workers when running operations in multi-threads.",
     ),
     option("--filter", required=False, help="Filter resources.", multiple=True),
-    click_config_file.configuration_option(),
+    click_config_file.configuration_option(provider=click_config_file_provider),
 ]
 
 
