@@ -59,7 +59,6 @@ def click_config_file_provider(ctx, value):
     config = configobj.ConfigObj(value, unrepr=True)
     ctx.default_map = ctx.default_map or {}
     ctx.default_map.update(config)
-    return config
 
 
 _common_options = [
