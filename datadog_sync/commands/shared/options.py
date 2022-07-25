@@ -2,10 +2,9 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
-
-from click import option
-import click_config_file
 import configobj
+
+from click import option, File
 
 from datadog_sync import constants
 
@@ -56,8 +55,10 @@ _destination_auth_options = [
 ]
 
 
-def click_config_file_provider(file_path, cmd_name):
-    config = configobj.ConfigObj(file_path, unrepr=True, file_error=True)
+def click_config_file_provider(ctx, value):
+    config = configobj.ConfigObj(value, unrepr=True)
+    ctx.default_map = ctx.default_map or {}
+    ctx.default_map.update(config)
     return config
 
 
@@ -92,7 +93,7 @@ _common_options = [
         help="Max number of workers when running operations in multi-threads.",
     ),
     option("--filter", required=False, help="Filter resources.", multiple=True),
-    click_config_file.configuration_option(provider=click_config_file_provider),
+    option("--config", help="Read configuration from FILE.", type=File('rb'), callback=click_config_file_provider),
 ]
 
 
