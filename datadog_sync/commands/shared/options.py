@@ -85,7 +85,14 @@ _common_options = [
         type=int,
         help="Max number of workers when running operations in multi-threads.",
     ),
-    option("--filter", required=False, help="Filter resources.", multiple=True),
+    option(
+        "--filter-operator",
+        envvar=constants.DD_FILTER_OPERATOR,
+        required=False,
+        default="OR",
+        help="Filter operator when multiple filters are passed. Supports `AND` or `OR`.",
+    ),
+    option("--filter", required=False, help="Filter resources.", multiple=True, envvar=constants.DD_FILTER),
     click_config_file.configuration_option(),
 ]
 
