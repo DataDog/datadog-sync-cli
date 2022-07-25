@@ -54,10 +54,10 @@ def test_invalid_filter(caplog, _filter):
             True,
         ),
         (
-                ["Type=Monitors;Name=name;Value=RandomName", "Type=Monitors;Name=tags;Value=second:true"],
-                Monitors,
-                {"tags": ["test:true", "second:true"], "name": "RandomName"},
-                True,
+            ["Type=Monitors;Name=name;Value=RandomName", "Type=Monitors;Name=tags;Value=second:true"],
+            Monitors,
+            {"tags": ["test:true", "second:true"], "name": "RandomName"},
+            True,
         ),
         (
             ["Type=Monitors;Name=tags;Value=test:true", "Type=Monitors;Name=tags;Value=second:false"],
