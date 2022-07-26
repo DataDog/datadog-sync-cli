@@ -231,8 +231,16 @@ class BaseResource(abc.ABC):
         if not self.config.filters or self.resource_type not in self.config.filters:
             return True
 
-        for _filter in self.config.filters[self.resource_type]:
-            if _filter.is_match(resource):
-                return True
-        # Filter was specified for resource type but resource did not match any
-        return False
+        if self.config.filter_operator.lower() == "and":
+            for _filter in self.config.filters[self.resource_type]:
+                if not _filter.is_match(resource):
+                    return False
+            # All resources successfully matched
+            return True
+        else:
+            # Fallback to 'OR' logic. Filter in if any filter applies to resource
+            for _filter in self.config.filters[self.resource_type]:
+                if _filter.is_match(resource):
+                    return True
+            # Filter was specified for resource type but resource did not match any
+            return False
