@@ -34,6 +34,7 @@ class Configuration(object):
     resources: Union[_OrderedDict[str, BaseResource], None] = None
     missing_deps: Optional[List[str]] = None
     filters: Optional[Dict[str, Filter]] = None
+    filter_operator: Optional[str] = None
     force_missing_dependencies: Optional[bool] = None
     skip_failed_resource_connections: Optional[bool] = None
     max_workers: Optional[int] = None
@@ -49,6 +50,7 @@ def build_config(**kwargs: Any) -> Configuration:
 
     # configure Filter
     filters = process_filters(kwargs.get("filter"))
+    filter_operator = kwargs.get("filter_operator")
 
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
@@ -78,6 +80,7 @@ def build_config(**kwargs: Any) -> Configuration:
         source_client=source_client,
         destination_client=destination_client,
         filters=filters,
+        filter_operator=filter_operator,
         force_missing_dependencies=force_missing_dependencies,
         skip_failed_resource_connections=skip_failed_resource_connections,
         max_workers=max_workers,
