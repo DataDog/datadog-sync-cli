@@ -40,6 +40,7 @@ Options:
                                               by default.
   -v, --verbose                               Enable verbose logging.
   --filter TEXT                               Filter imported resources. See [Filtering] section for more details.
+  --filter-operator TEXT                      Filter operator when multiple filters are passed. Supports `AND` or `OR`.
   --config FILE                               Read configuration from FILE. See [Config] section for more details.
   --max-workers INTEGER                       Max number of workers when running
                                               operations in multi-threads. Defaults to the number of processors on the machine, multiplied by 5.
@@ -71,6 +72,8 @@ Available keys:
 - `Operator`: Available operators are below. All invalid operator's default to `ExactMatch`.
   - `SubString`: Sub string matching
   - `ExactMatch`: Exact string match.
+
+By default, if multiple filters are passed for the same resource, `OR` logic is applied to the filters. This behavior can be adjusted using the `--filter-operator` option.
 
 #### Config file
 
