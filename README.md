@@ -90,7 +90,7 @@ source_api_url="https://api.datadoghq.com"
 filter=["Type=Dashboards;Name=title;Value=Test screenboard", "Type=Monitors;Name=tags;Value=sync:true"]
 ```
 
-Usage: `datadog-sync --config config import`
+Usage: `datadog-sync import --config config`
 
 ### Using the package
 
@@ -116,7 +116,7 @@ Note: The above docker run command will mount your current working directory to 
 
 ## Workflow
 
-To use the tool, first run the `import` command, which will read the wanted items from the specified resources and save them locally.
+To use the tool, first run the `import` command, which will read the wanted items from the specified resources and save them locally into JSON files in the directory `resources/source`.
 
 Then, you can run the `sync` command which will use that local cache (unless `--force-missing-dependencies` is passed) to create
 the resources on the destination, and saves locally what has been pushed.
