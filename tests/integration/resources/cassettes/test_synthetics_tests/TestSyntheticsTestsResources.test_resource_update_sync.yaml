@@ -24,14 +24,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/kgs-iqi-bn6
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/f8k-9ky-eux
   response:
     body:
-      string: '{"status": "paused", "public_id": "kgs-iqi-bn6", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "f8k-9ky-eux", "tags": [], "org_id":
         1000044987, "locations": ["aws:ca-central-1"], "message": "Test synthetics
-        updated", "deleted_at": null, "name": "HTTP Test", "monitor_id": 8752018,
-        "type": "api", "created_at": "2022-11-15T21:17:36.728737+00:00", "modified_at":
-        "2022-11-15T21:17:41.625063+00:00", "subtype": "http", "config": {"request":
+        updated", "deleted_at": null, "name": "HTTP Test", "monitor_id": 8768685,
+        "type": "api", "created_at": "2022-11-16T18:30:19.253159+00:00", "modified_at":
+        "2022-11-16T18:30:22.712145+00:00", "subtype": "http", "config": {"request":
         {"url": "https://google.com", "method": "GET"}, "assertions": [{"operator":
         "lessThan", "type": "responseTime", "target": 1000}, {"operator": "is", "type":
         "statusCode", "target": 301}, {"operator": "is", "property": "content-type",
@@ -54,7 +54,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:41 GMT
+      - Wed, 16 Nov 2022 18:30:22 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -72,7 +72,7 @@ interactions:
       x-ratelimit-remaining:
       - '499'
       x-ratelimit-reset:
-      - '19'
+      - '38'
     status:
       code: 200
       message: OK
@@ -108,15 +108,15 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/i2n-5si-9bz
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/phd-apc-vir
   response:
     body:
-      string: '{"status": "live", "public_id": "i2n-5si-9bz", "tags": ["testing:api"],
+      string: '{"status": "live", "public_id": "phd-apc-vir", "tags": ["testing:api"],
         "org_id": 1000044987, "locations": ["aws:us-east-2"], "message": "BDD test
         payload: synthetics_api_http_test_payload.jsonupdated", "deleted_at": null,
         "name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270", "monitor_id":
-        8752019, "type": "api", "created_at": "2022-11-15T21:17:37.037968+00:00",
-        "modified_at": "2022-11-15T21:17:41.946924+00:00", "subtype": "http", "config":
+        8768686, "type": "api", "created_at": "2022-11-16T18:30:19.528663+00:00",
+        "modified_at": "2022-11-16T18:30:23.066972+00:00", "subtype": "http", "config":
         {"request": {"certificate": {"cert": {"updatedAt": "2020-10-16T09:23:24.857Z",
         "filename": "cert-filename"}, "key": {"updatedAt": "2020-10-16T09:23:24.857Z",
         "filename": "key-filename"}}, "url": "https://datadoghq.com", "headers": {"unique":
@@ -145,7 +145,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:42 GMT
+      - Wed, 16 Nov 2022 18:30:23 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -163,7 +163,7 @@ interactions:
       x-ratelimit-remaining:
       - '498'
       x-ratelimit-reset:
-      - '19'
+      - '38'
     status:
       code: 200
       message: OK
@@ -189,14 +189,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/wsn-5gy-49e
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/6eb-ye8-6pq
   response:
     body:
-      string: '{"status": "live", "public_id": "wsn-5gy-49e", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "6eb-ye8-6pq", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerdutyupdated", "deleted_at": null, "name": "TCP Test",
-        "monitor_id": 8752020, "type": "api", "created_at": "2022-11-15T21:17:37.611529+00:00",
-        "modified_at": "2022-11-15T21:17:42.279190+00:00", "subtype": "tcp", "config":
+        "monitor_id": 8768687, "type": "api", "created_at": "2022-11-16T18:30:19.832939+00:00",
+        "modified_at": "2022-11-16T18:30:24.104319+00:00", "subtype": "tcp", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "lessThan", "type": "responseTime", "target": 2000}]}, "options": {"monitor_options":
         {"notify_audit": false, "include_tags": true, "new_host_delay": 300, "on_missing_data":
@@ -216,7 +216,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:42 GMT
+      - Wed, 16 Nov 2022 18:30:24 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -234,7 +234,7 @@ interactions:
       x-ratelimit-remaining:
       - '497'
       x-ratelimit-reset:
-      - '18'
+      - '36'
     status:
       code: 200
       message: OK
@@ -261,14 +261,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/g6w-bsf-typ
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/9hk-ibv-gew
   response:
     body:
-      string: '{"status": "live", "public_id": "g6w-bsf-typ", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "9hk-ibv-gew", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerdutyupdated", "deleted_at": null, "name": "SSL Test",
-        "monitor_id": 8752021, "type": "api", "created_at": "2022-11-15T21:17:38.645609+00:00",
-        "modified_at": "2022-11-15T21:17:43.029746+00:00", "subtype": "ssl", "config":
+        "monitor_id": 8768688, "type": "api", "created_at": "2022-11-16T18:30:21.120043+00:00",
+        "modified_at": "2022-11-16T18:30:24.478573+00:00", "subtype": "ssl", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "isInMoreThan", "type": "certificate", "target": 30}]}, "options": {"monitor_options":
         {"notify_audit": false, "include_tags": true, "new_host_delay": 300, "on_missing_data":
@@ -288,7 +288,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:43 GMT
+      - Wed, 16 Nov 2022 18:30:24 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -306,7 +306,7 @@ interactions:
       x-ratelimit-remaining:
       - '496'
       x-ratelimit-reset:
-      - '18'
+      - '36'
     status:
       code: 200
       message: OK
@@ -413,13 +413,13 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/xzq-aje-9sm
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/s38-udv-jt2
   response:
     body:
-      string: '{"status": "live", "public_id": "xzq-aje-9sm", "tags": [], "org_id":
+      string: '{"status": "live", "public_id": "s38-udv-jt2", "tags": [], "org_id":
         1000044987, "locations": ["aws:us-west-1"], "message": "updated", "deleted_at":
-        null, "name": "Browser Test (cloned)", "monitor_id": 8752022, "type": "browser",
-        "created_at": "2022-11-15T21:17:40.009623+00:00", "modified_at": "2022-11-15T21:17:43.471396+00:00",
+        null, "name": "Browser Test (cloned)", "monitor_id": 8768689, "type": "browser",
+        "created_at": "2022-11-16T18:30:21.458831+00:00", "modified_at": "2022-11-16T18:30:24.892659+00:00",
         "steps": [{"name": "Type text on input \"s\"", "noScreenshot": false, "allowFailure":
         false, "params": {"value": "api", "element": {"url": "https://docs.datadoghq.com/",
         "targetOuterHTML": "<input class=\"docssearch-input form-control ds-input\"
@@ -521,7 +521,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:43 GMT
+      - Wed, 16 Nov 2022 18:30:25 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -539,7 +539,7 @@ interactions:
       x-ratelimit-remaining:
       - '495'
       x-ratelimit-reset:
-      - '17'
+      - '36'
     status:
       code: 200
       message: OK
@@ -565,14 +565,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/5q9-cnx-ke7
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/6pf-5g5-d6z
   response:
     body:
-      string: '{"status": "live", "public_id": "5q9-cnx-ke7", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "6pf-5g5-d6z", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerdutyupdated", "deleted_at": null, "name": "DNS Test",
-        "monitor_id": 8752023, "type": "api", "created_at": "2022-11-15T21:17:40.767100+00:00",
-        "modified_at": "2022-11-15T21:17:43.875934+00:00", "subtype": "dns", "config":
+        "monitor_id": 8768690, "type": "api", "created_at": "2022-11-16T18:30:21.976296+00:00",
+        "modified_at": "2022-11-16T18:30:25.298078+00:00", "subtype": "dns", "config":
         {"request": {"host": "example.org"}, "assertions": [{"operator": "is", "property":
         "A", "type": "recordSome", "target": "0.0.0.0"}]}, "options": {"monitor_options":
         {"notify_audit": false, "include_tags": true, "new_host_delay": 300, "on_missing_data":
@@ -592,7 +592,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:43 GMT
+      - Wed, 16 Nov 2022 18:30:26 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -610,7 +610,7 @@ interactions:
       x-ratelimit-remaining:
       - '494'
       x-ratelimit-reset:
-      - '17'
+      - '35'
     status:
       code: 200
       message: OK
@@ -641,14 +641,14 @@ interactions:
       User-Agent:
       - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/4wg-jiu-3sx
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/h4m-zw4-m3x
   response:
     body:
-      string: '{"status": "live", "public_id": "4wg-jiu-3sx", "tags": ["check_type:api",
+      string: '{"status": "live", "public_id": "h4m-zw4-m3x", "tags": ["check_type:api",
         "env:test", "test:update"], "org_id": 1000044987, "locations": ["aws:sa-east-1"],
         "message": "updated", "deleted_at": null, "name": "Multistep API Test", "monitor_id":
-        8752024, "type": "api", "created_at": "2022-11-15T21:17:41.260544+00:00",
-        "modified_at": "2022-11-15T21:17:44.262714+00:00", "subtype": "multi", "config":
+        8768691, "type": "api", "created_at": "2022-11-16T18:30:22.329934+00:00",
+        "modified_at": "2022-11-16T18:30:26.357689+00:00", "subtype": "multi", "config":
         {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
         "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
         "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
@@ -672,7 +672,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:44 GMT
+      - Wed, 16 Nov 2022 18:30:26 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -690,7 +690,7 @@ interactions:
       x-ratelimit-remaining:
       - '493'
       x-ratelimit-reset:
-      - '16'
+      - '34'
     status:
       code: 200
       message: OK

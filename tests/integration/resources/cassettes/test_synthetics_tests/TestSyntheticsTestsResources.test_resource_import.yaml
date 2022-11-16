@@ -117,7 +117,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Nov 2022 21:17:36 GMT
+      - Wed, 16 Nov 2022 18:30:18 GMT
       Transfer-Encoding:
       - chunked
       content-length:
@@ -141,7 +141,266 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '24'
+      - '42'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/tests/api/9kt-p3e-he4
+  response:
+    body:
+      string: '{"status": "paused", "public_id": "9kt-p3e-he4", "tags": [], "locations":
+        ["aws:ca-central-1"], "message": "Test synthetics ", "name": "HTTP Test",
+        "monitor_id": 103095757, "type": "api", "created_at": "2022-11-15T21:05:04.474438+00:00",
+        "creator": {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov",
+        "email": "sherzod.karimov@datadoghq.com"}, "modified_at": "2022-11-15T21:05:04.474438+00:00",
+        "subtype": "http", "config": {"request": {"url": "https://google.com", "method":
+        "GET"}, "assertions": [{"operator": "lessThan", "type": "responseTime", "target":
+        1000}, {"operator": "is", "type": "statusCode", "target": 301}, {"operator":
+        "is", "property": "content-type", "type": "header", "target": "text/html;
+        charset=UTF-8"}]}, "options": {"retry": {"count": 1, "interval": 300}, "min_location_failed":
+        1, "monitor_options": {"include_tags": true, "renotify_interval": 120, "notify_audit":
+        false, "new_host_delay": 300, "on_missing_data": "show_no_data"}, "tick_every":
+        604800, "monitor_priority": 3, "min_failure_duration": 120}}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 18:30:18 GMT
+      Transfer-Encoding:
+      - chunked
+      content-length:
+      - '970'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '1000'
+      x-ratelimit-name:
+      - synthetics_export
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '999'
+      x-ratelimit-reset:
+      - '42'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/tests/api/e6x-9uf-7vc
+  response:
+    body:
+      string: '{"status": "live", "public_id": "e6x-9uf-7vc", "tags": ["testing:api"],
+        "locations": ["aws:us-east-2"], "message": "BDD test payload: synthetics_api_http_test_payload.json",
+        "name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270", "monitor_id":
+        103095761, "type": "api", "created_at": "2022-11-15T21:05:04.493127+00:00",
+        "creator": {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov",
+        "email": "sherzod.karimov@datadoghq.com"}, "modified_at": "2022-11-15T21:05:04.493127+00:00",
+        "subtype": "http", "config": {"request": {"certificate": {"cert": {"filename":
+        "cert-filename", "updatedAt": "2020-10-16T09:23:24.857Z"}, "key": {"filename":
+        "key-filename", "updatedAt": "2020-10-16T09:23:24.857Z"}}, "url": "https://datadoghq.com",
+        "headers": {"unique": "testtriggersyntheticstestsreturnsokresponse1666783270"},
+        "proxy": {"url": "https://datadoghq.com", "headers": {}}, "timeout": 10, "method":
+        "GET"}, "assertions": [{"operator": "is", "property": "{{ PROPERTY }}", "type":
+        "header", "target": "text/html"}, {"operator": "lessThan", "type": "responseTime",
+        "target": 2000}, {"operator": "validatesJSONPath", "type": "body", "target":
+        {"operator": "isNot", "targetValue": "0", "jsonPath": "topKey"}}], "configVariables":
+        [{"pattern": "content-type", "type": "text", "example": "content-type", "name":
+        "PROPERTY"}]}, "options": {"accept_self_signed": false, "retry": {"count":
+        3, "interval": 10}, "min_location_failed": 1, "allow_insecure": true, "follow_redirects":
+        true, "min_failure_duration": 10, "monitor_priority": 5, "monitor_name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
+        "tick_every": 60}}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 18:30:18 GMT
+      Transfer-Encoding:
+      - chunked
+      content-length:
+      - '1539'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '1000'
+      x-ratelimit-name:
+      - synthetics_export
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '998'
+      x-ratelimit-reset:
+      - '42'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/tests/api/shp-p4u-z5t
+  response:
+    body:
+      string: '{"status": "live", "public_id": "shp-p4u-z5t", "tags": ["foo:bar",
+        "foo", "env:test"], "locations": ["aws:eu-central-1"], "message": "Notify
+        @pagerduty", "name": "TCP Test", "monitor_id": 103095759, "type": "api", "created_at":
+        "2022-11-15T21:05:04.516477+00:00", "creator": {"handle": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "modified_at":
+        "2022-11-15T21:05:04.516477+00:00", "subtype": "tcp", "config": {"request":
+        {"host": "example.org", "port": 443}, "assertions": [{"operator": "lessThan",
+        "type": "responseTime", "target": 2000}]}, "options": {"monitor_options":
+        {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
+        300, "on_missing_data": "show_no_data"}, "tick_every": 900, "min_location_failed":
+        1}}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 18:30:18 GMT
+      Transfer-Encoding:
+      - chunked
+      content-length:
+      - '748'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '1000'
+      x-ratelimit-name:
+      - synthetics_export
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '997'
+      x-ratelimit-reset:
+      - '42'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/tests/api/sac-hdw-2vm
+  response:
+    body:
+      string: '{"status": "live", "public_id": "sac-hdw-2vm", "tags": ["foo:bar",
+        "foo", "env:test"], "locations": ["aws:eu-central-1"], "message": "Notify
+        @pagerduty", "name": "SSL Test", "monitor_id": 103095758, "type": "api", "created_at":
+        "2022-11-15T21:05:04.539022+00:00", "creator": {"handle": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "modified_at":
+        "2022-11-15T21:05:04.539022+00:00", "subtype": "ssl", "config": {"request":
+        {"host": "example.org", "port": 443}, "assertions": [{"operator": "isInMoreThan",
+        "type": "certificate", "target": 30}]}, "options": {"accept_self_signed":
+        true, "tick_every": 900, "monitor_options": {"include_tags": true, "renotify_interval":
+        0, "notify_audit": false, "new_host_delay": 300, "on_missing_data": "show_no_data"},
+        "min_location_failed": 1}}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 18:30:18 GMT
+      Transfer-Encoding:
+      - chunked
+      content-length:
+      - '775'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '1000'
+      x-ratelimit-name:
+      - synthetics_export
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '996'
+      x-ratelimit-reset:
+      - '42'
     status:
       code: 200
       message: OK
@@ -261,7 +520,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Nov 2022 21:17:36 GMT
+      - Wed, 16 Nov 2022 18:30:18 GMT
       Transfer-Encoding:
       - chunked
       content-length:
@@ -283,9 +542,137 @@ interactions:
       x-ratelimit-period:
       - '60'
       x-ratelimit-remaining:
-      - '999'
+      - '995'
       x-ratelimit-reset:
-      - '24'
+      - '42'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/tests/api/n65-rw3-5ta
+  response:
+    body:
+      string: '{"status": "live", "public_id": "n65-rw3-5ta", "tags": ["foo:bar",
+        "foo", "env:test"], "locations": ["aws:eu-central-1"], "message": "Notify
+        @pagerduty", "name": "DNS Test", "monitor_id": 103095763, "type": "api", "created_at":
+        "2022-11-15T21:05:04.640424+00:00", "creator": {"handle": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "modified_at":
+        "2022-11-15T21:05:04.640424+00:00", "subtype": "dns", "config": {"request":
+        {"host": "example.org"}, "assertions": [{"operator": "is", "property": "A",
+        "type": "recordSome", "target": "0.0.0.0"}]}, "options": {"monitor_options":
+        {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
+        300, "on_missing_data": "show_no_data"}, "tick_every": 900, "min_location_failed":
+        1}}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 18:30:18 GMT
+      Transfer-Encoding:
+      - chunked
+      content-length:
+      - '749'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '1000'
+      x-ratelimit-name:
+      - synthetics_export
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '994'
+      x-ratelimit-reset:
+      - '42'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch arm64)
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/tests/api/ct9-df9-7cy
+  response:
+    body:
+      string: '{"status": "live", "public_id": "ct9-df9-7cy", "tags": ["check_type:api",
+        "env:test", "test:update"], "locations": ["aws:sa-east-1"], "message": "",
+        "name": "Multistep API Test", "monitor_id": 103095762, "type": "api", "created_at":
+        "2022-11-15T21:05:04.669579+00:00", "creator": {"handle": "sherzod.karimov@datadoghq.com",
+        "name": "Sherzod Karimov", "email": "sherzod.karimov@datadoghq.com"}, "modified_at":
+        "2022-11-15T21:05:04.669579+00:00", "subtype": "multi", "config": {"steps":
+        [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
+        "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
+        "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
+        [], "isCritical": true, "id": "vek-567-n38", "assertions": [{"operator": "lessThan",
+        "type": "responseTime", "target": 1000}, {"operator": "is", "type": "statusCode",
+        "target": 301}]}], "configVariables": []}, "options": {"monitor_options":
+        {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
+        300, "on_missing_data": "show_no_data"}, "retry": {"count": 0, "interval":
+        300}, "min_location_failed": 1, "min_failure_duration": 0, "tick_every": 604800}}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 18:30:18 GMT
+      Transfer-Encoding:
+      - chunked
+      content-length:
+      - '1116'
+      content-security-policy:
+      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.com
+      strict-transport-security:
+      - max-age=15724800;
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-ratelimit-limit:
+      - '1000'
+      x-ratelimit-name:
+      - synthetics_export
+      x-ratelimit-period:
+      - '60'
+      x-ratelimit-remaining:
+      - '993'
+      x-ratelimit-reset:
+      - '42'
     status:
       code: 200
       message: OK

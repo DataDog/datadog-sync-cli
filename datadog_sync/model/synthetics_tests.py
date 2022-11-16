@@ -30,6 +30,7 @@ class SyntheticsTests(BaseResource):
     )
     # Additional SyntheticsTests specific attributes
     browser_test_path = "/api/v1/synthetics/tests/browser/{}"
+    api_test_path = "/api/v1/synthetics/tests/api/{}"
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path).json()
@@ -37,10 +38,12 @@ class SyntheticsTests(BaseResource):
         return resp["tests"]
 
     def import_resource(self, resource: Dict) -> None:
+        source_client = self.config.source_client
+        _id = resource['public_id']
         if resource.get("type") == "browser":
-            source_client = self.config.source_client
-            _id = resource['public_id']
             resource = source_client.get(self.browser_test_path.format(_id)).json()
+        elif resource.get("type") == "api":
+            resource = source_client.get(self.api_test_path.format(_id)).json()
 
         self.remove_global_variables_from_config(resource)
         self.resource_config.source_resources[f"{resource['public_id']}#{resource['monitor_id']}"] = resource

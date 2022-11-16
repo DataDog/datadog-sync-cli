@@ -27,10 +27,10 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "paused", "public_id": "kgs-iqi-bn6", "tags": [], "org_id":
+      string: '{"status": "paused", "public_id": "f8k-9ky-eux", "tags": [], "org_id":
         1000044987, "locations": ["aws:ca-central-1"], "message": "Test synthetics
-        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 8752018, "type":
-        "api", "created_at": "2022-11-15T21:17:36.728737+00:00", "modified_at": "2022-11-15T21:17:36.728737+00:00",
+        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 8768685, "type":
+        "api", "created_at": "2022-11-16T18:30:19.253159+00:00", "modified_at": "2022-11-16T18:30:19.253159+00:00",
         "subtype": "http", "config": {"request": {"url": "https://google.com", "method":
         "GET"}, "assertions": [{"operator": "lessThan", "type": "responseTime", "target":
         1000}, {"operator": "is", "type": "statusCode", "target": 301}, {"operator":
@@ -53,7 +53,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:36 GMT
+      - Wed, 16 Nov 2022 18:30:19 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -71,7 +71,7 @@ interactions:
       x-ratelimit-remaining:
       - '11999'
       x-ratelimit-reset:
-      - '24'
+      - '41'
     status:
       code: 200
       message: OK
@@ -110,12 +110,12 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "i2n-5si-9bz", "tags": ["testing:api"],
+      string: '{"status": "live", "public_id": "phd-apc-vir", "tags": ["testing:api"],
         "org_id": 1000044987, "locations": ["aws:us-east-2"], "message": "BDD test
         payload: synthetics_api_http_test_payload.json", "deleted_at": null, "name":
         "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270", "monitor_id":
-        8752019, "type": "api", "created_at": "2022-11-15T21:17:37.037968+00:00",
-        "modified_at": "2022-11-15T21:17:37.037968+00:00", "subtype": "http", "config":
+        8768686, "type": "api", "created_at": "2022-11-16T18:30:19.528663+00:00",
+        "modified_at": "2022-11-16T18:30:19.528663+00:00", "subtype": "http", "config":
         {"request": {"certificate": {"cert": {"filename": "cert-filename", "updatedAt":
         "2020-10-16T09:23:24.857Z"}, "key": {"filename": "key-filename", "updatedAt":
         "2020-10-16T09:23:24.857Z"}}, "url": "https://datadoghq.com", "headers": {"unique":
@@ -144,7 +144,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:37 GMT
+      - Wed, 16 Nov 2022 18:30:19 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -162,7 +162,7 @@ interactions:
       x-ratelimit-remaining:
       - '11998'
       x-ratelimit-reset:
-      - '24'
+      - '41'
     status:
       code: 200
       message: OK
@@ -191,11 +191,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "wsn-5gy-49e", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "6eb-ye8-6pq", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "TCP Test", "monitor_id":
-        8752020, "type": "api", "created_at": "2022-11-15T21:17:37.611529+00:00",
-        "modified_at": "2022-11-15T21:17:37.611529+00:00", "subtype": "tcp", "config":
+        8768687, "type": "api", "created_at": "2022-11-16T18:30:19.832939+00:00",
+        "modified_at": "2022-11-16T18:30:19.832939+00:00", "subtype": "tcp", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "lessThan", "type": "responseTime", "target": 2000}]}, "options": {"monitor_options":
         {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
@@ -215,7 +215,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:38 GMT
+      - Wed, 16 Nov 2022 18:30:20 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -233,7 +233,7 @@ interactions:
       x-ratelimit-remaining:
       - '11997'
       x-ratelimit-reset:
-      - '23'
+      - '41'
     status:
       code: 200
       message: OK
@@ -262,11 +262,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "g6w-bsf-typ", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "9hk-ibv-gew", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "SSL Test", "monitor_id":
-        8752021, "type": "api", "created_at": "2022-11-15T21:17:38.645609+00:00",
-        "modified_at": "2022-11-15T21:17:38.645609+00:00", "subtype": "ssl", "config":
+        8768688, "type": "api", "created_at": "2022-11-16T18:30:21.120043+00:00",
+        "modified_at": "2022-11-16T18:30:21.120043+00:00", "subtype": "ssl", "config":
         {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
         "isInMoreThan", "type": "certificate", "target": 30}]}, "options": {"monitor_options":
         {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
@@ -286,7 +286,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:39 GMT
+      - Wed, 16 Nov 2022 18:30:21 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -304,7 +304,7 @@ interactions:
       x-ratelimit-remaining:
       - '11996'
       x-ratelimit-reset:
-      - '22'
+      - '40'
     status:
       code: 200
       message: OK
@@ -414,10 +414,10 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "xzq-aje-9sm", "tags": [], "org_id":
+      string: '{"status": "live", "public_id": "s38-udv-jt2", "tags": [], "org_id":
         1000044987, "locations": ["aws:us-west-1"], "message": "", "deleted_at": null,
-        "name": "Browser Test (cloned)", "monitor_id": 8752022, "type": "browser",
-        "created_at": "2022-11-15T21:17:40.009623+00:00", "modified_at": "2022-11-15T21:17:40.009623+00:00",
+        "name": "Browser Test (cloned)", "monitor_id": 8768689, "type": "browser",
+        "created_at": "2022-11-16T18:30:21.458831+00:00", "modified_at": "2022-11-16T18:30:21.458831+00:00",
         "steps": [{"name": "Type text on input \"s\"", "noScreenshot": false, "allowFailure":
         false, "params": {"value": "api", "element": {"url": "https://docs.datadoghq.com/",
         "targetOuterHTML": "<input class=\"docssearch-input form-control ds-input\"
@@ -519,7 +519,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:40 GMT
+      - Wed, 16 Nov 2022 18:30:21 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -537,7 +537,7 @@ interactions:
       x-ratelimit-remaining:
       - '11995'
       x-ratelimit-reset:
-      - '21'
+      - '39'
     status:
       code: 200
       message: OK
@@ -566,11 +566,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "5q9-cnx-ke7", "tags": ["foo:bar",
+      string: '{"status": "live", "public_id": "6pf-5g5-d6z", "tags": ["foo:bar",
         "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
         "message": "Notify @pagerduty", "deleted_at": null, "name": "DNS Test", "monitor_id":
-        8752023, "type": "api", "created_at": "2022-11-15T21:17:40.767100+00:00",
-        "modified_at": "2022-11-15T21:17:40.767100+00:00", "subtype": "dns", "config":
+        8768690, "type": "api", "created_at": "2022-11-16T18:30:21.976296+00:00",
+        "modified_at": "2022-11-16T18:30:21.976296+00:00", "subtype": "dns", "config":
         {"request": {"host": "example.org"}, "assertions": [{"operator": "is", "property":
         "A", "type": "recordSome", "target": "0.0.0.0"}]}, "options": {"monitor_options":
         {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
@@ -590,7 +590,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:40 GMT
+      - Wed, 16 Nov 2022 18:30:22 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -608,7 +608,7 @@ interactions:
       x-ratelimit-remaining:
       - '11994'
       x-ratelimit-reset:
-      - '20'
+      - '39'
     status:
       code: 200
       message: OK
@@ -642,11 +642,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "4wg-jiu-3sx", "tags": ["check_type:api",
+      string: '{"status": "live", "public_id": "h4m-zw4-m3x", "tags": ["check_type:api",
         "env:test", "test:update"], "org_id": 1000044987, "locations": ["aws:sa-east-1"],
         "message": "", "deleted_at": null, "name": "Multistep API Test", "monitor_id":
-        8752024, "type": "api", "created_at": "2022-11-15T21:17:41.260544+00:00",
-        "modified_at": "2022-11-15T21:17:41.260544+00:00", "subtype": "multi", "config":
+        8768691, "type": "api", "created_at": "2022-11-16T18:30:22.329934+00:00",
+        "modified_at": "2022-11-16T18:30:22.329934+00:00", "subtype": "multi", "config":
         {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
         "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
         "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
@@ -670,7 +670,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Tue, 15 Nov 2022 21:17:41 GMT
+      - Wed, 16 Nov 2022 18:30:22 GMT
       strict-transport-security:
       - max-age=15724800;
       vary:
@@ -688,7 +688,7 @@ interactions:
       x-ratelimit-remaining:
       - '11993'
       x-ratelimit-reset:
-      - '19'
+      - '38'
     status:
       code: 200
       message: OK
