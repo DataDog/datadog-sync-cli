@@ -65,6 +65,10 @@ class LogsIndexes(BaseResource):
         else:
             self.resource_config.destination_resources[_id].pop("disable_daily_limit", None)
 
+    def delete_resource(self, _id: str) -> None:
+        self.config.logger.info("logs index deletion is not supported")
+        pass
+
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         super(LogsIndexes, self).connect_id(key, r_obj, resource_to_connect)
 

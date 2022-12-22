@@ -82,6 +82,12 @@ class DashboardLists(BaseResource):
                 self.resource_config.destination_resources[_id],
             )
 
+    def delete_resource(self, _id: str) -> None:
+        destination_client = self.config.destination_client
+        destination_client.delete(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+        )
+
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         super(DashboardLists, self).connect_id(key, r_obj, resource_to_connect)
 

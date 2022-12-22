@@ -83,6 +83,12 @@ class Users(BaseResource):
 
             self.resource_config.destination_resources[_id] = resp.json()["data"]
 
+    def delete_resource(self, _id: str) -> None:
+        destination_client = self.config.destination_client
+        destination_client.delete(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+        )
+
     def connect_id(self, key, r_obj, resource_to_connect):
         super(Users, self).connect_id(key, r_obj, resource_to_connect)
 

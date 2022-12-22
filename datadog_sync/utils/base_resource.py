@@ -7,7 +7,7 @@ import abc
 from dataclasses import dataclass, field
 from concurrent.futures import wait
 from pprint import pformat
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Tuple
 
 
 from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
@@ -79,6 +79,10 @@ class BaseResource(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def delete_resource(self, _id: str, resource: Dict) -> None:
+        pass
+
+    @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         resources = self.config.resources[resource_to_connect].resource_config.destination_resources
         if isinstance(r_obj[key], list):
@@ -99,7 +103,7 @@ class BaseResource(abc.ABC):
             else:
                 raise ResourceConnectionError(resource_to_connect, _id=_id)
 
-    def import_resources(self) -> (int, int):
+    def import_resources(self) -> Tuple[int, int]:
         # reset source resources obj
         self.resource_config.source_resources.clear()
 
@@ -129,7 +133,7 @@ class BaseResource(abc.ABC):
         write_resources_file(self.resource_type, SOURCE_ORIGIN, self.resource_config.source_resources)
         return successes, errors
 
-    def apply_resources(self) -> (int, int):
+    def apply_resources(self) -> Tuple[int, int]:
         max_workers = 1 if not self.resource_config.concurrent else self.config.max_workers
 
         # Run pre-apply hook with the resources

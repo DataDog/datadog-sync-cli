@@ -82,6 +82,12 @@ class LogsRestrictionQueries(BaseResource):
             new_roles = [{"id": role_id, "type": "roles"} for role_id in (list(intersection) + succ_added)]
             self.resource_config.destination_resources[_id]["data"]["relationships"] = {"roles": {"data": new_roles}}
 
+    def delete_resource(self, _id: str) -> None:
+        destination_client = self.config.destination_client
+        destination_client.delete(
+            self.resource_config.base_path + f'/{self.resource_config.destination_resources[_id]["data"]["id"]}'
+        )
+
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         super(LogsRestrictionQueries, self).connect_id(key, r_obj, resource_to_connect)
 

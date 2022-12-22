@@ -46,6 +46,12 @@ class ServiceLevelObjectives(BaseResource):
 
         self.resource_config.destination_resources[_id] = resp["data"][0]
 
+    def delete_resource(self, _id: str) -> None:
+        destination_client = self.config.destination_client
+        destination_client.delete(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+        )
+
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         monitors = self.config.resources["monitors"].resource_config.destination_resources
         synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
