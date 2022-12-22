@@ -18,7 +18,15 @@ class DashboardLists(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={"dashboards": ["dashboards.id"]},
         base_path="/api/v1/dashboard/lists/manual",
-        excluded_attributes=["id", "type", "author", "created", "modified", "is_favorite", "dashboard_count"],
+        excluded_attributes=[
+            "id",
+            "type",
+            "author",
+            "created",
+            "modified",
+            "is_favorite",
+            "dashboard_count",
+        ],
     )
     # Additional Dashboards specific attributes
     dash_list_items_path = "/api/v2/dashboard/lists/manual/{}/dashboards"
@@ -64,12 +72,16 @@ class DashboardLists(BaseResource):
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(resource["dashboards"])
         dash_list_diff = check_diff(
-            self.resource_config, self.resource_config.destination_resources[_id]["dashboards"], dashboards
+            self.resource_config,
+            self.resource_config.destination_resources[_id]["dashboards"],
+            dashboards,
         )
         resource.pop("dashboards")
 
         resp = destination_client.put(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+            self.resource_config.base_path
+            + f"/{self.resource_config.destination_resources[_id]['id']}",
+            resource,
         ).json()
 
         resp.pop("dashboards")
@@ -85,7 +97,8 @@ class DashboardLists(BaseResource):
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         destination_client.delete(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+            self.resource_config.base_path
+            + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
@@ -95,7 +108,9 @@ class DashboardLists(BaseResource):
         payload = {"dashboards": dashboards}
         destination_client = self.config.destination_client
         try:
-            dashboards = destination_client.put(self.dash_list_items_path.format(_id), payload).json()
+            dashboards = destination_client.put(
+                self.dash_list_items_path.format(_id), payload
+            ).json()
         except HTTPError as e:
             self.config.logger.error("error updating dashboard list items: %s", e)
             return

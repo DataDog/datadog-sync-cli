@@ -34,10 +34,24 @@ def test_cli(tmpdir, runner):
         ret = runner.invoke(cli, ["import"], f"--resources={resources}")
         assert 0 == ret.exit_code
         #  Sync
-        ret = runner.invoke(cli, ["sync", f"--resources={resources}", "--skip-failed-resource-connections=False"])
+        ret = runner.invoke(
+            cli,
+            [
+                "sync",
+                f"--resources={resources}",
+                "--skip-failed-resource-connections=False",
+            ],
+        )
         assert 0 == ret.exit_code
         # Check diff
-        ret = runner.invoke(cli, ["diffs", f"--resources={resources}", "--skip-failed-resource-connections=False"])
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                f"--resources={resources}",
+                "--skip-failed-resource-connections=False",
+            ],
+        )
         # assert no diffs are produced
         assert not ret.output
         assert 0 == ret.exit_code

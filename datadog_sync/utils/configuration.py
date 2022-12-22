@@ -67,7 +67,9 @@ def build_config(**kwargs: Any) -> Configuration:
     retry_timeout = kwargs.get("http_client_retry_timeout")
 
     source_client = CustomClient(source_api_url, source_auth, retry_timeout)
-    destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
+    destination_client = CustomClient(
+        destination_api_url, destination_auth, retry_timeout
+    )
 
     # Additional settings
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
@@ -87,17 +89,23 @@ def build_config(**kwargs: Any) -> Configuration:
     )
 
     # Initialize resources
-    config.resources, config.missing_deps = get_resources(config, kwargs.get("resources"))
+    config.resources, config.missing_deps = get_resources(
+        config, kwargs.get("resources")
+    )
 
     return config
 
 
 # TODO: add unit tests
-def get_resources(cfg: Configuration, resources_arg: Optional[str]) -> Tuple[OrderedDict, List[str]]:
+def get_resources(
+    cfg: Configuration, resources_arg: Optional[str]
+) -> Tuple[OrderedDict, List[str]]:
     """Returns list of Resources. Order of resources applied are based on the list returned"""
 
     all_resources = [
-        cls.resource_type for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
+        cls.resource_type
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
     ]
 
     if resources_arg:
@@ -112,14 +120,23 @@ def get_resources(cfg: Configuration, resources_arg: Optional[str]) -> Tuple[Ord
     )
 
     resources_classes = [
-        str_to_class[resource_type] for resource_type in resources_list if resource_type in str_to_class
+        str_to_class[resource_type]
+        for resource_type in resources_list
+        if resource_type in str_to_class
     ]
 
     order_list = get_import_order(resources_classes, str_to_class)
 
-    missing_deps = [resource for resource in order_list if resource not in resources_list]
+    missing_deps = [
+        resource for resource in order_list if resource not in resources_list
+    ]
 
-    resources = OrderedDict({resource_type: str_to_class[resource_type](cfg) for resource_type in order_list})
+    resources = OrderedDict(
+        {
+            resource_type: str_to_class[resource_type](cfg)
+            for resource_type in order_list
+        }
+    )
 
     return resources, missing_deps
 

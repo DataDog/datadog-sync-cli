@@ -15,7 +15,12 @@ class SLOCorrections(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={"service_level_objectives": ["attributes.slo_id"]},
         base_path="/api/v1/slo/correction",
-        excluded_attributes=["id", "attributes.creator", "attributes.created_at", "attributes.modified_at"],
+        excluded_attributes=[
+            "id",
+            "attributes.creator",
+            "attributes.created_at",
+            "attributes.modified_at",
+        ],
         non_nullable_attr=["attributes.duration", "attributes.rrule"],
     )
     # Additional SLOCorrections specific attributes
@@ -27,7 +32,9 @@ class SLOCorrections(BaseResource):
 
     def import_resource(self, resource: Dict) -> None:
         if resource["attributes"].get("end", False):
-            if (round(datetime.now().timestamp()) - int(resource["attributes"]["end"])) / 86400 > 90:
+            if (
+                round(datetime.now().timestamp()) - int(resource["attributes"]["end"])
+            ) / 86400 > 90:
                 return
         self.resource_config.source_resources[resource["id"]] = resource
 
@@ -48,7 +55,9 @@ class SLOCorrections(BaseResource):
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = destination_client.patch(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", payload
+            self.resource_config.base_path
+            + f"/{self.resource_config.destination_resources[_id]['id']}",
+            payload,
         ).json()
 
         self.resource_config.destination_resources[_id] = resp["data"]
@@ -56,7 +65,8 @@ class SLOCorrections(BaseResource):
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         destination_client.delete(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+            self.resource_config.base_path
+            + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:

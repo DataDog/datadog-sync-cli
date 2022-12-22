@@ -24,7 +24,16 @@ class Downtimes(BaseResource):
         resource_connections={"monitors": ["monitor_id"]},
         non_nullable_attr=["recurrence.until_date", "recurrence.until_occurrences"],
         base_path="/api/v1/downtime",
-        excluded_attributes=["id", "updater_id", "created", "org_id", "modified", "creator_id", "active", "child_id"],
+        excluded_attributes=[
+            "id",
+            "updater_id",
+            "created",
+            "org_id",
+            "modified",
+            "creator_id",
+            "active",
+            "child_id",
+        ],
     )
     # Additional Downtimes specific attributes
 
@@ -56,18 +65,34 @@ class Downtimes(BaseResource):
                 r_period = resource["recurrence"]["period"]
                 r_interval = r_time * r_period
                 if resource["start"] and resource["start"] <= current_time:
-                    num_of_recurrences_since_start = math.ceil((current_time - resource["start"]) / r_interval)
+                    num_of_recurrences_since_start = math.ceil(
+                        (current_time - resource["start"]) / r_interval
+                    )
                     resource["start"] += r_interval * num_of_recurrences_since_start
                     resource["end"] += r_interval * num_of_recurrences_since_start
         else:
             # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
             # this is to avoid unnecessary diff outputs
-            if resource.get("start") and self.resource_config.destination_resources[_id].get("start"):
-                if resource["start"] < self.resource_config.destination_resources[_id]["start"]:
-                    resource["start"] = self.resource_config.destination_resources[_id]["start"]
-            if resource.get("end") and self.resource_config.destination_resources[_id].get("end"):
-                if resource["end"] < self.resource_config.destination_resources[_id]["end"]:
-                    resource["end"] = self.resource_config.destination_resources[_id]["end"]
+            if resource.get("start") and self.resource_config.destination_resources[
+                _id
+            ].get("start"):
+                if (
+                    resource["start"]
+                    < self.resource_config.destination_resources[_id]["start"]
+                ):
+                    resource["start"] = self.resource_config.destination_resources[_id][
+                        "start"
+                    ]
+            if resource.get("end") and self.resource_config.destination_resources[
+                _id
+            ].get("end"):
+                if (
+                    resource["end"]
+                    < self.resource_config.destination_resources[_id]["end"]
+                ):
+                    resource["end"] = self.resource_config.destination_resources[_id][
+                        "end"
+                    ]
 
     def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
         pass
@@ -81,7 +106,9 @@ class Downtimes(BaseResource):
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
         resp = destination_client.put(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+            self.resource_config.base_path
+            + f"/{self.resource_config.destination_resources[_id]['id']}",
+            resource,
         ).json()
 
         self.resource_config.destination_resources[_id] = resp
@@ -89,7 +116,8 @@ class Downtimes(BaseResource):
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         destination_client.delete(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+            self.resource_config.base_path
+            + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:

@@ -55,29 +55,38 @@ class Users(BaseResource):
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         if resource["attributes"]["email"] in self.remote_destination_users:
-            self.resource_config.destination_resources[_id] = self.remote_destination_users[
-                resource["attributes"]["email"]
-            ]
+            self.resource_config.destination_resources[
+                _id
+            ] = self.remote_destination_users[resource["attributes"]["email"]]
 
             self.update_resource(_id, resource)
             return
 
         destination_client = self.config.destination_client
         resource["attributes"].pop("disabled", None)
-        resp = destination_client.post(self.resource_config.base_path, {"data": resource})
+        resp = destination_client.post(
+            self.resource_config.base_path, {"data": resource}
+        )
 
         self.resource_config.destination_resources[_id] = resp.json()["data"]
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
 
-        diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
+        diff = check_diff(
+            self.resource_config,
+            self.resource_config.destination_resources[_id],
+            resource,
+        )
         if diff:
-            self.update_user_roles(self.resource_config.destination_resources[_id]["id"], diff)
+            self.update_user_roles(
+                self.resource_config.destination_resources[_id]["id"], diff
+            )
             resource["id"] = self.resource_config.destination_resources[_id]["id"]
             resource.pop("relationships", None)
             resp = destination_client.patch(
-                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
+                self.resource_config.base_path
+                + f"/{self.resource_config.destination_resources[_id]['id']}",
                 {"data": resource},
             )
 
@@ -86,7 +95,8 @@ class Users(BaseResource):
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         destination_client.delete(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+            self.resource_config.base_path
+            + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key, r_obj, resource_to_connect):
@@ -124,7 +134,9 @@ class Users(BaseResource):
         try:
             destination_client.post(self.roles_path.format(role_id), payload)
         except HTTPError as e:
-            self.config.logger.error("error adding user: %s to role %s: %s", user_id, role_id, e)
+            self.config.logger.error(
+                "error adding user: %s to role %s: %s", user_id, role_id, e
+            )
 
     def remove_user_from_role(self, user_id, role_id):
         destination_client = self.config.destination_client
@@ -132,4 +144,6 @@ class Users(BaseResource):
         try:
             destination_client.delete(self.roles_path.format(role_id), payload)
         except HTTPError as e:
-            self.config.logger.error("error removing user: %s from role %s: %s", user_id, role_id, e)
+            self.config.logger.error(
+                "error removing user: %s from role %s: %s", user_id, role_id, e
+            )

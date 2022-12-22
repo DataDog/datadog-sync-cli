@@ -49,7 +49,9 @@ def find_attr(keys_list, resource_to_connect, r_obj, connect_func):
 
         if isinstance(r_obj, dict):
             if keys_list[0] in r_obj:
-                find_attr(keys_list[1], resource_to_connect, r_obj[keys_list[0]], connect_func)
+                find_attr(
+                    keys_list[1], resource_to_connect, r_obj[keys_list[0]], connect_func
+                )
 
 
 def prep_resource(resource_config, resource):
@@ -120,7 +122,9 @@ def open_resources(resource_type):
             try:
                 destination_resources = json.load(f)
             except json.decoder.JSONDecodeError:
-                log.warning(f"invalid json in destination resource file: {resource_type}")
+                log.warning(
+                    f"invalid json in destination resource file: {resource_type}"
+                )
 
     return source_resources, destination_resources
 

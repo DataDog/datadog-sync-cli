@@ -35,7 +35,9 @@ class IntegrationsAWS(BaseResource):
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
         resp = destination_client.post(self.resource_config.base_path, resource).json()
-        data = destination_client.get(self.resource_config.base_path, params={"account_id": _id}).json()
+        data = destination_client.get(
+            self.resource_config.base_path, params={"account_id": _id}
+        ).json()
         if "accounts" in data:
             resp.update(data["accounts"][0])
 

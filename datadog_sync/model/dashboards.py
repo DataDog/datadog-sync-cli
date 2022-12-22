@@ -13,12 +13,25 @@ class Dashboards(BaseResource):
     resource_type = "dashboards"
     resource_config = ResourceConfig(
         resource_connections={
-            "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
-            "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
+            "monitors": [
+                "widgets.definition.alert_id",
+                "widgets.definition.widgets.definition.alert_id",
+            ],
+            "service_level_objectives": [
+                "widgets.definition.slo_id",
+                "widgets.definition.widgets.definition.slo_id",
+            ],
             "roles": ["restricted_roles"],
         },
         base_path="/api/v1/dashboard",
-        excluded_attributes=["id", "author_handle", "author_name", "url", "created_at", "modified_at"],
+        excluded_attributes=[
+            "id",
+            "author_handle",
+            "author_name",
+            "url",
+            "created_at",
+            "modified_at",
+        ],
     )
     # Additional Dashboards specific attributes
 
@@ -29,7 +42,9 @@ class Dashboards(BaseResource):
 
     def import_resource(self, resource: Dict) -> None:
         source_client = self.config.source_client
-        dashboard = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
+        dashboard = source_client.get(
+            self.resource_config.base_path + f"/{resource['id']}"
+        ).json()
 
         self.resource_config.source_resources[resource["id"]] = dashboard
 
@@ -48,7 +63,9 @@ class Dashboards(BaseResource):
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
         resp = destination_client.put(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+            self.resource_config.base_path
+            + f"/{self.resource_config.destination_resources[_id]['id']}",
+            resource,
         ).json()
 
         self.resource_config.destination_resources[_id] = resp
@@ -56,7 +73,8 @@ class Dashboards(BaseResource):
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         destination_client.delete(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+            self.resource_config.base_path
+            + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:

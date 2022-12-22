@@ -14,7 +14,13 @@ from datadog_sync.utils.base_resource import BaseResource
 
 @pytest.fixture(scope="class")
 def str_to_class():
-    return dict([(cls.resource_type, cls) for name, cls in models.__dict__.items() if isinstance(cls, type)])
+    return dict(
+        [
+            (cls.resource_type, cls)
+            for name, cls in models.__dict__.items()
+            if isinstance(cls, type)
+        ]
+    )
 
 
 def test_find_attr():
@@ -59,14 +65,21 @@ def test_find_nested_list_attr():
 def validate_order_list(order_list, resources):
     # checks that no dependency comes after the current resource in the order_list
     for resource in resources:
-        if resource.resource_type not in order_list or not resource.resource_config.resource_connections:
+        if (
+            resource.resource_type not in order_list
+            or not resource.resource_config.resource_connections
+        ):
             continue
 
         resource_index = order_list.index(resource.resource_type)
 
         if (
             len(
-                [dep for dep in resource.resource_config.resource_connections if order_list.index(dep) > resource_index]
+                [
+                    dep
+                    for dep in resource.resource_config.resource_connections
+                    if order_list.index(dep) > resource_index
+                ]
             )
             != 0
         ):
@@ -76,7 +89,11 @@ def validate_order_list(order_list, resources):
 
 
 def test_get_import_order_all_resources(str_to_class):
-    resources = [cls for cls in models.__dict__.values() if isinstance(cls, type) and isinstance(cls, type)]
+    resources = [
+        cls
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and isinstance(cls, type)
+    ]
 
     order_list = get_import_order(resources, str_to_class)
 
@@ -138,7 +155,9 @@ def test_get_resources_no_args(config):
     result_resources = [r[0] for r in result.items()]
 
     all_resources = [
-        cls.resource_type for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
+        cls.resource_type
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
     ]
 
     assert sorted(result_resources) == sorted(all_resources)

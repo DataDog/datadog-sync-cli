@@ -41,7 +41,9 @@ class ResourceConfig:
     def build_excluded_attributes(self):
         if self.excluded_attributes:
             for i, attr in enumerate(self.excluded_attributes):
-                self.excluded_attributes[i] = "root" + "".join(["['{}']".format(v) for v in attr.split(".")])
+                self.excluded_attributes[i] = "root" + "".join(
+                    ["['{}']".format(v) for v in attr.split(".")]
+                )
 
 
 class BaseResource(abc.ABC):
@@ -50,9 +52,10 @@ class BaseResource(abc.ABC):
 
     def __init__(self, config):
         self.config = config
-        self.resource_config.source_resources, self.resource_config.destination_resources = open_resources(
-            self.resource_type
-        )
+        (
+            self.resource_config.source_resources,
+            self.resource_config.destination_resources,
+        ) = open_resources(self.resource_type)
 
     @abc.abstractmethod
     def get_resources(self, client: CustomClient) -> List[Dict]:
@@ -84,7 +87,9 @@ class BaseResource(abc.ABC):
 
     @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+        resources = self.config.resources[
+            resource_to_connect
+        ].resource_config.destination_resources
         if isinstance(r_obj[key], list):
             for i, v in enumerate(r_obj[key]):
                 _id = str(v)
@@ -110,7 +115,9 @@ class BaseResource(abc.ABC):
         try:
             get_resp = self.get_resources(self.config.source_client)
         except Exception as e:
-            self.config.logger.error(f"Error while importing resources {self.resource_type}: {str(e)}")
+            self.config.logger.error(
+                f"Error while importing resources {self.resource_type}: {str(e)}"
+            )
             return 0, 0
 
         futures = []
@@ -125,22 +132,30 @@ class BaseResource(abc.ABC):
             try:
                 future.result()
             except Exception as e:
-                self.config.logger.error(f"Error while importing resource {self.resource_type}: {str(e)}")
+                self.config.logger.error(
+                    f"Error while importing resource {self.resource_type}: {str(e)}"
+                )
                 errors += 1
             else:
                 successes += 1
 
-        write_resources_file(self.resource_type, SOURCE_ORIGIN, self.resource_config.source_resources)
+        write_resources_file(
+            self.resource_type, SOURCE_ORIGIN, self.resource_config.source_resources
+        )
         return successes, errors
 
     def apply_resources(self) -> Tuple[int, int]:
-        max_workers = 1 if not self.resource_config.concurrent else self.config.max_workers
+        max_workers = (
+            1 if not self.resource_config.concurrent else self.config.max_workers
+        )
 
         # Run pre-apply hook with the resources
         try:
             resources_list = self.pre_apply_hook(self.resource_config.source_resources)
         except Exception as e:
-            self.config.logger.error(f"Error while applying resources {self.resource_type}: {str(e)}")
+            self.config.logger.error(
+                f"Error while applying resources {self.resource_type}: {str(e)}"
+            )
             return 0, 0
 
         if not resources_list:
@@ -164,12 +179,18 @@ class BaseResource(abc.ABC):
             except LoggedException:
                 errors += 1
             except Exception as e:
-                self.config.logger.error(f"Error while applying resource {self.resource_type}: {str(e)}")
+                self.config.logger.error(
+                    f"Error while applying resource {self.resource_type}: {str(e)}"
+                )
                 errors += 1
             else:
                 successes += 1
 
-        write_resources_file(self.resource_type, DESTINATION_ORIGIN, self.resource_config.destination_resources)
+        write_resources_file(
+            self.resource_type,
+            DESTINATION_ORIGIN,
+            self.resource_config.destination_resources,
+        )
         return successes, errors
 
     def check_diffs(self):
@@ -184,18 +205,34 @@ class BaseResource(abc.ABC):
             except ResourceConnectionError:
                 continue
             if _id in self.resource_config.destination_resources:
-                diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
+                diff = check_diff(
+                    self.resource_config,
+                    self.resource_config.destination_resources[_id],
+                    resource,
+                )
                 if diff:
-                    print("{} resource source ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
+                    print(
+                        "{} resource source ID {} diff: \n {}".format(
+                            self.resource_type, _id, pformat(diff)
+                        )
+                    )
             else:
-                print("Resource to be added {} source ID {}: \n {}".format(self.resource_type, _id, pformat(resource)))
+                print(
+                    "Resource to be added {} source ID {}: \n {}".format(
+                        self.resource_type, _id, pformat(resource)
+                    )
+                )
 
     def apply_resource(self, _id: str, resource: Dict) -> None:
         self.pre_resource_action_hook(_id, resource)
         self.connect_resources(_id, resource)
 
         if _id in self.resource_config.destination_resources:
-            diff = check_diff(self.resource_config, resource, self.resource_config.destination_resources[_id])
+            diff = check_diff(
+                self.resource_config,
+                resource,
+                self.resource_config.destination_resources[_id],
+            )
             if diff:
                 prep_resource(self.resource_config, resource)
                 try:
@@ -222,13 +259,19 @@ class BaseResource(abc.ABC):
         for resource_to_connect, v in self.resource_config.resource_connections.items():
             for attr_connection in v:
                 try:
-                    find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                    find_attr(
+                        attr_connection, resource_to_connect, resource, self.connect_id
+                    )
                 except ResourceConnectionError as e:
                     if self.config.skip_failed_resource_connections:
-                        self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
+                        self.config.logger.info(
+                            f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}"
+                        )
                         raise e
                     else:
-                        self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
+                        self.config.logger.warning(
+                            f"{self.resource_type} with ID: {_id}. {str(e)}"
+                        )
                         continue
 
     def filter(self, resource: Dict) -> bool:

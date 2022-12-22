@@ -16,5 +16,10 @@ str_to_class = dict(
 
 
 all_resources = get_import_order(
-    [cls for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)], str_to_class
+    [
+        cls
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
+    ],
+    str_to_class,
 )

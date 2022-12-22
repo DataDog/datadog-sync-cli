@@ -40,7 +40,9 @@ class LogsIndexes(BaseResource):
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         if _id in self.destination_logs_indexes:
-            self.resource_config.destination_resources[_id] = self.destination_logs_indexes[_id]
+            self.resource_config.destination_resources[
+                _id
+            ] = self.destination_logs_indexes[_id]
             self.update_resource(_id, resource)
             return
 
@@ -56,14 +58,20 @@ class LogsIndexes(BaseResource):
         # Can't update name so remove it
         resource.pop("name")
         resp = destination_client.put(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['name']}", resource
+            self.resource_config.base_path
+            + f"/{self.resource_config.destination_resources[_id]['name']}",
+            resource,
         ).json()
 
         self.resource_config.destination_resources[_id].update(resp)
         if not self.resource_config.destination_resources[_id].get("daily_limit"):
-            self.resource_config.destination_resources[_id]["disable_daily_limit"] = True
+            self.resource_config.destination_resources[_id][
+                "disable_daily_limit"
+            ] = True
         else:
-            self.resource_config.destination_resources[_id].pop("disable_daily_limit", None)
+            self.resource_config.destination_resources[_id].pop(
+                "disable_daily_limit", None
+            )
 
     def delete_resource(self, _id: str) -> None:
         self.config.logger.info("logs index deletion is not supported")

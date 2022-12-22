@@ -116,8 +116,12 @@ class CustomClient:
                 if len(resp_json["data"]) < page_size:
                     remaining = 0
                     continue
-                remaining = pagination_config.remaining_func(idx, resp_json, page_size, page_number)
-                page_number = pagination_config.page_number_func(idx, page_size, page_number)
+                remaining = pagination_config.remaining_func(
+                    idx, resp_json, page_size, page_number
+                )
+                page_number = pagination_config.page_number_func(
+                    idx, page_size, page_number
+                )
                 idx += 1
             return resources
 
@@ -154,4 +158,6 @@ class PaginationConfig(object):
     remaining_func: Optional[Callable] = lambda idx, resp, page_size, page_number: (
         resp["meta"]["page"]["total_count"]
     ) - (page_size * (page_number + 1))
-    page_number_func: Optional[Callable] = lambda idx, page_size, page_number: page_number + 1
+    page_number_func: Optional[Callable] = (
+        lambda idx, page_size, page_number: page_number + 1
+    )
