@@ -84,10 +84,8 @@ class SyntheticsTests(BaseResource):
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        destination_client.delete(
-            self.resource_config.base_path
-            + f"/{self.resource_config.destination_resources[_id]['public_id']}"
-        )
+        body = {"public_ids": [self.resource_config.destination_resources[_id]['public_id']]}
+        destination_client.post(self.resource_config.base_path + "/delete", body)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         if resource_to_connect == "synthetics_private_locations":

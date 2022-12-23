@@ -44,7 +44,7 @@ def apply_resources(config):
     for resource_type, resource in config.resources.items():
         if force_missing_deps or resource_type not in config.missing_deps:
             # Set resources to cleanup
-            resource.resource_config.resources_to_cleanup = cleanup_helper(
+            resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(
                 resource, config
             )
 
@@ -60,19 +60,21 @@ def check_diffs(config):
         if resource_type in config.missing_deps:
             continue
         # Set resources to cleanup
-        resource.resource_config.resources_to_cleanup = cleanup_helper(resource, config)
+        resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(
+            resource, config, prompt=False
+        )
 
         resource.check_diffs()
 
 
-def cleanup_helper(resource, config, in_diff=False):
+def _get_resources_to_cleanup(resource, config, prompt=True):
     # Cleanup resources
     resources_confirmed_to_remove = set()
     resources_to_be_removed = set(
         resource.resource_config.destination_resources.keys()
     ) - set(resource.resource_config.source_resources.keys())
 
-    if in_diff or config.cleanup.lower() == "force":
+    if not prompt or config.cleanup.lower() == "force":
         return list(resources_to_be_removed)
     elif config.cleanup.lower() == "true":
         for id in resources_to_be_removed:
