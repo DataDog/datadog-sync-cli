@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 import configobj
 
-from click import option, File
+from click import Choice, option, File
 
 from datadog_sync import constants
 
@@ -121,7 +121,18 @@ _non_import_common_options = [
         default=True,
         show_default=True,
         help="Skip resource if resource connection fails.",
-    )
+    ),
+    option(
+        "--cleanup",
+        default="False",
+        show_default=True,
+        type=Choice(
+            ["True", "False", "Force"],
+            case_sensitive=False,
+        ),
+        help="Cleanup resources from destination org.",
+        envvar=constants.CLEANUP,
+    ),
 ]
 
 

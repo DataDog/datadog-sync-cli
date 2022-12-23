@@ -34,6 +34,7 @@ class ResourceConfig:
     concurrent: bool = True
     source_resources: dict = field(default_factory=dict)
     destination_resources: dict = field(default_factory=dict)
+    resources_to_cleanup: Optional[List[str]] = None
 
     def __post_init__(self):
         self.build_excluded_attributes()

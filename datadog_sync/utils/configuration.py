@@ -38,6 +38,7 @@ class Configuration(object):
     force_missing_dependencies: Optional[bool] = None
     skip_failed_resource_connections: Optional[bool] = None
     max_workers: Optional[int] = None
+    cleanup: Optional[str] = None
 
     def __post_init__(self):
         if not self.logger:
@@ -75,6 +76,7 @@ def build_config(**kwargs: Any) -> Configuration:
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
     max_workers = kwargs.get("max_workers", 10)
+    cleanup = kwargs.get("cleanup")
 
     # Initialize Configuration
     config = Configuration(
@@ -86,6 +88,7 @@ def build_config(**kwargs: Any) -> Configuration:
         force_missing_dependencies=force_missing_dependencies,
         skip_failed_resource_connections=skip_failed_resource_connections,
         max_workers=max_workers,
+        cleanup=cleanup,
     )
 
     # Initialize resources

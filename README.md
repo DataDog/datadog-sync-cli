@@ -38,6 +38,7 @@ Options:
   --resources TEXT                            Optional comma separated list of resource to
                                               import. All supported resources are imported
                                               by default.
+  --cleanup [True|False|Force]                Cleanup resources from destination org. [default: False]
   -v, --verbose                               Enable verbose logging.
   --filter TEXT                               Filter imported resources. See [Filtering] section for more details.
   --filter-operator TEXT                      Filter operator when multiple filters are passed. Supports `AND` or `OR`.
