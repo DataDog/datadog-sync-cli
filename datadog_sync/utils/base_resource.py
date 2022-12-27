@@ -168,16 +168,16 @@ class BaseResource(abc.ABC):
                     if not self.filter(resource):
                         continue
                     futures.append(executor.submit(self.apply_resource, _id, resource))
-                for _id in self.resource_config.resources_to_cleanup:
-                    futures.append(
-                        executor.submit(
-                            self.apply_resource,
-                            _id,
-                            self.resource_config.destination_resources[_id],
-                            delete=True,
-                        )
+            for _id in self.resource_config.resources_to_cleanup:
+                futures.append(
+                    executor.submit(
+                        self.apply_resource,
+                        _id,
+                        self.resource_config.destination_resources[_id],
+                        delete=True,
                     )
-                wait(futures)
+                )
+            wait(futures)
 
         successes = errors = 0
         for future in futures:
