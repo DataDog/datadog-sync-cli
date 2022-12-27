@@ -74,9 +74,11 @@ def _get_resources_to_cleanup(resource, config, prompt=True):
         resource.resource_config.destination_resources.keys()
     ) - set(resource.resource_config.source_resources.keys())
 
-    if not prompt or config.cleanup.lower() == "force":
+    if config.cleanup.lower() == "force":
         return list(resources_to_be_removed)
     elif config.cleanup.lower() == "true":
+        if not prompt:
+            return list(resources_to_be_removed)
         for id in resources_to_be_removed:
             if confirm(
                 f"{pformat(resource.resource_config.destination_resources[id])} \n"
