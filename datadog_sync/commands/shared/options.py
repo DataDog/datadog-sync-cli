@@ -99,7 +99,7 @@ _common_options = [
         help="Filter operator when multiple filters are passed. Supports `AND` or `OR`.",
     ),
     option("--filter", required=False, help="Filter resources.", multiple=True, envvar=constants.DD_FILTER),
-    option("--config", help="Read configuration from FILE.", type=File('rb'), callback=click_config_file_provider),
+    option("--config", help="Read configuration from FILE.", type=File("rb"), callback=click_config_file_provider),
 ]
 
 
