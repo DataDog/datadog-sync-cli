@@ -42,7 +42,7 @@ jobs:
             - name: Install tox
               run: pip install tox
             - name: Run unit tests
-              run: tox
+              run: tox -e py38
             - name: Run integration tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
               run: tox -e integration
