@@ -70,9 +70,7 @@ def process_filters(filter_list):
         # Build and assign regex matcher to VALUE key
         f_dict[FILTER_VALUE] = build_regex(f_dict)
 
-        f_instance = Filter(
-            f_dict[FILTER_TYPE].lower(), f_dict[FILTER_NAME], f_dict[FILTER_VALUE]
-        )
+        f_instance = Filter(f_dict[FILTER_TYPE].lower(), f_dict[FILTER_NAME], f_dict[FILTER_VALUE])
         if f_instance.resource_type not in filters:
             filters[f_instance.resource_type] = []
 
@@ -82,10 +80,7 @@ def process_filters(filter_list):
 
 
 def build_regex(f_dict):
-    if (
-        FILTER_OPERATOR in f_dict
-        and f_dict[FILTER_OPERATOR].lower() == SUBSTRING_OPERATOR
-    ):
+    if FILTER_OPERATOR in f_dict and f_dict[FILTER_OPERATOR].lower() == SUBSTRING_OPERATOR:
         reg_exp = f".*{f_dict[FILTER_VALUE]}.*"
     else:
         reg_exp = f"^{f_dict[FILTER_VALUE]}$"

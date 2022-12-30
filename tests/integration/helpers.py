@@ -59,9 +59,7 @@ class BaseResourcesTestClass:
         # By default, resources  with failed connections are skipped. Hence count number of skipped + success
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (
-            len(destination_resources) + num_resources_skipped
-        )
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     def test_resource_update_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -98,9 +96,7 @@ class BaseResourcesTestClass:
         # Assert number of synced and imported resources match
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (
-            len(destination_resources) + num_resources_skipped
-        )
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     def test_no_resource_diffs(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -110,9 +106,7 @@ class BaseResourcesTestClass:
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (
-            len(destination_resources) + num_resources_skipped
-        )
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
 
 def save_source_resources(resource_type, resources):

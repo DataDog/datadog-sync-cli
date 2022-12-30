@@ -144,9 +144,7 @@ class Cleanup:
         url = self.base_url + path + "/delete"
         if len(payload["public_ids"]) > 0:
             try:
-                resp = requests.post(
-                    url, headers=self.headers, timeout=60, data=json.dumps(payload)
-                )
+                resp = requests.post(url, headers=self.headers, timeout=60, data=json.dumps(payload))
                 resp.raise_for_status()
                 print("deleted resource ", url, payload)
             except requests.exceptions.HTTPError as e:
@@ -232,9 +230,7 @@ class Cleanup:
     def delete_resource(self, _id, path, **kwargs):
         url = self.base_url + path
         try:
-            resp = requests.delete(
-                f"{url}/{_id}", headers=self.headers, timeout=60, **kwargs
-            )
+            resp = requests.delete(f"{url}/{_id}", headers=self.headers, timeout=60, **kwargs)
             resp.raise_for_status()
             print("deleted resource ", url, _id)
         except requests.exceptions.HTTPError as e:

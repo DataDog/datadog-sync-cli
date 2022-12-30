@@ -79,8 +79,7 @@ class DashboardLists(BaseResource):
         resource.pop("dashboards")
 
         resp = destination_client.put(
-            self.resource_config.base_path
-            + f"/{self.resource_config.destination_resources[_id]['id']}",
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
             resource,
         ).json()
 
@@ -97,8 +96,7 @@ class DashboardLists(BaseResource):
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         destination_client.delete(
-            self.resource_config.base_path
-            + f"/{self.resource_config.destination_resources[_id]['id']}"
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
@@ -108,9 +106,7 @@ class DashboardLists(BaseResource):
         payload = {"dashboards": dashboards}
         destination_client = self.config.destination_client
         try:
-            dashboards = destination_client.put(
-                self.dash_list_items_path.format(_id), payload
-            ).json()
+            dashboards = destination_client.put(self.dash_list_items_path.format(_id), payload).json()
         except HTTPError as e:
             self.config.logger.error("error updating dashboard list items: %s", e)
             return

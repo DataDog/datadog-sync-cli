@@ -37,9 +37,7 @@ class SyntheticsPrivateLocations(BaseResource):
     def import_resource(self, resource: Dict) -> None:
         source_client = self.config.source_client
         if self.pl_id_regex.match(resource["id"]):
-            pl = source_client.get(
-                self.resource_config.base_path + f"/{resource['id']}"
-            ).json()
+            pl = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
 
             self.resource_config.source_resources[resource["id"]] = pl
 
@@ -51,17 +49,14 @@ class SyntheticsPrivateLocations(BaseResource):
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        resp = destination_client.post(self.resource_config.base_path, resource).json()[
-            "private_location"
-        ]
+        resp = destination_client.post(self.resource_config.base_path, resource).json()["private_location"]
 
         self.resource_config.destination_resources[_id] = resp
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
         resp = destination_client.put(
-            self.resource_config.base_path
-            + f"/{self.resource_config.destination_resources[_id]['id']}",
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
             resource,
         ).json()
 
@@ -70,11 +65,8 @@ class SyntheticsPrivateLocations(BaseResource):
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         destination_client.delete(
-            self.resource_config.base_path
-            + f"/{self.resource_config.destination_resources[_id]['id']}"
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(SyntheticsPrivateLocations, self).connect_id(
-            key, r_obj, resource_to_connect
-        )
+        super(SyntheticsPrivateLocations, self).connect_id(key, r_obj, resource_to_connect)

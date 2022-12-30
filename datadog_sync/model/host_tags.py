@@ -42,9 +42,7 @@ class HostTags(BaseResource):
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
         body = {"tags": resource}
-        resp = destination_client.put(
-            self.resource_config.base_path + f"/{_id}", body
-        ).json()
+        resp = destination_client.put(self.resource_config.base_path + f"/{_id}", body).json()
 
         self.resource_config.destination_resources[_id] = resp["tags"]
 

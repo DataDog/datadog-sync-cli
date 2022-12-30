@@ -48,9 +48,7 @@ class Roles(BaseResource):
     def create_resource(self, _id, resource):
         if resource["attributes"]["name"] in self.destination_roles_mapping:
             role_copy = copy.deepcopy(resource)
-            role_copy.update(
-                self.destination_roles_mapping[resource["attributes"]["name"]]
-            )
+            role_copy.update(self.destination_roles_mapping[resource["attributes"]["name"]])
 
             self.resource_config.destination_resources[_id] = role_copy
             if check_diff(self.resource_config, resource, role_copy):
@@ -67,8 +65,7 @@ class Roles(BaseResource):
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = destination_client.patch(
-            self.resource_config.base_path
-            + f"/{self.resource_config.destination_resources[_id]['id']}",
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
             payload,
         )
 
@@ -77,8 +74,7 @@ class Roles(BaseResource):
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         destination_client.delete(
-            self.resource_config.base_path
-            + f"/{self.resource_config.destination_resources[_id]['id']}"
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
@@ -95,9 +91,7 @@ class Roles(BaseResource):
             if "permissions" in resource["relationships"]:
                 for permission in resource["relationships"]["permissions"]["data"]:
                     if permission["id"] in self.source_permissions:
-                        permission["id"] = self.destination_permissions[
-                            self.source_permissions[permission["id"]]
-                        ]
+                        permission["id"] = self.destination_permissions[self.source_permissions[permission["id"]]]
 
     def get_permissions(self):
         source_permission_obj = {}
@@ -106,12 +100,8 @@ class Roles(BaseResource):
         source_client = self.config.source_client
         destination_client = self.config.destination_client
         try:
-            source_permissions = source_client.get(self.permissions_base_path).json()[
-                "data"
-            ]
-            destination_permissions = destination_client.get(
-                self.permissions_base_path
-            ).json()["data"]
+            source_permissions = source_client.get(self.permissions_base_path).json()["data"]
+            destination_permissions = destination_client.get(self.permissions_base_path).json()["data"]
         except HTTPError as e:
             self.config.logger.error("error getting permissions: %s", e.response.text)
             return
@@ -119,9 +109,7 @@ class Roles(BaseResource):
         for permission in source_permissions:
             source_permission_obj[permission["id"]] = permission["attributes"]["name"]
         for permission in destination_permissions:
-            destination_permission_obj[permission["attributes"]["name"]] = permission[
-                "id"
-            ]
+            destination_permission_obj[permission["attributes"]["name"]] = permission["id"]
 
         return source_permission_obj, destination_permission_obj
 
@@ -131,9 +119,9 @@ class Roles(BaseResource):
 
         # Destination roles mapping
         try:
-            destination_roles_resp = destination_client.paginated_request(
-                destination_client.get
-            )(self.resource_config.base_path)
+            destination_roles_resp = destination_client.paginated_request(destination_client.get)(
+                self.resource_config.base_path
+            )
         except HTTPError as e:
             self.config.logger.error("error retrieving roles: %s", e.response.text)
             return destination_roles_mapping

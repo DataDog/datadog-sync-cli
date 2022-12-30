@@ -32,9 +32,7 @@ class SLOCorrections(BaseResource):
 
     def import_resource(self, resource: Dict) -> None:
         if resource["attributes"].get("end", False):
-            if (
-                round(datetime.now().timestamp()) - int(resource["attributes"]["end"])
-            ) / 86400 > 90:
+            if (round(datetime.now().timestamp()) - int(resource["attributes"]["end"])) / 86400 > 90:
                 return
         self.resource_config.source_resources[resource["id"]] = resource
 
@@ -55,8 +53,7 @@ class SLOCorrections(BaseResource):
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = destination_client.patch(
-            self.resource_config.base_path
-            + f"/{self.resource_config.destination_resources[_id]['id']}",
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
             payload,
         ).json()
 
@@ -65,8 +62,7 @@ class SLOCorrections(BaseResource):
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         destination_client.delete(
-            self.resource_config.base_path
-            + f"/{self.resource_config.destination_resources[_id]['id']}"
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:

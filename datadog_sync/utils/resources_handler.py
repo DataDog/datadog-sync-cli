@@ -11,9 +11,7 @@ from pprint import pformat
 def import_resources(config, import_missing_deps=False):
     resources = config.resources
     if import_missing_deps:
-        resources = {
-            k: v for k, v in config.resources.items() if k in config.missing_deps
-        }
+        resources = {k: v for k, v in config.resources.items() if k in config.missing_deps}
 
     for resource_type, resource in resources.items():
         if not import_missing_deps and resource_type in config.missing_deps:
@@ -21,17 +19,13 @@ def import_resources(config, import_missing_deps=False):
 
         config.logger.info("Importing %s", resource_type)
         successes, errors = resource.import_resources()
-        config.logger.info(
-            f"Finished importing {resource_type}: {successes} successes, {errors} errors"
-        )
+        config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
 
 
 def apply_resources(config):
     force_missing_deps = config.force_missing_dependencies
     if not force_missing_deps and config.missing_deps:
-        pretty_missing_deps = "\n".join(
-            ["- " + resource for resource in config.missing_deps]
-        )
+        pretty_missing_deps = "\n".join(["- " + resource for resource in config.missing_deps])
 
         config.logger.warning(
             f"Ensure following dependencies are up to date as well:\n{pretty_missing_deps}\n"
@@ -44,15 +38,11 @@ def apply_resources(config):
     for resource_type, resource in config.resources.items():
         if force_missing_deps or resource_type not in config.missing_deps:
             # Set resources to cleanup
-            resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(
-                resource, config
-            )
+            resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(resource, config)
 
             config.logger.info("Syncing resource: {}".format(resource_type))
             successes, errors = resource.apply_resources()
-            config.logger.info(
-                f"Finished syncing {resource_type}: {successes} successes, {errors} errors"
-            )
+            config.logger.info(f"Finished syncing {resource_type}: {successes} successes, {errors} errors")
 
 
 def check_diffs(config):
@@ -60,9 +50,7 @@ def check_diffs(config):
         if resource_type in config.missing_deps:
             continue
         # Set resources to cleanup
-        resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(
-            resource, config, prompt=False
-        )
+        resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(resource, config, prompt=False)
 
         resource.check_diffs()
 
@@ -70,9 +58,9 @@ def check_diffs(config):
 def _get_resources_to_cleanup(resource, config, prompt=True):
     # Cleanup resources
     resources_confirmed_to_remove = set()
-    resources_to_be_removed = set(
-        resource.resource_config.destination_resources.keys()
-    ) - set(resource.resource_config.source_resources.keys())
+    resources_to_be_removed = set(resource.resource_config.destination_resources.keys()) - set(
+        resource.resource_config.source_resources.keys()
+    )
 
     if config.cleanup.lower() == "force":
         return list(resources_to_be_removed)
