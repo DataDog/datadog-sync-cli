@@ -20,9 +20,13 @@ from datadog_sync.utils.filter import process_filters
         (["Type=r_test_two;Name=test;Value=1;Operator=NonExistent"], "r_test_two", {"test": ["attr", 1]}, True),
         (["Type=r_test_two;Name=test;Value=1"], "r_test_two", {"test": ["attr", 123]}, False),
         (["Type=r_test_two;Name=test;Value=1;Operator=SubString"], "r_test_two", {"test": ["attr", 123]}, True),
+        (["Type=r_test;Name=test.nested;Value=123"], "r_test", {"test": [{"nested": 123}]}, True),
+        (["Type=r_test;Name=test.nested.deep;Value=sub;Operator=SubString"], "r_test", {"test": [{"nested": {"deep": "substring"}}]}, True),
+        (["Type=r_test;Name=test.nested.deep;Value=sub;"], "r_test", {"test": [{"nested": {"deep": "substring"}}]}, False),
+        (["Type=r_test;Name=test.non.exist;Value=sub;"], "r_test", {"test": []}, False),
     ],
 )
-def test_filters(_filter, r_type, r_obj, expected):
+def test_filters_is_match(_filter, r_type, r_obj, expected):
     filters = process_filters(_filter)
 
     assert filters[r_type][0].is_match(r_obj) == expected
