@@ -70,11 +70,11 @@ class BaseResourcesTestClass:
         # update fields and save the file.
         for resource in source_resources.values():
             try:
-                current_value = pathLookup(resource, self.field_to_update)
+                current_value = path_lookup(resource, self.field_to_update)
                 if current_value is None:
                     current_value = ""
 
-                pathUpdate(resource, self.field_to_update, current_value + "updated")
+                path_update(resource, self.field_to_update, current_value + "updated")
             except Exception as e:
                 pytest.fail(e)
 
@@ -145,7 +145,7 @@ def open_resources(resource_type):
     return source_resources, destination_resources
 
 
-def pathLookup(obj, path):
+def path_lookup(obj, path):
     path = path.split(".", 1)
 
     if len(path) == 1:
@@ -154,15 +154,15 @@ def pathLookup(obj, path):
         elif isinstance(obj, list):
             return ""
         else:
-            raise Exception(f"pathLookup error: invalid key {path}")
+            raise Exception(f"path_lookup error: invalid key {path}")
     else:
         if path[0] in obj:
-            return pathLookup(obj[path[0]], path[1])
+            return path_lookup(obj[path[0]], path[1])
         else:
-            raise Exception(f"pathLookup error: invalid key {path}")
+            raise Exception(f"path_lookup error: invalid key {path}")
 
 
-def pathUpdate(obj, path, value):
+def path_update(obj, path, value):
     path = path.split(".", 1)
     if len(path) == 1:
         if path[0] in obj:
@@ -170,9 +170,9 @@ def pathUpdate(obj, path, value):
         elif isinstance(obj, list):
             obj.append(value)
         else:
-            raise Exception(f"pathUpdate error: invalid key {path}")
+            raise Exception(f"path_update error: invalid key {path}")
     else:
         if path[0] in obj:
-            pathUpdate(obj[path[0]], path[1], value)
+            path_update(obj[path[0]], path[1], value)
         else:
-            raise Exception(f"pathUpdate error: invalid key {path}")
+            raise Exception(f"path_update error: invalid key {path}")
