@@ -66,8 +66,7 @@ Filter option accepts a string made up of `key=value` pairs separated by `;`. Fo
 Available keys:
 
 - `Type`: Resource e.g. Monitors, Dashboards, etc. [required]
-- `Name`: Attribute key to filter on. This can be any top level key in the individual resources retrieved from their respective list all endpoints. [required]
-  - For example: Dashboards [list all endpoint](https://docs.datadoghq.com/api/latest/dashboards/#get-all-dashboards) returns dashboard summary response which contains the following attributes available for filtering: `author_handle, created_at, description, id, is_read_only, layout_type, modified_at, title, url`
+- `Name`: Attribute key to filter on. This can be any attribute represented in dot notation (e.g. `attributes.user_count`). [required]
 - `Value`: Attribute value to filter by. [required]
 - `Operator`: Available operators are below. All invalid operator's default to `ExactMatch`.
   - `SubString`: Sub string matching
