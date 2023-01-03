@@ -22,26 +22,35 @@ log = logging.getLogger(LOGGER_NAME)
 class Filter:
     def __init__(self, resource_type, attr_name, attr_re):
         self.resource_type = resource_type
-        self.attr_name = attr_name
+        self.attr_name = attr_name.split(".")
         self.attr_re = attr_re
 
     def is_match(self, resource):
-        if self.attr_name in resource:
-            if isinstance(resource[self.attr_name], list):
-                return (
-                    len(
-                        list(
-                            filter(
-                                lambda attr: match(self.attr_re, str(attr)),
-                                resource[self.attr_name],
-                            )
-                        )
-                    )
-                    > 0
-                )
-            return match(self.attr_re, str(resource[self.attr_name])) is not None
+        return self._is_match_helper(self.attr_name, resource)
 
-        return False
+    def _is_match_helper(self, k_list, resource):
+        if len(k_list) == 1:
+            if k_list[0] in resource:
+                return self._is_match(resource[k_list[0]])
+            return False
+        else:
+            if k_list[0] not in resource:
+                return False
+            if isinstance(resource[k_list[0]], list):
+                match = False
+                for r in resource[k_list[0]]:
+                    if self._is_match_helper(k_list[1:], r):
+                        match = True
+                        break
+                return match
+
+            return self._is_match_helper(k_list[1:], resource[k_list[0]])
+
+    def _is_match(self, value):
+        if isinstance(value, list):
+            return len(list(filter(lambda attr: match(self.attr_re, str(attr)), value))) > 0
+
+        return match(self.attr_re, str(value)) is not None
 
 
 def process_filters(filter_list):
