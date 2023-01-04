@@ -131,7 +131,7 @@ _non_import_common_options = [
             case_sensitive=False,
         ),
         help="Cleanup resources from destination org.",
-        envvar=constants.CLEANUP,
+        envvar=constants.DD_CLEANUP,
     ),
 ]
 
