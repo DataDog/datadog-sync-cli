@@ -17,17 +17,17 @@ class TestCli:
     # We test resources with resource dependencies only. The rest of the resources are
     # tested in the individual resource test files
     resources = ",".join([
-        # "roles",
-        # "users",
-        # "dashboards",
-        # "dashboard_lists",
-        # "synthetics_global_variables",
+        "roles",
+        "users",
+        "dashboards",
+        "dashboard_lists",
+        "synthetics_global_variables",
         "synthetics_private_locations",
-        # "synthetics_tests",
-        # "monitors",
-        # "downtimes",
-        # "service_level_objectives",
-        # "slo_corrections",
+        "synthetics_tests",
+        "monitors",
+        "downtimes",
+        "service_level_objectives",
+        "slo_corrections",
     ])
 
     @pytest.fixture(autouse=True, scope="class")

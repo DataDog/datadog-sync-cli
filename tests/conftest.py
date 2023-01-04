@@ -40,13 +40,16 @@ def runner(freezed_time, freezer):
 
 
 def filter_private_location_data(response):
+    if response["status"]["code"] is 204:
+        return response
+
     if "body" not in response or "string" not in response["body"]:
         return response
 
     try:
         resp = json.loads(response["body"]["string"])
     except JSONDecodeError:
-        return
+        return response
 
     if "private_location" in resp:
         resp["private_location"].pop("secrets", None)
