@@ -6,51 +6,18 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '27'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
   response:
     body:
       string: '{"is_favorite": false, "name": "Empty Test List", "dashboard_count":
-        0, "author": {"handle": "frog@datadoghq.com", "name": "Frog"}, "created":
-        "2021-10-28T14:51:43.028097+00:00", "type": "manual_dashboard_list", "dashboards":
-        null, "modified": "2021-10-28T14:51:43.028139+00:00", "id": 13699}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '272'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:43 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '98'
-      x-frame-options:
-      - SAMEORIGIN
+        0, "author": {"handle": "sherzod.karimov@datadoghq.com", "name": "Sherzod
+        Karimov"}, "created": "2023-01-04T21:42:08.025298+00:00", "type": "manual_dashboard_list",
+        "dashboards": null, "modified": "2023-01-04T21:42:08.025308+00:00", "id":
+        22098}'
+    headers: {}
     status:
       code: 200
       message: OK
@@ -61,44 +28,14 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '18'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/13699/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/22098/dashboards
   response:
     body:
       string: '{"dashboards": []}'
-    headers:
-      Alt-Svc:
-      - clear
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '17'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:43 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '133'
-      x-frame-options:
-      - SAMEORIGIN
+    headers: {}
     status:
       code: 200
       message: OK

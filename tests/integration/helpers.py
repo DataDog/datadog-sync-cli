@@ -6,6 +6,7 @@ import logging
 import os
 import re
 import json
+import shutil
 
 import pytest
 
@@ -22,6 +23,7 @@ RESOURCE_SKIPPED_RE = re.compile("Skipping resource")
 class BaseResourcesTestClass:
     resource_type = None
     field_to_update = None
+    resources_to_preserve_filter = None
 
     @pytest.fixture(autouse=True, scope="class")
     def setup(self, tmpdir_factory):
@@ -56,7 +58,7 @@ class BaseResourcesTestClass:
         ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
         assert 0 == ret.exit_code
 
-        # By default, resources  with failed connections are skipped. Hence count number of skipped + success
+        # By default, resources  with failed connections are skipped. Hence, count number of skipped + success
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
@@ -101,6 +103,39 @@ class BaseResourcesTestClass:
     def test_no_resource_diffs(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
         ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
+        assert not ret.output
+        assert 0 == ret.exit_code
+
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
+        source_resources, destination_resources = open_resources(self.resource_type)
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+
+    def test_resource_cleanup(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+        # Remove current source resources
+        shutil.rmtree("resources/source", ignore_errors=True)
+
+        # Re-import resources if filter is passed
+        if self.resources_to_preserve_filter:
+            ret = runner.invoke(
+                cli,
+                [
+                    "import",
+                    f"--resources={self.resource_type}",
+                    f"--filter={self.resources_to_preserve_filter}",
+                ],
+            )
+            assert 0 == ret.exit_code
+
+        # Sync with cleanup
+        ret = runner.invoke(
+            cli,
+            [
+                "sync",
+                f"--resources={self.resource_type}",
+                "--cleanup=force",
+            ],
+        )
         assert not ret.output
         assert 0 == ret.exit_code
 

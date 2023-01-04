@@ -7,58 +7,16 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '98'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
       string: '{"is_enabled": true, "name": "Test pipeline", "filter": {"query": "test:query"},
-        "is_read_only": false, "type": "pipeline", "id": "LdMkx7_RSDaxs7gUMskmzA",
+        "is_read_only": false, "type": "pipeline", "id": "DsN318TrS1CgwWrtXrMd-A",
         "processors": []}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '159'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:50 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '97'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '10'
-      x-ratelimit-period:
-      - '300'
-      x-ratelimit-remaining:
-      - '7'
-      x-ratelimit-reset:
-      - '190'
+    headers: {}
     status:
       code: 200
       message: OK
@@ -101,20 +59,14 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '2639'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
       string: '{"is_enabled": true, "name": "Test Pipeline - Complex", "filter": {"query":
-        "source:foo"}, "is_read_only": false, "type": "pipeline", "id": "ZFYjeMMrSy2kzeBOncUPJA",
+        "source:foo"}, "is_read_only": false, "type": "pipeline", "id": "gLUa-gsUR2uXs4e_PVLZlg",
         "processors": [{"is_enabled": true, "name": "sample arithmetic processor",
         "expression": "(time1 - time2)*1000", "is_replace_missing": true, "type":
         "arithmetic-processor", "target": "my_arithmetic"}, {"is_enabled": true, "override_on_conflict":
@@ -147,43 +99,7 @@ interactions:
         "type": "trace-id-remapper", "name": "sample trace id remapper"}, {"is_enabled":
         true, "name": "sample user agent parser", "sources": ["user", "agent"], "is_encoded":
         false, "type": "user-agent-parser", "target": "http_agent"}]}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '2519'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:50 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '132'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '10'
-      x-ratelimit-period:
-      - '300'
-      x-ratelimit-remaining:
-      - '6'
-      x-ratelimit-reset:
-      - '190'
+    headers: {}
     status:
       code: 200
       message: OK

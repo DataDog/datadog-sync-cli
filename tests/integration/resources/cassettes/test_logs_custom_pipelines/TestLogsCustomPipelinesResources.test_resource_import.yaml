@@ -6,12 +6,8 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/logs/config/pipelines
   response:
@@ -68,48 +64,18 @@ interactions:
         HTTP/1.1\" 200 6997 1.8096"], "type": "grok-parser"}, {"is_enabled": true,
         "name": "", "sources": ["http.url"], "target": "http.url_details", "type":
         "url-parser", "normalize_ending_slashes": false}, {"is_enabled": true, "sources":
-        ["date_access"], "type": "date-remapper", "name": "Define Date_access as the
-        official timestamp of the log"}, {"is_enabled": true, "type": "category-processor",
+        ["date_access"], "type": "date-remapper", "name": "Define `date_access` as
+        the official date of the log"}, {"is_enabled": true, "type": "category-processor",
         "name": "Categorise status code", "categories": [{"filter": {"query": "@http.status_code:[200
         TO 299]"}, "name": "OK"}, {"filter": {"query": "@http.status_code:[300 TO
         399]"}, "name": "notice"}, {"filter": {"query": "@http.status_code:[400 TO
         499]"}, "name": "warning"}, {"filter": {"query": "@http.status_code:[500 TO
         599]"}, "name": "error"}], "target": "http.status_category"}, {"is_enabled":
         true, "sources": ["http.status_category"], "type": "status-remapper", "name":
-        "Set the log status based on the status code value"}]}]'
+        "Define `http.status_category` as the official status of the log"}]}]'
     headers:
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      Date:
-      - Thu, 28 Oct 2021 14:51:50 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '4642'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '420'
-      x-ratelimit-period:
-      - '300'
-      x-ratelimit-remaining:
-      - '419'
-      x-ratelimit-reset:
-      - '190'
     status:
       code: 200
       message: OK

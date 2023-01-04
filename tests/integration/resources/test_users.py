@@ -10,3 +10,4 @@ from datadog_sync.models import Users
 class TestUsersResources(BaseResourcesTestClass):
     resource_type = Users.resource_type
     field_to_update = "attributes.name"
+    resources_to_preserve_filter = "Type=users;Name=attributes.status;Value=Active"

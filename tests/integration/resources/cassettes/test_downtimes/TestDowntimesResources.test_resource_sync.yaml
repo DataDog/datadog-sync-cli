@@ -1,134 +1,53 @@
 interactions:
 - request:
-    body: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "canceled": null,
-      "monitor_id": null, "mute_first_recovery_notification": false, "disabled": false,
-      "start": 1777521600, "parent_id": null, "timezone": "America/New_York", "scope":
-      ["*"], "message": "Sample downtime message", "downtime_type": 0}'
+    body: '{"monitor_id": null, "scope": ["*"], "start": 1777521600, "end": null,
+      "canceled": null, "message": "Sample downtime message", "disabled": false, "recurrence":
+      null, "timezone": "America/New_York", "parent_id": null, "downtime_type": 0,
+      "monitor_tags": ["*"], "mute_first_recovery_notification": false}'
     headers:
       Accept:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '302'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/downtime
   response:
     body:
-      string: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": null, "mute_first_recovery_notification":
-        false, "created": 1650050723, "org_id": 1000044987, "modified": 1650050723,
-        "disabled": false, "start": 1777521600, "creator_id": 1000219667, "parent_id":
-        null, "timezone": "America/New_York", "active": false, "scope": ["*"], "message":
-        "Sample downtime message", "downtime_type": 0, "id": 111002424, "updater_id":
-        null}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '428'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
-      content-type:
-      - application/json
-      date:
-      - Fri, 15 Apr 2022 19:25:23 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '12000'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '11999'
-      x-ratelimit-reset:
-      - '38'
+      string: '{"id": 197190967, "monitor_id": null, "org_id": 1000044987, "scope":
+        ["*"], "start": 1777521600, "end": null, "canceled": null, "created": 1672868532,
+        "modified": 1672868532, "message": "Sample downtime message", "active": false,
+        "disabled": false, "recurrence": null, "timezone": "America/New_York", "parent_id":
+        null, "child_id": null, "creator_id": 1000219663, "updater_id": null, "downtime_type":
+        0, "monitor_tags": ["*"], "mute_first_recovery_notification": false}'
+    headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "canceled": null,
-      "monitor_id": null, "mute_first_recovery_notification": false, "disabled": false,
-      "start": 1807675200, "parent_id": null, "timezone": "America/New_York", "scope":
-      ["*"], "message": "Sample message", "downtime_type": 0}'
+    body: '{"monitor_id": null, "scope": ["*"], "start": 1807675200, "end": null,
+      "canceled": null, "message": "Sample message", "disabled": false, "recurrence":
+      null, "timezone": "America/New_York", "parent_id": null, "downtime_type": 0,
+      "monitor_tags": ["*"], "mute_first_recovery_notification": false}'
     headers:
       Accept:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '293'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
     method: POST
     uri: https://api.datadoghq.eu/api/v1/downtime
   response:
     body:
-      string: '{"recurrence": null, "end": null, "monitor_tags": ["*"], "child_id":
-        null, "canceled": null, "monitor_id": null, "mute_first_recovery_notification":
-        false, "created": 1650050723, "org_id": 1000044987, "modified": 1650050723,
-        "disabled": false, "start": 1807675200, "creator_id": 1000219667, "parent_id":
-        null, "timezone": "America/New_York", "active": false, "scope": ["*"], "message":
-        "Sample message", "downtime_type": 0, "id": 111002425, "updater_id": null}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '419'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
-      content-type:
-      - application/json
-      date:
-      - Fri, 15 Apr 2022 19:25:23 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '12000'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '11998'
-      x-ratelimit-reset:
-      - '37'
+      string: '{"id": 197190968, "monitor_id": null, "org_id": 1000044987, "scope":
+        ["*"], "start": 1807675200, "end": null, "canceled": null, "created": 1672868532,
+        "modified": 1672868532, "message": "Sample message", "active": false, "disabled":
+        false, "recurrence": null, "timezone": "America/New_York", "parent_id": null,
+        "child_id": null, "creator_id": 1000219663, "updater_id": null, "downtime_type":
+        0, "monitor_tags": ["*"], "mute_first_recovery_notification": false}'
+    headers: {}
     status:
       code: 200
       message: OK

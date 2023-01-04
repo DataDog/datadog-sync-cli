@@ -6,12 +6,8 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v2/logs/config/metrics
   response:
@@ -20,38 +16,8 @@ interactions:
         "group_by": [{"path": "service", "tag_name": "service"}], "compute": {"aggregation_type":
         "count"}}, "type": "logs_metrics", "id": "test.metric"}]}'
     headers:
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      Date:
-      - Thu, 28 Oct 2021 14:51:52 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '229'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '420'
-      x-ratelimit-period:
-      - '300'
-      x-ratelimit-remaining:
-      - '419'
-      x-ratelimit-reset:
-      - '188'
     status:
       code: 200
       message: OK

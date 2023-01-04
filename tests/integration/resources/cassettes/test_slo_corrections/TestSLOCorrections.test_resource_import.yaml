@@ -6,58 +6,31 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/slo/correction
   response:
     body:
-      string: '{"meta": {"page": {"total_filtered_count": 1, "total_count": 1}}, "data":
-        [{"type": "correction", "id": "010e1dae-d819-11eb-ac2c-da7ad0900002", "attributes":
-        {"slo_id": "ba72d10835d75e0c8910597144f3733a", "start": 1735707000, "end":
-        1735718600, "description": "correction example", "category": "Scheduled Maintenance",
-        "timezone": "UTC", "created_at": 1624888746, "modified_at": 1627063076, "rrule":
+      string: '{"data": [{"type": "correction", "id": "591ee19e-f3a8-11ec-a77c-da7ad0902002",
+        "attributes": {"slo_id": "c4fa01c78d45542cb830598be4f68ad2", "start": 1656064450,
+        "end": 1656066450, "description": "", "category": "Scheduled Maintenance",
+        "timezone": "UTC", "created_at": 1656066491, "modified_at": 1656066491, "rrule":
         null, "duration": null, "creator": {"data": {"type": "users", "id": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002",
         "attributes": {"uuid": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002", "handle": "frog@datadoghq.com",
         "email": "frog@datadoghq.com", "name": "Frog", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro"}}},
-        "modifier": null}}]}'
+        "modifier": null}}, {"type": "correction", "id": "8604453e-9681-11ec-83cc-da7ad0900002",
+        "attributes": {"slo_id": "c4fa01c78d45542cb830598be4f68ad2", "start": 1645614253,
+        "end": 1645714253, "description": "", "category": "Scheduled Maintenance",
+        "timezone": "UTC", "created_at": 1645824358, "modified_at": 1645824358, "rrule":
+        null, "duration": null, "creator": {"data": {"type": "users", "id": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002",
+        "attributes": {"uuid": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002", "handle": "frog@datadoghq.com",
+        "email": "frog@datadoghq.com", "name": "Frog", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro"}}},
+        "modifier": null}}], "meta": {"page": {"total_count": 2, "total_filtered_count":
+        2}}}'
     headers:
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      Date:
-      - Thu, 28 Oct 2021 14:52:10 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '715'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '12000'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '11999'
-      x-ratelimit-reset:
-      - '50'
     status:
       code: 200
       message: OK

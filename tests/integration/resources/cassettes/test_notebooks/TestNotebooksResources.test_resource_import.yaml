@@ -6,18 +6,8 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
-      x-datadog-parent-id:
-      - '5726877493339278747'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-trace-id:
-      - '10199960929401625553'
     method: GET
     uri: https://api.datadoghq.com/api/v1/notebooks?count=100&include_cells=True&start=0
   response:
@@ -30,11 +20,11 @@ interactions:
         "yaxis": {"scale": "linear"}}, "graph_size": "m", "split_by": {"keys": [],
         "tags": []}, "time": null}, "type": "notebook_cells", "id": "g6x1knta"}, {"attributes":
         {"definition": {"text": "Teeeeeest", "type": "markdown"}}, "type": "notebook_cells",
-        "id": "sf3x5n03"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
-        false, "type": null, "take_snapshots": false}, "template_variables": null,
-        "status": "published", "modified": "2021-09-23T23:10:10.033807+00:00", "created":
-        "2021-09-23T23:10:10.033807+00:00", "author": {"name": "Noueman Khalikine",
-        "handle": "noueman.khalikine@datadoghq.com", "email": "noueman.khalikine@datadoghq.com",
+        "id": "sf3x5n03"}], "time": {"live_span": "1h"}, "metadata": {"is_favorite":
+        false, "is_template": false, "type": null, "take_snapshots": false}, "template_variables":
+        null, "status": "published", "modified": "2021-09-23T23:10:10.033807+00:00",
+        "created": "2021-09-23T23:10:10.033807+00:00", "author": {"name": "Noueman
+        Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email": "noueman.khalikine@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/92d6421ea95d9f7b8d60c8270c95d84a?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}},
         {"type": "notebooks", "id": 1249391, "attributes": {"name": "Test Notebook",
@@ -49,11 +39,11 @@ interactions:
         "scalar", "queries": [{"query": "avg:system.load.1{*}", "data_source": "metrics",
         "name": "query1", "aggregator": "avg"}]}], "type": "toplist"}, "graph_size":
         "m", "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
-        "id": "qoavau2o"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
-        false, "type": null, "take_snapshots": false}, "template_variables": null,
-        "status": "published", "modified": "2021-09-23T21:45:36.493252+00:00", "created":
-        "2021-09-03T14:34:56.849312+00:00", "author": {"name": "Sherzod Karimov",
-        "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": "qoavau2o"}], "time": {"live_span": "1h"}, "metadata": {"is_favorite":
+        false, "is_template": false, "type": null, "take_snapshots": false}, "template_variables":
+        null, "status": "published", "modified": "2021-09-23T21:45:36.493252+00:00",
+        "created": "2021-09-03T14:34:56.849312+00:00", "author": {"name": "Sherzod
+        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}},
         {"type": "notebooks", "id": 1249389, "attributes": {"name": "RFC: [title]
@@ -94,11 +84,11 @@ interactions:
         "0ryy65ac"}, {"attributes": {"definition": {"text": "# Open Questions\n_Note
         relevant questions and design topics._\n\n# Appendix\n_[Link](/) relevant
         documents or references._", "type": "markdown"}}, "type": "notebook_cells",
-        "id": "5xnxosip"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
-        false, "type": null, "take_snapshots": false}, "template_variables": null,
-        "status": "published", "modified": "2021-09-03T14:34:37.029613+00:00", "created":
-        "2021-09-03T14:34:37.029613+00:00", "author": {"name": "Sherzod Karimov",
-        "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": "5xnxosip"}], "time": {"live_span": "1h"}, "metadata": {"is_favorite":
+        false, "is_template": false, "type": null, "take_snapshots": false}, "template_variables":
+        null, "status": "published", "modified": "2021-09-03T14:34:37.029613+00:00",
+        "created": "2021-09-03T14:34:37.029613+00:00", "author": {"name": "Sherzod
+        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}},
         {"type": "notebooks", "id": 1249388, "attributes": {"name": "Gameday YYYY-MM-DD:
@@ -148,11 +138,11 @@ interactions:
         \n**This is the most important part of the gameday!**\n\n- Issue 1: [Link
         to follow-up item](/)\n- Issue 2: [Link to follow-up item](/)\n", "type":
         "markdown"}}, "type": "notebook_cells", "id": "wwhju4ds"}], "time": {"live_span":
-        "1h"}, "metadata": {"is_template": false, "type": null, "take_snapshots":
-        false}, "template_variables": null, "status": "published", "modified": "2021-09-03T14:34:33.365896+00:00",
-        "created": "2021-09-03T14:34:33.365896+00:00", "author": {"name": "Sherzod
-        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
+        "1h"}, "metadata": {"is_favorite": false, "is_template": false, "type": null,
+        "take_snapshots": false}, "template_variables": null, "status": "published",
+        "modified": "2021-09-03T14:34:33.365896+00:00", "created": "2021-09-03T14:34:33.365896+00:00",
+        "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}},
         {"type": "notebooks", "id": 1249387, "attributes": {"name": "Postmortem IR-xxxx:
         [outage name] (from template)", "cells": [{"attributes": {"definition": {"text":
@@ -185,45 +175,15 @@ interactions:
         are planned._\n\n\n### Short-term\n- [X] ~~Action 1~~\n- [ ] Action 2\n\n###
         Long-term\n- [ ] Action 1\n- [ ] Action 2", "type": "markdown"}}, "type":
         "notebook_cells", "id": "gajt34ww"}], "time": {"live_span": "1h"}, "metadata":
-        {"is_template": false, "type": "postmortem", "take_snapshots": false}, "template_variables":
-        null, "status": "published", "modified": "2021-09-03T14:34:28.816850+00:00",
+        {"is_favorite": false, "is_template": false, "type": "postmortem", "take_snapshots":
+        false}, "template_variables": null, "status": "published", "modified": "2021-09-03T14:34:28.816850+00:00",
         "created": "2021-09-03T14:34:28.816850+00:00", "author": {"name": "Sherzod
         Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}]}'
     headers:
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      Date:
-      - Mon, 20 Dec 2021 14:51:38 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '13405'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '90'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '89'
-      x-ratelimit-reset:
-      - '22'
     status:
       code: 200
       message: OK

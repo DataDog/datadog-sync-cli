@@ -6,62 +6,30 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/locations
   response:
     body:
-      string: '{"locations": [{"id": "aws:ap-northeast-1", "name": "Tokyo (AWS)"},
-        {"id": "aws:ap-northeast-2", "name": "Seoul (AWS)"}, {"id": "aws:ap-south-1",
-        "name": "Mumbai (AWS)"}, {"id": "aws:ap-southeast-1", "name": "Singapore (AWS)"},
-        {"id": "aws:ap-southeast-2", "name": "Sydney (AWS)"}, {"id": "aws:ca-central-1",
-        "name": "Canada Central (AWS)"}, {"id": "aws:eu-central-1", "name": "Frankfurt
-        (AWS)"}, {"id": "aws:eu-north-1", "name": "Stockholm (AWS)"}, {"id": "aws:eu-west-1",
-        "name": "Ireland (AWS)"}, {"id": "aws:eu-west-2", "name": "London (AWS)"},
-        {"id": "aws:eu-west-3", "name": "Paris (AWS)"}, {"id": "aws:sa-east-1", "name":
-        "S\u00e3o Paulo (AWS)"}, {"id": "aws:us-east-2", "name": "Ohio (AWS)"}, {"id":
-        "aws:us-west-1", "name": "N. California (AWS)"}, {"id": "aws:us-west-2", "name":
-        "Oregon (AWS)"}, {"id": "azure:eastus", "name": "Virginia (Azure)"}, {"id":
-        "pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451", "name": "Test
-        Private Variable"}]}'
+      string: '{"locations": [{"id": "aws:af-south-1", "name": "Cape Town (AWS)"},
+        {"id": "aws:ap-east-1", "name": "Hong Kong (AWS)"}, {"id": "aws:ap-northeast-1",
+        "name": "Tokyo (AWS)"}, {"id": "aws:ap-northeast-2", "name": "Seoul (AWS)"},
+        {"id": "aws:ap-south-1", "name": "Mumbai (AWS)"}, {"id": "aws:ap-southeast-1",
+        "name": "Singapore (AWS)"}, {"id": "aws:ap-southeast-2", "name": "Sydney (AWS)"},
+        {"id": "aws:ca-central-1", "name": "Canada Central (AWS)"}, {"id": "aws:eu-central-1",
+        "name": "Frankfurt (AWS)"}, {"id": "aws:eu-north-1", "name": "Stockholm (AWS)"},
+        {"id": "aws:eu-west-1", "name": "Ireland (AWS)"}, {"id": "aws:eu-west-2",
+        "name": "London (AWS)"}, {"id": "aws:eu-west-3", "name": "Paris (AWS)"}, {"id":
+        "aws:sa-east-1", "name": "S\u00e3o Paulo (AWS)"}, {"id": "aws:us-east-1",
+        "name": "N. Virginia (AWS)"}, {"id": "aws:us-east-2", "name": "Ohio (AWS)"},
+        {"id": "aws:us-west-1", "name": "N. California (AWS)"}, {"id": "aws:us-west-2",
+        "name": "Oregon (AWS)"}, {"id": "azure:eastus", "name": "Virginia (Azure)"},
+        {"id": "pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451", "name":
+        "Test Private Variable"}]}'
     headers:
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      Date:
-      - Thu, 28 Oct 2021 14:52:14 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '892'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '12000'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '11999'
-      x-ratelimit-reset:
-      - '46'
     status:
       code: 200
       message: OK
@@ -72,45 +40,19 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451
   response:
     body:
       string: '{"name": "Test Private Variable", "tags": ["key:value"], "description":
         "datadog-sync-cli test", "modifiedAt": "2021-06-30T12:27:21.433291+00:00",
-        "id": "pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451", "createdAt":
-        "2021-06-30T12:27:21.433291+00:00", "metadata": null}'
+        "createdBy": "noueman.khalikine@datadoghq.com", "id": "pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451",
+        "createdAt": "2021-06-30T12:27:21.433291+00:00", "metadata": null}'
     headers:
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      Date:
-      - Thu, 28 Oct 2021 14:52:14 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-length:
-      - '267'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.com/csp-report
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
     status:
       code: 200
       message: OK

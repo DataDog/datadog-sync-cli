@@ -7,51 +7,18 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '103'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-private-variable-b8123d9ffd81450cd7cf58ce7b542704
+    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-private-variable-73eed01c79c1fca3cd51c2423cb66c70
   response:
     body:
-      string: '{"modifiedAt": "2021-10-28T14:52:15.496585+00:00", "name": "Test Private
-        Variableupdated", "tags": ["key:value"], "metadata": null, "id": "pl:test-private-variable-b8123d9ffd81450cd7cf58ce7b542704",
-        "createdAt": "2021-10-28T14:52:15.147130+00:00", "description": "datadog-sync-cli
+      string: '{"name": "Test Private Variableupdated", "tags": ["key:value"], "modifiedAt":
+        "2023-01-04T21:32:02.607142+00:00", "createdBy": "sherzod.karimov@datadoghq.com",
+        "metadata": null, "id": "pl:test-private-variable-73eed01c79c1fca3cd51c2423cb66c70",
+        "createdAt": "2023-01-04T21:32:02.185319+00:00", "description": "datadog-sync-cli
         test"}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '274'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:52:15 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '96'
-      x-frame-options:
-      - SAMEORIGIN
+    headers: {}
     status:
       code: 200
       message: OK

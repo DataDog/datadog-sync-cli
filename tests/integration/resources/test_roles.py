@@ -12,6 +12,7 @@ from datadog_sync.models import Roles
 class TestRolesResources(BaseResourcesTestClass):
     resource_type = Roles.resource_type
     field_to_update = "attributes.name"
+    resources_to_preserve_filter = "Type=roles;Name=attributes.user_count;Value=[^0]+;Operator=SubString"
 
     @pytest.mark.skip(reason="We cannot run this test as the test org does not have RBAC enabled")
     def test_resource_update_sync(self):

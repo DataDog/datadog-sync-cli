@@ -4,13 +4,13 @@
 # Copyright 2019 Datadog, Inc.
 
 tracer = None
-try:
-    from ddtrace import config, patch
-
-    config.httplib["distributed_tracing"] = True
-    patch(httplib=True)
-except ImportError:
-    pass
+# try:
+#     from ddtrace import config, patch
+#
+#     config.httplib["distributed_tracing"] = True
+#     patch(httplib=True)
+# except ImportError:
+#     pass
 
 import pytest
 import os
@@ -40,7 +40,7 @@ def runner(freezed_time, freezer):
 
 
 def filter_private_location_data(response):
-    if response["status"]["code"] is 204:
+    if response["status"]["code"] == 204:
         return response
 
     if "body" not in response or "string" not in response["body"]:

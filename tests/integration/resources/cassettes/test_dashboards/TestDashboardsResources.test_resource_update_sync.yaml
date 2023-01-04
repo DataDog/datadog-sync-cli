@@ -1,203 +1,5 @@
 interactions:
 - request:
-    body: '{"notify_list": null, "description": null, "restricted_roles": [], "template_variables":
-      null, "is_read_only": false, "title": "{{ unique }} with timeseries widgetupdated",
-      "widgets": [{"definition": {"requests": [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec}
-      by {resource_name}.as_count()", "on_right_yaxis": false, "style": {"line_width":
-      "normal", "palette": "warm", "line_type": "solid"}, "display_type": "bars"}],
-      "type": "timeseries"}, "id": 4987671296932461}], "layout_type": "ordered"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '511'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/usv-wsp-ema
-  response:
-    body:
-      string: '{"notify_list": null, "description": null, "restricted_roles": [],
-        "author_name": "Frog", "template_variables": null, "is_read_only": false,
-        "id": "usv-wsp-ema", "title": "{{ unique }} with timeseries widgetupdated",
-        "url": "/dashboard/usv-wsp-ema/-unique--with-timeseries-widgetupdated", "created_at":
-        "2021-10-28T14:51:44.915855+00:00", "modified_at": "2021-10-28T14:51:46.559833+00:00",
-        "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"requests":
-        [{"q": "sum:trace.test.errors{env:prod,service:datadog-api-spec} by {resource_name}.as_count()",
-        "on_right_yaxis": false, "style": {"line_width": "normal", "palette": "warm",
-        "line_type": "solid"}, "display_type": "bars"}], "type": "timeseries"}, "id":
-        4987671296932461}], "layout_type": "ordered"}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '722'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:46 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '233'
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"notify_list": [], "description": "", "restricted_roles": [], "template_variables":
-      [], "is_read_only": false, "title": "Sherzod''s Dashboard Mon, Oct 25, 3:36:13
-      pmupdated", "reflow_type": "fixed", "widgets": [{"definition": {"title_size":
-      "16", "legend_columns": ["avg", "min", "max", "value", "sum"], "yaxis": {"include_zero":
-      true, "max": "auto", "scale": "linear", "min": "auto", "label": ""}, "title_align":
-      "left", "markers": [], "legend_layout": "auto", "show_legend": true, "time":
-      {}, "title": "", "requests": [{"style": {"line_width": "normal", "palette":
-      "dog_classic", "line_type": "solid"}, "display_type": "line", "response_format":
-      "timeseries", "queries": [{"query": "avg:system.cpu.user{*}", "data_source":
-      "metrics", "name": "query1"}]}], "type": "timeseries"}, "layout": {"y": 0, "x":
-      0, "height": 2, "width": 4}, "id": 7153121417398810}], "layout_type": "ordered"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '885'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/fc2-jkh-n7h
-  response:
-    body:
-      string: '{"notify_list": [], "description": "", "restricted_roles": [], "author_name":
-        "Frog", "template_variables": [], "is_read_only": false, "id": "fc2-jkh-n7h",
-        "title": "Sherzod''s Dashboard Mon, Oct 25, 3:36:13 pmupdated", "url": "/dashboard/fc2-jkh-n7h/sherzods-dashboard-mon-oct-25-33613-pmupdated",
-        "created_at": "2021-10-28T14:51:45.206241+00:00", "modified_at": "2021-10-28T14:51:46.943512+00:00",
-        "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
-        [{"definition": {"title_size": "16", "legend_columns": ["avg", "min", "max",
-        "value", "sum"], "yaxis": {"include_zero": true, "label": "", "scale": "linear",
-        "min": "auto", "max": "auto"}, "title_align": "left", "markers": [], "legend_layout":
-        "auto", "show_legend": true, "time": {}, "title": "", "requests": [{"style":
-        {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
-        "display_type": "line", "response_format": "timeseries", "queries": [{"query":
-        "avg:system.cpu.user{*}", "data_source": "metrics", "name": "query1"}]}],
-        "type": "timeseries"}, "layout": {"y": 0, "x": 0, "width": 4, "height": 2},
-        "id": 7153121417398810}], "layout_type": "ordered"}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '1056'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:47 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"notify_list": null, "description": null, "restricted_roles": [], "template_variables":
-      null, "is_read_only": false, "title": "Sherzod''s Screenboard Thu, Sep 30, 4:21:42
-      pmupdated", "widgets": [], "layout_type": "free"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '220'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/znk-azr-9as
-  response:
-    body:
-      string: '{"notify_list": null, "description": null, "restricted_roles": [],
-        "author_name": "Frog", "template_variables": null, "is_read_only": false,
-        "id": "znk-azr-9as", "title": "Sherzod''s Screenboard Thu, Sep 30, 4:21:42
-        pmupdated", "url": "/dashboard/znk-azr-9as/sherzods-screenboard-thu-sep-30-42142-pmupdated",
-        "created_at": "2021-10-28T14:51:45.454621+00:00", "modified_at": "2021-10-28T14:51:47.259750+00:00",
-        "author_handle": "frog@datadoghq.com", "widgets": [], "layout_type": "free"}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '458'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:47 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '201'
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 200
-      message: OK
-- request:
     body: '{"notify_list": [], "description": "", "restricted_roles": [], "template_variables":
       [], "is_read_only": false, "title": "datadog-sync-cli Test Dashboardupdated",
       "reflow_type": "fixed", "widgets": [{"definition": {"title_size": "16", "title":
@@ -211,58 +13,24 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '606'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/356-t74-dpt
+    uri: https://api.datadoghq.eu/api/v1/dashboard/why-y92-der
   response:
     body:
       string: '{"notify_list": [], "description": "", "restricted_roles": [], "author_name":
-        "Frog", "template_variables": [], "is_read_only": false, "id": "356-t74-dpt",
-        "title": "datadog-sync-cli Test Dashboardupdated", "url": "/dashboard/356-t74-dpt/datadog-sync-cli-test-dashboardupdated",
-        "created_at": "2021-10-28T14:51:45.751495+00:00", "modified_at": "2021-10-28T14:51:47.599523+00:00",
-        "reflow_type": "fixed", "author_handle": "frog@datadoghq.com", "widgets":
-        [{"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
-        2, "time": {}, "title_size": "16", "requests": [{"response_format": "scalar",
-        "queries": [{"query": "avg:system.cpu.user{*}", "data_source": "metrics",
+        "Sherzod Karimov", "template_variables": [], "is_read_only": false, "id":
+        "why-y92-der", "title": "datadog-sync-cli Test Dashboardupdated", "url": "/dashboard/why-y92-der/datadog-sync-cli-test-dashboardupdated",
+        "created_at": "2023-01-04T21:42:09.993640+00:00", "modified_at": "2023-01-04T21:42:10.663687+00:00",
+        "reflow_type": "fixed", "author_handle": "sherzod.karimov@datadoghq.com",
+        "widgets": [{"definition": {"autoscale": true, "title": "", "title_align":
+        "left", "precision": 2, "time": {}, "title_size": "16", "requests": [{"response_format":
+        "scalar", "queries": [{"query": "avg:system.cpu.user{*}", "data_source": "metrics",
         "name": "query1", "aggregator": "avg"}]}], "type": "query_value"}, "layout":
         {"y": 0, "x": 0, "width": 2, "height": 2}, "id": 6609238960092638}], "layout_type":
         "ordered"}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '796'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:47 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '216'
-      x-frame-options:
-      - SAMEORIGIN
+    headers: {}
     status:
       code: 200
       message: OK
@@ -307,36 +75,30 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '2926'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/dashboard/88z-t2b-frj
+    uri: https://api.datadoghq.eu/api/v1/dashboard/5xe-wgx-zvb
   response:
     body:
       string: '{"notify_list": [], "description": "Created using the Datadog provider
-        in Terraform", "restricted_roles": [], "author_name": "Frog", "template_variable_presets":
+        in Terraform", "restricted_roles": [], "author_name": "Sherzod Karimov", "template_variable_presets":
         [{"template_variables": [{"name": "var_1", "value": "host.dc"}, {"name": "var_2",
         "value": "my_service"}], "name": "preset_1"}], "template_variables": [{"default":
         "aws", "prefix": "host", "name": "var_1"}, {"default": "autoscaling", "prefix":
-        "service_name", "name": "var_2"}], "is_read_only": false, "id": "88z-t2b-frj",
-        "title": "Test screenboardupdated", "url": "/dashboard/88z-t2b-frj/test-screenboardupdated",
-        "created_at": "2021-10-28T14:51:46.027683+00:00", "modified_at": "2021-10-28T14:51:48.055568+00:00",
-        "author_handle": "frog@datadoghq.com", "widgets": [{"definition": {"title_size":
-        "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
-        "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout":
-        {"y": 5, "x": 5, "width": 32, "height": 43}, "id": 4066667513687323}, {"definition":
+        "service_name", "name": "var_2"}], "is_read_only": false, "id": "5xe-wgx-zvb",
+        "title": "Test screenboardupdated", "url": "/dashboard/5xe-wgx-zvb/test-screenboardupdated",
+        "created_at": "2023-01-04T21:42:10.281431+00:00", "modified_at": "2023-01-04T21:42:11.151950+00:00",
+        "author_handle": "sherzod.karimov@datadoghq.com", "widgets": [{"definition":
         {"title_size": "16", "title": "Widget Title", "title_align": "left", "time":
-        {"live_span": "1h"}, "query": "*", "type": "event_timeline"}, "layout": {"y":
-        73, "x": 42, "width": 65, "height": 9}, "id": 68713679518613}, {"definition":
-        {"color": "#d00", "text": "free text content", "type": "free_text", "font_size":
-        "88", "text_align": "left"}, "layout": {"y": 5, "x": 42, "width": 30, "height":
-        20}, "id": 1117617615518455}, {"definition": {"url": "http://google.com",
+        {"live_span": "1h"}, "query": "*", "type": "event_stream", "event_size": "l"},
+        "layout": {"y": 5, "x": 5, "width": 32, "height": 43}, "id": 4066667513687323},
+        {"definition": {"title_size": "16", "title": "Widget Title", "title_align":
+        "left", "time": {"live_span": "1h"}, "query": "*", "type": "event_timeline"},
+        "layout": {"y": 73, "x": 42, "width": 65, "height": 9}, "id": 68713679518613},
+        {"definition": {"color": "#d00", "text": "free text content", "type": "free_text",
+        "font_size": "88", "text_align": "left"}, "layout": {"y": 5, "x": 42, "width":
+        30, "height": 20}, "id": 1117617615518455}, {"definition": {"url": "http://google.com",
         "type": "iframe"}, "layout": {"y": 8, "x": 111, "width": 39, "height": 46},
         "id": 3098118775539428}, {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
         "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
@@ -358,35 +120,7 @@ interactions:
         "display_format": "three_column", "show_latency": false, "show_resource_list":
         false}, "layout": {"y": 28, "x": 40, "width": 67, "height": 38}, "id": 6949442529647217}],
         "layout_type": "free"}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '2890'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:48 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '288'
-      x-frame-options:
-      - SAMEORIGIN
+    headers: {}
     status:
       code: 200
       message: OK

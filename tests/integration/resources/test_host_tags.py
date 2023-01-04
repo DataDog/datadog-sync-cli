@@ -10,7 +10,7 @@ from tests.conftest import get_record_mode
 from tests.integration.helpers import BaseResourcesTestClass
 
 
-@pytest.mark.skipif(get_record_mode() != "none", reason="Test requires hosts to be present in org")
+@pytest.mark.skipif(reason="Test requires active host")
 class TestHostTagsResources(BaseResourcesTestClass):
     resource_type = HostTags.resource_type
     field_to_update = ""
