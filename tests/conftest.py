@@ -59,7 +59,6 @@ def filter_private_location_data(response):
 
 def filter_response_data():
     def before_record_response(response):
-        import pdb; pdb.set_trace()
         _filter_response_headers(response)
         # add filter functions below
         response = filter_private_location_data(response)
