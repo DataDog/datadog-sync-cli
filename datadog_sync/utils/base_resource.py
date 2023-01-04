@@ -81,7 +81,7 @@ class BaseResource(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def delete_resource(self, _id: str, resource: Dict) -> None:
+    def delete_resource(self, _id: str) -> None:
         pass
 
     @abc.abstractmethod

@@ -26,6 +26,7 @@ from datadog_sync import constants
 from datadog_sync.utils.configuration import get_resources
 
 PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")
+HEADERS_TO_PERSISTS = ("Accept-Encoding", "Content-Type")
 
 
 @pytest.fixture()
@@ -58,11 +59,19 @@ def filter_private_location_data(response):
 
 def filter_response_data():
     def before_record_response(response):
+        import pdb; pdb.set_trace()
+        _filter_response_headers(response)
         # add filter functions below
         response = filter_private_location_data(response)
         return response
 
     return before_record_response
+
+
+def _filter_response_headers(response):
+    for key in list(response["headers"].keys()):
+        if key not in HEADERS_TO_PERSISTS:
+            response["headers"].pop(key, None)
 
 
 def _disable_recording():
@@ -88,7 +97,7 @@ def get_record_mode():
 def vcr_config():
     config = dict(
         record_mode=get_record_mode(),
-        filter_headers=["DD-API-KEY", "DD-APPLICATION-KEY"],
+        filter_headers=("DD-API-KEY", "DD-APPLICATION-KEY", "Connection", "Content-Length", "User-Agent"),
         filter_query_parameters=("api_key", "application_key"),
         match_on=["method", "scheme", "host", "port", "path", "query", "body"],
         decode_compressed_response=True,
