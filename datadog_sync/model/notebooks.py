@@ -33,9 +33,7 @@ class Notebooks(BaseResource):
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.paginated_request(client.get)(
-            self.resource_config.base_path,
-            params={"include_cells": True},
-            pagination_config=self.pagination_config,
+            self.resource_config.base_path, params={"include_cells": True}, pagination_config=self.pagination_config
         )
 
         return resp

@@ -51,10 +51,9 @@ class BaseResource(abc.ABC):
 
     def __init__(self, config):
         self.config = config
-        (
-            self.resource_config.source_resources,
-            self.resource_config.destination_resources,
-        ) = open_resources(self.resource_type)
+        self.resource_config.source_resources, self.resource_config.destination_resources = open_resources(
+            self.resource_type
+        )
 
     @abc.abstractmethod
     def get_resources(self, client: CustomClient) -> List[Dict]:
@@ -180,11 +179,7 @@ class BaseResource(abc.ABC):
             else:
                 successes += 1
 
-        write_resources_file(
-            self.resource_type,
-            DESTINATION_ORIGIN,
-            self.resource_config.destination_resources,
-        )
+        write_resources_file(self.resource_type, DESTINATION_ORIGIN, self.resource_config.destination_resources)
         return successes, errors
 
     def check_diffs(self):
@@ -207,11 +202,7 @@ class BaseResource(abc.ABC):
             except ResourceConnectionError:
                 continue
             if _id in self.resource_config.destination_resources:
-                diff = check_diff(
-                    self.resource_config,
-                    self.resource_config.destination_resources[_id],
-                    resource,
-                )
+                diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
                 if diff:
                     print("{} resource source ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
             else:
@@ -233,11 +224,7 @@ class BaseResource(abc.ABC):
             self.connect_resources(_id, resource)
 
             if _id in self.resource_config.destination_resources:
-                diff = check_diff(
-                    self.resource_config,
-                    resource,
-                    self.resource_config.destination_resources[_id],
-                )
+                diff = check_diff(self.resource_config, resource, self.resource_config.destination_resources[_id])
                 if diff:
                     prep_resource(self.resource_config, resource)
                     try:

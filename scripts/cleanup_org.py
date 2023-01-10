@@ -180,12 +180,7 @@ class Cleanup:
                     url,
                     headers=self.headers,
                     timeout=60,
-                    data=json.dumps(
-                        {
-                            "account_id": resource["account_id"],
-                            "role_name": resource["role_name"],
-                        }
-                    ),
+                    data=json.dumps({"account_id": resource["account_id"], "role_name": resource["role_name"]}),
                 )
                 resp.raise_for_status()
                 print("deleted resource ", url, resource["account_id"])

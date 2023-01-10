@@ -13,25 +13,12 @@ class Dashboards(BaseResource):
     resource_type = "dashboards"
     resource_config = ResourceConfig(
         resource_connections={
-            "monitors": [
-                "widgets.definition.alert_id",
-                "widgets.definition.widgets.definition.alert_id",
-            ],
-            "service_level_objectives": [
-                "widgets.definition.slo_id",
-                "widgets.definition.widgets.definition.slo_id",
-            ],
+            "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
+            "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
             "roles": ["restricted_roles"],
         },
         base_path="/api/v1/dashboard",
-        excluded_attributes=[
-            "id",
-            "author_handle",
-            "author_name",
-            "url",
-            "created_at",
-            "modified_at",
-        ],
+        excluded_attributes=["id", "author_handle", "author_name", "url", "created_at", "modified_at"],
     )
     # Additional Dashboards specific attributes
 

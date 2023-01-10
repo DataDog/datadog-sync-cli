@@ -18,15 +18,7 @@ class SyntheticsTests(BaseResource):
             # "synthetics_global_variables": ["config.configVariables.id"],
         },
         base_path="/api/v1/synthetics/tests",
-        excluded_attributes=[
-            "deleted_at",
-            "org_id",
-            "public_id",
-            "monitor_id",
-            "modified_at",
-            "created_at",
-            "creator",
-        ],
+        excluded_attributes=["deleted_at", "org_id", "public_id", "monitor_id", "modified_at", "created_at", "creator"],
         excluded_attributes_re=[
             "updatedAt",
             "notify_audit",

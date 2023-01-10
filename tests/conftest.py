@@ -4,13 +4,13 @@
 # Copyright 2019 Datadog, Inc.
 
 tracer = None
-# try:
-#     from ddtrace import config, patch
-#
-#     config.httplib["distributed_tracing"] = True
-#     patch(httplib=True)
-# except ImportError:
-#     pass
+try:
+    from ddtrace import config, patch
+
+    config.httplib["distributed_tracing"] = True
+    patch(httplib=True)
+except ImportError:
+    pass
 
 import pytest
 import os

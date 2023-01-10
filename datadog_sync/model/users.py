@@ -71,11 +71,7 @@ class Users(BaseResource):
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
 
-        diff = check_diff(
-            self.resource_config,
-            self.resource_config.destination_resources[_id],
-            resource,
-        )
+        diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
         if diff:
             self.update_user_roles(self.resource_config.destination_resources[_id]["id"], diff)
             resource["id"] = self.resource_config.destination_resources[_id]["id"]

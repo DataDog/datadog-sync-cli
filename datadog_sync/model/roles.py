@@ -17,12 +17,7 @@ class Roles(BaseResource):
     resource_type = "roles"
     resource_config = ResourceConfig(
         base_path="/api/v2/roles",
-        excluded_attributes=[
-            "id",
-            "attributes.created_at",
-            "attributes.modified_at",
-            "attributes.user_count",
-        ],
+        excluded_attributes=["id", "attributes.created_at", "attributes.modified_at", "attributes.user_count"],
     )
     # Additional Roles specific attributes
     source_permissions = None
@@ -83,10 +78,7 @@ class Roles(BaseResource):
     def remap_permissions(self, resource):
         if self.config.source_client.host != self.config.destination_client.host:
             if not (self.source_permissions and self.destination_permissions):
-                (
-                    self.source_permissions,
-                    self.destination_permissions,
-                ) = self.get_permissions()
+                self.source_permissions, self.destination_permissions = self.get_permissions()
 
             if "permissions" in resource["relationships"]:
                 for permission in resource["relationships"]["permissions"]["data"]:

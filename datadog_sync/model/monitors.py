@@ -14,11 +14,7 @@ from datadog_sync.utils.resource_utils import ResourceConnectionError
 class Monitors(BaseResource):
     resource_type = "monitors"
     resource_config = ResourceConfig(
-        resource_connections={
-            "monitors": ["query"],
-            "roles": ["restricted_roles"],
-            "synthetics_tests": [],
-        },
+        resource_connections={"monitors": ["query"], "roles": ["restricted_roles"], "synthetics_tests": []},
         base_path="/api/v1/monitor",
         excluded_attributes=[
             "id",
@@ -99,11 +95,7 @@ class Monitors(BaseResource):
                     for k, v in synthetics_tests.items():
                         if k.endswith(_id):
                             found = True
-                            r_obj[key] = re.sub(
-                                _id + r"([^#]|$)",
-                                str(v["monitor_id"]) + "# ",
-                                r_obj[key],
-                            )
+                            r_obj[key] = re.sub(_id + r"([^#]|$)", str(v["monitor_id"]) + "# ", r_obj[key])
                 if not found:
                     raise ResourceConnectionError(resource_to_connect, _id=_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()

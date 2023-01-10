@@ -70,11 +70,7 @@ class LogsRestrictionQueries(BaseResource):
         removed_role_ids = old_roles_ids - intersection
 
         dest_id = self.resource_config.destination_resources[_id]["data"]["id"]
-        if check_diff(
-            self.resource_config,
-            self.resource_config.destination_resources[_id],
-            resource,
-        ):
+        if check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource):
             resp = destination_client.put(self.resource_config.base_path + f"/{dest_id}", resource).json()
             self.resource_config.destination_resources[_id].update(resp)
             self.resource_config.destination_resources[_id]["data"]["relationships"] = old_relationships
@@ -101,24 +97,14 @@ class LogsRestrictionQueries(BaseResource):
             try:
                 self.add_log_restriction_query_role(_id, role_id)
             except CustomClientHTTPError as e:
-                self.config.logger.error(
-                    "error adding role %s to log restriction query %s: %s",
-                    role_id,
-                    _id,
-                    e,
-                )
+                self.config.logger.error("error adding role %s to log restriction query %s: %s", role_id, _id, e)
                 continue
             successfully_added.append(role_id)
         for role_id in removed_roles:
             try:
                 self.remove_log_restriction_query_role(_id, role_id)
             except CustomClientHTTPError as e:
-                self.config.logger.error(
-                    "error removing role %s to log restriction query %s: %s",
-                    role_id,
-                    _id,
-                    e,
-                )
+                self.config.logger.error("error removing role %s to log restriction query %s: %s", role_id, _id, e)
                 continue
             successfully_removed.append(role_id)
         return successfully_added, successfully_removed
