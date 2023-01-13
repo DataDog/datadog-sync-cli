@@ -1,0 +1,20 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-private-variable-73eed01c79c1fca3cd51c2423cb66c70
+  response:
+    body:
+      string: ''
+    headers: {}
+    status:
+      code: 204
+      message: No Content
+version: 1

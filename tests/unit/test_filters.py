@@ -23,11 +23,26 @@ from datadog_sync.utils.filter import process_filters
         (["Type=r_test;Name=test.nested;Value=123"], "r_test", {"test": [{"nested": 123}]}, True),
         (["Type=r_test;Name=test.nested.list;Value=123"], "r_test", {"test": [{"nested": [{"list": 123}]}]}, True),
         (["Type=r_test;Name=test.nested.list;Value=123"], "r_test", {"test": [{"nested": [{"list": 1234}]}]}, False),
-        (["Type=r_test;Name=test.nested.list;Value=123"], "r_test", {"test": [{"nested": [{"list": 1234}, {"list": 123}]}]}, True),
+        (
+            ["Type=r_test;Name=test.nested.list;Value=123"],
+            "r_test",
+            {"test": [{"nested": [{"list": 1234}, {"list": 123}]}]},
+            True,
+        ),
         (["Type=r_test;Name=test.nested;Value=123"], "r_test", {"test": [{"nested": ["1234", "123"]}]}, True),
         (["Type=r_test;Name=test.nested;Value=123"], "r_test", {"test": [{"nested": ["1234", "12345"]}]}, False),
-        (["Type=r_test;Name=test.nested.deep;Value=sub;Operator=SubString"], "r_test", {"test": [{"nested": {"deep": "substring"}}]}, True),
-        (["Type=r_test;Name=test.nested.deep;Value=sub;"], "r_test", {"test": [{"nested": {"deep": "substring"}}]}, False),
+        (
+            ["Type=r_test;Name=test.nested.deep;Value=sub;Operator=SubString"],
+            "r_test",
+            {"test": [{"nested": {"deep": "substring"}}]},
+            True,
+        ),
+        (
+            ["Type=r_test;Name=test.nested.deep;Value=sub;"],
+            "r_test",
+            {"test": [{"nested": {"deep": "substring"}}]},
+            False,
+        ),
         (["Type=r_test;Name=test.non.exist;Value=sub;"], "r_test", {"test": []}, False),
     ],
 )
@@ -54,34 +69,59 @@ def test_invalid_filter(caplog, _filter):
 @pytest.mark.parametrize(
     "_filter, r_type, r_obj, expected",
     [
-        (["Type=Monitors;Name=tags;Value=test:true"], Monitors, {"tags": ["test:true"]}, True),
-        (["Type=Monitors;Name=tags;Value=test:true"], Monitors, {"tags": ["test:true", "second:true"]}, True),
         (
-            ["Type=Monitors;Name=tags;Value=test:true", "Type=Monitors;Name=tags;Value=second:true"],
+            ["Type=Monitors;Name=tags;Value=test:true"],
+            Monitors,
+            {"tags": ["test:true"]},
+            True,
+        ),
+        (
+            ["Type=Monitors;Name=tags;Value=test:true"],
             Monitors,
             {"tags": ["test:true", "second:true"]},
             True,
         ),
         (
-            ["Type=Monitors;Name=name;Value=RandomName", "Type=Monitors;Name=tags;Value=second:true"],
+            [
+                "Type=Monitors;Name=tags;Value=test:true",
+                "Type=Monitors;Name=tags;Value=second:true",
+            ],
+            Monitors,
+            {"tags": ["test:true", "second:true"]},
+            True,
+        ),
+        (
+            [
+                "Type=Monitors;Name=name;Value=RandomName",
+                "Type=Monitors;Name=tags;Value=second:true",
+            ],
             Monitors,
             {"tags": ["test:true", "second:true"], "name": "RandomName"},
             True,
         ),
         (
-            ["Type=Monitors;Name=tags;Value=test:true", "Type=Monitors;Name=tags;Value=second:false"],
+            [
+                "Type=Monitors;Name=tags;Value=test:true",
+                "Type=Monitors;Name=tags;Value=second:false",
+            ],
             Monitors,
             {"tags": ["test:true", "second:true"]},
             False,
         ),
         (
-            ["Type=Monitors;Name=tags;Value=test:true", "Type=Monitors;Name=tags;Value=second:false"],
+            [
+                "Type=Monitors;Name=tags;Value=test:true",
+                "Type=Monitors;Name=tags;Value=second:false",
+            ],
             Monitors,
             {"tags": ["test:true"]},
             False,
         ),
         (
-            ["Type=Monitors;Name=name;Value=RandomName", "Type=Monitors;Name=tags;Value=second:false"],
+            [
+                "Type=Monitors;Name=name;Value=RandomName",
+                "Type=Monitors;Name=tags;Value=second:false",
+            ],
             Monitors,
             {"tags": ["test:true"], "name": "RandomName"},
             False,

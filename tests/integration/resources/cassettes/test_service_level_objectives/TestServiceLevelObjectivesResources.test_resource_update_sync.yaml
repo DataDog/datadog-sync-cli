@@ -1,143 +1,30 @@
 interactions:
 - request:
-    body: '{"description": "Test update creationupdated", "monitor_tags": [], "thresholds":
-      [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}], "type_id": 1,
-      "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator": "sum:api.requests.status_ok{*}.as_count()"},
-      "name": "SLO test", "tags": [], "type": "metric"}'
+    body: '{"name": "SLO test", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
+      "7d", "target": 99.0, "target_display": "99."}], "type": "metric", "type_id":
+      1, "description": "Test update creationupdated", "timeframe": "7d", "target_threshold":
+      99.0, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
+      "sum:api.requests.status_ok{*}.as_count()"}}'
     headers:
       Accept:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '325'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/slo/b3888424f4175c1ca4175535051ae9bb
+    uri: https://api.datadoghq.eu/api/v1/slo/c8e349d24e38522c9f388b7d245726d7
   response:
     body:
-      string: '{"data": [{"description": "Test update creationupdated", "monitor_tags":
-        [], "creator": {"handle": "frog@datadoghq.com", "name": "Frog", "email": "frog@datadoghq.com"},
-        "thresholds": [{"target": 99.0, "target_display": "99.", "timeframe": "7d"}],
-        "type_id": 1, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-        "sum:api.requests.status_ok{*}.as_count()"}, "id": "b3888424f4175c1ca4175535051ae9bb",
-        "name": "SLO test", "created_at": 1635432729, "tags": [], "modified_at": 1635432730,
-        "type": "metric"}], "error": null}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '500'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:52:10 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '136'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '500'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '499'
-      x-ratelimit-reset:
-      - '50'
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"description": "some updated description about example_slo SLOupdated",
-      "monitor_tags": [], "thresholds": [{"warning": 99.8, "warning_display": "99.8",
-      "target": 99.5, "target_display": "99.5", "timeframe": "7d"}], "type_id": 1,
-      "query": {"denominator": "sum:my.metric{type:good}.as_count() + sum:my.metric{type:bad}.as_count()",
-      "numerator": "sum:my.metric{type:good}.as_count()"}, "name": "example slo",
-      "tags": ["foo:bar"], "type": "metric"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '445'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/slo/1a3f0cb15a4659708d2616d85527ed65
-  response:
-    body:
-      string: '{"data": [{"description": "some updated description about example_slo
-        SLOupdated", "monitor_tags": [], "creator": {"handle": "frog@datadoghq.com",
-        "name": "Frog", "email": "frog@datadoghq.com"}, "thresholds": [{"warning":
-        99.8, "warning_display": "99.8", "target": 99.5, "target_display": "99.5",
-        "timeframe": "7d"}], "type_id": 1, "query": {"denominator": "sum:my.metric{type:good}.as_count()
-        + sum:my.metric{type:bad}.as_count()", "numerator": "sum:my.metric{type:good}.as_count()"},
-        "id": "1a3f0cb15a4659708d2616d85527ed65", "name": "example slo", "created_at":
-        1635432729, "tags": ["foo:bar"], "modified_at": 1635432730, "type": "metric"}],
-        "error": null}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '616'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:52:10 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '116'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '500'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '498'
-      x-ratelimit-reset:
-      - '50'
+      string: '{"data": [{"id": "c8e349d24e38522c9f388b7d245726d7", "name": "SLO test",
+        "tags": [], "monitor_tags": [], "thresholds": [{"timeframe": "7d", "target":
+        99.0, "target_display": "99."}], "type": "metric", "type_id": 1, "description":
+        "Test update creationupdated", "timeframe": "7d", "target_threshold": 99.0,
+        "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator": "sum:api.requests.status_ok{*}.as_count()"},
+        "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com"}, "created_at": 1672867909, "modified_at":
+        1672867909}], "error": null}'
+    headers: {}
     status:
       code: 200
       message: OK

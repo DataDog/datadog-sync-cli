@@ -6,59 +6,22 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: GET
     uri: https://api.datadoghq.eu/api/v1/logs/config/indexes
   response:
     body:
       string: '{"indexes": [{"num_retention_days": 15, "name": "main", "is_rate_limited":
-        false, "filter": {"query": ""}, "exclusion_filters": [{"is_enabled": true,
-        "filter": {"query": "source:gcp.*", "sample_rate": 1.0}, "name": "gcp-filter"}],
+        false, "filter": {"query": "updated"}, "exclusion_filters": [{"is_enabled":
+        true, "filter": {"query": "source:gcp.*", "sample_rate": 1.0}, "name": "gcp-filter"}],
         "daily_limit": null}, {"num_retention_days": 15, "name": "gcp-index-name",
-        "is_rate_limited": false, "filter": {"query": "source:gcp.*"}, "exclusion_filters":
-        [], "daily_limit": 200000000}]}'
-    headers:
-      Alt-Svc:
-      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '387'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
-      content-type:
-      - application/json
-      date:
-      - Fri, 24 Jun 2022 13:19:51 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '42'
-      x-ratelimit-name:
-      - logs_public_config_api_indexes_read
-      x-ratelimit-period:
-      - '30'
-      x-ratelimit-remaining:
-      - '41'
-      x-ratelimit-reset:
-      - '9'
+        "is_rate_limited": false, "filter": {"query": "source:gcp.*updated"}, "exclusion_filters":
+        [], "daily_limit": 200000000}, {"num_retention_days": 15, "name": "test-index",
+        "is_rate_limited": false, "filter": {"query": "source:python OR source:java"},
+        "exclusion_filters": [{"is_enabled": false, "filter": {"query": "*", "sample_rate":
+        1.0}, "name": "payment"}], "daily_limit": null}]}'
+    headers: {}
     status:
       code: 200
       message: OK
@@ -71,14 +34,8 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '204'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
     uri: https://api.datadoghq.eu/api/v1/logs/config/indexes/main
   response:
@@ -87,43 +44,7 @@ interactions:
         "filter": {"query": ""}, "exclusion_filters": [{"is_enabled": true, "filter":
         {"query": "source:gcp.*", "sample_rate": 1.0}, "name": "gcp-filter"}], "daily_limit":
         null}'
-    headers:
-      Alt-Svc:
-      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '218'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
-      content-type:
-      - application/json
-      date:
-      - Fri, 24 Jun 2022 13:19:52 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '2'
-      x-ratelimit-name:
-      - logs_public_config_api_indexes_write
-      x-ratelimit-period:
-      - '30'
-      x-ratelimit-remaining:
-      - '1'
-      x-ratelimit-reset:
-      - '8'
+    headers: {}
     status:
       code: 200
       message: OK
@@ -135,14 +56,8 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '114'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
     uri: https://api.datadoghq.eu/api/v1/logs/config/indexes/gcp-index-name
   response:
@@ -150,43 +65,7 @@ interactions:
       string: '{"num_retention_days": 15, "name": "gcp-index-name", "is_rate_limited":
         false, "filter": {"query": "source:gcp.*"}, "exclusion_filters": [], "daily_limit":
         200000000}'
-    headers:
-      Alt-Svc:
-      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '154'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
-      content-type:
-      - application/json
-      date:
-      - Fri, 24 Jun 2022 13:19:53 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '2'
-      x-ratelimit-name:
-      - logs_public_config_api_indexes_write
-      x-ratelimit-period:
-      - '30'
-      x-ratelimit-remaining:
-      - '0'
-      x-ratelimit-reset:
-      - '8'
+    headers: {}
     status:
       code: 200
       message: OK

@@ -9,10 +9,7 @@ from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import SLOCorrections
 
 
+@pytest.mark.skip(reason="SLO corrections age out after some period.")
 class TestSLOCorrections(BaseResourcesTestClass):
     resource_type = SLOCorrections.resource_type
     field_to_update = "attributes.description"
-
-    @pytest.mark.skip(reason="not currently supported in tests")
-    def test_resource_update_sync(self):
-        pass

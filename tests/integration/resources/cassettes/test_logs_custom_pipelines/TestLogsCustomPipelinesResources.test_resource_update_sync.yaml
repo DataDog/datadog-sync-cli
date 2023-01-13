@@ -7,58 +7,16 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '105'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/LdMkx7_RSDaxs7gUMskmzA
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/DsN318TrS1CgwWrtXrMd-A
   response:
     body:
       string: '{"is_enabled": true, "name": "Test pipelineupdated", "filter": {"query":
-        "test:query"}, "is_read_only": false, "type": "pipeline", "id": "LdMkx7_RSDaxs7gUMskmzA",
+        "test:query"}, "is_read_only": false, "type": "pipeline", "id": "DsN318TrS1CgwWrtXrMd-A",
         "processors": []}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '166'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:51 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '129'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '10'
-      x-ratelimit-period:
-      - '300'
-      x-ratelimit-remaining:
-      - '5'
-      x-ratelimit-reset:
-      - '189'
+    headers: {}
     status:
       code: 200
       message: OK
@@ -101,21 +59,15 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '2646'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/ZFYjeMMrSy2kzeBOncUPJA
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/gLUa-gsUR2uXs4e_PVLZlg
   response:
     body:
       string: '{"is_enabled": true, "name": "Test Pipeline - Complexupdated", "filter":
         {"query": "source:foo"}, "is_read_only": false, "type": "pipeline", "id":
-        "ZFYjeMMrSy2kzeBOncUPJA", "processors": [{"is_enabled": true, "name": "sample
+        "gLUa-gsUR2uXs4e_PVLZlg", "processors": [{"is_enabled": true, "name": "sample
         arithmetic processor", "expression": "(time1 - time2)*1000", "is_replace_missing":
         true, "type": "arithmetic-processor", "target": "my_arithmetic"}, {"is_enabled":
         true, "override_on_conflict": false, "target": "db", "target_format": "string",
@@ -147,43 +99,7 @@ interactions:
         "type": "trace-id-remapper", "name": "sample trace id remapper"}, {"is_enabled":
         true, "name": "sample user agent parser", "sources": ["user", "agent"], "is_encoded":
         false, "type": "user-agent-parser", "target": "http_agent"}]}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '2526'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:51 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '121'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '10'
-      x-ratelimit-period:
-      - '300'
-      x-ratelimit-remaining:
-      - '4'
-      x-ratelimit-reset:
-      - '189'
+    headers: {}
     status:
       code: 200
       message: OK

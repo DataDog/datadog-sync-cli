@@ -1,0 +1,20 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual/22098
+  response:
+    body:
+      string: '{"deleted_dashboard_list_id": 22098}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+version: 1

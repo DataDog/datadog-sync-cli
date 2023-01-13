@@ -64,12 +64,15 @@ class DashboardLists(BaseResource):
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(resource["dashboards"])
         dash_list_diff = check_diff(
-            self.resource_config, self.resource_config.destination_resources[_id]["dashboards"], dashboards
+            self.resource_config,
+            self.resource_config.destination_resources[_id]["dashboards"],
+            dashboards,
         )
         resource.pop("dashboards")
 
         resp = destination_client.put(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
+            resource,
         ).json()
 
         resp.pop("dashboards")
@@ -81,6 +84,12 @@ class DashboardLists(BaseResource):
                 dashboards,
                 self.resource_config.destination_resources[_id],
             )
+
+    def delete_resource(self, _id: str) -> None:
+        destination_client = self.config.destination_client
+        destination_client.delete(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+        )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         super(DashboardLists, self).connect_id(key, r_obj, resource_to_connect)

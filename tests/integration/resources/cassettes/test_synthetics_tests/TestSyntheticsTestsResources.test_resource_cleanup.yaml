@@ -1,0 +1,135 @@
+interactions:
+- request:
+    body: '{"public_ids": ["sh7-vbm-yk6"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
+  response:
+    body:
+      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:11.539099+00:00",
+        "public_id": "sh7-vbm-yk6"}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"public_ids": ["k3i-rvg-xni"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
+  response:
+    body:
+      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:12.431826+00:00",
+        "public_id": "k3i-rvg-xni"}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"public_ids": ["mm6-8w7-65w"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
+  response:
+    body:
+      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:12.852905+00:00",
+        "public_id": "mm6-8w7-65w"}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"public_ids": ["8an-9u2-ihj"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
+  response:
+    body:
+      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:13.234186+00:00",
+        "public_id": "8an-9u2-ihj"}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"public_ids": ["snd-i3u-rsz"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
+  response:
+    body:
+      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:13.566957+00:00",
+        "public_id": "snd-i3u-rsz"}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"public_ids": ["ng3-cf8-k7i"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
+  response:
+    body:
+      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:13.960323+00:00",
+        "public_id": "ng3-cf8-k7i"}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"public_ids": ["2z9-7as-gzr"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
+  response:
+    body:
+      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:14.247455+00:00",
+        "public_id": "2z9-7as-gzr"}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+version: 1

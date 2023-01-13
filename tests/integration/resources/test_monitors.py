@@ -9,9 +9,6 @@ from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import Monitors
 
 
-@pytest.mark.skipif(
-    get_record_mode() != "none", reason="Cannot create duplicate monitors. Reintroduce with proper cleanup."
-)
 class TestMonitorsResources(BaseResourcesTestClass):
     resource_type = Monitors.resource_type
     field_to_update = "name"

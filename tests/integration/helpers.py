@@ -6,6 +6,7 @@ import logging
 import os
 import re
 import json
+import shutil
 
 import pytest
 
@@ -22,6 +23,7 @@ RESOURCE_SKIPPED_RE = re.compile("Skipping resource")
 class BaseResourcesTestClass:
     resource_type = None
     field_to_update = None
+    resources_to_preserve_filter = None
 
     @pytest.fixture(autouse=True, scope="class")
     def setup(self, tmpdir_factory):
@@ -39,7 +41,12 @@ class BaseResourcesTestClass:
         # Disable skipping on resource connection failure
         # From stdout, count the  number of resources to be added and ensure they match the import len()
         ret = runner.invoke(
-            cli, ["diffs", f"--resources={self.resource_type}", "--skip-failed-resource-connections=false"]
+            cli,
+            [
+                "diffs",
+                f"--resources={self.resource_type}",
+                "--skip-failed-resource-connections=false",
+            ],
         )
         assert 0 == ret.exit_code
 
@@ -51,7 +58,7 @@ class BaseResourcesTestClass:
         ret = runner.invoke(cli, ["sync", f"--resources={self.resource_type}"])
         assert 0 == ret.exit_code
 
-        # By default, resources  with failed connections are skipped. Hence count number of skipped + success
+        # By default, resources  with failed connections are skipped. Hence, count number of skipped + success
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
@@ -63,11 +70,11 @@ class BaseResourcesTestClass:
         # update fields and save the file.
         for resource in source_resources.values():
             try:
-                current_value = pathLookup(resource, self.field_to_update)
+                current_value = path_lookup(resource, self.field_to_update)
                 if current_value is None:
                     current_value = ""
 
-                pathUpdate(resource, self.field_to_update, current_value + "updated")
+                path_update(resource, self.field_to_update, current_value + "updated")
             except Exception as e:
                 pytest.fail(e)
 
@@ -96,6 +103,39 @@ class BaseResourcesTestClass:
     def test_no_resource_diffs(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
         ret = runner.invoke(cli, ["diffs", f"--resources={self.resource_type}"])
+        assert not ret.output
+        assert 0 == ret.exit_code
+
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
+        source_resources, destination_resources = open_resources(self.resource_type)
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+
+    def test_resource_cleanup(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+        # Remove current source resources
+        shutil.rmtree("resources/source", ignore_errors=True)
+
+        # Re-import resources if filter is passed
+        if self.resources_to_preserve_filter:
+            ret = runner.invoke(
+                cli,
+                [
+                    "import",
+                    f"--resources={self.resource_type}",
+                    f"--filter={self.resources_to_preserve_filter}",
+                ],
+            )
+            assert 0 == ret.exit_code
+
+        # Sync with cleanup
+        ret = runner.invoke(
+            cli,
+            [
+                "sync",
+                f"--resources={self.resource_type}",
+                "--cleanup=force",
+            ],
+        )
         assert not ret.output
         assert 0 == ret.exit_code
 
@@ -134,7 +174,7 @@ def open_resources(resource_type):
     return source_resources, destination_resources
 
 
-def pathLookup(obj, path):
+def path_lookup(obj, path):
     path = path.split(".", 1)
 
     if len(path) == 1:
@@ -143,15 +183,15 @@ def pathLookup(obj, path):
         elif isinstance(obj, list):
             return ""
         else:
-            raise Exception(f"pathLookup error: invalid key {path}")
+            raise Exception(f"path_lookup error: invalid key {path}")
     else:
         if path[0] in obj:
-            return pathLookup(obj[path[0]], path[1])
+            return path_lookup(obj[path[0]], path[1])
         else:
-            raise Exception(f"pathLookup error: invalid key {path}")
+            raise Exception(f"path_lookup error: invalid key {path}")
 
 
-def pathUpdate(obj, path, value):
+def path_update(obj, path, value):
     path = path.split(".", 1)
     if len(path) == 1:
         if path[0] in obj:
@@ -159,9 +199,9 @@ def pathUpdate(obj, path, value):
         elif isinstance(obj, list):
             obj.append(value)
         else:
-            raise Exception(f"pathUpdate error: invalid key {path}")
+            raise Exception(f"path_update error: invalid key {path}")
     else:
         if path[0] in obj:
-            pathUpdate(obj[path[0]], path[1], value)
+            path_update(obj[path[0]], path[1], value)
         else:
-            raise Exception(f"pathUpdate error: invalid key {path}")
+            raise Exception(f"path_update error: invalid key {path}")

@@ -8,14 +8,8 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '250'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.8.5; os darwin; arch x86_64)
     method: PATCH
     uri: https://api.datadoghq.eu/api/v2/logs/config/metrics/test.metric
   response:
@@ -23,43 +17,7 @@ interactions:
       string: '{"data": {"attributes": {"filter": {"query": "source:cloudtrail @usr.account_id:$usrAccountIdupdated"},
         "group_by": [{"path": "service", "tag_name": "service"}], "compute": {"aggregation_type":
         "count"}}, "type": "logs_metrics", "id": "test.metric"}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '234'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Thu, 28 Oct 2021 14:51:52 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-envoy-upstream-service-time:
-      - '124'
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '10'
-      x-ratelimit-period:
-      - '300'
-      x-ratelimit-remaining:
-      - '7'
-      x-ratelimit-reset:
-      - '188'
+    headers: {}
     status:
       code: 200
       message: OK

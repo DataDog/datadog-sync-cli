@@ -1,0 +1,62 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/metrics?filter%5Bconfigured%5D=true
+  response:
+    body:
+      string: '{"data": [{"type": "manage_tags", "id": "test.metric.latency.nonexistent",
+        "attributes": {"tags": ["datacenter", "updated", "app"], "created_at": "2022-02-16T20:21:00.534196+00:00",
+        "modified_at": "2023-01-04T21:31:32.114829+00:00", "metric_type": "gauge",
+        "aggregations": [{"time": "avg", "space": "avg"}]}}, {"type": "manage_tags",
+        "id": "test.metric.distribution.example", "attributes": {"tags": ["updated",
+        "check", "check_id"], "include_percentiles": false, "created_at": "2021-10-27T18:28:53.198032+00:00",
+        "modified_at": "2023-01-04T21:31:32.401895+00:00", "metric_type": "distribution"}}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v2/metrics/test.metric.distribution.example/tags
+  response:
+    body:
+      string: ''
+    headers: {}
+    status:
+      code: 204
+      message: No Content
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v2/metrics/test.metric.latency.nonexistent/tags
+  response:
+    body:
+      string: ''
+    headers: {}
+    status:
+      code: 204
+      message: No Content
+version: 1

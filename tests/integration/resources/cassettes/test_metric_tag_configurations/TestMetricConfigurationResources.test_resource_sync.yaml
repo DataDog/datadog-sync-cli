@@ -6,127 +6,37 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
-      x-datadog-parent-id:
-      - '1586841844950341477'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-trace-id:
-      - '6469562126581628118'
     method: GET
     uri: https://api.datadoghq.eu/api/v2/metrics?filter%5Bconfigured%5D=true
   response:
     body:
       string: '{"data": []}'
-    headers:
-      Alt-Svc:
-      - clear
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '11'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
-      content-type:
-      - application/json
-      date:
-      - Wed, 16 Feb 2022 20:46:20 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '50'
-      x-ratelimit-name:
-      - manage_tags_api
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '46'
-      x-ratelimit-reset:
-      - '40'
+    headers: {}
     status:
       code: 200
       message: OK
 - request:
     body: '{"data": {"type": "manage_tags", "id": "test.metric.latency.nonexistent",
       "attributes": {"tags": ["datacenter", "app"], "metric_type": "gauge", "aggregations":
-      [{"space": "avg", "time": "avg"}]}}}'
+      [{"time": "avg", "space": "avg"}]}}}'
     headers:
       Accept:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '196'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
-      x-datadog-parent-id:
-      - '16943446163156031472'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-trace-id:
-      - '3659297663217551664'
     method: POST
     uri: https://api.datadoghq.eu/api/v2/metrics/test.metric.latency.nonexistent/tags
   response:
     body:
       string: '{"data": {"type": "manage_tags", "id": "test.metric.latency.nonexistent",
-        "attributes": {"tags": ["datacenter", "app"], "created_at": "2022-02-16T20:21:00.534196+00:00",
-        "modified_at": "2022-02-16T20:46:20.983512+00:00", "metric_type": "gauge",
-        "aggregations": [{"space": "avg", "time": "avg"}]}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '278'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
-      content-type:
-      - application/json
-      date:
-      - Wed, 16 Feb 2022 20:46:21 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '50'
-      x-ratelimit-name:
-      - manage_tags_api
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '45'
-      x-ratelimit-reset:
-      - '40'
+        "attributes": {"tags": ["app", "datacenter"], "created_at": "2022-02-16T20:21:00.534196+00:00",
+        "modified_at": "2023-01-04T21:31:31.232273+00:00", "metric_type": "gauge",
+        "aggregations": [{"time": "avg", "space": "avg"}]}}}'
+    headers: {}
     status:
       code: 201
       message: Created
@@ -139,65 +49,17 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '183'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.10; os darwin; arch x86_64)
-      x-datadog-parent-id:
-      - '17484445330969234846'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-trace-id:
-      - '13246603441919946232'
     method: POST
     uri: https://api.datadoghq.eu/api/v2/metrics/test.metric.distribution.example/tags
   response:
     body:
       string: '{"data": {"type": "manage_tags", "id": "test.metric.distribution.example",
         "attributes": {"tags": ["check_id", "check"], "include_percentiles": false,
-        "created_at": "2021-10-27T18:28:53.198032+00:00", "modified_at": "2022-02-16T20:46:21.310502+00:00",
+        "created_at": "2021-10-27T18:28:53.198032+00:00", "modified_at": "2023-01-04T21:31:31.637117+00:00",
         "metric_type": "distribution"}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '268'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://logs.browser-intake-datadoghq.com/api/v2/logs?dd-api-key=pube4f163c23bbf91c16b8f57f56af9fc58&dd-evp-origin=content-security-policy&ddsource=csp-report&ddtags=site%3Adatadoghq.eu
-      content-type:
-      - application/json
-      date:
-      - Wed, 16 Feb 2022 20:46:21 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '50'
-      x-ratelimit-name:
-      - manage_tags_api
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '44'
-      x-ratelimit-reset:
-      - '39'
+    headers: {}
     status:
       code: 201
       message: Created

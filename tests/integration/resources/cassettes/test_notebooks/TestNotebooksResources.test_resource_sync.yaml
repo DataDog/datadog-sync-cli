@@ -13,25 +13,13 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '631'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
-      x-datadog-parent-id:
-      - '6909067474424666222'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-trace-id:
-      - '1270794851579440567'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 21998, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 51409, "attributes": {"name":
         "Noueman Notebook", "cells": [{"attributes": {"definition": {"show_legend":
         true, "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}", "style":
         {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
@@ -39,46 +27,13 @@ interactions:
         "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
         "id": "g6x1knta"}, {"attributes": {"definition": {"text": "Teeeeeest", "type":
         "markdown"}}, "type": "notebook_cells", "id": "sf3x5n03"}], "time": {"live_span":
-        "1h"}, "metadata": {"is_template": false, "type": null, "take_snapshots":
-        false}, "template_variables": [], "status": "published", "modified": "2021-12-20T14:51:38.856547+00:00",
-        "created": "2021-12-20T14:51:38.856547+00:00", "author": {"name": "Frog",
-        "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
+        "1h"}, "metadata": {"is_favorite": false, "is_template": false, "type": null,
+        "take_snapshots": false}, "template_variables": [], "status": "published",
+        "modified": "2023-01-04T21:31:33.773256+00:00", "created": "2023-01-04T21:31:33.773256+00:00",
+        "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '1008'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Mon, 20 Dec 2021 14:51:38 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '30'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '29'
-      x-ratelimit-reset:
-      - '22'
+    headers: {}
     status:
       code: 200
       message: OK
@@ -101,25 +56,13 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '1020'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
-      x-datadog-parent-id:
-      - '14766909558115796395'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-trace-id:
-      - '401592026467519623'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 21999, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 51410, "attributes": {"name":
         "Test Notebook", "cells": [{"attributes": {"definition": {"show_legend": true,
         "title": "Test Notebook", "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}",
         "style": {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
@@ -131,47 +74,14 @@ interactions:
         "scalar", "queries": [{"query": "avg:system.load.1{*}", "data_source": "metrics",
         "name": "query1", "aggregator": "avg"}]}], "type": "toplist"}, "graph_size":
         "m", "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
-        "id": "qoavau2o"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
-        false, "type": null, "take_snapshots": false}, "template_variables": [], "status":
-        "published", "modified": "2021-12-20T14:51:39.209008+00:00", "created": "2021-12-20T14:51:39.209008+00:00",
-        "author": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
+        "id": "qoavau2o"}], "time": {"live_span": "1h"}, "metadata": {"is_favorite":
+        false, "is_template": false, "type": null, "take_snapshots": false}, "template_variables":
+        [], "status": "published", "modified": "2023-01-04T21:31:34.161700+00:00",
+        "created": "2023-01-04T21:31:34.161700+00:00", "author": {"name": "Sherzod
+        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '1363'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Mon, 20 Dec 2021 14:51:39 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '30'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '28'
-      x-ratelimit-reset:
-      - '21'
+    headers: {}
     status:
       code: 200
       message: OK
@@ -219,25 +129,13 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '3392'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
-      x-datadog-parent-id:
-      - '1112014785755147770'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-trace-id:
-      - '11116792665553073459'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 22000, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 51411, "attributes": {"name":
         "RFC: [title] (from template)", "cells": [{"attributes": {"definition": {"text":
         "Property                 |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Author(s)**              |
         Name (Team name, Role), Name (Team name, Role)            \n**Status:**     |Draft
@@ -276,47 +174,14 @@ interactions:
         "0ryy65ac"}, {"attributes": {"definition": {"text": "# Open Questions\n_Note
         relevant questions and design topics._\n\n# Appendix\n_[Link](/) relevant
         documents or references._", "type": "markdown"}}, "type": "notebook_cells",
-        "id": "5xnxosip"}], "time": {"live_span": "1h"}, "metadata": {"is_template":
-        false, "type": null, "take_snapshots": false}, "template_variables": [], "status":
-        "published", "modified": "2021-12-20T14:51:39.529679+00:00", "created": "2021-12-20T14:51:39.529679+00:00",
-        "author": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
+        "id": "5xnxosip"}], "time": {"live_span": "1h"}, "metadata": {"is_favorite":
+        false, "is_template": false, "type": null, "take_snapshots": false}, "template_variables":
+        [], "status": "published", "modified": "2023-01-04T21:31:34.664014+00:00",
+        "created": "2023-01-04T21:31:34.664014+00:00", "author": {"name": "Sherzod
+        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '3719'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Mon, 20 Dec 2021 14:51:39 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '30'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '27'
-      x-ratelimit-reset:
-      - '21'
+    headers: {}
     status:
       code: 200
       message: OK
@@ -371,25 +236,13 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '3699'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
-      x-datadog-parent-id:
-      - '4520970443279944970'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-trace-id:
-      - '13746877035341870078'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 22001, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 51412, "attributes": {"name":
         "Gameday YYYY-MM-DD: [App Name] (from template)", "cells": [{"attributes":
         {"definition": {"text": "Game days provide a framework to help us discover
         weaknesses, create more useful alerts, and deploy fixes that improve the way
@@ -436,46 +289,13 @@ interactions:
         \n**This is the most important part of the gameday!**\n\n- Issue 1: [Link
         to follow-up item](/)\n- Issue 2: [Link to follow-up item](/)\n", "type":
         "markdown"}}, "type": "notebook_cells", "id": "wwhju4ds"}], "time": {"live_span":
-        "1h"}, "metadata": {"is_template": false, "type": null, "take_snapshots":
-        false}, "template_variables": [], "status": "published", "modified": "2021-12-20T14:51:39.981356+00:00",
-        "created": "2021-12-20T14:51:39.981356+00:00", "author": {"name": "Frog",
-        "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
+        "1h"}, "metadata": {"is_favorite": false, "is_template": false, "type": null,
+        "take_snapshots": false}, "template_variables": [], "status": "published",
+        "modified": "2023-01-04T21:31:35.165934+00:00", "created": "2023-01-04T21:31:35.165934+00:00",
+        "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '3992'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Mon, 20 Dec 2021 14:51:40 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '30'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '26'
-      x-ratelimit-reset:
-      - '21'
+    headers: {}
     status:
       code: 200
       message: OK
@@ -516,25 +336,13 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '2768'
       Content-Type:
       - application/json
-      User-Agent:
-      - datadog-sync-cli/0.0.1 (python 3.9.9; os darwin; arch x86_64)
-      x-datadog-parent-id:
-      - '17136616145392223794'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-trace-id:
-      - '15775805699955713585'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 22002, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 51413, "attributes": {"name":
         "Postmortem IR-xxxx: [outage name] (from template)", "cells": [{"attributes":
         {"definition": {"text": "Incident Property                  |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Status:**                |Active/Stable/Resolved                  \n**Severity:**     |SEV-X                      \n**Started:**              |HH:mm
         UTC MM/dd/yyyy                  \n**Commander:**     |[name]                 \n**Incident
@@ -565,46 +373,13 @@ interactions:
         are planned._\n\n\n### Short-term\n- [X] ~~Action 1~~\n- [ ] Action 2\n\n###
         Long-term\n- [ ] Action 1\n- [ ] Action 2", "type": "markdown"}}, "type":
         "notebook_cells", "id": "gajt34ww"}], "time": {"live_span": "1h"}, "metadata":
-        {"is_template": false, "type": null, "take_snapshots": false}, "template_variables":
-        [], "status": "published", "modified": "2021-12-20T14:51:40.310014+00:00",
-        "created": "2021-12-20T14:51:40.310014+00:00", "author": {"name": "Frog",
-        "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
+        {"is_favorite": false, "is_template": false, "type": null, "take_snapshots":
+        false}, "template_variables": [], "status": "published", "modified": "2023-01-04T21:31:35.565601+00:00",
+        "created": "2023-01-04T21:31:35.565601+00:00", "author": {"name": "Sherzod
+        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Alt-Svc:
-      - clear
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 google
-      cache-control:
-      - no-cache
-      content-length:
-      - '3095'
-      content-security-policy:
-      - frame-ancestors 'self'; report-uri https://api.datadoghq.eu/csp-report
-      content-type:
-      - application/json
-      date:
-      - Mon, 20 Dec 2021 14:51:40 GMT
-      pragma:
-      - no-cache
-      strict-transport-security:
-      - max-age=15724800;
-      vary:
-      - Accept-Encoding
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-ratelimit-limit:
-      - '30'
-      x-ratelimit-period:
-      - '60'
-      x-ratelimit-remaining:
-      - '25'
-      x-ratelimit-reset:
-      - '20'
+    headers: {}
     status:
       code: 200
       message: OK

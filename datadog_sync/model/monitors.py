@@ -65,10 +65,18 @@ class Monitors(BaseResource):
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
         resp = destination_client.put(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}", resource
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
+            resource,
         ).json()
 
         self.resource_config.destination_resources[_id] = resp
+
+    def delete_resource(self, _id: str) -> None:
+        destination_client = self.config.destination_client
+        destination_client.delete(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
+            params={"force": True},
+        )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         monitors = self.config.resources[resource_to_connect].resource_config.destination_resources

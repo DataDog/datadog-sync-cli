@@ -87,7 +87,7 @@ class CustomClient:
         return self.session.patch(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
-    def delete(self, path, body, **kwargs):
+    def delete(self, path, body=None, **kwargs):
         url = self.host + path
         return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
 

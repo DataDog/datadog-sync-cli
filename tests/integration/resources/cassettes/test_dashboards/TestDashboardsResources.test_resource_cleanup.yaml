@@ -1,0 +1,38 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v1/dashboard/why-y92-der
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "why-y92-der"}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v1/dashboard/5xe-wgx-zvb
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "5xe-wgx-zvb"}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+version: 1

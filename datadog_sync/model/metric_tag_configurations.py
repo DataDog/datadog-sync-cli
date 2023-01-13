@@ -43,7 +43,8 @@ class MetricTagConfigurations(BaseResource):
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = destination_client.post(
-            self.resource_config.base_path + f"/{self.resource_config.source_resources[_id]['id']}/tags", payload
+            self.resource_config.base_path + f"/{self.resource_config.source_resources[_id]['id']}/tags",
+            payload,
         ).json()
 
         self.resource_config.destination_resources[_id] = resp["data"]
@@ -54,10 +55,17 @@ class MetricTagConfigurations(BaseResource):
             resource["attributes"].pop("metric_type", None)
         payload = {"data": resource}
         resp = destination_client.patch(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}/tags", payload
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}/tags",
+            payload,
         ).json()
 
         self.resource_config.destination_resources[_id] = resp["data"]
+
+    def delete_resource(self, _id: str) -> None:
+        destination_client = self.config.destination_client
+        destination_client.delete(
+            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}/tags"
+        )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
         super(MetricTagConfigurations, self).connect_id(key, r_obj, resource_to_connect)
