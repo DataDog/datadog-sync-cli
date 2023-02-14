@@ -5,6 +5,7 @@ Datadog cli tool to sync resources across organizations.
 - [Purpose](#purpose)
 - [Requirements](#requirements)
 - [Usage](#usage)
+  - [API URL](#api-url)
   - [Filtering](#filtering)
   - [Config File](#config-file)
 - [Supported resources](#supported-resources)
@@ -56,6 +57,19 @@ Commands:
   import  Import Datadog resources.
   sync    Sync Datadog resources to destination.
 ```
+
+#### API URL
+
+Available URL's for the source and destination API URLs are:
+
+- `https://api.datadoghq.com`
+- `https://api.datadoghq.eu`
+- `https://api.us5.datadoghq.com`
+- `https://api.us3.datadoghq.com`
+- `https://api.ddog-gov.com`
+
+See https://docs.datadoghq.com/getting_started/site/ for all available regions.
+
 #### Filtering
 
 Datadog sync cli tool supports filtering resources during import. Multiple filter flags can be passed.
