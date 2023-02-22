@@ -5,6 +5,8 @@ Datadog cli tool to sync resources across organizations.
 - [Purpose](#purpose)
 - [Requirements](#requirements)
 - [Usage](#usage)
+  - [Installing and using the tool locally](#installing-and-using-the-tool-locally)
+  - [Installing and using the tool via docker](#installing-and-using-the-tool-via-docker)
   - [API URL](#api-url)
   - [Filtering](#filtering)
   - [Config File](#config-file)
@@ -58,6 +60,28 @@ Commands:
   sync    Sync Datadog resources to destination.
 ```
 
+### Installing and using the tool locally
+
+1) Clone the project repo
+2) CD into the repo directory and install the datadog-sync-cli via `pip install .`
+3) Run cli tool `datadog-sync <command> <options>`
+
+### Installing and using the tool via docker
+1) Clone the project repo
+2) CD into the repo directory and build the docker image `docker build . -t datadog-sync`
+3) Run the docker image using entrypoint below:
+```
+docker run --rm -v $(pwd):/datadog-sync:rw \
+  -e DD_SOURCE_API_KEY=<DATADOG_API_KEY> \
+  -e DD_SOURCE_APP_KEY=<DATADOG_APP_KEY> \
+  -e DD_SOURCE_API_URL=<DATADOG_API_URL> \
+  -e DD_DESTINATION_API_KEY=<DATADOG_API_KEY> \
+  -e DD_DESTINATION_APP_KEY=<DATADOG_APP_KEY> \
+  -e DD_DESTINATION_API_URL=<DATADOG_API_URL> \
+  datadog-sync:latest <command> <options>
+```
+Note: The above docker run command will mount your current working directory to the container.
+
 #### API URL
 
 Available URL's for the source and destination API URLs are:
@@ -105,28 +129,6 @@ filter=["Type=Dashboards;Name=title;Value=Test screenboard", "Type=Monitors;Name
 ```
 
 Usage: `datadog-sync import --config config`
-
-### Using the package
-
-1) Clone the project repo
-2) CD into the repo directory and install the datadog-sync-cli via `pip install .`
-3) Run cli tool `datadog-sync <command> <options>`
-
-### Using the package with docker
-1) Clone the project repo
-2) CD into the repo directory and build the docker image `docker build . -t datadog-sync`
-3) Run the docker image using entrypoint below:
-```
-docker run --rm -v $(pwd):/datadog-sync:rw \
-  -e DD_SOURCE_API_KEY=<DATADOG_API_KEY> \
-  -e DD_SOURCE_APP_KEY=<DATADOG_APP_KEY> \
-  -e DD_SOURCE_API_URL=<DATADOG_API_URL> \
-  -e DD_DESTINATION_API_KEY=<DATADOG_API_KEY> \
-  -e DD_DESTINATION_APP_KEY=<DATADOG_APP_KEY> \
-  -e DD_DESTINATION_API_URL=<DATADOG_API_URL> \
-  datadog-sync:latest <command> <options>
-```
-Note: The above docker run command will mount your current working directory to the container.
 
 ## Workflow
 
