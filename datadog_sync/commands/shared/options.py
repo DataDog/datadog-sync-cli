@@ -55,7 +55,7 @@ _destination_auth_options = [
 ]
 
 
-def click_config_file_provider(ctx, value):
+def click_config_file_provider(ctx, opts, value):
     config = configobj.ConfigObj(value, unrepr=True)
     ctx.default_map = ctx.default_map or {}
     ctx.default_map.update(config)
