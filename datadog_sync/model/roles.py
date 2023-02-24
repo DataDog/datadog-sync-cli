@@ -6,10 +6,8 @@
 import copy
 from typing import Optional, List, Dict
 
-from requests.exceptions import HTTPError
-
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import check_diff
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
 from datadog_sync.utils.custom_client import CustomClient
 
 
@@ -94,8 +92,8 @@ class Roles(BaseResource):
         try:
             source_permissions = source_client.get(self.permissions_base_path).json()["data"]
             destination_permissions = destination_client.get(self.permissions_base_path).json()["data"]
-        except HTTPError as e:
-            self.config.logger.error("error getting permissions: %s", e.response.text)
+        except CustomClientHTTPError as e:
+            self.config.logger.error("error getting permissions: %s", e)
             return
 
         for permission in source_permissions:
@@ -114,8 +112,8 @@ class Roles(BaseResource):
             destination_roles_resp = destination_client.paginated_request(destination_client.get)(
                 self.resource_config.base_path
             )
-        except HTTPError as e:
-            self.config.logger.error("error retrieving roles: %s", e.response.text)
+        except CustomClientHTTPError as e:
+            self.config.logger.error("error retrieving roles: %s", e)
             return destination_roles_mapping
 
         for role in destination_roles_resp:
