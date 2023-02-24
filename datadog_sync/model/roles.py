@@ -6,10 +6,8 @@
 import copy
 from typing import Optional, List, Dict
 
-from requests.exceptions import HTTPError
-
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import check_diff
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
 from datadog_sync.utils.custom_client import CustomClient
 
 
@@ -20,17 +18,28 @@ class Roles(BaseResource):
         excluded_attributes=["id", "attributes.created_at", "attributes.modified_at", "attributes.user_count"],
     )
     # Additional Roles specific attributes
-    source_permissions = None
-    destination_permissions = None
+    source_permissions = {}
+    destination_permissions = {}
     destination_roles_mapping = None
     permissions_base_path = "/api/v2/permissions"
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.paginated_request(client.get)(self.resource_config.base_path)
 
+        try:
+            source_permissions = client.get(self.permissions_base_path).json()["data"]
+            for permission in source_permissions:
+                self.source_permissions[permission["id"]] = permission["attributes"]["name"]
+        except CustomClientHTTPError as e:
+            self.config.logger.warning("error retrieving permissions: %s", e)
+
         return resp
 
     def import_resource(self, resource: Dict) -> None:
+        if self.source_permissions and "permissions" in resource["relationships"]:
+            for permission in resource["relationships"]["permissions"]["data"]:
+                if permission["id"] in self.source_permissions:
+                    permission["id"] = self.source_permissions[permission["id"]]
         self.resource_config.source_resources[resource["id"]] = resource
 
     def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
@@ -76,34 +85,19 @@ class Roles(BaseResource):
         pass
 
     def remap_permissions(self, resource):
-        if self.config.source_client.host != self.config.destination_client.host:
-            if not (self.source_permissions and self.destination_permissions):
-                self.source_permissions, self.destination_permissions = self.get_permissions()
+        if not self.destination_permissions:
+            try:
+                destination_permissions = self.config.destination_client.get(self.permissions_base_path).json()["data"]
+                for permission in destination_permissions:
+                    self.destination_permissions[permission["attributes"]["name"]] = permission["id"]
+            except CustomClientHTTPError as e:
+                self.config.logger.warning("error retrieving permissions: %s", e)
+                return
 
-            if "permissions" in resource["relationships"]:
-                for permission in resource["relationships"]["permissions"]["data"]:
-                    if permission["id"] in self.source_permissions:
-                        permission["id"] = self.destination_permissions[self.source_permissions[permission["id"]]]
-
-    def get_permissions(self):
-        source_permission_obj = {}
-        destination_permission_obj = {}
-
-        source_client = self.config.source_client
-        destination_client = self.config.destination_client
-        try:
-            source_permissions = source_client.get(self.permissions_base_path).json()["data"]
-            destination_permissions = destination_client.get(self.permissions_base_path).json()["data"]
-        except HTTPError as e:
-            self.config.logger.error("error getting permissions: %s", e.response.text)
-            return
-
-        for permission in source_permissions:
-            source_permission_obj[permission["id"]] = permission["attributes"]["name"]
-        for permission in destination_permissions:
-            destination_permission_obj[permission["attributes"]["name"]] = permission["id"]
-
-        return source_permission_obj, destination_permission_obj
+        if "permissions" in resource["relationships"]:
+            for permission in resource["relationships"]["permissions"]["data"]:
+                if permission["id"] in self.destination_permissions:
+                    permission["id"] = self.destination_permissions[permission["id"]]
 
     def get_destination_roles_mapping(self):
         destination_client = self.config.destination_client
@@ -114,8 +108,8 @@ class Roles(BaseResource):
             destination_roles_resp = destination_client.paginated_request(destination_client.get)(
                 self.resource_config.base_path
             )
-        except HTTPError as e:
-            self.config.logger.error("error retrieving roles: %s", e.response.text)
+        except CustomClientHTTPError as e:
+            self.config.logger.error("error retrieving roles: %s", e)
             return destination_roles_mapping
 
         for role in destination_roles_resp:
