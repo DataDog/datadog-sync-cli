@@ -31,12 +31,16 @@ Usage: datadog-sync COMMAND [OPTIONS]
   Initialize cli
 
 Options:
-  --source-api-key TEXT                       Datadog source organization API key. [required]
-  --source-app-key TEXT                       Datadog source organization APP key. [required]
+  --source-api-key TEXT                       Datadog source organization API key. [required for import]
+  --source-app-key TEXT                       Datadog source organization APP key. [required for import]
   --source-api-url TEXT                       Datadog source organization API url.
-  --destination-api-key TEXT                  Datadog destination organization API key. [required]
-  --destination-app-key TEXT                  Datadog destination organization APP key. [required]
+  --destination-api-key TEXT                  Datadog destination organization API key. [required for sync/diffs]
+  --destination-app-key TEXT                  Datadog destination organization APP key. [required for sync/diffs]
   --destination-api-url TEXT                  Datadog destination organization API url.
+  --validate BOOLEAN                          Enables validation of the provided API
+                                              during client initialization. On import,
+                                              only source api key is validated. On
+                                              sync/diffs, only destination api key is validated. [default: True]
   --http-client-retry-timeout INTEGER         The HTTP request retry timeout period. Defaults to `60s`.
   --resources TEXT                            Optional comma separated list of resource to
                                               import. All supported resources are imported

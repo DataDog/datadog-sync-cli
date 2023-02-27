@@ -106,7 +106,7 @@ _common_options = [
         envvar=constants.DD_VALIDATE,
         default=True,
         show_default=True,
-        help="Enables validation of the provided API and APP keys during provider initialization. Default is true. When false, api_key and app_key won't be checked.",
+        help="Enables validation of the provided API during client initialization. On import, only source api key is validated. On sync/diffs, only destination api key is validated.",
     ),
 ]
 
