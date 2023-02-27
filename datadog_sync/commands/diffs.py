@@ -13,16 +13,17 @@ from datadog_sync.commands.shared.options import (
 )
 from datadog_sync.utils.configuration import build_config
 from datadog_sync.utils.resources_handler import check_diffs
+from datadog_sync.constants import CMD_DIFFS
 
 
-@command("diffs", short_help="Log resource diffs.")
+@command(CMD_DIFFS, short_help="Log resource diffs.")
 @source_auth_options
 @destination_auth_options
 @common_options
 @non_import_common_options
 def diffs(**kwargs):
     """Log Datadog resources diffs."""
-    cfg = build_config(**kwargs)
+    cfg = build_config(CMD_DIFFS, **kwargs)
 
     check_diffs(cfg)
 

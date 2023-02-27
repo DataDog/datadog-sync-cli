@@ -23,7 +23,8 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import Filter, process_filters
-from datadog_sync.constants import LOGGER_NAME
+from datadog_sync.constants import CMD_DIFFS, CMD_IMPORT, CMD_SYNC, LOGGER_NAME, VALIDATE_ENDPOINT
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 
 @dataclass
@@ -40,12 +41,8 @@ class Configuration(object):
     max_workers: Optional[int] = None
     cleanup: Optional[str] = None
 
-    def __post_init__(self):
-        if not self.logger:
-            self.logger = logging.getLogger(LOGGER_NAME)
 
-
-def build_config(**kwargs: Any) -> Configuration:
+def build_config(cmd, **kwargs: Any) -> Configuration:
     # configure logger
     logger = Log(kwargs.get("verbose"))
 
@@ -57,18 +54,31 @@ def build_config(**kwargs: Any) -> Configuration:
     destination_api_url = kwargs.get("destination_api_url")
 
     # Initialize the datadog API Clients
+    source_api_key = kwargs.get("source_api_key", "")
+    source_app_key = kwargs.get("source_app_key", "")
     source_auth = {
-        "apiKeyAuth": kwargs.get("source_api_key"),
-        "appKeyAuth": kwargs.get("source_app_key"),
+        "apiKeyAuth": source_api_key,
+        "appKeyAuth": source_app_key,
     }
+
+    destination_api_key = kwargs.get("destination_api_key", "")
+    destination_app_key = kwargs.get("destination_app_key", "")
     destination_auth = {
-        "apiKeyAuth": kwargs.get("destination_api_key"),
-        "appKeyAuth": kwargs.get("destination_app_key"),
+        "apiKeyAuth": destination_api_key,
+        "appKeyAuth": destination_app_key,
     }
     retry_timeout = kwargs.get("http_client_retry_timeout")
 
     source_client = CustomClient(source_api_url, source_auth, retry_timeout)
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
+
+    validate = kwargs.get("validate")
+    if validate:
+        if cmd in [CMD_SYNC, CMD_DIFFS]:
+            _validate_client(destination_client)
+        if cmd == CMD_IMPORT:
+            _validate_client(source_client)
+        logger.info("clients validated successfully")
 
     # Additional settings
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
@@ -197,3 +207,12 @@ def get_resources_dependency_graph(
     graph.default_factory = None
 
     return graph, dependencies_count
+
+
+def _validate_client(client: CustomClient):
+    try:
+        client.get(VALIDATE_ENDPOINT).json()
+    except CustomClientHTTPError as e:
+        logger = logging.getLogger(LOGGER_NAME)
+        logger.error(f"invalid api key: {e}")
+        exit(1)

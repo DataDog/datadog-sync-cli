@@ -12,13 +12,13 @@ _source_auth_options = [
     option(
         "--source-api-key",
         envvar=constants.DD_SOURCE_API_KEY,
-        required=True,
+        required=False,
         help="Datadog source organization API key.",
     ),
     option(
         "--source-app-key",
         envvar=constants.DD_SOURCE_APP_KEY,
-        required=True,
+        required=False,
         help="Datadog source organization APP key.",
     ),
     option(
@@ -35,13 +35,13 @@ _destination_auth_options = [
     option(
         "--destination-api-key",
         envvar=constants.DD_DESTINATION_API_KEY,
-        required=True,
+        required=False,
         help="Datadog destination organization API key.",
     ),
     option(
         "--destination-app-key",
         envvar=constants.DD_DESTINATION_APP_KEY,
-        required=True,
+        required=False,
         help="Datadog destination organization APP key.",
     ),
     option(
@@ -100,6 +100,14 @@ _common_options = [
     ),
     option("--filter", required=False, help="Filter resources.", multiple=True, envvar=constants.DD_FILTER),
     option("--config", help="Read configuration from FILE.", type=File("rb"), callback=click_config_file_provider),
+    option(
+        "--validate",
+        type=bool,
+        envvar=constants.DD_VALIDATE,
+        default=True,
+        show_default=True,
+        help="Enables validation of the provided API and APP keys during provider initialization. Default is true. When false, api_key and app_key won't be checked.",
+    ),
 ]
 
 
