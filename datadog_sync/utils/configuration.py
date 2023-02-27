@@ -53,25 +53,22 @@ def build_config(cmd, **kwargs: Any) -> Configuration:
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
 
-    # Initialize the datadog API Clients
-    source_api_key = kwargs.get("source_api_key", "")
-    source_app_key = kwargs.get("source_app_key", "")
-    source_auth = {
-        "apiKeyAuth": source_api_key,
-        "appKeyAuth": source_app_key,
-    }
-
-    destination_api_key = kwargs.get("destination_api_key", "")
-    destination_app_key = kwargs.get("destination_app_key", "")
-    destination_auth = {
-        "apiKeyAuth": destination_api_key,
-        "appKeyAuth": destination_app_key,
-    }
+    # Initialize the datadog API Clients based on cmd
     retry_timeout = kwargs.get("http_client_retry_timeout")
-
+    source_auth = {
+        "apiKeyAuth": kwargs.get("source_api_key", ""),
+        "appKeyAuth": kwargs.get("source_app_key", ""),
+    }
     source_client = CustomClient(source_api_url, source_auth, retry_timeout)
+
+    destination_auth = {
+        "apiKeyAuth": kwargs.get("destination_api_key", ""),
+        "appKeyAuth": kwargs.get("destination_app_key", ""),
+    }
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
 
+    # Validate the clients. For import we only validate the source client
+    # For sync/diffs we validate the destination client.
     validate = kwargs.get("validate")
     if validate:
         if cmd in [CMD_SYNC, CMD_DIFFS]:
