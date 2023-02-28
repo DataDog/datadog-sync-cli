@@ -39,11 +39,11 @@ class TestCli:
 
     def test_import(self, runner):
         # Import
-        ret = runner.invoke(cli, ["import", f"--resources={self.resources}"])
+        ret = runner.invoke(cli, ["import", "--validate=false", f"--resources={self.resources}"])
         assert 0 == ret.exit_code
 
         # Check diff
-        ret = runner.invoke(cli, ["diffs", "--skip-failed-resource-connections=False"])
+        ret = runner.invoke(cli, ["diffs", "--validate=false", "--skip-failed-resource-connections=False"])
         # assert diffs are produced
         assert ret.output
         assert 0 == ret.exit_code
@@ -54,6 +54,7 @@ class TestCli:
             cli,
             [
                 "sync",
+                "--validate=false",
                 f"--resources={self.resources}",
                 "--skip-failed-resource-connections=False",
             ],
@@ -64,6 +65,7 @@ class TestCli:
             cli,
             [
                 "diffs",
+                "--validate=false",
                 f"--resources={self.resources}",
                 "--skip-failed-resource-connections=False",
             ],
@@ -81,6 +83,7 @@ class TestCli:
             cli,
             [
                 "import",
+                "--validate=false",
                 f"--resources=roles,users",
                 "--filter=Type=roles;Name=attributes.user_count;Value=[^0]+;Operator=SubString",
                 "--filter=Type=users;Name=attributes.status;Value=Active",
@@ -93,6 +96,7 @@ class TestCli:
             cli,
             [
                 "sync",
+                "--validate=false",
                 f"--resources={self.resources}",
                 "--cleanup=force",
                 "--skip-failed-resource-connections=False",
@@ -106,6 +110,7 @@ class TestCli:
             cli,
             [
                 "diffs",
+                "--validate=false",
                 f"--resources={self.resources}",
                 "--skip-failed-resource-connections=False",
             ],
