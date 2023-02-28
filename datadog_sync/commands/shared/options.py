@@ -12,13 +12,13 @@ _source_auth_options = [
     option(
         "--source-api-key",
         envvar=constants.DD_SOURCE_API_KEY,
-        required=True,
+        required=False,
         help="Datadog source organization API key.",
     ),
     option(
         "--source-app-key",
         envvar=constants.DD_SOURCE_APP_KEY,
-        required=True,
+        required=False,
         help="Datadog source organization APP key.",
     ),
     option(
@@ -35,13 +35,13 @@ _destination_auth_options = [
     option(
         "--destination-api-key",
         envvar=constants.DD_DESTINATION_API_KEY,
-        required=True,
+        required=False,
         help="Datadog destination organization API key.",
     ),
     option(
         "--destination-app-key",
         envvar=constants.DD_DESTINATION_APP_KEY,
-        required=True,
+        required=False,
         help="Datadog destination organization APP key.",
     ),
     option(
@@ -55,7 +55,7 @@ _destination_auth_options = [
 ]
 
 
-def click_config_file_provider(ctx, value):
+def click_config_file_provider(ctx, opts, value):
     config = configobj.ConfigObj(value, unrepr=True)
     ctx.default_map = ctx.default_map or {}
     ctx.default_map.update(config)
@@ -100,6 +100,14 @@ _common_options = [
     ),
     option("--filter", required=False, help="Filter resources.", multiple=True, envvar=constants.DD_FILTER),
     option("--config", help="Read configuration from FILE.", type=File("rb"), callback=click_config_file_provider),
+    option(
+        "--validate",
+        type=bool,
+        envvar=constants.DD_VALIDATE,
+        default=True,
+        show_default=True,
+        help="Enables validation of the provided API during client initialization. On import, only source api key is validated. On sync/diffs, only destination api key is validated.",
+    ),
 ]
 
 

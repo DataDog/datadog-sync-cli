@@ -218,7 +218,6 @@ class BaseResource(abc.ABC):
                     f"Error while deleting resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
                 )
                 raise LoggedException(e)
-
         else:
             self.pre_resource_action_hook(_id, resource)
             self.connect_resources(_id, resource)

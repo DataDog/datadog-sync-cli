@@ -16,6 +16,7 @@ MAX_WORKERS = "MAX_WORKERS"
 DD_FILTER = "DD_FILTER"
 DD_FILTER_OPERATOR = "DD_FILTER_OPERATOR"
 DD_CLEANUP = "DD_CLEANUP"
+DD_VALIDATE = "DD_VALIDATE"
 
 # Default variables
 DEFAULT_API_URL = "https://api.datadoghq.com"
@@ -27,3 +28,9 @@ DESTINATION_RESOURCES_DIR = "resources/destination"
 LOGGER_NAME = "datadog_sync_cli"
 SOURCE_ORIGIN = "source"
 DESTINATION_ORIGIN = "destination"
+VALIDATE_ENDPOINT = "/api/v1/validate"
+
+# Commands
+CMD_IMPORT = "import"
+CMD_SYNC = "sync"
+CMD_DIFFS = "diffs"
