@@ -5,11 +5,9 @@
 
 from typing import Optional, List, Dict
 
-from requests import HTTPError
-
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.resource_utils import check_diff
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
 
 
 class Users(BaseResource):
@@ -123,7 +121,7 @@ class Users(BaseResource):
         payload = {"data": {"id": user_id, "type": "users"}}
         try:
             destination_client.post(self.roles_path.format(role_id), payload)
-        except HTTPError as e:
+        except CustomClientHTTPError as e:
             self.config.logger.error("error adding user: %s to role %s: %s", user_id, role_id, e)
 
     def remove_user_from_role(self, user_id, role_id):
@@ -131,5 +129,5 @@ class Users(BaseResource):
         payload = {"data": {"id": user_id, "type": "users"}}
         try:
             destination_client.delete(self.roles_path.format(role_id), payload)
-        except HTTPError as e:
+        except CustomClientHTTPError as e:
             self.config.logger.error("error removing user: %s from role %s: %s", user_id, role_id, e)

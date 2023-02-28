@@ -6,11 +6,9 @@
 import copy
 from typing import Optional, List, Dict
 
-from requests.exceptions import HTTPError
-
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.resource_utils import check_diff
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
 
 
 class DashboardLists(BaseResource):
@@ -34,7 +32,7 @@ class DashboardLists(BaseResource):
         resp = None
         try:
             resp = source_client.get(self.dash_list_items_path.format(_id)).json()
-        except HTTPError as e:
+        except CustomClientHTTPError as e:
             self.config.logger.error("error retrieving dashboard_lists items %s", e)
 
         resource["dashboards"] = []
@@ -99,7 +97,7 @@ class DashboardLists(BaseResource):
         destination_client = self.config.destination_client
         try:
             dashboards = destination_client.put(self.dash_list_items_path.format(_id), payload).json()
-        except HTTPError as e:
+        except CustomClientHTTPError as e:
             self.config.logger.error("error updating dashboard list items: %s", e)
             return
         dashboard_list.update(dashboards)
