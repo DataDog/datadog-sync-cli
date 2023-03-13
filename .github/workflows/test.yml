@@ -1,25 +1,27 @@
 name: Run Tests
 
 on:
-    pull_request:
-        branches:
-            - main
-        types:
-            - labeled
-            - unlabeled
-            - opened
-            - synchronize
-            - reopened
+  pull_request:
+    branches:
+      - main
+    types:
+      - labeled
+      - unlabeled
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
     steps:
-        - name: Install Python
-          uses: actions/setup-python@v4
-          with:
-              python-version: 3.9
-        - name: Checkout code
-          uses: actions/checkout@v2
-        - name: Install tox
-          run: pip install tox
-        - name: Run unit tests
-          run: tox -e py39
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install tox
+        run: pip install tox
+      - name: Run unit tests
+        run: tox -e py39
