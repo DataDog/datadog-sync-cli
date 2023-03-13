@@ -36,13 +36,13 @@ jobs:
             - name: Install Python
               uses: actions/setup-python@v2
               with:
-                  python-version: 3.8
+                  python-version: 3.9
             - name: Checkout code
               uses: actions/checkout@v2
             - name: Install tox
               run: pip install tox
             - name: Run unit tests
-              run: tox -e py38
+              run: tox -e py39
             - name: Run integration tests
               if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
               run: tox -e integration
