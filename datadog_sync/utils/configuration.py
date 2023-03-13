@@ -4,7 +4,6 @@
 # Copyright 2019 Datadog, Inc.
 
 import logging
-from collections import defaultdict, OrderedDict
 from dataclasses import dataclass
 from typing import (
     Any,
@@ -111,7 +110,6 @@ def build_config(cmd, **kwargs: Any) -> Configuration:
     return config
 
 
-# TODO: add unit tests
 def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
     """Returns dict of initialized resources"""
 

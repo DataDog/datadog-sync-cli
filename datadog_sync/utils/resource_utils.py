@@ -3,11 +3,11 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from concurrent.futures import ThreadPoolExecutor
 import os
 import re
 import json
 import logging
-from concurrent.futures import ThreadPoolExecutor
 
 from deepdiff import DeepDiff
 
@@ -22,6 +22,7 @@ class ResourceConnectionError(Exception):
         super(ResourceConnectionError, self).__init__(
             f"Failed to connect resource. Import and sync resource: {resource_type} {'with ID: ' + _id if _id else ''}"
         )
+        self._id = _id
 
 
 class CustomClientHTTPError(Exception):
@@ -98,10 +99,6 @@ def check_diff(resource_config, resource, state):
     )
 
 
-def thread_pool_executor(max_workers=None):
-    return ThreadPoolExecutor(max_workers=max_workers)
-
-
 def open_resources(resource_type):
     source_resources = dict()
     destination_resources = dict()
@@ -131,3 +128,7 @@ def write_resources_file(resource_type, origin, resources):
 
     with open(resource_path, "w") as f:
         json.dump(resources, f, indent=2)
+
+
+def thread_pool_executor(max_workers=None):
+    return ThreadPoolExecutor(max_workers=max_workers)

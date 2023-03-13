@@ -14,10 +14,10 @@ from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
     open_resources,
+    thread_pool_executor,
     write_resources_file,
     find_attr,
     ResourceConnectionError,
-    thread_pool_executor,
     check_diff,
     prep_resource,
     LoggedException,
