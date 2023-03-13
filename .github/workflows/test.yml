@@ -1,61 +1,25 @@
 name: Run Tests
 
 on:
-    pull_request:
-        branches:
-            - main
-        types:
-            - labeled
-            - unlabeled
-            - opened
-            - synchronize
-            - reopened
-
-env:
-    DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
-    DD_DESTINATION_APP_KEY: ${{ secrets.DD_DESTINATION_APP_KEY }}
-    DD_DESTINATION_API_URL: ${{ secrets.DD_DESTINATION_API_URL }}
-    DD_SOURCE_API_KEY: ${{ secrets.DD_SOURCE_API_KEY }}
-    DD_SOURCE_APP_KEY: ${{ secrets.DD_SOURCE_APP_KEY }}
-    DD_SOURCE_API_URL: ${{ secrets.DD_SOURCE_API_URL }}
-    DD_HTTP_CLIENT_RETRY_TIMEOUT: 300
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        services:
-            datadog-agent:
-                image: datadog/agent:latest
-                ports:
-                    - 8126:8126
-                env:
-                    DD_API_KEY: ${{ secrets.DD_API_KEY }}
-                    DD_HOSTNAME: "none"
-                    DD_INSIDE_CI: "true"
-        steps:
-            - name: Install Python
-              uses: actions/setup-python@v2
-              with:
-                  python-version: 3.8
-            - name: Checkout code
-              uses: actions/checkout@v2
-            - name: Install tox
-              run: pip install tox
-            - name: Run unit tests
-              run: tox -e py38
-            - name: Run integration tests
-              if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
-              run: tox -e integration
-              env:
-                  DD_AGENT_HOST: localhost
-                  DD_ENV: ci
-                  DD_SERVICE: datadog-sync-cli
-                  DD_TAGS: "team:integration-tools-and-libraries"
-                  DD_TRACE_ANALYTICS_ENABLED: "true"
-                  RECORD: "none"
-                  PYTEST_ADDOPTS: "--ddtrace"
-            - name: Cleanup
-              if: always() && contains(github.event.pull_request.labels.*.name, 'ci/integration')
-              run: |
-                  python -m pip install requests
-                  python ./scripts/cleanup_org.py
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install tox
+        run: pip install tox
+      - name: Run unit tests
+        run: tox -e py39

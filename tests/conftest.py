@@ -8,7 +8,8 @@ try:
     from ddtrace import config, patch
 
     config.httplib["distributed_tracing"] = True
-    patch(httplib=True)
+    config.requests["distributed_tracing"] = True
+    patch(httplib=True, requests=True)
 except ImportError:
     pass
 
@@ -30,11 +31,8 @@ HEADERS_TO_PERSISTS = ("Accept-Encoding", "Content-Type")
 
 
 @pytest.fixture()
-@pytest.mark.freeze_time
-def runner(freezed_time, freezer):
+def runner(freezed_time):
     from click.testing import CliRunner
-
-    freezer.move_to(freezed_time)
 
     return CliRunner(mix_stderr=False)
 
