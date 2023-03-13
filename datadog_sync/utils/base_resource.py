@@ -214,10 +214,11 @@ class BaseResource(abc.ABC):
                 self.delete_resource(_id)
                 self.resource_config.destination_resources.pop(_id, None)
             except Exception as e:
-                self.config.logger.error(
-                    f"Error while deleting resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
-                )
-                raise LoggedException(e)
+                if e.status_code != 404:
+                    self.config.logger.error(
+                        f"Error while deleting resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
+                    )
+                    raise LoggedException(e)
         else:
             self.pre_resource_action_hook(_id, resource)
             self.connect_resources(_id, resource)

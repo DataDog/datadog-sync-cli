@@ -15,7 +15,7 @@ class SyntheticsGlobalVariables(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={"synthetics_tests": ["parse_test_public_id"]},
         base_path="/api/v1/synthetics/variables",
-        non_nullable_attr=["parse_test_public_id", "parse_test_options"],
+        non_nullable_attr=["parse_test_public_id", "parse_test_options", "is_fido", "is_totp"],
         excluded_attributes=[
             "id",
             "creator",
