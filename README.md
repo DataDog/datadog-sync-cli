@@ -21,7 +21,7 @@ The source organization will not be modified, but the destination organization w
 
 ## Requirements
 
-- Python >= v3.7
+- Python >= v3.9
 
 ## Usage
 
