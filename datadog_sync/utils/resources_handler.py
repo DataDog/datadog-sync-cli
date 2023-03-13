@@ -9,41 +9,41 @@ from pprint import pformat
 
 
 def import_resources(config):
-    for resource_type in config.resources:
-        init_resource = config.initialized_resources[resource_type]
-        
+    for resource_type in config.resources_arg:
+        resource = config.resources[resource_type]
+
         config.logger.info("Importing %s", resource_type)
-        successes, errors = init_resource.import_resources()
+        successes, errors = resource.import_resources()
         config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
 
 
 def apply_resources(config):
-    for resource_type in config.resources:
-        init_resource = config.initialized_resources[resource_type]
-        
-        init_resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(resource_type, config)
+    for resource_type in config.resources_arg:
+        resource = config.resources[resource_type]
+
+        resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(resource_type, config)
 
         config.logger.info("Syncing resource: {}".format(resource_type))
-        successes, errors = init_resource.apply_resources()
+        successes, errors = resource.apply_resources()
         config.logger.info(f"Finished syncing {resource_type}: {successes} successes, {errors} errors")
 
 
 def check_diffs(config):
-    for resource_type in config.resources:
-        init_resource = config.initialized_resources[resource_type]
+    for resource_type in config.resources_arg:
+        resource = config.resources[resource_type]
         # Set resources to cleanup
-        init_resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(resource_type, config, prompt=False)
+        resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(resource_type, config, prompt=False)
 
-        init_resource.check_diffs()
+        resource.check_diffs()
 
 
-def _get_resources_to_cleanup(resource_type, config, prompt=True):  
-    init_resource = config.initialized_resources[resource_type]
-      
+def _get_resources_to_cleanup(resource_type, config, prompt=True):
+    resource = config.resources[resource_type]
+
     # Cleanup resources
     resources_confirmed_to_remove = set()
-    resources_to_be_removed = set(init_resource.resource_config.destination_resources.keys()) - set(
-        init_resource.resource_config.source_resources.keys()
+    resources_to_be_removed = set(resource.resource_config.destination_resources.keys()) - set(
+        resource.resource_config.source_resources.keys()
     )
 
     if config.cleanup.lower() == "force":
@@ -53,7 +53,7 @@ def _get_resources_to_cleanup(resource_type, config, prompt=True):
             return list(resources_to_be_removed)
         for id in resources_to_be_removed:
             if confirm(
-                f"{pformat(init_resource.resource_config.destination_resources[id])} \n"
+                f"{pformat(resource.resource_config.destination_resources[id])} \n"
                 f"Above resource was deleted in source. Delete it in destination?"
             ):
                 resources_confirmed_to_remove.add(id)

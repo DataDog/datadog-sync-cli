@@ -7,12 +7,9 @@ import logging
 from collections import defaultdict, OrderedDict
 from dataclasses import dataclass
 from typing import (
-    Type,
     Any,
     Union,
     Dict,
-    Tuple,
-    DefaultDict,
     List,
     Optional,
 )
@@ -31,8 +28,8 @@ class Configuration(object):
     logger: Union[Log, logging.Logger, None] = None
     source_client: Optional[CustomClient] = None
     destination_client: Optional[CustomClient] = None
-    resources: Optional[List[str]] = None
-    initialized_resources: Optional[Dict[str, BaseResource]] = None
+    resources: Optional[Dict[str, BaseResource]] = None
+    resources_arg: Optional[List[str]] = None
     filters: Optional[Dict[str, Filter]] = None
     filter_operator: Optional[str] = None
     force_missing_dependencies: Optional[bool] = None
@@ -81,7 +78,7 @@ def build_config(cmd, **kwargs: Any) -> Configuration:
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
     max_workers = kwargs.get("max_workers", 10)
     cleanup = kwargs.get("cleanup")
-    
+
     # Initialize Configuration
     config = Configuration(
         logger=logger,
@@ -94,20 +91,22 @@ def build_config(cmd, **kwargs: Any) -> Configuration:
         max_workers=max_workers,
         cleanup=cleanup,
     )
-    
+
     # Initialize resources
-    initialized_resources = init_resources(config)
-    resources_arg = kwargs.get("resources", "")
-    if resources_arg:
-        resources = resources_arg.lower().split(",")
-        unknown_resources = list(set(resources) - set(initialized_resources.keys()))
+    resources = init_resources(config)
+    resources_arg_str = kwargs.get("resources")
+    if resources_arg_str:
+        resources_arg = resources_arg_str.lower().split(",")
+        unknown_resources = list(set(resources_arg) - set(resources.keys()))
         if unknown_resources:
-            logger.warning("invalid resources. Skipping: %s", unknown_resources)
+            logger.warning("invalid resources. Discarding: %s", unknown_resources)
+
+        resources_arg = list(set(resources_arg) & set(resources.keys()))
     else:
-        resources = list(initialized_resources.keys())
-    
+        resources_arg = list(resources.keys())
+
     config.resources = resources
-    config.initialized_resources = initialized_resources
+    config.resources_arg = resources_arg
 
     return config
 
@@ -116,13 +115,13 @@ def build_config(cmd, **kwargs: Any) -> Configuration:
 def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
     """Returns dict of initialized resources"""
 
-    initialized_resources = dict(
+    resources = dict(
         (cls.resource_type, cls(cfg))
         for cls in models.__dict__.values()
         if isinstance(cls, type) and issubclass(cls, BaseResource)
     )
-    
-    return initialized_resources
+
+    return resources
 
 
 def _validate_client(client: CustomClient):

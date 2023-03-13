@@ -122,10 +122,10 @@ def config():
         max_workers=int(max_workers),
     )
 
-    initialized_resources = init_resources(cfg)
+    resources = init_resources(cfg)
 
-    cfg.resources = list(initialized_resources.keys())
-    cfg.initialized_resources = initialized_resources
+    cfg.resources = resources
+    cfg.resources_arg = list(resources.keys())
 
     return cfg
 
