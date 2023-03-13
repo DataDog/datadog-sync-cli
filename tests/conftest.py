@@ -29,12 +29,41 @@ PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")
 HEADERS_TO_PERSISTS = ("Accept-Encoding", "Content-Type")
 
 
-@pytest.fixture()
-@pytest.mark.freeze_time
-def runner(freezed_time, freezer):
-    from click.testing import CliRunner
+@pytest.fixture
+def freezed_time(record_mode, vcr):
+    from dateutil import parser
 
-    freezer.move_to(freezed_time)
+    if record_mode in {"new_episodes", "rewrite"}:
+        tzinfo = datetime.now().astimezone().tzinfo
+        freeze_at = datetime.now().replace(tzinfo=tzinfo).isoformat()
+        if record_mode == "rewrite":
+            pathlib.Path(vcr._path).parent.mkdir(parents=True, exist_ok=True)
+            with pathlib.Path(vcr._path).with_suffix(".frozen").open("w+") as f:
+                f.write(freeze_at)
+    else:
+        freeze_file = pathlib.Path(vcr._path).with_suffix(".frozen")
+        if not freeze_file.exists():
+            msg = (
+                "Time file '{}' not found: create one setting `RECORD=true` or "
+                "ignore it using `RECORD=none`".format(freeze_file)
+            )
+            raise RuntimeError(msg)
+        with freeze_file.open("r") as f:
+            freeze_at = f.readline().strip()
+
+        if not pathlib.Path(vcr._path).exists():
+            msg = (
+                "Cassette '{}' not found: create one setting `RECORD=true` or "
+                "ignore it using `RECORD=none`".format(vcr._path)
+            )
+            raise RuntimeError(msg)
+
+    return parser.isoparse(freeze_at)
+
+
+@pytest.fixture()
+def runner(freezed_time):
+    from click.testing import CliRunner
 
     return CliRunner(mix_stderr=False)
 
