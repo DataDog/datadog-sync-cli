@@ -24,7 +24,8 @@ from json.decoder import JSONDecodeError
 
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync import constants
-from datadog_sync.utils.configuration import get_resources
+from datadog_sync.utils.configuration import init_resources
+
 
 PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")
 HEADERS_TO_PERSISTS = ("Accept-Encoding", "Content-Type")
@@ -121,9 +122,10 @@ def config():
         max_workers=int(max_workers),
     )
 
-    resources, _ = get_resources(cfg, "")
+    initialized_resources = init_resources(cfg)
 
-    cfg.resources = resources
+    cfg.resources = list(initialized_resources.keys())
+    cfg.initialized_resources = initialized_resources
 
     return cfg
 
