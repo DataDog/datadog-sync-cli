@@ -27,6 +27,7 @@ class ResourceConnectionError(Exception):
 class CustomClientHTTPError(Exception):
     def __init__(self, response):
         super().__init__(f"{response.status_code} {response.reason} - {response.text}")
+        self.status_code = response.status_code
 
 
 class LoggedException(Exception):
