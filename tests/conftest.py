@@ -5,12 +5,10 @@
 
 tracer = None
 try:
-    from ddtrace import config, patch_all
-
-    config.env = "test"
-    config.service = "datadog-sync-cli"
-    config.version = "0.1"
-    patch_all()
+    from ddtrace import config, patch
+    config.httplib["distributed_tracing"] = True
+    config.requests["distributed_tracing"] = True
+    patch(httplib=True, requests=True)
 except ImportError:
     pass
 
