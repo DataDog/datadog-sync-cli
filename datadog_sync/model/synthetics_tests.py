@@ -14,6 +14,7 @@ class SyntheticsTests(BaseResource):
     resource_type = "synthetics_tests"
     resource_config = ResourceConfig(
         resource_connections={
+            "synthetics_tests": ["steps.params.subtestPublicId"],
             "synthetics_private_locations": ["locations"],
             # "synthetics_global_variables": ["config.configVariables.id"],
         },
@@ -87,6 +88,16 @@ class SyntheticsTests(BaseResource):
                         r_obj[key][i] = resources[_id]["id"]
                     else:
                         raise ResourceConnectionError(resource_to_connect, _id=_id)
+        elif resource_to_connect == "synthetics_tests":
+            resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+            found = False
+            for k, v in resources.items():
+                if k.startswith(r_obj[key]):
+                    r_obj[key] = v["public_id"]
+                    found = True
+                    break
+            if not found:
+                raise ResourceConnectionError(resource_to_connect, _id=r_obj[key])
         else:
             super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
 
