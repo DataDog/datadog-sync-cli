@@ -26,7 +26,7 @@ class ServiceLevelObjectives(BaseResource):
     def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         if _id:
             source_client = self.config.source_client
-            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"][0]
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
 
         self.resource_config.source_resources[resource["id"]] = resource
 
