@@ -25,7 +25,11 @@ class SLOCorrections(BaseResource):
 
         return resp["data"]
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        if _id:
+            source_client = self.config.source_client
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
+
         if resource["attributes"].get("end", False):
             if (round(datetime.now().timestamp()) - int(resource["attributes"]["end"])) / 86400 > 90:
                 return

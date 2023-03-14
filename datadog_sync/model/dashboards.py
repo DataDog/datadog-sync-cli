@@ -27,11 +27,12 @@ class Dashboards(BaseResource):
 
         return resp["dashboards"]
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         source_client = self.config.source_client
-        dashboard = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
+        import_id = _id or resource["id"]
 
-        self.resource_config.source_resources[resource["id"]] = dashboard
+        dashboard = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
+        self.resource_config.source_resources[import_id] = dashboard
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass

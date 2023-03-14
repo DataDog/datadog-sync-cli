@@ -26,12 +26,14 @@ class SyntheticsPrivateLocations(BaseResource):
 
         return resp["locations"]
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         source_client = self.config.source_client
-        if self.pl_id_regex.match(resource["id"]):
-            pl = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
+        import_id = _id or resource["id"]
 
-            self.resource_config.source_resources[resource["id"]] = pl
+        if self.pl_id_regex.match(import_id):
+            pl = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
+
+            self.resource_config.source_resources[import_id] = pl
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass

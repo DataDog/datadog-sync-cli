@@ -61,7 +61,7 @@ class BaseResource(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         pass
 
     @abc.abstractmethod

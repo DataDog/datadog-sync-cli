@@ -21,7 +21,9 @@ class HostTags(BaseResource):
 
         return list(resp["tags"].items())
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        if _id:
+            return  # This should never occur. No resource depends on it.
         tag = resource[0]
         hosts = resource[1]
         for host in hosts:

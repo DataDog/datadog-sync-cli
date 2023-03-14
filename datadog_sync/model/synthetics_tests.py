@@ -37,9 +37,15 @@ class SyntheticsTests(BaseResource):
 
         return resp["tests"]
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         source_client = self.config.source_client
-        _id = resource["public_id"]
+        if _id:
+            try:
+                resource = source_client.get(self.browser_test_path.format(_id)).json()
+            except Exception:
+                resource = source_client.get(self.api_test_path.format(_id)).json()
+
+        resource["public_id"]
         if resource.get("type") == "browser":
             resource = source_client.get(self.browser_test_path.format(_id)).json()
         elif resource.get("type") == "api":

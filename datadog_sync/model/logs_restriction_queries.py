@@ -35,11 +35,13 @@ class LogsRestrictionQueries(BaseResource):
         )
         return resp
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         source_client = self.config.source_client
-        r_query = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
+        import_id = _id or resource["id"]
+
+        r_query = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
         r_query.pop("included", None)
-        self.resource_config.source_resources[resource["id"]] = r_query
+        self.resource_config.source_resources[import_id] = r_query
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
