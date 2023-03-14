@@ -12,7 +12,6 @@ from datadog_sync.utils.custom_client import CustomClient
 class LogsMetrics(BaseResource):
     resource_type = "logs_metrics"
     resource_config = ResourceConfig(
-        resource_connections={},
         base_path="/api/v2/logs/config/metrics",
     )
     # Additional LogsMetrics specific attributes
@@ -54,5 +53,5 @@ class LogsMetrics(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(LogsMetrics, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        pass

@@ -12,7 +12,6 @@ from datadog_sync.utils.custom_client import CustomClient
 class MetricTagConfigurations(BaseResource):
     resource_type = "metric_tag_configurations"
     resource_config = ResourceConfig(
-        resource_connections={},
         base_path="/api/v2/metrics",
         excluded_attributes=["attributes.created_at", "attributes.modified_at"],
     )
@@ -67,8 +66,8 @@ class MetricTagConfigurations(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}/tags"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(MetricTagConfigurations, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        pass
 
     def get_destination_metric_tag_configuration(self) -> Dict[str, Dict]:
         destination_metric_tag_configurations = {}

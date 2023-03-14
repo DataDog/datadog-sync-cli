@@ -54,10 +54,10 @@ class ServiceLevelObjectives(BaseResource):
             params={"force": True},
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.resources["monitors"].resource_config.destination_resources
         synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
-
+        failed_connections = []
         for i, obj in enumerate(r_obj[key]):
             _id = str(obj)
             # Check if resource exists in monitors
@@ -72,4 +72,5 @@ class ServiceLevelObjectives(BaseResource):
                     found = True
                     break
             if not found:
-                raise ResourceConnectionError(resource_to_connect, _id=_id)
+                failed_connections.append(_id)
+        return failed_connections

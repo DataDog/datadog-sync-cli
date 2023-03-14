@@ -36,7 +36,6 @@ class LoggedException(Exception):
 
 
 def find_attr(keys_list, resource_to_connect, r_obj, connect_func):
-    _id = None
     if isinstance(r_obj, list):
         for k in r_obj:
             find_attr(keys_list, resource_to_connect, k, connect_func)

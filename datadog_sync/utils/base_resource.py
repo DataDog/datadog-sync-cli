@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 import abc
+from collections import defaultdict
 from dataclasses import dataclass, field
 from concurrent.futures import wait
 from pprint import pformat
@@ -84,8 +85,9 @@ class BaseResource(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+        failed_connections = []
         if isinstance(r_obj[key], list):
             for i, v in enumerate(r_obj[key]):
                 _id = str(v)
@@ -94,7 +96,7 @@ class BaseResource(abc.ABC):
                     type_attr = type(v)
                     r_obj[key][i] = type_attr(resources[_id]["id"])
                 else:
-                    raise ResourceConnectionError(resource_to_connect, _id=_id)
+                    failed_connections.append(_id)
         else:
             _id = str(r_obj[key])
             if _id in resources:
@@ -102,7 +104,10 @@ class BaseResource(abc.ABC):
                 type_attr = type(r_obj[key])
                 r_obj[key] = type_attr(resources[_id]["id"])
             else:
-                raise ResourceConnectionError(resource_to_connect, _id=_id)
+                failed_connections.append(_id)
+
+        import pdb; pdb.set_trace()
+        return failed_connections
 
     def import_resources(self) -> Tuple[int, int]:
         # reset source resources obj
@@ -248,17 +253,22 @@ class BaseResource(abc.ABC):
         if not self.resource_config.resource_connections:
             return
 
+        failed_connections_dict = defaultdict(list)
         for resource_to_connect, v in self.resource_config.resource_connections.items():
             for attr_connection in v:
-                try:
-                    find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
-                except ResourceConnectionError as e:
-                    if self.config.skip_failed_resource_connections:
-                        self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
-                        raise e
-                    else:
-                        self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
-                        continue
+                c = find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                if c:
+                    failed_connections_dict[resource_to_connect].extend(c)
+
+        if len(failed_connections_dict) > 0:
+            e = ResourceConnectionError(self.resource_type, _id, failed_connections_dict=failed_connections_dict)
+            if self.config.skip_failed_resource_connections:
+                e = ResourceConnectionError(self.resource_type, _id, failed_connections_dict=failed_connections_dict)
+                self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
+                raise e
+            else:
+                self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
+
 
     def filter(self, resource: Dict) -> bool:
         if not self.config.filters or self.resource_type not in self.config.filters:

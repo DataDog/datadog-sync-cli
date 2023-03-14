@@ -69,8 +69,8 @@ class LogsIndexes(BaseResource):
     def delete_resource(self, _id: str) -> None:
         raise Exception("logs index deletion is not supported")
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(LogsIndexes, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        pass
 
     def get_destination_logs_indexes(self) -> Dict[str, Dict]:
         destination_global_variable_obj = {}

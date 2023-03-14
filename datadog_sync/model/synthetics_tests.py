@@ -76,19 +76,21 @@ class SyntheticsTests(BaseResource):
         body = {"public_ids": [self.resource_config.destination_resources[_id]["public_id"]]}
         destination_client.post(self.resource_config.base_path + "/delete", body)
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         if resource_to_connect == "synthetics_private_locations":
             pl = self.config.resources["synthetics_private_locations"]
             resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+            failed_connections = []
 
             for i, _id in enumerate(r_obj[key]):
                 if pl.pl_id_regex.match(_id):
                     if _id in resources:
                         r_obj[key][i] = resources[_id]["id"]
                     else:
-                        raise ResourceConnectionError(resource_to_connect, _id=_id)
+                        failed_connections.append(_id)
+            return failed_connections
         else:
-            super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
+            return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
 
     @staticmethod
     def remove_global_variables_from_config(resource: Dict) -> Dict:

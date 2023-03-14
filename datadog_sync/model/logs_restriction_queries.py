@@ -88,8 +88,8 @@ class LogsRestrictionQueries(BaseResource):
             self.resource_config.base_path + f'/{self.resource_config.destination_resources[_id]["data"]["id"]}'
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(LogsRestrictionQueries, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        return super(LogsRestrictionQueries, self).connect_id(key, r_obj, resource_to_connect)
 
     def update_log_restriction_query_roles(self, _id: str, added_roles: set, removed_roles: set) -> Tuple[list, list]:
         successfully_added, successfully_removed = [], []

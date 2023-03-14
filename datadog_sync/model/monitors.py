@@ -78,11 +78,12 @@ class Monitors(BaseResource):
             params={"force": True},
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.resources[resource_to_connect].resource_config.destination_resources
         synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
 
         if r_obj.get("type") == "composite" and key == "query":
+            failed_connections = []
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:
                 found = False
@@ -97,8 +98,9 @@ class Monitors(BaseResource):
                             found = True
                             r_obj[key] = re.sub(_id + r"([^#]|$)", str(v["monitor_id"]) + "# ", r_obj[key])
                 if not found:
-                    raise ResourceConnectionError(resource_to_connect, _id=_id)
+                    failed_connections.append(_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()
+            return failed_connections
         elif key != "query":
             # Use default connect_id method in base class when not handling special case for `query`
-            super(Monitors, self).connect_id(key, r_obj, resource_to_connect)
+            return super(Monitors, self).connect_id(key, r_obj, resource_to_connect)

@@ -89,8 +89,8 @@ class DashboardLists(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(DashboardLists, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        return super(DashboardLists, self).connect_id(key, r_obj, resource_to_connect)
 
     def update_dash_list_items(self, _id: str, dashboards: Dict, dashboard_list: dict):
         payload = {"dashboards": dashboards}

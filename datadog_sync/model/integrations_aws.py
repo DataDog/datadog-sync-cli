@@ -52,5 +52,5 @@ class IntegrationsAWS(BaseResource):
 
         self.resource_config.destination_resources[_id].update(resource)
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(IntegrationsAWS, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        pass

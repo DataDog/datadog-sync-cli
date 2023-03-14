@@ -12,7 +12,6 @@ from datadog_sync.utils.custom_client import CustomClient
 class HostTags(BaseResource):
     resource_type = "host_tags"
     resource_config = ResourceConfig(
-        resource_connections={},
         base_path="/api/v1/tags/hosts",
     )
     # Additional HostTags specific attributes
@@ -50,5 +49,5 @@ class HostTags(BaseResource):
         destination_client = self.config.destination_client
         destination_client.delete(self.resource_config.base_path + f"/{_id}")
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(HostTags, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        pass

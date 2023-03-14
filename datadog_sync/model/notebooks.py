@@ -12,7 +12,6 @@ from datadog_sync.utils.custom_client import CustomClient, PaginationConfig
 class Notebooks(BaseResource):
     resource_type = "notebooks"
     resource_config = ResourceConfig(
-        resource_connections={},
         base_path="/api/v1/notebooks",
         excluded_attributes=[
             "id",
@@ -73,8 +72,8 @@ class Notebooks(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(Notebooks, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        pass
 
     @staticmethod
     def handle_special_case_attr(resource):
