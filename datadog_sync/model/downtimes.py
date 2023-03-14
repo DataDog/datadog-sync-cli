@@ -79,7 +79,7 @@ class Downtimes(BaseResource):
                 if resource["end"] < self.resource_config.destination_resources[_id]["end"]:
                     resource["end"] = self.resource_config.destination_resources[_id]["end"]
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:

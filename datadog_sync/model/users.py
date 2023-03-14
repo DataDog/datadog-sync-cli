@@ -47,9 +47,8 @@ class Users(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         self.remote_destination_users = self.get_remote_destination_users()
-        return None
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         if resource["attributes"]["email"] in self.remote_destination_users:

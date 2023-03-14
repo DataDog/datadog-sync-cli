@@ -45,16 +45,8 @@ class Monitors(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
-        simple_monitors = {}
-        composite_monitors = {}
-
-        for _id, monitor in self.resource_config.source_resources.items():
-            if monitor["type"] == "composite":
-                composite_monitors[_id] = monitor
-            else:
-                simple_monitors[_id] = monitor
-        return [simple_monitors, composite_monitors]
+    def pre_apply_hook(self) -> None:
+        pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client

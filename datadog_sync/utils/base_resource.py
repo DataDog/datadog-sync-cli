@@ -69,7 +69,7 @@ class BaseResource(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         pass
 
     @abc.abstractmethod
@@ -143,7 +143,7 @@ class BaseResource(abc.ABC):
 
         # Run pre-apply hook with the resources
         try:
-            resources_list = self.pre_apply_hook(self.resource_config.source_resources)
+            self.pre_apply_hook(self.resource_config.source_resources)
         except Exception as e:
             self.config.logger.error(f"Error while applying resources {self.resource_type}: {str(e)}")
             return 0, 0

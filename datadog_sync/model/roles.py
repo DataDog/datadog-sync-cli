@@ -42,9 +42,8 @@ class Roles(BaseResource):
                     permission["id"] = self.source_permissions[permission["id"]]
         self.resource_config.source_resources[resource["id"]] = resource
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         self.destination_roles_mapping = self.get_destination_roles_mapping()
-        return None
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         self.remap_permissions(resource)

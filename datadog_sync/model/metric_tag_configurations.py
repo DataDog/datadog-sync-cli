@@ -29,7 +29,7 @@ class MetricTagConfigurations(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         self.destination_metric_tag_configurations = self.get_destination_metric_tag_configuration()
         return None
 
