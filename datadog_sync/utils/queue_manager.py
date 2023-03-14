@@ -6,7 +6,7 @@ from datadog_sync.utils.configuration import Configuration
 from datadog_sync.utils.resource_utils import ResourceConnectionError, find_attr
 
 
-class OrderManager:
+class QueueManager:
     def __init__(self, config):
         self.config = config
         self.queue = deque()
@@ -31,21 +31,20 @@ class OrderManager:
 
 
 def resource_connections(config: Configuration, _id: str, resource_type: str) -> List[str]:
-    resource_connections = []
+    failed_connections = []
 
     if not config.resources[resource_type].resource_config.resource_connections:
         return resource_connections
 
     for resource_to_connect, v in config.resources[resource_type].resource_config.resource_connections.items():
         for attr_connection in v:
-            try:
-                find_attr(
+            failed = find_attr(
                     attr_connection,
                     resource_to_connect,
                     config.resources[resource_type].resource_config.source_resources[_id],
                     config.resources[resource_type].connect_id,
                 )
-            except ResourceConnectionError as e:
-                resource_connections.append(e._id)
+            if failed:
+                failed_connections.extend(failed)
 
     return resource_connections

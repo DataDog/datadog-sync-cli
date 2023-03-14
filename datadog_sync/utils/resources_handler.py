@@ -7,7 +7,7 @@ from click import confirm
 
 from pprint import pformat
 
-from datadog_sync.utils.queue_manager import OrderManager
+from datadog_sync.utils.queue_manager import QueueManager
 
 
 def import_resources(config):
@@ -20,6 +20,8 @@ def import_resources(config):
 
 
 def apply_resources(config):
+    # queue_manager = QueueManager(config)
+
     for resource_type in config.resources_arg:
         resource = config.resources[resource_type]
 

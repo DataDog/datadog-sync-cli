@@ -106,7 +106,6 @@ class BaseResource(abc.ABC):
             else:
                 failed_connections.append(_id)
 
-        import pdb; pdb.set_trace()
         return failed_connections
 
     def import_resources(self) -> Tuple[int, int]:
@@ -261,14 +260,13 @@ class BaseResource(abc.ABC):
                     failed_connections_dict[resource_to_connect].extend(c)
 
         if len(failed_connections_dict) > 0:
-            e = ResourceConnectionError(self.resource_type, _id, failed_connections_dict=failed_connections_dict)
+            e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
             if self.config.skip_failed_resource_connections:
-                e = ResourceConnectionError(self.resource_type, _id, failed_connections_dict=failed_connections_dict)
+                e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
                 self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
                 raise e
             else:
                 self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
-
 
     def filter(self, resource: Dict) -> bool:
         if not self.config.filters or self.resource_type not in self.config.filters:
