@@ -36,7 +36,6 @@ class LogsIndexes(BaseResource):
 
     def pre_apply_hook(self) -> None:
         self.destination_logs_indexes = self.get_destination_logs_indexes()
-        return None
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         if _id in self.destination_logs_indexes:

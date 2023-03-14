@@ -31,7 +31,6 @@ class MetricTagConfigurations(BaseResource):
 
     def pre_apply_hook(self) -> None:
         self.destination_metric_tag_configurations = self.get_destination_metric_tag_configuration()
-        return None
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         if _id in self.destination_metric_tag_configurations:
