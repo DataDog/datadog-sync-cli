@@ -39,11 +39,11 @@ def resource_connections(config: Configuration, _id: str, resource_type: str) ->
     for resource_to_connect, v in config.resources[resource_type].resource_config.resource_connections.items():
         for attr_connection in v:
             failed = find_attr(
-                    attr_connection,
-                    resource_to_connect,
-                    config.resources[resource_type].resource_config.source_resources[_id],
-                    config.resources[resource_type].connect_id,
-                )
+                attr_connection,
+                resource_to_connect,
+                config.resources[resource_type].resource_config.source_resources[_id],
+                config.resources[resource_type].connect_id,
+            )
             if failed:
                 failed_connections.extend(failed)
 

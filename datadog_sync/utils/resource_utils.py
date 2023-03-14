@@ -19,9 +19,7 @@ log = logging.getLogger(LOGGER_NAME)
 
 class ResourceConnectionError(Exception):
     def __init__(self, failed_connections_dict):
-        super(ResourceConnectionError, self).__init__(
-            f"Failed to connect resource. {failed_connections_dict}"
-        )
+        super(ResourceConnectionError, self).__init__(f"Failed to connect resource. {failed_connections_dict}")
 
 
 class CustomClientHTTPError(Exception):
@@ -36,8 +34,12 @@ class LoggedException(Exception):
 
 def find_attr(keys_list, resource_to_connect, r_obj, connect_func):
     if isinstance(r_obj, list):
+        failed_connections = []
         for k in r_obj:
-            return find_attr(keys_list, resource_to_connect, k, connect_func)
+            failed = find_attr(keys_list, resource_to_connect, k, connect_func)
+            if failed:
+                failed_connections.extend(failed)
+        return failed_connections
     else:
         keys_list = keys_list.split(".", 1)
 
