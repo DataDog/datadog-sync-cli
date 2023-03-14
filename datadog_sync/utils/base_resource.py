@@ -123,7 +123,7 @@ class BaseResource(abc.ABC):
             for r in get_resp:
                 if not self.filter(r):
                     continue
-                futures.append(executor.submit(self.import_resource, r))
+                futures.append(executor.submit(self.import_resource, resource=r))
 
         successes = errors = 0
         for future in futures:

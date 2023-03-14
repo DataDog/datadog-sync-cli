@@ -45,7 +45,7 @@ class SyntheticsTests(BaseResource):
             except Exception:
                 resource = source_client.get(self.api_test_path.format(_id)).json()
 
-        resource["public_id"]
+        _id = resource["public_id"]
         if resource.get("type") == "browser":
             resource = source_client.get(self.browser_test_path.format(_id)).json()
         elif resource.get("type") == "api":

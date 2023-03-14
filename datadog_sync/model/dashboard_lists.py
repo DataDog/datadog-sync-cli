@@ -28,17 +28,24 @@ class DashboardLists(BaseResource):
 
     def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         source_client = self.config.source_client
-        import_id = _id or str(resource["id"])
 
-        resource = source_client.get(self.dash_list_items_path.format(import_id)).json()
-        dashboards = dashboards.pop("dashboards", [])
+        if _id:
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
+
+        _id = str(resource["id"])
+        resp = None
+        try:
+            resp = source_client.get(self.dash_list_items_path.format(_id)).json()
+        except CustomClientHTTPError as e:
+            self.config.logger.error("error retrieving dashboard_lists items %s", e)
+
         resource["dashboards"] = []
+        if resp:
+            for dash in resp.get("dashboards"):
+                dash_list_item = {"id": dash["id"], "type": dash["type"]}
+                resource["dashboards"].append(dash_list_item)
 
-        for dash in dashboards:
-            dash_list_item = {"id": dash["id"], "type": dash["type"]}
-            resource["dashboards"].append(dash_list_item)
-
-        self.resource_config.source_resources[import_id] = resource
+        self.resource_config.source_resources[_id] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
