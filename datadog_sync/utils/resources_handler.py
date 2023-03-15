@@ -4,12 +4,18 @@
 # Copyright 2019 Datadog, Inc.
 from collections import deque
 from concurrent.futures import wait
+from copy import deepcopy
 
 from click import confirm
 from pprint import pformat
 
 from datadog_sync.utils.queue_manager import QueueManager
-from datadog_sync.utils.resource_utils import thread_pool_executor
+from datadog_sync.utils.resource_utils import (
+    CustomClientHTTPError,
+    dump_resource_files,
+    thread_pool_executor,
+    write_resources_file,
+)
 
 
 class ResourceHandler:
@@ -18,18 +24,43 @@ class ResourceHandler:
         self.queue_manager = QueueManager(config)
 
     def apply_resources(self):
-        # Run pre-apply hook with the resources
-        for resource_type in self.config.resources_arg:
-            try:
-                self.config.resources[resource_type].pre_apply_hook()
-            except Exception as e:
-                self.config.logger.error(f"Error while applying resources {resource_type}: {str(e)}")
-
         # Init executors
         parralel_executor = thread_pool_executor(self.config.max_workers)
         serial_executor = thread_pool_executor(1)
-
         futures = []
+
+        # Import resources that are required in resource connection but are missing
+        if self.config.force_missing_dependencies:
+            while True:
+                while True:
+                    # consume all of the current missing dependencies
+                    try:
+                        futures.append(
+                            parralel_executor.submit(
+                                self._force_missing_dep_import_worker, *self.queue_manager.missing_resources.popleft()
+                            )
+                        )
+                    except Exception:
+                        break
+                wait(futures)
+
+                # Check if queue is empty after importing all missing resources.
+                # This will not be empty if the imported resources have further missing dependencies.
+                if not bool(self.queue_manager.missing_resources):
+                    break
+
+        # Run pre-apply hook with the resources
+        for resource_type in self.config.resources_arg:
+            futures.append(parralel_executor.submit(self.config.resources[resource_type].pre_apply_hook))
+        wait(futures)
+        for future in futures:
+            try:
+                future.result()
+            except Exception as e:
+                self.config.logger.warning(f"Error while running pre-apply hook: {str(e)}")
+        futures.clear()
+
+        # Begin applying the resources
         while self.queue_manager.sorter.is_active():
             for _id in self.queue_manager.sorter.get_ready():
                 if _id in self.queue_manager.missing_resources:
@@ -44,16 +75,25 @@ class ResourceHandler:
                         futures.append(serial_executor.submit(self._apply_resource_worker, _id))
 
         wait(futures)
+        for future in futures:
+            pass
 
-        parralel_executor.shutdown
-        serial_executor.shutdown
+        parralel_executor.shutdown()
+        serial_executor.shutdown()
 
-    def _apply_resource_worker(self, _id, missing=False):
-        if missing:
-            print("from missing", _id)
-        else:
-            print("not from missing", _id)
+        dump_resource_files(self.config)
+
+    def _apply_resource_worker(self, _id, missing_resource=False):
         self.queue_manager.sorter.done(_id)
+
+    def _force_missing_dep_import_worker(self, _id, resource_type):
+        try:
+            self.config.resources[resource_type].import_resource(_id=_id)
+        except CustomClientHTTPError as e:
+            self.config.logger.error(f"error importing {resource_type} with id {_id}: {str(e)}")
+
+        self.queue_manager.all_resources[_id] = resource_type
+        self.queue_manager.dependencies_graph[_id] = self.queue_manager._resource_connections(_id, resource_type)
 
 
 def import_resources(config):

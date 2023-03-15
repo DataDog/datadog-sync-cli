@@ -12,6 +12,7 @@ import logging
 from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH, LOGGER_NAME
+from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
 
 
 log = logging.getLogger(LOGGER_NAME)
@@ -122,11 +123,18 @@ def open_resources(resource_type):
     return source_resources, destination_resources
 
 
+def dump_resource_files(config):
+    for k, v in config.resources.items():
+        write_resources_file(k, SOURCE_ORIGIN, v.resource_config.source_resources)
+        write_resources_file(k, DESTINATION_ORIGIN, v.resource_config.destination_resources)
+
+
 def write_resources_file(resource_type, origin, resources):
     resource_path = RESOURCE_FILE_PATH.format(origin, resource_type)
 
-    with open(resource_path, "w") as f:
-        json.dump(resources, f, indent=2)
+    if resources:
+        with open(resource_path, "w") as f:
+            json.dump(resources, f, indent=2)
 
 
 def thread_pool_executor(max_workers=None):
