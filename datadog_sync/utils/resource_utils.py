@@ -20,7 +20,7 @@ log = logging.getLogger(LOGGER_NAME)
 
 class ResourceConnectionError(Exception):
     def __init__(self, failed_connections_dict):
-        super(ResourceConnectionError, self).__init__(f"Failed to connect resource. {failed_connections_dict}")
+        super(ResourceConnectionError, self).__init__(f"Failed to connect resource. {dict(failed_connections_dict)}")
 
 
 class CustomClientHTTPError(Exception):
@@ -123,18 +123,21 @@ def open_resources(resource_type):
     return source_resources, destination_resources
 
 
-def dump_resource_files(config):
-    for k, v in config.resources.items():
-        write_resources_file(k, SOURCE_ORIGIN, v.resource_config.source_resources)
-        write_resources_file(k, DESTINATION_ORIGIN, v.resource_config.destination_resources)
+def dump_resource_files(config, resource_types, origin):
+    for resource_type in resource_types:
+        if origin == SOURCE_ORIGIN:
+            resources = config.resources[resource_type].resource_config.source_resources
+        elif origin == DESTINATION_ORIGIN:
+            resources = config.resources[resource_type].resource_config.destination_resources
+
+        write_resources_file(resource_type, origin, resources)
 
 
 def write_resources_file(resource_type, origin, resources):
     resource_path = RESOURCE_FILE_PATH.format(origin, resource_type)
 
-    if resources:
-        with open(resource_path, "w") as f:
-            json.dump(resources, f, indent=2)
+    with open(resource_path, "w") as f:
+        json.dump(resources, f, indent=2)
 
 
 def thread_pool_executor(max_workers=None):

@@ -35,7 +35,6 @@ class ResourceConfig:
     concurrent: bool = True
     source_resources: dict = field(default_factory=dict)
     destination_resources: dict = field(default_factory=dict)
-    resources_to_cleanup: Optional[List[str]] = None
 
     def __post_init__(self):
         self.build_excluded_attributes()
@@ -187,14 +186,14 @@ class BaseResource(abc.ABC):
         return successes, errors
 
     def check_diffs(self):
-        for _id in self.resource_config.resources_to_cleanup:
-            print(
-                "{} resource with source ID {} to be deleted: \n {}".format(
-                    self.resource_type,
-                    _id,
-                    pformat(self.resource_config.destination_resources[_id]),
-                )
-            )
+        # for _id in self.resource_config.resources_to_cleanup:
+        #     print(
+        #         "{} resource with source ID {} to be deleted: \n {}".format(
+        #             self.resource_type,
+        #             _id,
+        #             pformat(self.resource_config.destination_resources[_id]),
+        #         )
+        #     )
 
         for _id, resource in self.resource_config.source_resources.items():
             if not self.filter(resource):

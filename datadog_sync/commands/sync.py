@@ -36,7 +36,12 @@ def sync(**kwargs):
     os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
 
     handler = ResourceHandler(cfg)
-    handler.apply_resources()
+
+    cfg.logger.info(f"Starting syncing all resources")
+
+    successes, errors = handler.apply_resources()
+
+    cfg.logger.info(f"Finished syncing all resources: {successes} successes, {errors} errors")
 
     if cfg.logger.exception_logged:
         exit(1)

@@ -1,28 +1,40 @@
+# Unless explicitly stated otherwise all files in this repository are licensed
+# under the 3-clause BSD style license (see LICENSE).
+# This product includes software developed at Datadog (https://www.datadoghq.com/).
+# Copyright 2019 Datadog, Inc.
+
 from collections import defaultdict, deque
 from graphlib import TopologicalSorter
 from typing import List
 from copy import deepcopy
+
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.resource_utils import find_attr
 
 
-class QueueManager:
+class GraphManager:
     def __init__(self, config):
         self.config = config
         self.all_resources = {}  # mapping of all resources to its resource_type
         self.missing_resources = deque()  # queue for missing resources
-        self.dependencies_graph = {}  # dependencie graph
+        self.dependencies_graph = {}  # dependency graph
+        self.all_cleanup_resource = {}
 
-        # Build initial dependency graph
+        # Build initial graphs
         for resource_type in config.resources_arg:
-            for k, _ in config.resources[resource_type].resource_config.source_resources.items():
-                self.all_resources[k] = resource_type
-                self.dependencies_graph[k] = self._resource_connections(k, resource_type)
+            # individual resource dependency graph
+            for _id, _ in config.resources[resource_type].resource_config.source_resources.items():
+                self.all_resources[_id] = resource_type
+                self.dependencies_graph[_id] = self._resource_connections(_id, resource_type)
 
-    def init_topological_sorter(self, dependencies):
-        sorter = TopologicalSorter(dependencies)
-        sorter.prepare()
-        return sorter
+            if self.config.cleanup.lower != "false":
+                # populate resources to cleanup
+                source_resources = set(config.resources[resource_type].resource_config.source_resources.keys())
+                destination_resources = set(config.resources[resource_type].resource_config.destination_resources.keys())
+                
+                for cleanup_id in destination_resources.difference(source_resources):
+                    self.all_cleanup_resource[cleanup_id] = resource_type
+
 
     def _resource_connections(self, _id: str, resource_type: str) -> List[str]:
         failed_connections = []
@@ -45,8 +57,13 @@ class QueueManager:
                     for f_id in failed:
                         if f_id not in self.config.resources[resource_to_connect].resource_config.source_resources:
                             self.missing_resources.append((f_id, resource_to_connect))
-                            # self.missing_resources[f_id] = resource_to_connect
 
                     failed_connections.extend(failed)
 
         return failed_connections
+
+
+def init_topological_sorter(graph):
+    sorter = TopologicalSorter(graph)
+    sorter.prepare()
+    return sorter
