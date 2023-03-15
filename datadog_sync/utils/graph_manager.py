@@ -5,7 +5,7 @@
 
 from collections import defaultdict, deque
 from graphlib import TopologicalSorter
-from typing import List
+from typing import List, Set
 from copy import deepcopy
 
 from datadog_sync.utils.base_resource import BaseResource
@@ -35,12 +35,11 @@ class GraphManager:
                 for cleanup_id in destination_resources.difference(source_resources):
                     self.all_cleanup_resource[cleanup_id] = resource_type
 
-
-    def _resource_connections(self, _id: str, resource_type: str) -> List[str]:
+    def _resource_connections(self, _id: str, resource_type: str) -> Set[str]:
         failed_connections = []
 
         if not self.config.resources[resource_type].resource_config.resource_connections:
-            return failed_connections
+            return set(failed_connections)
 
         resource = deepcopy(self.config.resources[resource_type].resource_config.source_resources[_id])
         for resource_to_connect, v in self.config.resources[resource_type].resource_config.resource_connections.items():
@@ -60,7 +59,7 @@ class GraphManager:
 
                     failed_connections.extend(failed)
 
-        return failed_connections
+        return set(failed_connections)
 
 
 def init_topological_sorter(graph):
