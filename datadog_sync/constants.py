@@ -34,3 +34,8 @@ VALIDATE_ENDPOINT = "/api/v1/validate"
 CMD_IMPORT = "import"
 CMD_SYNC = "sync"
 CMD_DIFFS = "diffs"
+
+# Bool constants
+FALSE = 0
+TRUE = 1
+FORCE = 2

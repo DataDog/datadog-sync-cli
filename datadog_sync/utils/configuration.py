@@ -18,7 +18,7 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import Filter, process_filters
-from datadog_sync.constants import CMD_DIFFS, CMD_IMPORT, CMD_SYNC, LOGGER_NAME, VALIDATE_ENDPOINT
+from datadog_sync.constants import CMD_DIFFS, CMD_IMPORT, CMD_SYNC, FALSE, FORCE, LOGGER_NAME, TRUE, VALIDATE_ENDPOINT
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 
@@ -34,7 +34,7 @@ class Configuration(object):
     force_missing_dependencies: Optional[bool] = None
     skip_failed_resource_connections: Optional[bool] = None
     max_workers: Optional[int] = None
-    cleanup: Optional[str] = None
+    cleanup: Optional[int] = None
 
 
 def build_config(cmd, **kwargs: Any) -> Configuration:
@@ -76,7 +76,14 @@ def build_config(cmd, **kwargs: Any) -> Configuration:
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
     max_workers = kwargs.get("max_workers", 10)
+
     cleanup = kwargs.get("cleanup")
+    if cleanup != None:
+        cleanup = {
+            "true": TRUE,
+            "false": FALSE,
+            "force": FORCE,
+        }[cleanup.lower()]
 
     # Initialize Configuration
     config = Configuration(

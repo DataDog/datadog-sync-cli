@@ -11,6 +11,7 @@ from pprint import pformat
 
 from datadog_sync.constants import DESTINATION_ORIGIN, SOURCE_ORIGIN
 from datadog_sync.utils.resources_manager import ResourcesManager
+from datadog_sync.constants import TRUE, FALSE, FORCE
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
     LoggedException,
@@ -29,7 +30,7 @@ class ResourcesHandler:
         self.resources_manager = ResourcesManager(config, build_resource_graph=build_resource_graph)
         self.sorter = None
         self.resource_done_queue = None
-        
+
         if build_resource_graph:
             self.resource_done_queue = deque()
 
@@ -68,7 +69,7 @@ class ResourcesHandler:
             self.config.logger.info("finished importing missing dependencies")
 
         # handle resource cleanups
-        if self.config.cleanup.lower() != "false":
+        if self.config.cleanup != FALSE:
             cleanup = _cleanup_prompt(self.config, self.resources_manager.all_cleanup_resources)
             if cleanup:
                 for _id, resource_type in self.resources_manager.all_cleanup_resources.items():
@@ -108,7 +109,9 @@ class ResourcesHandler:
                     )
                 else:
                     futures.append(
-                        serial_executor.submit(self._apply_resource_worker, _id, self.resources_manager.all_resources[_id])
+                        serial_executor.submit(
+                            self._apply_resource_worker, _id, self.resources_manager.all_resources[_id]
+                        )
                     )
             try:
                 node = self.resource_done_queue.popleft()
@@ -193,7 +196,9 @@ class ResourcesHandler:
             return
 
         self.resources_manager.all_resources[_id] = resource_type
-        self.resources_manager.dependencies_graph[_id] = self.resources_manager._resource_connections(_id, resource_type)
+        self.resources_manager.dependencies_graph[_id] = self.resources_manager._resource_connections(
+            _id, resource_type
+        )
 
     def _cleanup_worker(self, _id, resource_type):
         try:
@@ -229,9 +234,9 @@ def check_diffs(config):
 
 
 def _cleanup_prompt(config, resources_to_cleanup, prompt=True):
-    if config.cleanup.lower() == "force" or not prompt:
+    if config.cleanup == FORCE or not prompt:
         return True
-    elif config.cleanup.lower() == "true":
+    elif config.cleanup == TRUE:
         for _id, resource_type in resources_to_cleanup.items():
             config.logger.warning(
                 f"Following resource will be deleted: \n"

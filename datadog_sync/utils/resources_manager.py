@@ -7,6 +7,7 @@ from copy import deepcopy
 from collections import deque
 from typing import Set
 
+from datadog_sync.constants import FALSE
 from datadog_sync.utils.resource_utils import find_attr
 
 
@@ -14,7 +15,7 @@ class ResourcesManager:
     def __init__(self, config, build_resource_graph=True):
         self.config = config
         self.all_resources = {}  # mapping of all resources to its resource_type
-        self.all_cleanup_resources = {} # mapping of all resources to cleanup
+        self.all_cleanup_resources = {}  # mapping of all resources to cleanup
         self.dependencies_graph = None
         self.missing_resources_queue = None
 
@@ -22,7 +23,7 @@ class ResourcesManager:
             # init additional fields that are only relevant when building graphs
             self.dependencies_graph = {}  # dependency graph
             self.missing_resources_queue = deque()  # queue for missing resources
-        
+
         for resource_type in config.resources_arg:
             for _id, _ in config.resources[resource_type].resource_config.source_resources.items():
                 self.all_resources[_id] = resource_type
@@ -30,7 +31,7 @@ class ResourcesManager:
                     # individual resource dependency graph
                     self.dependencies_graph[_id] = self._resource_connections(_id, resource_type)
 
-            if self.config.cleanup.lower != "false":
+            if self.config.cleanup != FALSE:
                 # populate resources to cleanup
                 source_resources = set(config.resources[resource_type].resource_config.source_resources.keys())
                 destination_resources = set(
