@@ -153,6 +153,46 @@ class ResourcesHandler:
             successes, errors = self._import_resources_helper(resource_type)
             self.config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
 
+    def diffs(self):
+        executor = thread_pool_executor(self.config.max_workers)
+        futures = []
+        for _id, resource_type in self.resources_manager.all_resources.items():
+            futures.append(executor.submit(self._diffs_worker, _id, resource_type))
+
+        for _id, resource_type in self.resources_manager.all_cleanup_resources.items():
+            futures.append(executor.submit(self._diffs_worker, _id, resource_type, delete=True))
+        wait(futures)
+
+    def _diffs_worker(self, _id, resource_type, delete=False):
+        r_class = self.config.resources[resource_type]
+
+        if delete:
+            print(
+                "{} resource with source ID {} to be deleted: \n {}".format(
+                    resource_type,
+                    _id,
+                    pformat(r_class.config.resources[resource_type].resource_config.destination_resources[_id]),
+                )
+            )
+        else:
+            resource = self.config.resources[resource_type].resource_config.source_resources[_id]
+
+            if not r_class.filter(resource):
+                return
+            r_class.pre_resource_action_hook(_id, resource)
+
+            try:
+                r_class.connect_resources(_id, resource)
+            except ResourceConnectionError:
+                return
+
+            if _id in r_class.resource_config.destination_resources:
+                diff = check_diff(r_class.resource_config, r_class.resource_config.destination_resources[_id], resource)
+                if diff:
+                    print("{} resource source ID {} diff: \n {}".format(resource_type, _id, pformat(diff)))
+            else:
+                print("Resource to be added {} source ID {}: \n {}".format(resource_type, _id, pformat(resource)))
+
     def _import_resources_helper(self, resource_type):
         r_class = self.config.resources[resource_type]
         r_class.resource_config.source_resources.clear()
@@ -178,7 +218,6 @@ class ResourcesHandler:
                 self.config.logger.error(f"Error while importing resource {resource_type}: {str(e)}")
                 errors += 1
             else:
-                print(successes)
                 successes += 1
 
         write_resources_file(resource_type, SOURCE_ORIGIN, r_class.resource_config.source_resources)
@@ -251,24 +290,6 @@ class ResourcesHandler:
                 f"Error while deleting resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
             )
             raise LoggedException(e)
-
-
-def import_resources(config):
-    for resource_type in config.resources_arg:
-        resource = config.resources[resource_type]
-
-        config.logger.info("Importing %s", resource_type)
-        successes, errors = resource.import_resources()
-        config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
-
-
-def check_diffs(config):
-    for resource_type in config.resources_arg:
-        resource = config.resources[resource_type]
-        # # Set resources to cleanup
-        # resource.resource_config.resources_to_cleanup = _get_resources_to_cleanup(resource_type, config, prompt=False)
-
-        resource.check_diffs()
 
 
 def _cleanup_prompt(config, resources_to_cleanup, prompt=True):

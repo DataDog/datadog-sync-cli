@@ -6,17 +6,12 @@
 import abc
 from collections import defaultdict
 from dataclasses import dataclass, field
-from concurrent.futures import wait
 from pprint import pformat
-from typing import Optional, Dict, List, Tuple
+from typing import Optional, Dict, List
 
-
-from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
     open_resources,
-    thread_pool_executor,
-    write_resources_file,
     find_attr,
     ResourceConnectionError,
     check_diff,
@@ -104,32 +99,6 @@ class BaseResource(abc.ABC):
                 failed_connections.append(_id)
 
         return failed_connections
-
-    def check_diffs(self):
-        # for _id in self.resource_config.resources_to_cleanup:
-        #     print(
-        #         "{} resource with source ID {} to be deleted: \n {}".format(
-        #             self.resource_type,
-        #             _id,
-        #             pformat(self.resource_config.destination_resources[_id]),
-        #         )
-        #     )
-
-        for _id, resource in self.resource_config.source_resources.items():
-            if not self.filter(resource):
-                continue
-            self.pre_resource_action_hook(_id, resource)
-
-            try:
-                self.connect_resources(_id, resource)
-            except ResourceConnectionError:
-                continue
-            if _id in self.resource_config.destination_resources:
-                diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
-                if diff:
-                    print("{} resource source ID {} diff: \n {}".format(self.resource_type, _id, pformat(diff)))
-            else:
-                print("Resource to be added {} source ID {}: \n {}".format(self.resource_type, _id, pformat(resource)))
 
     def connect_resources(self, _id: str, resource: Dict) -> None:
         if not self.resource_config.resource_connections:
