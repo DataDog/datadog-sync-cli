@@ -3,16 +3,16 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from collections import defaultdict, deque
+from collections import deque
 from graphlib import TopologicalSorter
-from typing import List, Set
+from typing import Set
 from copy import deepcopy
 
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.resource_utils import find_attr
 
 
-class GraphManager:
+class ResourcesManager:
     def __init__(self, config):
         self.config = config
         self.all_resources = {}  # mapping of all resources to its resource_type
@@ -30,8 +30,10 @@ class GraphManager:
             if self.config.cleanup.lower != "false":
                 # populate resources to cleanup
                 source_resources = set(config.resources[resource_type].resource_config.source_resources.keys())
-                destination_resources = set(config.resources[resource_type].resource_config.destination_resources.keys())
-                
+                destination_resources = set(
+                    config.resources[resource_type].resource_config.destination_resources.keys()
+                )
+
                 for cleanup_id in destination_resources.difference(source_resources):
                     self.all_cleanup_resource[cleanup_id] = resource_type
 

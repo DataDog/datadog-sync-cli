@@ -5,13 +5,12 @@
 
 from collections import deque
 from concurrent.futures import wait
-from copy import deepcopy
 
 from click import confirm
 from pprint import pformat
 
 from datadog_sync.constants import DESTINATION_ORIGIN, SOURCE_ORIGIN
-from datadog_sync.utils.graph_manager import GraphManager, init_topological_sorter
+from datadog_sync.utils.resources_manager import ResourcesManager, init_topological_sorter
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
     LoggedException,
@@ -23,11 +22,12 @@ from datadog_sync.utils.resource_utils import (
 )
 
 
-class ResourceHandler:
+class ResourcesHandler:
     def __init__(self, config) -> None:
         self.config = config
-        self.graph_manager = GraphManager(config)
+        self.graph_manager = ResourcesManager(config)
         self.sorter = None
+        self.resource_done_queue = deque()
 
     def apply_resources(self):
         # Init executors
@@ -85,12 +85,11 @@ class ResourceHandler:
 
         # initalize topological sorters
         self.sorter = init_topological_sorter(self.graph_manager.dependencies_graph)
-
         while self.sorter.is_active():
             for _id in self.sorter.get_ready():
                 if _id not in self.graph_manager.all_resources:
                     # at this point, we already attempted to import missing resources
-                    # mark the node as complete and continue
+                    # so mark the node as complete and continue
                     self.sorter.done(_id)
                     continue
 
@@ -104,6 +103,11 @@ class ResourceHandler:
                     futures.append(
                         serial_executor.submit(self._apply_resource_worker, _id, self.graph_manager.all_resources[_id])
                     )
+            try:
+                node = self.resource_done_queue.popleft()
+                self.sorter.done(node)
+            except IndexError:
+                pass
 
         wait(futures)
         successes = errors = 0
@@ -171,8 +175,8 @@ class ResourceHandler:
                 self.config.logger.info(f"finished create for {resource_type} with {_id}")
 
         finally:
-            # always mark the node as done regardless of exception thrown
-            self.sorter.done(_id)
+            # always place in done queue regardless of exception thrown
+            self.resource_done_queue.append(_id)
 
     def _force_missing_dep_import_worker(self, _id, resource_type):
         try:

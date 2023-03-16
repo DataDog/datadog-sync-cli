@@ -14,7 +14,7 @@ from datadog_sync.commands.shared.options import (
     destination_auth_options,
     non_import_common_options,
 )
-from datadog_sync.utils.resources_handler import ResourceHandler
+from datadog_sync.utils.resources_handler import ResourcesHandler
 from datadog_sync.utils.configuration import build_config
 
 
@@ -35,7 +35,7 @@ def sync(**kwargs):
     cfg = build_config(CMD_SYNC, **kwargs)
     os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
 
-    handler = ResourceHandler(cfg)
+    handler = ResourcesHandler(cfg)
 
     cfg.logger.info(f"Starting syncing all resources")
 
