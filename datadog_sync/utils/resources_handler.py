@@ -42,7 +42,7 @@ class ResourcesHandler:
         futures = []
 
         # Import resources that are missing but needed for resource connections
-        if self.config.force_missing_dependencies and bool(self.resources_manager.missing_resources):
+        if self.config.force_missing_dependencies and bool(self.resources_manager.missing_resources_queue):
             self.config.logger.info("importing missing dependencies")
 
             seen_resource_types = set()
@@ -50,7 +50,7 @@ class ResourcesHandler:
                 while True:
                     # consume all of the current missing dependencies
                     try:
-                        q_item = self.resources_manager.missing_resources.popleft()
+                        q_item = self.resources_manager.missing_resources_queue.popleft()
                         seen_resource_types.add(q_item[1])
                         futures.append(parralel_executor.submit(self._force_missing_dep_import_worker, *q_item))
                     except Exception:
@@ -60,7 +60,7 @@ class ResourcesHandler:
 
                 # Check if queue is empty after importing all missing resources.
                 # This will not be empty if the imported resources have further missing dependencies.
-                if not bool(self.resources_manager.missing_resources):
+                if not bool(self.resources_manager.missing_resources_queue):
                     break
 
             futures.clear()
