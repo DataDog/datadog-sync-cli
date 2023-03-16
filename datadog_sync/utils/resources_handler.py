@@ -10,7 +10,7 @@ from click import confirm
 from pprint import pformat
 
 from datadog_sync.constants import DESTINATION_ORIGIN, SOURCE_ORIGIN
-from datadog_sync.utils.resources_manager import ResourcesManager, init_topological_sorter
+from datadog_sync.utils.resources_manager import ResourcesManager
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
     LoggedException,
@@ -19,15 +19,19 @@ from datadog_sync.utils.resource_utils import (
     dump_resource_files,
     prep_resource,
     thread_pool_executor,
+    init_topological_sorter,
 )
 
 
 class ResourcesHandler:
-    def __init__(self, config) -> None:
+    def __init__(self, config, build_resource_graph=True) -> None:
         self.config = config
-        self.graph_manager = ResourcesManager(config)
+        self.resources_manager = ResourcesManager(config, build_resource_graph=build_resource_graph)
         self.sorter = None
-        self.resource_done_queue = deque()
+        self.resource_done_queue = None
+        
+        if build_resource_graph:
+            self.resource_done_queue = deque()
 
     def apply_resources(self):
         # Init executors
@@ -36,7 +40,7 @@ class ResourcesHandler:
         futures = []
 
         # Import resources that are missing but needed for resource connections
-        if self.config.force_missing_dependencies and bool(self.graph_manager.missing_resources):
+        if self.config.force_missing_dependencies and bool(self.resources_manager.missing_resources):
             self.config.logger.info("importing missing dependencies")
 
             seen_resource_types = set()
@@ -44,7 +48,7 @@ class ResourcesHandler:
                 while True:
                     # consume all of the current missing dependencies
                     try:
-                        q_item = self.graph_manager.missing_resources.popleft()
+                        q_item = self.resources_manager.missing_resources.popleft()
                         seen_resource_types.add(q_item[1])
                         futures.append(parralel_executor.submit(self._force_missing_dep_import_worker, *q_item))
                     except Exception:
@@ -54,7 +58,7 @@ class ResourcesHandler:
 
                 # Check if queue is empty after importing all missing resources.
                 # This will not be empty if the imported resources have further missing dependencies.
-                if not bool(self.graph_manager.missing_resources):
+                if not bool(self.resources_manager.missing_resources):
                     break
 
             futures.clear()
@@ -65,15 +69,15 @@ class ResourcesHandler:
 
         # handle resource cleanups
         if self.config.cleanup.lower() != "false":
-            cleanup = _cleanup_prompt(self.config, self.graph_manager.all_cleanup_resource)
+            cleanup = _cleanup_prompt(self.config, self.resources_manager.all_cleanup_resources)
             if cleanup:
-                for _id, resource_type in self.graph_manager.all_cleanup_resource.items():
+                for _id, resource_type in self.resources_manager.all_cleanup_resources.items():
                     futures.append(parralel_executor.submit(self._cleanup_worker, _id, resource_type))
                 wait(futures)
                 futures.clear()
 
         # Run pre-apply hooks
-        for resource_type in set(self.graph_manager.all_resources.values()):
+        for resource_type in set(self.resources_manager.all_resources.values()):
             futures.append(parralel_executor.submit(self.config.resources[resource_type].pre_apply_hook))
         wait(futures)
         for future in futures:
@@ -84,24 +88,27 @@ class ResourcesHandler:
         futures.clear()
 
         # initalize topological sorters
-        self.sorter = init_topological_sorter(self.graph_manager.dependencies_graph)
+        self.sorter = init_topological_sorter(self.resources_manager.dependencies_graph)
+        # initialize queue for finished resources
+        self.resource_done_queue = deque()
+
         while self.sorter.is_active():
             for _id in self.sorter.get_ready():
-                if _id not in self.graph_manager.all_resources:
+                if _id not in self.resources_manager.all_resources:
                     # at this point, we already attempted to import missing resources
                     # so mark the node as complete and continue
                     self.sorter.done(_id)
                     continue
 
-                if self.config.resources[self.graph_manager.all_resources[_id]].resource_config.concurrent:
+                if self.config.resources[self.resources_manager.all_resources[_id]].resource_config.concurrent:
                     futures.append(
                         parralel_executor.submit(
-                            self._apply_resource_worker, _id, self.graph_manager.all_resources[_id]
+                            self._apply_resource_worker, _id, self.resources_manager.all_resources[_id]
                         )
                     )
                 else:
                     futures.append(
-                        serial_executor.submit(self._apply_resource_worker, _id, self.graph_manager.all_resources[_id])
+                        serial_executor.submit(self._apply_resource_worker, _id, self.resources_manager.all_resources[_id])
                     )
             try:
                 node = self.resource_done_queue.popleft()
@@ -130,8 +137,8 @@ class ResourcesHandler:
         serial_executor.shutdown()
 
         # dump synced resources
-        synced_resource_types = set(self.graph_manager.all_resources.values())
-        cleanedup_resource_types = set(self.graph_manager.all_cleanup_resource.values())
+        synced_resource_types = set(self.resources_manager.all_resources.values())
+        cleanedup_resource_types = set(self.resources_manager.all_cleanup_resources.values())
         dump_resource_files(self.config, synced_resource_types.union(cleanedup_resource_types), DESTINATION_ORIGIN)
 
         return successes, errors
@@ -185,8 +192,8 @@ class ResourcesHandler:
             self.config.logger.error(f"error importing {resource_type} with id {_id}: {str(e)}")
             return
 
-        self.graph_manager.all_resources[_id] = resource_type
-        self.graph_manager.dependencies_graph[_id] = self.graph_manager._resource_connections(_id, resource_type)
+        self.resources_manager.all_resources[_id] = resource_type
+        self.resources_manager.dependencies_graph[_id] = self.resources_manager._resource_connections(_id, resource_type)
 
     def _cleanup_worker(self, _id, resource_type):
         try:

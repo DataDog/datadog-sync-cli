@@ -3,11 +3,12 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from concurrent.futures import ThreadPoolExecutor
 import os
 import re
 import json
 import logging
+from concurrent.futures import ThreadPoolExecutor
+from graphlib import TopologicalSorter
 
 from deepdiff import DeepDiff
 
@@ -142,3 +143,9 @@ def write_resources_file(resource_type, origin, resources):
 
 def thread_pool_executor(max_workers=None):
     return ThreadPoolExecutor(max_workers=max_workers)
+
+
+def init_topological_sorter(graph):
+    sorter = TopologicalSorter(graph)
+    sorter.prepare()
+    return sorter
