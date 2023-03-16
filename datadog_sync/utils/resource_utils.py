@@ -124,7 +124,7 @@ def open_resources(resource_type):
     return source_resources, destination_resources
 
 
-def dump_resource_files(config, resource_types, origin):
+def dump_resources(config, resource_types, origin):
     for resource_type in resource_types:
         if origin == SOURCE_ORIGIN:
             resources = config.resources[resource_type].resource_config.source_resources

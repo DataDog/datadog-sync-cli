@@ -20,8 +20,6 @@ from datadog_sync.utils.resource_utils import (
     find_attr,
     ResourceConnectionError,
     check_diff,
-    prep_resource,
-    LoggedException,
 )
 
 
@@ -106,36 +104,6 @@ class BaseResource(abc.ABC):
                 failed_connections.append(_id)
 
         return failed_connections
-
-    def import_resources(self) -> Tuple[int, int]:
-        # reset source resources obj
-        self.resource_config.source_resources.clear()
-
-        try:
-            get_resp = self.get_resources(self.config.source_client)
-        except Exception as e:
-            self.config.logger.error(f"Error while importing resources {self.resource_type}: {str(e)}")
-            return 0, 0
-
-        futures = []
-        with thread_pool_executor(self.config.max_workers) as executor:
-            for r in get_resp:
-                if not self.filter(r):
-                    continue
-                futures.append(executor.submit(self.import_resource, resource=r))
-
-        successes = errors = 0
-        for future in futures:
-            try:
-                future.result()
-            except Exception as e:
-                self.config.logger.error(f"Error while importing resource {self.resource_type}: {str(e)}")
-                errors += 1
-            else:
-                successes += 1
-
-        write_resources_file(self.resource_type, SOURCE_ORIGIN, self.resource_config.source_resources)
-        return successes, errors
 
     def check_diffs(self):
         # for _id in self.resource_config.resources_to_cleanup:

@@ -37,11 +37,11 @@ def sync(**kwargs):
 
     handler = ResourcesHandler(cfg)
 
-    cfg.logger.info(f"Starting syncing all resources")
+    cfg.logger.info(f"Starting sync...")
 
     successes, errors = handler.apply_resources()
 
-    cfg.logger.info(f"Finished syncing all resources: {successes} successes, {errors} errors")
+    cfg.logger.info(f"Finished sync: {successes} successes, {errors} errors")
 
     if cfg.logger.exception_logged:
         exit(1)

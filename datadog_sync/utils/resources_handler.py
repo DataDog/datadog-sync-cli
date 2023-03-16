@@ -17,22 +17,23 @@ from datadog_sync.utils.resource_utils import (
     LoggedException,
     ResourceConnectionError,
     check_diff,
-    dump_resource_files,
+    dump_resources,
     prep_resource,
     thread_pool_executor,
     init_topological_sorter,
+    write_resources_file,
 )
 
 
 class ResourcesHandler:
-    def __init__(self, config, build_resource_graph=True) -> None:
+    def __init__(self, config, init_manager=True) -> None:
         self.config = config
-        self.resources_manager = ResourcesManager(config, build_resource_graph=build_resource_graph)
-        self.sorter = None
-        self.resource_done_queue = None
 
-        if build_resource_graph:
+        # Additional config for resource manager
+        if init_manager:
+            self.resources_manager = ResourcesManager(config)
             self.resource_done_queue = deque()
+            self.sorter = None
 
     def apply_resources(self):
         # Init executors
@@ -64,7 +65,7 @@ class ResourcesHandler:
 
             futures.clear()
             # Dump seen resources
-            dump_resource_files(self.config, seen_resource_types, SOURCE_ORIGIN)
+            dump_resources(self.config, seen_resource_types, SOURCE_ORIGIN)
 
             self.config.logger.info("finished importing missing dependencies")
 
@@ -142,8 +143,45 @@ class ResourcesHandler:
         # dump synced resources
         synced_resource_types = set(self.resources_manager.all_resources.values())
         cleanedup_resource_types = set(self.resources_manager.all_cleanup_resources.values())
-        dump_resource_files(self.config, synced_resource_types.union(cleanedup_resource_types), DESTINATION_ORIGIN)
+        dump_resources(self.config, synced_resource_types.union(cleanedup_resource_types), DESTINATION_ORIGIN)
 
+        return successes, errors
+
+    def import_resources(self):
+        for resource_type in self.config.resources_arg:
+            self.config.logger.info("Importing %s", resource_type)
+            successes, errors = self._import_resources_helper(resource_type)
+            self.config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
+
+    def _import_resources_helper(self, resource_type):
+        r_class = self.config.resources[resource_type]
+        r_class.resource_config.source_resources.clear()
+
+        try:
+            get_resp = r_class.get_resources(self.config.source_client)
+        except Exception as e:
+            self.config.logger.error(f"Error while importing resources {self.resource_type}: {str(e)}")
+            return 0, 0
+
+        futures = []
+        with thread_pool_executor(self.config.max_workers) as executor:
+            for r in get_resp:
+                if not r_class.filter(r):
+                    continue
+                futures.append(executor.submit(r_class.import_resource, resource=r))
+
+        successes = errors = 0
+        for future in futures:
+            try:
+                future.result()
+            except Exception as e:
+                self.config.logger.error(f"Error while importing resource {resource_type}: {str(e)}")
+                errors += 1
+            else:
+                print(successes)
+                successes += 1
+
+        write_resources_file(resource_type, SOURCE_ORIGIN, r_class.resource_config.source_resources)
         return successes, errors
 
     def _apply_resource_worker(self, _id, resource_type):
