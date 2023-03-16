@@ -14,7 +14,6 @@ from datadog_sync.utils.resource_utils import (
     open_resources,
     find_attr,
     ResourceConnectionError,
-    check_diff,
 )
 
 

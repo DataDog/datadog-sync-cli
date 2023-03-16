@@ -24,9 +24,13 @@ from datadog_sync.constants import CMD_DIFFS
 def diffs(**kwargs):
     """Log Datadog resources diffs."""
     cfg = build_config(CMD_DIFFS, **kwargs)
-
     handler = ResourcesHandler(cfg)
+
+    cfg.logger.info(f"Starting diffs...")
+
     handler.diffs()
+
+    cfg.logger.info(f"Finished diffs ")
 
     if cfg.logger.exception_logged:
         exit(1)
