@@ -4,9 +4,20 @@
 # Copyright 2019 Datadog, Inc.
 import configobj
 
-from click import Choice, option, File
+from click import Choice, Option, option, File
 
 from datadog_sync import constants
+
+
+class CustomOptionClass(Option):
+    def handle_parse_result(self, ctx, opts, args):
+        try:
+            return super(Option, self).handle_parse_result(ctx, opts, args)
+        except Exception as exception:
+            print(exception)
+            print(dir(exception))
+            import pdb; pdb.set_trace()
+
 
 _source_auth_options = [
     option(

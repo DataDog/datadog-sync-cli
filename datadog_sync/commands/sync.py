@@ -9,6 +9,7 @@ from click import command, option
 
 from datadog_sync.constants import DESTINATION_RESOURCES_DIR, CMD_SYNC
 from datadog_sync.commands.shared.options import (
+    CustomOptionClass,
     common_options,
     source_auth_options,
     destination_auth_options,
@@ -29,6 +30,7 @@ from datadog_sync.utils.configuration import build_config
     is_flag=True,
     default=False,
     help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
+    cls=CustomOptionClass
 )
 def sync(**kwargs):
     """Sync Datadog resources to destination."""
