@@ -14,6 +14,7 @@ class SyntheticsTests(BaseResource):
     resource_type = "synthetics_tests"
     resource_config = ResourceConfig(
         resource_connections={
+            "synthetics_tests": ["steps.params.subtestPublicId"],
             "synthetics_private_locations": ["locations"],
             # "synthetics_global_variables": ["config.configVariables.id"],
         },
@@ -83,6 +84,7 @@ class SyntheticsTests(BaseResource):
         destination_client.post(self.resource_config.base_path + "/delete", body)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        failed_connections = []
         if resource_to_connect == "synthetics_private_locations":
             pl = self.config.resources["synthetics_private_locations"]
             resources = self.config.resources[resource_to_connect].resource_config.destination_resources
@@ -94,6 +96,17 @@ class SyntheticsTests(BaseResource):
                         r_obj[key][i] = resources[_id]["id"]
                     else:
                         failed_connections.append(_id)
+            return failed_connections
+        elif resource_to_connect == "synthetics_tests":
+            resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+            found = False
+            for k, v in resources.items():
+                if k.startswith(r_obj[key]):
+                    r_obj[key] = v["public_id"]
+                    found = True
+                    break
+            if not found:
+                failed_connections.append(_id)
             return failed_connections
         else:
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
