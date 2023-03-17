@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+
+jobs:
+  create_release:
+    name: Create release
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
+    steps:
+      - name: Create release
+        uses: actions/github-script@v6
+        env:
+          RELEASE_BRANCH: ${{ github.head_ref }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const tagName = `v${process.env.RELEASE_BRANCH.split("/")[1]}`;
+            await github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${tagName}`,
+              sha: context.payload.pull_request.merge_commit_sha,
+            });
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              generate_release_notes: true,
+              tag_name: tagName,
+            });
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
