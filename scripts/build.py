@@ -41,4 +41,10 @@ if args.upload:
     repo = g.get_repo(REPO)
     latest_release = repo.get_latest_release()
 
-    latest_release.upload_asset(path=f"{OUTPUT_DIR}/{DEFAULT_NAME}")
+    build_files = os.listdir(OUTPUT_DIR)
+    if len(build_files > 1):
+        raise Exception("only single file executable are supported for upload")
+    if len(build_files == 0):
+        raise Exception(f"executable missing in {OUTPUT_DIR}")
+
+    latest_release.upload_asset(path=f"{OUTPUT_DIR}/{build_files[0]}")
