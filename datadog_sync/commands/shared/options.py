@@ -4,9 +4,22 @@
 # Copyright 2019 Datadog, Inc.
 import configobj
 
-from click import Choice, option, File
+from click import Choice, Option, option, File
 
 from datadog_sync import constants
+
+
+class CustomOptionClass(Option):
+    def handle_parse_result(self, ctx, opts, args):
+        try:
+            return super(Option, self).handle_parse_result(ctx, opts, args)
+        except Exception as e:
+            if self.is_flag:
+                print(f"Invalid value for Option '{self.human_readable_name}'. Valid values [True, False]")
+            else:
+                print(f"Invalid value for Option '{self.human_readable_name}': {str(e)}")
+            exit(1)
+
 
 _source_auth_options = [
     option(
@@ -14,12 +27,14 @@ _source_auth_options = [
         envvar=constants.DD_SOURCE_API_KEY,
         required=False,
         help="Datadog source organization API key.",
+        cls=CustomOptionClass,
     ),
     option(
         "--source-app-key",
         envvar=constants.DD_SOURCE_APP_KEY,
         required=False,
         help="Datadog source organization APP key.",
+        cls=CustomOptionClass,
     ),
     option(
         "--source-api-url",
@@ -28,6 +43,7 @@ _source_auth_options = [
         default=constants.DEFAULT_API_URL,
         show_default=True,
         help="Datadog source organization API url.",
+        cls=CustomOptionClass,
     ),
 ]
 
@@ -37,12 +53,14 @@ _destination_auth_options = [
         envvar=constants.DD_DESTINATION_API_KEY,
         required=False,
         help="Datadog destination organization API key.",
+        cls=CustomOptionClass,
     ),
     option(
         "--destination-app-key",
         envvar=constants.DD_DESTINATION_APP_KEY,
         required=False,
         help="Datadog destination organization APP key.",
+        cls=CustomOptionClass,
     ),
     option(
         "--destination-api-url",
@@ -51,6 +69,7 @@ _destination_auth_options = [
         default=constants.DEFAULT_API_URL,
         show_default=True,
         help="Datadog destination organization API url.",
+        cls=CustomOptionClass,
     ),
 ]
 
@@ -70,12 +89,14 @@ _common_options = [
         default=60,
         show_default=True,
         help="The HTTP request retry timeout period. Defaults to 60s",
+        cls=CustomOptionClass,
     ),
     option(
         "--resources",
         envvar=constants.DD_RESOURCES,
         required=False,
         help="Optional comma separated list of resource to import. All supported resources are imported by default.",
+        cls=CustomOptionClass,
     ),
     option(
         "--verbose",
@@ -83,6 +104,7 @@ _common_options = [
         required=False,
         is_flag=True,
         help="Enable verbose logging.",
+        cls=CustomOptionClass,
     ),
     option(
         "--max-workers",
@@ -90,6 +112,7 @@ _common_options = [
         required=False,
         type=int,
         help="Max number of workers when running operations in multi-threads.",
+        cls=CustomOptionClass,
     ),
     option(
         "--filter-operator",
@@ -97,9 +120,23 @@ _common_options = [
         required=False,
         default="OR",
         help="Filter operator when multiple filters are passed. Supports `AND` or `OR`.",
+        cls=CustomOptionClass,
     ),
-    option("--filter", required=False, help="Filter resources.", multiple=True, envvar=constants.DD_FILTER),
-    option("--config", help="Read configuration from FILE.", type=File("rb"), callback=click_config_file_provider),
+    option(
+        "--filter",
+        required=False,
+        help="Filter resources.",
+        multiple=True,
+        envvar=constants.DD_FILTER,
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--config",
+        help="Read configuration from FILE.",
+        type=File("rb"),
+        callback=click_config_file_provider,
+        cls=CustomOptionClass,
+    ),
     option(
         "--validate",
         type=bool,
@@ -107,6 +144,7 @@ _common_options = [
         default=True,
         show_default=True,
         help="Enables validation of the provided API during client initialization. On import, only source api key is validated. On sync/diffs, only destination api key is validated.",
+        cls=CustomOptionClass,
     ),
 ]
 
@@ -118,6 +156,7 @@ _non_import_common_options = [
         default=True,
         show_default=True,
         help="Skip resource if resource connection fails.",
+        cls=CustomOptionClass,
     ),
     option(
         "--cleanup",
@@ -129,6 +168,7 @@ _non_import_common_options = [
         ),
         help="Cleanup resources from destination org.",
         envvar=constants.DD_CLEANUP,
+        cls=CustomOptionClass,
     ),
 ]
 
