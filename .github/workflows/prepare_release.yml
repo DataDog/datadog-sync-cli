@@ -1,5 +1,9 @@
 name: Prepare release
 
+env:
+  GIT_AUTHOR_EMAIL: "packages@datadoghq.com"
+  GIT_AUTHOR_NAME: "ci.datadog-sync-cli"
+
 on:
   workflow_dispatch:
     inputs:
@@ -15,6 +19,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config user.name "${GIT_AUTHOR_NAME}"
+          git config user.email "${GIT_AUTHOR_EMAIL}"
 
       - name: Calculate version
         id: get_version
@@ -62,16 +71,10 @@ jobs:
               .toString("utf-8")
               .split("\n");
             const newContent = changes.concat(rawContent.slice(1)).join("\n");
-            const { data: master } = await github.rest.git.getRef({
+            const { data: main } = await github.rest.git.getRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: "heads/master",
-            });
-            await github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: `refs/heads/release/${process.env.RELEASE_VERSION}`,
-              sha: master.object.sha,
+              ref: "heads/main",
             });
             const { data: commit } = await github.rest.repos.createOrUpdateFileContents({
               owner: context.repo.owner,
@@ -86,7 +89,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               head: `release/${process.env.RELEASE_VERSION}`,
-              base: "master",
+              base: "main",
               title: `Release ${process.env.RELEASE_VERSION}`,
               body: "Update CHANGELOG",
             });

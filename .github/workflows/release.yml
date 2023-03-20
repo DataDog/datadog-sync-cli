@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - master
+      - main
 
 jobs:
   create_release:
@@ -32,6 +32,26 @@ jobs:
               generate_release_notes: true,
               tag_name: tagName,
             });
+  build_artifacts:
+    needs: create_release
+    name: Build executables
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+    steps:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install requirements
+        run: |
+          python -m pip install .
+          python -m pip install -r scripts/build_requirements.txt
+      - name: Build and upload executables
+        run: python scripts/build.py -f -u
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
