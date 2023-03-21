@@ -104,14 +104,13 @@ Filtering is done on two levels, at top resource level and per individual resour
 
 ##### Top resources level filtering
 
-By default all resources are imported, synced, etc. If you would like to import a specific top level resource, or subset of it, use `--resources`. For example, `datadog-sync import --resources="dashboard_lists,dashboards"` will import all dashboards and dashboard lists in your account.
+By default all resources are imported, synced, etc. If you would like to perform actions on a specific top level resource, or subset of resources, use `--resources` option. For example, the command `datadog-sync import --resources="dashboard_lists,dashboards"` will import ALL dashboards and dashboard lists in your Datadog organization.
 
 ##### Per resource level filtering
 
-Individual resources can be further filtered using the `--filter` flag. For example, the following command `datadog-sync import --resources="dashboards,dashboard_lists" --filter='Type=dashboard_lists;Name=name;Value=My custom list'`, will import all dashboards and only dashboard lists with the `name` attribute equal to `My custom list`.
+Individual resources can be further filtered using the `--filter` flag. For example, the following command `datadog-sync import --resources="dashboards,dashboard_lists" --filter='Type=dashboard_lists;Name=name;Value=My custom list'`, will import ALL dashboards and ONLY dashboard lists with the `name` attribute equal to `My custom list`.
 
 Filter option (`--filter`) accepts a string made up of `key=value` pairs separated by `;`.
-
 ```
 --filter 'Type=<resource>;Name=<attribute_name>;Value=<attribute_value>;Operator=<operator>'
 ```
