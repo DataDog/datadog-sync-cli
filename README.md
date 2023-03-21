@@ -44,7 +44,7 @@ Options:
   --http-client-retry-timeout INTEGER         The HTTP request retry timeout period. Defaults to `60s`.
   --resources TEXT                            Optional comma separated list of resource to
                                               import. All supported resources are imported
-                                              by default.
+                                              by default. See [Filtering] section for more details.
   --cleanup [True|False|Force]                Cleanup resources from destination org. [default: False]
   -v, --verbose                               Enable verbose logging.
   --filter TEXT                               Filter imported resources. See [Filtering] section for more details.
@@ -100,9 +100,17 @@ See https://docs.datadoghq.com/getting_started/site/ for all available regions.
 
 #### Filtering
 
-Datadog sync cli tool supports filtering resources during import. Multiple filter flags can be passed.
+Filtering is done on two levels, at top resource level and per individual resource using `--resources` and `--filter` respectevily.
 
-Filter option accepts a string made up of `key=value` pairs separated by `;`. For example
+##### Top resources level filtering
+
+By default all resources are imported, synced, etc. If you would like to perform actions on a specific top level resource, or subset of resources, use `--resources` option. For example, the command `datadog-sync import --resources="dashboard_lists,dashboards"` will import ALL dashboards and dashboard lists in your Datadog organization.
+
+##### Per resource level filtering
+
+Individual resources can be further filtered using the `--filter` flag. For example, the following command `datadog-sync import --resources="dashboards,dashboard_lists" --filter='Type=dashboard_lists;Name=name;Value=My custom list'`, will import ALL dashboards and ONLY dashboard lists with the `name` attribute equal to `My custom list`.
+
+Filter option (`--filter`) accepts a string made up of `key=value` pairs separated by `;`.
 ```
 --filter 'Type=<resource>;Name=<attribute_name>;Value=<attribute_value>;Operator=<operator>'
 ```
