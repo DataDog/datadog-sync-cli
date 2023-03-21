@@ -17,5 +17,3 @@ def cli():
 # Register all click sub-commands
 for command in ALL_COMMANDS:
     cli.add_command(command)
-
-cli(sys.argv[1:])

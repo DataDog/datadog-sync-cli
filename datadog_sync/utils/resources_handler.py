@@ -14,7 +14,16 @@ from datadog_sync.constants import DESTINATION_ORIGIN, SOURCE_ORIGIN
 from datadog_sync.utils.resources_manager import ResourcesManager
 from datadog_sync.constants import TRUE, FALSE, FORCE
 from datadog_sync.utils.resource_utils import (
-    CustomClientHTTPError, LoggedException, ResourceConnectionError, check_diff, dump_resources, prep_resource, thread_pool_executor, init_topological_sorter, write_resources_file)
+    CustomClientHTTPError,
+    LoggedException,
+    ResourceConnectionError,
+    check_diff,
+    dump_resources,
+    prep_resource,
+    thread_pool_executor,
+    init_topological_sorter,
+    write_resources_file,
+)
 from typing import Dict, TYPE_CHECKING, Tuple
 
 if TYPE_CHECKING:
@@ -288,7 +297,7 @@ class ResourcesHandler:
             raise LoggedException(e)
 
 
-def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool=True) -> bool:
+def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool = True) -> bool:
     if config.cleanup == FORCE or not prompt:
         return True
     elif config.cleanup == TRUE:
