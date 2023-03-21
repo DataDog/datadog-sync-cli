@@ -15,7 +15,10 @@ from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH, LOGGER_NAME
 from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
-from typing import TYPE_CHECKING, Any, Dict, Tuple
+from typing import Callable, List, Optional, Set, TYPE_CHECKING, Any, Dict, Tuple
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.configuration import Configuration
 
 if TYPE_CHECKING:
     from concurrent.futures.thread import ThreadPoolExecutor
@@ -39,7 +42,7 @@ class LoggedException(Exception):
     """Raise this when an error was already logged."""
 
 
-def find_attr(keys_list, resource_to_connect, r_obj, connect_func):
+def find_attr(keys_list: str, resource_to_connect: str, r_obj: Any, connect_func: Callable) -> Optional[List[str]]:
     if isinstance(r_obj, list):
         failed_connections = []
         for k in r_obj:
@@ -129,7 +132,7 @@ def open_resources(resource_type: str) -> Tuple[Dict[Any, Any], Dict[Any, Any]]:
     return source_resources, destination_resources
 
 
-def dump_resources(config, resource_types, origin):
+def dump_resources(config: Configuration, resource_types: Set[str], origin: str) -> None:
     for resource_type in resource_types:
         if origin == SOURCE_ORIGIN:
             resources = config.resources[resource_type].resource_config.source_resources
@@ -150,7 +153,7 @@ def thread_pool_executor(max_workers: None = None) -> concurrent.futures.thread.
     return ThreadPoolExecutor(max_workers=max_workers)
 
 
-def init_topological_sorter(graph):
+def init_topological_sorter(graph: Dict[str, Set[str]]) -> TopologicalSorter:
     sorter = TopologicalSorter(graph)
     sorter.prepare()
     return sorter

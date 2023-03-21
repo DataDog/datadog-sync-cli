@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 
 class CustomOptionClass(Option):
-    def handle_parse_result(self, ctx, opts: Dict[Any, Any], args: List[Any]) -> Any:
+    def handle_parse_result(self, ctx: Context, opts: Dict[Any, Any], args: List[Any]) -> Any:
         try:
             return super(Option, self).handle_parse_result(ctx, opts, args)
         except Exception as e:

@@ -3,16 +3,20 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 from copy import deepcopy
 from collections import deque
-from typing import Set
+from typing import TYPE_CHECKING, Set
 
 from datadog_sync.constants import FALSE
 from datadog_sync.utils.resource_utils import find_attr
 
+if TYPE_CHECKING:
+    from datadog_sync.utils.configuration import Configuration
+
 
 class ResourcesManager:
-    def __init__(self, config):
+    def __init__(self, config: Configuration) -> None:
         self.config = config
         self.all_resources = {}  # mapping of all resources to its resource_type
         self.all_cleanup_resources = {}  # mapping of all resources to cleanup

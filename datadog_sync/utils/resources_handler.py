@@ -14,16 +14,7 @@ from datadog_sync.constants import DESTINATION_ORIGIN, SOURCE_ORIGIN
 from datadog_sync.utils.resources_manager import ResourcesManager
 from datadog_sync.constants import TRUE, FALSE, FORCE
 from datadog_sync.utils.resource_utils import (
-    CustomClientHTTPError,
-    LoggedException,
-    ResourceConnectionError,
-    check_diff,
-    dump_resources,
-    prep_resource,
-    thread_pool_executor,
-    init_topological_sorter,
-    write_resources_file,
-)
+    CustomClientHTTPError, LoggedException, ResourceConnectionError, check_diff, dump_resources, prep_resource, thread_pool_executor, init_topological_sorter, write_resources_file)
 from typing import TYPE_CHECKING, Tuple
 
 if TYPE_CHECKING:
@@ -40,7 +31,7 @@ class ResourcesHandler:
             self.resource_done_queue = deque()
             self.sorter = None
 
-    def apply_resources(self):
+    def apply_resources(self) -> Tuple[int, int]:
         # Init executors
         parralel_executor = thread_pool_executor(self.config.max_workers)
         serial_executor = thread_pool_executor(1)
