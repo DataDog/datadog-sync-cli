@@ -41,7 +41,7 @@ jobs:
       - name: Bump version
         run: |
           git switch -c "release/${RELEASE_VERSION}"
-          sed -i 's/".*"/"'${RELEASE_VERSION}'"/' datadog-sync/_version.py
+          sed -i 's/".*"/"'${RELEASE_VERSION}'"/' datadog_sync/_version.py
           git commit -a -m "Version bump ${RELEASE_VERSION}"
           git push -f --set-upstream origin "release/${RELEASE_VERSION}"
         env:
