@@ -12,7 +12,6 @@ PACKAGE_NAME = "datadog-sync-cli"
 ENTRY_POINT = "datadog_sync/cli.py"
 DEFAULT_NAME = f"{PACKAGE_NAME}-{platform.system().lower()}-{platform.machine().lower()}"
 OUTPUT_DIR = "dist"
-GITHUB_ASSET_UPLOAD = ""
 
 parser = argparse.ArgumentParser(description="Build binary")
 parser.add_argument("--onefile", "-f", action="store_true", help="Create a one-file bundled executable.")
