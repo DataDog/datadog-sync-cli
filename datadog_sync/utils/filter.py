@@ -3,10 +3,12 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import logging
 from re import match
 
 from datadog_sync.constants import LOGGER_NAME
+from typing import TYPE_CHECKING, Any, Dict, Tuple
 
 
 FILTER_TYPE = "Type"
@@ -53,7 +55,7 @@ class Filter:
         return match(self.attr_re, str(value)) is not None
 
 
-def process_filters(filter_list):
+def process_filters(filter_list: Tuple[()]) -> Dict[Any, Any]:
     filters = {}
 
     if not filter_list:

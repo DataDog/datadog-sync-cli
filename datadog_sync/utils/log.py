@@ -3,12 +3,14 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import logging
 
 from datadog_sync.constants import LOGGER_NAME
+from typing import TYPE_CHECKING
 
 
-def _configure_logging(verbose):
+def _configure_logging(verbose: bool) -> None:
     # Set logging level and format
     _format = "%(asctime)s - %(levelname)s - %(message)s"
     if verbose:
@@ -18,7 +20,7 @@ def _configure_logging(verbose):
 
 
 class Log:
-    def __init__(self, verbose):
+    def __init__(self, verbose: bool) -> None:
         _configure_logging(verbose)
 
         self.exception_logged = False
@@ -36,7 +38,7 @@ class Log:
         self._exception_logged()
         self.logger.error(msg, *arg)
 
-    def info(self, msg, *arg):
+    def info(self, msg: str, *arg) -> None:
         self.logger.info(msg, *arg)
 
     def warning(self, msg, *arg):

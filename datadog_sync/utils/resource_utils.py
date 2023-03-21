@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import os
 import re
 import json
@@ -14,6 +15,10 @@ from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH, LOGGER_NAME
 from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
+from typing import TYPE_CHECKING, Any, Dict, Tuple
+
+if TYPE_CHECKING:
+    from concurrent.futures.thread import ThreadPoolExecutor
 
 
 log = logging.getLogger(LOGGER_NAME)
@@ -100,7 +105,7 @@ def check_diff(resource_config, resource, state):
     )
 
 
-def open_resources(resource_type):
+def open_resources(resource_type: str) -> Tuple[Dict[Any, Any], Dict[Any, Any]]:
     source_resources = dict()
     destination_resources = dict()
 
@@ -134,14 +139,14 @@ def dump_resources(config, resource_types, origin):
         write_resources_file(resource_type, origin, resources)
 
 
-def write_resources_file(resource_type, origin, resources):
+def write_resources_file(resource_type: str, origin: str, resources: Any) -> None:
     resource_path = RESOURCE_FILE_PATH.format(origin, resource_type)
 
     with open(resource_path, "w") as f:
         json.dump(resources, f, indent=2)
 
 
-def thread_pool_executor(max_workers=None):
+def thread_pool_executor(max_workers: None = None) -> concurrent.futures.thread.ThreadPoolExecutor:
     return ThreadPoolExecutor(max_workers=max_workers)
 
 

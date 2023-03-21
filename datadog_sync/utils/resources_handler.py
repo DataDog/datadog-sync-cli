@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 from collections import deque
 from concurrent.futures import wait
 
@@ -23,10 +24,14 @@ from datadog_sync.utils.resource_utils import (
     init_topological_sorter,
     write_resources_file,
 )
+from typing import TYPE_CHECKING, Tuple
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.configuration import Configuration
 
 
 class ResourcesHandler:
-    def __init__(self, config, init_manager=True) -> None:
+    def __init__(self, config: Configuration, init_manager: bool = True) -> None:
         self.config = config
 
         # Additional config for resource manager
@@ -147,7 +152,7 @@ class ResourcesHandler:
 
         return successes, errors
 
-    def import_resources(self):
+    def import_resources(self) -> None:
         for resource_type in self.config.resources_arg:
             self.config.logger.info("Importing %s", resource_type)
             successes, errors = self._import_resources_helper(resource_type)
@@ -193,7 +198,7 @@ class ResourcesHandler:
             else:
                 print("Resource to be added {} source ID {}: \n {}".format(resource_type, _id, pformat(resource)))
 
-    def _import_resources_helper(self, resource_type):
+    def _import_resources_helper(self, resource_type: str) -> Tuple[int, int]:
         r_class = self.config.resources[resource_type]
         r_class.resource_config.source_resources.clear()
 

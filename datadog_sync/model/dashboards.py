@@ -3,10 +3,13 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from typing import Optional, List, Dict
+from __future__ import annotations
+from typing import TYPE_CHECKING, Optional, List, Dict
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.custom_client import CustomClient
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.custom_client import CustomClient
 
 
 class Dashboards(BaseResource):

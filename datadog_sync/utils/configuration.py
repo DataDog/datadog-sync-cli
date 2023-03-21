@@ -3,15 +3,10 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import logging
 from dataclasses import dataclass
-from typing import (
-    Any,
-    Union,
-    Dict,
-    List,
-    Optional,
-)
+from typing import TYPE_CHECKING, Any, Union, Dict, List, Optional
 
 from datadog_sync import models
 from datadog_sync.utils.custom_client import CustomClient
@@ -37,7 +32,7 @@ class Configuration(object):
     cleanup: Optional[int] = None
 
 
-def build_config(cmd, **kwargs: Any) -> Configuration:
+def build_config(cmd: str, **kwargs: Any) -> Configuration:
     # configure logger
     logger = Log(kwargs.get("verbose"))
 
@@ -129,7 +124,7 @@ def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
     return resources
 
 
-def _validate_client(client: CustomClient):
+def _validate_client(client: CustomClient) -> None:
     try:
         client.get(VALIDATE_ENDPOINT).json()
     except CustomClientHTTPError as e:

@@ -3,12 +3,15 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import copy
-from typing import Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
-from datadog_sync.utils.custom_client import CustomClient
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.custom_client import CustomClient
 
 
 class Roles(BaseResource):

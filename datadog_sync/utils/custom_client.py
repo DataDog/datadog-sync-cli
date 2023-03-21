@@ -3,11 +3,12 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import time
 import logging
 import platform
 from dataclasses import dataclass
-from typing import Optional, Callable
+from typing import TYPE_CHECKING, Dict, Optional, Callable
 
 import requests
 
@@ -17,7 +18,7 @@ from datadog_sync.utils.resource_utils import CustomClientHTTPError
 log = logging.getLogger(LOGGER_NAME)
 
 
-def request_with_retry(func):
+def request_with_retry(func: Callable) -> Callable:
     def wrapper(*args, **kwargs):
         retry = True
         default_backoff = 5
@@ -58,7 +59,7 @@ def request_with_retry(func):
 
 
 class CustomClient:
-    def __init__(self, host, auth, retry_timeout):
+    def __init__(self, host: Optional[str], auth: Dict[str, str], retry_timeout: int) -> None:
         self.host = host
         self.timeout = 30
         self.session = requests.Session()
@@ -91,7 +92,7 @@ class CustomClient:
         url = self.host + path
         return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
 
-    def paginated_request(self, func):
+    def paginated_request(self, func: Callable) -> Callable:
         def wrapper(*args, **kwargs):
             pagination_config = kwargs.pop("pagination_config", self.default_pagination)
 
@@ -124,7 +125,7 @@ class CustomClient:
         return wrapper
 
 
-def build_default_headers(auth_obj):
+def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
     headers = {
         "DD-API-KEY": auth_obj["apiKeyAuth"],
         "DD-APPLICATION-KEY": auth_obj["appKeyAuth"],
@@ -134,7 +135,7 @@ def build_default_headers(auth_obj):
     return headers
 
 
-def _get_user_agent():
+def _get_user_agent() -> str:
     from datadog_sync._version import __version__ as version
 
     return "datadog-sync-cli/{version} (python {pyver}; os {os}; arch {arch})".format(
