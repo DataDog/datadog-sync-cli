@@ -16,7 +16,6 @@ class ResourcesManager:
         self.config = config
         self.all_resources = {}  # mapping of all resources to its resource_type
         self.all_cleanup_resources = {}  # mapping of all resources to cleanup
-        self.dependencies_graph = None
         self.dependencies_graph = {}  # dependency graph
         self.missing_resources_queue = deque()  # queue for missing resources
 
