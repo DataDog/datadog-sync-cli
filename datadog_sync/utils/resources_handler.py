@@ -15,7 +15,7 @@ from datadog_sync.utils.resources_manager import ResourcesManager
 from datadog_sync.constants import TRUE, FALSE, FORCE
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError, LoggedException, ResourceConnectionError, check_diff, dump_resources, prep_resource, thread_pool_executor, init_topological_sorter, write_resources_file)
-from typing import TYPE_CHECKING, Tuple
+from typing import Dict, TYPE_CHECKING, Tuple
 
 if TYPE_CHECKING:
     from datadog_sync.utils.configuration import Configuration
@@ -149,7 +149,7 @@ class ResourcesHandler:
             successes, errors = self._import_resources_helper(resource_type)
             self.config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
 
-    def diffs(self):
+    def diffs(self) -> None:
         executor = thread_pool_executor(self.config.max_workers)
         futures = []
         for _id, resource_type in self.resources_manager.all_resources.items():
@@ -288,7 +288,7 @@ class ResourcesHandler:
             raise LoggedException(e)
 
 
-def _cleanup_prompt(config, resources_to_cleanup, prompt=True):
+def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool=True) -> bool:
     if config.cleanup == FORCE or not prompt:
         return True
     elif config.cleanup == TRUE:
