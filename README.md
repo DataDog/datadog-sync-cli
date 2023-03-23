@@ -30,7 +30,7 @@ The source organization will not be modified, but the destination organization w
 2) Install datadog-sync-cli tool using pip `pip install .`
 3) Invoke the cli tool using `datadog-sync <command> <options>`
 
-### Installing from source
+### Installing from Releases
 
 #### MacOS and Linux
 
