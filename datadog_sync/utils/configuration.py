@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 import logging
+from sys import exit
 from dataclasses import dataclass
 from typing import (
     Any,

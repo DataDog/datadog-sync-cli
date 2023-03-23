@@ -4,9 +4,8 @@ Datadog cli tool to sync resources across organizations.
 # Table of Contents
 - [Purpose](#purpose)
 - [Requirements](#requirements)
+- [Installation](#Installation)
 - [Usage](#usage)
-  - [Installing and using the tool locally](#installing-and-using-the-tool-locally)
-  - [Installing and using the tool via docker](#installing-and-using-the-tool-via-docker)
   - [API URL](#api-url)
   - [Filtering](#filtering)
   - [Config File](#config-file)
@@ -22,6 +21,46 @@ The source organization will not be modified, but the destination organization w
 ## Requirements
 
 - Python >= v3.9
+
+## Installation
+
+### Installing from source
+
+1) Clone the project repo and CD into the directory `git clone https://github.com/DataDog/datadog-sync-cli.git; cd datadog-sync-cli`
+2) Install datadog-sync-cli tool using pip `pip install .`
+3) Invoke the cli tool using `datadog-sync <command> <options>`
+
+### Installing from Releases
+
+#### MacOS and Linux
+
+1) Download the executable from [releases](https://github.com/DataDog/datadog-sync-cli/releases) page
+2) Provide the executable with executable permission `chmod +x datadog-sync-cli-{system-name}-{machine-type}`
+3) Move the executable to your bin directory `sudo mv datadog-sync-cli-{system-name}-{machine-type} /usr/local/bin/datadog-sync`
+4) Invoke the cli tool using `datadog-sync <command> <options>`
+
+#### Windows
+
+1) Download the executable with extension `.exe` from [releases](https://github.com/DataDog/datadog-sync-cli/releases) page
+2) Add the directory containing the `exe` file to your [path](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/path)
+3) Invoke the cli tool in cmd/powershell using the file name ommiting the extention `datadog-sync-cli-windows-amd64 <command> <options>`
+
+### Using docker and building the image
+1) Clone the project repo and CD into the directory `git clone https://github.com/DataDog/datadog-sync-cli.git; cd datadog-sync-cli`
+2) Build the probided Dockerfile `docker build . -t datadog-sync`
+3) Run the docker image using entrypoint below:
+```
+docker run --rm -v $(pwd):/datadog-sync:rw \
+  -e DD_SOURCE_API_KEY=<DATADOG_API_KEY> \
+  -e DD_SOURCE_APP_KEY=<DATADOG_APP_KEY> \
+  -e DD_SOURCE_API_URL=<DATADOG_API_URL> \
+  -e DD_DESTINATION_API_KEY=<DATADOG_API_KEY> \
+  -e DD_DESTINATION_APP_KEY=<DATADOG_APP_KEY> \
+  -e DD_DESTINATION_API_URL=<DATADOG_API_URL> \
+  datadog-sync:latest <command> <options>
+```
+Note: The above docker run command will mount your current working directory to the container.
+
 
 ## Usage
 
@@ -44,7 +83,7 @@ Options:
   --http-client-retry-timeout INTEGER         The HTTP request retry timeout period. Defaults to `60s`.
   --resources TEXT                            Optional comma separated list of resource to
                                               import. All supported resources are imported
-                                              by default.
+                                              by default. See [Filtering] section for more details.
   --cleanup [True|False|Force]                Cleanup resources from destination org. [default: False]
   -v, --verbose                               Enable verbose logging.
   --filter TEXT                               Filter imported resources. See [Filtering] section for more details.
@@ -64,28 +103,6 @@ Commands:
   sync    Sync Datadog resources to destination.
 ```
 
-### Installing and using the tool locally
-
-1) Clone the project repo
-2) CD into the repo directory and install the datadog-sync-cli via `pip install .`
-3) Run cli tool `datadog-sync <command> <options>`
-
-### Installing and using the tool via docker
-1) Clone the project repo
-2) CD into the repo directory and build the docker image `docker build . -t datadog-sync`
-3) Run the docker image using entrypoint below:
-```
-docker run --rm -v $(pwd):/datadog-sync:rw \
-  -e DD_SOURCE_API_KEY=<DATADOG_API_KEY> \
-  -e DD_SOURCE_APP_KEY=<DATADOG_APP_KEY> \
-  -e DD_SOURCE_API_URL=<DATADOG_API_URL> \
-  -e DD_DESTINATION_API_KEY=<DATADOG_API_KEY> \
-  -e DD_DESTINATION_APP_KEY=<DATADOG_APP_KEY> \
-  -e DD_DESTINATION_API_URL=<DATADOG_API_URL> \
-  datadog-sync:latest <command> <options>
-```
-Note: The above docker run command will mount your current working directory to the container.
-
 #### API URL
 
 Available URL's for the source and destination API URLs are:
@@ -100,9 +117,17 @@ See https://docs.datadoghq.com/getting_started/site/ for all available regions.
 
 #### Filtering
 
-Datadog sync cli tool supports filtering resources during import. Multiple filter flags can be passed.
+Filtering is done on two levels, at top resource level and per individual resource using `--resources` and `--filter` respectevily.
 
-Filter option accepts a string made up of `key=value` pairs separated by `;`. For example
+##### Top resources level filtering
+
+By default all resources are imported, synced, etc. If you would like to perform actions on a specific top level resource, or subset of resources, use `--resources` option. For example, the command `datadog-sync import --resources="dashboard_lists,dashboards"` will import ALL dashboards and dashboard lists in your Datadog organization.
+
+##### Per resource level filtering
+
+Individual resources can be further filtered using the `--filter` flag. For example, the following command `datadog-sync import --resources="dashboards,dashboard_lists" --filter='Type=dashboard_lists;Name=name;Value=My custom list'`, will import ALL dashboards and ONLY dashboard lists with the `name` attribute equal to `My custom list`.
+
+Filter option (`--filter`) accepts a string made up of `key=value` pairs separated by `;`.
 ```
 --filter 'Type=<resource>;Name=<attribute_name>;Value=<attribute_value>;Operator=<operator>'
 ```
