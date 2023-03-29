@@ -110,7 +110,7 @@ class BaseResource(abc.ABC):
                 if c:
                     failed_connections_dict[resource_to_connect].extend(c)
 
-        if len(failed_connections_dict) > 0:
+        if failed_connections_dict:
             e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
             if self.config.skip_failed_resource_connections:
                 e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
