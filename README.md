@@ -112,6 +112,7 @@ Available URL's for the source and destination API URLs are:
 - `https://api.us5.datadoghq.com`
 - `https://api.us3.datadoghq.com`
 - `https://api.ddog-gov.com`
+- `https://api.ap1.datadoghq.com`
 
 See https://docs.datadoghq.com/getting_started/site/ for all available regions.
 
