@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
@@ -27,6 +27,8 @@ class HostTags(BaseResource):
     def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         if _id:
             return  # This should never occur. No resource depends on it.
+
+        resource = cast(dict, resource)
         tag = resource[0]
         hosts = resource[1]
         for host in hosts:

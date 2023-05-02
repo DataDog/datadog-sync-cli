@@ -39,26 +39,26 @@ class LoggedException(Exception):
     """Raise this when an error was already logged."""
 
 
-def find_attr(keys_list: str, resource_to_connect: str, r_obj: Any, connect_func: Callable) -> Optional[List[str]]:
+def find_attr(keys_list_str: str, resource_to_connect: str, r_obj: Any, connect_func: Callable) -> Optional[List[str]]:
     if isinstance(r_obj, list):
         failed_connections = []
         for k in r_obj:
-            failed = find_attr(keys_list, resource_to_connect, k, connect_func)
+            failed = find_attr(keys_list_str, resource_to_connect, k, connect_func)
             if failed:
                 failed_connections.extend(failed)
         return failed_connections
     else:
-        keys_list = keys_list.split(".", 1)
+        keys_list = keys_list_str.split(".", 1)
 
         if len(keys_list) == 1 and keys_list[0] in r_obj:
             if not r_obj[keys_list[0]]:
-                return
+                return None
             return connect_func(keys_list[0], r_obj, resource_to_connect)
 
         if isinstance(r_obj, dict):
             if keys_list[0] in r_obj:
                 return find_attr(keys_list[1], resource_to_connect, r_obj[keys_list[0]], connect_func)
-
+        return None
 
 def prep_resource(resource_config, resource):
     remove_excluded_attr(resource_config, resource)

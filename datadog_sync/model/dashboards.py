@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
@@ -34,8 +34,9 @@ class Dashboards(BaseResource):
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
-        dashboard = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
-        self.resource_config.source_resources[import_id] = dashboard
+        resource = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
+        resource = cast(dict, resource)
+        self.resource_config.source_resources[import_id] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass

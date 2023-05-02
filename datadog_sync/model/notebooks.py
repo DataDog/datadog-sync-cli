@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
@@ -46,6 +46,7 @@ class Notebooks(BaseResource):
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
 
+        resource = cast(dict, resource)
         self.handle_special_case_attr(resource)
         self.resource_config.source_resources[resource["id"]] = resource
 

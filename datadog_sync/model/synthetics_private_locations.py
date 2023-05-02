@@ -21,8 +21,8 @@ class SyntheticsPrivateLocations(BaseResource):
         excluded_attributes=["id", "modifiedAt", "createdAt", "createdBy", "metadata", "secrets", "config"],
     )
     # Additional SyntheticsPrivateLocations specific attributes
-    base_locations_path = "/api/v1/synthetics/locations"
-    pl_id_regex = re.compile("^pl:.*")
+    base_locations_path: str = "/api/v1/synthetics/locations"
+    pl_id_regex: re.Pattern = re.compile("^pl:.*")
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.base_locations_path).json()
@@ -31,11 +31,10 @@ class SyntheticsPrivateLocations(BaseResource):
 
     def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         source_client = self.config.source_client
-        import_id = _id or resource["id"]
+        import_id = _id or resource and resource["id"]
 
         if self.pl_id_regex.match(import_id):
             pl = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
-
             self.resource_config.source_resources[import_id] = pl
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:

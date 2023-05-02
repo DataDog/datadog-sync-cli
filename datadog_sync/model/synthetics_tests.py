@@ -4,13 +4,13 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Any, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
-
+    from datadog_sync.model.synthetics_private_locations import SyntheticsPrivateLocations
 
 class SyntheticsTests(BaseResource):
     resource_type = "synthetics_tests"
@@ -32,8 +32,8 @@ class SyntheticsTests(BaseResource):
         ],
     )
     # Additional SyntheticsTests specific attributes
-    browser_test_path = "/api/v1/synthetics/tests/browser/{}"
-    api_test_path = "/api/v1/synthetics/tests/api/{}"
+    browser_test_path: str = "/api/v1/synthetics/tests/browser/{}"
+    api_test_path: str = "/api/v1/synthetics/tests/api/{}"
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path).json()
@@ -48,12 +48,14 @@ class SyntheticsTests(BaseResource):
             except Exception:
                 resource = source_client.get(self.api_test_path.format(_id)).json()
 
+        resource = cast(dict, resource)
         _id = resource["public_id"]
         if resource.get("type") == "browser":
             resource = source_client.get(self.browser_test_path.format(_id)).json()
         elif resource.get("type") == "api":
             resource = source_client.get(self.api_test_path.format(_id)).json()
 
+        resource = cast(dict, resource)
         self.remove_global_variables_from_config(resource)
         self.resource_config.source_resources[f"{resource['public_id']}#{resource['monitor_id']}"] = resource
 
@@ -86,7 +88,7 @@ class SyntheticsTests(BaseResource):
         destination_client.post(self.resource_config.base_path + "/delete", body)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        failed_connections = []
+        failed_connections: List[str] = []
         if resource_to_connect == "synthetics_private_locations":
             pl = self.config.resources["synthetics_private_locations"]
             resources = self.config.resources[resource_to_connect].resource_config.destination_resources
@@ -114,7 +116,7 @@ class SyntheticsTests(BaseResource):
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
 
     @staticmethod
-    def remove_global_variables_from_config(resource: Dict) -> Dict:
+    def remove_global_variables_from_config(resource: Dict[str, Any]) -> Dict[str, Any]:
         if "config" in resource and "configVariables" in resource["config"]:
             for variables in resource["config"]["configVariables"]:
                 if variables["type"] == "global":

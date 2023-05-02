@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
 import math
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 from datetime import datetime
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -51,6 +51,7 @@ class Downtimes(BaseResource):
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
 
+        resource = cast(dict, resource)
         if resource["canceled"]:
             return
         # Dispose the recurring child downtimes and only retain the parent

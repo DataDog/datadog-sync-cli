@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 import re
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
@@ -43,6 +43,7 @@ class Monitors(BaseResource):
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
 
+        resource = cast(dict, resource)
         if resource["type"] in ("synthetics alert", "slo alert"):
             return
 
@@ -99,6 +100,6 @@ class Monitors(BaseResource):
                     failed_connections.append(_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()
             return failed_connections
-        elif key != "query":
+        else:
             # Use default connect_id method in base class when not handling special case for `query`
             return super(Monitors, self).connect_id(key, r_obj, resource_to_connect)

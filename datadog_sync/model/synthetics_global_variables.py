@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
@@ -42,7 +42,8 @@ class SyntheticsGlobalVariables(BaseResource):
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
-
+        
+        resource = cast(dict, resource)
         self.resource_config.source_resources[resource["id"]] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:

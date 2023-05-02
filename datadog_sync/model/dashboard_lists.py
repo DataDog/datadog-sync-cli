@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 import copy
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
@@ -35,6 +35,7 @@ class DashboardLists(BaseResource):
         if _id:
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
 
+        resource = cast(dict, resource)
         _id = str(resource["id"])
         resp = None
         try:

@@ -6,7 +6,7 @@
 from __future__ import annotations
 import logging
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any, Union, Dict, List, Optional
+from typing import Any, Union, Dict, List
 
 from datadog_sync import models
 from datadog_sync.utils.custom_client import CustomClient
@@ -22,7 +22,7 @@ class Configuration(object):
     logger: Union[Log, logging.Logger]
     source_client: CustomClient
     destination_client: CustomClient
-    filters: Dict[str, Filter]
+    filters: Dict[str, List[Filter]]
     filter_operator: str
     force_missing_dependencies: bool
     skip_failed_resource_connections: bool

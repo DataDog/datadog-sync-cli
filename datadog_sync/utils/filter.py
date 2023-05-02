@@ -8,7 +8,7 @@ import logging
 from re import match
 
 from datadog_sync.constants import LOGGER_NAME
-from typing import TYPE_CHECKING, Any, Dict, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Tuple
 
 
 FILTER_TYPE = "Type"
@@ -22,7 +22,7 @@ log = logging.getLogger(LOGGER_NAME)
 
 
 class Filter:
-    def __init__(self, resource_type, attr_name, attr_re):
+    def __init__(self, resource_type: str, attr_name: str, attr_re: str):
         self.resource_type = resource_type
         self.attr_name = attr_name.split(".")
         self.attr_re = attr_re
@@ -55,8 +55,8 @@ class Filter:
         return match(self.attr_re, str(value)) is not None
 
 
-def process_filters(filter_list: Tuple[()]) -> Dict[Any, Any]:
-    filters = {}
+def process_filters(filter_list: Tuple[()]) -> Dict[str, List[Filter]]:
+    filters: Dict[str, List[Filter]] = {}
 
     if not filter_list:
         return filters
