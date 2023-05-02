@@ -26,8 +26,12 @@ class DashboardLists(BaseResource):
 
         return resp["dashboard_lists"]
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         source_client = self.config.source_client
+
+        if _id:
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
+
         _id = str(resource["id"])
         resp = None
         try:
@@ -46,7 +50,7 @@ class DashboardLists(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
@@ -89,8 +93,8 @@ class DashboardLists(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(DashboardLists, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        return super(DashboardLists, self).connect_id(key, r_obj, resource_to_connect)
 
     def update_dash_list_items(self, _id: str, dashboards: Dict, dashboard_list: dict):
         payload = {"dashboards": dashboards}

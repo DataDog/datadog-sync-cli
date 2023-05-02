@@ -12,7 +12,6 @@ from datadog_sync.utils.custom_client import CustomClient, PaginationConfig
 class Notebooks(BaseResource):
     resource_type = "notebooks"
     resource_config = ResourceConfig(
-        resource_connections={},
         base_path="/api/v1/notebooks",
         excluded_attributes=[
             "id",
@@ -38,14 +37,18 @@ class Notebooks(BaseResource):
 
         return resp
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        if _id:
+            source_client = self.config.source_client
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
+
         self.handle_special_case_attr(resource)
         self.resource_config.source_resources[resource["id"]] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
@@ -73,8 +76,8 @@ class Notebooks(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(Notebooks, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        pass
 
     @staticmethod
     def handle_special_case_attr(resource):

@@ -35,16 +35,19 @@ class Roles(BaseResource):
 
         return resp
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        if _id:
+            source_client = self.config.source_client
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
+
         if self.source_permissions and "permissions" in resource["relationships"]:
             for permission in resource["relationships"]["permissions"]["data"]:
                 if permission["id"] in self.source_permissions:
                     permission["id"] = self.source_permissions[permission["id"]]
         self.resource_config.source_resources[resource["id"]] = resource
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         self.destination_roles_mapping = self.get_destination_roles_mapping()
-        return None
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         self.remap_permissions(resource)
@@ -81,7 +84,7 @@ class Roles(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         pass
 
     def remap_permissions(self, resource):

@@ -36,15 +36,18 @@ class SyntheticsGlobalVariables(BaseResource):
         resp = client.get(self.resource_config.base_path).json()
         return resp["variables"]
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        if _id:
+            source_client = self.config.source_client
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
+
         self.resource_config.source_resources[resource["id"]] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         self.destination_global_variables = self.get_destination_global_variables()
-        return None
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         if resource["name"] in self.destination_global_variables:
@@ -76,8 +79,9 @@ class SyntheticsGlobalVariables(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+        failed_connections = []
         found = False
         for k, v in resources.items():
             if k.startswith(r_obj[key]):
@@ -85,7 +89,8 @@ class SyntheticsGlobalVariables(BaseResource):
                 found = True
                 break
         if not found:
-            raise ResourceConnectionError(resource_to_connect, _id=r_obj[key])
+            failed_connections.append(r_obj[key])
+        return failed_connections
 
     def get_destination_global_variables(self) -> Dict[str, Dict]:
         destination_global_variable_obj = {}

@@ -38,7 +38,11 @@ class Users(BaseResource):
 
         return resp
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        if _id:
+            source_client = self.config.source_client
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
+
         if resource["attributes"]["disabled"]:
             return
 
@@ -47,9 +51,8 @@ class Users(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         self.remote_destination_users = self.get_remote_destination_users()
-        return None
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         if resource["attributes"]["email"] in self.remote_destination_users:
@@ -87,8 +90,8 @@ class Users(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
-    def connect_id(self, key, r_obj, resource_to_connect):
-        super(Users, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        return super(Users, self).connect_id(key, r_obj, resource_to_connect)
 
     def get_remote_destination_users(self):
         remote_user_obj = {}

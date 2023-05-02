@@ -23,13 +23,17 @@ class ServiceLevelObjectives(BaseResource):
 
         return resp["data"]
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        if _id:
+            source_client = self.config.source_client
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
+
         self.resource_config.source_resources[resource["id"]] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
@@ -54,10 +58,10 @@ class ServiceLevelObjectives(BaseResource):
             params={"force": True},
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.resources["monitors"].resource_config.destination_resources
         synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
-
+        failed_connections = []
         for i, obj in enumerate(r_obj[key]):
             _id = str(obj)
             # Check if resource exists in monitors
@@ -72,4 +76,5 @@ class ServiceLevelObjectives(BaseResource):
                     found = True
                     break
             if not found:
-                raise ResourceConnectionError(resource_to_connect, _id=_id)
+                failed_connections.append(_id)
+        return failed_connections

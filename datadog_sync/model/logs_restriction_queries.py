@@ -35,16 +35,18 @@ class LogsRestrictionQueries(BaseResource):
         )
         return resp
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         source_client = self.config.source_client
-        r_query = source_client.get(self.resource_config.base_path + f"/{resource['id']}").json()
+        import_id = _id or resource["id"]
+
+        r_query = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
         r_query.pop("included", None)
-        self.resource_config.source_resources[resource["id"]] = r_query
+        self.resource_config.source_resources[import_id] = r_query
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
@@ -88,8 +90,8 @@ class LogsRestrictionQueries(BaseResource):
             self.resource_config.base_path + f'/{self.resource_config.destination_resources[_id]["data"]["id"]}'
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(LogsRestrictionQueries, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        return super(LogsRestrictionQueries, self).connect_id(key, r_obj, resource_to_connect)
 
     def update_log_restriction_query_roles(self, _id: str, added_roles: set, removed_roles: set) -> Tuple[list, list]:
         successfully_added, successfully_removed = [], []

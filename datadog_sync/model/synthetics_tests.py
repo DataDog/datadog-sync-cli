@@ -38,8 +38,14 @@ class SyntheticsTests(BaseResource):
 
         return resp["tests"]
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         source_client = self.config.source_client
+        if _id:
+            try:
+                resource = source_client.get(self.browser_test_path.format(_id)).json()
+            except Exception:
+                resource = source_client.get(self.api_test_path.format(_id)).json()
+
         _id = resource["public_id"]
         if resource.get("type") == "browser":
             resource = source_client.get(self.browser_test_path.format(_id)).json()
@@ -52,7 +58,7 @@ class SyntheticsTests(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
@@ -77,17 +83,20 @@ class SyntheticsTests(BaseResource):
         body = {"public_ids": [self.resource_config.destination_resources[_id]["public_id"]]}
         destination_client.post(self.resource_config.base_path + "/delete", body)
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        failed_connections = []
         if resource_to_connect == "synthetics_private_locations":
             pl = self.config.resources["synthetics_private_locations"]
             resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+            failed_connections = []
 
             for i, _id in enumerate(r_obj[key]):
                 if pl.pl_id_regex.match(_id):
                     if _id in resources:
                         r_obj[key][i] = resources[_id]["id"]
                     else:
-                        raise ResourceConnectionError(resource_to_connect, _id=_id)
+                        failed_connections.append(_id)
+            return failed_connections
         elif resource_to_connect == "synthetics_tests":
             resources = self.config.resources[resource_to_connect].resource_config.destination_resources
             found = False
@@ -97,9 +106,10 @@ class SyntheticsTests(BaseResource):
                     found = True
                     break
             if not found:
-                raise ResourceConnectionError(resource_to_connect, _id=r_obj[key])
+                failed_connections.append(_id)
+            return failed_connections
         else:
-            super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
+            return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
 
     @staticmethod
     def remove_global_variables_from_config(resource: Dict) -> Dict:

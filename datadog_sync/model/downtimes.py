@@ -43,7 +43,11 @@ class Downtimes(BaseResource):
 
         return resp
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        if _id:
+            source_client = self.config.source_client
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
+
         if resource["canceled"]:
             return
         # Dispose the recurring child downtimes and only retain the parent
@@ -79,7 +83,7 @@ class Downtimes(BaseResource):
                 if resource["end"] < self.resource_config.destination_resources[_id]["end"]:
                     resource["end"] = self.resource_config.destination_resources[_id]["end"]
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
@@ -103,5 +107,5 @@ class Downtimes(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(Downtimes, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        return super(Downtimes, self).connect_id(key, r_obj, resource_to_connect)

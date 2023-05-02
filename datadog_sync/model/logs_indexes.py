@@ -26,7 +26,11 @@ class LogsIndexes(BaseResource):
         resp = client.get(self.resource_config.base_path).json()
         return resp["indexes"]
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        if _id:
+            source_client = self.config.source_client
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
+
         if not resource.get("daily_limit"):
             resource["disable_daily_limit"] = True
         self.resource_config.source_resources[resource["name"]] = resource
@@ -34,9 +38,8 @@ class LogsIndexes(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
+    def pre_apply_hook(self) -> None:
         self.destination_logs_indexes = self.get_destination_logs_indexes()
-        return None
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         if _id in self.destination_logs_indexes:
@@ -69,8 +72,8 @@ class LogsIndexes(BaseResource):
     def delete_resource(self, _id: str) -> None:
         raise Exception("logs index deletion is not supported")
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
-        super(LogsIndexes, self).connect_id(key, r_obj, resource_to_connect)
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        pass
 
     def get_destination_logs_indexes(self) -> Dict[str, Dict]:
         destination_global_variable_obj = {}

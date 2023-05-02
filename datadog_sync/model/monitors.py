@@ -36,7 +36,11 @@ class Monitors(BaseResource):
 
         return resp
 
-    def import_resource(self, resource: Dict) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        if _id:
+            source_client = self.config.source_client
+            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
+
         if resource["type"] in ("synthetics alert", "slo alert"):
             return
 
@@ -45,16 +49,8 @@ class Monitors(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self, resources: Dict[str, Dict]) -> Optional[list]:
-        simple_monitors = {}
-        composite_monitors = {}
-
-        for _id, monitor in self.resource_config.source_resources.items():
-            if monitor["type"] == "composite":
-                composite_monitors[_id] = monitor
-            else:
-                simple_monitors[_id] = monitor
-        return [simple_monitors, composite_monitors]
+    def pre_apply_hook(self) -> None:
+        pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
@@ -78,11 +74,12 @@ class Monitors(BaseResource):
             params={"force": True},
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> None:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.resources[resource_to_connect].resource_config.destination_resources
         synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
 
         if r_obj.get("type") == "composite" and key == "query":
+            failed_connections = []
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:
                 found = False
@@ -97,8 +94,9 @@ class Monitors(BaseResource):
                             found = True
                             r_obj[key] = re.sub(_id + r"([^#]|$)", str(v["monitor_id"]) + "# ", r_obj[key])
                 if not found:
-                    raise ResourceConnectionError(resource_to_connect, _id=_id)
+                    failed_connections.append(_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()
+            return failed_connections
         elif key != "query":
             # Use default connect_id method in base class when not handling special case for `query`
-            super(Monitors, self).connect_id(key, r_obj, resource_to_connect)
+            return super(Monitors, self).connect_id(key, r_obj, resource_to_connect)

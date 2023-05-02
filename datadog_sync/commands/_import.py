@@ -11,7 +11,7 @@ from click import command
 from datadog_sync.constants import SOURCE_RESOURCES_DIR, CMD_IMPORT
 from datadog_sync.commands.shared.options import common_options, source_auth_options
 from datadog_sync.utils.configuration import build_config
-from datadog_sync.utils.resources_handler import import_resources
+from datadog_sync.utils.resources_handler import ResourcesHandler
 
 
 @command(CMD_IMPORT, short_help="Import Datadog resources.")
@@ -19,9 +19,16 @@ from datadog_sync.utils.resources_handler import import_resources
 @common_options
 def _import(**kwargs):
     """Import Datadog resources."""
-    cfg = build_config(CMD_IMPORT, **kwargs)
     os.makedirs(SOURCE_RESOURCES_DIR, exist_ok=True)
-    import_resources(cfg)
+    cfg = build_config(CMD_IMPORT, **kwargs)
+
+    handler = ResourcesHandler(cfg, False)
+
+    cfg.logger.info(f"Starting import...")
+
+    handler.import_resources()
+
+    cfg.logger.info(f"Finished import")
 
     if cfg.logger.exception_logged:
         exit(1)
