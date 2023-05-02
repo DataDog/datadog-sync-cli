@@ -16,7 +16,7 @@ class SyntheticsTests(BaseResource):
         resource_connections={
             "synthetics_tests": ["steps.params.subtestPublicId"],
             "synthetics_private_locations": ["locations"],
-            # "synthetics_global_variables": ["config.configVariables.id"],
+            "synthetics_global_variables": ["config.configVariables.id"],
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=["deleted_at", "org_id", "public_id", "monitor_id", "modified_at", "created_at", "creator"],
@@ -52,11 +52,10 @@ class SyntheticsTests(BaseResource):
         elif resource.get("type") == "api":
             resource = source_client.get(self.api_test_path.format(_id)).json()
 
-        self.remove_global_variables_from_config(resource)
         self.resource_config.source_resources[f"{resource['public_id']}#{resource['monitor_id']}"] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        pass
+        self.remove_global_variables_from_config(resource)
 
     def pre_apply_hook(self) -> None:
         pass
@@ -64,7 +63,6 @@ class SyntheticsTests(BaseResource):
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
         resp = destination_client.post(self.resource_config.base_path, resource).json()
-        self.remove_global_variables_from_config(resp)
 
         self.resource_config.destination_resources[_id] = resp
 
@@ -74,7 +72,6 @@ class SyntheticsTests(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['public_id']}",
             resource,
         ).json()
-        self.remove_global_variables_from_config(resp)
 
         self.resource_config.destination_resources[_id] = resp
 
