@@ -55,7 +55,7 @@ class Filter:
         return match(self.attr_re, str(value)) is not None
 
 
-def process_filters(filter_list: Tuple[()]) -> Dict[str, List[Filter]]:
+def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
     filters: Dict[str, List[Filter]] = {}
 
     if not filter_list:
@@ -65,18 +65,25 @@ def process_filters(filter_list: Tuple[()]) -> Dict[str, List[Filter]]:
         f_dict = {}
         f_list = _filter.strip("; ").split(";")
 
+        invalid_filter = False
         for option in f_list:
             try:
                 f_dict.update(dict([option.split("=", 1)]))
             except ValueError:
                 log.warning("invalid filter option: %s, filter: %s", option, _filter)
-                return
+                invalid_filter = True
+                break
+        if invalid_filter:
+            continue
 
         # Check if required keys are present:
         for k in REQUIRED_KEYS:
             if k not in f_dict:
                 log.warning("invalid filter missing key %s in filter: %s", k, _filter)
-                return
+                invalid_filter = True
+                break
+        if invalid_filter:
+            continue
 
         # Build and assign regex matcher to VALUE key
         f_dict[FILTER_VALUE] = build_regex(f_dict)

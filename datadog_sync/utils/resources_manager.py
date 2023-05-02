@@ -6,7 +6,7 @@
 from __future__ import annotations
 from copy import deepcopy
 from collections import deque
-from typing import TYPE_CHECKING, Set
+from typing import TYPE_CHECKING, Dict, List, Set
 
 from datadog_sync.constants import FALSE
 from datadog_sync.utils.resource_utils import find_attr
@@ -17,11 +17,11 @@ if TYPE_CHECKING:
 
 class ResourcesManager:
     def __init__(self, config: Configuration) -> None:
-        self.config = config
-        self.all_resources = {}  # mapping of all resources to its resource_type
-        self.all_cleanup_resources = {}  # mapping of all resources to cleanup
-        self.dependencies_graph = {}  # dependency graph
-        self.missing_resources_queue = deque()  # queue for missing resources
+        self.config: Configuration = config
+        self.all_resources: Dict[str, str] = {}  # mapping of all resources to its resource_type
+        self.all_cleanup_resources: Dict[str, str] = {}  # mapping of all resources to cleanup
+        self.dependencies_graph: Dict[str, Set[str]] = {}  # dependency graph
+        self.missing_resources_queue: deque = deque()  # queue for missing resources
 
         for resource_type in config.resources_arg:
             for _id, _ in config.resources[resource_type].resource_config.source_resources.items():
@@ -40,27 +40,27 @@ class ResourcesManager:
                     self.all_cleanup_resources[cleanup_id] = resource_type
 
     def _resource_connections(self, _id: str, resource_type: str) -> Set[str]:
-        failed_connections = []
+        failed_connections: List[str] = []
 
         if not self.config.resources[resource_type].resource_config.resource_connections:
             return set(failed_connections)
 
         resource = deepcopy(self.config.resources[resource_type].resource_config.source_resources[_id])
-        for resource_to_connect, v in self.config.resources[resource_type].resource_config.resource_connections.items():
-            for attr_connection in v:
-                failed = find_attr(
-                    attr_connection,
-                    resource_to_connect,
-                    resource,
-                    self.config.resources[resource_type].connect_id,
-                )
-                if failed:
-                    # After retrieving all of the failed connections, we check if
-                    # the resources are imported. Otherwise append to missing with its type.
-                    for f_id in failed:
-                        if f_id not in self.config.resources[resource_to_connect].resource_config.source_resources:
-                            self.missing_resources_queue.append((f_id, resource_to_connect))
+        if self.config.resources[resource_type].resource_config.resource_connections:
+            for resource_to_connect, v in self.config.resources[resource_type].resource_config.resource_connections.items():
+                for attr_connection in v:
+                    failed = find_attr(
+                        attr_connection,
+                        resource_to_connect,
+                        resource,
+                        self.config.resources[resource_type].connect_id,
+                    )
+                    if failed:
+                        # After retrieving all of the failed connections, we check if
+                        # the resources are imported. Otherwise append to missing with its type.
+                        for f_id in failed:
+                            if f_id not in self.config.resources[resource_to_connect].resource_config.source_resources:
+                                self.missing_resources_queue.append((f_id, resource_to_connect))
 
-                    failed_connections.extend(failed)
-
+                        failed_connections.extend(failed)
         return set(failed_connections)

@@ -100,6 +100,8 @@ class Monitors(BaseResource):
                     failed_connections.append(_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()
             return failed_connections
+        elif key == "query":
+            return None
         else:
             # Use default connect_id method in base class when not handling special case for `query`
             return super(Monitors, self).connect_id(key, r_obj, resource_to_connect)

@@ -6,7 +6,7 @@
 from __future__ import annotations
 import logging
 from dataclasses import dataclass, field
-from typing import Any, Union, Dict, List
+from typing import Any, Optional, Union, Dict, List
 
 from datadog_sync import models
 from datadog_sync.utils.custom_client import CustomClient
@@ -32,7 +32,7 @@ class Configuration(object):
     resources_arg: List[str] = field(default_factory=list)
 
 
-def build_config(cmd: str, **kwargs: Any) -> Configuration:
+def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
     # configure logger
     logger = Log(kwargs.get("verbose"))
 
