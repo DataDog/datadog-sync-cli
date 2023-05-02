@@ -2,13 +2,11 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
-
-from __future__ import annotations
 import time
 import logging
 import platform
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict, Optional, Callable
+from typing import Dict, Optional, Callable
 
 import requests
 

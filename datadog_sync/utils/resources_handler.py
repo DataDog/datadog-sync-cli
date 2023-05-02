@@ -283,9 +283,11 @@ class ResourcesHandler:
         )
 
     def _cleanup_worker(self, _id, resource_type):
+        self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
         try:
             self.config.resources[resource_type].delete_resource(_id)
             self.config.resources[resource_type].resource_config.destination_resources.pop(_id, None)
+            self.config.logger.info(f"succesffully deleted resource type {resource_type} with id: {_id}")
         except Exception as e:
             if e.status_code == 404:
                 self.config.resources[resource_type].resource_config.destination_resources.pop(_id, None)
