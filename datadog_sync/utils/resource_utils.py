@@ -146,7 +146,7 @@ def write_resources_file(resource_type: str, origin: str, resources: Any) -> Non
         json.dump(resources, f, indent=2)
 
 
-def thread_pool_executor(max_workers: None = None) -> ThreadPoolExecutor:
+def thread_pool_executor(max_workers: Optional[int] = None) -> ThreadPoolExecutor:
     return ThreadPoolExecutor(max_workers=max_workers)
 
 

@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Union, Dict, List, Optional
 
 from datadog_sync import models
@@ -19,17 +19,17 @@ from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 @dataclass
 class Configuration(object):
-    logger: Union[Log, logging.Logger, None] = None
-    source_client: Optional[CustomClient] = None
-    destination_client: Optional[CustomClient] = None
-    resources: Optional[Dict[str, BaseResource]] = None
-    resources_arg: Optional[List[str]] = None
-    filters: Optional[Dict[str, Filter]] = None
-    filter_operator: Optional[str] = None
-    force_missing_dependencies: Optional[bool] = None
-    skip_failed_resource_connections: Optional[bool] = None
-    max_workers: Optional[int] = None
-    cleanup: Optional[int] = None
+    logger: Union[Log, logging.Logger]
+    source_client: CustomClient
+    destination_client: CustomClient
+    filters: Dict[str, Filter]
+    filter_operator: str
+    force_missing_dependencies: bool
+    skip_failed_resource_connections: bool
+    max_workers: int
+    cleanup: int
+    resources: Dict[str, BaseResource] = field(default_factory=dict)
+    resources_arg: List[str] = field(default_factory=list)
 
 
 def build_config(cmd: str, **kwargs: Any) -> Configuration:
