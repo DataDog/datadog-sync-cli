@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
 import configobj
+from sys import exit
 
 from click import Choice, Option, option, File
 

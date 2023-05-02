@@ -20,9 +20,6 @@ from typing import Callable, List, Optional, Set, TYPE_CHECKING, Any, Dict, Tupl
 if TYPE_CHECKING:
     from datadog_sync.utils.configuration import Configuration
 
-if TYPE_CHECKING:
-    from concurrent.futures.thread import ThreadPoolExecutor
-
 
 log = logging.getLogger(LOGGER_NAME)
 
@@ -149,7 +146,7 @@ def write_resources_file(resource_type: str, origin: str, resources: Any) -> Non
         json.dump(resources, f, indent=2)
 
 
-def thread_pool_executor(max_workers: None = None) -> concurrent.futures.thread.ThreadPoolExecutor:
+def thread_pool_executor(max_workers: None = None) -> ThreadPoolExecutor:
     return ThreadPoolExecutor(max_workers=max_workers)
 
 

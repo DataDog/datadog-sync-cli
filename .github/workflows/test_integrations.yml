@@ -48,7 +48,7 @@ jobs:
           DD_AGENT_HOST: localhost
           DD_ENV: ci
           DD_SERVICE: datadog-sync-cli
-          DD_TAGS: "team:integration-tools-and-libraries"
+          DD_TAGS: "team:integrations-tools-and-libraries"
           DD_TRACE_ANALYTICS_ENABLED: "true"
           RECORD: "none"
           PYTEST_ADDOPTS: "--ddtrace"

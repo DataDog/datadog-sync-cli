@@ -1,0 +1,2 @@
+pyinstaller==5.9.0
+pygithub==1.58.0

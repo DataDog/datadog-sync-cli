@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 import os
+from sys import exit
 
 from click import command, option
 

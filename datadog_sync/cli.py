@@ -17,3 +17,7 @@ def cli():
 # Register all click sub-commands
 for command in ALL_COMMANDS:
     cli.add_command(command)
+
+# Invoke cli manually if using executable
+if getattr(sys, "frozen", False):
+    cli(sys.argv[1:])
