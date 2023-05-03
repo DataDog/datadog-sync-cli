@@ -12,7 +12,6 @@ class SpansMetrics(BaseResource):
     resource_type = "spans_metrics"
     resource_config = ResourceConfig(
         base_path="/api/v2/apm/config/metrics",
-        excluded_attributes=[],
     )
     # Additional SpansMetrics specific attributes
 
