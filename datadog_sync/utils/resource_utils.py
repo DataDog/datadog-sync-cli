@@ -60,6 +60,7 @@ def find_attr(keys_list_str: str, resource_to_connect: str, r_obj: Any, connect_
                 return find_attr(keys_list[1], resource_to_connect, r_obj[keys_list[0]], connect_func)
         return None
 
+
 def prep_resource(resource_config, resource):
     remove_excluded_attr(resource_config, resource)
     remove_non_nullable_attributes(resource_config, resource)

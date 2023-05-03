@@ -47,7 +47,9 @@ class ResourcesManager:
 
         resource = deepcopy(self.config.resources[resource_type].resource_config.source_resources[_id])
         if self.config.resources[resource_type].resource_config.resource_connections:
-            for resource_to_connect, v in self.config.resources[resource_type].resource_config.resource_connections.items():
+            for resource_to_connect, v in self.config.resources[
+                resource_type
+            ].resource_config.resource_connections.items():
                 for attr_connection in v:
                     failed = find_attr(
                         attr_connection,

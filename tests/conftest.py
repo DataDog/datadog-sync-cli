@@ -118,7 +118,7 @@ def vcr_config():
 def config():
     max_workers = os.getenv(constants.MAX_WORKERS)
     custom_client = CustomClient(None, {"apiKeyAuth": "123", "appKeyAuth": "123"}, None)
-    
+
     cfg = Configuration(
         logger=logging.getLogger(__name__),
         max_workers=int(max_workers),
@@ -129,7 +129,6 @@ def config():
         force_missing_dependencies=False,
         skip_failed_resource_connections=True,
         cleanup=False,
-
     )
 
     resources = init_resources(cfg)

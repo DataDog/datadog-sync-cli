@@ -311,5 +311,5 @@ def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str],
             )
 
         return confirm("Delete above resources from destination org?")
-    else: 
+    else:
         return False

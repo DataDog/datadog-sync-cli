@@ -45,7 +45,7 @@ class Users(BaseResource):
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
-        
+
         resource = cast(dict, resource)
         if resource["attributes"]["disabled"]:
             return

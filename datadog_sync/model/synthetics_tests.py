@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
     from datadog_sync.model.synthetics_private_locations import SyntheticsPrivateLocations
 
+
 class SyntheticsTests(BaseResource):
     resource_type = "synthetics_tests"
     resource_config = ResourceConfig(
