@@ -9,17 +9,15 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000005a26b184e4a907d9-5e44ee88746d1384-01
+      - 00-00000000000000009640615a871a39f8-f8cec3fda8600917-00
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:0
       x-datadog-parent-id:
-      - '6792816407817819012'
+      - '17928482660827531543'
       x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
+      - '0'
       x-datadog-trace-id:
-      - '6496074696858601433'
+      - '10826760545640266232'
     method: GET
     uri: https://api.datadoghq.eu/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -520,7 +518,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005", "attributes":
         {"name": "test-user", "handle": "new@example.com", "created_at": "2021-06-08T19:40:17.395117+00:00",
-        "modified_at": "2023-05-03T14:45:36.829662+00:00", "email": "new@example.com",
+        "modified_at": "2023-05-03T15:01:42.578905+00:00", "email": "new@example.com",
         "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
@@ -543,7 +541,7 @@ interactions:
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "attributes":
         {"name": "None+ updated", "handle": "test-user-example@datadoghq.com", "created_at":
-        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2023-05-03T14:45:37.271741+00:00",
+        "2021-06-07T16:53:26.412706+00:00", "modified_at": "2023-05-03T15:01:41.256768+00:00",
         "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
@@ -1240,17 +1238,17 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000008c16ed37c862eeb2-e5f409dc2cece5bf-01
+      - 00-0000000000000000491b4c47d8cf4a9c-8da99cee770fc828-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '16569879770254075327'
+      - '10207862578425612328'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '10094516438638456498'
+      - '5267888060603779740'
     method: GET
     uri: https://api.datadoghq.eu/api/v2/roles?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
@@ -1372,284 +1370,20 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000008e037a1e2398af8a-603e190ce87a6687-01
+      - 00-0000000000000000befecf4d8e717cba-9b2ad04ca512db09-00
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:0
       x-datadog-parent-id:
-      - '6935008019427780231'
+      - '11180978052506245897'
       x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
+      - '0'
       x-datadog-trace-id:
-      - '10233157048180715402'
+      - '13762665443300048058'
     method: GET
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
       string: '{"variables": []}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
-      "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-      "baz"], "value": {"secure": false, "value": "variable-value"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-000000000000000062f825fc469c1106-224797d96bfb5e0f-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '2470109880711339535'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '7131491775387799814'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"id": "2083ae41-7388-48e8-80d7-beb4b7eed3cc", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
-        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-        "baz"], "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
-        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
-        null, "value": {"secure": false, "value": "variable-value"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TEST_VARIABLE", "description": "test", "type": "variable", "tags":
-      ["check_type:api"], "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-00000000000000007628c503929fbb9f-97d49dfc084cea9e-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '10940543100586355358'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '8514271714679438239'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"id": "511b2dac-d831-42f5-8837-97f703fd5e93", "name": "TEST_VARIABLE",
-        "description": "test", "type": "variable", "tags": ["check_type:api"], "parse_test_public_id":
-        null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
-        null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
-        false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
-      "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-      "baz"], "value": {"secure": false, "value": "variable-value"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-00000000000000004d54e91b4c18cac0-58bf3049fa1962c9-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '6394883090176107209'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '5572334942414228160'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"id": "bb8ec6d1-65f4-41fd-82e3-99dd5e2428c3", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
-        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-        "baz"], "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
-        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
-        null, "value": {"secure": false, "value": "variable-value"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "EXAMPLE_VARIABLE", "description": "Description of the variable",
-      "type": "variable", "tags": ["foo:bar", "env:test"], "value": {"secure": false,
-      "value": "variable-value"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-00000000000000002b4ebd4b4d3fc400-a656ec603b6fd5ea-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '11986027356351354346'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '3120639722930553856'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"id": "cee7e78f-d992-40f2-ad50-df6c5676ff51", "name": "EXAMPLE_VARIABLE",
-        "description": "Description of the variable", "type": "variable", "tags":
-        ["foo:bar", "env:test"], "parse_test_public_id": null, "parse_test_name":
-        null, "parse_test_options": null, "parse_test_extracted_at": null, "is_totp":
-        null, "is_fido": null, "last_error": null, "value": {"secure": false, "value":
-        "variable-value"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TEST_SECRETS", "description": "", "type": "variable", "tags":
-      [], "value": {"secure": true, "value": "SECRET"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-00000000000000008a058210786a2b11-a4079463c6eea6f1-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '11819578903317358321'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '9945498359368919825'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"id": "1ffe5f7c-3b9f-499f-8c8a-29886812bac1", "name": "TEST_SECRETS",
-        "description": "", "type": "variable", "tags": [], "parse_test_public_id":
-        null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
-        null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
-        true}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"monitor_id": null, "start": 1777521600, "end": null, "canceled": null,
-      "message": "Sample downtime message", "disabled": false, "recurrence": null,
-      "timezone": "America/New_York", "parent_id": null, "downtime_type": 0, "status":
-      "scheduled", "monitor_tags": ["*"], "mute_first_recovery_notification": false,
-      "notify_end_types": ["expired"], "notify_end_states": ["alert", "no data", "warn"],
-      "scope": ["*"]}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-000000000000000006ad0c71e5cacd08-881f7edee0a7891a-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '9808698009153145114'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '481054418524622088'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/downtime
-  response:
-    body:
-      string: '{"id": 238947992, "monitor_id": null, "org_id": 1000044987, "start":
-        1777521600, "end": null, "canceled": null, "created": 1683126047, "modified":
-        1683126047, "message": "Sample downtime message", "active": false, "disabled":
-        false, "recurrence": null, "timezone": "America/New_York", "parent_id": null,
-        "child_id": null, "creator_id": 1000219663, "updater_id": null, "downtime_type":
-        0, "status": "scheduled", "monitor_tags": ["*"], "mute_first_recovery_notification":
-        false, "notify_end_types": ["expired"], "notify_end_states": ["alert", "no
-        data", "warn"], "uuid": "494d8240-e9c3-11ed-950b-da7ad0900005", "scope": ["*"]}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"monitor_id": null, "start": 1807675200, "end": null, "canceled": null,
-      "message": "Sample message", "disabled": false, "recurrence": null, "timezone":
-      "America/New_York", "parent_id": null, "downtime_type": 0, "status": "scheduled",
-      "monitor_tags": ["*"], "mute_first_recovery_notification": false, "notify_end_types":
-      ["expired"], "notify_end_states": ["alert", "no data", "warn"], "scope": ["*"]}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-00000000000000002a259518d748557e-51b80fb775e360fb-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '5888473793418191099'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '3036997457654863230'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/downtime
-  response:
-    body:
-      string: '{"id": 238947993, "monitor_id": null, "org_id": 1000044987, "start":
-        1807675200, "end": null, "canceled": null, "created": 1683126047, "modified":
-        1683126047, "message": "Sample message", "active": false, "disabled": false,
-        "recurrence": null, "timezone": "America/New_York", "parent_id": null, "child_id":
-        null, "creator_id": 1000219663, "updater_id": null, "downtime_type": 0, "status":
-        "scheduled", "monitor_tags": ["*"], "mute_first_recovery_notification": false,
-        "notify_end_types": ["expired"], "notify_end_states": ["alert", "no data",
-        "warn"], "uuid": "497b7cfe-e9c3-11ed-8ce1-da7ad0900005", "scope": ["*"]}'
     headers: {}
     status:
       code: 200
@@ -1670,30 +1404,30 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000000dfcecf3e06082b8-c5f9da8e0245d1f3-01
+      - 00-0000000000000000c13043a3920f4716-1f4799b59acf9f61-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '14265673598131098099'
+      - '2253939143787650913'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '1007940948809777848'
+      - '13920700818011408150'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 11105565, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 11109322, "org_id": 1000044987, "type": "metric alert", "name":
         "Composite monitor - Child 2", "message": "Test monitor ----------------",
         "tags": [], "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*} >
         50", "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "include_tags":
         true, "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
         300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
         "", "thresholds": {"critical": 50.0}, "silenced": {}}, "multi": false, "created_at":
-        1683126048000, "created": "2023-05-03T15:00:48.250958+00:00", "modified":
-        "2023-05-03T15:00:48.250958+00:00", "deleted": null, "restricted_roles": null,
+        1683133377000, "created": "2023-05-03T17:02:57.178088+00:00", "modified":
+        "2023-05-03T17:02:57.178088+00:00", "deleted": null, "restricted_roles": null,
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
         "email": "sherzod.karimov@datadoghq.com", "id": 1000219663}}'
@@ -1717,30 +1451,30 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000b5e2e5a8d8013985-d10fbd58e278503a-01
+      - 00-000000000000000055ef2ffc15575055-d86e5494659eacd6-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '15064467468031905850'
+      - '15595495555967397078'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '13106290378942790021'
+      - '6192220772394029141'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 11105566, "org_id": 1000044987, "type": "query alert", "name":
+      string: '{"id": 11109323, "org_id": 1000044987, "type": "query alert", "name":
         "Composite monitor - child 1", "message": "Composite monitor - child 1", "tags":
         [], "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*} > 20", "options":
         {"thresholds": {"critical": 20.0, "warning": 10.0}, "notify_audit": false,
         "require_full_window": true, "notify_no_data": false, "renotify_interval":
         1440, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
         "", "renotify_statuses": ["no data"], "new_host_delay": 300, "silenced": {}},
-        "multi": false, "created_at": 1683126048000, "created": "2023-05-03T15:00:48.567544+00:00",
-        "modified": "2023-05-03T15:00:48.567544+00:00", "deleted": null, "restricted_roles":
+        "multi": false, "created_at": 1683133377000, "created": "2023-05-03T17:02:57.495700+00:00",
+        "modified": "2023-05-03T17:02:57.495700+00:00", "deleted": null, "restricted_roles":
         null, "priority": null, "overall_state_modified": null, "overall_state": "No
         Data", "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
         "email": "sherzod.karimov@datadoghq.com", "id": 1000219663}}'
@@ -1763,28 +1497,26 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000004c29b52b2983e0b1-e270b7a8b8d5dfd3-01
+      - 00-00000000000000000d201b4f07a25311-ecd8353f9a1ad94b-00
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:0
       x-datadog-parent-id:
-      - '16316743385246719955'
+      - '17066449335205157195'
       x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
+      - '0'
       x-datadog-trace-id:
-      - '5488116817912389809'
+      - '945785947992249105'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 11105567, "org_id": 1000044987, "type": "service check", "name":
+      string: '{"id": 11109324, "org_id": 1000044987, "type": "service check", "name":
         "Host monitor", "message": "Test host monitor", "tags": [], "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
         "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "include_tags":
         true, "thresholds": {"warning": 1, "ok": 1, "critical": 1}, "new_host_delay":
         300, "notify_no_data": true, "renotify_interval": 0, "no_data_timeframe":
-        2, "silenced": {}}, "multi": true, "created_at": 1683126048000, "created":
-        "2023-05-03T15:00:48.909277+00:00", "modified": "2023-05-03T15:00:48.909277+00:00",
+        2, "silenced": {}}, "multi": true, "created_at": 1683133377000, "created":
+        "2023-05-03T17:02:57.904970+00:00", "modified": "2023-05-03T17:02:57.904970+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
         "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
@@ -1811,22 +1543,20 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000006b83b0b3e305e0c5-b10f8d80a8e1b2a1-01
+      - 00-000000000000000022efbfc5ad19d1e6-ae1ccb3a7decdf7a-00
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:0
       x-datadog-parent-id:
-      - '12758571853092598433'
+      - '12546126114028576634'
       x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
+      - '0'
       x-datadog-trace-id:
-      - '7747230070661832901'
+      - '2517441572457009638'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 11105568, "org_id": 1000044987, "type": "query alert", "name":
+      string: '{"id": 11109325, "org_id": 1000044987, "type": "query alert", "name":
         "Anomaly monitor", "message": "Anomaly monitor", "tags": [], "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
         ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
         count_default_zero=''true'') >= 1", "options": {"notify_audit": false, "locked":
@@ -1834,8 +1564,8 @@ interactions:
         true, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
         0, "escalation_message": "", "threshold_windows": {"recovery_window": "last_15m",
         "trigger_window": "last_15m"}, "thresholds": {"critical": 1.0, "critical_recovery":
-        0.0}, "silenced": {}}, "multi": false, "created_at": 1683126049000, "created":
-        "2023-05-03T15:00:49.213216+00:00", "modified": "2023-05-03T15:00:49.213216+00:00",
+        0.0}, "silenced": {}}, "multi": false, "created_at": 1683133378000, "created":
+        "2023-05-03T17:02:58.218329+00:00", "modified": "2023-05-03T17:02:58.218329+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
         "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
@@ -1860,29 +1590,29 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000fe84320eb888c1bd-bd24aea10347a6e6-01
+      - 00-00000000000000002541ea8e715eb9ec-45ed73611d12f81e-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '13629210378897958630'
+      - '5038810419034257438'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '18339838621366403517'
+      - '2684684750397815276'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 11105569, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 11109326, "org_id": 1000044987, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} stopped reporting", "message":
         "Private location {{location_id.name}} stopped reporting to Datadog.", "tags":
         [], "query": "min(last_5m):avg:synthetics.pl.worker.running{*} by {location_id}
         < 1", "options": {"notify_audit": false, "locked": false, "include_tags":
         true, "thresholds": {"critical": 1.0}, "new_host_delay": 300, "notify_no_data":
-        true, "silenced": {}}, "multi": true, "created_at": 1683126049000, "created":
-        "2023-05-03T15:00:49.581019+00:00", "modified": "2023-05-03T15:00:49.581019+00:00",
+        true, "silenced": {}}, "multi": true, "created_at": 1683133378000, "created":
+        "2023-05-03T17:02:58.560054+00:00", "modified": "2023-05-03T17:02:58.560054+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
         "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
@@ -1910,22 +1640,20 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000004d451c4a232b8472-ef622255f9a49e0f-01
+      - 00-0000000000000000bde0d960578f8eb0-fce21421b6562874-00
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:0
       x-datadog-parent-id:
-      - '17249387275438300687'
+      - '18222149177320024180'
       x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
+      - '0'
       x-datadog-trace-id:
-      - '5567887619056698482'
+      - '13682174675760680624'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 11105570, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 11109327, "org_id": 1000044987, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} uses an outdated image
         version", "message": "Private location {{location_id.name}} is running an
         outdated image version. Learn more about the current version in use on your
@@ -1935,8 +1663,8 @@ interactions:
         "tags": [], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*} by
         {location_id} > 0", "options": {"notify_audit": false, "locked": false, "include_tags":
         true, "thresholds": {"critical": 0.0}, "new_host_delay": 300, "notify_no_data":
-        false, "silenced": {}}, "multi": true, "created_at": 1683126049000, "created":
-        "2023-05-03T15:00:49.918463+00:00", "modified": "2023-05-03T15:00:49.918463+00:00",
+        false, "silenced": {}}, "multi": true, "created_at": 1683133378000, "created":
+        "2023-05-03T17:02:58.933846+00:00", "modified": "2023-05-03T17:02:58.933846+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
         "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
@@ -1962,30 +1690,28 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000007a12992e21c3e6de-8695f13205f3aad3-01
+      - 00-0000000000000000e897201ba3cc91bb-672b4ac4060c1b35-00
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:0
       x-datadog-parent-id:
-      - '9697922569762745043'
+      - '7434117815680637749'
       x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
+      - '0'
       x-datadog-trace-id:
-      - '8796261445622032094'
+      - '16759899841366888891'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 11105571, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 11109328, "org_id": 1000044987, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} is underprovisioned",
         "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
         this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#dimension-your-private-location)
         to learn how to scale your private location.", "tags": [], "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*}
         by {location_id} < 1.5", "options": {"notify_audit": false, "locked": false,
         "include_tags": true, "thresholds": {"critical": 1.5}, "new_host_delay": 300,
-        "notify_no_data": false, "silenced": {}}, "multi": true, "created_at": 1683126050000,
-        "created": "2023-05-03T15:00:50.249302+00:00", "modified": "2023-05-03T15:00:50.249302+00:00",
+        "notify_no_data": false, "silenced": {}}, "multi": true, "created_at": 1683133379000,
+        "created": "2023-05-03T17:02:59.323130+00:00", "modified": "2023-05-03T17:02:59.323130+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
         "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
@@ -2010,33 +1736,72 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000003bedb6697d02bae5-59c3fafc686b33db-01
+      - 00-0000000000000000b61707fc10c53793-c6b5b1899aad39c9-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '6468289451824722907'
+      - '14318545794858039753'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '4318308181903325925'
+      - '13120964818561742739'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 11105572, "org_id": 1000044987, "type": "event-v2 alert", "name":
+      string: '{"id": 11109329, "org_id": 1000044987, "type": "event-v2 alert", "name":
         "Test event monitor", "message": "Test event monitor", "tags": [], "query":
         "events(\"\").rollup(\"count\").last(\"5m\") > 100", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "include_tags": true, "restriction_query":
         null, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
         0, "groupby_simple_monitor": true, "enable_logs_sample": false, "escalation_message":
         "", "thresholds": {"critical": 100.0}, "silenced": {}}, "multi": false, "created_at":
-        1683126050000, "created": "2023-05-03T15:00:50.583343+00:00", "modified":
-        "2023-05-03T15:00:50.583343+00:00", "deleted": null, "restricted_roles": null,
+        1683133379000, "created": "2023-05-03T17:02:59.669905+00:00", "modified":
+        "2023-05-03T17:02:59.669905+00:00", "deleted": null, "restricted_roles": null,
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
         "email": "sherzod.karimov@datadoghq.com", "id": 1000219663}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "SLO test", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
+      "7d", "target": 99.0, "target_display": "99."}], "type": "metric", "type_id":
+      1, "description": "Test update creation", "timeframe": "7d", "target_threshold":
+      99.0, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
+      "sum:api.requests.status_ok{*}.as_count()"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000e8f49c7290b6628c-8e24bbd1333eee0c-00
+      tracestate:
+      - dd=s:0
+      x-datadog-parent-id:
+      - '10242517959729671692'
+      x-datadog-sampling-priority:
+      - '0'
+      x-datadog-trace-id:
+      - '16786213726984757900'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"data": [{"id": "fb9a9044cdc656668b0964fd174f9e22", "name": "SLO test",
+        "tags": [], "monitor_tags": [], "thresholds": [{"timeframe": "7d", "target":
+        99.0, "target_display": "99."}], "type": "metric", "type_id": 1, "description":
+        "Test update creation", "timeframe": "7d", "target_threshold": 99.0, "query":
+        {"denominator": "sum:api.requests{*}.as_count()", "numerator": "sum:api.requests.status_ok{*}.as_count()"},
+        "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com"}, "created_at": 1683133380, "modified_at":
+        1683133380}], "error": null}'
     headers: {}
     status:
       code: 200
@@ -2060,24 +1825,22 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000480fb36c298266f8-25ffea42b4a055ff-01
+      - 00-0000000000000000945217053a31fa68-4f1d6b5528d95d01-00
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:0
       x-datadog-parent-id:
-      - '2738164670683698687'
+      - '5700830716822641921'
       x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
+      - '0'
       x-datadog-trace-id:
-      - '5192566172515723000'
+      - '10687630176922237544'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"public_id": "q32-bdv-qcr", "name": "HTTP Test", "status": "paused",
-        "type": "api", "tags": [], "created_at": "2023-05-03T15:00:51.137771+00:00",
-        "modified_at": "2023-05-03T15:00:51.137771+00:00", "config": {"request": {"url":
+      string: '{"public_id": "5v3-azc-7gk", "name": "HTTP Test", "status": "paused",
+        "type": "api", "tags": [], "created_at": "2023-05-03T17:03:00.635312+00:00",
+        "modified_at": "2023-05-03T17:03:00.635312+00:00", "config": {"request": {"url":
         "https://google.com", "method": "GET"}, "assertions": [{"operator": "lessThan",
         "type": "responseTime", "target": 1000}, {"operator": "is", "type": "statusCode",
         "target": 301}, {"operator": "is", "property": "content-type", "type": "header",
@@ -2086,7 +1849,7 @@ interactions:
         {"include_tags": true, "notify_audit": false, "new_host_delay": 300, "on_missing_data":
         "show_no_data", "renotify_interval": 120}, "monitor_priority": 3, "min_location_failed":
         1, "min_failure_duration": 120}, "locations": ["aws:ca-central-1"], "subtype":
-        "http", "deleted_at": null, "monitor_id": 11105573, "org_id": 1000044987}'
+        "http", "deleted_at": null, "monitor_id": 11109330, "org_id": 1000044987}'
     headers: {}
     status:
       code: 200
@@ -2116,24 +1879,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000cdecb9e1e5b7d502-45790eb2af25b3a3-01
+      - 00-000000000000000017b397e2800b1137-9aa83b766440383c-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '5006048621404468131'
+      - '11144222657602402364'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '14838439252151751938'
+      - '1707875682770161975'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"public_id": "epm-idu-kfi", "name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
-        "status": "live", "type": "api", "tags": ["testing:api"], "created_at": "2023-05-03T15:00:51.672652+00:00",
-        "modified_at": "2023-05-03T15:00:51.672652+00:00", "config": {"request": {"certificate":
+      string: '{"public_id": "ipy-9g9-deg", "name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
+        "status": "live", "type": "api", "tags": ["testing:api"], "created_at": "2023-05-03T17:03:01.163144+00:00",
+        "modified_at": "2023-05-03T17:03:01.163144+00:00", "config": {"request": {"certificate":
         {"cert": {"updatedAt": "2020-10-16T09:23:24.857Z", "filename": "cert-filename"},
         "key": {"updatedAt": "2020-10-16T09:23:24.857Z", "filename": "key-filename"}},
         "url": "https://datadoghq.com", "headers": {"unique": "testtriggersyntheticstestsreturnsokresponse1666783270"},
@@ -2148,7 +1911,7 @@ interactions:
         10}, "min_location_failed": 1, "allow_insecure": true, "follow_redirects":
         true, "min_failure_duration": 10, "monitor_priority": 5, "monitor_name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
         "tick_every": 60}, "locations": ["aws:us-east-2"], "subtype": "http", "deleted_at":
-        null, "monitor_id": 11105574, "org_id": 1000044987}'
+        null, "monitor_id": 11109331, "org_id": 1000044987}'
     headers: {}
     status:
       code: 200
@@ -2169,30 +1932,30 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-000000000000000085b70e4eae0c942e-76d9b1769575ca43-01
+      - 00-00000000000000003b65f5bf5fd0b66a-6461f1f337f6155c-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '8564071289293490755'
+      - '7233328503451948380'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '9635185658872763438'
+      - '4280097223180596842'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"public_id": "yrp-39f-xy5", "name": "TCP Test", "status": "live",
-        "type": "api", "tags": ["foo:bar", "foo", "env:test"], "created_at": "2023-05-03T15:00:52.241975+00:00",
-        "modified_at": "2023-05-03T15:00:52.241975+00:00", "config": {"request": {"host":
+      string: '{"public_id": "n8t-ea7-xsd", "name": "TCP Test", "status": "live",
+        "type": "api", "tags": ["foo:bar", "foo", "env:test"], "created_at": "2023-05-03T17:03:01.618268+00:00",
+        "modified_at": "2023-05-03T17:03:01.618268+00:00", "config": {"request": {"host":
         "example.org", "port": 443}, "assertions": [{"operator": "lessThan", "type":
         "responseTime", "target": 2000}]}, "message": "Notify @pagerduty", "options":
         {"monitor_options": {"notify_audit": false, "include_tags": true, "new_host_delay":
         300, "on_missing_data": "show_no_data", "renotify_interval": 0}, "tick_every":
         900, "min_location_failed": 1}, "locations": ["aws:eu-central-1"], "subtype":
-        "tcp", "deleted_at": null, "monitor_id": 11105575, "org_id": 1000044987}'
+        "tcp", "deleted_at": null, "monitor_id": 11109332, "org_id": 1000044987}'
     headers: {}
     status:
       code: 200
@@ -2213,30 +1976,65 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000005afb6b5ca3833287-9d430e63a18c13c5-01
+      - 00-00000000000000004f2f9806f2267dc0-81b09e0669719349-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '11331916908469162949'
+      - '9345142977169822537'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '6555951728192336519'
+      - '5705946408501542336'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"public_id": "trj-nun-3dx", "name": "SSL Test", "status": "live",
-        "type": "api", "tags": ["foo:bar", "foo", "env:test"], "created_at": "2023-05-03T15:00:52.790045+00:00",
-        "modified_at": "2023-05-03T15:00:52.790045+00:00", "config": {"request": {"host":
+      string: '{"public_id": "hv8-cxs-crv", "name": "SSL Test", "status": "live",
+        "type": "api", "tags": ["foo:bar", "foo", "env:test"], "created_at": "2023-05-03T17:03:02.137092+00:00",
+        "modified_at": "2023-05-03T17:03:02.137092+00:00", "config": {"request": {"host":
         "example.org", "port": 443}, "assertions": [{"operator": "isInMoreThan", "type":
         "certificate", "target": 30}]}, "message": "Notify @pagerduty", "options":
         {"accept_self_signed": true, "monitor_options": {"notify_audit": false, "include_tags":
         true, "new_host_delay": 300, "on_missing_data": "show_no_data", "renotify_interval":
         0}, "min_location_failed": 1, "tick_every": 900}, "locations": ["aws:eu-central-1"],
-        "subtype": "ssl", "deleted_at": null, "monitor_id": 11105576, "org_id": 1000044987}'
+        "subtype": "ssl", "deleted_at": null, "monitor_id": 11109333, "org_id": 1000044987}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "TEST_VARIABLE", "description": "test", "type": "variable", "tags":
+      ["check_type:api"], "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000bd95abcca775f359-cdd011795798203f-01
+      tracestate:
+      - dd=s:1;t.dm:-1
+      x-datadog-parent-id:
+      - '14830372785789345855'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-1
+      x-datadog-trace-id:
+      - '13661013940169470809'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"id": "61ac48b4-b947-4c1e-a6e8-d2e2f76d1fb0", "name": "TEST_VARIABLE",
+        "description": "test", "type": "variable", "tags": ["check_type:api"], "parse_test_public_id":
+        null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
+        null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
+        false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
     headers: {}
     status:
       code: 200
@@ -2257,30 +2055,28 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-000000000000000009b1dc4b2ed445fd-c37d7f57eb28870e-01
+      - 00-0000000000000000252f26332df57cab-8be5c000d535e8f2-00
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:0
       x-datadog-parent-id:
-      - '14086555225068963598'
+      - '10080674450748336370'
       x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
+      - '0'
       x-datadog-trace-id:
-      - '698581632685458941'
+      - '2679402304564985003'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"public_id": "zyv-yah-wii", "name": "DNS Test", "status": "live",
-        "type": "api", "tags": ["foo:bar", "foo", "env:test"], "created_at": "2023-05-03T15:00:53.267984+00:00",
-        "modified_at": "2023-05-03T15:00:53.267984+00:00", "config": {"request": {"host":
+      string: '{"public_id": "n6g-ki8-yeg", "name": "DNS Test", "status": "live",
+        "type": "api", "tags": ["foo:bar", "foo", "env:test"], "created_at": "2023-05-03T17:03:03.505961+00:00",
+        "modified_at": "2023-05-03T17:03:03.505961+00:00", "config": {"request": {"host":
         "example.org"}, "assertions": [{"operator": "is", "property": "A", "type":
         "recordSome", "target": "0.0.0.0"}]}, "message": "Notify @pagerduty", "options":
         {"monitor_options": {"notify_audit": false, "include_tags": true, "new_host_delay":
         300, "on_missing_data": "show_no_data", "renotify_interval": 0}, "tick_every":
         900, "min_location_failed": 1}, "locations": ["aws:eu-central-1"], "subtype":
-        "dns", "deleted_at": null, "monitor_id": 11105577, "org_id": 1000044987}'
+        "dns", "deleted_at": null, "monitor_id": 11109334, "org_id": 1000044987}'
     headers: {}
     status:
       code: 200
@@ -2306,24 +2102,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000171915422e457c3a-a95af968cef8dfb4-01
+      - 00-000000000000000089e76964f7170c09-ca4e8e1ec1f24421-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '12203340368858111924'
+      - '14577745306598917153'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '1664384911278439482'
+      - '9937026985179417609'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"public_id": "x6a-f23-s48", "name": "Multistep API Test", "status":
+      string: '{"public_id": "w2x-89q-6n2", "name": "Multistep API Test", "status":
         "live", "type": "api", "tags": ["check_type:api", "env:test", "test:update"],
-        "created_at": "2023-05-03T15:00:53.936217+00:00", "modified_at": "2023-05-03T15:00:53.936217+00:00",
+        "created_at": "2023-05-03T17:03:04.169266+00:00", "modified_at": "2023-05-03T17:03:04.169266+00:00",
         "config": {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test
         on datadoghq.com", "request": {"url": "https://datadoghq.com", "headers":
         {"content-type": "text/html"}, "method": "GET"}, "subtype": "http", "allowFailure":
@@ -2334,7 +2130,331 @@ interactions:
         true, "new_host_delay": 300, "on_missing_data": "show_no_data", "renotify_interval":
         0}, "retry": {"count": 0, "interval": 300}, "min_location_failed": 1, "min_failure_duration":
         0, "tick_every": 604800}, "locations": ["aws:sa-east-1"], "subtype": "multi",
-        "deleted_at": null, "monitor_id": 11105578, "org_id": 1000044987}'
+        "deleted_at": null, "monitor_id": 11109335, "org_id": 1000044987}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "datadog-sync-cli test", "tags": ["key:value"], "name":
+      "Test Private Variable"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-00000000000000005a372c0100d36b05-f187f450434a8dec-00
+      tracestate:
+      - dd=s:0
+      x-datadog-parent-id:
+      - '17404147910560091628'
+      x-datadog-sampling-priority:
+      - '0'
+      x-datadog-trace-id:
+      - '6500712969953045253'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations
+  response:
+    body:
+      string: '{"private_location": {"createdAt": "2023-05-03T17:03:18.255879+00:00",
+        "modifiedAt": "2023-05-03T17:03:18.255879+00:00", "description": "datadog-sync-cli
+        test", "tags": ["key:value"], "name": "Test Private Variable", "metadata":
+        null, "id": "pl:test-private-variable-e5c58cc7c9676059f9df68ea14a6a2f1", "createdBy":
+        "sherzod.karimov@datadoghq.com", "config": {"site": "datadoghq.eu"}}, "result_encryption":
+        {"id": "sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins=", "key":
+        "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
+        PUBLIC KEY-----\n"}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
+      "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+      "baz"], "value": {"secure": false, "value": "variable-value"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-00000000000000001a9260d588d0e319-68962426abe31448-00
+      tracestate:
+      - dd=s:0
+      x-datadog-parent-id:
+      - '7536250774962246728'
+      x-datadog-sampling-priority:
+      - '0'
+      x-datadog-trace-id:
+      - '1914699261825573657'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"id": "921a30a2-f2aa-49b5-af68-444a89995b05", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
+        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+        "baz"], "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
+        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
+        null, "value": {"secure": false, "value": "variable-value"}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
+      "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+      "baz"], "value": {"secure": false, "value": "variable-value"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000da9aef197752efd9-2ae50271f3c57d2e-01
+      tracestate:
+      - dd=s:1;t.dm:-1
+      x-datadog-parent-id:
+      - '3090879407704079662'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-1
+      x-datadog-trace-id:
+      - '15752165539336875993'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"id": "d83041ed-5f13-48df-8cb4-9eb6aa2d9194", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
+        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+        "baz"], "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
+        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
+        null, "value": {"secure": false, "value": "variable-value"}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "EXAMPLE_VARIABLE", "description": "Description of the variable",
+      "type": "variable", "tags": ["foo:bar", "env:test"], "value": {"secure": false,
+      "value": "variable-value"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000eb2688d21d73ebee-441d744c19311711-01
+      tracestate:
+      - dd=s:1;t.dm:-1
+      x-datadog-parent-id:
+      - '4908207039092692753'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-1
+      x-datadog-trace-id:
+      - '16944381084046715886'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"id": "73ff00c1-e946-4afa-999a-4f61c93021ff", "name": "EXAMPLE_VARIABLE",
+        "description": "Description of the variable", "type": "variable", "tags":
+        ["foo:bar", "env:test"], "parse_test_public_id": null, "parse_test_name":
+        null, "parse_test_options": null, "parse_test_extracted_at": null, "is_totp":
+        null, "is_fido": null, "last_error": null, "value": {"secure": false, "value":
+        "variable-value"}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "TEST_SECRETS", "description": "", "type": "variable", "tags":
+      [], "value": {"secure": true, "value": "SECRET"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000fc2979bf5f6113fd-7f4b4caf1cde066c-00
+      tracestate:
+      - dd=s:0
+      x-datadog-parent-id:
+      - '9172509381057447532'
+      x-datadog-sampling-priority:
+      - '0'
+      x-datadog-trace-id:
+      - '18170188034448888829'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+  response:
+    body:
+      string: '{"id": "c3370f38-cca6-4ccd-a899-8b61f756a2f6", "name": "TEST_SECRETS",
+        "description": "", "type": "variable", "tags": [], "parse_test_public_id":
+        null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
+        null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
+        true}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"title": "datadog-sync-cli Test Dashboard", "description": "", "layout_type":
+      "ordered", "is_read_only": false, "template_variables": [], "widgets": [{"definition":
+      {"title_size": "16", "title": "", "title_align": "left", "precision": 2, "time":
+      {}, "autoscale": true, "requests": [{"response_format": "scalar", "queries":
+      [{"query": "avg:system.cpu.user{*}", "data_source": "metrics", "name": "query1",
+      "aggregator": "avg"}]}], "type": "query_value"}, "layout": {"y": 0, "x": 0,
+      "height": 2, "width": 2}, "id": 6609238960092638}], "notify_list": [], "reflow_type":
+      "fixed", "restricted_roles": []}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000974999953bdddc31-6f2b6444c1ef47ed-01
+      tracestate:
+      - dd=s:1;t.dm:-1
+      x-datadog-parent-id:
+      - '8010606608682797037'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-1
+      x-datadog-trace-id:
+      - '10901413239260568625'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/dashboard
+  response:
+    body:
+      string: '{"id": "4h7-3ra-hd5", "title": "datadog-sync-cli Test Dashboard", "description":
+        "", "author_handle": "sherzod.karimov@datadoghq.com", "author_name": "Sherzod
+        Karimov", "layout_type": "ordered", "url": "/dashboard/4h7-3ra-hd5/datadog-sync-cli-test-dashboard",
+        "is_read_only": false, "template_variables": [], "widgets": [{"definition":
+        {"title_size": "16", "title": "", "title_align": "left", "precision": 2, "time":
+        {}, "autoscale": true, "requests": [{"response_format": "scalar", "queries":
+        [{"query": "avg:system.cpu.user{*}", "data_source": "metrics", "name": "query1",
+        "aggregator": "avg"}]}], "type": "query_value"}, "layout": {"y": 0, "x": 0,
+        "height": 2, "width": 2}, "id": 6609238960092638}], "notify_list": [], "created_at":
+        "2023-05-03T17:03:20.106646+00:00", "modified_at": "2023-05-03T17:03:20.106646+00:00",
+        "reflow_type": "fixed", "restricted_roles": []}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"title": "Test screenboard", "description": "Created using the Datadog
+      provider in Terraform", "layout_type": "free", "is_read_only": false, "template_variables":
+      [{"default": "aws", "prefix": "host", "name": "var_1"}, {"default": "autoscaling",
+      "prefix": "service_name", "name": "var_2"}], "widgets": [{"definition": {"title_size":
+      "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
+      "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout": {"y":
+      5, "x": 5, "height": 43, "width": 32}, "id": 4066667513687323}, {"definition":
+      {"title_size": "16", "title": "Widget Title", "title_align": "left", "time":
+      {"live_span": "1h"}, "query": "*", "type": "event_timeline"}, "layout": {"y":
+      73, "x": 42, "height": 9, "width": 65}, "id": 68713679518613}, {"definition":
+      {"color": "#d00", "text": "free text content", "type": "free_text", "font_size":
+      "88", "text_align": "left"}, "layout": {"y": 5, "x": 42, "height": 20, "width":
+      30}, "id": 1117617615518455}, {"definition": {"url": "http://google.com", "type":
+      "iframe"}, "layout": {"y": 8, "x": 111, "height": 46, "width": 39}, "id": 3098118775539428},
+      {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
+      "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
+      77, "height": 20, "width": 30}, "id": 651713243056399}, {"definition": {"logset":
+      "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
+      "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
+      "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
+      "tag_source"]}, "layout": {"y": 51, "x": 5, "height": 36, "width": 32}, "id":
+      5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
+      "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts": true,
+      "start": 0, "summary_type": "monitors", "query": "type:metric", "color_preference":
+      "text", "show_last_triggered": false, "display_format": "countsAndList", "type":
+      "manage_status"}, "layout": {"y": 55, "x": 112, "height": 40, "width": 30},
+      "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query", "title_size":
+      "13", "service": "alerting-cassandra", "title": "alerting-cassandra #env:datad0g.com",
+      "size_format": "large", "show_hits": true, "show_latency": false, "title_align":
+      "center", "show_errors": true, "show_breakdown": true, "env": "datad0g.com",
+      "time": {"live_span": "1h"}, "show_distribution": true, "display_format": "three_column",
+      "type": "trace_service", "show_resource_list": false}, "layout": {"y": 28, "x":
+      40, "height": 38, "width": 67}, "id": 6949442529647217}], "notify_list": [],
+      "template_variable_presets": [{"template_variables": [{"name": "var_1", "value":
+      "host.dc"}, {"name": "var_2", "value": "my_service"}], "name": "preset_1"}],
+      "restricted_roles": []}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-00000000000000002846b0a109416f27-2cac8f957a9b4544-00
+      tracestate:
+      - dd=s:0
+      x-datadog-parent-id:
+      - '3219105705832957252'
+      x-datadog-sampling-priority:
+      - '0'
+      x-datadog-trace-id:
+      - '2902201215578369831'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/dashboard
+  response:
+    body:
+      string: '{"id": "rst-wi9-itq", "title": "Test screenboard", "description": "Created
+        using the Datadog provider in Terraform", "author_handle": "sherzod.karimov@datadoghq.com",
+        "author_name": "Sherzod Karimov", "layout_type": "free", "url": "/dashboard/rst-wi9-itq/test-screenboard",
+        "is_read_only": false, "template_variables": [{"default": "aws", "prefix":
+        "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
+        "name": "var_2"}], "widgets": [{"definition": {"title_size": "16", "title":
+        "Widget Title", "title_align": "left", "time": {"live_span": "1h"}, "query":
+        "*", "type": "event_stream", "event_size": "l"}, "layout": {"y": 5, "x": 5,
+        "height": 43, "width": 32}, "id": 4066667513687323}, {"definition": {"title_size":
+        "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
+        "1h"}, "query": "*", "type": "event_timeline"}, "layout": {"y": 73, "x": 42,
+        "height": 9, "width": 65}, "id": 68713679518613}, {"definition": {"color":
+        "#d00", "text": "free text content", "type": "free_text", "font_size": "88",
+        "text_align": "left"}, "layout": {"y": 5, "x": 42, "height": 20, "width":
+        30}, "id": 1117617615518455}, {"definition": {"url": "http://google.com",
+        "type": "iframe"}, "layout": {"y": 8, "x": 111, "height": 46, "width": 39},
+        "id": 3098118775539428}, {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
+        "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
+        77, "height": 20, "width": 30}, "id": 651713243056399}, {"definition": {"logset":
+        "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
+        "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
+        "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
+        "tag_source"]}, "layout": {"y": 51, "x": 5, "height": 36, "width": 32}, "id":
+        5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
+        "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts":
+        true, "start": 0, "summary_type": "monitors", "query": "type:metric", "color_preference":
+        "text", "show_last_triggered": false, "display_format": "countsAndList", "type":
+        "manage_status"}, "layout": {"y": 55, "x": 112, "height": 40, "width": 30},
+        "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query", "title_size":
+        "13", "service": "alerting-cassandra", "title": "alerting-cassandra #env:datad0g.com",
+        "size_format": "large", "show_hits": true, "show_latency": false, "title_align":
+        "center", "show_errors": true, "show_breakdown": true, "env": "datad0g.com",
+        "time": {"live_span": "1h"}, "show_distribution": true, "display_format":
+        "three_column", "type": "trace_service", "show_resource_list": false}, "layout":
+        {"y": 28, "x": 40, "height": 38, "width": 67}, "id": 6949442529647217}], "notify_list":
+        [], "created_at": "2023-05-03T17:03:20.880743+00:00", "modified_at": "2023-05-03T17:03:20.880743+00:00",
+        "template_variable_presets": [{"template_variables": [{"name": "var_1", "value":
+        "host.dc"}, {"name": "var_2", "value": "my_service"}], "name": "preset_1"}],
+        "restricted_roles": []}'
     headers: {}
     status:
       code: 200
@@ -2350,24 +2470,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000003e56f936d48b7c17-ad7932e67c3f2eba-01
+      - 00-000000000000000076430302043dab22-6d9f63a084ef585c-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '12500078206251904698'
+      - '7899141812507334748'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '4492051692238109719'
+      - '8521658227111078690'
     method: PATCH
     uri: https://api.datadoghq.eu/api/v2/users/5a322106-c891-11eb-873a-da7ad0900005
   response:
     body:
       string: '{"data": {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005",
         "attributes": {"name": "test-user", "handle": "new@example.com", "created_at":
-        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2023-05-03T15:00:54.362995+00:00",
+        "2021-06-08T19:40:17.395117+00:00", "modified_at": "2023-05-03T17:03:21.332901+00:00",
         "email": "new@example.com", "icon": "https://secure.gravatar.com/avatar/b681d72feaf8bf6a93d9a8ab86679ec3?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
@@ -2412,24 +2532,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-000000000000000058ee1c99c34320d9-c96c05e76ead699d-01
+      - 00-0000000000000000b78a01764d434ef5-d0ac8c6e77dea95a-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '14513982190660708765'
+      - '15036547661968615770'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '6408090766526324953'
+      - '13225384863340908277'
     method: POST
     uri: https://api.datadoghq.eu/api/v2/roles
   response:
     body:
-      string: '{"data": {"type": "roles", "id": "4da9d92e-e9c3-11ed-a6ce-da7ad0900005",
-        "attributes": {"name": "Datadog Read Only Role", "created_at": "2023-05-03T15:00:54.920156+00:00",
-        "modified_at": "2023-05-03T15:00:54.972735+00:00"}, "relationships": {"permissions":
+      string: '{"data": {"type": "roles", "id": "68dcc326-e9d4-11ed-8f37-da7ad0900005",
+        "attributes": {"name": "Datadog Read Only Role", "created_at": "2023-05-03T17:03:21.998414+00:00",
+        "modified_at": "2023-05-03T17:03:22.042211+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
         "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
@@ -2456,6 +2576,89 @@ interactions:
         "id": "926612da-7a4c-11ed-b809-da7ad0900005"}, {"type": "permissions", "id":
         "8b2660ac-7aff-11ed-9d0d-da7ad0900005"}, {"type": "permissions", "id": "55f64460-7d61-11ed-9c36-da7ad0900005"},
         {"type": "permissions", "id": "94c8a4da-de87-11ed-9e92-da7ad0900005"}]}}}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"monitor_id": null, "start": 1777521600, "end": null, "canceled": null,
+      "message": "Sample downtime message", "disabled": false, "recurrence": null,
+      "timezone": "America/New_York", "parent_id": null, "downtime_type": 0, "status":
+      "scheduled", "monitor_tags": ["*"], "mute_first_recovery_notification": false,
+      "notify_end_types": ["expired"], "notify_end_states": ["alert", "no data", "warn"],
+      "scope": ["*"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000d1306ec2b800bacd-dfde6cee98ab777c-01
+      tracestate:
+      - dd=s:1;t.dm:-1
+      x-datadog-parent-id:
+      - '16131450687307085692'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-1
+      x-datadog-trace-id:
+      - '15073669735398816461'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/downtime
+  response:
+    body:
+      string: '{"id": 238984938, "monitor_id": null, "org_id": 1000044987, "start":
+        1777521600, "end": null, "canceled": null, "created": 1683133402, "modified":
+        1683133402, "message": "Sample downtime message", "active": false, "disabled":
+        false, "recurrence": null, "timezone": "America/New_York", "parent_id": null,
+        "child_id": null, "creator_id": 1000219663, "updater_id": null, "downtime_type":
+        0, "status": "scheduled", "monitor_tags": ["*"], "mute_first_recovery_notification":
+        false, "notify_end_types": ["expired"], "notify_end_states": ["alert", "no
+        data", "warn"], "uuid": "69219348-e9d4-11ed-8f43-da7ad0900005", "scope": ["*"]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"monitor_id": null, "start": 1807675200, "end": null, "canceled": null,
+      "message": "Sample message", "disabled": false, "recurrence": null, "timezone":
+      "America/New_York", "parent_id": null, "downtime_type": 0, "status": "scheduled",
+      "monitor_tags": ["*"], "mute_first_recovery_notification": false, "notify_end_types":
+      ["expired"], "notify_end_states": ["alert", "no data", "warn"], "scope": ["*"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000bcc892e767a3259e-bf62bf132abd943b-01
+      tracestate:
+      - dd=s:1;t.dm:-1
+      x-datadog-parent-id:
+      - '13790795098004231227'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-1
+      x-datadog-trace-id:
+      - '13603284197046429086'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/downtime
+  response:
+    body:
+      string: '{"id": 238984939, "monitor_id": null, "org_id": 1000044987, "start":
+        1807675200, "end": null, "canceled": null, "created": 1683133402, "modified":
+        1683133402, "message": "Sample message", "active": false, "disabled": false,
+        "recurrence": null, "timezone": "America/New_York", "parent_id": null, "child_id":
+        null, "creator_id": 1000219663, "updater_id": null, "downtime_type": 0, "status":
+        "scheduled", "monitor_tags": ["*"], "mute_first_recovery_notification": false,
+        "notify_end_types": ["expired"], "notify_end_states": ["alert", "no data",
+        "warn"], "uuid": "6960d51c-e9d4-11ed-9e9b-da7ad0900005", "scope": ["*"]}'
     headers: {}
     status:
       code: 200
@@ -2543,24 +2746,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000457f9e7296669878-4225fa2723c3ddc2-01
+      - 00-000000000000000016314e0d30b6bf09-e143de691e5dd9b9-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '4766490826652245442'
+      - '16232062025035798969'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '5007895525646047352'
+      - '1599145161252060937'
     method: POST
     uri: https://api.datadoghq.eu/api/v2/roles
   response:
     body:
-      string: '{"data": {"type": "roles", "id": "4e44925c-e9c3-11ed-9fb3-da7ad0900005",
-        "attributes": {"name": "Datadog Standard Role", "created_at": "2023-05-03T15:00:55.935067+00:00",
-        "modified_at": "2023-05-03T15:00:56.010848+00:00"}, "relationships": {"permissions":
+      string: '{"data": {"type": "roles", "id": "6a13b056-e9d4-11ed-849e-da7ad0900005",
+        "attributes": {"name": "Datadog Standard Role", "created_at": "2023-05-03T17:03:24.035618+00:00",
+        "modified_at": "2023-05-03T17:03:24.117953+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "f1666372-d87d-11e8-acac-6be484ba794a"},
         {"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"}, {"type":
         "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c"}, {"type": "permissions",
@@ -2660,24 +2863,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000750373da72c74b68-5e734fff7c843286-01
+      - 00-0000000000000000551c9974af346b7c-1bb797263bba5c55-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '6805871420611244678'
+      - '1997231150228724821'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '8431710309433428840'
+      - '6132945519006477180'
     method: POST
     uri: https://api.datadoghq.eu/api/v2/roles
   response:
     body:
-      string: '{"data": {"type": "roles", "id": "4e9f2848-e9c3-11ed-897e-da7ad0900005",
+      string: '{"data": {"type": "roles", "id": "6a6c4b58-e9d4-11ed-8440-da7ad0900005",
         "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670404530",
-        "created_at": "2023-05-03T15:00:56.528615+00:00", "modified_at": "2023-05-03T15:00:56.571106+00:00"},
+        "created_at": "2023-05-03T17:03:24.616315+00:00", "modified_at": "2023-05-03T17:03:24.652819+00:00"},
         "relationships": {"permissions": {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039"}, {"type":
         "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
@@ -2714,24 +2917,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000a25c7dfc213b6b9e-c3974803e9555aff-01
+      - 00-0000000000000000ad751a092858ce52-e61c2b63ff4c509e-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '14093812740516043519'
+      - '16581175636556271774'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '11699364453844478878'
+      - '12498924967470616146'
     method: POST
     uri: https://api.datadoghq.eu/api/v2/roles
   response:
     body:
-      string: '{"data": {"type": "roles", "id": "4ee66c94-e9c3-11ed-897e-da7ad0900005",
+      string: '{"data": {"type": "roles", "id": "6ab81466-e9d4-11ed-a7aa-da7ad0900005",
         "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670404619",
-        "created_at": "2023-05-03T15:00:56.996604+00:00", "modified_at": "2023-05-03T15:00:57.053309+00:00"},
+        "created_at": "2023-05-03T17:03:25.113579+00:00", "modified_at": "2023-05-03T17:03:25.145589+00:00"},
         "relationships": {"permissions": {"data": [{"type": "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"},
         {"type": "permissions", "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type":
         "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions",
@@ -2766,24 +2969,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000add7b9ffbf97c4f5-468d73c8d2b0c797-01
+      - 00-0000000000000000263e57b3b56866f3-dd39d4383d913a9b-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '5083846860736612247'
+      - '15941005694070766235'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '12526685396636517621'
+      - '2755736451351602931'
     method: POST
     uri: https://api.datadoghq.eu/api/v2/roles
   response:
     body:
-      string: '{"data": {"type": "roles", "id": "4f2f13ea-e9c3-11ed-9c13-da7ad0900005",
+      string: '{"data": {"type": "roles", "id": "6b0f8be2-e9d4-11ed-a176-da7ad0900005",
         "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670404656",
-        "created_at": "2023-05-03T15:00:57.472100+00:00", "modified_at": "2023-05-03T15:00:57.514518+00:00"},
+        "created_at": "2023-05-03T17:03:25.686779+00:00", "modified_at": "2023-05-03T17:03:25.725172+00:00"},
         "relationships": {"permissions": {"data": [{"type": "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"},
         {"type": "permissions", "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type":
         "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions",
@@ -2818,24 +3021,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-000000000000000045bd49ccafba4712-d7d9e1e2bd6801e9-01
+      - 00-000000000000000089fda09d1baa05db-85cf75eba937b602-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '15553711152057287145'
+      - '9642054982240286210'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '5025253902685718290'
+      - '9943280148938360283'
     method: POST
     uri: https://api.datadoghq.eu/api/v2/roles
   response:
     body:
-      string: '{"data": {"type": "roles", "id": "4f813148-e9c3-11ed-8d88-da7ad0900005",
+      string: '{"data": {"type": "roles", "id": "6b62d216-e9d4-11ed-8ba3-da7ad0900005",
         "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670405007",
-        "created_at": "2023-05-03T15:00:58.010194+00:00", "modified_at": "2023-05-03T15:00:58.051664+00:00"},
+        "created_at": "2023-05-03T17:03:26.232598+00:00", "modified_at": "2023-05-03T17:03:26.267933+00:00"},
         "relationships": {"permissions": {"data": [{"type": "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"},
         {"type": "permissions", "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type":
         "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions",
@@ -2870,24 +3073,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000003783c3a9e2e515cc-c62348d385e01179-01
+      - 00-0000000000000000d88ba6da08991ca4-dbc8032d7997140a-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '14277335317015957881'
+      - '15836911583496705034'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '4000256028458685900'
+      - '15603748789332548772'
     method: POST
     uri: https://api.datadoghq.eu/api/v2/roles
   response:
     body:
-      string: '{"data": {"type": "roles", "id": "4fca864a-e9c3-11ed-a12c-da7ad0900005",
+      string: '{"data": {"type": "roles", "id": "6bba15ee-e9d4-11ed-b184-da7ad0900005",
         "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670405911",
-        "created_at": "2023-05-03T15:00:58.490969+00:00", "modified_at": "2023-05-03T15:00:58.525812+00:00"},
+        "created_at": "2023-05-03T17:03:26.804442+00:00", "modified_at": "2023-05-03T17:03:26.851399+00:00"},
         "relationships": {"permissions": {"data": [{"type": "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"},
         {"type": "permissions", "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type":
         "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions",
@@ -2922,24 +3125,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000d14fc48c4595f021-77eea503f3f2506f-01
+      - 00-00000000000000000a2bdbe1eeabfcc8-a15e9029fe5cffbc-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '8642026171366789231'
+      - '11627889797952765884'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '15082489783829000225'
+      - '732921127796210888'
     method: POST
     uri: https://api.datadoghq.eu/api/v2/roles
   response:
     body:
-      string: '{"data": {"type": "roles", "id": "50110642-e9c3-11ed-9eac-da7ad0900005",
+      string: '{"data": {"type": "roles", "id": "6c0e80ac-e9d4-11ed-95e6-da7ad0900005",
         "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670405924",
-        "created_at": "2023-05-03T15:00:58.952672+00:00", "modified_at": "2023-05-03T15:00:58.990470+00:00"},
+        "created_at": "2023-05-03T17:03:27.357739+00:00", "modified_at": "2023-05-03T17:03:27.393152+00:00"},
         "relationships": {"permissions": {"data": [{"type": "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"},
         {"type": "permissions", "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type":
         "permissions", "id": "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions",
@@ -2964,24 +3167,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000007e6c594a56aadef0-dc712da2b63d2c28-01
+      - 00-00000000000000009d65b70b11d89ca3-d676e4a289ec87da-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '15884527537577864232'
+      - '15453790558118250458'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '9109754322080161520'
+      - '11341672494774394019'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
   response:
     body:
       string: '{"author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com"},
-        "created": "2023-05-03T15:00:59.310613+00:00", "dashboards": null, "dashboard_count":
-        0, "id": 25109, "is_favorite": false, "modified": "2023-05-03T15:00:59.310620+00:00",
+        "created": "2023-05-03T17:03:27.738655+00:00", "dashboards": null, "dashboard_count":
+        0, "id": 25117, "is_favorite": false, "modified": "2023-05-03T17:03:27.738664+00:00",
         "name": "Empty Test List", "type": "manual_dashboard_list"}'
     headers: {}
     status:
@@ -2997,125 +3200,22 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-000000000000000076b943d707cdfd40-e82941fd9d733a9c-01
+      - 00-0000000000000000dbb0db677a63a06f-191ee639d1f9fe81-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '16728974848368523932'
+      - '1810137236259864193'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '8554943557994937664'
+      - '15830393927688757359'
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/25109/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/25117/dashboards
   response:
     body:
       string: '{"dashboards": []}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"title": "Test screenboard", "description": "Created using the Datadog
-      provider in Terraform", "layout_type": "free", "is_read_only": false, "template_variables":
-      [{"default": "aws", "prefix": "host", "name": "var_1"}, {"default": "autoscaling",
-      "prefix": "service_name", "name": "var_2"}], "widgets": [{"definition": {"title_size":
-      "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
-      "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout": {"y":
-      5, "x": 5, "height": 43, "width": 32}, "id": 4066667513687323}, {"definition":
-      {"title_size": "16", "title": "Widget Title", "title_align": "left", "time":
-      {"live_span": "1h"}, "query": "*", "type": "event_timeline"}, "layout": {"y":
-      73, "x": 42, "height": 9, "width": 65}, "id": 68713679518613}, {"definition":
-      {"color": "#d00", "text": "free text content", "type": "free_text", "font_size":
-      "88", "text_align": "left"}, "layout": {"y": 5, "x": 42, "height": 20, "width":
-      30}, "id": 1117617615518455}, {"definition": {"url": "http://google.com", "type":
-      "iframe"}, "layout": {"y": 8, "x": 111, "height": 46, "width": 39}, "id": 3098118775539428},
-      {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
-      "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
-      77, "height": 20, "width": 30}, "id": 651713243056399}, {"definition": {"logset":
-      "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
-      "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
-      "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
-      "tag_source"]}, "layout": {"y": 51, "x": 5, "height": 36, "width": 32}, "id":
-      5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
-      "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts": true,
-      "start": 0, "summary_type": "monitors", "query": "type:metric", "color_preference":
-      "text", "show_last_triggered": false, "display_format": "countsAndList", "type":
-      "manage_status"}, "layout": {"y": 55, "x": 112, "height": 40, "width": 30},
-      "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query", "title_size":
-      "13", "service": "alerting-cassandra", "title": "alerting-cassandra #env:datad0g.com",
-      "size_format": "large", "show_hits": true, "show_latency": false, "title_align":
-      "center", "show_errors": true, "show_breakdown": true, "env": "datad0g.com",
-      "time": {"live_span": "1h"}, "show_distribution": true, "display_format": "three_column",
-      "type": "trace_service", "show_resource_list": false}, "layout": {"y": 28, "x":
-      40, "height": 38, "width": 67}, "id": 6949442529647217}], "notify_list": [],
-      "template_variable_presets": [{"template_variables": [{"name": "var_1", "value":
-      "host.dc"}, {"name": "var_2", "value": "my_service"}], "name": "preset_1"}],
-      "restricted_roles": []}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-0000000000000000881cbc936d51c9f6-d825b27cd2169cee-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '15575051135501114606'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '9807921429886388726'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/dashboard
-  response:
-    body:
-      string: '{"id": "raf-z4x-k6m", "title": "Test screenboard", "description": "Created
-        using the Datadog provider in Terraform", "author_handle": "sherzod.karimov@datadoghq.com",
-        "author_name": "Sherzod Karimov", "layout_type": "free", "url": "/dashboard/raf-z4x-k6m/test-screenboard",
-        "is_read_only": false, "template_variables": [{"default": "aws", "prefix":
-        "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
-        "name": "var_2"}], "widgets": [{"definition": {"title_size": "16", "title":
-        "Widget Title", "title_align": "left", "time": {"live_span": "1h"}, "query":
-        "*", "type": "event_stream", "event_size": "l"}, "layout": {"y": 5, "x": 5,
-        "height": 43, "width": 32}, "id": 4066667513687323}, {"definition": {"title_size":
-        "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
-        "1h"}, "query": "*", "type": "event_timeline"}, "layout": {"y": 73, "x": 42,
-        "height": 9, "width": 65}, "id": 68713679518613}, {"definition": {"color":
-        "#d00", "text": "free text content", "type": "free_text", "font_size": "88",
-        "text_align": "left"}, "layout": {"y": 5, "x": 42, "height": 20, "width":
-        30}, "id": 1117617615518455}, {"definition": {"url": "http://google.com",
-        "type": "iframe"}, "layout": {"y": 8, "x": 111, "height": 46, "width": 39},
-        "id": 3098118775539428}, {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
-        "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
-        77, "height": 20, "width": 30}, "id": 651713243056399}, {"definition": {"logset":
-        "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
-        "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
-        "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
-        "tag_source"]}, "layout": {"y": 51, "x": 5, "height": 36, "width": 32}, "id":
-        5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
-        "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts":
-        true, "start": 0, "summary_type": "monitors", "query": "type:metric", "color_preference":
-        "text", "show_last_triggered": false, "display_format": "countsAndList", "type":
-        "manage_status"}, "layout": {"y": 55, "x": 112, "height": 40, "width": 30},
-        "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query", "title_size":
-        "13", "service": "alerting-cassandra", "title": "alerting-cassandra #env:datad0g.com",
-        "size_format": "large", "show_hits": true, "show_latency": false, "title_align":
-        "center", "show_errors": true, "show_breakdown": true, "env": "datad0g.com",
-        "time": {"live_span": "1h"}, "show_distribution": true, "display_format":
-        "three_column", "type": "trace_service", "show_resource_list": false}, "layout":
-        {"y": 28, "x": 40, "height": 38, "width": 67}, "id": 6949442529647217}], "notify_list":
-        [], "created_at": "2023-05-03T15:01:00.729050+00:00", "modified_at": "2023-05-03T15:01:00.729050+00:00",
-        "template_variable_presets": [{"template_variables": [{"name": "var_1", "value":
-        "host.dc"}, {"name": "var_2", "value": "my_service"}], "name": "preset_1"}],
-        "restricted_roles": []}'
     headers: {}
     status:
       code: 200
@@ -3130,24 +3230,24 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000982ed48227c88254-6dbfb9cce22288c6-01
+      - 00-0000000000000000621dcb80f726ec7d-d01355d9dd8f3c71-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '7908243760304261318'
+      - '14993421978659929201'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '10965935798172025428'
+      - '7070030744804322429'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
   response:
     body:
       string: '{"author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com"},
-        "created": "2023-05-03T15:01:01.215354+00:00", "dashboards": null, "dashboard_count":
-        0, "id": 25110, "is_favorite": false, "modified": "2023-05-03T15:01:01.215361+00:00",
+        "created": "2023-05-03T17:03:28.593638+00:00", "dashboards": null, "dashboard_count":
+        0, "id": 25118, "is_favorite": false, "modified": "2023-05-03T17:03:28.593644+00:00",
         "name": "Empty Test List", "type": "manual_dashboard_list"}'
     headers: {}
     status:
@@ -3163,19 +3263,19 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-000000000000000029d6a9448685bc25-9bf6bb63af02b684-01
+      - 00-0000000000000000274f7d3dcf61d90e-c05abef9d9cfa20d-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '11238375956961998468'
+      - '13860600783496520205'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '3014783112350907429'
+      - '2832620395065104654'
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/25110/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/25118/dashboards
   response:
     body:
       string: '{"dashboards": []}'
@@ -3184,134 +3284,8 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"name": "SLO test", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
-      "7d", "target": 99.0, "target_display": "99."}], "type": "metric", "type_id":
-      1, "description": "Test update creation", "timeframe": "7d", "target_threshold":
-      99.0, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-      "sum:api.requests.status_ok{*}.as_count()"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-0000000000000000e1bc3d315fd230b9-1014b8ae3ff19142-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '1158754062677676354'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '16265943236425691321'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/slo
-  response:
-    body:
-      string: '{"data": [{"id": "b7cdce18bbfb553185bcf7a5f9ea76cc", "name": "SLO test",
-        "tags": [], "monitor_tags": [], "thresholds": [{"timeframe": "7d", "target":
-        99.0, "target_display": "99."}], "type": "metric", "type_id": 1, "description":
-        "Test update creation", "timeframe": "7d", "target_threshold": 99.0, "query":
-        {"denominator": "sum:api.requests{*}.as_count()", "numerator": "sum:api.requests.status_ok{*}.as_count()"},
-        "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
-        "email": "sherzod.karimov@datadoghq.com"}, "created_at": 1683126062, "modified_at":
-        1683126062}], "error": null}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"title": "datadog-sync-cli Test Dashboard", "description": "", "layout_type":
-      "ordered", "is_read_only": false, "template_variables": [], "widgets": [{"definition":
-      {"title_size": "16", "title": "", "title_align": "left", "precision": 2, "time":
-      {}, "autoscale": true, "requests": [{"response_format": "scalar", "queries":
-      [{"query": "avg:system.cpu.user{*}", "data_source": "metrics", "name": "query1",
-      "aggregator": "avg"}]}], "type": "query_value"}, "layout": {"y": 0, "x": 0,
-      "height": 2, "width": 2}, "id": 6609238960092638}], "notify_list": [], "reflow_type":
-      "fixed", "restricted_roles": []}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-0000000000000000fd09ad356d322eea-b334a86df7f5146f-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '12913131221842990191'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '18233295011363041002'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/dashboard
-  response:
-    body:
-      string: '{"id": "8xb-2gk-bda", "title": "datadog-sync-cli Test Dashboard", "description":
-        "", "author_handle": "sherzod.karimov@datadoghq.com", "author_name": "Sherzod
-        Karimov", "layout_type": "ordered", "url": "/dashboard/8xb-2gk-bda/datadog-sync-cli-test-dashboard",
-        "is_read_only": false, "template_variables": [], "widgets": [{"definition":
-        {"title_size": "16", "title": "", "title_align": "left", "precision": 2, "time":
-        {}, "autoscale": true, "requests": [{"response_format": "scalar", "queries":
-        [{"query": "avg:system.cpu.user{*}", "data_source": "metrics", "name": "query1",
-        "aggregator": "avg"}]}], "type": "query_value"}, "layout": {"y": 0, "x": 0,
-        "height": 2, "width": 2}, "id": 6609238960092638}], "notify_list": [], "created_at":
-        "2023-05-03T15:01:02.711129+00:00", "modified_at": "2023-05-03T15:01:02.711129+00:00",
-        "reflow_type": "fixed", "restricted_roles": []}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"description": "datadog-sync-cli test", "tags": ["key:value"], "name":
-      "Test Private Variable"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-0000000000000000db36d63a04e29e3e-c4eba28b915cbc0b-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '14189613771283807243'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '15796048287727001150'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations
-  response:
-    body:
-      string: '{"private_location": {"createdAt": "2023-05-03T15:01:19.130092+00:00",
-        "modifiedAt": "2023-05-03T15:01:19.130092+00:00", "description": "datadog-sync-cli
-        test", "tags": ["key:value"], "name": "Test Private Variable", "metadata":
-        null, "id": "pl:test-private-variable-ebae0139c92fe6e9e9cc14eb83dfa336", "createdBy":
-        "sherzod.karimov@datadoghq.com", "config": {"site": "datadoghq.eu"}}, "result_encryption":
-        {"id": "sha256$base64$HCje9BSaPgSwhmA3TL6kYknOgjCW72k8ilCn4PAuins=", "key":
-        "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyhjTDKqgNuqzlTKKEztw\nqQmfi3Vz/BCmaSRmwZenLP/a/GYG2pKR27hHv5fQB3v08W/BC1VA2XmuCR+EJiYo\nMWfjvLw65sv+S52Vsx4z0EuP5k1qmRyeRDPPENBxAypfLMbt1F6rTxI42ionaHSJ\nBWC8emJYOjAex5shz2I/aj3P3oht8ePr5Jj6A2jkewhBUvfcXQopAy21KhAtEEQB\n7NfG/JWSo9TEqEA4QxGEEqo4rHSHgRQVxtXINzDSp/M5136wVsLsTRF0bSLXSdrf\nRCZje4OdR5Ij9HdhB4F+2KW22Fm3vJlvPCG1C2ZtEDz3xzv9+hcz/rV7WrBMua3j\nZTei5EMTSOt0hIL/DmdId4LmWTc2fYWxe2nYUuAgPw+o+jaju5E5htFbd4JRqyEu\nmMJra8f0BWH80mEDiB1DqfsbVFNYmjG5pVJR7OEV4GRNw9CmwRhcwaXpjouYFrsy\nKvRRdAhLigC+FUDtsLZkgM4T6g4VOjgUTMuRAYgouyyjniuRTn4sKE/t0zfP6/0t\nS/izsjItIat+0RzkO7BY22ga9h1/orqFwgCtwX+WYDHSzo2oMku1tup16WP3Y2jj\n2MJGpHPhDkBoCKRXq34xGxHGoing0zCqmjk1h5WTZdVrppTjJo5sxK0ZGlOXdsk2\nGgiZrQVfZjtotyWUyJnC758CAwEAAQ==\n-----END
-        PUBLIC KEY-----\n"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
     body: '{"name": "TEST_FROM_HTTP", "description": "", "type": "variable", "tags":
-      [], "parse_test_public_id": "q32-bdv-qcr", "parse_test_options": {"type": "http_header",
+      [], "parse_test_public_id": "5v3-azc-7gk", "parse_test_options": {"type": "http_header",
       "field": "content-type", "parser": {"type": "raw"}}, "value": {"value": "",
       "secure": false, "options": {}}}'
     headers:
@@ -3322,27 +3296,149 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000a6d9b65873569a31-31b39b8382bf09b4-01
+      - 00-0000000000000000ad5c2969d08569ad-4279f450eead46e9-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '3581377117826255284'
+      - '4790128307124127465'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '12022841171250682417'
+      - '12491905000865622445'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"id": "9b4d3bf8-c384-43e8-8ada-b977409413a0", "name": "TEST_FROM_HTTP",
+      string: '{"id": "fe89b889-24d8-4cda-a703-e7fc1cb3d50c", "name": "TEST_FROM_HTTP",
         "description": "", "type": "variable", "tags": [], "parse_test_public_id":
-        "q32-bdv-qcr", "parse_test_name": null, "parse_test_options": {"type": "http_header",
+        "5v3-azc-7gk", "parse_test_name": null, "parse_test_options": {"type": "http_header",
         "field": "content-type", "parser": {"type": "raw"}}, "parse_test_extracted_at":
         null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"value":
         "", "secure": false, "options": {}}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "composite", "name": "Composite monitor", "message": "test", "tags":
+      [], "query": "( 11109323 && 11109322 ) || !11109323", "options": {"notify_audit":
+      false, "locked": false, "include_tags": false, "new_host_delay": 300, "notify_no_data":
+      false, "renotify_interval": 0, "escalation_message": "", "silenced": {}}, "multi":
+      false, "restricted_roles": null, "priority": null}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000630b939aadd5e3d0-52662ad43af9c6aa-01
+      tracestate:
+      - dd=s:1;t.dm:-1
+      x-datadog-parent-id:
+      - '5937480249745458858'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-1
+      x-datadog-trace-id:
+      - '7136960327049405392'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/monitor
+  response:
+    body:
+      string: '{"id": 11109336, "org_id": 1000044987, "type": "composite", "name":
+        "Composite monitor", "message": "test", "tags": [], "query": "( 11109323 &&
+        11109322 ) || !11109323", "options": {"notify_audit": false, "locked": false,
+        "include_tags": false, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
+        0, "escalation_message": "", "silenced": {}}, "multi": false, "created_at":
+        1683133409000, "created": "2023-05-03T17:03:29.788779+00:00", "modified":
+        "2023-05-03T17:03:29.788779+00:00", "deleted": null, "restricted_roles": null,
+        "priority": null, "overall_state_modified": null, "overall_state": "No Data",
+        "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "id": 1000219663}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "Composite monitor - Child 2", "tags": [], "monitor_tags": [],
+      "thresholds": [{"timeframe": "7d", "target": 99.0, "target_display": "99."}],
+      "type": "monitor", "type_id": 0, "description": "Updated Description Test",
+      "timeframe": "7d", "target_threshold": 99.0, "monitor_ids": [11109324, 11109323]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-000000000000000051a6b7ae462e90a4-3337f90cff989a2c-01
+      tracestate:
+      - dd=s:1;t.dm:-1
+      x-datadog-parent-id:
+      - '3690692253876525612'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-1
+      x-datadog-trace-id:
+      - '5883591922335781028'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo
+  response:
+    body:
+      string: '{"data": [{"id": "2b50b079014e561eac81682928b3b661", "name": "Composite
+        monitor - Child 2", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
+        "7d", "target": 99.0, "target_display": "99."}], "type": "monitor", "type_id":
+        0, "description": "Updated Description Test", "timeframe": "7d", "target_threshold":
+        99.0, "monitor_ids": [11109324, 11109323], "creator": {"name": "Sherzod Karimov",
+        "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com"},
+        "created_at": 1683133410, "modified_at": 1683133410}], "error": null}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "correction", "attributes": {"slo_id": "fb9a9044cdc656668b0964fd174f9e22",
+      "start": 1678255200, "end": 1678339140, "description": "", "category": "Other",
+      "timezone": "UTC", "modifier": null}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-00000000000000001decb36aacca0847-a83ba6f2aafc0f65-01
+      tracestate:
+      - dd=s:1;t.dm:-1
+      x-datadog-parent-id:
+      - '12122466383178764133'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-1
+      x-datadog-trace-id:
+      - '2156295592350451783'
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/slo/correction
+  response:
+    body:
+      string: '{"data": {"type": "correction", "id": "6e2cb700-e9d4-11ed-bf75-da7ad0902005",
+        "attributes": {"slo_id": "fb9a9044cdc656668b0964fd174f9e22", "start": 1678255200,
+        "end": 1678339140, "description": "", "category": "Other", "timezone": "UTC",
+        "created_at": null, "modified_at": null, "rrule": null, "duration": null,
+        "creator": {"data": {"type": "users", "id": "1458158c-bfcc-11eb-8e11-da7ad0900005",
+        "attributes": {"uuid": "1458158c-bfcc-11eb-8e11-da7ad0900005", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov", "icon":
+        "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro"}}},
+        "modifier": null}}}'
     headers: {}
     status:
       code: 200
@@ -3353,7 +3449,7 @@ interactions:
       "https://docs.datadoghq.com", "headers": {"test": "{{ TEST_VARIABLE }}", "test_two":
       "{{ TEST_VAR_LOCAL }}"}, "method": "GET"}, "assertions": [], "configVariables":
       [{"pattern": "TEST_VAR_LOCAL", "type": "text", "name": "TEST_VAR_LOCAL", "example":
-      "TEST_VAR_LOCAL"}, {"type": "global", "id": "511b2dac-d831-42f5-8837-97f703fd5e93",
+      "TEST_VAR_LOCAL"}, {"type": "global", "id": "61ac48b4-b947-4c1e-a6e8-d2e2f76d1fb0",
       "name": "TEST_VARIABLE"}]}, "message": "", "options": {"enableSecurityTesting":
       false, "retry": {"count": 0, "interval": 300}, "min_location_failed": 1, "min_failure_duration":
       0, "noScreenshot": false, "tick_every": 604800, "disableCsp": false, "disableCors":
@@ -3448,29 +3544,29 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-000000000000000017130477d9144e6c-d50e221b42de2406-01
+      - 00-0000000000000000b10f6d5ddcea312b-5f497e37909ad92e-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '15352245680233915398'
+      - '6866157884017400110'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '1662677600219450988'
+      - '12758536519269626155'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"public_id": "btv-iim-pxe", "name": "Browser Test (cloned)", "status":
-        "live", "type": "browser", "tags": [], "created_at": "2023-05-03T15:01:24.226354+00:00",
-        "modified_at": "2023-05-03T15:01:24.226354+00:00", "config": {"variables":
+      string: '{"public_id": "zxj-4if-wu5", "name": "Browser Test (cloned)", "status":
+        "live", "type": "browser", "tags": [], "created_at": "2023-05-03T17:03:35.504971+00:00",
+        "modified_at": "2023-05-03T17:03:35.504971+00:00", "config": {"variables":
         [], "setCookie": "", "request": {"url": "https://docs.datadoghq.com", "headers":
         {"test": "{{ TEST_VARIABLE }}", "test_two": "{{ TEST_VAR_LOCAL }}"}, "method":
         "GET"}, "assertions": [], "configVariables": [{"pattern": "TEST_VAR_LOCAL",
         "type": "text", "name": "TEST_VAR_LOCAL", "example": "TEST_VAR_LOCAL"}, {"type":
-        "global", "id": "511b2dac-d831-42f5-8837-97f703fd5e93", "name": "TEST_VARIABLE"}]},
+        "global", "id": "61ac48b4-b947-4c1e-a6e8-d2e2f76d1fb0", "name": "TEST_VARIABLE"}]},
         "message": "", "options": {"enableSecurityTesting": false, "retry": {"count":
         0, "interval": 300}, "min_location_failed": 1, "min_failure_duration": 0,
         "noScreenshot": false, "tick_every": 604800, "disableCsp": false, "disableCors":
@@ -3479,7 +3575,7 @@ interactions:
         "firefox.mobile_small", "firefox.tablet"], "monitor_options": {"notify_audit":
         false, "include_tags": true, "new_host_delay": 300, "on_missing_data": "show_no_data",
         "renotify_interval": 0}, "ignoreServerCertificateError": false}, "locations":
-        ["aws:us-west-1"], "deleted_at": null, "monitor_id": 11105580, "org_id": 1000044987,
+        ["aws:us-west-1"], "deleted_at": null, "monitor_id": 11109337, "org_id": 1000044987,
         "steps": [{"name": "Type text on input \"s\"", "params": {"value": "api",
         "element": {"url": "https://docs.datadoghq.com/", "multiLocator": {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"section\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"form\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"span\"][1]/*[local-name()=\"input\"][2]",
         "at": "/descendant::*[@name=\"s\"]", "cl": "/descendant::*[contains(concat(''
@@ -3564,88 +3660,6 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"type": "composite", "name": "Composite monitor", "message": "test", "tags":
-      [], "query": "( 11105566 && 11105565 ) || !11105566", "options": {"notify_audit":
-      false, "locked": false, "include_tags": false, "new_host_delay": 300, "notify_no_data":
-      false, "renotify_interval": 0, "escalation_message": "", "silenced": {}}, "multi":
-      false, "restricted_roles": null, "priority": null}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-00000000000000005c0dea20ec27dfd0-022fb17690f14a2d-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '157539634777246253'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '6633215253308497872'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/monitor
-  response:
-    body:
-      string: '{"id": 11105581, "org_id": 1000044987, "type": "composite", "name":
-        "Composite monitor", "message": "test", "tags": [], "query": "( 11105566 &&
-        11105565 ) || !11105566", "options": {"notify_audit": false, "locked": false,
-        "include_tags": false, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
-        0, "escalation_message": "", "silenced": {}}, "multi": false, "created_at":
-        1683126084000, "created": "2023-05-03T15:01:24.824185+00:00", "modified":
-        "2023-05-03T15:01:24.824185+00:00", "deleted": null, "restricted_roles": null,
-        "priority": null, "overall_state_modified": null, "overall_state": "No Data",
-        "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
-        "email": "sherzod.karimov@datadoghq.com", "id": 1000219663}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "Composite monitor - Child 2", "tags": [], "monitor_tags": [],
-      "thresholds": [{"timeframe": "7d", "target": 99.0, "target_display": "99."}],
-      "type": "monitor", "type_id": 0, "description": "Updated Description Test",
-      "timeframe": "7d", "target_threshold": 99.0, "monitor_ids": [11105567, 11105566]}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-00000000000000000ad8913734a65218-4804b76c69011862-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '5189474346883684450'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '781534201641325080'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/slo
-  response:
-    body:
-      string: '{"data": [{"id": "866a3a17a32c527e89b2d78f5ae12c90", "name": "Composite
-        monitor - Child 2", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
-        "7d", "target": 99.0, "target_display": "99."}], "type": "monitor", "type_id":
-        0, "description": "Updated Description Test", "timeframe": "7d", "target_threshold":
-        99.0, "monitor_ids": [11105567, 11105566], "creator": {"name": "Sherzod Karimov",
-        "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com"},
-        "created_at": 1683126085, "modified_at": 1683126085}], "error": null}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
     body: '{"data": {"id": "e0c5d064-c7b0-11eb-944d-da7ad0900005", "type": "users"}}'
     headers:
       Accept:
@@ -3655,28 +3669,28 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000830633986c397687-95c33d611667aff2-01
+      - 00-0000000000000000e95ad57b385f70b9-fcb5034e714b26e3-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '10791536619306856434'
+      - '18209464303785551587'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '9441290398572574343'
+      - '16814986883944640697'
     method: POST
-    uri: https://api.datadoghq.eu/api/v2/roles/4da9d92e-e9c3-11ed-a6ce-da7ad0900005/users
+    uri: https://api.datadoghq.eu/api/v2/roles/68dcc326-e9d4-11ed-8f37-da7ad0900005/users
   response:
     body:
       string: '{"data": [{"type": "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005",
         "attributes": {"name": "None+ updated", "handle": "test-user-example@datadoghq.com",
-        "created_at": "2021-06-07T16:53:26.412706+00:00", "modified_at": "2023-05-03T14:45:37.271741+00:00",
+        "created_at": "2021-06-07T16:53:26.412706+00:00", "modified_at": "2023-05-03T15:01:41.256768+00:00",
         "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": true,
         "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
-        {"data": [{"type": "roles", "id": "4da9d92e-e9c3-11ed-a6ce-da7ad0900005"}]},
+        {"data": [{"type": "roles", "id": "68dcc326-e9d4-11ed-8f37-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}}],
         "meta": {"page": {"total_count": 1}}}'
     headers: {}
@@ -3695,32 +3709,32 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000d6eb59b5670f3ff2-e36a6239d71377f7-01
+      - 00-00000000000000005fbc4bd48a8427be-d3763a3fd74fdb14-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '16387018194702006263'
+      - '15237430435124337428'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '15486570379296587762'
+      - '6898472105453823934'
     method: PATCH
     uri: https://api.datadoghq.eu/api/v2/users/e0c5d064-c7b0-11eb-944d-da7ad0900005
   response:
     body:
       string: '{"data": {"type": "users", "id": "e0c5d064-c7b0-11eb-944d-da7ad0900005",
         "attributes": {"name": "None+ updated", "handle": "test-user-example@datadoghq.com",
-        "created_at": "2021-06-07T16:53:26.412706+00:00", "modified_at": "2023-05-03T15:01:26.146788+00:00",
+        "created_at": "2021-06-07T16:53:26.412706+00:00", "modified_at": "2023-05-03T17:03:36.542216+00:00",
         "email": "test-user-example@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/034ab28ed9a3b29bccdb4d7b94cd7e03?s=48&d=retro",
         "title": null, "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Pending"}, "relationships": {"roles":
-        {"data": [{"type": "roles", "id": "4da9d92e-e9c3-11ed-a6ce-da7ad0900005"}]},
+        {"data": [{"type": "roles", "id": "68dcc326-e9d4-11ed-8f37-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
-        "included": [{"type": "roles", "id": "4da9d92e-e9c3-11ed-a6ce-da7ad0900005",
-        "attributes": {"name": "Datadog Read Only Role", "created_at": "2023-05-03T15:00:54.920156+00:00",
-        "modified_at": "2023-05-03T15:00:54.972735+00:00"}, "relationships": {"permissions":
+        "included": [{"type": "roles", "id": "68dcc326-e9d4-11ed-8f37-da7ad0900005",
+        "attributes": {"name": "Datadog Read Only Role", "created_at": "2023-05-03T17:03:21.998414+00:00",
+        "modified_at": "2023-05-03T17:03:22.042211+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
         "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
@@ -3896,52 +3910,12 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "correction", "attributes": {"slo_id": "b7cdce18bbfb553185bcf7a5f9ea76cc",
-      "start": 1678255200, "end": 1678339140, "description": "", "category": "Other",
-      "timezone": "UTC", "modifier": null}}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      traceparent:
-      - 00-0000000000000000347ffa4d5a6066e7-9e49b12b504ded62-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '11405842330881486178'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '3783017422150199015'
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/slo/correction
-  response:
-    body:
-      string: '{"data": {"type": "correction", "id": "60a4eb36-e9c3-11ed-93ce-da7ad0902005",
-        "attributes": {"slo_id": "b7cdce18bbfb553185bcf7a5f9ea76cc", "start": 1678255200,
-        "end": 1678339140, "description": "", "category": "Other", "timezone": "UTC",
-        "created_at": null, "modified_at": null, "rrule": null, "duration": null,
-        "creator": {"data": {"type": "users", "id": "1458158c-bfcc-11eb-8e11-da7ad0900005",
-        "attributes": {"uuid": "1458158c-bfcc-11eb-8e11-da7ad0900005", "handle": "sherzod.karimov@datadoghq.com",
-        "email": "sherzod.karimov@datadoghq.com", "name": "Sherzod Karimov", "icon":
-        "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro"}}},
-        "modifier": null}}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
     body: '{"title": "Timeboard Tue, Jun 1, 4:18:57 pm", "description": "", "layout_type":
       "ordered", "is_read_only": false, "template_variables": [], "widgets": [{"definition":
       {"widgets": [{"definition": {"title_size": "16", "viz_type": "timeseries", "title":
-      "", "title_align": "left", "alert_id": "11105565", "time": {}, "type": "alert_graph"},
+      "", "title_align": "left", "alert_id": "11109322", "time": {}, "type": "alert_graph"},
       "id": 5316294948508728}, {"definition": {"title_size": "16", "title": "", "title_align":
-      "left", "text_align": "left", "precision": 2, "alert_id": "11105568", "type":
+      "left", "text_align": "left", "precision": 2, "alert_id": "11109325", "type":
       "alert_value", "unit": "auto"}, "id": 2269177794822700}], "layout_type": "ordered",
       "type": "group", "title": "New group"}, "id": 2497183012091650}, {"definition":
       {"autoscale": true, "title": "", "title_align": "left", "precision": 2, "title_size":
@@ -3949,9 +3923,9 @@ interactions:
       "data_source": "metrics", "name": "query1", "aggregator": "avg"}]}], "type":
       "query_value"}, "id": 7228117705299642}, {"definition": {"title_size": "16",
       "title": "", "title_align": "left", "text_align": "left", "precision": 2, "alert_id":
-      "11105565", "type": "alert_value", "unit": "auto"}, "id": 2397823643167820},
+      "11109322", "type": "alert_value", "unit": "auto"}, "id": 2397823643167820},
       {"definition": {"time_windows": ["7d"], "title_size": "16", "show_error_budget":
-      true, "title": "", "title_align": "left", "slo_id": "866a3a17a32c527e89b2d78f5ae12c90",
+      true, "title": "", "title_align": "left", "slo_id": "2b50b079014e561eac81682928b3b661",
       "view_mode": "overall", "view_type": "detail", "time": {}, "global_time_target":
       "0", "type": "slo"}, "id": 1076364961367720}, {"definition": {"time_windows":
       ["7d"], "title_size": "16", "show_error_budget": true, "title": "", "title_align":
@@ -3967,54 +3941,54 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000001b66044bd1c2e1a3-db1a58f007d4937b-01
+      - 00-0000000000000000ca168019c6d3f139-8fc30139d5e5a0ef-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '15788029231647462267'
+      - '10359124915795632367'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '1974270210336809379'
+      - '14561967293347393849'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard
   response:
     body:
-      string: '{"id": "a69-ndf-4dk", "title": "Timeboard Tue, Jun 1, 4:18:57 pm",
+      string: '{"id": "x73-7h6-fz2", "title": "Timeboard Tue, Jun 1, 4:18:57 pm",
         "description": "", "author_handle": "sherzod.karimov@datadoghq.com", "author_name":
-        "Sherzod Karimov", "layout_type": "ordered", "url": "/dashboard/a69-ndf-4dk/timeboard-tue-jun-1-41857-pm",
+        "Sherzod Karimov", "layout_type": "ordered", "url": "/dashboard/x73-7h6-fz2/timeboard-tue-jun-1-41857-pm",
         "is_read_only": false, "template_variables": [], "widgets": [{"definition":
         {"widgets": [{"definition": {"title_size": "16", "viz_type": "timeseries",
-        "title": "", "title_align": "left", "alert_id": "11105565", "time": {}, "type":
+        "title": "", "title_align": "left", "alert_id": "11109322", "time": {}, "type":
         "alert_graph"}, "id": 5316294948508728}, {"definition": {"title_size": "16",
         "title": "", "title_align": "left", "text_align": "left", "precision": 2,
-        "alert_id": "11105568", "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}],
+        "alert_id": "11109325", "type": "alert_value", "unit": "auto"}, "id": 2269177794822700}],
         "layout_type": "ordered", "type": "group", "title": "New group"}, "id": 2497183012091650},
         {"definition": {"autoscale": true, "title": "", "title_align": "left", "precision":
         2, "title_size": "16", "requests": [{"response_format": "scalar", "queries":
         [{"query": "avg:synthetics.http.dns.time{*}", "data_source": "metrics", "name":
         "query1", "aggregator": "avg"}]}], "type": "query_value"}, "id": 7228117705299642},
         {"definition": {"title_size": "16", "title": "", "title_align": "left", "text_align":
-        "left", "precision": 2, "alert_id": "11105565", "type": "alert_value", "unit":
+        "left", "precision": 2, "alert_id": "11109322", "type": "alert_value", "unit":
         "auto"}, "id": 2397823643167820}, {"definition": {"time_windows": ["7d"],
         "title_size": "16", "show_error_budget": true, "title": "", "title_align":
-        "left", "slo_id": "866a3a17a32c527e89b2d78f5ae12c90", "view_mode": "overall",
+        "left", "slo_id": "2b50b079014e561eac81682928b3b661", "view_mode": "overall",
         "view_type": "detail", "time": {}, "global_time_target": "0", "type": "slo"},
         "id": 1076364961367720}, {"definition": {"time_windows": ["7d"], "title_size":
         "16", "show_error_budget": true, "title": "", "title_align": "left", "slo_id":
         "c4fa01c78d45542cb830598be4f68ad2", "view_mode": "overall", "view_type": "detail",
         "time": {}, "global_time_target": "0", "type": "slo"}, "id": 4123257207386936}],
-        "notify_list": [], "created_at": "2023-05-03T15:01:28.444082+00:00", "modified_at":
-        "2023-05-03T15:01:28.444082+00:00", "reflow_type": "auto", "tags": [], "restricted_roles":
+        "notify_list": [], "created_at": "2023-05-03T17:03:38.295953+00:00", "modified_at":
+        "2023-05-03T17:03:38.295953+00:00", "reflow_type": "auto", "tags": [], "restricted_roles":
         []}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "correction", "attributes": {"slo_id": "866a3a17a32c527e89b2d78f5ae12c90",
+    body: '{"data": {"type": "correction", "attributes": {"slo_id": "2b50b079014e561eac81682928b3b661",
       "start": 1678255200, "end": 1678355280, "description": "", "category": "Other",
       "timezone": "UTC", "modifier": null}}}'
     headers:
@@ -4025,23 +3999,23 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000007d956ce8b5a9e4d8-3c1c3f55f2606fda-01
+      - 00-0000000000000000f03e51fea216cbb8-ef74ddcbcedc97d1-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '4331406579994750938'
+      - '17254659939781875665'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '9049258773006902488'
+      - '17311364171741711288'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/slo/correction
   response:
     body:
-      string: '{"data": {"type": "correction", "id": "620125da-e9c3-11ed-95d8-da7ad0902005",
-        "attributes": {"slo_id": "866a3a17a32c527e89b2d78f5ae12c90", "start": 1678255200,
+      string: '{"data": {"type": "correction", "id": "72f551e8-e9d4-11ed-908a-da7ad0902005",
+        "attributes": {"slo_id": "2b50b079014e561eac81682928b3b661", "start": 1678255200,
         "end": 1678355280, "description": "", "category": "Other", "timezone": "UTC",
         "created_at": null, "modified_at": null, "rrule": null, "duration": null,
         "creator": {"data": {"type": "users", "id": "1458158c-bfcc-11eb-8e11-da7ad0900005",
@@ -4063,32 +4037,32 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-00000000000000001478a3647146c23d-2935b035e32a3e01-01
+      - 00-0000000000000000ea2de8cbc8bfaefd-525d6ea82b27f9d0-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '2969473274811661825'
+      - '5935021552501782992'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '1475108529756357181'
+      - '16874399340771127037'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
   response:
     body:
       string: '{"author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com"},
-        "created": "2023-05-03T15:01:29.400651+00:00", "dashboards": null, "dashboard_count":
-        0, "id": 25111, "is_favorite": false, "modified": "2023-05-03T15:01:29.400661+00:00",
+        "created": "2023-05-03T17:03:39.302004+00:00", "dashboards": null, "dashboard_count":
+        0, "id": 25119, "is_favorite": false, "modified": "2023-05-03T17:03:39.302013+00:00",
         "name": "Test list", "type": "manual_dashboard_list"}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"dashboards": [{"id": "a69-ndf-4dk", "type": "custom_timeboard"}, {"id":
-      "raf-z4x-k6m", "type": "custom_screenboard"}]}'
+    body: '{"dashboards": [{"id": "x73-7h6-fz2", "type": "custom_timeboard"}, {"id":
+      "rst-wi9-itq", "type": "custom_screenboard"}]}'
     headers:
       Accept:
       - '*/*'
@@ -4097,23 +4071,23 @@ interactions:
       Content-Type:
       - application/json
       traceparent:
-      - 00-0000000000000000a8a3643adc41e1dd-89e09586a908f3d7-01
+      - 00-0000000000000000f061cf185681a2e8-e0ec04ac29a5d244-01
       tracestate:
-      - dd=s:1;t.dm:-0
+      - dd=s:1;t.dm:-1
       x-datadog-parent-id:
-      - '9935105183573406679'
+      - '16207334296479191620'
       x-datadog-sampling-priority:
       - '1'
       x-datadog-tags:
-      - _dd.p.dm=-0
+      - _dd.p.dm=-1
       x-datadog-trace-id:
-      - '12151666423541916125'
+      - '17321353345281139432'
     method: PUT
-    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/25111/dashboards
+    uri: https://api.datadoghq.eu/api/v2/dashboard/lists/manual/25119/dashboards
   response:
     body:
-      string: '{"dashboards": [{"type": "custom_timeboard", "id": "a69-ndf-4dk"},
-        {"type": "custom_screenboard", "id": "raf-z4x-k6m"}]}'
+      string: '{"dashboards": [{"type": "custom_timeboard", "id": "x73-7h6-fz2"},
+        {"type": "custom_screenboard", "id": "rst-wi9-itq"}]}'
     headers: {}
     status:
       code: 200
