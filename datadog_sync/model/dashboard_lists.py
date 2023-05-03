@@ -3,12 +3,15 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import copy
-from typing import Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.custom_client import CustomClient
 
 
 class DashboardLists(BaseResource):
@@ -32,6 +35,7 @@ class DashboardLists(BaseResource):
         if _id:
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
 
+        resource = cast(dict, resource)
         _id = str(resource["id"])
         resp = None
         try:

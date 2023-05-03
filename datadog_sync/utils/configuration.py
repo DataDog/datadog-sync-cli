@@ -3,16 +3,10 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import logging
-from sys import exit
-from dataclasses import dataclass
-from typing import (
-    Any,
-    Union,
-    Dict,
-    List,
-    Optional,
-)
+from dataclasses import dataclass, field
+from typing import Any, Optional, Union, Dict, List
 
 from datadog_sync import models
 from datadog_sync.utils.custom_client import CustomClient
@@ -25,20 +19,20 @@ from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 @dataclass
 class Configuration(object):
-    logger: Union[Log, logging.Logger, None] = None
-    source_client: Optional[CustomClient] = None
-    destination_client: Optional[CustomClient] = None
-    resources: Optional[Dict[str, BaseResource]] = None
-    resources_arg: Optional[List[str]] = None
-    filters: Optional[Dict[str, Filter]] = None
-    filter_operator: Optional[str] = None
-    force_missing_dependencies: Optional[bool] = None
-    skip_failed_resource_connections: Optional[bool] = None
-    max_workers: Optional[int] = None
-    cleanup: Optional[int] = None
+    logger: Union[Log, logging.Logger]
+    source_client: CustomClient
+    destination_client: CustomClient
+    filters: Dict[str, List[Filter]]
+    filter_operator: str
+    force_missing_dependencies: bool
+    skip_failed_resource_connections: bool
+    max_workers: int
+    cleanup: int
+    resources: Dict[str, BaseResource] = field(default_factory=dict)
+    resources_arg: List[str] = field(default_factory=list)
 
 
-def build_config(cmd, **kwargs: Any) -> Configuration:
+def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
     # configure logger
     logger = Log(kwargs.get("verbose"))
 
@@ -130,7 +124,7 @@ def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
     return resources
 
 
-def _validate_client(client: CustomClient):
+def _validate_client(client: CustomClient) -> None:
     try:
         client.get(VALIDATE_ENDPOINT).json()
     except CustomClientHTTPError as e:

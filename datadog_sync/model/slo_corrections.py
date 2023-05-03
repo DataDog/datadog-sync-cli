@@ -3,11 +3,14 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from typing import Optional, List, Dict
+from __future__ import annotations
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 from datetime import datetime
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.custom_client import CustomClient
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.custom_client import CustomClient
 
 
 class SLOCorrections(BaseResource):
@@ -30,6 +33,7 @@ class SLOCorrections(BaseResource):
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
 
+        resource = cast(dict, resource)
         if resource["attributes"].get("end", False):
             if (round(datetime.now().timestamp()) - int(resource["attributes"]["end"])) / 86400 > 90:
                 return

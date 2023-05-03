@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import os
 import re
 import json
@@ -14,6 +15,10 @@ from deepdiff import DeepDiff
 
 from datadog_sync.constants import RESOURCE_FILE_PATH, LOGGER_NAME
 from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
+from typing import Callable, List, Optional, Set, TYPE_CHECKING, Any, Dict, Tuple
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.configuration import Configuration
 
 
 log = logging.getLogger(LOGGER_NAME)
@@ -34,26 +39,26 @@ class LoggedException(Exception):
     """Raise this when an error was already logged."""
 
 
-def find_attr(keys_list, resource_to_connect, r_obj, connect_func):
+def find_attr(keys_list_str: str, resource_to_connect: str, r_obj: Any, connect_func: Callable) -> Optional[List[str]]:
     if isinstance(r_obj, list):
         failed_connections = []
         for k in r_obj:
-            failed = find_attr(keys_list, resource_to_connect, k, connect_func)
+            failed = find_attr(keys_list_str, resource_to_connect, k, connect_func)
             if failed:
                 failed_connections.extend(failed)
         return failed_connections
     else:
-        keys_list = keys_list.split(".", 1)
+        keys_list = keys_list_str.split(".", 1)
 
         if len(keys_list) == 1 and keys_list[0] in r_obj:
             if not r_obj[keys_list[0]]:
-                return
+                return None
             return connect_func(keys_list[0], r_obj, resource_to_connect)
 
         if isinstance(r_obj, dict):
             if keys_list[0] in r_obj:
                 return find_attr(keys_list[1], resource_to_connect, r_obj[keys_list[0]], connect_func)
-
+        return None
 
 def prep_resource(resource_config, resource):
     remove_excluded_attr(resource_config, resource)
@@ -100,7 +105,7 @@ def check_diff(resource_config, resource, state):
     )
 
 
-def open_resources(resource_type):
+def open_resources(resource_type: str) -> Tuple[Dict[Any, Any], Dict[Any, Any]]:
     source_resources = dict()
     destination_resources = dict()
 
@@ -124,7 +129,7 @@ def open_resources(resource_type):
     return source_resources, destination_resources
 
 
-def dump_resources(config, resource_types, origin):
+def dump_resources(config: Configuration, resource_types: Set[str], origin: str) -> None:
     for resource_type in resource_types:
         if origin == SOURCE_ORIGIN:
             resources = config.resources[resource_type].resource_config.source_resources
@@ -134,18 +139,18 @@ def dump_resources(config, resource_types, origin):
         write_resources_file(resource_type, origin, resources)
 
 
-def write_resources_file(resource_type, origin, resources):
+def write_resources_file(resource_type: str, origin: str, resources: Any) -> None:
     resource_path = RESOURCE_FILE_PATH.format(origin, resource_type)
 
     with open(resource_path, "w") as f:
         json.dump(resources, f, indent=2)
 
 
-def thread_pool_executor(max_workers=None):
+def thread_pool_executor(max_workers: Optional[int] = None) -> ThreadPoolExecutor:
     return ThreadPoolExecutor(max_workers=max_workers)
 
 
-def init_topological_sorter(graph):
+def init_topological_sorter(graph: Dict[str, Set[str]]) -> TopologicalSorter:
     sorter = TopologicalSorter(graph)
     sorter.prepare()
     return sorter

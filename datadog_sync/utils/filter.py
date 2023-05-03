@@ -3,10 +3,12 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import logging
 from re import match
 
 from datadog_sync.constants import LOGGER_NAME
+from typing import TYPE_CHECKING, Any, Dict, List, Tuple
 
 
 FILTER_TYPE = "Type"
@@ -20,7 +22,7 @@ log = logging.getLogger(LOGGER_NAME)
 
 
 class Filter:
-    def __init__(self, resource_type, attr_name, attr_re):
+    def __init__(self, resource_type: str, attr_name: str, attr_re: str):
         self.resource_type = resource_type
         self.attr_name = attr_name.split(".")
         self.attr_re = attr_re
@@ -53,8 +55,8 @@ class Filter:
         return match(self.attr_re, str(value)) is not None
 
 
-def process_filters(filter_list):
-    filters = {}
+def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
+    filters: Dict[str, List[Filter]] = {}
 
     if not filter_list:
         return filters
@@ -63,18 +65,25 @@ def process_filters(filter_list):
         f_dict = {}
         f_list = _filter.strip("; ").split(";")
 
+        invalid_filter = False
         for option in f_list:
             try:
                 f_dict.update(dict([option.split("=", 1)]))
             except ValueError:
                 log.warning("invalid filter option: %s, filter: %s", option, _filter)
-                return
+                invalid_filter = True
+                break
+        if invalid_filter:
+            continue
 
         # Check if required keys are present:
         for k in REQUIRED_KEYS:
             if k not in f_dict:
                 log.warning("invalid filter missing key %s in filter: %s", k, _filter)
-                return
+                invalid_filter = True
+                break
+        if invalid_filter:
+            continue
 
         # Build and assign regex matcher to VALUE key
         f_dict[FILTER_VALUE] = build_regex(f_dict)

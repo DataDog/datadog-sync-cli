@@ -2,16 +2,21 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
+from __future__ import annotations
 import configobj
 from sys import exit
 
 from click import Choice, Option, option, File
 
 from datadog_sync import constants
+from typing import TYPE_CHECKING, Any, Callable, Dict, List
+
+if TYPE_CHECKING:
+    from click.core import Context
 
 
 class CustomOptionClass(Option):
-    def handle_parse_result(self, ctx, opts, args):
+    def handle_parse_result(self, ctx: Context, opts: Dict[Any, Any], args: List[Any]) -> Any:
         try:
             return super(Option, self).handle_parse_result(ctx, opts, args)
         except Exception as e:
@@ -75,7 +80,7 @@ _destination_auth_options = [
 ]
 
 
-def click_config_file_provider(ctx, opts, value):
+def click_config_file_provider(ctx: Context, opts: CustomOptionClass, value: None) -> None:
     config = configobj.ConfigObj(value, unrepr=True)
     ctx.default_map = ctx.default_map or {}
     ctx.default_map.update(config)
@@ -174,23 +179,23 @@ _non_import_common_options = [
 ]
 
 
-def source_auth_options(func):
+def source_auth_options(func: Callable) -> Callable:
     return _build_options_helper(func, _source_auth_options)
 
 
-def destination_auth_options(func):
+def destination_auth_options(func: Callable) -> Callable:
     return _build_options_helper(func, _destination_auth_options)
 
 
-def common_options(func):
+def common_options(func: Callable) -> Callable:
     return _build_options_helper(func, _common_options)
 
 
-def non_import_common_options(func):
+def non_import_common_options(func: Callable) -> Callable:
     return _build_options_helper(func, _non_import_common_options)
 
 
-def _build_options_helper(func, options):
+def _build_options_helper(func: Callable, options: List[Callable]) -> Callable:
     for _option in options:
         func = _option(func)
     return func

@@ -3,12 +3,15 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import copy
-from typing import Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
-from datadog_sync.utils.custom_client import CustomClient
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.custom_client import CustomClient
 
 
 class Roles(BaseResource):
@@ -18,10 +21,10 @@ class Roles(BaseResource):
         excluded_attributes=["id", "attributes.created_at", "attributes.modified_at", "attributes.user_count"],
     )
     # Additional Roles specific attributes
-    source_permissions = {}
-    destination_permissions = {}
-    destination_roles_mapping = None
-    permissions_base_path = "/api/v2/permissions"
+    source_permissions: Dict = {}
+    destination_permissions: Dict = {}
+    destination_roles_mapping: Optional[Dict] = None
+    permissions_base_path: str = "/api/v2/permissions"
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.paginated_request(client.get)(self.resource_config.base_path)
@@ -40,6 +43,7 @@ class Roles(BaseResource):
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
 
+        resource = cast(dict, resource)
         if self.source_permissions and "permissions" in resource["relationships"]:
             for permission in resource["relationships"]["permissions"]["data"]:
                 if permission["id"] in self.source_permissions:

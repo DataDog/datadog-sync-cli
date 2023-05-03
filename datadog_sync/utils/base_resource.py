@@ -3,18 +3,18 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 import abc
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pprint import pformat
-from typing import Optional, Dict, List
+from typing import TYPE_CHECKING, Optional, Dict, List
 
 from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.resource_utils import (
-    open_resources,
-    find_attr,
-    ResourceConnectionError,
-)
+from datadog_sync.utils.resource_utils import open_resources, find_attr, ResourceConnectionError
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.configuration import Configuration
 
 
 @dataclass
@@ -28,10 +28,10 @@ class ResourceConfig:
     source_resources: dict = field(default_factory=dict)
     destination_resources: dict = field(default_factory=dict)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.build_excluded_attributes()
 
-    def build_excluded_attributes(self):
+    def build_excluded_attributes(self) -> None:
         if self.excluded_attributes:
             for i, attr in enumerate(self.excluded_attributes):
                 self.excluded_attributes[i] = "root" + "".join(["['{}']".format(v) for v in attr.split(".")])
@@ -41,7 +41,7 @@ class BaseResource(abc.ABC):
     resource_type: str
     resource_config: ResourceConfig
 
-    def __init__(self, config):
+    def __init__(self, config: Configuration) -> None:
         self.config = config
         self.resource_config.source_resources, self.resource_config.destination_resources = open_resources(
             self.resource_type
@@ -110,7 +110,7 @@ class BaseResource(abc.ABC):
                 if c:
                     failed_connections_dict[resource_to_connect].extend(c)
 
-        if failed_connections_dict:
+        if len(failed_connections_dict) > 0:
             e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
             if self.config.skip_failed_resource_connections:
                 e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)

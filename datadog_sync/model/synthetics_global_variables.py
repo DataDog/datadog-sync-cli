@@ -3,11 +3,13 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from typing import Optional, List, Dict
+from __future__ import annotations
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.resource_utils import ResourceConnectionError
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.custom_client import CustomClient
 
 
 class SyntheticsGlobalVariables(BaseResource):
@@ -40,7 +42,8 @@ class SyntheticsGlobalVariables(BaseResource):
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
-
+        
+        resource = cast(dict, resource)
         self.resource_config.source_resources[resource["id"]] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
