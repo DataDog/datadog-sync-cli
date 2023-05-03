@@ -31,7 +31,7 @@ class SyntheticsPrivateLocations(BaseResource):
 
     def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         source_client = self.config.source_client
-        import_id = _id or resource and resource["id"]
+        import_id = _id or resource["id"]
 
         if self.pl_id_regex.match(import_id):
             pl = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
