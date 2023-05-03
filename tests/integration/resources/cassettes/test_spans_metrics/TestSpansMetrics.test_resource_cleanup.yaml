@@ -1,0 +1,60 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000f3370fa49bdccd39-1f24dd3cab595f00-01
+      tracestate:
+      - dd=s:1;t.dm:-1
+      x-datadog-parent-id:
+      - '2244161766979886848'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-1
+      x-datadog-trace-id:
+      - '17525493674599566649'
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v2/apm/config/metrics/ExampleSpansMetric
+  response:
+    body:
+      string: ''
+    headers: {}
+    status:
+      code: 204
+      message: No Content
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000aa6f52be6184107a-df6d34a2c9188193-00
+      tracestate:
+      - dd=s:0
+      x-datadog-parent-id:
+      - '16099582116682563987'
+      x-datadog-sampling-priority:
+      - '0'
+      x-datadog-trace-id:
+      - '12281125686495940730'
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v2/apm/config/metrics/ExampleSpansMetricTwo
+  response:
+    body:
+      string: ''
+    headers: {}
+    status:
+      code: 204
+      message: No Content
+version: 1

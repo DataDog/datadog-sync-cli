@@ -1,0 +1,41 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      traceparent:
+      - 00-0000000000000000a8844e791bedd2f0-a092821ad04c28a0-01
+      tracestate:
+      - dd=s:1;t.dm:-0
+      x-datadog-parent-id:
+      - '11570453444343638176'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-0
+      x-datadog-trace-id:
+      - '12142916777364280048'
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/apm/config/metrics
+  response:
+    body:
+      string: '{"data": [{"id": "ExampleSpansMetricTwo", "attributes": {"filter":
+        {"query": "@http.status_code:200 service:my-service"}, "group_by": [{"path":
+        "resource_name", "tag_name": "resource_name"}], "compute": {"aggregation_type":
+        "distribution", "path": "@duration", "include_percentiles": false}}, "type":
+        "spans_metrics"}, {"id": "ExampleSpansMetric", "attributes": {"filter": {"query":
+        "@http.status_code:200 service:my-service"}, "group_by": [{"path": "resource_name",
+        "tag_name": "resource_name"}], "compute": {"aggregation_type": "distribution",
+        "path": "@duration", "include_percentiles": false}}, "type": "spans_metrics"}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1
