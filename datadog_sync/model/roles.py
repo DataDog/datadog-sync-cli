@@ -74,6 +74,7 @@ class Roles(BaseResource):
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
+        resource["id"] = self.resource_config.destination_resources[_id]["id"]
         payload = {"data": resource}
         resp = destination_client.patch(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",

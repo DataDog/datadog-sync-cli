@@ -60,7 +60,7 @@ class SyntheticsTests(BaseResource):
         self.resource_config.source_resources[f"{resource['public_id']}#{resource['monitor_id']}"] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        self.remove_global_variables_from_config(resource)
+        pass
 
     def pre_apply_hook(self) -> None:
         pass
@@ -108,15 +108,7 @@ class SyntheticsTests(BaseResource):
                     found = True
                     break
             if not found:
-                failed_connections.append(_id)
+                failed_connections.append(r_obj[key])
             return failed_connections
         else:
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
-
-    @staticmethod
-    def remove_global_variables_from_config(resource: Dict[str, Any]) -> Dict[str, Any]:
-        if "config" in resource and "configVariables" in resource["config"]:
-            for variables in resource["config"]["configVariables"]:
-                if variables["type"] == "global":
-                    resource["config"]["configVariables"].remove(variables)
-        return resource
