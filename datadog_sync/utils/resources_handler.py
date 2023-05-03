@@ -76,7 +76,7 @@ class ResourcesHandler:
             self.config.logger.info("finished importing missing dependencies")
 
         # handle resource cleanups
-        if self.config.cleanup != FALSE:
+        if self.config.cleanup != FALSE and self.resources_manager.all_cleanup_resources:
             cleanup = _cleanup_prompt(self.config, self.resources_manager.all_cleanup_resources)
             if cleanup:
                 for _id, resource_type in self.resources_manager.all_cleanup_resources.items():

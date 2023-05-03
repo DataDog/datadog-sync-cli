@@ -29,6 +29,7 @@ class Cleanup:
         self.cleanup_synthetics_tests()
         self.cleanup_synthetics_private_locations()
         self.cleanup_synthetics_global_variables()
+        self.cleanup_spans_metrics()
         self.cleanup_dashboard_lists()
         self.cleanup_dashboards()
         self.cleanup_downtimes()
@@ -120,6 +121,14 @@ class Cleanup:
         path = "/api/v1/synthetics/variables"
         res = self.get_resources(path)
         for resource in res["variables"]:
+            self.delete_resource(resource["id"], path)
+
+    def cleanup_spans_metrics(
+        self,
+    ):
+        path = "/api/v2/apm/config/metrics"
+        res = self.get_resources(path)
+        for resource in res["data"]:
             self.delete_resource(resource["id"], path)
 
     def cleanup_synthetics_private_locations(
