@@ -58,11 +58,11 @@ class Roles(BaseResource):
 
     def create_resource(self, _id, resource):
         if resource["attributes"]["name"] in self.destination_roles_mapping:
-            resource_copy = copy.deepcopy(resource)
-            resource_copy.update(self.destination_roles_mapping[resource["attributes"]["name"]])
+            role_copy = copy.deepcopy(resource)
+            role_copy.update(self.destination_roles_mapping[resource["attributes"]["name"]])
 
-            self.resource_config.destination_resources[_id] = resource_copy
-            if check_diff(self.resource_config, resource, resource_copy):
+            self.resource_config.destination_resources[_id] = role_copy
+            if check_diff(self.resource_config, resource, role_copy):
                 self.update_resource(_id, resource)
             return
 
