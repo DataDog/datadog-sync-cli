@@ -3,10 +3,13 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from typing import Optional, List, Dict
+from __future__ import annotations
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.custom_client import CustomClient
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.custom_client import CustomClient
 
 
 class HostTags(BaseResource):
@@ -24,6 +27,8 @@ class HostTags(BaseResource):
     def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         if _id:
             return  # This should never occur. No resource depends on it.
+
+        resource = cast(dict, resource)
         tag = resource[0]
         hosts = resource[1]
         for host in hosts:

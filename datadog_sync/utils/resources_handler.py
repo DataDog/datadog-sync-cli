@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from __future__ import annotations
 from collections import deque
 from concurrent.futures import wait
 
@@ -23,19 +24,24 @@ from datadog_sync.utils.resource_utils import (
     init_topological_sorter,
     write_resources_file,
 )
+from typing import Dict, TYPE_CHECKING, Optional, Tuple
+
+if TYPE_CHECKING:
+    from datadog_sync.utils.configuration import Configuration
+    from graphlib import TopologicalSorter
 
 
 class ResourcesHandler:
-    def __init__(self, config, init_manager=True) -> None:
+    def __init__(self, config: Configuration, init_manager: bool = True) -> None:
         self.config = config
 
         # Additional config for resource manager
         if init_manager:
-            self.resources_manager = ResourcesManager(config)
-            self.resource_done_queue = deque()
-            self.sorter = None
+            self.resources_manager: ResourcesManager = ResourcesManager(config)
+            self.resource_done_queue: deque = deque()
+            self.sorter: Optional[TopologicalSorter] = None
 
-    def apply_resources(self):
+    def apply_resources(self) -> Tuple[int, int]:
         # Init executors
         parralel_executor = thread_pool_executor(self.config.max_workers)
         serial_executor = thread_pool_executor(1)
@@ -147,13 +153,13 @@ class ResourcesHandler:
 
         return successes, errors
 
-    def import_resources(self):
+    def import_resources(self) -> None:
         for resource_type in self.config.resources_arg:
             self.config.logger.info("Importing %s", resource_type)
             successes, errors = self._import_resources_helper(resource_type)
             self.config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
 
-    def diffs(self):
+    def diffs(self) -> None:
         executor = thread_pool_executor(self.config.max_workers)
         futures = []
         for _id, resource_type in self.resources_manager.all_resources.items():
@@ -163,7 +169,7 @@ class ResourcesHandler:
             futures.append(executor.submit(self._diffs_worker, _id, resource_type, delete=True))
         wait(futures)
 
-    def _diffs_worker(self, _id, resource_type, delete=False):
+    def _diffs_worker(self, _id, resource_type, delete=False) -> None:
         r_class = self.config.resources[resource_type]
 
         if delete:
@@ -193,14 +199,14 @@ class ResourcesHandler:
             else:
                 print("Resource to be added {} source ID {}: \n {}".format(resource_type, _id, pformat(resource)))
 
-    def _import_resources_helper(self, resource_type):
+    def _import_resources_helper(self, resource_type: str) -> Tuple[int, int]:
         r_class = self.config.resources[resource_type]
         r_class.resource_config.source_resources.clear()
 
         try:
             get_resp = r_class.get_resources(self.config.source_client)
         except Exception as e:
-            self.config.logger.error(f"Error while importing resources {self.resource_type}: {str(e)}")
+            self.config.logger.error(f"Error while importing resources {resource_type}: {str(e)}")
             return 0, 0
 
         futures = []
@@ -223,7 +229,7 @@ class ResourcesHandler:
         write_resources_file(resource_type, SOURCE_ORIGIN, r_class.resource_config.source_resources)
         return successes, errors
 
-    def _apply_resource_worker(self, _id, resource_type):
+    def _apply_resource_worker(self, _id: str, resource_type: str) -> None:
         try:
             r_class = self.config.resources[resource_type]
             resource = self.config.resources[resource_type].resource_config.source_resources[_id]
@@ -265,7 +271,7 @@ class ResourcesHandler:
             # always place in done queue regardless of exception thrown
             self.resource_done_queue.append(_id)
 
-    def _force_missing_dep_import_worker(self, _id, resource_type):
+    def _force_missing_dep_import_worker(self, _id: str, resource_type: str):
         try:
             self.config.resources[resource_type].import_resource(_id=_id)
         except CustomClientHTTPError as e:
@@ -277,24 +283,24 @@ class ResourcesHandler:
             _id, resource_type
         )
 
-    def _cleanup_worker(self, _id, resource_type):
+    def _cleanup_worker(self, _id: str, resource_type: str) -> None:
         self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
         try:
             self.config.resources[resource_type].delete_resource(_id)
             self.config.resources[resource_type].resource_config.destination_resources.pop(_id, None)
             self.config.logger.info(f"succesffully deleted resource type {resource_type} with id: {_id}")
-        except Exception as e:
+        except CustomClientHTTPError as e:
             if e.status_code == 404:
                 self.config.resources[resource_type].resource_config.destination_resources.pop(_id, None)
-                return
+                return None
 
             self.config.logger.error(
-                f"Error while deleting resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
+                f"Error while deleting resource {resource_type}. source ID: {_id} - Error: {str(e)}"
             )
             raise LoggedException(e)
 
 
-def _cleanup_prompt(config, resources_to_cleanup, prompt=True):
+def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool = True) -> bool:
     if config.cleanup == FORCE or not prompt:
         return True
     elif config.cleanup == TRUE:
@@ -305,3 +311,5 @@ def _cleanup_prompt(config, resources_to_cleanup, prompt=True):
             )
 
         return confirm("Delete above resources from destination org?")
+    else:
+        return False

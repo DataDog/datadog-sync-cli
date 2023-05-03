@@ -25,6 +25,7 @@ from json.decoder import JSONDecodeError
 from datadog_sync.utils.configuration import Configuration
 from datadog_sync import constants
 from datadog_sync.utils.configuration import init_resources
+from datadog_sync.utils.custom_client import CustomClient
 
 
 PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")
@@ -116,10 +117,18 @@ def vcr_config():
 @pytest.fixture(scope="module")
 def config():
     max_workers = os.getenv(constants.MAX_WORKERS)
+    custom_client = CustomClient(None, {"apiKeyAuth": "123", "appKeyAuth": "123"}, None)
 
     cfg = Configuration(
         logger=logging.getLogger(__name__),
         max_workers=int(max_workers),
+        source_client=custom_client,
+        destination_client=custom_client,
+        filters={},
+        filter_operator="OR",
+        force_missing_dependencies=False,
+        skip_failed_resource_connections=True,
+        cleanup=False,
     )
 
     resources = init_resources(cfg)
