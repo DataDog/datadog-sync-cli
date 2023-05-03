@@ -58,11 +58,11 @@ class Roles(BaseResource):
 
     def create_resource(self, _id, resource):
         if resource["attributes"]["name"] in self.destination_roles_mapping:
-            role_copy = copy.deepcopy(resource)
-            role_copy.update(self.destination_roles_mapping[resource["attributes"]["name"]])
+            resource_copy = copy.deepcopy(resource)
+            resource_copy.update(self.destination_roles_mapping[resource["attributes"]["name"]])
 
-            self.resource_config.destination_resources[_id] = role_copy
-            if check_diff(self.resource_config, resource, role_copy):
+            self.resource_config.destination_resources[_id] = resource_copy
+            if check_diff(self.resource_config, resource, resource_copy):
                 self.update_resource(_id, resource)
             return
 
@@ -74,6 +74,7 @@ class Roles(BaseResource):
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
+        resource["id"] = self.resource_config.destination_resources[_id]["id"]
         payload = {"data": resource}
         resp = destination_client.patch(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
