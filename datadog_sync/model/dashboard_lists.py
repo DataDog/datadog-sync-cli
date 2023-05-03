@@ -22,7 +22,7 @@ class DashboardLists(BaseResource):
         excluded_attributes=["id", "type", "author", "created", "modified", "is_favorite", "dashboard_count"],
     )
     # Additional Dashboards specific attributes
-    dash_list_items_path = "/api/v2/dashboard/lists/manual/{}/dashboards"
+    dash_list_items_path: str = "/api/v2/dashboard/lists/manual/{}/dashboards"
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path).json()
