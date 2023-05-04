@@ -178,6 +178,7 @@ the resources on the destination, and saves locally what has been pushed.
 - **downtimes**
 - **service_level_objectives**
 - **slo_corrections**
+- **spans_metrics**
 - **dashboards**
 - **dashboard_lists**
 - **logs_custom_pipelines**
@@ -205,6 +206,7 @@ If importing/syncing resources individually, ensure resource dependencies are im
 | downtimes                    | monitors                                  |
 | service_level_objectives     | monitors, synthetics_tests                |
 | slo_corrections              | service_level_objectives                  |
+| spans_metrics                |                                           |
 | dashboards                   | monitors, roles, service_level_objectives |
 | dashboard_lists              | dashboards                                |
 | logs_custom_pipelines        | -                                         |
