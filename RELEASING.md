@@ -28,7 +28,7 @@ The release process is controlled and run by GitHub Actions.
 ### Update Changelog
 
 1. Open [prepare release](https://github.com/DataDog/datadog-sync-cli/actions/workflows/prepare_release.yml) and click on `Run workflow` dropdown.
-1. Enter new version identifier in the `New version number` input box (e.g. `1.8.0`).
+1. Optionally, enter new version identifier in the `New version number` input box (e.g. `1.8.0`). Otherwise minor is incremented by default.
 1. Trigger the action by clicking on `Run workflow` button.
 
 ### Review
