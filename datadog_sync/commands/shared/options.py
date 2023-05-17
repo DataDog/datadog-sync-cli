@@ -98,6 +98,16 @@ _common_options = [
         cls=CustomOptionClass,
     ),
     option(
+        "--http-client-timeout",
+        envvar=constants.DD_HTTP_CLIENT_TIMEOUT,
+        required=False,
+        type=int,
+        default=30,
+        show_default=True,
+        help="The HTTP request timeout period. Defaults to 30s",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--resources",
         envvar=constants.DD_RESOURCES,
         required=False,

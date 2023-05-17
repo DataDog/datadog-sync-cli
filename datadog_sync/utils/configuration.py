@@ -45,17 +45,18 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
 
     # Initialize the datadog API Clients based on cmd
     retry_timeout = kwargs.get("http_client_retry_timeout")
+    timeout = kwargs.get("http_client_timeout")
     source_auth = {
         "apiKeyAuth": kwargs.get("source_api_key", ""),
         "appKeyAuth": kwargs.get("source_app_key", ""),
     }
-    source_client = CustomClient(source_api_url, source_auth, retry_timeout)
+    source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout)
 
     destination_auth = {
         "apiKeyAuth": kwargs.get("destination_api_key", ""),
         "appKeyAuth": kwargs.get("destination_app_key", ""),
     }
-    destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout)
+    destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout)
 
     # Validate the clients. For import we only validate the source client
     # For sync/diffs we validate the destination client.
@@ -125,9 +126,12 @@ def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
 
 
 def _validate_client(client: CustomClient) -> None:
+    logger = logging.getLogger(LOGGER_NAME)
     try:
         client.get(VALIDATE_ENDPOINT).json()
     except CustomClientHTTPError as e:
-        logger = logging.getLogger(LOGGER_NAME)
         logger.error(f"invalid api key: {e}")
+        exit(1)
+    except Exception as e:
+        logger.error(f"error while validating api key: {e}")
         exit(1)

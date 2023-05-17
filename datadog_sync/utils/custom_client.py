@@ -57,9 +57,9 @@ def request_with_retry(func: Callable) -> Callable:
 
 
 class CustomClient:
-    def __init__(self, host: Optional[str], auth: Dict[str, str], retry_timeout: int) -> None:
+    def __init__(self, host: Optional[str], auth: Dict[str, str], retry_timeout: int, timeout: int) -> None:
         self.host = host
-        self.timeout = 30
+        self.timeout = timeout
         self.session = requests.Session()
         self.retry_timeout = retry_timeout
         self.session.headers.update(build_default_headers(auth))
