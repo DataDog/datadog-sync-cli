@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 / 2023-05-17
+
+### Added
+* Make request timeout configurable by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/136
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.2.0...0.3.0
+
 ## 0.2.0 / 2023-05-09
 
 ### Fixed
