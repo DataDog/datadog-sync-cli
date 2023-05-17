@@ -82,6 +82,7 @@ Options:
                                               during client initialization. On import,
                                               only source api key is validated. On
                                               sync/diffs, only destination api key is validated. [default: True]
+  --http-client-timeout INTEGER               The HTTP request timeout period. Defaults to `30s`.
   --http-client-retry-timeout INTEGER         The HTTP request retry timeout period. Defaults to `60s`.
   --resources TEXT                            Optional comma separated list of resource to
                                               import. All supported resources are imported

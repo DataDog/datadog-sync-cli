@@ -126,9 +126,12 @@ def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
 
 
 def _validate_client(client: CustomClient) -> None:
+    logger = logging.getLogger(LOGGER_NAME)
     try:
         client.get(VALIDATE_ENDPOINT).json()
     except CustomClientHTTPError as e:
-        logger = logging.getLogger(LOGGER_NAME)
         logger.error(f"invalid api key: {e}")
+        exit(1)
+    except Exception as e:
+        logger.error(f"error while validating api key: {e}")
         exit(1)
