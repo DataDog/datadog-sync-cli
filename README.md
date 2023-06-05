@@ -9,6 +9,7 @@ Datadog cli tool to sync resources across organizations.
   - [API URL](#api-url)
   - [Filtering](#filtering)
   - [Config File](#config-file)
+  - [Cleanup flag](#cleanup-flag)
 - [Supported resources](#supported-resources)
 - [Best Practices](#best-practices)
 
@@ -162,6 +163,12 @@ filter=["Type=Dashboards;Name=title;Value=Test screenboard", "Type=Monitors;Name
 ```
 
 Usage: `datadog-sync import --config config`
+
+#### Cleanup flag
+
+The tools `sync` command provides a cleanup flag (`--cleanup`). Passing the cleanup flag will delete resources from the destination organization which have been removed from the source organization. The resources to be deleted are determined based on the difference between the state files of source and destination organization.
+
+For example, `ResourceA` and `ResourceB` are imported and synced, followed by deleting `ResourceA` from the source organization. Running the `import` command will update the source organizations state file to only include `ResourceB`. The following `sync --cleanup=Force` command will now delete `ResourceA` from the destination organization.
 
 ## Workflow
 
