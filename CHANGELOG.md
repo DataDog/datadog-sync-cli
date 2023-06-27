@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.1 / 2023-06-27
+
+### Fixed
+* Bump python base image in Dockerfile by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/139
+* Import `exit` before usage by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/142
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.3.0...0.3.1
+
 ## 0.3.0 / 2023-05-17
 
 ### Added
