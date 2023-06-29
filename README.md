@@ -23,7 +23,7 @@ The source organization will not be modified, but the destination organization w
 
 ## Requirements
 
-- Python >= v3.9
+- Python >= v3.11.0
 
 ## Installation
 
