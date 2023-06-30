@@ -16,6 +16,7 @@ version_template = """\
 __version__ = "{version}"
 """
 
+
 # Allows the fetching of tags even from shallow clones
 # https://github.com/pypa/setuptools_scm/pull/118#issuecomment-255381535
 def parse_fetch_on_shallow(root):
