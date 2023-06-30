@@ -234,6 +234,10 @@ class ResourcesHandler:
             r_class = self.config.resources[resource_type]
             resource = self.config.resources[resource_type].resource_config.source_resources[_id]
 
+            if _id not in self.resources_manager.all_missing_resources:
+                if not r_class.filter(resource):
+                    return
+
             # Run hooks
             r_class.pre_resource_action_hook(_id, resource)
             r_class.connect_resources(_id, resource)

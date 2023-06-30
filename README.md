@@ -90,7 +90,7 @@ Options:
                                               by default. See [Filtering] section for more details.
   --cleanup [True|False|Force]                Cleanup resources from destination org. [default: False]
   -v, --verbose                               Enable verbose logging.
-  --filter TEXT                               Filter imported resources. See [Filtering] section for more details.
+  --filter TEXT                               Filter resources. See [Filtering] section for more details.
   --filter-operator TEXT                      Filter operator when multiple filters are passed. Supports `AND` or `OR`.
   --config FILE                               Read configuration from FILE. See [Config] section for more details.
   --max-workers INTEGER                       Max number of workers when running
