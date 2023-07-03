@@ -134,7 +134,10 @@ def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
 
 
 def _get_user_agent() -> str:
-    from datadog_sync._version import __version__ as version
+    try:
+        from datadog_sync.version import __version__ as version
+    except:
+        version = None
 
     return "datadog-sync-cli/{version} (python {pyver}; os {os}; arch {arch})".format(
         version=version,

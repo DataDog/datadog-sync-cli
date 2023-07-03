@@ -51,8 +51,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ env.tag_name }}
           fetch-depth: 0
-        env:
-          RELEASE_BRANCH: ${{ github.head_ref }}
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
