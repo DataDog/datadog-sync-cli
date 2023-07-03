@@ -38,15 +38,6 @@ jobs:
         env:
           VERSION: ${{ github.event.inputs.version }}
 
-      - name: Bump version
-        run: |
-          git switch -c "release/${RELEASE_VERSION}"
-          sed -i 's/".*"/"'${RELEASE_VERSION}'"/' datadog_sync/_version.py
-          git commit -a -m "Version bump ${RELEASE_VERSION}"
-          git push -f --set-upstream origin "release/${RELEASE_VERSION}"
-        env:
-          RELEASE_VERSION: ${{ steps.get_version.outputs.version }}
-
       - name: Create PR
         uses: actions/github-script@v6
         env:

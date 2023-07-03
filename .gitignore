@@ -1,3 +1,4 @@
+datadog_sync/version.py
 **/*.pyc
 **/*.pyo
 .vscode/

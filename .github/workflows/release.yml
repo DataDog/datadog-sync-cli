@@ -38,12 +38,19 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-
     runs-on: ${{ matrix.os }}
     steps:
+      - id: Set tag
+        env:
+          RELEASE_BRANCH: ${{ github.head_ref }}
+        run: |
+          TAG_NAME=$(echo $RELEASE_BRANCH | cut -d "/" -f2)
+          echo "tag_name=$TAG_NAME" >> "$GITHUB_ENV"
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ env.tag_name }}
+          fetch-depth: 0
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
