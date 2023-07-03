@@ -40,6 +40,8 @@ jobs:
           python-version: 3.9
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Install datadog-sync-cli
+        run: pip install -e .
       - name: Install tox
         run: pip install tox
       - name: Run integration tests
