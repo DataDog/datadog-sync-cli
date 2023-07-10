@@ -107,13 +107,12 @@ class Monitors(BaseResource):
             return failed_connections
         elif resource_to_connect == "service_level_objectives" and r_obj.get("type") == "slo alert" and key == "query":
             failed_connections = []
-            ids = re.search('error_budget\("(.*)"\)\.', r_obj[key])
-            if ids:
-                for _id in ids.groups():
-                    if _id in slos:
-                        r_obj[key] = re.sub(_id, slos[_id]["id"], r_obj[key])
-                    else:
-                        failed_connections.append(_id)
+            if res := re.search('error_budget\("(.*)"\)\.', r_obj[key]):
+                _id = res.group(1)
+                if _id in slos:
+                    r_obj[key] = re.sub(_id, slos[_id]["id"], r_obj[key])
+                else:
+                    failed_connections.append(_id)
             return failed_connections
         elif key == "query":
             return None
