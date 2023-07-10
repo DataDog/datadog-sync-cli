@@ -16,7 +16,11 @@ if TYPE_CHECKING:
 class Monitors(BaseResource):
     resource_type = "monitors"
     resource_config = ResourceConfig(
-        resource_connections={"monitors": ["query"], "roles": ["restricted_roles"], "synthetics_tests": []},
+        resource_connections={
+            "monitors": ["query"],
+            "roles": ["restricted_roles"],
+            "service_level_objectives": ["query"],
+        },
         base_path="/api/v1/monitor",
         excluded_attributes=[
             "id",
@@ -44,7 +48,7 @@ class Monitors(BaseResource):
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
 
         resource = cast(dict, resource)
-        if resource["type"] in ("synthetics alert", "slo alert"):
+        if resource["type"] == "synthetics alert":
             return
 
         self.resource_config.source_resources[str(resource["id"])] = resource
@@ -80,6 +84,7 @@ class Monitors(BaseResource):
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.resources[resource_to_connect].resource_config.destination_resources
         synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
+        slos = self.config.resources["service_level_objectives"].resource_config.destination_resources
 
         if r_obj.get("type") == "composite" and key == "query":
             failed_connections = []
@@ -99,6 +104,15 @@ class Monitors(BaseResource):
                 if not found:
                     failed_connections.append(_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()
+            return failed_connections
+        elif resource_to_connect == "service_level_objectives" and r_obj.get("type") == "slo alert" and key == "query":
+            failed_connections = []
+            if res := re.search('error_budget\("(.*)"\)\.', r_obj[key]):
+                _id = res.group(1)
+                if _id in slos:
+                    r_obj[key] = re.sub(_id, slos[_id]["id"], r_obj[key])
+                else:
+                    failed_connections.append(_id)
             return failed_connections
         elif key == "query":
             return None

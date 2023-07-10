@@ -21,7 +21,7 @@ class ResourcesManager:
         self.all_resources: Dict[str, str] = {}  # mapping of all resources to its resource_type
         self.all_cleanup_resources: Dict[str, str] = {}  # mapping of all resources to cleanup
         self.dependencies_graph: Dict[str, Set[str]] = {}  # dependency graph
-        self.all_missing_resources: Dict[str, str] = {} # mapping of all missing resources imported
+        self.all_missing_resources: Dict[str, str] = {}  # mapping of all missing resources imported
         self.missing_resources_queue: deque = deque()  # queue for missing resources
 
         for resource_type in config.resources_arg:
