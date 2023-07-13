@@ -6,7 +6,6 @@
 import pytest
 
 from datadog_sync.models import HostTags
-from tests.conftest import get_record_mode
 from tests.integration.helpers import BaseResourcesTestClass
 
 

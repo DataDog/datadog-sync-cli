@@ -8,7 +8,6 @@ from unittest.mock import MagicMock, call
 
 from datadog_sync import models
 from datadog_sync.utils.resource_utils import find_attr
-from datadog_sync.utils.base_resource import BaseResource
 
 
 @pytest.fixture(scope="class")

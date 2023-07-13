@@ -8,7 +8,7 @@ import logging
 from re import match
 
 from datadog_sync.constants import LOGGER_NAME
-from typing import TYPE_CHECKING, Any, Dict, List, Tuple
+from typing import Dict, List
 
 
 FILTER_TYPE = "Type"

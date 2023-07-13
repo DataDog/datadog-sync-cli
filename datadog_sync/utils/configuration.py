@@ -75,7 +75,7 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
     max_workers = kwargs.get("max_workers", 10)
 
     cleanup = kwargs.get("cleanup")
-    if cleanup != None:
+    if cleanup:
         cleanup = {
             "true": TRUE,
             "false": FALSE,

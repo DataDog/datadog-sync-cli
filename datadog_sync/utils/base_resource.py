@@ -7,7 +7,6 @@ from __future__ import annotations
 import abc
 from collections import defaultdict
 from dataclasses import dataclass, field
-from pprint import pformat
 from typing import TYPE_CHECKING, Optional, Dict, List
 
 from datadog_sync.utils.custom_client import CustomClient

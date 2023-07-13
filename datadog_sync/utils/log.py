@@ -7,7 +7,6 @@ from __future__ import annotations
 import logging
 
 from datadog_sync.constants import LOGGER_NAME
-from typing import TYPE_CHECKING
 
 
 def _configure_logging(verbose: bool) -> None:
