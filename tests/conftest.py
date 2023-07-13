@@ -3,16 +3,6 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-tracer = None
-try:
-    from ddtrace import config, patch
-
-    config.httplib["distributed_tracing"] = True
-    config.requests["distributed_tracing"] = True
-    patch(httplib=True, requests=True)
-except ImportError:
-    pass
-
 import pytest
 import os
 import logging
@@ -26,6 +16,16 @@ from datadog_sync.utils.configuration import Configuration
 from datadog_sync import constants
 from datadog_sync.utils.configuration import init_resources
 from datadog_sync.utils.custom_client import CustomClient
+
+tracer = None
+try:
+    from ddtrace import config, patch
+
+    config.httplib["distributed_tracing"] = True
+    config.requests["distributed_tracing"] = True
+    patch(httplib=True, requests=True)
+except ImportError:
+    pass
 
 
 PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")

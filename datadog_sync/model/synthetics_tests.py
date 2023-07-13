@@ -4,13 +4,12 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Optional, List, Dict, cast
+from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
-    from datadog_sync.model.synthetics_private_locations import SyntheticsPrivateLocations
 
 
 class SyntheticsTests(BaseResource):

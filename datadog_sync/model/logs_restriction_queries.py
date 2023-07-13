@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Optional, List, Dict, Tuple, cast
+from typing import TYPE_CHECKING, Any, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig

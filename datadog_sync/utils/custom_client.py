@@ -136,7 +136,7 @@ def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
 def _get_user_agent() -> str:
     try:
         from datadog_sync.version import __version__ as version
-    except:
+    except (ModuleNotFoundError, ImportError):
         version = None
 
     return "datadog-sync-cli/{version} (python {pyver}; os {os}; arch {arch})".format(

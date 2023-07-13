@@ -24,11 +24,11 @@ def _import(**kwargs):
 
     handler = ResourcesHandler(cfg, False)
 
-    cfg.logger.info(f"Starting import...")
+    cfg.logger.info("Starting import...")
 
     handler.import_resources()
 
-    cfg.logger.info(f"Finished import")
+    cfg.logger.info("Finished import")
 
     if cfg.logger.exception_logged:
         exit(1)

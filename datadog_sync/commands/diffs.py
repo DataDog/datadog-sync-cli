@@ -27,11 +27,11 @@ def diffs(**kwargs):
     cfg = build_config(CMD_DIFFS, **kwargs)
     handler = ResourcesHandler(cfg)
 
-    cfg.logger.info(f"Starting diffs...")
+    cfg.logger.info("Starting diffs...")
 
     handler.diffs()
 
-    cfg.logger.info(f"Finished diffs ")
+    cfg.logger.info("Finished diffs ")
 
     if cfg.logger.exception_logged:
         exit(1)

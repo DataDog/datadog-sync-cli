@@ -2,6 +2,7 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
+# flake8: noqa
 
 from datadog_sync.model.roles import Roles
 from datadog_sync.model.users import Users

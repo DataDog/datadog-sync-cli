@@ -5,7 +5,6 @@ import argparse
 import PyInstaller.__main__
 from github import Github
 
-from datadog_sync._version import __version__
 
 REPO = "datadog/datadog-sync-cli"
 PACKAGE_NAME = "datadog-sync-cli"

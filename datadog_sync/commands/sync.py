@@ -40,7 +40,7 @@ def sync(**kwargs):
 
     handler = ResourcesHandler(cfg)
 
-    cfg.logger.info(f"Starting sync...")
+    cfg.logger.info("Starting sync...")
 
     successes, errors = handler.apply_resources()
 

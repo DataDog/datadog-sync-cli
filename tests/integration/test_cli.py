@@ -84,7 +84,7 @@ class TestCli:
             [
                 "import",
                 "--validate=false",
-                f"--resources=roles,users",
+                "--resources=roles,users",
                 "--filter=Type=roles;Name=attributes.user_count;Value=[^0]+;Operator=SubString",
                 "--filter=Type=users;Name=attributes.status;Value=Active",
             ],
