@@ -102,6 +102,22 @@ class TestCli:
                 "--skip-failed-resource-connections=False",
             ],
         )
+        if ret.exit_code != 0:
+            # Retry cleanup if there was an error on the previous run.
+            # We currently do not build a graph for cleanup hence we run into situations where
+            # we attemp to delete resources before its usage areas are cleanup.
+            # E.g. synthetics global variable is attempted to be deleted before the
+            # synthetics test using it.
+            ret = runner.invoke(
+                cli,
+                [
+                    "sync",
+                    "--validate=false",
+                    f"--resources={self.resources}",
+                    "--cleanup=force",
+                    "--skip-failed-resource-connections=False",
+                ],
+            )
         assert not ret.output
         assert 0 == ret.exit_code
 
