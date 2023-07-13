@@ -102,7 +102,6 @@ def check_diff(resource_config, resource, state):
         state,
         ignore_order=True,
         exclude_paths=resource_config.excluded_attributes,
-        exclude_regex_paths=resource_config.excluded_attributes_re,
     )
 
 

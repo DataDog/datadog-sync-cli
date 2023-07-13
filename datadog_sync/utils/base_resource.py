@@ -23,7 +23,6 @@ class ResourceConfig:
     resource_connections: Optional[Dict[str, List[str]]] = None
     non_nullable_attr: Optional[List[str]] = None
     excluded_attributes: Optional[List[str]] = None
-    excluded_attributes_re: Optional[List[str]] = None
     concurrent: bool = True
     source_resources: dict = field(default_factory=dict)
     destination_resources: dict = field(default_factory=dict)
