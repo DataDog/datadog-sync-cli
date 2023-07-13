@@ -147,13 +147,18 @@ def _get_user_agent() -> str:
     )
 
 
+def remaining_func(idx, resp, page_size, page_number):
+    return resp["meta"]["page"]["total_count"] - page_size * (page_number + 1)
+
+
+def page_number_func(idx, page_size, page_number):
+    return page_number + 1
+
 @dataclass
 class PaginationConfig(object):
     page_size: Optional[int] = 100
     page_size_param: Optional[str] = "page[size]"
     page_number: Optional[int] = 0
     page_number_param: Optional[str] = "page[number]"
-    remaining_func: Optional[Callable] = lambda idx, resp, page_size, page_number: (
-        resp["meta"]["page"]["total_count"]
-    ) - (page_size * (page_number + 1))
-    page_number_func: Optional[Callable] = lambda idx, page_size, page_number: page_number + 1
+    remaining_func: Optional[Callable] = remaining_func
+    page_number_func: Optional[Callable] = page_number_func
