@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.1 / 2023-07-17
+The release contents are same as `v0.4.0`. It includes the executables missing from version `v0.4.0`
+
+Note: This release also drops the prefix `v` from release tag.
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.3.1...0.4.1
+
 ## 0.4.0 / 2023-07-17
 
 ### Added
@@ -12,7 +19,7 @@
 ## New Contributors
 * @abbasalizaidi made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/151
 
-**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.3.1...0.4.0
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.3.1...v0.4.0
 
 ## 0.3.1 / 2023-06-27
 
@@ -21,7 +28,7 @@
 * Import `exit` before usage by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/142
 
 
-**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.3.0...0.3.1
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.3.0...v0.3.1
 
 ## 0.3.0 / 2023-05-17
 
@@ -29,7 +36,7 @@
 * Make request timeout configurable by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/136
 
 
-**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.2.0...0.3.0
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.2.0...v0.3.0
 
 ## 0.2.0 / 2023-05-09
 
@@ -45,7 +52,7 @@
 ## New Contributors
 * @nkzou made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/125
 
-**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.1.0...0.2.0
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.1.0...v0.2.0
 
 ## 0.1.0 / 2023-03-21
 
