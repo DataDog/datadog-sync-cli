@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1 / 2023-07-17
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.4.0...0.4.1
+
 ## 0.4.0 / 2023-07-17
 
 ### Added
