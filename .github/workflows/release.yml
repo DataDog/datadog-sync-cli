@@ -46,6 +46,7 @@ jobs:
         run: |
           TAG_NAME=v$(echo $RELEASE_BRANCH | cut -d "/" -f2)
           echo "tag_name=$TAG_NAME" >> "$GITHUB_ENV"
+        shell: bash
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
