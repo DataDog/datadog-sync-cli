@@ -44,7 +44,7 @@ jobs:
         env:
           RELEASE_BRANCH: ${{ github.head_ref }}
         run: |
-          TAG_NAME=$(echo $RELEASE_BRANCH | cut -d "/" -f2)
+          TAG_NAME=v$(echo $RELEASE_BRANCH | cut -d "/" -f2)
           echo "tag_name=$TAG_NAME" >> "$GITHUB_ENV"
       - uses: actions/checkout@v3
         with:
