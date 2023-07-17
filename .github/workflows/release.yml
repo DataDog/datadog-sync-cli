@@ -19,7 +19,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const tagName = `v${process.env.RELEASE_BRANCH.split("/")[1]}`;
+            const tagName = `${process.env.RELEASE_BRANCH.split("/")[1]}`;
             await github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -44,7 +44,7 @@ jobs:
         env:
           RELEASE_BRANCH: ${{ github.head_ref }}
         run: |
-          TAG_NAME=v$(echo $RELEASE_BRANCH | cut -d "/" -f2)
+          TAG_NAME=$(echo $RELEASE_BRANCH | cut -d "/" -f2)
           echo "tag_name=$TAG_NAME" >> "$GITHUB_ENV"
         shell: bash
       - uses: actions/checkout@v3
