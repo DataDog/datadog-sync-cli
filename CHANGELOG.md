@@ -1,10 +1,5 @@
 # Changelog
 
-## 0.4.1 / 2023-07-17
-This release is same as `v0.4.0`. It includes the executables missing from version `v0.4.0`
-
-**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.4.0...0.4.1
-
 ## 0.4.0 / 2023-07-17
 
 ### Added
