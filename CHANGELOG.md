@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.4.0 / 2023-07-17
+
+### Added
+* Add filtering support to sync command by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/147
+* Add support for syncing slo alert monitors by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/149
+* Add support for `restricted_roles` in synthetics and add additional readOnly fields by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/153
+### Changed
+* Switch to use `scm_version` versioning by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/148
+
+## New Contributors
+* @abbasalizaidi made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/151
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/v0.3.1...0.4.0
+
 ## 0.3.1 / 2023-06-27
 
 ### Fixed
