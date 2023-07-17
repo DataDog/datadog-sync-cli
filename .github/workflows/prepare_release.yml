@@ -77,7 +77,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: `refs/heads/release/${process.env.RELEASE_VERSION}`,
-              sha: master.object.sha,
+              sha: main.object.sha,
             });
 
             const { data: commit } = await github.rest.repos.createOrUpdateFileContents({
