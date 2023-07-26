@@ -18,7 +18,16 @@ class SyntheticsPrivateLocations(BaseResource):
     resource_type = "synthetics_private_locations"
     resource_config = ResourceConfig(
         base_path="/api/v1/synthetics/private-locations",
-        excluded_attributes=["id", "modifiedAt", "createdAt", "createdBy", "metadata", "secrets", "config"],
+        excluded_attributes=[
+            "id",
+            "modifiedAt",
+            "createdAt",
+            "createdBy",
+            "metadata",
+            "secrets",
+            "config",
+            "result_encryption",
+        ],
     )
     # Additional SyntheticsPrivateLocations specific attributes
     base_locations_path: str = "/api/v1/synthetics/locations"
