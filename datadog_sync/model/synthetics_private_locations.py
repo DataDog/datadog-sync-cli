@@ -45,9 +45,9 @@ class SyntheticsPrivateLocations(BaseResource):
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        resp = destination_client.post(self.resource_config.base_path, resource).json()["private_location"]
-
-        self.resource_config.destination_resources[_id] = resp
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
+        self.resource_config.destination_resources[_id] = resp["private_location"]
+        self.resource_config.destination_resources[_id]["config"] = resp["config"]
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
