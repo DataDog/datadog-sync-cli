@@ -18,7 +18,16 @@ class SyntheticsPrivateLocations(BaseResource):
     resource_type = "synthetics_private_locations"
     resource_config = ResourceConfig(
         base_path="/api/v1/synthetics/private-locations",
-        excluded_attributes=["id", "modifiedAt", "createdAt", "createdBy", "metadata", "secrets", "config"],
+        excluded_attributes=[
+            "id",
+            "modifiedAt",
+            "createdAt",
+            "createdBy",
+            "metadata",
+            "secrets",
+            "config",
+            "result_encryption",
+        ],
     )
     # Additional SyntheticsPrivateLocations specific attributes
     base_locations_path: str = "/api/v1/synthetics/locations"
@@ -45,9 +54,12 @@ class SyntheticsPrivateLocations(BaseResource):
 
     def create_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        resp = destination_client.post(self.resource_config.base_path, resource).json()["private_location"]
 
-        self.resource_config.destination_resources[_id] = resp
+        resp = destination_client.post(self.resource_config.base_path, resource).json()
+
+        self.resource_config.destination_resources[_id] = resp["private_location"]
+        self.resource_config.destination_resources[_id]["config"] = resp.get("config")
+        self.resource_config.destination_resources[_id]["result_encryption"] = resp.get("result_encryption")
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client

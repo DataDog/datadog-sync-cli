@@ -154,6 +154,7 @@ def remaining_func(idx, resp, page_size, page_number):
 def page_number_func(idx, page_size, page_number):
     return page_number + 1
 
+
 @dataclass
 class PaginationConfig(object):
     page_size: Optional[int] = 100
