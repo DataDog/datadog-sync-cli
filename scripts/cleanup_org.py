@@ -18,7 +18,7 @@ DEFAULT_TEST_ORG = "13865f06-bfcc-11eb-8e11-da7ad0900005"
 class Cleanup:
     def __init__(self):
         self.headers = get_headers()
-        self.base_url = os.getenv("DD_DESTINATION_API_URL")
+        self.base_url = os.environ["DESTINATION_API_URL"]
 
         # Validate test org
         self.validate_org()
@@ -244,8 +244,8 @@ class Cleanup:
 
 def get_headers():
     return {
-        "DD-API-KEY": os.getenv("DD_DESTINATION_API_KEY"),
-        "DD-APPLICATION-KEY": os.getenv("DD_DESTINATION_APP_KEY"),
+        "DD-API-KEY": os.environ["DESTINATION_API_KEY"],
+        "DD-APPLICATION-KEY": os.environ["DESTINATION_APP_KEY"],
         "Content-Type": "application/json",
     }
 
