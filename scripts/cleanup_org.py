@@ -231,7 +231,7 @@ class Cleanup:
             resp = requests.get(url, headers=self.headers, timeout=60, *args, **kwargs)
             resp.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            print("Error getting url %s: %s", url, e)
+            print("Error getting url %s: %s, %s", url, e, e.response.headers)
             return
         return resp.json()
 
@@ -242,7 +242,7 @@ class Cleanup:
             resp.raise_for_status()
             print("deleted resource ", url, _id)
         except requests.exceptions.HTTPError as e:
-            print("Error deleting resource: %s", e)
+            print("Error deleting resource: %s, %s", e, e.response.headers)
 
 
 def get_headers():
