@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.2 / 2023-08-23
+
+### Fixed
+* Dump synthetics private location config data on create by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/164
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.4.1...0.4.2
+
 ## 0.4.1 / 2023-07-17
 The release contents are same as `v0.4.0`. It includes the executables missing from version `v0.4.0`
 
