@@ -36,11 +36,11 @@ class Cleanup:
         self.cleanup_logs_custom_pipelines()
         self.cleanup_monitors()
         self.cleanup_notebooks()
-        self.cleanup_users()
+        # self.cleanup_users()
         self.cleanup_roles()
         self.cleanup_logs_metrics()
         self.cleanup_metric_tag_configurations()
-        self.cleanup_host_tags()
+        # self.cleanup_host_tags()
         self.cleanup_logs_restriction_queries()
         # self.cleanup_integrations_aws()
 
