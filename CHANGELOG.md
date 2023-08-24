@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 / 2023-08-24
+
+### Added
+* Add support for paginated monitors by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/167
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.4.2...0.5.0
+
 ## 0.4.2 / 2023-08-23
 
 ### Fixed
