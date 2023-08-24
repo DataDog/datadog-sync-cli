@@ -111,10 +111,17 @@ class CustomClient:
                 resp.raise_for_status()
 
                 resp_json = resp.json()
-                resources.extend(resp_json["data"])
-                if len(resp_json["data"]) < page_size:
-                    remaining = 0
-                    continue
+                resp_len = 0
+                if pagination_config.response_list_accessor:
+                    resources.extend(resp_json[pagination_config.response_list_accessor])
+                    resp_len = len(resp_json[pagination_config.response_list_accessor])
+                else:
+                    resources.extend(resp_json)
+                    resp_len = len(resp_json)
+
+                if resp_len < page_size:
+                    break
+
                 remaining = pagination_config.remaining_func(idx, resp_json, page_size, page_number)
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
                 idx += 1
@@ -163,3 +170,4 @@ class PaginationConfig(object):
     page_number_param: Optional[str] = "page[number]"
     remaining_func: Optional[Callable] = remaining_func
     page_number_func: Optional[Callable] = page_number_func
+    response_list_accessor: Optional[str] = "data"

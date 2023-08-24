@@ -8,6 +8,7 @@ import re
 from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import PaginationConfig
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -36,9 +37,18 @@ class Monitors(BaseResource):
         ],
     )
     # Additional Monitors specific attributes
+    pagination_config = PaginationConfig(
+        page_size=100,
+        page_number_param="page",
+        page_size_param="page_size",
+        remaining_func=lambda *args: 1,
+        response_list_accessor=None,
+    )
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path).json()
+        resp = client.paginated_request(client.get)(
+            self.resource_config.base_path, pagination_config=self.pagination_config
+        )
 
         return resp
 

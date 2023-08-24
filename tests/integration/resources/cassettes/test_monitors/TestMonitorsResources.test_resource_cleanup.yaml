@@ -8,11 +8,23 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
+      traceparent:
+      - 00-00000000000000009508ae4e0b6b527f-19c057d2dd41a74e-01
+      tracestate:
+      - dd=s:1;t.dm:-0
+      x-datadog-parent-id:
+      - '1855579609643460430'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-0
+      x-datadog-trace-id:
+      - '10739024961687212671'
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380053?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/12742272?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380053}'
+      string: '{"deleted_monitor_id": 12742272}'
     headers: {}
     status:
       code: 200
@@ -26,11 +38,23 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
+      traceparent:
+      - 00-0000000000000000e136065bacb87bbb-3fb554e5a7c2d43b-01
+      tracestate:
+      - dd=s:1;t.dm:-0
+      x-datadog-parent-id:
+      - '4590668740512896059'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-0
+      x-datadog-trace-id:
+      - '16228165298085723067'
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380047?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/12742271?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380047}'
+      string: '{"deleted_monitor_id": 12742271}'
     headers: {}
     status:
       code: 200
@@ -44,11 +68,23 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
+      traceparent:
+      - 00-0000000000000000643a0edc743014ee-ffa2030a825c4c33-01
+      tracestate:
+      - dd=s:1;t.dm:-0
+      x-datadog-parent-id:
+      - '18420288769570393139'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-0
+      x-datadog-trace-id:
+      - '7222101292446913774'
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380049?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/12742274?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380049}'
+      string: '{"deleted_monitor_id": 12742274}'
     headers: {}
     status:
       code: 200
@@ -62,11 +98,23 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
+      traceparent:
+      - 00-000000000000000043fa3a09cfef7e95-aa4c066c97edab4e-01
+      tracestate:
+      - dd=s:1;t.dm:-0
+      x-datadog-parent-id:
+      - '12271190148152929102'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-0
+      x-datadog-trace-id:
+      - '4898291358536531605'
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380051?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/12742275?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380051}'
+      string: '{"deleted_monitor_id": 12742275}'
     headers: {}
     status:
       code: 200
@@ -80,11 +128,23 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
+      traceparent:
+      - 00-0000000000000000378e81de1d16febc-d457418428aa4478-01
+      tracestate:
+      - dd=s:1;t.dm:-0
+      x-datadog-parent-id:
+      - '15300770294888285304'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-0
+      x-datadog-trace-id:
+      - '4003279909749718716'
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380054?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/12742273?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380054}'
+      string: '{"deleted_monitor_id": 12742273}'
     headers: {}
     status:
       code: 200
@@ -98,11 +158,23 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
+      traceparent:
+      - 00-000000000000000099a7d55763f9b1dd-ef3b7d8247e0381e-01
+      tracestate:
+      - dd=s:1;t.dm:-0
+      x-datadog-parent-id:
+      - '17238509997195802654'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-0
+      x-datadog-trace-id:
+      - '11072052780229833181'
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380050?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/12742269?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380050}'
+      string: '{"deleted_monitor_id": 12742269}'
     headers: {}
     status:
       code: 200
@@ -116,11 +188,23 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
+      traceparent:
+      - 00-0000000000000000e52fb0ce368f4567-b10aa7a25a76b11c-01
+      tracestate:
+      - dd=s:1;t.dm:-0
+      x-datadog-parent-id:
+      - '12757193210224619804'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-0
+      x-datadog-trace-id:
+      - '16514612758316008807'
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380048?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/12742270?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380048}'
+      string: '{"deleted_monitor_id": 12742270}'
     headers: {}
     status:
       code: 200
@@ -134,29 +218,23 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
+      traceparent:
+      - 00-0000000000000000667832788d872316-724b1ae6138983bf-01
+      tracestate:
+      - dd=s:1;t.dm:-0
+      x-datadog-parent-id:
+      - '8235705919049663423'
+      x-datadog-sampling-priority:
+      - '1'
+      x-datadog-tags:
+      - _dd.p.dm=-0
+      x-datadog-trace-id:
+      - '7383707082425836310'
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380046?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/12742268?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380046}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380052?force=True
-  response:
-    body:
-      string: '{"deleted_monitor_id": 9380052}'
+      string: '{"deleted_monitor_id": 12742268}'
     headers: {}
     status:
       code: 200
