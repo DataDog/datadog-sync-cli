@@ -53,7 +53,7 @@ The source organization will not be modified, but the destination organization w
 2) Build the probided Dockerfile `docker build . -t datadog-sync`
 3) Run the docker image using entrypoint below:
 ```
-docker run --rm -v $(pwd):/datadog-sync:rw \
+docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
   -e DD_SOURCE_API_KEY=<DATADOG_API_KEY> \
   -e DD_SOURCE_APP_KEY=<DATADOG_APP_KEY> \
   -e DD_SOURCE_API_URL=<DATADOG_API_URL> \
@@ -62,7 +62,7 @@ docker run --rm -v $(pwd):/datadog-sync:rw \
   -e DD_DESTINATION_API_URL=<DATADOG_API_URL> \
   datadog-sync:latest <command> <options>
 ```
-Note: The above docker run command will mount your current working directory to the container.
+Note: The above docker run command will mount specified `<PATH_TO_WORKING_DIR>` working directory to the container.
 
 
 ## Usage
