@@ -8,6 +8,7 @@ import os
 import re
 import json
 import logging
+from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor
 from graphlib import TopologicalSorter
 
@@ -39,11 +40,15 @@ class CustomClientHTTPError(Exception):
 class LogsPipelineOrderIdsComparator(BaseOperator):
     def match(self, level):
         if "pipeline_ids" in level.t1 and "pipeline_ids" in level.t2:
+            # make copy so we do not mutate the original
+            level.t1 = deepcopy(level.t1)
+            level.t2 = deepcopy(level.t2)
+
             # If we are at the top level, modify the list to only include the intersections.
             t1 = set(level.t1["pipeline_ids"])
             t2 = set(level.t2["pipeline_ids"])
             intersection = t1 & t2
-            
+
             level.t1["pipeline_ids"] = [_id for _id in level.t1["pipeline_ids"] if _id in intersection]
             level.t2["pipeline_ids"] = [_id for _id in level.t2["pipeline_ids"] if _id in intersection]
         return True
