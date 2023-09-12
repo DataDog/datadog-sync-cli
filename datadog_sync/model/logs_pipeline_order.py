@@ -22,7 +22,6 @@ class LogsPipelineOrder(BaseResource):
             "logs_custom_pipelines": ["pipeline_ids"],
             "logs_integration_pipelines": ["pipeline_ids"],
         },
-        ignore_failed_resource_connections=True,
         deep_diff_config={
             "ignore_order": False,
             "custom_operators": [LogsPipelineOrderIdsComparator()],
@@ -58,8 +57,9 @@ class LogsPipelineOrder(BaseResource):
         self.update_resource(_id, resource)
 
     def update_resource(self, _id: str, resource: Dict) -> None:
-        destination_resources = self.resource_config.destination_resources[_id]
+        destination_resources = self.destination_pipeline_order or self.resource_config.destination_resources[_id]
         ids_to_omit = set(resource["pipeline_ids"]) - set(destination_resources["pipeline_ids"])
+
         extra_ids_to_include = [
             _id for _id in destination_resources["pipeline_ids"] if _id not in resource["pipeline_ids"]
         ]

@@ -25,7 +25,6 @@ class ResourceConfig:
     concurrent: bool = True
     source_resources: dict = field(default_factory=dict)
     destination_resources: dict = field(default_factory=dict)
-    ignore_failed_resource_connections: bool = False
     deep_diff_config: dict = field(default_factory=lambda: {"ignore_order": True})
 
     def __post_init__(self) -> None:
@@ -112,13 +111,12 @@ class BaseResource(abc.ABC):
 
         if failed_connections_dict:
             e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
-            if not self.resource_config.ignore_failed_resource_connections:
-                if self.config.skip_failed_resource_connections:
-                    e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
-                    self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
-                    raise e
-                else:
-                    self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
+            if self.config.skip_failed_resource_connections:
+                e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
+                self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
+                raise e
+            else:
+                self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
 
     def filter(self, resource: Dict) -> bool:
         if not self.config.filters or self.resource_type not in self.config.filters:
