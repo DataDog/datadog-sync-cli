@@ -48,13 +48,13 @@ class LogsPipelineOrder(BaseResource):
         pass
 
     def pre_apply_hook(self) -> None:
-        pass
+        self.destination_pipeline_order = self.get_destination_pipeline_order()
 
     def create_resource(self, _id: str, resource: Dict) -> None:
-        self.resource_config.destination_resources[_id] = self.get_destination_pipeline_order()
-        if not self.resource_config.destination_resources[_id]:
+        if not self.destination_pipeline_order:
             raise Exception("Failed to retrieve destination orgs logs pipeline order")
 
+        self.resource_config.destination_resources[_id] = self.destination_pipeline_order
         self.update_resource(_id, resource)
 
     def update_resource(self, _id: str, resource: Dict) -> None:        
