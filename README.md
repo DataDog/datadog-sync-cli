@@ -25,6 +25,10 @@ how to use:
 how to use:
 - setup dogweb cookie mode, cf above
 
+### metric_metadatas
+create metric metadata is *not* supported by datadog api, we can just update it on already existing metric.
+- first push data-points on metric, then rerun the script when new metrics are populated
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 
