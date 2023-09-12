@@ -52,7 +52,7 @@ class LogsPipelineOrderIdsComparator(BaseOperator):
             level.t1["pipeline_ids"] = [_id for _id in level.t1["pipeline_ids"] if _id in intersection]
             level.t2["pipeline_ids"] = [_id for _id in level.t2["pipeline_ids"] if _id in intersection]
         return True
-    
+
     def give_up_diffing(self, level, diff_instance) -> bool:
         return False
 
@@ -120,10 +120,7 @@ def del_null_attr(k_list, resource):
 
 def check_diff(resource_config, resource, state):
     return DeepDiff(
-        resource,
-        state,
-        exclude_paths=resource_config.excluded_attributes,
-        **resource_config.deep_diff_config
+        resource, state, exclude_paths=resource_config.excluded_attributes, **resource_config.deep_diff_config
     )
 
 

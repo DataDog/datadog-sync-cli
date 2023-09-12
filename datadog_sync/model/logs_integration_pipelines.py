@@ -50,8 +50,8 @@ class LogsIntegrationPipelines(BaseResource):
     def create_resource(self, _id: str, resource: Dict) -> None:
         if resource["name"] not in self.destination_integration_pipelines:
             raise Exception(
-                "resource cannot be created only updated." +
-                f"Skipping sync. Enable integration pipeline {resource['name']}",
+                "resource cannot be created only updated."
+                + f"Skipping sync. Enable integration pipeline {resource['name']}",
             )
 
         self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]

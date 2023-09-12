@@ -57,14 +57,15 @@ class LogsPipelineOrder(BaseResource):
         self.resource_config.destination_resources[_id] = self.destination_pipeline_order
         self.update_resource(_id, resource)
 
-    def update_resource(self, _id: str, resource: Dict) -> None:        
+    def update_resource(self, _id: str, resource: Dict) -> None:
         destination_resources = self.resource_config.destination_resources[_id]
         ids_to_omit = set(resource["pipeline_ids"]) - set(destination_resources["pipeline_ids"])
-        extra_ids_to_include = [_id for _id in destination_resources["pipeline_ids"] if _id not in resource["pipeline_ids"]]
+        extra_ids_to_include = [
+            _id for _id in destination_resources["pipeline_ids"] if _id not in resource["pipeline_ids"]
+        ]
 
         resource["pipeline_ids"] = [_id for _id in resource["pipeline_ids"] if _id not in ids_to_omit]
         resource["pipeline_ids"] = resource["pipeline_ids"] + extra_ids_to_include
-
 
         destination_client = self.config.destination_client
         resp = destination_client.put(self.resource_config.base_path, resource).json()
