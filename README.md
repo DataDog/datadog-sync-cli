@@ -191,6 +191,7 @@ the resources on the destination, and saves locally what has been pushed.
 - **spans_metrics**
 - **dashboards**
 - **dashboard_lists**
+- **logs_pipeline_order**
 - **logs_custom_pipelines**
 - **logs_integration_pipelines**
 - **notebooks**
@@ -222,6 +223,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | spans_metrics                | -                                                                |
 | dashboards                   | monitors, roles, service_level_objectives                        |
 | dashboard_lists              | dashboards                                                       |
+| logs_pipeline_order          | logs_custom_pipelines, logs_integration_pipelines                |
 | logs_custom_pipelines        | -                                                                |
 | logs_integration_pipelines   | -                                                                |
 | notebooks                    | -                                                                |

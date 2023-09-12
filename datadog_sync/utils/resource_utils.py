@@ -100,7 +100,7 @@ def check_diff(resource_config, resource, state):
     return DeepDiff(
         resource,
         state,
-        ignore_order=True,
+        ignore_order=resource_config.ignore_order_diff,
         exclude_paths=resource_config.excluded_attributes,
     )
 
