@@ -26,7 +26,7 @@ class ResourceConfig:
     source_resources: dict = field(default_factory=dict)
     destination_resources: dict = field(default_factory=dict)
     ignore_failed_resource_connections: bool = False
-    deep_diff_config: dict = field(default_factory=dict)
+    deep_diff_config: dict = field(default_factory=lambda: {"ignore_order": True})
 
     def __post_init__(self) -> None:
         self.build_excluded_attributes()
@@ -112,7 +112,7 @@ class BaseResource(abc.ABC):
 
         if failed_connections_dict:
             e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
-            if not self.config.skip_failed_resource_connections:
+            if not self.resource_config.ignore_failed_resource_connections:
                 if self.config.skip_failed_resource_connections:
                     e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
                     self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
