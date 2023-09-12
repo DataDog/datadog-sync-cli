@@ -26,7 +26,7 @@ class ResourceConfig:
     source_resources: dict = field(default_factory=dict)
     destination_resources: dict = field(default_factory=dict)
     ignore_failed_resource_connections: bool = False
-    ignore_order_diff: bool = True
+    deep_diff_config: dict = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         self.build_excluded_attributes()

@@ -4,9 +4,10 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict, cast
+from typing import TYPE_CHECKING, Optional, List, Dict
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import LogsPipelineOrderIdsComparator
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -22,11 +23,14 @@ class LogsPipelineOrder(BaseResource):
             "logs_integration_pipelines": ["pipeline_ids"],
         },
         ignore_failed_resource_connections=True,
-        ignore_order_diff=False,
+        deep_diff_config={
+            "ignore_order": False,
+            "custom_operators": [LogsPipelineOrderIdsComparator()],
+        },
     )
     # Additional LogsPipelineOrder specific attributes
     destination_pipeline_order: Dict[str, Dict] = dict()
-    default_id: str = "logs-pipeline-order" 
+    default_id: str = "logs-pipeline-order"
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.get(self.resource_config.base_path).json()
@@ -55,13 +59,9 @@ class LogsPipelineOrder(BaseResource):
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        source_pipeline_ids = set(self.resource_config.source_resources[_id]["pipeline_ids"])
-        
-        print(resource)
-        print(source_pipeline_ids)
-        
-        # resp = destination_client.put(self.resource_config.base_path, resource).json()
-        # self.resource_config.destination_resources[_id] = resp
+
+        resp = destination_client.put(self.resource_config.base_path, resource).json()
+        self.resource_config.destination_resources[_id] = resp
 
     def delete_resource(self, _id: str) -> None:
         raise Exception("resource cannot be deleted.")
