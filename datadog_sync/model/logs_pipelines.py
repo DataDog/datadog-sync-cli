@@ -35,6 +35,8 @@ class LogsPipelines(BaseResource):
         resource = cast(dict, resource)
         if resource["is_read_only"]:
             resource["name"] = resource["name"].lower()
+            resource["filter"] = {}
+            resource["processors"] = []
 
         self.resource_config.source_resources[resource["id"]] = resource
 
@@ -71,13 +73,13 @@ class LogsPipelines(BaseResource):
         self.resource_config.destination_resources[_id] = resp
 
     def delete_resource(self, _id: str) -> None:
-        if self.resource_config.source_resources[_id]["is_read_only"]:
-            raise Exception("Integration pipelines cannot be deleted")
-
-        destination_client = self.config.destination_client
-        destination_client.delete(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
-        )
+        if self.resource_config.destination_resources[_id]["is_read_only"]:
+            self.config.logger.warning("Integration pipelines cannot deleted. Removing resource from config only.")
+        else:
+            destination_client = self.config.destination_client
+            destination_client.delete(
+                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+            )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         pass

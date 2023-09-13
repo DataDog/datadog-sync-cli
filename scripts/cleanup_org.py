@@ -87,7 +87,8 @@ class Cleanup:
         path = "/api/v1/logs/config/pipelines"
         res = self.get_resources(path)
         for resource in res:
-            self.delete_resource(resource["id"], path)
+            if not resource["is_read_only"]:
+                self.delete_resource(resource["id"], path)
 
     def cleanup_monitors(
         self,
