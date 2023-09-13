@@ -24,6 +24,7 @@ class BaseResourcesTestClass:
     resource_type = None
     field_to_update = None
     resources_to_preserve_filter = None
+    filter = ""
 
     @pytest.fixture(autouse=True, scope="class")
     def setup(self, tmpdir_factory):
@@ -31,7 +32,7 @@ class BaseResourcesTestClass:
         os.chdir(my_tmpdir)
 
     def test_resource_import(self, runner):
-        ret = runner.invoke(cli, ["import", "--validate=false", f"--resources={self.resource_type}"])
+        ret = runner.invoke(cli, ["import", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"])
         assert 0 == ret.exit_code
 
         # Assert at lease one resource is imported
@@ -46,6 +47,7 @@ class BaseResourcesTestClass:
                 "diffs",
                 "--validate=false",
                 f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
                 "--skip-failed-resource-connections=false",
             ],
         )
@@ -56,7 +58,7 @@ class BaseResourcesTestClass:
 
     def test_resource_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        ret = runner.invoke(cli, ["sync", "--validate=false", f"--resources={self.resource_type}"])
+        ret = runner.invoke(cli, ["sync", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"])
         assert 0 == ret.exit_code
 
         # By default, resources  with failed connections are skipped. Hence, count number of skipped + success
@@ -82,17 +84,17 @@ class BaseResourcesTestClass:
         save_source_resources(self.resource_type, source_resources)
 
         # assert diff is produced
-        ret = runner.invoke(cli, ["diffs", "--validate=false", f"--resources={self.resource_type}"])
+        ret = runner.invoke(cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"])
         assert ret.output
         assert 0 == ret.exit_code
 
         # sync the updated resources
-        ret = runner.invoke(cli, ["sync", "--validate=false", f"--resources={self.resource_type}"])
+        ret = runner.invoke(cli, ["sync", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"])
         assert 0 == ret.exit_code
         caplog.clear()
 
         # assert diff is no longer produced
-        ret = runner.invoke(cli, ["diffs", "--validate=false", f"--resources={self.resource_type}"])
+        ret = runner.invoke(cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"])
         assert 0 == ret.exit_code
         assert not ret.output
 
@@ -103,7 +105,7 @@ class BaseResourcesTestClass:
 
     def test_no_resource_diffs(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        ret = runner.invoke(cli, ["diffs", "--validate=false", f"--resources={self.resource_type}"])
+        ret = runner.invoke(cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"])
         assert not ret.output
         assert 0 == ret.exit_code
 
@@ -136,6 +138,7 @@ class BaseResourcesTestClass:
                 "sync",
                 "--validate=false",
                 f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
                 "--cleanup=force",
             ],
         )
