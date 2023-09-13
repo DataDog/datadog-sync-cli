@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.1 / 2023-09-13
+
+### Fixed
+* Bump PyInstaller and add tests by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/174
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.5.0...0.5.1
+
 ## 0.5.0 / 2023-08-24
 
 ### Added
