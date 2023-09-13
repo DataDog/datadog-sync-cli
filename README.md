@@ -50,6 +50,14 @@ The import is lossy: for example the creation date is on sync, timeline is lost,
 
 ### incidents_config_notifications_templates
 
+### incidents_config_integrations_workflows
+Covers General>Integrations & Notifications>Rules
+- (api inconsistency: `attributes.triggers.variables.severity_values` and `attributes.triggers.variables.status_values` are `null` in read calls, and require an array in write calls)
+- errors (probably because some workflows are hardcoded, not duplicable, but no obvious attribute to distingish them)
+  - Error: 400 Bad Request - {"errors":["a workflow like that already exists"]}
+  - Error: 400 Bad Request - {"errors":["Invalid payload: 'name' is invalid"]}
+  => ignoring those errors for now, and manually fixed `Send all incident updates to a global channel` via web frontend.
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 
