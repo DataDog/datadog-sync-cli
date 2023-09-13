@@ -71,7 +71,7 @@ class LogsPipelinesOrder(BaseResource):
         self.resource_config.destination_resources[_id] = resp
 
     def delete_resource(self, _id: str) -> None:
-        raise Exception("resource cannot be deleted.")
+        self.config.logger.warning("logs_pipeline_order cannot deleted. Removing resource from config only.")
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(LogsPipelinesOrder, self).connect_id(key, r_obj, resource_to_connect)
