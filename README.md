@@ -48,6 +48,8 @@ The import is lossy: for example the creation date is on sync, timeline is lost,
   - but PATCH response contains `metadata: null`
   => `diffs` always shows it; it's ok, we can ignore those
 
+### incidents_config_notifications_templates
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 
