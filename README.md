@@ -29,6 +29,15 @@ how to use:
 create metric metadata is *not* supported by datadog api, we can just update it on already existing metric.
 - first push data-points on metric, then rerun the script when new metrics are populated
 
+### incidents
+The supported scenario is importing all incidents (in order) so `public_id` (1, 2, etc.) are identical in source & destination organizations: never create new incidents in the destination organization before finishing the migration with datadog-sync-cli.
+
+Only the base incident data is supported, related resources (integrations(slack), todos(remediations), attachments) may be done later with dedicated resources.
+
+The import is lossy: for example the creation date is on sync, timeline is lost, etc.
+
+'notifications' explicitly not-sync'ed to avoid spamming people during import (although later tests seem to conclude 'inactive' user (invitation pending: sync'ed users, but they never connected to the destination region) are *not* notified)
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 
