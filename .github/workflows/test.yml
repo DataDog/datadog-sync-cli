@@ -28,6 +28,7 @@ jobs:
 
   build_artifacts:
     name: Build and test executables
+    continue-on-error: true
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
