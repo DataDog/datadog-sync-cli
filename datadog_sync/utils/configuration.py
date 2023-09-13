@@ -125,6 +125,13 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
                 + "`logs_pipelines`"
             )
 
+        if LogsCustomPipelines.resource_type in resources_arg and LogsPipelines.resource_type in resources_arg:
+            logger.error(
+                "`logs_custom_pipelines` and `logs_pipelines` resource should not"
+                + " be used together as it will cause duplication"
+            )
+            exit(1)
+
         resources_arg = list(set(resources_arg) & set(resources.keys()))
     else:
         resources_arg = list(resources.keys())
