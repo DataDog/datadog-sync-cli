@@ -3,8 +3,16 @@ Dump of additional hackish import/sync/cleanup_org for extra resources not suppo
 
 Inspiration: https://careers.wolt.com/en/blog/tech/datadog-migration-wolt
 
+For some resources: it uses non-official api (from web frontend), using `dogweb` cookie and `x-csrf-token` header
+```
+source_cookie_dogweb="xxx"
+destination_cookie_dogweb="xxx"
+destination_csrf_token="xxx"
+```
 Warning: it's a hack, with shortcuts:
 - it is *not* endorsed by Datadog (or supported by Deepomatic)
+- authentication is either/or: cookie_dogweb config are required for those resources, and datadog-cli switches to cookie dogweb mode if config set, it *will not* work for other resources
+- web frontend api is not documented, it could break at any time
 
 
 # datadog-sync-cli

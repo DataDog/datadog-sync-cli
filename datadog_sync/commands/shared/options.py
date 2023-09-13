@@ -51,6 +51,13 @@ _source_auth_options = [
         help="Datadog source organization API url.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--source-cookie-dogweb",
+        envvar=constants.DD_SOURCE_COOKIE_DOGWEB,
+        required=False,
+        help="Datadog source organization 'dogweb' cookie.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 _destination_auth_options = [
@@ -75,6 +82,20 @@ _destination_auth_options = [
         default=constants.DEFAULT_API_URL,
         show_default=True,
         help="Datadog destination organization API url.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--destination-cookie-dogweb",
+        envvar=constants.DD_DESTINATION_COOKIE_DOGWEB,
+        required=False,
+        help="Datadog destination organization 'dogweb' cookie.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--destination-csrf-token",
+        envvar=constants.DD_DESTINATION_CSRF_TOKEN,
+        required=False,
+        help="Datadog destination organization 'x-csrf-token' header.",
         cls=CustomOptionClass,
     ),
 ]
