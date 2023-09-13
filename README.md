@@ -191,7 +191,8 @@ the resources on the destination, and saves locally what has been pushed.
 - **spans_metrics**
 - **dashboards**
 - **dashboard_lists**
-- **logs_custom_pipelines**
+- **logs_pipelines**
+- **logs_custom_pipelines** (**Deprecated** Use `logs_pipelines` resource instead)
 - **notebooks**
 - **host_tags**
 - **logs_indexes**
@@ -207,24 +208,25 @@ If importing/syncing subset of resources, users should ensure that dependent res
 
 See [Supported resources](#supported-resources) section below for potential resource dependencies.
 
-| Resource                     | Dependencies                                                     |
-|------------------------------|------------------------------------------------------------------|
-| roles                        | -                                                                |
-| users                        | roles                                                            |
-| synthetics_private_locations | -                                                                |
-| synthetics_tests             | synthetics_private_locations, synthetics_global_variables, roles |
-| synthetics_global_variables  | synthetics_tests                                                 |
-| monitors                     | roles, service_level_objectives                                  |
-| downtimes                    | monitors                                                         |
-| service_level_objectives     | monitors, synthetics_tests                                       |
-| slo_corrections              | service_level_objectives                                         |
-| spans_metrics                | -                                                                |
-| dashboards                   | monitors, roles, service_level_objectives                        |
-| dashboard_lists              | dashboards                                                       |
-| logs_custom_pipelines        | -                                                                |
-| notebooks                    | -                                                                |
-| host_tags                    | -                                                                |
-| logs_indexes                 | -                                                                |
-| logs_metrics                 | -                                                                |
-| logs_restriction_queries     | roles                                                            |
-| metric_tag_configurations    | -                                                                |
+| Resource                               | Dependencies                                                     |
+|----------------------------------------|------------------------------------------------------------------|
+| roles                                  | -                                                                |
+| users                                  | roles                                                            |
+| synthetics_private_locations           | -                                                                |
+| synthetics_tests                       | synthetics_private_locations, synthetics_global_variables, roles |
+| synthetics_global_variables            | synthetics_tests                                                 |
+| monitors                               | roles, service_level_objectives                                  |
+| downtimes                              | monitors                                                         |
+| service_level_objectives               | monitors, synthetics_tests                                       |
+| slo_corrections                        | service_level_objectives                                         |
+| spans_metrics                          | -                                                                |
+| dashboards                             | monitors, roles, service_level_objectives                        |
+| dashboard_lists                        | dashboards                                                       |
+| logs_pipelines                         | -                                                                |
+| logs_custom_pipelines (**deprecated**) | -                                                                |
+| notebooks                              | -                                                                |
+| host_tags                              | -                                                                |
+| logs_indexes                           | -                                                                |
+| logs_metrics                           | -                                                                |
+| logs_restriction_queries               | roles                                                            |
+| metric_tag_configurations              | -                                                                |
