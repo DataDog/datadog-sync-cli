@@ -1,3 +1,12 @@
+# Deepomatic fork
+Dump of additional hackish import/sync/cleanup_org for extra resources not supported by upstream, used by Deepomatic when migrating region. Maybe it will help somebody.
+
+Inspiration: https://careers.wolt.com/en/blog/tech/datadog-migration-wolt
+
+Warning: it's a hack, with shortcuts:
+- it is *not* endorsed by Datadog (or supported by Deepomatic)
+
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 
