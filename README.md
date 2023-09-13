@@ -42,6 +42,12 @@ The import is lossy: for example the creation date is on sync, timeline is lost,
 - undocumented api, but standard v2 api used by web frontend, works with API/APP key
 - just one resource per org, forcing update, ignoring ids, etc.
 
+### incidents_config_fields
+- perpetual diff: on 'metadata' for ootb service & team:
+  - PATCH ok (maybe ignores metadata?)
+  - but PATCH response contains `metadata: null`
+  => `diffs` always shows it; it's ok, we can ignore those
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 
