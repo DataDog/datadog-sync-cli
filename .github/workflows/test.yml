@@ -46,6 +46,7 @@ jobs:
       - name: Build and upload executables
         run: python scripts/build.py -f -n datadog-sync
       - name: Run executable
+        shell: bash
         run: |
           dist/datadog-sync diffs --validate=false
           exit $?
