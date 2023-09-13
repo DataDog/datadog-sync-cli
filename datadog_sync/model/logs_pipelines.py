@@ -50,8 +50,8 @@ class LogsPipelines(BaseResource):
         if resource["is_read_only"]:
             if resource["name"] not in self.destination_integration_pipelines:
                 raise Exception(
-                    "integration pipelines cannot be created only updated." +
-                    f"Skipping sync. Enable integration pipeline {resource['name']}",
+                    "integration pipelines cannot be created only updated."
+                    + f"Skipping sync. Enable integration pipeline {resource['name']}",
                 )
             self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]
             self.update_resource(_id, resource)
@@ -66,7 +66,7 @@ class LogsPipelines(BaseResource):
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
             resource,
         ).json()
-        
+
         if resp["is_read_only"]:
             resource["name"] = resource["name"].lower()
 
