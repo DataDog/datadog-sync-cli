@@ -21,6 +21,10 @@ how to use:
 - edit hardcoded `sourceid` in `datadog_sync/model/logs_facets.py` for your organizations, by getting the values in URLs with manual update facet on the web ui.
 - setup dogweb cookie mode, cf above
 
+### logs_views
+how to use:
+- setup dogweb cookie mode, cf above
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 
