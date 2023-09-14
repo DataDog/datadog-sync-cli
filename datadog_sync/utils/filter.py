@@ -52,6 +52,10 @@ class Filter:
         if isinstance(value, list):
             return len(list(filter(lambda attr: match(self.attr_re, str(attr)), value))) > 0
 
+        if isinstance(value, bool):
+            # Match json bool [true, false]
+            return match(self.attr_re, str(value).lower()) is not None
+
         return match(self.attr_re, str(value)) is not None
 
 

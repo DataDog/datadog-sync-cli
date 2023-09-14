@@ -4,17 +4,30 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import os
 import logging
 from sys import exit
 from dataclasses import dataclass, field
 from typing import Any, Optional, Union, Dict, List
 
 from datadog_sync import models
+from datadog_sync.model.logs_pipelines import LogsPipelines
+from datadog_sync.model.logs_custom_pipelines import LogsCustomPipelines
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import Filter, process_filters
-from datadog_sync.constants import CMD_DIFFS, CMD_IMPORT, CMD_SYNC, FALSE, FORCE, LOGGER_NAME, TRUE, VALIDATE_ENDPOINT
+from datadog_sync.constants import (
+    CMD_DIFFS,
+    CMD_IMPORT,
+    CMD_SYNC,
+    FALSE,
+    FORCE,
+    LOGGER_NAME,
+    RESOURCE_FILE_PATH,
+    TRUE,
+    VALIDATE_ENDPOINT,
+)
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 
@@ -101,12 +114,41 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
     if resources_arg_str:
         resources_arg = resources_arg_str.lower().split(",")
         unknown_resources = list(set(resources_arg) - set(resources.keys()))
+
         if unknown_resources:
             logger.warning("invalid resources. Discarding: %s", unknown_resources)
+        if LogsCustomPipelines.resource_type in resources_arg:
+            logger.warning(
+                "`logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines`. "
+                + "Consider upgrading by renaming existing state files"
+                + "`logs_custom_pipelines.json` -> `logs_pipelines.json` and using resource type"
+                + "`logs_pipelines`"
+            )
+
+        if LogsCustomPipelines.resource_type in resources_arg and LogsPipelines.resource_type in resources_arg:
+            logger.error(
+                "`logs_custom_pipelines` and `logs_pipelines` resource should not"
+                + " be used together as it will cause duplication"
+            )
+            exit(1)
 
         resources_arg = list(set(resources_arg) & set(resources.keys()))
     else:
         resources_arg = list(resources.keys())
+
+        # Use logs_custom_pipeline resource if its state files exist.
+        # Otherwise fall back on logs_pipelines
+        custom_pipeline_source = RESOURCE_FILE_PATH.format("source", LogsCustomPipelines.resource_type)
+        custom_pipeline_destination = RESOURCE_FILE_PATH.format("destination", LogsCustomPipelines.resource_type)
+        if os.path.exists(custom_pipeline_source) or os.path.exists(custom_pipeline_destination):
+            logger.warning(
+                "`logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines`. "
+                + "Consider upgrading by renaming existing state files"
+                + "`logs_custom_pipelines.json` -> `logs_pipelines.json`"
+            )
+            resources_arg.remove(LogsPipelines.resource_type)
+        else:
+            resources_arg.remove(LogsCustomPipelines.resource_type)
 
     config.resources = resources
     config.resources_arg = resources_arg
