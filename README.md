@@ -4,13 +4,13 @@ Datadog cli tool to sync resources across organizations.
 # Table of Contents
 - [Purpose](#purpose)
 - [Requirements](#requirements)
+- [Supported resources](#supported-resources)
 - [Installation](#Installation)
 - [Usage](#usage)
   - [API URL](#api-url)
   - [Filtering](#filtering)
   - [Config File](#config-file)
   - [Cleanup flag](#cleanup-flag)
-- [Supported resources](#supported-resources)
 - [Best Practices](#best-practices)
 
 ## Purpose
@@ -24,6 +24,31 @@ The source organization will not be modified, but the destination organization w
 ## Requirements
 
 - Python >= v3.9
+
+
+## Supported resources
+
+- **roles**
+- **users**
+- **synthetics_private_locations**
+- **synthetics_tests**
+- **synthetics_global_variables**
+- **monitors**
+- **downtimes**
+- **service_level_objectives**
+- **slo_corrections**
+- **spans_metrics**
+- **dashboards**
+- **dashboard_lists**
+- **logs_pipelines**
+- **logs_custom_pipelines** (**Deprecated** Use `logs_pipelines` resource instead. To migrate existing state files to the new `logs_pipelines` resource, rename the state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.)
+- **notebooks**
+- **host_tags**
+- **logs_indexes**
+- **logs_metrics**
+- **logs_restriction_queries**
+- **metric_tag_configurations**
+
 
 ## Installation
 
@@ -176,29 +201,6 @@ To use the tool, first run the `import` command, which will read the wanted item
 
 Then, you can run the `sync` command which will use that local cache (unless `--force-missing-dependencies` is passed) to create
 the resources on the destination, and saves locally what has been pushed.
-
-## Supported resources
-
-- **roles**
-- **users**
-- **synthetics_private_locations**
-- **synthetics_tests**
-- **synthetics_global_variables**
-- **monitors**
-- **downtimes**
-- **service_level_objectives**
-- **slo_corrections**
-- **spans_metrics**
-- **dashboards**
-- **dashboard_lists**
-- **logs_pipelines**
-- **logs_custom_pipelines** (**Deprecated** Use `logs_pipelines` resource instead)
-- **notebooks**
-- **host_tags**
-- **logs_indexes**
-- **logs_metrics**
-- **logs_restriction_queries**
-- **metric_tag_configurations**
 
 ## Best practices
 
