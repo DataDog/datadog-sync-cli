@@ -28,26 +28,30 @@ The source organization will not be modified, but the destination organization w
 
 ## Supported resources
 
-- **roles**
-- **users**
-- **synthetics_private_locations**
-- **synthetics_tests**
-- **synthetics_global_variables**
-- **monitors**
-- **downtimes**
-- **service_level_objectives**
-- **slo_corrections**
-- **spans_metrics**
-- **dashboards**
-- **dashboard_lists**
-- **logs_pipelines**
-- **logs_custom_pipelines** (**Deprecated** Use `logs_pipelines` resource instead. To migrate existing state files to the new `logs_pipelines` resource, rename the state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.)
-- **notebooks**
-- **host_tags**
-- **logs_indexes**
-- **logs_metrics**
-- **logs_restriction_queries**
-- **metric_tag_configurations**
+| Resource                               | Description                                              |
+|----------------------------------------|----------------------------------------------------------|
+| roles                                  | Sync Datadog roles.                                      |
+| users                                  | Sync Datadog users.                                      |
+| synthetics_private_locations           | Sync Datadog synthetics private locations.               |
+| synthetics_tests                       | Sync Datadog synthetics tests.                           |
+| synthetics_global_variables            | Sync Datadog synthetics global variables.                |
+| monitors                               | Sync Datadog monitors.                                   |
+| downtimes                              | Sync Datadog downtimes.                                  |
+| service_level_objectives               | Sync Datadog SLOs.                                       |
+| slo_corrections                        | Sync Datadog SLO corrections.                            |
+| spans_metrics                          | Sync Datadog spans metrics.                              |
+| dashboards                             | Sync Datadog dashboards.                                 |
+| dashboard_lists                        | Sync Datadog dashboard lists.                            |
+| logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
+| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                      |
+| notebooks                              | Sync Datadog notebooks.                                  |
+| host_tags                              | Sync Datadog host tags.                                  |
+| logs_indexes                           | Sync Datadog logs indexes.                               |
+| logs_metrics                           | Sync Datadog logs metrics.                               |
+| logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
+| metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
+
+***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
 
 
 ## Installation
