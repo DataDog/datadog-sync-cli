@@ -43,6 +43,7 @@ The source organization will not be modified, but the destination organization w
 | dashboards                             | Sync Datadog dashboards.                                 |
 | dashboard_lists                        | Sync Datadog dashboard lists.                            |
 | logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
+| logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
 | logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                      |
 | notebooks                              | Sync Datadog notebooks.                                  |
 | host_tags                              | Sync Datadog host tags.                                  |
@@ -229,6 +230,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | dashboards                             | monitors, roles, service_level_objectives                        |
 | dashboard_lists                        | dashboards                                                       |
 | logs_pipelines                         | -                                                                |
+| logs_pipelines_order                   | logs_pipelines                                                   |
 | logs_custom_pipelines (**deprecated**) | -                                                                |
 | notebooks                              | -                                                                |
 | host_tags                              | -                                                                |
