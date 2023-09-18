@@ -4,13 +4,13 @@ Datadog cli tool to sync resources across organizations.
 # Table of Contents
 - [Purpose](#purpose)
 - [Requirements](#requirements)
+- [Supported resources](#supported-resources)
 - [Installation](#Installation)
 - [Usage](#usage)
   - [API URL](#api-url)
   - [Filtering](#filtering)
   - [Config File](#config-file)
   - [Cleanup flag](#cleanup-flag)
-- [Supported resources](#supported-resources)
 - [Best Practices](#best-practices)
 
 ## Purpose
@@ -24,6 +24,36 @@ The source organization will not be modified, but the destination organization w
 ## Requirements
 
 - Python >= v3.9
+
+
+## Supported resources
+
+| Resource                               | Description                                              |
+|----------------------------------------|----------------------------------------------------------|
+| roles                                  | Sync Datadog roles.                                      |
+| users                                  | Sync Datadog users.                                      |
+| synthetics_private_locations           | Sync Datadog synthetics private locations.               |
+| synthetics_tests                       | Sync Datadog synthetics tests.                           |
+| synthetics_global_variables            | Sync Datadog synthetics global variables.                |
+| monitors                               | Sync Datadog monitors.                                   |
+| downtimes                              | Sync Datadog downtimes.                                  |
+| service_level_objectives               | Sync Datadog SLOs.                                       |
+| slo_corrections                        | Sync Datadog SLO corrections.                            |
+| spans_metrics                          | Sync Datadog spans metrics.                              |
+| dashboards                             | Sync Datadog dashboards.                                 |
+| dashboard_lists                        | Sync Datadog dashboard lists.                            |
+| logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
+| logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
+| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                      |
+| notebooks                              | Sync Datadog notebooks.                                  |
+| host_tags                              | Sync Datadog host tags.                                  |
+| logs_indexes                           | Sync Datadog logs indexes.                               |
+| logs_metrics                           | Sync Datadog logs metrics.                               |
+| logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
+| metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
+
+***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
+
 
 ## Installation
 
@@ -176,30 +206,6 @@ To use the tool, first run the `import` command, which will read the wanted item
 
 Then, you can run the `sync` command which will use that local cache (unless `--force-missing-dependencies` is passed) to create
 the resources on the destination, and saves locally what has been pushed.
-
-## Supported resources
-
-- **roles**
-- **users**
-- **synthetics_private_locations**
-- **synthetics_tests**
-- **synthetics_global_variables**
-- **monitors**
-- **downtimes**
-- **service_level_objectives**
-- **slo_corrections**
-- **spans_metrics**
-- **dashboards**
-- **dashboard_lists**
-- **logs_pipelines**
-- **logs_pipelines_order**
-- **logs_custom_pipelines** (**Deprecated**: Use `logs_pipelines` resource instead)
-- **notebooks**
-- **host_tags**
-- **logs_indexes**
-- **logs_metrics**
-- **logs_restriction_queries**
-- **metric_tag_configurations**
 
 ## Best practices
 
