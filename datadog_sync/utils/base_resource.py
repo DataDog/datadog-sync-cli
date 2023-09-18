@@ -25,6 +25,7 @@ class ResourceConfig:
     concurrent: bool = True
     source_resources: dict = field(default_factory=dict)
     destination_resources: dict = field(default_factory=dict)
+    deep_diff_config: dict = field(default_factory=lambda: {"ignore_order": True})
 
     def __post_init__(self) -> None:
         self.build_excluded_attributes()

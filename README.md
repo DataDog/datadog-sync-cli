@@ -192,7 +192,8 @@ the resources on the destination, and saves locally what has been pushed.
 - **dashboards**
 - **dashboard_lists**
 - **logs_pipelines**
-- **logs_custom_pipelines** (**Deprecated** Use `logs_pipelines` resource instead)
+- **logs_pipelines_order**
+- **logs_custom_pipelines** (**Deprecated**: Use `logs_pipelines` resource instead)
 - **notebooks**
 - **host_tags**
 - **logs_indexes**
@@ -223,6 +224,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | dashboards                             | monitors, roles, service_level_objectives                        |
 | dashboard_lists                        | dashboards                                                       |
 | logs_pipelines                         | -                                                                |
+| logs_pipelines_order                   | logs_pipelines                                                   |
 | logs_custom_pipelines (**deprecated**) | -                                                                |
 | notebooks                              | -                                                                |
 | host_tags                              | -                                                                |
