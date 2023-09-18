@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0 / 2023-09-18
+
+### Added
+* Add new `logs_pipelines` resource and deprecate `logs_custom_pipelines` by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/176
+* Add support for `logs_pipelines_order` resource by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/179
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.5.1...0.6.0
+
 ## 0.5.1 / 2023-09-13
 
 ### Fixed
