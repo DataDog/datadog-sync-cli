@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.1 / 2023-09-19
+
+### Fixed
+* Fix monitors ID resolution and add support for new `burn_rate` SLO queries by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/182
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.6.0...0.6.1
+
 ## 0.6.0 / 2023-09-18
 
 ### Added
