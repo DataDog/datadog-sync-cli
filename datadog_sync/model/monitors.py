@@ -96,7 +96,7 @@ class Monitors(BaseResource):
         synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
         slos = self.config.resources["service_level_objectives"].resource_config.destination_resources
 
-        if r_obj.get("type") == "composite" and key == "query":
+        if r_obj.get("type") == "composite" and key == "query" and resource_to_connect != "service_level_objectives":
             failed_connections = []
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:
