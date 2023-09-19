@@ -8,18 +8,6 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      traceparent:
-      - 00-00000000000000001100bd41c8605904-979f1d4aa1bd708c-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '10925483427402444940'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '1225187188877056260'
     method: GET
     uri: https://api.datadoghq.com/api/v1/monitor?page=0&page_size=100
   response:
@@ -131,7 +119,7 @@ interactions:
         false, "escalation_message": "", "thresholds": {"critical": 100.0}, "silenced":
         {}}, "multi": false, "created_at": 1647980371000, "created": "2022-03-22T20:19:31.437344+00:00",
         "modified": "2022-03-22T20:19:31.437344+00:00", "deleted": null, "restricted_roles":
-        null, "priority": null, "overall_state_modified": "2022-03-22T20:22:09+00:00",
+        null, "priority": null, "overall_state_modified": "2023-09-11T14:20:07+00:00",
         "overall_state": "OK", "creator": {"name": "Datadog Support", "handle": "support-datadogsynccliustestorg-1137936",
         "email": "support-user-prod@datadoghq.com", "id": 3205966}, "matching_downtimes":
         []}, {"id": 103095757, "org_id": 569509, "type": "synthetics alert", "name":
@@ -153,7 +141,7 @@ interactions:
         0, "silenced": {}}, "multi": false, "created_at": 1668546304000, "created":
         "2022-11-15T21:05:04.460432+00:00", "modified": "2022-11-15T21:05:04.460432+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2023-07-14T05:05:08+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
+        "2023-09-10T05:20:09+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
         Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
         "id": 2781275}, "matching_downtimes": []}, {"id": 103095759, "org_id": 569509,
         "type": "synthetics alert", "name": "[Synthetics] TCP Test", "message": "Notify
@@ -164,7 +152,7 @@ interactions:
         0, "silenced": {}}, "multi": false, "created_at": 1668546304000, "created":
         "2022-11-15T21:05:04.469143+00:00", "modified": "2022-11-15T21:05:04.469143+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2023-07-24T13:35:10+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
+        "2023-09-08T20:21:09+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
         Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
         "id": 2781275}, "matching_downtimes": []}, {"id": 103095760, "org_id": 569509,
         "type": "synthetics alert", "name": "[Synthetics] Browser Test (cloned)",
@@ -221,15 +209,25 @@ interactions:
         "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
         "email": "frog@datadoghq.com", "id": 2781302}, "matching_downtimes": []},
         {"id": 124728911, "org_id": 569509, "type": "slo alert", "name": "Test slo
-        monitor", "message": "Random message", "tags": [], "query": "error_budget(\"ba72d10835d75e0c8910597144f3733a\").over(\"7d\")
-        > 100", "options": {"thresholds": {"critical": 100.0}, "notify_no_data": false,
+        monitor", "message": "Random message", "tags": [], "query": "burn_rate(\"ba72d10835d75e0c8910597144f3733a\").over(\"7d\").long_window(\"1h\").short_window(\"5m\")
+        > 1", "options": {"thresholds": {"critical": 1.0}, "notify_no_data": false,
         "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
         {}}, "multi": false, "created_at": 1688999118000, "created": "2023-07-10T14:25:18.627726+00:00",
-        "modified": "2023-07-10T14:25:18.627726+00:00", "deleted": null, "restricted_roles":
+        "modified": "2023-09-19T16:02:35.079242+00:00", "deleted": null, "restricted_roles":
         null, "priority": null, "overall_state_modified": "2023-07-10T14:25:22+00:00",
         "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
         "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}]'
+        "id": 2781275}, "matching_downtimes": []}, {"id": 131664819, "org_id": 569509,
+        "type": "slo alert", "name": "Check monitor slo", "message": "Message", "tags":
+        [], "query": "error_budget(\"b02adcb3d95a5c3dbfebf7c94bf4e8c5\").over(\"7d\")
+        > 90", "options": {"thresholds": {"critical": 90.0}, "notify_no_data": false,
+        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+        {}}, "multi": false, "created_at": 1695138188000, "created": "2023-09-19T15:43:08.383274+00:00",
+        "modified": "2023-09-19T15:43:08.383274+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": "2023-09-19T15:43:10+00:00",
+        "overall_state": "OK", "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "id": 2781275}, "matching_downtimes":
+        []}]'
     headers:
       Content-Type:
       - application/json

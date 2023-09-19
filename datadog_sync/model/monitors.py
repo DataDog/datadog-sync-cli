@@ -96,7 +96,7 @@ class Monitors(BaseResource):
         synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
         slos = self.config.resources["service_level_objectives"].resource_config.destination_resources
 
-        if r_obj.get("type") == "composite" and key == "query":
+        if r_obj.get("type") == "composite" and key == "query" and resource_to_connect != "service_level_objectives":
             failed_connections = []
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:
@@ -117,7 +117,7 @@ class Monitors(BaseResource):
             return failed_connections
         elif resource_to_connect == "service_level_objectives" and r_obj.get("type") == "slo alert" and key == "query":
             failed_connections = []
-            if res := re.search(r"error_budget\(\"(.*)\"\)\.", r_obj[key]):
+            if res := re.search(r"(?:error_budget|burn_rate)\(\"(.*?)\"\)\.", r_obj[key]):
                 _id = res.group(1)
                 if _id in slos:
                     r_obj[key] = re.sub(_id, slos[_id]["id"], r_obj[key])
