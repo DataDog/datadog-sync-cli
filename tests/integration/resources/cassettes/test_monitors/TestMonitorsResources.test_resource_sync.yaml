@@ -14,31 +14,19 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      traceparent:
-      - 00-0000000000000000a03e7440515b3caa-eecb0f952057df57-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '17206863934466285399'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '11546794314216193194'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 12742268, "org_id": 1000044987, "type": "query alert", "name":
+      string: '{"id": 13103075, "org_id": 1000044987, "type": "query alert", "name":
         "Composite monitor - Child 2", "message": "Test monitor ----------------",
         "tags": ["test:foo", "test_two:bar"], "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
         > 50", "options": {"thresholds": {"critical": 50.0}, "notify_audit": false,
         "require_full_window": true, "notify_no_data": false, "renotify_interval":
         0, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
         "", "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1692886183000, "created": "2023-08-24T14:09:43.344213+00:00", "modified":
-        "2023-08-24T14:09:43.344213+00:00", "deleted": null, "restricted_roles": null,
+        1695140798000, "created": "2023-09-19T16:26:38.694074+00:00", "modified":
+        "2023-09-19T16:26:38.694074+00:00", "deleted": null, "restricted_roles": null,
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "creator": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
         "id": 1000219667}}'
@@ -61,31 +49,19 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      traceparent:
-      - 00-0000000000000000f93ce587a6204db0-b707ae34e4e215b1-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '13188701575979341233'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '17959481784817175984'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 12742269, "org_id": 1000044987, "type": "query alert", "name":
+      string: '{"id": 13103076, "org_id": 1000044987, "type": "query alert", "name":
         "Composite monitor - child 1", "message": "Composite monitor - child 1", "tags":
         ["test:foo"], "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
         > 20", "options": {"thresholds": {"critical": 20.0, "warning": 10.0}, "notify_audit":
         false, "require_full_window": true, "notify_no_data": false, "renotify_interval":
         1440, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
         "", "renotify_statuses": ["no data"], "new_host_delay": 300, "silenced": {}},
-        "multi": false, "created_at": 1692886183000, "created": "2023-08-24T14:09:43.676574+00:00",
-        "modified": "2023-08-24T14:09:43.676574+00:00", "deleted": null, "restricted_roles":
+        "multi": false, "created_at": 1695140799000, "created": "2023-09-19T16:26:39.010818+00:00",
+        "modified": "2023-09-19T16:26:39.010818+00:00", "deleted": null, "restricted_roles":
         null, "priority": null, "overall_state_modified": null, "overall_state": "No
         Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com", "email":
         "frog@datadoghq.com", "id": 1000219667}}'
@@ -107,30 +83,18 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      traceparent:
-      - 00-000000000000000012a2c08e3285c620-03217926ca71d554-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '225594663857411412'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '1342847355875345952'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 12742270, "org_id": 1000044987, "type": "service check", "name":
+      string: '{"id": 13103077, "org_id": 1000044987, "type": "service check", "name":
         "Host monitor", "message": "Test host monitor", "tags": ["service:daimler-health-service"],
         "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
         "options": {"thresholds": {"critical": 1, "warning": 1, "ok": 1}, "notify_audit":
         false, "notify_no_data": true, "no_data_timeframe": 2, "renotify_interval":
         0, "timeout_h": 0, "include_tags": true, "new_group_delay": 300, "silenced":
-        {}}, "multi": true, "created_at": 1692886184000, "created": "2023-08-24T14:09:44.124599+00:00",
-        "modified": "2023-08-24T14:09:44.124599+00:00", "deleted": null, "restricted_roles":
+        {}}, "multi": true, "created_at": 1695140799000, "created": "2023-09-19T16:26:39.341615+00:00",
+        "modified": "2023-09-19T16:26:39.341615+00:00", "deleted": null, "restricted_roles":
         null, "priority": null, "overall_state_modified": null, "overall_state": "No
         Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com", "email":
         "frog@datadoghq.com", "id": 1000219667}}'
@@ -155,23 +119,11 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      traceparent:
-      - 00-0000000000000000fe01a00f0d223207-e30205b2ae31b35c-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '16357643061547873116'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '18303086347115704839'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 12742271, "org_id": 1000044987, "type": "query alert", "name":
+      string: '{"id": 13103078, "org_id": 1000044987, "type": "query alert", "name":
         "Anomaly monitor", "message": "Anomaly monitor", "tags": [], "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
         ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
         count_default_zero=''true'') >= 1", "options": {"notify_audit": false, "locked":
@@ -179,8 +131,8 @@ interactions:
         true, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
         0, "escalation_message": "", "threshold_windows": {"recovery_window": "last_15m",
         "trigger_window": "last_15m"}, "thresholds": {"critical": 1.0, "critical_recovery":
-        0.0}, "silenced": {}}, "multi": false, "created_at": 1692886184000, "created":
-        "2023-08-24T14:09:44.518282+00:00", "modified": "2023-08-24T14:09:44.518282+00:00",
+        0.0}, "silenced": {}}, "multi": false, "created_at": 1695140799000, "created":
+        "2023-09-19T16:26:39.746677+00:00", "modified": "2023-09-19T16:26:39.746677+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
         "email": "frog@datadoghq.com", "id": 1000219667}}'
@@ -203,30 +155,18 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      traceparent:
-      - 00-0000000000000000aff1b9ba98b5cf3d-5a24184ea07bb40c-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '6495343288554075148'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '12678118637101764413'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 12742272, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 13103079, "org_id": 1000044987, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} stopped reporting", "message":
         "Private location {{location_id.name}} stopped reporting to Datadog.", "tags":
         [], "query": "min(last_5m):avg:synthetics.pl.worker.running{*} by {location_id}
         < 1", "options": {"notify_audit": false, "locked": false, "include_tags":
         true, "thresholds": {"critical": 1.0}, "new_host_delay": 300, "notify_no_data":
-        true, "silenced": {}}, "multi": true, "created_at": 1692886184000, "created":
-        "2023-08-24T14:09:44.903060+00:00", "modified": "2023-08-24T14:09:44.903060+00:00",
+        true, "silenced": {}}, "multi": true, "created_at": 1695140800000, "created":
+        "2023-09-19T16:26:40.042087+00:00", "modified": "2023-09-19T16:26:40.042087+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
         "email": "frog@datadoghq.com", "id": 1000219667}}'
@@ -252,23 +192,11 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      traceparent:
-      - 00-0000000000000000de7e8e89cda6f7bf-29ef9957c73eac99-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '3021802477272870041'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '16032408445997479871'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 12742273, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 13103080, "org_id": 1000044987, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} uses an outdated image
         version", "message": "Private location {{location_id.name}} is running an
         outdated image version. Learn more about the current version in use on your
@@ -278,8 +206,8 @@ interactions:
         "tags": [], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*} by
         {location_id} > 0", "options": {"notify_audit": false, "locked": false, "include_tags":
         true, "thresholds": {"critical": 0.0}, "new_host_delay": 300, "notify_no_data":
-        false, "silenced": {}}, "multi": true, "created_at": 1692886185000, "created":
-        "2023-08-24T14:09:45.292476+00:00", "modified": "2023-08-24T14:09:45.292476+00:00",
+        false, "silenced": {}}, "multi": true, "created_at": 1695140800000, "created":
+        "2023-09-19T16:26:40.472377+00:00", "modified": "2023-09-19T16:26:40.472377+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
         "email": "frog@datadoghq.com", "id": 1000219667}}'
@@ -303,31 +231,19 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      traceparent:
-      - 00-0000000000000000f6d0db3d14462c3e-b78f5e350a409467-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '13226894212508718183'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '17784955983865719870'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 12742274, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 13103081, "org_id": 1000044987, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} is underprovisioned",
         "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
         this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#dimension-your-private-location)
         to learn how to scale your private location.", "tags": [], "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*}
         by {location_id} < 1.5", "options": {"notify_audit": false, "locked": false,
         "include_tags": true, "thresholds": {"critical": 1.5}, "new_host_delay": 300,
-        "notify_no_data": false, "silenced": {}}, "multi": true, "created_at": 1692886185000,
-        "created": "2023-08-24T14:09:45.594328+00:00", "modified": "2023-08-24T14:09:45.594328+00:00",
+        "notify_no_data": false, "silenced": {}}, "multi": true, "created_at": 1695140800000,
+        "created": "2023-09-19T16:26:40.907051+00:00", "modified": "2023-09-19T16:26:40.907051+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
         "email": "frog@datadoghq.com", "id": 1000219667}}'
@@ -350,31 +266,50 @@ interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      traceparent:
-      - 00-0000000000000000455b5f6771f7ace1-577581cc42e03708-01
-      tracestate:
-      - dd=s:1;t.dm:-0
-      x-datadog-parent-id:
-      - '6302085967870179080'
-      x-datadog-sampling-priority:
-      - '1'
-      x-datadog-tags:
-      - _dd.p.dm=-0
-      x-datadog-trace-id:
-      - '4997693109396024545'
     method: POST
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 12742275, "org_id": 1000044987, "type": "event-v2 alert", "name":
+      string: '{"id": 13103082, "org_id": 1000044987, "type": "event-v2 alert", "name":
         "Test event monitor", "message": "Test event monitor", "tags": [], "query":
         "events(\"\").rollup(\"count\").last(\"5m\") > 100", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "include_tags": true, "restriction_query":
         null, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
         0, "groupby_simple_monitor": true, "enable_logs_sample": false, "escalation_message":
         "", "thresholds": {"critical": 100.0}, "silenced": {}}, "multi": false, "created_at":
-        1692886185000, "created": "2023-08-24T14:09:45.906448+00:00", "modified":
-        "2023-08-24T14:09:45.906448+00:00", "deleted": null, "restricted_roles": null,
+        1695140801000, "created": "2023-09-19T16:26:41.271927+00:00", "modified":
+        "2023-09-19T16:26:41.271927+00:00", "deleted": null, "restricted_roles": null,
+        "priority": null, "overall_state_modified": null, "overall_state": "No Data",
+        "creator": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
+        "id": 1000219667}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "composite", "name": "Composite monitor", "message": "test", "tags":
+      [], "query": "( 13103076 && 13103075 ) || !13103076", "options": {"notify_audit":
+      false, "locked": false, "include_tags": false, "new_host_delay": 300, "notify_no_data":
+      false, "renotify_interval": 0, "escalation_message": "", "silenced": {}}, "multi":
+      false, "restricted_roles": null, "priority": null}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/monitor
+  response:
+    body:
+      string: '{"id": 13103083, "org_id": 1000044987, "type": "composite", "name":
+        "Composite monitor", "message": "test", "tags": [], "query": "( 13103076 &&
+        13103075 ) || !13103076", "options": {"notify_audit": false, "locked": false,
+        "include_tags": false, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
+        0, "escalation_message": "", "silenced": {}}, "multi": false, "created_at":
+        1695140801000, "created": "2023-09-19T16:26:41.562785+00:00", "modified":
+        "2023-09-19T16:26:41.562785+00:00", "deleted": null, "restricted_roles": null,
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
         "creator": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
         "id": 1000219667}}'
