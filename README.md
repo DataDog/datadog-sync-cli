@@ -170,7 +170,7 @@ Available keys:
 
 - `Type`: Resource e.g. Monitors, Dashboards, etc. [required]
 - `Name`: Attribute key to filter on. This can be any attribute represented in dot notation (e.g. `attributes.user_count`). [required]
-- `Value`: Attribute value to filter by. [required]
+- `Value`: Regex to filter attribute value by. Note: special regex characters need to be escaped if filtering by raw string. [required]
 - `Operator`: Available operators are below. All invalid operator's default to `ExactMatch`.
   - `SubString`: Sub string matching
   - `ExactMatch`: Exact string match.
