@@ -44,6 +44,10 @@ from datadog_sync.utils.filter import process_filters
             False,
         ),
         (["Type=r_test;Name=test.non.exist;Value=sub;"], "r_test", {"test": []}, False),
+        (["Type=r_test;Name=test;Value=[Re] chars (foo bar)"], "r_test", {"test": "[Re] chars (foo bar)"}, True),
+        (["Type=r_test;Name=test;Value=[[Re]] chars (foo bar)"], "r_test", {"test": "[Re] chars (foo bar)"}, False),
+        (["Type=r_test;Name=test;Value=[[Re]] chars ((foo bar))"], "r_test", {"test": "[[Re]] chars ((foo bar))"}, True),
+        (["Type=r_test;Name=test;Value=.+*?^$()[]{}|\\"], "r_test", {"test": ".+*?^$()[]{}|\\"}, True),
     ],
 )
 def test_filters_is_match(_filter, r_type, r_obj, expected):

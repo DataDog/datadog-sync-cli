@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 import logging
-from re import match
+from re import match, escape
 
 from datadog_sync.constants import LOGGER_NAME
 from typing import Dict, List
@@ -102,9 +102,10 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
 
 
 def build_regex(f_dict):
+    value = escape(f_dict[FILTER_VALUE])
     if FILTER_OPERATOR in f_dict and f_dict[FILTER_OPERATOR].lower() == SUBSTRING_OPERATOR:
-        reg_exp = f".*{f_dict[FILTER_VALUE]}.*"
+        reg_exp = f".*{value}.*"
     else:
-        reg_exp = f"^{f_dict[FILTER_VALUE]}$"
+        reg_exp = f"^{value}$"
 
     return reg_exp
