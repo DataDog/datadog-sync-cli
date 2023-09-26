@@ -80,6 +80,11 @@ class Incidents(BaseResource):
         if "visibility" in resource["attributes"] and resource["attributes"]["visibility"] is None:
             resource["attributes"]["visibility"] = "organization"
 
+        # let's do some deepomatic-specific incidents fields migrations:
+        if "Namespace" in resource["attributes"]["fields"] and resource["attributes"]["fields"]["Namespace"]["value"] is not None and "kube_namespace" in resource["attributes"]["fields"] and resource["attributes"]["fields"]["kube_namespace"]["value"] is None:
+            resource["attributes"]["fields"]["kube_namespace"]["value"] = resource["attributes"]["fields"]["Namespace"]["value"]
+            resource["attributes"]["fields"]["Namespace"]["value"] = None
+
         self.resource_config.source_resources[resource["id"]] = resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
