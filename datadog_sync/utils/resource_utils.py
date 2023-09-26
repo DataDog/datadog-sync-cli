@@ -47,6 +47,8 @@ def find_attr(keys_list_str: str, resource_to_connect: str, r_obj: Any, connect_
             if failed:
                 failed_connections.extend(failed)
         return failed_connections
+    elif r_obj is None:
+        return None
     else:
         keys_list = keys_list_str.split(".", 1)
 
