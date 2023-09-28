@@ -38,6 +38,9 @@ The import is lossy: for example the creation date is on sync, timeline is lost,
 
 'notifications' explicitly not-sync'ed to avoid spamming people during import (although later tests seem to conclude 'inactive' user (invitation pending: sync'ed users, but they never connected to the destination region) are *not* notified)
 
+### incidents_todos
+- creation date & author is lost, as usual
+
 ### incident_org_settings
 - undocumented api, but standard v2 api used by web frontend, works with API/APP key
 - just one resource per org, forcing update, ignoring ids, etc.

@@ -27,6 +27,7 @@ from datadog_sync.model.spans_metrics import SpansMetrics
 from datadog_sync.model.logs_facets import LogsFacets
 from datadog_sync.model.logs_views import LogsViews
 from datadog_sync.model.incidents import Incidents
+from datadog_sync.model.incidents_todos import IncidentsTodos
 from datadog_sync.model.incident_org_settings import IncidentOrgSettings
 from datadog_sync.model.incidents_config_fields import IncidentsConfigFields
 from datadog_sync.model.incidents_config_notifications_templates import IncidentsConfigNotificationsTemplates
