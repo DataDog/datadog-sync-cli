@@ -38,6 +38,9 @@ The import is lossy: for example the creation date is on sync, timeline is lost,
 
 'notifications' explicitly not-sync'ed to avoid spamming people during import (although later tests seem to conclude 'inactive' user (invitation pending: sync'ed users, but they never connected to the destination region) are *not* notified)
 
+### incidents_integrations
+- api bug: it url-escapes slack `redirect_url` `&` query-string separator character before saving: this leads to a forever diff: datadog-sync-cli tries to PATCH the correct value on each sync, the server saves a wrong value.
+
 ### incidents_todos
 - creation date & author is lost, as usual
 
