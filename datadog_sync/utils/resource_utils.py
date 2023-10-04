@@ -83,6 +83,10 @@ def remove_non_nullable_attributes(resource_config, resource):
 
 
 def del_attr(k_list, resource):
+    if isinstance(resource, list):
+        for r in resource:
+            del_attr(k_list, r)
+        return
     if len(k_list) == 1:
         resource.pop(k_list[0], None)
     else:
@@ -92,6 +96,10 @@ def del_attr(k_list, resource):
 
 
 def del_null_attr(k_list, resource):
+    if isinstance(resource, list):
+        for r in resource:
+            del_null_attr(k_list, r)
+        return
     if len(k_list) == 1 and k_list[0] in resource and resource[k_list[0]] is None:
         resource.pop(k_list[0], None)
     elif len(k_list) > 1 and resource[k_list[0]] is not None:
