@@ -64,6 +64,14 @@ Covers General>Integrations & Notifications>Rules
   - Error: 400 Bad Request - {"errors":["Invalid payload: 'name' is invalid"]}
   => ignoring those errors for now, and manually fixed `Send all incident updates to a global channel` via web frontend.
 
+### integrations_slack_channels
+how to use:
+- supports only *one* slack account
+- api doesn't support `muting` option
+- manually create the slack integration in destination organization, with *same name* as in source
+- edit hardcoded `slack_account_name` in `datadog_sync/model/integrations_slack_channels.py` for your organizations
+- run import & diffs & sync as usual
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 
