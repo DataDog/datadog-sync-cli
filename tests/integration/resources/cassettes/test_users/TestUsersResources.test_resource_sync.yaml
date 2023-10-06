@@ -665,13 +665,6 @@ interactions:
         "allowed_login_methods": [], "status": "Active"}, "relationships": {"roles":
         {"data": [{"type": "roles", "id": "138d5c0c-bfcc-11eb-8e11-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
-        {"type": "users", "id": "edd03150-c562-11eb-bf1f-da7ad0900005", "attributes":
-        {"name": null, "handle": "karimovj@gmail.com", "created_at": "2021-06-04T18:30:25.220601+00:00",
-        "modified_at": "2021-06-07T16:05:58.627697+00:00", "email": "karimovj@gmail.com",
-        "icon": "https://secure.gravatar.com/avatar/4df2a0457aa2d2f4bff089e88d1ed8e4?s=48&d=retro",
-        "title": null, "verified": false, "service_account": false, "disabled": true,
-        "allowed_login_methods": [], "status": "Disabled"}, "relationships": {"roles":
-        {"data": []}, "org": {"data": {"type": "orgs", "id": "13865f06-bfcc-11eb-8e11-da7ad0900005"}}}},
         {"type": "users", "id": "5a322106-c891-11eb-873a-da7ad0900005", "attributes":
         {"name": "test-userupdated", "handle": "new@example.com", "created_at": "2021-06-08T19:40:17.395117+00:00",
         "modified_at": "2023-01-04T22:02:01.503895+00:00", "email": "new@example.com",

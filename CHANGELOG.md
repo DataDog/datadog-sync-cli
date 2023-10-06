@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.6.1 / 2023-09-19
+
+### Fixed
+* Fix monitors ID resolution and add support for new `burn_rate` SLO queries by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/182
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.6.0...0.6.1
+
+## 0.6.0 / 2023-09-18
+
+### Added
+* Add new `logs_pipelines` resource and deprecate `logs_custom_pipelines` by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/176
+* Add support for `logs_pipelines_order` resource by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/179
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.5.1...0.6.0
+
+## 0.5.1 / 2023-09-13
+
+### Fixed
+* Bump PyInstaller and add tests by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/174
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.5.0...0.5.1
+
+## 0.5.0 / 2023-08-24
+
+### Added
+* Add support for paginated monitors by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/167
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.4.2...0.5.0
+
+## 0.4.2 / 2023-08-23
+
+### Fixed
+* Dump synthetics private location config data on create by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/164
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.4.1...0.4.2
+
 ## 0.4.1 / 2023-07-17
 The release contents are same as `v0.4.0`. It includes the executables missing from version `v0.4.0`
 

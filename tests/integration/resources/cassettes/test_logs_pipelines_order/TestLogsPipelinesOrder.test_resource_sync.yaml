@@ -1,0 +1,21 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipeline-order
+  response:
+    body:
+      string: '{"pipeline_ids": ["WzwRJYdARZ6J8RQMIAScXw", "4JpaNJ5-RzOBj5BsK_Ardw",
+        "aLHWQOIYTkqQXGh79gZeiw"]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+version: 1

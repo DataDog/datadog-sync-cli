@@ -8,6 +8,7 @@ import re
 from typing import TYPE_CHECKING, Optional, List, Dict, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import PaginationConfig
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -36,9 +37,18 @@ class Monitors(BaseResource):
         ],
     )
     # Additional Monitors specific attributes
+    pagination_config = PaginationConfig(
+        page_size=100,
+        page_number_param="page",
+        page_size_param="page_size",
+        remaining_func=lambda *args: 1,
+        response_list_accessor=None,
+    )
 
     def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path).json()
+        resp = client.paginated_request(client.get)(
+            self.resource_config.base_path, pagination_config=self.pagination_config
+        )
 
         return resp
 
@@ -86,7 +96,7 @@ class Monitors(BaseResource):
         synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
         slos = self.config.resources["service_level_objectives"].resource_config.destination_resources
 
-        if r_obj.get("type") == "composite" and key == "query":
+        if r_obj.get("type") == "composite" and key == "query" and resource_to_connect != "service_level_objectives":
             failed_connections = []
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:
@@ -107,7 +117,7 @@ class Monitors(BaseResource):
             return failed_connections
         elif resource_to_connect == "service_level_objectives" and r_obj.get("type") == "slo alert" and key == "query":
             failed_connections = []
-            if res := re.search(r"error_budget\(\"(.*)\"\)\.", r_obj[key]):
+            if res := re.search(r"(?:error_budget|burn_rate)\(\"(.*?)\"\)\.", r_obj[key]):
                 _id = res.group(1)
                 if _id in slos:
                     r_obj[key] = re.sub(_id, slos[_id]["id"], r_obj[key])

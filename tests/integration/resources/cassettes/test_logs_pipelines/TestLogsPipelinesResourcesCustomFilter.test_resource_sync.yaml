@@ -1,0 +1,191 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
+  response:
+    body:
+      string: '[{"id": "4JpaNJ5-RzOBj5BsK_Ardw", "type": "pipeline", "name": "Sinatra",
+        "is_enabled": false, "is_read_only": true, "filter": {"query": "source:sinatra"},
+        "processors": [{"name": "Parsing Sinatra logs", "is_enabled": true, "source":
+        "message", "samples": ["127.0.0.1 - - [15/Jul/2018:17:41:40 +0000] \"GET /uptime_status
+        HTTP/1.1\" 200 34 0.0004", "127.0.0.1 - - [15/Jul/2018 23:40:31] \"GET /uptime_status
+        HTTP/1.1\" 200 6997 1.8096"], "grok": {"support_rules": "_auth %{notSpace:http.auth:nullIf(\"-\")}\n_bytes_written
+        %{integer:network.bytes_written}\n_client_ip %{ipOrHost:network.client.ip}\n_version
+        HTTP\\/%{regex(\"\\\\d+\\\\.\\\\d+\"):http.version}\n_url %{notSpace:http.url}\n_ident
+        %{notSpace:http.ident:nullIf(\"-\")}\n_status_code %{integer:http.status_code}\n_method
+        %{word:http.method}\n_date_access (%{date(\"dd/MMM/yyyy:HH:mm:ss Z\"):date_access}|%{date(\"dd/MMM/yyyy
+        HH:mm:ss\"):date_access})\n_duration %{number:duration:scale(1000000000)}\n",
+        "match_rules": "access.common %{_client_ip} %{_ident} %{_auth} \\[%{_date_access}\\]
+        \"(?>%{_method} |)%{_url}(?> %{_version}|)\" %{_status_code} (?>%{_bytes_written}|-)(
+        %{_duration}|-)?\n"}, "type": "grok-parser"}, {"name": "", "is_enabled": true,
+        "sources": ["http.url"], "target": "http.url_details", "normalize_ending_slashes":
+        false, "type": "url-parser"}, {"name": "Define `date_access` as the official
+        date of the log", "is_enabled": true, "sources": ["date_access"], "type":
+        "date-remapper"}, {"name": "Categorise status code", "is_enabled": true, "categories":
+        [{"filter": {"query": "@http.status_code:[200 TO 299]"}, "name": "OK"}, {"filter":
+        {"query": "@http.status_code:[300 TO 399]"}, "name": "notice"}, {"filter":
+        {"query": "@http.status_code:[400 TO 499]"}, "name": "warning"}, {"filter":
+        {"query": "@http.status_code:[500 TO 599]"}, "name": "error"}], "target":
+        "http.status_category", "type": "category-processor"}, {"name": "Define `http.status_category`
+        as the official status of the log", "is_enabled": true, "sources": ["http.status_category"],
+        "type": "status-remapper"}]}, {"id": "WzwRJYdARZ6J8RQMIAScXw", "type": "pipeline",
+        "name": "Nginx", "is_enabled": true, "is_read_only": true, "filter": {"query":
+        "source:nginx"}, "processors": [{"name": "Parsing Nginx logs", "is_enabled":
+        true, "source": "message", "samples": ["127.0.0.1 - frank [13/Jul/2016:10:55:36
+        +0000] \"GET /apache_pb.gif HTTP/1.0\" 200 2326", "172.17.0.1 - - [06/Jan/2017:16:16:37
+        +0000] \"GET /datadoghq/company?test=var1%20Pl HTTP/1.1\" 200 612 \"http://www.perdu.com/\"
+        \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87
+        Safari/537.36\" \"-\"", "2017/09/26 14:36:50 [error] 8409#8409: *317058 \"/usr/share/nginx/html/sql/sql-admin/index.html\"
+        is not found (2: No such file or directory), client: 217.92.148.44, server:
+        localhost, request: \"HEAD http://174.138.82.103:80/sql/sql-admin/ HTTP/1.1\",
+        host: \"174.138.82.103\""], "grok": {"support_rules": "_auth %{notSpace:http.auth:nullIf(\"-\")}\n_bytes_written
+        %{integer:network.bytes_written}\n_client_ip %{ipOrHost:network.client.ip}\n_version
+        HTTP\\/%{regex(\"\\\\d+\\\\.\\\\d+\"):http.version}\n_url %{notSpace:http.url}\n_ident
+        %{notSpace:http.ident:nullIf(\"-\")}\n_user_agent %{regex(\"[^\\\\\\\"]*\"):http.useragent}\n_referer
+        %{notSpace:http.referer}\n_status_code %{integer:http.status_code}\n_method
+        %{word:http.method}\n_date_access %{date(\"dd/MMM/yyyy:HH:mm:ss Z\"):date_access}\n_x_forwarded_for
+        %{regex(\"[^\\\\\\\"]*\"):http._x_forwarded_for:nullIf(\"-\")}\n", "match_rules":
+        "access.common %{_client_ip} %{_ident} %{_auth} \\[%{_date_access}\\] \"(?>%{_method}
+        |)%{_url}(?> %{_version}|)\" %{_status_code} (?>%{_bytes_written}|-)\n\naccess.combined
+        %{access.common} (%{number:duration:scale(1000000000)} )?\"%{_referer}\" \"%{_user_agent}\"(
+        \"%{_x_forwarded_for}\")?.*\n\nerror.format %{date(\"yyyy/MM/dd HH:mm:ss\"):date_access}
+        \\[%{word:level}\\] %{data:error.message}(, %{data::keyvalue(\": \",\",\")})?\n"},
+        "type": "grok-parser"}, {"name": "Map `client` to `network.client.ip`", "is_enabled":
+        true, "sources": ["client"], "source_type": "attribute", "target": "network.client.ip",
+        "target_type": "attribute", "preserve_source": false, "override_on_conflict":
+        false, "type": "attribute-remapper"}, {"name": "Parsing Nginx Error log requests",
+        "is_enabled": true, "source": "request", "samples": ["HEAD http://174.138.82.103:80/sql/sql-admin/
+        HTTP/1.1"], "grok": {"support_rules": "_method %{word:http.method}\n_url %{notSpace:http.url}\n_version
+        HTTP\\/%{regex(\"\\\\d+\\\\.\\\\d+\"):http.version}\n", "match_rules": "request_parsing
+        (?>%{_method} |)%{_url}(?> %{_version}|)\n"}, "type": "grok-parser"}, {"name":
+        "", "is_enabled": true, "sources": ["http.url"], "target": "http.url_details",
+        "normalize_ending_slashes": false, "type": "url-parser"}, {"name": "", "is_enabled":
+        true, "sources": ["http.useragent"], "target": "http.useragent_details", "is_encoded":
+        false, "type": "user-agent-parser"}, {"name": "Define `date_access` as the
+        official date of the log", "is_enabled": true, "sources": ["date_access"],
+        "type": "date-remapper"}, {"name": "Categorise status code", "is_enabled":
+        true, "categories": [{"filter": {"query": "@http.status_code:[200 TO 299]"},
+        "name": "OK"}, {"filter": {"query": "@http.status_code:[300 TO 399]"}, "name":
+        "notice"}, {"filter": {"query": "@http.status_code:[400 TO 499]"}, "name":
+        "warning"}, {"filter": {"query": "@http.status_code:[500 TO 599]"}, "name":
+        "error"}], "target": "http.status_category", "type": "category-processor"},
+        {"name": "Define `http.status_category`, `level` as the official status of
+        the log", "is_enabled": true, "sources": ["http.status_category", "level"],
+        "type": "status-remapper"}]}]'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "Test pipeline", "is_enabled": true, "is_read_only": false, "filter":
+      {"query": "test:query"}, "processors": []}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
+  response:
+    body:
+      string: '{"id": "y_VfJhuRSiWPJ7zMVzSX_A", "type": "pipeline", "name": "Test
+        pipeline", "is_enabled": true, "is_read_only": false, "filter": {"query":
+        "test:query"}, "processors": []}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "Test Pipeline - Complex", "is_enabled": true, "is_read_only":
+      false, "filter": {"query": "source:foo"}, "processors": [{"name": "sample arithmetic
+      processor", "is_enabled": true, "expression": "(time1 - time2)*1000", "target":
+      "my_arithmetic", "is_replace_missing": true, "type": "arithmetic-processor"},
+      {"name": "sample attribute processor", "is_enabled": true, "sources": ["db.instance"],
+      "source_type": "tag", "target": "db", "target_type": "attribute", "target_format":
+      "string", "preserve_source": true, "override_on_conflict": false, "type": "attribute-remapper"},
+      {"name": "sample category processor", "is_enabled": true, "categories": [{"filter":
+      {"query": "@severity: \".\""}, "name": "debug"}, {"filter": {"query": "@severity:
+      \"-\""}, "name": "verbose"}], "target": "foo.severity", "type": "category-processor"},
+      {"name": "sample date remapper", "is_enabled": true, "sources": ["_timestamp",
+      "published_date"], "type": "date-remapper"}, {"name": "sample geo ip parser",
+      "is_enabled": true, "sources": ["network.client.ip"], "target": "network.client.geoip",
+      "ip_processing_behavior": "do-nothing", "type": "geo-ip-parser"}, {"name": "sample
+      grok parser", "is_enabled": true, "source": "message", "samples": ["sample log
+      1"], "grok": {"support_rules": "", "match_rules": "Rule %{word:my_word2} %{number:my_float2}"},
+      "type": "grok-parser"}, {"name": "sample lookup processor", "is_enabled": true,
+      "source": "service_id", "target": "service_name", "lookup_table": ["1,my service"],
+      "default_lookup": "unknown service", "type": "lookup-processor"}, {"name": "sample
+      message remapper", "is_enabled": true, "sources": ["msg"], "type": "message-remapper"},
+      {"type": "pipeline", "name": "nested pipeline", "is_enabled": true, "filter":
+      {"query": "source:foo"}, "processors": [{"name": "sample url parser", "is_enabled":
+      false, "sources": ["url", "extra"], "target": "http_url", "normalize_ending_slashes":
+      true, "type": "url-parser"}]}, {"name": "sample service remapper", "is_enabled":
+      true, "sources": ["service"], "type": "service-remapper"}, {"name": "sample
+      status remapper", "is_enabled": true, "sources": ["info", "trace"], "type":
+      "status-remapper"}, {"name": "sample string builder processor", "is_enabled":
+      true, "template": "%{user.name} logged in at %{timestamp}", "target": "user_activity",
+      "is_replace_missing": false, "type": "string-builder-processor"}, {"name": "sample
+      trace id remapper", "is_enabled": true, "sources": ["dd.trace_id"], "type":
+      "trace-id-remapper"}, {"name": "sample user agent parser", "is_enabled": true,
+      "sources": ["user", "agent"], "target": "http_agent", "is_encoded": false, "type":
+      "user-agent-parser"}]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
+  response:
+    body:
+      string: '{"id": "yrTzh6UJTkOydngXA38xDg", "type": "pipeline", "name": "Test
+        Pipeline - Complex", "is_enabled": true, "is_read_only": false, "filter":
+        {"query": "source:foo"}, "processors": [{"name": "sample arithmetic processor",
+        "is_enabled": true, "expression": "(time1 - time2)*1000", "target": "my_arithmetic",
+        "is_replace_missing": true, "type": "arithmetic-processor"}, {"name": "sample
+        attribute processor", "is_enabled": true, "sources": ["db.instance"], "source_type":
+        "tag", "target": "db", "target_type": "attribute", "target_format": "string",
+        "preserve_source": true, "override_on_conflict": false, "type": "attribute-remapper"},
+        {"name": "sample category processor", "is_enabled": true, "categories": [{"filter":
+        {"query": "@severity: \".\""}, "name": "debug"}, {"filter": {"query": "@severity:
+        \"-\""}, "name": "verbose"}], "target": "foo.severity", "type": "category-processor"},
+        {"name": "sample date remapper", "is_enabled": true, "sources": ["_timestamp",
+        "published_date"], "type": "date-remapper"}, {"name": "sample geo ip parser",
+        "is_enabled": true, "sources": ["network.client.ip"], "target": "network.client.geoip",
+        "ip_processing_behavior": "do-nothing", "type": "geo-ip-parser"}, {"name":
+        "sample grok parser", "is_enabled": true, "source": "message", "samples":
+        ["sample log 1"], "grok": {"support_rules": "", "match_rules": "Rule %{word:my_word2}
+        %{number:my_float2}"}, "type": "grok-parser"}, {"name": "sample lookup processor",
+        "is_enabled": true, "source": "service_id", "target": "service_name", "lookup_table":
+        ["1,my service"], "default_lookup": "unknown service", "type": "lookup-processor"},
+        {"name": "sample message remapper", "is_enabled": true, "sources": ["msg"],
+        "type": "message-remapper"}, {"type": "pipeline", "name": "nested pipeline",
+        "is_enabled": true, "filter": {"query": "source:foo"}, "processors": [{"name":
+        "sample url parser", "is_enabled": false, "sources": ["url", "extra"], "target":
+        "http_url", "normalize_ending_slashes": true, "type": "url-parser"}]}, {"name":
+        "sample service remapper", "is_enabled": true, "sources": ["service"], "type":
+        "service-remapper"}, {"name": "sample status remapper", "is_enabled": true,
+        "sources": ["info", "trace"], "type": "status-remapper"}, {"name": "sample
+        string builder processor", "is_enabled": true, "template": "%{user.name} logged
+        in at %{timestamp}", "target": "user_activity", "is_replace_missing": false,
+        "type": "string-builder-processor"}, {"name": "sample trace id remapper",
+        "is_enabled": true, "sources": ["dd.trace_id"], "type": "trace-id-remapper"},
+        {"name": "sample user agent parser", "is_enabled": true, "sources": ["user",
+        "agent"], "target": "http_agent", "is_encoded": false, "type": "user-agent-parser"}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+version: 1

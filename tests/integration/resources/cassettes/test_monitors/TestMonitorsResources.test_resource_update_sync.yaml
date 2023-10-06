@@ -1,44 +1,11 @@
 interactions:
 - request:
-    body: '{"type": "metric alert", "name": "Composite monitor - Child 2updated",
-      "message": "Test monitor ----------------", "tags": [], "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-      > 50", "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "include_tags":
-      true, "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
-      300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
-      "", "thresholds": {"critical": 50.0}, "silenced": {}}, "multi": false, "restricted_roles":
-      null, "priority": null}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380046
-  response:
-    body:
-      string: '{"id": 9380046, "org_id": 1000044987, "type": "metric alert", "name":
-        "Composite monitor - Child 2updated", "message": "Test monitor ----------------",
-        "tags": [], "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*} >
-        50", "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "include_tags":
-        true, "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
-        300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
-        "", "thresholds": {"critical": 50.0}, "silenced": {}}, "multi": false, "created_at":
-        1672868079000, "created": "2023-01-04T21:34:39.912029+00:00", "modified":
-        "2023-01-04T21:34:41.936985+00:00", "deleted": null, "restricted_roles": null,
-        "priority": null, "overall_state_modified": null, "overall_state": "No Data"}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "metric alert", "name": "Composite monitor - child 1updated",
-      "message": "Composite monitor - child 1", "tags": [], "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-      > 20", "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "include_tags":
-      true, "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
-      300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
-      "", "thresholds": {"critical": 20.0, "warning": 10.0}, "silenced": {}}, "multi":
+    body: '{"type": "query alert", "name": "Composite monitor - Child 2updated", "message":
+      "Test monitor ----------------", "tags": ["test:foo", "test_two:bar"], "query":
+      "avg(last_5m):avg:datadog.estimated_usage.hosts{*} > 50", "options": {"thresholds":
+      {"critical": 50.0}, "notify_audit": false, "require_full_window": true, "notify_no_data":
+      false, "renotify_interval": 0, "timeout_h": 0, "include_tags": true, "no_data_timeframe":
+      null, "escalation_message": "", "new_host_delay": 300, "silenced": {}}, "multi":
       false, "restricted_roles": null, "priority": null}'
     headers:
       Accept:
@@ -48,31 +15,31 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380047
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103075
   response:
     body:
-      string: '{"id": 9380047, "org_id": 1000044987, "type": "metric alert", "name":
-        "Composite monitor - child 1updated", "message": "Composite monitor - child
-        1", "tags": [], "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-        > 20", "options": {"notify_audit": false, "locked": false, "timeout_h": 0,
-        "include_tags": true, "no_data_timeframe": null, "require_full_window": true,
-        "new_host_delay": 300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
-        "", "thresholds": {"critical": 20.0, "warning": 10.0}, "silenced": {}}, "multi":
-        false, "created_at": 1672868080000, "created": "2023-01-04T21:34:40.111245+00:00",
-        "modified": "2023-01-04T21:34:42.150717+00:00", "deleted": null, "restricted_roles":
-        null, "priority": null, "overall_state_modified": null, "overall_state": "No
-        Data"}'
+      string: '{"id": 13103075, "org_id": 1000044987, "type": "query alert", "name":
+        "Composite monitor - Child 2updated", "message": "Test monitor ----------------",
+        "tags": ["test:foo", "test_two:bar"], "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
+        > 50", "options": {"thresholds": {"critical": 50.0}, "notify_audit": false,
+        "require_full_window": true, "notify_no_data": false, "renotify_interval":
+        0, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
+        "", "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
+        1695140798000, "created": "2023-09-19T16:26:38.694074+00:00", "modified":
+        "2023-09-19T16:26:42.131661+00:00", "deleted": null, "restricted_roles": null,
+        "priority": null, "overall_state_modified": null, "overall_state": "No Data"}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"type": "service check", "name": "Host monitorupdated", "message": "Test
-      host monitor", "tags": [], "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-      "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "include_tags":
-      true, "thresholds": {"warning": 1, "ok": 1, "critical": 1}, "new_host_delay":
-      300, "notify_no_data": true, "renotify_interval": 0, "no_data_timeframe": 2,
-      "silenced": {}}, "multi": true, "restricted_roles": null, "priority": null}'
+    body: '{"type": "query alert", "name": "Composite monitor - child 1updated", "message":
+      "Composite monitor - child 1", "tags": ["test:foo"], "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
+      > 20", "options": {"thresholds": {"critical": 20.0, "warning": 10.0}, "notify_audit":
+      false, "require_full_window": true, "notify_no_data": false, "renotify_interval":
+      1440, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
+      "", "renotify_statuses": ["no data"], "new_host_delay": 300, "silenced": {}},
+      "multi": false, "restricted_roles": null, "priority": null}'
     headers:
       Accept:
       - '*/*'
@@ -81,19 +48,82 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380048
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103076
   response:
     body:
-      string: '{"id": 9380048, "org_id": 1000044987, "type": "service check", "name":
-        "Host monitorupdated", "message": "Test host monitor", "tags": [], "query":
-        "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-        "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "include_tags":
-        true, "thresholds": {"warning": 1, "ok": 1, "critical": 1}, "new_host_delay":
-        300, "notify_no_data": true, "renotify_interval": 0, "no_data_timeframe":
-        2, "silenced": {}}, "multi": true, "created_at": 1672868080000, "created":
-        "2023-01-04T21:34:40.305059+00:00", "modified": "2023-01-04T21:34:42.359560+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        null, "overall_state": "No Data"}'
+      string: '{"id": 13103076, "org_id": 1000044987, "type": "query alert", "name":
+        "Composite monitor - child 1updated", "message": "Composite monitor - child
+        1", "tags": ["test:foo"], "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
+        > 20", "options": {"thresholds": {"critical": 20.0, "warning": 10.0}, "notify_audit":
+        false, "require_full_window": true, "notify_no_data": false, "renotify_interval":
+        1440, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
+        "", "renotify_statuses": ["no data"], "new_host_delay": 300, "silenced": {}},
+        "multi": false, "created_at": 1695140799000, "created": "2023-09-19T16:26:39.010818+00:00",
+        "modified": "2023-09-19T16:26:42.567984+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": null, "overall_state": "No
+        Data"}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "composite", "name": "Composite monitorupdated", "message": "test",
+      "tags": [], "query": "( 13103076 && 13103075 ) || !13103076", "options": {"notify_audit":
+      false, "locked": false, "include_tags": false, "new_host_delay": 300, "notify_no_data":
+      false, "renotify_interval": 0, "escalation_message": "", "silenced": {}}, "multi":
+      false, "restricted_roles": null, "priority": null}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103083
+  response:
+    body:
+      string: '{"id": 13103083, "org_id": 1000044987, "type": "composite", "name":
+        "Composite monitorupdated", "message": "test", "tags": [], "query": "( 13103076
+        && 13103075 ) || !13103076", "options": {"notify_audit": false, "locked":
+        false, "include_tags": false, "new_host_delay": 300, "notify_no_data": false,
+        "renotify_interval": 0, "escalation_message": "", "silenced": {}}, "multi":
+        false, "created_at": 1695140801000, "created": "2023-09-19T16:26:41.562785+00:00",
+        "modified": "2023-09-19T16:26:42.958188+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": null, "overall_state": "No
+        Data"}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "service check", "name": "Host monitorupdated", "message": "Test
+      host monitor", "tags": ["service:daimler-health-service"], "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
+      "options": {"thresholds": {"critical": 1, "warning": 1, "ok": 1}, "notify_audit":
+      false, "notify_no_data": true, "no_data_timeframe": 2, "renotify_interval":
+      0, "timeout_h": 0, "include_tags": true, "new_group_delay": 300, "silenced":
+      {}}, "multi": true, "restricted_roles": null, "priority": null}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103077
+  response:
+    body:
+      string: '{"id": 13103077, "org_id": 1000044987, "type": "service check", "name":
+        "Host monitorupdated", "message": "Test host monitor", "tags": ["service:daimler-health-service"],
+        "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
+        "options": {"thresholds": {"critical": 1, "warning": 1, "ok": 1}, "notify_audit":
+        false, "notify_no_data": true, "no_data_timeframe": 2, "renotify_interval":
+        0, "timeout_h": 0, "include_tags": true, "new_group_delay": 300, "silenced":
+        {}}, "multi": true, "created_at": 1695140799000, "created": "2023-09-19T16:26:39.341615+00:00",
+        "modified": "2023-09-19T16:26:43.294416+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": null, "overall_state": "No
+        Data"}'
     headers: {}
     status:
       code: 200
@@ -116,10 +146,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380049
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103078
   response:
     body:
-      string: '{"id": 9380049, "org_id": 1000044987, "type": "query alert", "name":
+      string: '{"id": 13103078, "org_id": 1000044987, "type": "query alert", "name":
         "Anomaly monitorupdated", "message": "Anomaly monitor", "tags": [], "query":
         "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*}, ''basic'',
         2, direction=''both'', alert_window=''last_15m'', interval=60, count_default_zero=''true'')
@@ -128,8 +158,8 @@ interactions:
         "new_host_delay": 300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
         "", "threshold_windows": {"recovery_window": "last_15m", "trigger_window":
         "last_15m"}, "thresholds": {"critical": 1.0, "critical_recovery": 0.0}, "silenced":
-        {}}, "multi": false, "created_at": 1672868080000, "created": "2023-01-04T21:34:40.536187+00:00",
-        "modified": "2023-01-04T21:34:42.585074+00:00", "deleted": null, "restricted_roles":
+        {}}, "multi": false, "created_at": 1695140799000, "created": "2023-09-19T16:26:39.746677+00:00",
+        "modified": "2023-09-19T16:26:43.686757+00:00", "deleted": null, "restricted_roles":
         null, "priority": null, "overall_state_modified": null, "overall_state": "No
         Data"}'
     headers: {}
@@ -152,17 +182,17 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380050
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103079
   response:
     body:
-      string: '{"id": 9380050, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 13103079, "org_id": 1000044987, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} stopped reportingupdated",
         "message": "Private location {{location_id.name}} stopped reporting to Datadog.",
         "tags": [], "query": "min(last_5m):avg:synthetics.pl.worker.running{*} by
         {location_id} < 1", "options": {"notify_audit": false, "locked": false, "include_tags":
         true, "thresholds": {"critical": 1.0}, "new_host_delay": 300, "notify_no_data":
-        true, "silenced": {}}, "multi": true, "created_at": 1672868080000, "created":
-        "2023-01-04T21:34:40.758401+00:00", "modified": "2023-01-04T21:34:42.806655+00:00",
+        true, "silenced": {}}, "multi": true, "created_at": 1695140800000, "created":
+        "2023-09-19T16:26:40.042087+00:00", "modified": "2023-09-19T16:26:44.107672+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data"}'
     headers: {}
@@ -188,10 +218,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380051
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103080
   response:
     body:
-      string: '{"id": 9380051, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 13103080, "org_id": 1000044987, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} uses an outdated image
         versionupdated", "message": "Private location {{location_id.name}} is running
         an outdated image version. Learn more about the current version in use on
@@ -201,8 +231,8 @@ interactions:
         "tags": [], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*} by
         {location_id} > 0", "options": {"notify_audit": false, "locked": false, "include_tags":
         true, "thresholds": {"critical": 0.0}, "new_host_delay": 300, "notify_no_data":
-        false, "silenced": {}}, "multi": true, "created_at": 1672868080000, "created":
-        "2023-01-04T21:34:40.985176+00:00", "modified": "2023-01-04T21:34:43.052816+00:00",
+        false, "silenced": {}}, "multi": true, "created_at": 1695140800000, "created":
+        "2023-09-19T16:26:40.472377+00:00", "modified": "2023-09-19T16:26:44.648196+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data"}'
     headers: {}
@@ -226,18 +256,18 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380052
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103081
   response:
     body:
-      string: '{"id": 9380052, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 13103081, "org_id": 1000044987, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} is underprovisionedupdated",
         "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
         this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#dimension-your-private-location)
         to learn how to scale your private location.", "tags": [], "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*}
         by {location_id} < 1.5", "options": {"notify_audit": false, "locked": false,
         "include_tags": true, "thresholds": {"critical": 1.5}, "new_host_delay": 300,
-        "notify_no_data": false, "silenced": {}}, "multi": true, "created_at": 1672868081000,
-        "created": "2023-01-04T21:34:41.193293+00:00", "modified": "2023-01-04T21:34:43.265981+00:00",
+        "notify_no_data": false, "silenced": {}}, "multi": true, "created_at": 1695140800000,
+        "created": "2023-09-19T16:26:40.907051+00:00", "modified": "2023-09-19T16:26:45.021177+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
         null, "overall_state": "No Data"}'
     headers: {}
@@ -260,47 +290,18 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380053
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103082
   response:
     body:
-      string: '{"id": 9380053, "org_id": 1000044987, "type": "event-v2 alert", "name":
+      string: '{"id": 13103082, "org_id": 1000044987, "type": "event-v2 alert", "name":
         "Test event monitorupdated", "message": "Test event monitor", "tags": [],
         "query": "events(\"\").rollup(\"count\").last(\"5m\") > 100", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "include_tags": true, "restriction_query":
         null, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
         0, "groupby_simple_monitor": true, "enable_logs_sample": false, "escalation_message":
         "", "thresholds": {"critical": 100.0}, "silenced": {}}, "multi": false, "created_at":
-        1672868081000, "created": "2023-01-04T21:34:41.409829+00:00", "modified":
-        "2023-01-04T21:34:43.527959+00:00", "deleted": null, "restricted_roles": null,
-        "priority": null, "overall_state_modified": null, "overall_state": "No Data"}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "composite", "name": "Composite monitorupdated", "message": "test",
-      "tags": [], "query": "( 9380047 && 9380046 ) || !9380047", "options": {"notify_audit":
-      false, "locked": false, "include_tags": false, "new_host_delay": 300, "notify_no_data":
-      false, "renotify_interval": 0, "escalation_message": "", "silenced": {}}, "multi":
-      false, "restricted_roles": null, "priority": null}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380054
-  response:
-    body:
-      string: '{"id": 9380054, "org_id": 1000044987, "type": "composite", "name":
-        "Composite monitorupdated", "message": "test", "tags": [], "query": "( 9380047
-        && 9380046 ) || !9380047", "options": {"notify_audit": false, "locked": false,
-        "include_tags": false, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
-        0, "escalation_message": "", "silenced": {}}, "multi": false, "created_at":
-        1672868081000, "created": "2023-01-04T21:34:41.682698+00:00", "modified":
-        "2023-01-04T21:34:43.741007+00:00", "deleted": null, "restricted_roles": null,
+        1695140801000, "created": "2023-09-19T16:26:41.271927+00:00", "modified":
+        "2023-09-19T16:26:45.464204+00:00", "deleted": null, "restricted_roles": null,
         "priority": null, "overall_state_modified": null, "overall_state": "No Data"}'
     headers: {}
     status:

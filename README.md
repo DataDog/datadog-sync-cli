@@ -78,13 +78,13 @@ Datadog cli tool to sync resources across organizations.
 # Table of Contents
 - [Purpose](#purpose)
 - [Requirements](#requirements)
+- [Supported resources](#supported-resources)
 - [Installation](#Installation)
 - [Usage](#usage)
   - [API URL](#api-url)
   - [Filtering](#filtering)
   - [Config File](#config-file)
   - [Cleanup flag](#cleanup-flag)
-- [Supported resources](#supported-resources)
 - [Best Practices](#best-practices)
 
 ## Purpose
@@ -98,6 +98,36 @@ The source organization will not be modified, but the destination organization w
 ## Requirements
 
 - Python >= v3.9
+
+
+## Supported resources
+
+| Resource                               | Description                                              |
+|----------------------------------------|----------------------------------------------------------|
+| roles                                  | Sync Datadog roles.                                      |
+| users                                  | Sync Datadog users.                                      |
+| synthetics_private_locations           | Sync Datadog synthetics private locations.               |
+| synthetics_tests                       | Sync Datadog synthetics tests.                           |
+| synthetics_global_variables            | Sync Datadog synthetics global variables.                |
+| monitors                               | Sync Datadog monitors.                                   |
+| downtimes                              | Sync Datadog downtimes.                                  |
+| service_level_objectives               | Sync Datadog SLOs.                                       |
+| slo_corrections                        | Sync Datadog SLO corrections.                            |
+| spans_metrics                          | Sync Datadog spans metrics.                              |
+| dashboards                             | Sync Datadog dashboards.                                 |
+| dashboard_lists                        | Sync Datadog dashboard lists.                            |
+| logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
+| logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
+| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                      |
+| notebooks                              | Sync Datadog notebooks.                                  |
+| host_tags                              | Sync Datadog host tags.                                  |
+| logs_indexes                           | Sync Datadog logs indexes.                               |
+| logs_metrics                           | Sync Datadog logs metrics.                               |
+| logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
+| metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
+
+***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
+
 
 ## Installation
 
@@ -127,7 +157,7 @@ The source organization will not be modified, but the destination organization w
 2) Build the probided Dockerfile `docker build . -t datadog-sync`
 3) Run the docker image using entrypoint below:
 ```
-docker run --rm -v $(pwd):/datadog-sync:rw \
+docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
   -e DD_SOURCE_API_KEY=<DATADOG_API_KEY> \
   -e DD_SOURCE_APP_KEY=<DATADOG_APP_KEY> \
   -e DD_SOURCE_API_URL=<DATADOG_API_URL> \
@@ -136,7 +166,7 @@ docker run --rm -v $(pwd):/datadog-sync:rw \
   -e DD_DESTINATION_API_URL=<DATADOG_API_URL> \
   datadog-sync:latest <command> <options>
 ```
-Note: The above docker run command will mount your current working directory to the container.
+Note: The above docker run command will mount specified `<PATH_TO_WORKING_DIR>` working directory to the container.
 
 
 ## Usage
@@ -214,7 +244,7 @@ Available keys:
 
 - `Type`: Resource e.g. Monitors, Dashboards, etc. [required]
 - `Name`: Attribute key to filter on. This can be any attribute represented in dot notation (e.g. `attributes.user_count`). [required]
-- `Value`: Attribute value to filter by. [required]
+- `Value`: Regex to filter attribute value by. Note: special regex characters need to be escaped if filtering by raw string. [required]
 - `Operator`: Available operators are below. All invalid operator's default to `ExactMatch`.
   - `SubString`: Sub string matching
   - `ExactMatch`: Exact string match.
@@ -251,28 +281,6 @@ To use the tool, first run the `import` command, which will read the wanted item
 Then, you can run the `sync` command which will use that local cache (unless `--force-missing-dependencies` is passed) to create
 the resources on the destination, and saves locally what has been pushed.
 
-## Supported resources
-
-- **roles**
-- **users**
-- **synthetics_private_locations**
-- **synthetics_tests**
-- **synthetics_global_variables**
-- **monitors**
-- **downtimes**
-- **service_level_objectives**
-- **slo_corrections**
-- **spans_metrics**
-- **dashboards**
-- **dashboard_lists**
-- **logs_custom_pipelines**
-- **notebooks**
-- **host_tags**
-- **logs_indexes**
-- **logs_metrics**
-- **logs_restriction_queries**
-- **metric_tag_configurations**
-
 ## Best practices
 
 Many Datadog resources are interdependent. For example, Users resource can references Roles and Dashboards can include widgets which use Monitors or Synthetics. The datadog-sync tool syncs these resources in order to ensure dependencies are not broken.
@@ -281,24 +289,26 @@ If importing/syncing subset of resources, users should ensure that dependent res
 
 See [Supported resources](#supported-resources) section below for potential resource dependencies.
 
-| Resource                     | Dependencies                                                     |
-|------------------------------|------------------------------------------------------------------|
-| roles                        | -                                                                |
-| users                        | roles                                                            |
-| synthetics_private_locations | -                                                                |
-| synthetics_tests             | synthetics_private_locations, synthetics_global_variables, roles |
-| synthetics_global_variables  | synthetics_tests                                                 |
-| monitors                     | roles, service_level_objectives                                  |
-| downtimes                    | monitors                                                         |
-| service_level_objectives     | monitors, synthetics_tests                                       |
-| slo_corrections              | service_level_objectives                                         |
-| spans_metrics                | -                                                                |
-| dashboards                   | monitors, roles, service_level_objectives                        |
-| dashboard_lists              | dashboards                                                       |
-| logs_custom_pipelines        | -                                                                |
-| notebooks                    | -                                                                |
-| host_tags                    | -                                                                |
-| logs_indexes                 | -                                                                |
-| logs_metrics                 | -                                                                |
-| logs_restriction_queries     | roles                                                            |
-| metric_tag_configurations    | -                                                                |
+| Resource                               | Dependencies                                                     |
+|----------------------------------------|------------------------------------------------------------------|
+| roles                                  | -                                                                |
+| users                                  | roles                                                            |
+| synthetics_private_locations           | -                                                                |
+| synthetics_tests                       | synthetics_private_locations, synthetics_global_variables, roles |
+| synthetics_global_variables            | synthetics_tests                                                 |
+| monitors                               | roles, service_level_objectives                                  |
+| downtimes                              | monitors                                                         |
+| service_level_objectives               | monitors, synthetics_tests                                       |
+| slo_corrections                        | service_level_objectives                                         |
+| spans_metrics                          | -                                                                |
+| dashboards                             | monitors, roles, service_level_objectives                        |
+| dashboard_lists                        | dashboards                                                       |
+| logs_pipelines                         | -                                                                |
+| logs_pipelines_order                   | logs_pipelines                                                   |
+| logs_custom_pipelines (**deprecated**) | -                                                                |
+| notebooks                              | -                                                                |
+| host_tags                              | -                                                                |
+| logs_indexes                           | -                                                                |
+| logs_metrics                           | -                                                                |
+| logs_restriction_queries               | roles                                                            |
+| metric_tag_configurations              | -                                                                |

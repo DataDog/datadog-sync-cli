@@ -9,10 +9,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380053?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103075?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380053}'
+      string: '{"deleted_monitor_id": 13103075}'
     headers: {}
     status:
       code: 200
@@ -27,10 +27,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380047?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103078?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380047}'
+      string: '{"deleted_monitor_id": 13103078}'
     headers: {}
     status:
       code: 200
@@ -45,10 +45,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380049?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103083?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380049}'
+      string: '{"deleted_monitor_id": 13103083}'
     headers: {}
     status:
       code: 200
@@ -63,10 +63,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380051?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103080?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380051}'
+      string: '{"deleted_monitor_id": 13103080}'
     headers: {}
     status:
       code: 200
@@ -81,10 +81,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380054?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103081?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380054}'
+      string: '{"deleted_monitor_id": 13103081}'
     headers: {}
     status:
       code: 200
@@ -99,10 +99,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380050?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103079?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380050}'
+      string: '{"deleted_monitor_id": 13103079}'
     headers: {}
     status:
       code: 200
@@ -117,10 +117,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380048?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103077?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380048}'
+      string: '{"deleted_monitor_id": 13103077}'
     headers: {}
     status:
       code: 200
@@ -135,10 +135,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380046?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103082?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380046}'
+      string: '{"deleted_monitor_id": 13103082}'
     headers: {}
     status:
       code: 200
@@ -153,10 +153,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/9380052?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/13103076?force=True
   response:
     body:
-      string: '{"deleted_monitor_id": 9380052}'
+      string: '{"deleted_monitor_id": 13103076}'
     headers: {}
     status:
       code: 200
