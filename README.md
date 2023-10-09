@@ -72,6 +72,8 @@ how to use:
 - edit hardcoded `slack_account_name` in `datadog_sync/model/integrations_slack_channels.py` for your organizations
 - run import & diffs & sync as usual
 
+---
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 
