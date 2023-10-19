@@ -19,7 +19,7 @@ The purpose of the datadog-sync-cli package is to provide an easy way to sync Da
 
 ***Note:*** this tool does not, nor is intended, for migrating intake data such as **ingested** logs, metrics, etc.
 
-The source organization will not be modified, but the destination organization will have resources created and updated during by `sync` command.
+The source organization will not be modified, but the destination organization will have resources created and updated by the `sync` command.
 
 ## Requirements
 
@@ -67,21 +67,21 @@ The source organization will not be modified, but the destination organization w
 
 #### MacOS and Linux
 
-1) Download the executable from [releases](https://github.com/DataDog/datadog-sync-cli/releases) page
+1) Download the executable from the [Releases page](https://github.com/DataDog/datadog-sync-cli/releases)
 2) Provide the executable with executable permission `chmod +x datadog-sync-cli-{system-name}-{machine-type}`
 3) Move the executable to your bin directory `sudo mv datadog-sync-cli-{system-name}-{machine-type} /usr/local/bin/datadog-sync`
-4) Invoke the cli tool using `datadog-sync <command> <options>`
+4) Invoke the CLI tool using `datadog-sync <command> <options>`
 
 #### Windows
 
-1) Download the executable with extension `.exe` from [releases](https://github.com/DataDog/datadog-sync-cli/releases) page
+1) Download the executable with extension `.exe` from the [Releases page](https://github.com/DataDog/datadog-sync-cli/releases)
 2) Add the directory containing the `exe` file to your [path](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/path)
-3) Invoke the cli tool in cmd/powershell using the file name ommiting the extention `datadog-sync-cli-windows-amd64 <command> <options>`
+3) Invoke the CLI tool in cmd/powershell using the file name and omitting the extension: `datadog-sync-cli-windows-amd64 <command> <options>`
 
 ### Using docker and building the image
 1) Clone the project repo and CD into the directory `git clone https://github.com/DataDog/datadog-sync-cli.git; cd datadog-sync-cli`
-2) Build the probided Dockerfile `docker build . -t datadog-sync`
-3) Run the docker image using entrypoint below:
+2) Build the provided Dockerfile `docker build . -t datadog-sync`
+3) Run the Docker image using entrypoint below:
 ```
 docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
   -e DD_SOURCE_API_KEY=<DATADOG_API_KEY> \
@@ -92,7 +92,8 @@ docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
   -e DD_DESTINATION_API_URL=<DATADOG_API_URL> \
   datadog-sync:latest <command> <options>
 ```
-Note: The above docker run command will mount specified `<PATH_TO_WORKING_DIR>` working directory to the container.
+
+The `docker run` command mounts a specified `<PATH_TO_WORKING_DIR>` working directory to the container.
 
 
 ## Usage
@@ -148,11 +149,11 @@ Available URL's for the source and destination API URLs are:
 - `https://api.ddog-gov.com`
 - `https://api.ap1.datadoghq.com`
 
-See https://docs.datadoghq.com/getting_started/site/ for all available regions.
+For all available regions, see [Getting Started with Datadog Sites](https://docs.datadoghq.com/getting_started/site/).
 
 #### Filtering
 
-Filtering is done on two levels, at top resource level and per individual resource using `--resources` and `--filter` respectevily.
+Filtering is done on two levels, at top resources level and per individual resource level using `--resources` and `--filter` respectively.
 
 ##### Top resources level filtering
 
@@ -168,18 +169,21 @@ Filter option (`--filter`) accepts a string made up of `key=value` pairs separat
 ```
 Available keys:
 
-- `Type`: Resource e.g. Monitors, Dashboards, etc. [required]
-- `Name`: Attribute key to filter on. This can be any attribute represented in dot notation (e.g. `attributes.user_count`). [required]
+- `Type`: Resource such as Monitors, Dashboards, and more. [required]
+- `Name`: Attribute key to filter on. This can be any attribute represented in dot notation (such as `attributes.user_count`). [required]
 - `Value`: Regex to filter attribute value by. Note: special regex characters need to be escaped if filtering by raw string. [required]
 - `Operator`: Available operators are below. All invalid operator's default to `ExactMatch`.
-  - `SubString`: Sub string matching
+  - `SubString`: Sub string matching.
   - `ExactMatch`: Exact string match.
 
 By default, if multiple filters are passed for the same resource, `OR` logic is applied to the filters. This behavior can be adjusted using the `--filter-operator` option.
 
 #### Config file
 
-Custom config textfile can be passed in place of options. Example config file:
+A Custom config text file can be passed in place of options. 
+
+This is an example config file:
+
 ```
 # config
 
@@ -192,7 +196,7 @@ source_api_url="https://api.datadoghq.com"
 filter=["Type=Dashboards;Name=title;Value=Test screenboard", "Type=Monitors;Name=tags;Value=sync:true"]
 ```
 
-Usage: `datadog-sync import --config config`
+Then, run: `datadog-sync import --config config`
 
 #### Cleanup flag
 
@@ -204,12 +208,11 @@ For example, `ResourceA` and `ResourceB` are imported and synced, followed by de
 
 To use the tool, first run the `import` command, which will read the wanted items from the specified resources and save them locally into JSON files in the directory `resources/source`.
 
-Then, you can run the `sync` command which will use that local cache (unless `--force-missing-dependencies` is passed) to create
-the resources on the destination, and saves locally what has been pushed.
+Then, you can run the `sync` command which will use that local cache (unless `--force-missing-dependencies` is passed) to create the resources on the destination, and saves locally what has been pushed.
 
 ## Best practices
 
-Many Datadog resources are interdependent. For example, Users resource can references Roles and Dashboards can include widgets which use Monitors or Synthetics. The datadog-sync tool syncs these resources in order to ensure dependencies are not broken.
+Many Datadog resources are interdependent. For example, some Datadog resource can reference `roles` and `dashboards`, which includes widgets that may use Monitors or Synthetics data. The datadog-sync tool syncs these resources in order to ensure dependencies are not broken.
 
 If importing/syncing subset of resources, users should ensure that dependent resources are imported and synced as well.
 
