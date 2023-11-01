@@ -10,6 +10,7 @@ from datadog_sync.model.dashboards import Dashboards
 from datadog_sync.model.dashboard_lists import DashboardLists
 from datadog_sync.model.monitors import Monitors
 from datadog_sync.model.downtimes import Downtimes
+from datadog_sync.model.downtime_schedules import DowntimeSchedules
 from datadog_sync.model.service_level_objectives import ServiceLevelObjectives
 from datadog_sync.model.slo_corrections import SLOCorrections
 from datadog_sync.model.synthetics_tests import SyntheticsTests

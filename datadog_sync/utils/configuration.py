@@ -13,6 +13,8 @@ from typing import Any, Optional, Union, Dict, List
 from datadog_sync import models
 from datadog_sync.model.logs_pipelines import LogsPipelines
 from datadog_sync.model.logs_custom_pipelines import LogsCustomPipelines
+from datadog_sync.model.downtimes import Downtimes
+from datadog_sync.model.downtime_schedules import DowntimeSchedules
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
@@ -110,7 +112,7 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
 
     # Initialize resources
     resources = init_resources(config)
-    resources_arg_str = kwargs.get("resources")
+    resources_arg_str = kwargs.get("resources", None)
     if resources_arg_str:
         resources_arg = resources_arg_str.lower().split(",")
         unknown_resources = list(set(resources_arg) - set(resources.keys()))
@@ -136,22 +138,10 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
     else:
         resources_arg = list(resources.keys())
 
-        # Use logs_custom_pipeline resource if its state files exist.
-        # Otherwise fall back on logs_pipelines
-        custom_pipeline_source = RESOURCE_FILE_PATH.format("source", LogsCustomPipelines.resource_type)
-        custom_pipeline_destination = RESOURCE_FILE_PATH.format("destination", LogsCustomPipelines.resource_type)
-        if os.path.exists(custom_pipeline_source) or os.path.exists(custom_pipeline_destination):
-            logger.warning(
-                "`logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines`. "
-                + "Consider upgrading by renaming existing state files"
-                + "`logs_custom_pipelines.json` -> `logs_pipelines.json`"
-            )
-            resources_arg.remove(LogsPipelines.resource_type)
-        else:
-            resources_arg.remove(LogsCustomPipelines.resource_type)
-
     config.resources = resources
     config.resources_arg = resources_arg
+
+    _handle_deprecated(config, resources_arg_str is not None)
 
     return config
 
@@ -178,3 +168,60 @@ def _validate_client(client: CustomClient) -> None:
     except Exception as e:
         logger.error(f"error while validating api key: {e}")
         exit(1)
+
+
+def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
+    if resources_arg_passed:
+        if LogsCustomPipelines.resource_type in config.resources_arg:
+            config.logger.warning(
+                "`logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines`"
+                + "Consider upgrading by renaming existing state files."
+                + "`logs_custom_pipelines.json` -> `logs_pipelines.json` and using resource type"
+                + "`logs_pipelines`."
+            )
+        if LogsCustomPipelines.resource_type in config.resources_arg and LogsPipelines.resource_type in config.resources_arg:
+            config.logger.error(
+                "`logs_custom_pipelines` and `logs_pipelines` resource should not"
+                + " be used together as it will cause duplication."
+            )
+            exit(1)
+
+        if Downtimes.resource_type in config.resources_arg:
+            config.logger.warning(
+                "`downtimes` resource has been deprecated in favor of `downtime_schedules`."
+            )
+        if Downtimes.resource_type in config.resources_arg and DowntimeSchedules.resource_type in config.resources_arg:
+            config.logger.error(
+                "`downtimes` and `downtime_schedules` resource should not"
+                + " be used together as it will cause duplication."
+            )
+            exit(1)
+
+    else:
+        # Use logs_custom_pipeline resource if its state files exist.
+        # Otherwise fall back on logs_pipelines
+        custom_pipeline_source = RESOURCE_FILE_PATH.format("source", LogsCustomPipelines.resource_type)
+        custom_pipeline_destination = RESOURCE_FILE_PATH.format("destination", LogsCustomPipelines.resource_type)
+        if os.path.exists(custom_pipeline_source) or os.path.exists(custom_pipeline_destination):
+            config.logger.warning(
+                "`logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines`. "
+                + "Consider upgrading by renaming existing state files"
+                + "`logs_custom_pipelines.json` -> `logs_pipelines.json`"
+            )
+            config.resources_arg.remove(LogsPipelines.resource_type)
+        else:
+            config.resources_arg.remove(LogsCustomPipelines.resource_type)
+
+        # Use downtimes resource if its state files exist.
+        # Otherwise fall back on downtime_schedules
+        downtimes_source = RESOURCE_FILE_PATH.format("source", Downtimes.resource_type)
+        downtimes_destination = RESOURCE_FILE_PATH.format("destination", Downtimes.resource_type)
+        if os.path.exists(downtimes_source) or os.path.exists(downtimes_destination):
+            config.logger.warning(
+                "`downtimes` resource has been deprecated in favor of `downtime_schedules`. "
+                + "Consider upgrading by removing the existing state files"
+                + "`downtimes.json` from source and destination directory."
+            )
+            config.resources_arg.remove(DowntimeSchedules.resource_type)
+        else:
+            config.resources_arg.remove(Downtimes.resource_type)
