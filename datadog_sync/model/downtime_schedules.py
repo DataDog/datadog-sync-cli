@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 class DowntimeSchedules(BaseResource):
     resource_type = "downtime_schedules"
     resource_config = ResourceConfig(
-        resource_connections={},
+        resource_connections={"monitors": ["attributes.monitor_identifier.monitor_id"]},
         non_nullable_attr=[],
         base_path="/api/v2/downtime",
         excluded_attributes=[
