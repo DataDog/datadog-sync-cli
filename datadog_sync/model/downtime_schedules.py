@@ -3,8 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
-import math
-from typing import TYPE_CHECKING, Optional, List, Dict, cast
+from typing import TYPE_CHECKING, Optional, List, Dict
 from datetime import datetime, timedelta
 from dateutil.parser import parse
 
@@ -87,7 +86,7 @@ class DowntimeSchedules(BaseResource):
 
     def update_resource(self, _id: str, resource: Dict) -> None:
         destination_client = self.config.destination_client
-        resource["id"] = self.resource_config.destination_resources[_id]['id']
+        resource["id"] = self.resource_config.destination_resources[_id]["id"]
         payload = {"data": resource}
         resp = destination_client.patch(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",

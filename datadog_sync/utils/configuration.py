@@ -179,7 +179,10 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
                 + "`logs_custom_pipelines.json` -> `logs_pipelines.json` and using resource type"
                 + "`logs_pipelines`."
             )
-        if LogsCustomPipelines.resource_type in config.resources_arg and LogsPipelines.resource_type in config.resources_arg:
+        if (
+            LogsCustomPipelines.resource_type in config.resources_arg
+            and LogsPipelines.resource_type in config.resources_arg
+        ):
             config.logger.error(
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication."
@@ -187,9 +190,7 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
             exit(1)
 
         if Downtimes.resource_type in config.resources_arg:
-            config.logger.warning(
-                "`downtimes` resource has been deprecated in favor of `downtime_schedules`."
-            )
+            config.logger.warning("`downtimes` resource has been deprecated in favor of `downtime_schedules`.")
         if Downtimes.resource_type in config.resources_arg and DowntimeSchedules.resource_type in config.resources_arg:
             config.logger.error(
                 "`downtimes` and `downtime_schedules` resource should not"
