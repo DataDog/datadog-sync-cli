@@ -1,0 +1,42 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/downtime
+  response:
+    body:
+      string: '{"data": [{"type": "downtime", "attributes": {"mute_first_recovery_notification":
+        false, "message": "Sample message", "schedule": {"end": null, "start": "2027-04-14T04:00:00+00:00"},
+        "monitor_identifier": {"monitor_tags": ["*"]}, "modified": "2022-04-15T19:16:51.983671+00:00",
+        "notify_end_states": ["alert", "no data", "warn"], "status": "scheduled",
+        "canceled": null, "display_timezone": "America/New_York", "scope": "*", "notify_end_types":
+        ["expired"], "created": "2022-04-15T19:16:51.983671+00:00"}, "id": "2d201904-b23a-11ed-b002-da7ad0900002"},
+        {"type": "downtime", "attributes": {"mute_first_recovery_notification": false,
+        "message": "Sample downtime message", "schedule": {"end": null, "start": "2026-04-30T04:00:00+00:00"},
+        "monitor_identifier": {"monitor_tags": ["*"]}, "modified": "2023-11-01T20:42:32.969724+00:00",
+        "notify_end_states": ["alert", "no data", "warn"], "status": "canceled", "canceled":
+        "2023-11-01T20:42:32.967221+00:00", "display_timezone": "America/New_York",
+        "scope": "*", "notify_end_types": ["expired"], "created": "2022-04-15T19:17:43.057777+00:00"},
+        "id": "2d201cd8-b23a-11ed-b003-da7ad0900002"}, {"type": "downtime", "attributes":
+        {"mute_first_recovery_notification": false, "message": "Random", "schedule":
+        {"end": null, "start": "2026-01-01T21:24:00+00:00"}, "monitor_identifier":
+        {"monitor_id": 37284891}, "modified": "2023-11-01T20:25:50.989095+00:00",
+        "notify_end_states": ["alert", "no data", "warn"], "status": "scheduled",
+        "canceled": null, "display_timezone": "America/New_York", "scope": "*", "notify_end_types":
+        ["expired", "canceled"], "created": "2023-11-01T20:25:50.989095+00:00"}, "id":
+        "d96810aa-78f4-11ee-bf03-da7ad0900002"}], "meta": {"page": {"total_filtered_count":
+        4}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

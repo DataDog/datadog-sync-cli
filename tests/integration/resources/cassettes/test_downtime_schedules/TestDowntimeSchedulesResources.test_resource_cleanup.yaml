@@ -1,0 +1,20 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v2/downtime/438d7bde-78f8-11ee-8f23-da7ad0900005
+  response:
+    body:
+      string: ''
+    headers: {}
+    status:
+      code: 204
+      message: No Content
+version: 1
