@@ -26,6 +26,7 @@ class DowntimeSchedules(BaseResource):
             "attributes.status",
             "attributes.canceled",
             "relationships",
+            "attributes.schedule.current_downtime"
         ],
     )
     # Additional DowntimeSchedules specific attributes
@@ -47,7 +48,7 @@ class DowntimeSchedules(BaseResource):
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.resource_config.destination_resources:
-            if one_time := resource["attributes"].get("schedule"):
+            if one_time := resource["attributes"].get("schedule") and "start" in resource["attributes"]:
                 current_time = datetime.utcnow()
                 t = parse(one_time["start"])
                 if t.timestamp() <= current_time.timestamp():
