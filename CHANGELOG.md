@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.7.0 / 2023-11-14
+
+### Fixed
+* Pin `setuptools_scm` to < 8 by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/184
+* Pass all keyword/ arguments to avoid panics with `setuptools_scm` > 8 by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/187
+### Added
+* Add `downtime_schedules` resource and deprecate `downtimes` by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/192
+
+## New Contributors
+* @alai97 made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/190
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.6.1...0.7.0
+
 ## 0.6.1 / 2023-09-19
 
 ### Fixed
