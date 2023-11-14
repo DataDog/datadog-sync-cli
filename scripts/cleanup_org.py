@@ -33,6 +33,7 @@ class Cleanup:
         self.cleanup_dashboard_lists()
         self.cleanup_dashboards()
         self.cleanup_downtimes()
+        self.cleanup_downtime_schedules()
         self.cleanup_logs_custom_pipelines()
         self.cleanup_monitors()
         self.cleanup_notebooks()
@@ -79,6 +80,15 @@ class Cleanup:
         res = self.get_resources(path)
         for resource in res:
             if not resource["disabled"]:
+                self.delete_resource(resource["id"], path)
+
+    def cleanup_downtime_schedules(
+        self,
+    ):
+        path = "/api/v2/downtime"
+        res = self.get_resources(path)["data"]
+        for resource in res:
+            if not resource["attributes"]["canceled"]:
                 self.delete_resource(resource["id"], path)
 
     def cleanup_logs_custom_pipelines(

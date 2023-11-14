@@ -36,7 +36,8 @@ The source organization will not be modified, but the destination organization w
 | synthetics_tests                       | Sync Datadog synthetics tests.                           |
 | synthetics_global_variables            | Sync Datadog synthetics global variables.                |
 | monitors                               | Sync Datadog monitors.                                   |
-| downtimes                              | Sync Datadog downtimes.                                  |
+| downtimes (**deprecated**)             | Sync Datadog downtimes.                                  |
+| downtime_schedules                     | Sync Datadog downtimes.                                  |
 | service_level_objectives               | Sync Datadog SLOs.                                       |
 | slo_corrections                        | Sync Datadog SLO corrections.                            |
 | spans_metrics                          | Sync Datadog spans metrics.                              |
@@ -226,7 +227,8 @@ See [Supported resources](#supported-resources) section below for potential reso
 | synthetics_tests                       | synthetics_private_locations, synthetics_global_variables, roles |
 | synthetics_global_variables            | synthetics_tests                                                 |
 | monitors                               | roles, service_level_objectives                                  |
-| downtimes                              | monitors                                                         |
+| downtimes (**deprecated**)             | monitors                                                         |
+| downtime_schedules                     | monitors                                                         |
 | service_level_objectives               | monitors, synthetics_tests                                       |
 | slo_corrections                        | service_level_objectives                                         |
 | spans_metrics                          | -                                                                |
