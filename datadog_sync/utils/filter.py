@@ -97,11 +97,12 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
         if invalid_filter:
             continue
 
-        # Build and assign regex matcher to VALUE key
-        f_dict[FILTER_VALUE_KEY] = build_regex(f_dict)
-
         if not f_dict.get(FILTER_OPERATOR_KEY):
             f_dict[FILTER_OPERATOR_KEY] = EXACT_MATCH_OPERATOR
+            log.warning("Defaulting the Filter Operator to `ExactMatch` will be removed in the future")
+
+        # Build and assign regex matcher to VALUE key
+        f_dict[FILTER_VALUE_KEY] = build_regex(f_dict)
 
         f_instance = Filter(
             f_dict[FILTER_TYPE_KEY].lower(),
@@ -118,8 +119,12 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
 
 
 def build_regex(f_dict):
+    # We are keeping this for backwards compatiblity. In the future this will be removed as the user can already 
+    # acheive substring behavior using regex
+
     if FILTER_OPERATOR_KEY in f_dict and f_dict[FILTER_OPERATOR_KEY].lower() == SUBSTRING_OPERATOR:
         reg_exp = f".*{f_dict[FILTER_VALUE_KEY]}.*"
+        log.warning("The Filter Operator `SubString` will be removed in future versions, please refer to the Best Practices Section in our README.md for more information.")
     else:
         reg_exp = f"^{f_dict[FILTER_VALUE_KEY]}$"
 
