@@ -155,6 +155,7 @@ def test_filters_numbers(_filter, r_type, r_obj, expected):
             {"test": [{"nested": {"deep": "substring"}}]},
             False,
         ),
+
         # Not Operator (inverse result)
         (
             ["Type=r_test;Name=test.nested;Value=123;Operator=Not"],

@@ -11,28 +11,29 @@ from datadog_sync.constants import LOGGER_NAME
 from typing import Dict, List
 
 
-FILTER_TYPE = "Type"
-FILTER_NAME = "Name"
-FILTER_VALUE = "Value"
-FILTER_OPERATOR = "Operator"
+FILTER_TYPE_KEY = "Type"
+FILTER_NAME_KEY = "Name"
+FILTER_VALUE_KEY = "Value"
+FILTER_OPERATOR_KEY = "Operator"
 SUBSTRING_OPERATOR = "substring"
+EXACT_MATCH_OPERATOR = "exactmatch"
 NOT_OPERATOR = "not"
-REQUIRED_KEYS = [FILTER_TYPE, FILTER_NAME, FILTER_VALUE]
+REQUIRED_KEYS = [FILTER_TYPE_KEY, FILTER_NAME_KEY, FILTER_VALUE_KEY]
 
 log = logging.getLogger(LOGGER_NAME)
 
 
 class Filter:
-    def __init__(self, resource_type: str, attr_name: str, attr_re: str, not_op: bool):
+    def __init__(self, resource_type: str, attr_name: str, attr_re: str, operator: str):
         self.resource_type = resource_type
         self.attr_name = attr_name.split(".")
         self.attr_re = attr_re
-        self.not_op = not_op
+        self.operator = operator
 
     def is_match(self, resource):
         result = self._is_match_helper(self.attr_name, resource)
 
-        if self.not_op:
+        if self.operator == NOT_OPERATOR:
             return not result
 
         return result
@@ -57,10 +58,7 @@ class Filter:
 
     def _is_match(self, value):
         if isinstance(value, list):
-            return (
-                len(list(filter(lambda attr: match(self.attr_re, str(attr)), value)))
-                > 0
-            )
+            return len(list(filter(lambda attr: match(self.attr_re, str(attr)), value))) > 0
 
         if isinstance(value, bool):
             # Match json bool [true, false]
@@ -100,18 +98,16 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
             continue
 
         # Build and assign regex matcher to VALUE key
-        f_dict[FILTER_VALUE] = build_regex(f_dict)
+        f_dict[FILTER_VALUE_KEY] = build_regex(f_dict)
 
-        using_not_operator = (
-            FILTER_OPERATOR in f_dict
-            and f_dict[FILTER_OPERATOR].lower() == NOT_OPERATOR
-        )
+        if not f_dict.get(FILTER_OPERATOR_KEY):
+            f_dict[FILTER_OPERATOR_KEY] = EXACT_MATCH_OPERATOR
 
         f_instance = Filter(
-            f_dict[FILTER_TYPE].lower(),
-            f_dict[FILTER_NAME],
-            f_dict[FILTER_VALUE],
-            using_not_operator,
+            f_dict[FILTER_TYPE_KEY].lower(),
+            f_dict[FILTER_NAME_KEY],
+            f_dict[FILTER_VALUE_KEY],
+            f_dict[FILTER_OPERATOR_KEY].lower(),
         )
         if f_instance.resource_type not in filters:
             filters[f_instance.resource_type] = []
@@ -122,15 +118,9 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
 
 
 def build_regex(f_dict):
-    operator = f_dict.get(FILTER_OPERATOR)
-
-    # default regex
-    reg_exp = f"^{f_dict[FILTER_VALUE]}$"
-
-    if operator is None:
-        return reg_exp
-
-    if operator.lower() == SUBSTRING_OPERATOR:
-        reg_exp = f".*{f_dict[FILTER_VALUE]}.*"
+    if FILTER_OPERATOR_KEY in f_dict and f_dict[FILTER_OPERATOR_KEY].lower() == SUBSTRING_OPERATOR:
+        reg_exp = f".*{f_dict[FILTER_VALUE_KEY]}.*"
+    else:
+        reg_exp = f"^{f_dict[FILTER_VALUE_KEY]}$"
 
     return reg_exp
