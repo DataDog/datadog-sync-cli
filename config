@@ -1,0 +1,5 @@
+source_api_key="55091d809228529436d6c7c178896c75"
+source_app_key="e85d7a6ebb9fb6f6f7a1083060059d45d563c079"
+source_api_url="https://api.datadoghq.com"
+resources="monitors,dashboards"
+filter=['Type=monitors;Name=tags;Value=owner:aldrick;Operator=Not','Type=dashboards;Name=title;Value=Lab Dashboard;Operator=Not']
