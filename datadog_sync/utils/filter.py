@@ -16,19 +16,26 @@ FILTER_NAME = "Name"
 FILTER_VALUE = "Value"
 FILTER_OPERATOR = "Operator"
 SUBSTRING_OPERATOR = "substring"
+NOT_OPERATOR = "not"
 REQUIRED_KEYS = [FILTER_TYPE, FILTER_NAME, FILTER_VALUE]
 
 log = logging.getLogger(LOGGER_NAME)
 
 
 class Filter:
-    def __init__(self, resource_type: str, attr_name: str, attr_re: str):
+    def __init__(self, resource_type: str, attr_name: str, attr_re: str, not_op: bool):
         self.resource_type = resource_type
         self.attr_name = attr_name.split(".")
         self.attr_re = attr_re
+        self.not_op = not_op
 
     def is_match(self, resource):
-        return self._is_match_helper(self.attr_name, resource)
+        result = self._is_match_helper(self.attr_name, resource)
+
+        if self.not_op:
+            return not result
+
+        return result
 
     def _is_match_helper(self, k_list, resource):
         if len(k_list) == 1:
@@ -50,7 +57,10 @@ class Filter:
 
     def _is_match(self, value):
         if isinstance(value, list):
-            return len(list(filter(lambda attr: match(self.attr_re, str(attr)), value))) > 0
+            return (
+                len(list(filter(lambda attr: match(self.attr_re, str(attr)), value)))
+                > 0
+            )
 
         if isinstance(value, bool):
             # Match json bool [true, false]
@@ -92,7 +102,17 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
         # Build and assign regex matcher to VALUE key
         f_dict[FILTER_VALUE] = build_regex(f_dict)
 
-        f_instance = Filter(f_dict[FILTER_TYPE].lower(), f_dict[FILTER_NAME], f_dict[FILTER_VALUE])
+        using_not_operator = (
+            FILTER_OPERATOR in f_dict
+            and f_dict[FILTER_OPERATOR].lower() == NOT_OPERATOR
+        )
+
+        f_instance = Filter(
+            f_dict[FILTER_TYPE].lower(),
+            f_dict[FILTER_NAME],
+            f_dict[FILTER_VALUE],
+            using_not_operator,
+        )
         if f_instance.resource_type not in filters:
             filters[f_instance.resource_type] = []
 
@@ -102,9 +122,15 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
 
 
 def build_regex(f_dict):
-    if FILTER_OPERATOR in f_dict and f_dict[FILTER_OPERATOR].lower() == SUBSTRING_OPERATOR:
+    operator = f_dict.get(FILTER_OPERATOR)
+
+    # default regex
+    reg_exp = f"^{f_dict[FILTER_VALUE]}$"
+
+    if operator is None:
+        return reg_exp
+
+    if operator.lower() == SUBSTRING_OPERATOR:
         reg_exp = f".*{f_dict[FILTER_VALUE]}.*"
-    else:
-        reg_exp = f"^{f_dict[FILTER_VALUE]}$"
 
     return reg_exp
