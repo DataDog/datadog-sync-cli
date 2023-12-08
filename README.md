@@ -185,8 +185,8 @@ Available keys:
 - `Name`: Attribute key to filter on. This can be any attribute represented in dot notation (such as `attributes.user_count`). [required]
 - `Value`: Regex to filter attribute value by. Note: special regex characters need to be escaped if filtering by raw string. [required]
 - `Operator`: Available operators are below. All invalid operator's default to `ExactMatch`.
-  - `SubString`: Sub string matching. (This operator will be removed in future releases, for more information read the [SubString Deprecation Section](#substring-and-exactmatch-deprecation) below)
-  - `ExactMatch`: Exact string match. (This operator will be removed in future releases, for more information read the [SubString Deprecation Section](#substring-and-exactmatch-deprecation) below)
+  - `SubString`: Sub string matching. (This operator will be removed in future releases, for more information read the [SubString and ExactMatch Deprecation Section](#substring-and-exactmatch-deprecation) below)
+  - `ExactMatch`: Exact string match. (This operator will be removed in future releases, for more information read the [SubString and ExactMatch Deprecation Section](#substring-and-exactmatch-deprecation) below)
   - `Not`: Inverse of `ExactMatch`.
 
 By default, if multiple filters are passed for the same resource, `OR` logic is applied to the filters. This behavior can be adjusted using the `--filter-operator` option.
