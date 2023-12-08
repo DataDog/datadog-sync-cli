@@ -2,16 +2,27 @@
 Datadog cli tool to sync resources across organizations.
 
 # Table of Contents
-- [Purpose](#purpose)
-- [Requirements](#requirements)
-- [Supported resources](#supported-resources)
-- [Installation](#Installation)
-- [Usage](#usage)
-  - [API URL](#api-url)
-  - [Filtering](#filtering)
-  - [Config File](#config-file)
-  - [Cleanup flag](#cleanup-flag)
-- [Best Practices](#best-practices)
+- [datadog-sync-cli](#datadog-sync-cli)
+- [Table of Contents](#table-of-contents)
+  - [Purpose](#purpose)
+  - [Requirements](#requirements)
+  - [Supported resources](#supported-resources)
+  - [Installation](#installation)
+    - [Installing from source](#installing-from-source)
+    - [Installing from Releases](#installing-from-releases)
+      - [MacOS and Linux](#macos-and-linux)
+      - [Windows](#windows)
+    - [Using docker and building the image](#using-docker-and-building-the-image)
+  - [Usage](#usage)
+      - [API URL](#api-url)
+      - [Filtering](#filtering)
+        - [Top resources level filtering](#top-resources-level-filtering)
+        - [Per resource level filtering](#per-resource-level-filtering)
+          - [SubString and ExactMatch Deprecation](#substring-and-exactmatch-deprecation)
+      - [Config file](#config-file)
+      - [Cleanup flag](#cleanup-flag)
+  - [Workflow](#workflow)
+  - [Best practices](#best-practices)
 
 ## Purpose
 
@@ -174,22 +185,24 @@ Available keys:
 - `Name`: Attribute key to filter on. This can be any attribute represented in dot notation (such as `attributes.user_count`). [required]
 - `Value`: Regex to filter attribute value by. Note: special regex characters need to be escaped if filtering by raw string. [required]
 - `Operator`: Available operators are below. All invalid operator's default to `ExactMatch`.
-  - `SubString`: Sub string matching. (This operator will be removed in future releases, for more information read the [SubString Deprecation Section](#substring-deprecation) below)
-  - `ExactMatch`: Exact string match.
+  - `SubString`: Sub string matching. (This operator will be removed in future releases, for more information read the [SubString Deprecation Section](#substring-and-exactmatch-deprecation) below)
+  - `ExactMatch`: Exact string match. (This operator will be removed in future releases, for more information read the [SubString Deprecation Section](#substring-and-exactmatch-deprecation) below)
   - `Not`: Inverse of `ExactMatch`.
 
 By default, if multiple filters are passed for the same resource, `OR` logic is applied to the filters. This behavior can be adjusted using the `--filter-operator` option.
 
-###### SubString Deprecation
+###### SubString and ExactMatch Deprecation
 
-In future releases the `SubString` Operator will be removed. What is planned is that when you use the `ExactMatch` operator, we will use that with regex directly. What this means is that you will still have the `SubString` behavior but will need to provide that in a regex form in the `Value` key. Below is an example:
+In future releases the `SubString` and `ExactMatch` Operator will be removed. This is because the `Value` key supports regex so both of these scenarios are covered by just writing the appropriate regex.  Below is an example:
 
-Let's take the scenario where you would like to filter for Monitors that have the substring `filter test` in the `name` attribute, below you can see the query before and after `SubString` is deprecated.
+Let's take the scenario where you would like to filter for Monitors that have the `filter test` in the `name` attribute, below you can see how you would filter for both `SubString` and `ExactMatch`:
 
-| Status | Command |
-| :-: | :-: |
-| Before `SubString` Deprecation | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=SubString'` |
-| After `SubString` Deprecation | `--filter 'Type=monitors;Name=name;Value=.*filter test.*;Operator=ExactMatch'` |
+| Operator| Status | Command |
+| :-: | :-: | :-: |
+| SubString | Before  Deprecation | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=SubString'` |
+| SubString | After Deprecation | `--filter 'Type=monitors;Name=name;Value=.*filter test.*` |
+| ExactMatch | Before  Deprecation | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=ExactMatch'` |
+| ExactMatch | After Deprecation | `--filter 'Type=monitors;Name=name;Value=^filter test$` |
 
 #### Config file
 
