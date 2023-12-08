@@ -97,10 +97,14 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
         if invalid_filter:
             continue
 
-        # We are setting ExactMatch as the default as this lines up with the future plans to use the Value Key directly as the regex for the filter
+        # We are setting ExactMatch as the default as this lines up with the future plans to use the Value Key
+        # directly as the regex for the filter
         if not f_dict.get(FILTER_OPERATOR_KEY):
             f_dict[FILTER_OPERATOR_KEY] = EXACT_MATCH_OPERATOR
-            log.warning("Defaulting to filter Operator `ExactMatch'. Please ensure the filter Value provided is updated as this behavior will be removed in the future. See the official README for more information")
+            log.warning(
+                "Defaulting to filter Operator `ExactMatch'. Please ensure the filter Value provided is \
+                updated as this behavior will be removed in the future. See the official README for more information"
+            )
 
         # Build and assign regex matcher to VALUE key
         f_dict[FILTER_VALUE_KEY] = build_regex(f_dict)
@@ -120,13 +124,15 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
 
 
 def build_regex(f_dict):
-    # We are keeping this for backwards compatiblity. In the future this will be removed as the user can already 
+    # We are keeping this for backwards compatiblity. In the future this will be removed as the user can already
     # acheive substring behavior using regex
 
     if FILTER_OPERATOR_KEY in f_dict and f_dict[FILTER_OPERATOR_KEY].lower() == SUBSTRING_OPERATOR:
         reg_exp = f".*{f_dict[FILTER_VALUE_KEY]}.*"
-        log.warning("The Filter Operator `SubString` will be removed in future versions, please refer to the Best \
-            Practices Section in our README.md for more information.")
+        log.warning(
+            "The Filter Operator `SubString` will be removed in future versions, please refer to the Best \
+            Practices Section in our README.md for more information."
+        )
     else:
         reg_exp = f"^{f_dict[FILTER_VALUE_KEY]}$"
 
