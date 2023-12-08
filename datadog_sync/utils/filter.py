@@ -99,7 +99,7 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
 
         if not f_dict.get(FILTER_OPERATOR_KEY):
             f_dict[FILTER_OPERATOR_KEY] = EXACT_MATCH_OPERATOR
-            log.warning("Defaulting the Filter Operator to `ExactMatch` will be removed in the future")
+            log.warning("Defaulting to filter Operator `ExactMatch'. Please ensure the filter Value provided is updated as this behavior will be removed in the future. See the official README for more information")
 
         # Build and assign regex matcher to VALUE key
         f_dict[FILTER_VALUE_KEY] = build_regex(f_dict)
