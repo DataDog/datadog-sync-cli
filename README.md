@@ -195,7 +195,7 @@ By default, if multiple filters are passed for the same resource, `OR` logic is 
 
 In future releases the `SubString` and `ExactMatch` Operator will be removed. This is because the `Value` key supports regex so both of these scenarios are covered by just writing the appropriate regex.  Below is an example:
 
-Let's take the scenario where you would like to filter for Monitors that have the `filter test` in the `name` attribute, below you can see how you would filter for both `SubString` and `ExactMatch`:
+Let's take the scenario where you would like to filter for monitors that have the `filter test` in the `name` attribute:
 
 | Operator| Status | Command |
 | :-: | :-: | :-: |
