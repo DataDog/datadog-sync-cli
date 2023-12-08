@@ -124,7 +124,8 @@ def build_regex(f_dict):
 
     if FILTER_OPERATOR_KEY in f_dict and f_dict[FILTER_OPERATOR_KEY].lower() == SUBSTRING_OPERATOR:
         reg_exp = f".*{f_dict[FILTER_VALUE_KEY]}.*"
-        log.warning("The Filter Operator `SubString` will be removed in future versions, please refer to the Best Practices Section in our README.md for more information.")
+        log.warning("The Filter Operator `SubString` will be removed in future versions, please refer to the Best \
+            Practices Section in our README.md for more information.")
     else:
         reg_exp = f"^{f_dict[FILTER_VALUE_KEY]}$"
 
