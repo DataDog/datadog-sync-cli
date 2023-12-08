@@ -202,7 +202,7 @@ Let's take the scenario where you would like to filter for monitors that have th
 | SubString | Before  Deprecation | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=SubString'` |
 | Using `Value` | After Deprecation | `--filter 'Type=monitors;Name=name;Value=.*filter test.*` |
 | ExactMatch | Before  Deprecation | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=ExactMatch'` |
-| ExactMatch | After Deprecation | `--filter 'Type=monitors;Name=name;Value=^filter test$` |
+| Using Value | After Deprecation | `--filter 'Type=monitors;Name=name;Value=^filter test$` |
 
 #### Config file
 
