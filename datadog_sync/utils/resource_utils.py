@@ -72,7 +72,7 @@ def find_attr(keys_list_str: str, resource_to_connect: str, r_obj: Any, connect_
     else:
         keys_list = keys_list_str.split(".", 1)
 
-        if len(keys_list) == 1 and keys_list[0] in r_obj:
+        if r_obj and len(keys_list) == 1 and keys_list[0] in r_obj:
             if not r_obj[keys_list[0]]:
                 return None
             return connect_func(keys_list[0], r_obj, resource_to_connect)
