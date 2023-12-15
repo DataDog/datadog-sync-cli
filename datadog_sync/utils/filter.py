@@ -106,8 +106,9 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
                 updated as this behavior will be removed in the future. See the official README for more information"
             )
 
-        # Build and assign regex matcher to VALUE key
-        f_dict[FILTER_VALUE_KEY] = build_regex(f_dict)
+        # Build and assign regex matcher to VALUE key for the deprecated Operators
+        if f_dict[FILTER_OPERATOR_KEY].lower() != NOT_OPERATOR:
+            handle_deprecated_operator(f_dict)
 
         f_instance = Filter(
             f_dict[FILTER_TYPE_KEY].lower(),
@@ -123,17 +124,21 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
     return filters
 
 
-def build_regex(f_dict):
+def handle_deprecated_operator(f_dict):
     # We are keeping this for backwards compatiblity. In the future this will be removed as the user can already
     # acheive substring behavior using regex
 
-    if FILTER_OPERATOR_KEY in f_dict and f_dict[FILTER_OPERATOR_KEY].lower() == SUBSTRING_OPERATOR:
+    operator_lower = f_dict[FILTER_OPERATOR_KEY].lower()
+    reg_exp = f_dict[FILTER_VALUE_KEY]
+
+    if operator_lower == SUBSTRING_OPERATOR:
         reg_exp = f".*{f_dict[FILTER_VALUE_KEY]}.*"
         log.warning(
             "The Filter Operator `SubString` will be removed in future versions, please refer to the Best \
             Practices Section in our README.md for more information."
         )
-    else:
+
+    elif operator_lower == EXACT_MATCH_OPERATOR:
         reg_exp = f"^{f_dict[FILTER_VALUE_KEY]}$"
 
-    return reg_exp
+    f_dict[FILTER_VALUE_KEY] = reg_exp

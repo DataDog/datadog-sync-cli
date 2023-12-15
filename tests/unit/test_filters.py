@@ -95,6 +95,12 @@ def test_filters_basic(_filter, r_type, r_obj, expected):
             ["Type=r_test_two;Name=test;Value=1;Operator=Not"],
             "r_test_two",
             {"test": ["attr", 123]},
+            False,
+        ),
+        (
+            ["Type=r_test_two;Name=test;Value=^1$;Operator=Not"],
+            "r_test_two",
+            {"test": ["attr", 123]},
             True,
         ),
     ],
@@ -173,7 +179,7 @@ def test_filters_numbers(_filter, r_type, r_obj, expected):
             ["Type=r_test;Name=test.nested.list;Value=123;Operator=Not"],
             "r_test",
             {"test": [{"nested": [{"list": 1234}]}]},
-            True,
+            False,
         ),
         (
             ["Type=r_test;Name=test.nested.list;Value=123;Operator=Not"],
@@ -191,10 +197,54 @@ def test_filters_numbers(_filter, r_type, r_obj, expected):
             ["Type=r_test;Name=test.nested;Value=123;Operator=Not"],
             "r_test",
             {"test": [{"nested": ["1234", "12345"]}]},
-            True,
+            False,
         ),
         (
             ["Type=r_test;Name=test.nested.deep;Value=sub;Operator=Not"],
+            "r_test",
+            {"test": [{"nested": {"deep": "substring"}}]},
+            False,
+        ),
+
+        # Not Operator with exact match regex
+        (
+            ["Type=r_test;Name=test.nested;Value=^123$;Operator=Not"],
+            "r_test",
+            {"test": [{"nested": 123}]},
+            False,
+        ),
+        (
+            ["Type=r_test;Name=test.nested.list;Value=^123$;Operator=Not"],
+            "r_test",
+            {"test": [{"nested": [{"list": 123}]}]},
+            False,
+        ),
+        (
+            ["Type=r_test;Name=test.nested.list;Value=^123$;Operator=Not"],
+            "r_test",
+            {"test": [{"nested": [{"list": 1234}]}]},
+            True,
+        ),
+        (
+            ["Type=r_test;Name=test.nested.list;Value=^123$;Operator=Not"],
+            "r_test",
+            {"test": [{"nested": [{"list": 1234}, {"list": 123}]}]},
+            False,
+        ),
+        (
+            ["Type=r_test;Name=test.nested;Value=^123$;Operator=Not"],
+            "r_test",
+            {"test": [{"nested": ["1234", "123"]}]},
+            False,
+        ),
+        (
+            ["Type=r_test;Name=test.nested;Value=^123$;Operator=Not"],
+            "r_test",
+            {"test": [{"nested": ["1234", "12345"]}]},
+            True,
+        ),
+        (
+            ["Type=r_test;Name=test.nested.deep;Value=^sub$;Operator=Not"],
             "r_test",
             {"test": [{"nested": {"deep": "substring"}}]},
             True,
