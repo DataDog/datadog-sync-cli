@@ -107,7 +107,7 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
             )
 
         # Build and assign regex matcher to VALUE key for the deprecated Operators
-        if f_dict[FILTER_OPERATOR_KEY].lower() != NOT_OPERATOR:
+        if f_dict[FILTER_OPERATOR_KEY].lower() in [SUBSTRING_OPERATOR, EXACT_MATCH_OPERATOR]:
             handle_deprecated_operator(f_dict)
 
         f_instance = Filter(
