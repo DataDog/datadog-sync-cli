@@ -97,8 +97,8 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
         if invalid_filter:
             continue
 
-        # We are setting ExactMatch as the default as this lines up with the future plans to use the Value Key
-        # directly as the regex for the filter
+        #  Default to EXACT_MATCH_OPERATOR for backward compatibility. This behavior will be removed in the
+        # future as it can already be achieved using regex in the Value.
         if not f_dict.get(FILTER_OPERATOR_KEY):
             f_dict[FILTER_OPERATOR_KEY] = EXACT_MATCH_OPERATOR
             log.warning(
