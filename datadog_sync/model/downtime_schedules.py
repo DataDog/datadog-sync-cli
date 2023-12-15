@@ -49,17 +49,17 @@ class DowntimeSchedules(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.resource_config.destination_resources:
 
-            one_time = resource["attributes"].get("schedule")
-            if one_time and "start" in one_time:
+            schedule = resource["attributes"].get("schedule")
+            if schedule and "start" in schedule:
                 current_time = datetime.utcnow()
-                t = parse(one_time["start"])
+                t = parse(schedule["start"])
                 if t.timestamp() <= current_time.timestamp():
                     current_time = current_time + timedelta(seconds=60)
                     if getattr(current_time, "tzinfo", None) is not None:
                         new_time = current_time.isoformat()
                     else:
                         new_time = "{}Z".format(current_time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3])
-                    one_time["start"] = new_time
+                    schedule["start"] = new_time
         else:
             # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
             # this is to avoid unnecessary diff outputs
