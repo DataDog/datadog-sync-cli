@@ -62,6 +62,9 @@ class LogsPipelinesOrderIdsComparator(BaseOperator):
 
 
 def find_attr(keys_list_str: str, resource_to_connect: str, r_obj: Any, connect_func: Callable) -> Optional[List[str]]:
+    if not r_obj:
+        return None
+
     if isinstance(r_obj, list):
         failed_connections = []
         for k in r_obj:

@@ -29,6 +29,7 @@ class Users(BaseResource):
             "attributes.handle",
             "attributes.icon",
             "attributes.modified_at",
+            "attributes.mfa_enabled",
             "relationships.org",
         ],
     )

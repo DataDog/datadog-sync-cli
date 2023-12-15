@@ -27,6 +27,17 @@ def test_find_attr():
     connect_func.assert_called_with("attribute", {"attribute": "value"}, "test")
 
 
+def test_find_attr_none_r_obj():
+    keys_list = "attribute"
+    resource_to_connect = "test"
+    r_obj = None
+    connect_func = MagicMock()
+
+    find_attr(keys_list, resource_to_connect, r_obj, connect_func)
+
+    connect_func.assert_not_called()
+
+
 def test_find_nested_attr():
     keys_list = "test.attribute"
     resource_to_connect = "test"
