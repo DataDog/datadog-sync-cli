@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 from dateutil.parser import parse
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import DowntimeSchedulesDateOperator
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -26,8 +27,12 @@ class DowntimeSchedules(BaseResource):
             "attributes.status",
             "attributes.canceled",
             "relationships",
-            "attributes.schedule.current_downtime"
+            "attributes.schedule.current_downtime",
         ],
+        deep_diff_config={
+            "ignore_order": True,
+            "custom_operators": [DowntimeSchedulesDateOperator()],
+        },
     )
     # Additional DowntimeSchedules specific attributes
 
@@ -48,7 +53,6 @@ class DowntimeSchedules(BaseResource):
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.resource_config.destination_resources:
-
             schedule = resource["attributes"].get("schedule")
             if schedule and "start" in schedule:
                 current_time = datetime.utcnow()
