@@ -191,18 +191,18 @@ Available keys:
 
 By default, if multiple filters are passed for the same resource, `OR` logic is applied to the filters. This behavior can be adjusted using the `--filter-operator` option.
 
-###### SubString and ExactMatch Deprecation
+##### SubString and ExactMatch Deprecation
 
 In future releases the `SubString` and `ExactMatch` Operator will be removed. This is because the `Value` key supports regex so both of these scenarios are covered by just writing the appropriate regex.  Below is an example:
 
 Let's take the scenario where you would like to filter for monitors that have the `filter test` in the `name` attribute:
 
-| Operator| Status | Command |
-| :-: | :-: | :-: |
-| SubString | Before  Deprecation | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=SubString'` |
-| Using `Value` | After Deprecation | `--filter 'Type=monitors;Name=name;Value=.*filter test.*` |
-| ExactMatch | Before  Deprecation | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=ExactMatch'` |
-| Using Value | After Deprecation | `--filter 'Type=monitors;Name=name;Value=^filter test$` |
+| Operator | Command |
+| :-: | :-: |
+| `SubString` | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=SubString'` |
+| Using `Value` | `--filter 'Type=monitors;Name=name;Value=.*filter test.*` |
+| `ExactMatch` | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=ExactMatch'` |
+| Using `Value` | `--filter 'Type=monitors;Name=name;Value=^filter test$` |
 
 #### Config file
 
