@@ -26,7 +26,7 @@ class DowntimeSchedules(BaseResource):
             "attributes.status",
             "attributes.canceled",
             "relationships",
-            "attributes.schedule.current_downtime"
+            "attributes.schedule.current_downtime",
         ],
     )
     # Additional DowntimeSchedules specific attributes

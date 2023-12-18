@@ -11,24 +11,32 @@ from datadog_sync.constants import LOGGER_NAME
 from typing import Dict, List
 
 
-FILTER_TYPE = "Type"
-FILTER_NAME = "Name"
-FILTER_VALUE = "Value"
-FILTER_OPERATOR = "Operator"
+FILTER_TYPE_KEY = "Type"
+FILTER_NAME_KEY = "Name"
+FILTER_VALUE_KEY = "Value"
+FILTER_OPERATOR_KEY = "Operator"
 SUBSTRING_OPERATOR = "substring"
-REQUIRED_KEYS = [FILTER_TYPE, FILTER_NAME, FILTER_VALUE]
+EXACT_MATCH_OPERATOR = "exactmatch"
+NOT_OPERATOR = "not"
+REQUIRED_KEYS = [FILTER_TYPE_KEY, FILTER_NAME_KEY, FILTER_VALUE_KEY]
 
 log = logging.getLogger(LOGGER_NAME)
 
 
 class Filter:
-    def __init__(self, resource_type: str, attr_name: str, attr_re: str):
+    def __init__(self, resource_type: str, attr_name: str, attr_re: str, operator: str):
         self.resource_type = resource_type
         self.attr_name = attr_name.split(".")
         self.attr_re = attr_re
+        self.operator = operator
 
     def is_match(self, resource):
-        return self._is_match_helper(self.attr_name, resource)
+        result = self._is_match_helper(self.attr_name, resource)
+
+        if self.operator == NOT_OPERATOR:
+            return not result
+
+        return result
 
     def _is_match_helper(self, k_list, resource):
         if len(k_list) == 1:
@@ -89,10 +97,25 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
         if invalid_filter:
             continue
 
-        # Build and assign regex matcher to VALUE key
-        f_dict[FILTER_VALUE] = build_regex(f_dict)
+        #  Default to EXACT_MATCH_OPERATOR for backward compatibility. This behavior will be removed in the
+        # future as it can already be achieved using regex in the Value.
+        if not f_dict.get(FILTER_OPERATOR_KEY):
+            f_dict[FILTER_OPERATOR_KEY] = EXACT_MATCH_OPERATOR
+            log.warning(
+                "Defaulting to filter Operator `ExactMatch'. Please ensure the filter Value provided is \
+                updated as this behavior will be removed in the future. See the official README for more information"
+            )
 
-        f_instance = Filter(f_dict[FILTER_TYPE].lower(), f_dict[FILTER_NAME], f_dict[FILTER_VALUE])
+        # Build and assign regex matcher to VALUE key for the deprecated Operators
+        if f_dict[FILTER_OPERATOR_KEY].lower() in [SUBSTRING_OPERATOR, EXACT_MATCH_OPERATOR]:
+            handle_deprecated_operator(f_dict)
+
+        f_instance = Filter(
+            f_dict[FILTER_TYPE_KEY].lower(),
+            f_dict[FILTER_NAME_KEY],
+            f_dict[FILTER_VALUE_KEY],
+            f_dict[FILTER_OPERATOR_KEY].lower(),
+        )
         if f_instance.resource_type not in filters:
             filters[f_instance.resource_type] = []
 
@@ -101,10 +124,21 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
     return filters
 
 
-def build_regex(f_dict):
-    if FILTER_OPERATOR in f_dict and f_dict[FILTER_OPERATOR].lower() == SUBSTRING_OPERATOR:
-        reg_exp = f".*{f_dict[FILTER_VALUE]}.*"
-    else:
-        reg_exp = f"^{f_dict[FILTER_VALUE]}$"
+def handle_deprecated_operator(f_dict):
+    # We are keeping this for backwards compatiblity. In the future this will be removed as the user can already
+    # acheive substring behavior using regex
 
-    return reg_exp
+    operator_lower = f_dict[FILTER_OPERATOR_KEY].lower()
+    reg_exp = f_dict[FILTER_VALUE_KEY]
+
+    if operator_lower == SUBSTRING_OPERATOR:
+        reg_exp = f".*{f_dict[FILTER_VALUE_KEY]}.*"
+        log.warning(
+            "The Filter Operator `SubString` will be removed in future versions, please refer to the Best \
+            Practices Section in our README.md for more information."
+        )
+
+    elif operator_lower == EXACT_MATCH_OPERATOR:
+        reg_exp = f"^{f_dict[FILTER_VALUE_KEY]}$"
+
+    f_dict[FILTER_VALUE_KEY] = reg_exp
