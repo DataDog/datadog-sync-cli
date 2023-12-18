@@ -1,10 +1,10 @@
 interactions:
 - request:
     body: '{"data": {"type": "downtime", "attributes": {"mute_first_recovery_notification":
-      false, "message": "Sample message", "schedule": {"end": null, "start": "2027-04-14T04:00:00+00:00"},
-      "monitor_identifier": {"monitor_tags": ["*"]}, "notify_end_states": ["alert",
-      "no data", "warn"], "display_timezone": "America/New_York", "scope": "*", "notify_end_types":
-      ["expired"]}}}'
+      false, "monitor_identifier": {"monitor_tags": ["*"]}, "message": "Sample message",
+      "schedule": {"start": "2027-04-14T04:00:00+00:00", "end": null}, "notify_end_types":
+      ["expired"], "display_timezone": "America/New_York", "notify_end_states": ["alert",
+      "no data", "warn"], "scope": "actual_retries:3"}}}'
     headers:
       Accept:
       - '*/*'
@@ -16,18 +16,94 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/downtime
   response:
     body:
-      string: '{"data": {"type": "downtime", "attributes": {"message": "Sample message",
-        "monitor_identifier": {"monitor_tags": ["*"]}, "created": "2023-11-01T20:50:17.561722+00:00",
-        "mute_first_recovery_notification": false, "scope": "*", "schedule": {"start":
-        "2027-04-14T04:00:00+00:00", "end": null}, "display_timezone": "America/New_York",
-        "notify_end_types": ["expired"], "status": "scheduled", "canceled": null,
-        "notify_end_states": ["no data", "warn", "alert"], "modified": "2023-11-01T20:50:17.561722+00:00"},
-        "id": "438d7bde-78f8-11ee-8f23-da7ad0900005", "relationships": {"created_by":
-        {"data": {"type": "users", "id": "3af5af64-bfcd-11eb-b483-da7ad0900005"}},
-        "monitor": {"data": null}}}, "included": [{"type": "users", "id": "3af5af64-bfcd-11eb-b483-da7ad0900005",
-        "attributes": {"name": "Frog", "handle": "frog@datadoghq.com", "created_at":
-        "2021-05-28T15:56:14.326839+00:00", "modified_at": "2023-03-21T15:15:23.136706+00:00",
-        "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
+      string: '{"data": {"type": "downtime", "relationships": {"monitor": {"data":
+        null}, "created_by": {"data": {"type": "users", "id": "3af5af64-bfcd-11eb-b483-da7ad0900005"}}},
+        "attributes": {"status": "scheduled", "monitor_identifier": {"monitor_tags":
+        ["*"]}, "scope": "actual_retries:3", "mute_first_recovery_notification": false,
+        "notify_end_states": ["warn", "alert", "no data"], "display_timezone": "America/New_York",
+        "modified": "2023-12-18T20:41:20.707801+00:00", "created": "2023-12-18T20:41:20.707801+00:00",
+        "schedule": {"start": "2027-04-14T04:00:00+00:00", "end": null}, "message":
+        "Sample message", "notify_end_types": ["expired"], "canceled": null}, "id":
+        "ccfa4df4-9de5-11ee-898a-da7ad0900005"}, "included": [{"type": "users", "id":
+        "3af5af64-bfcd-11eb-b483-da7ad0900005", "attributes": {"name": "Frog", "handle":
+        "frog@datadoghq.com", "created_at": "2021-05-28T15:56:14.326839+00:00", "modified_at":
+        "2023-03-21T15:15:23.136706+00:00", "email": "frog@datadoghq.com", "icon":
+        "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
+        "title": null, "verified": true, "service_account": false, "disabled": false,
+        "allowed_login_methods": [], "status": "Active"}}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "downtime", "attributes": {"mute_first_recovery_notification":
+      false, "monitor_identifier": {"monitor_tags": ["env:test"]}, "message": "Random
+      monitor", "schedule": {"start": "2023-12-18T20:42:20.738Z", "end": null}, "notify_end_types":
+      ["canceled", "expired"], "display_timezone": "America/New_York", "notify_end_states":
+      ["alert", "no data", "warn"], "scope": "*"}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/downtime
+  response:
+    body:
+      string: '{"data": {"type": "downtime", "attributes": {"canceled": null, "modified":
+        "2023-12-18T20:41:20.923386+00:00", "mute_first_recovery_notification": false,
+        "monitor_identifier": {"monitor_tags": ["env:test"]}, "created": "2023-12-18T20:41:20.923386+00:00",
+        "notify_end_states": ["alert", "no data", "warn"], "status": "scheduled",
+        "schedule": {"start": "2023-12-18T20:42:20.738000+00:00", "end": null}, "display_timezone":
+        "America/New_York", "scope": "*", "message": "Random monitor", "notify_end_types":
+        ["canceled", "expired"]}, "relationships": {"monitor": {"data": null}, "created_by":
+        {"data": {"type": "users", "id": "3af5af64-bfcd-11eb-b483-da7ad0900005"}}},
+        "id": "cd1b3172-9de5-11ee-8546-da7ad0900005"}, "included": [{"type": "users",
+        "id": "3af5af64-bfcd-11eb-b483-da7ad0900005", "attributes": {"name": "Frog",
+        "handle": "frog@datadoghq.com", "created_at": "2021-05-28T15:56:14.326839+00:00",
+        "modified_at": "2023-03-21T15:15:23.136706+00:00", "email": "frog@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
+        "title": null, "verified": true, "service_account": false, "disabled": false,
+        "allowed_login_methods": [], "status": "Active"}}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "downtime", "attributes": {"mute_first_recovery_notification":
+      false, "monitor_identifier": {"monitor_tags": ["*"]}, "message": "Test downtime",
+      "schedule": {"recurrences": [{"start": "2023-12-13T09:53", "duration": "1h",
+      "rrule": "FREQ=DAILY;INTERVAL=1"}], "timezone": "America/New_York"}, "notify_end_types":
+      ["canceled", "expired"], "display_timezone": "America/New_York", "notify_end_states":
+      ["alert", "no data", "warn"], "scope": "env:test"}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/downtime
+  response:
+    body:
+      string: '{"data": {"type": "downtime", "attributes": {"created": "2023-12-18T20:41:21.163772+00:00",
+        "message": "Test downtime", "notify_end_types": ["canceled", "expired"], "mute_first_recovery_notification":
+        false, "notify_end_states": ["warn", "alert", "no data"], "status": "scheduled",
+        "schedule": {"timezone": "America/New_York", "current_downtime": {"start":
+        "2023-12-19T14:53:00+00:00", "end": "2023-12-19T15:53:00+00:00"}, "recurrences":
+        [{"start": "2023-12-13T09:53:00", "duration": "1h", "rrule": "FREQ=DAILY;INTERVAL=1"}]},
+        "scope": "env:test", "display_timezone": "America/New_York", "canceled": null,
+        "modified": "2023-12-18T20:41:21.163772+00:00", "monitor_identifier": {"monitor_tags":
+        ["*"]}}, "relationships": {"created_by": {"data": {"type": "users", "id":
+        "3af5af64-bfcd-11eb-b483-da7ad0900005"}}, "monitor": {"data": null}}, "id":
+        "cd3fb9b6-9de5-11ee-8002-da7ad0900005"}, "included": [{"type": "users", "id":
+        "3af5af64-bfcd-11eb-b483-da7ad0900005", "attributes": {"name": "Frog", "handle":
+        "frog@datadoghq.com", "created_at": "2021-05-28T15:56:14.326839+00:00", "modified_at":
+        "2023-03-21T15:15:23.136706+00:00", "email": "frog@datadoghq.com", "icon":
+        "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
         "title": null, "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Active"}}]}'
     headers: {}
