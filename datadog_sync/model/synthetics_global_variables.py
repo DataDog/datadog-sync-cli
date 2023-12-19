@@ -29,6 +29,7 @@ class SyntheticsGlobalVariables(BaseResource):
             "is_totp",
             "parse_test_name",
             "attributes",
+            "editor"
         ],
     )
     # Additional SyntheticsGlobalVariables specific attributes
