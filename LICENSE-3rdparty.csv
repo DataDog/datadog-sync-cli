@@ -10,3 +10,4 @@ pytest-black,https://pypi.org/project/pytest-black/,MIT,Copyright (c) 2018 ShopK
 pytest-console-scripts,https://pypi.org/project/pytest-console-scripts/,MIT,Copyright (c) 2016 Vasily Kuznetsov
 pytest-recording,https://pypi.org/project/pytest-recording/,MIT,Copyright (c) 2019 Kiwi.com
 pytest-env,https://pypi.org/project/pytest-env/,MIT,
+pytest-freezegun,https://pypi.org/project/pytest-freezegun/,MIT,Copyright (c) 2017 Tomasz Kontusz

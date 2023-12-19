@@ -1,10 +1,10 @@
 interactions:
 - request:
-    body: '{"data": {"type": "downtime", "attributes": {"mute_first_recovery_notification":
-      false, "message": "Sample message", "schedule": {"end": null, "start": "2027-04-14T04:00:00+00:00"},
-      "monitor_identifier": {"monitor_tags": ["*"]}, "notify_end_states": ["alert",
-      "no data", "warn"], "display_timezone": "America/New_York", "scope": "*", "notify_end_types":
-      ["expired"]}}}'
+    body: '{"data": {"type": "downtime", "attributes": {"message": "Random monitor",
+      "monitor_identifier": {"monitor_tags": ["env:test"]}, "notify_end_types": ["canceled",
+      "expired"], "notify_end_states": ["warn", "no data", "alert"], "schedule": {"start":
+      "2023-12-19T20:54:36.736Z", "end": null}, "display_timezone": "America/New_York",
+      "scope": "*", "mute_first_recovery_notification": false}}}'
     headers:
       Accept:
       - '*/*'
@@ -16,15 +16,16 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/downtime
   response:
     body:
-      string: '{"data": {"type": "downtime", "attributes": {"message": "Sample message",
-        "monitor_identifier": {"monitor_tags": ["*"]}, "created": "2023-11-01T20:50:17.561722+00:00",
-        "mute_first_recovery_notification": false, "scope": "*", "schedule": {"start":
-        "2027-04-14T04:00:00+00:00", "end": null}, "display_timezone": "America/New_York",
-        "notify_end_types": ["expired"], "status": "scheduled", "canceled": null,
-        "notify_end_states": ["no data", "warn", "alert"], "modified": "2023-11-01T20:50:17.561722+00:00"},
-        "id": "438d7bde-78f8-11ee-8f23-da7ad0900005", "relationships": {"created_by":
-        {"data": {"type": "users", "id": "3af5af64-bfcd-11eb-b483-da7ad0900005"}},
-        "monitor": {"data": null}}}, "included": [{"type": "users", "id": "3af5af64-bfcd-11eb-b483-da7ad0900005",
+      string: '{"data": {"type": "downtime", "attributes": {"canceled": null, "scope":
+        "*", "created": "2023-12-19T15:53:37.257074+00:00", "schedule": {"start":
+        "2023-12-19T20:54:36.736000+00:00", "end": null}, "notify_end_states": ["warn",
+        "alert", "no data"], "mute_first_recovery_notification": false, "monitor_identifier":
+        {"monitor_tags": ["env:test"]}, "notify_end_types": ["canceled", "expired"],
+        "message": "Random monitor", "modified": "2023-12-19T15:53:37.257074+00:00",
+        "display_timezone": "America/New_York", "status": "scheduled"}, "relationships":
+        {"created_by": {"data": {"type": "users", "id": "3af5af64-bfcd-11eb-b483-da7ad0900005"}},
+        "monitor": {"data": null}}, "id": "c5929390-9e86-11ee-8ce0-da7ad0900005"},
+        "included": [{"type": "users", "id": "3af5af64-bfcd-11eb-b483-da7ad0900005",
         "attributes": {"name": "Frog", "handle": "frog@datadoghq.com", "created_at":
         "2021-05-28T15:56:14.326839+00:00", "modified_at": "2023-03-21T15:15:23.136706+00:00",
         "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",

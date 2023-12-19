@@ -11,6 +11,7 @@ import logging
 from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor
 from graphlib import TopologicalSorter
+from dateutil.parser import parse
 
 from deepdiff import DeepDiff
 from deepdiff.operator import BaseOperator
@@ -58,6 +59,28 @@ class LogsPipelinesOrderIdsComparator(BaseOperator):
         return True
 
     def give_up_diffing(self, level, diff_instance) -> bool:
+        return False
+
+
+RECURRENCE_START_ATTR_PATH_RE = r"root\['attributes'\]\['schedule'\]\['recurrences'\]\[[0-9]+\]\['start'\]"
+
+
+class DowntimeSchedulesDateOperator(BaseOperator):
+    def match(self, level):
+        if re.match(RECURRENCE_START_ATTR_PATH_RE, level.path()):
+            return True
+        return False
+
+    def give_up_diffing(self, level, diff_instance) -> bool:
+        try:
+            t1 = parse(level.t1)
+            t2 = parse(level.t2)
+
+            if t1 == t2:
+                return True
+        except Exception:
+            pass
+
         return False
 
 

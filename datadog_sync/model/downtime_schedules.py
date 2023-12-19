@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 from dateutil.parser import parse
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import DowntimeSchedulesDateOperator
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -28,6 +29,10 @@ class DowntimeSchedules(BaseResource):
             "relationships",
             "attributes.schedule.current_downtime",
         ],
+        deep_diff_config={
+            "ignore_order": True,
+            "custom_operators": [DowntimeSchedulesDateOperator()],
+        },
     )
     # Additional DowntimeSchedules specific attributes
 
@@ -48,16 +53,17 @@ class DowntimeSchedules(BaseResource):
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.resource_config.destination_resources:
-            if one_time := resource["attributes"].get("schedule") and "start" in resource["attributes"]:
+            schedule = resource["attributes"].get("schedule")
+            if schedule and "start" in schedule:
                 current_time = datetime.utcnow()
-                t = parse(one_time["start"])
+                t = parse(schedule["start"])
                 if t.timestamp() <= current_time.timestamp():
                     current_time = current_time + timedelta(seconds=60)
                     if getattr(current_time, "tzinfo", None) is not None:
                         new_time = current_time.isoformat()
                     else:
                         new_time = "{}Z".format(current_time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3])
-                    one_time["start"] = new_time
+                    schedule["start"] = new_time
         else:
             # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
             # this is to avoid unnecessary diff outputs

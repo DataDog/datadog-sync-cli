@@ -34,8 +34,10 @@ HEADERS_TO_PERSISTS = ("Accept-Encoding", "Content-Type")
 
 
 @pytest.fixture()
-def runner(freezed_time):
+def runner(freezer, freezed_time):
     from click.testing import CliRunner
+
+    freezer.move_to(freezed_time)
 
     return CliRunner(mix_stderr=False)
 
