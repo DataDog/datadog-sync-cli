@@ -18,9 +18,9 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"description": "a global variable", "tags": ["foo:bar", "baz"], "name":
-      "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404530", "value":
-      {"secure": false, "value": "variable-value"}, "type": "variable"}'
+    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1686121345",
+      "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+      "baz"], "value": {"secure": false, "value": "variable-value"}}'
     headers:
       Accept:
       - '*/*'
@@ -32,19 +32,19 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "a global variable", "tags": ["foo:bar", "baz"], "last_error": null, "is_totp":
-        null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "3417023c-3dfa-48b4-ad0a-0e8dc2367b82",
-        "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404530"}'
+      string: '{"id": "d285e476-9bcf-4e38-9170-669fe02f566d", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1686121345",
+        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+        "baz"], "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
+        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
+        null, "value": {"secure": false, "value": "variable-value"}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"description": "a global variable", "tags": ["foo:bar", "baz"], "name":
-      "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911", "value":
-      {"secure": false, "value": "variable-value"}, "type": "variable"}'
+    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
+      "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+      "baz"], "value": {"secure": false, "value": "variable-value"}}'
     headers:
       Accept:
       - '*/*'
@@ -56,19 +56,18 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "a global variable", "tags": ["foo:bar", "baz"], "last_error": null, "is_totp":
-        null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "fb7826d9-abd6-4987-a150-cd69f1bb854e",
-        "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911"}'
+      string: '{"id": "19e07157-7eb2-47e6-b2b4-b6102252636b", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
+        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+        "baz"], "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
+        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
+        null, "value": {"secure": false, "value": "variable-value"}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"description": "test", "tags": ["check_type:api"], "name": "TEST_VARIABLE",
-      "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"},
-      "type": "variable"}'
+    body: '{"name": "TEST_VARIABLE", "description": "test", "type": "variable", "tags":
+      ["check_type:api"], "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
     headers:
       Accept:
       - '*/*'
@@ -80,19 +79,19 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "test", "tags": ["check_type:api"], "last_error": null, "is_totp": null, "value":
-        {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "61fae2cf-178c-4b65-b58c-dd49b6701fce",
-        "name": "TEST_VARIABLE"}'
+      string: '{"id": "dc4ba821-6de8-4317-9eaa-51120e978e73", "name": "TEST_VARIABLE",
+        "description": "test", "type": "variable", "tags": ["check_type:api"], "parse_test_public_id":
+        null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
+        null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
+        false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"description": "a global variable", "tags": ["foo:bar", "baz"], "name":
-      "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656", "value":
-      {"secure": false, "value": "variable-value"}, "type": "variable"}'
+    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
+      "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+      "baz"], "value": {"secure": false, "value": "variable-value"}}'
     headers:
       Accept:
       - '*/*'
@@ -104,19 +103,19 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "a global variable", "tags": ["foo:bar", "baz"], "last_error": null, "is_totp":
-        null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "f61b882f-be98-4375-924e-490c6dd25802",
-        "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656"}'
+      string: '{"id": "06bf2ade-d3b3-4b8e-b7c7-d1d1ac0a06c6", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
+        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+        "baz"], "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
+        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
+        null, "value": {"secure": false, "value": "variable-value"}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"description": "Description of the variable", "tags": ["foo:bar", "env:test"],
-      "name": "EXAMPLE_VARIABLE", "value": {"secure": false, "value": "variable-value"},
-      "type": "variable"}'
+    body: '{"name": "EXAMPLE_VARIABLE", "description": "Description of the variable",
+      "type": "variable", "tags": ["foo:bar", "env:test"], "value": {"secure": false,
+      "value": "variable-value"}}'
     headers:
       Accept:
       - '*/*'
@@ -128,18 +127,19 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "Description of the variable", "tags": ["foo:bar", "env:test"], "last_error":
-        null, "is_totp": null, "value": {"secure": false, "value": "variable-value"},
-        "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "431406bc-865f-4267-bd0c-e11e21bfd436", "name": "EXAMPLE_VARIABLE"}'
+      string: '{"id": "a3459eb2-dde9-4410-a3a7-efe720266d6e", "name": "EXAMPLE_VARIABLE",
+        "description": "Description of the variable", "type": "variable", "tags":
+        ["foo:bar", "env:test"], "parse_test_public_id": null, "parse_test_name":
+        null, "parse_test_options": null, "parse_test_extracted_at": null, "is_totp":
+        null, "is_fido": null, "last_error": null, "value": {"secure": false, "value":
+        "variable-value"}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"description": "test", "tags": [], "name": "TEST", "value": {"secure":
-      false, "value": "test"}, "type": "variable"}'
+    body: '{"name": "TEST_SECRETS", "description": "", "type": "variable", "tags":
+      [], "value": {"secure": true, "value": "SECRET"}}'
     headers:
       Accept:
       - '*/*'
@@ -151,127 +151,11 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "test", "tags": [], "last_error": null, "is_totp": null, "value": {"secure":
-        false, "value": "test"}, "parse_test_public_id": null, "parse_test_name":
-        null, "type": "variable", "id": "3c8fcc29-8f9b-432d-bff9-c2d83245c02e", "name":
-        "TEST"}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"description": "a global variable", "tags": ["foo:bar", "baz"], "name":
-      "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404619", "value":
-      {"secure": false, "value": "variable-value"}, "type": "variable"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "a global variable", "tags": ["foo:bar", "baz"], "last_error": null, "is_totp":
-        null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "2b5fe19e-1895-4c94-9ac4-79012bf2cdd2",
-        "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404619"}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"description": "a global variable", "tags": ["foo:bar", "baz"], "name":
-      "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405924", "value":
-      {"secure": false, "value": "variable-value"}, "type": "variable"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "a global variable", "tags": ["foo:bar", "baz"], "last_error": null, "is_totp":
-        null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "b4f28504-dd40-4806-b068-c1cb533216a2",
-        "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405924"}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"description": "a global variable", "tags": ["foo:bar", "baz"], "name":
-      "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405007", "value":
-      {"secure": false, "value": "variable-value"}, "type": "variable"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "a global variable", "tags": ["foo:bar", "baz"], "last_error": null, "is_totp":
-        null, "value": {"secure": false, "value": "variable-value"}, "parse_test_public_id":
-        null, "parse_test_name": null, "type": "variable", "id": "2707a1e3-3d6f-4d64-be7c-4c84f55f9a0b",
-        "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405007"}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"description": "", "tags": [], "name": "TEST_FROM_HTTP", "value": {"secure":
-      false, "value": ""}, "type": "variable"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "", "tags": [], "last_error": null, "is_totp": null, "value": {"secure": false,
-        "value": ""}, "parse_test_public_id": null, "parse_test_name": null, "type":
-        "variable", "id": "a7ddd342-1d56-4c91-a73d-3eb39c2db302", "name": "TEST_FROM_HTTP"}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"description": "", "tags": [], "name": "TEST_SECRETS", "value": {"secure":
-      true, "value": "SECRET"}, "type": "variable"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"parse_test_options": null, "parse_test_extracted_at": null, "description":
-        "", "tags": [], "last_error": null, "is_totp": null, "value": {"secure": true},
-        "parse_test_public_id": null, "parse_test_name": null, "type": "variable",
-        "id": "d8826134-3bae-457e-b527-c80845877791", "name": "TEST_SECRETS"}'
+      string: '{"id": "6dd88d26-025e-487b-a4ee-7d89095da053", "name": "TEST_SECRETS",
+        "description": "", "type": "variable", "tags": [], "parse_test_public_id":
+        null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
+        null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
+        true}}'
     headers: {}
     status:
       code: 200
