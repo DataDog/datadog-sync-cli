@@ -9,43 +9,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/downtime/ccfa4df4-9de5-11ee-898a-da7ad0900005
-  response:
-    body:
-      string: ''
-    headers: {}
-    status:
-      code: 204
-      message: No Content
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/downtime/cd3fb9b6-9de5-11ee-8002-da7ad0900005
-  response:
-    body:
-      string: ''
-    headers: {}
-    status:
-      code: 204
-      message: No Content
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/downtime/cd1b3172-9de5-11ee-8546-da7ad0900005
+    uri: https://api.datadoghq.eu/api/v2/downtime/c5929390-9e86-11ee-8ce0-da7ad0900005
   response:
     body:
       string: ''

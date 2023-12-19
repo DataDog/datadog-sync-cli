@@ -12,38 +12,38 @@ interactions:
     uri: https://api.datadoghq.com/api/v2/downtime
   response:
     body:
-      string: '{"data": [{"type": "downtime", "attributes": {"canceled": null, "mute_first_recovery_notification":
-        false, "monitor_identifier": {"monitor_tags": ["*"]}, "status": "scheduled",
-        "message": "Sample message", "schedule": {"start": "2027-04-14T04:00:00+00:00",
-        "end": null}, "modified": "2023-11-09T18:23:26.995899+00:00", "notify_end_types":
-        ["expired"], "display_timezone": "America/New_York", "created": "2022-04-15T19:16:51.983671+00:00",
-        "notify_end_states": ["alert", "no data", "warn"], "scope": "actual_retries:3"},
-        "id": "2d201904-b23a-11ed-b002-da7ad0900002"}, {"type": "downtime", "attributes":
-        {"canceled": null, "mute_first_recovery_notification": false, "monitor_identifier":
-        {"monitor_id": 37284891}, "status": "scheduled", "message": "Random", "schedule":
-        {"recurrences": [{"start": "2026-01-01T16:24", "duration": "1h", "rrule":
-        "FREQ=DAILY;INTERVAL=1"}], "current_downtime": {"start": "2026-01-01T21:24:00+00:00",
-        "end": "2026-01-01T22:24:00+00:00"}, "timezone": "America/New_York"}, "modified":
-        "2023-11-09T18:27:16.429216+00:00", "notify_end_types": ["canceled", "expired"],
-        "display_timezone": "America/New_York", "created": "2023-11-01T20:25:50.989095+00:00",
-        "notify_end_states": ["alert", "no data", "warn"], "scope": "*"}, "id": "d96810aa-78f4-11ee-bf03-da7ad0900002"},
-        {"type": "downtime", "attributes": {"canceled": null, "mute_first_recovery_notification":
-        false, "monitor_identifier": {"monitor_tags": ["env:test"]}, "status": "active",
-        "message": "Random monitor", "schedule": {"start": "2023-11-09T18:23:51.160000+00:00",
-        "end": null}, "modified": "2023-11-09T18:24:26.671528+00:00", "notify_end_types":
-        ["canceled", "expired"], "display_timezone": "America/New_York", "created":
-        "2023-11-09T18:24:26.671528+00:00", "notify_end_states": ["alert", "no data",
-        "warn"], "scope": "*"}, "id": "36eb9268-7f2d-11ee-a311-da7ad0900002"}, {"type":
-        "downtime", "attributes": {"canceled": null, "mute_first_recovery_notification":
-        false, "monitor_identifier": {"monitor_tags": ["*"]}, "status": "scheduled",
-        "message": "Test downtime", "schedule": {"recurrences": [{"start": "2023-12-13T09:53",
-        "duration": "1h", "rrule": "FREQ=DAILY;INTERVAL=1"}], "current_downtime":
-        {"start": "2023-12-19T14:53:00+00:00", "end": "2023-12-19T15:53:00+00:00"},
-        "timezone": "America/New_York"}, "modified": "2023-12-18T15:53:09.970475+00:00",
-        "notify_end_types": ["canceled", "expired"], "display_timezone": "America/New_York",
-        "created": "2023-12-13T14:54:02.402744+00:00", "notify_end_states": ["alert",
-        "no data", "warn"], "scope": "env:test"}, "id": "745083ca-99c7-11ee-85af-da7ad0900002"}],
-        "meta": {"page": {"total_filtered_count": 6}}}'
+      string: '{"data": [{"type": "downtime", "attributes": {"message": "Sample message",
+        "monitor_identifier": {"monitor_tags": ["*"]}, "notify_end_types": ["expired"],
+        "notify_end_states": ["warn", "no data", "alert"], "schedule": {"start": "2027-04-14T04:00:00+00:00",
+        "end": null}, "created": "2022-04-15T19:16:51.983671+00:00", "status": "canceled",
+        "display_timezone": "America/New_York", "modified": "2023-12-19T15:01:17.741772+00:00",
+        "scope": "actual_retries:3", "canceled": "2023-12-19T15:01:17.738885+00:00",
+        "mute_first_recovery_notification": false}, "id": "2d201904-b23a-11ed-b002-da7ad0900002"},
+        {"type": "downtime", "attributes": {"message": "Random", "monitor_identifier":
+        {"monitor_id": 37284891}, "notify_end_types": ["canceled", "expired"], "notify_end_states":
+        ["warn", "no data", "alert"], "schedule": {"current_downtime": {"start": "2026-01-01T21:24:00+00:00",
+        "end": "2026-01-01T22:24:00+00:00"}, "recurrences": [{"start": "2026-01-01T16:24",
+        "duration": "1h", "rrule": "FREQ=DAILY;INTERVAL=1"}], "timezone": "America/New_York"},
+        "created": "2023-11-01T20:25:50.989095+00:00", "status": "scheduled", "display_timezone":
+        "America/New_York", "modified": "2023-11-09T18:27:16.429216+00:00", "scope":
+        "*", "canceled": null, "mute_first_recovery_notification": false}, "id": "d96810aa-78f4-11ee-bf03-da7ad0900002"},
+        {"type": "downtime", "attributes": {"message": "Random monitor", "monitor_identifier":
+        {"monitor_tags": ["env:test"]}, "notify_end_types": ["canceled", "expired"],
+        "notify_end_states": ["warn", "no data", "alert"], "schedule": {"start": "2023-11-09T18:23:51.160000+00:00",
+        "end": null}, "created": "2023-11-09T18:24:26.671528+00:00", "status": "active",
+        "display_timezone": "America/New_York", "modified": "2023-11-09T18:24:26.671528+00:00",
+        "scope": "*", "canceled": null, "mute_first_recovery_notification": false},
+        "id": "36eb9268-7f2d-11ee-a311-da7ad0900002"}, {"type": "downtime", "attributes":
+        {"message": "Test downtime", "monitor_identifier": {"monitor_tags": ["*"]},
+        "notify_end_types": ["canceled", "expired"], "notify_end_states": ["warn",
+        "no data", "alert"], "schedule": {"current_downtime": {"start": "2023-12-19T14:53:00+00:00",
+        "end": "2023-12-19T15:53:00+00:00"}, "recurrences": [{"start": "2023-12-13T09:53",
+        "duration": "1h", "rrule": "FREQ=DAILY;INTERVAL=1"}], "timezone": "America/New_York"},
+        "created": "2023-12-13T14:54:02.402744+00:00", "status": "canceled", "display_timezone":
+        "America/New_York", "modified": "2023-12-19T15:01:11.668985+00:00", "scope":
+        "env:test", "canceled": "2023-12-19T15:01:01.621446+00:00", "mute_first_recovery_notification":
+        false}, "id": "745083ca-99c7-11ee-85af-da7ad0900002"}], "meta": {"page": {"total_filtered_count":
+        5}}}'
     headers:
       Content-Type:
       - application/json
