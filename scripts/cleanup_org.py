@@ -12,7 +12,7 @@ import requests
 
 
 TEST_ORG_ENV_NAME = "DD_TEST_ORG"
-DEFAULT_TEST_ORG = "13865f06-bfcc-11eb-8e11-da7ad0900005"
+DEFAULT_TEST_ORG = "3cda39a0-9e99-11ee-94d5-da7ad0900005"
 
 
 class Cleanup:
