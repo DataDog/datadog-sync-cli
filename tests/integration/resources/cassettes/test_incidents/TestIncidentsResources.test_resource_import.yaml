@@ -1,0 +1,79 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/incidents?page%5Boffset%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"data": [{"type": "incidents", "id": "ccfe999c-e735-5dee-9a2c-aec0078fd0a7",
+        "attributes": {"public_id": 1, "incident_type_uuid": null, "title": "Test
+        Incident", "resolved": null, "customer_impact_scope": null, "customer_impact_start":
+        null, "customer_impact_end": null, "customer_impacted": false, "notification_handles":
+        [], "last_modified_by_uuid": "0dd23ab8-984f-11ee-a259-160bb50d121a", "created":
+        "2023-12-11T18:32:09.013675+00:00", "modified": "2023-12-11T18:32:09.013675+00:00",
+        "detected": "2023-12-11T18:32:09.000380+00:00", "created_by_uuid": "0dd23ab8-984f-11ee-a259-160bb50d121a",
+        "creation_idempotency_key": null, "customer_impact_duration": 0, "time_to_detect":
+        0, "time_to_repair": 0, "time_to_internal_response": 0, "time_to_resolve":
+        0, "archived": null, "fields": {"severity": {"type": "dropdown", "value":
+        "UNKNOWN"}, "state": {"type": "dropdown", "value": "active"}, "detection_method":
+        {"type": "dropdown", "value": "unknown"}, "root_cause": {"type": "textbox",
+        "value": null}, "summary": {"type": "textbox", "value": null}, "services":
+        {"type": "autocomplete", "value": null}, "teams": {"type": "autocomplete",
+        "value": null}}, "field_analytics": null, "severity": "UNKNOWN", "state":
+        "active", "non_datadog_creator": null, "visibility": "organization", "case_id":
+        null}, "relationships": {"created_by_user": {"data": {"type": "users", "id":
+        "0dd23ab8-984f-11ee-a259-160bb50d121a"}}, "last_modified_by_user": {"data":
+        {"type": "users", "id": "0dd23ab8-984f-11ee-a259-160bb50d121a"}}, "commander_user":
+        {"data": {"type": "users", "id": "0dd23ab8-984f-11ee-a259-160bb50d121a"}},
+        "user_defined_fields": {"data": [{"type": "user_defined_field", "id": "8e8f5981-3d41-509d-8619-d913ffce9bd7"},
+        {"type": "user_defined_field", "id": "a53f4622-9f24-513a-8a0a-a07b394308ab"},
+        {"type": "user_defined_field", "id": "f40e5f76-862d-5093-b658-de46f6c09d5f"},
+        {"type": "user_defined_field", "id": "c5ed3c02-d2b2-5624-82a1-8ec1a1a685ce"},
+        {"type": "user_defined_field", "id": "b0e362e5-7a16-58e5-ae0a-6a0369e5a4ff"},
+        {"type": "user_defined_field", "id": "2465b7f0-40fa-5d22-a8aa-a7f53dced432"},
+        {"type": "user_defined_field", "id": "5cd92c74-f93c-55ff-a9b7-cb05637fc327"}]},
+        "integrations": {"data": []}, "attachments": {"data": []}, "responders": {"data":
+        [{"type": "incident_responders", "id": "148432c6-8104-52ea-993a-6d8eb2b9d340"}]},
+        "impacts": {"data": []}}}, {"type": "incidents", "id": "6ec747d8-f519-5f38-a401-83c4eb77348d",
+        "attributes": {"public_id": 2, "incident_type_uuid": null, "title": "Example-Incident",
+        "resolved": null, "customer_impact_scope": null, "customer_impact_start":
+        null, "customer_impact_end": null, "customer_impacted": false, "notification_handles":
+        null, "last_modified_by_uuid": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002", "created":
+        "2023-12-11T18:39:17.211433+00:00", "modified": "2023-12-11T18:39:17.211433+00:00",
+        "detected": "2023-12-11T18:39:17.200357+00:00", "created_by_uuid": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002",
+        "creation_idempotency_key": null, "customer_impact_duration": 0, "time_to_detect":
+        0, "time_to_repair": 0, "time_to_internal_response": 0, "time_to_resolve":
+        0, "archived": null, "fields": {"severity": {"type": "dropdown", "value":
+        "UNKNOWN"}, "state": {"type": "dropdown", "value": "resolved"}, "detection_method":
+        {"type": "dropdown", "value": "unknown"}, "root_cause": {"type": "textbox",
+        "value": null}, "summary": {"type": "textbox", "value": null}, "services":
+        {"type": "autocomplete", "value": null}, "teams": {"type": "autocomplete",
+        "value": null}}, "field_analytics": null, "severity": "UNKNOWN", "state":
+        "resolved", "non_datadog_creator": null, "visibility": "organization", "case_id":
+        null}, "relationships": {"created_by_user": {"data": {"type": "users", "id":
+        "2d0d2076-bfcd-11eb-a4d7-da7ad0900002"}}, "last_modified_by_user": {"data":
+        {"type": "users", "id": "2d0d2076-bfcd-11eb-a4d7-da7ad0900002"}}, "commander_user":
+        {"data": null}, "user_defined_fields": {"data": [{"type": "user_defined_field",
+        "id": "8e8f5981-3d41-509d-8619-d913ffce9bd7"}, {"type": "user_defined_field",
+        "id": "a53f4622-9f24-513a-8a0a-a07b394308ab"}, {"type": "user_defined_field",
+        "id": "f40e5f76-862d-5093-b658-de46f6c09d5f"}, {"type": "user_defined_field",
+        "id": "c5ed3c02-d2b2-5624-82a1-8ec1a1a685ce"}, {"type": "user_defined_field",
+        "id": "b0e362e5-7a16-58e5-ae0a-6a0369e5a4ff"}, {"type": "user_defined_field",
+        "id": "2465b7f0-40fa-5d22-a8aa-a7f53dced432"}, {"type": "user_defined_field",
+        "id": "5cd92c74-f93c-55ff-a9b7-cb05637fc327"}]}, "integrations": {"data":
+        []}, "attachments": {"data": []}, "responders": {"data": []}, "impacts": {"data":
+        []}}}], "meta": {"pagination": {"offset": 0, "next_offset": 2, "size": 2}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1
