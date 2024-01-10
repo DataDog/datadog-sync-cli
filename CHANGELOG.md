@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.8.0 / 2024-01-10
+
+### Fixed
+* Minor fix for the User Resource and correction in find_attr by @aldrickdev in https://github.com/DataDog/datadog-sync-cli/pull/196
+* Fix `downtime_schedule` one time schedule syncing by @aldrickdev in https://github.com/DataDog/datadog-sync-cli/pull/197
+* Adds the editor attribute to the exclude  by @aldrickdev in https://github.com/DataDog/datadog-sync-cli/pull/198
+### Added
+* Added support for the "Not" Operator by @aldrickdev in https://github.com/DataDog/datadog-sync-cli/pull/195
+
+## New Contributors
+* @aldrickdev made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/196
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.7.0...0.8.0
+
 ## 0.7.0 / 2023-11-14
 
 ### Fixed
