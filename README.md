@@ -14,6 +14,7 @@ Datadog cli tool to sync resources across organizations.
       - [Windows](#windows)
     - [Using docker and building the image](#using-docker-and-building-the-image)
   - [Usage](#usage)
+      - [State](#state)
       - [API URL](#api-url)
       - [Filtering](#filtering)
         - [Top resources level filtering](#top-resources-level-filtering)
@@ -149,6 +150,12 @@ Commands:
   import  Import Datadog resources.
   sync    Sync Datadog resources to destination.
 ```
+
+#### State
+
+A `resources` directory is generated in the current working directory of the user. This directory contains `json` mapping of resources between the source and destination organization. To avoid duplication and loss of mapping, this directory should be retained between tool usage.
+
+When running againts multiple destination organizations, a seperate working directory should be used to ensure seperation of data. 
 
 #### API URL
 
