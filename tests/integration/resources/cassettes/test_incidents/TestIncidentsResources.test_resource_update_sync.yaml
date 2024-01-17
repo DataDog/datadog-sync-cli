@@ -1,0 +1,66 @@
+interactions:
+- request:
+    body: '{"data": {"type": "incidents", "attributes": {"incident_type_uuid": null,
+      "title": "Example-Incidentupdated", "customer_impact_start": null, "customer_impact_end":
+      null, "customer_impacted": false, "detected": "2023-12-11T18:39:17.200357+00:00",
+      "time_to_detect": 0, "time_to_repair": 0, "archived": null, "fields": {"severity":
+      {"type": "dropdown", "value": "UNKNOWN"}, "state": {"type": "dropdown", "value":
+      "resolved"}, "detection_method": {"type": "dropdown", "value": "unknown"}, "root_cause":
+      {"type": "textbox", "value": null}, "summary": {"type": "textbox", "value":
+      null}, "services": {"type": "autocomplete", "value": null}, "teams": {"type":
+      "autocomplete", "value": null}}, "field_analytics": null, "severity": "UNKNOWN",
+      "state": "resolved", "non_datadog_creator": null, "visibility": "organization",
+      "case_id": null}, "relationships": {"commander_user": {"data": null}}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/incidents/5ea7d798-0a4f-5777-9fd4-c552032bac4c
+  response:
+    body:
+      string: '{"data": {"type": "incidents", "id": "5ea7d798-0a4f-5777-9fd4-c552032bac4c",
+        "attributes": {"public_id": 1, "incident_type_uuid": null, "title": "Example-Incidentupdated",
+        "resolved": "2023-12-22T19:43:30.722386+00:00", "customer_impact_scope": null,
+        "customer_impact_start": null, "customer_impact_end": null, "customer_impacted":
+        false, "notification_handles": null, "last_modified_by": {"data": {"type":
+        "users", "id": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "attributes": {"uuid":
+        "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com", "name": "Frog", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro"}}},
+        "last_modified_by_uuid": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "created":
+        "2023-12-22T19:43:30.221707+00:00", "modified": "2023-12-22T19:43:31.562744+00:00",
+        "commander": null, "detected": "2023-12-11T18:39:17.200357+00:00", "created_by":
+        {"data": {"type": "users", "id": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "attributes":
+        {"uuid": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com", "name": "Frog", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro"}}},
+        "created_by_uuid": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "creation_idempotency_key":
+        null, "customer_impact_duration": 0, "time_to_detect": 0, "time_to_repair":
+        0, "time_to_internal_response": 954253, "time_to_resolve": 0, "archived":
+        null, "fields": {"severity": {"type": "dropdown", "value": "UNKNOWN"}, "state":
+        {"type": "dropdown", "value": "resolved"}, "detection_method": {"type": "dropdown",
+        "value": "unknown"}, "root_cause": {"type": "textbox", "value": null}, "summary":
+        {"type": "textbox", "value": null}, "services": {"type": "autocomplete", "value":
+        null}, "teams": {"type": "autocomplete", "value": null}}, "field_analytics":
+        null, "severity": "UNKNOWN", "state": "resolved", "non_datadog_creator": null,
+        "visibility": "organization", "case_id": null}, "relationships": {"created_by_user":
+        {"data": {"type": "users", "id": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec"}},
+        "last_modified_by_user": {"data": {"type": "users", "id": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec"}},
+        "commander_user": {"data": null}, "user_defined_fields": {"data": [{"type":
+        "user_defined_field", "id": "5662d4c3-9f55-58de-a137-be5c36824dcb"}, {"type":
+        "user_defined_field", "id": "8b6cbb45-142c-53e4-ad43-d17ff3db131e"}, {"type":
+        "user_defined_field", "id": "fbbeb16b-d661-5e24-bd71-de6500529770"}, {"type":
+        "user_defined_field", "id": "ec1ffa8a-0acb-59ec-8d69-fccd56ec50bb"}, {"type":
+        "user_defined_field", "id": "1ab83a4e-3450-5b5b-9868-5bde5dc61c34"}, {"type":
+        "user_defined_field", "id": "c1221926-b4cd-5a73-b058-ddcaecd5b966"}, {"type":
+        "user_defined_field", "id": "3d8d459b-3735-53d5-aca7-cdd005c92a45"}]}, "integrations":
+        {"data": []}, "attachments": {"data": []}, "responders": {"data": [{"type":
+        "incident_responders", "id": "94f8b6ff-8911-5fb5-baf8-49207fee386e"}]}, "impacts":
+        {"data": []}}}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -29,6 +29,7 @@ class TestCli:
             "downtimes",
             "service_level_objectives",
             "slo_corrections",
+            "incidents",
         ]
     )
 
