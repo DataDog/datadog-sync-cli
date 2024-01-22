@@ -78,13 +78,13 @@ class Monitors(BaseResource):
                     },
                     "scope": "*",
                     "schedule": {
-                        "start": null
+                        "start": None,
                     }
                 },
                 "type": "downtime"
             }
         }
-        destination_client.post("/api/v2/downtime", downtime_schedules)
+        self.config.destination_client.post("/api/v2/downtime", downtime_schedules)
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
