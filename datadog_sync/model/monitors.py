@@ -67,9 +67,28 @@ class Monitors(BaseResource):
         pass
 
     def pre_apply_hook(self) -> None:
+        downtime_schedules = {
+            "data": {
+                "attributes": {
+                    "message": "Create by datadog-sync-cli, mute all monitors until failover is complete.",
+                    "monitor_identifier": {
+                        "monitor_tags": [
+                            "create_by:datadog-sync-cli",
+                        ]
+                    },
+                    "scope": "*",
+                    "schedule": {
+                        "start": null
+                    }
+                },
+                "type": "downtime"
+            }
+        }
+        destination_client.post("/api/v2/downtime", downtime_schedules)
         pass
 
     def create_resource(self, _id: str, resource: Dict) -> None:
+        resource["tags"].append("create_by:datadog-sync-cli")
         destination_client = self.config.destination_client
         resp = destination_client.post(self.resource_config.base_path, resource).json()
 
