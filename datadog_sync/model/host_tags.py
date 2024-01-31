@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 from collections import defaultdict
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
@@ -30,14 +30,14 @@ class HostTags(BaseResource):
 
         return [{k: v} for k, v in import_hosts.items()]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
         if _id:
             return  # This should never occur. No resource depends on it.
 
         host = list(resource.keys())[0]
         tags = list(resource.values())[0]
 
-        self.resource_config.source_resources[host] = tags
+        return host, tags
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -45,15 +45,15 @@ class HostTags(BaseResource):
     def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> None:
-        self.update_resource(_id, resource)
+    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+        return self.update_resource(_id, resource)
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
         destination_client = self.config.destination_client
         body = {"tags": resource}
         resp = destination_client.put(self.resource_config.base_path + f"/{_id}", body).json()
 
-        self.resource_config.destination_resources[_id] = resp["tags"]
+        return _id, resp["tags"]
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
