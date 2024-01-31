@@ -38,7 +38,7 @@ class SyntheticsPrivateLocations(BaseResource):
 
         return resp["locations"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
@@ -54,7 +54,7 @@ class SyntheticsPrivateLocations(BaseResource):
     def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
 
         resp = destination_client.post(self.resource_config.base_path, resource).json()
@@ -65,7 +65,7 @@ class SyntheticsPrivateLocations(BaseResource):
         
         return _id, pl
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resp = destination_client.put(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",

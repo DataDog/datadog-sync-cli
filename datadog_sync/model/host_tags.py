@@ -30,7 +30,7 @@ class HostTags(BaseResource):
 
         return [{k: v} for k, v in import_hosts.items()]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             return  # This should never occur. No resource depends on it.
 
@@ -45,10 +45,10 @@ class HostTags(BaseResource):
     def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         return self.update_resource(_id, resource)
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         body = {"tags": resource}
         resp = destination_client.put(self.resource_config.base_path + f"/{_id}", body).json()

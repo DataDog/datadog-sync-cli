@@ -29,7 +29,7 @@ class DashboardLists(BaseResource):
 
         return resp["dashboard_lists"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
 
         if _id:
@@ -57,7 +57,7 @@ class DashboardLists(BaseResource):
     def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(resource["dashboards"])
         resource.pop("dashboards")
@@ -67,7 +67,7 @@ class DashboardLists(BaseResource):
         return _id, resp
 
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(resource["dashboards"])
         dash_list_diff = check_diff(

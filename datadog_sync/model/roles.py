@@ -38,7 +38,7 @@ class Roles(BaseResource):
 
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
@@ -57,7 +57,7 @@ class Roles(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         self.remap_permissions(resource)
 
-    def create_resource(self, _id, resource) -> Tuple(str, Dict):
+    def create_resource(self, _id, resource) -> Tuple[str, Dict]:
         if resource["attributes"]["name"] in self.destination_roles_mapping:
             role_copy = copy.deepcopy(resource)
             role_copy.update(self.destination_roles_mapping[resource["attributes"]["name"]])
@@ -73,7 +73,7 @@ class Roles(BaseResource):
 
         return _id, resp.json()["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource["id"] = self.resource_config.destination_resources[_id]["id"]
         payload = {"data": resource}

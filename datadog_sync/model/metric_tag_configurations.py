@@ -26,13 +26,13 @@ class MetricTagConfigurations(BaseResource):
 
         return resp["data"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}/tags").json()["data"]
 
         resource = cast(dict, resource)
-        self.resource_config.source_resources[resource["id"]] = resource
+        return resource["id"], resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -40,7 +40,7 @@ class MetricTagConfigurations(BaseResource):
     def pre_apply_hook(self) -> None:
         self.destination_metric_tag_configurations = self.get_destination_metric_tag_configuration()
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if _id in self.destination_metric_tag_configurations:
             self.resource_config.destination_resources[_id] = self.destination_metric_tag_configurations[_id]
             return self.update_resource(_id, resource)
@@ -54,7 +54,7 @@ class MetricTagConfigurations(BaseResource):
 
         return _id, resp["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         if "attributes" in resource:
             resource["attributes"].pop("metric_type", None)

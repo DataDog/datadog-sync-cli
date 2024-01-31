@@ -61,7 +61,7 @@ class BaseResource(abc.ABC):
         return r
 
     @abc.abstractmethod
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         pass
 
     def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
@@ -77,18 +77,18 @@ class BaseResource(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         pass
 
-    def _create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def _create_resource(self, _id: str, resource: Dict) -> None:
         _id, r = self.create_resource(_id, resource)
         self.resource_config.destination_resources[_id] = r
 
     @abc.abstractmethod
-    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         pass
 
-    def _update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def _update_resource(self, _id: str, resource: Dict) -> None:
         _id, r = self.update_resource(_id, resource)
         self.resource_config.destination_resources[_id] = r
 

@@ -35,7 +35,7 @@ class LogsPipelinesOrder(BaseResource):
 
         return [resp]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path).json()
@@ -48,14 +48,14 @@ class LogsPipelinesOrder(BaseResource):
     def pre_apply_hook(self) -> None:
         self.destination_pipeline_order = self.get_destination_pipeline_order()
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if not self.destination_pipeline_order:
             raise Exception("Failed to retrieve destination orgs logs pipeline order")
 
         self.resource_config.destination_resources[_id] = self.destination_pipeline_order
         return self.update_resource(_id, resource)
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_resources = self.destination_pipeline_order or self.resource_config.destination_resources[_id]
         ids_to_omit = set(resource["pipeline_ids"]) - set(destination_resources["pipeline_ids"])
 

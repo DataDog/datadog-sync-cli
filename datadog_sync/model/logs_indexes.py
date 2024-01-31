@@ -29,7 +29,7 @@ class LogsIndexes(BaseResource):
         resp = client.get(self.resource_config.base_path).json()
         return resp["indexes"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
@@ -46,7 +46,7 @@ class LogsIndexes(BaseResource):
     def pre_apply_hook(self) -> None:
         self.destination_logs_indexes = self.get_destination_logs_indexes()
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if _id in self.destination_logs_indexes:
             self.resource_config.destination_resources[_id] = self.destination_logs_indexes[_id]
             self.update_resource(_id, resource)
@@ -59,7 +59,7 @@ class LogsIndexes(BaseResource):
 
         return _id, resp
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         # Can't update name so remove it
         resource.pop("name")

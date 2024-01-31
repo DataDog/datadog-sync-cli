@@ -42,7 +42,7 @@ class Users(BaseResource):
 
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict[str, Any]] = None) -> Tuple(str, Dict):
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict[str, Any]] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
@@ -59,7 +59,7 @@ class Users(BaseResource):
     def pre_apply_hook(self) -> None:
         self.remote_destination_users = self.get_remote_destination_users()
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if resource["attributes"]["email"] in self.remote_destination_users:
             self.resource_config.destination_resources[_id] = self.remote_destination_users[
                 resource["attributes"]["email"]
@@ -74,7 +74,7 @@ class Users(BaseResource):
 
         return _id, resp.json()["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
 
         diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
