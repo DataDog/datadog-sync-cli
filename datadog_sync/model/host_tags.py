@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 from collections import defaultdict
-from typing import TYPE_CHECKING, Optional, List, Dict, cast
+from typing import TYPE_CHECKING, Optional, List, Dict
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
