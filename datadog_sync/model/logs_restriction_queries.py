@@ -64,7 +64,7 @@ class LogsRestrictionQueries(BaseResource):
 
         new_roles = [{"id": _id, "type": "roles"} for _id in successfully_added]
         resp["data"]["relationships"] = {"roles": {"data": new_roles}}
-        
+
         return _id, resp
 
     def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
@@ -89,7 +89,7 @@ class LogsRestrictionQueries(BaseResource):
             )
             new_roles = [{"id": role_id, "type": "roles"} for role_id in (list(intersection) + succ_added)]
             self.resource_config.destination_resources[_id]["data"]["relationships"] = {"roles": {"data": new_roles}}
-            
+
         return _id, self.resource_config.destination_resources[_id]
 
     def delete_resource(self, _id: str) -> None:

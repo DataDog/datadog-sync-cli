@@ -34,7 +34,7 @@ class LogsCustomPipelines(BaseResource):
         resource = cast(dict, resource)
         if resource["is_read_only"]:
             return
-        
+
         return resource["id"], resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:

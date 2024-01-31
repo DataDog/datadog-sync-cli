@@ -36,7 +36,7 @@ class Dashboards(BaseResource):
 
         resource = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
         resource = cast(dict, resource)
-        
+
         return import_id, resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:

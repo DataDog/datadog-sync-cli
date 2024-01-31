@@ -45,7 +45,7 @@ class SyntheticsPrivateLocations(BaseResource):
         if self.pl_id_regex.match(import_id):
             pl = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
             self.resource_config.source_resources[import_id] = pl
-            
+
             return import_id, pl
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
@@ -62,7 +62,7 @@ class SyntheticsPrivateLocations(BaseResource):
         pl = resp["private_location"]
         pl["config"] = resp.get("config")
         pl["result_encryption"] = resp.get("result_encryption")
-        
+
         return _id, pl
 
     def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:

@@ -37,7 +37,7 @@ class LogsIndexes(BaseResource):
         resource = cast(dict, resource)
         if not resource.get("daily_limit"):
             resource["disable_daily_limit"] = True
-            
+
         return resource["name"], resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:

@@ -66,7 +66,6 @@ class DashboardLists(BaseResource):
 
         return _id, resp
 
-
     def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(resource["dashboards"])
@@ -91,7 +90,7 @@ class DashboardLists(BaseResource):
                 dashboards,
                 self.resource_config.destination_resources[_id],
             )
-            
+
         return _id, self.resource_config.destination_resources[_id]
 
     def delete_resource(self, _id: str) -> None:

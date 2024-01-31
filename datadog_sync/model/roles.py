@@ -48,7 +48,7 @@ class Roles(BaseResource):
             for permission in resource["relationships"]["permissions"]["data"]:
                 if permission["id"] in self.source_permissions:
                     permission["id"] = self.source_permissions[permission["id"]]
-        
+
         return resource["id"], resource
 
     def pre_apply_hook(self) -> None:

@@ -68,7 +68,7 @@ class LogsPipelinesOrder(BaseResource):
 
         destination_client = self.config.destination_client
         resp = destination_client.put(self.resource_config.base_path, resource).json()
-        
+
         return _id, resp
 
     def delete_resource(self, _id: str) -> None:

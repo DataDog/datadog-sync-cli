@@ -50,7 +50,7 @@ class Users(BaseResource):
         resource = cast(dict, resource)
         if resource["attributes"]["disabled"]:
             return
-        
+
         return resource["id"], resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:

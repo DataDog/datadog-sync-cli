@@ -61,7 +61,7 @@ class SyntheticsTests(BaseResource):
         elif resource.get("type") == "api":
             resource = source_client.get(self.api_test_path.format(_id)).json()
 
-        resource = cast(dict, resource)        
+        resource = cast(dict, resource)
         return f"{resource['public_id']}#{resource['monitor_id']}", resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
