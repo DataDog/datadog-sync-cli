@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict, cast
+from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
@@ -41,14 +41,15 @@ class Notebooks(BaseResource):
 
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
 
         resource = cast(dict, resource)
         self.handle_special_case_attr(resource)
-        self.resource_config.source_resources[resource["id"]] = resource
+
+        return resource["id"], resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -56,15 +57,15 @@ class Notebooks(BaseResource):
     def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = destination_client.post(self.resource_config.base_path, payload).json()
         self.handle_special_case_attr(resp["data"])
 
-        self.resource_config.destination_resources[_id] = resp["data"]
+        return _id, resp["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = destination_client.put(
@@ -73,7 +74,7 @@ class Notebooks(BaseResource):
         ).json()
         self.handle_special_case_attr(resp["data"])
 
-        self.resource_config.destination_resources[_id] = resp["data"]
+        return _id, resp["data"]
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client

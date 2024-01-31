@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 import copy
-from typing import TYPE_CHECKING, Optional, List, Dict, cast
+from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
@@ -29,7 +29,7 @@ class DashboardLists(BaseResource):
 
         return resp["dashboard_lists"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
         source_client = self.config.source_client
 
         if _id:
@@ -49,7 +49,7 @@ class DashboardLists(BaseResource):
                 dash_list_item = {"id": dash["id"], "type": dash["type"]}
                 resource["dashboards"].append(dash_list_item)
 
-        self.resource_config.source_resources[_id] = resource
+        return _id, resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -57,16 +57,17 @@ class DashboardLists(BaseResource):
     def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(resource["dashboards"])
         resource.pop("dashboards")
         resp = destination_client.post(self.resource_config.base_path, resource).json()
-
-        self.resource_config.destination_resources[_id] = resp
         self.update_dash_list_items(resp["id"], dashboards, resp)
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+        return _id, resp
+
+
+    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(resource["dashboards"])
         dash_list_diff = check_diff(
@@ -90,6 +91,8 @@ class DashboardLists(BaseResource):
                 dashboards,
                 self.resource_config.destination_resources[_id],
             )
+            
+        return _id, self.resource_config.destination_resources[_id]
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client

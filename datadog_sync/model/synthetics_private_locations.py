@@ -6,7 +6,7 @@
 from __future__ import annotations
 import re
 
-from typing import TYPE_CHECKING, List, Dict, Optional
+from typing import TYPE_CHECKING, List, Dict, Optional, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
@@ -38,13 +38,15 @@ class SyntheticsPrivateLocations(BaseResource):
 
         return resp["locations"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
         if self.pl_id_regex.match(import_id):
             pl = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
             self.resource_config.source_resources[import_id] = pl
+            
+            return import_id, pl
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -52,16 +54,18 @@ class SyntheticsPrivateLocations(BaseResource):
     def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
         destination_client = self.config.destination_client
 
         resp = destination_client.post(self.resource_config.base_path, resource).json()
 
-        self.resource_config.destination_resources[_id] = resp["private_location"]
-        self.resource_config.destination_resources[_id]["config"] = resp.get("config")
-        self.resource_config.destination_resources[_id]["result_encryption"] = resp.get("result_encryption")
+        pl = resp["private_location"]
+        pl["config"] = resp.get("config")
+        pl["result_encryption"] = resp.get("result_encryption")
+        
+        return _id, pl
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
         destination_client = self.config.destination_client
         resp = destination_client.put(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
@@ -69,6 +73,7 @@ class SyntheticsPrivateLocations(BaseResource):
         ).json()
 
         self.resource_config.destination_resources[_id].update(resp)
+        return _id, self.resource_config.destination_resources[_id]
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client

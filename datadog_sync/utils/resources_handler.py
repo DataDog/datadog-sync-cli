@@ -204,7 +204,7 @@ class ResourcesHandler:
         r_class.resource_config.source_resources.clear()
 
         try:
-            get_resp = r_class.get_resources(self.config.source_client)
+            get_resp = r_class._get_resources(self.config.source_client)
         except Exception as e:
             self.config.logger.error(f"Error while importing resources {resource_type}: {str(e)}")
             return 0, 0
@@ -249,7 +249,7 @@ class ResourcesHandler:
 
                     prep_resource(r_class.resource_config, resource)
                     try:
-                        r_class.update_resource(_id, resource)
+                        r_class._update_resource(_id, resource)
                     except Exception as e:
                         self.config.logger.error(
                             f"Error while updating resource {resource_type}. source ID: {_id} -  Error: {str(e)}"
@@ -262,7 +262,7 @@ class ResourcesHandler:
 
                 prep_resource(r_class.resource_config, resource)
                 try:
-                    r_class.create_resource(_id, resource)
+                    r_class._create_resource(_id, resource)
                 except Exception as e:
                     self.config.logger.error(
                         f"Error while creating resource {resource_type}. source ID: {_id} - Error: {str(e)}"
@@ -289,19 +289,7 @@ class ResourcesHandler:
 
     def _cleanup_worker(self, _id: str, resource_type: str) -> None:
         self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
-        try:
-            self.config.resources[resource_type].delete_resource(_id)
-            self.config.resources[resource_type].resource_config.destination_resources.pop(_id, None)
-            self.config.logger.info(f"succesffully deleted resource type {resource_type} with id: {_id}")
-        except CustomClientHTTPError as e:
-            if e.status_code == 404:
-                self.config.resources[resource_type].resource_config.destination_resources.pop(_id, None)
-                return None
-
-            self.config.logger.error(
-                f"Error while deleting resource {resource_type}. source ID: {_id} - Error: {str(e)}"
-            )
-            raise LoggedException(e)
+        self.config.resources[resource_type]._delete_resource(_id)
 
 
 def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool = True) -> bool:

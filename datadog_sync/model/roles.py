@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 import copy
-from typing import TYPE_CHECKING, Optional, List, Dict, cast
+from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
@@ -38,7 +38,7 @@ class Roles(BaseResource):
 
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple(str, Dict):
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
@@ -48,7 +48,8 @@ class Roles(BaseResource):
             for permission in resource["relationships"]["permissions"]["data"]:
                 if permission["id"] in self.source_permissions:
                     permission["id"] = self.source_permissions[permission["id"]]
-        self.resource_config.source_resources[resource["id"]] = resource
+        
+        return resource["id"], resource
 
     def pre_apply_hook(self) -> None:
         self.destination_roles_mapping = self.get_destination_roles_mapping()
@@ -56,7 +57,7 @@ class Roles(BaseResource):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         self.remap_permissions(resource)
 
-    def create_resource(self, _id, resource):
+    def create_resource(self, _id, resource) -> Tuple(str, Dict):
         if resource["attributes"]["name"] in self.destination_roles_mapping:
             role_copy = copy.deepcopy(resource)
             role_copy.update(self.destination_roles_mapping[resource["attributes"]["name"]])
@@ -70,9 +71,9 @@ class Roles(BaseResource):
         payload = {"data": resource}
         resp = destination_client.post(self.resource_config.base_path, payload)
 
-        self.resource_config.destination_resources[_id] = resp.json()["data"]
+        return _id, resp.json()["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> Tuple(str, Dict):
         destination_client = self.config.destination_client
         resource["id"] = self.resource_config.destination_resources[_id]["id"]
         payload = {"data": resource}
@@ -81,7 +82,7 @@ class Roles(BaseResource):
             payload,
         )
 
-        self.resource_config.destination_resources[_id] = resp.json()["data"]
+        return _id, resp.json()["data"]
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
