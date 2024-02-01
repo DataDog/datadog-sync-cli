@@ -49,8 +49,7 @@ class LogsIndexes(BaseResource):
     def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if _id in self.destination_logs_indexes:
             self.resource_config.destination_resources[_id] = self.destination_logs_indexes[_id]
-            self.update_resource(_id, resource)
-            return
+            return self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
         resp = destination_client.post(self.resource_config.base_path, resource).json()

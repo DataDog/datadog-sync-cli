@@ -62,10 +62,11 @@ class Roles(BaseResource):
             role_copy = copy.deepcopy(resource)
             role_copy.update(self.destination_roles_mapping[resource["attributes"]["name"]])
 
-            self.resource_config.destination_resources[_id] = role_copy
             if check_diff(self.resource_config, resource, role_copy):
-                self.update_resource(_id, resource)
-            return
+                self.resource_config.destination_resources[_id] = role_copy
+                return self.update_resource(_id, resource)
+            else:
+                return _id, role_copy
 
         destination_client = self.config.destination_client
         payload = {"data": resource}
