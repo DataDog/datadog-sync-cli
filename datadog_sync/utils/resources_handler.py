@@ -87,7 +87,7 @@ class ResourcesHandler:
 
         # Run pre-apply hooks
         for resource_type in set(self.resources_manager.all_resources.values()):
-            futures.append(parralel_executor.submit(self.config.resources[resource_type].pre_apply_hook))
+            futures.append(parralel_executor.submit(self.config.resources[resource_type]._pre_apply_hook))
         wait(futures)
         for future in futures:
             try:
@@ -186,7 +186,7 @@ class ResourcesHandler:
 
             if not r_class.filter(resource):
                 return
-            r_class.pre_resource_action_hook(_id, resource)
+            r_class._pre_resource_action_hook(_id, resource)
 
             try:
                 r_class.connect_resources(_id, resource)
@@ -242,7 +242,7 @@ class ResourcesHandler:
                     return
 
             # Run hooks
-            r_class.pre_resource_action_hook(_id, resource)
+            r_class._pre_resource_action_hook(_id, resource)
             r_class.connect_resources(_id, resource)
 
             if _id in r_class.resource_config.destination_resources:

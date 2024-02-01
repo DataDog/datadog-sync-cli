@@ -72,9 +72,15 @@ class BaseResource(abc.ABC):
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
+    def _pre_resource_action_hook(self, _id, resource: Dict) -> None:
+        return self.pre_resource_action_hook(_id, resource)
+
     @abc.abstractmethod
     def pre_apply_hook(self) -> None:
         pass
+
+    def _pre_apply_hook(self) -> None:
+        return self.pre_apply_hook()
 
     @abc.abstractmethod
     def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
