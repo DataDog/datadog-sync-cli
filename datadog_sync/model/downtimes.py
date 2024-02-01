@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 from datetime import datetime
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -53,10 +54,10 @@ class Downtimes(BaseResource):
 
         resource = cast(dict, resource)
         if resource["canceled"]:
-            return
+            raise SkipResource(_id, self.resource_type, "Downtime is canceled.")
         # Dispose the recurring child downtimes and only retain the parent
         if resource["recurrence"] and resource["parent_id"]:
-            return
+            raise SkipResource(_id, self.resource_type, "Parent downtime is used for recurring downtimes.")
 
         return str(resource["id"]), resource
 
