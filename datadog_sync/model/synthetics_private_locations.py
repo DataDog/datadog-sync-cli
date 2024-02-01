@@ -9,6 +9,7 @@ import re
 from typing import TYPE_CHECKING, List, Dict, Optional, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -42,11 +43,13 @@ class SyntheticsPrivateLocations(BaseResource):
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
-        if self.pl_id_regex.match(import_id):
-            pl = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
-            self.resource_config.source_resources[import_id] = pl
+        if not self.pl_id_regex.match(import_id):
+            raise SkipResource(_id, self.resource_type, "Managed location.")
 
-            return import_id, pl
+        pl = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
+        self.resource_config.source_resources[import_id] = pl
+
+        return import_id, pl
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -72,8 +75,9 @@ class SyntheticsPrivateLocations(BaseResource):
             resource,
         ).json()
 
-        self.resource_config.destination_resources[_id].update(resp)
-        return _id, self.resource_config.destination_resources[_id]
+        r = self.resource_config.destination_resources[_id]
+        r.update(resp)
+        return _id, r
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client

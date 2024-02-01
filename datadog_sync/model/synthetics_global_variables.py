@@ -56,8 +56,7 @@ class SyntheticsGlobalVariables(BaseResource):
     def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if resource["name"] in self.destination_global_variables:
             self.resource_config.destination_resources[_id] = self.destination_global_variables[resource["name"]]
-            self.update_resource(_id, resource)
-            return
+            return self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
 
@@ -75,8 +74,10 @@ class SyntheticsGlobalVariables(BaseResource):
             resource,
         ).json()
 
-        self.resource_config.destination_resources[_id].update(resp)
-        return _id, self.resource_config.destination_resources[_id].update(resp)
+        r = self.resource_config.destination_resources[_id]
+        r.update(resp)
+
+        return _id, r
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client

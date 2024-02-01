@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource, check_diff
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -49,7 +49,7 @@ class Users(BaseResource):
 
         resource = cast(dict, resource)
         if resource["attributes"]["disabled"]:
-            return
+            raise SkipResource(_id, self.resource_type, "User is disabled.")
 
         return resource["id"], resource
 
@@ -65,8 +65,7 @@ class Users(BaseResource):
                 resource["attributes"]["email"]
             ]
 
-            self.update_resource(_id, resource)
-            return
+            return self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
         resource["attributes"].pop("disabled", None)
@@ -88,6 +87,7 @@ class Users(BaseResource):
             )
 
             return _id, resp.json()["data"]
+        return _id, self.resource_config.destination_resources[_id]
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
