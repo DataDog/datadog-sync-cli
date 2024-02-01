@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
+from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -59,10 +60,11 @@ class Monitors(BaseResource):
 
         resource = cast(dict, resource)
         if resource["type"] == "synthetics alert":
-            return
+            raise SkipResource(
+                f"Skipping synthetics alert monitor: {_id}. Synthetics alerts monitors are created by synthetics tests."
+            )
 
-        self.resource_config.source_resources[str(resource["id"])] = resource
-        return resource["name"], resource
+        return str(resource["id"]), resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -74,7 +76,6 @@ class Monitors(BaseResource):
         destination_client = self.config.destination_client
         resp = destination_client.post(self.resource_config.base_path, resource).json()
 
-        self.resource_config.destination_resources[_id] = resp
         return _id, resp
 
     def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:

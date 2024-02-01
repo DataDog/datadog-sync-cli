@@ -7,7 +7,7 @@ from __future__ import annotations
 import abc
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, NewType, Optional, Dict, List, Tuple
+from typing import TYPE_CHECKING, Optional, Dict, List, Tuple
 
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (

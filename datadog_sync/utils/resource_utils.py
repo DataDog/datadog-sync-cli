@@ -27,6 +27,11 @@ if TYPE_CHECKING:
 log = logging.getLogger(LOGGER_NAME)
 
 
+class SkipResource(Exception):
+    def __init__(self, message):
+        super(SkipResource, self).__init__(message)
+
+
 class ResourceConnectionError(Exception):
     def __init__(self, failed_connections_dict):
         super(ResourceConnectionError, self).__init__(f"Failed to connect resource. {dict(failed_connections_dict)}")

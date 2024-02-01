@@ -17,6 +17,7 @@ from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
     LoggedException,
     ResourceConnectionError,
+    SkipResource,
     check_diff,
     dump_resources,
     prep_resource,
@@ -220,6 +221,8 @@ class ResourcesHandler:
         for future in futures:
             try:
                 future.result()
+            except SkipResource as e:
+                self.config.logger.debug(str(e))
             except Exception as e:
                 self.config.logger.error(f"Error while importing resource {resource_type}: {str(e)}")
                 errors += 1
