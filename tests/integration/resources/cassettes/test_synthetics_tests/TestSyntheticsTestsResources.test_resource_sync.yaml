@@ -1,15 +1,15 @@
 interactions:
 - request:
-    body: '{"status": "paused", "tags": [], "locations": ["aws:ca-central-1"], "message":
-      "Test synthetics ", "name": "HTTP Test", "type": "api", "subtype": "http", "config":
-      {"request": {"url": "https://google.com", "method": "GET"}, "assertions": [{"operator":
-      "lessThan", "type": "responseTime", "target": 1000}, {"operator": "is", "type":
-      "statusCode", "target": 301}, {"operator": "is", "property": "content-type",
-      "type": "header", "target": "text/html; charset=UTF-8"}]}, "options": {"retry":
-      {"count": 1, "interval": 300}, "min_location_failed": 1, "monitor_options":
-      {"include_tags": true, "renotify_interval": 120, "notify_audit": false, "new_host_delay":
-      300, "on_missing_data": "show_no_data"}, "tick_every": 604800, "monitor_priority":
-      3, "min_failure_duration": 120}}'
+    body: '{"name": "HTTP Test", "status": "paused", "type": "api", "tags": ["managed_by:datadog-sync"],
+      "config": {"request": {"url": "https://google.com", "method": "GET"}, "assertions":
+      [{"operator": "lessThan", "type": "responseTime", "target": 1000}, {"operator":
+      "is", "type": "statusCode", "target": 301}, {"operator": "is", "property": "content-type",
+      "type": "header", "target": "text/html; charset=UTF-8"}]}, "message": "Test
+      synthetics ", "options": {"retry": {"count": 1, "interval": 300}, "tick_every":
+      604800, "monitor_options": {"include_tags": true, "notify_audit": false, "new_host_delay":
+      300, "on_missing_data": "show_no_data", "renotify_interval": 120}, "monitor_priority":
+      3, "min_location_failed": 1, "min_failure_duration": 120}, "locations": ["aws:ca-central-1"],
+      "subtype": "http"}'
     headers:
       Accept:
       - '*/*'
@@ -21,40 +21,43 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "paused", "public_id": "k3i-rvg-xni", "tags": [], "org_id":
-        1000044987, "locations": ["aws:ca-central-1"], "message": "Test synthetics
-        ", "deleted_at": null, "name": "HTTP Test", "monitor_id": 9380036, "type":
-        "api", "created_at": "2023-01-04T21:32:04.373684+00:00", "modified_at": "2023-01-04T21:32:04.373684+00:00",
-        "subtype": "http", "config": {"request": {"url": "https://google.com", "method":
-        "GET"}, "assertions": [{"operator": "lessThan", "type": "responseTime", "target":
-        1000}, {"operator": "is", "type": "statusCode", "target": 301}, {"operator":
-        "is", "property": "content-type", "type": "header", "target": "text/html;
-        charset=UTF-8"}]}, "options": {"retry": {"count": 1, "interval": 300}, "min_location_failed":
-        1, "monitor_options": {"include_tags": true, "renotify_interval": 120, "notify_audit":
-        false, "new_host_delay": 300, "on_missing_data": "show_no_data"}, "tick_every":
-        604800, "monitor_priority": 3, "min_failure_duration": 120}}'
+      string: '{"public_id": "s9n-49r-ffy", "name": "HTTP Test", "status": "paused",
+        "type": "api", "tags": ["managed_by:datadog-sync"], "created_at": "2024-02-01T20:13:57.329406+00:00",
+        "modified_at": "2024-02-01T20:13:57.329406+00:00", "config": {"request": {"url":
+        "https://google.com", "method": "GET"}, "assertions": [{"operator": "lessThan",
+        "type": "responseTime", "target": 1000}, {"operator": "is", "type": "statusCode",
+        "target": 301}, {"operator": "is", "property": "content-type", "type": "header",
+        "target": "text/html; charset=UTF-8"}]}, "message": "Test synthetics ", "options":
+        {"retry": {"count": 1, "interval": 300}, "tick_every": 604800, "monitor_options":
+        {"include_tags": true, "notify_audit": false, "new_host_delay": 300, "on_missing_data":
+        "show_no_data", "renotify_interval": 120}, "monitor_priority": 3, "min_location_failed":
+        1, "min_failure_duration": 120}, "locations": ["aws:ca-central-1"], "subtype":
+        "http", "created_by": {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com"}, "deleted_at": null, "monitor_id": 15199633,
+        "org_id": 1000144613, "modified_by": {"name": "CI Service Account", "handle":
+        "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "email": "frog@datadoghq.com"}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"status": "live", "tags": ["testing:api"], "locations": ["aws:us-east-2"],
-      "message": "BDD test payload: synthetics_api_http_test_payload.json", "name":
-      "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270", "type": "api",
-      "subtype": "http", "config": {"request": {"certificate": {"cert": {"filename":
-      "cert-filename", "updatedAt": "2020-10-16T09:23:24.857Z"}, "key": {"filename":
-      "key-filename", "updatedAt": "2020-10-16T09:23:24.857Z"}}, "url": "https://datadoghq.com",
-      "headers": {"unique": "testtriggersyntheticstestsreturnsokresponse1666783270"},
-      "proxy": {"url": "https://datadoghq.com", "headers": {}}, "timeout": 10, "method":
-      "GET"}, "assertions": [{"operator": "is", "property": "{{ PROPERTY }}", "type":
-      "header", "target": "text/html"}, {"operator": "lessThan", "type": "responseTime",
-      "target": 2000}, {"operator": "validatesJSONPath", "type": "body", "target":
-      {"operator": "isNot", "targetValue": "0", "jsonPath": "topKey"}}], "configVariables":
-      [{"pattern": "content-type", "type": "text", "example": "content-type", "name":
-      "PROPERTY"}]}, "options": {"accept_self_signed": false, "retry": {"count": 3,
-      "interval": 10}, "min_location_failed": 1, "allow_insecure": true, "follow_redirects":
-      true, "min_failure_duration": 10, "monitor_priority": 5, "monitor_name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
-      "tick_every": 60}}'
+    body: '{"name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
+      "status": "live", "type": "api", "tags": ["testing:api", "managed_by:datadog-sync"],
+      "config": {"request": {"certificate": {"cert": {"updatedAt": "2020-10-16T09:23:24.857Z",
+      "filename": "cert-filename"}, "key": {"updatedAt": "2020-10-16T09:23:24.857Z",
+      "filename": "key-filename"}}, "url": "https://datadoghq.com", "headers": {"unique":
+      "testtriggersyntheticstestsreturnsokresponse1666783270"}, "proxy": {"url": "https://datadoghq.com",
+      "headers": {}}, "timeout": 10, "method": "GET"}, "assertions": [{"operator":
+      "is", "property": "{{ PROPERTY }}", "type": "header", "target": "text/html"},
+      {"operator": "lessThan", "type": "responseTime", "target": 2000}, {"operator":
+      "validatesJSONPath", "type": "body", "target": {"operator": "isNot", "targetValue":
+      "0", "jsonPath": "topKey"}}], "configVariables": [{"pattern": "content-type",
+      "type": "text", "example": "content-type", "name": "PROPERTY"}]}, "message":
+      "BDD test payload: synthetics_api_http_test_payload.json", "options": {"accept_self_signed":
+      false, "retry": {"count": 3, "interval": 10}, "min_location_failed": 1, "allow_insecure":
+      true, "follow_redirects": true, "min_failure_duration": 10, "monitor_priority":
+      5, "monitor_name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
+      "tick_every": 60}, "locations": ["aws:us-east-2"], "subtype": "http"}'
     headers:
       Accept:
       - '*/*'
@@ -66,15 +69,12 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "ng3-cf8-k7i", "tags": ["testing:api"],
-        "org_id": 1000044987, "locations": ["aws:us-east-2"], "message": "BDD test
-        payload: synthetics_api_http_test_payload.json", "deleted_at": null, "name":
-        "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270", "monitor_id":
-        9380037, "type": "api", "created_at": "2023-01-04T21:32:04.742671+00:00",
-        "modified_at": "2023-01-04T21:32:04.742671+00:00", "subtype": "http", "config":
-        {"request": {"certificate": {"cert": {"filename": "cert-filename", "updatedAt":
-        "2020-10-16T09:23:24.857Z"}, "key": {"filename": "key-filename", "updatedAt":
-        "2020-10-16T09:23:24.857Z"}}, "url": "https://datadoghq.com", "headers": {"unique":
+      string: '{"public_id": "rap-ep8-a72", "name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
+        "status": "live", "type": "api", "tags": ["testing:api", "managed_by:datadog-sync"],
+        "created_at": "2024-02-01T20:13:57.758436+00:00", "modified_at": "2024-02-01T20:13:57.758436+00:00",
+        "config": {"request": {"certificate": {"cert": {"updatedAt": "2020-10-16T09:23:24.857Z",
+        "filename": "cert-filename"}, "key": {"updatedAt": "2020-10-16T09:23:24.857Z",
+        "filename": "key-filename"}}, "url": "https://datadoghq.com", "headers": {"unique":
         "testtriggersyntheticstestsreturnsokresponse1666783270"}, "proxy": {"url":
         "https://datadoghq.com", "headers": {}}, "timeout": 10, "method": "GET"},
         "assertions": [{"operator": "is", "property": "{{ PROPERTY }}", "type": "header",
@@ -82,22 +82,28 @@ interactions:
         2000}, {"operator": "validatesJSONPath", "type": "body", "target": {"operator":
         "isNot", "targetValue": "0", "jsonPath": "topKey"}}], "configVariables": [{"pattern":
         "content-type", "type": "text", "example": "content-type", "name": "PROPERTY"}]},
-        "options": {"accept_self_signed": false, "retry": {"count": 3, "interval":
-        10}, "min_location_failed": 1, "allow_insecure": true, "follow_redirects":
-        true, "min_failure_duration": 10, "monitor_priority": 5, "monitor_name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
-        "tick_every": 60}}'
+        "message": "BDD test payload: synthetics_api_http_test_payload.json", "options":
+        {"accept_self_signed": false, "retry": {"count": 3, "interval": 10}, "min_location_failed":
+        1, "allow_insecure": true, "follow_redirects": true, "min_failure_duration":
+        10, "monitor_priority": 5, "monitor_name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
+        "tick_every": 60}, "locations": ["aws:us-east-2"], "subtype": "http", "created_by":
+        {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com"}, "deleted_at": null, "monitor_id": 15199634,
+        "org_id": 1000144613, "modified_by": {"name": "CI Service Account", "handle":
+        "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "email": "frog@datadoghq.com"}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
-      ["aws:eu-central-1"], "message": "Notify @pagerduty", "name": "TCP Test", "type":
-      "api", "subtype": "tcp", "config": {"request": {"host": "example.org", "port":
-      443}, "assertions": [{"operator": "lessThan", "type": "responseTime", "target":
-      2000}]}, "options": {"monitor_options": {"include_tags": true, "renotify_interval":
-      0, "notify_audit": false, "new_host_delay": 300, "on_missing_data": "show_no_data"},
-      "tick_every": 900, "min_location_failed": 1}}'
+    body: '{"name": "TCP Test", "status": "live", "type": "api", "tags": ["foo:bar",
+      "foo", "env:test", "managed_by:datadog-sync"], "config": {"request": {"host":
+      "example.org", "port": 443}, "assertions": [{"operator": "lessThan", "type":
+      "responseTime", "target": 2000}]}, "message": "Notify @pagerduty", "options":
+      {"monitor_options": {"notify_audit": false, "include_tags": true, "new_host_delay":
+      300, "on_missing_data": "show_no_data", "renotify_interval": 0}, "tick_every":
+      900, "min_location_failed": 1}, "locations": ["aws:eu-central-1"], "subtype":
+      "tcp"}'
     headers:
       Accept:
       - '*/*'
@@ -109,28 +115,31 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "2z9-7as-gzr", "tags": ["foo:bar",
-        "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
-        "message": "Notify @pagerduty", "deleted_at": null, "name": "TCP Test", "monitor_id":
-        9380038, "type": "api", "created_at": "2023-01-04T21:32:05.114399+00:00",
-        "modified_at": "2023-01-04T21:32:05.114399+00:00", "subtype": "tcp", "config":
-        {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
-        "lessThan", "type": "responseTime", "target": 2000}]}, "options": {"monitor_options":
-        {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
-        300, "on_missing_data": "show_no_data"}, "tick_every": 900, "min_location_failed":
-        1}}'
+      string: '{"public_id": "yzf-8i8-pu7", "name": "TCP Test", "status": "live",
+        "type": "api", "tags": ["foo:bar", "foo", "env:test", "managed_by:datadog-sync"],
+        "created_at": "2024-02-01T20:13:58.143621+00:00", "modified_at": "2024-02-01T20:13:58.143621+00:00",
+        "config": {"request": {"host": "example.org", "port": 443}, "assertions":
+        [{"operator": "lessThan", "type": "responseTime", "target": 2000}]}, "message":
+        "Notify @pagerduty", "options": {"monitor_options": {"notify_audit": false,
+        "include_tags": true, "new_host_delay": 300, "on_missing_data": "show_no_data",
+        "renotify_interval": 0}, "tick_every": 900, "min_location_failed": 1}, "locations":
+        ["aws:eu-central-1"], "subtype": "tcp", "created_by": {"name": "CI Service
+        Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "email": "frog@datadoghq.com"},
+        "deleted_at": null, "monitor_id": 15199635, "org_id": 1000144613, "modified_by":
+        {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com"}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
-      ["aws:eu-central-1"], "message": "Notify @pagerduty", "name": "SSL Test", "type":
-      "api", "subtype": "ssl", "config": {"request": {"host": "example.org", "port":
-      443}, "assertions": [{"operator": "isInMoreThan", "type": "certificate", "target":
-      30}]}, "options": {"accept_self_signed": true, "tick_every": 900, "monitor_options":
-      {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
-      300, "on_missing_data": "show_no_data"}, "min_location_failed": 1}}'
+    body: '{"name": "SSL Test", "status": "live", "type": "api", "tags": ["foo:bar",
+      "foo", "env:test", "managed_by:datadog-sync"], "config": {"request": {"host":
+      "example.org", "port": 443}, "assertions": [{"operator": "isInMoreThan", "type":
+      "certificate", "target": 30}]}, "message": "Notify @pagerduty", "options": {"accept_self_signed":
+      true, "monitor_options": {"notify_audit": false, "include_tags": true, "new_host_delay":
+      300, "on_missing_data": "show_no_data", "renotify_interval": 0}, "min_location_failed":
+      1, "tick_every": 900}, "locations": ["aws:eu-central-1"], "subtype": "ssl"}'
     headers:
       Accept:
       - '*/*'
@@ -142,106 +151,31 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "8an-9u2-ihj", "tags": ["foo:bar",
-        "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
-        "message": "Notify @pagerduty", "deleted_at": null, "name": "SSL Test", "monitor_id":
-        9380039, "type": "api", "created_at": "2023-01-04T21:32:05.459216+00:00",
-        "modified_at": "2023-01-04T21:32:05.459216+00:00", "subtype": "ssl", "config":
-        {"request": {"host": "example.org", "port": 443}, "assertions": [{"operator":
-        "isInMoreThan", "type": "certificate", "target": 30}]}, "options": {"monitor_options":
-        {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
-        300, "on_missing_data": "show_no_data"}, "min_location_failed": 1, "accept_self_signed":
-        true, "tick_every": 900}}'
+      string: '{"public_id": "i6i-ms4-j2c", "name": "SSL Test", "status": "live",
+        "type": "api", "tags": ["foo:bar", "foo", "env:test", "managed_by:datadog-sync"],
+        "created_at": "2024-02-01T20:13:58.475869+00:00", "modified_at": "2024-02-01T20:13:58.475869+00:00",
+        "config": {"request": {"host": "example.org", "port": 443}, "assertions":
+        [{"operator": "isInMoreThan", "type": "certificate", "target": 30}]}, "message":
+        "Notify @pagerduty", "options": {"accept_self_signed": true, "monitor_options":
+        {"notify_audit": false, "include_tags": true, "new_host_delay": 300, "on_missing_data":
+        "show_no_data", "renotify_interval": 0}, "min_location_failed": 1, "tick_every":
+        900}, "locations": ["aws:eu-central-1"], "subtype": "ssl", "created_by": {"name":
+        "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "email":
+        "frog@datadoghq.com"}, "deleted_at": null, "monitor_id": 15199636, "org_id":
+        1000144613, "modified_by": {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com"}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"status": "live", "tags": [], "locations": ["aws:us-west-1"], "message":
-      "", "name": "Browser Test (cloned)", "type": "browser", "steps": [{"name": "Type
-      text on input \"s\"", "noScreenshot": false, "allowFailure": false, "params":
-      {"value": "api", "element": {"url": "https://docs.datadoghq.com/", "targetOuterHTML":
-      "<input class=\"docssearch-input form-control ds-input\" name=\"s\" type=\"docssearch\"
-      placeholder=\"Search documentation...\" autocomplete=\"off\" spellcheck=\"false\"
-      role=\"combobox\" aria-autocomplete=\"list\" ar", "multiLocator": {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"section\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"form\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"span\"][1]/*[local-name()=\"input\"][2]",
-      "co": "[{\"text\":\"search documentation...\",\"textType\":\"placeholder\"}]",
-      "cl": "/descendant::*[contains(concat('' '', normalize-space(@class), '' ''),
-      \" docssearch-input \") and contains(concat('' '', normalize-space(@class),
-      '' ''), \" ds-input \")]", "at": "/descendant::*[@name=\"s\"]", "clt": "/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" docssearch-input \") and contains(concat(''
-      '', normalize-space(@class), '' ''), \" ds-input \")]", "ro": "//*[@name=\"s\"]"}}},
-      "isCritical": true, "type": "typeText"}, {"name": "Press key ''Enter''", "noScreenshot":
-      false, "allowFailure": false, "params": {"value": "Enter"}, "isCritical": true,
-      "type": "pressKey"}, {"name": "Click on link \"API \u00bb AWS Logs Integration\"",
-      "noScreenshot": false, "allowFailure": false, "params": {"element": {"url":
-      "https://docs.datadoghq.com/search/?s=api", "targetOuterHTML": "<a href=\"https://docs.datadoghq.com/api/latest/azure-integration/\">API
-      \u00bb Azure Integration</a>", "multiLocator": {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"div\"][4]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][6]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"a\"][1]",
-      "co": "[{\"text\":\"api \u00bb azure integration\",\"textType\":\"directText\"}]",
-      "cl": "/descendant::*[contains(concat('' '', normalize-space(@class), '' ''),
-      \" content \")]/*[local-name()=\"div\"][6]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" tipue_search_content_title \")]/*[local-name()=\"a\"][1]",
-      "at": "", "clt": "/descendant::*[contains(concat('' '', normalize-space(@class),
-      '' ''), \" content \")]/descendant::*[text()[normalize-space(translate(., ''ABCDEFGHIJKLMNOPQRSTUVWXYZ\u00c0\u00c1\u00c2\u00c3\u00c4\u00c5\u00c6\u00c7\u00c8\u00c9\u00ca\u00cb\u00cc\u00cd\u00ce\u00cf\u00d0\u00d1\u00d2\u00d3\u00d4\u00d5\u00d6\u00d8\u00d9\u00da\u00db\u00dc\u00dd\u00de\u0178\u017d\u0160\u0152'',
-      ''abcdefghijklmnopqrstuvwxyz\u00e0\u00e1\u00e2\u00e3\u00e4\u00e5\u00e6\u00e7\u00e8\u00e9\u00ea\u00eb\u00ec\u00ed\u00ee\u00ef\u00f0\u00f1\u00f2\u00f3\u00f4\u00f5\u00f6\u00f8\u00f9\u00fa\u00fb\u00fc\u00fd\u00fe\u00ff\u017e\u0161\u0153''))
-      = \"api \u00bb azure integration\"]]", "ro": "//*[text()[normalize-space(translate(.,
-      ''ABCDEFGHIJKLMNOPQRSTUVWXYZ\u00c0\u00c1\u00c2\u00c3\u00c4\u00c5\u00c6\u00c7\u00c8\u00c9\u00ca\u00cb\u00cc\u00cd\u00ce\u00cf\u00d0\u00d1\u00d2\u00d3\u00d4\u00d5\u00d6\u00d8\u00d9\u00da\u00db\u00dc\u00dd\u00de\u0178\u017d\u0160\u0152'',
-      ''abcdefghijklmnopqrstuvwxyz\u00e0\u00e1\u00e2\u00e3\u00e4\u00e5\u00e6\u00e7\u00e8\u00e9\u00ea\u00eb\u00ec\u00ed\u00ee\u00ef\u00f0\u00f1\u00f2\u00f3\u00f4\u00f5\u00f6\u00f8\u00f9\u00fa\u00fb\u00fc\u00fd\u00fe\u00ff\u017e\u0161\u0153''))
-      = \"api \u00bb azure integration\"]]"}}}, "isCritical": true, "type": "click"},
-      {"name": "Click on link \"Go\"", "noScreenshot": false, "allowFailure": false,
-      "params": {"element": {"url": "https://docs.datadoghq.com/api/latest/azure-integration/",
-      "targetOuterHTML": "<a class=\"nav-link mr-1 js-code-example-link\" data-code-lang-trigger=\"go\"
-      href=\"?code-lang=go#\">Go</a>", "multiLocator": {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][4]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"ul\"][1]/*[local-name()=\"li\"][4]/*[local-name()=\"a\"][1]",
-      "co": "[{\"text\":\"go\",\"textType\":\"directText\"},{\"text\":\"get\",\"textType\":\"directText\"}]",
-      "cl": "/descendant::*[contains(concat('' '', normalize-space(@class), '' ''),
-      \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" code-lang-list-container \")]/*[local-name()=\"li\"][4]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" js-code-example-link \")]", "at": "/*[local-name()=\"html\"]/*[local-name()=\"body\"]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][4]/descendant::*[@href=\"?code-lang=go#\"]",
-      "clt": "/descendant::*[contains(concat('' '', normalize-space(@class), '' ''),
-      \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" code-lang-list-container \")]/descendant::*[text()[normalize-space(translate(.,
-      ''ABCDEFGHIJKLMNOPQRSTUVWXYZ\u00c0\u00c1\u00c2\u00c3\u00c4\u00c5\u00c6\u00c7\u00c8\u00c9\u00ca\u00cb\u00cc\u00cd\u00ce\u00cf\u00d0\u00d1\u00d2\u00d3\u00d4\u00d5\u00d6\u00d8\u00d9\u00da\u00db\u00dc\u00dd\u00de\u0178\u017d\u0160\u0152'',
-      ''abcdefghijklmnopqrstuvwxyz\u00e0\u00e1\u00e2\u00e3\u00e4\u00e5\u00e6\u00e7\u00e8\u00e9\u00ea\u00eb\u00ec\u00ed\u00ee\u00ef\u00f0\u00f1\u00f2\u00f3\u00f4\u00f5\u00f6\u00f8\u00f9\u00fa\u00fb\u00fc\u00fd\u00fe\u00ff\u017e\u0161\u0153''))
-      = \"go\"]]", "ro": null}}}, "isCritical": true, "type": "click"}, {"name": "Click
-      on link \"Python [beta]\"", "noScreenshot": false, "allowFailure": false, "params":
-      {"element": {"url": "https://docs.datadoghq.com/api/latest/azure-integration/?code-lang=go",
-      "targetOuterHTML": "<a class=\"nav-link mr-1 js-code-example-link\" data-code-lang-trigger=\"ruby\"
-      href=\"?code-lang=ruby#\">Ruby</a>", "multiLocator": {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][4]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"ul\"][1]/*[local-name()=\"li\"][3]/*[local-name()=\"a\"][1]",
-      "co": "[{\"text\":\"ruby\",\"textType\":\"directText\"},{\"text\":\"get\",\"textType\":\"directText\"}]",
-      "cl": "/descendant::*[contains(concat('' '', normalize-space(@class), '' ''),
-      \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" code-lang-list-container \")]/*[local-name()=\"li\"][3]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" js-code-example-link \")]", "at": "/*[local-name()=\"html\"]/*[local-name()=\"body\"]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][4]/descendant::*[@href=\"?code-lang=ruby#\"]",
-      "clt": "/descendant::*[contains(concat('' '', normalize-space(@class), '' ''),
-      \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" code-lang-list-container \")]/descendant::*[text()[normalize-space(translate(.,
-      ''ABCDEFGHIJKLMNOPQRSTUVWXYZ\u00c0\u00c1\u00c2\u00c3\u00c4\u00c5\u00c6\u00c7\u00c8\u00c9\u00ca\u00cb\u00cc\u00cd\u00ce\u00cf\u00d0\u00d1\u00d2\u00d3\u00d4\u00d5\u00d6\u00d8\u00d9\u00da\u00db\u00dc\u00dd\u00de\u0178\u017d\u0160\u0152'',
-      ''abcdefghijklmnopqrstuvwxyz\u00e0\u00e1\u00e2\u00e3\u00e4\u00e5\u00e6\u00e7\u00e8\u00e9\u00ea\u00eb\u00ec\u00ed\u00ee\u00ef\u00f0\u00f1\u00f2\u00f3\u00f4\u00f5\u00f6\u00f8\u00f9\u00fa\u00fb\u00fc\u00fd\u00fe\u00ff\u017e\u0161\u0153''))
-      = \"ruby\"]]", "ro": null}}}, "isCritical": true, "type": "click"}, {"name":
-      "Click on button \"Copy\"", "noScreenshot": false, "allowFailure": false, "params":
-      {"element": {"url": "https://docs.datadoghq.com/api/latest/azure-integration/?code-lang=ruby",
-      "targetOuterHTML": "<button class=\"btn btn-link collapsed font-bold\" disabled=\"\">\nList
-      all Azure integrations</button>", "multiLocator": {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][4]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"h5\"][1]/*[local-name()=\"button\"][1]",
-      "co": "[{\"text\":\"list all azure integrations\",\"textType\":\"directText\"},{\"relation\":\"PARENT
-      OF\",\"tagName\":\"SPAN\",\"text\":\"# list all azure integrations returns \\\"ok\\\"
-      response \",\"textType\":\"innerText\"}]", "cl": "/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" js-code-snippet-wrapper \")]/*[local-name()=\"div\"][3]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" btn \")]", "at": "", "clt": "/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" js-code-snippet-wrapper \")]/*[local-name()=\"div\"][3]/descendant::*[contains(concat(''
-      '', normalize-space(@class), '' ''), \" btn \")]", "ro": null}}}, "isCritical":
-      true, "type": "click"}], "config": {"variables": [], "setCookie": "", "request":
-      {"url": "https://docs.datadoghq.com", "headers": {"test": "{{ TEST_VARIABLE
-      }}", "test_two": "{{ TEST_VAR_LOCAL }}"}, "method": "GET"}, "assertions": [],
-      "configVariables": [{"pattern": "TEST_VAR_LOCAL", "type": "text", "name": "TEST_VAR_LOCAL",
-      "example": "TEST_VAR_LOCAL"}]}, "options": {"disableCsp": false, "retry": {"count":
-      0, "interval": 300}, "min_location_failed": 1, "min_failure_duration": 0, "noScreenshot":
-      false, "enableSecurityTesting": false, "monitor_options": {"include_tags": true,
-      "renotify_interval": 0, "notify_audit": false, "new_host_delay": 300, "on_missing_data":
-      "show_no_data"}, "disableCors": false, "enableProfiling": false, "rumSettings":
-      {"isEnabled": false}, "device_ids": ["chrome.laptop_large", "firefox.laptop_large",
-      "chrome.tablet", "chrome.mobile_small", "firefox.mobile_small", "firefox.tablet"],
-      "tick_every": 604800, "ignoreServerCertificateError": false}}'
+    body: '{"name": "DNS Test", "status": "live", "type": "api", "tags": ["foo:bar",
+      "foo", "env:test", "managed_by:datadog-sync"], "config": {"request": {"host":
+      "example.org"}, "assertions": [{"operator": "is", "property": "A", "type": "recordSome",
+      "target": "0.0.0.0"}]}, "message": "Notify @pagerduty", "options": {"monitor_options":
+      {"notify_audit": false, "include_tags": true, "new_host_delay": 300, "on_missing_data":
+      "show_no_data", "renotify_interval": 0}, "tick_every": 900, "min_location_failed":
+      1}, "locations": ["aws:eu-central-1"], "subtype": "dns"}'
     headers:
       Accept:
       - '*/*'
@@ -253,109 +187,36 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "snd-i3u-rsz", "tags": [], "org_id":
-        1000044987, "locations": ["aws:us-west-1"], "message": "", "deleted_at": null,
-        "name": "Browser Test (cloned)", "monitor_id": 9380040, "type": "browser",
-        "created_at": "2023-01-04T21:32:06.153090+00:00", "modified_at": "2023-01-04T21:32:06.153090+00:00",
-        "steps": [{"name": "Type text on input \"s\"", "noScreenshot": false, "allowFailure":
-        false, "params": {"value": "api", "element": {"url": "https://docs.datadoghq.com/",
-        "targetOuterHTML": "<input class=\"docssearch-input form-control ds-input\"
-        name=\"s\" type=\"docssearch\" placeholder=\"Search documentation...\" autocomplete=\"off\"
-        spellcheck=\"false\" role=\"combobox\" aria-autocomplete=\"list\" ar", "multiLocator":
-        {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"section\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"form\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"span\"][1]/*[local-name()=\"input\"][2]",
-        "co": "[{\"text\":\"search documentation...\",\"textType\":\"placeholder\"}]",
-        "cl": "/descendant::*[contains(concat('' '', normalize-space(@class), '' ''),
-        \" docssearch-input \") and contains(concat('' '', normalize-space(@class),
-        '' ''), \" ds-input \")]", "at": "/descendant::*[@name=\"s\"]", "clt": "/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" docssearch-input \") and contains(concat(''
-        '', normalize-space(@class), '' ''), \" ds-input \")]", "ro": "//*[@name=\"s\"]"}}},
-        "isCritical": true, "type": "typeText"}, {"name": "Press key ''Enter''", "noScreenshot":
-        false, "allowFailure": false, "params": {"value": "Enter"}, "isCritical":
-        true, "type": "pressKey"}, {"name": "Click on link \"API \u00bb AWS Logs Integration\"",
-        "noScreenshot": false, "allowFailure": false, "params": {"element": {"url":
-        "https://docs.datadoghq.com/search/?s=api", "targetOuterHTML": "<a href=\"https://docs.datadoghq.com/api/latest/azure-integration/\">API
-        \u00bb Azure Integration</a>", "multiLocator": {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"div\"][4]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][6]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"a\"][1]",
-        "co": "[{\"text\":\"api \u00bb azure integration\",\"textType\":\"directText\"}]",
-        "cl": "/descendant::*[contains(concat('' '', normalize-space(@class), '' ''),
-        \" content \")]/*[local-name()=\"div\"][6]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" tipue_search_content_title \")]/*[local-name()=\"a\"][1]",
-        "at": "", "clt": "/descendant::*[contains(concat('' '', normalize-space(@class),
-        '' ''), \" content \")]/descendant::*[text()[normalize-space(translate(.,
-        ''ABCDEFGHIJKLMNOPQRSTUVWXYZ\u00c0\u00c1\u00c2\u00c3\u00c4\u00c5\u00c6\u00c7\u00c8\u00c9\u00ca\u00cb\u00cc\u00cd\u00ce\u00cf\u00d0\u00d1\u00d2\u00d3\u00d4\u00d5\u00d6\u00d8\u00d9\u00da\u00db\u00dc\u00dd\u00de\u0178\u017d\u0160\u0152'',
-        ''abcdefghijklmnopqrstuvwxyz\u00e0\u00e1\u00e2\u00e3\u00e4\u00e5\u00e6\u00e7\u00e8\u00e9\u00ea\u00eb\u00ec\u00ed\u00ee\u00ef\u00f0\u00f1\u00f2\u00f3\u00f4\u00f5\u00f6\u00f8\u00f9\u00fa\u00fb\u00fc\u00fd\u00fe\u00ff\u017e\u0161\u0153''))
-        = \"api \u00bb azure integration\"]]", "ro": "//*[text()[normalize-space(translate(.,
-        ''ABCDEFGHIJKLMNOPQRSTUVWXYZ\u00c0\u00c1\u00c2\u00c3\u00c4\u00c5\u00c6\u00c7\u00c8\u00c9\u00ca\u00cb\u00cc\u00cd\u00ce\u00cf\u00d0\u00d1\u00d2\u00d3\u00d4\u00d5\u00d6\u00d8\u00d9\u00da\u00db\u00dc\u00dd\u00de\u0178\u017d\u0160\u0152'',
-        ''abcdefghijklmnopqrstuvwxyz\u00e0\u00e1\u00e2\u00e3\u00e4\u00e5\u00e6\u00e7\u00e8\u00e9\u00ea\u00eb\u00ec\u00ed\u00ee\u00ef\u00f0\u00f1\u00f2\u00f3\u00f4\u00f5\u00f6\u00f8\u00f9\u00fa\u00fb\u00fc\u00fd\u00fe\u00ff\u017e\u0161\u0153''))
-        = \"api \u00bb azure integration\"]]"}}}, "isCritical": true, "type": "click"},
-        {"name": "Click on link \"Go\"", "noScreenshot": false, "allowFailure": false,
-        "params": {"element": {"url": "https://docs.datadoghq.com/api/latest/azure-integration/",
-        "targetOuterHTML": "<a class=\"nav-link mr-1 js-code-example-link\" data-code-lang-trigger=\"go\"
-        href=\"?code-lang=go#\">Go</a>", "multiLocator": {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][4]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"ul\"][1]/*[local-name()=\"li\"][4]/*[local-name()=\"a\"][1]",
-        "co": "[{\"text\":\"go\",\"textType\":\"directText\"},{\"text\":\"get\",\"textType\":\"directText\"}]",
-        "cl": "/descendant::*[contains(concat('' '', normalize-space(@class), '' ''),
-        \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" code-lang-list-container \")]/*[local-name()=\"li\"][4]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" js-code-example-link \")]", "at":
-        "/*[local-name()=\"html\"]/*[local-name()=\"body\"]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][4]/descendant::*[@href=\"?code-lang=go#\"]",
-        "clt": "/descendant::*[contains(concat('' '', normalize-space(@class), ''
-        ''), \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" code-lang-list-container \")]/descendant::*[text()[normalize-space(translate(.,
-        ''ABCDEFGHIJKLMNOPQRSTUVWXYZ\u00c0\u00c1\u00c2\u00c3\u00c4\u00c5\u00c6\u00c7\u00c8\u00c9\u00ca\u00cb\u00cc\u00cd\u00ce\u00cf\u00d0\u00d1\u00d2\u00d3\u00d4\u00d5\u00d6\u00d8\u00d9\u00da\u00db\u00dc\u00dd\u00de\u0178\u017d\u0160\u0152'',
-        ''abcdefghijklmnopqrstuvwxyz\u00e0\u00e1\u00e2\u00e3\u00e4\u00e5\u00e6\u00e7\u00e8\u00e9\u00ea\u00eb\u00ec\u00ed\u00ee\u00ef\u00f0\u00f1\u00f2\u00f3\u00f4\u00f5\u00f6\u00f8\u00f9\u00fa\u00fb\u00fc\u00fd\u00fe\u00ff\u017e\u0161\u0153''))
-        = \"go\"]]", "ro": null}}}, "isCritical": true, "type": "click"}, {"name":
-        "Click on link \"Python [beta]\"", "noScreenshot": false, "allowFailure":
-        false, "params": {"element": {"url": "https://docs.datadoghq.com/api/latest/azure-integration/?code-lang=go",
-        "targetOuterHTML": "<a class=\"nav-link mr-1 js-code-example-link\" data-code-lang-trigger=\"ruby\"
-        href=\"?code-lang=ruby#\">Ruby</a>", "multiLocator": {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][4]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"ul\"][1]/*[local-name()=\"li\"][3]/*[local-name()=\"a\"][1]",
-        "co": "[{\"text\":\"ruby\",\"textType\":\"directText\"},{\"text\":\"get\",\"textType\":\"directText\"}]",
-        "cl": "/descendant::*[contains(concat('' '', normalize-space(@class), '' ''),
-        \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" code-lang-list-container \")]/*[local-name()=\"li\"][3]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" js-code-example-link \")]", "at":
-        "/*[local-name()=\"html\"]/*[local-name()=\"body\"]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][4]/descendant::*[@href=\"?code-lang=ruby#\"]",
-        "clt": "/descendant::*[contains(concat('' '', normalize-space(@class), ''
-        ''), \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" code-lang-list-container \")]/descendant::*[text()[normalize-space(translate(.,
-        ''ABCDEFGHIJKLMNOPQRSTUVWXYZ\u00c0\u00c1\u00c2\u00c3\u00c4\u00c5\u00c6\u00c7\u00c8\u00c9\u00ca\u00cb\u00cc\u00cd\u00ce\u00cf\u00d0\u00d1\u00d2\u00d3\u00d4\u00d5\u00d6\u00d8\u00d9\u00da\u00db\u00dc\u00dd\u00de\u0178\u017d\u0160\u0152'',
-        ''abcdefghijklmnopqrstuvwxyz\u00e0\u00e1\u00e2\u00e3\u00e4\u00e5\u00e6\u00e7\u00e8\u00e9\u00ea\u00eb\u00ec\u00ed\u00ee\u00ef\u00f0\u00f1\u00f2\u00f3\u00f4\u00f5\u00f6\u00f8\u00f9\u00fa\u00fb\u00fc\u00fd\u00fe\u00ff\u017e\u0161\u0153''))
-        = \"ruby\"]]", "ro": null}}}, "isCritical": true, "type": "click"}, {"name":
-        "Click on button \"Copy\"", "noScreenshot": false, "allowFailure": false,
-        "params": {"element": {"url": "https://docs.datadoghq.com/api/latest/azure-integration/?code-lang=ruby",
-        "targetOuterHTML": "<button class=\"btn btn-link collapsed font-bold\" disabled=\"\">\nList
-        all Azure integrations</button>", "multiLocator": {"ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][4]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"div\"][3]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][2]/*[local-name()=\"h5\"][1]/*[local-name()=\"button\"][1]",
-        "co": "[{\"text\":\"list all azure integrations\",\"textType\":\"directText\"},{\"relation\":\"PARENT
-        OF\",\"tagName\":\"SPAN\",\"text\":\"# list all azure integrations returns
-        \\\"ok\\\" response \",\"textType\":\"innerText\"}]", "cl": "/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" js-code-snippet-wrapper \")]/*[local-name()=\"div\"][3]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" btn \")]", "at": "", "clt": "/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" main-api \")]/*[local-name()=\"div\"][4]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" js-code-snippet-wrapper \")]/*[local-name()=\"div\"][3]/descendant::*[contains(concat(''
-        '', normalize-space(@class), '' ''), \" btn \")]", "ro": null}}}, "isCritical":
-        true, "type": "click"}], "config": {"variables": [], "setCookie": "", "request":
-        {"url": "https://docs.datadoghq.com", "headers": {"test": "{{ TEST_VARIABLE
-        }}", "test_two": "{{ TEST_VAR_LOCAL }}"}, "method": "GET"}, "assertions":
-        [], "configVariables": [{"pattern": "TEST_VAR_LOCAL", "type": "text", "name":
-        "TEST_VAR_LOCAL", "example": "TEST_VAR_LOCAL"}]}, "options": {"disableCsp":
-        false, "retry": {"count": 0, "interval": 300}, "min_location_failed": 1, "min_failure_duration":
-        0, "noScreenshot": false, "enableSecurityTesting": false, "monitor_options":
-        {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
-        300, "on_missing_data": "show_no_data"}, "disableCors": false, "enableProfiling":
-        false, "rumSettings": {"isEnabled": false}, "device_ids": ["chrome.laptop_large",
-        "firefox.laptop_large", "chrome.tablet", "chrome.mobile_small", "firefox.mobile_small",
-        "firefox.tablet"], "tick_every": 604800, "ignoreServerCertificateError": false}}'
+      string: '{"public_id": "fgy-dit-an6", "name": "DNS Test", "status": "live",
+        "type": "api", "tags": ["foo:bar", "foo", "env:test", "managed_by:datadog-sync"],
+        "created_at": "2024-02-01T20:13:58.826672+00:00", "modified_at": "2024-02-01T20:13:58.826672+00:00",
+        "config": {"request": {"host": "example.org"}, "assertions": [{"operator":
+        "is", "property": "A", "type": "recordSome", "target": "0.0.0.0"}]}, "message":
+        "Notify @pagerduty", "options": {"monitor_options": {"notify_audit": false,
+        "include_tags": true, "new_host_delay": 300, "on_missing_data": "show_no_data",
+        "renotify_interval": 0}, "tick_every": 900, "min_location_failed": 1}, "locations":
+        ["aws:eu-central-1"], "subtype": "dns", "created_by": {"name": "CI Service
+        Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "email": "frog@datadoghq.com"},
+        "deleted_at": null, "monitor_id": 15199637, "org_id": 1000144613, "modified_by":
+        {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com"}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"status": "live", "tags": ["foo:bar", "foo", "env:test"], "locations":
-      ["aws:eu-central-1"], "message": "Notify @pagerduty", "name": "DNS Test", "type":
-      "api", "subtype": "dns", "config": {"request": {"host": "example.org"}, "assertions":
-      [{"operator": "is", "property": "A", "type": "recordSome", "target": "0.0.0.0"}]},
-      "options": {"monitor_options": {"include_tags": true, "renotify_interval": 0,
-      "notify_audit": false, "new_host_delay": 300, "on_missing_data": "show_no_data"},
-      "tick_every": 900, "min_location_failed": 1}}'
+    body: '{"name": "Multistep API Test", "status": "live", "type": "api", "tags":
+      ["check_type:api", "env:test", "test:update", "managed_by:datadog-sync"], "config":
+      {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
+      "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
+      "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
+      [], "isCritical": true, "id": "vek-567-n38", "assertions": [{"operator": "lessThan",
+      "type": "responseTime", "target": 1000}, {"operator": "is", "type": "statusCode",
+      "target": 301}]}], "configVariables": []}, "message": "", "options": {"monitor_options":
+      {"notify_audit": false, "include_tags": true, "new_host_delay": 300, "on_missing_data":
+      "show_no_data", "renotify_interval": 0}, "retry": {"count": 0, "interval": 300},
+      "min_location_failed": 1, "min_failure_duration": 0, "tick_every": 604800},
+      "locations": ["aws:sa-east-1"], "subtype": "multi"}'
     headers:
       Accept:
       - '*/*'
@@ -367,58 +228,24 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"status": "live", "public_id": "mm6-8w7-65w", "tags": ["foo:bar",
-        "foo", "env:test"], "org_id": 1000044987, "locations": ["aws:eu-central-1"],
-        "message": "Notify @pagerduty", "deleted_at": null, "name": "DNS Test", "monitor_id":
-        9380041, "type": "api", "created_at": "2023-01-04T21:32:06.711063+00:00",
-        "modified_at": "2023-01-04T21:32:06.711063+00:00", "subtype": "dns", "config":
-        {"request": {"host": "example.org"}, "assertions": [{"operator": "is", "property":
-        "A", "type": "recordSome", "target": "0.0.0.0"}]}, "options": {"monitor_options":
-        {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
-        300, "on_missing_data": "show_no_data"}, "tick_every": 900, "min_location_failed":
-        1}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"status": "live", "tags": ["check_type:api", "env:test", "test:update"],
-      "locations": ["aws:sa-east-1"], "message": "", "name": "Multistep API Test",
-      "type": "api", "subtype": "multi", "config": {"steps": [{"retry": {"count":
-      0, "interval": 300}, "name": "Test on datadoghq.com", "request": {"url": "https://datadoghq.com",
-      "headers": {"content-type": "text/html"}, "method": "GET"}, "subtype": "http",
-      "allowFailure": false, "extractedValues": [], "isCritical": true, "id": "vek-567-n38",
-      "assertions": [{"operator": "lessThan", "type": "responseTime", "target": 1000},
-      {"operator": "is", "type": "statusCode", "target": 301}]}], "configVariables":
-      []}, "options": {"monitor_options": {"include_tags": true, "renotify_interval":
-      0, "notify_audit": false, "new_host_delay": 300, "on_missing_data": "show_no_data"},
-      "retry": {"count": 0, "interval": 300}, "min_location_failed": 1, "min_failure_duration":
-      0, "tick_every": 604800}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests
-  response:
-    body:
-      string: '{"status": "live", "public_id": "sh7-vbm-yk6", "tags": ["check_type:api",
-        "env:test", "test:update"], "org_id": 1000044987, "locations": ["aws:sa-east-1"],
-        "message": "", "deleted_at": null, "name": "Multistep API Test", "monitor_id":
-        9380042, "type": "api", "created_at": "2023-01-04T21:32:07.206367+00:00",
-        "modified_at": "2023-01-04T21:32:07.206367+00:00", "subtype": "multi", "config":
-        {"steps": [{"retry": {"count": 0, "interval": 300}, "name": "Test on datadoghq.com",
-        "request": {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
+      string: '{"public_id": "3g3-xdn-ve6", "name": "Multistep API Test", "status":
+        "live", "type": "api", "tags": ["check_type:api", "env:test", "test:update",
+        "managed_by:datadog-sync"], "created_at": "2024-02-01T20:13:59.240966+00:00",
+        "modified_at": "2024-02-01T20:13:59.240966+00:00", "config": {"steps": [{"retry":
+        {"count": 0, "interval": 300}, "name": "Test on datadoghq.com", "request":
+        {"url": "https://datadoghq.com", "headers": {"content-type": "text/html"},
         "method": "GET"}, "subtype": "http", "allowFailure": false, "extractedValues":
         [], "isCritical": true, "id": "vek-567-n38", "assertions": [{"operator": "lessThan",
         "type": "responseTime", "target": 1000}, {"operator": "is", "type": "statusCode",
-        "target": 301}]}], "configVariables": []}, "options": {"monitor_options":
-        {"include_tags": true, "renotify_interval": 0, "notify_audit": false, "new_host_delay":
-        300, "on_missing_data": "show_no_data"}, "retry": {"count": 0, "interval":
-        300}, "min_location_failed": 1, "min_failure_duration": 0, "tick_every": 604800}}'
+        "target": 301}]}], "configVariables": []}, "message": "", "options": {"monitor_options":
+        {"notify_audit": false, "include_tags": true, "new_host_delay": 300, "on_missing_data":
+        "show_no_data", "renotify_interval": 0}, "retry": {"count": 0, "interval":
+        300}, "min_location_failed": 1, "min_failure_duration": 0, "tick_every": 604800},
+        "locations": ["aws:sa-east-1"], "subtype": "multi", "created_by": {"name":
+        "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "email":
+        "frog@datadoghq.com"}, "deleted_at": null, "monitor_id": 15199638, "org_id":
+        1000144613, "modified_by": {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com"}}'
     headers: {}
     status:
       code: 200

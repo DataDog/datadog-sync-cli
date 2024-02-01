@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: '{"public_ids": ["sh7-vbm-yk6"]}'
+    body: '{"public_ids": ["i6i-ms4-j2c"]}'
     headers:
       Accept:
       - '*/*'
@@ -12,14 +12,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:11.539099+00:00",
-        "public_id": "sh7-vbm-yk6"}]}'
+      string: '{"deleted_tests": [{"public_id": "i6i-ms4-j2c", "deleted_at": "2024-02-01T20:14:03.258516+00:00"}]}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["k3i-rvg-xni"]}'
+    body: '{"public_ids": ["rap-ep8-a72"]}'
     headers:
       Accept:
       - '*/*'
@@ -31,14 +30,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:12.431826+00:00",
-        "public_id": "k3i-rvg-xni"}]}'
+      string: '{"deleted_tests": [{"public_id": "rap-ep8-a72", "deleted_at": "2024-02-01T20:14:03.638504+00:00"}]}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["mm6-8w7-65w"]}'
+    body: '{"public_ids": ["s9n-49r-ffy"]}'
     headers:
       Accept:
       - '*/*'
@@ -50,14 +48,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:12.852905+00:00",
-        "public_id": "mm6-8w7-65w"}]}'
+      string: '{"deleted_tests": [{"public_id": "s9n-49r-ffy", "deleted_at": "2024-02-01T20:14:04.045752+00:00"}]}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["8an-9u2-ihj"]}'
+    body: '{"public_ids": ["fgy-dit-an6"]}'
     headers:
       Accept:
       - '*/*'
@@ -69,14 +66,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:13.234186+00:00",
-        "public_id": "8an-9u2-ihj"}]}'
+      string: '{"deleted_tests": [{"public_id": "fgy-dit-an6", "deleted_at": "2024-02-01T20:14:04.361524+00:00"}]}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["snd-i3u-rsz"]}'
+    body: '{"public_ids": ["3g3-xdn-ve6"]}'
     headers:
       Accept:
       - '*/*'
@@ -88,14 +84,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:13.566957+00:00",
-        "public_id": "snd-i3u-rsz"}]}'
+      string: '{"deleted_tests": [{"public_id": "3g3-xdn-ve6", "deleted_at": "2024-02-01T20:14:04.658505+00:00"}]}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["ng3-cf8-k7i"]}'
+    body: '{"public_ids": ["yzf-8i8-pu7"]}'
     headers:
       Accept:
       - '*/*'
@@ -107,27 +102,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:13.960323+00:00",
-        "public_id": "ng3-cf8-k7i"}]}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"public_ids": ["2z9-7as-gzr"]}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/delete
-  response:
-    body:
-      string: '{"deleted_tests": [{"deleted_at": "2023-01-04T21:32:14.247455+00:00",
-        "public_id": "2z9-7as-gzr"}]}'
+      string: '{"deleted_tests": [{"public_id": "yzf-8i8-pu7", "deleted_at": "2024-02-01T20:14:05.051958+00:00"}]}'
     headers: {}
     status:
       code: 200

@@ -9,10 +9,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/slo/c8e349d24e38522c9f388b7d245726d7?force=True
+    uri: https://api.datadoghq.eu/api/v1/slo/2d2d092c28ff5b22a26238f7d74a5bae?force=True
   response:
     body:
-      string: '{"data": ["c8e349d24e38522c9f388b7d245726d7"], "error": null}'
+      string: '{"data": ["2d2d092c28ff5b22a26238f7d74a5bae"], "error": null}'
     headers: {}
     status:
       code: 200

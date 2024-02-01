@@ -18,29 +18,21 @@ interactions:
         0, "description": "Updated Description Test", "timeframe": "7d", "target_threshold":
         99.0, "monitor_ids": [37284891, 36239262], "creator": {"name": "Sherzod Karimov",
         "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com"},
-        "created_at": 1623260678, "modified_at": 1668546720}, {"id": "b6eedbdc42a15b658b5d55ffc4f91082",
-        "name": "[Synthetics] Test on google.com -tesst", "tags": [], "monitor_tags":
-        [], "thresholds": [{"timeframe": "7d", "target": 99.0, "target_display": "99."}],
-        "type": "monitor", "type_id": 0, "description": "noueman", "timeframe": "7d",
-        "target_threshold": 99.0, "monitor_ids": [103095757], "creator": {"name":
-        "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email":
-        "noueman.khalikine@datadoghq.com"}, "created_at": 1623421683, "modified_at":
-        1668546707}, {"id": "c4fa01c78d45542cb830598be4f68ad2", "name": "[Synthetics]
-        Multple Monitors based SLO", "tags": ["noueman"], "monitor_tags": [], "thresholds":
-        [{"timeframe": "7d", "target": 99.0, "target_display": "99."}], "type": "monitor",
-        "type_id": 0, "description": "teeeeeeeeeeeeeeeeeest updated desc", "timeframe":
-        "7d", "target_threshold": 99.0, "monitor_ids": [36230659], "creator": {"name":
-        "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email":
-        "noueman.khalikine@datadoghq.com"}, "created_at": 1623427531, "modified_at":
-        1668546696}, {"id": "ba72d10835d75e0c8910597144f3733a", "name": "SLO test",
-        "tags": [], "monitor_tags": [], "thresholds": [{"timeframe": "7d", "target":
-        99.0, "target_display": "99."}], "type": "metric", "type_id": 1, "description":
-        "Test update creation", "timeframe": "7d", "target_threshold": 99.0, "query":
-        {"denominator": "sum:api.requests{*}.as_count()", "numerator": "sum:api.requests.status_ok{*}.as_count()"},
-        "creator": {"name": "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com",
-        "email": "noueman.khalikine@datadoghq.com"}, "created_at": 1623658372, "modified_at":
-        1626358963}], "error": null, "metadata": {"page": {"total_count": 4, "total_filtered_count":
-        4}}}'
+        "created_at": 1623260678, "modified_at": 1668546720}, {"id": "ba72d10835d75e0c8910597144f3733a",
+        "name": "SLO test", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
+        "7d", "target": 99.0, "target_display": "99."}], "type": "metric", "type_id":
+        1, "description": "Test update creation", "timeframe": "7d", "target_threshold":
+        99.0, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
+        "sum:api.requests.status_ok{*}.as_count()"}, "creator": {"name": "Noueman
+        Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email": "noueman.khalikine@datadoghq.com"},
+        "created_at": 1623658372, "modified_at": 1626358963}, {"id": "b02adcb3d95a5c3dbfebf7c94bf4e8c5",
+        "name": "Random monitor slo", "tags": [], "monitor_tags": [], "thresholds":
+        [{"timeframe": "7d", "target": 99.9, "target_display": "99.9"}], "type": "monitor",
+        "type_id": 0, "description": "", "timeframe": "7d", "target_threshold": 99.9,
+        "monitor_ids": [36239262], "creator": {"name": "Sherzod Karimov", "handle":
+        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com"},
+        "created_at": 1695138080, "modified_at": 1695138180}], "error": null, "metadata":
+        {"page": {"total_count": 3, "total_filtered_count": 3}}}'
     headers:
       Content-Type:
       - application/json

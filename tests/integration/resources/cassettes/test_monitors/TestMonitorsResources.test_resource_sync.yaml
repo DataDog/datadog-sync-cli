@@ -1,12 +1,13 @@
 interactions:
 - request:
     body: '{"type": "query alert", "name": "Composite monitor - Child 2", "message":
-      "Test monitor ----------------", "tags": ["test:foo", "test_two:bar"], "query":
-      "avg(last_5m):avg:datadog.estimated_usage.hosts{*} > 50", "options": {"thresholds":
-      {"critical": 50.0}, "notify_audit": false, "require_full_window": true, "notify_no_data":
-      false, "renotify_interval": 0, "timeout_h": 0, "include_tags": true, "no_data_timeframe":
-      null, "escalation_message": "", "new_host_delay": 300, "silenced": {}}, "multi":
-      false, "restricted_roles": null, "priority": null}'
+      "Test monitor ----------------", "tags": ["test:foo", "test_two:bar", "managed_by:datadog-sync"],
+      "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*} > 50", "options":
+      {"thresholds": {"critical": 50.0}, "notify_audit": false, "require_full_window":
+      true, "notify_no_data": false, "renotify_interval": 0, "timeout_h": 0, "include_tags":
+      true, "no_data_timeframe": null, "escalation_message": "", "new_host_delay":
+      300, "silenced": {}}, "multi": false, "restricted_roles": null, "priority":
+      null}'
     headers:
       Accept:
       - '*/*'
@@ -18,30 +19,31 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 13103075, "org_id": 1000044987, "type": "query alert", "name":
+      string: '{"id": 15199433, "org_id": 1000144613, "type": "query alert", "name":
         "Composite monitor - Child 2", "message": "Test monitor ----------------",
-        "tags": ["test:foo", "test_two:bar"], "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50", "options": {"thresholds": {"critical": 50.0}, "notify_audit": false,
-        "require_full_window": true, "notify_no_data": false, "renotify_interval":
-        0, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
-        "", "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1695140798000, "created": "2023-09-19T16:26:38.694074+00:00", "modified":
-        "2023-09-19T16:26:38.694074+00:00", "deleted": null, "restricted_roles": null,
-        "priority": null, "overall_state_modified": null, "overall_state": "No Data",
-        "creator": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
-        "id": 1000219667}}'
+        "tags": ["test:foo", "test_two:bar", "managed_by:datadog-sync"], "query":
+        "avg(last_5m):avg:datadog.estimated_usage.hosts{*} > 50", "options": {"thresholds":
+        {"critical": 50.0}, "notify_audit": false, "require_full_window": true, "notify_no_data":
+        false, "renotify_interval": 0, "timeout_h": 0, "include_tags": true, "no_data_timeframe":
+        null, "escalation_message": "", "new_host_delay": 300, "silenced": {}}, "multi":
+        false, "created_at": 1706817279000, "created": "2024-02-01T19:54:39.714280+00:00",
+        "modified": "2024-02-01T19:54:39.714280+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": null, "overall_state": "No
+        Data", "creator": {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com", "id": 1001177794}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
     body: '{"type": "query alert", "name": "Composite monitor - child 1", "message":
-      "Composite monitor - child 1", "tags": ["test:foo"], "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
-      > 20", "options": {"thresholds": {"critical": 20.0, "warning": 10.0}, "notify_audit":
-      false, "require_full_window": true, "notify_no_data": false, "renotify_interval":
-      1440, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
-      "", "renotify_statuses": ["no data"], "new_host_delay": 300, "silenced": {}},
-      "multi": false, "restricted_roles": null, "priority": null}'
+      "Composite monitor - child 1", "tags": ["test:foo", "managed_by:datadog-sync"],
+      "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*} > 20", "options":
+      {"thresholds": {"critical": 20.0, "warning": 10.0}, "notify_audit": false, "require_full_window":
+      true, "notify_no_data": false, "renotify_interval": 1440, "timeout_h": 0, "include_tags":
+      true, "no_data_timeframe": null, "escalation_message": "", "renotify_statuses":
+      ["no data"], "new_host_delay": 300, "silenced": {}}, "multi": false, "restricted_roles":
+      null, "priority": null}'
     headers:
       Accept:
       - '*/*'
@@ -53,25 +55,26 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 13103076, "org_id": 1000044987, "type": "query alert", "name":
+      string: '{"id": 15199434, "org_id": 1000144613, "type": "query alert", "name":
         "Composite monitor - child 1", "message": "Composite monitor - child 1", "tags":
-        ["test:foo"], "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
+        ["test:foo", "managed_by:datadog-sync"], "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*}
         > 20", "options": {"thresholds": {"critical": 20.0, "warning": 10.0}, "notify_audit":
         false, "require_full_window": true, "notify_no_data": false, "renotify_interval":
         1440, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
         "", "renotify_statuses": ["no data"], "new_host_delay": 300, "silenced": {}},
-        "multi": false, "created_at": 1695140799000, "created": "2023-09-19T16:26:39.010818+00:00",
-        "modified": "2023-09-19T16:26:39.010818+00:00", "deleted": null, "restricted_roles":
+        "multi": false, "created_at": 1706817279000, "created": "2024-02-01T19:54:39.949041+00:00",
+        "modified": "2024-02-01T19:54:39.949041+00:00", "deleted": null, "restricted_roles":
         null, "priority": null, "overall_state_modified": null, "overall_state": "No
-        Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com", "email":
-        "frog@datadoghq.com", "id": 1000219667}}'
+        Data", "creator": {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com", "id": 1001177794}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
     body: '{"type": "service check", "name": "Host monitor", "message": "Test host
-      monitor", "tags": ["service:daimler-health-service"], "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
+      monitor", "tags": ["service:daimler-health-service", "managed_by:datadog-sync"],
+      "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
       "options": {"thresholds": {"critical": 1, "warning": 1, "ok": 1}, "notify_audit":
       false, "notify_no_data": true, "no_data_timeframe": 2, "renotify_interval":
       0, "timeout_h": 0, "include_tags": true, "new_group_delay": 300, "silenced":
@@ -87,24 +90,24 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 13103077, "org_id": 1000044987, "type": "service check", "name":
-        "Host monitor", "message": "Test host monitor", "tags": ["service:daimler-health-service"],
-        "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
+      string: '{"id": 15199435, "org_id": 1000144613, "type": "service check", "name":
+        "Host monitor", "message": "Test host monitor", "tags": ["service:daimler-health-service",
+        "managed_by:datadog-sync"], "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
         "options": {"thresholds": {"critical": 1, "warning": 1, "ok": 1}, "notify_audit":
         false, "notify_no_data": true, "no_data_timeframe": 2, "renotify_interval":
         0, "timeout_h": 0, "include_tags": true, "new_group_delay": 300, "silenced":
-        {}}, "multi": true, "created_at": 1695140799000, "created": "2023-09-19T16:26:39.341615+00:00",
-        "modified": "2023-09-19T16:26:39.341615+00:00", "deleted": null, "restricted_roles":
+        {}}, "multi": true, "created_at": 1706817280000, "created": "2024-02-01T19:54:40.239647+00:00",
+        "modified": "2024-02-01T19:54:40.239647+00:00", "deleted": null, "restricted_roles":
         null, "priority": null, "overall_state_modified": null, "overall_state": "No
-        Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com", "email":
-        "frog@datadoghq.com", "id": 1000219667}}'
+        Data", "creator": {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com", "id": 1001177794}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
     body: '{"type": "query alert", "name": "Anomaly monitor", "message": "Anomaly
-      monitor", "tags": [], "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
+      monitor", "tags": ["managed_by:datadog-sync"], "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
       ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60, count_default_zero=''true'')
       >= 1", "options": {"notify_audit": false, "locked": false, "timeout_h": 0, "include_tags":
       true, "no_data_timeframe": null, "require_full_window": true, "new_host_delay":
@@ -123,19 +126,20 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 13103078, "org_id": 1000044987, "type": "query alert", "name":
-        "Anomaly monitor", "message": "Anomaly monitor", "tags": [], "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
-        ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
-        count_default_zero=''true'') >= 1", "options": {"notify_audit": false, "locked":
-        false, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "require_full_window":
-        true, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
-        0, "escalation_message": "", "threshold_windows": {"recovery_window": "last_15m",
-        "trigger_window": "last_15m"}, "thresholds": {"critical": 1.0, "critical_recovery":
-        0.0}, "silenced": {}}, "multi": false, "created_at": 1695140799000, "created":
-        "2023-09-19T16:26:39.746677+00:00", "modified": "2023-09-19T16:26:39.746677+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        null, "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
-        "email": "frog@datadoghq.com", "id": 1000219667}}'
+      string: '{"id": 15199436, "org_id": 1000144613, "type": "query alert", "name":
+        "Anomaly monitor", "message": "Anomaly monitor", "tags": ["managed_by:datadog-sync"],
+        "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*}, ''basic'',
+        2, direction=''both'', alert_window=''last_15m'', interval=60, count_default_zero=''true'')
+        >= 1", "options": {"notify_audit": false, "locked": false, "timeout_h": 0,
+        "include_tags": true, "no_data_timeframe": null, "require_full_window": true,
+        "new_host_delay": 300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
+        "", "threshold_windows": {"recovery_window": "last_15m", "trigger_window":
+        "last_15m"}, "thresholds": {"critical": 1.0, "critical_recovery": 0.0}, "silenced":
+        {}}, "multi": false, "created_at": 1706817280000, "created": "2024-02-01T19:54:40.468888+00:00",
+        "modified": "2024-02-01T19:54:40.468888+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": null, "overall_state": "No
+        Data", "creator": {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com", "id": 1001177794}}'
     headers: {}
     status:
       code: 200
@@ -143,7 +147,7 @@ interactions:
 - request:
     body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
       stopped reporting", "message": "Private location {{location_id.name}} stopped
-      reporting to Datadog.", "tags": [], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
+      reporting to Datadog.", "tags": ["managed_by:datadog-sync"], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
       by {location_id} < 1", "options": {"notify_audit": false, "locked": false, "include_tags":
       true, "thresholds": {"critical": 1.0}, "new_host_delay": 300, "notify_no_data":
       true, "silenced": {}}, "multi": true, "restricted_roles": null, "priority":
@@ -159,17 +163,18 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 13103079, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 15199437, "org_id": 1000144613, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} stopped reporting", "message":
         "Private location {{location_id.name}} stopped reporting to Datadog.", "tags":
-        [], "query": "min(last_5m):avg:synthetics.pl.worker.running{*} by {location_id}
-        < 1", "options": {"notify_audit": false, "locked": false, "include_tags":
-        true, "thresholds": {"critical": 1.0}, "new_host_delay": 300, "notify_no_data":
-        true, "silenced": {}}, "multi": true, "created_at": 1695140800000, "created":
-        "2023-09-19T16:26:40.042087+00:00", "modified": "2023-09-19T16:26:40.042087+00:00",
+        ["managed_by:datadog-sync"], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
+        by {location_id} < 1", "options": {"notify_audit": false, "locked": false,
+        "include_tags": true, "thresholds": {"critical": 1.0}, "new_host_delay": 300,
+        "notify_no_data": true, "silenced": {}}, "multi": true, "created_at": 1706817280000,
+        "created": "2024-02-01T19:54:40.697193+00:00", "modified": "2024-02-01T19:54:40.697193+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        null, "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
-        "email": "frog@datadoghq.com", "id": 1000219667}}'
+        null, "overall_state": "No Data", "creator": {"name": "CI Service Account",
+        "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "email": "frog@datadoghq.com",
+        "id": 1001177794}}'
     headers: {}
     status:
       code: 200
@@ -180,9 +185,50 @@ interactions:
       is running an outdated image version. Learn more about the current version in
       use on your [Private locations page](https://app.datadoghq.com/synthetics/settings/private-locations?id={{location_id.name}})
       and upgrade workers to the most recent version of the image by pulling the `datadog/synthetics-private-location-worker`
-      image with the `latest` tag.", "tags": [], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*}
-      by {location_id} > 0", "options": {"notify_audit": false, "locked": false, "include_tags":
-      true, "thresholds": {"critical": 0.0}, "new_host_delay": 300, "notify_no_data":
+      image with the `latest` tag.", "tags": ["managed_by:datadog-sync"], "query":
+      "max(last_15m):sum:synthetics.pl.worker.outdated{*} by {location_id} > 0", "options":
+      {"notify_audit": false, "locked": false, "include_tags": true, "thresholds":
+      {"critical": 0.0}, "new_host_delay": 300, "notify_no_data": false, "silenced":
+      {}}, "multi": true, "restricted_roles": null, "priority": null}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/monitor
+  response:
+    body:
+      string: '{"id": 15199438, "org_id": 1000144613, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} uses an outdated image
+        version", "message": "Private location {{location_id.name}} is running an
+        outdated image version. Learn more about the current version in use on your
+        [Private locations page](https://app.datadoghq.com/synthetics/settings/private-locations?id={{location_id.name}})
+        and upgrade workers to the most recent version of the image by pulling the
+        `datadog/synthetics-private-location-worker` image with the `latest` tag.",
+        "tags": ["managed_by:datadog-sync"], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*}
+        by {location_id} > 0", "options": {"notify_audit": false, "locked": false,
+        "include_tags": true, "thresholds": {"critical": 0.0}, "new_host_delay": 300,
+        "notify_no_data": false, "silenced": {}}, "multi": true, "created_at": 1706817280000,
+        "created": "2024-02-01T19:54:40.988898+00:00", "modified": "2024-02-01T19:54:40.988898+00:00",
+        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
+        null, "overall_state": "No Data", "creator": {"name": "CI Service Account",
+        "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "email": "frog@datadoghq.com",
+        "id": 1001177794}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
+      is underprovisioned", "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
+      this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#dimension-your-private-location)
+      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+      "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
+      < 1.5", "options": {"notify_audit": false, "locked": false, "include_tags":
+      true, "thresholds": {"critical": 1.5}, "new_host_delay": 300, "notify_no_data":
       false, "silenced": {}}, "multi": true, "restricted_roles": null, "priority":
       null}'
     headers:
@@ -196,64 +242,27 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 13103080, "org_id": 1000044987, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} uses an outdated image
-        version", "message": "Private location {{location_id.name}} is running an
-        outdated image version. Learn more about the current version in use on your
-        [Private locations page](https://app.datadoghq.com/synthetics/settings/private-locations?id={{location_id.name}})
-        and upgrade workers to the most recent version of the image by pulling the
-        `datadog/synthetics-private-location-worker` image with the `latest` tag.",
-        "tags": [], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*} by
-        {location_id} > 0", "options": {"notify_audit": false, "locked": false, "include_tags":
-        true, "thresholds": {"critical": 0.0}, "new_host_delay": 300, "notify_no_data":
-        false, "silenced": {}}, "multi": true, "created_at": 1695140800000, "created":
-        "2023-09-19T16:26:40.472377+00:00", "modified": "2023-09-19T16:26:40.472377+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        null, "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
-        "email": "frog@datadoghq.com", "id": 1000219667}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      is underprovisioned", "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
-      this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#dimension-your-private-location)
-      to learn how to scale your private location.", "tags": [], "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*}
-      by {location_id} < 1.5", "options": {"notify_audit": false, "locked": false,
-      "include_tags": true, "thresholds": {"critical": 1.5}, "new_host_delay": 300,
-      "notify_no_data": false, "silenced": {}}, "multi": true, "restricted_roles":
-      null, "priority": null}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/monitor
-  response:
-    body:
-      string: '{"id": 13103081, "org_id": 1000044987, "type": "metric alert", "name":
+      string: '{"id": 15199439, "org_id": 1000144613, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} is underprovisioned",
         "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
         this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#dimension-your-private-location)
-        to learn how to scale your private location.", "tags": [], "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*}
-        by {location_id} < 1.5", "options": {"notify_audit": false, "locked": false,
-        "include_tags": true, "thresholds": {"critical": 1.5}, "new_host_delay": 300,
-        "notify_no_data": false, "silenced": {}}, "multi": true, "created_at": 1695140800000,
-        "created": "2023-09-19T16:26:40.907051+00:00", "modified": "2023-09-19T16:26:40.907051+00:00",
+        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+        "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
+        < 1.5", "options": {"notify_audit": false, "locked": false, "include_tags":
+        true, "thresholds": {"critical": 1.5}, "new_host_delay": 300, "notify_no_data":
+        false, "silenced": {}}, "multi": true, "created_at": 1706817281000, "created":
+        "2024-02-01T19:54:41.388302+00:00", "modified": "2024-02-01T19:54:41.388302+00:00",
         "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        null, "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
-        "email": "frog@datadoghq.com", "id": 1000219667}}'
+        null, "overall_state": "No Data", "creator": {"name": "CI Service Account",
+        "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "email": "frog@datadoghq.com",
+        "id": 1001177794}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
     body: '{"type": "event-v2 alert", "name": "Test event monitor", "message": "Test
-      event monitor", "tags": [], "query": "events(\"\").rollup(\"count\").last(\"5m\")
+      event monitor", "tags": ["managed_by:datadog-sync"], "query": "events(\"\").rollup(\"count\").last(\"5m\")
       > 100", "options": {"notify_audit": false, "locked": false, "timeout_h": 0,
       "include_tags": true, "restriction_query": null, "new_host_delay": 300, "notify_no_data":
       false, "renotify_interval": 0, "groupby_simple_monitor": true, "enable_logs_sample":
@@ -270,28 +279,28 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 13103082, "org_id": 1000044987, "type": "event-v2 alert", "name":
-        "Test event monitor", "message": "Test event monitor", "tags": [], "query":
-        "events(\"\").rollup(\"count\").last(\"5m\") > 100", "options": {"notify_audit":
+      string: '{"id": 15199442, "org_id": 1000144613, "type": "event-v2 alert", "name":
+        "Test event monitor", "message": "Test event monitor", "tags": ["managed_by:datadog-sync"],
+        "query": "events(\"\").rollup(\"count\").last(\"5m\") > 100", "options": {"notify_audit":
         false, "locked": false, "timeout_h": 0, "include_tags": true, "restriction_query":
         null, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
         0, "groupby_simple_monitor": true, "enable_logs_sample": false, "escalation_message":
         "", "thresholds": {"critical": 100.0}, "silenced": {}}, "multi": false, "created_at":
-        1695140801000, "created": "2023-09-19T16:26:41.271927+00:00", "modified":
-        "2023-09-19T16:26:41.271927+00:00", "deleted": null, "restricted_roles": null,
+        1706817281000, "created": "2024-02-01T19:54:41.670776+00:00", "modified":
+        "2024-02-01T19:54:41.670776+00:00", "deleted": null, "restricted_roles": null,
         "priority": null, "overall_state_modified": null, "overall_state": "No Data",
-        "creator": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
-        "id": 1000219667}}'
+        "creator": {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com", "id": 1001177794}}'
     headers: {}
     status:
       code: 200
       message: OK
 - request:
     body: '{"type": "composite", "name": "Composite monitor", "message": "test", "tags":
-      [], "query": "( 13103076 && 13103075 ) || !13103076", "options": {"notify_audit":
-      false, "locked": false, "include_tags": false, "new_host_delay": 300, "notify_no_data":
-      false, "renotify_interval": 0, "escalation_message": "", "silenced": {}}, "multi":
-      false, "restricted_roles": null, "priority": null}'
+      ["managed_by:datadog-sync"], "query": "( 15199434 && 15199433 ) || !15199434",
+      "options": {"notify_audit": false, "locked": false, "include_tags": false, "new_host_delay":
+      300, "notify_no_data": false, "renotify_interval": 0, "escalation_message":
+      "", "silenced": {}}, "multi": false, "restricted_roles": null, "priority": null}'
     headers:
       Accept:
       - '*/*'
@@ -303,16 +312,16 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/monitor
   response:
     body:
-      string: '{"id": 13103083, "org_id": 1000044987, "type": "composite", "name":
-        "Composite monitor", "message": "test", "tags": [], "query": "( 13103076 &&
-        13103075 ) || !13103076", "options": {"notify_audit": false, "locked": false,
-        "include_tags": false, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
-        0, "escalation_message": "", "silenced": {}}, "multi": false, "created_at":
-        1695140801000, "created": "2023-09-19T16:26:41.562785+00:00", "modified":
-        "2023-09-19T16:26:41.562785+00:00", "deleted": null, "restricted_roles": null,
-        "priority": null, "overall_state_modified": null, "overall_state": "No Data",
-        "creator": {"name": "Frog", "handle": "frog@datadoghq.com", "email": "frog@datadoghq.com",
-        "id": 1000219667}}'
+      string: '{"id": 15199447, "org_id": 1000144613, "type": "composite", "name":
+        "Composite monitor", "message": "test", "tags": ["managed_by:datadog-sync"],
+        "query": "( 15199434 && 15199433 ) || !15199434", "options": {"notify_audit":
+        false, "locked": false, "include_tags": false, "new_host_delay": 300, "notify_no_data":
+        false, "renotify_interval": 0, "escalation_message": "", "silenced": {}},
+        "multi": false, "created_at": 1706817281000, "created": "2024-02-01T19:54:41.938159+00:00",
+        "modified": "2024-02-01T19:54:41.938159+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": null, "overall_state": "No
+        Data", "creator": {"name": "CI Service Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "email": "frog@datadoghq.com", "id": 1001177794}}'
     headers: {}
     status:
       code: 200
