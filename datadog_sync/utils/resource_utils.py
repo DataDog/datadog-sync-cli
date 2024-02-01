@@ -28,8 +28,8 @@ log = logging.getLogger(LOGGER_NAME)
 
 
 class SkipResource(Exception):
-    def __init__(self, message):
-        super(SkipResource, self).__init__(message)
+    def __init__(self, _id: str, _type: str, msg: str):
+        super(SkipResource, self).__init__(f"Skipping {_type} with id: {_id}. {msg}")
 
 
 class ResourceConnectionError(Exception):

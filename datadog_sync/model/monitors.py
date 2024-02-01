@@ -60,9 +60,7 @@ class Monitors(BaseResource):
 
         resource = cast(dict, resource)
         if resource["type"] == "synthetics alert":
-            raise SkipResource(
-                f"Skipping synthetics alert monitor: {_id}. Synthetics alerts monitors are created by synthetics tests."
-            )
+            raise SkipResource(_id, self.resource_type, "Synthetics monitors are created by synthetics tests.")
 
         return str(resource["id"]), resource
 

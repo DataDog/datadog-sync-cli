@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from dateutil.parser import parse
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import DowntimeSchedulesDateOperator
+from datadog_sync.utils.resource_utils import DowntimeSchedulesDateOperator, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -47,7 +47,7 @@ class DowntimeSchedules(BaseResource):
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
 
         if resource["attributes"].get("canceled"):
-            return
+            raise SkipResource(_id, self.resource_type, "Downtime is canceled.")
 
         return str(resource["id"]), resource
 
