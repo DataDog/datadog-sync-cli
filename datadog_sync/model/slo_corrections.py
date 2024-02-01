@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 from datetime import datetime
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -36,7 +37,7 @@ class SLOCorrections(BaseResource):
         resource = cast(dict, resource)
         if resource["attributes"].get("end", False):
             if (round(datetime.now().timestamp()) - int(resource["attributes"]["end"])) / 86400 > 90:
-                return
+                raise SkipResource(_id, self.resource_type, "End time is older than 90 days.")
 
         return resource["id"], resource
 
