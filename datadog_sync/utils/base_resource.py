@@ -97,7 +97,12 @@ class BaseResource(abc.ABC):
         _id, r = self.import_resource(_id, resource)
 
         if self.resource_config.tagging_config is not None:
-            self.resource_config.tagging_config.add_default_tags(r)
+            try:
+                self.resource_config.tagging_config.add_default_tags(r)
+            except Exception as e:
+                self.config.logger.warning(
+                    f"Error while adding default tags to resource {self.resource_type}. {str(e)}"
+                )
 
         self.resource_config.source_resources[str(_id)] = r
 
