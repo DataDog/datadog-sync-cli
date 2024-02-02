@@ -95,10 +95,6 @@ class BaseResource(abc.ABC):
 
     def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         _id, r = self.import_resource(_id, resource)
-
-        if self.resource_config.tagging_config is not None:
-            self.resource_config.tagging_config.add_default_tags(r)
-
         self.resource_config.source_resources[str(_id)] = r
 
     @abc.abstractmethod

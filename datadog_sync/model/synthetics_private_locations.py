@@ -18,13 +18,13 @@ if TYPE_CHECKING:
 class SyntheticsPrivateLocations(BaseResource):
     resource_type = "synthetics_private_locations"
     resource_config = ResourceConfig(
+        resource_connections={"roles": ["metadata.restricted_roles"]},
         base_path="/api/v1/synthetics/private-locations",
         excluded_attributes=[
             "id",
             "modifiedAt",
             "createdAt",
             "createdBy",
-            "metadata",
             "secrets",
             "config",
             "result_encryption",
@@ -87,4 +87,4 @@ class SyntheticsPrivateLocations(BaseResource):
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass
+        return super(SyntheticsPrivateLocations, self).connect_id(key, r_obj, resource_to_connect)
