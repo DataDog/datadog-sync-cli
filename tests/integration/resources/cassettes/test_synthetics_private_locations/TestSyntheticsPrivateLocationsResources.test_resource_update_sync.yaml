@@ -1,7 +1,7 @@
 interactions:
 - request:
-    body: '{"name": "Test Private Variableupdated", "tags": ["key:value"], "description":
-      "datadog-sync-cli test"}'
+    body: '{"description": "Random location for test", "tags": ["test:foo"], "name":
+      "Custom Locationupdated", "metadata": {"restricted_roles": []}}'
     headers:
       Accept:
       - '*/*'
@@ -10,14 +10,13 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-private-variable-73eed01c79c1fca3cd51c2423cb66c70
+    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:custom-location-e09a2f45e85c67a66f2a30b1e0370927
   response:
     body:
-      string: '{"name": "Test Private Variableupdated", "tags": ["key:value"], "modifiedAt":
-        "2023-01-04T21:32:02.607142+00:00", "createdBy": "sherzod.karimov@datadoghq.com",
-        "metadata": null, "id": "pl:test-private-variable-73eed01c79c1fca3cd51c2423cb66c70",
-        "createdAt": "2023-01-04T21:32:02.185319+00:00", "description": "datadog-sync-cli
-        test"}'
+      string: '{"createdAt": "2024-02-01T22:13:08.151112+00:00", "modifiedAt": "2024-02-01T22:13:09.264036+00:00",
+        "description": "Random location for test", "tags": ["test:foo"], "name": "Custom
+        Locationupdated", "metadata": {"restricted_roles": []}, "id": "pl:custom-location-e09a2f45e85c67a66f2a30b1e0370927",
+        "createdBy": "frog@datadoghq.com"}'
     headers: {}
     status:
       code: 200
