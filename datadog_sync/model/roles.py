@@ -29,18 +29,25 @@ class Roles(BaseResource):
     def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = client.paginated_request(client.get)(self.resource_config.base_path)
 
-        try:
-            source_permissions = client.get(self.permissions_base_path).json()["data"]
-            for permission in source_permissions:
-                self.source_permissions[permission["id"]] = permission["attributes"]["name"]
-        except CustomClientHTTPError as e:
-            self.config.logger.warning("error retrieving permissions: %s", e)
-
         return resp
 
     def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        source_client = self.config.source_client
+
+        if not self.source_permissions:
+            # Retrieve source permissions in the import step and cache it.
+            # Ideally, this would be in the pre_apply_hook, but for the purposes of import/sync seperation
+            # we are doing it here.
+            try:
+                source_permissions = source_client.get(self.permissions_base_path).json()["data"]
+                permissions = {}
+                for permission in source_permissions:
+                    permissions[permission["id"]] = permission["attributes"]["name"]
+                self.source_permissions = permissions
+            except CustomClientHTTPError as e:
+                self.config.logger.warning("error retrieving permissions: %s", e)
+
         if _id:
-            source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
 
         resource = cast(dict, resource)
