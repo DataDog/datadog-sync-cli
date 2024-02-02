@@ -3,12 +3,12 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 from datetime import datetime, timedelta
 from dateutil.parser import parse
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import DowntimeSchedulesDateOperator
+from datadog_sync.utils.resource_utils import DowntimeSchedulesDateOperator, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -41,15 +41,15 @@ class DowntimeSchedules(BaseResource):
 
         return resp.get("data", [])
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
 
         if resource["attributes"].get("canceled"):
-            return
+            raise SkipResource(_id, self.resource_type, "Downtime is canceled.")
 
-        self.resource_config.source_resources[str(resource["id"])] = resource
+        return str(resource["id"]), resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.resource_config.destination_resources:
@@ -84,14 +84,14 @@ class DowntimeSchedules(BaseResource):
     def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = destination_client.post(self.resource_config.base_path, payload).json()
 
-        self.resource_config.destination_resources[_id] = resp["data"]
+        return _id, resp["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource["id"] = self.resource_config.destination_resources[_id]["id"]
         payload = {"data": resource}
@@ -100,7 +100,7 @@ class DowntimeSchedules(BaseResource):
             payload,
         ).json()
 
-        self.resource_config.destination_resources[_id] = resp["data"]
+        return _id, resp["data"]
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client

@@ -7,10 +7,16 @@ from __future__ import annotations
 import abc
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Optional, Dict, List
+from typing import TYPE_CHECKING, Optional, Dict, List, Tuple
 
 from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.resource_utils import open_resources, find_attr, ResourceConnectionError
+from datadog_sync.utils.resource_utils import (
+    CustomClientHTTPError,
+    LoggedException,
+    open_resources,
+    find_attr,
+    ResourceConnectionError,
+)
 
 if TYPE_CHECKING:
     from datadog_sync.utils.configuration import Configuration
@@ -50,29 +56,66 @@ class BaseResource(abc.ABC):
     def get_resources(self, client: CustomClient) -> List[Dict]:
         pass
 
+    def _get_resources(self, client: CustomClient) -> List[Dict]:
+        r = self.get_resources(client)
+        return r
+
     @abc.abstractmethod
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         pass
+
+    def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        _id, r = self.import_resource(_id, resource)
+        self.resource_config.source_resources[str(_id)] = r
 
     @abc.abstractmethod
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
+    def _pre_resource_action_hook(self, _id, resource: Dict) -> None:
+        return self.pre_resource_action_hook(_id, resource)
+
     @abc.abstractmethod
     def pre_apply_hook(self) -> None:
         pass
 
-    @abc.abstractmethod
-    def create_resource(self, _id: str, resource: Dict) -> None:
-        pass
+    def _pre_apply_hook(self) -> None:
+        return self.pre_apply_hook()
 
     @abc.abstractmethod
-    def update_resource(self, _id: str, resource: Dict) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         pass
+
+    def _create_resource(self, _id: str, resource: Dict) -> None:
+        _id, r = self.create_resource(_id, resource)
+        self.resource_config.destination_resources[_id] = r
+
+    @abc.abstractmethod
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        pass
+
+    def _update_resource(self, _id: str, resource: Dict) -> None:
+        _id, r = self.update_resource(_id, resource)
+        self.resource_config.destination_resources[_id] = r
 
     @abc.abstractmethod
     def delete_resource(self, _id: str) -> None:
         pass
+
+    def _delete_resource(self, _id: str) -> None:
+        try:
+            self.delete_resource(_id)
+        except CustomClientHTTPError as e:
+            if e.status_code == 404:
+                self.resource_config.destination_resources.pop(_id, None)
+                return None
+
+            self.config.logger.error(
+                f"Error while deleting resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
+            )
+            raise LoggedException(e)
+
+        self.resource_config.destination_resources.pop(_id, None)
 
     @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:

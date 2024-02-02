@@ -39,13 +39,14 @@ class LogsRestrictionQueries(BaseResource):
         )
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict[str, Any]] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict[str, Any]] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
         r_query = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
         r_query.pop("included", None)
-        self.resource_config.source_resources[import_id] = r_query
+
+        return import_id, r_query
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -53,7 +54,7 @@ class LogsRestrictionQueries(BaseResource):
     def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         relationships = resource["data"].pop("relationships")
         added_role_ids = set([role["id"] for role in relationships["roles"]["data"]])
@@ -63,9 +64,10 @@ class LogsRestrictionQueries(BaseResource):
 
         new_roles = [{"id": _id, "type": "roles"} for _id in successfully_added]
         resp["data"]["relationships"] = {"roles": {"data": new_roles}}
-        self.resource_config.destination_resources[_id] = resp
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+        return _id, resp
+
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         new_relationships = resource["data"].pop("relationships", {})
         old_relationships = self.resource_config.destination_resources[_id]["data"].pop("relationships", {})
@@ -87,6 +89,8 @@ class LogsRestrictionQueries(BaseResource):
             )
             new_roles = [{"id": role_id, "type": "roles"} for role_id in (list(intersection) + succ_added)]
             self.resource_config.destination_resources[_id]["data"]["relationships"] = {"roles": {"data": new_roles}}
+
+        return _id, self.resource_config.destination_resources[_id]
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client

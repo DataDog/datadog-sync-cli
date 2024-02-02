@@ -4,10 +4,10 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Optional, List, Dict, cast
+from typing import TYPE_CHECKING, Any, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource, check_diff
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -42,16 +42,16 @@ class Users(BaseResource):
 
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict[str, Any]] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict[str, Any]] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
 
         resource = cast(dict, resource)
         if resource["attributes"]["disabled"]:
-            return
+            raise SkipResource(_id, self.resource_type, "User is disabled.")
 
-        self.resource_config.source_resources[resource["id"]] = resource
+        return resource["id"], resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -59,22 +59,21 @@ class Users(BaseResource):
     def pre_apply_hook(self) -> None:
         self.remote_destination_users = self.get_remote_destination_users()
 
-    def create_resource(self, _id: str, resource: Dict) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if resource["attributes"]["email"] in self.remote_destination_users:
             self.resource_config.destination_resources[_id] = self.remote_destination_users[
                 resource["attributes"]["email"]
             ]
 
-            self.update_resource(_id, resource)
-            return
+            return self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
         resource["attributes"].pop("disabled", None)
         resp = destination_client.post(self.resource_config.base_path, {"data": resource})
 
-        self.resource_config.destination_resources[_id] = resp.json()["data"]
+        return _id, resp.json()["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
 
         diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
@@ -87,7 +86,8 @@ class Users(BaseResource):
                 {"data": resource},
             )
 
-            self.resource_config.destination_resources[_id] = resp.json()["data"]
+            return _id, resp.json()["data"]
+        return _id, self.resource_config.destination_resources[_id]
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client

@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict, cast
+from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
@@ -29,7 +29,7 @@ class LogsIndexes(BaseResource):
         resp = client.get(self.resource_config.base_path).json()
         return resp["indexes"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
@@ -37,7 +37,8 @@ class LogsIndexes(BaseResource):
         resource = cast(dict, resource)
         if not resource.get("daily_limit"):
             resource["disable_daily_limit"] = True
-        self.resource_config.source_resources[resource["name"]] = resource
+
+        return resource["name"], resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -45,20 +46,19 @@ class LogsIndexes(BaseResource):
     def pre_apply_hook(self) -> None:
         self.destination_logs_indexes = self.get_destination_logs_indexes()
 
-    def create_resource(self, _id: str, resource: Dict) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if _id in self.destination_logs_indexes:
             self.resource_config.destination_resources[_id] = self.destination_logs_indexes[_id]
-            self.update_resource(_id, resource)
-            return
+            return self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
         resp = destination_client.post(self.resource_config.base_path, resource).json()
         if not resp.get("daily_limit"):
             resp["disable_daily_limit"] = True
 
-        self.resource_config.destination_resources[_id] = resp
+        return _id, resp
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         # Can't update name so remove it
         resource.pop("name")
@@ -72,6 +72,8 @@ class LogsIndexes(BaseResource):
             self.resource_config.destination_resources[_id]["disable_daily_limit"] = True
         else:
             self.resource_config.destination_resources[_id].pop("disable_daily_limit", None)
+
+        return _id, self.resource_config.destination_resources[_id]
 
     def delete_resource(self, _id: str) -> None:
         raise Exception("logs index deletion is not supported")

@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import LogsPipelinesOrderIdsComparator
@@ -35,12 +35,12 @@ class LogsPipelinesOrder(BaseResource):
 
         return [resp]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path).json()
 
-        self.resource_config.source_resources[self.default_id] = resource
+        return self.default_id, resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -48,14 +48,14 @@ class LogsPipelinesOrder(BaseResource):
     def pre_apply_hook(self) -> None:
         self.destination_pipeline_order = self.get_destination_pipeline_order()
 
-    def create_resource(self, _id: str, resource: Dict) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if not self.destination_pipeline_order:
             raise Exception("Failed to retrieve destination orgs logs pipeline order")
 
         self.resource_config.destination_resources[_id] = self.destination_pipeline_order
-        self.update_resource(_id, resource)
+        return self.update_resource(_id, resource)
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_resources = self.destination_pipeline_order or self.resource_config.destination_resources[_id]
         ids_to_omit = set(resource["pipeline_ids"]) - set(destination_resources["pipeline_ids"])
 
@@ -68,7 +68,8 @@ class LogsPipelinesOrder(BaseResource):
 
         destination_client = self.config.destination_client
         resp = destination_client.put(self.resource_config.base_path, resource).json()
-        self.resource_config.destination_resources[_id] = resp
+
+        return _id, resp
 
     def delete_resource(self, _id: str) -> None:
         self.config.logger.warning("logs_pipeline_order cannot deleted. Removing resource from config only.")

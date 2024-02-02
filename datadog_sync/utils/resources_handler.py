@@ -17,6 +17,7 @@ from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
     LoggedException,
     ResourceConnectionError,
+    SkipResource,
     check_diff,
     dump_resources,
     prep_resource,
@@ -86,7 +87,7 @@ class ResourcesHandler:
 
         # Run pre-apply hooks
         for resource_type in set(self.resources_manager.all_resources.values()):
-            futures.append(parralel_executor.submit(self.config.resources[resource_type].pre_apply_hook))
+            futures.append(parralel_executor.submit(self.config.resources[resource_type]._pre_apply_hook))
         wait(futures)
         for future in futures:
             try:
@@ -185,7 +186,7 @@ class ResourcesHandler:
 
             if not r_class.filter(resource):
                 return
-            r_class.pre_resource_action_hook(_id, resource)
+            r_class._pre_resource_action_hook(_id, resource)
 
             try:
                 r_class.connect_resources(_id, resource)
@@ -204,7 +205,7 @@ class ResourcesHandler:
         r_class.resource_config.source_resources.clear()
 
         try:
-            get_resp = r_class.get_resources(self.config.source_client)
+            get_resp = r_class._get_resources(self.config.source_client)
         except Exception as e:
             self.config.logger.error(f"Error while importing resources {resource_type}: {str(e)}")
             return 0, 0
@@ -214,12 +215,14 @@ class ResourcesHandler:
             for r in get_resp:
                 if not r_class.filter(r):
                     continue
-                futures.append(executor.submit(r_class.import_resource, resource=r))
+                futures.append(executor.submit(r_class._import_resource, resource=r))
 
         successes = errors = 0
         for future in futures:
             try:
                 future.result()
+            except SkipResource as e:
+                self.config.logger.debug(str(e))
             except Exception as e:
                 self.config.logger.error(f"Error while importing resource {resource_type}: {str(e)}")
                 errors += 1
@@ -239,7 +242,7 @@ class ResourcesHandler:
                     return
 
             # Run hooks
-            r_class.pre_resource_action_hook(_id, resource)
+            r_class._pre_resource_action_hook(_id, resource)
             r_class.connect_resources(_id, resource)
 
             if _id in r_class.resource_config.destination_resources:
@@ -249,7 +252,7 @@ class ResourcesHandler:
 
                     prep_resource(r_class.resource_config, resource)
                     try:
-                        r_class.update_resource(_id, resource)
+                        r_class._update_resource(_id, resource)
                     except Exception as e:
                         self.config.logger.error(
                             f"Error while updating resource {resource_type}. source ID: {_id} -  Error: {str(e)}"
@@ -262,7 +265,7 @@ class ResourcesHandler:
 
                 prep_resource(r_class.resource_config, resource)
                 try:
-                    r_class.create_resource(_id, resource)
+                    r_class._create_resource(_id, resource)
                 except Exception as e:
                     self.config.logger.error(
                         f"Error while creating resource {resource_type}. source ID: {_id} - Error: {str(e)}"
@@ -277,7 +280,7 @@ class ResourcesHandler:
 
     def _force_missing_dep_import_worker(self, _id: str, resource_type: str):
         try:
-            self.config.resources[resource_type].import_resource(_id=_id)
+            self.config.resources[resource_type]._import_resource(_id=_id)
         except CustomClientHTTPError as e:
             self.config.logger.error(f"error importing {resource_type} with id {_id}: {str(e)}")
             return
@@ -289,19 +292,7 @@ class ResourcesHandler:
 
     def _cleanup_worker(self, _id: str, resource_type: str) -> None:
         self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
-        try:
-            self.config.resources[resource_type].delete_resource(_id)
-            self.config.resources[resource_type].resource_config.destination_resources.pop(_id, None)
-            self.config.logger.info(f"succesffully deleted resource type {resource_type} with id: {_id}")
-        except CustomClientHTTPError as e:
-            if e.status_code == 404:
-                self.config.resources[resource_type].resource_config.destination_resources.pop(_id, None)
-                return None
-
-            self.config.logger.error(
-                f"Error while deleting resource {resource_type}. source ID: {_id} - Error: {str(e)}"
-            )
-            raise LoggedException(e)
+        self.config.resources[resource_type]._delete_resource(_id)
 
 
 def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool = True) -> bool:

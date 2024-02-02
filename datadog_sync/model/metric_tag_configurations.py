@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict, cast
+from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
@@ -26,13 +26,13 @@ class MetricTagConfigurations(BaseResource):
 
         return resp["data"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
             resource = source_client.get(self.resource_config.base_path + f"/{_id}/tags").json()["data"]
 
         resource = cast(dict, resource)
-        self.resource_config.source_resources[resource["id"]] = resource
+        return resource["id"], resource
 
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -40,11 +40,10 @@ class MetricTagConfigurations(BaseResource):
     def pre_apply_hook(self) -> None:
         self.destination_metric_tag_configurations = self.get_destination_metric_tag_configuration()
 
-    def create_resource(self, _id: str, resource: Dict) -> None:
+    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if _id in self.destination_metric_tag_configurations:
             self.resource_config.destination_resources[_id] = self.destination_metric_tag_configurations[_id]
-            self.update_resource(_id, resource)
-            return
+            return self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
         payload = {"data": resource}
@@ -53,9 +52,9 @@ class MetricTagConfigurations(BaseResource):
             payload,
         ).json()
 
-        self.resource_config.destination_resources[_id] = resp["data"]
+        return _id, resp["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> None:
+    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         if "attributes" in resource:
             resource["attributes"].pop("metric_type", None)
@@ -65,7 +64,7 @@ class MetricTagConfigurations(BaseResource):
             payload,
         ).json()
 
-        self.resource_config.destination_resources[_id] = resp["data"]
+        return _id, resp["data"]
 
     def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
