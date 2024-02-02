@@ -9,410 +9,27 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard
+    uri: https://api.datadoghq.com/api/v1/slo/correction
   response:
     body:
-      string: '{"dashboards": [{"id": "euw-cp8-hy6", "title": "raw-test", "description":
-        "", "layout_type": "ordered", "url": "/dashboard/euw-cp8-hy6/raw-test", "is_read_only":
-        false, "created_at": "2021-06-01T20:18:57.486260+00:00", "modified_at": "2023-11-27T21:30:12.468262+00:00",
-        "author_handle": "sherzod.karimov@datadoghq.com", "deleted_at": null}, {"id":
-        "tuw-te2-pdj", "title": "datadog-sync-cli Test Dashboard", "description":
-        "", "layout_type": "ordered", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
-        "is_read_only": false, "created_at": "2021-06-30T11:45:57.574935+00:00", "modified_at":
-        "2021-06-30T11:46:46.923260+00:00", "author_handle": "noueman.khalikine@datadoghq.com",
-        "deleted_at": null}, {"id": "dns-jst-h98", "title": "Test screenboard", "description":
-        "Created using the Datadog provider in Terraform", "layout_type": "free",
-        "url": "/dashboard/dns-jst-h98/test-screenboard", "is_read_only": false, "created_at":
-        "2021-06-08T18:26:23.515662+00:00", "modified_at": "2021-06-22T19:35:38.981348+00:00",
-        "author_handle": "sherzod.karimov@datadoghq.com", "deleted_at": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/euw-cp8-hy6
-  response:
-    body:
-      string: '{"id": "euw-cp8-hy6", "title": "raw-test", "description": "", "author_handle":
-        "sherzod.karimov@datadoghq.com", "author_name": "Sherzod Karimov", "layout_type":
-        "ordered", "url": "/dashboard/euw-cp8-hy6/raw-test", "is_read_only": false,
-        "template_variables": [], "widgets": [{"id": 2497183012091650, "definition":
-        {"title": "New group", "type": "group", "layout_type": "ordered", "widgets":
-        [{"id": 5316294948508728, "definition": {"title": "", "title_size": "16",
-        "title_align": "left", "type": "alert_graph", "alert_id": "36230659", "viz_type":
-        "timeseries"}}, {"id": 2269177794822700, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "type": "alert_value", "alert_id": "37284965",
-        "unit": "auto", "text_align": "left", "precision": 2}}]}}, {"id": 7228117705299642,
-        "definition": {"title": "", "title_size": "16", "title_align": "left", "type":
-        "query_value", "requests": [{"response_format": "scalar", "queries": [{"query":
-        "avg:synthetics.http.dns.time{*}", "data_source": "metrics", "name": "query1",
-        "aggregator": "avg"}]}], "autoscale": true, "precision": 2}}, {"id": 2397823643167820,
-        "definition": {"title": "", "title_size": "16", "title_align": "left", "type":
-        "alert_value", "alert_id": "36230659", "unit": "auto", "text_align": "left",
-        "precision": 2}}, {"id": 1076364961367720, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "type": "slo", "slo_id": "ae04001ea55f52f6ae4b85d9b1023909",
-        "view_type": "detail", "view_mode": "overall", "time_windows": ["7d"], "show_error_budget":
-        true, "global_time_target": "0"}}, {"id": 4123257207386936, "definition":
-        {"title": "", "title_size": "16", "title_align": "left", "type": "slo", "slo_id":
-        "c4fa01c78d45542cb830598be4f68ad2", "view_type": "detail", "view_mode": "overall",
-        "time_windows": ["7d"], "show_error_budget": true, "global_time_target": "0"}}],
-        "notify_list": [], "created_at": "2021-06-01T20:18:57.486260+00:00", "modified_at":
-        "2023-11-27T21:30:12.468262+00:00", "reflow_type": "auto", "tags": [], "restricted_roles":
-        []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/tuw-te2-pdj
-  response:
-    body:
-      string: '{"id": "tuw-te2-pdj", "title": "datadog-sync-cli Test Dashboard", "description":
-        "", "author_handle": "noueman.khalikine@datadoghq.com", "author_name": "Noueman
-        Khalikine", "layout_type": "ordered", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
-        "is_read_only": false, "template_variables": [], "widgets": [{"definition":
-        {"title_size": "16", "title": "", "title_align": "left", "precision": 2, "time":
-        {}, "autoscale": true, "requests": [{"response_format": "scalar", "queries":
-        [{"query": "avg:system.cpu.user{*}", "data_source": "metrics", "name": "query1",
-        "aggregator": "avg"}]}], "type": "query_value"}, "layout": {"y": 0, "x": 0,
-        "height": 2, "width": 2}, "id": 6609238960092638}], "notify_list": [], "created_at":
-        "2021-06-30T11:45:57.574935+00:00", "modified_at": "2021-06-30T11:46:46.923260+00:00",
-        "reflow_type": "fixed", "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/dashboard/dns-jst-h98
-  response:
-    body:
-      string: '{"id": "dns-jst-h98", "title": "Test screenboard", "description": "Created
-        using the Datadog provider in Terraform", "author_handle": "sherzod.karimov@datadoghq.com",
-        "author_name": "Sherzod Karimov", "layout_type": "free", "url": "/dashboard/dns-jst-h98/test-screenboard",
-        "is_read_only": false, "template_variables": [{"default": "aws", "prefix":
-        "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
-        "name": "var_2"}], "widgets": [{"definition": {"title_size": "16", "title":
-        "Widget Title", "title_align": "left", "time": {"live_span": "1h"}, "query":
-        "*", "type": "event_stream", "event_size": "l"}, "layout": {"y": 5, "x": 5,
-        "height": 43, "width": 32}, "id": 4066667513687323}, {"definition": {"title_size":
-        "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
-        "1h"}, "query": "*", "type": "event_timeline"}, "layout": {"y": 73, "x": 42,
-        "height": 9, "width": 65}, "id": 68713679518613}, {"definition": {"color":
-        "#d00", "text": "free text content", "type": "free_text", "font_size": "88",
-        "text_align": "left"}, "layout": {"y": 5, "x": 42, "height": 20, "width":
-        30}, "id": 1117617615518455}, {"definition": {"url": "http://google.com",
-        "type": "iframe"}, "layout": {"y": 8, "x": 111, "height": 46, "width": 39},
-        "id": 3098118775539428}, {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
-        "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
-        77, "height": 20, "width": 30}, "id": 651713243056399}, {"definition": {"logset":
-        "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
-        "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
-        "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
-        "tag_source"]}, "layout": {"y": 51, "x": 5, "height": 36, "width": 32}, "id":
-        5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
-        "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts":
-        true, "start": 0, "summary_type": "monitors", "query": "type:metric", "color_preference":
-        "text", "show_last_triggered": false, "display_format": "countsAndList", "type":
-        "manage_status"}, "layout": {"y": 55, "x": 112, "height": 40, "width": 30},
-        "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query", "title_size":
-        "13", "service": "alerting-cassandra", "title": "alerting-cassandra #env:datad0g.com",
-        "size_format": "large", "show_hits": true, "show_latency": false, "title_align":
-        "center", "show_errors": true, "show_breakdown": true, "env": "datad0g.com",
-        "time": {"live_span": "1h"}, "show_distribution": true, "display_format":
-        "three_column", "type": "trace_service", "show_resource_list": false}, "layout":
-        {"y": 28, "x": 40, "height": 38, "width": 67}, "id": 6949442529647217}], "notify_list":
-        [], "created_at": "2021-06-08T18:26:23.515662+00:00", "modified_at": "2021-06-22T19:35:38.981348+00:00",
-        "template_variable_presets": [{"template_variables": [{"name": "var_1", "value":
-        "host.dc"}, {"name": "var_2", "value": "my_service"}], "name": "preset_1"}],
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/monitor?page=0&page_size=100
-  response:
-    body:
-      string: '[{"id": 36230659, "org_id": 569509, "type": "query alert", "name":
-        "Composite monitor - Child 2", "message": "Test monitor ----------------",
-        "tags": ["test:foo", "test_two:bar"], "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
-        > 50", "options": {"thresholds": {"critical": 50.0}, "notify_audit": false,
-        "require_full_window": true, "notify_no_data": false, "renotify_interval":
-        0, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
-        "", "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1622364217000, "created": "2021-05-30T08:43:37.940520+00:00", "modified":
-        "2023-08-10T20:39:26.357089+00:00", "deleted": null, "restricted_roles": null,
-        "priority": null, "overall_state_modified": "2021-05-30T08:45:28+00:00", "overall_state":
-        "OK", "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
-        "email": "sherzod.karimov@datadoghq.com", "id": 2781275}, "matching_downtimes":
-        []}, {"id": 36239262, "org_id": 569509, "type": "query alert", "name": "Composite
-        monitor - child 1", "message": "Composite monitor - child 1", "tags": ["test:foo"],
-        "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*} > 20", "options":
-        {"thresholds": {"critical": 20.0, "warning": 10.0}, "notify_audit": false,
-        "require_full_window": true, "notify_no_data": false, "renotify_interval":
-        1440, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
-        "", "renotify_statuses": ["no data"], "new_host_delay": 300, "silenced": {}},
-        "multi": false, "created_at": 1622404151000, "created": "2021-05-30T19:49:11.945913+00:00",
-        "modified": "2023-08-10T20:39:47.053119+00:00", "deleted": null, "restricted_roles":
-        null, "priority": null, "overall_state_modified": "2021-05-30T19:52:07+00:00",
-        "overall_state": "OK", "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
-        "email": "sherzod.karimov@datadoghq.com", "id": 2781275}, "matching_downtimes":
-        []}, {"id": 36593201, "org_id": 569509, "type": "composite", "name": "Composite
-        monitor", "message": "test", "tags": [], "query": "( 36239262 && 36230659
-        ) || !36239262", "options": {"notify_audit": false, "locked": false, "include_tags":
-        false, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
-        0, "escalation_message": "", "silenced": {}}, "multi": false, "created_at":
-        1622746548000, "created": "2021-06-03T18:55:48.515861+00:00", "modified":
-        "2021-06-08T18:13:50.284433+00:00", "deleted": null, "restricted_roles": null,
-        "priority": null, "overall_state_modified": "2021-06-03T18:56:43+00:00", "overall_state":
-        "Alert", "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
-        "email": "sherzod.karimov@datadoghq.com", "id": 2781275}, "matching_downtimes":
-        []}, {"id": 37284891, "org_id": 569509, "type": "service check", "name": "Host
-        monitor", "message": "Test host monitor", "tags": ["service:daimler-health-service"],
-        "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-        "options": {"thresholds": {"critical": 1, "warning": 1, "ok": 1}, "notify_audit":
-        false, "notify_no_data": true, "no_data_timeframe": 2, "renotify_interval":
-        0, "timeout_h": 0, "include_tags": true, "new_group_delay": 300, "silenced":
-        {}}, "multi": true, "created_at": 1623176221000, "created": "2021-06-08T18:17:01.656132+00:00",
-        "modified": "2023-05-16T22:15:12.393592+00:00", "deleted": null, "restricted_roles":
-        null, "priority": null, "overall_state_modified": "2023-05-05T17:14:51+00:00",
-        "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
-        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}, {"id": 37284965, "org_id": 569509,
-        "type": "query alert", "name": "Anomaly monitor", "message": "Anomaly monitor",
-        "tags": [], "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
-        ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
-        count_default_zero=''true'') >= 1", "options": {"notify_audit": false, "locked":
-        false, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "require_full_window":
-        true, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
-        0, "escalation_message": "", "threshold_windows": {"recovery_window": "last_15m",
-        "trigger_window": "last_15m"}, "thresholds": {"critical": 1.0, "critical_recovery":
-        0.0}, "silenced": {}}, "multi": false, "created_at": 1623176273000, "created":
-        "2021-06-08T18:17:53.020925+00:00", "modified": "2021-06-08T18:17:53.020925+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2021-06-08T18:19:16+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
-        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}, {"id": 52549314, "org_id": 569509,
-        "type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-        stopped reporting", "message": "Private location {{location_id.name}} stopped
-        reporting to Datadog.", "tags": [], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
-        by {location_id} < 1", "options": {"notify_audit": false, "locked": false,
-        "include_tags": true, "thresholds": {"critical": 1.0}, "new_host_delay": 300,
-        "notify_no_data": true, "silenced": {}}, "multi": true, "created_at": 1635860538000,
-        "created": "2021-11-02T13:42:18.175788+00:00", "modified": "2021-11-02T13:42:18.175788+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2021-11-02T13:45:14+00:00", "overall_state": "No Data", "creator": {"name":
-        "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email":
-        "noueman.khalikine@datadoghq.com", "id": 2808025}, "matching_downtimes": []},
-        {"id": 52549315, "org_id": 569509, "type": "metric alert", "name": "[Synthetic
-        Private Locations] {{location_id.name}} uses an outdated image version", "message":
-        "Private location {{location_id.name}} is running an outdated image version.
-        Learn more about the current version in use on your [Private locations page](https://app.datadoghq.com/synthetics/settings/private-locations?id={{location_id.name}})
-        and upgrade workers to the most recent version of the image by pulling the
-        `datadog/synthetics-private-location-worker` image with the `latest` tag.",
-        "tags": [], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*} by
-        {location_id} > 0", "options": {"notify_audit": false, "locked": false, "include_tags":
-        true, "thresholds": {"critical": 0.0}, "new_host_delay": 300, "notify_no_data":
-        false, "silenced": {}}, "multi": true, "created_at": 1635860538000, "created":
-        "2021-11-02T13:42:18.219169+00:00", "modified": "2021-11-02T13:42:18.219169+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2021-11-02T13:45:05+00:00", "overall_state": "No Data", "creator": {"name":
-        "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email":
-        "noueman.khalikine@datadoghq.com", "id": 2808025}, "matching_downtimes": []},
-        {"id": 52549316, "org_id": 569509, "type": "metric alert", "name": "[Synthetic
-        Private Locations] {{location_id.name}} is underprovisioned", "message": "Private
-        location {{location_id.name}} is underprovisioned.\nVisit this [documentation
-        page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#dimension-your-private-location)
-        to learn how to scale your private location.", "tags": [], "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*}
-        by {location_id} < 1.5", "options": {"notify_audit": false, "locked": false,
-        "include_tags": true, "thresholds": {"critical": 1.5}, "new_host_delay": 300,
-        "notify_no_data": false, "silenced": {}}, "multi": true, "created_at": 1635860538000,
-        "created": "2021-11-02T13:42:18.259196+00:00", "modified": "2021-11-02T13:42:18.259196+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2021-11-02T13:45:07+00:00", "overall_state": "No Data", "creator": {"name":
-        "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email":
-        "noueman.khalikine@datadoghq.com", "id": 2808025}, "matching_downtimes": []},
-        {"id": 66666697, "org_id": 569509, "type": "event-v2 alert", "name": "Test
-        event monitor", "message": "Test event monitor", "tags": [], "query": "events(\"\").rollup(\"count\").last(\"5m\")
-        > 100", "options": {"notify_audit": false, "locked": false, "timeout_h": 0,
-        "include_tags": true, "restriction_query": null, "new_host_delay": 300, "notify_no_data":
-        false, "renotify_interval": 0, "groupby_simple_monitor": true, "enable_logs_sample":
-        false, "escalation_message": "", "thresholds": {"critical": 100.0}, "silenced":
-        {}}, "multi": false, "created_at": 1647980371000, "created": "2022-03-22T20:19:31.437344+00:00",
-        "modified": "2022-03-22T20:19:31.437344+00:00", "deleted": null, "restricted_roles":
-        null, "priority": null, "overall_state_modified": "2023-11-15T14:04:08+00:00",
-        "overall_state": "OK", "creator": {"name": "Datadog Support", "handle": "support-datadogsynccliustestorg-1137936",
-        "email": "support-user-prod@datadoghq.com", "id": 3205966}, "matching_downtimes":
-        []}, {"id": 103095757, "org_id": 569509, "type": "synthetics alert", "name":
-        "[Synthetics] HTTP Test", "message": "Test synthetics", "tags": ["probe_dc:aws:ca-central-1",
-        "check_type:api", "check_status:paused", "ci_execution_rule:blocking"], "query":
-        "no_query", "options": {"notify_audit": false, "include_tags": true, "new_host_delay":
-        300, "on_missing_data": "show_no_data", "renotify_interval": 120, "silenced":
-        {}}, "multi": false, "created_at": 1668546304000, "created": "2022-11-15T21:05:04.457904+00:00",
-        "modified": "2022-11-15T21:05:04.457904+00:00", "deleted": null, "restricted_roles":
-        null, "priority": 3, "overall_state_modified": "2022-11-15T21:05:38+00:00",
-        "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
-        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}, {"id": 103095758, "org_id": 569509,
-        "type": "synthetics alert", "name": "[Synthetics] SSL Test", "message": "Notify
-        @pagerduty", "tags": ["foo:bar", "foo", "env:test", "probe_dc:aws:eu-central-1",
-        "check_type:api-ssl", "check_status:live", "ci_execution_rule:blocking"],
-        "query": "no_query", "options": {"notify_audit": false, "include_tags": true,
-        "new_host_delay": 300, "on_missing_data": "show_no_data", "renotify_interval":
-        0, "silenced": {}}, "multi": false, "created_at": 1668546304000, "created":
-        "2022-11-15T21:05:04.460432+00:00", "modified": "2022-11-15T21:05:04.460432+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2023-09-22T18:19:38+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
-        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}, {"id": 103095759, "org_id": 569509,
-        "type": "synthetics alert", "name": "[Synthetics] TCP Test", "message": "Notify
-        @pagerduty", "tags": ["foo:bar", "foo", "env:test", "probe_dc:aws:eu-central-1",
-        "check_type:api-tcp", "check_status:live", "ci_execution_rule:blocking"],
-        "query": "no_query", "options": {"notify_audit": false, "include_tags": true,
-        "new_host_delay": 300, "on_missing_data": "show_no_data", "renotify_interval":
-        0, "silenced": {}}, "multi": false, "created_at": 1668546304000, "created":
-        "2022-11-15T21:05:04.469143+00:00", "modified": "2022-11-15T21:05:04.469143+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2023-12-06T22:36:09+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
-        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}, {"id": 103095760, "org_id": 569509,
-        "type": "synthetics alert", "name": "[Synthetics] Browser Test (cloned)",
-        "message": "", "tags": ["probe_dc:aws:us-west-1", "check_type:browser", "check_status:live",
-        "ci_execution_rule:blocking"], "query": "no_query", "options": {"notify_audit":
-        false, "include_tags": true, "new_host_delay": 300, "on_missing_data": "show_no_data",
-        "renotify_interval": 0, "silenced": {}}, "multi": false, "created_at": 1668546304000,
-        "created": "2022-11-15T21:05:04.469385+00:00", "modified": "2022-11-15T21:05:04.469385+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2022-11-15T21:06:40+00:00", "overall_state": "Alert", "creator": {"name":
-        "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}, {"id": 103095761, "org_id": 569509,
-        "type": "synthetics alert", "name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
-        "message": "BDD test payload: synthetics_api_http_test_payload.json", "tags":
-        ["testing:api", "probe_dc:aws:us-east-2", "check_type:api", "check_status:live",
-        "ci_execution_rule:blocking"], "query": "no_query", "options": {"include_tags":
-        true, "notify_audit": false, "new_host_delay": 300, "on_missing_data": "show_no_data",
-        "silenced": {}}, "multi": false, "created_at": 1668546304000, "created": "2022-11-15T21:05:04.477484+00:00",
-        "modified": "2022-11-15T21:05:04.477484+00:00", "deleted": null, "restricted_roles":
-        null, "priority": 5, "overall_state_modified": "2022-11-15T21:05:42+00:00",
-        "overall_state": "Alert", "creator": {"name": "Sherzod Karimov", "handle":
-        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}, {"id": 103095762, "org_id": 569509,
-        "type": "synthetics alert", "name": "[Synthetics] Multistep API Test", "message":
-        "", "tags": ["check_type:api", "env:test", "test:update", "probe_dc:aws:sa-east-1",
-        "check_type:api-multi", "check_status:live", "ci_execution_rule:blocking"],
-        "query": "no_query", "options": {"notify_audit": false, "include_tags": true,
-        "new_host_delay": 300, "on_missing_data": "show_no_data", "renotify_interval":
-        0, "silenced": {}}, "multi": false, "created_at": 1668546304000, "created":
-        "2022-11-15T21:05:04.478167+00:00", "modified": "2022-11-15T21:05:04.478167+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2022-11-15T21:05:43+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
-        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}, {"id": 103095763, "org_id": 569509,
-        "type": "synthetics alert", "name": "[Synthetics] DNS Test", "message": "Notify
-        @pagerduty", "tags": ["foo:bar", "foo", "env:test", "probe_dc:aws:eu-central-1",
-        "check_type:api-dns", "check_status:live", "ci_execution_rule:blocking"],
-        "query": "no_query", "options": {"notify_audit": false, "include_tags": true,
-        "new_host_delay": 300, "on_missing_data": "show_no_data", "renotify_interval":
-        0, "silenced": {}}, "multi": false, "created_at": 1668546304000, "created":
-        "2022-11-15T21:05:04.482560+00:00", "modified": "2022-11-15T21:05:04.482560+00:00",
-        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
-        "2022-11-15T21:05:45+00:00", "overall_state": "Alert", "creator": {"name":
-        "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}, {"id": 121127083, "org_id": 569509,
-        "type": "synthetics alert", "name": "[Synthetics] tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1686121345",
-        "message": "Notify @datadog.user", "tags": ["multistep", "probe_dc:aws:eu-central-1",
-        "check_type:api-multi", "check_status:paused", "ci_execution_rule:blocking"],
-        "query": "no_query", "options": {"on_missing_data": "show_no_data", "notify_audit":
-        false, "new_host_delay": 300, "include_tags": true, "silenced": {}}, "multi":
-        false, "created_at": 1686121347000, "created": "2023-06-07T07:02:27.979214+00:00",
-        "modified": "2023-06-07T07:02:27.979214+00:00", "deleted": null, "restricted_roles":
-        null, "priority": null, "overall_state_modified": "2023-06-07T07:02:45+00:00",
-        "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
-        "email": "frog@datadoghq.com", "id": 2781302}, "matching_downtimes": []},
-        {"id": 124728911, "org_id": 569509, "type": "slo alert", "name": "Test slo
-        monitor", "message": "Random message", "tags": [], "query": "burn_rate(\"ba72d10835d75e0c8910597144f3733a\").over(\"7d\").long_window(\"1h\").short_window(\"5m\")
-        > 1", "options": {"thresholds": {"critical": 1.0}, "notify_no_data": false,
-        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-        {}}, "multi": false, "created_at": 1688999118000, "created": "2023-07-10T14:25:18.627726+00:00",
-        "modified": "2023-09-19T16:02:35.079242+00:00", "deleted": null, "restricted_roles":
-        null, "priority": null, "overall_state_modified": "2023-07-10T14:25:22+00:00",
-        "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
-        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "id": 2781275}, "matching_downtimes": []}, {"id": 131664819, "org_id": 569509,
-        "type": "slo alert", "name": "Check monitor slo", "message": "Message", "tags":
-        [], "query": "error_budget(\"b02adcb3d95a5c3dbfebf7c94bf4e8c5\").over(\"7d\")
-        > 90", "options": {"thresholds": {"critical": 90.0}, "notify_no_data": false,
-        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-        {}}, "multi": false, "created_at": 1695138188000, "created": "2023-09-19T15:43:08.383274+00:00",
-        "modified": "2023-09-19T15:43:08.383274+00:00", "deleted": null, "restricted_roles":
-        null, "priority": null, "overall_state_modified": "2023-09-19T15:43:10+00:00",
-        "overall_state": "OK", "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
-        "email": "sherzod.karimov@datadoghq.com", "id": 2781275}, "matching_downtimes":
-        []}]'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/downtime
-  response:
-    body:
-      string: '[]'
+      string: '{"data": [{"type": "correction", "id": "999b94e0-bf74-11ed-a4ee-da7ad0902002",
+        "attributes": {"slo_id": "ae04001ea55f52f6ae4b85d9b1023909", "start": 1678255200,
+        "end": 1678355280, "description": "", "category": "Other", "timezone": "UTC",
+        "created_at": 1678474303, "modified_at": 1678474303, "rrule": null, "duration":
+        null, "creator": {"data": {"type": "users", "id": "fa017a38-bfcb-11eb-a4d7-da7ad0900002",
+        "attributes": {"uuid": "fa017a38-bfcb-11eb-a4d7-da7ad0900002", "handle": "support-datadogsynccliustestorg",
+        "email": "support-user-prod@datadoghq.com", "name": "Datadog Support", "icon":
+        "https://secure.gravatar.com/avatar/e6952b5f29fe2d996cf4e63f40db9e71?s=48&d=retro"}}},
+        "modifier": null}}, {"type": "correction", "id": "381d1620-bf70-11ed-acb8-da7ad0902002",
+        "attributes": {"slo_id": "ba72d10835d75e0c8910597144f3733a", "start": 1678255200,
+        "end": 1678339140, "description": "", "category": "Other", "timezone": "UTC",
+        "created_at": 1678472421, "modified_at": 1678472421, "rrule": null, "duration":
+        null, "creator": {"data": {"type": "users", "id": "fa017a38-bfcb-11eb-a4d7-da7ad0900002",
+        "attributes": {"uuid": "fa017a38-bfcb-11eb-a4d7-da7ad0900002", "handle": "support-datadogsynccliustestorg",
+        "email": "support-user-prod@datadoghq.com", "name": "Datadog Support", "icon":
+        "https://secure.gravatar.com/avatar/e6952b5f29fe2d996cf4e63f40db9e71?s=48&d=retro"}}},
+        "modifier": null}}], "meta": {"page": {"total_count": 2, "total_filtered_count":
+        2}}}'
     headers:
       Content-Type:
       - application/json
@@ -509,7 +126,7 @@ interactions:
         false, "modified": "2023-11-27T21:30:12.468262+00:00", "title": "raw-test",
         "type": "custom_timeboard", "id": "euw-cp8-hy6", "url": "/dashboard/euw-cp8-hy6/raw-test",
         "is_read_only": false, "tags": [], "icon": null, "integration_id": null, "popularity":
-        3}, {"author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com"},
+        0}, {"author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com"},
         "created": "2021-06-08T18:26:23.515662+00:00", "is_favorite": false, "is_shared":
         false, "modified": "2021-06-22T19:35:38.981348+00:00", "title": "Test screenboard",
         "type": "custom_screenboard", "id": "dns-jst-h98", "url": "/dashboard/dns-jst-h98/test-screenboard",
@@ -536,7 +153,7 @@ interactions:
     body:
       string: '{"data": [{"type": "roles", "id": "fa017a35-bfcb-11eb-a4d7-da7ad0900002",
         "attributes": {"name": "Datadog Admin Role", "created_at": "2021-05-28T15:47:15.884751+00:00",
-        "modified_at": "2023-03-22T20:42:59.038042+00:00", "user_count": 5}, "relationships":
+        "modified_at": "2023-03-22T20:42:59.038042+00:00", "user_count": 6}, "relationships":
         {"permissions": {"data": [{"type": "permissions", "id": "984d2f00-d3b4-11e8-a200-bb47109e9987"},
         {"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e"}, {"type":
         "permissions", "id": "62cc036c-dd12-11e8-9e54-db9995643092"}, {"type": "permissions",
@@ -655,9 +272,13 @@ interactions:
         "id": "785177a6-20da-11ee-bed7-da7ad0900002"}, {"type": "permissions", "id":
         "7850e390-20da-11ee-bed6-da7ad0900002"}, {"type": "permissions", "id": "6c5c79b2-21a4-11ee-99ee-da7ad0900002"},
         {"type": "permissions", "id": "1b8f54cc-2ca4-11ee-9e72-da7ad0900002"}, {"type":
-        "permissions", "id": "5356dfd2-3dee-11ee-b07b-da7ad0900002"}, {"type": "permissions",
-        "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type": "permissions", "id":
-        "50c270de-69ee-11ee-9151-da7ad0900002"}, {"type": "permissions", "id": "7c7836fc-6f6e-11ee-8cdd-da7ad0900002"}]}}},
+        "permissions", "id": "de0e73c2-3d23-11ee-aa7d-da7ad0900002"}, {"type": "permissions",
+        "id": "de0eb666-3d23-11ee-aa7e-da7ad0900002"}, {"type": "permissions", "id":
+        "5356dfd2-3dee-11ee-b07b-da7ad0900002"}, {"type": "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"},
+        {"type": "permissions", "id": "263eff86-6925-11ee-acc0-da7ad0900002"}, {"type":
+        "permissions", "id": "50c270de-69ee-11ee-9151-da7ad0900002"}, {"type": "permissions",
+        "id": "7c7836fc-6f6e-11ee-8cdd-da7ad0900002"}, {"type": "permissions", "id":
+        "10098bc8-984b-11ee-9b69-da7ad0900002"}, {"type": "permissions", "id": "10091e90-984b-11ee-9b68-da7ad0900002"}]}}},
         {"type": "roles", "id": "fa017a37-bfcb-11eb-a4d7-da7ad0900002", "attributes":
         {"name": "Datadog Read Only Role", "created_at": "2021-05-28T15:47:16.084615+00:00",
         "modified_at": "2021-05-28T15:47:16.084615+00:00", "user_count": 1}, "relationships":
@@ -689,184 +310,12 @@ interactions:
         {"type": "permissions", "id": "c13a2368-7d61-11ed-b5b7-da7ad0900002"}, {"type":
         "permissions", "id": "4e61a95e-de98-11ed-aa23-da7ad0900002"}, {"type": "permissions",
         "id": "a773e3d8-fff2-11ed-965c-da7ad0900002"}, {"type": "permissions", "id":
-        "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type": "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"},
-        {"type": "permissions", "id": "50c270de-69ee-11ee-9151-da7ad0900002"}]}}},
-        {"type": "roles", "id": "fa017a36-bfcb-11eb-a4d7-da7ad0900002", "attributes":
-        {"name": "Datadog Standard Role", "created_at": "2021-05-28T15:47:15.999885+00:00",
-        "modified_at": "2021-05-28T15:47:15.999885+00:00", "user_count": 0}, "relationships":
-        {"permissions": {"data": [{"type": "permissions", "id": "984d2f00-d3b4-11e8-a200-bb47109e9987"},
-        {"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e"}, {"type":
-        "permissions", "id": "62cc036c-dd12-11e8-9e54-db9995643092"}, {"type": "permissions",
-        "id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73"}, {"type": "permissions", "id":
-        "7d7c98ac-dd12-11e8-9e56-93700598622d"}, {"type": "permissions", "id": "811ac4ca-dd12-11e8-9e57-676a7f0beef9"},
-        {"type": "permissions", "id": "84aa3ae4-dd12-11e8-9e58-a373a514ccd0"}, {"type":
-        "permissions", "id": "979df720-aed7-11e9-99c6-a7eb8373165a"}, {"type": "permissions",
-        "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions", "id":
-        "d90f6831-d3d8-11e9-a77a-4fd230ddbc6a"}, {"type": "permissions", "id": "d90f6832-d3d8-11e9-a77a-bf8a2607f864"},
-        {"type": "permissions", "id": "4441648c-d8b1-11e9-a77a-1b899a04b304"}, {"type":
-        "permissions", "id": "48ef71ea-d8b1-11e9-a77a-93f408470ad0"}, {"type": "permissions",
-        "id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f"}, {"type": "permissions", "id":
-        "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb"}, {"type": "permissions", "id": "b382b982-8535-11ea-93de-2bf1bdf20798"},
-        {"type": "permissions", "id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5"}, {"type":
-        "permissions", "id": "7b516476-aa58-11ea-95e2-93718cd56369"}, {"type": "permissions",
-        "id": "80de1ec0-aa58-11ea-95e2-aff381626d5d"}, {"type": "permissions", "id":
-        "58b412cc-ff6d-11eb-bc9c-da7ad0900002"}, {"type": "permissions", "id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d"},
-        {"type": "permissions", "id": "46a301da-ec5c-11ea-aa9f-73bedeab67ee"}, {"type":
-        "permissions", "id": "46a301db-ec5c-11ea-aa9f-2fe72193d60e"}, {"type": "permissions",
-        "id": "46a301dd-ec5c-11ea-aa9f-97edfb345bc9"}, {"type": "permissions", "id":
-        "46a301e4-ec5c-11ea-aa9f-87282b3a50cc"}, {"type": "permissions", "id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e"},
-        {"type": "permissions", "id": "372896c4-f923-11ea-adbc-4fecd107156d"}, {"type":
-        "permissions", "id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9"}, {"type": "permissions",
-        "id": "4ada6e36-f923-11ea-adbc-0788e5c5e3cf"}, {"type": "permissions", "id":
-        "5025ee24-f923-11ea-adbc-576ea241df8d"}, {"type": "permissions", "id": "55f4b5ec-f923-11ea-adbc-1bfa2334a755"},
-        {"type": "permissions", "id": "5c6b88e2-f923-11ea-adbc-abf57d079420"}, {"type":
-        "permissions", "id": "642eebe6-f923-11ea-adbc-eb617674ea04"}, {"type": "permissions",
-        "id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39"}, {"type": "permissions", "id":
-        "fcac2ad8-2843-11eb-8315-0fe47949d625"}, {"type": "permissions", "id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0"},
-        {"type": "permissions", "id": "43fa188e-2dce-11eb-84c0-835ad1fd6287"}, {"type":
-        "permissions", "id": "4916eebe-2dce-11eb-84c0-271cb2c672e8"}, {"type": "permissions",
-        "id": "5cbe5f9c-2dce-11eb-84c0-872d3e9f1076"}, {"type": "permissions", "id":
-        "61765026-2dce-11eb-84c0-833e230d1b8f"}, {"type": "permissions", "id": "8106300a-54f7-11eb-8cbc-7781a434a67b"},
-        {"type": "permissions", "id": "edfd5e75-801f-11eb-96d8-da7ad0900002"}, {"type":
-        "permissions", "id": "98b984f4-b16d-11eb-a2c6-da7ad0900002"}, {"type": "permissions",
-        "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002"}, {"type": "permissions", "id":
-        "12efc211-d36c-11eb-a9b8-da7ad0900002"}, {"type": "permissions", "id": "12efc20f-d36c-11eb-a9b8-da7ad0900002"},
-        {"type": "permissions", "id": "12efc210-d36c-11eb-a9b8-da7ad0900002"}, {"type":
-        "permissions", "id": "97971c1c-e895-11eb-b13c-da7ad0900002"}, {"type": "permissions",
-        "id": "97971c1d-e895-11eb-b13c-da7ad0900002"}, {"type": "permissions", "id":
-        "7605ef24-f376-11eb-b90b-da7ad0900002"}, {"type": "permissions", "id": "7605ef25-f376-11eb-b90b-da7ad0900002"},
-        {"type": "permissions", "id": "c95412b8-16c7-11ec-85c0-da7ad0900002"}, {"type":
-        "permissions", "id": "c95412b9-16c7-11ec-85c0-da7ad0900002"}, {"type": "permissions",
-        "id": "26c79920-1703-11ec-85d2-da7ad0900002"}, {"type": "permissions", "id":
-        "f4473c60-4792-11ec-a27b-da7ad0900002"}, {"type": "permissions", "id": "f4473c61-4792-11ec-a27b-da7ad0900002"},
-        {"type": "permissions", "id": "8e4d6b6e-5750-11ec-a9f4-da7ad0900002"}, {"type":
-        "permissions", "id": "945b3bb4-5884-11ec-aa6d-da7ad0900002"}, {"type": "permissions",
-        "id": "f6e917a8-8502-11ec-bf20-da7ad0900002"}, {"type": "permissions", "id":
-        "f6e917aa-8502-11ec-bf20-da7ad0900002"}, {"type": "permissions", "id": "f6e917a9-8502-11ec-bf20-da7ad0900002"},
-        {"type": "permissions", "id": "f6e917a6-8502-11ec-bf20-da7ad0900002"}, {"type":
-        "permissions", "id": "f6e917a7-8502-11ec-bf20-da7ad0900002"}, {"type": "permissions",
-        "id": "b6bf9ac6-9a59-11ec-8480-da7ad0900002"}, {"type": "permissions", "id":
-        "b6bf9ac7-9a59-11ec-8480-da7ad0900002"}, {"type": "permissions", "id": "2108215e-b9b4-11ec-958e-da7ad0900002"},
-        {"type": "permissions", "id": "7b1f5089-c59e-11ec-aa32-da7ad0900002"}, {"type":
-        "permissions", "id": "f8e941cf-e746-11ec-b22d-da7ad0900002"}, {"type": "permissions",
-        "id": "f8e941d0-e746-11ec-b22d-da7ad0900002"}, {"type": "permissions", "id":
-        "f8e941ce-e746-11ec-b22d-da7ad0900002"}, {"type": "permissions", "id": "ee68fba9-173a-11ed-b00b-da7ad0900002"},
-        {"type": "permissions", "id": "ee68fba8-173a-11ed-b00b-da7ad0900002"}, {"type":
-        "permissions", "id": "6be119a6-1cd8-11ed-b185-da7ad0900002"}, {"type": "permissions",
-        "id": "36e2a22e-248a-11ed-b405-da7ad0900002"}, {"type": "permissions", "id":
-        "4ee674f6-55d9-11ed-b10d-da7ad0900002"}, {"type": "permissions", "id": "4ee7e46c-55d9-11ed-b10e-da7ad0900002"},
-        {"type": "permissions", "id": "4ee5731c-55d9-11ed-b10b-da7ad0900002"}, {"type":
-        "permissions", "id": "4ee60688-55d9-11ed-b10c-da7ad0900002"}, {"type": "permissions",
-        "id": "8247acc4-7a4c-11ed-958f-da7ad0900002"}, {"type": "permissions", "id":
-        "824851a6-7a4c-11ed-9590-da7ad0900002"}, {"type": "permissions", "id": "77d55a44-7a5a-11ed-8abe-da7ad0900002"},
-        {"type": "permissions", "id": "6c5ad874-7aff-11ed-a5cd-da7ad0900002"}, {"type":
-        "permissions", "id": "6c5c1090-7aff-11ed-a5cf-da7ad0900002"}, {"type": "permissions",
-        "id": "6c5b7428-7aff-11ed-a5ce-da7ad0900002"}, {"type": "permissions", "id":
-        "6c5de654-7aff-11ed-a5d1-da7ad0900002"}, {"type": "permissions", "id": "c13a2368-7d61-11ed-b5b7-da7ad0900002"},
-        {"type": "permissions", "id": "ca6bfb3a-b44f-11ed-adb2-da7ad0900002"}, {"type":
-        "permissions", "id": "4dc3eec6-b468-11ed-8539-da7ad0900002"}, {"type": "permissions",
-        "id": "4dc4094c-b468-11ed-853a-da7ad0900002"}, {"type": "permissions", "id":
-        "36bf3d0a-ccc0-11ed-9453-da7ad0900002"}, {"type": "permissions", "id": "f416f55e-db3f-11ed-8028-da7ad0900002"},
-        {"type": "permissions", "id": "f416b1ac-db3f-11ed-8027-da7ad0900002"}, {"type":
-        "permissions", "id": "4e61a95e-de98-11ed-aa23-da7ad0900002"}, {"type": "permissions",
-        "id": "4e61ea18-de98-11ed-aa24-da7ad0900002"}, {"type": "permissions", "id":
-        "a4316eb8-f438-11ed-8af2-da7ad0900002"}, {"type": "permissions", "id": "a431bf12-f438-11ed-8af3-da7ad0900002"},
-        {"type": "permissions", "id": "8352cf04-f6ac-11ed-9ec7-da7ad0900002"}, {"type":
-        "permissions", "id": "3a48350c-f9bc-11ed-b81c-da7ad0900002"}, {"type": "permissions",
-        "id": "a773e3d8-fff2-11ed-965c-da7ad0900002"}, {"type": "permissions", "id":
-        "a77452c8-fff2-11ed-965d-da7ad0900002"}, {"type": "permissions", "id": "a51b375a-ff73-11ed-8c18-da7ad0900002"},
-        {"type": "permissions", "id": "61f9891a-0070-11ee-9c3f-da7ad0900002"}, {"type":
-        "permissions", "id": "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type": "permissions",
-        "id": "cc8cd958-11eb-11ee-ade2-da7ad0900002"}, {"type": "permissions", "id":
-        "b1ad77e6-0949-11ee-b2c3-da7ad0900002"}, {"type": "permissions", "id": "b1adb5da-0949-11ee-b2c4-da7ad0900002"},
-        {"type": "permissions", "id": "0efeff18-1cec-11ee-992d-da7ad0900002"}, {"type":
-        "permissions", "id": "785177a6-20da-11ee-bed7-da7ad0900002"}, {"type": "permissions",
-        "id": "6c5c79b2-21a4-11ee-99ee-da7ad0900002"}, {"type": "permissions", "id":
-        "1b8f54cc-2ca4-11ee-9e72-da7ad0900002"}, {"type": "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"},
-        {"type": "permissions", "id": "50c270de-69ee-11ee-9151-da7ad0900002"}]}}},
-        {"type": "roles", "id": "e8406dae-760f-11ed-b571-da7ad0900002", "attributes":
-        {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670404619",
-        "created_at": "2022-12-07T09:17:01.147039+00:00", "modified_at": "2022-12-07T09:17:01.261261+00:00",
-        "user_count": 0}, "relationships": {"permissions": {"data": [{"type": "permissions",
-        "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions", "id":
-        "4441648c-d8b1-11e9-a77a-1b899a04b304"}, {"type": "permissions", "id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0"},
-        {"type": "permissions", "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002"}, {"type":
-        "permissions", "id": "7605ef24-f376-11eb-b90b-da7ad0900002"}, {"type": "permissions",
-        "id": "f4473c60-4792-11ec-a27b-da7ad0900002"}, {"type": "permissions", "id":
-        "b6bf9ac6-9a59-11ec-8480-da7ad0900002"}, {"type": "permissions", "id": "f8e941cf-e746-11ec-b22d-da7ad0900002"},
-        {"type": "permissions", "id": "8247acc4-7a4c-11ed-958f-da7ad0900002"}, {"type":
-        "permissions", "id": "6c5ad874-7aff-11ed-a5cd-da7ad0900002"}, {"type": "permissions",
-        "id": "c13a2368-7d61-11ed-b5b7-da7ad0900002"}, {"type": "permissions", "id":
-        "4e61a95e-de98-11ed-aa23-da7ad0900002"}, {"type": "permissions", "id": "a773e3d8-fff2-11ed-965c-da7ad0900002"},
-        {"type": "permissions", "id": "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type":
-        "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type": "permissions",
-        "id": "50c270de-69ee-11ee-9151-da7ad0900002"}]}}}, {"type": "roles", "id":
-        "fe9dd0a0-760f-11ed-b4a5-da7ad0900002", "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670404656",
-        "created_at": "2022-12-07T09:17:38.668879+00:00", "modified_at": "2022-12-07T09:17:38.767135+00:00",
-        "user_count": 0}, "relationships": {"permissions": {"data": [{"type": "permissions",
-        "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions", "id":
-        "4441648c-d8b1-11e9-a77a-1b899a04b304"}, {"type": "permissions", "id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0"},
-        {"type": "permissions", "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002"}, {"type":
-        "permissions", "id": "7605ef24-f376-11eb-b90b-da7ad0900002"}, {"type": "permissions",
-        "id": "f4473c60-4792-11ec-a27b-da7ad0900002"}, {"type": "permissions", "id":
-        "b6bf9ac6-9a59-11ec-8480-da7ad0900002"}, {"type": "permissions", "id": "f8e941cf-e746-11ec-b22d-da7ad0900002"},
-        {"type": "permissions", "id": "8247acc4-7a4c-11ed-958f-da7ad0900002"}, {"type":
-        "permissions", "id": "6c5ad874-7aff-11ed-a5cd-da7ad0900002"}, {"type": "permissions",
-        "id": "c13a2368-7d61-11ed-b5b7-da7ad0900002"}, {"type": "permissions", "id":
-        "4e61a95e-de98-11ed-aa23-da7ad0900002"}, {"type": "permissions", "id": "a773e3d8-fff2-11ed-965c-da7ad0900002"},
-        {"type": "permissions", "id": "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type":
-        "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type": "permissions",
-        "id": "50c270de-69ee-11ee-9151-da7ad0900002"}]}}}, {"type": "roles", "id":
-        "cf8c10f0-7610-11ed-8608-da7ad0900002", "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670405007",
-        "created_at": "2022-12-07T09:23:29.196890+00:00", "modified_at": "2022-12-07T09:23:29.281877+00:00",
-        "user_count": 0}, "relationships": {"permissions": {"data": [{"type": "permissions",
-        "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions", "id":
-        "4441648c-d8b1-11e9-a77a-1b899a04b304"}, {"type": "permissions", "id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0"},
-        {"type": "permissions", "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002"}, {"type":
-        "permissions", "id": "7605ef24-f376-11eb-b90b-da7ad0900002"}, {"type": "permissions",
-        "id": "f4473c60-4792-11ec-a27b-da7ad0900002"}, {"type": "permissions", "id":
-        "b6bf9ac6-9a59-11ec-8480-da7ad0900002"}, {"type": "permissions", "id": "f8e941cf-e746-11ec-b22d-da7ad0900002"},
-        {"type": "permissions", "id": "8247acc4-7a4c-11ed-958f-da7ad0900002"}, {"type":
-        "permissions", "id": "6c5ad874-7aff-11ed-a5cd-da7ad0900002"}, {"type": "permissions",
-        "id": "c13a2368-7d61-11ed-b5b7-da7ad0900002"}, {"type": "permissions", "id":
-        "4e61a95e-de98-11ed-aa23-da7ad0900002"}, {"type": "permissions", "id": "a773e3d8-fff2-11ed-965c-da7ad0900002"},
-        {"type": "permissions", "id": "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type":
-        "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type": "permissions",
-        "id": "50c270de-69ee-11ee-9151-da7ad0900002"}]}}}, {"type": "roles", "id":
-        "ea30031a-7612-11ed-abf9-da7ad0900002", "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670405911",
-        "created_at": "2022-12-07T09:38:32.884937+00:00", "modified_at": "2022-12-07T09:38:32.985618+00:00",
-        "user_count": 0}, "relationships": {"permissions": {"data": [{"type": "permissions",
-        "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions", "id":
-        "4441648c-d8b1-11e9-a77a-1b899a04b304"}, {"type": "permissions", "id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0"},
-        {"type": "permissions", "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002"}, {"type":
-        "permissions", "id": "7605ef24-f376-11eb-b90b-da7ad0900002"}, {"type": "permissions",
-        "id": "f4473c60-4792-11ec-a27b-da7ad0900002"}, {"type": "permissions", "id":
-        "b6bf9ac6-9a59-11ec-8480-da7ad0900002"}, {"type": "permissions", "id": "f8e941cf-e746-11ec-b22d-da7ad0900002"},
-        {"type": "permissions", "id": "8247acc4-7a4c-11ed-958f-da7ad0900002"}, {"type":
-        "permissions", "id": "6c5ad874-7aff-11ed-a5cd-da7ad0900002"}, {"type": "permissions",
-        "id": "c13a2368-7d61-11ed-b5b7-da7ad0900002"}, {"type": "permissions", "id":
-        "4e61a95e-de98-11ed-aa23-da7ad0900002"}, {"type": "permissions", "id": "a773e3d8-fff2-11ed-965c-da7ad0900002"},
-        {"type": "permissions", "id": "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type":
-        "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type": "permissions",
-        "id": "50c270de-69ee-11ee-9151-da7ad0900002"}]}}}, {"type": "roles", "id":
-        "f1e67558-7612-11ed-9fc8-da7ad0900002", "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1670405924",
-        "created_at": "2022-12-07T09:38:45.824787+00:00", "modified_at": "2022-12-07T09:38:45.921838+00:00",
-        "user_count": 0}, "relationships": {"permissions": {"data": [{"type": "permissions",
-        "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions", "id":
-        "4441648c-d8b1-11e9-a77a-1b899a04b304"}, {"type": "permissions", "id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0"},
-        {"type": "permissions", "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002"}, {"type":
-        "permissions", "id": "7605ef24-f376-11eb-b90b-da7ad0900002"}, {"type": "permissions",
-        "id": "f4473c60-4792-11ec-a27b-da7ad0900002"}, {"type": "permissions", "id":
-        "b6bf9ac6-9a59-11ec-8480-da7ad0900002"}, {"type": "permissions", "id": "f8e941cf-e746-11ec-b22d-da7ad0900002"},
-        {"type": "permissions", "id": "8247acc4-7a4c-11ed-958f-da7ad0900002"}, {"type":
-        "permissions", "id": "6c5ad874-7aff-11ed-a5cd-da7ad0900002"}, {"type": "permissions",
-        "id": "c13a2368-7d61-11ed-b5b7-da7ad0900002"}, {"type": "permissions", "id":
-        "4e61a95e-de98-11ed-aa23-da7ad0900002"}, {"type": "permissions", "id": "a773e3d8-fff2-11ed-965c-da7ad0900002"},
-        {"type": "permissions", "id": "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type":
-        "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type": "permissions",
-        "id": "50c270de-69ee-11ee-9151-da7ad0900002"}]}}}, {"type": "roles", "id":
-        "430aea7c-0501-11ee-9f44-da7ad0900002", "attributes": {"name": "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1686121345",
-        "created_at": "2023-06-07T07:02:27.295218+00:00", "modified_at": "2023-06-07T07:02:27.326358+00:00",
+        "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type": "permissions", "id": "de0e73c2-3d23-11ee-aa7d-da7ad0900002"},
+        {"type": "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type":
+        "permissions", "id": "50c270de-69ee-11ee-9151-da7ad0900002"}]}}}, {"type":
+        "roles", "id": "430aea7c-0501-11ee-9f44-da7ad0900002", "attributes": {"name":
+        "tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1686121345", "created_at":
+        "2023-06-07T07:02:27.295218+00:00", "modified_at": "2023-06-07T07:02:27.326358+00:00",
         "user_count": 0}, "relationships": {"permissions": {"data": [{"type": "permissions",
         "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions", "id":
         "4441648c-d8b1-11e9-a77a-1b899a04b304"}, {"type": "permissions", "id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0"},
@@ -878,7 +327,7 @@ interactions:
         "permissions", "id": "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type": "permissions",
         "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type": "permissions", "id":
         "50c270de-69ee-11ee-9151-da7ad0900002"}]}}}], "meta": {"page": {"total_count":
-        9, "total_filtered_count": 9}}}'
+        3, "total_filtered_count": 3}}}'
     headers:
       Content-Type:
       - application/json
@@ -1590,14 +1039,27 @@ interactions:
         other than Log Management, such as APM Traces. To modify Log Facets, use Logs
         Write Facets.", "created": "2023-07-27T17:36:24.369352+00:00", "group_name":
         "Cross-Product Features", "display_type": "write", "restricted": false}},
-        {"type": "permissions", "id": "5356dfd2-3dee-11ee-b07b-da7ad0900002", "attributes":
-        {"name": "static_analysis_settings_write", "display_name": "Static Analysis
-        Settings Write", "description": "Edit Static Analysis settings.", "created":
-        "2023-08-18T17:40:30.474557+00:00", "group_name": "CI Visibility", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002",
-        "attributes": {"name": "cd_visibility_read", "display_name": "CD Visibility
-        Read", "description": "View CD Visibility.", "created": "2023-09-09T00:06:00.708335+00:00",
-        "group_name": "CI Visibility", "display_type": "read", "restricted": true}},
+        {"type": "permissions", "id": "de0e73c2-3d23-11ee-aa7d-da7ad0900002", "attributes":
+        {"name": "security_monitoring_suppressions_read", "display_name": "Security
+        Suppressions Read", "description": "Read Rule Suppressions.", "created": "2023-08-17T17:31:15.369551+00:00",
+        "group_name": "Cloud Security Platform", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "de0eb666-3d23-11ee-aa7e-da7ad0900002",
+        "attributes": {"name": "security_monitoring_suppressions_write", "display_name":
+        "Security Suppressions Write", "description": "Write Rule Suppressions.",
+        "created": "2023-08-17T17:31:15.369551+00:00", "group_name": "Cloud Security
+        Platform", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "5356dfd2-3dee-11ee-b07b-da7ad0900002", "attributes": {"name": "static_analysis_settings_write",
+        "display_name": "Static Analysis Settings Write", "description": "Edit Static
+        Analysis settings.", "created": "2023-08-18T17:40:30.474557+00:00", "group_name":
+        "CI Visibility", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002", "attributes":
+        {"name": "cd_visibility_read", "display_name": "CD Visibility Read", "description":
+        "View CD Visibility.", "created": "2023-09-09T00:06:00.708335+00:00", "group_name":
+        "CI Visibility", "display_type": "read", "restricted": true}}, {"type": "permissions",
+        "id": "263eff86-6925-11ee-acc0-da7ad0900002", "attributes": {"name": "ndm_netflow_port_mappings_write",
+        "display_name": "NDM Netflow Port Mappings Write", "description": "Write NDM
+        Netflow port mappings.", "created": "2023-10-12T17:31:17.142666+00:00", "group_name":
+        "Network Device Monitoring", "display_type": "write", "restricted": false}},
         {"type": "permissions", "id": "50c270de-69ee-11ee-9151-da7ad0900002", "attributes":
         {"name": "appsec_vm_read", "display_name": "Vulnerability Management Read",
         "description": "View vulnerabilities. This does not restrict access to the
@@ -1608,7 +1070,17 @@ interactions:
         Instrumentation Capture Variables", "description": "Create or modify Dynamic
         Instrumentation probes that capture function state: local variables, method
         arguments, fields, and return value or thrown exception.", "created": "2023-10-20T17:31:22.039614+00:00",
-        "group_name": "APM", "display_type": "write", "restricted": false}}]}'
+        "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "10098bc8-984b-11ee-9b69-da7ad0900002", "attributes":
+        {"name": "error_tracking_settings_write", "display_name": "Error Tracking
+        Settings Write", "description": "Enable/disable Error Tracking, edit inclusion
+        filters, and edit rate limit.", "created": "2023-12-11T17:31:05.405902+00:00",
+        "group_name": "Error Tracking", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "10091e90-984b-11ee-9b68-da7ad0900002", "attributes":
+        {"name": "error_tracking_exclusion_filters_write", "display_name": "Error
+        Tracking Exclusion Filters Write", "description": "Add or change Error Tracking
+        exclusion filters.", "created": "2023-12-11T17:31:05.405902+00:00", "group_name":
+        "Error Tracking", "display_type": "write", "restricted": false}}]}'
     headers:
       Content-Type:
       - application/json
@@ -1625,32 +1097,225 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/synthetics/locations
+    uri: https://api.datadoghq.com/api/v1/monitor?page=0&page_size=100
   response:
     body:
-      string: '{"locations": [{"id": "aws:af-south-1", "name": "Cape Town (AWS)"},
-        {"id": "aws:ap-east-1", "name": "Hong Kong (AWS)"}, {"id": "aws:ap-northeast-1",
-        "name": "Tokyo (AWS)"}, {"id": "aws:ap-northeast-2", "name": "Seoul (AWS)"},
-        {"id": "aws:ap-northeast-3", "name": "Osaka (AWS)"}, {"id": "aws:ap-south-1",
-        "name": "Mumbai (AWS)"}, {"id": "aws:ap-southeast-1", "name": "Singapore (AWS)"},
-        {"id": "aws:ap-southeast-2", "name": "Sydney (AWS)"}, {"id": "aws:ap-southeast-3",
-        "name": "Jakarta (AWS)"}, {"id": "aws:ca-central-1", "name": "Canada Central
-        (AWS)"}, {"id": "aws:eu-central-1", "name": "Frankfurt (AWS)"}, {"id": "aws:eu-north-1",
-        "name": "Stockholm (AWS)"}, {"id": "aws:eu-south-1", "name": "Milan (AWS)"},
-        {"id": "aws:eu-west-1", "name": "Ireland (AWS)"}, {"id": "aws:eu-west-2",
-        "name": "London (AWS)"}, {"id": "aws:eu-west-3", "name": "Paris (AWS)"}, {"id":
-        "aws:me-south-1", "name": "Bahrain (AWS)"}, {"id": "aws:sa-east-1", "name":
-        "S\u00e3o Paulo (AWS)"}, {"id": "aws:us-east-1", "name": "N. Virginia (AWS)"},
-        {"id": "aws:us-east-2", "name": "Ohio (AWS)"}, {"id": "aws:us-west-1", "name":
-        "N. California (AWS)"}, {"id": "aws:us-west-2", "name": "Oregon (AWS)"}, {"id":
-        "azure:eastus", "name": "Virginia (Azure)"}, {"id": "pl:test-create_a_private_location_returns_ok_response-1694441551-8a079ac8d9f1d1cc62e956686d743b73",
-        "name": "Test-Create_a_private_location_returns_OK_response-1694441551"},
-        {"id": "pl:test-create_a_private_location_returns_ok_response-1694441705-4c3d68fc0cefd323115b04b5e541797c",
-        "name": "Test-Create_a_private_location_returns_OK_response-1694441705"},
-        {"id": "pl:test-create_a_private_location_returns_ok_response-1694443516-aa1bf44d99b8f7016a301a19f892ff8a",
-        "name": "Test-Create_a_private_location_returns_OK_response-1694443516"},
-        {"id": "pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451", "name":
-        "Test Private Variable"}]}'
+      string: '[{"id": 36230659, "org_id": 569509, "type": "query alert", "name":
+        "Composite monitor - Child 2", "message": "Test monitor ----------------",
+        "tags": ["test:foo", "test_two:bar"], "query": "avg(last_5m):avg:datadog.estimated_usage.hosts{*}
+        > 50", "options": {"thresholds": {"critical": 50.0}, "notify_audit": false,
+        "require_full_window": true, "notify_no_data": false, "renotify_interval":
+        0, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
+        "", "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
+        1622364217000, "created": "2021-05-30T08:43:37.940520+00:00", "modified":
+        "2023-08-10T20:39:26.357089+00:00", "deleted": null, "restricted_roles": null,
+        "priority": null, "overall_state_modified": "2021-05-30T08:45:28+00:00", "overall_state":
+        "OK", "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "id": 2781275}, "matching_downtimes":
+        []}, {"id": 36239262, "org_id": 569509, "type": "query alert", "name": "Composite
+        monitor - child 1", "message": "Composite monitor - child 1", "tags": ["test:foo"],
+        "query": "avg(last_5m):avg:dd.dialtone.historical.metrics{*} > 20", "options":
+        {"thresholds": {"critical": 20.0, "warning": 10.0}, "notify_audit": false,
+        "require_full_window": true, "notify_no_data": false, "renotify_interval":
+        1440, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "escalation_message":
+        "", "renotify_statuses": ["no data"], "new_host_delay": 300, "silenced": {}},
+        "multi": false, "created_at": 1622404151000, "created": "2021-05-30T19:49:11.945913+00:00",
+        "modified": "2023-08-10T20:39:47.053119+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": "2021-05-30T19:52:07+00:00",
+        "overall_state": "OK", "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "id": 2781275}, "matching_downtimes":
+        []}, {"id": 36593201, "org_id": 569509, "type": "composite", "name": "Composite
+        monitor", "message": "test", "tags": [], "query": "( 36239262 && 36230659
+        ) || !36239262", "options": {"notify_audit": false, "locked": false, "include_tags":
+        false, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
+        0, "escalation_message": "", "silenced": {}}, "multi": false, "created_at":
+        1622746548000, "created": "2021-06-03T18:55:48.515861+00:00", "modified":
+        "2021-06-08T18:13:50.284433+00:00", "deleted": null, "restricted_roles": null,
+        "priority": null, "overall_state_modified": "2021-06-03T18:56:43+00:00", "overall_state":
+        "Alert", "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "id": 2781275}, "matching_downtimes":
+        []}, {"id": 37284891, "org_id": 569509, "type": "service check", "name": "Host
+        monitor", "message": "Test host monitor", "tags": ["service:daimler-health-service"],
+        "query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
+        "options": {"thresholds": {"critical": 1, "warning": 1, "ok": 1}, "notify_audit":
+        false, "notify_no_data": true, "no_data_timeframe": 2, "renotify_interval":
+        0, "timeout_h": 0, "include_tags": true, "new_group_delay": 300, "silenced":
+        {}}, "multi": true, "created_at": 1623176221000, "created": "2021-06-08T18:17:01.656132+00:00",
+        "modified": "2023-05-16T22:15:12.393592+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": "2023-05-05T17:14:51+00:00",
+        "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
+        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": 2781275}, "matching_downtimes": []}, {"id": 37284965, "org_id": 569509,
+        "type": "query alert", "name": "Anomaly monitor", "message": "Anomaly monitor",
+        "tags": [], "query": "avg(last_4h):anomalies(avg:dd.dialtone.historical.metrics{*},
+        ''basic'', 2, direction=''both'', alert_window=''last_15m'', interval=60,
+        count_default_zero=''true'') >= 1", "options": {"notify_audit": false, "locked":
+        false, "timeout_h": 0, "include_tags": true, "no_data_timeframe": null, "require_full_window":
+        true, "new_host_delay": 300, "notify_no_data": false, "renotify_interval":
+        0, "escalation_message": "", "threshold_windows": {"recovery_window": "last_15m",
+        "trigger_window": "last_15m"}, "thresholds": {"critical": 1.0, "critical_recovery":
+        0.0}, "silenced": {}}, "multi": false, "created_at": 1623176273000, "created":
+        "2021-06-08T18:17:53.020925+00:00", "modified": "2021-06-08T18:17:53.020925+00:00",
+        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
+        "2021-06-08T18:19:16+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
+        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": 2781275}, "matching_downtimes": []}, {"id": 52549314, "org_id": 569509,
+        "type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
+        stopped reporting", "message": "Private location {{location_id.name}} stopped
+        reporting to Datadog.", "tags": [], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
+        by {location_id} < 1", "options": {"notify_audit": false, "locked": false,
+        "include_tags": true, "thresholds": {"critical": 1.0}, "new_host_delay": 300,
+        "notify_no_data": true, "silenced": {}}, "multi": true, "created_at": 1635860538000,
+        "created": "2021-11-02T13:42:18.175788+00:00", "modified": "2021-11-02T13:42:18.175788+00:00",
+        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
+        "2021-11-02T13:45:14+00:00", "overall_state": "No Data", "creator": {"name":
+        "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email":
+        "noueman.khalikine@datadoghq.com", "id": 2808025}, "matching_downtimes": []},
+        {"id": 52549315, "org_id": 569509, "type": "metric alert", "name": "[Synthetic
+        Private Locations] {{location_id.name}} uses an outdated image version", "message":
+        "Private location {{location_id.name}} is running an outdated image version.
+        Learn more about the current version in use on your [Private locations page](https://app.datadoghq.com/synthetics/settings/private-locations?id={{location_id.name}})
+        and upgrade workers to the most recent version of the image by pulling the
+        `datadog/synthetics-private-location-worker` image with the `latest` tag.",
+        "tags": [], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*} by
+        {location_id} > 0", "options": {"notify_audit": false, "locked": false, "include_tags":
+        true, "thresholds": {"critical": 0.0}, "new_host_delay": 300, "notify_no_data":
+        false, "silenced": {}}, "multi": true, "created_at": 1635860538000, "created":
+        "2021-11-02T13:42:18.219169+00:00", "modified": "2021-11-02T13:42:18.219169+00:00",
+        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
+        "2021-11-02T13:45:05+00:00", "overall_state": "No Data", "creator": {"name":
+        "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email":
+        "noueman.khalikine@datadoghq.com", "id": 2808025}, "matching_downtimes": []},
+        {"id": 52549316, "org_id": 569509, "type": "metric alert", "name": "[Synthetic
+        Private Locations] {{location_id.name}} is underprovisioned", "message": "Private
+        location {{location_id.name}} is underprovisioned.\nVisit this [documentation
+        page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#dimension-your-private-location)
+        to learn how to scale your private location.", "tags": [], "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*}
+        by {location_id} < 1.5", "options": {"notify_audit": false, "locked": false,
+        "include_tags": true, "thresholds": {"critical": 1.5}, "new_host_delay": 300,
+        "notify_no_data": false, "silenced": {}}, "multi": true, "created_at": 1635860538000,
+        "created": "2021-11-02T13:42:18.259196+00:00", "modified": "2021-11-02T13:42:18.259196+00:00",
+        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
+        "2021-11-02T13:45:07+00:00", "overall_state": "No Data", "creator": {"name":
+        "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email":
+        "noueman.khalikine@datadoghq.com", "id": 2808025}, "matching_downtimes": []},
+        {"id": 66666697, "org_id": 569509, "type": "event-v2 alert", "name": "Test
+        event monitor", "message": "Test event monitor", "tags": [], "query": "events(\"\").rollup(\"count\").last(\"5m\")
+        > 100", "options": {"notify_audit": false, "locked": false, "timeout_h": 0,
+        "include_tags": true, "restriction_query": null, "new_host_delay": 300, "notify_no_data":
+        false, "renotify_interval": 0, "groupby_simple_monitor": true, "enable_logs_sample":
+        false, "escalation_message": "", "thresholds": {"critical": 100.0}, "silenced":
+        {}}, "multi": false, "created_at": 1647980371000, "created": "2022-03-22T20:19:31.437344+00:00",
+        "modified": "2022-03-22T20:19:31.437344+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": "2023-11-15T14:04:08+00:00",
+        "overall_state": "OK", "creator": {"name": "Datadog Support", "handle": "support-datadogsynccliustestorg-1137936",
+        "email": "support-user-prod@datadoghq.com", "id": 3205966}, "matching_downtimes":
+        []}, {"id": 103095757, "org_id": 569509, "type": "synthetics alert", "name":
+        "[Synthetics] HTTP Test", "message": "Test synthetics", "tags": ["probe_dc:aws:ca-central-1",
+        "check_type:api", "check_status:paused", "ci_execution_rule:blocking"], "query":
+        "no_query", "options": {"notify_audit": false, "include_tags": true, "new_host_delay":
+        300, "on_missing_data": "show_no_data", "renotify_interval": 120, "silenced":
+        {}}, "multi": false, "created_at": 1668546304000, "created": "2022-11-15T21:05:04.457904+00:00",
+        "modified": "2022-11-15T21:05:04.457904+00:00", "deleted": null, "restricted_roles":
+        null, "priority": 3, "overall_state_modified": "2022-11-15T21:05:38+00:00",
+        "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
+        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": 2781275}, "matching_downtimes": []}, {"id": 103095758, "org_id": 569509,
+        "type": "synthetics alert", "name": "[Synthetics] SSL Test", "message": "Notify
+        @pagerduty", "tags": ["foo:bar", "foo", "env:test", "probe_dc:aws:eu-central-1",
+        "check_type:api-ssl", "check_status:live", "ci_execution_rule:blocking"],
+        "query": "no_query", "options": {"notify_audit": false, "include_tags": true,
+        "new_host_delay": 300, "on_missing_data": "show_no_data", "renotify_interval":
+        0, "silenced": {}}, "multi": false, "created_at": 1668546304000, "created":
+        "2022-11-15T21:05:04.460432+00:00", "modified": "2022-11-15T21:05:04.460432+00:00",
+        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
+        "2024-01-30T20:05:08+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
+        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": 2781275}, "matching_downtimes": []}, {"id": 103095759, "org_id": 569509,
+        "type": "synthetics alert", "name": "[Synthetics] TCP Test", "message": "Notify
+        @pagerduty", "tags": ["foo:bar", "foo", "env:test", "probe_dc:aws:eu-central-1",
+        "check_type:api-tcp", "check_status:live", "ci_execution_rule:blocking"],
+        "query": "no_query", "options": {"notify_audit": false, "include_tags": true,
+        "new_host_delay": 300, "on_missing_data": "show_no_data", "renotify_interval":
+        0, "silenced": {}}, "multi": false, "created_at": 1668546304000, "created":
+        "2022-11-15T21:05:04.469143+00:00", "modified": "2022-11-15T21:05:04.469143+00:00",
+        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
+        "2023-12-06T22:36:09+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
+        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": 2781275}, "matching_downtimes": []}, {"id": 103095760, "org_id": 569509,
+        "type": "synthetics alert", "name": "[Synthetics] Browser Test (cloned)",
+        "message": "", "tags": ["probe_dc:aws:us-west-1", "check_type:browser", "check_status:live",
+        "ci_execution_rule:blocking"], "query": "no_query", "options": {"notify_audit":
+        false, "include_tags": true, "new_host_delay": 300, "on_missing_data": "show_no_data",
+        "renotify_interval": 0, "silenced": {}}, "multi": false, "created_at": 1668546304000,
+        "created": "2022-11-15T21:05:04.469385+00:00", "modified": "2022-11-15T21:05:04.469385+00:00",
+        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
+        "2022-11-15T21:06:40+00:00", "overall_state": "Alert", "creator": {"name":
+        "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": 2781275}, "matching_downtimes": []}, {"id": 103095761, "org_id": 569509,
+        "type": "synthetics alert", "name": "Test-Trigger_Synthetics_tests_returns_OK_response-1666783270",
+        "message": "BDD test payload: synthetics_api_http_test_payload.json", "tags":
+        ["testing:api", "probe_dc:aws:us-east-2", "check_type:api", "check_status:live",
+        "ci_execution_rule:blocking"], "query": "no_query", "options": {"include_tags":
+        true, "notify_audit": false, "new_host_delay": 300, "on_missing_data": "show_no_data",
+        "silenced": {}}, "multi": false, "created_at": 1668546304000, "created": "2022-11-15T21:05:04.477484+00:00",
+        "modified": "2022-11-15T21:05:04.477484+00:00", "deleted": null, "restricted_roles":
+        null, "priority": 5, "overall_state_modified": "2022-11-15T21:05:42+00:00",
+        "overall_state": "Alert", "creator": {"name": "Sherzod Karimov", "handle":
+        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": 2781275}, "matching_downtimes": []}, {"id": 103095762, "org_id": 569509,
+        "type": "synthetics alert", "name": "[Synthetics] Multistep API Test", "message":
+        "", "tags": ["check_type:api", "env:test", "test:update", "probe_dc:aws:sa-east-1",
+        "check_type:api-multi", "check_status:live", "ci_execution_rule:blocking"],
+        "query": "no_query", "options": {"notify_audit": false, "include_tags": true,
+        "new_host_delay": 300, "on_missing_data": "show_no_data", "renotify_interval":
+        0, "silenced": {}}, "multi": false, "created_at": 1668546304000, "created":
+        "2022-11-15T21:05:04.478167+00:00", "modified": "2022-11-15T21:05:04.478167+00:00",
+        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
+        "2022-11-15T21:05:43+00:00", "overall_state": "OK", "creator": {"name": "Sherzod
+        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": 2781275}, "matching_downtimes": []}, {"id": 103095763, "org_id": 569509,
+        "type": "synthetics alert", "name": "[Synthetics] DNS Test", "message": "Notify
+        @pagerduty", "tags": ["foo:bar", "foo", "env:test", "probe_dc:aws:eu-central-1",
+        "check_type:api-dns", "check_status:live", "ci_execution_rule:blocking"],
+        "query": "no_query", "options": {"notify_audit": false, "include_tags": true,
+        "new_host_delay": 300, "on_missing_data": "show_no_data", "renotify_interval":
+        0, "silenced": {}}, "multi": false, "created_at": 1668546304000, "created":
+        "2022-11-15T21:05:04.482560+00:00", "modified": "2022-11-15T21:05:04.482560+00:00",
+        "deleted": null, "restricted_roles": null, "priority": null, "overall_state_modified":
+        "2022-11-15T21:05:45+00:00", "overall_state": "Alert", "creator": {"name":
+        "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": 2781275}, "matching_downtimes": []}, {"id": 121127083, "org_id": 569509,
+        "type": "synthetics alert", "name": "[Synthetics] tf-TestAccDatadogSyntheticsTestMultistepApi_Basic-local-1686121345",
+        "message": "Notify @datadog.user", "tags": ["multistep", "probe_dc:aws:eu-central-1",
+        "check_type:api-multi", "check_status:paused", "ci_execution_rule:blocking"],
+        "query": "no_query", "options": {"on_missing_data": "show_no_data", "notify_audit":
+        false, "new_host_delay": 300, "include_tags": true, "silenced": {}}, "multi":
+        false, "created_at": 1686121347000, "created": "2023-06-07T07:02:27.979214+00:00",
+        "modified": "2023-06-07T07:02:27.979214+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": "2023-06-07T07:02:45+00:00",
+        "overall_state": "No Data", "creator": {"name": "Frog", "handle": "frog@datadoghq.com",
+        "email": "frog@datadoghq.com", "id": 2781302}, "matching_downtimes": []},
+        {"id": 124728911, "org_id": 569509, "type": "slo alert", "name": "Test slo
+        monitor", "message": "Random message", "tags": [], "query": "burn_rate(\"ba72d10835d75e0c8910597144f3733a\").over(\"7d\").long_window(\"1h\").short_window(\"5m\")
+        > 1", "options": {"thresholds": {"critical": 1.0}, "notify_no_data": false,
+        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+        {}}, "multi": false, "created_at": 1688999118000, "created": "2023-07-10T14:25:18.627726+00:00",
+        "modified": "2023-09-19T16:02:35.079242+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": "2023-07-10T14:25:22+00:00",
+        "overall_state": "No Data", "creator": {"name": "Sherzod Karimov", "handle":
+        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "id": 2781275}, "matching_downtimes": []}, {"id": 131664819, "org_id": 569509,
+        "type": "slo alert", "name": "Check monitor slo", "message": "Message", "tags":
+        [], "query": "error_budget(\"b02adcb3d95a5c3dbfebf7c94bf4e8c5\").over(\"7d\")
+        > 90", "options": {"thresholds": {"critical": 90.0}, "notify_no_data": false,
+        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+        {}}, "multi": false, "created_at": 1695138188000, "created": "2023-09-19T15:43:08.383274+00:00",
+        "modified": "2023-09-19T15:43:08.383274+00:00", "deleted": null, "restricted_roles":
+        null, "priority": null, "overall_state_modified": "2023-09-19T15:43:10+00:00",
+        "overall_state": "OK", "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "id": 2781275}, "matching_downtimes":
+        []}]'
     headers:
       Content-Type:
       - application/json
@@ -1667,15 +1332,10 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-create_a_private_location_returns_ok_response-1694441551-8a079ac8d9f1d1cc62e956686d743b73
+    uri: https://api.datadoghq.com/api/v1/downtime
   response:
     body:
-      string: '{"createdAt": "2023-09-11T14:12:52.035553+00:00", "modifiedAt": "2023-09-11T14:12:52.035553+00:00",
-        "description": "Test Test-Create_a_private_location_returns_OK_response-1694441551
-        description", "tags": ["test:testcreateaprivatelocationreturnsokresponse1694441551"],
-        "name": "Test-Create_a_private_location_returns_OK_response-1694441551", "metadata":
-        {"restricted_roles": ["3f537d52-50ad-11ee-9fcf-da7ad0900002"]}, "id": "pl:test-create_a_private_location_returns_ok_response-1694441551-8a079ac8d9f1d1cc62e956686d743b73",
-        "createdBy": "frog@datadoghq.com"}'
+      string: '[]'
     headers:
       Content-Type:
       - application/json
@@ -1692,15 +1352,22 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-create_a_private_location_returns_ok_response-1694441705-4c3d68fc0cefd323115b04b5e541797c
+    uri: https://api.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"createdAt": "2023-09-11T14:15:39.384868+00:00", "modifiedAt": "2023-09-11T14:15:39.384868+00:00",
-        "description": "Test Test-Create_a_private_location_returns_OK_response-1694441705
-        description", "tags": ["test:testcreateaprivatelocationreturnsokresponse1694441705"],
-        "name": "Test-Create_a_private_location_returns_OK_response-1694441705", "metadata":
-        {"restricted_roles": ["9b5496ea-50ad-11ee-b52d-da7ad0900002"]}, "id": "pl:test-create_a_private_location_returns_ok_response-1694441705-4c3d68fc0cefd323115b04b5e541797c",
-        "createdBy": "frog@datadoghq.com"}'
+      string: '{"dashboards": [{"id": "euw-cp8-hy6", "title": "raw-test", "description":
+        "", "layout_type": "ordered", "url": "/dashboard/euw-cp8-hy6/raw-test", "is_read_only":
+        false, "created_at": "2021-06-01T20:18:57.486260+00:00", "modified_at": "2023-11-27T21:30:12.468262+00:00",
+        "author_handle": "sherzod.karimov@datadoghq.com", "deleted_at": null}, {"id":
+        "tuw-te2-pdj", "title": "datadog-sync-cli Test Dashboard", "description":
+        "", "layout_type": "ordered", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
+        "is_read_only": false, "created_at": "2021-06-30T11:45:57.574935+00:00", "modified_at":
+        "2021-06-30T11:46:46.923260+00:00", "author_handle": "noueman.khalikine@datadoghq.com",
+        "deleted_at": null}, {"id": "dns-jst-h98", "title": "Test screenboard", "description":
+        "Created using the Datadog provider in Terraform", "layout_type": "free",
+        "url": "/dashboard/dns-jst-h98/test-screenboard", "is_read_only": false, "created_at":
+        "2021-06-08T18:26:23.515662+00:00", "modified_at": "2021-06-22T19:35:38.981348+00:00",
+        "author_handle": "sherzod.karimov@datadoghq.com", "deleted_at": null}]}'
     headers:
       Content-Type:
       - application/json
@@ -1717,15 +1384,35 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-create_a_private_location_returns_ok_response-1694443516-aa1bf44d99b8f7016a301a19f892ff8a
+    uri: https://api.datadoghq.com/api/v1/dashboard/euw-cp8-hy6
   response:
     body:
-      string: '{"createdAt": "2023-09-11T14:45:42.834875+00:00", "modifiedAt": "2023-09-11T14:45:42.834875+00:00",
-        "description": "Test Test-Create_a_private_location_returns_OK_response-1694443516
-        description", "tags": ["test:testcreateaprivatelocationreturnsokresponse1694443516"],
-        "name": "Test-Create_a_private_location_returns_OK_response-1694443516", "metadata":
-        {"restricted_roles": ["d283f418-50b1-11ee-b302-da7ad0900002"]}, "id": "pl:test-create_a_private_location_returns_ok_response-1694443516-aa1bf44d99b8f7016a301a19f892ff8a",
-        "createdBy": "frog@datadoghq.com"}'
+      string: '{"id": "euw-cp8-hy6", "title": "raw-test", "description": "", "author_handle":
+        "sherzod.karimov@datadoghq.com", "author_name": "Sherzod Karimov", "layout_type":
+        "ordered", "url": "/dashboard/euw-cp8-hy6/raw-test", "is_read_only": false,
+        "template_variables": [], "widgets": [{"id": 2497183012091650, "definition":
+        {"title": "New group", "type": "group", "layout_type": "ordered", "widgets":
+        [{"id": 5316294948508728, "definition": {"title": "", "title_size": "16",
+        "title_align": "left", "type": "alert_graph", "alert_id": "36230659", "viz_type":
+        "timeseries"}}, {"id": 2269177794822700, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "type": "alert_value", "alert_id": "37284965",
+        "unit": "auto", "text_align": "left", "precision": 2}}]}}, {"id": 7228117705299642,
+        "definition": {"title": "", "title_size": "16", "title_align": "left", "type":
+        "query_value", "requests": [{"response_format": "scalar", "queries": [{"query":
+        "avg:synthetics.http.dns.time{*}", "data_source": "metrics", "name": "query1",
+        "aggregator": "avg"}]}], "autoscale": true, "precision": 2}}, {"id": 2397823643167820,
+        "definition": {"title": "", "title_size": "16", "title_align": "left", "type":
+        "alert_value", "alert_id": "36230659", "unit": "auto", "text_align": "left",
+        "precision": 2}}, {"id": 1076364961367720, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "type": "slo", "slo_id": "ae04001ea55f52f6ae4b85d9b1023909",
+        "view_type": "detail", "view_mode": "overall", "time_windows": ["7d"], "show_error_budget":
+        true, "global_time_target": "0"}}, {"id": 4123257207386936, "definition":
+        {"title": "", "title_size": "16", "title_align": "left", "type": "slo", "slo_id":
+        "c4fa01c78d45542cb830598be4f68ad2", "view_type": "detail", "view_mode": "overall",
+        "time_windows": ["7d"], "show_error_budget": true, "global_time_target": "0"}}],
+        "notify_list": [], "created_at": "2021-06-01T20:18:57.486260+00:00", "modified_at":
+        "2023-11-27T21:30:12.468262+00:00", "reflow_type": "auto", "tags": [], "restricted_roles":
+        []}'
     headers:
       Content-Type:
       - application/json
@@ -1742,13 +1429,78 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451
+    uri: https://api.datadoghq.com/api/v1/dashboard/tuw-te2-pdj
   response:
     body:
-      string: '{"createdAt": "2021-06-30T12:27:21.433291+00:00", "modifiedAt": "2021-06-30T12:27:21.433291+00:00",
-        "description": "datadog-sync-cli test", "tags": ["key:value"], "name": "Test
-        Private Variable", "metadata": null, "id": "pl:test-private-variable-b66e383ccf2ec6911eb962a9c2577451",
-        "createdBy": "noueman.khalikine@datadoghq.com"}'
+      string: '{"id": "tuw-te2-pdj", "title": "datadog-sync-cli Test Dashboard", "description":
+        "", "author_handle": "noueman.khalikine@datadoghq.com", "author_name": "Noueman
+        Khalikine", "layout_type": "ordered", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
+        "is_read_only": false, "template_variables": [], "widgets": [{"definition":
+        {"title_size": "16", "title": "", "title_align": "left", "precision": 2, "time":
+        {}, "autoscale": true, "requests": [{"response_format": "scalar", "queries":
+        [{"query": "avg:system.cpu.user{*}", "data_source": "metrics", "name": "query1",
+        "aggregator": "avg"}]}], "type": "query_value"}, "layout": {"y": 0, "x": 0,
+        "height": 2, "width": 2}, "id": 6609238960092638}], "notify_list": [], "created_at":
+        "2021-06-30T11:45:57.574935+00:00", "modified_at": "2021-06-30T11:46:46.923260+00:00",
+        "reflow_type": "fixed", "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard/dns-jst-h98
+  response:
+    body:
+      string: '{"id": "dns-jst-h98", "title": "Test screenboard", "description": "Created
+        using the Datadog provider in Terraform", "author_handle": "sherzod.karimov@datadoghq.com",
+        "author_name": "Sherzod Karimov", "layout_type": "free", "url": "/dashboard/dns-jst-h98/test-screenboard",
+        "is_read_only": false, "template_variables": [{"default": "aws", "prefix":
+        "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
+        "name": "var_2"}], "widgets": [{"definition": {"title_size": "16", "title":
+        "Widget Title", "title_align": "left", "time": {"live_span": "1h"}, "query":
+        "*", "type": "event_stream", "event_size": "l"}, "layout": {"y": 5, "x": 5,
+        "height": 43, "width": 32}, "id": 4066667513687323}, {"definition": {"title_size":
+        "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
+        "1h"}, "query": "*", "type": "event_timeline"}, "layout": {"y": 73, "x": 42,
+        "height": 9, "width": 65}, "id": 68713679518613}, {"definition": {"color":
+        "#d00", "text": "free text content", "type": "free_text", "font_size": "88",
+        "text_align": "left"}, "layout": {"y": 5, "x": 42, "height": 20, "width":
+        30}, "id": 1117617615518455}, {"definition": {"url": "http://google.com",
+        "type": "iframe"}, "layout": {"y": 8, "x": 111, "height": 46, "width": 39},
+        "id": 3098118775539428}, {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
+        "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
+        77, "height": 20, "width": 30}, "id": 651713243056399}, {"definition": {"logset":
+        "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
+        "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
+        "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
+        "tag_source"]}, "layout": {"y": 51, "x": 5, "height": 36, "width": 32}, "id":
+        5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
+        "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts":
+        true, "start": 0, "summary_type": "monitors", "query": "type:metric", "color_preference":
+        "text", "show_last_triggered": false, "display_format": "countsAndList", "type":
+        "manage_status"}, "layout": {"y": 55, "x": 112, "height": 40, "width": 30},
+        "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query", "title_size":
+        "13", "service": "alerting-cassandra", "title": "alerting-cassandra #env:datad0g.com",
+        "size_format": "large", "show_hits": true, "show_latency": false, "title_align":
+        "center", "show_errors": true, "show_breakdown": true, "env": "datad0g.com",
+        "time": {"live_span": "1h"}, "show_distribution": true, "display_format":
+        "three_column", "type": "trace_service", "show_resource_list": false}, "layout":
+        {"y": 28, "x": 40, "height": 38, "width": 67}, "id": 6949442529647217}], "notify_list":
+        [], "created_at": "2021-06-08T18:26:23.515662+00:00", "modified_at": "2021-06-22T19:35:38.981348+00:00",
+        "template_variable_presets": [{"template_variables": [{"name": "var_1", "value":
+        "host.dc"}, {"name": "var_2", "value": "my_service"}], "name": "preset_1"}],
+        "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -1789,6 +1541,90 @@ interactions:
         "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com"},
         "created_at": 1695138080, "modified_at": 1695138180}], "error": null, "metadata":
         {"page": {"total_count": 3, "total_filtered_count": 3}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/locations
+  response:
+    body:
+      string: '{"locations": [{"id": "aws:af-south-1", "name": "Cape Town (AWS)"},
+        {"id": "aws:ap-east-1", "name": "Hong Kong (AWS)"}, {"id": "aws:ap-northeast-1",
+        "name": "Tokyo (AWS)"}, {"id": "aws:ap-northeast-2", "name": "Seoul (AWS)"},
+        {"id": "aws:ap-northeast-3", "name": "Osaka (AWS)"}, {"id": "aws:ap-south-1",
+        "name": "Mumbai (AWS)"}, {"id": "aws:ap-southeast-1", "name": "Singapore (AWS)"},
+        {"id": "aws:ap-southeast-2", "name": "Sydney (AWS)"}, {"id": "aws:ap-southeast-3",
+        "name": "Jakarta (AWS)"}, {"id": "aws:ca-central-1", "name": "Canada Central
+        (AWS)"}, {"id": "aws:eu-central-1", "name": "Frankfurt (AWS)"}, {"id": "aws:eu-north-1",
+        "name": "Stockholm (AWS)"}, {"id": "aws:eu-south-1", "name": "Milan (AWS)"},
+        {"id": "aws:eu-west-1", "name": "Ireland (AWS)"}, {"id": "aws:eu-west-2",
+        "name": "London (AWS)"}, {"id": "aws:eu-west-3", "name": "Paris (AWS)"}, {"id":
+        "aws:me-south-1", "name": "Bahrain (AWS)"}, {"id": "aws:sa-east-1", "name":
+        "S\u00e3o Paulo (AWS)"}, {"id": "aws:us-east-1", "name": "N. Virginia (AWS)"},
+        {"id": "aws:us-east-2", "name": "Ohio (AWS)"}, {"id": "aws:us-west-1", "name":
+        "N. California (AWS)"}, {"id": "aws:us-west-2", "name": "Oregon (AWS)"}, {"id":
+        "azure:eastus", "name": "Virginia (Azure)"}, {"id": "pl:custom-location-0bf64e97eec8416e292447a0a902f5c6",
+        "name": "Custom Location"}, {"id": "pl:custom-location-with-restricted-roles-946ecd8f86d8de1b74926a3c18e3e7fe",
+        "name": "Custom location with restricted roles"}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:custom-location-0bf64e97eec8416e292447a0a902f5c6
+  response:
+    body:
+      string: '{"createdAt": "2024-02-01T21:13:10.694645+00:00", "modifiedAt": "2024-02-01T21:13:10.694645+00:00",
+        "description": "Random location for test", "tags": ["test:foo"], "name": "Custom
+        Location", "metadata": {"restricted_roles": []}, "id": "pl:custom-location-0bf64e97eec8416e292447a0a902f5c6",
+        "createdBy": "sherzod.karimov@datadoghq.com"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/synthetics/private-locations/pl:custom-location-with-restricted-roles-946ecd8f86d8de1b74926a3c18e3e7fe
+  response:
+    body:
+      string: '{"createdAt": "2024-02-01T21:45:46.664961+00:00", "modifiedAt": "2024-02-01T21:46:11.374936+00:00",
+        "description": "", "tags": [], "name": "Custom location with restricted roles",
+        "metadata": {"restricted_roles": ["fa017a35-bfcb-11eb-a4d7-da7ad0900002"]},
+        "id": "pl:custom-location-with-restricted-roles-946ecd8f86d8de1b74926a3c18e3e7fe",
+        "createdBy": "sherzod.karimov@datadoghq.com"}'
     headers:
       Content-Type:
       - application/json
@@ -2428,6 +2264,14 @@ interactions:
         "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
         {"roles": {"data": [{"type": "roles", "id": "fa017a35-bfcb-11eb-a4d7-da7ad0900002"}]},
         "org": {"data": {"type": "orgs", "id": "fa017a34-bfcb-11eb-a4d7-da7ad0900002"}}}},
+        {"type": "users", "id": "d5459c54-9e9d-11ee-a5c9-ce6dc639753f", "attributes":
+        {"name": "CI Service Account", "handle": "d5459c54-9e9d-11ee-a5c9-ce6dc639753f",
+        "created_at": "2023-12-19T18:38:42.022746+00:00", "modified_at": "2023-12-19T18:38:42.022746+00:00",
+        "email": "frog@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/28a16dfe36e73b60c1d55872cb0f1172?s=48&d=retro",
+        "title": "", "verified": true, "service_account": true, "disabled": false,
+        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
+        {"roles": {"data": [{"type": "roles", "id": "fa017a35-bfcb-11eb-a4d7-da7ad0900002"}]},
+        "org": {"data": {"type": "orgs", "id": "fa017a34-bfcb-11eb-a4d7-da7ad0900002"}}}},
         {"type": "users", "id": "2c9609cc-c316-11eb-a516-da7ad0900002", "attributes":
         {"name": "", "handle": "karimovj@gmail.com", "created_at": "2021-06-01T20:15:56.964166+00:00",
         "modified_at": "2021-06-04T19:49:43.686963+00:00", "email": "karimovj@gmail.com",
@@ -2604,9 +2448,13 @@ interactions:
         "785177a6-20da-11ee-bed7-da7ad0900002"}, {"type": "permissions", "id": "7850e390-20da-11ee-bed6-da7ad0900002"},
         {"type": "permissions", "id": "6c5c79b2-21a4-11ee-99ee-da7ad0900002"}, {"type":
         "permissions", "id": "1b8f54cc-2ca4-11ee-9e72-da7ad0900002"}, {"type": "permissions",
-        "id": "5356dfd2-3dee-11ee-b07b-da7ad0900002"}, {"type": "permissions", "id":
-        "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type": "permissions", "id": "50c270de-69ee-11ee-9151-da7ad0900002"},
-        {"type": "permissions", "id": "7c7836fc-6f6e-11ee-8cdd-da7ad0900002"}]}}},
+        "id": "de0e73c2-3d23-11ee-aa7d-da7ad0900002"}, {"type": "permissions", "id":
+        "de0eb666-3d23-11ee-aa7e-da7ad0900002"}, {"type": "permissions", "id": "5356dfd2-3dee-11ee-b07b-da7ad0900002"},
+        {"type": "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type":
+        "permissions", "id": "263eff86-6925-11ee-acc0-da7ad0900002"}, {"type": "permissions",
+        "id": "50c270de-69ee-11ee-9151-da7ad0900002"}, {"type": "permissions", "id":
+        "7c7836fc-6f6e-11ee-8cdd-da7ad0900002"}, {"type": "permissions", "id": "10098bc8-984b-11ee-9b69-da7ad0900002"},
+        {"type": "permissions", "id": "10091e90-984b-11ee-9b68-da7ad0900002"}]}}},
         {"type": "permissions", "id": "984d2f00-d3b4-11e8-a200-bb47109e9987", "attributes":
         {"name": "standard", "display_name": "Standard Access", "description": "Deprecated.
         Standard Access has been replaced by more specific permissions.", "created":
@@ -3283,14 +3131,27 @@ interactions:
         other than Log Management, such as APM Traces. To modify Log Facets, use Logs
         Write Facets.", "created": "2023-07-27T17:36:24.369352+00:00", "group_name":
         "Cross-Product Features", "display_type": "write", "restricted": false}},
-        {"type": "permissions", "id": "5356dfd2-3dee-11ee-b07b-da7ad0900002", "attributes":
-        {"name": "static_analysis_settings_write", "display_name": "Static Analysis
-        Settings Write", "description": "Edit Static Analysis settings.", "created":
-        "2023-08-18T17:40:30.474557+00:00", "group_name": "CI Visibility", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002",
-        "attributes": {"name": "cd_visibility_read", "display_name": "CD Visibility
-        Read", "description": "View CD Visibility.", "created": "2023-09-09T00:06:00.708335+00:00",
-        "group_name": "CI Visibility", "display_type": "read", "restricted": true}},
+        {"type": "permissions", "id": "de0e73c2-3d23-11ee-aa7d-da7ad0900002", "attributes":
+        {"name": "security_monitoring_suppressions_read", "display_name": "Security
+        Suppressions Read", "description": "Read Rule Suppressions.", "created": "2023-08-17T17:31:15.369551+00:00",
+        "group_name": "Cloud Security Platform", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "de0eb666-3d23-11ee-aa7e-da7ad0900002",
+        "attributes": {"name": "security_monitoring_suppressions_write", "display_name":
+        "Security Suppressions Write", "description": "Write Rule Suppressions.",
+        "created": "2023-08-17T17:31:15.369551+00:00", "group_name": "Cloud Security
+        Platform", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "5356dfd2-3dee-11ee-b07b-da7ad0900002", "attributes": {"name": "static_analysis_settings_write",
+        "display_name": "Static Analysis Settings Write", "description": "Edit Static
+        Analysis settings.", "created": "2023-08-18T17:40:30.474557+00:00", "group_name":
+        "CI Visibility", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002", "attributes":
+        {"name": "cd_visibility_read", "display_name": "CD Visibility Read", "description":
+        "View CD Visibility.", "created": "2023-09-09T00:06:00.708335+00:00", "group_name":
+        "CI Visibility", "display_type": "read", "restricted": true}}, {"type": "permissions",
+        "id": "263eff86-6925-11ee-acc0-da7ad0900002", "attributes": {"name": "ndm_netflow_port_mappings_write",
+        "display_name": "NDM Netflow Port Mappings Write", "description": "Write NDM
+        Netflow port mappings.", "created": "2023-10-12T17:31:17.142666+00:00", "group_name":
+        "Network Device Monitoring", "display_type": "write", "restricted": false}},
         {"type": "permissions", "id": "50c270de-69ee-11ee-9151-da7ad0900002", "attributes":
         {"name": "appsec_vm_read", "display_name": "Vulnerability Management Read",
         "description": "View vulnerabilities. This does not restrict access to the
@@ -3302,6 +3163,16 @@ interactions:
         Instrumentation probes that capture function state: local variables, method
         arguments, fields, and return value or thrown exception.", "created": "2023-10-20T17:31:22.039614+00:00",
         "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "10098bc8-984b-11ee-9b69-da7ad0900002", "attributes":
+        {"name": "error_tracking_settings_write", "display_name": "Error Tracking
+        Settings Write", "description": "Enable/disable Error Tracking, edit inclusion
+        filters, and edit rate limit.", "created": "2023-12-11T17:31:05.405902+00:00",
+        "group_name": "Error Tracking", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "10091e90-984b-11ee-9b68-da7ad0900002", "attributes":
+        {"name": "error_tracking_exclusion_filters_write", "display_name": "Error
+        Tracking Exclusion Filters Write", "description": "Add or change Error Tracking
+        exclusion filters.", "created": "2023-12-11T17:31:05.405902+00:00", "group_name":
+        "Error Tracking", "display_type": "write", "restricted": false}}, {"type":
         "roles", "id": "fa017a37-bfcb-11eb-a4d7-da7ad0900002", "attributes": {"name":
         "Datadog Read Only Role", "created_at": "2021-05-28T15:47:16.084615+00:00",
         "modified_at": "2021-05-28T15:47:16.084615+00:00"}, "relationships": {"permissions":
@@ -3333,47 +3204,11 @@ interactions:
         {"type": "permissions", "id": "c13a2368-7d61-11ed-b5b7-da7ad0900002"}, {"type":
         "permissions", "id": "4e61a95e-de98-11ed-aa23-da7ad0900002"}, {"type": "permissions",
         "id": "a773e3d8-fff2-11ed-965c-da7ad0900002"}, {"type": "permissions", "id":
-        "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type": "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"},
-        {"type": "permissions", "id": "50c270de-69ee-11ee-9151-da7ad0900002"}]}}}],
-        "meta": {"page": {"total_count": 9, "total_filtered_count": 9, "max_page_size":
+        "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type": "permissions", "id": "de0e73c2-3d23-11ee-aa7d-da7ad0900002"},
+        {"type": "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type":
+        "permissions", "id": "50c270de-69ee-11ee-9151-da7ad0900002"}]}}}], "meta":
+        {"page": {"total_count": 10, "total_filtered_count": 10, "max_page_size":
         1000}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/slo/correction
-  response:
-    body:
-      string: '{"data": [{"type": "correction", "id": "999b94e0-bf74-11ed-a4ee-da7ad0902002",
-        "attributes": {"slo_id": "ae04001ea55f52f6ae4b85d9b1023909", "start": 1678255200,
-        "end": 1678355280, "description": "", "category": "Other", "timezone": "UTC",
-        "created_at": 1678474303, "modified_at": 1678474303, "rrule": null, "duration":
-        null, "creator": {"data": {"type": "users", "id": "fa017a38-bfcb-11eb-a4d7-da7ad0900002",
-        "attributes": {"uuid": "fa017a38-bfcb-11eb-a4d7-da7ad0900002", "handle": "support-datadogsynccliustestorg",
-        "email": "support-user-prod@datadoghq.com", "name": "Datadog Support", "icon":
-        "https://secure.gravatar.com/avatar/e6952b5f29fe2d996cf4e63f40db9e71?s=48&d=retro"}}},
-        "modifier": null}}, {"type": "correction", "id": "381d1620-bf70-11ed-acb8-da7ad0902002",
-        "attributes": {"slo_id": "ba72d10835d75e0c8910597144f3733a", "start": 1678255200,
-        "end": 1678339140, "description": "", "category": "Other", "timezone": "UTC",
-        "created_at": 1678472421, "modified_at": 1678472421, "rrule": null, "duration":
-        null, "creator": {"data": {"type": "users", "id": "fa017a38-bfcb-11eb-a4d7-da7ad0900002",
-        "attributes": {"uuid": "fa017a38-bfcb-11eb-a4d7-da7ad0900002", "handle": "support-datadogsynccliustestorg",
-        "email": "support-user-prod@datadoghq.com", "name": "Datadog Support", "icon":
-        "https://secure.gravatar.com/avatar/e6952b5f29fe2d996cf4e63f40db9e71?s=48&d=retro"}}},
-        "modifier": null}}], "meta": {"page": {"total_count": 2, "total_filtered_count":
-        2}}}'
     headers:
       Content-Type:
       - application/json
@@ -4085,14 +3920,27 @@ interactions:
         other than Log Management, such as APM Traces. To modify Log Facets, use Logs
         Write Facets.", "created": "2023-07-27T16:26:26.546986+00:00", "group_name":
         "Cross-Product Features", "display_type": "write", "restricted": false}},
-        {"type": "permissions", "id": "e8c17678-3de3-11ee-a66f-da7ad0900005", "attributes":
-        {"name": "static_analysis_settings_write", "display_name": "Static Analysis
-        Settings Write", "description": "Edit Static Analysis settings.", "created":
-        "2023-08-18T16:25:56.688500+00:00", "group_name": "CI Visibility", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "94783714-4e9b-11ee-959b-da7ad0900005",
-        "attributes": {"name": "cd_visibility_read", "display_name": "CD Visibility
-        Read", "description": "View CD Visibility.", "created": "2023-09-08T23:01:01.285130+00:00",
-        "group_name": "CI Visibility", "display_type": "read", "restricted": true}},
+        {"type": "permissions", "id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "attributes":
+        {"name": "security_monitoring_suppressions_read", "display_name": "Security
+        Suppressions Read", "description": "Read Rule Suppressions.", "created": "2023-08-17T16:25:26.209216+00:00",
+        "group_name": "Cloud Security Platform", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "ac2cf7d8-3d1a-11ee-8f54-da7ad0900005",
+        "attributes": {"name": "security_monitoring_suppressions_write", "display_name":
+        "Security Suppressions Write", "description": "Write Rule Suppressions.",
+        "created": "2023-08-17T16:25:26.209216+00:00", "group_name": "Cloud Security
+        Platform", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "e8c17678-3de3-11ee-a66f-da7ad0900005", "attributes": {"name": "static_analysis_settings_write",
+        "display_name": "Static Analysis Settings Write", "description": "Edit Static
+        Analysis settings.", "created": "2023-08-18T16:25:56.688500+00:00", "group_name":
+        "CI Visibility", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "94783714-4e9b-11ee-959b-da7ad0900005", "attributes":
+        {"name": "cd_visibility_read", "display_name": "CD Visibility Read", "description":
+        "View CD Visibility.", "created": "2023-09-08T23:01:01.285130+00:00", "group_name":
+        "CI Visibility", "display_type": "read", "restricted": true}}, {"type": "permissions",
+        "id": "09a13d52-691c-11ee-b7a4-da7ad0900005", "attributes": {"name": "ndm_netflow_port_mappings_write",
+        "display_name": "NDM Netflow Port Mappings Write", "description": "Write NDM
+        Netflow port mappings.", "created": "2023-10-12T16:26:03.661255+00:00", "group_name":
+        "Network Device Monitoring", "display_type": "write", "restricted": false}},
         {"type": "permissions", "id": "2de35000-69e5-11ee-996b-da7ad0900005", "attributes":
         {"name": "appsec_vm_read", "display_name": "Vulnerability Management Read",
         "description": "View vulnerabilities. This does not restrict access to the
@@ -4103,7 +3951,17 @@ interactions:
         Instrumentation Capture Variables", "description": "Create or modify Dynamic
         Instrumentation probes that capture function state: local variables, method
         arguments, fields, and return value or thrown exception.", "created": "2023-10-20T16:25:50.268064+00:00",
-        "group_name": "APM", "display_type": "write", "restricted": false}}]}'
+        "group_name": "APM", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "f2cc9374-9841-11ee-a301-da7ad0900005", "attributes":
+        {"name": "error_tracking_settings_write", "display_name": "Error Tracking
+        Settings Write", "description": "Enable/disable Error Tracking, edit inclusion
+        filters, and edit rate limit.", "created": "2023-12-11T16:25:50.880331+00:00",
+        "group_name": "Error Tracking", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "f2cbfc5c-9841-11ee-a301-da7ad0900005", "attributes":
+        {"name": "error_tracking_exclusion_filters_write", "display_name": "Error
+        Tracking Exclusion Filters Write", "description": "Add or change Error Tracking
+        exclusion filters.", "created": "2023-12-11T16:25:50.880331+00:00", "group_name":
+        "Error Tracking", "display_type": "write", "restricted": false}}]}'
     headers: {}
     status:
       code: 200
