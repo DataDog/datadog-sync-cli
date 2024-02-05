@@ -12,55 +12,63 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "06bf2ade-d3b3-4b8e-b7c7-d1d1ac0a06c6", "name":
+      string: '{"variables": [{"id": "0302332a-7ad4-4042-8310-e250998acac9", "name":
         "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656", "description":
-        "a global variable", "type": "variable", "tags": ["foo:bar", "baz"], "created_at":
-        "2023-12-19T16:26:06.382162+00:00", "modified_at": "2023-12-19T16:26:06.382162+00:00",
+        "a global variable", "type": "variable", "tags": ["foo:bar", "baz", "managed_by:datadog-sync"],
+        "created_at": "2024-02-01T19:55:11.643198+00:00", "modified_at": "2024-02-01T19:55:11.643198+00:00",
         "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
         null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
         null, "value": {"secure": false, "value": "variable-value"}, "creator": {"email":
-        "frog@datadoghq.com", "handle": "frog@datadoghq.com", "name": "Frog"}, "editor":
-        {"email": "frog@datadoghq.com", "handle": "frog@datadoghq.com", "name": "Frog"}},
-        {"id": "19e07157-7eb2-47e6-b2b4-b6102252636b", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
+        "frog@datadoghq.com", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "name":
+        "CI Service Account"}, "editor": {"email": "frog@datadoghq.com", "handle":
+        "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "name": "CI Service Account"}}, {"id":
+        "5efe34a0-4307-4aee-a3cf-9f9f6d23b16b", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
         "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-        "baz"], "created_at": "2023-12-19T16:26:05.658354+00:00", "modified_at": "2023-12-19T16:26:05.658354+00:00",
-        "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
-        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
-        null, "value": {"secure": false, "value": "variable-value"}, "creator": {"email":
-        "frog@datadoghq.com", "handle": "frog@datadoghq.com", "name": "Frog"}, "editor":
-        {"email": "frog@datadoghq.com", "handle": "frog@datadoghq.com", "name": "Frog"}},
-        {"id": "6dd88d26-025e-487b-a4ee-7d89095da053", "name": "TEST_SECRETS", "description":
-        "", "type": "variable", "tags": [], "created_at": "2023-12-19T16:26:07.053523+00:00",
-        "modified_at": "2023-12-19T16:26:07.053523+00:00", "parse_test_public_id":
-        null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
-        null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
-        true}, "creator": {"email": "frog@datadoghq.com", "handle": "frog@datadoghq.com",
-        "name": "Frog"}, "editor": {"email": "frog@datadoghq.com", "handle": "frog@datadoghq.com",
-        "name": "Frog"}}, {"id": "a3459eb2-dde9-4410-a3a7-efe720266d6e", "name": "EXAMPLE_VARIABLE",
-        "description": "Description of the variable", "type": "variable", "tags":
-        ["foo:bar", "env:test"], "created_at": "2023-12-19T16:26:06.726864+00:00",
-        "modified_at": "2023-12-19T16:26:06.726864+00:00", "parse_test_public_id":
+        "baz", "managed_by:datadog-sync"], "created_at": "2024-02-01T19:55:11.004794+00:00",
+        "modified_at": "2024-02-01T19:55:11.004794+00:00", "parse_test_public_id":
         null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
         null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
         false, "value": "variable-value"}, "creator": {"email": "frog@datadoghq.com",
-        "handle": "frog@datadoghq.com", "name": "Frog"}, "editor": {"email": "frog@datadoghq.com",
-        "handle": "frog@datadoghq.com", "name": "Frog"}}, {"id": "d285e476-9bcf-4e38-9170-669fe02f566d",
-        "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1686121345",
-        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-        "baz"], "created_at": "2023-12-19T16:26:05.251042+00:00", "modified_at": "2023-12-19T16:26:05.251042+00:00",
-        "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
-        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
-        null, "value": {"secure": false, "value": "variable-value"}, "creator": {"email":
-        "frog@datadoghq.com", "handle": "frog@datadoghq.com", "name": "Frog"}, "editor":
-        {"email": "frog@datadoghq.com", "handle": "frog@datadoghq.com", "name": "Frog"}},
-        {"id": "dc4ba821-6de8-4317-9eaa-51120e978e73", "name": "TEST_VARIABLE", "description":
-        "test", "type": "variable", "tags": ["check_type:api"], "created_at": "2023-12-19T16:26:06.060882+00:00",
-        "modified_at": "2023-12-19T16:26:06.060882+00:00", "parse_test_public_id":
+        "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "name": "CI Service Account"},
+        "editor": {"email": "frog@datadoghq.com", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "name": "CI Service Account"}}, {"id": "85493102-e045-4a80-b19e-fe53f664129b",
+        "name": "TEST_VARIABLE", "description": "test", "type": "variable", "tags":
+        ["check_type:api", "managed_by:datadog-sync"], "created_at": "2024-02-01T19:55:11.437427+00:00",
+        "modified_at": "2024-02-01T19:55:11.437427+00:00", "parse_test_public_id":
         null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
         null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
         false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}, "creator": {"email":
-        "frog@datadoghq.com", "handle": "frog@datadoghq.com", "name": "Frog"}, "editor":
-        {"email": "frog@datadoghq.com", "handle": "frog@datadoghq.com", "name": "Frog"}}]}'
+        "frog@datadoghq.com", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "name":
+        "CI Service Account"}, "editor": {"email": "frog@datadoghq.com", "handle":
+        "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "name": "CI Service Account"}}, {"id":
+        "85fb4769-26ec-4856-b9a5-6c57ae1553bc", "name": "EXAMPLE_VARIABLE", "description":
+        "Description of the variable", "type": "variable", "tags": ["foo:bar", "env:test",
+        "managed_by:datadog-sync"], "created_at": "2024-02-01T19:55:11.867849+00:00",
+        "modified_at": "2024-02-01T19:55:11.867849+00:00", "parse_test_public_id":
+        null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
+        null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
+        false, "value": "variable-value"}, "creator": {"email": "frog@datadoghq.com",
+        "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "name": "CI Service Account"},
+        "editor": {"email": "frog@datadoghq.com", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "name": "CI Service Account"}}, {"id": "ef7a983c-b4dd-453d-be09-3c7bc1c6ef48",
+        "name": "TEST_SECRETS", "description": "", "type": "variable", "tags": ["managed_by:datadog-sync"],
+        "created_at": "2024-02-01T19:55:12.132443+00:00", "modified_at": "2024-02-01T19:55:12.132443+00:00",
+        "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
+        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
+        null, "value": {"secure": true}, "creator": {"email": "frog@datadoghq.com",
+        "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "name": "CI Service Account"},
+        "editor": {"email": "frog@datadoghq.com", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "name": "CI Service Account"}}, {"id": "f76069bb-cbac-40d7-88f4-e4f38ada2a09",
+        "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1686121345",
+        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
+        "baz", "managed_by:datadog-sync"], "created_at": "2024-02-01T19:55:10.778742+00:00",
+        "modified_at": "2024-02-01T19:55:10.778742+00:00", "parse_test_public_id":
+        null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
+        null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
+        false, "value": "variable-value"}, "creator": {"email": "frog@datadoghq.com",
+        "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "name": "CI Service Account"},
+        "editor": {"email": "frog@datadoghq.com", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "name": "CI Service Account"}}]}'
     headers: {}
     status:
       code: 200
@@ -68,7 +76,7 @@ interactions:
 - request:
     body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1686121345",
       "description": "a global variableupdated", "type": "variable", "tags": ["foo:bar",
-      "baz"], "value": {"secure": false, "value": "variable-value"}}'
+      "baz", "managed_by:datadog-sync"], "value": {"secure": false, "value": "variable-value"}}'
     headers:
       Accept:
       - '*/*'
@@ -77,107 +85,12 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/d285e476-9bcf-4e38-9170-669fe02f566d
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/f76069bb-cbac-40d7-88f4-e4f38ada2a09
   response:
     body:
-      string: '{"id": "d285e476-9bcf-4e38-9170-669fe02f566d", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1686121345",
+      string: '{"id": "f76069bb-cbac-40d7-88f4-e4f38ada2a09", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1686121345",
         "description": "a global variableupdated", "type": "variable", "tags": ["foo:bar",
-        "baz"], "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
-        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
-        null, "value": {"secure": false, "value": "variable-value"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
-      "description": "a global variableupdated", "type": "variable", "tags": ["foo:bar",
-      "baz"], "value": {"secure": false, "value": "variable-value"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/19e07157-7eb2-47e6-b2b4-b6102252636b
-  response:
-    body:
-      string: '{"id": "19e07157-7eb2-47e6-b2b4-b6102252636b", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
-        "description": "a global variableupdated", "type": "variable", "tags": ["foo:bar",
-        "baz"], "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
-        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
-        null, "value": {"secure": false, "value": "variable-value"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TEST_VARIABLE", "description": "testupdated", "type": "variable",
-      "tags": ["check_type:api"], "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/dc4ba821-6de8-4317-9eaa-51120e978e73
-  response:
-    body:
-      string: '{"id": "dc4ba821-6de8-4317-9eaa-51120e978e73", "name": "TEST_VARIABLE",
-        "description": "testupdated", "type": "variable", "tags": ["check_type:api"],
-        "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
-        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
-        null, "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
-      "description": "a global variableupdated", "type": "variable", "tags": ["foo:bar",
-      "baz"], "value": {"secure": false, "value": "variable-value"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/06bf2ade-d3b3-4b8e-b7c7-d1d1ac0a06c6
-  response:
-    body:
-      string: '{"id": "06bf2ade-d3b3-4b8e-b7c7-d1d1ac0a06c6", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
-        "description": "a global variableupdated", "type": "variable", "tags": ["foo:bar",
-        "baz"], "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
-        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
-        null, "value": {"secure": false, "value": "variable-value"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "EXAMPLE_VARIABLE", "description": "Description of the variableupdated",
-      "type": "variable", "tags": ["foo:bar", "env:test"], "value": {"secure": false,
-      "value": "variable-value"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/a3459eb2-dde9-4410-a3a7-efe720266d6e
-  response:
-    body:
-      string: '{"id": "a3459eb2-dde9-4410-a3a7-efe720266d6e", "name": "EXAMPLE_VARIABLE",
-        "description": "Description of the variableupdated", "type": "variable", "tags":
-        ["foo:bar", "env:test"], "parse_test_public_id": null, "parse_test_name":
+        "baz", "managed_by:datadog-sync"], "parse_test_public_id": null, "parse_test_name":
         null, "parse_test_options": null, "parse_test_extracted_at": null, "is_totp":
         null, "is_fido": null, "last_error": null, "value": {"secure": false, "value":
         "variable-value"}}'
@@ -186,8 +99,9 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"name": "TEST_SECRETS", "description": "updated", "type": "variable",
-      "tags": [], "value": {"secure": true}}'
+    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
+      "description": "a global variableupdated", "type": "variable", "tags": ["foo:bar",
+      "baz", "managed_by:datadog-sync"], "value": {"secure": false, "value": "variable-value"}}'
     headers:
       Accept:
       - '*/*'
@@ -196,14 +110,113 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/6dd88d26-025e-487b-a4ee-7d89095da053
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/5efe34a0-4307-4aee-a3cf-9f9f6d23b16b
   response:
     body:
-      string: '{"id": "6dd88d26-025e-487b-a4ee-7d89095da053", "name": "TEST_SECRETS",
-        "description": "updated", "type": "variable", "tags": [], "parse_test_public_id":
+      string: '{"id": "5efe34a0-4307-4aee-a3cf-9f9f6d23b16b", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
+        "description": "a global variableupdated", "type": "variable", "tags": ["foo:bar",
+        "baz", "managed_by:datadog-sync"], "parse_test_public_id": null, "parse_test_name":
+        null, "parse_test_options": null, "parse_test_extracted_at": null, "is_totp":
+        null, "is_fido": null, "last_error": null, "value": {"secure": false, "value":
+        "variable-value"}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "TEST_VARIABLE", "description": "testupdated", "type": "variable",
+      "tags": ["check_type:api", "managed_by:datadog-sync"], "value": {"secure": false,
+      "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/85493102-e045-4a80-b19e-fe53f664129b
+  response:
+    body:
+      string: '{"id": "85493102-e045-4a80-b19e-fe53f664129b", "name": "TEST_VARIABLE",
+        "description": "testupdated", "type": "variable", "tags": ["check_type:api",
+        "managed_by:datadog-sync"], "parse_test_public_id": null, "parse_test_name":
+        null, "parse_test_options": null, "parse_test_extracted_at": null, "is_totp":
+        null, "is_fido": null, "last_error": null, "value": {"secure": false, "value":
+        "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
+      "description": "a global variableupdated", "type": "variable", "tags": ["foo:bar",
+      "baz", "managed_by:datadog-sync"], "value": {"secure": false, "value": "variable-value"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/0302332a-7ad4-4042-8310-e250998acac9
+  response:
+    body:
+      string: '{"id": "0302332a-7ad4-4042-8310-e250998acac9", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
+        "description": "a global variableupdated", "type": "variable", "tags": ["foo:bar",
+        "baz", "managed_by:datadog-sync"], "parse_test_public_id": null, "parse_test_name":
+        null, "parse_test_options": null, "parse_test_extracted_at": null, "is_totp":
+        null, "is_fido": null, "last_error": null, "value": {"secure": false, "value":
+        "variable-value"}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "EXAMPLE_VARIABLE", "description": "Description of the variableupdated",
+      "type": "variable", "tags": ["foo:bar", "env:test", "managed_by:datadog-sync"],
+      "value": {"secure": false, "value": "variable-value"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/85fb4769-26ec-4856-b9a5-6c57ae1553bc
+  response:
+    body:
+      string: '{"id": "85fb4769-26ec-4856-b9a5-6c57ae1553bc", "name": "EXAMPLE_VARIABLE",
+        "description": "Description of the variableupdated", "type": "variable", "tags":
+        ["foo:bar", "env:test", "managed_by:datadog-sync"], "parse_test_public_id":
         null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
         null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
-        true}}'
+        false, "value": "variable-value"}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "TEST_SECRETS", "description": "updated", "type": "variable",
+      "tags": ["managed_by:datadog-sync"], "value": {"secure": true}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/ef7a983c-b4dd-453d-be09-3c7bc1c6ef48
+  response:
+    body:
+      string: '{"id": "ef7a983c-b4dd-453d-be09-3c7bc1c6ef48", "name": "TEST_SECRETS",
+        "description": "updated", "type": "variable", "tags": ["managed_by:datadog-sync"],
+        "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
+        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
+        null, "value": {"secure": true}}'
     headers: {}
     status:
       code: 200

@@ -1,10 +1,10 @@
 interactions:
 - request:
-    body: '{"name": "SLO test", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
-      "7d", "target": 99.0, "target_display": "99."}], "type": "metric", "type_id":
-      1, "description": "Test update creationupdated", "timeframe": "7d", "target_threshold":
-      99.0, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
-      "sum:api.requests.status_ok{*}.as_count()"}}'
+    body: '{"name": "SLO test", "tags": ["managed_by:datadog-sync"], "monitor_tags":
+      [], "thresholds": [{"timeframe": "7d", "target": 99.0, "target_display": "99."}],
+      "type": "metric", "type_id": 1, "description": "Test update creationupdated",
+      "timeframe": "7d", "target_threshold": 99.0, "query": {"denominator": "sum:api.requests{*}.as_count()",
+      "numerator": "sum:api.requests.status_ok{*}.as_count()"}}'
     headers:
       Accept:
       - '*/*'
@@ -13,17 +13,17 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.datadoghq.eu/api/v1/slo/c8e349d24e38522c9f388b7d245726d7
+    uri: https://api.datadoghq.eu/api/v1/slo/2d2d092c28ff5b22a26238f7d74a5bae
   response:
     body:
-      string: '{"data": [{"id": "c8e349d24e38522c9f388b7d245726d7", "name": "SLO test",
-        "tags": [], "monitor_tags": [], "thresholds": [{"timeframe": "7d", "target":
-        99.0, "target_display": "99."}], "type": "metric", "type_id": 1, "description":
-        "Test update creationupdated", "timeframe": "7d", "target_threshold": 99.0,
-        "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator": "sum:api.requests.status_ok{*}.as_count()"},
-        "creator": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
-        "email": "sherzod.karimov@datadoghq.com"}, "created_at": 1672867909, "modified_at":
-        1672867909}], "error": null}'
+      string: '{"data": [{"id": "2d2d092c28ff5b22a26238f7d74a5bae", "name": "SLO test",
+        "tags": ["managed_by:datadog-sync"], "monitor_tags": [], "thresholds": [{"timeframe":
+        "7d", "target": 99.0, "target_display": "99."}], "type": "metric", "type_id":
+        1, "description": "Test update creationupdated", "timeframe": "7d", "target_threshold":
+        99.0, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
+        "sum:api.requests.status_ok{*}.as_count()"}, "creator": {"name": "CI Service
+        Account", "handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec", "email": "frog@datadoghq.com"},
+        "created_at": 1706817303, "modified_at": 1706817303}], "error": null}'
     headers: {}
     status:
       code: 200
