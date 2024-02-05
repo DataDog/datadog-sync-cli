@@ -143,6 +143,9 @@ Options:
   --force-missing-dependencies                Force importing and syncing resources that
                                               could be potential dependencies to the
                                               requested resources. [sync only]
+  --create-global-downtime                    Schedule a downtime for monitors synced by
+                                              datadog-sync-cli. Scheduled downtime should be
+                                              manually removed after failover is complete.
   --help                                      Show this message and exit.
 
 Commands:

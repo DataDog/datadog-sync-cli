@@ -39,7 +39,7 @@ from datadog_sync.utils.configuration import build_config
     is_flag=True,
     default=False,
     help="Schedule a downtime for monitors synced by datadog-sync-cli. \
-        This should be manually removed after failover is complete.",
+        Scheduled downtime should be manually removed after failover is complete.",
     cls=CustomOptionClass,
 )
 def sync(**kwargs):
