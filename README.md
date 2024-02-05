@@ -1,3 +1,79 @@
+# Deepomatic fork
+Dump of additional hackish import/sync/cleanup_org for extra resources not supported by upstream, used by Deepomatic when migrating region. Maybe it will help somebody.
+
+Inspiration: https://careers.wolt.com/en/blog/tech/datadog-migration-wolt
+
+For some resources: it uses non-official api (from web frontend), using `dogweb` cookie and `x-csrf-token` header
+```
+source_cookie_dogweb="xxx"
+destination_cookie_dogweb="xxx"
+destination_csrf_token="xxx"
+```
+Warning: it's a hack, with shortcuts:
+- it is *not* endorsed by Datadog (or supported by Deepomatic)
+- authentication is either/or: cookie_dogweb config are required for those resources, and datadog-cli switches to cookie dogweb mode if config set, it *will not* work for other resources
+- web frontend api is not documented, it could break at any time
+
+
+## extra resources
+### logs_facets
+how to use:
+- edit hardcoded `sourceid` in `datadog_sync/model/logs_facets.py` for your organizations, by getting the values in URLs with manual update facet on the web ui.
+- setup dogweb cookie mode, cf above
+
+### logs_views
+how to use:
+- setup dogweb cookie mode, cf above
+
+### metric_metadatas
+create metric metadata is *not* supported by datadog api, we can just update it on already existing metric.
+- first push data-points on metric, then rerun the script when new metrics are populated
+
+### incidents
+The supported scenario is importing all incidents (in order) so `public_id` (1, 2, etc.) are identical in source & destination organizations: never create new incidents in the destination organization before finishing the migration with datadog-sync-cli.
+
+Only the base incident data is supported, related resources (integrations(slack), todos(remediations), attachments) may be done later with dedicated resources.
+
+The import is lossy: for example the creation date is on sync, timeline is lost, etc.
+
+'notifications' explicitly not-sync'ed to avoid spamming people during import (although later tests seem to conclude 'inactive' user (invitation pending: sync'ed users, but they never connected to the destination region) are *not* notified)
+
+### incidents_integrations
+- api bug: it url-escapes slack `redirect_url` `&` query-string separator character before saving: this leads to a forever diff: datadog-sync-cli tries to PATCH the correct value on each sync, the server saves a wrong value.
+
+### incidents_todos
+- creation date & author is lost, as usual
+
+### incident_org_settings
+- undocumented api, but standard v2 api used by web frontend, works with API/APP key
+- just one resource per org, forcing update, ignoring ids, etc.
+
+### incidents_config_fields
+- perpetual diff: on 'metadata' for ootb service & team:
+  - PATCH ok (maybe ignores metadata?)
+  - but PATCH response contains `metadata: null`
+  => `diffs` always shows it; it's ok, we can ignore those
+
+### incidents_config_notifications_templates
+
+### incidents_config_integrations_workflows
+Covers General>Integrations & Notifications>Rules
+- (api inconsistency: `attributes.triggers.variables.severity_values` and `attributes.triggers.variables.status_values` are `null` in read calls, and require an array in write calls)
+- errors (probably because some workflows are hardcoded, not duplicable, but no obvious attribute to distingish them)
+  - Error: 400 Bad Request - {"errors":["a workflow like that already exists"]}
+  - Error: 400 Bad Request - {"errors":["Invalid payload: 'name' is invalid"]}
+  => ignoring those errors for now, and manually fixed `Send all incident updates to a global channel` via web frontend.
+
+### integrations_slack_channels
+how to use:
+- supports only *one* slack account
+- api doesn't support `muting` option
+- manually create the slack integration in destination organization, with *same name* as in source
+- edit hardcoded `slack_account_name` in `datadog_sync/model/integrations_slack_channels.py` for your organizations
+- run import & diffs & sync as usual
+
+---
+
 # datadog-sync-cli
 Datadog cli tool to sync resources across organizations.
 

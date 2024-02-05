@@ -62,7 +62,9 @@ class CustomClient:
         self.timeout = timeout
         self.session = requests.Session()
         self.retry_timeout = retry_timeout
-        self.session.headers.update(build_default_headers(auth))
+        self.cookieauth = bool(auth.get("cookieDogWeb"))
+        self.csrf_token = auth.get("x-csrf-token")
+        self.session.headers.update(build_default_headers(auth, self.cookieauth))
         self.default_pagination = PaginationConfig()
 
     @request_with_retry
@@ -130,13 +132,21 @@ class CustomClient:
         return wrapper
 
 
-def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
+def build_default_headers(auth_obj: Dict[str, str], is_cookieauth_mode: bool) -> Dict[str, str]:
     headers = {
-        "DD-API-KEY": auth_obj["apiKeyAuth"],
-        "DD-APPLICATION-KEY": auth_obj["appKeyAuth"],
         "Content-Type": "application/json",
         "User-Agent": _get_user_agent(),
     }
+    if is_cookieauth_mode:
+        headers |= {
+            "Cookie": "dogweb=" + auth_obj["cookieDogWeb"],
+        }
+
+    else:
+        headers |= {
+            "DD-API-KEY": auth_obj["apiKeyAuth"],
+            "DD-APPLICATION-KEY": auth_obj["appKeyAuth"],
+        }
     return headers
 
 
@@ -146,7 +156,7 @@ def _get_user_agent() -> str:
     except (ModuleNotFoundError, ImportError):
         version = None
 
-    return "datadog-sync-cli/{version} (python {pyver}; os {os}; arch {arch})".format(
+    return "datadog-sync-cli/{version}-deepomatic-patch (python {pyver}; os {os}; arch {arch})".format(
         version=version,
         pyver=platform.python_version(),
         os=platform.system().lower(),

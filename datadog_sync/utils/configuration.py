@@ -29,6 +29,7 @@ from datadog_sync.constants import (
     RESOURCE_FILE_PATH,
     TRUE,
     VALIDATE_ENDPOINT,
+    VALIDATE_ENDPOINT_COOKIEAUTH,
 )
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
@@ -65,12 +66,15 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
     source_auth = {
         "apiKeyAuth": kwargs.get("source_api_key", ""),
         "appKeyAuth": kwargs.get("source_app_key", ""),
+        "cookieDogWeb": kwargs.get("source_cookie_dogweb", ""),
     }
     source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout)
 
     destination_auth = {
         "apiKeyAuth": kwargs.get("destination_api_key", ""),
         "appKeyAuth": kwargs.get("destination_app_key", ""),
+        "cookieDogWeb": kwargs.get("destination_cookie_dogweb", ""),
+        "x-csrf-token": kwargs.get("destination_csrf_token", ""),
     }
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout)
 
@@ -161,7 +165,10 @@ def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
 def _validate_client(client: CustomClient) -> None:
     logger = logging.getLogger(LOGGER_NAME)
     try:
-        client.get(VALIDATE_ENDPOINT).json()
+        if client.cookieauth:
+            client.get(VALIDATE_ENDPOINT_COOKIEAUTH).json()
+        else:
+            client.get(VALIDATE_ENDPOINT).json()
     except CustomClientHTTPError as e:
         logger.error(f"invalid api key: {e}")
         exit(1)

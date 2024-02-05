@@ -18,7 +18,7 @@ DEFAULT_TEST_ORG = "3cda39a0-9e99-11ee-94d5-da7ad0900005"
 class Cleanup:
     def __init__(self):
         self.headers = get_headers()
-        self.base_url = os.getenv("DD_DESTINATION_API_URL")
+        self.base_url = os.environ["DESTINATION_API_URL"]
 
         # Validate test org
         self.validate_org()
@@ -37,11 +37,11 @@ class Cleanup:
         self.cleanup_logs_custom_pipelines()
         self.cleanup_monitors()
         self.cleanup_notebooks()
-        self.cleanup_users()
+        # self.cleanup_users()
         self.cleanup_roles()
         self.cleanup_logs_metrics()
         self.cleanup_metric_tag_configurations()
-        self.cleanup_host_tags()
+        # self.cleanup_host_tags()
         self.cleanup_logs_restriction_queries()
         # self.cleanup_integrations_aws()
 
@@ -239,7 +239,7 @@ class Cleanup:
             resp = requests.get(url, headers=self.headers, timeout=60, *args, **kwargs)
             resp.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            print("Error getting url %s: %s", url, e)
+            print("Error getting url %s: %s, %s", url, e, e.response.headers)
             return
         return resp.json()
 
@@ -250,13 +250,13 @@ class Cleanup:
             resp.raise_for_status()
             print("deleted resource ", url, _id)
         except requests.exceptions.HTTPError as e:
-            print("Error deleting resource: %s", e)
+            print("Error deleting resource: %s, %s", e, e.response.headers)
 
 
 def get_headers():
     return {
-        "DD-API-KEY": os.getenv("DD_DESTINATION_API_KEY"),
-        "DD-APPLICATION-KEY": os.getenv("DD_DESTINATION_APP_KEY"),
+        "DD-API-KEY": os.environ["DESTINATION_API_KEY"],
+        "DD-APPLICATION-KEY": os.environ["DESTINATION_APP_KEY"],
         "Content-Type": "application/json",
     }
 
