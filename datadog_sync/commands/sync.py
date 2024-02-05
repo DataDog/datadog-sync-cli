@@ -33,6 +33,15 @@ from datadog_sync.utils.configuration import build_config
     help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
     cls=CustomOptionClass,
 )
+@option(
+    "--create-global-downtime",
+    required=False,
+    is_flag=True,
+    default=False,
+    help="Schedule a downtime for monitors synced by datadog-sync-cli. \
+        This should be manually removed after failover is complete.",
+    cls=CustomOptionClass,
+)
 def sync(**kwargs):
     """Sync Datadog resources to destination."""
     cfg = build_config(CMD_SYNC, **kwargs)

@@ -44,6 +44,7 @@ class Configuration(object):
     skip_failed_resource_connections: bool
     max_workers: int
     cleanup: int
+    create_global_downtime: bool
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
 
@@ -88,6 +89,7 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
     max_workers = kwargs.get("max_workers", 10)
+    create_global_downtime = kwargs.get("create_global_downtime")
 
     cleanup = kwargs.get("cleanup")
     if cleanup:
@@ -108,6 +110,7 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
         skip_failed_resource_connections=skip_failed_resource_connections,
         max_workers=max_workers,
         cleanup=cleanup,
+        create_global_downtime=create_global_downtime,
     )
 
     # Initialize resources
