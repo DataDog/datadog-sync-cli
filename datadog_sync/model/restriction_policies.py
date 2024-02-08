@@ -97,6 +97,7 @@ class RestrictionPolicies(BaseResource):
             for i, key in enumerate(binding["principals"]):
                 if key.startswith("org:"):
                     binding["principals"][i] = self.org_principal
+                    break
 
     def pre_apply_hook(self) -> None:
         destination_client = self.config.destination_client
@@ -170,7 +171,7 @@ class RestrictionPolicies(BaseResource):
                     else:
                         failed_connections.append(_id)
                 # # TODO: Commented out until teams is supported
-                # if resource_to_connect == "teams" and _type == "team":
+                # elif resource_to_connect == "teams" and _type == "team":
                 #     if _id in team:
                 #         r_obj[key][i] = f"team:{team[_id]['id']}"
                 #     else:
