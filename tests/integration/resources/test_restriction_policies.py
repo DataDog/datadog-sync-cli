@@ -4,14 +4,15 @@
 # Copyright 2019 Datadog, Inc.
 
 import pytest
-
 from tests.integration.helpers import BaseResourcesTestClass
-from datadog_sync.models import LogsPipelinesOrder
+from datadog_sync.models import RestrictionPolicies
 
 
-class TestLogsPipelinesOrder(BaseResourcesTestClass):
-    resource_type = LogsPipelinesOrder.resource_type
+class TestRestrictionPoliciesResources(BaseResourcesTestClass):
+    resource_type = RestrictionPolicies.resource_type
+    field_to_update = "attributes.name"
+    force_missing_deps = True
 
-    @pytest.mark.skip(reason="resource is only updated by default")
+    @pytest.mark.skip(reason="Difficult to test without creating another user/role/teams to test with.")
     def test_resource_update_sync(self):
         pass

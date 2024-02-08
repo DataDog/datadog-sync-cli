@@ -64,6 +64,7 @@ The source organization will not be modified, but the destination organization w
 | logs_metrics                           | Sync Datadog logs metrics.                               |
 | logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
 | metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
+| restrcition_policies                   | Sync Datadog restriction policies.                       |
 
 ***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
 
@@ -275,3 +276,4 @@ See [Supported resources](#supported-resources) section below for potential reso
 | logs_metrics                           | -                                                                |
 | logs_restriction_queries               | roles                                                            |
 | metric_tag_configurations              | -                                                                |
+| restriction_policies                   | dashboards, service_level_objectives, notebooks, users, roles    |
