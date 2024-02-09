@@ -1,0 +1,75 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"data": [], "meta": {"pagination": {"number": 0, "first_number": 0,
+        "prev_number": 0, "next_number": 1, "last_number": 0, "size": 100, "type":
+        "number_size", "total": 0}}, "links": {"self": "https://api.datadoghq.eu/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100",
+        "last": null, "next": "https://api.datadoghq.eu/api/v2/team?page[number]=1&page[size]=100",
+        "prev": null, "first": "https://api.datadoghq.eu/api/v2/team?page[number]=0&page[size]=100"}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "team", "attributes": {"name": "Example empty team",
+      "description": "", "handle": "example-empty-team"}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/team
+  response:
+    body:
+      string: '{"data": {"type": "team", "id": "77b1f138-f794-468b-94ef-03e953266e43",
+        "attributes": {"name": "Example empty team", "handle": "example-empty-team",
+        "summary": null, "description": "", "avatar": null, "banner": 4, "visible_modules":
+        [], "hidden_modules": [], "created_at": "2024-02-09T14:14:20.403392+00:00",
+        "modified_at": "2024-02-09T14:14:20.403398+00:00", "user_count": 0, "link_count":
+        0}, "relationships": {"team_links": {"links": {"related": "/api/v2/team/77b1f138-f794-468b-94ef-03e953266e43/links"}},
+        "user_team_permissions": {"links": {"related": "/api/v2/team/77b1f138-f794-468b-94ef-03e953266e43/permission-settings"}}}}}'
+    headers: {}
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"data": {"type": "team", "attributes": {"name": "Example team", "description":
+      "This is the description of a team", "handle": "example-team"}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/team
+  response:
+    body:
+      string: '{"data": {"type": "team", "id": "27b4dd91-a08f-48a7-a506-b82deb0e9c4a",
+        "attributes": {"name": "Example team", "handle": "example-team", "summary":
+        "This is the description of a team", "description": "This is the description
+        of a team", "avatar": null, "banner": 6, "visible_modules": [], "hidden_modules":
+        [], "created_at": "2024-02-09T14:14:20.756156+00:00", "modified_at": "2024-02-09T14:14:20.756161+00:00",
+        "user_count": 0, "link_count": 0}, "relationships": {"team_links": {"links":
+        {"related": "/api/v2/team/27b4dd91-a08f-48a7-a506-b82deb0e9c4a/links"}}, "user_team_permissions":
+        {"links": {"related": "/api/v2/team/27b4dd91-a08f-48a7-a506-b82deb0e9c4a/permission-settings"}}}}}'
+    headers: {}
+    status:
+      code: 201
+      message: Created
+version: 1

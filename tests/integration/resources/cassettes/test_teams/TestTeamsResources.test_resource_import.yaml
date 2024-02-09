@@ -1,0 +1,39 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"data": [{"type": "team", "attributes": {"name": "Example empty team",
+        "summary": null, "modified_at": "2024-02-08T19:23:14.450284+00:00", "description":
+        "", "link_count": 1, "handle": "example-empty-team", "user_count": 0, "created_at":
+        "2024-02-08T18:49:40.434219+00:00"}, "id": "0ba797ed-c5a4-40f2-86ab-b0dea2601ef8",
+        "relationships": {"user_team_permissions": {"links": {"related": "/api/v2/team/0ba797ed-c5a4-40f2-86ab-b0dea2601ef8/permission-settings"}},
+        "team_links": {"links": {"related": "/api/v2/team/0ba797ed-c5a4-40f2-86ab-b0dea2601ef8/links"}}}},
+        {"type": "team", "attributes": {"name": "Example team", "summary": "This is
+        the description of a team", "modified_at": "2024-02-08T18:49:25.906373+00:00",
+        "description": "This is the description of a team", "link_count": 0, "handle":
+        "example-team", "user_count": 1, "created_at": "2024-02-08T18:49:25.906368+00:00"},
+        "id": "65f966e4-4189-4b52-bff1-ba5f7e572b73", "relationships": {"user_team_permissions":
+        {"links": {"related": "/api/v2/team/65f966e4-4189-4b52-bff1-ba5f7e572b73/permission-settings"}},
+        "team_links": {"links": {"related": "/api/v2/team/65f966e4-4189-4b52-bff1-ba5f7e572b73/links"}}}}],
+        "meta": {"pagination": {"number": 0, "first_number": 0, "prev_number": 0,
+        "next_number": 1, "last_number": 0, "size": 100, "type": "number_size", "total":
+        2}}, "links": {"self": "https://api.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100",
+        "last": null, "next": "https://api.datadoghq.com/api/v2/team?page[number]=1&page[size]=100",
+        "prev": null, "first": "https://api.datadoghq.com/api/v2/team?page[number]=0&page[size]=100"}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

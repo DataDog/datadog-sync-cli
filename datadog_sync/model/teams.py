@@ -29,6 +29,7 @@ class Teams(BaseResource):
             "attributes.banner",
             "attributes.visible_modules",
             "attributes.hidden_modules",
+            "attributes.summary",
         ],
     )
     # Additional Teams specific attributes
