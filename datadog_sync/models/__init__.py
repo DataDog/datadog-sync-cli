@@ -27,3 +27,4 @@ from datadog_sync.model.logs_indexes import LogsIndexes
 from datadog_sync.model.logs_restriction_queries import LogsRestrictionQueries
 from datadog_sync.model.spans_metrics import SpansMetrics
 from datadog_sync.model.restriction_policies import RestrictionPolicies
+from datadog_sync.model.teams import Teams
