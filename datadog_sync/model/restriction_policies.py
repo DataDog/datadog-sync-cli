@@ -26,8 +26,7 @@ class RestrictionPolicies(BaseResource):
             # Bindings connections
             "users": ["attributes.bindings.principals"],
             "roles": ["attributes.bindings.principals"],
-            # # TODO: Commented out until teams is supported
-            # "teams": ["attributes.bindings.principals"],
+            "teams": ["attributes.bindings.principals"],
         },
         base_path="/api/v2/restriction_policy",
         excluded_attributes=[],
@@ -136,6 +135,7 @@ class RestrictionPolicies(BaseResource):
         notebooks = self.config.resources["notebooks"].resource_config.destination_resources
         users = self.config.resources["users"].resource_config.destination_resources
         roles = self.config.resources["roles"].resource_config.destination_resources
+        teams = self.config.resources["teams"].resource_config.destination_resources
 
         failed_connections = []
         if key == "id":
@@ -170,11 +170,10 @@ class RestrictionPolicies(BaseResource):
                         r_obj[key][i] = f"role:{roles[_id]['id']}"
                     else:
                         failed_connections.append(_id)
-                # # TODO: Commented out until teams is supported
-                # elif resource_to_connect == "teams" and _type == "team":
-                #     if _id in team:
-                #         r_obj[key][i] = f"team:{team[_id]['id']}"
-                #     else:
-                #         failed_connections.append(_id)
+                elif resource_to_connect == "teams" and _type == "team":
+                    if _id in teams:
+                        r_obj[key][i] = f"team:{teams[_id]['id']}"
+                    else:
+                        failed_connections.append(_id)
 
         return failed_connections
