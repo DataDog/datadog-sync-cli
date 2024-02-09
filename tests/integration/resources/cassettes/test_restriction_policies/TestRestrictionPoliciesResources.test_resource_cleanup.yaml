@@ -9,7 +9,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/restriction_policy/dashboard:j35-wbu-qh3
+    uri: https://api.datadoghq.eu/api/v2/restriction_policy/notebook:122006
   response:
     body:
       string: ''
@@ -27,7 +27,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/restriction_policy/notebook:121788
+    uri: https://api.datadoghq.eu/api/v2/restriction_policy/dashboard:i6b-sau-fr6
   response:
     body:
       string: ''
@@ -45,7 +45,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/restriction_policy/slo:e99f080f96cb5a4685486d1987203005
+    uri: https://api.datadoghq.eu/api/v2/restriction_policy/slo:e500259f504e538c88d637ef9b0ed93a
   response:
     body:
       string: ''
