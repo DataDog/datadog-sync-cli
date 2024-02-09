@@ -97,8 +97,9 @@ def create_global_downtime(config: Configuration):
     payload = {
         "data": {
             "attributes": {
-                "message": "Downtime created by datadog-sync-cli to mute all monitors synced. \
-                    To be manually removed after failover is comeplete.",
+                "message": "Downtime created by datadog-sync-cli to mute all monitors synced. "
+                "To be manually removed during failover when monitors have enough telemetry"
+                "to trigger appropriately.",
                 "monitor_identifier": {"monitor_tags": DEFAULT_TAGS},
                 "scope": "*",
                 "schedule": {

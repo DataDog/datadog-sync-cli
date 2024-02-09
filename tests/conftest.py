@@ -132,6 +132,7 @@ def config():
         force_missing_dependencies=False,
         skip_failed_resource_connections=True,
         cleanup=False,
+        create_global_downtime=False,
     )
 
     resources = init_resources(cfg)
