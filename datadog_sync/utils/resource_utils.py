@@ -92,6 +92,38 @@ class DowntimeSchedulesDateOperator(BaseOperator):
         return False
 
 
+def create_global_downtime(config: Configuration):
+    """Create global downtime"""
+    payload = {
+        "data": {
+            "attributes": {
+                "message": "Downtime created by datadog-sync-cli to mute all monitors synced. "
+                "To be manually removed during failover when monitors have enough telemetry"
+                "to trigger appropriately.",
+                "monitor_identifier": {"monitor_tags": DEFAULT_TAGS},
+                "scope": "*",
+                "schedule": {
+                    "start": None,
+                },
+            },
+            "type": "downtime",
+        }
+    }
+
+    try:
+        resp = config.destination_client.post(
+            config.resources["downtime_schedules"].resource_config.base_path, payload
+        ).json()
+        config.logger.info(f"Global downtime for datadog-sync-cli created successfully - {resp['data']['id']}")
+    except CustomClientHTTPError as e:
+        if e.status_code == 400 and "downtime being created is a duplicate" in str(e):
+            config.logger.info(f"Global downtime for datadog-sync-cli already exists: {str(e)}")
+        else:
+            config.logger.error(f"Error creating global downtime for datadog-sync-cli: {str(e)}")
+    except Exception as e:
+        config.logger.error(f"Error creating global downtime for datadog-sync-cli: {str(e)}")
+
+
 def find_attr(keys_list_str: str, resource_to_connect: str, r_obj: Any, connect_func: Callable) -> Optional[List[str]]:
     if not r_obj:
         return None
