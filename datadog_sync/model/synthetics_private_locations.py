@@ -8,7 +8,7 @@ import re
 
 from typing import TYPE_CHECKING, List, Dict, Optional, Tuple
 
-from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
 from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
@@ -29,6 +29,7 @@ class SyntheticsPrivateLocations(BaseResource):
             "config",
             "result_encryption",
         ],
+        tagging_config=TaggingConfig(path="tags"),
     )
     # Additional SyntheticsPrivateLocations specific attributes
     base_locations_path: str = "/api/v1/synthetics/locations"

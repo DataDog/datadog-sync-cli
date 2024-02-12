@@ -9,7 +9,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:custom-location-e09a2f45e85c67a66f2a30b1e0370927
+    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:custom-location-586f307979e3fa9140743c9a13f13e9f
   response:
     body:
       string: ''

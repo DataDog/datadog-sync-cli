@@ -19,6 +19,7 @@ from datadog_sync.utils.resource_utils import (
     ResourceConnectionError,
     SkipResource,
     check_diff,
+    create_global_downtime,
     dump_resources,
     prep_resource,
     thread_pool_executor,
@@ -88,6 +89,11 @@ class ResourcesHandler:
         # Run pre-apply hooks
         for resource_type in set(self.resources_manager.all_resources.values()):
             futures.append(parralel_executor.submit(self.config.resources[resource_type]._pre_apply_hook))
+
+        # Additional pre-apply actions
+        if self.config.create_global_downtime:
+            futures.append(parralel_executor.submit(create_global_downtime, self.config))
+
         wait(futures)
         for future in futures:
             try:
