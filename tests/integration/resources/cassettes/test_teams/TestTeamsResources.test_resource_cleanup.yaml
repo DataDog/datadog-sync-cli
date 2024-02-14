@@ -9,7 +9,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/team/27b4dd91-a08f-48a7-a506-b82deb0e9c4a
+    uri: https://api.datadoghq.eu/api/v2/team/fa764177-b387-4d99-b7e9-15908247e702
   response:
     body:
       string: ''
@@ -27,7 +27,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/team/77b1f138-f794-468b-94ef-03e953266e43
+    uri: https://api.datadoghq.eu/api/v2/team/94002f5e-fe04-4271-a4f6-d62d1668914c
   response:
     body:
       string: ''
