@@ -5,7 +5,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
-from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -17,6 +17,7 @@ class ServiceLevelObjectives(BaseResource):
         resource_connections={"monitors": ["monitor_ids"], "synthetics_tests": []},
         base_path="/api/v1/slo",
         excluded_attributes=["creator", "id", "created_at", "modified_at"],
+        tagging_config=TaggingConfig(path="tags"),
     )
     # Additional ServiceLevelObjectives specific attributes
 

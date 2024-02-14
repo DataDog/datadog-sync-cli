@@ -7,10 +7,11 @@ from __future__ import annotations
 import abc
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Optional, Dict, List, Tuple
+from typing import TYPE_CHECKING, ClassVar, Optional, Dict, List, Tuple
 
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
+    DEFAULT_TAGS,
     CustomClientHTTPError,
     LoggedException,
     open_resources,
@@ -23,6 +24,33 @@ if TYPE_CHECKING:
 
 
 @dataclass
+class TaggingConfig:
+    path: str
+    path_list: List[str] = field(init=False, default_factory=list)
+    default_tags: ClassVar[List[str]] = DEFAULT_TAGS
+
+    def __post_init__(self) -> None:
+        self.path_list = self.path.split(".")
+
+    def add_default_tags(self, resource: Dict) -> None:
+        tmp = resource
+        for p in self.path_list:
+            if tmp is None:
+                break
+
+            val = tmp.get(p, None)
+            if p == self.path_list[-1]:
+                if val is None:
+                    tmp[p] = self.default_tags
+                    return
+                else:
+                    tmp[p].extend(self.default_tags)
+                    return
+            else:
+                tmp = val
+
+
+@dataclass
 class ResourceConfig:
     base_path: str
     resource_connections: Optional[Dict[str, List[str]]] = None
@@ -32,6 +60,7 @@ class ResourceConfig:
     source_resources: dict = field(default_factory=dict)
     destination_resources: dict = field(default_factory=dict)
     deep_diff_config: dict = field(default_factory=lambda: {"ignore_order": True})
+    tagging_config: Optional[TaggingConfig] = None
 
     def __post_init__(self) -> None:
         self.build_excluded_attributes()
@@ -66,6 +95,15 @@ class BaseResource(abc.ABC):
 
     def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
         _id, r = self.import_resource(_id, resource)
+
+        if self.resource_config.tagging_config is not None:
+            try:
+                self.resource_config.tagging_config.add_default_tags(r)
+            except Exception as e:
+                self.config.logger.warning(
+                    f"Error while adding default tags to resource {self.resource_type}. {str(e)}"
+                )
+
         self.resource_config.source_resources[str(_id)] = r
 
     @abc.abstractmethod

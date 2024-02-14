@@ -9,7 +9,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/6dd88d26-025e-487b-a4ee-7d89095da053
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/ef7a983c-b4dd-453d-be09-3c7bc1c6ef48
   response:
     body:
       string: ''
@@ -27,7 +27,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/d285e476-9bcf-4e38-9170-669fe02f566d
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/5efe34a0-4307-4aee-a3cf-9f9f6d23b16b
   response:
     body:
       string: ''
@@ -45,7 +45,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/a3459eb2-dde9-4410-a3a7-efe720266d6e
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/f76069bb-cbac-40d7-88f4-e4f38ada2a09
   response:
     body:
       string: ''
@@ -63,7 +63,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/19e07157-7eb2-47e6-b2b4-b6102252636b
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/85fb4769-26ec-4856-b9a5-6c57ae1553bc
   response:
     body:
       string: ''
@@ -81,7 +81,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/06bf2ade-d3b3-4b8e-b7c7-d1d1ac0a06c6
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/0302332a-7ad4-4042-8310-e250998acac9
   response:
     body:
       string: ''
@@ -99,7 +99,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/dc4ba821-6de8-4317-9eaa-51120e978e73
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables/85493102-e045-4a80-b19e-fe53f664129b
   response:
     body:
       string: ''

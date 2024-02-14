@@ -145,6 +145,10 @@ Options:
   --force-missing-dependencies                Force importing and syncing resources that
                                               could be potential dependencies to the
                                               requested resources. [sync only]
+  --create-global-downtime                    Scheduled downtime is meant to be removed
+                                              during failover when user determines
+                                              monitors have enough telemetry to trigger
+                                              appropriately.
   --help                                      Show this message and exit.
 
 Commands:

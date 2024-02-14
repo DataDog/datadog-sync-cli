@@ -6,7 +6,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
-from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -36,6 +36,7 @@ class SyntheticsTests(BaseResource):
             "overall_state_modified",
             "stepCount",
         ],
+        tagging_config=TaggingConfig(path="tags"),
     )
     # Additional SyntheticsTests specific attributes
     browser_test_path: str = "/api/v1/synthetics/tests/browser/{}"
