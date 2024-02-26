@@ -9,7 +9,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/team/fa764177-b387-4d99-b7e9-15908247e702
+    uri: https://api.datadoghq.eu/api/v2/restriction_policy/notebook:122913
   response:
     body:
       string: ''
@@ -27,7 +27,25 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/team/94002f5e-fe04-4271-a4f6-d62d1668914c
+    uri: https://api.datadoghq.eu/api/v2/restriction_policy/slo:696fc8b0f26a5ada86a7f132a061c84f
+  response:
+    body:
+      string: ''
+    headers: {}
+    status:
+      code: 204
+      message: No Content
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v2/restriction_policy/dashboard:rgc-dqv-bdy
   response:
     body:
       string: ''

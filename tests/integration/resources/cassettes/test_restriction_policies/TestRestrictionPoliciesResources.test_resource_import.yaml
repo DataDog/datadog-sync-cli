@@ -1,0 +1,524 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/dashboard
+  response:
+    body:
+      string: '{"dashboards": [{"id": "euw-cp8-hy6", "title": "raw-test", "description":
+        "", "layout_type": "ordered", "url": "/dashboard/euw-cp8-hy6/raw-test", "is_read_only":
+        false, "created_at": "2021-06-01T20:18:57.486260+00:00", "modified_at": "2024-02-08T18:59:02.610446+00:00",
+        "author_handle": "sherzod.karimov@datadoghq.com", "deleted_at": null}, {"id":
+        "dns-jst-h98", "title": "Test screenboard", "description": "Created using
+        the Datadog provider in Terraform", "layout_type": "free", "url": "/dashboard/dns-jst-h98/test-screenboard",
+        "is_read_only": false, "created_at": "2021-06-08T18:26:23.515662+00:00", "modified_at":
+        "2021-06-22T19:35:38.981348+00:00", "author_handle": "sherzod.karimov@datadoghq.com",
+        "deleted_at": null}, {"id": "tuw-te2-pdj", "title": "datadog-sync-cli Test
+        Dashboard", "description": "", "layout_type": "ordered", "url": "/dashboard/tuw-te2-pdj/datadog-sync-cli-test-dashboard",
+        "is_read_only": false, "created_at": "2021-06-30T11:45:57.574935+00:00", "modified_at":
+        "2021-06-30T11:46:46.923260+00:00", "author_handle": "noueman.khalikine@datadoghq.com",
+        "deleted_at": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/notebooks?count=100&include_cells=True&start=0
+  response:
+    body:
+      string: '{"data": [{"type": "notebooks", "id": 1340258, "attributes": {"name":
+        "Noueman Notebook", "cells": [{"type": "notebook_cells", "attributes": {"definition":
+        {"show_legend": true, "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}",
+        "style": {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
+        "display_type": "line"}], "yaxis": {"scale": "linear"}}, "split_by": {"tags":
+        [], "keys": []}, "graph_size": "m", "time": null}, "id": "g6x1knta"}, {"type":
+        "notebook_cells", "attributes": {"definition": {"text": "Teeeeeest", "type":
+        "markdown"}}, "id": "sf3x5n03"}], "time": {"live_span": "1h"}, "metadata":
+        {"take_snapshots": false, "is_template": false, "is_favorite": false, "type":
+        null}, "template_variables": null, "status": "published", "modified": "2021-09-23T23:10:10.033807+00:00",
+        "created": "2021-09-23T23:10:10.033807+00:00", "tags": null, "author": {"name":
+        "Noueman Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email":
+        "noueman.khalikine@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/92d6421ea95d9f7b8d60c8270c95d84a?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
+        {"type": "notebooks", "id": 1249391, "attributes": {"name": "Test Notebook",
+        "cells": [{"type": "notebook_cells", "attributes": {"definition": {"show_legend":
+        true, "yaxis": {"scale": "linear"}, "type": "timeseries", "requests": [{"q":
+        "avg:system.load.1{*}", "style": {"line_width": "normal", "palette": "dog_classic",
+        "line_type": "solid"}, "display_type": "line"}], "title": "Test Notebook"},
+        "split_by": {"tags": [], "keys": []}, "graph_size": "m", "time": null}, "id":
+        "2fsbpu0n"}, {"type": "notebook_cells", "attributes": {"definition": {"text":
+        "Test message", "type": "markdown"}}, "id": "dp2x1d2e"}, {"type": "notebook_cells",
+        "attributes": {"definition": {"requests": [{"formulas": [{"formula": "query1"}],
+        "response_format": "scalar", "queries": [{"query": "avg:system.load.1{*}",
+        "data_source": "metrics", "name": "query1", "aggregator": "avg"}]}], "type":
+        "toplist"}, "split_by": {"tags": [], "keys": []}, "graph_size": "m", "time":
+        null}, "id": "qoavau2o"}], "time": {"live_span": "1h"}, "metadata": {"take_snapshots":
+        false, "is_template": false, "is_favorite": false, "type": null}, "template_variables":
+        null, "status": "published", "modified": "2021-09-23T21:45:36.493252+00:00",
+        "created": "2021-09-03T14:34:56.849312+00:00", "tags": null, "author": {"name":
+        "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
+        {"type": "notebooks", "id": 1249389, "attributes": {"name": "RFC: [title]
+        (from template)", "cells": [{"type": "notebook_cells", "attributes": {"definition":
+        {"text": "Property                 |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Author(s)**              |
+        Name (Team name, Role), Name (Team name, Role)            \n**Status:**     |Draft
+        / Review / Accepted / Closed        \n**Date Created:**              |HH:mm
+        UTC MM/dd/yyyy                    \n\n_Use this template to outline your proposal,
+        including graphs, code snippets, and images where necessary._ ", "type": "markdown"}},
+        "id": "l8rkjzhd"}, {"type": "notebook_cells", "attributes": {"definition":
+        {"text": "\n# Overview\n_Concisely describe the problem you need to solve
+        and your recommended solution._\n\n\n# Problem\n_Describe the motivation for
+        this proposal. Why is it important to solve?_\n\n# Constraints\n_Note any
+        requirements that a solution must fulfill._\n\n1. \n2. \n\n\n\n", "type":
+        "markdown"}}, "id": "2te0gswu"}, {"type": "notebook_cells", "attributes":
+        {"definition": {"show_legend": true, "type": "timeseries", "requests": [{"q":
+        "avg:system.load.1{*}", "style": {"line_width": "normal", "palette": "purple",
+        "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale": "linear"}},
+        "split_by": {"tags": [], "keys": []}, "graph_size": "xs", "time": null}, "id":
+        "z8youq6a"}, {"type": "notebook_cells", "attributes": {"definition": {"text":
+        "# Proposed Solution\n_Describe your solution in detail. Explain why it''s
+        better than the current state and other options considered. Address any critical
+        operational issues like failure modes, failover, redundancy, performance,
+        etc. Include graphs and code snippets of design details where necessary._\n\n-
+        Strengths\n     - Example: takes up minimal disk space\n     -\n- Weaknesses\n     -
+        Example: hash isn''t human-readable\n     -\n- Failure Modes\n   \n", "type":
+        "markdown"}}, "id": "7dacumjb"}, {"type": "notebook_cells", "attributes":
+        {"definition": {"text": "```json\n{ \n  \"data\": {\n    \"type\": \"notebooks\",\n    \"id\":
+        0,\n    \"attributes\": {\n      \"cells\": [\n        {\n          \"type\":
+        \"notebook_cells\",\n          \"id\": \"abcd1234\"\n        }\n      ],\n      \"status\":
+        \"published\",\n      \"name\": \"Example Notebook\",\n      \"author\": {\n        \"name\":
+        \"string\",\n        \"handle\": \"string\",\n        \"created_at\": \"2021-03-17T16:42:17.382Z\",  \n        \"email\":
+        \"string\",\n        \"icon\": \"string\",\n        \"title\": \"string\",\n        \"verified\":
+        true,\n        \"disabled\": true,\n        \"status\": \"string\"\n        }\n    }\n  }\n}\n```",
+        "type": "markdown"}}, "id": "34uin7xs"}, {"type": "notebook_cells", "attributes":
+        {"definition": {"text": "# Alternatives Considered\n_Describe other options
+        considered and the tradeoffs relative to the recommended solution._\n## Solution
+        1\n## Solution 2\n\n", "type": "markdown"}}, "id": "0ryy65ac"}, {"type": "notebook_cells",
+        "attributes": {"definition": {"text": "# Open Questions\n_Note relevant questions
+        and design topics._\n\n# Appendix\n_[Link](/) relevant documents or references._",
+        "type": "markdown"}}, "id": "5xnxosip"}], "time": {"live_span": "1h"}, "metadata":
+        {"take_snapshots": false, "is_template": false, "is_favorite": false, "type":
+        null}, "template_variables": null, "status": "published", "modified": "2021-09-03T14:34:37.029613+00:00",
+        "created": "2021-09-03T14:34:37.029613+00:00", "tags": null, "author": {"name":
+        "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
+        {"type": "notebooks", "id": 1249388, "attributes": {"name": "Gameday YYYY-MM-DD:
+        [App Name] (from template)", "cells": [{"type": "notebook_cells", "attributes":
+        {"definition": {"text": "Game days provide a framework to help us discover
+        weaknesses, create more useful alerts, and deploy fixes that improve the way
+        our services respond to failures.\n\n**Using this template:**\n- Record your
+        test plan ahead of time\n- Set the time frame to match your planned failures\n-
+        Use graphs to visualize signals you monitored and responded to\n- Collaborate
+        on follow-up tasks\n\n---", "type": "markdown"}}, "id": "vcwaa3le"}, {"type":
+        "notebook_cells", "attributes": {"definition": {"text": "# Participants:\n-
+        Name (Team name, Role)\n- Name (Team name, Role)\n", "type": "markdown"}},
+        "id": "w6f782jr"}, {"type": "notebook_cells", "attributes": {"definition":
+        {"text": "# Goal\n_What is the purpose of this gameday?_\n\n# Dependencies\n_Which
+        services does the app depend on to function properly? Include graphs where
+        necessary._\n\n# Related services\n_Which related services does the app depend
+        on? Include graphs where necessary._\n- [Related Dashboards](/dashboard/lists)\n\n#
+        Related outages\n_Optional: what outages relate to this exercise?_\n\n", "type":
+        "markdown"}}, "id": "6iuzz8ye"}, {"type": "notebook_cells", "attributes":
+        {"definition": {"text": "### [replace this graph with relevant service ]",
+        "type": "markdown"}}, "id": "rpj42y2g"}, {"type": "notebook_cells", "attributes":
+        {"definition": {"show_legend": true, "type": "timeseries", "requests": [{"q":
+        "avg:system.load.1{*} by {service}", "style": {"line_width": "normal", "palette":
+        "dog_classic", "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale":
+        "linear"}}, "split_by": {"tags": [], "keys": []}, "graph_size": "xs", "time":
+        null}, "id": "rw9np336"}, {"type": "notebook_cells", "attributes": {"definition":
+        {"text": "# Test 1: [name]\n_Clone this cell to create more tests_\n## Prerequisites\n_Optional
+        tasks to complete before the test_\n- [X] ~~Prereq 1~~\n- [ ] Prereq 2\n\n##
+        Action\n_Actions to take during the test (script to run, instance to shutdown,
+        etc.)_\n- [ ] Action 1\n- [ ] Action 2\n\n## Observability\n_Dashboards, graphs,
+        log files, and other resources to monitor during the test. Include relevant
+        graphs._\n- [Related Dashboards](/dashboard/lists)\n\n\n## Cleanup\n_Optional
+        tasks to go back to a clean state_\n- [ ] Task 1\n- [ ] Task 2\n\nExpected
+        Results | Actual Results|  Comments | \n------------------------|--------------------
+        | ---------------- |\nExample: Monitor ID 1234567890 should trigger  |PASS
+        / FAIL / UNKNOWN |  This went wrong, we believe this is the issue     |\n_  |
+        PASS / FAIL / UNKNOWN   | _ |\n_  | PASS / FAIL / UNKNOWN   | _ |\n\n\n###
+        Notes\n- Optional\n- Interesting graphs, loglines, general comments on the
+        test, etc.", "type": "markdown"}}, "id": "08zotnlb"}, {"type": "notebook_cells",
+        "attributes": {"definition": {"show_legend": true, "type": "timeseries", "requests":
+        [{"q": "avg:system.load.1{*} by {service}", "style": {"line_width": "normal",
+        "palette": "dog_classic", "line_type": "solid"}, "display_type": "area"}],
+        "yaxis": {"scale": "linear"}}, "split_by": {"tags": [], "keys": []}, "graph_size":
+        "xs", "time": null}, "id": "8uzbdxoc"}, {"type": "notebook_cells", "attributes":
+        {"definition": {"text": "## Follow-up work\nFor each issue/improvement identified,
+        create a follow-up action with an owner, priority, and due date. \n**This
+        is the most important part of the gameday!**\n\n- Issue 1: [Link to follow-up
+        item](/)\n- Issue 2: [Link to follow-up item](/)\n", "type": "markdown"}},
+        "id": "wwhju4ds"}], "time": {"live_span": "1h"}, "metadata": {"take_snapshots":
+        false, "is_template": false, "is_favorite": false, "type": null}, "template_variables":
+        null, "status": "published", "modified": "2021-09-03T14:34:33.365896+00:00",
+        "created": "2021-09-03T14:34:33.365896+00:00", "tags": null, "author": {"name":
+        "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
+        {"type": "notebooks", "id": 1249387, "attributes": {"name": "Postmortem IR-xxxx:
+        [outage name] (from template)", "cells": [{"type": "notebook_cells", "attributes":
+        {"definition": {"text": "Incident Property                  |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Status:**                |Active/Stable/Resolved                  \n**Severity:**     |SEV-X                      \n**Started:**              |HH:mm
+        UTC MM/dd/yyyy                  \n**Commander:**     |[name]                 \n**Incident
+        Overview:** | [IR-xxxx] (/incidents)                 \n**Slack Channel:**        |[#IR-xxxx]
+        (/link)                 \n\n_You can generate a postmortem [from any resolved
+        incident](/incidents?query=state%3Aresolved) with these fields pre-fillled,
+        along with incident metadata and timeline._ ", "type": "markdown"}}, "id":
+        "pp1vm0s8"}, {"type": "notebook_cells", "attributes": {"definition": {"text":
+        "# What happened?\n### Impact on customers\n_How did this incident impact
+        external users?_", "type": "markdown"}}, "id": "dci6b8sg"}, {"type": "notebook_cells",
+        "attributes": {"definition": {"text": "# Why did it happen?\n### Root cause\n_A
+        deep dive into the causes and what went particularly wrong._", "type": "markdown"}},
+        "id": "zcm3akyt"}, {"type": "notebook_cells", "attributes": {"definition":
+        {"text": "# Timeline\n\n_A detailed sequence of the events that led to the
+        incident, including contributing factors, notification, and remediation actions._\n\n_You
+        can add graphs that show what happened and scope them to the exact time range
+        of the incident._\n\n", "type": "markdown"}}, "id": "xwhr4e9q"}, {"type":
+        "notebook_cells", "attributes": {"definition": {"text": "- [timestamp] event\n-
+        [timestamp] event", "type": "markdown"}}, "id": "hy9zij5i"}, {"type": "notebook_cells",
+        "attributes": {"definition": {"show_legend": true, "type": "timeseries", "requests":
+        [{"q": "avg:system.load.1{*}", "style": {"line_width": "normal", "palette":
+        "dog_classic", "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale":
+        "linear"}}, "split_by": {"tags": [], "keys": []}, "graph_size": "m", "time":
+        null}, "id": "kmp003ky"}, {"type": "notebook_cells", "attributes": {"definition":
+        {"text": "# How do we prevent it in the future?\n### Action Items\n_Include
+        both short-term and long-term steps to prevent this in the future. Link to
+        any relevant action items, and include when the action items are planned._\n\n\n###
+        Short-term\n- [X] ~~Action 1~~\n- [ ] Action 2\n\n### Long-term\n- [ ] Action
+        1\n- [ ] Action 2", "type": "markdown"}}, "id": "gajt34ww"}], "time": {"live_span":
+        "1h"}, "metadata": {"take_snapshots": false, "is_template": false, "is_favorite":
+        false, "type": "postmortem"}, "template_variables": null, "status": "published",
+        "modified": "2021-09-03T14:34:28.816850+00:00", "created": "2021-09-03T14:34:28.816850+00:00",
+        "tags": null, "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
+        "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}}}],
+        "meta": {"page": {"total_count": 5, "total_filtered_count": 5}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/slo
+  response:
+    body:
+      string: '{"data": [{"id": "ae04001ea55f52f6ae4b85d9b1023909", "name": "Composite
+        monitor - Child 2", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
+        "7d", "target": 99.0, "target_display": "99."}], "type": "monitor", "type_id":
+        0, "description": "Updated Description Test", "timeframe": "7d", "target_threshold":
+        99.0, "monitor_ids": [37284891, 36239262], "creator": {"name": "Sherzod Karimov",
+        "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com"},
+        "created_at": 1623260678, "modified_at": 1668546720}, {"id": "ba72d10835d75e0c8910597144f3733a",
+        "name": "SLO test", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
+        "7d", "target": 99.0, "target_display": "99."}], "type": "metric", "type_id":
+        1, "description": "Test update creation", "timeframe": "7d", "target_threshold":
+        99.0, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
+        "sum:api.requests.status_ok{*}.as_count()"}, "creator": {"name": "Noueman
+        Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email": "noueman.khalikine@datadoghq.com"},
+        "created_at": 1623658372, "modified_at": 1626358963}, {"id": "b02adcb3d95a5c3dbfebf7c94bf4e8c5",
+        "name": "Random monitor slo", "tags": [], "monitor_tags": [], "thresholds":
+        [{"timeframe": "7d", "target": 99.9, "target_display": "99.9"}], "type": "monitor",
+        "type_id": 0, "description": "", "timeframe": "7d", "target_threshold": 99.9,
+        "monitor_ids": [36239262], "creator": {"name": "Sherzod Karimov", "handle":
+        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com"},
+        "created_at": 1695138080, "modified_at": 1695138180}], "error": null, "metadata":
+        {"page": {"total_count": 3, "total_filtered_count": 3}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/dashboard:euw-cp8-hy6
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "dashboard:euw-cp8-hy6",
+        "attributes": {"bindings": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/dashboard:dns-jst-h98
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "dashboard:dns-jst-h98",
+        "attributes": {"bindings": [{"relation": "editor", "principals": ["org:fa017a34-bfcb-11eb-a4d7-da7ad0900002",
+        "user:2d0d2076-bfcd-11eb-a4d7-da7ad0900002"]}]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/dashboard:tuw-te2-pdj
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "dashboard:tuw-te2-pdj",
+        "attributes": {"bindings": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/notebook:1340258
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "notebook:1340258", "attributes":
+        {"bindings": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/notebook:1249391
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "notebook:1249391", "attributes":
+        {"bindings": [{"relation": "editor", "principals": ["org:fa017a34-bfcb-11eb-a4d7-da7ad0900002",
+        "user:2d0d2076-bfcd-11eb-a4d7-da7ad0900002"]}]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/notebook:1249389
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "notebook:1249389", "attributes":
+        {"bindings": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/notebook:1249388
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "notebook:1249388", "attributes":
+        {"bindings": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/notebook:1249387
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "notebook:1249387", "attributes":
+        {"bindings": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/slo:ae04001ea55f52f6ae4b85d9b1023909
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "slo:ae04001ea55f52f6ae4b85d9b1023909",
+        "attributes": {"bindings": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/slo:ba72d10835d75e0c8910597144f3733a
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "slo:ba72d10835d75e0c8910597144f3733a",
+        "attributes": {"bindings": [{"relation": "editor", "principals": ["org:fa017a34-bfcb-11eb-a4d7-da7ad0900002",
+        "team:0ba797ed-c5a4-40f2-86ab-b0dea2601ef8", "user:2d0d2076-bfcd-11eb-a4d7-da7ad0900002"]}]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/restriction_policy/slo:b02adcb3d95a5c3dbfebf7c94bf4e8c5
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "slo:b02adcb3d95a5c3dbfebf7c94bf4e8c5",
+        "attributes": {"bindings": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/org
+  response:
+    body:
+      string: '{"orgs": [{"public_id": "3cda39a0-9e99-11ee-94d5-da7ad0900005", "name":
+        "datadog-sync-cli N[EU Test Org]", "description": null, "created": "2023-12-19
+        18:05:48", "subscription": {"id": 1000228561, "billing_plan_id": 8, "started":
+        1703009149, "expires": null, "finished": null, "type": "dogfood", "is_custom":
+        false, "is_trial": false, "is_expired": true}, "billing": {}, "settings":
+        {"default_landing_page": "Dashboard Lists", "saml": {"enabled": false}, "saml_can_be_enabled":
+        false, "saml_login_url": null, "saml_idp_metadata_uploaded": false, "saml_idp_endpoint":
+        null, "saml_idp_metadata_valid_until": null, "custom_landing_page": null,
+        "saml_idp_initiated_login": {"enabled": false}, "saml_strict_mode": {"enabled":
+        false}, "saml_autocreate_access_role": "st", "saml_autocreate_users_domains":
+        {"enabled": false, "domains": []}, "private_widget_share": false, "manage_reports":
+        null}}]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+version: 1

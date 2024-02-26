@@ -1,0 +1,37 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"data": [{"type": "team", "attributes": {"modified_at": "2024-02-14T17:23:30.954953+00:00",
+        "handle": "example-empty-team", "user_count": 0, "created_at": "2024-02-09T20:08:22.254304+00:00",
+        "description": "updated", "name": "Example empty team", "link_count": 0, "summary":
+        "updated"}, "id": "94002f5e-fe04-4271-a4f6-d62d1668914c", "relationships":
+        {"user_team_permissions": {"links": {"related": "/api/v2/team/94002f5e-fe04-4271-a4f6-d62d1668914c/permission-settings"}},
+        "team_links": {"links": {"related": "/api/v2/team/94002f5e-fe04-4271-a4f6-d62d1668914c/links"}}}},
+        {"type": "team", "attributes": {"modified_at": "2024-02-14T17:23:31.337468+00:00",
+        "handle": "example-team", "user_count": 0, "created_at": "2024-02-14T17:23:29.629129+00:00",
+        "description": "This is the description of a teamupdated", "name": "Example
+        team", "link_count": 0, "summary": "This is the description of a teamupdated"},
+        "id": "fa764177-b387-4d99-b7e9-15908247e702", "relationships": {"user_team_permissions":
+        {"links": {"related": "/api/v2/team/fa764177-b387-4d99-b7e9-15908247e702/permission-settings"}},
+        "team_links": {"links": {"related": "/api/v2/team/fa764177-b387-4d99-b7e9-15908247e702/links"}}}}],
+        "meta": {"pagination": {"number": 0, "first_number": 0, "prev_number": 0,
+        "next_number": 1, "last_number": 0, "size": 100, "type": "number_size", "total":
+        2}}, "links": {"self": "https://api.datadoghq.eu/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100",
+        "last": null, "next": "https://api.datadoghq.eu/api/v2/team?page[number]=1&page[size]=100",
+        "prev": null, "first": "https://api.datadoghq.eu/api/v2/team?page[number]=0&page[size]=100"}}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+version: 1

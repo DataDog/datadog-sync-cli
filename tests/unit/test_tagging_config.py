@@ -5,9 +5,8 @@
 
 import pytest
 
-from datadog_sync.model.monitors import Monitors
 from datadog_sync.utils.base_resource import TaggingConfig
-from datadog_sync.utils.filter import process_filters
+
 
 @pytest.mark.parametrize(
     "path, r_obj, expected",
@@ -29,23 +28,23 @@ from datadog_sync.utils.filter import process_filters
         ),
         (
             "nested.tags",
-            {"nested":{"tags": ["test:true"]}},
-            {"nested":{"tags": ["test:true", "managed_by:datadog-sync"]}},
+            {"nested": {"tags": ["test:true"]}},
+            {"nested": {"tags": ["test:true", "managed_by:datadog-sync"]}},
         ),
         (
             "nested.tags",
-            {"nested":{"tags": []}},
-            {"nested":{"tags": ["managed_by:datadog-sync"]}},
+            {"nested": {"tags": []}},
+            {"nested": {"tags": ["managed_by:datadog-sync"]}},
         ),
         (
             "nested.tags",
-            {"nested":{}},
-            {"nested":{"tags": ["managed_by:datadog-sync"]}},
+            {"nested": {}},
+            {"nested": {"tags": ["managed_by:datadog-sync"]}},
         ),
         (
             "nested.missing.tags",
-            {"nested":{}},
-            {"nested":{}},
+            {"nested": {}},
+            {"nested": {}},
         ),
     ],
 )

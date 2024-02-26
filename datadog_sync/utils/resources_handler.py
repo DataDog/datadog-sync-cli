@@ -169,6 +169,12 @@ class ResourcesHandler:
     def diffs(self) -> None:
         executor = thread_pool_executor(self.config.max_workers)
         futures = []
+
+        # Run pre-apply hooks
+        for resource_type in set(self.resources_manager.all_resources.values()):
+            futures.append(executor.submit(self.config.resources[resource_type]._pre_apply_hook))
+        wait(futures)
+
         for _id, resource_type in self.resources_manager.all_resources.items():
             futures.append(executor.submit(self._diffs_worker, _id, resource_type))
 
