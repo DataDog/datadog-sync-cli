@@ -2,28 +2,68 @@
 Datadog cli tool to sync resources across organizations.
 
 # Table of Contents
-- [datadog-sync-cli](#datadog-sync-cli)
-- [Table of Contents](#table-of-contents)
-  - [Purpose](#purpose)
-  - [Requirements](#requirements)
+- [Quick Start](#quick-start)
+- [Purpose](#purpose)
+- [Installing](#installing)
+  - [Installing from source](#installing-from-source)
+  - [Installing from Releases](#installing-from-releases)
+    - [MacOS and Linux](#macos-and-linux)
+    - [Windows](#windows)
+  - [Using docker and building the image](#using-docker-and-building-the-image)
+- [Usage](#usage)
+  - [API URL](#api-url)
+  - [Filtering](#filtering)
+    - [Top resources level filtering](#top-resources-level-filtering)
+    - [Per resource level filtering](#per-resource-level-filtering)
+      - [SubString and ExactMatch Deprecation](#substring-and-exactmatch-deprecation)
+  - [Config file](#config-file)
+  - [Cleanup flag](#cleanup-flag)
+  - [State Files](#state-files)
   - [Supported resources](#supported-resources)
-  - [Installation](#installation)
-    - [Installing from source](#installing-from-source)
-    - [Installing from Releases](#installing-from-releases)
-      - [MacOS and Linux](#macos-and-linux)
-      - [Windows](#windows)
-    - [Using docker and building the image](#using-docker-and-building-the-image)
-  - [Usage](#usage)
-      - [State](#state)
-      - [API URL](#api-url)
-      - [Filtering](#filtering)
-        - [Top resources level filtering](#top-resources-level-filtering)
-        - [Per resource level filtering](#per-resource-level-filtering)
-          - [SubString and ExactMatch Deprecation](#substring-and-exactmatch-deprecation)
-      - [Config file](#config-file)
-      - [Cleanup flag](#cleanup-flag)
-  - [Workflow](#workflow)
-  - [Best practices](#best-practices)
+- [Best practices](#best-practices)
+
+## Quick Start
+
+See [Installing](#installing) section for guides on how to install and setup the tool.
+
+Run the `import` command to read the specified resources from the source organization and store them locally into JSON files in the directory `resources/source`.
+
+Then, you can run the `sync` command which will use the stored files from previous `import` command (unless `--force-missing-dependencies` flag is passed) to create/modify the resources on the destination organization. The pushed resources are saved in the directory `resources/destination`.
+
+*Note*: The tool uses the `resources` directory as the source of truth for determining what resources need to be created and mofified. Hence, this directory should not be removed or corrupted.
+
+**Example Usage**
+```
+# Import resources from parent organization and store them locally
+$ datadog-sync import \
+    --source-api-key="..." \
+    --source-app-key="..." \
+    --source-api-url="https://api.datadoghq.com"
+
+> 2024-03-14 14:53:54,280 - INFO - Starting import...
+> ...
+> 2024-03-14 15:00:46,100 - INFO - Finished import
+
+# Check diff output to see what resources will be created/modified
+$ datadog-sync diffs \
+    --destination-api-key="..." \
+    --destination-app-key="..." \
+    --destination-api-url="https://api.datadoghq.eu"
+
+> 2024-03-14 15:46:22,014 - INFO - Starting diffs...
+> ...
+> 2024-03-14 14:51:15,379 - INFO - Finished diffs
+
+# Sync the resources to the child organization from locally stored files and save the output locally
+$ datadog-sync sync \
+    --destination-api-key="..." \
+    --destination-app-key="..." \
+    --destination-api-url="https://api.datadoghq.eu"
+
+> 2024-03-14 14:55:56,535 - INFO - Starting sync...
+> ...
+> 2024-03-14 14:56:00,797 - INFO - Finished sync: 1 successes, 0 errors
+```
 
 ## Purpose
 
@@ -33,46 +73,11 @@ The purpose of the datadog-sync-cli package is to provide an easy way to sync Da
 
 The source organization will not be modified, but the destination organization will have resources created and updated by the `sync` command.
 
-## Requirements
-
-- Python >= v3.9
-
-
-## Supported resources
-
-| Resource                               | Description                                              |
-|----------------------------------------|----------------------------------------------------------|
-| roles                                  | Sync Datadog roles.                                      |
-| users                                  | Sync Datadog users.                                      |
-| synthetics_private_locations           | Sync Datadog synthetics private locations.               |
-| synthetics_tests                       | Sync Datadog synthetics tests.                           |
-| synthetics_global_variables            | Sync Datadog synthetics global variables.                |
-| monitors                               | Sync Datadog monitors.                                   |
-| downtimes (**deprecated**)             | Sync Datadog downtimes.                                  |
-| downtime_schedules                     | Sync Datadog downtimes.                                  |
-| service_level_objectives               | Sync Datadog SLOs.                                       |
-| slo_corrections                        | Sync Datadog SLO corrections.                            |
-| spans_metrics                          | Sync Datadog spans metrics.                              |
-| dashboards                             | Sync Datadog dashboards.                                 |
-| dashboard_lists                        | Sync Datadog dashboard lists.                            |
-| logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
-| logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
-| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                      |
-| notebooks                              | Sync Datadog notebooks.                                  |
-| host_tags                              | Sync Datadog host tags.                                  |
-| logs_indexes                           | Sync Datadog logs indexes.                               |
-| logs_metrics                           | Sync Datadog logs metrics.                               |
-| logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
-| metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
-| restriction_policies                   | Sync Datadog restriction policies.                       |
-| teams                                  | Sync Datadog teams (excluding users and permissions).    |
-
-***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
-
-
-## Installation
+## Installing
 
 ### Installing from source
+
+***Note:***: Instlling from source requires Python >= v3.9
 
 1) Clone the project repo and CD into the directory `git clone https://github.com/DataDog/datadog-sync-cli.git; cd datadog-sync-cli`
 2) Install datadog-sync-cli tool using pip `pip install .`
@@ -112,56 +117,6 @@ The `docker run` command mounts a specified `<PATH_TO_WORKING_DIR>` working dire
 
 
 ## Usage
-
-```
-Usage: datadog-sync COMMAND [OPTIONS]
-
-  Initialize cli
-
-Options:
-  --source-api-key TEXT                       Datadog source organization API key. [required for import]
-  --source-app-key TEXT                       Datadog source organization APP key. [required for import]
-  --source-api-url TEXT                       Datadog source organization API url.
-  --destination-api-key TEXT                  Datadog destination organization API key. [required for sync/diffs]
-  --destination-app-key TEXT                  Datadog destination organization APP key. [required for sync/diffs]
-  --destination-api-url TEXT                  Datadog destination organization API url.
-  --validate BOOLEAN                          Enables validation of the provided API
-                                              during client initialization. On import,
-                                              only source api key is validated. On
-                                              sync/diffs, only destination api key is validated. [default: True]
-  --http-client-timeout INTEGER               The HTTP request timeout period. Defaults to `30s`.
-  --http-client-retry-timeout INTEGER         The HTTP request retry timeout period. Defaults to `60s`.
-  --resources TEXT                            Optional comma separated list of resource to
-                                              import. All supported resources are imported
-                                              by default. See [Filtering] section for more details.
-  --cleanup [True|False|Force]                Cleanup resources from destination org. [default: False]
-  -v, --verbose                               Enable verbose logging.
-  --filter TEXT                               Filter resources. See [Filtering] section for more details.
-  --filter-operator TEXT                      Filter operator when multiple filters are passed. Supports `AND` or `OR`.
-  --config FILE                               Read configuration from FILE. See [Config] section for more details.
-  --max-workers INTEGER                       Max number of workers when running
-                                              operations in multi-threads. Defaults to the number of processors on the machine, multiplied by 5.
-  --skip-failed-resource-connections BOOLEAN  Skip resource if resource connection fails. [default: True]  [sync + import only]
-  --force-missing-dependencies                Force importing and syncing resources that
-                                              could be potential dependencies to the
-                                              requested resources. [sync only]
-  --create-global-downtime                    Scheduled downtime is meant to be removed
-                                              during failover when user determines
-                                              monitors have enough telemetry to trigger
-                                              appropriately.
-  --help                                      Show this message and exit.
-
-Commands:
-  diffs   Log resource diffs.
-  import  Import Datadog resources.
-  sync    Sync Datadog resources to destination.
-```
-
-#### State
-
-A `resources` directory is generated in the current working directory of the user. This directory contains `json` mapping of resources between the source and destination organization. To avoid duplication and loss of mapping, this directory should be retained between tool usage.
-
-When running againts multiple destination organizations, a seperate working directory should be used to ensure seperation of data. 
 
 #### API URL
 
@@ -243,11 +198,42 @@ The tools `sync` command provides a cleanup flag (`--cleanup`). Passing the clea
 
 For example, `ResourceA` and `ResourceB` are imported and synced, followed by deleting `ResourceA` from the source organization. Running the `import` command will update the source organizations state file to only include `ResourceB`. The following `sync --cleanup=Force` command will now delete `ResourceA` from the destination organization.
 
-## Workflow
+#### State files
 
-To use the tool, first run the `import` command, which will read the wanted items from the specified resources and save them locally into JSON files in the directory `resources/source`.
+A `resources` directory is generated in the current working directory of the user. This directory contains `json` mapping of resources between the source and destination organization. To avoid duplication and loss of mapping, this directory should be retained between tool usage.
 
-Then, you can run the `sync` command which will use that local cache (unless `--force-missing-dependencies` is passed) to create the resources on the destination, and saves locally what has been pushed.
+When running againts multiple destination organizations, a seperate working directory should be used to ensure seperation of data. 
+
+#### Supported resources
+
+| Resource                               | Description                                              |
+|----------------------------------------|----------------------------------------------------------|
+| roles                                  | Sync Datadog roles.                                      |
+| users                                  | Sync Datadog users.                                      |
+| synthetics_private_locations           | Sync Datadog synthetics private locations.               |
+| synthetics_tests                       | Sync Datadog synthetics tests.                           |
+| synthetics_global_variables            | Sync Datadog synthetics global variables.                |
+| monitors                               | Sync Datadog monitors.                                   |
+| downtimes (**deprecated**)             | Sync Datadog downtimes.                                  |
+| downtime_schedules                     | Sync Datadog downtimes.                                  |
+| service_level_objectives               | Sync Datadog SLOs.                                       |
+| slo_corrections                        | Sync Datadog SLO corrections.                            |
+| spans_metrics                          | Sync Datadog spans metrics.                              |
+| dashboards                             | Sync Datadog dashboards.                                 |
+| dashboard_lists                        | Sync Datadog dashboard lists.                            |
+| logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
+| logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
+| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                      |
+| notebooks                              | Sync Datadog notebooks.                                  |
+| host_tags                              | Sync Datadog host tags.                                  |
+| logs_indexes                           | Sync Datadog logs indexes.                               |
+| logs_metrics                           | Sync Datadog logs metrics.                               |
+| logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
+| metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
+| restriction_policies                   | Sync Datadog restriction policies.                       |
+| teams                                  | Sync Datadog teams (excluding users and permissions).    |
+
+***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
 
 ## Best practices
 
