@@ -6,10 +6,15 @@
 from __future__ import annotations
 import logging
 
+from progressbar import streams
+
 from datadog_sync.constants import LOGGER_NAME
 
 
 def _configure_logging(verbose: bool) -> None:
+    streams.wrap_stderr()
+    streams.wrap_stdout()
+
     # Set logging level and format
     _format = "%(asctime)s - %(levelname)s - %(message)s"
     if verbose:

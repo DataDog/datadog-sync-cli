@@ -15,6 +15,7 @@ from dateutil.parser import parse
 
 from deepdiff import DeepDiff
 from deepdiff.operator import BaseOperator
+from progressbar import ProgressBar
 
 from datadog_sync.constants import RESOURCE_FILE_PATH, LOGGER_NAME
 from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
@@ -242,3 +243,10 @@ def init_topological_sorter(graph: Dict[str, Set[str]]) -> TopologicalSorter:
     sorter = TopologicalSorter(graph)
     sorter.prepare()
     return sorter
+
+
+def init_progress_bar(max_value: int, line_offset: int = 0) -> ProgressBar:
+    return ProgressBar(
+        max_value=max_value,
+        line_offset=line_offset,
+    )
