@@ -163,6 +163,13 @@ _common_options = [
         "only source api key is validated. On sync/diffs, only destination api key is validated.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--no-ssl-verify",
+        required=False,
+        is_flag=True,
+        help="Disables SSL verification.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 
