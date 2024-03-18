@@ -120,7 +120,7 @@ def vcr_config():
 @pytest.fixture(scope="module")
 def config():
     max_workers = os.getenv(constants.MAX_WORKERS)
-    custom_client = CustomClient(None, {"apiKeyAuth": "123", "appKeyAuth": "123"}, None, None)
+    custom_client = CustomClient(None, {"apiKeyAuth": "123", "appKeyAuth": "123"}, None, None, verify=True)
 
     cfg = Configuration(
         logger=logging.getLogger(__name__),
