@@ -6,7 +6,6 @@
 from __future__ import annotations
 from collections import deque
 from concurrent.futures import wait
-import traceback
 
 from click import confirm
 from pprint import pformat
@@ -252,7 +251,11 @@ class ResourcesHandler:
             else:
                 successes += 1
             finally:
-                bar.increment(bar_increment)
+                value = bar.value + bar_increment
+                # handle floiting points > max_value of 1
+                if value > 1:
+                    value = 1
+                bar.update(value)
 
         write_resources_file(resource_type, SOURCE_ORIGIN, r_class.resource_config.source_resources)
         return successes, errors
