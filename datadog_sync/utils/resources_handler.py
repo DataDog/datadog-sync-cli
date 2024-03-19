@@ -260,7 +260,7 @@ class ResourcesHandler:
             if _id in r_class.resource_config.destination_resources:
                 diff = check_diff(r_class.resource_config, resource, r_class.resource_config.destination_resources[_id])
                 if diff:
-                    self.config.logger.info(f"Running update for {resource_type} with {_id}")
+                    self.config.logger.debug(f"Running update for {resource_type} with {_id}")
 
                     prep_resource(r_class.resource_config, resource)
                     try:
@@ -271,9 +271,9 @@ class ResourcesHandler:
                         )
                         raise LoggedException(e)
 
-                    self.config.logger.info(f"Finished update for {resource_type} with {_id}")
+                    self.config.logger.debug(f"Finished update for {resource_type} with {_id}")
             else:
-                self.config.logger.info(f"Running create for {resource_type} with {_id}")
+                self.config.logger.debug(f"Running create for {resource_type} with {_id}")
 
                 prep_resource(r_class.resource_config, resource)
                 try:
@@ -284,7 +284,7 @@ class ResourcesHandler:
                     )
                     raise LoggedException(e)
 
-                self.config.logger.info(f"finished create for {resource_type} with {_id}")
+                self.config.logger.debug(f"finished create for {resource_type} with {_id}")
 
         finally:
             # always place in done queue regardless of exception thrown
@@ -303,7 +303,7 @@ class ResourcesHandler:
         )
 
     def _cleanup_worker(self, _id: str, resource_type: str) -> None:
-        self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
+        self.config.logger.debug(f"deleting resource type {resource_type} with id: {_id}")
         self.config.resources[resource_type]._delete_resource(_id)
 
 
