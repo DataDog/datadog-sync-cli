@@ -57,38 +57,41 @@ def request_with_retry(func: Callable) -> Callable:
 
 
 class CustomClient:
-    def __init__(self, host: Optional[str], auth: Dict[str, str], retry_timeout: int, timeout: int) -> None:
+    def __init__(
+        self, host: Optional[str], auth: Dict[str, str], retry_timeout: int, timeout: int, verify: bool
+    ) -> None:
         self.host = host
         self.timeout = timeout
         self.session = requests.Session()
         self.retry_timeout = retry_timeout
         self.session.headers.update(build_default_headers(auth))
         self.default_pagination = PaginationConfig()
+        self.verify = verify
 
     @request_with_retry
     def get(self, path, **kwargs):
         url = self.host + path
-        return self.session.get(url, timeout=self.timeout, **kwargs)
+        return self.session.get(url, timeout=self.timeout, verify=self.verify, **kwargs)
 
     @request_with_retry
     def post(self, path, body, **kwargs):
         url = self.host + path
-        return self.session.post(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.post(url, json=body, timeout=self.timeout, verify=self.verify, **kwargs)
 
     @request_with_retry
     def put(self, path, body, **kwargs):
         url = self.host + path
-        return self.session.put(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.put(url, json=body, timeout=self.timeout, verify=self.verify, **kwargs)
 
     @request_with_retry
     def patch(self, path, body, **kwargs):
         url = self.host + path
-        return self.session.patch(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.patch(url, json=body, timeout=self.timeout, verify=self.verify, **kwargs)
 
     @request_with_retry
     def delete(self, path, body=None, **kwargs):
         url = self.host + path
-        return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.delete(url, json=body, timeout=self.timeout, verify=self.verify, **kwargs)
 
     def paginated_request(self, func: Callable) -> Callable:
         def wrapper(*args, **kwargs):
