@@ -36,18 +36,18 @@ class Teams(BaseResource):
     pagination_config = PaginationConfig(remaining_func=lambda *args: 1)
     destination_teams: Dict[str, Dict] = {}
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.paginated_request(client.get)(
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.paginated_request(client.get)(
             self.resource_config.base_path,
             pagination_config=self.pagination_config,
         )
 
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
+            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
 
         return resource["id"], resource
 

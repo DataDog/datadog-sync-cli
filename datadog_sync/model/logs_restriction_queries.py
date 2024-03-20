@@ -33,17 +33,19 @@ class LogsRestrictionQueries(BaseResource):
     )
     logs_restriction_query_roles_path: str = "/api/v2/logs/config/restriction_queries/{}/roles"
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.paginated_request(client.get)(
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.paginated_request(client.get)(
             self.resource_config.base_path, pagination_config=self.pagination_config
         )
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict[str, Any]] = None) -> Tuple[str, Dict]:
+    async def import_resource(
+        self, _id: Optional[str] = None, resource: Optional[Dict[str, Any]] = None
+    ) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
-        r_query = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
+        r_query = await source_client.get(self.resource_config.base_path + f"/{import_id}")
         r_query.pop("included", None)
 
         return import_id, r_query

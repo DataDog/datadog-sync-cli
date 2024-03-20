@@ -36,14 +36,14 @@ class SyntheticsGlobalVariables(BaseResource):
     # Additional SyntheticsGlobalVariables specific attributes
     destination_global_variables: Dict[str, Dict] = dict()
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path).json()
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.get(self.resource_config.base_path)
         return resp["variables"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
+            resource = await source_client.get(self.resource_config.base_path + f"/{_id}")
 
         resource = cast(dict, resource)
         return resource["id"], resource

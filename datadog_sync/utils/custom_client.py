@@ -51,7 +51,6 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                     retry_count += 1
                     continue
                 raise CustomClientHTTPError(e)
-
         return await resp.json()
 
     return wrapper
@@ -119,7 +118,6 @@ class CustomClient:
                 kwargs["params"].update(params)
 
                 resp = await func(*args, **kwargs)
-                resp.raise_for_status()
 
                 resp_len = 0
                 if pagination_config.response_list_accessor:

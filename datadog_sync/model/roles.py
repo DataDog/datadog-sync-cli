@@ -26,12 +26,12 @@ class Roles(BaseResource):
     destination_roles_mapping: Optional[Dict] = None
     permissions_base_path: str = "/api/v2/permissions"
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.paginated_request(client.get)(self.resource_config.base_path)
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.paginated_request(client.get)(self.resource_config.base_path)
 
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
 
         if not self.source_permissions:
@@ -39,7 +39,8 @@ class Roles(BaseResource):
             # Ideally, this would be in the pre_apply_hook, but for the purposes of import/sync seperation
             # we are doing it here.
             try:
-                source_permissions = source_client.get(self.permissions_base_path).json()["data"]
+                source_permissions = (await source_client.get(self.permissions_base_path))["data"]
+                # source_permissions = resp["data"]
                 permissions = {}
                 for permission in source_permissions:
                     permissions[permission["id"]] = permission["attributes"]["name"]
@@ -48,7 +49,7 @@ class Roles(BaseResource):
                 self.config.logger.warning("error retrieving permissions: %s", e)
 
         if _id:
-            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
+            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
 
         resource = cast(dict, resource)
         if self.source_permissions and "permissions" in resource["relationships"]:

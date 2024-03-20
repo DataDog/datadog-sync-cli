@@ -37,15 +37,17 @@ class Users(BaseResource):
     roles_path: str = "/api/v2/roles/{}/users"
     remote_destination_users: Dict[str, Dict] = dict()
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.paginated_request(client.get)(self.resource_config.base_path)
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.paginated_request(client.get)(self.resource_config.base_path)
 
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict[str, Any]] = None) -> Tuple[str, Dict]:
+    async def import_resource(
+        self, _id: Optional[str] = None, resource: Optional[Dict[str, Any]] = None
+    ) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
+            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
 
         resource = cast(dict, resource)
         if resource["attributes"]["disabled"]:

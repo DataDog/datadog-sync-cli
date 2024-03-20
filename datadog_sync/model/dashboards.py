@@ -30,11 +30,11 @@ class Dashboards(BaseResource):
 
         return resp["dashboards"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
-        resource = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
+        resource = await source_client.get(self.resource_config.base_path + f"/{import_id}")
         resource = cast(dict, resource)
 
         return import_id, resource

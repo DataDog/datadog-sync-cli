@@ -35,12 +35,12 @@ class RestrictionPolicies(BaseResource):
     orgs_path: str = "/api/v1/org"
     org_principal: str = "org:{}"
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
         policies = []
 
-        dashboards = self.config.resources["dashboards"].get_resources(client)
-        notebooks = self.config.resources["notebooks"].get_resources(client)
-        slos = self.config.resources["service_level_objectives"].get_resources(client)
+        dashboards = await self.config.resources["dashboards"].get_resources(client)
+        notebooks = await self.config.resources["notebooks"].get_resources(client)
+        slos = await self.config.resources["service_level_objectives"].get_resources(client)
         # # TODO: Commented out until security rules are supported
         # security_rules = self.config.resources["security_rules"].get_resources(client)
 
@@ -74,12 +74,12 @@ class RestrictionPolicies(BaseResource):
 
         return policies
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
         try:
-            resource = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
+            resource = await source_client.get(self.resource_config.base_path + f"/{import_id}")
         except CustomClientHTTPError as e:
             if e.status_code == 404:
                 raise SkipResource(_id, self.resource_type, "Resource does not exist.")

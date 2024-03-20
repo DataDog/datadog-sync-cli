@@ -35,19 +35,19 @@ class SyntheticsPrivateLocations(BaseResource):
     base_locations_path: str = "/api/v1/synthetics/locations"
     pl_id_regex: re.Pattern = re.compile("^pl:.*")
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.base_locations_path).json()
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.get(self.base_locations_path)
 
         return resp["locations"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
         if not self.pl_id_regex.match(import_id):
             raise SkipResource(_id, self.resource_type, "Managed location.")
 
-        pl = source_client.get(self.resource_config.base_path + f"/{import_id}").json()
+        pl = await source_client.get(self.resource_config.base_path + f"/{import_id}")
         self.resource_config.source_resources[import_id] = pl
 
         return import_id, pl

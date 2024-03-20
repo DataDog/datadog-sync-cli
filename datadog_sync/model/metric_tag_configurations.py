@@ -21,15 +21,15 @@ class MetricTagConfigurations(BaseResource):
     # Additional MetricTagConfigurations specific attributes
     destination_metric_tag_configurations: Dict[str, Dict] = dict()
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path, params={"filter[configured]": "true"}).json()
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.get(self.resource_config.base_path, params={"filter[configured]": "true"})
 
         return resp["data"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = source_client.get(self.resource_config.base_path + f"/{_id}/tags").json()["data"]
+            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}/tags"))["data"]
 
         resource = cast(dict, resource)
         return resource["id"], resource

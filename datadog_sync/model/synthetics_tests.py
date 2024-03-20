@@ -42,25 +42,25 @@ class SyntheticsTests(BaseResource):
     browser_test_path: str = "/api/v1/synthetics/tests/browser/{}"
     api_test_path: str = "/api/v1/synthetics/tests/api/{}"
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path).json()
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.get(self.resource_config.base_path)
 
         return resp["tests"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         if _id:
             try:
-                resource = source_client.get(self.browser_test_path.format(_id)).json()
+                resource = await source_client.get(self.browser_test_path.format(_id))
             except Exception:
-                resource = source_client.get(self.api_test_path.format(_id)).json()
+                resource = await source_client.get(self.api_test_path.format(_id))
 
         resource = cast(dict, resource)
         _id = resource["public_id"]
         if resource.get("type") == "browser":
-            resource = source_client.get(self.browser_test_path.format(_id)).json()
+            resource = await source_client.get(self.browser_test_path.format(_id))
         elif resource.get("type") == "api":
-            resource = source_client.get(self.api_test_path.format(_id)).json()
+            resource = await source_client.get(self.api_test_path.format(_id))
 
         resource = cast(dict, resource)
         return f"{resource['public_id']}#{resource['monitor_id']}", resource

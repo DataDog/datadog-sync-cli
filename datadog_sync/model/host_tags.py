@@ -20,8 +20,8 @@ class HostTags(BaseResource):
     )
     # Additional HostTags specific attributes
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path).json()
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.get(self.resource_config.base_path)
 
         import_hosts = defaultdict(list)
         for tag, hosts in resp["tags"].items():
@@ -30,7 +30,7 @@ class HostTags(BaseResource):
 
         return [{k: v} for k, v in import_hosts.items()]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             return  # This should never occur. No resource depends on it.
 
