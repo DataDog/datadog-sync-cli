@@ -8,7 +8,7 @@ from sys import exit
 
 from click import command, option
 
-from datadog_sync.constants import DESTINATION_RESOURCES_DIR, CMD_SYNC
+from datadog_sync.constants import DESTINATION_RESOURCES_DIR, Command
 from datadog_sync.commands.shared.options import (
     CustomOptionClass,
     common_options,
@@ -20,7 +20,7 @@ from datadog_sync.utils.resources_handler import ResourcesHandler
 from datadog_sync.utils.configuration import build_config
 
 
-@command(CMD_SYNC, short_help="Sync Datadog resources to destination.")
+@command(Command.SYNC.value, short_help="Sync Datadog resources to destination.")
 @source_auth_options
 @destination_auth_options
 @common_options
@@ -44,7 +44,7 @@ from datadog_sync.utils.configuration import build_config
 )
 def sync(**kwargs):
     """Sync Datadog resources to destination."""
-    cfg = build_config(CMD_SYNC, **kwargs)
+    cfg = build_config(Command.SYNC, **kwargs)
     os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
 
     handler = ResourcesHandler(cfg)

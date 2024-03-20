@@ -7,11 +7,14 @@ from __future__ import annotations
 import asyncio
 from collections import deque
 from concurrent.futures import wait
+import os
+from sys import exit
 
 from click import confirm
 from pprint import pformat
 
-from datadog_sync.constants import DESTINATION_ORIGIN, SOURCE_ORIGIN
+from datadog_sync.constants import SOURCE_RESOURCES_DIR, Command, DESTINATION_ORIGIN, SOURCE_ORIGIN
+from datadog_sync.utils.configuration import build_config
 from datadog_sync.utils.resources_manager import ResourcesManager
 from datadog_sync.constants import TRUE, FALSE, FORCE
 from datadog_sync.utils.resource_utils import (
@@ -34,6 +37,40 @@ if TYPE_CHECKING:
     from graphlib import TopologicalSorter
 
 
+async def run_cmd_async(cmd: Command, **kwargs):
+    # Build config
+    cfg = build_config(cmd, **kwargs)
+
+    # Initiate async items
+    await cfg._init(cmd)
+
+    # Initiate resources handler
+    init_manager = True
+    if cmd == Command.IMPORT:
+        os.makedirs(SOURCE_RESOURCES_DIR, exist_ok=True)
+        init_manager = False
+    handler = ResourcesHandler(cfg, init_manager)
+
+    # Run specific handler
+    cfg.logger.info(f"Starting {cmd.value}...")
+    if cmd == Command.IMPORT:
+        await handler.import_resources()
+    elif cmd == Command.SYNC:
+        await handler.apply_resources()
+    elif cmd == Command.DIFFS:
+        handler.diffs()
+    else:
+        cfg.logger.error(f"Command {cmd.value} not found")
+        exit(1)
+    cfg.logger.info(f"Finished {cmd.value}")
+
+    # Cleanup session before exit
+    await cfg._exit_cleanup()
+
+    if cfg.logger.exception_logged:
+        exit(1)
+
+
 class ResourcesHandler:
     def __init__(self, config: Configuration, init_manager: bool = True) -> None:
         self.config = config
@@ -43,14 +80,6 @@ class ResourcesHandler:
             self.resources_manager: ResourcesManager = ResourcesManager(config)
             self.resource_done_queue: deque = deque()
             self.sorter: Optional[TopologicalSorter] = None
-
-    async def _init(self):
-        await self.config.source_client._init_session()
-        await self.config.destination_client._init_session()
-
-    async def _exit_cleanup(self):
-        await self.config.source_client._end_session()
-        await self.config.destination_client._end_session()
 
     def apply_resources(self) -> Tuple[int, int]:
         # Init executors
@@ -170,15 +199,11 @@ class ResourcesHandler:
         return successes, errors
 
     async def import_resources(self) -> None:
-        await self._init()
-
         tasks = [
             asyncio.create_task(self._import_resources_helper(resource_type))
             for resource_type in self.config.resources_arg
         ]
         await asyncio.gather(*tasks, return_exceptions=True)
-
-        await self._exit_cleanup()
 
     def diffs(self) -> None:
         executor = thread_pool_executor(self.config.max_workers)
