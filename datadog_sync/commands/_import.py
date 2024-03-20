@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+import asyncio
 import os
 from sys import exit
 
@@ -26,7 +27,7 @@ def _import(**kwargs):
 
     cfg.logger.info("Starting import...")
 
-    handler.import_resources()
+    asyncio.run(handler.import_resources())
 
     cfg.logger.info("Finished import")
 

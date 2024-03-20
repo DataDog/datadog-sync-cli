@@ -82,19 +82,19 @@ class BaseResource(abc.ABC):
         )
 
     @abc.abstractmethod
-    def get_resources(self, client: CustomClient) -> List[Dict]:
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
         pass
 
-    def _get_resources(self, client: CustomClient) -> List[Dict]:
+    async def _get_resources(self, client: CustomClient) -> List[Dict]:
         r = self.get_resources(client)
-        return r
+        return await r
 
     @abc.abstractmethod
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         pass
 
-    def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
-        _id, r = self.import_resource(_id, resource)
+    async def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+        _id, r = await self.import_resource(_id, resource)
 
         if self.resource_config.tagging_config is not None:
             try:

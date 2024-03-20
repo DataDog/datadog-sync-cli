@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import asyncio
 from collections import deque
 from concurrent.futures import wait
 
@@ -42,6 +43,14 @@ class ResourcesHandler:
             self.resources_manager: ResourcesManager = ResourcesManager(config)
             self.resource_done_queue: deque = deque()
             self.sorter: Optional[TopologicalSorter] = None
+
+    async def _init(self):
+        await self.config.source_client._init_session()
+        await self.config.destination_client._init_session()
+
+    async def _exit_cleanup(self):
+        await self.config.source_client._end_session()
+        await self.config.destination_client._end_session()
 
     def apply_resources(self) -> Tuple[int, int]:
         # Init executors
@@ -160,11 +169,16 @@ class ResourcesHandler:
 
         return successes, errors
 
-    def import_resources(self) -> None:
-        for resource_type in self.config.resources_arg:
-            self.config.logger.info("Importing %s", resource_type)
-            successes, errors = self._import_resources_helper(resource_type)
-            self.config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
+    async def import_resources(self) -> None:
+        await self._init()
+
+        tasks = [
+            asyncio.create_task(self._import_resources_helper(resource_type))
+            for resource_type in self.config.resources_arg
+        ]
+        await asyncio.gather(*tasks, return_exceptions=True)
+
+        await self._exit_cleanup()
 
     def diffs(self) -> None:
         executor = thread_pool_executor(self.config.max_workers)
@@ -212,27 +226,30 @@ class ResourcesHandler:
             else:
                 print("Resource to be added {} source ID {}: \n {}".format(resource_type, _id, pformat(resource)))
 
-    def _import_resources_helper(self, resource_type: str) -> Tuple[int, int]:
+    async def _import_resources_helper(self, resource_type: str) -> None:
+        self.config.logger.info("Importing %s", resource_type)
+
         r_class = self.config.resources[resource_type]
         r_class.resource_config.source_resources.clear()
 
         try:
-            get_resp = r_class._get_resources(self.config.source_client)
+            get_resp = await r_class._get_resources(self.config.source_client)
         except Exception as e:
             self.config.logger.error(f"Error while importing resources {resource_type}: {str(e)}")
             return 0, 0
 
-        futures = []
-        with thread_pool_executor(self.config.max_workers) as executor:
-            for r in get_resp:
-                if not r_class.filter(r):
-                    continue
-                futures.append(executor.submit(r_class._import_resource, resource=r))
+        tasks = []
+        for r in get_resp:
+            if not r_class.filter(r):
+                continue
+            tasks.append(asyncio.create_task(r_class._import_resource(resource=r)))
+
+        await asyncio.gather(*tasks, return_exceptions=True)
 
         successes = errors = 0
-        for future in futures:
+        for task in tasks:
             try:
-                future.result()
+                task.result()
             except SkipResource as e:
                 self.config.logger.debug(str(e))
             except Exception as e:
@@ -242,7 +259,8 @@ class ResourcesHandler:
                 successes += 1
 
         write_resources_file(resource_type, SOURCE_ORIGIN, r_class.resource_config.source_resources)
-        return successes, errors
+
+        self.config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
 
     def _apply_resource_worker(self, _id: str, resource_type: str) -> None:
         try:

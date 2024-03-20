@@ -2,13 +2,14 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
+import asyncio
 import time
 import logging
 import platform
 from dataclasses import dataclass
-from typing import Dict, Optional, Callable
+from typing import Awaitable, Dict, Optional, Callable
 
-import requests
+import aiohttp
 
 from datadog_sync.constants import LOGGER_NAME
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
@@ -16,8 +17,8 @@ from datadog_sync.utils.resource_utils import CustomClientHTTPError
 log = logging.getLogger(LOGGER_NAME)
 
 
-def request_with_retry(func: Callable) -> Callable:
-    def wrapper(*args, **kwargs):
+def request_with_retry(func: Awaitable) -> Awaitable:
+    async def wrapper(*args, **kwargs):
         retry = True
         default_backoff = 5
         retry_count = 0
@@ -26,32 +27,32 @@ def request_with_retry(func: Callable) -> Callable:
 
         while retry and timeout > time.time():
             try:
-                resp = func(*args, **kwargs)
+                resp = await func(*args, **kwargs)
                 resp.raise_for_status()
                 retry = False
-            except requests.exceptions.HTTPError as e:
-                status_code = e.response.status_code
-                if status_code == 429 and "x-ratelimit-reset" in e.response.headers:
+            except aiohttp.ClientResponseError as e:
+                if e.status == 429 and "x-ratelimit-reset" in e.headers:
                     try:
-                        sleep_duration = int(e.response.headers["x-ratelimit-reset"])
+                        sleep_duration = int(e.headers["x-ratelimit-reset"])
                     except ValueError:
                         sleep_duration = retry_count * default_backoff
                         retry_count += 1
                     if (sleep_duration + time.time()) > timeout:
                         log.debug("retry timeout has or will exceed timeout duration")
-                        raise CustomClientHTTPError(e.response)
-                    time.sleep(sleep_duration)
+                        raise CustomClientHTTPError(e)
+                    asyncio.sleep(sleep_duration)
                     continue
-                elif status_code >= 500 or status_code == 429:
+                elif e.status >= 500 or e.status == 429 or e.status == 403:
                     sleep_duration = retry_count * default_backoff
                     if (sleep_duration + time.time()) > timeout:
                         log.debug("retry timeout has or will exceed timeout duration")
-                        raise CustomClientHTTPError(e.response)
-                    time.sleep(retry_count * default_backoff)
+                        raise CustomClientHTTPError(e)
+                    asyncio.sleep(retry_count * default_backoff)
                     retry_count += 1
                     continue
-                raise CustomClientHTTPError(e.response)
-        return resp
+                raise CustomClientHTTPError(e)
+
+        return await resp.json()
 
     return wrapper
 
@@ -60,38 +61,48 @@ class CustomClient:
     def __init__(self, host: Optional[str], auth: Dict[str, str], retry_timeout: int, timeout: int) -> None:
         self.host = host
         self.timeout = timeout
-        self.session = requests.Session()
+        self.session = None
         self.retry_timeout = retry_timeout
-        self.session.headers.update(build_default_headers(auth))
         self.default_pagination = PaginationConfig()
+        self.auth = auth
+
+    async def _init_session(self):
+        self.session = aiohttp.ClientSession()
+        self.session.headers.update(build_default_headers(self.auth))
+
+    async def _end_session(self):
+        try:
+            await self.session.close()
+        except Exception:
+            pass
 
     @request_with_retry
-    def get(self, path, **kwargs):
+    async def get(self, path, **kwargs):
         url = self.host + path
-        return self.session.get(url, timeout=self.timeout, **kwargs)
+        return await self.session.get(url, timeout=self.timeout, **kwargs)
 
     @request_with_retry
-    def post(self, path, body, **kwargs):
+    async def post(self, path, body, **kwargs):
         url = self.host + path
-        return self.session.post(url, json=body, timeout=self.timeout, **kwargs)
+        return await self.session.post(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
-    def put(self, path, body, **kwargs):
+    async def put(self, path, body, **kwargs):
         url = self.host + path
-        return self.session.put(url, json=body, timeout=self.timeout, **kwargs)
+        return await self.session.put(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
-    def patch(self, path, body, **kwargs):
+    async def patch(self, path, body, **kwargs):
         url = self.host + path
-        return self.session.patch(url, json=body, timeout=self.timeout, **kwargs)
+        return await self.session.patch(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
-    def delete(self, path, body=None, **kwargs):
+    async def delete(self, path, body=None, **kwargs):
         url = self.host + path
-        return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
+        return await self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
 
-    def paginated_request(self, func: Callable) -> Callable:
-        def wrapper(*args, **kwargs):
+    def paginated_request(self, func: Awaitable) -> Awaitable:
+        async def wrapper(*args, **kwargs):
             pagination_config = kwargs.pop("pagination_config", self.default_pagination)
 
             page_size = pagination_config.page_size
@@ -107,22 +118,21 @@ class CustomClient:
                 }
                 kwargs["params"].update(params)
 
-                resp = func(*args, **kwargs)
+                resp = await func(*args, **kwargs)
                 resp.raise_for_status()
 
-                resp_json = resp.json()
                 resp_len = 0
                 if pagination_config.response_list_accessor:
-                    resources.extend(resp_json[pagination_config.response_list_accessor])
-                    resp_len = len(resp_json[pagination_config.response_list_accessor])
+                    resources.extend(resp[pagination_config.response_list_accessor])
+                    resp_len = len(resp[pagination_config.response_list_accessor])
                 else:
-                    resources.extend(resp_json)
-                    resp_len = len(resp_json)
+                    resources.extend(resp)
+                    resp_len = len(resp)
 
                 if resp_len < page_size:
                     break
 
-                remaining = pagination_config.remaining_func(idx, resp_json, page_size, page_number)
+                remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
                 idx += 1
             return resources

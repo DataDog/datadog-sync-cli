@@ -24,22 +24,22 @@ class DashboardLists(BaseResource):
     # Additional Dashboards specific attributes
     dash_list_items_path: str = "/api/v2/dashboard/lists/manual/{}/dashboards"
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path).json()
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.get(self.resource_config.base_path)
 
         return resp["dashboard_lists"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
 
         if _id:
-            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
+            resource = await source_client.get(self.resource_config.base_path + f"/{_id}")
 
         resource = cast(dict, resource)
         _id = str(resource["id"])
         resp = None
         try:
-            resp = source_client.get(self.dash_list_items_path.format(_id)).json()
+            resp = await source_client.get(self.dash_list_items_path.format(_id))
         except CustomClientHTTPError as e:
             self.config.logger.error("error retrieving dashboard_lists items %s", e)
 
