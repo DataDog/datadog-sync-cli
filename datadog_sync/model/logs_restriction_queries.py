@@ -50,26 +50,26 @@ class LogsRestrictionQueries(BaseResource):
 
         return import_id, r_query
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self) -> None:
+    async def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         relationships = resource["data"].pop("relationships")
         added_role_ids = set([role["id"] for role in relationships["roles"]["data"]])
 
-        resp = destination_client.post(self.resource_config.base_path, resource).json()
-        successfully_added, _ = self.update_log_restriction_query_roles(resp["data"]["id"], added_role_ids, set())
+        resp = await destination_client.post(self.resource_config.base_path, resource)
+        successfully_added, _ = await self.update_log_restriction_query_roles(resp["data"]["id"], added_role_ids, set())
 
         new_roles = [{"id": _id, "type": "roles"} for _id in successfully_added]
         resp["data"]["relationships"] = {"roles": {"data": new_roles}}
 
         return _id, resp
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         new_relationships = resource["data"].pop("relationships", {})
         old_relationships = self.resource_config.destination_resources[_id]["data"].pop("relationships", {})
@@ -81,12 +81,12 @@ class LogsRestrictionQueries(BaseResource):
 
         dest_id = self.resource_config.destination_resources[_id]["data"]["id"]
         if check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource):
-            resp = destination_client.put(self.resource_config.base_path + f"/{dest_id}", resource).json()
+            resp = await destination_client.put(self.resource_config.base_path + f"/{dest_id}", resource)
             self.resource_config.destination_resources[_id].update(resp)
             self.resource_config.destination_resources[_id]["data"]["relationships"] = old_relationships
 
         if added_role_ids or removed_role_ids:
-            succ_added, succ_removed = self.update_log_restriction_query_roles(
+            succ_added, succ_removed = await self.update_log_restriction_query_roles(
                 dest_id, added_role_ids, removed_role_ids
             )
             new_roles = [{"id": role_id, "type": "roles"} for role_id in (list(intersection) + succ_added)]
@@ -94,39 +94,41 @@ class LogsRestrictionQueries(BaseResource):
 
         return _id, self.resource_config.destination_resources[_id]
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        destination_client.delete(
+        await destination_client.delete(
             self.resource_config.base_path + f'/{self.resource_config.destination_resources[_id]["data"]["id"]}'
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(LogsRestrictionQueries, self).connect_id(key, r_obj, resource_to_connect)
 
-    def update_log_restriction_query_roles(self, _id: str, added_roles: set, removed_roles: set) -> Tuple[list, list]:
+    async def update_log_restriction_query_roles(
+        self, _id: str, added_roles: set, removed_roles: set
+    ) -> Tuple[list, list]:
         successfully_added, successfully_removed = [], []
         for role_id in added_roles:
             try:
-                self.add_log_restriction_query_role(_id, role_id)
+                await self.add_log_restriction_query_role(_id, role_id)
             except CustomClientHTTPError as e:
                 self.config.logger.error("error adding role %s to log restriction query %s: %s", role_id, _id, e)
                 continue
             successfully_added.append(role_id)
         for role_id in removed_roles:
             try:
-                self.remove_log_restriction_query_role(_id, role_id)
+                await self.remove_log_restriction_query_role(_id, role_id)
             except CustomClientHTTPError as e:
                 self.config.logger.error("error removing role %s to log restriction query %s: %s", role_id, _id, e)
                 continue
             successfully_removed.append(role_id)
         return successfully_added, successfully_removed
 
-    def add_log_restriction_query_role(self, _id: str, role_id: str) -> None:
+    async def add_log_restriction_query_role(self, _id: str, role_id: str) -> None:
         destination_client = self.config.destination_client
         payload = {"data": {"id": role_id, "type": "roles"}}
-        destination_client.post(self.logs_restriction_query_roles_path.format(_id), payload)
+        await destination_client.post(self.logs_restriction_query_roles_path.format(_id), payload)
 
-    def remove_log_restriction_query_role(self, _id: str, role_id: str) -> None:
+    async def remove_log_restriction_query_role(self, _id: str, role_id: str) -> None:
         destination_client = self.config.destination_client
         payload = {"data": {"id": role_id, "type": "roles"}}
-        destination_client.delete(self.logs_restriction_query_roles_path.format(_id), payload)
+        await destination_client.delete(self.logs_restriction_query_roles_path.format(_id), payload)

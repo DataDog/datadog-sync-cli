@@ -107,42 +107,42 @@ class BaseResource(abc.ABC):
         self.resource_config.source_resources[str(_id)] = r
 
     @abc.abstractmethod
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def _pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        return self.pre_resource_action_hook(_id, resource)
+    async def _pre_resource_action_hook(self, _id, resource: Dict) -> None:
+        return await self.pre_resource_action_hook(_id, resource)
 
     @abc.abstractmethod
-    def pre_apply_hook(self) -> None:
+    async def pre_apply_hook(self) -> None:
         pass
 
-    def _pre_apply_hook(self) -> None:
-        return self.pre_apply_hook()
+    async def _pre_apply_hook(self) -> None:
+        return await self.pre_apply_hook()
 
     @abc.abstractmethod
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         pass
 
-    def _create_resource(self, _id: str, resource: Dict) -> None:
-        _id, r = self.create_resource(_id, resource)
+    async def _create_resource(self, _id: str, resource: Dict) -> None:
+        _id, r = await self.create_resource(_id, resource)
         self.resource_config.destination_resources[_id] = r
 
     @abc.abstractmethod
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         pass
 
-    def _update_resource(self, _id: str, resource: Dict) -> None:
-        _id, r = self.update_resource(_id, resource)
+    async def _update_resource(self, _id: str, resource: Dict) -> None:
+        _id, r = await self.update_resource(_id, resource)
         self.resource_config.destination_resources[_id] = r
 
     @abc.abstractmethod
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         pass
 
-    def _delete_resource(self, _id: str) -> None:
+    async def _delete_resource(self, _id: str) -> None:
         try:
-            self.delete_resource(_id)
+            await self.delete_resource(_id)
         except CustomClientHTTPError as e:
             if e.status_code == 404:
                 self.resource_config.destination_resources.pop(_id, None)

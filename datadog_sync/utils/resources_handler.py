@@ -13,7 +13,13 @@ from sys import exit
 from click import confirm
 from pprint import pformat
 
-from datadog_sync.constants import SOURCE_RESOURCES_DIR, Command, DESTINATION_ORIGIN, SOURCE_ORIGIN
+from datadog_sync.constants import (
+    DESTINATION_RESOURCES_DIR,
+    SOURCE_RESOURCES_DIR,
+    Command,
+    DESTINATION_ORIGIN,
+    SOURCE_ORIGIN,
+)
 from datadog_sync.utils.configuration import build_config
 from datadog_sync.utils.resources_manager import ResourcesManager
 from datadog_sync.constants import TRUE, FALSE, FORCE
@@ -47,21 +53,24 @@ async def run_cmd_async(cmd: Command, **kwargs):
     # Initiate resources handler
     init_manager = True
     if cmd == Command.IMPORT:
-        os.makedirs(SOURCE_RESOURCES_DIR, exist_ok=True)
         init_manager = False
     handler = ResourcesHandler(cfg, init_manager)
 
-    # Run specific handler
     cfg.logger.info(f"Starting {cmd.value}...")
+
+    # Run specific handler
     if cmd == Command.IMPORT:
+        os.makedirs(SOURCE_RESOURCES_DIR, exist_ok=True)
         await handler.import_resources()
     elif cmd == Command.SYNC:
+        os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
         await handler.apply_resources()
     elif cmd == Command.DIFFS:
-        handler.diffs()
+        await handler.diffs()
     else:
         cfg.logger.error(f"Command {cmd.value} not found")
         exit(1)
+
     cfg.logger.info(f"Finished {cmd.value}")
 
     # Cleanup session before exit
@@ -205,23 +214,24 @@ class ResourcesHandler:
         ]
         await asyncio.gather(*tasks, return_exceptions=True)
 
-    def diffs(self) -> None:
-        executor = thread_pool_executor(self.config.max_workers)
-        futures = []
-
+    async def diffs(self) -> None:
         # Run pre-apply hooks
-        for resource_type in set(self.resources_manager.all_resources.values()):
-            futures.append(executor.submit(self.config.resources[resource_type]._pre_apply_hook))
-        wait(futures)
+        tasks = [
+            asyncio.create_task(self.config.resources[resource_type]._pre_apply_hook())
+            for resource_type in set(self.resources_manager.all_resources.values())
+        ]
+        await asyncio.gather(*tasks, return_exceptions=True)
 
+        tasks = []
         for _id, resource_type in self.resources_manager.all_resources.items():
-            futures.append(executor.submit(self._diffs_worker, _id, resource_type))
+            tasks.append(asyncio.create_task(self._diffs_worker(_id, resource_type)))
 
         for _id, resource_type in self.resources_manager.all_cleanup_resources.items():
-            futures.append(executor.submit(self._diffs_worker, _id, resource_type, delete=True))
-        wait(futures)
+            tasks.append(asyncio.create_task(self._diffs_worker(_id, resource_type, delete=True)))
 
-    def _diffs_worker(self, _id, resource_type, delete=False) -> None:
+        await asyncio.gather(*tasks, return_exceptions=True)
+
+    async def _diffs_worker(self, _id, resource_type, delete=False) -> None:
         r_class = self.config.resources[resource_type]
 
         if delete:
@@ -237,7 +247,7 @@ class ResourcesHandler:
 
             if not r_class.filter(resource):
                 return
-            r_class._pre_resource_action_hook(_id, resource)
+            await r_class._pre_resource_action_hook(_id, resource)
 
             try:
                 r_class.connect_resources(_id, resource)

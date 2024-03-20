@@ -91,41 +91,41 @@ class RestrictionPolicies(BaseResource):
 
         return import_id, resource["data"]
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         for binding in resource["attributes"]["bindings"]:
             for i, key in enumerate(binding["principals"]):
                 if key.startswith("org:"):
                     binding["principals"][i] = self.org_principal
                     break
 
-    def pre_apply_hook(self) -> None:
+    async def pre_apply_hook(self) -> None:
         destination_client = self.config.destination_client
         try:
-            org = destination_client.get(self.orgs_path).json()["orgs"][0]
+            org = (await destination_client.get(self.orgs_path))["orgs"][0]
         except Exception as e:
             self.config.logger.error(f"Failed to get org details: {e}")
 
         self.org_principal = self.org_principal.format(org["public_id"])
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource_id = resource["id"]
         payload = {"data": resource}
-        resp = destination_client.post(self.resource_config.base_path + f"/{resource_id}", payload).json()
+        resp = await destination_client.post(self.resource_config.base_path + f"/{resource_id}", payload)
 
         return _id, resp["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource_id = resource["id"]
         payload = {"data": resource}
-        resp = destination_client.post(self.resource_config.base_path + f"/{resource_id}", payload).json()
+        resp = await destination_client.post(self.resource_config.base_path + f"/{resource_id}", payload)
 
         return _id, resp["data"]
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        destination_client.delete(
+        await destination_client.delete(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 

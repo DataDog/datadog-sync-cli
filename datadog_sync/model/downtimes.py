@@ -61,7 +61,7 @@ class Downtimes(BaseResource):
 
         return str(resource["id"]), resource
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.resource_config.destination_resources:
             current_time = round(datetime.now().timestamp())
             if resource["recurrence"] is None:
@@ -88,27 +88,27 @@ class Downtimes(BaseResource):
                 if resource["end"] < self.resource_config.destination_resources[_id]["end"]:
                     resource["end"] = self.resource_config.destination_resources[_id]["end"]
 
-    def pre_apply_hook(self) -> None:
+    async def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        resp = destination_client.post(self.resource_config.base_path, resource).json()
+        resp = await destination_client.post(self.resource_config.base_path, resource)
 
         return _id, resp
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        resp = destination_client.put(
+        resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
             resource,
-        ).json()
+        )
 
         return _id, resp
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        destination_client.delete(
+        await destination_client.delete(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 

@@ -45,28 +45,28 @@ class DashboardLists(BaseResource):
 
         resource["dashboards"] = []
         if resp:
-            for dash in resp.get("dashboards"):
+            for dash in resp.get("dashboards", []):
                 dash_list_item = {"id": dash["id"], "type": dash["type"]}
                 resource["dashboards"].append(dash_list_item)
 
         return _id, resource
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self) -> None:
+    async def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(resource["dashboards"])
         resource.pop("dashboards")
-        resp = destination_client.post(self.resource_config.base_path, resource).json()
-        self.update_dash_list_items(resp["id"], dashboards, resp)
+        resp = await destination_client.post(self.resource_config.base_path, resource)
+        await self.update_dash_list_items(resp["id"], dashboards, resp)
 
         return _id, resp
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         dashboards = copy.deepcopy(resource["dashboards"])
         dash_list_diff = check_diff(
@@ -76,16 +76,16 @@ class DashboardLists(BaseResource):
         )
         resource.pop("dashboards")
 
-        resp = destination_client.put(
+        resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
             resource,
-        ).json()
+        )
 
         resp.pop("dashboards")
         self.resource_config.destination_resources[_id].update(resp)
 
         if dash_list_diff:
-            self.update_dash_list_items(
+            await self.update_dash_list_items(
                 self.resource_config.destination_resources[_id]["id"],
                 dashboards,
                 self.resource_config.destination_resources[_id],
@@ -93,20 +93,20 @@ class DashboardLists(BaseResource):
 
         return _id, self.resource_config.destination_resources[_id]
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        destination_client.delete(
+        await destination_client.delete(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(DashboardLists, self).connect_id(key, r_obj, resource_to_connect)
 
-    def update_dash_list_items(self, _id: str, dashboards: Dict, dashboard_list: dict):
+    async def update_dash_list_items(self, _id: str, dashboards: Dict, dashboard_list: dict):
         payload = {"dashboards": dashboards}
         destination_client = self.config.destination_client
         try:
-            dashboards = destination_client.put(self.dash_list_items_path.format(_id), payload).json()
+            dashboards = await destination_client.put(self.dash_list_items_path.format(_id), payload)
         except CustomClientHTTPError as e:
             self.config.logger.error("error updating dashboard list items: %s", e)
             return

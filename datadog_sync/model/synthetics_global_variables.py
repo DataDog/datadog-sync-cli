@@ -48,41 +48,41 @@ class SyntheticsGlobalVariables(BaseResource):
         resource = cast(dict, resource)
         return resource["id"], resource
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self) -> None:
-        self.destination_global_variables = self.get_destination_global_variables()
+    async def pre_apply_hook(self) -> None:
+        self.destination_global_variables = await self.get_destination_global_variables()
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if resource["name"] in self.destination_global_variables:
             self.resource_config.destination_resources[_id] = self.destination_global_variables[resource["name"]]
-            return self.update_resource(_id, resource)
+            return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
 
         if "value" not in resource["value"]:
             resource["value"]["value"] = "SECRET"
 
-        resp = destination_client.post(self.resource_config.base_path, resource).json()
+        resp = await destination_client.post(self.resource_config.base_path, resource)
 
         return _id, resp
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        resp = destination_client.put(
+        resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
             resource,
-        ).json()
+        )
 
         r = self.resource_config.destination_resources[_id]
         r.update(resp)
 
         return _id, r
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        destination_client.delete(
+        await destination_client.delete(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
@@ -99,11 +99,11 @@ class SyntheticsGlobalVariables(BaseResource):
             failed_connections.append(r_obj[key])
         return failed_connections
 
-    def get_destination_global_variables(self) -> Dict[str, Dict]:
+    async def get_destination_global_variables(self) -> Dict[str, Dict]:
         destination_global_variable_obj = {}
         destination_client = self.config.destination_client
 
-        resp = self.get_resources(destination_client)
+        resp = await self.get_resources(destination_client)
         for variable in resp:
             destination_global_variable_obj[variable["name"]] = variable
 

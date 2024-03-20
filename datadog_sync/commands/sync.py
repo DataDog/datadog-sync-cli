@@ -3,12 +3,11 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-import os
-from sys import exit
+import asyncio
 
 from click import command, option
 
-from datadog_sync.constants import DESTINATION_RESOURCES_DIR, Command
+from datadog_sync.constants import Command
 from datadog_sync.commands.shared.options import (
     CustomOptionClass,
     common_options,
@@ -16,8 +15,7 @@ from datadog_sync.commands.shared.options import (
     destination_auth_options,
     non_import_common_options,
 )
-from datadog_sync.utils.resources_handler import ResourcesHandler
-from datadog_sync.utils.configuration import build_config
+from datadog_sync.utils.resources_handler import run_cmd_async
 
 
 @command(Command.SYNC.value, short_help="Sync Datadog resources to destination.")
@@ -44,16 +42,4 @@ from datadog_sync.utils.configuration import build_config
 )
 def sync(**kwargs):
     """Sync Datadog resources to destination."""
-    cfg = build_config(Command.SYNC, **kwargs)
-    os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
-
-    handler = ResourcesHandler(cfg)
-
-    cfg.logger.info("Starting sync...")
-
-    successes, errors = handler.apply_resources()
-
-    cfg.logger.info(f"Finished sync: {successes} successes, {errors} errors")
-
-    if cfg.logger.exception_logged:
-        exit(1)
+    asyncio.run(run_cmd_async(Command.SYNC, **kwargs))

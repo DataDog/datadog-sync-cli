@@ -55,62 +55,62 @@ class Users(BaseResource):
 
         return resource["id"], resource
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self) -> None:
-        self.remote_destination_users = self.get_remote_destination_users()
+    async def pre_apply_hook(self) -> None:
+        self.remote_destination_users = await self.get_remote_destination_users()
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if resource["attributes"]["email"] in self.remote_destination_users:
             self.resource_config.destination_resources[_id] = self.remote_destination_users[
                 resource["attributes"]["email"]
             ]
 
-            return self.update_resource(_id, resource)
+            return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
         resource["attributes"].pop("disabled", None)
-        resp = destination_client.post(self.resource_config.base_path, {"data": resource})
+        resp = await destination_client.post(self.resource_config.base_path, {"data": resource})
 
-        return _id, resp.json()["data"]
+        return _id, resp["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
 
         diff = check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource)
         if diff:
-            self.update_user_roles(self.resource_config.destination_resources[_id]["id"], diff)
+            await self.update_user_roles(self.resource_config.destination_resources[_id]["id"], diff)
             resource["id"] = self.resource_config.destination_resources[_id]["id"]
             resource.pop("relationships", None)
-            resp = destination_client.patch(
+            resp = await destination_client.patch(
                 self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
                 {"data": resource},
             )
 
-            return _id, resp.json()["data"]
+            return _id, resp["data"]
         return _id, self.resource_config.destination_resources[_id]
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        destination_client.delete(
+        await destination_client.delete(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(Users, self).connect_id(key, r_obj, resource_to_connect)
 
-    def get_remote_destination_users(self):
+    async def get_remote_destination_users(self):
         remote_user_obj = {}
         destination_client = self.config.destination_client
-        remote_users = self.get_resources(destination_client)
+        remote_users = await self.get_resources(destination_client)
 
         for user in remote_users:
             remote_user_obj[user["attributes"]["email"]] = user
 
         return remote_user_obj
 
-    def update_user_roles(self, _id, diff):
+    async def update_user_roles(self, _id, diff):
         for k, v in diff.items():
             if k == "iterable_item_added":
                 for key, value in diff["iterable_item_added"].items():
@@ -119,25 +119,25 @@ class Users(BaseResource):
             # elif k == "iterable_item_removed":
             #     for key, value in diff["iterable_item_removed"].items():
             #         if "roles" in key:
-            #             self.remove_user_from_role(_id, value["id"])
+            #             await self.remove_user_from_role(_id, value["id"])
             elif k == "values_changed":
                 for key, value in diff["values_changed"].items():
                     if "roles" in key:
-                        # self.remove_user_from_role(_id, value["old_value"])
-                        self.add_user_to_role(_id, value["new_value"])
+                        # await self.remove_user_from_role(_id, value["old_value"])
+                        await self.add_user_to_role(_id, value["new_value"])
 
-    def add_user_to_role(self, user_id, role_id):
+    async def add_user_to_role(self, user_id, role_id):
         destination_client = self.config.destination_client
         payload = {"data": {"id": user_id, "type": "users"}}
         try:
-            destination_client.post(self.roles_path.format(role_id), payload)
+            await destination_client.post(self.roles_path.format(role_id), payload)
         except CustomClientHTTPError as e:
             self.config.logger.error("error adding user: %s to role %s: %s", user_id, role_id, e)
 
-    def remove_user_from_role(self, user_id, role_id):
+    async def remove_user_from_role(self, user_id, role_id):
         destination_client = self.config.destination_client
         payload = {"data": {"id": user_id, "type": "users"}}
         try:
-            destination_client.delete(self.roles_path.format(role_id), payload)
+            await destination_client.delete(self.roles_path.format(role_id), payload)
         except CustomClientHTTPError as e:
             self.config.logger.error("error removing user: %s from role %s: %s", user_id, role_id, e)

@@ -39,25 +39,25 @@ class HostTags(BaseResource):
 
         return host, tags
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self) -> None:
+    async def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        return self.update_resource(_id, resource)
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        return await self.update_resource(_id, resource)
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         body = {"tags": resource}
-        resp = destination_client.put(self.resource_config.base_path + f"/{_id}", body).json()
+        resp = await destination_client.put(self.resource_config.base_path + f"/{_id}", body)
 
         return _id, resp["tags"]
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        destination_client.delete(self.resource_config.base_path + f"/{_id}")
+        await destination_client.delete(self.resource_config.base_path + f"/{_id}")
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         pass
