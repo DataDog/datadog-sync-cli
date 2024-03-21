@@ -133,6 +133,7 @@ def config():
         skip_failed_resource_connections=True,
         cleanup=False,
         create_global_downtime=False,
+        validate=False,
     )
 
     resources = init_resources(cfg)

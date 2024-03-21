@@ -108,7 +108,7 @@ class Cleanup:
         res = self.get_resources(path)
         for resource in res:
             if resource["type"] != "synthetics alert":
-                self.delete_resource(resource["id"], path, params={"force": True})
+                self.delete_resource(resource["id"], path, params={"force": "true"})
 
     def cleanup_users(
         self,
@@ -176,7 +176,7 @@ class Cleanup:
         path = "/api/v1/slo"
         res = self.get_resources(path)
         for resource in res["data"]:
-            self.delete_resource(resource["id"], path, params={"force": True})
+            self.delete_resource(resource["id"], path, params={"force": "true"})
 
     def cleanup_slo_corrections(self):
         path = "/api/v1/slo/correction"

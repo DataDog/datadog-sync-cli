@@ -342,9 +342,9 @@ class ResourcesHandler:
 
         self.config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
 
-    def _force_missing_dep_import_worker(self, _id: str, resource_type: str):
+    async def _force_missing_dep_import_worker(self, _id: str, resource_type: str):
         try:
-            self.config.resources[resource_type]._import_resource(_id=_id)
+            await self.config.resources[resource_type]._import_resource(_id=_id)
         except CustomClientHTTPError as e:
             self.config.logger.error(f"error importing {resource_type} with id {_id}: {str(e)}")
             return
@@ -354,9 +354,9 @@ class ResourcesHandler:
             _id, resource_type
         )
 
-    def _cleanup_worker(self, _id: str, resource_type: str) -> None:
+    async def _cleanup_worker(self, _id: str, resource_type: str) -> None:
         self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
-        self.config.resources[resource_type]._delete_resource(_id)
+        await self.config.resources[resource_type]._delete_resource(_id)
 
 
 def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool = True) -> bool:

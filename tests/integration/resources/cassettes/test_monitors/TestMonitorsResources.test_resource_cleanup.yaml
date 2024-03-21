@@ -9,7 +9,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15199437?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15199437?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15199437}'
@@ -27,7 +27,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15199435?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15199435?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15199435}'
@@ -45,7 +45,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15199439?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15199439?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15199439}'
@@ -63,7 +63,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15199447?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15199447?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15199447}'
@@ -81,7 +81,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15199438?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15199438?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15199438}'
@@ -99,7 +99,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15199436?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15199436?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15199436}'
@@ -117,7 +117,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15199434?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15199434?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15199434}'
@@ -135,7 +135,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15199433?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15199433?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15199433}'
@@ -153,7 +153,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15199442?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15199442?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15199442}'
