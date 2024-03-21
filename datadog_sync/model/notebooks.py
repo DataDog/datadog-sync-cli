@@ -60,7 +60,7 @@ class Notebooks(BaseResource):
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         payload = {"data": resource}
-        resp = destination_client.post(self.resource_config.base_path, payload)
+        resp = await destination_client.post(self.resource_config.base_path, payload)
         self.handle_special_case_attr(resp["data"])
 
         return _id, resp["data"]

@@ -69,7 +69,7 @@ class Teams(BaseResource):
             return await self.update_resource(_id, resource)
 
         payload = {"data": resource}
-        resp = destination_client.post(self.resource_config.base_path, payload)
+        resp = await destination_client.post(self.resource_config.base_path, payload)
 
         return _id, resp["data"]
 

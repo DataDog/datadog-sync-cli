@@ -115,7 +115,7 @@ class Users(BaseResource):
             if k == "iterable_item_added":
                 for key, value in diff["iterable_item_added"].items():
                     if "roles" in key:
-                        self.add_user_to_role(_id, value["id"])
+                        await self.add_user_to_role(_id, value["id"])
             # elif k == "iterable_item_removed":
             #     for key, value in diff["iterable_item_removed"].items():
             #         if "roles" in key:
