@@ -173,11 +173,6 @@ class ResourcesHandler:
                     )
 
             await asyncio.gather(*tasks, return_exceptions=True)
-            try:
-                node = self.resource_done_queue.popleft()
-                self.sorter.done(node)
-            except IndexError:
-                pass
 
         await asyncio.gather(*tasks, return_exceptions=True)
         successes = errors = 0
@@ -253,6 +248,7 @@ class ResourcesHandler:
         finally:
             # always place in done queue regardless of exception thrown
             self.resource_done_queue.append(_id)
+            self.sorter.done(_id)
             if not concurrent:
                 self.concurrent_lock.release()
 
