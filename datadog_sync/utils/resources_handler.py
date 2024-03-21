@@ -328,7 +328,7 @@ class ResourcesHandler:
 
     async def _force_missing_dep_import_worker(self, _id: str, resource_type: str):
         try:
-            await self.config.resources[resource_type]._import_resource(_id=_id)
+            _id = await self.config.resources[resource_type]._import_resource(_id=_id)
         except CustomClientHTTPError as e:
             self.config.logger.error(f"error importing {resource_type} with id {_id}: {str(e)}")
             return
