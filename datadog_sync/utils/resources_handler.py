@@ -10,6 +10,8 @@ from concurrent.futures import wait
 from click import confirm
 from pprint import pformat
 
+from progressbar import ProgressBar
+
 from datadog_sync.constants import DESTINATION_ORIGIN, SOURCE_ORIGIN
 from datadog_sync.utils.resources_manager import ResourcesManager
 from datadog_sync.constants import TRUE, FALSE, FORCE
@@ -21,6 +23,7 @@ from datadog_sync.utils.resource_utils import (
     check_diff,
     create_global_downtime,
     dump_resources,
+    init_progress_bar,
     prep_resource,
     thread_pool_executor,
     init_topological_sorter,
@@ -107,31 +110,32 @@ class ResourcesHandler:
         # initialize queue for finished resources
         self.resource_done_queue = deque()
 
-        while self.sorter.is_active():
-            for _id in self.sorter.get_ready():
-                if _id not in self.resources_manager.all_resources:
-                    # at this point, we already attempted to import missing resources
-                    # so mark the node as complete and continue
-                    self.sorter.done(_id)
-                    continue
+        with init_progress_bar(len(self.resources_manager.all_resources.keys())) as bar:
+            while self.sorter.is_active():
+                for _id in self.sorter.get_ready():
+                    if _id not in self.resources_manager.all_resources:
+                        # at this point, we already attempted to import missing resources
+                        # so mark the node as complete and continue
+                        self.sorter.done(_id)
+                        continue
 
-                if self.config.resources[self.resources_manager.all_resources[_id]].resource_config.concurrent:
-                    futures.append(
-                        parralel_executor.submit(
-                            self._apply_resource_worker, _id, self.resources_manager.all_resources[_id]
+                    if self.config.resources[self.resources_manager.all_resources[_id]].resource_config.concurrent:
+                        futures.append(
+                            parralel_executor.submit(
+                                self._apply_resource_worker, _id, self.resources_manager.all_resources[_id], bar=bar
+                            )
                         )
-                    )
-                else:
-                    futures.append(
-                        serial_executor.submit(
-                            self._apply_resource_worker, _id, self.resources_manager.all_resources[_id]
+                    else:
+                        futures.append(
+                            serial_executor.submit(
+                                self._apply_resource_worker, _id, self.resources_manager.all_resources[_id], bar=bar
+                            )
                         )
-                    )
-            try:
-                node = self.resource_done_queue.popleft()
-                self.sorter.done(node)
-            except IndexError:
-                pass
+                try:
+                    node = self.resource_done_queue.popleft()
+                    self.sorter.done(node)
+                except IndexError:
+                    pass
 
         wait(futures)
         successes = errors = 0
@@ -161,10 +165,12 @@ class ResourcesHandler:
         return successes, errors
 
     def import_resources(self) -> None:
-        for resource_type in self.config.resources_arg:
-            self.config.logger.info("Importing %s", resource_type)
-            successes, errors = self._import_resources_helper(resource_type)
-            self.config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
+        with init_progress_bar(len(self.config.resources_arg)) as bar:
+            for resource_type in self.config.resources_arg:
+                self.config.logger.info("Importing %s", resource_type)
+                successes, errors = self._import_resources_helper(resource_type)
+                self.config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
+                bar.increment()
 
     def diffs(self) -> None:
         executor = thread_pool_executor(self.config.max_workers)
@@ -244,7 +250,7 @@ class ResourcesHandler:
         write_resources_file(resource_type, SOURCE_ORIGIN, r_class.resource_config.source_resources)
         return successes, errors
 
-    def _apply_resource_worker(self, _id: str, resource_type: str) -> None:
+    def _apply_resource_worker(self, _id: str, resource_type: str, bar: ProgressBar) -> None:
         try:
             r_class = self.config.resources[resource_type]
             resource = self.config.resources[resource_type].resource_config.source_resources[_id]
@@ -285,10 +291,10 @@ class ResourcesHandler:
                     raise LoggedException(e)
 
                 self.config.logger.info(f"finished create for {resource_type} with {_id}")
-
         finally:
             # always place in done queue regardless of exception thrown
             self.resource_done_queue.append(_id)
+            bar.increment()
 
     def _force_missing_dep_import_worker(self, _id: str, resource_type: str):
         try:
