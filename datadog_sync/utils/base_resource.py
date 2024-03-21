@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 import abc
+from asyncio import Lock
 from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, ClassVar, Optional, Dict, List, Tuple
@@ -61,9 +62,12 @@ class ResourceConfig:
     destination_resources: dict = field(default_factory=dict)
     deep_diff_config: dict = field(default_factory=lambda: {"ignore_order": True})
     tagging_config: Optional[TaggingConfig] = None
+    async_lock: Optional[Lock] = None
 
     def __post_init__(self) -> None:
         self.build_excluded_attributes()
+        if not self.concurrent:
+            self.async_lock = Lock()
 
     def build_excluded_attributes(self) -> None:
         if self.excluded_attributes:

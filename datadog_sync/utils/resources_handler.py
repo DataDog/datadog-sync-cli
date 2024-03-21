@@ -81,7 +81,6 @@ async def run_cmd_async(cmd: Command, **kwargs):
 class ResourcesHandler:
     def __init__(self, config: Configuration, init_manager: bool = True) -> None:
         self.config = config
-        self.concurrent_lock = asyncio.Lock()
 
         # Additional config for resource manager
         if init_manager:
@@ -157,18 +156,9 @@ class ResourcesHandler:
                     self.sorter.done(_id)
                     continue
 
-                if self.config.resources[self.resources_manager.all_resources[_id]].resource_config.concurrent:
-                    tasks.append(
-                        asyncio.create_task(self._apply_resource_worker(_id, self.resources_manager.all_resources[_id]))
-                    )
-                else:
-                    tasks.append(
-                        asyncio.create_task(
-                            self._apply_resource_worker(
-                                _id, self.resources_manager.all_resources[_id], concurrent=False
-                            )
-                        )
-                    )
+                tasks.append(
+                    asyncio.create_task(self._apply_resource_worker(_id, self.resources_manager.all_resources[_id]))
+                )
 
             await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -195,18 +185,17 @@ class ResourcesHandler:
 
         return successes, errors
 
-    async def _apply_resource_worker(self, _id: str, resource_type: str, concurrent=True) -> None:
-        if not concurrent:
-            await self.concurrent_lock.acquire()
+    async def _apply_resource_worker(self, _id: str, resource_type: str) -> None:
+        r_class = self.config.resources[resource_type]
+        resource = r_class.resource_config.source_resources[_id]
+        if _id not in self.resources_manager.all_missing_resources:
+            if not r_class.filter(resource):
+                return
+
+        if not r_class.resource_config.concurrent:
+            await r_class.resource_config.async_lock.acquire()
 
         try:
-            r_class = self.config.resources[resource_type]
-            resource = self.config.resources[resource_type].resource_config.source_resources[_id]
-
-            if _id not in self.resources_manager.all_missing_resources:
-                if not r_class.filter(resource):
-                    return
-
             # Run hooks
             await r_class._pre_resource_action_hook(_id, resource)
             r_class.connect_resources(_id, resource)
@@ -244,8 +233,8 @@ class ResourcesHandler:
             # always place in done queue regardless of exception thrown
             self.resource_done_queue.append(_id)
             self.sorter.done(_id)
-            if not concurrent:
-                self.concurrent_lock.release()
+            if not r_class.resource_config.concurrent:
+                r_class.resource_config.async_lock.release()
 
     async def diffs(self) -> None:
         # Run pre-apply hooks
