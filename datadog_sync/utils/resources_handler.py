@@ -168,8 +168,9 @@ class ResourcesHandler:
         with init_progress_bar(len(self.config.resources_arg)) as bar:
             for resource_type in self.config.resources_arg:
                 self.config.logger.info("Importing %s", resource_type)
-                successes, errors = self._import_resources_helper(resource_type, bar=bar)
+                successes, errors = self._import_resources_helper(resource_type)
                 self.config.logger.info(f"Finished importing {resource_type}: {successes} successes, {errors} errors")
+                bar.increment()
 
     def diffs(self) -> None:
         executor = thread_pool_executor(self.config.max_workers)
@@ -217,7 +218,7 @@ class ResourcesHandler:
             else:
                 print("Resource to be added {} source ID {}: \n {}".format(resource_type, _id, pformat(resource)))
 
-    def _import_resources_helper(self, resource_type: str, bar: ProgressBar) -> Tuple[int, int]:
+    def _import_resources_helper(self, resource_type: str) -> Tuple[int, int]:
         r_class = self.config.resources[resource_type]
         r_class.resource_config.source_resources.clear()
 
@@ -227,11 +228,6 @@ class ResourcesHandler:
             self.config.logger.error(f"Error while importing resources {resource_type}: {str(e)}")
             return 0, 0
 
-        if len(get_resp) == 0:
-            bar.increment(1)
-            return 0, 0
-
-        bar_increment = 1 / len(get_resp)
         futures = []
         with thread_pool_executor(self.config.max_workers) as executor:
             for r in get_resp:
@@ -250,12 +246,6 @@ class ResourcesHandler:
                 errors += 1
             else:
                 successes += 1
-            finally:
-                value = bar.value + bar_increment
-                # handle floiting points > max_value of 1
-                if value > 1:
-                    value = 1
-                bar.update(value)
 
         write_resources_file(resource_type, SOURCE_ORIGIN, r_class.resource_config.source_resources)
         return successes, errors
