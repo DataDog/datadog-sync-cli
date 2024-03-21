@@ -93,7 +93,7 @@ class BaseResource(abc.ABC):
     def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         pass
 
-    def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> None:
+    def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> str:
         _id, r = self.import_resource(_id, resource)
 
         if self.resource_config.tagging_config is not None:
@@ -105,6 +105,7 @@ class BaseResource(abc.ABC):
                 )
 
         self.resource_config.source_resources[str(_id)] = r
+        return str(_id)
 
     @abc.abstractmethod
     def pre_resource_action_hook(self, _id, resource: Dict) -> None:
