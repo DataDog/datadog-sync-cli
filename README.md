@@ -139,8 +139,6 @@ Options:
   --filter TEXT                               Filter resources. See [Filtering] section for more details.
   --filter-operator TEXT                      Filter operator when multiple filters are passed. Supports `AND` or `OR`.
   --config FILE                               Read configuration from FILE. See [Config] section for more details.
-  --max-workers INTEGER                       Max number of workers when running
-                                              operations in multi-threads. Defaults to the number of processors on the machine, multiplied by 5.
   --skip-failed-resource-connections BOOLEAN  Skip resource if resource connection fails. [default: True]  [sync + import only]
   --force-missing-dependencies                Force importing and syncing resources that
                                               could be potential dependencies to the

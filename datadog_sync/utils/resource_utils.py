@@ -9,7 +9,6 @@ import re
 import json
 import logging
 from copy import deepcopy
-from concurrent.futures import ThreadPoolExecutor
 from graphlib import TopologicalSorter
 from dateutil.parser import parse
 
@@ -232,10 +231,6 @@ def write_resources_file(resource_type: str, origin: str, resources: Any) -> Non
 
     with open(resource_path, "w") as f:
         json.dump(resources, f, indent=2)
-
-
-def thread_pool_executor(max_workers: Optional[int] = None) -> ThreadPoolExecutor:
-    return ThreadPoolExecutor(max_workers=max_workers)
 
 
 def init_topological_sorter(graph: Dict[str, Set[str]]) -> TopologicalSorter:

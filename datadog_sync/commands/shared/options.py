@@ -123,14 +123,6 @@ _common_options = [
         cls=CustomOptionClass,
     ),
     option(
-        "--max-workers",
-        envvar=constants.MAX_WORKERS,
-        required=False,
-        type=int,
-        help="Max number of workers when running operations in multi-threads.",
-        cls=CustomOptionClass,
-    ),
-    option(
         "--filter-operator",
         envvar=constants.DD_FILTER_OPERATOR,
         required=False,
