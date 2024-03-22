@@ -48,10 +48,7 @@ async def run_cmd_async(cmd: Command, **kwargs):
     await cfg._init(cmd)
 
     # Initiate resources handler
-    init_manager = True
-    if cmd == Command.IMPORT:
-        init_manager = False
-    handler = ResourcesHandler(cfg, init_manager)
+    handler = ResourcesHandler(cfg)
 
     cfg.logger.info(f"Starting {cmd.value}...")
 
@@ -78,18 +75,21 @@ async def run_cmd_async(cmd: Command, **kwargs):
 
 
 class ResourcesHandler:
-    def __init__(self, config: Configuration, init_manager: bool = True) -> None:
+    def __init__(self, config: Configuration) -> None:
         self.config = config
 
         # Additional config for resource manager
-        if init_manager:
-            self.resources_manager: ResourcesManager = ResourcesManager(config)
-            self.sorter: Optional[TopologicalSorter] = None
+        self.resources_manager: ResourcesManager = ResourcesManager(config)
+        self.sorter: Optional[TopologicalSorter] = None
+
+        # Queues for async processing
+        self.work_queue: asyncio.Queue = asyncio.Queue()  # work task queue
+        self.finished: asyncio.Queue = asyncio.Queue()  # finished task queue
 
     async def apply_resources(self) -> Tuple[int, int]:
         # Import resources that are missing but needed for resource connections
         tasks = []
-        if self.config.force_missing_dependencies and bool(self.resources_manager.missing_resources_queue):
+        if self.config.force_missing_dependencies and not self.resources_manager.missing_resources_queue.empty():
             self.config.logger.info("importing missing dependencies")
 
             seen_resource_types = set()
@@ -97,7 +97,7 @@ class ResourcesHandler:
                 while True:
                     # consume all of the current missing dependencies
                     try:
-                        q_item = self.resources_manager.missing_resources_queue.popleft()
+                        q_item = self.resources_manager.missing_resources_queue.get_nowait()
                         seen_resource_types.add(q_item[1])
                         tasks.append(asyncio.create_task(self._force_missing_dep_import_worker(*q_item)))
                     except Exception:
@@ -107,7 +107,7 @@ class ResourcesHandler:
 
                 # Check if queue is empty after importing all missing resources.
                 # This will not be empty if the imported resources have further missing dependencies.
-                if not bool(self.resources_manager.missing_resources_queue):
+                if self.resources_manager.missing_resources_queue.empty():
                     break
 
             tasks.clear()
@@ -351,3 +351,10 @@ def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str],
         return confirm("Delete above resources from destination org?")
     else:
         return False
+
+
+# async def worker(tasks: WorkQueue, results: FinishedQueue) -> NoReturn:
+#     while True:
+#         package = await tasks.get()
+#         await build(package)
+#         results.put_nowait(package)
