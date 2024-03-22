@@ -5,7 +5,6 @@
 
 from __future__ import annotations
 import asyncio
-from collections import deque
 import os
 from sys import exit
 
@@ -85,7 +84,6 @@ class ResourcesHandler:
         # Additional config for resource manager
         if init_manager:
             self.resources_manager: ResourcesManager = ResourcesManager(config)
-            self.resource_done_queue: deque = deque()
             self.sorter: Optional[TopologicalSorter] = None
 
     async def apply_resources(self) -> Tuple[int, int]:
@@ -145,8 +143,6 @@ class ResourcesHandler:
 
         # initalize topological sorters
         self.sorter = init_topological_sorter(self.resources_manager.dependencies_graph)
-        # initialize queue for finished resources
-        self.resource_done_queue = deque()
 
         while self.sorter.is_active():
             for _id in self.sorter.get_ready():
@@ -231,7 +227,6 @@ class ResourcesHandler:
 
         finally:
             # always place in done queue regardless of exception thrown
-            self.resource_done_queue.append(_id)
             self.sorter.done(_id)
             if not r_class.resource_config.concurrent:
                 r_class.resource_config.async_lock.release()
