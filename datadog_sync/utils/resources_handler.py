@@ -6,6 +6,7 @@
 from __future__ import annotations
 import asyncio
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 import os
 from sys import exit
 
@@ -118,21 +119,10 @@ class ResourcesHandler:
         # initalize topological sorters
         self.sorter = init_topological_sorter(self.resources_manager.dependencies_graph)
 
-        async def run_sorter(self) -> None:
-            while self.sorter.is_active():
-                for _id in self.sorter.get_ready():
-                    if _id not in self.resources_manager.all_resources_to_type:
-                        # at this point, we already attempted to import missing resources
-                        # so mark the node as complete and continue
-                        self.sorter.done(_id)
-                        continue
-                    self.worker.work_queue.put_nowait((self.resources_manager.all_resources_to_type[_id], _id))
-                await asyncio.sleep(0)
-
+        loop = asyncio.get_event_loop()
         await self.worker.init_workers(self._apply_resource_worker, lambda: not self.sorter.is_active())
-        await self.worker.schedule_workers([run_sorter(self)])
+        await self.worker.schedule_workers([loop.run_in_executor(None, self.run_sorter)])
 
-        # await asyncio.gather(*tasks, return_exceptions=True)
         # successes = errors = 0
         # for task in tasks:
         #     try:
@@ -151,6 +141,16 @@ class ResourcesHandler:
         # dump synced resources
         synced_resource_types = set(self.resources_manager.all_resources_to_type.values())
         dump_resources(self.config, synced_resource_types, DESTINATION_ORIGIN)
+
+    def run_sorter(self):
+        while self.sorter.is_active():
+            for _id in self.sorter.get_ready():
+                if _id not in self.resources_manager.all_resources_to_type:
+                    # at this point, we already attempted to import missing resources
+                    # so mark the node as complete and continue
+                    self.sorter.done(_id)
+                    continue
+                self.worker.work_queue.put_nowait((self.resources_manager.all_resources_to_type[_id], _id))
 
     async def _apply_resource_worker(self, q_item: List) -> None:
         resource_type, _id = q_item

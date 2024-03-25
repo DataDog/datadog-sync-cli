@@ -42,6 +42,7 @@ class Workers:
         while not self._shutdown:
             try:
                 t = self.work_queue.get_nowait()
+                self.config.logger.info(f"Processing task: {t}")
                 await self._cb(t, *args, **kwargs)
                 await self.done_queue.put(t)
                 self.work_queue.task_done()
