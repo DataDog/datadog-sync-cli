@@ -17,7 +17,7 @@ class Workers:
         self.workers: List[Task] = []
         self.work_queue: Queue = Queue()
         self.done_queue: Queue = Queue()
-        self.shutdown: bool = False
+        self._shutdown: bool = False
         self._cb: Optional[Awaitable] = None
         self._cancel_cb: Callable = self.work_queue.empty
 
@@ -26,7 +26,7 @@ class Workers:
         self.workers = []
         self.work_queue = Queue()
         self.done_queue = Queue()
-        self.shutdown = False
+        self._shutdown = False
 
         self._cb = cb
         if cancel_cb:
@@ -39,7 +39,7 @@ class Workers:
         self.workers.append(self._cancel_worker())
 
     async def _worker(self, *args, **kwargs) -> None:
-        while not self.shutdown and not self.work_queue.empty():
+        while not self._shutdown:
             try:
                 t = self.work_queue.get_nowait()
                 await self._cb(t, *args, **kwargs)
@@ -54,9 +54,10 @@ class Workers:
     async def _cancel_worker(self) -> None:
         while True:
             if self._cancel_cb():
-                self.shutdown = True
+                self._shutdown = True
                 break
             await sleep(0.1)
 
     async def schedule_workers(self, additional_coros: List = []) -> Future:
+        self._shutdown = False
         return await gather(*self.workers, *additional_coros, return_exceptions=True)

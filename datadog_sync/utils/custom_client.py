@@ -23,35 +23,36 @@ def request_with_retry(func: Awaitable) -> Awaitable:
         default_backoff = 5
         retry_count = 0
         timeout = time.time() + args[0].retry_timeout
-        resp = None
+        err_text = None
 
         while retry and timeout > time.time():
-            try:
-                resp = await func(*args, **kwargs)
-                resp.raise_for_status()
-                retry = False
-            except aiohttp.ClientResponseError as e:
-                if e.status == 429 and "x-ratelimit-reset" in e.headers:
-                    try:
-                        sleep_duration = int(e.headers["x-ratelimit-reset"])
-                    except ValueError:
+            async with await func(*args, **kwargs) as resp:
+                err_text = await resp.text()
+                try:
+                    resp.raise_for_status()
+                    return await resp.json()
+                except aiohttp.ClientResponseError as e:
+                    if e.status == 429 and "x-ratelimit-reset" in e.headers:
+                        try:
+                            sleep_duration = int(e.headers["x-ratelimit-reset"])
+                        except ValueError:
+                            sleep_duration = retry_count * default_backoff
+                            retry_count += 1
+                        if (sleep_duration + time.time()) > timeout:
+                            log.debug("retry timeout has or will exceed timeout duration")
+                            raise CustomClientHTTPError(e, message=err_text)
+                        await asyncio.sleep(sleep_duration)
+                        continue
+                    elif e.status >= 500 or e.status == 429 or e.status == 403:
                         sleep_duration = retry_count * default_backoff
+                        if (sleep_duration + time.time()) > timeout:
+                            log.debug("retry timeout has or will exceed timeout duration")
+                            raise CustomClientHTTPError(e, message=err_text)
+                        await asyncio.sleep(retry_count * default_backoff)
                         retry_count += 1
-                    if (sleep_duration + time.time()) > timeout:
-                        log.debug("retry timeout has or will exceed timeout duration")
-                        raise CustomClientHTTPError(e)
-                    await asyncio.sleep(sleep_duration)
-                    continue
-                elif e.status >= 500 or e.status == 429 or e.status == 403:
-                    sleep_duration = retry_count * default_backoff
-                    if (sleep_duration + time.time()) > timeout:
-                        log.debug("retry timeout has or will exceed timeout duration")
-                        raise CustomClientHTTPError(e)
-                    await asyncio.sleep(retry_count * default_backoff)
-                    retry_count += 1
-                    continue
-                raise CustomClientHTTPError(e)
-        return await resp.json()
+                        continue
+                    raise CustomClientHTTPError(e, message=err_text)
+        raise Exception("retry timeout has reached. Last error: " + err_text)
 
     return wrapper
 
@@ -78,27 +79,27 @@ class CustomClient:
     @request_with_retry
     async def get(self, path, **kwargs):
         url = self.host + path
-        return await self.session.get(url, timeout=self.timeout, **kwargs)
+        return self.session.get(url, timeout=self.timeout, **kwargs)
 
     @request_with_retry
     async def post(self, path, body, **kwargs):
         url = self.host + path
-        return await self.session.post(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.post(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
     async def put(self, path, body, **kwargs):
         url = self.host + path
-        return await self.session.put(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.put(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
     async def patch(self, path, body, **kwargs):
         url = self.host + path
-        return await self.session.patch(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.patch(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
     async def delete(self, path, body=None, **kwargs):
         url = self.host + path
-        return await self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
 
     def paginated_request(self, func: Awaitable) -> Awaitable:
         async def wrapper(*args, **kwargs):

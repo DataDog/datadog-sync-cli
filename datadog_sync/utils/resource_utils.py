@@ -9,7 +9,6 @@ import re
 import json
 import logging
 from copy import deepcopy
-from concurrent.futures import ThreadPoolExecutor
 from graphlib import TopologicalSorter
 from dateutil.parser import parse
 
@@ -41,8 +40,8 @@ class ResourceConnectionError(Exception):
 
 
 class CustomClientHTTPError(Exception):
-    def __init__(self, response):
-        super().__init__(f"{response.status} {response.message}")
+    def __init__(self, response, message=None):
+        super().__init__(f"{response.status} {response.message} - {message}")
         self.status_code = response.status
 
 
@@ -92,7 +91,7 @@ class DowntimeSchedulesDateOperator(BaseOperator):
         return False
 
 
-def create_global_downtime(config: Configuration):
+async def create_global_downtime(config: Configuration):
     """Create global downtime"""
     payload = {
         "data": {
@@ -111,13 +110,13 @@ def create_global_downtime(config: Configuration):
     }
 
     try:
-        resp = config.destination_client.post(
+        resp = await config.destination_client.post(
             config.resources["downtime_schedules"].resource_config.base_path, payload
-        ).json()
+        )
         config.logger.info(f"Global downtime for datadog-sync-cli created successfully - {resp['data']['id']}")
     except CustomClientHTTPError as e:
         if e.status_code == 400 and "downtime being created is a duplicate" in str(e):
-            config.logger.info(f"Global downtime for datadog-sync-cli already exists: {str(e)}")
+            config.logger.info("Global downtime for datadog-sync-cli already exists")
         else:
             config.logger.error(f"Error creating global downtime for datadog-sync-cli: {str(e)}")
     except Exception as e:
@@ -232,10 +231,6 @@ def write_resources_file(resource_type: str, origin: str, resources: Any) -> Non
 
     with open(resource_path, "w") as f:
         json.dump(resources, f, indent=2)
-
-
-def thread_pool_executor(max_workers: Optional[int] = None) -> ThreadPoolExecutor:
-    return ThreadPoolExecutor(max_workers=max_workers)
 
 
 def init_topological_sorter(graph: Dict[str, Set[str]]) -> TopologicalSorter:

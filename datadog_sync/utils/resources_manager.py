@@ -5,7 +5,6 @@
 
 from __future__ import annotations
 from copy import deepcopy
-from asyncio import Queue
 from typing import TYPE_CHECKING, Dict, List, Set
 
 from datadog_sync.constants import FALSE
