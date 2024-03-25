@@ -32,7 +32,9 @@ class BaseResourcesTestClass:
         my_tmpdir = tmpdir_factory.mktemp("tmp")
         os.chdir(my_tmpdir)
 
-    def test_resource_import(self, runner):
+    def test_resource_import(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+
         ret = runner.invoke(
             cli, ["import", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
         )
@@ -56,7 +58,7 @@ class BaseResourcesTestClass:
         )
         assert 0 == ret.exit_code
 
-        num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(ret.output))
+        num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(caplog.text))
         assert num_resources_to_add == len(source_resources)
 
     def test_resource_sync(self, runner, caplog):
@@ -73,7 +75,7 @@ class BaseResourcesTestClass:
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     def test_resource_update_sync(self, runner, caplog):
-        caplog.set_level(logging.DEBUG)
+        # caplog.set_level(logging.DEBUG)
         source_resources, _ = open_resources(self.resource_type)
 
         # update fields and save the file.
