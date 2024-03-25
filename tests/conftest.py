@@ -13,7 +13,6 @@ from datetime import datetime
 from json.decoder import JSONDecodeError
 
 from datadog_sync.utils.configuration import Configuration
-from datadog_sync import constants
 from datadog_sync.utils.configuration import init_resources
 from datadog_sync.utils.custom_client import CustomClient
 
@@ -119,12 +118,11 @@ def vcr_config():
 
 @pytest.fixture(scope="module")
 def config():
-    max_workers = os.getenv(constants.MAX_WORKERS)
     custom_client = CustomClient(None, {"apiKeyAuth": "123", "appKeyAuth": "123"}, None, None)
 
     cfg = Configuration(
         logger=logging.getLogger(__name__),
-        max_workers=int(max_workers),
+        max_workers=50,
         source_client=custom_client,
         destination_client=custom_client,
         filters={},
