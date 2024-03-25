@@ -30,6 +30,7 @@ from datadog_sync.utils.resource_utils import (
     create_global_downtime,
     dump_resources,
     prep_resource,
+    thread_pool_executor,
     init_topological_sorter,
     write_resources_file,
 )
@@ -88,6 +89,7 @@ class ResourcesHandler:
 
     async def apply_resources(self) -> Tuple[int, int]:
         # Import resources that are missing but needed for resource connections
+        serial_executor = thread_pool_executor(1)
         tasks = []
         if self.config.force_missing_dependencies and not self.resources_manager.missing_resources_queue.empty():
             self.config.logger.info("importing missing dependencies")
@@ -173,6 +175,9 @@ class ResourcesHandler:
                 errors += 1
             else:
                 successes += 1
+
+        # shutdown executors
+        serial_executor.shutdown()
 
         # dump synced resources
         synced_resource_types = set(self.resources_manager.all_resources.values())
