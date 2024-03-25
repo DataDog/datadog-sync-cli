@@ -94,7 +94,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # Additional settings
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
-    max_workers = kwargs.get("max_workers", 10)
+    max_workers = kwargs.get("max_workers")
     create_global_downtime = kwargs.get("create_global_downtime")
     validate = kwargs.get("validate")
 

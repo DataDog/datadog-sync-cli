@@ -18,15 +18,14 @@ if TYPE_CHECKING:
 class ResourcesManager:
     def __init__(self, config: Configuration) -> None:
         self.config: Configuration = config
-        self.all_resources: Dict[str, str] = {}  # mapping of all resources to its resource_type
+        self.all_resources_to_type: Dict[str, str] = {}  # mapping of all resources to its resource_type
         self.all_cleanup_resources: Dict[str, str] = {}  # mapping of all resources to cleanup
         self.dependencies_graph: Dict[str, Set[str]] = {}  # dependency graph
         self.all_missing_resources: Dict[str, str] = {}  # mapping of all missing resources imported
-        self.missing_resources_queue: Queue = Queue()  # queue for missing resources
 
         for resource_type in config.resources_arg:
-            for _id, _ in config.resources[resource_type].resource_config.source_resources.items():
-                self.all_resources[_id] = resource_type
+            for _id, r in config.resources[resource_type].resource_config.source_resources.items():
+                self.all_resources_to_type[_id] = resource_type
                 # individual resource dependency graph
                 self.dependencies_graph[_id] = self._resource_connections(_id, resource_type)
 
@@ -63,7 +62,6 @@ class ResourcesManager:
                         # the resources are imported. Otherwise append to missing with its type.
                         for f_id in failed:
                             if f_id not in self.config.resources[resource_to_connect].resource_config.source_resources:
-                                self.missing_resources_queue.put_nowait((f_id, resource_to_connect))
                                 self.all_missing_resources[f_id] = resource_to_connect
 
                         failed_connections.extend(failed)
