@@ -6,7 +6,6 @@
 from __future__ import annotations
 import asyncio
 from collections import defaultdict
-from concurrent.futures import ThreadPoolExecutor
 import os
 from sys import exit
 
@@ -88,7 +87,7 @@ class ResourcesHandler:
         # Import resources that are missing but needed for resource connections
         if self.config.force_missing_dependencies and self.resources_manager.all_missing_resources:
             self.config.logger.info("Importing missing dependencies")
-            await self.worker.init_workers(self._force_missing_dep_import, None)
+            await self.worker.init_workers(self._force_missing_dep_import_cb, None)
             for _id, resource_type in self.resources_manager.all_missing_resources.items():
                 self.worker.work_queue.put_nowait((resource_type, _id))
             await self.worker.schedule_workers()
@@ -107,7 +106,7 @@ class ResourcesHandler:
                 dump_resources(self.config, self.resources_manager.all_cleanup_resources.values(), DESTINATION_ORIGIN)
 
         # Run pre-apply hooks
-        await self.worker.init_workers(self._pre_apply_hook_workers, None)
+        await self.worker.init_workers(self._pre_apply_hook_cb, None)
         for resource_type in set(self.resources_manager.all_resources_to_type.values()):
             self.worker.work_queue.put_nowait(resource_type)
         await self.worker.schedule_workers()
@@ -120,39 +119,14 @@ class ResourcesHandler:
         self.sorter = init_topological_sorter(self.resources_manager.dependencies_graph)
 
         loop = asyncio.get_event_loop()
-        await self.worker.init_workers(self._apply_resource_worker, lambda: not self.sorter.is_active())
+        await self.worker.init_workers(self._apply_resource_cb, lambda: not self.sorter.is_active())
         await self.worker.schedule_workers([loop.run_in_executor(None, self.run_sorter)])
-
-        # successes = errors = 0
-        # for task in tasks:
-        #     try:
-        #         task.result()
-        #     except ResourceConnectionError:
-        #         # This should already be handled in connect_resource method
-        #         continue
-        #     except LoggedException:
-        #         errors += 1
-        #     except Exception as e:
-        #         self.config.logger.error(str(e))
-        #         errors += 1
-        #     else:
-        #         successes += 1
 
         # dump synced resources
         synced_resource_types = set(self.resources_manager.all_resources_to_type.values())
         dump_resources(self.config, synced_resource_types, DESTINATION_ORIGIN)
 
-    def run_sorter(self):
-        while self.sorter.is_active():
-            for _id in self.sorter.get_ready():
-                if _id not in self.resources_manager.all_resources_to_type:
-                    # at this point, we already attempted to import missing resources
-                    # so mark the node as complete and continue
-                    self.sorter.done(_id)
-                    continue
-                self.worker.work_queue.put_nowait((self.resources_manager.all_resources_to_type[_id], _id))
-
-    async def _apply_resource_worker(self, q_item: List) -> None:
+    async def _apply_resource_cb(self, q_item: List) -> None:
         resource_type, _id = q_item
 
         r_class = self.config.resources[resource_type]
@@ -198,6 +172,12 @@ class ResourcesHandler:
 
                 self.config.logger.info(f"finished create for {resource_type} with {_id}")
 
+        except ResourceConnectionError:
+            pass
+        except LoggedException:
+            pass
+        except Exception as e:
+            self.config.logger.error(str(e))
         finally:
             # always place in done queue regardless of exception thrown
             self.sorter.done(_id)
@@ -206,20 +186,20 @@ class ResourcesHandler:
 
     async def diffs(self) -> None:
         # Run pre-apply hooks
-        await self.worker.init_workers(self._pre_apply_hook_workers, None)
+        await self.worker.init_workers(self._pre_apply_hook_cb, None)
         for resource_type in set(self.resources_manager.all_resources_to_type.values()):
             self.worker.work_queue.put_nowait(resource_type)
         await self.worker.schedule_workers()
 
         # Check diffs for individual resource items
-        await self.worker.init_workers(self._diffs_worker, None)
+        await self.worker.init_workers(self._diffs_worker_cb, None)
         for _id, resource_type in self.resources_manager.all_resources_to_type.items():
             self.worker.work_queue.put_nowait((resource_type, _id, False))
         for _id, resource_type in self.resources_manager.all_cleanup_resources.items():
             self.worker.work_queue.put_nowait((resource_type, _id, True))
         await self.worker.schedule_workers()
 
-    async def _diffs_worker(self, q_item: List) -> None:
+    async def _diffs_worker_cb(self, q_item: List) -> None:
         resource_type, _id, delete = q_item
         r_class = self.config.resources[resource_type]
 
@@ -257,7 +237,7 @@ class ResourcesHandler:
     async def import_resources(self) -> None:
         # Get all resources for each resource type
         tmp_storage = defaultdict(list)
-        await self.worker.init_workers(self._import_get_resources_helper, None, tmp_storage)
+        await self.worker.init_workers(self._import_get_resources_cb, None, tmp_storage)
         for resource_type in self.config.resources_arg:
             self.worker.work_queue.put_nowait(resource_type)
         await self.worker.schedule_workers()
@@ -272,7 +252,7 @@ class ResourcesHandler:
         # Dump resources
         dump_resources(self.config, set(self.config.resources_arg), SOURCE_ORIGIN)
 
-    async def _import_get_resources_helper(self, resource_type: str, tmp_storage) -> None:
+    async def _import_get_resources_cb(self, resource_type: str, tmp_storage) -> None:
         self.config.logger.info("Getting resources %s", resource_type)
 
         r_class = self.config.resources[resource_type]
@@ -299,7 +279,7 @@ class ResourcesHandler:
         except Exception as e:
             self.config.logger.error(f"Error while importing resource {resource_type}: {str(e)}")
 
-    async def _force_missing_dep_import(self, q_item: List):
+    async def _force_missing_dep_import_cb(self, q_item: List):
         resource_type, _id = q_item
         try:
             _id = await self.config.resources[resource_type]._import_resource(_id=_id)
@@ -317,11 +297,21 @@ class ResourcesHandler:
         self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
         await self.config.resources[resource_type]._delete_resource(_id)
 
-    async def _pre_apply_hook_workers(self, resource_type: str) -> None:
+    async def _pre_apply_hook_cb(self, resource_type: str) -> None:
         try:
             await self.config.resources[resource_type]._pre_apply_hook()
         except Exception as e:
             self.config.logger.warning(f"Error while running pre-apply hook: {str(e)}")
+
+    def run_sorter(self):
+        while self.sorter.is_active():
+            for _id in self.sorter.get_ready():
+                if _id not in self.resources_manager.all_resources_to_type:
+                    # at this point, we already attempted to import missing resources
+                    # so mark the node as complete and continue
+                    self.sorter.done(_id)
+                    continue
+                self.worker.work_queue.put_nowait((self.resources_manager.all_resources_to_type[_id], _id))
 
 
 def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool = True) -> bool:
