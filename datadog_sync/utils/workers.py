@@ -19,21 +19,26 @@ class Workers:
         self._shutdown: bool = False
         self._cb: Optional[Awaitable] = None
         self._cancel_cb: Callable = self.work_queue.empty
-        self.loop = get_event_loop()
 
-    async def init_workers(self, cb: Awaitable, cancel_cb: Optional[Callable] = None, *args, **kwargs) -> None:
+    async def init_workers(
+        self, cb: Awaitable, cancel_cb: Optional[Callable], worker_count: Optional[int], *args, **kwargs
+    ) -> None:
         # reset the worker
         self.workers = []
         self.work_queue = Queue()
         self._shutdown = False
 
+        max_workers = self.config.max_workers
+        if worker_count:
+            max_workers = min(worker_count, max_workers)
+
         self._cb = cb
         if cancel_cb:
             self._cancel_cb = cancel_cb
-        await self._create_workers(*args, **kwargs)
+        await self._create_workers(max_workers, *args, **kwargs)
 
-    async def _create_workers(self, *args, **kwargs):
-        for _ in range(self.config.max_workers):
+    async def _create_workers(self, max_workers: Optional[int], *args, **kwargs):
+        for _ in range(max_workers):
             self.workers.append(self._worker(*args, **kwargs))
         self.workers.append(self._cancel_worker())
         await sleep(0)
@@ -55,8 +60,9 @@ class Workers:
             await sleep(0)
 
     async def _cancel_worker(self) -> None:
+        loop = get_event_loop()
         while True:
-            if await self.loop.run_in_executor(None, self._cancel_cb):
+            if await loop.run_in_executor(None, self._cancel_cb):
                 self._shutdown = True
                 break
             await sleep(0)

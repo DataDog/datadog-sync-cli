@@ -87,7 +87,7 @@ class ResourcesHandler:
         # Import resources that are missing but needed for resource connections
         if self.config.force_missing_dependencies and self.resources_manager.all_missing_resources:
             self.config.logger.info("Importing missing dependencies")
-            await self.worker.init_workers(self._force_missing_dep_import_cb, None)
+            await self.worker.init_workers(self._force_missing_dep_import_cb, None, None)
             for _id, resource_type in self.resources_manager.all_missing_resources.items():
                 self.worker.work_queue.put_nowait((resource_type, _id))
             await self.worker.schedule_workers()
@@ -99,14 +99,15 @@ class ResourcesHandler:
         if self.config.cleanup != FALSE and self.resources_manager.all_cleanup_resources:
             cleanup = _cleanup_prompt(self.config, self.resources_manager.all_cleanup_resources)
             if cleanup:
-                await self.worker.init_workers(self._cleanup_worker, None)
+                await self.worker.init_workers(self._cleanup_worker, None, None)
                 for _id, resource_type in self.resources_manager.all_cleanup_resources.items():
                     self.worker.work_queue.put_nowait((resource_type, _id))
                 await self.worker.schedule_workers()
                 dump_resources(self.config, self.resources_manager.all_cleanup_resources.values(), DESTINATION_ORIGIN)
 
         # Run pre-apply hooks
-        await self.worker.init_workers(self._pre_apply_hook_cb, None)
+        resources = set(self.resources_manager.all_resources_to_type.values())
+        await self.worker.init_workers(self._pre_apply_hook_cb, None, len(resources))
         for resource_type in set(self.resources_manager.all_resources_to_type.values()):
             self.worker.work_queue.put_nowait(resource_type)
         await self.worker.schedule_workers()
@@ -117,7 +118,7 @@ class ResourcesHandler:
 
         # initalize topological sorters
         self.sorter = init_topological_sorter(self.resources_manager.dependencies_graph)
-        await self.worker.init_workers(self._apply_resource_cb, lambda: not self.sorter.is_active())
+        await self.worker.init_workers(self._apply_resource_cb, lambda: not self.sorter.is_active(), None)
         await self.worker.schedule_workers([self.run_sorter()])
 
         # dump synced resources
@@ -184,13 +185,14 @@ class ResourcesHandler:
 
     async def diffs(self) -> None:
         # Run pre-apply hooks
-        await self.worker.init_workers(self._pre_apply_hook_cb, None)
-        for resource_type in set(self.resources_manager.all_resources_to_type.values()):
+        resources = set(self.resources_manager.all_resources_to_type.values())
+        await self.worker.init_workers(self._pre_apply_hook_cb, None, len(resources))
+        for resource_type in resources:
             self.worker.work_queue.put_nowait(resource_type)
         await self.worker.schedule_workers()
 
         # Check diffs for individual resource items
-        await self.worker.init_workers(self._diffs_worker_cb, None)
+        await self.worker.init_workers(self._diffs_worker_cb, None, None)
         for _id, resource_type in self.resources_manager.all_resources_to_type.items():
             self.worker.work_queue.put_nowait((resource_type, _id, False))
         for _id, resource_type in self.resources_manager.all_cleanup_resources.items():
@@ -235,13 +237,14 @@ class ResourcesHandler:
     async def import_resources(self) -> None:
         # Get all resources for each resource type
         tmp_storage = defaultdict(list)
-        await self.worker.init_workers(self._import_get_resources_cb, None, tmp_storage)
-        for resource_type in self.config.resources_arg:
+        resources = self.config.resources_arg
+        await self.worker.init_workers(self._import_get_resources_cb, None, len(resources), tmp_storage)
+        for resource_type in resources:
             self.worker.work_queue.put_nowait(resource_type)
         await self.worker.schedule_workers()
 
         # Begin importing individual resource items
-        await self.worker.init_workers(self._import_resource, None)
+        await self.worker.init_workers(self._import_resource, None, None)
         for k, v in tmp_storage.items():
             for resource in v:
                 self.worker.work_queue.put_nowait((k, resource))
