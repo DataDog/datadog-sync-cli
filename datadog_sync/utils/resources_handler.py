@@ -293,7 +293,8 @@ class ResourcesHandler:
         for missing_id in missing_deps:
             self.worker.work_queue.put_nowait((self.resources_manager.all_missing_resources[missing_id], missing_id))
 
-    async def _cleanup_worker(self, _id: str, resource_type: str) -> None:
+    async def _cleanup_worker(self, q_item: List) -> None:
+        resource_type, _id = q_item
         self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
         await self.config.resources[resource_type]._delete_resource(_id)
 

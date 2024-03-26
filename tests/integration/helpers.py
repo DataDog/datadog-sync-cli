@@ -75,7 +75,7 @@ class BaseResourcesTestClass:
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
     def test_resource_update_sync(self, runner, caplog):
-        # caplog.set_level(logging.DEBUG)
+        caplog.set_level(logging.DEBUG)
         source_resources, _ = open_resources(self.resource_type)
 
         # update fields and save the file.
@@ -91,11 +91,12 @@ class BaseResourcesTestClass:
 
         save_source_resources(self.resource_type, source_resources)
 
+        caplog.clear()
         # assert diff is produced
         ret = runner.invoke(
             cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
         )
-        assert ret.output
+        assert caplog.text
         assert 0 == ret.exit_code
 
         # sync the updated resources

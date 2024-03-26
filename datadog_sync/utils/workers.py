@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from asyncio import Future, Queue, QueueEmpty, Task, gather, sleep
+from asyncio import Future, Queue, QueueEmpty, Task, gather, get_event_loop, sleep
 
 from typing import Awaitable, Callable, List, Optional
 
@@ -20,6 +20,7 @@ class Workers:
         self._shutdown: bool = False
         self._cb: Optional[Awaitable] = None
         self._cancel_cb: Callable = self.work_queue.empty
+        self.loop = get_event_loop()
 
     async def init_workers(self, cb: Awaitable, cancel_cb: Optional[Callable] = None, *args, **kwargs) -> None:
         # reset the worker
@@ -37,26 +38,26 @@ class Workers:
         for _ in range(self.config.max_workers):
             self.workers.append(self._worker(*args, **kwargs))
         self.workers.append(self._cancel_worker())
+        await sleep(0)
 
     async def _worker(self, *args, **kwargs) -> None:
-        while not self._shutdown:
+        while not self._shutdown or (self._shutdown and not self.work_queue.empty()):
             try:
                 t = self.work_queue.get_nowait()
                 await self._cb(t, *args, **kwargs)
                 await self.done_queue.put(t)
-                self.work_queue.task_done()
             except QueueEmpty:
-                await sleep(0)
+                pass
             except Exception as e:
                 self.config.logger.error(f"Error processing task: {e}")
-                await sleep(0)
+            await sleep(0)
 
     async def _cancel_worker(self) -> None:
         while True:
-            if self._cancel_cb():
+            if await self.loop.run_in_executor(None, self._cancel_cb):
                 self._shutdown = True
                 break
-            await sleep(0.1)
+            await sleep(0)
 
     async def schedule_workers(self, additional_coros: List = []) -> Future:
         self._shutdown = False
