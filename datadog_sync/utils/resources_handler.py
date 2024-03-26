@@ -117,10 +117,8 @@ class ResourcesHandler:
 
         # initalize topological sorters
         self.sorter = init_topological_sorter(self.resources_manager.dependencies_graph)
-
-        loop = asyncio.get_event_loop()
         await self.worker.init_workers(self._apply_resource_cb, lambda: not self.sorter.is_active())
-        await self.worker.schedule_workers([loop.run_in_executor(None, self.run_sorter)])
+        await self.worker.schedule_workers([self.run_sorter()])
 
         # dump synced resources
         synced_resource_types = set(self.resources_manager.all_resources_to_type.values())
@@ -129,16 +127,16 @@ class ResourcesHandler:
     async def _apply_resource_cb(self, q_item: List) -> None:
         resource_type, _id = q_item
 
-        r_class = self.config.resources[resource_type]
-        resource = r_class.resource_config.source_resources[_id]
-        if _id not in self.resources_manager.all_missing_resources:
-            if not r_class.filter(resource):
-                return
-
-        if not r_class.resource_config.concurrent:
-            await r_class.resource_config.async_lock.acquire()
-
         try:
+            r_class = self.config.resources[resource_type]
+            resource = r_class.resource_config.source_resources[_id]
+            if _id not in self.resources_manager.all_missing_resources:
+                if not r_class.filter(resource):
+                    return
+
+            if not r_class.resource_config.concurrent:
+                await r_class.resource_config.async_lock.acquire()
+
             # Run hooks
             await r_class._pre_resource_action_hook(_id, resource)
             r_class.connect_resources(_id, resource)
@@ -304,15 +302,17 @@ class ResourcesHandler:
         except Exception as e:
             self.config.logger.warning(f"Error while running pre-apply hook: {str(e)}")
 
-    def run_sorter(self):
-        while self.sorter.is_active():
+    async def run_sorter(self):
+        loop = asyncio.get_event_loop()
+        while await loop.run_in_executor(None, self.sorter.is_active):
             for _id in self.sorter.get_ready():
                 if _id not in self.resources_manager.all_resources_to_type:
                     # at this point, we already attempted to import missing resources
                     # so mark the node as complete and continue
                     self.sorter.done(_id)
                     continue
-                self.worker.work_queue.put_nowait((self.resources_manager.all_resources_to_type[_id], _id))
+                await self.worker.work_queue.put((self.resources_manager.all_resources_to_type[_id], _id))
+            await asyncio.sleep(0)
 
 
 def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool = True) -> bool:

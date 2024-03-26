@@ -27,6 +27,9 @@ try:
 except ImportError:
     pass
 
+# disable vcr logging
+for _ in ("vcr", "vcr.requests", "vcr.matcher"):
+    logging.getLogger(_).setLevel(logging.CRITICAL)
 
 PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")
 HEADERS_TO_PERSISTS = ("Accept-Encoding", "Content-Type")

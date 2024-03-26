@@ -16,7 +16,6 @@ class Workers:
         self.config: Configuration = config
         self.workers: List[Task] = []
         self.work_queue: Queue = Queue()
-        self.done_queue: Queue = Queue()
         self._shutdown: bool = False
         self._cb: Optional[Awaitable] = None
         self._cancel_cb: Callable = self.work_queue.empty
@@ -26,7 +25,6 @@ class Workers:
         # reset the worker
         self.workers = []
         self.work_queue = Queue()
-        self.done_queue = Queue()
         self._shutdown = False
 
         self._cb = cb
@@ -44,8 +42,12 @@ class Workers:
         while not self._shutdown or (self._shutdown and not self.work_queue.empty()):
             try:
                 t = self.work_queue.get_nowait()
-                await self._cb(t, *args, **kwargs)
-                await self.done_queue.put(t)
+                try:
+                    await self._cb(t, *args, **kwargs)
+                except Exception as e:
+                    self.config.logger.error(f"Error processing task: {e}")
+                finally:
+                    self.work_queue.task_done()
             except QueueEmpty:
                 pass
             except Exception as e:

@@ -87,7 +87,7 @@ class RestrictionPolicies(BaseResource):
                 raise e
 
         if not resource["data"]["attributes"]["bindings"]:
-            raise SkipResource(_id, self.resource_type, "Resource does not have any bindings.")
+            raise SkipResource(import_id, self.resource_type, "Resource does not have any bindings.")
 
         return import_id, resource["data"]
 
