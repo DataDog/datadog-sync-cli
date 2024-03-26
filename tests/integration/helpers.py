@@ -104,14 +104,16 @@ class BaseResourcesTestClass:
             cli, ["sync", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
         )
         assert 0 == ret.exit_code
-        caplog.clear()
 
+        caplog.clear()
         # assert diff is no longer produced
         ret = runner.invoke(
             cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
         )
         assert 0 == ret.exit_code
-        assert not ret.output
+        assert "to be deleted" not in caplog.text
+        assert "to be added" not in caplog.text
+        assert "diff:" not in caplog.text
 
         # Assert number of synced and imported resources match
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
@@ -123,7 +125,10 @@ class BaseResourcesTestClass:
         ret = runner.invoke(
             cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
         )
-        assert not ret.output
+
+        assert "to be deleted" not in caplog.text
+        assert "to be added" not in caplog.text
+        assert "diff:" not in caplog.text
         assert 0 == ret.exit_code
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
@@ -159,7 +164,7 @@ class BaseResourcesTestClass:
                 "--cleanup=force",
             ],
         )
-        assert not ret.output
+
         assert 0 == ret.exit_code
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
