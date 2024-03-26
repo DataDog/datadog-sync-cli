@@ -32,7 +32,9 @@ class BaseResourcesTestClass:
         my_tmpdir = tmpdir_factory.mktemp("tmp")
         os.chdir(my_tmpdir)
 
-    def test_resource_import(self, runner):
+    def test_resource_import(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+
         ret = runner.invoke(
             cli, ["import", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
         )
@@ -56,7 +58,7 @@ class BaseResourcesTestClass:
         )
         assert 0 == ret.exit_code
 
-        num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(ret.output))
+        num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(caplog.text))
         assert num_resources_to_add == len(source_resources)
 
     def test_resource_sync(self, runner, caplog):
@@ -89,11 +91,12 @@ class BaseResourcesTestClass:
 
         save_source_resources(self.resource_type, source_resources)
 
+        caplog.clear()
         # assert diff is produced
         ret = runner.invoke(
             cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
         )
-        assert ret.output
+        assert caplog.text
         assert 0 == ret.exit_code
 
         # sync the updated resources
@@ -101,14 +104,16 @@ class BaseResourcesTestClass:
             cli, ["sync", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
         )
         assert 0 == ret.exit_code
-        caplog.clear()
 
+        caplog.clear()
         # assert diff is no longer produced
         ret = runner.invoke(
             cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
         )
         assert 0 == ret.exit_code
-        assert not ret.output
+        assert "to be deleted" not in caplog.text
+        assert "to be added" not in caplog.text
+        assert "diff:" not in caplog.text
 
         # Assert number of synced and imported resources match
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
@@ -120,7 +125,10 @@ class BaseResourcesTestClass:
         ret = runner.invoke(
             cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
         )
-        assert not ret.output
+
+        assert "to be deleted" not in caplog.text
+        assert "to be added" not in caplog.text
+        assert "diff:" not in caplog.text
         assert 0 == ret.exit_code
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
@@ -156,7 +164,7 @@ class BaseResourcesTestClass:
                 "--cleanup=force",
             ],
         )
-        assert not ret.output
+
         assert 0 == ret.exit_code
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))

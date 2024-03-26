@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+import logging
 import shutil
 import os
 
@@ -37,18 +38,22 @@ class TestCli:
         my_tmpdir = tmpdir_factory.mktemp("tmp")
         os.chdir(my_tmpdir)
 
-    def test_import(self, runner):
+    def test_import(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
         # Import
         ret = runner.invoke(cli, ["import", "--validate=false", f"--resources={self.resources}"])
         assert 0 == ret.exit_code
 
+        caplog.clear()
         # Check diff
         ret = runner.invoke(cli, ["diffs", "--validate=false", "--skip-failed-resource-connections=False"])
         # assert diffs are produced
-        assert ret.output
+        assert caplog.text
         assert 0 == ret.exit_code
 
-    def test_sync(self, runner):
+    def test_sync(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+
         #  Sync
         ret = runner.invoke(
             cli,
@@ -60,6 +65,8 @@ class TestCli:
             ],
         )
         assert 0 == ret.exit_code
+
+        caplog.clear()
         # Check diff
         ret = runner.invoke(
             cli,
@@ -71,10 +78,15 @@ class TestCli:
             ],
         )
         # assert no diffs are produced
-        assert not ret.output
+        assert "to be deleted" not in caplog.text
+        assert "to be added" not in caplog.text
+        assert "diff:" not in caplog.text
+
         assert 0 == ret.exit_code
 
-    def test_cleanup(self, runner):
+    def test_cleanup(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+
         # Remove current source resources
         shutil.rmtree("resources/source", ignore_errors=True)
 
@@ -118,9 +130,10 @@ class TestCli:
                     "--skip-failed-resource-connections=False",
                 ],
             )
-        assert not ret.output
+
         assert 0 == ret.exit_code
 
+        caplog.clear()
         # Check diff
         ret = runner.invoke(
             cli,
@@ -132,5 +145,8 @@ class TestCli:
             ],
         )
         # assert no diffs are produced
-        assert not ret.output
+        assert "to be deleted" not in caplog.text
+        assert "to be added" not in caplog.text
+        assert "diff:" not in caplog.text
+
         assert 0 == ret.exit_code

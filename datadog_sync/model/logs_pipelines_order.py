@@ -30,32 +30,32 @@ class LogsPipelinesOrder(BaseResource):
     destination_pipeline_order: Dict[str, Dict] = dict()
     default_id: str = "logs-pipeline-order"
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path).json()
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.get(self.resource_config.base_path)
 
         return [resp]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = source_client.get(self.resource_config.base_path).json()
+            resource = await source_client.get(self.resource_config.base_path)
 
         return self.default_id, resource
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self) -> None:
-        self.destination_pipeline_order = self.get_destination_pipeline_order()
+    async def pre_apply_hook(self) -> None:
+        self.destination_pipeline_order = await self.get_destination_pipeline_order()
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if not self.destination_pipeline_order:
             raise Exception("Failed to retrieve destination orgs logs pipeline order")
 
         self.resource_config.destination_resources[_id] = self.destination_pipeline_order
-        return self.update_resource(_id, resource)
+        return await self.update_resource(_id, resource)
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_resources = self.destination_pipeline_order or self.resource_config.destination_resources[_id]
         ids_to_omit = set(resource["pipeline_ids"]) - set(destination_resources["pipeline_ids"])
 
@@ -67,18 +67,18 @@ class LogsPipelinesOrder(BaseResource):
         resource["pipeline_ids"] = resource["pipeline_ids"] + extra_ids_to_include
 
         destination_client = self.config.destination_client
-        resp = destination_client.put(self.resource_config.base_path, resource).json()
+        resp = await destination_client.put(self.resource_config.base_path, resource)
 
         return _id, resp
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         self.config.logger.warning("logs_pipeline_order cannot deleted. Removing resource from config only.")
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(LogsPipelinesOrder, self).connect_id(key, r_obj, resource_to_connect)
 
-    def get_destination_pipeline_order(self):
+    async def get_destination_pipeline_order(self):
         destination_client = self.config.destination_client
-        resp = self.get_resources(destination_client)
+        resp = await self.get_resources(destination_client)
 
         return resp[0]

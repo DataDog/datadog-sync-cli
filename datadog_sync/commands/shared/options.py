@@ -125,6 +125,7 @@ _common_options = [
     option(
         "--max-workers",
         envvar=constants.MAX_WORKERS,
+        default=50,
         required=False,
         type=int,
         help="Max number of workers when running operations in multi-threads.",

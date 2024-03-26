@@ -9,7 +9,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/slo/2d2d092c28ff5b22a26238f7d74a5bae?force=True
+    uri: https://api.datadoghq.eu/api/v1/slo/2d2d092c28ff5b22a26238f7d74a5bae?force=true
   response:
     body:
       string: '{"data": ["2d2d092c28ff5b22a26238f7d74a5bae"], "error": null}'
