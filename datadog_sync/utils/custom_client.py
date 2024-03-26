@@ -37,11 +37,11 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                             sleep_duration = int(e.headers["x-ratelimit-reset"])
                         except ValueError:
                             sleep_duration = retry_count * default_backoff
-                            retry_count += 1
                         if (sleep_duration + time.time()) > timeout:
                             log.debug("retry timeout has or will exceed timeout duration")
                             raise CustomClientHTTPError(e, message=err_text)
                         await asyncio.sleep(sleep_duration)
+                        retry_count += 1
                         continue
                     elif e.status >= 500 or e.status == 429 or e.status == 403:
                         sleep_duration = retry_count * default_backoff
