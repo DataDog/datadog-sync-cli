@@ -256,11 +256,10 @@ class ResourcesHandler:
         try:
             get_resp = await r_class._get_resources(self.config.source_client)
             self.worker.counter.increment_success()
+            tmp_storage[resource_type] = get_resp
         except Exception as e:
             self.config.logger.error(f"Error while getting resources {resource_type}: {str(e)}")
             self.worker.counter.increment_failure()
-
-        tmp_storage[resource_type] = get_resp
 
     async def _import_resource(self, q_item: List) -> None:
         resource_type, resource = q_item

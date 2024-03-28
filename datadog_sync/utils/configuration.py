@@ -55,9 +55,17 @@ class Configuration(object):
         # For sync/diffs we validate the destination client.
         if self.validate:
             if cmd in [Command.SYNC, Command.DIFFS]:
-                await _validate_client(self.destination_client)
+                try:
+                    await _validate_client(self.destination_client)
+                except Exception:
+                    await self._exit_cleanup()
+                    exit(1)
             if cmd == Command.IMPORT:
-                await _validate_client(self.source_client)
+                try:
+                    await _validate_client(self.source_client)
+                except Exception:
+                    await self._exit_cleanup()
+                    exit(1)
             self.logger.info("clients validated successfully")
 
     async def _exit_cleanup(self):
@@ -79,16 +87,19 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # Initialize the datadog API Clients based on cmd
     retry_timeout = kwargs.get("http_client_retry_timeout")
     timeout = kwargs.get("http_client_timeout")
-    source_auth = {
-        "apiKeyAuth": kwargs.get("source_api_key", ""),
-        "appKeyAuth": kwargs.get("source_app_key", ""),
-    }
+
+    source_auth = {}
+    if k := kwargs.get("source_api_key"):
+        source_auth["apiKeyAuth"] = k
+    if k := kwargs.get("source_app_key"):
+        source_auth["appKeyAuth"] = k
     source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout)
 
-    destination_auth = {
-        "apiKeyAuth": kwargs.get("destination_api_key", ""),
-        "appKeyAuth": kwargs.get("destination_app_key", ""),
-    }
+    destination_auth = {}
+    if k := kwargs.get("destination_api_key"):
+        destination_auth["apiKeyAuth"] = k
+    if k := kwargs.get("destination_app_key"):
+        destination_auth["appKeyAuth"] = k
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout)
 
     # Additional settings
@@ -175,10 +186,10 @@ async def _validate_client(client: CustomClient) -> None:
         await client.get(VALIDATE_ENDPOINT)
     except CustomClientHTTPError as e:
         logger.error(f"invalid api key: {e}")
-        exit(1)
+        raise e
     except Exception as e:
         logger.error(f"error while validating api key: {e}")
-        exit(1)
+        raise e
 
 
 def _handle_deprecated(config: Configuration, resources_arg_passed: bool):

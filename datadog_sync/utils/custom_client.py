@@ -43,7 +43,7 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                         await asyncio.sleep(sleep_duration)
                         retry_count += 1
                         continue
-                    elif e.status >= 500 or e.status == 429 or e.status == 403:
+                    elif e.status >= 500 or e.status == 429:
                         sleep_duration = retry_count * default_backoff
                         if (sleep_duration + time.time()) > timeout:
                             log.debug("retry timeout has or will exceed timeout duration")
@@ -141,8 +141,8 @@ class CustomClient:
 
 def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
     headers = {
-        "DD-API-KEY": auth_obj["apiKeyAuth"],
-        "DD-APPLICATION-KEY": auth_obj["appKeyAuth"],
+        "DD-API-KEY": auth_obj.get("apiKeyAuth", ""),
+        "DD-APPLICATION-KEY": auth_obj.get("appKeyAuth", ""),
         "Content-Type": "application/json",
         "User-Agent": _get_user_agent(),
     }
