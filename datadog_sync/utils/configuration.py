@@ -209,6 +209,7 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication."
             )
+            config._exit_cleanup()
             exit(1)
 
         if Downtimes.resource_type in config.resources_arg:
@@ -218,6 +219,7 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
                 "`downtimes` and `downtime_schedules` resource should not"
                 + " be used together as it will cause duplication."
             )
+            config._exit_cleanup()
             exit(1)
 
     else:
