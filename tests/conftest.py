@@ -125,7 +125,7 @@ def config():
 
     cfg = Configuration(
         logger=logging.getLogger(__name__),
-        max_workers=50,
+        max_workers=100,
         source_client=custom_client,
         destination_client=custom_client,
         filters={},
