@@ -85,7 +85,7 @@ class ResourcesHandler:
     async def apply_resources(self) -> Tuple[int, int]:
         # Import resources that are missing but needed for resource connections
         if self.config.force_missing_dependencies and self.resources_manager.all_missing_resources:
-            self.config.logger.info("Importing missing dependencies")
+            self.config.logger.info("Importing missing dependencies...")
             await self.worker.init_workers(self._force_missing_dep_import_cb, None, None)
             for _id, resource_type in self.resources_manager.all_missing_resources.items():
                 self.worker.work_queue.put_nowait((resource_type, _id))
@@ -98,10 +98,12 @@ class ResourcesHandler:
         if self.config.cleanup != FALSE and self.resources_manager.all_cleanup_resources:
             cleanup = _cleanup_prompt(self.config, self.resources_manager.all_cleanup_resources)
             if cleanup:
+                self.config.logger.info("Cleaning up resources...")
                 await self.worker.init_workers(self._cleanup_worker, None, None)
                 for _id, resource_type in self.resources_manager.all_cleanup_resources.items():
                     self.worker.work_queue.put_nowait((resource_type, _id))
                 await self.worker.schedule_workers()
+                self.config.logger.info("finished cleaning up resources")
                 dump_resources(self.config, self.resources_manager.all_cleanup_resources.values(), DESTINATION_ORIGIN)
 
         # Run pre-apply hooks
@@ -296,7 +298,12 @@ class ResourcesHandler:
     async def _cleanup_worker(self, q_item: List) -> None:
         resource_type, _id = q_item
         self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
-        await self.config.resources[resource_type]._delete_resource(_id)
+        try:
+            await self.config.resources[resource_type]._delete_resource(_id)
+            self.worker.counter.increment_success()
+        except Exception as e:
+            self.config.logger.error(f"error deleting resource {resource_type} with id {_id}: {str(e)}")
+            self.worker.counter.increment_failure()
 
     async def _pre_apply_hook_cb(self, resource_type: str) -> None:
         try:
