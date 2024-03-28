@@ -6,6 +6,7 @@
 from __future__ import annotations
 from asyncio import Future, Queue, QueueEmpty, Task, gather, get_event_loop, sleep
 
+from dataclasses import dataclass
 from typing import Awaitable, Callable, List, Optional
 
 from datadog_sync.utils.configuration import Configuration
@@ -16,6 +17,7 @@ class Workers:
         self.config: Configuration = config
         self.workers: List[Task] = []
         self.work_queue: Queue = Queue()
+        self.counter: Counter = Counter()
         self._shutdown: bool = False
         self._cb: Optional[Awaitable] = None
         self._cancel_cb: Callable = self.work_queue.empty
@@ -27,6 +29,7 @@ class Workers:
         self.workers = []
         self.work_queue = Queue()
         self._shutdown = False
+        self.counter.reset_counter()
 
         max_workers = self.config.max_workers
         if worker_count:
@@ -70,3 +73,29 @@ class Workers:
     async def schedule_workers(self, additional_coros: List = []) -> Future:
         self._shutdown = False
         return await gather(*self.workers, *additional_coros, return_exceptions=True)
+
+
+@dataclass
+class Counter:
+    successes: int = 0
+    failure: int = 0
+    skipped: int = 0
+    filtered: int = 0
+
+    def __str__(self):
+        return f"Successes: {self.successes} Failures: {self.failure} Skipped: {self.skipped} Filtered: {self.filtered}"
+
+    def reset_counter(self) -> None:
+        self.successes = self.failure = self.skipped = 0
+
+    def increment_success(self) -> None:
+        self.successes += 1
+
+    def increment_failure(self) -> None:
+        self.failure += 1
+
+    def increment_skipped(self) -> None:
+        self.skipped += 1
+
+    def increment_filtered(self) -> None:
+        self.filtered += 1

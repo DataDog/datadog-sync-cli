@@ -120,6 +120,7 @@ class ResourcesHandler:
         self.sorter = init_topological_sorter(self.resources_manager.dependencies_graph)
         await self.worker.init_workers(self._apply_resource_cb, lambda: not self.sorter.is_active(), None)
         await self.worker.schedule_workers([self.run_sorter()])
+        self.config.logger.info(f"Finished syncing resource items. {self.worker.counter}.")
 
         # dump synced resources
         synced_resource_types = set(self.resources_manager.all_resources_to_type.values())
@@ -133,6 +134,7 @@ class ResourcesHandler:
             resource = r_class.resource_config.source_resources[_id]
             if _id not in self.resources_manager.all_missing_resources:
                 if not r_class.filter(resource):
+                    self.worker.counter.increment_filtered()
                     return
 
             if not r_class.resource_config.concurrent:
@@ -170,12 +172,13 @@ class ResourcesHandler:
                     raise LoggedException(e)
 
                 self.config.logger.info(f"finished create for {resource_type} with {_id}")
-
+            self.worker.counter.increment_success()
         except ResourceConnectionError:
-            pass
+            self.worker.counter.increment_skipped()
         except LoggedException:
-            pass
+            self.worker.counter.increment_failure()
         except Exception as e:
+            self.worker.counter.increment_failure()
             self.config.logger.error(str(e))
         finally:
             # always place in done queue regardless of exception thrown
@@ -242,13 +245,16 @@ class ResourcesHandler:
         for resource_type in resources:
             self.worker.work_queue.put_nowait(resource_type)
         await self.worker.schedule_workers()
+        self.config.logger.info(f"Finished getting resources. {self.worker.counter}")
 
         # Begin importing individual resource items
+        self.config.logger.info("Importing individual resource items")
         await self.worker.init_workers(self._import_resource, None, None)
         for k, v in tmp_storage.items():
             for resource in v:
                 self.worker.work_queue.put_nowait((k, resource))
         await self.worker.schedule_workers()
+        self.config.logger.info(f"Finished importng individual resource items. {self.worker.counter}.")
 
         # Dump resources
         dump_resources(self.config, set(self.config.resources_arg), SOURCE_ORIGIN)
@@ -261,8 +267,10 @@ class ResourcesHandler:
 
         try:
             get_resp = await r_class._get_resources(self.config.source_client)
+            self.worker.counter.increment_success()
         except Exception as e:
-            self.config.logger.error(f"Error while importing resources {resource_type}: {str(e)}")
+            self.config.logger.error(f"Error while getting resources {resource_type}: {str(e)}")
+            self.worker.counter.increment_failure()
 
         tmp_storage[resource_type] = get_resp
 
@@ -271,13 +279,17 @@ class ResourcesHandler:
         r_class = self.config.resources[resource_type]
 
         if not r_class.filter(resource):
+            self.worker.counter.increment_filtered()
             return
 
         try:
             await r_class._import_resource(resource=resource)
+            self.worker.counter.increment_success()
         except SkipResource as e:
+            self.worker.counter.increment_skipped()
             self.config.logger.debug(str(e))
         except Exception as e:
+            self.worker.counter.increment_failure()
             self.config.logger.error(f"Error while importing resource {resource_type}: {str(e)}")
 
     async def _force_missing_dep_import_cb(self, q_item: List):
