@@ -24,7 +24,6 @@ from datadog_sync.utils.resources_manager import ResourcesManager
 from datadog_sync.constants import TRUE, FALSE, FORCE
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
-    LoggedException,
     ResourceConnectionError,
     SkipResource,
     check_diff,
@@ -150,33 +149,22 @@ class ResourcesHandler:
                     self.config.logger.info(f"Running update for {resource_type} with {_id}")
 
                     prep_resource(r_class.resource_config, resource)
-                    try:
-                        await r_class._update_resource(_id, resource)
-                    except Exception as e:
-                        self.config.logger.error(
-                            f"Error while updating resource {resource_type}. source ID: {_id} -  Error: {str(e)}"
-                        )
-                        raise LoggedException(e)
+                    await r_class._update_resource(_id, resource)
 
                     self.config.logger.info(f"Finished update for {resource_type} with {_id}")
             else:
-                self.config.logger.info(f"Running create for {resource_type} with {_id}")
+                self.config.logger.info(f"Running create for {resource_type} with id: {_id}")
 
                 prep_resource(r_class.resource_config, resource)
-                try:
-                    await r_class._create_resource(_id, resource)
-                except Exception as e:
-                    self.config.logger.error(
-                        f"Error while creating resource {resource_type}. source ID: {_id} - Error: {str(e)}"
-                    )
-                    raise LoggedException(e)
+                await r_class._create_resource(_id, resource)
 
-                self.config.logger.info(f"finished create for {resource_type} with {_id}")
+                self.config.logger.info(f"finished create for {resource_type} with id: {_id}")
             self.worker.counter.increment_success()
+        except SkipResource as e:
+            self.config.logger.info(str(e))
+            self.worker.counter.increment_skipped()
         except ResourceConnectionError:
             self.worker.counter.increment_skipped()
-        except LoggedException:
-            self.worker.counter.increment_failure()
         except Exception as e:
             self.worker.counter.increment_failure()
             self.config.logger.error(str(e))

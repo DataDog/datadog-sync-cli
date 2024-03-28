@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -49,7 +50,9 @@ class LogsPipelines(BaseResource):
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if resource["is_read_only"]:
             if resource["name"] not in self.destination_integration_pipelines:
-                raise Exception(
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
                     "integration pipelines cannot be created only updated. "
                     + f"Skipping sync. Enable integration pipeline {resource['name']}",
                 )

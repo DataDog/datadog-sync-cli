@@ -45,10 +45,6 @@ class CustomClientHTTPError(Exception):
         self.status_code = response.status
 
 
-class LoggedException(Exception):
-    """Raise this when an error was already logged."""
-
-
 class LogsPipelinesOrderIdsComparator(BaseOperator):
     def match(self, level):
         if "pipeline_ids" in level.t1 and "pipeline_ids" in level.t2:

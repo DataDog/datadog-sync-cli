@@ -14,7 +14,6 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
     DEFAULT_TAGS,
     CustomClientHTTPError,
-    LoggedException,
     open_resources,
     find_attr,
     ResourceConnectionError,
@@ -153,10 +152,7 @@ class BaseResource(abc.ABC):
                 self.resource_config.destination_resources.pop(_id, None)
                 return None
 
-            self.config.logger.error(
-                f"Error while deleting resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
-            )
-            raise LoggedException(e)
+            raise e
 
         self.resource_config.destination_resources.pop(_id, None)
 
