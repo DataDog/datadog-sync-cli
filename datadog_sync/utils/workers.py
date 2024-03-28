@@ -83,7 +83,9 @@ class Counter:
     filtered: int = 0
 
     def __str__(self):
-        return f"Successes: {self.successes} Failures: {self.failure} Skipped: {self.skipped} Filtered: {self.filtered}"
+        return (
+            f"Successes: {self.successes}, Failures: {self.failure}, Skipped: {self.skipped}, Filtered: {self.filtered}"
+        )
 
     def reset_counter(self) -> None:
         self.successes = self.failure = self.skipped = 0
