@@ -7,6 +7,7 @@ from __future__ import annotations
 from asyncio import Future, Queue, QueueEmpty, Task, gather, get_event_loop, sleep
 
 from dataclasses import dataclass
+from traceback import format_exc
 from typing import Awaitable, Callable, List, Optional
 
 from datadog_sync.utils.configuration import Configuration
@@ -53,12 +54,14 @@ class Workers:
                 try:
                     await self._cb(t, *args, **kwargs)
                 except Exception as e:
+                    self.config.logger.debug(format_exc())
                     self.config.logger.error(f"Error processing task: {e}")
                 finally:
                     self.work_queue.task_done()
             except QueueEmpty:
                 pass
             except Exception as e:
+                self.config.logger.debug(format_exc())
                 self.config.logger.error(f"Error processing task: {e}")
             await sleep(0)
 
