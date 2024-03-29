@@ -70,9 +70,6 @@ class Workers:
             except Exception as e:
                 self.config.logger.debug(format_exc())
                 self.config.logger.error(f"Error processing task: {e}")
-            finally:
-                if self.pbar:
-                    self.pbar.refresh(nolock=True)
             await sleep(0)
 
     async def _cancel_worker(self) -> None:
@@ -81,6 +78,8 @@ class Workers:
             if await loop.run_in_executor(None, self._cancel_cb):
                 self._shutdown = True
                 break
+            if self.pbar:
+                await loop.run_in_executor(None, self.pbar.refresh)
             await sleep(0)
 
     async def schedule_workers(self, additional_coros: List = []) -> Future:
