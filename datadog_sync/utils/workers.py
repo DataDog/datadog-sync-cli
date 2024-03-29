@@ -72,7 +72,7 @@ class Workers:
                 self.config.logger.error(f"Error processing task: {e}")
             finally:
                 if self.pbar:
-                    self.pbar.refresh()
+                    self.pbar.refresh(nolock=True)
             await sleep(0)
 
     async def _cancel_worker(self) -> None:
