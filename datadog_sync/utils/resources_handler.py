@@ -117,10 +117,11 @@ class ResourcesHandler:
         if self.config.create_global_downtime:
             await create_global_downtime(self.config)
 
+        total = len(self.resources_manager.all_resources_to_type.keys())
         # initalize topological sorters
         self.sorter = init_topological_sorter(self.resources_manager.dependencies_graph)
         await self.worker.init_workers(self._apply_resource_cb, lambda: not self.sorter.is_active(), None)
-        await self.worker.schedule_workers([self.run_sorter()])
+        await self.worker.schedule_workers_with_pbar(total=total, additional_coros=[self.run_sorter()])
         self.config.logger.info(f"Finished syncing resource items. {self.worker.counter}.")
 
         # dump synced resources
@@ -240,10 +241,12 @@ class ResourcesHandler:
         # Begin importing individual resource items
         self.config.logger.info("Importing individual resource items")
         await self.worker.init_workers(self._import_resource, None, None)
+        total = 0
         for k, v in tmp_storage.items():
+            total += len(v)
             for resource in v:
                 self.worker.work_queue.put_nowait((k, resource))
-        await self.worker.schedule_workers()
+        await self.worker.schedule_workers_with_pbar(total=total)
         self.config.logger.info(f"Finished importng individual resource items. {self.worker.counter}.")
 
         # Dump resources
