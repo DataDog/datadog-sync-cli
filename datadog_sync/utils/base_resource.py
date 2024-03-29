@@ -195,10 +195,10 @@ class BaseResource(abc.ABC):
             e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
             if self.config.skip_failed_resource_connections:
                 e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
-                self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
+                self.config.logger.debug(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
                 raise e
             else:
-                self.config.logger.warning(f"{self.resource_type} with ID: {_id}. {str(e)}")
+                self.config.logger.debug(f"{self.resource_type} with ID: {_id}. {str(e)}")
 
     def filter(self, resource: Dict) -> bool:
         if not self.config.filters or self.resource_type not in self.config.filters:

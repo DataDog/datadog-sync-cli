@@ -149,19 +149,19 @@ class ResourcesHandler:
             if _id in r_class.resource_config.destination_resources:
                 diff = check_diff(r_class.resource_config, resource, r_class.resource_config.destination_resources[_id])
                 if diff:
-                    self.config.logger.info(f"Running update for {resource_type} with {_id}")
+                    self.config.logger.debug(f"Running update for {resource_type} with {_id}")
 
                     prep_resource(r_class.resource_config, resource)
                     await r_class._update_resource(_id, resource)
 
-                    self.config.logger.info(f"Finished update for {resource_type} with {_id}")
+                    self.config.logger.debug(f"Finished update for {resource_type} with {_id}")
             else:
-                self.config.logger.info(f"Running create for {resource_type} with id: {_id}")
+                self.config.logger.debug(f"Running create for {resource_type} with id: {_id}")
 
                 prep_resource(r_class.resource_config, resource)
                 await r_class._create_resource(_id, resource)
 
-                self.config.logger.info(f"finished create for {resource_type} with id: {_id}")
+                self.config.logger.debug(f"finished create for {resource_type} with id: {_id}")
             self.worker.counter.increment_success()
         except SkipResource as e:
             self.config.logger.info(str(e))
@@ -253,7 +253,7 @@ class ResourcesHandler:
         dump_resources(self.config, set(self.config.resources_arg), SOURCE_ORIGIN)
 
     async def _import_get_resources_cb(self, resource_type: str, tmp_storage) -> None:
-        self.config.logger.info("Getting resources %s", resource_type)
+        self.config.logger.info("Getting resources for %s", resource_type)
 
         r_class = self.config.resources[resource_type]
         r_class.resource_config.source_resources.clear()
@@ -289,7 +289,7 @@ class ResourcesHandler:
         try:
             _id = await self.config.resources[resource_type]._import_resource(_id=_id)
         except CustomClientHTTPError as e:
-            self.config.logger.error(f"error importing {resource_type} with id {_id}: {str(e)}")
+            self.config.logger.error(f"error importing dependency {resource_type} with id {_id}: {str(e)}")
             return
 
         self.resources_manager.all_resources_to_type[_id] = resource_type
