@@ -30,7 +30,10 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                 err_text = await resp.text()
                 try:
                     resp.raise_for_status()
-                    return await resp.json()
+                    try:
+                        return await resp.json()
+                    except aiohttp.ContentTypeError:
+                        return await resp.text()
                 except aiohttp.ClientResponseError as e:
                     if e.status == 429 and "x-ratelimit-reset" in e.headers:
                         try:
