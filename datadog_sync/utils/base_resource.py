@@ -195,7 +195,7 @@ class BaseResource(abc.ABC):
             e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
             if self.config.skip_failed_resource_connections:
                 e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
-                self.config.logger.debug(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
+                self.config.logger.info(f"Skipping resource: {self.resource_type} with ID: {_id}. {str(e)}")
                 raise e
             else:
                 self.config.logger.debug(f"{self.resource_type} with ID: {_id}. {str(e)}")
