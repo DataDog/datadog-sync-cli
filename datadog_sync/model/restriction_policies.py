@@ -82,7 +82,7 @@ class RestrictionPolicies(BaseResource):
             resource = await source_client.get(self.resource_config.base_path + f"/{import_id}")
         except CustomClientHTTPError as e:
             if e.status_code == 404:
-                raise SkipResource(_id, self.resource_type, "Resource does not exist.")
+                raise SkipResource(import_id, self.resource_type, "Resource does not exist.")
             else:
                 raise e
 

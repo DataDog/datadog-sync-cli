@@ -37,7 +37,7 @@ class SLOCorrections(BaseResource):
         resource = cast(dict, resource)
         if resource["attributes"].get("end", False):
             if (round(datetime.now().timestamp()) - int(resource["attributes"]["end"])) / 86400 > 90:
-                raise SkipResource(_id, self.resource_type, "End time is older than 90 days.")
+                raise SkipResource(resource["id"], self.resource_type, "End time is older than 90 days.")
 
         return resource["id"], resource
 

@@ -51,7 +51,7 @@ class Users(BaseResource):
 
         resource = cast(dict, resource)
         if resource["attributes"]["disabled"]:
-            raise SkipResource(_id, self.resource_type, "User is disabled.")
+            raise SkipResource(resource["id"], self.resource_type, "User is disabled.")
 
         return resource["id"], resource
 

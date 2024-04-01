@@ -45,7 +45,7 @@ class SyntheticsPrivateLocations(BaseResource):
         import_id = _id or resource["id"]
 
         if not self.pl_id_regex.match(import_id):
-            raise SkipResource(_id, self.resource_type, "Managed location.")
+            raise SkipResource(import_id, self.resource_type, "Managed location.")
 
         pl = await source_client.get(self.resource_config.base_path + f"/{import_id}")
         self.resource_config.source_resources[import_id] = pl
