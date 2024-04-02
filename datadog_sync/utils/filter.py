@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 import logging
-from re import match
+from re import Pattern, DOTALL, compile
 
 from datadog_sync.constants import LOGGER_NAME
 from typing import Dict, List
@@ -24,7 +24,7 @@ log = logging.getLogger(LOGGER_NAME)
 
 
 class Filter:
-    def __init__(self, resource_type: str, attr_name: str, attr_re: str, operator: str):
+    def __init__(self, resource_type: str, attr_name: str, attr_re: Pattern, operator: str):
         self.resource_type = resource_type
         self.attr_name = attr_name.split(".")
         self.attr_re = attr_re
@@ -58,13 +58,13 @@ class Filter:
 
     def _is_match(self, value):
         if isinstance(value, list):
-            return len(list(filter(lambda attr: match(self.attr_re, str(attr)), value))) > 0
+            return len(list(filter(lambda attr: self.attr_re.match(str(attr)), value))) > 0
 
         if isinstance(value, bool):
             # Match json bool [true, false]
-            return match(self.attr_re, str(value).lower()) is not None
+            return self.attr_re.match(str(value).lower()) is not None
 
-        return match(self.attr_re, str(value)) is not None
+        return self.attr_re.match(str(value)) is not None
 
 
 def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
@@ -109,6 +109,13 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
         # Build and assign regex matcher to VALUE key for the deprecated Operators
         if f_dict[FILTER_OPERATOR_KEY].lower() in [SUBSTRING_OPERATOR, EXACT_MATCH_OPERATOR]:
             handle_deprecated_operator(f_dict)
+
+        try:
+            # Compile regex for the filter
+            f_dict[FILTER_VALUE_KEY] = compile(f_dict[FILTER_VALUE_KEY], flags=DOTALL)
+        except Exception:
+            log.warning("invalid regex value for filter: %s", _filter)
+            continue
 
         f_instance = Filter(
             f_dict[FILTER_TYPE_KEY].lower(),
