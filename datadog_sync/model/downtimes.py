@@ -54,10 +54,10 @@ class Downtimes(BaseResource):
 
         resource = cast(dict, resource)
         if resource["canceled"]:
-            raise SkipResource(_id, self.resource_type, "Downtime is canceled.")
+            raise SkipResource(resource["id"], self.resource_type, "Downtime is canceled.")
         # Dispose the recurring child downtimes and only retain the parent
         if resource["recurrence"] and resource["parent_id"]:
-            raise SkipResource(_id, self.resource_type, "Parent downtime is used for recurring downtimes.")
+            raise SkipResource(resource["id"], self.resource_type, "Parent downtime is used for recurring downtimes.")
 
         return str(resource["id"]), resource
 

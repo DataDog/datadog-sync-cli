@@ -47,7 +47,7 @@ class DowntimeSchedules(BaseResource):
             resource = await source_client.get(self.resource_config.base_path + f"/{_id}")
 
         if resource["attributes"].get("canceled"):
-            raise SkipResource(_id, self.resource_type, "Downtime is canceled.")
+            raise SkipResource(resource["id"], self.resource_type, "Downtime is canceled.")
 
         return str(resource["id"]), resource
 

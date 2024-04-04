@@ -34,7 +34,7 @@ class LogsCustomPipelines(BaseResource):
 
         resource = cast(dict, resource)
         if resource["is_read_only"]:
-            raise SkipResource(_id, self.resource_type, "Logs integration pipeline is read only.")
+            raise SkipResource(resource["id"], self.resource_type, "Logs integration pipeline is read only.")
 
         return resource["id"], resource
 
