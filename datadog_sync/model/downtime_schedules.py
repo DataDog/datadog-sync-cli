@@ -36,22 +36,22 @@ class DowntimeSchedules(BaseResource):
     )
     # Additional DowntimeSchedules specific attributes
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path).json()
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.get(self.resource_config.base_path)
 
         return resp.get("data", [])
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
+            resource = await source_client.get(self.resource_config.base_path + f"/{_id}")
 
         if resource["attributes"].get("canceled"):
-            raise SkipResource(_id, self.resource_type, "Downtime is canceled.")
+            raise SkipResource(resource["id"], self.resource_type, "Downtime is canceled.")
 
         return str(resource["id"]), resource
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.resource_config.destination_resources:
             schedule = resource["attributes"].get("schedule")
             if schedule and "start" in schedule:
@@ -81,30 +81,30 @@ class DowntimeSchedules(BaseResource):
                     if start_source.timestamp() < start_created.timestamp():
                         one_time_source["end"] = one_time_created["end"]
 
-    def pre_apply_hook(self) -> None:
+    async def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         payload = {"data": resource}
-        resp = destination_client.post(self.resource_config.base_path, payload).json()
+        resp = await destination_client.post(self.resource_config.base_path, payload)
 
         return _id, resp["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource["id"] = self.resource_config.destination_resources[_id]["id"]
         payload = {"data": resource}
-        resp = destination_client.patch(
+        resp = await destination_client.patch(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
             payload,
-        ).json()
+        )
 
         return _id, resp["data"]
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        destination_client.delete(
+        await destination_client.delete(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 

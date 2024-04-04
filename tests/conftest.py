@@ -13,7 +13,6 @@ from datetime import datetime
 from json.decoder import JSONDecodeError
 
 from datadog_sync.utils.configuration import Configuration
-from datadog_sync import constants
 from datadog_sync.utils.configuration import init_resources
 from datadog_sync.utils.custom_client import CustomClient
 
@@ -28,6 +27,9 @@ try:
 except ImportError:
     pass
 
+# disable vcr logging
+for _ in ("vcr", "vcr.requests", "vcr.matcher"):
+    logging.getLogger(_).setLevel(logging.CRITICAL)
 
 PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")
 HEADERS_TO_PERSISTS = ("Accept-Encoding", "Content-Type")
@@ -119,12 +121,11 @@ def vcr_config():
 
 @pytest.fixture(scope="module")
 def config():
-    max_workers = os.getenv(constants.MAX_WORKERS)
     custom_client = CustomClient(None, {"apiKeyAuth": "123", "appKeyAuth": "123"}, None, None)
 
     cfg = Configuration(
         logger=logging.getLogger(__name__),
-        max_workers=int(max_workers),
+        max_workers=100,
         source_client=custom_client,
         destination_client=custom_client,
         filters={},
@@ -133,6 +134,7 @@ def config():
         skip_failed_resource_connections=True,
         cleanup=False,
         create_global_downtime=False,
+        validate=False,
     )
 
     resources = init_resources(cfg)

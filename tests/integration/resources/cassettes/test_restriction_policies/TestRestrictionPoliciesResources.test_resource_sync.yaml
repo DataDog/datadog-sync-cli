@@ -4000,7 +4000,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=100
+    uri: https://api.datadoghq.eu/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=500
   response:
     body:
       string: '{"data": [{"type": "users", "id": "dc00e597-9e99-11ee-aa09-5628ff9a83db",

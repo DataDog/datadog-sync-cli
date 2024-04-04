@@ -3,6 +3,8 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from enum import Enum
+
 # Environment variables
 DD_SOURCE_API_URL = "DD_SOURCE_API_URL"
 DD_SOURCE_API_KEY = "DD_SOURCE_API_KEY"
@@ -31,12 +33,14 @@ SOURCE_ORIGIN = "source"
 DESTINATION_ORIGIN = "destination"
 VALIDATE_ENDPOINT = "/api/v1/validate"
 
-# Commands
-CMD_IMPORT = "import"
-CMD_SYNC = "sync"
-CMD_DIFFS = "diffs"
-
 # Bool constants
 FALSE = 0
 TRUE = 1
 FORCE = 2
+
+
+# Commands
+class Command(Enum):
+    IMPORT = "import"
+    SYNC = "sync"
+    DIFFS = "diffs"

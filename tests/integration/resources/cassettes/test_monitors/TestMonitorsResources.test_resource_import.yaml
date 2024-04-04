@@ -9,7 +9,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/monitor?page=0&page_size=100
+    uri: https://api.datadoghq.com/api/v1/monitor?page=0&page_size=1000
   response:
     body:
       string: '[{"id": 36230659, "org_id": 569509, "type": "query alert", "name":

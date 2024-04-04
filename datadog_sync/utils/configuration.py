@@ -20,9 +20,7 @@ from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import Filter, process_filters
 from datadog_sync.constants import (
-    CMD_DIFFS,
-    CMD_IMPORT,
-    CMD_SYNC,
+    Command,
     FALSE,
     FORCE,
     LOGGER_NAME,
@@ -45,11 +43,37 @@ class Configuration(object):
     max_workers: int
     cleanup: int
     create_global_downtime: bool
+    validate: bool
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
 
+    async def _init(self, cmd: Command):
+        await self.source_client._init_session()
+        await self.destination_client._init_session()
 
-def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
+        # Validate the clients. For import we only validate the source client
+        # For sync/diffs we validate the destination client.
+        if self.validate:
+            if cmd in [Command.SYNC, Command.DIFFS]:
+                try:
+                    await _validate_client(self.destination_client)
+                except Exception:
+                    await self._exit_cleanup()
+                    exit(1)
+            if cmd == Command.IMPORT:
+                try:
+                    await _validate_client(self.source_client)
+                except Exception:
+                    await self._exit_cleanup()
+                    exit(1)
+            self.logger.info("clients validated successfully")
+
+    async def _exit_cleanup(self):
+        await self.source_client._end_session()
+        await self.destination_client._end_session()
+
+
+def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # configure logger
     logger = Log(kwargs.get("verbose"))
 
@@ -63,33 +87,27 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
     # Initialize the datadog API Clients based on cmd
     retry_timeout = kwargs.get("http_client_retry_timeout")
     timeout = kwargs.get("http_client_timeout")
-    source_auth = {
-        "apiKeyAuth": kwargs.get("source_api_key", ""),
-        "appKeyAuth": kwargs.get("source_app_key", ""),
-    }
+
+    source_auth = {}
+    if k := kwargs.get("source_api_key"):
+        source_auth["apiKeyAuth"] = k
+    if k := kwargs.get("source_app_key"):
+        source_auth["appKeyAuth"] = k
     source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout)
 
-    destination_auth = {
-        "apiKeyAuth": kwargs.get("destination_api_key", ""),
-        "appKeyAuth": kwargs.get("destination_app_key", ""),
-    }
+    destination_auth = {}
+    if k := kwargs.get("destination_api_key"):
+        destination_auth["apiKeyAuth"] = k
+    if k := kwargs.get("destination_app_key"):
+        destination_auth["appKeyAuth"] = k
     destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout)
-
-    # Validate the clients. For import we only validate the source client
-    # For sync/diffs we validate the destination client.
-    validate = kwargs.get("validate")
-    if validate:
-        if cmd in [CMD_SYNC, CMD_DIFFS]:
-            _validate_client(destination_client)
-        if cmd == CMD_IMPORT:
-            _validate_client(source_client)
-        logger.info("clients validated successfully")
 
     # Additional settings
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
-    max_workers = kwargs.get("max_workers", 10)
+    max_workers = kwargs.get("max_workers")
     create_global_downtime = kwargs.get("create_global_downtime")
+    validate = kwargs.get("validate")
 
     cleanup = kwargs.get("cleanup")
     if cleanup:
@@ -111,6 +129,7 @@ def build_config(cmd: str, **kwargs: Optional[Any]) -> Configuration:
         max_workers=max_workers,
         cleanup=cleanup,
         create_global_downtime=create_global_downtime,
+        validate=validate,
     )
 
     # Initialize resources
@@ -161,16 +180,16 @@ def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
     return resources
 
 
-def _validate_client(client: CustomClient) -> None:
+async def _validate_client(client: CustomClient) -> None:
     logger = logging.getLogger(LOGGER_NAME)
     try:
-        client.get(VALIDATE_ENDPOINT).json()
+        await client.get(VALIDATE_ENDPOINT)
     except CustomClientHTTPError as e:
         logger.error(f"invalid api key: {e}")
-        exit(1)
+        raise e
     except Exception as e:
         logger.error(f"error while validating api key: {e}")
-        exit(1)
+        raise e
 
 
 def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
@@ -190,6 +209,7 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication."
             )
+            config._exit_cleanup()
             exit(1)
 
         if Downtimes.resource_type in config.resources_arg:
@@ -199,6 +219,7 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
                 "`downtimes` and `downtime_schedules` resource should not"
                 + " be used together as it will cause duplication."
             )
+            config._exit_cleanup()
             exit(1)
 
     else:
