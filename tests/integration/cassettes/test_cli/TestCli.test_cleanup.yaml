@@ -2298,7 +2298,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219226?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219226?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219226}'
@@ -2316,7 +2316,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219224?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219224?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219224}'
@@ -2334,7 +2334,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219221?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219221?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219221}'
@@ -2352,7 +2352,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219225?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219225?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219225}'
@@ -2370,7 +2370,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219232?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219232?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219232}'
@@ -2388,7 +2388,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219219?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219219?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219219}'
@@ -2406,7 +2406,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219223?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219223?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219223}'
@@ -2424,7 +2424,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219222?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219222?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219222}'
@@ -2442,7 +2442,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219220?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219220?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219220}'
@@ -2460,7 +2460,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219231?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219231?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219231}'
@@ -2478,7 +2478,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/monitor/15219230?force=True
+    uri: https://api.datadoghq.eu/api/v1/monitor/15219230?force=true
   response:
     body:
       string: '{"deleted_monitor_id": 15219230}'
@@ -2550,7 +2550,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/slo/c7e334250f005fe9996905cc4d8f0151?force=True
+    uri: https://api.datadoghq.eu/api/v1/slo/c7e334250f005fe9996905cc4d8f0151?force=true
   response:
     body:
       string: '{"data": ["c7e334250f005fe9996905cc4d8f0151"], "error": null}'
@@ -2568,7 +2568,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/slo/f750e9c9158e52d4a43fa9c047fdb51b?force=True
+    uri: https://api.datadoghq.eu/api/v1/slo/f750e9c9158e52d4a43fa9c047fdb51b?force=true
   response:
     body:
       string: '{"data": ["f750e9c9158e52d4a43fa9c047fdb51b"], "error": null}'
@@ -2586,7 +2586,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/slo/5a9b0fcf285753e3a277a6e68ee97f21?force=True
+    uri: https://api.datadoghq.eu/api/v1/slo/5a9b0fcf285753e3a277a6e68ee97f21?force=true
   response:
     body:
       string: '{"data": ["5a9b0fcf285753e3a277a6e68ee97f21"], "error": null}'

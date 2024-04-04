@@ -25,14 +25,15 @@ class LogsIndexes(BaseResource):
     # Additional LogsIndexes specific attributes
     destination_logs_indexes: Dict[str, Dict] = dict()
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.get(self.resource_config.base_path).json()
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.get(self.resource_config.base_path)
+
         return resp["indexes"]
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()
+            resource = await source_client.get(self.resource_config.base_path + f"/{_id}")
 
         resource = cast(dict, resource)
         if not resource.get("daily_limit"):
@@ -40,32 +41,32 @@ class LogsIndexes(BaseResource):
 
         return resource["name"], resource
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self) -> None:
-        self.destination_logs_indexes = self.get_destination_logs_indexes()
+    async def pre_apply_hook(self) -> None:
+        self.destination_logs_indexes = await self.get_destination_logs_indexes()
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if _id in self.destination_logs_indexes:
             self.resource_config.destination_resources[_id] = self.destination_logs_indexes[_id]
-            return self.update_resource(_id, resource)
+            return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
-        resp = destination_client.post(self.resource_config.base_path, resource).json()
+        resp = destination_client.post(self.resource_config.base_path, resource)
         if not resp.get("daily_limit"):
             resp["disable_daily_limit"] = True
 
         return _id, resp
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         # Can't update name so remove it
         resource.pop("name")
-        resp = destination_client.put(
+        resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['name']}",
             resource,
-        ).json()
+        )
 
         self.resource_config.destination_resources[_id].update(resp)
         if not self.resource_config.destination_resources[_id].get("daily_limit"):
@@ -75,17 +76,17 @@ class LogsIndexes(BaseResource):
 
         return _id, self.resource_config.destination_resources[_id]
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         raise Exception("logs index deletion is not supported")
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         pass
 
-    def get_destination_logs_indexes(self) -> Dict[str, Dict]:
+    async def get_destination_logs_indexes(self) -> Dict[str, Dict]:
         destination_global_variable_obj = {}
         destination_client = self.config.destination_client
 
-        resp = self.get_resources(destination_client)
+        resp = await self.get_resources(destination_client)
         for variable in resp:
             destination_global_variable_obj[variable["name"]] = variable
 

@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 import abc
+from asyncio import Lock
 from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, ClassVar, Optional, Dict, List, Tuple
@@ -13,7 +14,6 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
     DEFAULT_TAGS,
     CustomClientHTTPError,
-    LoggedException,
     open_resources,
     find_attr,
     ResourceConnectionError,
@@ -61,9 +61,12 @@ class ResourceConfig:
     destination_resources: dict = field(default_factory=dict)
     deep_diff_config: dict = field(default_factory=lambda: {"ignore_order": True})
     tagging_config: Optional[TaggingConfig] = None
+    async_lock: Optional[Lock] = None
 
     def __post_init__(self) -> None:
         self.build_excluded_attributes()
+        if not self.concurrent:
+            self.async_lock = Lock()
 
     def build_excluded_attributes(self) -> None:
         if self.excluded_attributes:
@@ -82,19 +85,19 @@ class BaseResource(abc.ABC):
         )
 
     @abc.abstractmethod
-    def get_resources(self, client: CustomClient) -> List[Dict]:
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
         pass
 
-    def _get_resources(self, client: CustomClient) -> List[Dict]:
+    async def _get_resources(self, client: CustomClient) -> List[Dict]:
         r = self.get_resources(client)
-        return r
+        return await r
 
     @abc.abstractmethod
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         pass
 
-    def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> str:
-        _id, r = self.import_resource(_id, resource)
+    async def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> str:
+        _id, r = await self.import_resource(_id, resource)
 
         if self.resource_config.tagging_config is not None:
             try:
@@ -108,51 +111,48 @@ class BaseResource(abc.ABC):
         return str(_id)
 
     @abc.abstractmethod
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def _pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        return self.pre_resource_action_hook(_id, resource)
+    async def _pre_resource_action_hook(self, _id, resource: Dict) -> None:
+        return await self.pre_resource_action_hook(_id, resource)
 
     @abc.abstractmethod
-    def pre_apply_hook(self) -> None:
+    async def pre_apply_hook(self) -> None:
         pass
 
-    def _pre_apply_hook(self) -> None:
-        return self.pre_apply_hook()
+    async def _pre_apply_hook(self) -> None:
+        return await self.pre_apply_hook()
 
     @abc.abstractmethod
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         pass
 
-    def _create_resource(self, _id: str, resource: Dict) -> None:
-        _id, r = self.create_resource(_id, resource)
+    async def _create_resource(self, _id: str, resource: Dict) -> None:
+        _id, r = await self.create_resource(_id, resource)
         self.resource_config.destination_resources[_id] = r
 
     @abc.abstractmethod
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         pass
 
-    def _update_resource(self, _id: str, resource: Dict) -> None:
-        _id, r = self.update_resource(_id, resource)
+    async def _update_resource(self, _id: str, resource: Dict) -> None:
+        _id, r = await self.update_resource(_id, resource)
         self.resource_config.destination_resources[_id] = r
 
     @abc.abstractmethod
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         pass
 
-    def _delete_resource(self, _id: str) -> None:
+    async def _delete_resource(self, _id: str) -> None:
         try:
-            self.delete_resource(_id)
+            await self.delete_resource(_id)
         except CustomClientHTTPError as e:
             if e.status_code == 404:
                 self.resource_config.destination_resources.pop(_id, None)
                 return None
 
-            self.config.logger.error(
-                f"Error while deleting resource {self.resource_type}. source ID: {_id} - Error: {str(e)}"
-            )
-            raise LoggedException(e)
+            raise e
 
         self.resource_config.destination_resources.pop(_id, None)
 

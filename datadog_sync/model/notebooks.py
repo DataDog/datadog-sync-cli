@@ -34,51 +34,51 @@ class Notebooks(BaseResource):
         page_number_func=lambda idx, page_size, page_number: page_size * (idx + 1),
     )
 
-    def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = client.paginated_request(client.get)(
-            self.resource_config.base_path, params={"include_cells": True}, pagination_config=self.pagination_config
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        resp = await client.paginated_request(client.get)(
+            self.resource_config.base_path, params={"include_cells": "true"}, pagination_config=self.pagination_config
         )
 
         return resp
 
-    def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = source_client.get(self.resource_config.base_path + f"/{_id}").json()["data"]
+            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
 
         resource = cast(dict, resource)
         self.handle_special_case_attr(resource)
 
         return resource["id"], resource
 
-    def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+    async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    def pre_apply_hook(self) -> None:
+    async def pre_apply_hook(self) -> None:
         pass
 
-    def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         payload = {"data": resource}
-        resp = destination_client.post(self.resource_config.base_path, payload).json()
+        resp = await destination_client.post(self.resource_config.base_path, payload)
         self.handle_special_case_attr(resp["data"])
 
         return _id, resp["data"]
 
-    def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         payload = {"data": resource}
-        resp = destination_client.put(
+        resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
             payload,
-        ).json()
+        )
         self.handle_special_case_attr(resp["data"])
 
         return _id, resp["data"]
 
-    def delete_resource(self, _id: str) -> None:
+    async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        destination_client.delete(
+        await destination_client.delete(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
         )
 
