@@ -10,6 +10,9 @@ from dataclasses import dataclass
 from traceback import format_exc
 from typing import Awaitable, Callable, List, Optional
 
+from tqdm.asyncio import tqdm
+from tqdm.contrib.logging import logging_redirect_tqdm
+
 from datadog_sync.utils.configuration import Configuration
 
 
@@ -22,6 +25,7 @@ class Workers:
         self._shutdown: bool = False
         self._cb: Optional[Awaitable] = None
         self._cancel_cb: Callable = self.work_queue.empty
+        self.pbar: Optional[tqdm] = None
 
     async def init_workers(
         self, cb: Awaitable, cancel_cb: Optional[Callable], worker_count: Optional[int], *args, **kwargs
@@ -30,6 +34,7 @@ class Workers:
         self.workers = []
         self.work_queue = Queue()
         self._shutdown = False
+        self.pbar = None
         self.counter.reset_counter()
 
         max_workers = self.config.max_workers
@@ -58,6 +63,8 @@ class Workers:
                     self.config.logger.error(f"Error processing task: {e}")
                 finally:
                     self.work_queue.task_done()
+                    if self.pbar:
+                        self.pbar.update()
             except QueueEmpty:
                 pass
             except Exception as e:
@@ -71,11 +78,23 @@ class Workers:
             if await loop.run_in_executor(None, self._cancel_cb):
                 self._shutdown = True
                 break
+            if self.pbar:
+                await loop.run_in_executor(None, self.pbar.refresh)
             await sleep(0)
 
     async def schedule_workers(self, additional_coros: List = []) -> Future:
         self._shutdown = False
         return await gather(*self.workers, *additional_coros, return_exceptions=True)
+
+    async def schedule_workers_with_pbar(self, total, additional_coros: List = []) -> Future:
+        self.pbar = tqdm(total=total)
+
+        self._shutdown = False
+        with logging_redirect_tqdm():
+            await self.schedule_workers(additional_coros)
+
+        self.pbar.close()
+        self.pbar = None
 
 
 @dataclass
