@@ -286,6 +286,17 @@ def test_invalid_filter(caplog, _filter):
 
 
 @pytest.mark.parametrize(
+    "_filter",
+    [
+        (["Type=r_test;Name=attr;Value=*exists"]),
+    ],
+)
+def test_invalid_regex_filter(caplog, _filter):
+    process_filters(_filter)
+    assert "invalid regex" in caplog.text
+
+
+@pytest.mark.parametrize(
     "_filter, r_type, r_obj, expected",
     [
         (
