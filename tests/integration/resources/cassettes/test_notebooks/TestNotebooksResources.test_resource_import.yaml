@@ -9,7 +9,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/notebooks?count=100&include_cells=true&start=0
+    uri: https://api.datadoghq.com/api/v1/notebooks?count=500&include_cells=true&start=0
   response:
     body:
       string: '{"meta": {"page": {"total_filtered_count": 5, "total_count": 5}}, "data":

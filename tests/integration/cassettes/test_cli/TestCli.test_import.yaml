@@ -1586,7 +1586,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=100
+    uri: https://api.datadoghq.com/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=500
   response:
     body:
       string: '{"data": [{"type": "users", "id": "0dd23ab8-984f-11ee-a259-160bb50d121a",
@@ -2683,7 +2683,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/monitor?page=0&page_size=100
+    uri: https://api.datadoghq.com/api/v1/monitor?page=0&page_size=1000
   response:
     body:
       string: '[{"id": 36230659, "org_id": 569509, "type": "query alert", "name":

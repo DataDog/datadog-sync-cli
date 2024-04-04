@@ -27,6 +27,7 @@ class Notebooks(BaseResource):
     )
     # Additional Notebooks specific attributes
     pagination_config = PaginationConfig(
+        page_size=500,
         page_size_param="count",
         page_number_param="start",
         remaining_func=lambda idx, resp, page_size, page_number: (resp["meta"]["page"]["total_count"])

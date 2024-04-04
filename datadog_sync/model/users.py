@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import PaginationConfig
 from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource, check_diff
 
 if TYPE_CHECKING:
@@ -34,11 +35,16 @@ class Users(BaseResource):
         ],
     )
     # Additional Users specific attributes
+    pagination_config = PaginationConfig(
+        page_size=500,
+    )
     roles_path: str = "/api/v2/roles/{}/users"
     remote_destination_users: Dict[str, Dict] = dict()
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = await client.paginated_request(client.get)(self.resource_config.base_path)
+        resp = await client.paginated_request(client.get)(
+            self.resource_config.base_path, pagination_config=self.pagination_config
+        )
 
         return resp
 

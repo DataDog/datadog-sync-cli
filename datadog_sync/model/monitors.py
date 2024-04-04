@@ -40,7 +40,7 @@ class Monitors(BaseResource):
     )
     # Additional Monitors specific attributes
     pagination_config = PaginationConfig(
-        page_size=100,
+        page_size=1000,
         page_number_param="page",
         page_size_param="page_size",
         remaining_func=lambda *args: 1,
