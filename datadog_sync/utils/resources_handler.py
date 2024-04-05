@@ -235,7 +235,7 @@ class ResourcesHandler:
         await self.worker.init_workers(self._import_get_resources_cb, None, len(resources), tmp_storage)
         for resource_type in resources:
             self.worker.work_queue.put_nowait(resource_type)
-        await self.worker.schedule_workers()
+        await self.worker.schedule_workers_with_pbar(total=len(resources))
         self.config.logger.info(f"Finished getting resources. {self.worker.counter}")
 
         # Begin importing individual resource items
