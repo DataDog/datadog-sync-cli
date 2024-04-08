@@ -77,7 +77,7 @@ class Workers:
             await sleep(0)
 
     async def _reset(self):
-        self.workers = []
+        self.workers.clear()
         self.work_queue = Queue()
         self.counter.reset_counter()
         self._shutdown = False
