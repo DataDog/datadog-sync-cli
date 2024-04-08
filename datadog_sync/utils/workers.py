@@ -30,12 +30,7 @@ class Workers:
     async def init_workers(
         self, cb: Awaitable, cancel_cb: Optional[Callable], worker_count: Optional[int], *args, **kwargs
     ) -> None:
-        # reset the worker
-        self.workers = []
-        self.work_queue = Queue()
-        self._shutdown = False
-        self.pbar = None
-        self.counter.reset_counter()
+        await self._reset()
 
         max_workers = self.config.max_workers
         if worker_count:
@@ -50,7 +45,6 @@ class Workers:
         for _ in range(max_workers):
             self.workers.append(self._worker(*args, **kwargs))
         self.workers.append(self._cancel_worker())
-        await sleep(0)
 
     async def _worker(self, *args, **kwargs) -> None:
         while not self._shutdown or (self._shutdown and not self.work_queue.empty()):
@@ -81,6 +75,13 @@ class Workers:
             if self.pbar:
                 await loop.run_in_executor(None, self.pbar.refresh)
             await sleep(0)
+
+    async def _reset(self):
+        self.workers.clear()
+        self.work_queue = Queue()
+        self.counter.reset_counter()
+        self._shutdown = False
+        self.pbar = None
 
     async def schedule_workers(self, additional_coros: List = []) -> Future:
         self._shutdown = False
