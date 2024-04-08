@@ -117,6 +117,7 @@ class CustomClient:
             kwargs["params"] = kwargs.get("params", {}) or {}
             idx = 0
             while remaining > 0:
+                log.debug(f"fetching {args[0]} page_number: {page_number}, page_size: {page_size}")
                 params = {
                     pagination_config.page_size_param: page_size,
                     pagination_config.page_number_param: page_number,
