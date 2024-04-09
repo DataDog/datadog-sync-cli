@@ -23,9 +23,9 @@ class Workers:
         self.work_queue: Queue = Queue()
         self.counter: Counter = Counter()
         self.pbar: Optional[tqdm] = None
-        self._workers_up_count: int = 0
+        self._running_workers_count: int = 0
         self._loop: AbstractEventLoop = get_event_loop()
-        self._shutdown: bool = False
+        self._shutdown_workers: bool = False
         self._cb: Optional[Awaitable] = None
         self._cancel_cb: Callable = self.work_queue.empty
 
@@ -46,11 +46,11 @@ class Workers:
     async def _create_workers(self, max_workers: int, *args, **kwargs):
         for _ in range(max_workers):
             self.workers.append(self._worker(*args, **kwargs))
-        self._workers_up_count = max_workers
+        self._running_workers_count = max_workers
         self.workers.append(self._cancel_worker())
 
     async def _worker(self, *args, **kwargs) -> None:
-        while not self._shutdown or (self._shutdown and not self.work_queue.empty()):
+        while not self._shutdown_workers or (self._shutdown_workers and not self.work_queue.empty()):
             try:
                 t = self.work_queue.get_nowait()
                 try:
@@ -68,33 +68,33 @@ class Workers:
                 self.config.logger.debug(format_exc())
                 self.config.logger.error(f"Error processing task: {e}")
             await sleep(0)
-        self._workers_up_count -= 1
+        self._running_workers_count -= 1
 
     async def _cancel_worker(self) -> None:
         while True:
             if await self._loop.run_in_executor(None, self._cancel_cb):
-                self._shutdown = True
+                self._shutdown_workers = True
                 break
 
     async def _reset(self):
         self.workers.clear()
         self.work_queue = Queue()
         self.counter.reset_counter()
-        self._shutdown = False
+        self._shutdown_workers = False
         self.pbar = None
 
     async def _refresh_pbar(self) -> None:
-        while self._workers_up_count > 0 and self.pbar:
+        while self._running_workers_count > 0 and self.pbar:
             await self._loop.run_in_executor(None, self.pbar.display)
 
     async def schedule_workers(self, additional_coros: List = []) -> Future:
-        self._shutdown = False
+        self._shutdown_workers = False
         return await gather(*self.workers, *additional_coros, return_exceptions=True)
 
     async def schedule_workers_with_pbar(self, total, additional_coros: List = []) -> Future:
         self.pbar = tqdm(total=total)
 
-        self._shutdown = False
+        self._shutdown_workers = False
         with logging_redirect_tqdm():
             additional_coros.append(self._refresh_pbar())
             await self.schedule_workers(additional_coros)
