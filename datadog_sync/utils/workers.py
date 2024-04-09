@@ -82,6 +82,7 @@ class Workers:
         self.counter.reset_counter()
         self._shutdown_workers = False
         self.pbar = None
+        self._running_workers_count = 0
 
     async def _refresh_pbar(self) -> None:
         while self._running_workers_count > 0 and self.pbar:
