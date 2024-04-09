@@ -31,7 +31,7 @@ class Workers:
 
     async def init_workers(
         self, cb: Awaitable, cancel_cb: Optional[Callable], worker_count: Optional[int], *args, **kwargs
-    ) -> None:
+    ) -> Awaitable[None]:
         await self._reset()
 
         max_workers = self.config.max_workers
@@ -43,13 +43,13 @@ class Workers:
             self._cancel_cb = cancel_cb
         await self._create_workers(max_workers, *args, **kwargs)
 
-    async def _create_workers(self, max_workers: int, *args, **kwargs):
+    async def _create_workers(self, max_workers: int, *args, **kwargs) -> Awaitable[None]:
         for _ in range(max_workers):
             self.workers.append(self._worker(*args, **kwargs))
         self._running_workers_count = max_workers
         self.workers.append(self._cancel_worker())
 
-    async def _worker(self, *args, **kwargs) -> None:
+    async def _worker(self, *args, **kwargs) -> Awaitable[None]:
         while not self._shutdown_workers or (self._shutdown_workers and not self.work_queue.empty()):
             try:
                 t = self.work_queue.get_nowait()
@@ -76,7 +76,7 @@ class Workers:
                 self._shutdown_workers = True
                 break
 
-    async def _reset(self):
+    async def _reset(self) -> Awaitable[None]:
         self.workers.clear()
         self.work_queue = Queue()
         self.counter.reset_counter()
@@ -84,7 +84,7 @@ class Workers:
         self.pbar = None
         self._running_workers_count = 0
 
-    async def _refresh_pbar(self) -> None:
+    async def _refresh_pbar(self) -> Awaitable[None]:
         while self._running_workers_count > 0 and self.pbar:
             await self._loop.run_in_executor(None, self.pbar.display)
 
