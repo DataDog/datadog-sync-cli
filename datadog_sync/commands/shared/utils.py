@@ -1,5 +1,6 @@
 import asyncio
 import os
+from sys import exit
 
 from datadog_sync.constants import DESTINATION_RESOURCES_DIR, SOURCE_RESOURCES_DIR, Command
 from datadog_sync.utils.configuration import Configuration, build_config

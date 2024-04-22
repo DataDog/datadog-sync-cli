@@ -6,20 +6,14 @@
 from __future__ import annotations
 import asyncio
 from collections import defaultdict
-import os
-from sys import exit
 
 from click import confirm
 from pprint import pformat
 
 from datadog_sync.constants import (
-    DESTINATION_RESOURCES_DIR,
-    SOURCE_RESOURCES_DIR,
-    Command,
     DESTINATION_ORIGIN,
     SOURCE_ORIGIN,
 )
-from datadog_sync.utils.configuration import build_config
 from datadog_sync.utils.resources_manager import ResourcesManager
 from datadog_sync.constants import TRUE, FALSE, FORCE
 from datadog_sync.utils.resource_utils import (
@@ -39,40 +33,6 @@ from datadog_sync.utils.workers import Workers
 if TYPE_CHECKING:
     from datadog_sync.utils.configuration import Configuration
     from graphlib import TopologicalSorter
-
-
-async def run_cmd_async(cmd: Command, **kwargs):
-    # Build config
-    cfg = build_config(cmd, **kwargs)
-
-    # Initiate async items
-    await cfg._init(cmd)
-
-    # Initiate resources handler
-    handler = ResourcesHandler(cfg)
-
-    cfg.logger.info(f"Starting {cmd.value}...")
-
-    # Run specific handler
-    if cmd == Command.IMPORT:
-        os.makedirs(SOURCE_RESOURCES_DIR, exist_ok=True)
-        await handler.import_resources()
-    elif cmd == Command.SYNC:
-        os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
-        await handler.apply_resources()
-    elif cmd == Command.DIFFS:
-        await handler.diffs()
-    else:
-        cfg.logger.error(f"Command {cmd.value} not found")
-        exit(1)
-
-    cfg.logger.info(f"Finished {cmd.value}")
-
-    # Cleanup session before exit
-    await cfg._exit_cleanup()
-
-    if cfg.logger.exception_logged:
-        exit(1)
 
 
 class ResourcesHandler:
