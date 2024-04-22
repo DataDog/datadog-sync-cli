@@ -3,8 +3,6 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-import asyncio
-
 from click import command, option
 
 from datadog_sync.constants import Command
@@ -15,7 +13,7 @@ from datadog_sync.commands.shared.options import (
     destination_auth_options,
     non_import_common_options,
 )
-from datadog_sync.utils.resources_handler import run_cmd_async
+from datadog_sync.commands.shared.utils import run_cmd
 
 
 @command(Command.SYNC.value, short_help="Sync Datadog resources to destination.")
@@ -42,4 +40,4 @@ from datadog_sync.utils.resources_handler import run_cmd_async
 )
 def sync(**kwargs):
     """Sync Datadog resources to destination."""
-    asyncio.run(run_cmd_async(Command.SYNC, **kwargs))
+    run_cmd(Command.SYNC, **kwargs)

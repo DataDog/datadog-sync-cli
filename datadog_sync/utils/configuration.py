@@ -47,7 +47,7 @@ class Configuration(object):
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
 
-    async def _init(self, cmd: Command):
+    async def init_async(self, cmd: Command):
         await self.source_client._init_session()
         await self.destination_client._init_session()
 
@@ -68,7 +68,7 @@ class Configuration(object):
                     exit(1)
             self.logger.info("clients validated successfully")
 
-    async def _exit_cleanup(self):
+    async def exit_async_cleanup(self):
         await self.source_client._end_session()
         await self.destination_client._end_session()
 

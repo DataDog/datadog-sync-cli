@@ -3,13 +3,11 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-import asyncio
-
 from click import command
 
 from datadog_sync.constants import Command
 from datadog_sync.commands.shared.options import common_options, source_auth_options
-from datadog_sync.utils.resources_handler import run_cmd_async
+from datadog_sync.commands.shared.utils import run_cmd
 
 
 @command(Command.IMPORT.value, short_help="Import Datadog resources.")
@@ -17,4 +15,4 @@ from datadog_sync.utils.resources_handler import run_cmd_async
 @common_options
 def _import(**kwargs):
     """Import Datadog resources."""
-    asyncio.run(run_cmd_async(Command.IMPORT, **kwargs))
+    run_cmd(Command.IMPORT, **kwargs)

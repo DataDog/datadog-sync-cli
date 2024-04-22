@@ -80,7 +80,10 @@ class ResourcesHandler:
         self.config = config
         self.resources_manager: ResourcesManager = ResourcesManager(config)
         self.sorter: Optional[TopologicalSorter] = None
-        self.worker: Workers = Workers(config)
+        self.worker: Optional[Workers] = None
+
+    async def init_async(self) -> None:
+        self.worker: Workers = Workers(self.config)
 
     async def apply_resources(self) -> Tuple[int, int]:
         # Import resources that are missing but needed for resource connections
