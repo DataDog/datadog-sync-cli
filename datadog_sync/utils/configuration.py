@@ -68,7 +68,7 @@ class Configuration(object):
                     exit(1)
             self.logger.info("clients validated successfully")
 
-    async def exit_async_cleanup(self):
+    async def exit_async(self):
         await self.source_client._end_session()
         await self.destination_client._end_session()
 
