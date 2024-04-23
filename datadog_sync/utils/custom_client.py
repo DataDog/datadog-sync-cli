@@ -225,7 +225,7 @@ class UrlObject(object):
             url += f"{self.protocol}://" if self.protocol else ""
 
         if subdomain is not None:
-            url += f"{subdomain}" if subdomain else ""
+            url += f"{subdomain}." if subdomain else ""
         elif self.subdomain:
             url += f"{self.subdomain}." if self.subdomain else ""
 
