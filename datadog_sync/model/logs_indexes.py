@@ -78,7 +78,9 @@ class LogsIndexes(BaseResource):
         return _id, self.resource_config.destination_resources[_id]
 
     async def delete_resource(self, _id: str) -> None:
-        self.config.logger.info("logs index deletion is not supported. Moving index to end of index order.")
+        self.config.logger.warning(
+            f"logs index deletion is not supported. Moving index '{_id}' to end of index order list."
+        )
 
         index_name = self.resource_config.destination_resources[_id]["name"]
         index_order = await self.config.destination_client.get(self.logs_indexes_order_url)
