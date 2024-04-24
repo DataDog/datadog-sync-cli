@@ -65,6 +65,25 @@ class LogsPipelinesOrderIdsComparator(BaseOperator):
         return False
 
 
+class LogsIndexesOrderNameComparator(BaseOperator):
+    def match(self, level):
+        if "index_names" in level.t1 and "index_names" in level.t2:
+            # make copy so we do not mutate the original
+            level.t1 = deepcopy(level.t1)
+            level.t2 = deepcopy(level.t2)
+
+            # If we are at the top level, modify the list to exclude extra index in destination.
+            t1 = set(level.t1["index_names"])
+            t2 = set(level.t2["index_names"])
+            d_ignore = t1 - t2
+
+            level.t1["index_names"] = [_id for _id in level.t1["index_names"] if _id not in d_ignore]
+        return True
+
+    def give_up_diffing(self, level, diff_instance) -> bool:
+        return False
+
+
 RECURRENCE_START_ATTR_PATH_RE = r"root\['attributes'\]\['schedule'\]\['recurrences'\]\[[0-9]+\]\['start'\]"
 
 
