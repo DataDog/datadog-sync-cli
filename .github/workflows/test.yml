@@ -8,6 +8,8 @@ on:
       - opened
       - synchronize
       - reopened
+      - reopened
+      - ready_for_review
 
 jobs:
   test:
