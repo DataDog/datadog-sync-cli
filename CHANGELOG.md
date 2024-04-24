@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.9.0 / 2024-04-24
+
+### Fixed
+* Move permission retrieval into import step by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/210
+* Handle when import `id` is changed during dependency resolution by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/220
+### Added
+* Handle host remapping in get call by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/206
+* Add support for `restricted_roles` connection in synthetics private location by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/209
+* Refactor abstract methods so they are not called directly by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/207
+* Add support for teams by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/214
+* Inject default tags to supported resources by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/211
+* Add support for `restriction_policies` by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/213
+* Add progress bar for get_resources and debug logging for paginated requests by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/230
+* Ensure progress bar is continuously updated by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/231
+### Changed
+* Migrate ThreadPoolUsage to `asyncio` by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/222
+* Update dependencies by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/229
+
+## New Contributors
+* @tim-chaplin-dd made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/223
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.8.0...0.9.0
+
 ## 0.8.0 / 2024-01-10
 
 ### Fixed
