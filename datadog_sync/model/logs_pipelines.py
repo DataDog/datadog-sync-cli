@@ -39,7 +39,6 @@ class LogsPipelines(BaseResource):
         resource = cast(dict, resource)
         if resource["is_read_only"]:
             resource["name"] = resource["name"].lower()
-            resource["filter"] = {}
             resource["processors"] = []
 
         return resource["id"], resource
@@ -55,8 +54,10 @@ class LogsPipelines(BaseResource):
 
         if resource["is_read_only"]:
             if resource["name"] not in self.destination_integration_pipelines:
+                # Extract the source from the query
+                source = resource["filter"]["query"].split("source:")[-1]
                 payload = {
-                    "ddsource": resource["name"],
+                    "ddsource": source,
                     "ddtags": ",".join(DEFAULT_TAGS),
                     "message": f"[datadog-sync-cli] Triggering creation of '{resource['name']}' integration pipeline",
                 }
@@ -76,11 +77,12 @@ class LogsPipelines(BaseResource):
                 if not created:
                     raise Exception(f"Max retry reached. Integration pipeline '{resource['name']}' pending creation")
 
-                diff = check_diff(self.resource_config, updated_pipelines[resource["name"]], resource)
-                if diff:
-                    return await self.update_resource(_id, resource)
+            self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]
+            diff = check_diff(self.resource_config, self.destination_integration_pipelines[resource["name"]], resource)
+            if diff:
+                return await self.update_resource(_id, resource)
 
-            return _id, resource
+            return _id, self.resource_config.destination_resources[_id]
         else:
             resp = await destination_client.post(self.resource_config.base_path, resource)
 
@@ -94,6 +96,7 @@ class LogsPipelines(BaseResource):
         )
 
         if resp["is_read_only"]:
+            resource.update(resp)
             resource["name"] = resource["name"].lower()
 
         return _id, resp
@@ -119,7 +122,6 @@ class LogsPipelines(BaseResource):
             if pipeline["is_read_only"]:
                 # Normalize name for the integration pipeline
                 pipeline["name"] = pipeline["name"].lower()
-                pipeline["filter"] = {}
                 pipeline["processors"] = []
 
                 destination_integration_pipelines_obj[pipeline["name"]] = pipeline
