@@ -8,6 +8,7 @@ import logging
 import platform
 from dataclasses import dataclass
 from typing import Awaitable, Dict, Optional, Callable
+from urllib.parse import urlparse
 
 import aiohttp
 
@@ -64,7 +65,7 @@ def request_with_retry(func: Awaitable) -> Awaitable:
 
 class CustomClient:
     def __init__(self, host: Optional[str], auth: Dict[str, str], retry_timeout: int, timeout: int) -> None:
-        self.host = host
+        self.url_object = UrlObject.from_str(host)
         self.timeout = timeout
         self.session = None
         self.retry_timeout = retry_timeout
@@ -82,28 +83,28 @@ class CustomClient:
             pass
 
     @request_with_retry
-    async def get(self, path, **kwargs):
-        url = self.host + path
+    async def get(self, path, domain=None, subdomain=None, **kwargs):
+        url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
         return self.session.get(url, timeout=self.timeout, **kwargs)
 
     @request_with_retry
-    async def post(self, path, body, **kwargs):
-        url = self.host + path
+    async def post(self, path, body, domain=None, subdomain=None, **kwargs):
+        url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
         return self.session.post(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
-    async def put(self, path, body, **kwargs):
-        url = self.host + path
+    async def put(self, path, body, domain=None, subdomain=None, **kwargs):
+        url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
         return self.session.put(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
-    async def patch(self, path, body, **kwargs):
-        url = self.host + path
+    async def patch(self, path, body, domain=None, subdomain=None, **kwargs):
+        url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
         return self.session.patch(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
-    async def delete(self, path, body=None, **kwargs):
-        url = self.host + path
+    async def delete(self, path, domain=None, subdomain=None, body=None, **kwargs):
+        url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
         return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
 
     def paginated_request(self, func: Awaitable) -> Awaitable:
@@ -186,3 +187,51 @@ class PaginationConfig(object):
     remaining_func: Optional[Callable] = remaining_func
     page_number_func: Optional[Callable] = page_number_func
     response_list_accessor: Optional[str] = "data"
+
+
+@dataclass
+class UrlObject(object):
+    protocol: str = ""
+    domain: str = ""
+    subdomain: str = ""
+    _default: str = ""
+
+    @classmethod
+    def from_str(cls, url: str):
+        if url:
+            parsed_url = urlparse(url)
+            domain = parsed_url.netloc
+            subdomain = None
+
+            if parsed_url.netloc.count(".") >= 2:
+                res = parsed_url.netloc.split(".")
+                domain = ".".join(res[-2:])
+                subdomain = ".".join(res[:-2])
+
+            return cls(protocol=parsed_url.scheme, domain=domain, subdomain=subdomain, _default=url)
+        return cls()
+
+    def build_url(
+        self, path, protocol: Optional[str] = None, domain: Optional[str] = None, subdomain: Optional[str] = None
+    ) -> str:
+        if all(arg is None for arg in (protocol, domain, subdomain)):
+            return self._default + path
+
+        # Rebuild the URL with the new values
+        url = ""
+        if protocol is not None:
+            url += f"{protocol}://" if protocol else ""
+        elif self.protocol:
+            url += f"{self.protocol}://" if self.protocol else ""
+
+        if subdomain is not None:
+            url += f"{subdomain}." if subdomain else ""
+        elif self.subdomain:
+            url += f"{self.subdomain}." if self.subdomain else ""
+
+        if domain is not None:
+            url += f"{domain}"
+        else:
+            url += f"{self.domain}"
+
+        return url + path
