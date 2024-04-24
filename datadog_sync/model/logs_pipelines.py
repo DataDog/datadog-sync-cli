@@ -55,7 +55,9 @@ class LogsPipelines(BaseResource):
         if resource["is_read_only"]:
             if resource["name"] not in self.destination_integration_pipelines:
                 # Extract the source from the query
-                source = resource["filter"]["query"].split("source:")[-1]
+                source = resource.get("filter", {}).get("query", "").split("source:")[-1]
+                if not source:
+                    raise Exception(f"Source not found in the query for integration pipeline '{resource['name']}'")
                 payload = {
                     "ddsource": source,
                     "ddtags": ",".join(DEFAULT_TAGS),
