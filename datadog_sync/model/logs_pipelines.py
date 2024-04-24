@@ -5,9 +5,10 @@
 
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
+from asyncio import sleep
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import SkipResource
+from datadog_sync.utils.resource_utils import DEFAULT_TAGS, check_diff
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -22,6 +23,8 @@ class LogsPipelines(BaseResource):
     )
     # Additional LogsPipelines specific attributes
     destination_integration_pipelines: Dict[str, Dict] = dict()
+    logs_intake_subdomain = "http-intake.logs"
+    logs_intake_path = "/api/v2/logs"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
@@ -48,18 +51,37 @@ class LogsPipelines(BaseResource):
         self.destination_integration_pipelines = await self.get_destination_integration_pipelines()
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        destination_client = self.config.destination_client
+
         if resource["is_read_only"]:
             if resource["name"] not in self.destination_integration_pipelines:
-                raise SkipResource(
-                    _id,
-                    self.resource_type,
-                    "integration pipelines cannot be created only updated. "
-                    + f"Skipping sync. Enable integration pipeline {resource['name']}",
-                )
-            self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]
-            return await self.update_resource(_id, resource)
+                payload = {
+                    "ddsource": resource["name"],
+                    "ddtags": ",".join(DEFAULT_TAGS),
+                    "message": f"[datadog-sync-cli] Triggering creation of '{resource['name']}' integration pipeline",
+                }
+
+                # Submit a log to the logs intake API to trigger the creation of the integration pipeline
+                await destination_client.post(self.logs_intake_path, payload, subdomain=self.logs_intake_subdomain)
+                created = False
+                for _ in range(3):
+                    updated_pipelines = await self.get_destination_integration_pipelines()
+                    if resource["name"] in updated_pipelines:
+                        self.destination_integration_pipelines = updated_pipelines
+                        created = True
+                        break
+                    else:
+                        await sleep(5)
+
+                if not created:
+                    raise Exception(f"Max retry reached. Integration pipeline '{resource['name']}' pending creation")
+
+                diff = check_diff(self.resource_config, updated_pipelines[resource["name"]], resource)
+                if diff:
+                    return await self.update_resource(_id, resource)
+
+            return _id, resource
         else:
-            destination_client = self.config.destination_client
             resp = await destination_client.post(self.resource_config.base_path, resource)
 
             return _id, resp
@@ -97,6 +119,8 @@ class LogsPipelines(BaseResource):
             if pipeline["is_read_only"]:
                 # Normalize name for the integration pipeline
                 pipeline["name"] = pipeline["name"].lower()
+                pipeline["filter"] = {}
+                pipeline["processors"] = []
 
                 destination_integration_pipelines_obj[pipeline["name"]] = pipeline
 
