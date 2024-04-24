@@ -16,6 +16,9 @@ from datadog_sync.utils.configuration import Configuration
 from datadog_sync.utils.configuration import init_resources
 from datadog_sync.utils.custom_client import CustomClient
 
+from freezegun import freeze_time
+
+
 tracer = None
 try:
     if os.getenv("DD_AGENT_HOST"):
@@ -36,10 +39,8 @@ HEADERS_TO_PERSISTS = ("Accept-Encoding", "Content-Type")
 
 
 @pytest.fixture()
-def runner(freezer, freezed_time):
+def runner(freezed_time):
     from click.testing import CliRunner
-
-    freezer.move_to(freezed_time)
 
     return CliRunner(mix_stderr=False)
 
@@ -151,9 +152,7 @@ def default_cassette_name(default_cassette_name):
 
 
 @pytest.fixture
-def freezed_time(default_cassette_name, vcr):
-    from dateutil import parser
-
+def freezed_time(vcr):
     if get_record_mode() in {"new_episodes", "rewrite"}:
         tzinfo = datetime.now().astimezone().tzinfo
         freeze_at = datetime.now().replace(tzinfo=tzinfo).isoformat()
@@ -172,4 +171,5 @@ def freezed_time(default_cassette_name, vcr):
         with freeze_file.open("r") as f:
             freeze_at = f.readline().strip()
 
-    return parser.isoparse(freeze_at)
+    with freeze_time(freeze_at, real_asyncio=True):
+        yield
