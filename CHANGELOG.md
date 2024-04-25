@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.1 / 2024-04-25
+
+### Fixed
+* Ensure we dump synced resources before exiting when interupted by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/232
+* Acquire lock before filter by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/239
+### Added
+* Add support for UrlObject by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/234
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.9.0...0.9.1
+
 ## 0.9.0 / 2024-04-24
 
 ### Fixed
