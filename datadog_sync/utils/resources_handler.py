@@ -97,13 +97,14 @@ class ResourcesHandler:
         try:
             r_class = self.config.resources[resource_type]
             resource = r_class.resource_config.source_resources[_id]
+
+            if not r_class.resource_config.concurrent:
+                await r_class.resource_config.async_lock.acquire()
+
             if _id not in self.resources_manager.all_missing_resources:
                 if not r_class.filter(resource):
                     self.worker.counter.increment_filtered()
                     return
-
-            if not r_class.resource_config.concurrent:
-                await r_class.resource_config.async_lock.acquire()
 
             # Run hooks
             await r_class._pre_resource_action_hook(_id, resource)
