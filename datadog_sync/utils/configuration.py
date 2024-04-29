@@ -50,6 +50,8 @@ class Configuration(object):
     async def init_async(self, cmd: Command):
         await self.source_client._init_session()
         await self.destination_client._init_session()
+        for resource in self.resources.values():
+            await resource.init_async()
 
         # Validate the clients. For import we only validate the source client
         # For sync/diffs we validate the destination client.

@@ -63,6 +63,9 @@ class ResourceConfig:
     tagging_config: Optional[TaggingConfig] = None
     async_lock: Optional[Lock] = None
 
+    async def init_async(self) -> None:
+        self.async_lock = Lock()
+
     def __post_init__(self) -> None:
         self.build_excluded_attributes()
         if not self.concurrent:
@@ -83,6 +86,9 @@ class BaseResource(abc.ABC):
         self.resource_config.source_resources, self.resource_config.destination_resources = open_resources(
             self.resource_type
         )
+
+    async def init_async(self):
+        await self.resource_config.init_async()
 
     @abc.abstractmethod
     async def get_resources(self, client: CustomClient) -> List[Dict]:
