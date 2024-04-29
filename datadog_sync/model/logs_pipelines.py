@@ -67,7 +67,7 @@ class LogsPipelines(BaseResource):
                 # Submit a log to the logs intake API to trigger the creation of the integration pipeline
                 await destination_client.post(self.logs_intake_path, payload, subdomain=self.logs_intake_subdomain)
                 created = False
-                for _ in range(3):
+                for _ in range(12):
                     updated_pipelines = await self.get_destination_integration_pipelines()
                     if resource["name"] in updated_pipelines:
                         self.destination_integration_pipelines = updated_pipelines
@@ -77,7 +77,10 @@ class LogsPipelines(BaseResource):
                         await sleep(5)
 
                 if not created:
-                    raise Exception(f"Max retry reached. Integration pipeline '{resource['name']}' pending creation")
+                    raise Exception(
+                        f"Integration pipeline '{resource['name']}' is not created after x seconds. "
+                        "It will be rechecked in the next sync."
+                    )
 
             self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]
             diff = check_diff(self.resource_config, self.destination_integration_pipelines[resource["name"]], resource)
