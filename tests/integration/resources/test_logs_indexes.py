@@ -21,7 +21,7 @@ class TestLogsIndexesResources(BaseResourcesTestClass):
     def test_resource_cleanup(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
 
-        source_resources, destination_resources = open_resources(self.resource_type)
+        source_resources, _ = open_resources(self.resource_type)
 
         # Remove the first resource from the source
         first_index = list(source_resources.keys())[0]
@@ -51,6 +51,6 @@ class TestLogsIndexesResources(BaseResourcesTestClass):
         with urllib.request.urlopen(req) as response:
             data = json.loads(response.read())
 
-        # assert the first index removed from source organization 
+        # assert the first index removed from source organization
         # is now the last index in the destination index order
         assert first_index == data["index_names"][-1]
