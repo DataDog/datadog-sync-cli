@@ -3,16 +3,54 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-import pytest
+import os
+import json
+import logging
+import urllib.request
 
-from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import LogsIndexes
+from datadog_sync.cli import cli
+from datadog_sync.utils.resource_utils import open_resources
+from tests.integration.helpers import BaseResourcesTestClass, save_source_resources
 
 
 class TestLogsIndexesResources(BaseResourcesTestClass):
     resource_type = LogsIndexes.resource_type
     field_to_update = "filter.query"
 
-    @pytest.mark.skip(reason="delete is not supported for logs-indexes")
-    def test_resource_cleanup(self):
-        pass
+    def test_resource_cleanup(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+
+        source_resources, destination_resources = open_resources(self.resource_type)
+
+        # Remove the first resource from the source
+        first_index = list(source_resources.keys())[0]
+        source_resources.pop(first_index)
+        save_source_resources(self.resource_type, source_resources)
+
+        # Sync with cleanup
+        ret = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--validate=false",
+                f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
+                "--cleanup=force",
+            ],
+        )
+        assert 0 == ret.exit_code
+
+        api_key = os.environ.get("DD_DESTINATION_API_KEY")
+        app_key = os.environ.get("DD_DESTINATION_APP_KEY")
+        api_url = os.environ.get("DD_DESTINATION_API_URL")
+
+        req = urllib.request.Request(
+            f"{api_url}/api/v1/logs/config/index-order", headers={"DD-API-KEY": api_key, "DD-APPLICATION-KEY": app_key}
+        )
+        with urllib.request.urlopen(req) as response:
+            data = json.loads(response.read())
+
+        # assert the first index removed from source organization 
+        # is now the last index in the destination index order
+        assert first_index == data["index_names"][-1]
