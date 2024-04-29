@@ -72,7 +72,7 @@ class LogsIndexesOrder(BaseResource):
         return _id, resp
 
     async def delete_resource(self, _id: str) -> None:
-        self.config.logger.warning("logs_indexes_order cannot deleted. Removing resource from config only.")
+        pass
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         logs_indexes = self.config.resources["logs_indexes"].resource_config.destination_resources
