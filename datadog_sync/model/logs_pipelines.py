@@ -83,8 +83,11 @@ class LogsPipelines(BaseResource):
                     )
 
             self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]
+
             diff = check_diff(self.resource_config, self.destination_integration_pipelines[resource["name"]], resource)
             if diff:
+                # We run an update call if there is a diff between source and destination org resource to ensure that
+                # the integration pipeline is in the correct state (enabled/disabled).
                 return await self.update_resource(_id, resource)
 
             return _id, self.resource_config.destination_resources[_id]
