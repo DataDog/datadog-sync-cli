@@ -12,14 +12,18 @@ interactions:
         "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited": false,
         "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "+00:00"},
         "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []},
-        {"name": "test-index", "filter": {"query": "test:filter"}, "num_retention_days":
+        {"name": "new-index", "filter": {"query": "updated"}, "num_retention_days":
         15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
         {"reset_time": "14:00", "reset_utc_offset": "-04:00"}, "daily_limit_warning_threshold_percentage":
-        null, "exclusion_filters": []}, {"name": "main", "filter": {"query": "updated"},
-        "num_retention_days": 15, "daily_limit": null, "is_rate_limited": false, "daily_limit_reset":
-        null, "daily_limit_warning_threshold_percentage": null, "exclusion_filters":
-        [{"name": "gcp-filter", "is_enabled": true, "filter": {"query": "source:gcp.*",
-        "sample_rate": 1.0}}]}]}'
+        null, "exclusion_filters": []}, {"name": "test-index", "filter": {"query":
+        "test:filter"}, "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited":
+        false, "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "-04:00"},
+        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []},
+        {"name": "main", "filter": {"query": "updated"}, "num_retention_days": 15,
+        "daily_limit": null, "is_rate_limited": false, "daily_limit_reset": null,
+        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": [{"name":
+        "gcp-filter", "is_enabled": true, "filter": {"query": "source:gcp.*", "sample_rate":
+        1.0}}]}]}'
     headers:
       Content-Type:
       - application/json
@@ -64,6 +68,27 @@ interactions:
       string: '{"name": "gcp-index-name", "filter": {"query": "source:gcp.*"}, "num_retention_days":
         15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
         {"reset_time": "14:00", "reset_utc_offset": "+00:00"}, "daily_limit_warning_threshold_percentage":
+        null, "exclusion_filters": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"filter": {"query": ""}, "num_retention_days": 15, "daily_limit": 200000000,
+      "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "-04:00"},
+      "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/logs/config/indexes/new-index
+  response:
+    body:
+      string: '{"name": "new-index", "filter": {"query": ""}, "num_retention_days":
+        15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
+        {"reset_time": "14:00", "reset_utc_offset": "-04:00"}, "daily_limit_warning_threshold_percentage":
         null, "exclusion_filters": []}'
     headers:
       Content-Type:
