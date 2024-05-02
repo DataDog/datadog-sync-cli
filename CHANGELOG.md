@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.3 / 2024-05-02
+
+### Fixed
+* Fix logs index creation request by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/243
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.9.2...0.9.3
+
 ## 0.9.2 / 2024-04-29
 
 ### Fixed
