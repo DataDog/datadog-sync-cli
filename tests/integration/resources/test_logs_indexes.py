@@ -20,11 +20,22 @@ class TestLogsIndexesResources(BaseResourcesTestClass):
 
     def test_resource_cleanup(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
+        
+        api_key = os.environ.get("DD_DESTINATION_API_KEY")
+        app_key = os.environ.get("DD_DESTINATION_APP_KEY")
+        api_url = os.environ.get("DD_DESTINATION_API_URL")
+        logs_index_order_req = urllib.request.Request(
+            f"{api_url}/api/v1/logs/config/index-order", headers={"DD-API-KEY": api_key, "DD-APPLICATION-KEY": app_key}
+        )
+        
+        # Get the initial logs index order
+        with urllib.request.urlopen(logs_index_order_req) as response:
+            order = json.loads(response.read())
+        assert len(order["index_names"]) > 1
 
+        # Remove the first resource from the source state file
         source_resources, _ = open_resources(self.resource_type)
-
-        # Remove the first resource from the source
-        first_index = list(source_resources.keys())[0]
+        first_index = order["index_names"][0]
         source_resources.pop(first_index)
         save_source_resources(self.resource_type, source_resources)
 
@@ -41,16 +52,10 @@ class TestLogsIndexesResources(BaseResourcesTestClass):
         )
         assert 0 == ret.exit_code
 
-        api_key = os.environ.get("DD_DESTINATION_API_KEY")
-        app_key = os.environ.get("DD_DESTINATION_APP_KEY")
-        api_url = os.environ.get("DD_DESTINATION_API_URL")
-
-        req = urllib.request.Request(
-            f"{api_url}/api/v1/logs/config/index-order", headers={"DD-API-KEY": api_key, "DD-APPLICATION-KEY": app_key}
-        )
-        with urllib.request.urlopen(req) as response:
-            data = json.loads(response.read())
+        # Get the updated logs index order
+        with urllib.request.urlopen(logs_index_order_req) as response:
+            order = json.loads(response.read())
 
         # assert the first index removed from source organization
         # is now the last index in the destination index order
-        assert first_index == data["index_names"][-1]
+        assert first_index == order["index_names"][-1]
