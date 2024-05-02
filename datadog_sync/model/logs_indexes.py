@@ -54,7 +54,7 @@ class LogsIndexes(BaseResource):
             return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
-        resp = destination_client.post(self.resource_config.base_path, resource)
+        resp = await destination_client.post(self.resource_config.base_path, resource)
         if not resp.get("daily_limit"):
             resp["disable_daily_limit"] = True
 
