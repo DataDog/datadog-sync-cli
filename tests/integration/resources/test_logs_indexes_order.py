@@ -16,3 +16,39 @@ class TestLogsIndexesOrder(BaseResourcesTestClass):
     @pytest.mark.skip(reason="resource is only updated by default")
     def test_resource_update_sync(self):
         pass
+
+
+@pytest.mark.parametrize(
+    "resource, destination_resource, expected",
+    [
+        (
+            {"index_names": ["index1", "index2", "index3"]},
+            {"index_names": ["index3", "index2", "index4"]},
+            {"index_names": ["index2", "index3", "index4"]},
+        ),
+        (
+            {"index_names": ["index1"]},
+            {"index_names": ["index3", "index1", "index4"]},
+            {"index_names": ["index1", "index3", "index4"]},
+        ),
+        (
+            {"index_names": ["index1", "index2", "index3"]},
+            {"index_names": ["index3", "index1"]},
+            {"index_names": ["index1", "index3"]},
+        ),
+        (
+            {"index_names": ["index1", "index2", "index3"]},
+            {"index_names": ["index1"]},
+            {"index_names": ["index1"]},
+        ),
+        (
+            {"index_names": ["index1"]},
+            {"index_names": ["index5", "index1", "index3", "index4"]},
+            {"index_names": ["index1", "index5", "index3", "index4"]},
+        ),
+    ],
+)
+def test_handle_index_diff(resource, destination_resource, expected):
+    LogsIndexesOrder.handle_additional_indexes(resource, destination_resource)
+
+    assert resource == expected

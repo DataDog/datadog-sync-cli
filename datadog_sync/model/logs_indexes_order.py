@@ -57,14 +57,7 @@ class LogsIndexesOrder(BaseResource):
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_resources = self.destination_indexes_order or self.resource_config.destination_resources[_id]
-        ids_to_omit = set(resource["index_names"]) - set(destination_resources["index_names"])
-
-        extra_ids_to_include = [
-            _id for _id in destination_resources["index_names"] if _id not in resource["index_names"]
-        ]
-
-        resource["index_names"] = [_id for _id in resource["index_names"] if _id not in ids_to_omit]
-        resource["index_names"] = resource["index_names"] + extra_ids_to_include
+        self.handle_additional_indexes(resource, destination_resources)
 
         destination_client = self.config.destination_client
         resp = await destination_client.put(self.resource_config.base_path, resource)
@@ -91,3 +84,17 @@ class LogsIndexesOrder(BaseResource):
         resp = await self.get_resources(destination_client)
 
         return resp[0]
+
+    @staticmethod
+    def handle_additional_indexes(resource, destination_resource) -> None:
+        # Logs index order requires all logs indexes in the destination org to be included in the payload
+        # Additional indexes in the source org which need to be removed from the payload
+        ids_to_omit = set(resource["index_names"]) - set(destination_resource["index_names"])
+        resource["index_names"] = [_id for _id in resource["index_names"] if _id not in ids_to_omit]
+
+        # Add back additional indexes present in the destination org while retaining the relative ordering
+        # of the additional indexes
+        extra_ids_to_include = [
+            _id for _id in destination_resource["index_names"] if _id not in resource["index_names"]
+        ]
+        resource["index_names"] = resource["index_names"] + extra_ids_to_include
