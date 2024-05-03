@@ -265,12 +265,20 @@ class ResourcesHandler:
     async def _cleanup_worker(self, q_item: List) -> None:
         resource_type, _id = q_item
         self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
+
+        r_class = self.config.resources[resource_type]
         try:
-            await self.config.resources[resource_type]._delete_resource(_id)
+            if not r_class.resource_config.concurrent:
+                await r_class.resource_config.async_lock.acquire()
+
+            await r_class._delete_resource(_id)
             self.worker.counter.increment_success()
         except Exception as e:
             self.config.logger.error(f"error deleting resource {resource_type} with id {_id}: {str(e)}")
             self.worker.counter.increment_failure()
+        finally:
+            if not r_class.resource_config.concurrent:
+                r_class.resource_config.async_lock.release()
 
     async def _pre_apply_hook_cb(self, resource_type: str) -> None:
         try:

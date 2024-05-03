@@ -2,6 +2,52 @@ interactions:
 - request:
     body: null
     headers:
+      Host:
+      - api.datadoghq.eu
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/index-order
+  response:
+    body:
+      string: '{"index_names": ["gcp-index-name", "new-index", "test-index", "main"]}'
+    headers: {}
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/index-order
+  response:
+    body:
+      string: '{"index_names": ["gcp-index-name", "new-index", "test-index", "main"]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"index_names": ["new-index", "test-index", "main", "gcp-index-name"]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/logs/config/index-order
+  response:
+    body:
+      string: '{"index_names": ["new-index", "test-index", "main", "gcp-index-name"]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
       Content-Type:
       - application/json
     method: GET
@@ -27,6 +73,20 @@ interactions:
     headers:
       Content-Type:
       - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Host:
+      - api.datadoghq.eu
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/index-order
+  response:
+    body:
+      string: '{"index_names": ["new-index", "test-index", "main", "gcp-index-name"]}'
+    headers: {}
     status:
       code: 200
       message: OK

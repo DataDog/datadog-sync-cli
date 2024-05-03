@@ -24,6 +24,7 @@ class LogsIndexes(BaseResource):
     )
     # Additional LogsIndexes specific attributes
     destination_logs_indexes: Dict[str, Dict] = dict()
+    logs_indexes_order_url: str = "/api/v1/logs/config/index-order"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
@@ -77,7 +78,15 @@ class LogsIndexes(BaseResource):
         return _id, self.resource_config.destination_resources[_id]
 
     async def delete_resource(self, _id: str) -> None:
-        raise Exception("logs index deletion is not supported")
+        index_name = self.resource_config.destination_resources[_id]["name"]
+        index_order = await self.config.destination_client.get(self.logs_indexes_order_url)
+        if index_name in index_order["index_names"]:
+            self.config.logger.warning(
+                f"logs index deletion is not supported. Moving index '{_id}' to end of index order list."
+            )
+            index_order["index_names"].remove(index_name)
+            index_order["index_names"].append(index_name)
+            await self.config.destination_client.put(self.logs_indexes_order_url, index_order)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         pass
