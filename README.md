@@ -227,6 +227,7 @@ When running againts multiple destination organizations, a seperate working dire
 | notebooks                              | Sync Datadog notebooks.                                  |
 | host_tags                              | Sync Datadog host tags.                                  |
 | logs_indexes                           | Sync Datadog logs indexes.                               |
+| logs_indexes_order                     | Sync Datadog logs indexes order.                         |
 | logs_metrics                           | Sync Datadog logs metrics.                               |
 | logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
 | metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
@@ -264,6 +265,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | notebooks                              | -                                                                |
 | host_tags                              | -                                                                |
 | logs_indexes                           | -                                                                |
+| logs_indexes_order                     | logs_indexes                                                     |
 | logs_metrics                           | -                                                                |
 | logs_restriction_queries               | roles                                                            |
 | metric_tag_configurations              | -                                                                |
