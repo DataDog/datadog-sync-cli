@@ -5,9 +5,10 @@
 
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
+from asyncio import sleep
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import SkipResource
+from datadog_sync.utils.resource_utils import DEFAULT_TAGS, check_diff
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -22,6 +23,8 @@ class LogsPipelines(BaseResource):
     )
     # Additional LogsPipelines specific attributes
     destination_integration_pipelines: Dict[str, Dict] = dict()
+    logs_intake_subdomain = "http-intake.logs"
+    logs_intake_path = "/api/v2/logs"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
@@ -36,7 +39,6 @@ class LogsPipelines(BaseResource):
         resource = cast(dict, resource)
         if resource["is_read_only"]:
             resource["name"] = resource["name"].lower()
-            resource["filter"] = {}
             resource["processors"] = []
 
         return resource["id"], resource
@@ -48,21 +50,51 @@ class LogsPipelines(BaseResource):
         self.destination_integration_pipelines = await self.get_destination_integration_pipelines()
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        if resource["is_read_only"]:
-            if resource["name"] not in self.destination_integration_pipelines:
-                raise SkipResource(
-                    _id,
-                    self.resource_type,
-                    "integration pipelines cannot be created only updated. "
-                    + f"Skipping sync. Enable integration pipeline {resource['name']}",
-                )
-            self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]
-            return await self.update_resource(_id, resource)
-        else:
-            destination_client = self.config.destination_client
+        destination_client = self.config.destination_client
+
+        if not resource["is_read_only"]:
             resp = await destination_client.post(self.resource_config.base_path, resource)
 
             return _id, resp
+
+        if resource["name"] not in self.destination_integration_pipelines:
+            # Extract the source from the query
+            source = resource.get("filter", {}).get("query", "").split("source:")[-1]
+            if not source:
+                raise Exception(f"Source not found in the query for integration pipeline '{resource['name']}'")
+            payload = {
+                "ddsource": source,
+                "ddtags": ",".join(DEFAULT_TAGS),
+                "message": f"[datadog-sync-cli] Triggering creation of '{resource['name']}' integration pipeline",
+            }
+
+            # Submit a log to the logs intake API to trigger the creation of the integration pipeline
+            await destination_client.post(self.logs_intake_path, payload, subdomain=self.logs_intake_subdomain)
+            created = False
+            for _ in range(12):
+                updated_pipelines = await self.get_destination_integration_pipelines()
+                if resource["name"] in updated_pipelines:
+                    self.destination_integration_pipelines = updated_pipelines
+                    created = True
+                    break
+                else:
+                    await sleep(5)
+
+            if not created:
+                raise Exception(
+                    f"Integration pipeline '{resource['name']}' is not created after x seconds. "
+                    "It will be rechecked in the next sync."
+                )
+
+        self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]
+
+        diff = check_diff(self.resource_config, self.destination_integration_pipelines[resource["name"]], resource)
+        if diff:
+            # We run an update call if there is a diff between source and destination org resource to ensure that
+            # the integration pipeline is in the correct state (enabled/disabled).
+            return await self.update_resource(_id, resource)
+
+        return _id, self.resource_config.destination_resources[_id]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
@@ -72,6 +104,7 @@ class LogsPipelines(BaseResource):
         )
 
         if resp["is_read_only"]:
+            resource.update(resp)
             resource["name"] = resource["name"].lower()
 
         return _id, resp
@@ -97,6 +130,7 @@ class LogsPipelines(BaseResource):
             if pipeline["is_read_only"]:
                 # Normalize name for the integration pipeline
                 pipeline["name"] = pipeline["name"].lower()
+                pipeline["processors"] = []
 
                 destination_integration_pipelines_obj[pipeline["name"]] = pipeline
 
