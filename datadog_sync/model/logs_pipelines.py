@@ -52,49 +52,49 @@ class LogsPipelines(BaseResource):
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
 
-        if resource["is_read_only"]:
-            if resource["name"] not in self.destination_integration_pipelines:
-                # Extract the source from the query
-                source = resource.get("filter", {}).get("query", "").split("source:")[-1]
-                if not source:
-                    raise Exception(f"Source not found in the query for integration pipeline '{resource['name']}'")
-                payload = {
-                    "ddsource": source,
-                    "ddtags": ",".join(DEFAULT_TAGS),
-                    "message": f"[datadog-sync-cli] Triggering creation of '{resource['name']}' integration pipeline",
-                }
-
-                # Submit a log to the logs intake API to trigger the creation of the integration pipeline
-                await destination_client.post(self.logs_intake_path, payload, subdomain=self.logs_intake_subdomain)
-                created = False
-                for _ in range(12):
-                    updated_pipelines = await self.get_destination_integration_pipelines()
-                    if resource["name"] in updated_pipelines:
-                        self.destination_integration_pipelines = updated_pipelines
-                        created = True
-                        break
-                    else:
-                        await sleep(5)
-
-                if not created:
-                    raise Exception(
-                        f"Integration pipeline '{resource['name']}' is not created after x seconds. "
-                        "It will be rechecked in the next sync."
-                    )
-
-            self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]
-
-            diff = check_diff(self.resource_config, self.destination_integration_pipelines[resource["name"]], resource)
-            if diff:
-                # We run an update call if there is a diff between source and destination org resource to ensure that
-                # the integration pipeline is in the correct state (enabled/disabled).
-                return await self.update_resource(_id, resource)
-
-            return _id, self.resource_config.destination_resources[_id]
-        else:
+        if not resource["is_read_only"]:
             resp = await destination_client.post(self.resource_config.base_path, resource)
 
             return _id, resp
+
+        if resource["name"] not in self.destination_integration_pipelines:
+            # Extract the source from the query
+            source = resource.get("filter", {}).get("query", "").split("source:")[-1]
+            if not source:
+                raise Exception(f"Source not found in the query for integration pipeline '{resource['name']}'")
+            payload = {
+                "ddsource": source,
+                "ddtags": ",".join(DEFAULT_TAGS),
+                "message": f"[datadog-sync-cli] Triggering creation of '{resource['name']}' integration pipeline",
+            }
+
+            # Submit a log to the logs intake API to trigger the creation of the integration pipeline
+            await destination_client.post(self.logs_intake_path, payload, subdomain=self.logs_intake_subdomain)
+            created = False
+            for _ in range(12):
+                updated_pipelines = await self.get_destination_integration_pipelines()
+                if resource["name"] in updated_pipelines:
+                    self.destination_integration_pipelines = updated_pipelines
+                    created = True
+                    break
+                else:
+                    await sleep(5)
+
+            if not created:
+                raise Exception(
+                    f"Integration pipeline '{resource['name']}' is not created after x seconds. "
+                    "It will be rechecked in the next sync."
+                )
+
+        self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]
+
+        diff = check_diff(self.resource_config, self.destination_integration_pipelines[resource["name"]], resource)
+        if diff:
+            # We run an update call if there is a diff between source and destination org resource to ensure that
+            # the integration pipeline is in the correct state (enabled/disabled).
+            return await self.update_resource(_id, resource)
+
+        return _id, self.resource_config.destination_resources[_id]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
