@@ -220,6 +220,7 @@ When running againts multiple destination organizations, a seperate working dire
 | slo_corrections                        | Sync Datadog SLO corrections.                            |
 | spans_metrics                          | Sync Datadog spans metrics.                              |
 | dashboards                             | Sync Datadog dashboards.                                 |
+| Powerpacks                             | Sync Datadog powerpacks.                                 |
 | dashboard_lists                        | Sync Datadog dashboard lists.                            |
 | logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
 | logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
@@ -257,7 +258,8 @@ See [Supported resources](#supported-resources) section below for potential reso
 | service_level_objectives               | monitors, synthetics_tests                                       |
 | slo_corrections                        | service_level_objectives                                         |
 | spans_metrics                          | -                                                                |
-| dashboards                             | monitors, roles, service_level_objectives                        |
+| dashboards                             | monitors, roles, powerpacks, service_level_objectives            |
+| powerpacks                             | monitors, service_level_objectives                               |
 | dashboard_lists                        | dashboards                                                       |
 | logs_pipelines                         | -                                                                |
 | logs_pipelines_order                   | logs_pipelines                                                   |

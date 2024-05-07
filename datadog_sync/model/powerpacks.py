@@ -2,43 +2,42 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
-
-from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
+from typing import Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-
-if TYPE_CHECKING:
-    from datadog_sync.utils.custom_client import CustomClient
+from datadog_sync.utils.custom_client import CustomClient, PaginationConfig
 
 
-class Dashboards(BaseResource):
-    resource_type = "dashboards"
+class Powerpacks(BaseResource):
+    resource_type = "powerpacks"
     resource_config = ResourceConfig(
+        base_path="/api/v2/powerpacks",
+        excluded_attributes=["id", "relationships"],
         resource_connections={
             "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
-            "powerpacks": ["widgets.definition.powerpack_id", "widgets.definition.widgets.definition.powerpack_id"],
             "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
-            "roles": ["restricted_roles"],
         },
-        base_path="/api/v1/dashboard",
-        excluded_attributes=["id", "author_handle", "author_name", "url", "created_at", "modified_at"],
     )
-    # Additional Dashboards specific attributes
+    # Additional Powerpacks specific attributes
+    pagination_config = PaginationConfig(
+        page_size=1000,
+        page_size_param="page[limit]",
+        page_number_param="page[offset]",
+        page_number_func=lambda idx, resp, page_size, page_number: page_number,
+        remaining_func=lambda *args: 1,
+    )
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
 
-        return resp["dashboards"]
+        return resp["data"]
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
-        source_client = self.config.source_client
-        import_id = _id or resource["id"]
+        if _id:
+            source_client = self.config.source_client
+            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
 
-        resource = await source_client.get(self.resource_config.base_path + f"/{import_id}")
-        resource = cast(dict, resource)
-
-        return import_id, resource
+        return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -48,18 +47,20 @@ class Dashboards(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        resp = await destination_client.post(self.resource_config.base_path, resource)
+        payload = {"data": resource}
+        resp = await destination_client.post(self.resource_config.base_path, payload)
 
-        return _id, resp
+        return _id, resp["data"]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        resp = await destination_client.put(
+        payload = {"data": resource}
+        resp = await destination_client.patch(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
-            resource,
+            payload,
         )
 
-        return _id, resp
+        return _id, resp["data"]
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
@@ -68,4 +69,4 @@ class Dashboards(BaseResource):
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        return super(Dashboards, self).connect_id(key, r_obj, resource_to_connect)
+        pass
