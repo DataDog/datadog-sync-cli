@@ -5,7 +5,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v2/powerpacks
+    uri: https://api.datadoghq.com/api/v2/powerpacks?page%5Blimit%5D=1000&page%5Boffset%5D=0
   response:
     body:
       string: '{"data": [{"type": "powerpack", "id": "1b48b2e6-0c9c-11ef-90f8-da7ad0900002",
@@ -37,10 +37,10 @@ interactions:
         "d5459c54-9e9d-11ee-a5c9-ce6dc639753f"}}}}], "included": [{"type": "users",
         "id": "d5459c54-9e9d-11ee-a5c9-ce6dc639753f", "attributes": {"name": "CI Service
         Account", "email": "frog@datadoghq.com"}}], "meta": {"pagination": {"offset":
-        0, "first_offset": 0, "prev_offset": 0, "next_offset": 25, "last_offset":
-        null, "limit": 25, "type": "offset_limit"}}, "links": {"self": "https://api.datadoghq.com/api/v2/powerpacks",
-        "last": null, "next": "https://api.datadoghq.com/api/v2/powerpacks?page[offset]=25&page[limit]=25",
-        "prev": null, "first": "https://api.datadoghq.com/api/v2/powerpacks?page[offset]=0&page[limit]=25"}}'
+        0, "first_offset": 0, "prev_offset": 0, "next_offset": 1000, "last_offset":
+        null, "limit": 1000, "type": "offset_limit"}}, "links": {"self": "https://api.datadoghq.com/api/v2/powerpacks?page%5Blimit%5D=1000&page%5Boffset%5D=0",
+        "last": null, "next": "https://api.datadoghq.com/api/v2/powerpacks?page[offset]=1000&page[limit]=1000",
+        "prev": null, "first": "https://api.datadoghq.com/api/v2/powerpacks?page[offset]=0&page[limit]=1000"}}'
     headers:
       Content-Type:
       - application/json
