@@ -1,0 +1,18 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v1/dashboard/mh9-jpb-4sr
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "mh9-jpb-4sr"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

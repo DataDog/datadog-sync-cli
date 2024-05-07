@@ -1,0 +1,98 @@
+interactions:
+- request:
+    body: '{"data": {"type": "powerpack", "attributes": {"name": "updated", "description":
+      "Created using the Datadog provider in terraform", "group_widget": {"definition":
+      {"layout_type": "ordered", "type": "group", "widgets": [{"definition": {"event_size":
+      "l", "query": "*", "title": "Widget Title", "title_align": "right", "title_size":
+      "16", "type": "event_stream"}, "id": 6762997975823800}]}, "layout": {"height":
+      10, "width": 3, "x": 1, "y": 0}, "live_span": "4h"}, "template_variables": [{"defaults":
+      ["defaults"], "name": "datacenter"}], "tags": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/powerpacks/24e2c41c-0ca2-11ef-9930-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "powerpack", "id": "24e2c41c-0ca2-11ef-9930-da7ad0900005",
+        "attributes": {"name": "updated", "description": "Created using the Datadog
+        provider in terraform", "group_widget": {"definition": {"layout_type": "ordered",
+        "type": "group", "widgets": [{"definition": {"event_size": "l", "query": "*",
+        "title": "Widget Title", "title_align": "right", "title_size": "16", "type":
+        "event_stream"}, "id": 6762997975823800}]}, "layout": {"height": 10, "width":
+        3, "x": 1, "y": 0}, "live_span": "4h"}, "template_variables": [{"defaults":
+        ["defaults"], "name": "datacenter"}], "tags": []}, "relationships": {"author":
+        {"data": {"type": "users", "id": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec"}}}},
+        "included": [{"type": "users", "id": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "attributes": {"name": "Frog", "email": "frog@datadoghq.com"}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "powerpack", "attributes": {"name": "updated", "description":
+      "Created using the Datadog provider in terraform", "group_widget": {"definition":
+      {"layout_type": "ordered", "type": "group", "widgets": [{"definition": {"event_size":
+      "l", "query": "foo:bar", "title": "Widget Title", "title_align": "right", "title_size":
+      "16", "type": "event_stream"}, "id": 1117178351269546}]}, "layout": {"height":
+      10, "width": 3, "x": 1, "y": 0}, "live_span": "4h"}, "template_variables": [{"defaults":
+      ["defaults"], "name": "datacenter"}], "tags": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/powerpacks/24e13fc0-0ca2-11ef-933f-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "powerpack", "id": "24e13fc0-0ca2-11ef-933f-da7ad0900005",
+        "attributes": {"name": "updated", "description": "Created using the Datadog
+        provider in terraform", "group_widget": {"definition": {"layout_type": "ordered",
+        "type": "group", "widgets": [{"definition": {"event_size": "l", "query": "foo:bar",
+        "title": "Widget Title", "title_align": "right", "title_size": "16", "type":
+        "event_stream"}, "id": 1117178351269546}]}, "layout": {"height": 10, "width":
+        3, "x": 1, "y": 0}, "live_span": "4h"}, "template_variables": [{"defaults":
+        ["defaults"], "name": "datacenter"}], "tags": []}, "relationships": {"author":
+        {"data": {"type": "users", "id": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec"}}}},
+        "included": [{"type": "users", "id": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "attributes": {"name": "Frog", "email": "frog@datadoghq.com"}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "powerpack", "attributes": {"name": "updated", "description":
+      "Created using the Datadog provider in terraform", "group_widget": {"definition":
+      {"layout_type": "ordered", "type": "group", "widgets": [{"definition": {"event_size":
+      "l", "query": "random:foo", "title": "Widget Title", "title_align": "right",
+      "title_size": "16", "type": "event_stream"}, "id": 1087309818806203}]}, "layout":
+      {"height": 10, "width": 3, "x": 1, "y": 0}, "live_span": "4h"}, "template_variables":
+      [{"defaults": ["defaults"], "name": "datacenter"}], "tags": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/powerpacks/24e1feb0-0ca2-11ef-82c6-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "powerpack", "id": "24e1feb0-0ca2-11ef-82c6-da7ad0900005",
+        "attributes": {"name": "updated", "description": "Created using the Datadog
+        provider in terraform", "group_widget": {"definition": {"layout_type": "ordered",
+        "type": "group", "widgets": [{"definition": {"event_size": "l", "query": "random:foo",
+        "title": "Widget Title", "title_align": "right", "title_size": "16", "type":
+        "event_stream"}, "id": 1087309818806203}]}, "layout": {"height": 10, "width":
+        3, "x": 1, "y": 0}, "live_span": "4h"}, "template_variables": [{"defaults":
+        ["defaults"], "name": "datacenter"}], "tags": []}, "relationships": {"author":
+        {"data": {"type": "users", "id": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec"}}}},
+        "included": [{"type": "users", "id": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "attributes": {"name": "Frog", "email": "frog@datadoghq.com"}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,0 +1,91 @@
+interactions:
+- request:
+    body: '{"title": "Test screenboard", "description": "Created using the Datadog
+      provider in Terraform", "layout_type": "free", "is_read_only": false, "template_variables":
+      [{"default": "aws", "prefix": "host", "name": "var_1"}, {"default": "autoscaling",
+      "prefix": "service_name", "name": "var_2"}], "widgets": [{"definition": {"title_size":
+      "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
+      "1h"}, "query": "*", "type": "event_stream", "event_size": "l"}, "layout": {"y":
+      5, "x": 5, "height": 43, "width": 32}, "id": 4066667513687323}, {"definition":
+      {"title_size": "16", "title": "Widget Title", "title_align": "left", "time":
+      {"live_span": "1h"}, "query": "*", "type": "event_timeline"}, "layout": {"y":
+      73, "x": 42, "height": 9, "width": 65}, "id": 68713679518613}, {"definition":
+      {"color": "#d00", "text": "free text content", "type": "free_text", "font_size":
+      "88", "text_align": "left"}, "layout": {"y": 5, "x": 42, "height": 20, "width":
+      30}, "id": 1117617615518455}, {"definition": {"url": "http://google.com", "type":
+      "iframe"}, "layout": {"y": 8, "x": 111, "height": 46, "width": 39}, "id": 3098118775539428},
+      {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
+      "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
+      77, "height": 20, "width": 30}, "id": 651713243056399}, {"definition": {"logset":
+      "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
+      "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
+      "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
+      "tag_source"]}, "layout": {"y": 51, "x": 5, "height": 36, "width": 32}, "id":
+      5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
+      "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts": true,
+      "start": 0, "summary_type": "monitors", "query": "type:metric", "color_preference":
+      "text", "show_last_triggered": false, "display_format": "countsAndList", "type":
+      "manage_status"}, "layout": {"y": 55, "x": 112, "height": 40, "width": 30},
+      "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query", "title_size":
+      "13", "service": "alerting-cassandra", "title": "alerting-cassandra #env:datad0g.com",
+      "size_format": "large", "show_hits": true, "show_latency": false, "title_align":
+      "center", "show_errors": true, "show_breakdown": true, "env": "datad0g.com",
+      "time": {"live_span": "1h"}, "show_distribution": true, "display_format": "three_column",
+      "type": "trace_service", "show_resource_list": false}, "layout": {"y": 28, "x":
+      40, "height": 38, "width": 67}, "id": 6949442529647217}], "notify_list": [],
+      "template_variable_presets": [{"template_variables": [{"name": "var_1", "value":
+      "host.dc"}, {"name": "var_2", "value": "my_service"}], "name": "preset_1"}],
+      "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v1/dashboard
+  response:
+    body:
+      string: '{"id": "knq-nis-kua", "title": "Test screenboard", "description": "Created
+        using the Datadog provider in Terraform", "author_handle": "c565c834-9e9a-11ee-aa8a-52121f0cd5ec",
+        "author_name": "Frog", "layout_type": "free", "url": "/dashboard/knq-nis-kua/test-screenboard",
+        "is_read_only": false, "template_variables": [{"default": "aws", "prefix":
+        "host", "name": "var_1"}, {"default": "autoscaling", "prefix": "service_name",
+        "name": "var_2"}], "widgets": [{"definition": {"title_size": "16", "title":
+        "Widget Title", "title_align": "left", "time": {"live_span": "1h"}, "query":
+        "*", "type": "event_stream", "event_size": "l"}, "layout": {"y": 5, "x": 5,
+        "height": 43, "width": 32}, "id": 4066667513687323}, {"definition": {"title_size":
+        "16", "title": "Widget Title", "title_align": "left", "time": {"live_span":
+        "1h"}, "query": "*", "type": "event_timeline"}, "layout": {"y": 73, "x": 42,
+        "height": 9, "width": 65}, "id": 68713679518613}, {"definition": {"color":
+        "#d00", "text": "free text content", "type": "free_text", "font_size": "88",
+        "text_align": "left"}, "layout": {"y": 5, "x": 42, "height": 20, "width":
+        30}, "id": 1117617615518455}, {"definition": {"url": "http://google.com",
+        "type": "iframe"}, "layout": {"y": 8, "x": 111, "height": 46, "width": 39},
+        "id": 3098118775539428}, {"definition": {"url": "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350",
+        "sizing": "fit", "margin": "small", "type": "image"}, "layout": {"y": 7, "x":
+        77, "height": 20, "width": 30}, "id": 651713243056399}, {"definition": {"logset":
+        "", "sort": {"column": "time", "order": "desc"}, "show_message_column": true,
+        "show_date_column": true, "message_display": "expanded-md", "indexes": ["main"],
+        "query": "error", "type": "log_stream", "columns": ["core_host", "core_service",
+        "tag_source"]}, "layout": {"y": 51, "x": 5, "height": 36, "width": 32}, "id":
+        5458329230004343}, {"definition": {"sort": "status,asc", "count": 50, "title_size":
+        "16", "title": "Widget Title", "title_align": "left", "hide_zero_counts":
+        true, "start": 0, "summary_type": "monitors", "query": "type:metric", "color_preference":
+        "text", "show_last_triggered": false, "display_format": "countsAndList", "type":
+        "manage_status"}, "layout": {"y": 55, "x": 112, "height": 40, "width": 30},
+        "id": 1112741664700765}, {"definition": {"span_name": "cassandra.query", "title_size":
+        "13", "service": "alerting-cassandra", "title": "alerting-cassandra #env:datad0g.com",
+        "size_format": "large", "show_hits": true, "show_latency": false, "title_align":
+        "center", "show_errors": true, "show_breakdown": true, "env": "datad0g.com",
+        "time": {"live_span": "1h"}, "show_distribution": true, "display_format":
+        "three_column", "type": "trace_service", "show_resource_list": false}, "layout":
+        {"y": 28, "x": 40, "height": 38, "width": 67}, "id": 6949442529647217}], "notify_list":
+        [], "created_at": "2024-05-07T18:44:28.007181+00:00", "modified_at": "2024-05-07T18:44:28.007181+00:00",
+        "template_variable_presets": [{"template_variables": [{"name": "var_1", "value":
+        "host.dc"}, {"name": "var_2", "value": "my_service"}], "name": "preset_1"}],
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1
