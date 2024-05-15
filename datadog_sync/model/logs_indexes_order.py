@@ -29,11 +29,16 @@ class LogsIndexesOrder(BaseResource):
     # Additional LogsIndexesOrder specific attributes
     destination_indexes_order: Dict[str, Dict] = dict()
     default_id: str = "logs-index-order"
+    logs_indexes_path: str = "/api/v1/logs/config/indexes"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = await client.get(self.resource_config.base_path)
+        indexes_resp = await client.get(self.logs_indexes_path)
+        index_order_resp = await client.get(self.resource_config.base_path)
 
-        return [resp]
+        valid_indexes = [index["name"] for index in indexes_resp["indexes"]]
+        valid_indexes_order = [index for index in index_order_resp["index_names"] if index in valid_indexes]
+
+        return [{"index_names": valid_indexes_order}]
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
