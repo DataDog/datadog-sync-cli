@@ -19,6 +19,7 @@ from datadog_sync.model.logs_restriction_queries import LogsRestrictionQueries
 from datadog_sync.model.metric_tag_configurations import MetricTagConfigurations
 from datadog_sync.model.monitors import Monitors
 from datadog_sync.model.notebooks import Notebooks
+from datadog_sync.model.powerpacks import Powerpacks
 from datadog_sync.model.restriction_policies import RestrictionPolicies
 from datadog_sync.model.roles import Roles
 from datadog_sync.model.service_level_objectives import ServiceLevelObjectives

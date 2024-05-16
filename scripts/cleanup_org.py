@@ -44,6 +44,7 @@ class Cleanup:
         self.cleanup_host_tags()
         self.cleanup_logs_restriction_queries()
         self.cleanup_teams()
+        self.cleanup_powerpacks()
         # self.cleanup_integrations_aws()
 
     def validate_org(self):
@@ -239,6 +240,14 @@ class Cleanup:
         res = self.get_resources(path)
         for team in res["data"]:
             self.delete_resource(team["id"], path)
+
+    def cleanup_powerpacks(
+        self,
+    ):
+        path = "/api/v2/powerpacks"
+        res = self.get_resources(path)
+        for resource in res["data"]:
+            self.delete_resource(resource["id"], path)
 
     def get_resources(self, path, *args, **kwargs):
         url = self.base_url + path

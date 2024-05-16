@@ -30,7 +30,7 @@ Run the `import` command to read the specified resources from the source organiz
 
 Then, you can run the `sync` command which will use the stored files from previous `import` command (unless `--force-missing-dependencies` flag is passed) to create/modify the resources on the destination organization. The pushed resources are saved in the directory `resources/destination`.
 
-*Note*: The tool uses the `resources` directory as the source of truth for determining what resources need to be created and mofified. Hence, this directory should not be removed or corrupted.
+*Note*: The tool uses the `resources` directory as the source of truth for determining what resources need to be created and modified. Hence, this directory should not be removed or corrupted.
 
 **Example Usage**
 ```
@@ -220,6 +220,7 @@ When running againts multiple destination organizations, a seperate working dire
 | slo_corrections                        | Sync Datadog SLO corrections.                            |
 | spans_metrics                          | Sync Datadog spans metrics.                              |
 | dashboards                             | Sync Datadog dashboards.                                 |
+| powerpacks                             | Sync Datadog powerpacks.                                 |
 | dashboard_lists                        | Sync Datadog dashboard lists.                            |
 | logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
 | logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
@@ -257,7 +258,8 @@ See [Supported resources](#supported-resources) section below for potential reso
 | service_level_objectives               | monitors, synthetics_tests                                       |
 | slo_corrections                        | service_level_objectives                                         |
 | spans_metrics                          | -                                                                |
-| dashboards                             | monitors, roles, service_level_objectives                        |
+| dashboards                             | monitors, roles, powerpacks, service_level_objectives            |
+| powerpacks                             | monitors, service_level_objectives                               |
 | dashboard_lists                        | dashboards                                                       |
 | logs_pipelines                         | -                                                                |
 | logs_pipelines_order                   | logs_pipelines                                                   |
