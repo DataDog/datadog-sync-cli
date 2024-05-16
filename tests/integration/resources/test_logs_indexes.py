@@ -20,14 +20,14 @@ class TestLogsIndexesResources(BaseResourcesTestClass):
 
     def test_resource_cleanup(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        
+
         api_key = os.environ.get("DD_DESTINATION_API_KEY")
         app_key = os.environ.get("DD_DESTINATION_APP_KEY")
         api_url = os.environ.get("DD_DESTINATION_API_URL")
         logs_index_order_req = urllib.request.Request(
             f"{api_url}/api/v1/logs/config/index-order", headers={"DD-API-KEY": api_key, "DD-APPLICATION-KEY": app_key}
         )
-        
+
         # Get the initial logs index order
         with urllib.request.urlopen(logs_index_order_req) as response:
             order = json.loads(response.read())
