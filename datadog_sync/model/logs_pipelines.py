@@ -7,6 +7,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 from asyncio import sleep
 
+from re import match
+
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.resource_utils import DEFAULT_TAGS, check_diff
 
@@ -25,6 +27,7 @@ class LogsPipelines(BaseResource):
     destination_integration_pipelines: Dict[str, Dict] = dict()
     logs_intake_subdomain = "http-intake.logs"
     logs_intake_path = "/api/v2/logs"
+    logs_intg_pipeline_source_re = r"source:((?P<source>\S+)$|\((?P<source_or>\S+) OR.*\))"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
@@ -59,7 +62,7 @@ class LogsPipelines(BaseResource):
 
         if resource["name"] not in self.destination_integration_pipelines:
             # Extract the source from the query
-            source = resource.get("filter", {}).get("query", "").split("source:")[-1]
+            source = self.extract_source_from_query(resource.get("filter", {}).get("query"))
             if not source:
                 raise Exception(f"Source not found in the query for integration pipeline '{resource['name']}'")
             payload = {
@@ -135,3 +138,13 @@ class LogsPipelines(BaseResource):
                 destination_integration_pipelines_obj[pipeline["name"]] = pipeline
 
         return destination_integration_pipelines_obj
+
+    @staticmethod
+    def extract_source_from_query(query: str | None) -> str | None:
+        """Extract the first source from the query."""
+        if not query:
+            return
+
+        source = match(LogsPipelines.logs_intg_pipeline_source_re, query)
+        if source:
+            return source.group("source") or source.group("source_or")

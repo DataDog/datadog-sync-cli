@@ -23,3 +23,54 @@ class TestLogsPipelinesResourcesIntegrationFilter(BaseResourcesTestClass):
     @pytest.mark.skip(reason="resource is only updated by default")
     def test_resource_update_sync(self):
         pass
+
+
+@pytest.mark.parametrize(
+    "query, expected",
+    [
+        (
+            "",
+            None,
+        ),
+        (
+            "source:",
+            None,
+        ),
+        (
+            None,
+            None,
+        ),
+        (
+            "source:haproxy",
+            "haproxy",
+        ),
+        (
+            "source:citrix_hypervisor",
+            "citrix_hypervisor",
+        ),
+        (
+            "source:gcp.pubsub.subscription",
+            "gcp.pubsub.subscription",
+        ),
+        (
+            "source:(gcp.bigquery.dataset OR gcp.bigquery.project OR gcp.bigquery.resource)",
+            "gcp.bigquery.dataset",
+        ),
+        (
+            "source:nginx-ingress-controller",
+            "nginx-ingress-controller",
+        ),
+        (
+            (
+                "source:(agent OR datadog-agent OR datadog-agent-cluster-worker OR "
+                "datadog-cluster-agent OR process-agent OR security-agent OR "
+                "system-probe OR trace-agent OR cluster-agent)"
+            ),
+            "agent",
+        ),
+    ],
+)
+def test_tagging_config(query, expected):
+    source = LogsPipelines.extract_source_from_query(query)
+
+    assert source == expected
