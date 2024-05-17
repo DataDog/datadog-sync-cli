@@ -5,12 +5,12 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/logs/config/indexes/gcp-index-name
+    uri: https://api.datadoghq.com/api/v1/logs/config/indexes/new-index
   response:
     body:
-      string: '{"name": "gcp-index-name", "filter": {"query": "source:gcp.*"}, "num_retention_days":
+      string: '{"name": "new-index", "filter": {"query": ""}, "num_retention_days":
         15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
-        {"reset_time": "14:00", "reset_utc_offset": "+00:00"}, "daily_limit_warning_threshold_percentage":
+        {"reset_time": "14:00", "reset_utc_offset": "-04:00"}, "daily_limit_warning_threshold_percentage":
         null, "exclusion_filters": []}'
     headers:
       Content-Type:
@@ -44,10 +44,13 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/logs/config/index-order
+    uri: https://api.datadoghq.com/api/v1/logs/config/indexes/gcp-index-name
   response:
     body:
-      string: '{"index_names": ["test-index", "gcp-index-name", "main"]}'
+      string: '{"name": "gcp-index-name", "filter": {"query": "source:gcp.*"}, "num_retention_days":
+        15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
+        {"reset_time": "14:00", "reset_utc_offset": "+00:00"}, "daily_limit_warning_threshold_percentage":
+        null, "exclusion_filters": []}'
     headers:
       Content-Type:
       - application/json
@@ -63,18 +66,90 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/indexes
   response:
     body:
-      string: '{"indexes": [{"name": "test-index", "filter": {"query": "test:filter"},
+      string: '{"indexes": [{"name": "new-index", "filter": {"query": "updated"},
         "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited": false,
         "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "-04:00"},
         "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []},
-        {"name": "gcp-index-name", "filter": {"query": "source:gcp.*"}, "num_retention_days":
+        {"name": "main", "filter": {"query": "updated"}, "num_retention_days": 15,
+        "daily_limit": null, "is_rate_limited": false, "daily_limit_reset": null,
+        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": [{"name":
+        "gcp-filter", "is_enabled": true, "filter": {"query": "source:gcp.*", "sample_rate":
+        1.0}}]}, {"name": "gcp-index-name", "filter": {"query": "source:gcp.*updated"},
+        "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited": false,
+        "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "+00:00"},
+        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []},
+        {"name": "test-index", "filter": {"query": "test:filter"}, "num_retention_days":
         15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
-        {"reset_time": "14:00", "reset_utc_offset": "+00:00"}, "daily_limit_warning_threshold_percentage":
-        null, "exclusion_filters": []}, {"name": "main", "filter": {"query": ""},
-        "num_retention_days": 15, "daily_limit": null, "is_rate_limited": false, "daily_limit_reset":
-        null, "daily_limit_warning_threshold_percentage": null, "exclusion_filters":
-        [{"name": "gcp-filter", "is_enabled": true, "filter": {"query": "source:gcp.*",
-        "sample_rate": 1.0}}]}]}'
+        {"reset_time": "14:00", "reset_utc_offset": "-04:00"}, "daily_limit_warning_threshold_percentage":
+        null, "exclusion_filters": []}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/indexes
+  response:
+    body:
+      string: '{"indexes": [{"name": "new-index", "filter": {"query": "updated"},
+        "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited": false,
+        "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "-04:00"},
+        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []},
+        {"name": "main", "filter": {"query": "updated"}, "num_retention_days": 15,
+        "daily_limit": null, "is_rate_limited": false, "daily_limit_reset": null,
+        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": [{"name":
+        "gcp-filter", "is_enabled": true, "filter": {"query": "source:gcp.*", "sample_rate":
+        1.0}}]}, {"name": "gcp-index-name", "filter": {"query": "source:gcp.*updated"},
+        "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited": false,
+        "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "+00:00"},
+        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []},
+        {"name": "test-index", "filter": {"query": "test:filter"}, "num_retention_days":
+        15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
+        {"reset_time": "14:00", "reset_utc_offset": "-04:00"}, "daily_limit_warning_threshold_percentage":
+        null, "exclusion_filters": []}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/index-order
+  response:
+    body:
+      string: '{"index_names": ["new-index", "main", "gcp-index-name", "test-index"]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"filter": {"query": ""}, "num_retention_days": 15, "daily_limit": 200000000,
+      "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "-04:00"},
+      "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/logs/config/indexes/new-index
+  response:
+    body:
+      string: '{"name": "new-index", "filter": {"query": ""}, "num_retention_days":
+        15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
+        {"reset_time": "14:00", "reset_utc_offset": "-04:00"}, "daily_limit_warning_threshold_percentage":
+        null, "exclusion_filters": []}'
     headers:
       Content-Type:
       - application/json
@@ -127,7 +202,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"index_names": ["main", "gcp-index-name", "test-index"]}'
+    body: '{"index_names": ["new-index", "main", "gcp-index-name", "test-index"]}'
     headers:
       Content-Type:
       - application/json
@@ -135,7 +210,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/index-order
   response:
     body:
-      string: '{"index_names": ["main", "gcp-index-name", "test-index"]}'
+      string: '{"index_names": ["new-index", "main", "gcp-index-name", "test-index"]}'
     headers:
       Content-Type:
       - application/json
