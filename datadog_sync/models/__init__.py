@@ -17,6 +17,7 @@ from datadog_sync.model.logs_pipelines import LogsPipelines
 from datadog_sync.model.logs_pipelines_order import LogsPipelinesOrder
 from datadog_sync.model.logs_restriction_queries import LogsRestrictionQueries
 from datadog_sync.model.metric_tag_configurations import MetricTagConfigurations
+from datadog_sync.model.metrics_metadata import MetricsMetadata
 from datadog_sync.model.monitors import Monitors
 from datadog_sync.model.notebooks import Notebooks
 from datadog_sync.model.powerpacks import Powerpacks
