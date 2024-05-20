@@ -208,32 +208,32 @@ When running againts multiple destination organizations, a seperate working dire
 
 | Resource                               | Description                                              |
 |----------------------------------------|----------------------------------------------------------|
-| roles                                  | Sync Datadog roles.                                      |
-| users                                  | Sync Datadog users.                                      |
-| synthetics_private_locations           | Sync Datadog synthetics private locations.               |
-| synthetics_tests                       | Sync Datadog synthetics tests.                           |
-| synthetics_global_variables            | Sync Datadog synthetics global variables.                |
-| monitors                               | Sync Datadog monitors.                                   |
-| downtimes (**deprecated**)             | Sync Datadog downtimes.                                  |
-| downtime_schedules                     | Sync Datadog downtimes.                                  |
-| service_level_objectives               | Sync Datadog SLOs.                                       |
-| slo_corrections                        | Sync Datadog SLO corrections.                            |
-| spans_metrics                          | Sync Datadog spans metrics.                              |
-| dashboards                             | Sync Datadog dashboards.                                 |
-| powerpacks                             | Sync Datadog powerpacks.                                 |
 | dashboard_lists                        | Sync Datadog dashboard lists.                            |
-| logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
-| logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
-| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                      |
-| notebooks                              | Sync Datadog notebooks.                                  |
+| dashboards                             | Sync Datadog dashboards.                                 |
+| downtime_schedules                     | Sync Datadog downtimes.                                  |
+| downtimes (**deprecated**)             | Sync Datadog downtimes.                                  |
 | host_tags                              | Sync Datadog host tags.                                  |
+| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                      |
 | logs_indexes                           | Sync Datadog logs indexes.                               |
 | logs_indexes_order                     | Sync Datadog logs indexes order.                         |
 | logs_metrics                           | Sync Datadog logs metrics.                               |
+| logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
+| logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
 | logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
 | metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
+| monitors                               | Sync Datadog monitors.                                   |
+| notebooks                              | Sync Datadog notebooks.                                  |
+| powerpacks                             | Sync Datadog powerpacks.                                 |
 | restriction_policies                   | Sync Datadog restriction policies.                       |
+| roles                                  | Sync Datadog roles.                                      |
+| service_level_objectives               | Sync Datadog SLOs.                                       |
+| slo_corrections                        | Sync Datadog SLO corrections.                            |
+| spans_metrics                          | Sync Datadog spans metrics.                              |
+| synthetics_global_variables            | Sync Datadog synthetics global variables.                |
+| synthetics_private_locations           | Sync Datadog synthetics private locations.               |
+| synthetics_tests                       | Sync Datadog synthetics tests.                           |
 | teams                                  | Sync Datadog teams (excluding users and permissions).    |
+| users                                  | Sync Datadog users.                                      |
 
 ***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
 
@@ -247,29 +247,29 @@ See [Supported resources](#supported-resources) section below for potential reso
 
 | Resource                               | Dependencies                                                     |
 |----------------------------------------|------------------------------------------------------------------|
-| roles                                  | -                                                                |
-| users                                  | roles                                                            |
-| synthetics_private_locations           | -                                                                |
-| synthetics_tests                       | synthetics_private_locations, synthetics_global_variables, roles |
-| synthetics_global_variables            | synthetics_tests                                                 |
-| monitors                               | roles, service_level_objectives                                  |
-| downtimes (**deprecated**)             | monitors                                                         |
-| downtime_schedules                     | monitors                                                         |
-| service_level_objectives               | monitors, synthetics_tests                                       |
-| slo_corrections                        | service_level_objectives                                         |
-| spans_metrics                          | -                                                                |
-| dashboards                             | monitors, roles, powerpacks, service_level_objectives            |
-| powerpacks                             | monitors, service_level_objectives                               |
 | dashboard_lists                        | dashboards                                                       |
-| logs_pipelines                         | -                                                                |
-| logs_pipelines_order                   | logs_pipelines                                                   |
-| logs_custom_pipelines (**deprecated**) | -                                                                |
-| notebooks                              | -                                                                |
+| dashboards                             | monitors, roles, powerpacks, service_level_objectives            |
+| downtime_schedules                     | monitors                                                         |
+| downtimes (**deprecated**)             | monitors                                                         |
 | host_tags                              | -                                                                |
+| logs_custom_pipelines (**deprecated**) | -                                                                |
 | logs_indexes                           | -                                                                |
 | logs_indexes_order                     | logs_indexes                                                     |
 | logs_metrics                           | -                                                                |
+| logs_pipelines                         | -                                                                |
+| logs_pipelines_order                   | logs_pipelines                                                   |
 | logs_restriction_queries               | roles                                                            |
 | metric_tag_configurations              | -                                                                |
+| monitors                               | roles, service_level_objectives                                  |
+| notebooks                              | -                                                                |
+| powerpacks                             | monitors, service_level_objectives                               |
 | restriction_policies                   | dashboards, service_level_objectives, notebooks, users, roles    |
+| roles                                  | -                                                                |
+| service_level_objectives               | monitors, synthetics_tests                                       |
+| slo_corrections                        | service_level_objectives                                         |
+| spans_metrics                          | -                                                                |
+| synthetics_global_variables            | synthetics_tests                                                 |
+| synthetics_private_locations           | -                                                                |
+| synthetics_tests                       | synthetics_private_locations, synthetics_global_variables, roles |
 | teams                                  | -                                                                |
+| users                                  | roles                                                            |
