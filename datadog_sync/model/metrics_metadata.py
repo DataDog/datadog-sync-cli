@@ -44,10 +44,7 @@ class MetricsMetadata(BaseResource):
         pass
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        destination_client = self.config.destination_client
-        resp = await destination_client.put(self.resource_config.base_path + f"/{_id}", resource)
-
-        return _id, resp
+        return await self.update_resource(_id, resource)
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
