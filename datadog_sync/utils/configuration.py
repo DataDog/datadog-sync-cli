@@ -60,13 +60,11 @@ class Configuration(object):
                 try:
                     await _validate_client(self.destination_client)
                 except Exception:
-                    await self._exit_cleanup()
                     exit(1)
             if cmd == Command.IMPORT:
                 try:
                     await _validate_client(self.source_client)
                 except Exception:
-                    await self._exit_cleanup()
                     exit(1)
             self.logger.info("clients validated successfully")
 

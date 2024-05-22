@@ -54,5 +54,5 @@ async def run_cmd_async(cfg: Configuration, handler: ResourcesHandler, cmd: Comm
     finally:
         await cfg.exit_async()
         # Disable progress bar so it doesn't interfere with the logger
-        if handler.worker.pbar:
+        if handler.worker and handler.worker.pbar:
             handler.worker.pbar.disable = True
