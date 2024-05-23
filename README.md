@@ -220,6 +220,7 @@ When running againts multiple destination organizations, a seperate working dire
 | logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
 | logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
 | logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
+| metric_percentiles                     | Sync Datadog metric percentiles.                         |
 | metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
 | monitors                               | Sync Datadog monitors.                                   |
 | notebooks                              | Sync Datadog notebooks.                                  |
@@ -229,9 +230,9 @@ When running againts multiple destination organizations, a seperate working dire
 | service_level_objectives               | Sync Datadog SLOs.                                       |
 | slo_corrections                        | Sync Datadog SLO corrections.                            |
 | spans_metrics                          | Sync Datadog spans metrics.                              |
-| synthetics_global_variables            | Sync Datadog synthetic global variables.                |
-| synthetics_private_locations           | Sync Datadog synthetic private locations.               |
-| synthetics_tests                       | Sync Datadog synthetic tests.                           |
+| synthetics_global_variables            | Sync Datadog synthetic global variables.                 |
+| synthetics_private_locations           | Sync Datadog synthetic private locations.                |
+| synthetics_tests                       | Sync Datadog synthetic tests.                            |
 | teams                                  | Sync Datadog teams (excluding users and permissions).    |
 | users                                  | Sync Datadog users.                                      |
 
@@ -259,6 +260,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | logs_pipelines                         | -                                                                |
 | logs_pipelines_order                   | logs_pipelines                                                   |
 | logs_restriction_queries               | roles                                                            |
+| metric_percentiles                     | -                                                                |
 | metric_tag_configurations              | -                                                                |
 | monitors                               | roles, service_level_objectives                                  |
 | notebooks                              | -                                                                |
