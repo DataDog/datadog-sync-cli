@@ -5,13 +5,10 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/metric/distribution/list_summaries
+    uri: https://api.datadoghq.com/metric/distribution/list_summaries?window=1209600
   response:
     body:
-      string: '[{"metric_name": "test.metric.distribution.example", "group_by": ["check",
-        "check_id"], "include_percentiles": false, "aggr_mode": "use_groups", "summary_type":
-        "default", "groups_negated": false, "key": 116777275, "source": "intake"},
-        {"metric_name": "test.percentile.metric", "group_by": [], "include_percentiles":
+      string: '[{"metric_name": "test.percentile.metric", "group_by": [], "include_percentiles":
         true, "aggr_mode": "all_groups", "summary_type": "default", "groups_negated":
         false, "key": 874397677, "source": "intake_serverless"}]'
     headers:

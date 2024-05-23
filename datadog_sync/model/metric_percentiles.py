@@ -19,7 +19,10 @@ class MetricPercentiles(BaseResource):
     metrics_summaries_get_path = "/metric/distribution/list_summaries"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = await client.get(self.metrics_summaries_get_path)
+        params = {
+            "window": 14 * 86400,  # 14 days
+        }
+        resp = await client.get(self.metrics_summaries_get_path, params=params)
 
         return resp
 
