@@ -1,0 +1,20 @@
+interactions:
+- request:
+    body: '{"group_by": ["updated"], "include_percentiles": true, "aggr_mode": "all_groups",
+      "summary_type": "default", "groups_negated": false, "source": "intake_serverless",
+      "metric": "test.percentile.metric"}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/metric/distribution/summary_aggr
+  response:
+    body:
+      string: '{"key": 216776627, "metric_key": 7360640445}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

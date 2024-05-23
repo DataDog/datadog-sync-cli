@@ -81,11 +81,13 @@ class BaseResourcesTestClass:
         # update fields and save the file.
         for resource in source_resources.values():
             try:
-                current_value = path_lookup(resource, self.field_to_update)
-                if current_value is None:
-                    current_value = ""
+                value = path_lookup(resource, self.field_to_update)
+                if isinstance(value, list):
+                    value.append("updated")
+                if isinstance(value, str):
+                    value = value + "updated"
 
-                path_update(resource, self.field_to_update, current_value + "updated")
+                path_update(resource, self.field_to_update, value)
             except Exception as e:
                 pytest.fail(e)
 
@@ -203,33 +205,22 @@ def open_resources(resource_type):
 
 
 def path_lookup(obj, path):
-    path = path.split(".", 1)
-
-    if len(path) == 1:
-        if path[0] in obj:
-            return obj[path[0]]
-        elif isinstance(obj, list):
-            return ""
-        else:
+    tmp = obj
+    for p in path.split("."):
+        if p not in tmp:
             raise Exception(f"path_lookup error: invalid key {path}")
-    else:
-        if path[0] in obj:
-            return path_lookup(obj[path[0]], path[1])
-        else:
-            raise Exception(f"path_lookup error: invalid key {path}")
+        tmp = tmp[p]
+
+    return tmp
 
 
-def path_update(obj, path, value):
-    path = path.split(".", 1)
-    if len(path) == 1:
-        if path[0] in obj:
-            obj[path[0]] = value
-        elif isinstance(obj, list):
-            obj.append(value)
-        else:
+def path_update(obj, path, new_value):
+    path = path.split(".")
+    for p in path:
+        if p == path[-1]:
+            obj[p] = new_value
+            break
+        if p not in obj:
             raise Exception(f"path_update error: invalid key {path}")
-    else:
-        if path[0] in obj:
-            path_update(obj[path[0]], path[1], value)
-        else:
-            raise Exception(f"path_update error: invalid key {path}")
+
+        obj = obj[p]

@@ -1,0 +1,23 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/metric/distribution/list_summaries
+  response:
+    body:
+      string: '[{"metric_name": "test.metric.distribution.example", "group_by": ["check",
+        "check_id"], "include_percentiles": false, "aggr_mode": "use_groups", "summary_type":
+        "default", "groups_negated": false, "key": 116777275, "source": "intake"},
+        {"metric_name": "test.percentile.metric", "group_by": [], "include_percentiles":
+        true, "aggr_mode": "all_groups", "summary_type": "default", "groups_negated":
+        false, "key": 874397677, "source": "intake_serverless"}]'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1
