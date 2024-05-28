@@ -1,0 +1,965 @@
+interactions:
+- request:
+    body: '{"description": "Estimated usage for API tests.updated", "short_name":
+      "API tests est. usage", "type": "count", "unit": "run", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/datadog.estimated_usage.synthetics.api_test_runs
+  response:
+    body:
+      string: '{"description": "Estimated usage for API tests.updated", "short_name":
+        "API tests est. usage", "type": "count", "unit": "run", "per_unit": null,
+        "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The total time it took to execute a browser test step.updated",
+      "short_name": "Step duration", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.browser.step.duration
+  response:
+    body:
+      string: '{"description": "The total time it took to execute a browser test step.updated",
+        "short_name": "Step duration", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The count of API responses we receive.updated", "short_name":
+      "Response count", "type": "count", "unit": "request", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.api.response
+  response:
+    body:
+      string: '{"description": "The count of API responses we receive.updated", "short_name":
+        "Response count", "type": "count", "unit": "request", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "Estimated usage for browser tests.updated", "short_name":
+      "Browser tests est. usage", "type": "count", "unit": "run", "per_unit": null,
+      "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/datadog.estimated_usage.synthetics.browser_test_runs
+  response:
+    body:
+      string: '{"description": "Estimated usage for browser tests.updated", "short_name":
+        "Browser tests est. usage", "type": "count", "unit": "run", "per_unit": null,
+        "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The Cumulative Layout Shift (core web vital) in a browser
+      test step.updated", "short_name": "Step CLS", "type": "gauge", "unit": null,
+      "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.browser.step.cumulative_layout_shift
+  response:
+    body:
+      string: '{"description": "The Cumulative Layout Shift (core web vital) in a
+        browser test step.updated", "short_name": "Step CLS", "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "updated", "short_name": null, "type": "gauge", "unit":
+      null, "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/datadog.estimated_usage.metrics.custom
+  response:
+    body:
+      string: '{"description": "updated", "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The Cumulative Layout Shift (core web vital) in a browser
+      test step.updated", "short_name": "Step CLS", "type": "gauge", "unit": null,
+      "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.browser.step.cumulative_layout_shift.distrib
+  response:
+    body:
+      string: '{"description": "The Cumulative Layout Shift (core web vital) in a
+        browser test step.updated", "short_name": "Step CLS", "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The number of buckets in a browser test. Every 25 steps
+      in a browser test is a single bucket.updated", "short_name": "Number of buckets",
+      "type": "count", "unit": null, "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.browser.number_of_buckets
+  response:
+    body:
+      string: '{"description": "The number of buckets in a browser test. Every 25
+        steps in a browser test is a single bucket.updated", "short_name": "Number
+        of buckets", "type": "count", "unit": null, "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "This is a random metric valueupdated", "short_name": null,
+      "type": "gauge", "unit": "instance", "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/rand.test.metric
+  response:
+    body:
+      string: '{"description": "This is a random metric valueupdated", "short_name":
+        null, "type": "gauge", "unit": "instance", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "updated", "short_name": null, "type": "gauge", "unit":
+      null, "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/datadog.estimated_usage.metrics.custom.by_metric
+  response:
+    body:
+      string: '{"description": "updated", "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time until a page can be interacted with. Calculated
+      from the first page in a browser test.updated", "short_name": "Time to interactive",
+      "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.browser.time_to_interactive
+  response:
+    body:
+      string: '{"description": "The time until a page can be interacted with. Calculated
+        from the first page in a browser test.updated", "short_name": "Time to interactive",
+        "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The overall time the request took to be processed.updated",
+      "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.dns.response.time.distrib
+  response:
+    body:
+      string: '{"description": "The overall time the request took to be processed.updated",
+        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time until a page can be interacted with. Calculated
+      from the first page in a browser test.updated", "short_name": "Time to interactive",
+      "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.browser.time_to_interactive.distrib
+  response:
+    body:
+      string: '{"description": "The time until a page can be interacted with. Calculated
+        from the first page in a browser test.updated", "short_name": "Time to interactive",
+        "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time to establish the TCP connection to the server.updated",
+      "short_name": "Connect time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.connect.time
+  response:
+    body:
+      string: '{"description": "The time to establish the TCP connection to the server.updated",
+        "short_name": "Connect time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time to establish the TCP connection to the server.updated",
+      "short_name": "Connect time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.connect.time.distrib
+  response:
+    body:
+      string: '{"description": "The time to establish the TCP connection to the server.updated",
+        "short_name": "Connect time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The total time it took to execute a browser test step.updated",
+      "short_name": "Step duration", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.browser.step.duration.distrib
+  response:
+    body:
+      string: '{"description": "The total time it took to execute a browser test step.updated",
+        "short_name": "Step duration", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The overall time the request took to be processed.updated",
+      "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.dns.response.time
+  response:
+    body:
+      string: '{"description": "The overall time the request took to be processed.updated",
+        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The Largest Contentful Paint (core web vital) in a browser
+      test step.updated", "short_name": "Step LCP", "type": "gauge", "unit": "millisecond",
+      "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.browser.step.largest_contentful_paint
+  response:
+    body:
+      string: '{"description": "The Largest Contentful Paint (core web vital) in a
+        browser test step.updated", "short_name": "Step LCP", "type": "gauge", "unit":
+        "millisecond", "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time spent resolving the DNS name of the last request.updated",
+      "short_name": "DNS time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.dns.time
+  response:
+    body:
+      string: '{"description": "The time spent resolving the DNS name of the last
+        request.updated", "short_name": "DNS time", "type": "gauge", "unit": "millisecond",
+        "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The Largest Contentful Paint (core web vital) in a browser
+      test step.updated", "short_name": "Step LCP", "type": "gauge", "unit": "millisecond",
+      "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.browser.step.largest_contentful_paint.distrib
+  response:
+    body:
+      string: '{"description": "The Largest Contentful Paint (core web vital) in a
+        browser test step.updated", "short_name": "Step LCP", "type": "gauge", "unit":
+        "millisecond", "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time spent resolving the DNS name of the last request.updated",
+      "short_name": "DNS time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.dns.time.distrib
+  response:
+    body:
+      string: '{"description": "The time spent resolving the DNS name of the last
+        request.updated", "short_name": "DNS time", "type": "gauge", "unit": "millisecond",
+        "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The size of the response in bytes.updated", "short_name":
+      "Response size", "type": "gauge", "unit": "byte", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.response.size
+  response:
+    body:
+      string: '{"description": "The size of the response in bytes.updated", "short_name":
+        "Response size", "type": "gauge", "unit": "byte", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time spent downloading the response.updated", "short_name":
+      "Download time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.download.time.distrib
+  response:
+    body:
+      string: '{"description": "The time spent downloading the response.updated",
+        "short_name": "Download time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The count of HTTP responses we receive.updated", "short_name":
+      "Response count", "type": "count", "unit": "request", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.response
+  response:
+    body:
+      string: '{"description": "The count of HTTP responses we receive.updated", "short_name":
+        "Response count", "type": "count", "unit": "request", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time spent waiting for the first byte of response
+      to be received.updated", "short_name": "TTFB", "type": "gauge", "unit": "millisecond",
+      "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.firstbyte.time
+  response:
+    body:
+      string: '{"description": "The time spent waiting for the first byte of response
+        to be received.updated", "short_name": "TTFB", "type": "gauge", "unit": "millisecond",
+        "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time spent waiting for the first byte of response
+      to be received.updated", "short_name": "TTFB", "type": "gauge", "unit": "millisecond",
+      "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.firstbyte.time.distrib
+  response:
+    body:
+      string: '{"description": "The time spent waiting for the first byte of response
+        to be received.updated", "short_name": "TTFB", "type": "gauge", "unit": "millisecond",
+        "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time spent downloading the response.updated", "short_name":
+      "Download time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.download.time
+  response:
+    body:
+      string: '{"description": "The time spent downloading the response.updated",
+        "short_name": "Download time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The overall time the request took to be processed.updated",
+      "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.response.time
+  response:
+    body:
+      string: '{"description": "The overall time the request took to be processed.updated",
+        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The overall time the request took to be processed.updated",
+      "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.response.time.distrib
+  response:
+    body:
+      string: '{"description": "The overall time the request took to be processed.updated",
+        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The duration of the TLS handshake. This metric does not
+      appear if the last request is not over HTTPS.updated", "short_name": "SSL time",
+      "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.ssl.time.distrib
+  response:
+    body:
+      string: '{"description": "The duration of the TLS handshake. This metric does
+        not appear if the last request is not over HTTPS.updated", "short_name": "SSL
+        time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The duration of the DNS lookup.updated", "short_name":
+      "DNS time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.ssl.dns.time
+  response:
+    body:
+      string: '{"description": "The duration of the DNS lookup.updated", "short_name":
+        "DNS time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The duration of the TLS handshake. This metric does not
+      appear if the last request is not over HTTPS.updated", "short_name": "SSL time",
+      "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.http.ssl.time
+  response:
+    body:
+      string: '{"description": "The duration of the TLS handshake. This metric does
+        not appear if the last request is not over HTTPS.updated", "short_name": "SSL
+        time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The overall time the request took to be processed.updated",
+      "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.ssl.response.time
+  response:
+    body:
+      string: '{"description": "The overall time the request took to be processed.updated",
+        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The duration of the TLS handshake.updated", "short_name":
+      "TLS handshake time", "type": "gauge", "unit": "millisecond", "per_unit": null,
+      "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.ssl.handshake.time
+  response:
+    body:
+      string: '{"description": "The duration of the TLS handshake.updated", "short_name":
+        "TLS handshake time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The overall time the multistep request took to be processed.updated",
+      "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.multi.response.time
+  response:
+    body:
+      string: '{"description": "The overall time the multistep request took to be
+        processed.updated", "short_name": "Response time", "type": "gauge", "unit":
+        "millisecond", "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The duration of the DNS lookup.updated", "short_name":
+      "DNS time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.tcp.dns.time
+  response:
+    body:
+      string: '{"description": "The duration of the DNS lookup.updated", "short_name":
+        "DNS time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The remaining time before the SSL certificate expires.updated",
+      "short_name": "Remaining time before SSL certificate expiration", "type": "gauge",
+      "unit": "minute", "per_unit": null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.ssl.time_to_expiry
+  response:
+    body:
+      string: '{"description": "The remaining time before the SSL certificate expires.updated",
+        "short_name": "Remaining time before SSL certificate expiration", "type":
+        "gauge", "unit": "minute", "per_unit": null, "statsd_interval": null, "integration":
+        null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The overall time the multistep request took to be processed.updated",
+      "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.multi.response.time.distrib
+  response:
+    body:
+      string: '{"description": "The overall time the multistep request took to be
+        processed.updated", "short_name": "Response time", "type": "gauge", "unit":
+        "millisecond", "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The overall time the request took to be processed.updated",
+      "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.tcp.response.time
+  response:
+    body:
+      string: '{"description": "The overall time the request took to be processed.updated",
+        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The overall time the request took to be processed.updated",
+      "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.tcp.response.time.distrib
+  response:
+    body:
+      string: '{"description": "The overall time the request took to be processed.updated",
+        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The time to establish the TCP connection.updated", "short_name":
+      "Connect time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.tcp.connect.time
+  response:
+    body:
+      string: '{"description": "The time to establish the TCP connection.updated",
+        "short_name": "Connect time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "updated", "short_name": null, "type": "count", "unit":
+      null, "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/test.metric
+  response:
+    body:
+      string: '{"description": "updated", "short_name": null, "type": "count", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The number of Synthetic test runs.updated", "short_name":
+      "Synthetic test runs", "type": "count", "unit": "run", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.test_runs
+  response:
+    body:
+      string: '{"description": "The number of Synthetic test runs.updated", "short_name":
+        "Synthetic test runs", "type": "count", "unit": "run", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The number of Synthetic test steps.updated", "short_name":
+      "The number of Synthetic test run steps", "type": "count", "unit": "step", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.test_run_steps
+  response:
+    body:
+      string: '{"description": "The number of Synthetic test steps.updated", "short_name":
+        "The number of Synthetic test run steps", "type": "count", "unit": "step",
+        "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "Days until X.509 certificate expirationupdated", "short_name":
+      "Days until expiration", "type": "gauge", "unit": "day", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/tls.days_left
+  response:
+    body:
+      string: '{"description": "Days until X.509 certificate expirationupdated", "short_name":
+        "Days until expiration", "type": "gauge", "unit": "day", "per_unit": null,
+        "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "Seconds until X.509 certificate expirationupdated", "short_name":
+      "Seconds until expiration", "type": "gauge", "unit": "second", "per_unit": null,
+      "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/tls.seconds_left
+  response:
+    body:
+      string: '{"description": "Seconds until X.509 certificate expirationupdated",
+        "short_name": "Seconds until expiration", "type": "gauge", "unit": "second",
+        "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The overall time the request took to be processed.updated",
+      "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+      null, "statsd_interval": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.ssl.response.time.distrib
+  response:
+    body:
+      string: '{"description": "The overall time the request took to be processed.updated",
+        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
+        null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "The count of SSL responses we receive.updated", "short_name":
+      "Response count", "type": "count", "unit": "request", "per_unit": null, "statsd_interval":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v1/metrics/synthetics.ssl.response
+  response:
+    body:
+      string: '{"description": "The count of SSL responses we receive.updated", "short_name":
+        "Response count", "type": "count", "unit": "request", "per_unit": null, "statsd_interval":
+        null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

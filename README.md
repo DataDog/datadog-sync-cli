@@ -222,6 +222,7 @@ When running againts multiple destination organizations, a seperate working dire
 | logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
 | metric_percentiles                     | Sync Datadog metric percentiles.                         |
 | metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
+| metrics_metadata                       | Sync Datadog metric metadata.                            |
 | monitors                               | Sync Datadog monitors.                                   |
 | notebooks                              | Sync Datadog notebooks.                                  |
 | powerpacks                             | Sync Datadog powerpacks.                                 |
@@ -262,6 +263,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | logs_restriction_queries               | roles                                                            |
 | metric_percentiles                     | -                                                                |
 | metric_tag_configurations              | -                                                                |
+| metrics_metadata                       | -                                                                |
 | monitors                               | roles, service_level_objectives                                  |
 | notebooks                              | -                                                                |
 | powerpacks                             | monitors, service_level_objectives                               |

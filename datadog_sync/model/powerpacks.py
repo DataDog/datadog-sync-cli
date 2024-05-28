@@ -73,4 +73,3 @@ class Powerpacks(BaseResource):
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(Powerpacks, self).connect_id(key, r_obj, resource_to_connect)
-
