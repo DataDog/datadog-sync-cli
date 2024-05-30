@@ -220,6 +220,7 @@ When running againts multiple destination organizations, a seperate working dire
 | logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
 | logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
 | logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
+| metric_percentiles                     | Sync Datadog metric percentiles.                         |
 | metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
 | metrics_metadata                       | Sync Datadog metric metadata.                            |
 | monitors                               | Sync Datadog monitors.                                   |
@@ -260,6 +261,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | logs_pipelines                         | -                                                                |
 | logs_pipelines_order                   | logs_pipelines                                                   |
 | logs_restriction_queries               | roles                                                            |
+| metric_percentiles                     | -                                                                |
 | metric_tag_configurations              | -                                                                |
 | metrics_metadata                       | -                                                                |
 | monitors                               | roles, service_level_objectives                                  |
