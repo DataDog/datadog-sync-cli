@@ -89,9 +89,9 @@ class LogsPipelinesOrder(BaseResource):
         ids_to_delete = []
 
         for i, v in enumerate(r_obj[key]):
-            if v in destination_pipelines:
-                r_obj[key][i] = destination_pipelines[v]["id"]
-            elif (
+            # Note: order of conditionals is important here to ensure we don't
+            # collide with the logs_pipelines invalid integration pipeline handling
+            if (
                 v in source_pipelines
                 and source_pipelines[v]["name"] in INVALID_INTEGRATION_LOGS_PIPELINES
                 and source_pipelines[v]["is_read_only"]
@@ -103,6 +103,8 @@ class LogsPipelinesOrder(BaseResource):
                     failed_connections.append(v)
                 else:
                     ids_to_delete.append(v)
+            elif v in destination_pipelines:
+                r_obj[key][i] = destination_pipelines[v]["id"]
             else:
                 failed_connections.append(v)
 
