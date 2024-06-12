@@ -87,6 +87,7 @@ class LogsPipelinesOrder(BaseResource):
         destination_pipelines = logs_pipelines.resource_config.destination_resources
         failed_connections = []
         ids_to_delete = []
+
         for i, v in enumerate(r_obj[key]):
             if v in destination_pipelines:
                 r_obj[key][i] = destination_pipelines[v]["id"]
@@ -105,11 +106,8 @@ class LogsPipelinesOrder(BaseResource):
             else:
                 failed_connections.append(v)
 
-        for _id in ids_to_delete:
-            try:
-                r_obj[key].remove(_id)
-            except ValueError:
-                pass
+        if ids_to_delete:
+            r_obj[key] = [_id for _id in r_obj[key] if _id not in ids_to_delete]
 
         return failed_connections
 
