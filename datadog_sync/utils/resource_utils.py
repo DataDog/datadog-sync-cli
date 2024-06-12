@@ -29,6 +29,9 @@ log = logging.getLogger(LOGGER_NAME)
 DEFAULT_TAGS = ["managed_by:datadog-sync"]
 
 
+INVALID_INTEGRATION_LOGS_PIPELINES = {"cron", "ufw"}
+
+
 class SkipResource(Exception):
     def __init__(self, _id: str, _type: str, msg: str):
         super(SkipResource, self).__init__(f"Skipping {_type} with id: {_id}. {msg}")

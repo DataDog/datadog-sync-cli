@@ -10,7 +10,7 @@ from asyncio import sleep
 from re import match
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import DEFAULT_TAGS, check_diff
+from datadog_sync.utils.resource_utils import DEFAULT_TAGS, INVALID_INTEGRATION_LOGS_PIPELINES, SkipResource, check_diff
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -51,6 +51,16 @@ class LogsPipelines(BaseResource):
 
     async def pre_apply_hook(self) -> None:
         self.destination_integration_pipelines = await self.get_destination_integration_pipelines()
+        for name in INVALID_INTEGRATION_LOGS_PIPELINES:
+            if name not in self.destination_integration_pipelines:
+                for _id, resource in self.resource_config.source_resources.items():
+                    if resource["name"] == name and resource["is_read_only"]:
+                        # This is a workaround to ensure diffs are not produced for
+                        # invalid integration pipelines which cannot be created.
+                        # To avoid false diff, we will insert the resource into the
+                        # destination resource in memory
+                        self.resource_config.destination_resources[_id] = resource
+                        break
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
@@ -61,6 +71,10 @@ class LogsPipelines(BaseResource):
             return _id, resp
 
         if resource["name"] not in self.destination_integration_pipelines:
+            if resource["name"] in INVALID_INTEGRATION_LOGS_PIPELINES:
+                # Skip creation of invalid integration pipelines if it is not present in the destination.
+                raise SkipResource(resource["name"], self.resource_type, "Invalid pipeline cannot be created.")
+
             # Extract the source from the query
             source = self.extract_source_from_query(resource.get("filter", {}).get("query"))
             if not source:

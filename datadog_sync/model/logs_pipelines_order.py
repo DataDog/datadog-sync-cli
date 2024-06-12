@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import LogsPipelinesOrderIdsComparator
+from datadog_sync.utils.resource_utils import INVALID_INTEGRATION_LOGS_PIPELINES, LogsPipelinesOrderIdsComparator
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -47,6 +47,14 @@ class LogsPipelinesOrder(BaseResource):
 
     async def pre_apply_hook(self) -> None:
         self.destination_pipeline_order = await self.get_destination_pipeline_order()
+        # Ensure the destination integration pipelines are populated
+        # We use this data to delete invalid integration pipelines from the order
+        logs_pipelines = self.config.resources["logs_pipelines"]
+        if not logs_pipelines.destination_integration_pipelines:
+            self.config.logger.info("Destination integration pipelines not populated. Fetching now.")
+            logs_pipelines.destination_integration_pipelines = (
+                await logs_pipelines.get_destination_integration_pipelines()
+            )
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if not self.destination_pipeline_order:
@@ -75,7 +83,36 @@ class LogsPipelinesOrder(BaseResource):
         self.config.logger.warning("logs_pipeline_order cannot deleted. Removing resource from config only.")
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        return super(LogsPipelinesOrder, self).connect_id(key, r_obj, resource_to_connect)
+        logs_pipelines = self.config.resources["logs_pipelines"]
+        source_pipelines = logs_pipelines.resource_config.source_resources
+        destination_pipelines = logs_pipelines.resource_config.destination_resources
+        failed_connections = []
+        ids_to_delete = []
+        for i, v in enumerate(r_obj[key]):
+            if v in destination_pipelines:
+                r_obj[key][i] = destination_pipelines[v]["id"]
+            elif (
+                v in source_pipelines
+                and source_pipelines[v]["name"] in INVALID_INTEGRATION_LOGS_PIPELINES
+                and source_pipelines[v]["is_read_only"]
+            ):
+                # We need to determine if the source pipeline is a valid integration pipeline
+                # and wether it already exists in the destination org. If it does not,
+                # we need to remove it from the pipeline order.
+                if source_pipelines[v]["name"] in logs_pipelines.destination_integration_pipelines:
+                    failed_connections.append(v)
+                else:
+                    ids_to_delete.append(v)
+            else:
+                failed_connections.append(v)
+
+        for _id in ids_to_delete:
+            try:
+                r_obj[key].remove(_id)
+            except ValueError:
+                pass
+
+        return failed_connections
 
     async def get_destination_pipeline_order(self):
         destination_client = self.config.destination_client
