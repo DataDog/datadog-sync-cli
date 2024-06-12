@@ -51,7 +51,6 @@ class LogsPipelinesOrder(BaseResource):
         # We use this data to delete invalid integration pipelines from the order
         logs_pipelines = self.config.resources["logs_pipelines"]
         if not logs_pipelines.destination_integration_pipelines:
-            self.config.logger.info("Destination integration pipelines not populated. Fetching now.")
             logs_pipelines.destination_integration_pipelines = (
                 await logs_pipelines.get_destination_integration_pipelines()
             )
