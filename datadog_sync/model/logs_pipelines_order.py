@@ -100,8 +100,13 @@ class LogsPipelinesOrder(BaseResource):
                 # and wether it already exists in the destination org. If it does not,
                 # we need to remove it from the pipeline order.
                 if source_pipelines[v]["name"] in logs_pipelines.destination_integration_pipelines:
-                    failed_connections.append(v)
+                    if v in destination_pipelines:
+                        r_obj[key][i] = destination_pipelines[v]["id"]
+                    else:
+                        failed_connections.append(v)
                 else:
+                    # Remove invalid integration pipeline that have not already been
+                    # enabled from pipeline order
                     ids_to_delete.append(v)
             elif v in destination_pipelines:
                 r_obj[key][i] = destination_pipelines[v]["id"]
