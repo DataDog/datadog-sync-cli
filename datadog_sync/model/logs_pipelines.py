@@ -108,6 +108,14 @@ class LogsPipelines(BaseResource):
         return _id, self.resource_config.destination_resources[_id]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        current_destination_resource = self.resource_config.destination_resources[_id]
+        if current_destination_resource.get("__datadog_sync_invalid"):
+            # We do not update invalid integration pipelines.
+            # We only update the local state with the new payload to avoid diffs.
+            current_destination_resource.update(resource)
+            current_destination_resource["__datadog_sync_invalid"] = True
+            return _id, current_destination_resource
+
         destination_client = self.config.destination_client
         resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
