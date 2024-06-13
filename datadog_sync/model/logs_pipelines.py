@@ -21,13 +21,14 @@ class LogsPipelines(BaseResource):
     resource_config = ResourceConfig(
         concurrent=False,
         base_path="/api/v1/logs/config/pipelines",
-        excluded_attributes=["id", "type"],
+        excluded_attributes=["id", "type", "__datadog_sync_invalid"],
     )
     # Additional LogsPipelines specific attributes
     destination_integration_pipelines: Dict[str, Dict] = dict()
     logs_intake_subdomain = "http-intake.logs"
     logs_intake_path = "/api/v2/logs"
     logs_intg_pipeline_source_re = r"source:((?P<source>\S+)$|\((?P<source_or>\S+) OR.*\))"
+    invalid_integration_pipelines = {"cron", "ufw"}
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
@@ -61,6 +62,13 @@ class LogsPipelines(BaseResource):
             return _id, resp
 
         if resource["name"] not in self.destination_integration_pipelines:
+            if resource["name"] in self.invalid_integration_pipelines:
+                # We do not create invalid integration pipelines but rather insert
+                # the pipeline in local state with additional metadata to indicate
+                # that it is invalid.
+                # Upstream resources will selectively drop references to the resource based on the field.
+                resource["__datadog_sync_invalid"] = True
+                return _id, resource
             # Extract the source from the query
             source = self.extract_source_from_query(resource.get("filter", {}).get("query"))
             if not source:
