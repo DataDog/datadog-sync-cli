@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 # ruff: noqa
 
+from datadog_sync.model.authn_mappings import AuthNMappings
 from datadog_sync.model.dashboard_lists import DashboardLists
 from datadog_sync.model.dashboards import Dashboards
 from datadog_sync.model.downtime_schedules import DowntimeSchedules

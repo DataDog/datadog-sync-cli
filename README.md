@@ -208,6 +208,7 @@ When running againts multiple destination organizations, a seperate working dire
 
 | Resource                               | Description                                              |
 |----------------------------------------|----------------------------------------------------------|
+| authn_mappings                         | Sync Datadog authn mappings.                            |
 | dashboard_lists                        | Sync Datadog dashboard lists.                            |
 | dashboards                             | Sync Datadog dashboards.                                 |
 | downtime_schedules                     | Sync Datadog downtimes.                                  |
@@ -249,6 +250,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 
 | Resource                               | Dependencies                                                     |
 |----------------------------------------|------------------------------------------------------------------|
+| authn_mappings                         | roles, teams                                                     |
 | dashboard_lists                        | dashboards                                                       |
 | dashboards                             | monitors, roles, powerpacks, service_level_objectives            |
 | downtime_schedules                     | monitors                                                         |
