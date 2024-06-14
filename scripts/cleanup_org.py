@@ -24,6 +24,7 @@ class Cleanup:
         self.validate_org()
 
         # Delete all supported resources
+        self.cleanup_authn_mappigns()
         self.cleanup_service_level_objectives()
         self.cleanup_slo_corrections()
         self.cleanup_synthetics_tests()
@@ -58,6 +59,15 @@ class Cleanup:
         except requests.exceptions.HTTPError as e:
             print("Error getting organization. Validate api+app keys %s: %s", url, e)
             exit(1)
+
+    def cleanup_authn_mappigns(
+        self,
+    ):
+        path = "/api/v2/authn_mappings"
+        res_role = self.get_resources(path, params={"resource_type": "role"})
+        res_team = self.get_resources(path, params={"resource_type": "team"})
+        for resource in res_role["data"] + res_team["data"]:
+            self.delete_resource(resource["id"], path)
 
     def cleanup_dashboards(
         self,

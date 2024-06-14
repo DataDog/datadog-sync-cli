@@ -1,0 +1,94 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/authn_mappings?page%5Bnumber%5D=0&page%5Bsize%5D=100&resource_type=role
+  response:
+    body:
+      string: '{"data": [{"type": "authn_mappings", "id": "29556498-29bf-11ef-abeb-da7ad0900002",
+        "attributes": {"attribute_key": "Member-of", "attribute_value": "TestOrgFoo",
+        "created_at": "2024-06-13T19:57:28.072750+00:00", "modified_at": "2024-06-13T19:58:14.970554+00:00"},
+        "relationships": {"role": {"data": {"type": "roles", "id": "fa017a37-bfcb-11eb-a4d7-da7ad0900002"}}}},
+        {"type": "authn_mappings", "id": "29562f9a-29bf-11ef-a243-da7ad0900002", "attributes":
+        {"attribute_key": "Member-of", "attribute_value": "TestOrg", "created_at":
+        "2024-06-13T19:57:28.077725+00:00", "modified_at": "2024-06-13T19:58:14.967881+00:00"},
+        "relationships": {"role": {"data": {"type": "roles", "id": "fa017a37-bfcb-11eb-a4d7-da7ad0900002"}}}},
+        {"type": "authn_mappings", "id": "454a4024-29bf-11ef-8d8e-da7ad0900002", "attributes":
+        {"attribute_key": "Member-of", "attribute_value": "TestOrgFooBar", "created_at":
+        "2024-06-13T19:58:14.975381+00:00", "modified_at": "2024-06-13T19:58:14.975381+00:00"},
+        "relationships": {"role": {"data": {"type": "roles", "id": "fa017a37-bfcb-11eb-a4d7-da7ad0900002"}}}}],
+        "included": [{"type": "roles", "id": "fa017a37-bfcb-11eb-a4d7-da7ad0900002",
+        "attributes": {"name": "Datadog Read Only Role", "created_at": "2021-05-28T15:47:16.084615+00:00",
+        "modified_at": "2021-05-28T15:47:16.084615+00:00"}, "relationships": {"permissions":
+        {"data": [{"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e"},
+        {"type": "permissions", "id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73"}, {"type":
+        "permissions", "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions",
+        "id": "4441648c-d8b1-11e9-a77a-1b899a04b304"}, {"type": "permissions", "id":
+        "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb"}, {"type": "permissions", "id": "b382b982-8535-11ea-93de-2bf1bdf20798"},
+        {"type": "permissions", "id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5"}, {"type":
+        "permissions", "id": "80de1ec0-aa58-11ea-95e2-aff381626d5d"}, {"type": "permissions",
+        "id": "5025ee24-f923-11ea-adbc-576ea241df8d"}, {"type": "permissions", "id":
+        "417ba636-2dce-11eb-84c0-6bce5b0d9de0"}, {"type": "permissions", "id": "43fa188e-2dce-11eb-84c0-835ad1fd6287"},
+        {"type": "permissions", "id": "4916eebe-2dce-11eb-84c0-271cb2c672e8"}, {"type":
+        "permissions", "id": "edfd5e75-801f-11eb-96d8-da7ad0900002"}, {"type": "permissions",
+        "id": "98b984f4-b16d-11eb-a2c6-da7ad0900002"}, {"type": "permissions", "id":
+        "12efc20e-d36c-11eb-a9b8-da7ad0900002"}, {"type": "permissions", "id": "97971c1c-e895-11eb-b13c-da7ad0900002"},
+        {"type": "permissions", "id": "7605ef24-f376-11eb-b90b-da7ad0900002"}, {"type":
+        "permissions", "id": "7605ef25-f376-11eb-b90b-da7ad0900002"}, {"type": "permissions",
+        "id": "f4473c60-4792-11ec-a27b-da7ad0900002"}, {"type": "permissions", "id":
+        "8e4d6b6e-5750-11ec-a9f4-da7ad0900002"}, {"type": "permissions", "id": "945b3bb4-5884-11ec-aa6d-da7ad0900002"},
+        {"type": "permissions", "id": "f6e917a8-8502-11ec-bf20-da7ad0900002"}, {"type":
+        "permissions", "id": "f6e917a6-8502-11ec-bf20-da7ad0900002"}, {"type": "permissions",
+        "id": "b6bf9ac6-9a59-11ec-8480-da7ad0900002"}, {"type": "permissions", "id":
+        "f8e941cf-e746-11ec-b22d-da7ad0900002"}, {"type": "permissions", "id": "ee68fba8-173a-11ed-b00b-da7ad0900002"},
+        {"type": "permissions", "id": "6be119a6-1cd8-11ed-b185-da7ad0900002"}, {"type":
+        "permissions", "id": "4ee674f6-55d9-11ed-b10d-da7ad0900002"}, {"type": "permissions",
+        "id": "4ee5731c-55d9-11ed-b10b-da7ad0900002"}, {"type": "permissions", "id":
+        "8247acc4-7a4c-11ed-958f-da7ad0900002"}, {"type": "permissions", "id": "6c5ad874-7aff-11ed-a5cd-da7ad0900002"},
+        {"type": "permissions", "id": "c13a2368-7d61-11ed-b5b7-da7ad0900002"}, {"type":
+        "permissions", "id": "4e61a95e-de98-11ed-aa23-da7ad0900002"}, {"type": "permissions",
+        "id": "a773e3d8-fff2-11ed-965c-da7ad0900002"}, {"type": "permissions", "id":
+        "1377d9e4-0ec7-11ee-aebc-da7ad0900002"}, {"type": "permissions", "id": "de0e73c2-3d23-11ee-aa7d-da7ad0900002"},
+        {"type": "permissions", "id": "a8b4d6e8-4ea4-11ee-b482-da7ad0900002"}, {"type":
+        "permissions", "id": "50c270de-69ee-11ee-9151-da7ad0900002"}, {"type": "permissions",
+        "id": "bdda0cea-c1f0-11ee-b427-da7ad0900002"}, {"type": "permissions", "id":
+        "f5f475d4-0197-11ef-be1f-da7ad0900002"}, {"type": "permissions", "id": "8c3a9cde-0973-11ef-a2be-da7ad0900002"}]}}}],
+        "meta": {"page": {"total_count": 3, "total_filtered_count": 3}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/authn_mappings?page%5Bnumber%5D=0&page%5Bsize%5D=100&resource_type=team
+  response:
+    body:
+      string: '{"data": [{"type": "authn_mappings", "id": "5f23356e-29bf-11ef-b407-da7ad0900002",
+        "attributes": {"attribute_key": "Member-of", "attribute_value": "TestOrgFoo",
+        "created_at": "2024-06-13T19:58:58.340586+00:00", "modified_at": "2024-06-13T19:58:58.340586+00:00"},
+        "relationships": {"team": {"data": {"type": "team", "id": "65f966e4-4189-4b52-bff1-ba5f7e572b73"}}}},
+        {"type": "authn_mappings", "id": "5f2351fc-29bf-11ef-929a-da7ad0900002", "attributes":
+        {"attribute_key": "Member-of", "attribute_value": "TestOrg", "created_at":
+        "2024-06-13T19:58:58.341089+00:00", "modified_at": "2024-06-13T19:58:58.341089+00:00"},
+        "relationships": {"team": {"data": {"type": "team", "id": "65f966e4-4189-4b52-bff1-ba5f7e572b73"}}}}],
+        "included": [{"type": "team", "id": "65f966e4-4189-4b52-bff1-ba5f7e572b73",
+        "attributes": {"name": "Example team", "handle": "example-team", "summary":
+        "This is the description of a team", "avatar": null, "banner": 0, "user_count":
+        1, "link_count": 0, "is_open_membership": true, "handles": ["example-team"]}}],
+        "meta": {"page": {"total_count": 2, "total_filtered_count": 2}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,0 +1,243 @@
+interactions:
+- request:
+    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "Member-of",
+      "attribute_value": "TestOrgFooBarupdated"}, "relationships": {"role": {"data":
+      {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}}, "id": "2158979a-2a75-11ef-b6cb-da7ad0900005"}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/authn_mappings/2158979a-2a75-11ef-b6cb-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "authn_mappings", "id": "2158979a-2a75-11ef-b6cb-da7ad0900005",
+        "attributes": {"saml_assertion_attribute_id": "36921", "attribute_key": "Member-of",
+        "attribute_value": "TestOrgFooBarupdated", "created_at": "2024-06-14T17:40:03.076111+00:00",
+        "modified_at": "2024-06-14T17:40:03.299775+00:00"}, "relationships": {"saml_assertion_attribute":
+        {"data": {"type": "saml_assertion_attributes", "id": "36921"}}, "role": {"data":
+        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}, "team":
+        {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
+        "36921", "attributes": {"attribute_key": "Member-of", "attribute_value": "TestOrgFooBarupdated"}},
+        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005", "attributes":
+        {"name": "Datadog Read Only Role", "created_at": "2024-06-14T17:40:02.876918+00:00",
+        "modified_at": "2024-06-14T17:40:02.877733+00:00"}, "relationships": {"permissions":
+        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
+        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
+        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
+        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
+        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
+        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
+        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
+        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
+        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
+        "permissions", "id": "f2f3d048-801f-11eb-9d41-da7ad0900005"}, {"type": "permissions",
+        "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
+        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005"},
+        {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"}, {"type":
+        "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}, {"type": "permissions",
+        "id": "f5e054da-4792-11ec-944b-da7ad0900005"}, {"type": "permissions", "id":
+        "cf873174-574f-11ec-9869-da7ad0900005"}, {"type": "permissions", "id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005"},
+        {"type": "permissions", "id": "e31e0056-8502-11ec-b266-da7ad0900005"}, {"type":
+        "permissions", "id": "e31cca10-8502-11ec-b266-da7ad0900005"}, {"type": "permissions",
+        "id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005"}, {"type": "permissions", "id":
+        "f33f74be-e746-11ec-87e3-da7ad0900005"}, {"type": "permissions", "id": "f42e4c6e-173a-11ed-8654-da7ad0900005"},
+        {"type": "permissions", "id": "72d1e2fe-1cd8-11ed-a26b-da7ad0900005"}, {"type":
+        "permissions", "id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions",
+        "id": "5dedec22-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions", "id":
+        "926612da-7a4c-11ed-b809-da7ad0900005"}, {"type": "permissions", "id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005"},
+        {"type": "permissions", "id": "55f64460-7d61-11ed-9c36-da7ad0900005"}, {"type":
+        "permissions", "id": "94c8a4da-de87-11ed-9e92-da7ad0900005"}, {"type": "permissions",
+        "id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005"}, {"type": "permissions", "id":
+        "3276c638-0ebe-11ee-9428-da7ad0900005"}, {"type": "permissions", "id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005"},
+        {"type": "permissions", "id": "94783714-4e9b-11ee-959b-da7ad0900005"}, {"type":
+        "permissions", "id": "2de35000-69e5-11ee-996b-da7ad0900005"}, {"type": "permissions",
+        "id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005"}, {"type": "permissions", "id":
+        "cccfe6c4-018e-11ef-afb6-da7ad0900005"}, {"type": "permissions", "id": "e120d4c0-0969-11ef-965e-da7ad0900005"}]}}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "Member-of",
+      "attribute_value": "TestOrgupdated"}, "relationships": {"role": {"data": {"type":
+      "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}}, "id": "21593696-2a75-11ef-bbf5-da7ad0900005"}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/authn_mappings/21593696-2a75-11ef-bbf5-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "authn_mappings", "id": "21593696-2a75-11ef-bbf5-da7ad0900005",
+        "attributes": {"saml_assertion_attribute_id": "36922", "attribute_key": "Member-of",
+        "attribute_value": "TestOrgupdated", "created_at": "2024-06-14T17:40:03.079612+00:00",
+        "modified_at": "2024-06-14T17:40:03.313248+00:00"}, "relationships": {"saml_assertion_attribute":
+        {"data": {"type": "saml_assertion_attributes", "id": "36922"}}, "role": {"data":
+        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}, "team":
+        {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
+        "36922", "attributes": {"attribute_key": "Member-of", "attribute_value": "TestOrgupdated"}},
+        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005", "attributes":
+        {"name": "Datadog Read Only Role", "created_at": "2024-06-14T17:40:02.876918+00:00",
+        "modified_at": "2024-06-14T17:40:02.877733+00:00"}, "relationships": {"permissions":
+        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
+        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
+        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
+        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
+        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
+        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
+        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
+        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
+        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
+        "permissions", "id": "f2f3d048-801f-11eb-9d41-da7ad0900005"}, {"type": "permissions",
+        "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
+        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005"},
+        {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"}, {"type":
+        "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}, {"type": "permissions",
+        "id": "f5e054da-4792-11ec-944b-da7ad0900005"}, {"type": "permissions", "id":
+        "cf873174-574f-11ec-9869-da7ad0900005"}, {"type": "permissions", "id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005"},
+        {"type": "permissions", "id": "e31e0056-8502-11ec-b266-da7ad0900005"}, {"type":
+        "permissions", "id": "e31cca10-8502-11ec-b266-da7ad0900005"}, {"type": "permissions",
+        "id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005"}, {"type": "permissions", "id":
+        "f33f74be-e746-11ec-87e3-da7ad0900005"}, {"type": "permissions", "id": "f42e4c6e-173a-11ed-8654-da7ad0900005"},
+        {"type": "permissions", "id": "72d1e2fe-1cd8-11ed-a26b-da7ad0900005"}, {"type":
+        "permissions", "id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions",
+        "id": "5dedec22-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions", "id":
+        "926612da-7a4c-11ed-b809-da7ad0900005"}, {"type": "permissions", "id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005"},
+        {"type": "permissions", "id": "55f64460-7d61-11ed-9c36-da7ad0900005"}, {"type":
+        "permissions", "id": "94c8a4da-de87-11ed-9e92-da7ad0900005"}, {"type": "permissions",
+        "id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005"}, {"type": "permissions", "id":
+        "3276c638-0ebe-11ee-9428-da7ad0900005"}, {"type": "permissions", "id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005"},
+        {"type": "permissions", "id": "94783714-4e9b-11ee-959b-da7ad0900005"}, {"type":
+        "permissions", "id": "2de35000-69e5-11ee-996b-da7ad0900005"}, {"type": "permissions",
+        "id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005"}, {"type": "permissions", "id":
+        "cccfe6c4-018e-11ef-afb6-da7ad0900005"}, {"type": "permissions", "id": "e120d4c0-0969-11ef-965e-da7ad0900005"}]}}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "Member-of",
+      "attribute_value": "TestOrgFooupdated"}, "relationships": {"role": {"data":
+      {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}}, "id": "21534c0e-2a75-11ef-8c13-da7ad0900005"}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/authn_mappings/21534c0e-2a75-11ef-8c13-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "authn_mappings", "id": "21534c0e-2a75-11ef-8c13-da7ad0900005",
+        "attributes": {"saml_assertion_attribute_id": "36920", "attribute_key": "Member-of",
+        "attribute_value": "TestOrgFooupdated", "created_at": "2024-06-14T17:40:03.040988+00:00",
+        "modified_at": "2024-06-14T17:40:03.316209+00:00"}, "relationships": {"saml_assertion_attribute":
+        {"data": {"type": "saml_assertion_attributes", "id": "36920"}}, "role": {"data":
+        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}, "team":
+        {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
+        "36920", "attributes": {"attribute_key": "Member-of", "attribute_value": "TestOrgFooupdated"}},
+        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005", "attributes":
+        {"name": "Datadog Read Only Role", "created_at": "2024-06-14T17:40:02.876918+00:00",
+        "modified_at": "2024-06-14T17:40:02.877733+00:00"}, "relationships": {"permissions":
+        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
+        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
+        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
+        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
+        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
+        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
+        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
+        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
+        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
+        "permissions", "id": "f2f3d048-801f-11eb-9d41-da7ad0900005"}, {"type": "permissions",
+        "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
+        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005"},
+        {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"}, {"type":
+        "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}, {"type": "permissions",
+        "id": "f5e054da-4792-11ec-944b-da7ad0900005"}, {"type": "permissions", "id":
+        "cf873174-574f-11ec-9869-da7ad0900005"}, {"type": "permissions", "id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005"},
+        {"type": "permissions", "id": "e31e0056-8502-11ec-b266-da7ad0900005"}, {"type":
+        "permissions", "id": "e31cca10-8502-11ec-b266-da7ad0900005"}, {"type": "permissions",
+        "id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005"}, {"type": "permissions", "id":
+        "f33f74be-e746-11ec-87e3-da7ad0900005"}, {"type": "permissions", "id": "f42e4c6e-173a-11ed-8654-da7ad0900005"},
+        {"type": "permissions", "id": "72d1e2fe-1cd8-11ed-a26b-da7ad0900005"}, {"type":
+        "permissions", "id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions",
+        "id": "5dedec22-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions", "id":
+        "926612da-7a4c-11ed-b809-da7ad0900005"}, {"type": "permissions", "id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005"},
+        {"type": "permissions", "id": "55f64460-7d61-11ed-9c36-da7ad0900005"}, {"type":
+        "permissions", "id": "94c8a4da-de87-11ed-9e92-da7ad0900005"}, {"type": "permissions",
+        "id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005"}, {"type": "permissions", "id":
+        "3276c638-0ebe-11ee-9428-da7ad0900005"}, {"type": "permissions", "id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005"},
+        {"type": "permissions", "id": "94783714-4e9b-11ee-959b-da7ad0900005"}, {"type":
+        "permissions", "id": "2de35000-69e5-11ee-996b-da7ad0900005"}, {"type": "permissions",
+        "id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005"}, {"type": "permissions", "id":
+        "cccfe6c4-018e-11ef-afb6-da7ad0900005"}, {"type": "permissions", "id": "e120d4c0-0969-11ef-965e-da7ad0900005"}]}}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "Member-of",
+      "attribute_value": "TestOrgFooupdated"}, "relationships": {"team": {"data":
+      {"type": "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b"}}}, "id": "214e8a66-2a75-11ef-9113-da7ad0900005"}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/authn_mappings/214e8a66-2a75-11ef-9113-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "authn_mappings", "id": "214e8a66-2a75-11ef-9113-da7ad0900005",
+        "attributes": {"saml_assertion_attribute_id": "36920", "attribute_key": "Member-of",
+        "attribute_value": "TestOrgFooupdated", "created_at": "2024-06-14T17:40:03.009631+00:00",
+        "modified_at": "2024-06-14T17:40:03.299764+00:00"}, "relationships": {"saml_assertion_attribute":
+        {"data": {"type": "saml_assertion_attributes", "id": "36920"}}, "role": {"data":
+        null}, "team": {"data": {"type": "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b"}}}},
+        "included": [{"type": "saml_assertion_attributes", "id": "36920", "attributes":
+        {"attribute_key": "Member-of", "attribute_value": "TestOrgFooupdated"}}, {"type":
+        "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b", "attributes": {"name":
+        "Example team", "handle": "example-team", "summary": "This is the description
+        of a team", "avatar": null, "banner": 2, "user_count": 0, "link_count": 0,
+        "is_open_membership": true, "handles": ["example-team"]}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "Member-of",
+      "attribute_value": "TestOrgupdated"}, "relationships": {"team": {"data": {"type":
+      "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b"}}}, "id": "2151d2ca-2a75-11ef-9510-da7ad0900005"}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/authn_mappings/2151d2ca-2a75-11ef-9510-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"type": "authn_mappings", "id": "2151d2ca-2a75-11ef-9510-da7ad0900005",
+        "attributes": {"saml_assertion_attribute_id": "36922", "attribute_key": "Member-of",
+        "attribute_value": "TestOrgupdated", "created_at": "2024-06-14T17:40:03.031520+00:00",
+        "modified_at": "2024-06-14T17:40:03.320078+00:00"}, "relationships": {"saml_assertion_attribute":
+        {"data": {"type": "saml_assertion_attributes", "id": "36922"}}, "role": {"data":
+        null}, "team": {"data": {"type": "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b"}}}},
+        "included": [{"type": "saml_assertion_attributes", "id": "36922", "attributes":
+        {"attribute_key": "Member-of", "attribute_value": "TestOrgupdated"}}, {"type":
+        "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b", "attributes": {"name":
+        "Example team", "handle": "example-team", "summary": "This is the description
+        of a team", "avatar": null, "banner": 2, "user_count": 0, "link_count": 0,
+        "is_open_membership": true, "handles": ["example-team"]}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1
