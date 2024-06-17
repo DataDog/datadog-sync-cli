@@ -75,7 +75,24 @@ class LogsPipelinesOrder(BaseResource):
         self.config.logger.warning("logs_pipeline_order cannot deleted. Removing resource from config only.")
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        return super(LogsPipelinesOrder, self).connect_id(key, r_obj, resource_to_connect)
+        logs_pipelines = self.config.resources["logs_pipelines"].resource_config.destination_resources
+        failed_connections = []
+        ids_to_omit = []
+        for i, _id in enumerate(r_obj[key]):
+            if _id in logs_pipelines:
+                if logs_pipelines[_id].get("__datadog_sync_invalid"):
+                    # Invalid logs integration pipelines which cannot be created.
+                    # we remove it from the final logs pipeline order payload.
+                    ids_to_omit.append(_id)
+                else:
+                    r_obj[key][i] = logs_pipelines[_id]["id"]
+            else:
+                failed_connections.append(_id)
+
+        if ids_to_omit:
+            r_obj[key] = [_id for _id in r_obj[key] if _id not in ids_to_omit]
+
+        return failed_connections
 
     async def get_destination_pipeline_order(self):
         destination_client = self.config.destination_client
