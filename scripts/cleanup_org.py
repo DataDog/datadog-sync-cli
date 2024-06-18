@@ -60,7 +60,7 @@ class Cleanup:
             print("Error getting organization. Validate api+app keys %s: %s", url, e)
             exit(1)
 
-    def cleanup_authn_mappigns(
+    def cleanup_authn_mappings(
         self,
     ):
         path = "/api/v2/authn_mappings"
