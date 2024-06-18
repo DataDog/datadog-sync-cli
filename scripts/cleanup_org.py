@@ -24,7 +24,7 @@ class Cleanup:
         self.validate_org()
 
         # Delete all supported resources
-        self.cleanup_authn_mappigns()
+        self.cleanup_authn_mappings()
         self.cleanup_service_level_objectives()
         self.cleanup_slo_corrections()
         self.cleanup_synthetics_tests()
