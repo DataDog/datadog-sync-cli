@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 import asyncio
+import ssl
 import time
 import logging
 import platform
@@ -11,6 +12,7 @@ from typing import Awaitable, Dict, Optional, Callable
 from urllib.parse import urlparse
 
 import aiohttp
+import certifi
 
 from datadog_sync.constants import LOGGER_NAME
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
@@ -73,7 +75,8 @@ class CustomClient:
         self.auth = auth
 
     async def _init_session(self):
-        self.session = aiohttp.ClientSession()
+        ssl_context = ssl.create_default_context(cafile=certifi.where())
+        self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context))
         self.session.headers.update(build_default_headers(self.auth))
 
     async def _end_session(self):
