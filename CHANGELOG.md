@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.10.0 / 2024-06-24
+
+### Fixed
+* Handle complex source queries for Logs integration pipeline syncing by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/247
+* Ensure only valid indexes are imported for `logs_indexes_order` by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/246
+* Ensure clean exit on invalid keys by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/250
+* Cleanup deprecation function and remove dead fn call by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/252
+### Added
+* [APITL-856] Add support for logs-indexes-order by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/238
+* [APITL-862] Add support for moving index to end of order list during deletion by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/233
+* [APITL-855] Add support for enabling logs integration pipelines by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/237
+* Add support for Powerpacks by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/245
+* Add support for metrics metadata syncing by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/249
+* Add support for metric percentiles syncing by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/251
+* Handle invalid integration pipelines by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/254
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.9.3...0.10.0
+
 ## 0.9.3 / 2024-05-02
 
 ### Fixed
