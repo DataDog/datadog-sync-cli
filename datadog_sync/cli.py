@@ -18,6 +18,11 @@ def cli():
 for command in ALL_COMMANDS:
     cli.add_command(command)
 
+
 # Invoke cli manually if using executable
 if getattr(sys, "frozen", False):
+    import multiprocessing
+
+    multiprocessing.freeze_support()
+
     cli(sys.argv[1:])
