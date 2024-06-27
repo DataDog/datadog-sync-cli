@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.11.0 / 2024-06-27
+
+### Fixed
+* Fix endless process spawn when "frozen" by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/259
+### Changed
+* Use `certifi` certs by default by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/258
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.10.0...0.11.0
+
 ## 0.10.0 / 2024-06-24
 
 ### Fixed
