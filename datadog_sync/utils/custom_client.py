@@ -44,9 +44,9 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                         except ValueError:
                             sleep_duration = retry_count * default_backoff
                         if (sleep_duration + time.time()) > timeout:
-                            log.debug("retry timeout has or will exceed timeout duration")
+                            log.debug(f"{e}. retry timeout has or will exceed timeout duration")
                             raise CustomClientHTTPError(e, message=err_text)
-                        log.debug(f"retrying request after {sleep_duration}s")
+                        log.debug(f"{e}. retrying request after {sleep_duration}s")
                         await asyncio.sleep(sleep_duration)
                         retry_count += 1
                         continue
@@ -55,7 +55,7 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                         if (sleep_duration + time.time()) > timeout:
                             log.debug("retry timeout has or will exceed timeout duration")
                             raise CustomClientHTTPError(e, message=err_text)
-                        log.debug(f"retrying request after {sleep_duration}s")
+                        log.debug(f"{e}. retrying request after {sleep_duration}s")
                         await asyncio.sleep(retry_count * default_backoff)
                         retry_count += 1
                         continue
