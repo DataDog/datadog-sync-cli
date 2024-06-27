@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.1 / 2024-06-27
+
+### Fixed
+* Fix endless process spawn when "frozen" by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/259
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.10.0...0.10.1
+
 ## 0.10.0 / 2024-06-24
 
 ### Fixed
