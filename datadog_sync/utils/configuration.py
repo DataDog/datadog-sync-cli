@@ -29,6 +29,7 @@ from datadog_sync.constants import (
     VALIDATE_ENDPOINT,
 )
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
+from datadog_sync.utils.storage import Storage
 
 
 @dataclass
@@ -44,6 +45,7 @@ class Configuration(object):
     cleanup: int
     create_global_downtime: bool
     validate: bool
+    storage: Storage = field(default_factory=Storage)
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
 
@@ -132,7 +134,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         validate=validate,
     )
 
-    # Initialize resources
+    # Initialize resource classes
     resources = init_resources(config)
     resources_arg_str = kwargs.get("resources", None)
     if resources_arg_str:
@@ -162,6 +164,8 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
     config.resources = resources
     config.resources_arg = resources_arg
+
+    config.storage.load(resources)
 
     _handle_deprecated(config, resources_arg_str is not None)
 

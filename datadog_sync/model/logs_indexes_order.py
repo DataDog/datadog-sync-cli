@@ -57,11 +57,13 @@ class LogsIndexesOrder(BaseResource):
         if not self.destination_indexes_order:
             raise Exception("Failed to retrieve destination orgs logs index order")
 
-        self.resource_config.destination_resources[_id] = self.destination_indexes_order
+        self.config.storage.data[self.resource_type].destination[_id] = self.destination_indexes_order
         return await self.update_resource(_id, resource)
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        destination_resources = self.destination_indexes_order or self.resource_config.destination_resources[_id]
+        destination_resources = (
+            self.destination_indexes_order or self.config.storage.data[self.resource_type].destination[_id]
+        )
         self.handle_additional_indexes(resource, destination_resources)
 
         destination_client = self.config.destination_client

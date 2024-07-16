@@ -72,32 +72,37 @@ class LogsRestrictionQueries(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         new_relationships = resource["data"].pop("relationships", {})
-        old_relationships = self.resource_config.destination_resources[_id]["data"].pop("relationships", {})
+        old_relationships = (
+            self.config.storage.data[self.resource_type].destination[_id]["data"].pop("relationships", {})
+        )
         old_roles_ids = set([role["id"] for role in old_relationships.get("roles", {}).get("data", {})])
         new_roles_ids = set([role["id"] for role in new_relationships.get("roles", {}).get("data", {})])
         intersection = new_roles_ids & old_roles_ids
         added_role_ids = new_roles_ids - intersection
         removed_role_ids = old_roles_ids - intersection
 
-        dest_id = self.resource_config.destination_resources[_id]["data"]["id"]
-        if check_diff(self.resource_config, self.resource_config.destination_resources[_id], resource):
+        dest_id = self.config.storage.data[self.resource_type].destination[_id]["data"]["id"]
+        if check_diff(self.resource_config, self.config.storage.data[self.resource_type].destination[_id], resource):
             resp = await destination_client.put(self.resource_config.base_path + f"/{dest_id}", resource)
-            self.resource_config.destination_resources[_id].update(resp)
-            self.resource_config.destination_resources[_id]["data"]["relationships"] = old_relationships
+            self.config.storage.data[self.resource_type].destination[_id].update(resp)
+            self.config.storage.data[self.resource_type].destination[_id]["data"]["relationships"] = old_relationships
 
         if added_role_ids or removed_role_ids:
             succ_added, succ_removed = await self.update_log_restriction_query_roles(
                 dest_id, added_role_ids, removed_role_ids
             )
             new_roles = [{"id": role_id, "type": "roles"} for role_id in (list(intersection) + succ_added)]
-            self.resource_config.destination_resources[_id]["data"]["relationships"] = {"roles": {"data": new_roles}}
+            self.config.storage.data[self.resource_type].destination[_id]["data"]["relationships"] = {
+                "roles": {"data": new_roles}
+            }
 
-        return _id, self.resource_config.destination_resources[_id]
+        return _id, self.config.storage.data[self.resource_type].destination[_id]
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path + f'/{self.resource_config.destination_resources[_id]["data"]["id"]}'
+            self.resource_config.base_path
+            + f'/{self.config.storage.data[self.resource_type].destination[_id]["data"]["id"]}'
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:

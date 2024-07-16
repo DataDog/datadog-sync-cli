@@ -10,8 +10,7 @@ import urllib.request
 
 from datadog_sync.models import LogsIndexes
 from datadog_sync.cli import cli
-from datadog_sync.utils.resource_utils import open_resources
-from tests.integration.helpers import BaseResourcesTestClass, save_source_resources
+from tests.integration.helpers import BaseResourcesTestClass, open_resources, save_source_resources
 
 
 class TestLogsIndexesResources(BaseResourcesTestClass):

@@ -96,7 +96,7 @@ class ResourcesHandler:
 
         try:
             r_class = self.config.resources[resource_type]
-            resource = r_class.resource_config.source_resources[_id]
+            resource = self.config.storage.data[resource_type].source[_id]
 
             if not r_class.resource_config.concurrent:
                 await r_class.resource_config.async_lock.acquire()
@@ -166,11 +166,11 @@ class ResourcesHandler:
                 "{} resource with source ID {} to be deleted: \n {}".format(
                     resource_type,
                     _id,
-                    pformat(r_class.config.resources[resource_type].resource_config.destination_resources[_id]),
+                    pformat(self.config.storage.data[resource_type].destination[_id]),
                 )
             )
         else:
-            resource = self.config.resources[resource_type].resource_config.source_resources[_id]
+            resource = self.config.storage.data[resource_type].source[_id]
 
             if not r_class.filter(resource):
                 return
@@ -181,8 +181,10 @@ class ResourcesHandler:
             except ResourceConnectionError:
                 return
 
-            if _id in r_class.resource_config.destination_resources:
-                diff = check_diff(r_class.resource_config, r_class.resource_config.destination_resources[_id], resource)
+            if _id in self.config.storage.data[resource_type].destination:
+                diff = check_diff(
+                    r_class.resource_config, self.config.storage.data[resource_type].destination[_id], resource
+                )
                 if diff:
                     self.config.logger.info(
                         "{} resource source ID {} diff: \n {}".format(resource_type, _id, pformat(diff))
@@ -220,7 +222,7 @@ class ResourcesHandler:
         self.config.logger.info("Getting resources for %s", resource_type)
 
         r_class = self.config.resources[resource_type]
-        r_class.resource_config.source_resources.clear()
+        self.config.storage.data[resource_type].source.clear()
 
         try:
             get_resp = await r_class._get_resources(self.config.source_client)

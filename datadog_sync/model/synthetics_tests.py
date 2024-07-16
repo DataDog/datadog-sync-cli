@@ -80,7 +80,8 @@ class SyntheticsTests(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['public_id']}",
+            self.resource_config.base_path
+            + f"/{self.config.storage.data[self.resource_type].destination[_id]['public_id']}",
             resource,
         )
 
@@ -88,7 +89,7 @@ class SyntheticsTests(BaseResource):
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        body = {"public_ids": [self.resource_config.destination_resources[_id]["public_id"]]}
+        body = {"public_ids": [self.config.storage.data[self.resource_type].destination[_id]["public_id"]]}
         await destination_client.post(self.resource_config.base_path + "/delete", body)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:

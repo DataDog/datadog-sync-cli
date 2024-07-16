@@ -52,11 +52,13 @@ class LogsPipelinesOrder(BaseResource):
         if not self.destination_pipeline_order:
             raise Exception("Failed to retrieve destination orgs logs pipeline order")
 
-        self.resource_config.destination_resources[_id] = self.destination_pipeline_order
+        self.config.storage.data[self.resource_type].destination[_id] = self.destination_pipeline_order
         return await self.update_resource(_id, resource)
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        destination_resources = self.destination_pipeline_order or self.resource_config.destination_resources[_id]
+        destination_resources = (
+            self.destination_pipeline_order or self.config.storage.data[self.resource_type].destination[_id]
+        )
         ids_to_omit = set(resource["pipeline_ids"]) - set(destination_resources["pipeline_ids"])
 
         extra_ids_to_include = [
