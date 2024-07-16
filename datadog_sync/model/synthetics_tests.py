@@ -96,7 +96,7 @@ class SyntheticsTests(BaseResource):
         failed_connections: List[str] = []
         if resource_to_connect == "synthetics_private_locations":
             pl = self.config.resources["synthetics_private_locations"]
-            resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+            resources = self.config.storage.data[resource_to_connect].destination
             failed_connections = []
 
             for i, _id in enumerate(r_obj[key]):
@@ -107,7 +107,7 @@ class SyntheticsTests(BaseResource):
                         failed_connections.append(_id)
             return failed_connections
         elif resource_to_connect == "synthetics_tests":
-            resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+            resources = self.config.storage.data[resource_to_connect].destination
             found = False
             for k, v in resources.items():
                 if k.startswith(r_obj[key]):

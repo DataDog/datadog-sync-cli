@@ -75,7 +75,7 @@ class LogsIndexesOrder(BaseResource):
         pass
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        logs_indexes = self.config.resources["logs_indexes"].resource_config.destination_resources
+        logs_indexes = self.config.storage.data["logs_indexes"].destination
 
         failed_connections = []
         for i, name in enumerate(r_obj[key]):

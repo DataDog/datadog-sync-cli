@@ -96,9 +96,9 @@ class Monitors(BaseResource):
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        monitors = self.config.resources[resource_to_connect].resource_config.destination_resources
-        synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
-        slos = self.config.resources["service_level_objectives"].resource_config.destination_resources
+        monitors = self.config.storage.data[resource_to_connect].destination
+        synthetics_tests = self.config.storage.data["synthetics_tests"].destination
+        slos = self.config.storage.data["service_level_objectives"].destination
 
         if r_obj.get("type") == "composite" and key == "query" and resource_to_connect != "service_level_objectives":
             failed_connections = []

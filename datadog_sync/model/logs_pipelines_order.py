@@ -77,7 +77,7 @@ class LogsPipelinesOrder(BaseResource):
         self.config.logger.warning("logs_pipeline_order cannot deleted. Removing resource from config only.")
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        logs_pipelines = self.config.resources["logs_pipelines"].resource_config.destination_resources
+        logs_pipelines = self.config.storage.data["logs_pipelines"].destination
         failed_connections = []
         ids_to_omit = []
         for i, _id in enumerate(r_obj[key]):

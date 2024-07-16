@@ -110,8 +110,10 @@ class ResourcesHandler:
             await r_class._pre_resource_action_hook(_id, resource)
             r_class.connect_resources(_id, resource)
 
-            if _id in r_class.resource_config.destination_resources:
-                diff = check_diff(r_class.resource_config, resource, r_class.resource_config.destination_resources[_id])
+            if _id in self.config.storage.data[resource_type].destination:
+                diff = check_diff(
+                    r_class.resource_config, resource, self.config.storage.data[resource_type].destination[_id]
+                )
                 if diff:
                     self.config.logger.debug(f"Running update for {resource_type} with {_id}")
 
@@ -308,7 +310,7 @@ def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str],
         for _id, resource_type in resources_to_cleanup.items():
             config.logger.warning(
                 f"Following resource will be deleted: \n"
-                f"{pformat(config.resources[resource_type].resource_config.destination_resources[_id])}"
+                f"{pformat(config.storage.data[resource_type].destination[_id])}"
             )
 
         return confirm("Delete above resources from destination org?")

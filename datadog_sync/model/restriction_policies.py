@@ -130,12 +130,12 @@ class RestrictionPolicies(BaseResource):
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        dashboards = self.config.resources["dashboards"].resource_config.destination_resources
-        slos = self.config.resources["service_level_objectives"].resource_config.destination_resources
-        notebooks = self.config.resources["notebooks"].resource_config.destination_resources
-        users = self.config.resources["users"].resource_config.destination_resources
-        roles = self.config.resources["roles"].resource_config.destination_resources
-        teams = self.config.resources["teams"].resource_config.destination_resources
+        dashboards = self.config.storage.data["dashboards"].destination
+        slos = self.config.storage.data["service_level_objectives"].destination
+        notebooks = self.config.storage.data["notebooks"].destination
+        users = self.config.storage.data["users"].destination
+        roles = self.config.storage.data["roles"].destination
+        teams = self.config.storage.data["teams"].destination
 
         failed_connections = []
         if key == "id":

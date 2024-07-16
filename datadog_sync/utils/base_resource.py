@@ -158,7 +158,7 @@ class BaseResource(abc.ABC):
 
     @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        resources = self.config.storage.data[self.resource_type].destination
+        resources = self.config.storage.data[resource_to_connect].destination
 
         failed_connections = []
         if isinstance(r_obj[key], list):

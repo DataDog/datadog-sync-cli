@@ -62,8 +62,9 @@ class ServiceLevelObjectives(BaseResource):
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        monitors = self.config.resources["monitors"].resource_config.destination_resources
-        synthetics_tests = self.config.resources["synthetics_tests"].resource_config.destination_resources
+        monitors = self.config.storage.data["monitors"].destination
+        synthetics_tests = self.config.storage.data["synthetics_tests"].destination
+
         failed_connections = []
         for i, obj in enumerate(r_obj[key]):
             _id = str(obj)
