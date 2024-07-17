@@ -58,7 +58,7 @@ class ResourcesManager:
                         # After retrieving all of the failed connections, we check if
                         # the resources are imported. Otherwise append to missing with its type.
                         for f_id in failed:
-                            if f_id not in self.config.state.source[resource_type]:
+                            if f_id not in self.config.state.source[resource_to_connect]:
                                 self.all_missing_resources[f_id] = resource_to_connect
 
                         failed_connections.extend(failed)
