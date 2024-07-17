@@ -19,11 +19,11 @@ class BaseStorage(ABC):
     """Base class for storage"""
 
     @abstractmethod
-    def get(self) -> StorageItem:
+    def get(self, origin) -> StorageItem:
         """Get resouces state from storage"""
         pass
 
     @abstractmethod
-    def put(self, data: StorageItem) -> None:
+    def put(self, origin, data: StorageItem) -> None:
         """Write resources into storage"""
         pass

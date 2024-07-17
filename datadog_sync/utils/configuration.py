@@ -4,7 +4,6 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-import os
 import logging
 from sys import exit
 from dataclasses import dataclass, field
@@ -24,7 +23,6 @@ from datadog_sync.constants import (
     FALSE,
     FORCE,
     LOGGER_NAME,
-    RESOURCE_FILE_PATH,
     TRUE,
     VALIDATE_ENDPOINT,
 )
@@ -230,9 +228,10 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
     else:
         # Use logs_custom_pipeline resource if its state files exist.
         # Otherwise fall back on logs_pipelines
-        custom_pipeline_source = RESOURCE_FILE_PATH.format("source", LogsCustomPipelines.resource_type)
-        custom_pipeline_destination = RESOURCE_FILE_PATH.format("destination", LogsCustomPipelines.resource_type)
-        if os.path.exists(custom_pipeline_source) or os.path.exists(custom_pipeline_destination):
+        if (
+            config.state.source[LogsCustomPipelines.resource_type]
+            or config.state.destination[LogsCustomPipelines.resource_type]
+        ):
             config.logger.warning(
                 "`logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines`. "
                 + "Consider upgrading by renaming existing state files"
@@ -244,9 +243,7 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
 
         # Use downtimes resource if its state files exist.
         # Otherwise fall back on downtime_schedules
-        downtimes_source = RESOURCE_FILE_PATH.format("source", Downtimes.resource_type)
-        downtimes_destination = RESOURCE_FILE_PATH.format("destination", Downtimes.resource_type)
-        if os.path.exists(downtimes_source) or os.path.exists(downtimes_destination):
+        if config.state.source[Downtimes.resource_type] or config.state.destination[Downtimes.resource_type]:
             config.logger.warning(
                 "`downtimes` resource has been deprecated in favor of `downtime_schedules`. "
                 + "Consider upgrading by removing the existing state files"

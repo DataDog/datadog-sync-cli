@@ -10,19 +10,14 @@ from collections import defaultdict
 from click import confirm
 from pprint import pformat
 
-from datadog_sync.constants import (
-    DESTINATION_ORIGIN,
-    SOURCE_ORIGIN,
-)
 from datadog_sync.utils.resources_manager import ResourcesManager
-from datadog_sync.constants import TRUE, FALSE, FORCE
+from datadog_sync.constants import TRUE, FALSE, FORCE, Origin
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
     ResourceConnectionError,
     SkipResource,
     check_diff,
     create_global_downtime,
-    dump_resources,
     prep_resource,
     init_topological_sorter,
 )
@@ -54,7 +49,6 @@ class ResourcesHandler:
                 self.worker.work_queue.put_nowait((resource_type, _id))
             await self.worker.schedule_workers()
 
-            dump_resources(self.config, self.resources_manager.all_missing_resources.values(), SOURCE_ORIGIN)
             self.config.logger.info("finished importing missing dependencies")
 
         # handle resource cleanups
@@ -67,7 +61,6 @@ class ResourcesHandler:
                     self.worker.work_queue.put_nowait((resource_type, _id))
                 await self.worker.schedule_workers()
                 self.config.logger.info("finished cleaning up resources")
-                dump_resources(self.config, self.resources_manager.all_cleanup_resources.values(), DESTINATION_ORIGIN)
 
         # Run pre-apply hooks
         resources = set(self.resources_manager.all_resources_to_type.values())
@@ -87,9 +80,7 @@ class ResourcesHandler:
         await self.worker.schedule_workers_with_pbar(total=total, additional_coros=[self.run_sorter()])
         self.config.logger.info(f"Finished syncing resource items. {self.worker.counter}.")
 
-        # dump synced resources
-        synced_resource_types = set(self.resources_manager.all_resources_to_type.values())
-        dump_resources(self.config, synced_resource_types, DESTINATION_ORIGIN)
+        self.config.state.dump_state()
 
     async def _apply_resource_cb(self, q_item: List) -> None:
         resource_type, _id = q_item
@@ -214,7 +205,7 @@ class ResourcesHandler:
         self.config.logger.info(f"Finished importng individual resource items. {self.worker.counter}.")
 
         # Dump resources
-        dump_resources(self.config, set(self.config.resources_arg), SOURCE_ORIGIN)
+        self.config.state.dump_state(Origin.SOURCE)
 
     async def _import_get_resources_cb(self, resource_type: str, tmp_storage) -> None:
         self.config.logger.info("Getting resources for %s", resource_type)

@@ -5,7 +5,6 @@
 
 from __future__ import annotations
 import re
-import json
 import logging
 from copy import deepcopy
 from graphlib import TopologicalSorter
@@ -14,8 +13,7 @@ from dateutil.parser import parse
 from deepdiff import DeepDiff
 from deepdiff.operator import BaseOperator
 
-from datadog_sync.constants import RESOURCE_FILE_PATH, LOGGER_NAME
-from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
+from datadog_sync.constants import LOGGER_NAME
 from typing import Callable, List, Optional, Set, TYPE_CHECKING, Any, Dict
 
 if TYPE_CHECKING:
@@ -203,23 +201,6 @@ def check_diff(resource_config, resource, state):
         exclude_paths=resource_config.excluded_attributes,
         **resource_config.deep_diff_config,
     )
-
-
-def dump_resources(config: Configuration, resource_types: Set[str], origin: str) -> None:
-    for resource_type in resource_types:
-        if origin == SOURCE_ORIGIN:
-            resources = config.state.source[resource_type]
-        elif origin == DESTINATION_ORIGIN:
-            resources = config.state.destination[resource_type]
-
-        write_resources_file(resource_type, origin, resources)
-
-
-def write_resources_file(resource_type: str, origin: str, resources: Any) -> None:
-    resource_path = RESOURCE_FILE_PATH.format(origin, resource_type)
-
-    with open(resource_path, "w") as f:
-        json.dump(resources, f, indent=2)
 
 
 def init_topological_sorter(graph: Dict[str, Set[str]]) -> TopologicalSorter:

@@ -1,10 +1,8 @@
 import asyncio
-import os
 from sys import exit
 
-from datadog_sync.constants import DESTINATION_ORIGIN, DESTINATION_RESOURCES_DIR, SOURCE_RESOURCES_DIR, Command
+from datadog_sync.constants import Command, Origin
 from datadog_sync.utils.configuration import Configuration, build_config
-from datadog_sync.utils.resource_utils import dump_resources
 from datadog_sync.utils.resources_handler import ResourcesHandler
 
 
@@ -21,8 +19,7 @@ def run_cmd(cmd: Command, **kwargs):
         cfg.logger.error("Process interrupted by user")
         if cmd == Command.SYNC:
             cfg.logger.info("Writing synced resources to disk before exit...")
-            synced_resource_types = set(handler.resources_manager.all_resources_to_type.values())
-            dump_resources(cfg, synced_resource_types, DESTINATION_ORIGIN)
+            cfg.state.dump_state(Origin.DESTINATION)
             exit(0)
 
     if cfg.logger.exception_logged:
@@ -39,10 +36,8 @@ async def run_cmd_async(cfg: Configuration, handler: ResourcesHandler, cmd: Comm
 
         # Run specific handler
         if cmd == Command.IMPORT:
-            os.makedirs(SOURCE_RESOURCES_DIR, exist_ok=True)
             await handler.import_resources()
         elif cmd == Command.SYNC:
-            os.makedirs(DESTINATION_RESOURCES_DIR, exist_ok=True)
             await handler.apply_resources()
         elif cmd == Command.DIFFS:
             await handler.diffs()

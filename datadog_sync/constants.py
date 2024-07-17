@@ -23,14 +23,8 @@ DD_VALIDATE = "DD_VALIDATE"
 
 # Default variables
 DEFAULT_API_URL = "https://api.datadoghq.com"
-RESOURCES_DIR = "resources/"
-RESOURCE_FILE_PATH = "resources/{}/{}.json"
-SOURCE_RESOURCES_DIR = "resources/source"
-DESTINATION_RESOURCES_DIR = "resources/destination"
 
 LOGGER_NAME = "datadog_sync_cli"
-SOURCE_ORIGIN = "source"
-DESTINATION_ORIGIN = "destination"
 VALIDATE_ENDPOINT = "/api/v1/validate"
 
 # Bool constants
@@ -44,3 +38,10 @@ class Command(Enum):
     IMPORT = "import"
     SYNC = "sync"
     DIFFS = "diffs"
+
+
+# Origin
+class Origin(Enum):
+    ALL = "all"
+    SOURCE = "source"
+    DESTINATION = "destination"
