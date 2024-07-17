@@ -6,7 +6,6 @@ from typing import Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.resource_utils import SkipResource
 
 
 class MetricPercentiles(BaseResource):
@@ -29,9 +28,6 @@ class MetricPercentiles(BaseResource):
     async def import_resource(self, _: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         # This resource is not a dependency of any other resource. Hence it is
         # safe to ignore the _id parameter and rely solely on resource.
-
-        if not resource.get("include_percentiles"):
-            raise SkipResource(resource["metric_name"], self.resource_type, "Metric does not have percentiles config")
 
         # metric_name => metric
         metric_name = resource.pop("metric_name")
