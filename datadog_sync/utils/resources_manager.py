@@ -32,6 +32,7 @@ class ResourcesManager:
                 # populate resources to cleanup
                 source_resources = set(config.state.source[resource_type].keys())
                 destination_resources = set(config.state.destination[resource_type].keys())
+                print(config.state.destination)
 
                 for cleanup_id in destination_resources.difference(source_resources):
                     self.all_cleanup_resources[cleanup_id] = resource_type

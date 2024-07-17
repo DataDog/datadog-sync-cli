@@ -56,9 +56,7 @@ class SyntheticsGlobalVariables(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if resource["name"] in self.destination_global_variables:
-            self.config.storage.data[self.resource_type].destination[_id] = self.destination_global_variables[
-                resource["name"]
-            ]
+            self.config.state.destination[self.resource_type][_id] = self.destination_global_variables[resource["name"]]
             return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
@@ -73,11 +71,11 @@ class SyntheticsGlobalVariables(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.config.storage.data[self.resource_type].destination[_id]['id']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
 
-        r = self.config.storage.data[self.resource_type].destination[_id]
+        r = self.config.state.destination[self.resource_type][_id]
         r.update(resp)
 
         return _id, r
@@ -85,11 +83,11 @@ class SyntheticsGlobalVariables(BaseResource):
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path + f"/{self.config.storage.data[self.resource_type].destination[_id]['id']}"
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        resources = self.config.storage.data[resource_to_connect].destination
+        resources = self.config.state.destination[resource_to_connect]
         failed_connections = []
         found = False
         for k, v in resources.items():

@@ -71,32 +71,32 @@ class DashboardLists(BaseResource):
         dashboards = copy.deepcopy(resource["dashboards"])
         dash_list_diff = check_diff(
             self.resource_config,
-            self.config.storage.data[self.resource_type].destination[_id]["dashboards"],
+            self.config.state.destination[self.resource_type][_id]["dashboards"],
             dashboards,
         )
         resource.pop("dashboards")
 
         resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.config.storage.data[self.resource_type].destination[_id]['id']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
 
         resp.pop("dashboards")
-        self.config.storage.data[self.resource_type].destination[_id].update(resp)
+        self.config.state.destination[self.resource_type][_id].update(resp)
 
         if dash_list_diff:
             await self.update_dash_list_items(
-                self.config.storage.data[self.resource_type].destination[_id]["id"],
+                self.config.state.destination[self.resource_type][_id]["id"],
                 dashboards,
-                self.config.storage.data[self.resource_type].destination[_id],
+                self.config.state.destination[self.resource_type][_id],
             )
 
-        return _id, self.config.storage.data[self.resource_type].destination[_id]
+        return _id, self.config.state.destination[self.resource_type][_id]
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path + f"/{self.config.storage.data[self.resource_type].destination[_id]['id']}"
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:

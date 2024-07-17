@@ -208,9 +208,9 @@ def check_diff(resource_config, resource, state):
 def dump_resources(config: Configuration, resource_types: Set[str], origin: str) -> None:
     for resource_type in resource_types:
         if origin == SOURCE_ORIGIN:
-            resources = config.storage.data[resource_type].source
+            resources = config.state.source[resource_type]
         elif origin == DESTINATION_ORIGIN:
-            resources = config.storage.data[resource_type].destination
+            resources = config.state.destination[resource_type]
 
         write_resources_file(resource_type, origin, resources)
 

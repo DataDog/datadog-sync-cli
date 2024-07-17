@@ -305,8 +305,7 @@ def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str],
     elif config.cleanup == TRUE:
         for _id, resource_type in resources_to_cleanup.items():
             config.logger.warning(
-                f"Following resource will be deleted: \n"
-                f"{pformat(config.storage.data[resource_type].destination[_id])}"
+                f"Following resource will be deleted: \n" f"{pformat(config.state.destination[resource_type][_id])}"
             )
 
         return confirm("Delete above resources from destination org?")

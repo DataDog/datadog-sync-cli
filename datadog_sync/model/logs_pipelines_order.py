@@ -52,12 +52,12 @@ class LogsPipelinesOrder(BaseResource):
         if not self.destination_pipeline_order:
             raise Exception("Failed to retrieve destination orgs logs pipeline order")
 
-        self.config.storage.data[self.resource_type].destination[_id] = self.destination_pipeline_order
+        self.config.state.destination[self.resource_type][_id] = self.destination_pipeline_order
         return await self.update_resource(_id, resource)
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_resources = (
-            self.destination_pipeline_order or self.config.storage.data[self.resource_type].destination[_id]
+            self.destination_pipeline_order or self.config.state.destination[self.resource_type][_id]
         )
         ids_to_omit = set(resource["pipeline_ids"]) - set(destination_resources["pipeline_ids"])
 
@@ -77,7 +77,7 @@ class LogsPipelinesOrder(BaseResource):
         self.config.logger.warning("logs_pipeline_order cannot deleted. Removing resource from config only.")
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        logs_pipelines = self.config.storage.data["logs_pipelines"].destination
+        logs_pipelines = self.config.state.destination["logs_pipelines"]
         failed_connections = []
         ids_to_omit = []
         for i, _id in enumerate(r_obj[key]):

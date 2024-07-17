@@ -53,7 +53,7 @@ class LogsCustomPipelines(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.config.storage.data[self.resource_type].destination[_id]['id']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
 
@@ -62,7 +62,7 @@ class LogsCustomPipelines(BaseResource):
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path + f"/{self.config.storage.data[self.resource_type].destination[_id]['id']}"
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:

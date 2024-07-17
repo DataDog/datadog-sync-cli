@@ -107,7 +107,7 @@ class BaseResource(abc.ABC):
                     f"Error while adding default tags to resource {self.resource_type}. {str(e)}"
                 )
 
-        self.config.storage.data[self.resource_type].source[str(_id)] = r
+        self.config.state.source[self.resource_type][str(_id)] = r
         return str(_id)
 
     @abc.abstractmethod
@@ -130,7 +130,7 @@ class BaseResource(abc.ABC):
 
     async def _create_resource(self, _id: str, resource: Dict) -> None:
         _id, r = await self.create_resource(_id, resource)
-        self.config.storage.data[self.resource_type].destination[_id] = r
+        self.config.state.destination[self.resource_type][_id] = r
 
     @abc.abstractmethod
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
@@ -138,7 +138,7 @@ class BaseResource(abc.ABC):
 
     async def _update_resource(self, _id: str, resource: Dict) -> None:
         _id, r = await self.update_resource(_id, resource)
-        self.config.storage.data[self.resource_type].destination[_id] = r
+        self.config.state.destination[self.resource_type][_id] = r
 
     @abc.abstractmethod
     async def delete_resource(self, _id: str) -> None:
@@ -149,12 +149,12 @@ class BaseResource(abc.ABC):
             await self.delete_resource(_id)
         except CustomClientHTTPError as e:
             if e.status_code == 404:
-                self.config.storage[self.resource_type].destination.pop(_id, None)
+                self.config.state.destination[self.resource_type].pop(_id, None)
                 return None
 
             raise e
 
-        self.config.storage[self.resource_type].destination.pop(_id, None)
+        self.config.state.destination[self.resource_type].pop(_id, None)
 
     @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:

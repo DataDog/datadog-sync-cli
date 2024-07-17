@@ -126,16 +126,16 @@ class RestrictionPolicies(BaseResource):
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path + f"/{self.config.storage.data[self.resource_type].destination[_id]['id']}"
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        dashboards = self.config.storage.data["dashboards"].destination
-        slos = self.config.storage.data["service_level_objectives"].destination
-        notebooks = self.config.storage.data["notebooks"].destination
-        users = self.config.storage.data["users"].destination
-        roles = self.config.storage.data["roles"].destination
-        teams = self.config.storage.data["teams"].destination
+        dashboards = self.config.state.destination["dashboards"]
+        slos = self.config.state.destination["service_level_objectives"]
+        notebooks = self.config.state.destination["notebooks"]
+        users = self.config.state.destination["users"]
+        roles = self.config.state.destination["roles"]
+        teams = self.config.state.destination["teams"]
 
         failed_connections = []
         if key == "id":

@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+from sre_parse import State
 import pytest
 import os
 import logging
@@ -136,6 +137,7 @@ def config():
         cleanup=False,
         create_global_downtime=False,
         validate=False,
+        state=State(),
     )
 
     resources = init_resources(cfg)

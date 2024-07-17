@@ -29,7 +29,7 @@ class LocalFile(BaseStorage):
             for file in os.listdir(DESTINATION_RESOURCES_DIR):
                 if file.endswith(".json"):
                     resource_type = file.split(".")[0]
-                    with open(SOURCE_RESOURCES_DIR + f"/{file}", "r") as f:
+                    with open(DESTINATION_RESOURCES_DIR + f"/{file}", "r") as f:
                         try:
                             data.destination[resource_type] = json.load(f)
                         except json.decoder.JSONDecodeError:

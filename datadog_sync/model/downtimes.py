@@ -62,7 +62,7 @@ class Downtimes(BaseResource):
         return str(resource["id"]), resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        if _id not in self.config.storage.data[self.resource_type].destination:
+        if _id not in self.config.state.destination[self.resource_type]:
             current_time = round(datetime.now().timestamp())
             if resource["recurrence"] is None:
                 # If the downtime start time is in the past, convert it to now + 1min
@@ -81,12 +81,12 @@ class Downtimes(BaseResource):
         else:
             # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
             # this is to avoid unnecessary diff outputs
-            if resource.get("start") and self.config.storage.data[self.resource_type].destination[_id].get("start"):
-                if resource["start"] < self.config.storage.data[self.resource_type].destination[_id]["start"]:
-                    resource["start"] = self.config.storage.data[self.resource_type].destination[_id]["start"]
-            if resource.get("end") and self.config.storage.data[self.resource_type].destination[_id].get("end"):
-                if resource["end"] < self.config.storage.data[self.resource_type].destination[_id]["end"]:
-                    resource["end"] = self.config.storage.data[self.resource_type].destination[_id]["end"]
+            if resource.get("start") and self.config.state.destination[self.resource_type][_id].get("start"):
+                if resource["start"] < self.config.state.destination[self.resource_type][_id]["start"]:
+                    resource["start"] = self.config.state.destination[self.resource_type][_id]["start"]
+            if resource.get("end") and self.config.state.destination[self.resource_type][_id].get("end"):
+                if resource["end"] < self.config.state.destination[self.resource_type][_id]["end"]:
+                    resource["end"] = self.config.state.destination[self.resource_type][_id]["end"]
 
     async def pre_apply_hook(self) -> None:
         pass
@@ -100,7 +100,7 @@ class Downtimes(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.config.storage.data[self.resource_type].destination[_id]['id']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
 
@@ -109,7 +109,7 @@ class Downtimes(BaseResource):
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path + f"/{self.config.storage.data[self.resource_type].destination[_id]['id']}"
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:

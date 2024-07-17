@@ -50,7 +50,7 @@ class LogsIndexes(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if _id in self.destination_logs_indexes:
-            self.config.storage.data[self.resource_type].destination[_id] = self.destination_logs_indexes[_id]
+            self.config.state.destination[self.resource_type][_id] = self.destination_logs_indexes[_id]
             return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
@@ -65,21 +65,20 @@ class LogsIndexes(BaseResource):
         # Can't update name so remove it
         resource.pop("name")
         resp = await destination_client.put(
-            self.resource_config.base_path
-            + f"/{self.config.storage.data[self.resource_type].destination[_id]['name']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['name']}",
             resource,
         )
 
-        self.config.storage.data[self.resource_type].destination[_id].update(resp)
-        if not self.config.storage.data[self.resource_type].destination[_id].get("daily_limit"):
-            self.config.storage.data[self.resource_type].destination[_id]["disable_daily_limit"] = True
+        self.config.state.destination[self.resource_type][_id].update(resp)
+        if not self.config.state.destination[self.resource_type][_id].get("daily_limit"):
+            self.config.state.destination[self.resource_type][_id]["disable_daily_limit"] = True
         else:
-            self.config.storage.data[self.resource_type].destination[_id].pop("disable_daily_limit", None)
+            self.config.state.destination[self.resource_type][_id].pop("disable_daily_limit", None)
 
-        return _id, self.config.storage.data[self.resource_type].destination[_id]
+        return _id, self.config.state.destination[self.resource_type][_id]
 
     async def delete_resource(self, _id: str) -> None:
-        index_name = self.config.storage.data[self.resource_type].destination[_id]["name"]
+        index_name = self.config.state.destination[self.resource_type][_id]["name"]
         index_order = await self.config.destination_client.get(self.logs_indexes_order_url)
         if index_name in index_order["index_names"]:
             self.config.logger.warning(
