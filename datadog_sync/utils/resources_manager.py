@@ -23,15 +23,15 @@ class ResourcesManager:
         self.all_missing_resources: Dict[str, str] = {}  # mapping of all missing resources imported
 
         for resource_type in config.resources_arg:
-            for _id, r in config.storage.data[resource_type].source.items():
+            for _id, r in config.state.source[resource_type].items():
                 self.all_resources_to_type[_id] = resource_type
                 # individual resource dependency graph
                 self.dependencies_graph[_id] = self._resource_connections(_id, resource_type)
 
             if self.config.cleanup != FALSE:
                 # populate resources to cleanup
-                source_resources = set(config.storage.data[resource_type].source.keys())
-                destination_resources = set(config.storage.data[resource_type].destination.keys())
+                source_resources = set(config.state.source[resource_type].keys())
+                destination_resources = set(config.state.destination[resource_type].keys())
 
                 for cleanup_id in destination_resources.difference(source_resources):
                     self.all_cleanup_resources[cleanup_id] = resource_type
@@ -42,7 +42,7 @@ class ResourcesManager:
         if not self.config.resources[resource_type].resource_config.resource_connections:
             return set(failed_connections)
 
-        resource = deepcopy(self.config.storage.data[resource_type].source[_id])
+        resource = deepcopy(self.config.state.source[resource_type][_id])
         if self.config.resources[resource_type].resource_config.resource_connections:
             for resource_to_connect, v in self.config.resources[
                 resource_type
@@ -58,7 +58,7 @@ class ResourcesManager:
                         # After retrieving all of the failed connections, we check if
                         # the resources are imported. Otherwise append to missing with its type.
                         for f_id in failed:
-                            if f_id not in self.config.storage.data[resource_type].source:
+                            if f_id not in self.config.state.source[resource_type]:
                                 self.all_missing_resources[f_id] = resource_to_connect
 
                         failed_connections.extend(failed)

@@ -149,16 +149,16 @@ class BaseResource(abc.ABC):
             await self.delete_resource(_id)
         except CustomClientHTTPError as e:
             if e.status_code == 404:
-                self.config.storage.data[self.resource_type].destination.pop(_id, None)
+                self.config.storage[self.resource_type].destination.pop(_id, None)
                 return None
 
             raise e
 
-        self.config.storage.data[self.resource_type].destination.pop(_id, None)
+        self.config.storage[self.resource_type].destination.pop(_id, None)
 
     @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        resources = self.config.storage.data[resource_to_connect].destination
+        resources = self.config.state.destination[resource_to_connect]
 
         failed_connections = []
         if isinstance(r_obj[key], list):

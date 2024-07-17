@@ -96,7 +96,7 @@ class ResourcesHandler:
 
         try:
             r_class = self.config.resources[resource_type]
-            resource = self.config.storage.data[resource_type].source[_id]
+            resource = self.config.state.source[resource_type][_id]
 
             if not r_class.resource_config.concurrent:
                 await r_class.resource_config.async_lock.acquire()
@@ -110,10 +110,8 @@ class ResourcesHandler:
             await r_class._pre_resource_action_hook(_id, resource)
             r_class.connect_resources(_id, resource)
 
-            if _id in self.config.storage.data[resource_type].destination:
-                diff = check_diff(
-                    r_class.resource_config, resource, self.config.storage.data[resource_type].destination[_id]
-                )
+            if _id in self.config.state.destination[resource_type]:
+                diff = check_diff(r_class.resource_config, resource, self.config.state.destination[resource_type][_id])
                 if diff:
                     self.config.logger.debug(f"Running update for {resource_type} with {_id}")
 
@@ -168,11 +166,11 @@ class ResourcesHandler:
                 "{} resource with source ID {} to be deleted: \n {}".format(
                     resource_type,
                     _id,
-                    pformat(self.config.storage.data[resource_type].destination[_id]),
+                    pformat(self.config.state.destination[resource_type][_id]),
                 )
             )
         else:
-            resource = self.config.storage.data[resource_type].source[_id]
+            resource = self.config.state.source[resource_type][_id]
 
             if not r_class.filter(resource):
                 return
@@ -183,10 +181,8 @@ class ResourcesHandler:
             except ResourceConnectionError:
                 return
 
-            if _id in self.config.storage.data[resource_type].destination:
-                diff = check_diff(
-                    r_class.resource_config, self.config.storage.data[resource_type].destination[_id], resource
-                )
+            if _id in self.config.state.destination[resource_type]:
+                diff = check_diff(r_class.resource_config, self.config.state.destination[resource_type][_id], resource)
                 if diff:
                     self.config.logger.info(
                         "{} resource source ID {} diff: \n {}".format(resource_type, _id, pformat(diff))
@@ -224,7 +220,7 @@ class ResourcesHandler:
         self.config.logger.info("Getting resources for %s", resource_type)
 
         r_class = self.config.resources[resource_type]
-        self.config.storage.data[resource_type].source.clear()
+        self.config.state.source[resource_type].clear()
 
         try:
             get_resp = await r_class._get_resources(self.config.source_client)
