@@ -19,7 +19,7 @@ def run_cmd(cmd: Command, **kwargs):
         cfg.logger.error("Process interrupted by user")
         if cmd == Command.SYNC:
             cfg.logger.info("Writing synced resources to disk before exit...")
-            cfg.state.dump_state(Origin.DESTINATION)
+            cfg.state.dump_state()
             exit(0)
 
     if cfg.logger.exception_logged:

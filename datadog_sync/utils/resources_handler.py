@@ -6,6 +6,7 @@
 from __future__ import annotations
 import asyncio
 from collections import defaultdict
+from copy import deepcopy
 
 from click import confirm
 from pprint import pformat
@@ -87,7 +88,7 @@ class ResourcesHandler:
 
         try:
             r_class = self.config.resources[resource_type]
-            resource = self.config.state.source[resource_type][_id]
+            resource = deepcopy(self.config.state.source[resource_type][_id])
 
             if not r_class.resource_config.concurrent:
                 await r_class.resource_config.async_lock.acquire()

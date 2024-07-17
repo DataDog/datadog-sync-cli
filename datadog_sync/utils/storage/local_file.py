@@ -6,7 +6,6 @@
 import json
 from logging import log
 import os
-from typing import Any
 
 from datadog_sync.constants import Origin
 from datadog_sync.utils.storage._base_storage import BaseStorage, StorageItem
@@ -44,19 +43,19 @@ class LocalFile(BaseStorage):
     def put(self, origin: Origin, data: StorageItem) -> None:
         if origin in [Origin.SOURCE, Origin.ALL]:
             os.makedirs(self.SOURCE_RESOURCES_DIR, exist_ok=True)
-            for k, v in data.source.items():
-                self.write_resources_file(Origin.SOURCE, k, v)
+            self.write_resources_file(Origin.SOURCE, data)
 
         if origin in [Origin.DESTINATION, Origin.ALL]:
             os.makedirs(self.DESTINATION_RESOURCES_DIR, exist_ok=True)
-            for k, v in data.destination.items():
-                self.write_resources_file(Origin.DESTINATION, k, v)
+            self.write_resources_file(origin, data)
 
-    def write_resources_file(self, origin: Origin, resource_type: str, data: Any) -> None:
+    def write_resources_file(self, origin: Origin, data: StorageItem) -> None:
         if origin in [Origin.SOURCE, Origin.ALL]:
-            with open(self.SOURCE_RESOURCES_DIR + f"/{resource_type}.json", "w+") as f:
-                json.dump(data, f, indent=2)
+            for resource_type, v in data.source.items():
+                with open(self.SOURCE_RESOURCES_DIR + f"/{resource_type}.json", "w+") as f:
+                    json.dump(v, f, indent=2)
 
         if origin in [Origin.DESTINATION, Origin.ALL]:
-            with open(self.DESTINATION_RESOURCES_DIR + f"/{resource_type}.json", "w+") as f:
-                json.dump(data, f, indent=2)
+            for resource_type, v in data.destination.items():
+                with open(self.DESTINATION_RESOURCES_DIR + f"/{resource_type}.json", "w+") as f:
+                    json.dump(v, f, indent=2)
