@@ -1,7 +1,7 @@
 import asyncio
 from sys import exit
 
-from datadog_sync.constants import Command, Origin
+from datadog_sync.constants import Command
 from datadog_sync.utils.configuration import Configuration, build_config
 from datadog_sync.utils.resources_handler import ResourcesHandler
 
