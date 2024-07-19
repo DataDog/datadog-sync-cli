@@ -135,17 +135,16 @@ class ResourcesHandler:
 
     async def diffs(self) -> None:
         # Run pre-apply hooks
-        resources = set(self.resources_manager.all_resources_to_type.values())
-        await self.worker.init_workers(self._pre_apply_hook_cb, None, len(resources))
-        for resource_type in resources:
+        await self.worker.init_workers(self._pre_apply_hook_cb, None, len(self.config.resources_arg))
+        for resource_type in self.config.resources_arg:
             self.worker.work_queue.put_nowait(resource_type)
         await self.worker.schedule_workers()
 
         # Check diffs for individual resource items
         await self.worker.init_workers(self._diffs_worker_cb, None, None)
-        for _id, resource_type in self.resources_manager.all_resources_to_type.items():
+        for resource_type, _id in self.config.state.get_all_resources(self.config.resources_arg).keys():
             self.worker.work_queue.put_nowait((resource_type, _id, False))
-        for _id, resource_type in self.resources_manager.all_cleanup_resources.items():
+        for resource_type, _id in self.config.state.get_resources_to_cleanup(self.config.resources_arg).keys():
             self.worker.work_queue.put_nowait((resource_type, _id, True))
         await self.worker.schedule_workers()
 
@@ -187,11 +186,10 @@ class ResourcesHandler:
     async def import_resources(self) -> None:
         # Get all resources for each resource type
         tmp_storage = defaultdict(list)
-        resources = self.config.resources_arg
-        await self.worker.init_workers(self._import_get_resources_cb, None, len(resources), tmp_storage)
-        for resource_type in resources:
+        await self.worker.init_workers(self._import_get_resources_cb, None, len(self.config.resources_arg), tmp_storage)
+        for resource_type in self.config.resources_arg:
             self.worker.work_queue.put_nowait(resource_type)
-        await self.worker.schedule_workers_with_pbar(total=len(resources))
+        await self.worker.schedule_workers_with_pbar(total=len(self.config.resources_arg))
         self.config.logger.info(f"Finished getting resources. {self.worker.counter}")
 
         # Begin importing individual resource items
