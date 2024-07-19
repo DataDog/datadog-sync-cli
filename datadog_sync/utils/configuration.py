@@ -27,7 +27,7 @@ from datadog_sync.constants import (
     VALIDATE_ENDPOINT,
 )
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
-from datadog_sync.utils.storage.state import State
+from datadog_sync.utils.state import State
 
 
 @dataclass
