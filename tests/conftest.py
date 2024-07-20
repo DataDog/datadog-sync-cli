@@ -3,7 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from sre_parse import State
+from datadog_sync.utils.state import State
 import pytest
 import os
 import logging
