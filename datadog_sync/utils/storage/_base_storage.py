@@ -10,7 +10,7 @@ from collections import defaultdict
 
 
 @dataclass
-class StorageItem:
+class StorageData:
     source: Dict[str, Any] = field(default_factory=lambda: defaultdict(dict))
     destination: Dict[str, Any] = field(default_factory=lambda: defaultdict(dict))
 
@@ -19,11 +19,11 @@ class BaseStorage(ABC):
     """Base class for storage"""
 
     @abstractmethod
-    def get(self, origin) -> StorageItem:
+    def get(self, origin) -> StorageData:
         """Get resouces state from storage"""
         pass
 
     @abstractmethod
-    def put(self, origin, data: StorageItem) -> None:
+    def put(self, origin, data: StorageData) -> None:
         """Write resources into storage"""
         pass

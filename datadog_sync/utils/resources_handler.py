@@ -7,6 +7,7 @@ from __future__ import annotations
 import asyncio
 from collections import defaultdict
 from copy import deepcopy
+from typing import Dict, TYPE_CHECKING, List, Optional, Set, Tuple
 
 from click import confirm
 from pprint import pformat
@@ -19,12 +20,12 @@ from datadog_sync.utils.resource_utils import (
     SkipResource,
     check_diff,
     create_global_downtime,
+    find_attr,
     prep_resource,
     init_topological_sorter,
 )
-from typing import Dict, TYPE_CHECKING, List, Optional, Tuple
-
 from datadog_sync.utils.workers import Workers
+
 
 if TYPE_CHECKING:
     from datadog_sync.utils.configuration import Configuration
@@ -42,6 +43,7 @@ class ResourcesHandler:
         self.worker: Workers = Workers(self.config)
 
     async def apply_resources(self) -> Tuple[int, int]:
+        dependency_graph, missing = self.get_dependency_graph()
         # Import resources that are missing but needed for resource connections
         if self.config.force_missing_dependencies and self.resources_manager.all_missing_resources:
             self.config.logger.info("Importing missing dependencies...")
@@ -287,6 +289,53 @@ class ResourcesHandler:
                     continue
                 await self.worker.work_queue.put((self.resources_manager.all_resources_to_type[_id], _id))
             await asyncio.sleep(0)
+
+    def get_dependency_graph(self) -> Tuple[Dict[Tuple[str, str], List[Tuple[str, str]]], Set[Set[str, str]]]:
+        """Build the dependency graph for all resources.
+
+        Returns:
+            Tuple[Dict[Tuple[str, str], List[Tuple[str, str]]], Set[Set[str, str]]]: Returns
+            a tuple of the dependency graph and missing resources.
+        """
+        dependency_graph = {}
+        missing_resources = set()
+
+        for resource_type, _id in self.config.state.get_all_resources(self.config.resources_arg).keys():
+            deps, missing = self._resource_connections(resource_type, _id)
+            dependency_graph[(resource_type, _id)] = deps
+            missing_resources.update(missing)
+
+        return dependency_graph, missing_resources
+
+    def _resource_connections(self, resource_type: str, _id: str) -> Tuple[Set[Tuple[str, str]], Set[Tuple[str, str]]]:
+        failed_connections = set()
+        missing_resources = set()
+
+        if not self.config.resources[resource_type].resource_config.resource_connections:
+            return failed_connections, missing_resources
+
+        resource = deepcopy(self.config.state.source[resource_type][_id])
+        if self.config.resources[resource_type].resource_config.resource_connections:
+            for resource_to_connect, v in self.config.resources[
+                resource_type
+            ].resource_config.resource_connections.items():
+                for attr_connection in v:
+                    failed = find_attr(
+                        attr_connection,
+                        resource_to_connect,
+                        resource,
+                        self.config.resources[resource_type].connect_id,
+                    )
+                    if failed:
+                        # After retrieving all of the failed connections, we check if
+                        # the resources are imported. Otherwise append to missing with its type.
+                        for f_id in failed:
+                            if f_id not in self.config.state.source[resource_to_connect]:
+                                missing_resources.add((resource_to_connect, f_id))
+
+                            failed_connections.add((resource_to_connect, f_id))
+
+        return failed_connections, missing_resources
 
 
 def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool = True) -> bool:

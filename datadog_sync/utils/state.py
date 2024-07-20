@@ -5,7 +5,7 @@
 from typing import Any, Dict, List, Tuple
 
 from datadog_sync.constants import Origin
-from datadog_sync.utils.storage._base_storage import BaseStorage, StorageItem
+from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData
 from datadog_sync.utils.storage.local_file import LocalFile
 from datadog_sync.utils.storage.storage_types import StorageType
 
@@ -17,7 +17,8 @@ class State:
         else:
             raise NotImplementedError(f"Storage type {type_} not implemented")
 
-        self._data: StorageItem = StorageItem()
+        self._data: StorageData = StorageData()
+        self.load_state()
 
     @property
     def source(self):

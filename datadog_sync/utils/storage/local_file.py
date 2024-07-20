@@ -8,7 +8,7 @@ import logging
 import os
 
 from datadog_sync.constants import LOGGER_NAME, Origin
-from datadog_sync.utils.storage._base_storage import BaseStorage, StorageItem
+from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData
 
 
 log = logging.getLogger(LOGGER_NAME)
@@ -18,8 +18,8 @@ class LocalFile(BaseStorage):
     SOURCE_RESOURCES_DIR = "resources/source"
     DESTINATION_RESOURCES_DIR = "resources/destination"
 
-    def get(self, origin: Origin) -> StorageItem:
-        data = StorageItem()
+    def get(self, origin: Origin) -> StorageData:
+        data = StorageData()
 
         if origin in [Origin.SOURCE, Origin.ALL] and os.path.exists(self.SOURCE_RESOURCES_DIR):
             for file in os.listdir(self.SOURCE_RESOURCES_DIR):
@@ -43,7 +43,7 @@ class LocalFile(BaseStorage):
 
         return data
 
-    def put(self, origin: Origin, data: StorageItem) -> None:
+    def put(self, origin: Origin, data: StorageData) -> None:
         if origin in [Origin.SOURCE, Origin.ALL]:
             os.makedirs(self.SOURCE_RESOURCES_DIR, exist_ok=True)
             self.write_resources_file(Origin.SOURCE, data)
@@ -52,7 +52,7 @@ class LocalFile(BaseStorage):
             os.makedirs(self.DESTINATION_RESOURCES_DIR, exist_ok=True)
             self.write_resources_file(origin, data)
 
-    def write_resources_file(self, origin: Origin, data: StorageItem) -> None:
+    def write_resources_file(self, origin: Origin, data: StorageData) -> None:
         if origin in [Origin.SOURCE, Origin.ALL]:
             for resource_type, v in data.source.items():
                 with open(self.SOURCE_RESOURCES_DIR + f"/{resource_type}.json", "w+") as f:
