@@ -151,8 +151,9 @@ class ResourcesHandler:
         await self.worker.init_workers(self._diffs_worker_cb, None, None)
         for resource_type, _id in self._dependency_graph.keys():
             self.worker.work_queue.put_nowait((resource_type, _id, False))
-        for resource_type, _id in self.config.state.get_resources_to_cleanup(self.config.resources_arg).keys():
-            self.worker.work_queue.put_nowait((resource_type, _id, True))
+        if self.config.cleanup != FALSE:
+            for resource_type, _id in self.config.state.get_resources_to_cleanup(self.config.resources_arg).keys():
+                self.worker.work_queue.put_nowait((resource_type, _id, True))
         await self.worker.schedule_workers()
 
     async def _diffs_worker_cb(self, q_item: List) -> None:
