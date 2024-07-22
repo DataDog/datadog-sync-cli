@@ -4,11 +4,14 @@
 # Copyright 2019 Datadog, Inc.
 
 import json
-from logging import log
+import logging
 import os
 
-from datadog_sync.constants import Origin
+from datadog_sync.constants import LOGGER_NAME, Origin
 from datadog_sync.utils.storage._base_storage import BaseStorage, StorageItem
+
+
+log = logging.getLogger(LOGGER_NAME)
 
 
 class LocalFile(BaseStorage):
@@ -53,9 +56,9 @@ class LocalFile(BaseStorage):
         if origin in [Origin.SOURCE, Origin.ALL]:
             for resource_type, v in data.source.items():
                 with open(self.SOURCE_RESOURCES_DIR + f"/{resource_type}.json", "w+") as f:
-                    json.dump(v, f, indent=2)
+                    json.dump(v, f)
 
         if origin in [Origin.DESTINATION, Origin.ALL]:
             for resource_type, v in data.destination.items():
                 with open(self.DESTINATION_RESOURCES_DIR + f"/{resource_type}.json", "w+") as f:
-                    json.dump(v, f, indent=2)
+                    json.dump(v, f)
