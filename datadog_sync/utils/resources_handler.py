@@ -12,7 +12,6 @@ from typing import Dict, TYPE_CHECKING, List, Optional, Set, Tuple
 from click import confirm
 from pprint import pformat
 
-from datadog_sync.utils.resources_manager import ResourcesManager
 from datadog_sync.constants import TRUE, FALSE, FORCE, Origin
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
@@ -35,40 +34,43 @@ if TYPE_CHECKING:
 class ResourcesHandler:
     def __init__(self, config: Configuration) -> None:
         self.config = config
-        self.resources_manager: ResourcesManager = ResourcesManager(config)
         self.sorter: Optional[TopologicalSorter] = None
         self.worker: Optional[Workers] = None
+        self._dependency_graph = Optional[Dict[Tuple[str, str], List[Tuple[str, str]]]]
 
     async def init_async(self) -> None:
         self.worker: Workers = Workers(self.config)
 
     async def apply_resources(self) -> Tuple[int, int]:
-        dependency_graph, missing = self.get_dependency_graph()
-        # Import resources that are missing but needed for resource connections
-        if self.config.force_missing_dependencies and self.resources_manager.all_missing_resources:
-            self.config.logger.info("Importing missing dependencies...")
-            await self.worker.init_workers(self._force_missing_dep_import_cb, None, None)
-            for _id, resource_type in self.resources_manager.all_missing_resources.items():
-                self.worker.work_queue.put_nowait((resource_type, _id))
-            await self.worker.schedule_workers()
+        # Build dependency graph and missing resources
+        self._dependency_graph, missing = self.get_dependency_graph()
 
+        # Import resources that are missing but needed for resource connections
+        if self.config.force_missing_dependencies and missing:
+            self.config.logger.info("Importing missing dependencies...")
+            await self.worker.init_workers(self._force_missing_dep_import_cb, None, len(missing))
+            for item in missing:
+                self.worker.work_queue.put_nowait(item)
+            await self.worker.schedule_workers()
             self.config.logger.info("finished importing missing dependencies")
 
         # handle resource cleanups
-        if self.config.cleanup != FALSE and self.resources_manager.all_cleanup_resources:
-            cleanup = _cleanup_prompt(self.config, self.resources_manager.all_cleanup_resources)
-            if cleanup:
-                self.config.logger.info("Cleaning up resources...")
-                await self.worker.init_workers(self._cleanup_worker, None, None)
-                for _id, resource_type in self.resources_manager.all_cleanup_resources.items():
-                    self.worker.work_queue.put_nowait((resource_type, _id))
-                await self.worker.schedule_workers()
-                self.config.logger.info("finished cleaning up resources")
+        if self.config.cleanup != FALSE:
+            cleanup_resources = self.config.state.get_resources_to_cleanup(self.config.resources_arg)
+            if cleanup_resources:
+                cleanup = _cleanup_prompt(self.config, cleanup_resources)
+                if cleanup:
+                    self.config.logger.info("Cleaning up resources...")
+                    await self.worker.init_workers(self._cleanup_worker, None, None)
+                    for i in cleanup_resources:
+                        self.worker.work_queue.put_nowait(i)
+                    await self.worker.schedule_workers()
+                    self.config.logger.info("finished cleaning up resources")
 
         # Run pre-apply hooks
-        resources = set(self.resources_manager.all_resources_to_type.values())
-        await self.worker.init_workers(self._pre_apply_hook_cb, None, len(resources))
-        for resource_type in set(self.resources_manager.all_resources_to_type.values()):
+        resource_types = set(i[0] for i in self._dependency_graph)
+        await self.worker.init_workers(self._pre_apply_hook_cb, None, len(resource_types))
+        for resource_type in resource_types:
             self.worker.work_queue.put_nowait(resource_type)
         await self.worker.schedule_workers()
 
@@ -76,11 +78,12 @@ class ResourcesHandler:
         if self.config.create_global_downtime:
             await create_global_downtime(self.config)
 
-        total = len(self.resources_manager.all_resources_to_type.keys())
         # initalize topological sorters
-        self.sorter = init_topological_sorter(self.resources_manager.dependencies_graph)
+        self.sorter = init_topological_sorter(self._dependency_graph)
         await self.worker.init_workers(self._apply_resource_cb, lambda: not self.sorter.is_active(), None)
-        await self.worker.schedule_workers_with_pbar(total=total, additional_coros=[self.run_sorter()])
+        await self.worker.schedule_workers_with_pbar(
+            total=len(self._dependency_graph), additional_coros=[self.run_sorter()]
+        )
         self.config.logger.info(f"Finished syncing resource items. {self.worker.counter}.")
 
         self.config.state.dump_state()
@@ -95,10 +98,9 @@ class ResourcesHandler:
             if not r_class.resource_config.concurrent:
                 await r_class.resource_config.async_lock.acquire()
 
-            if _id not in self.resources_manager.all_missing_resources:
-                if not r_class.filter(resource):
-                    self.worker.counter.increment_filtered()
-                    return
+            if not r_class.filter(resource):
+                self.worker.counter.increment_filtered()
+                return
 
             # Run hooks
             await r_class._pre_resource_action_hook(_id, resource)
@@ -131,7 +133,7 @@ class ResourcesHandler:
             self.config.logger.error(str(e))
         finally:
             # always place in done queue regardless of exception thrown
-            self.sorter.done(_id)
+            self.sorter.done(q_item)
             if not r_class.resource_config.concurrent:
                 r_class.resource_config.async_lock.release()
 
@@ -248,11 +250,10 @@ class ResourcesHandler:
             self.config.logger.error(f"error importing dependency {resource_type} with id {_id}: {str(e)}")
             return
 
-        self.resources_manager.all_resources_to_type[_id] = resource_type
-        missing_deps = self.resources_manager._resource_connections(_id, resource_type)
-        self.resources_manager.dependencies_graph[_id] = missing_deps
+        failed_connections, missing_deps = self._resource_connections(resource_type, _id)
+        self._dependency_graph[q_item] = failed_connections
         for missing_id in missing_deps:
-            self.worker.work_queue.put_nowait((self.resources_manager.all_missing_resources[missing_id], missing_id))
+            self.worker.work_queue.put_nowait(missing_id)
 
     async def _cleanup_worker(self, q_item: List) -> None:
         resource_type, _id = q_item
@@ -281,20 +282,20 @@ class ResourcesHandler:
     async def run_sorter(self):
         loop = asyncio.get_event_loop()
         while await loop.run_in_executor(None, self.sorter.is_active):
-            for _id in self.sorter.get_ready():
-                if _id not in self.resources_manager.all_resources_to_type:
+            for node in self.sorter.get_ready():
+                if node[1] not in self.config.state.source[node[0]]:
                     # at this point, we already attempted to import missing resources
                     # so mark the node as complete and continue
-                    self.sorter.done(_id)
+                    self.sorter.done(node)
                     continue
-                await self.worker.work_queue.put((self.resources_manager.all_resources_to_type[_id], _id))
+                await self.worker.work_queue.put(node)
             await asyncio.sleep(0)
 
-    def get_dependency_graph(self) -> Tuple[Dict[Tuple[str, str], List[Tuple[str, str]]], Set[Set[str, str]]]:
+    def get_dependency_graph(self) -> Tuple[Dict[Tuple[str, str], List[Tuple[str, str]]], Set[Tuple[str, str]]]:
         """Build the dependency graph for all resources.
 
         Returns:
-            Tuple[Dict[Tuple[str, str], List[Tuple[str, str]]], Set[Set[str, str]]]: Returns
+            Tuple[Dict[Tuple[str, str], List[Tuple[str, str]]], Set[Tuple[str, str]]]: Returns
             a tuple of the dependency graph and missing resources.
         """
         dependency_graph = {}
@@ -338,11 +339,13 @@ class ResourcesHandler:
         return failed_connections, missing_resources
 
 
-def _cleanup_prompt(config: Configuration, resources_to_cleanup: Dict[str, str], prompt: bool = True) -> bool:
+def _cleanup_prompt(
+    config: Configuration, resources_to_cleanup: Dict[Tuple[str, str], str | None], prompt: bool = True
+) -> bool:
     if config.cleanup == FORCE or not prompt:
         return True
     elif config.cleanup == TRUE:
-        for _id, resource_type in resources_to_cleanup.items():
+        for resource_type, _id in resources_to_cleanup:
             config.logger.warning(
                 f"Following resource will be deleted: \n" f"{pformat(config.state.destination[resource_type][_id])}"
             )
