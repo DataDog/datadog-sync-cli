@@ -138,15 +138,18 @@ class ResourcesHandler:
                 r_class.resource_config.async_lock.release()
 
     async def diffs(self) -> None:
+        self._dependency_graph, _ = self.get_dependency_graph()
+
         # Run pre-apply hooks
-        await self.worker.init_workers(self._pre_apply_hook_cb, None, len(self.config.resources_arg))
-        for resource_type in self.config.resources_arg:
+        resource_types = set(i[0] for i in self._dependency_graph.keys())
+        await self.worker.init_workers(self._pre_apply_hook_cb, None, len(resource_types))
+        for resource_type in resource_types:
             self.worker.work_queue.put_nowait(resource_type)
         await self.worker.schedule_workers()
 
         # Check diffs for individual resource items
         await self.worker.init_workers(self._diffs_worker_cb, None, None)
-        for resource_type, _id in self.config.state.get_all_resources(self.config.resources_arg).keys():
+        for resource_type, _id in self._dependency_graph.keys():
             self.worker.work_queue.put_nowait((resource_type, _id, False))
         for resource_type, _id in self.config.state.get_resources_to_cleanup(self.config.resources_arg).keys():
             self.worker.work_queue.put_nowait((resource_type, _id, True))
