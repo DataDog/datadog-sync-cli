@@ -313,6 +313,17 @@ class ResourcesHandler:
         return dependency_graph, missing_resources
 
     def _resource_connections(self, resource_type: str, _id: str) -> Tuple[Set[Tuple[str, str]], Set[Tuple[str, str]]]:
+        """Returns the failed connections and missing resources for a given resource.
+        Failed connections are all dependencies of given resource that is not in destination state.
+        Missing resources are all resources that have not been imported yet in source state.
+
+        Args:
+            resource_type (str): Type of the resource
+            _id (str): Resource id
+
+        Returns:
+            Tuple[Set[Tuple[str, str]], Set[Tuple[str, str]]]: failed_connections, missing_resources
+        """
         failed_connections = set()
         missing_resources = set()
 
