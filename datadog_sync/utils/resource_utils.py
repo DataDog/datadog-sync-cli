@@ -14,7 +14,7 @@ from deepdiff import DeepDiff
 from deepdiff.operator import BaseOperator
 
 from datadog_sync.constants import LOGGER_NAME
-from typing import Callable, List, Optional, Set, TYPE_CHECKING, Any, Dict
+from typing import Callable, List, Optional, Set, TYPE_CHECKING, Any, Dict, Tuple
 
 if TYPE_CHECKING:
     from datadog_sync.utils.configuration import Configuration
@@ -203,7 +203,7 @@ def check_diff(resource_config, resource, state):
     )
 
 
-def init_topological_sorter(graph: Dict[str, Set[str]]) -> TopologicalSorter:
+def init_topological_sorter(graph: Dict[Tuple[str, str], Set[Tuple[str, str]]]) -> TopologicalSorter:
     sorter = TopologicalSorter(graph)
     sorter.prepare()
     return sorter

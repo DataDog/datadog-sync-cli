@@ -119,7 +119,6 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
     # Initialize state
     state = State()
-    state.load_state()
 
     # Initialize Configuration
     config = Configuration(
