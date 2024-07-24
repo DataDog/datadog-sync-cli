@@ -10,12 +10,12 @@ import shutil
 
 import pytest
 
-from datadog_sync.constants import RESOURCE_FILE_PATH
 from datadog_sync.cli import cli
 
 
 RESOURCE_TO_ADD_RE = re.compile("Resource to be added")
 RESOURCE_SKIPPED_RE = re.compile("Skipping resource")
+RESOURCE_FILE_PATH = "resources/{}/{}.json"
 
 
 @pytest.mark.vcr

@@ -42,13 +42,13 @@ class MetricTagConfigurations(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if _id in self.destination_metric_tag_configurations:
-            self.resource_config.destination_resources[_id] = self.destination_metric_tag_configurations[_id]
+            self.config.state.destination[self.resource_type][_id] = self.destination_metric_tag_configurations[_id]
             return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = await destination_client.post(
-            self.resource_config.base_path + f"/{self.resource_config.source_resources[_id]['id']}/tags",
+            self.resource_config.base_path + f"/{self.config.state.source[self.resource_type][_id]['id']}/tags",
             payload,
         )
 
@@ -60,7 +60,7 @@ class MetricTagConfigurations(BaseResource):
             resource["attributes"].pop("metric_type", None)
         payload = {"data": resource}
         resp = await destination_client.patch(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}/tags",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}/tags",
             payload,
         )
 
@@ -69,7 +69,7 @@ class MetricTagConfigurations(BaseResource):
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}/tags"
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}/tags"
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:

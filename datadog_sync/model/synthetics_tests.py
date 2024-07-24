@@ -80,7 +80,7 @@ class SyntheticsTests(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['public_id']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['public_id']}",
             resource,
         )
 
@@ -88,14 +88,14 @@ class SyntheticsTests(BaseResource):
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        body = {"public_ids": [self.resource_config.destination_resources[_id]["public_id"]]}
+        body = {"public_ids": [self.config.state.destination[self.resource_type][_id]["public_id"]]}
         await destination_client.post(self.resource_config.base_path + "/delete", body)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         failed_connections: List[str] = []
         if resource_to_connect == "synthetics_private_locations":
             pl = self.config.resources["synthetics_private_locations"]
-            resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+            resources = self.config.state.destination[resource_to_connect]
             failed_connections = []
 
             for i, _id in enumerate(r_obj[key]):
@@ -106,7 +106,7 @@ class SyntheticsTests(BaseResource):
                         failed_connections.append(_id)
             return failed_connections
         elif resource_to_connect == "synthetics_tests":
-            resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+            resources = self.config.state.destination[resource_to_connect]
             found = False
             for k, v in resources.items():
                 if k.startswith(r_obj[key]):

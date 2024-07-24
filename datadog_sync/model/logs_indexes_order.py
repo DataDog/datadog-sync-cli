@@ -57,11 +57,11 @@ class LogsIndexesOrder(BaseResource):
         if not self.destination_indexes_order:
             raise Exception("Failed to retrieve destination orgs logs index order")
 
-        self.resource_config.destination_resources[_id] = self.destination_indexes_order
+        self.config.state.destination[self.resource_type][_id] = self.destination_indexes_order
         return await self.update_resource(_id, resource)
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        destination_resources = self.destination_indexes_order or self.resource_config.destination_resources[_id]
+        destination_resources = self.destination_indexes_order or self.config.state.destination[self.resource_type][_id]
         self.handle_additional_indexes(resource, destination_resources)
 
         destination_client = self.config.destination_client
@@ -73,7 +73,7 @@ class LogsIndexesOrder(BaseResource):
         pass
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        logs_indexes = self.config.resources["logs_indexes"].resource_config.destination_resources
+        logs_indexes = self.config.state.destination["logs_indexes"]
 
         failed_connections = []
         for i, name in enumerate(r_obj[key]):

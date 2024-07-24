@@ -14,7 +14,6 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
     DEFAULT_TAGS,
     CustomClientHTTPError,
-    open_resources,
     find_attr,
     ResourceConnectionError,
 )
@@ -57,8 +56,6 @@ class ResourceConfig:
     non_nullable_attr: Optional[List[str]] = None
     excluded_attributes: Optional[List[str]] = None
     concurrent: bool = True
-    source_resources: dict = field(default_factory=dict)
-    destination_resources: dict = field(default_factory=dict)
     deep_diff_config: dict = field(default_factory=lambda: {"ignore_order": True})
     tagging_config: Optional[TaggingConfig] = None
     async_lock: Optional[Lock] = None
@@ -83,9 +80,6 @@ class BaseResource(abc.ABC):
 
     def __init__(self, config: Configuration) -> None:
         self.config = config
-        self.resource_config.source_resources, self.resource_config.destination_resources = open_resources(
-            self.resource_type
-        )
 
     async def init_async(self):
         await self.resource_config.init_async()
@@ -113,7 +107,7 @@ class BaseResource(abc.ABC):
                     f"Error while adding default tags to resource {self.resource_type}. {str(e)}"
                 )
 
-        self.resource_config.source_resources[str(_id)] = r
+        self.config.state.source[self.resource_type][str(_id)] = r
         return str(_id)
 
     @abc.abstractmethod
@@ -136,7 +130,7 @@ class BaseResource(abc.ABC):
 
     async def _create_resource(self, _id: str, resource: Dict) -> None:
         _id, r = await self.create_resource(_id, resource)
-        self.resource_config.destination_resources[_id] = r
+        self.config.state.destination[self.resource_type][_id] = r
 
     @abc.abstractmethod
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
@@ -144,7 +138,7 @@ class BaseResource(abc.ABC):
 
     async def _update_resource(self, _id: str, resource: Dict) -> None:
         _id, r = await self.update_resource(_id, resource)
-        self.resource_config.destination_resources[_id] = r
+        self.config.state.destination[self.resource_type][_id] = r
 
     @abc.abstractmethod
     async def delete_resource(self, _id: str) -> None:
@@ -155,16 +149,17 @@ class BaseResource(abc.ABC):
             await self.delete_resource(_id)
         except CustomClientHTTPError as e:
             if e.status_code == 404:
-                self.resource_config.destination_resources.pop(_id, None)
+                self.config.state.destination[self.resource_type].pop(_id, None)
                 return None
 
             raise e
 
-        self.resource_config.destination_resources.pop(_id, None)
+        self.config.state.destination[self.resource_type].pop(_id, None)
 
     @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        resources = self.config.resources[resource_to_connect].resource_config.destination_resources
+        resources = self.config.state.destination[resource_to_connect]
+
         failed_connections = []
         if isinstance(r_obj[key], list):
             for i, v in enumerate(r_obj[key]):

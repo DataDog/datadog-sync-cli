@@ -4,9 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-import os
 import re
-import json
 import logging
 from copy import deepcopy
 from graphlib import TopologicalSorter
@@ -15,8 +13,7 @@ from dateutil.parser import parse
 from deepdiff import DeepDiff
 from deepdiff.operator import BaseOperator
 
-from datadog_sync.constants import RESOURCE_FILE_PATH, LOGGER_NAME
-from datadog_sync.constants import SOURCE_ORIGIN, DESTINATION_ORIGIN
+from datadog_sync.constants import LOGGER_NAME
 from typing import Callable, List, Optional, Set, TYPE_CHECKING, Any, Dict, Tuple
 
 if TYPE_CHECKING:
@@ -206,48 +203,7 @@ def check_diff(resource_config, resource, state):
     )
 
 
-def open_resources(resource_type: str) -> Tuple[Dict[Any, Any], Dict[Any, Any]]:
-    source_resources = dict()
-    destination_resources = dict()
-
-    source_path = RESOURCE_FILE_PATH.format("source", resource_type)
-    destination_path = RESOURCE_FILE_PATH.format("destination", resource_type)
-
-    if os.path.exists(source_path):
-        with open(source_path, "r") as f:
-            try:
-                source_resources = json.load(f)
-            except json.decoder.JSONDecodeError:
-                log.warning(f"invalid json in source resource file: {resource_type}")
-
-    if os.path.exists(destination_path):
-        with open(destination_path, "r") as f:
-            try:
-                destination_resources = json.load(f)
-            except json.decoder.JSONDecodeError:
-                log.warning(f"invalid json in destination resource file: {resource_type}")
-
-    return source_resources, destination_resources
-
-
-def dump_resources(config: Configuration, resource_types: Set[str], origin: str) -> None:
-    for resource_type in resource_types:
-        if origin == SOURCE_ORIGIN:
-            resources = config.resources[resource_type].resource_config.source_resources
-        elif origin == DESTINATION_ORIGIN:
-            resources = config.resources[resource_type].resource_config.destination_resources
-
-        write_resources_file(resource_type, origin, resources)
-
-
-def write_resources_file(resource_type: str, origin: str, resources: Any) -> None:
-    resource_path = RESOURCE_FILE_PATH.format(origin, resource_type)
-
-    with open(resource_path, "w") as f:
-        json.dump(resources, f, indent=2)
-
-
-def init_topological_sorter(graph: Dict[str, Set[str]]) -> TopologicalSorter:
+def init_topological_sorter(graph: Dict[Tuple[str, str], Set[Tuple[str, str]]]) -> TopologicalSorter:
     sorter = TopologicalSorter(graph)
     sorter.prepare()
     return sorter

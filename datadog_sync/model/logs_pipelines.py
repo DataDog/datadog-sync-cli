@@ -97,7 +97,9 @@ class LogsPipelines(BaseResource):
                     "It will be rechecked in the next sync."
                 )
 
-        self.resource_config.destination_resources[_id] = self.destination_integration_pipelines[resource["name"]]
+        self.config.state.destination[self.resource_type][_id] = self.destination_integration_pipelines[
+            resource["name"]
+        ]
 
         diff = check_diff(self.resource_config, self.destination_integration_pipelines[resource["name"]], resource)
         if diff:
@@ -105,10 +107,10 @@ class LogsPipelines(BaseResource):
             # the integration pipeline is in the correct state (enabled/disabled).
             return await self.update_resource(_id, resource)
 
-        return _id, self.resource_config.destination_resources[_id]
+        return _id, self.config.state.destination[self.resource_type][_id]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        current_destination_resource = self.resource_config.destination_resources[_id]
+        current_destination_resource = self.config.state.destination[self.resource_type][_id]
         if current_destination_resource.get("__datadog_sync_invalid"):
             # We do not update invalid integration pipelines.
             # We only update the local state with the new payload to avoid diffs.
@@ -118,7 +120,7 @@ class LogsPipelines(BaseResource):
 
         destination_client = self.config.destination_client
         resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
 
@@ -129,12 +131,12 @@ class LogsPipelines(BaseResource):
         return _id, resp
 
     async def delete_resource(self, _id: str) -> None:
-        if self.resource_config.destination_resources[_id]["is_read_only"]:
+        if self.config.state.destination[self.resource_type][_id]["is_read_only"]:
             self.config.logger.warning("Integration pipelines cannot deleted. Removing resource from config only.")
         else:
             destination_client = self.config.destination_client
             await destination_client.delete(
-                self.resource_config.base_path + f"/{self.resource_config.destination_resources[_id]['id']}"
+                self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
             )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
