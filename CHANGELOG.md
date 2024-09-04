@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.11.1 / 2024-09-04
+
+### Fixed
+* fixed the `docker build` command
+### Changed
+* added the `pyproject.toml` file by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/271
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.11.0...0.11.1
+
 ## 0.11.0 / 2024-06-27
 
 ### Fixed
