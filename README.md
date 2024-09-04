@@ -206,37 +206,38 @@ When running againts multiple destination organizations, a seperate working dire
 
 #### Supported resources
 
-| Resource                               | Description                                              |
-|----------------------------------------|----------------------------------------------------------|
-| authn_mappings                         | Sync Datadog authn mappings.                            |
-| dashboard_lists                        | Sync Datadog dashboard lists.                            |
-| dashboards                             | Sync Datadog dashboards.                                 |
-| downtime_schedules                     | Sync Datadog downtimes.                                  |
-| downtimes (**deprecated**)             | Sync Datadog downtimes.                                  |
-| host_tags                              | Sync Datadog host tags.                                  |
-| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                      |
-| logs_indexes                           | Sync Datadog logs indexes.                               |
-| logs_indexes_order                     | Sync Datadog logs indexes order.                         |
-| logs_metrics                           | Sync Datadog logs metrics.                               |
-| logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines. |
-| logs_pipelines_order                   | Sync Datadog logs pipelines order.                       |
-| logs_restriction_queries               | Sync Datadog logs restriction queries.                   |
-| metric_percentiles                     | Sync Datadog metric percentiles.                         |
-| metric_tag_configurations              | Sync Datadog metric tags configurations.                 |
-| metrics_metadata                       | Sync Datadog metric metadata.                            |
-| monitors                               | Sync Datadog monitors.                                   |
-| notebooks                              | Sync Datadog notebooks.                                  |
-| powerpacks                             | Sync Datadog powerpacks.                                 |
-| restriction_policies                   | Sync Datadog restriction policies.                       |
-| roles                                  | Sync Datadog roles.                                      |
-| service_level_objectives               | Sync Datadog SLOs.                                       |
-| slo_corrections                        | Sync Datadog SLO corrections.                            |
-| spans_metrics                          | Sync Datadog spans metrics.                              |
-| synthetics_global_variables            | Sync Datadog synthetic global variables.                 |
-| synthetics_private_locations           | Sync Datadog synthetic private locations.                |
-| synthetics_tests                       | Sync Datadog synthetic tests.                            |
-| teams                                  | Sync Datadog teams (excluding users and permissions).    |
-| users                                  | Sync Datadog users.                                      |
+| Resource                               | Description                                                       |
+|----------------------------------------|-------------------------------------------------------------------|
+| authn_mappings                         | Sync Datadog authn mappings.                                      |
+| dashboard_lists                        | Sync Datadog dashboard lists.                                     |
+| dashboards                             | Sync Datadog dashboards.                                          |
+| downtime_schedules                     | Sync Datadog downtimes.                                           |
+| downtimes (**deprecated**)             | Sync Datadog downtimes.                                           |
+| host_tags                              | Sync Datadog host tags.                                           |
+| logs_archives                          | Sync Datadog logs archives. Requires GCP, Azure, AWS integration. |
+| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                               |
+| logs_indexes                           | Sync Datadog logs indexes.                                        |
+| logs_indexes_order                     | Sync Datadog logs indexes order.                                  |
+| logs_metrics                           | Sync Datadog logs metrics.                                        |
+| logs_pipelines                         | Sync Datadog logs OOTB integration and custom pipelines.          |
+| logs_pipelines_order                   | Sync Datadog logs pipelines order.                                |
+| logs_restriction_queries               | Sync Datadog logs restriction queries.                            |
+| metric_percentiles                     | Sync Datadog metric percentiles.                                  |
+| metric_tag_configurations              | Sync Datadog metric tags configurations.                          |
+| metrics_metadata                       | Sync Datadog metric metadata.                                     |
+| monitors                               | Sync Datadog monitors.                                            |
+| notebooks                              | Sync Datadog notebooks.                                           |
+| powerpacks                             | Sync Datadog powerpacks.                                          |
+| restriction_policies                   | Sync Datadog restriction policies.                                |
+| roles                                  | Sync Datadog roles.                                               |
+| service_level_objectives               | Sync Datadog SLOs.                                                |
+| slo_corrections                        | Sync Datadog SLO corrections.                                     |
+| spans_metrics                          | Sync Datadog spans metrics.                                       |
+| synthetics_global_variables            | Sync Datadog synthetic global variables.                          |
+| synthetics_private_locations           | Sync Datadog synthetic private locations.                         |
+| synthetics_tests                       | Sync Datadog synthetic tests.                                     |
+| teams                                  | Sync Datadog teams (excluding users and permissions).             |
+| users                                  | Sync Datadog users.                                               |
 
 ***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
 
@@ -256,6 +257,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | downtime_schedules                     | monitors                                                         |
 | downtimes (**deprecated**)             | monitors                                                         |
 | host_tags                              | -                                                                |
+| logs_archives                          | - (Requires manual setup of AWS, GCP and Azure integration)      |
 | logs_custom_pipelines (**deprecated**) | -                                                                |
 | logs_indexes                           | -                                                                |
 | logs_indexes_order                     | logs_indexes                                                     |
