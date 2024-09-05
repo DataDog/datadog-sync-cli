@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.12.0 / 2024-09-05
+
+### Fixed
+* HAMR-179 Add pyproject.toml to fix docker build by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/271
+### Added
+* Add support for `authn_mappings` by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/255
+### Changed
+* Add support for dedicated storage handler by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/265
+* Remove percentile filter in `metric_percentile` by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/266
+
+## New Contributors
+* @michael-richey made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/271
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.11.0...0.12.0
+
 ## 0.11.0 / 2024-06-27
 
 ### Fixed
