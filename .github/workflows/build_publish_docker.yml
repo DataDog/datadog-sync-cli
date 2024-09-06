@@ -2,7 +2,7 @@ name: Build and publish docker image
 
 on:
   push:
-    branches: ['release','michael.richey/**']
+    branches: ['release']
 
 env:
   REGISTRY: ghcr.io
@@ -28,7 +28,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+            datadog/datadog-sync
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
