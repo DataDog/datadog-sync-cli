@@ -35,7 +35,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: datadog-sync
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
