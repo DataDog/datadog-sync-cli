@@ -31,7 +31,7 @@ jobs:
           flavor: |
             latest=true
             prefix=
-            suffic=
+            suffix=
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       - name: Build and push Docker image
         id: push
