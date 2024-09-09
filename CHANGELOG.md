@@ -3,7 +3,7 @@
 ## 0.12.1 / 2024-09-06
 
 ### Added
-* HAMR-179 Build the docker image and push it to github's registry by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/274
+* HAMR-179 Build the Docker image and push it to GitHub's registry by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/274
 
 
 **Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.12.0...0.12.1
