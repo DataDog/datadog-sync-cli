@@ -215,6 +215,7 @@ When running againts multiple destination organizations, a seperate working dire
 | downtimes (**deprecated**)             | Sync Datadog downtimes.                                              |
 | host_tags                              | Sync Datadog host tags.                                              |
 | logs_archives                          | Sync Datadog logs archives. Requires GCP, Azure, or AWS integration. |
+| logs_archives_order                    | Sync Datadog logs archives order.                                 |
 | logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                                  |
 | logs_indexes                           | Sync Datadog logs indexes.                                           |
 | logs_indexes_order                     | Sync Datadog logs indexes order.                                     |
@@ -257,7 +258,8 @@ See [Supported resources](#supported-resources) section below for potential reso
 | downtime_schedules                     | monitors                                                         |
 | downtimes (**deprecated**)             | monitors                                                         |
 | host_tags                              | -                                                                |
-| logs_archives                          | - (Requires manual setup of AWS, GCP or Azure integrations)      |
+| logs_archives                          | - (Requires manual setup of AWS, GCP and Azure integration)      |
+| logs_archives_order                    | logs_archives                                                    |
 | logs_custom_pipelines (**deprecated**) | -                                                                |
 | logs_indexes                           | -                                                                |
 | logs_indexes_order                     | logs_indexes                                                     |
