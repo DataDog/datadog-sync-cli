@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.2 / 2024-09-10
+
+### Changed
+* Copy the trigger logic for building the artifacts to building and publishing the docker image by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/279
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.12.1...0.12.2
+
 ## 0.12.1 / 2024-09-06
 
 ### Added
