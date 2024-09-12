@@ -229,12 +229,10 @@ class BaseResource(abc.ABC):
         tags.append(f"resource_type:{self.resource_type}")
         try:
             await self.config.destination_client.send_metric(metric, tags)
-            self.config.logger.info(f"Sent metrics to destination for {self.resource_type}: {str(e)}")
         except Exception as e:
             self.config.logger.warning(f"Failed to send metrics to destination for {self.resource_type}: {str(e)}")
 
         try:
             await self.config.source_client.send_metric(metric, tags)
-            self.config.logger.info(f"Sent metrics to source for {self.resource_type}: {str(e)}")
         except Exception as e:
             self.config.logger.warning(f"Failed to send metrics to source for {self.resource_type}: {str(e)}")
