@@ -159,7 +159,7 @@ class CustomClient:
 
         return wrapper
 
-    async def send_metric(self, metric: str, tags: List[str] = []) -> None:
+    async def send_metric(self, metric: str, tags: List[str] = None) -> None:
         path = "/api/v2/series"
         timestamp = int(datetime.now().timestamp())
         body = {
