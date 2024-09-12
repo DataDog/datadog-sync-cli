@@ -152,6 +152,8 @@ class CustomClient:
 
         return wrapper
 
+    def send_metric(self):
+        pass
 
 def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
     headers = {
