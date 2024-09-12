@@ -209,7 +209,7 @@ class ResourcesHandler:
             for resource in v:
                 self.worker.work_queue.put_nowait((k, resource))
         await self.worker.schedule_workers_with_pbar(total=total)
-        self.config.logger.info(f"Finished importng individual resource items. {self.worker.counter}.")
+        self.config.logger.info(f"Finished importing individual resource items. {self.worker.counter}.")
 
         # Dump resources
         self.config.state.dump_state(Origin.SOURCE)
