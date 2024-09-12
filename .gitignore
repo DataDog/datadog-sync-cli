@@ -1,6 +1,7 @@
 datadog_sync/version.py
 **/*.pyc
 **/*.pyo
+**/*.swp
 .vscode/
 .idea/
 .coverage
