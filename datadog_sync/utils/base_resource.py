@@ -223,7 +223,9 @@ class BaseResource(abc.ABC):
             # Filter was specified for resource type but resource did not match any
             return False
 
-    async def _send_metrics(self, metric: str, tags: List[str] = []) -> None:
+    async def _send_metrics(self, metric: str, tags: List[str] = None) -> None:
+        if not tags:
+            tags = []
         tags.append(f"resource_type:{self.resource_type}")
         try:
             await self.config.destination_client.send_metric(metric, tags)
