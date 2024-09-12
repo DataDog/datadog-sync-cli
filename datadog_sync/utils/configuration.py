@@ -63,16 +63,12 @@ class Configuration(object):
             except Exception:
                 if cmd in [Command.SYNC, Command.DIFFS]:
                     exit(1)
-                else:
-                    self.destination_client = None
             try:
                 await _validate_client(self.source_client)
                 self.logger.info("source client validated successfully")
             except Exception:
                 if cmd == Command.IMPORT:
                     exit(1)
-                else:
-                    self.source_client = None
 
     async def exit_async(self):
         await self.source_client._end_session()

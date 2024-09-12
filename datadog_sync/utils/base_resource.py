@@ -108,6 +108,7 @@ class BaseResource(abc.ABC):
                 )
 
         self.config.state.source[self.resource_type][str(_id)] = r
+        await self._send_metrics("import", [f"id:${_id}"])
         return str(_id)
 
     @abc.abstractmethod
@@ -131,6 +132,7 @@ class BaseResource(abc.ABC):
     async def _create_resource(self, _id: str, resource: Dict) -> None:
         _id, r = await self.create_resource(_id, resource)
         self.config.state.destination[self.resource_type][_id] = r
+        await self._send_metrics("create", [f"id:${_id}"])
 
     @abc.abstractmethod
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
@@ -139,6 +141,7 @@ class BaseResource(abc.ABC):
     async def _update_resource(self, _id: str, resource: Dict) -> None:
         _id, r = await self.update_resource(_id, resource)
         self.config.state.destination[self.resource_type][_id] = r
+        await self._send_metrics("update", [f"id:${_id}"])
 
     @abc.abstractmethod
     async def delete_resource(self, _id: str) -> None:
@@ -155,6 +158,7 @@ class BaseResource(abc.ABC):
             raise e
 
         self.config.state.destination[self.resource_type].pop(_id, None)
+        await self._send_metrics("delete", [f"id:${_id}"])
 
     @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
@@ -218,3 +222,20 @@ class BaseResource(abc.ABC):
                     return True
             # Filter was specified for resource type but resource did not match any
             return False
+
+    async def _send_metrics(self, metric: str, tags: List[str] = []) -> None:
+        tags.append(f"resource_type:{self.resource_type}")
+        try:
+            await self.config.destination_client.send_metric(metric, tags)
+        except Exception as e:
+            self.config.logger.warning(f"Failed to send metrics to destination for {self.resource_type}: {str(e)}")
+
+        try:
+            await self.config.source_client.send_metric(metric, tags)
+        except Exception as e:
+            self.config.logger.warning(f"Failed to send metrics to source for {self.resource_type}: {str(e)}")
+
+        try:
+            await self.config.destination_client.send_metric(metric, tags)
+        except Exception as e:
+            self.config.logger.warning(f"Failed to send metrics to destination for {self.resource_type}: {str(e)}")

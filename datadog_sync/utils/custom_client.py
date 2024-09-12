@@ -3,12 +3,13 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 import asyncio
+from datetime import datetime
 import ssl
 import time
 import logging
 import platform
 from dataclasses import dataclass
-from typing import Awaitable, Dict, Optional, Callable
+from typing import Awaitable, Dict, List, Optional, Callable
 from urllib.parse import urlparse
 
 import aiohttp
@@ -66,7 +67,13 @@ def request_with_retry(func: Awaitable) -> Awaitable:
 
 
 class CustomClient:
-    def __init__(self, host: Optional[str], auth: Dict[str, str], retry_timeout: int, timeout: int) -> None:
+    def __init__(
+        self,
+        host: Optional[str],
+        auth: Dict[str, str],
+        retry_timeout: int,
+        timeout: int,
+    ) -> None:
         self.url_object = UrlObject.from_str(host)
         self.timeout = timeout
         self.session = None
@@ -152,8 +159,20 @@ class CustomClient:
 
         return wrapper
 
-    def send_metric(self):
-        pass
+    async def send_metric(self, metric: str, tags: List[str] = []) -> None:
+        path = "/api/v2/series"
+        timestamp = int(datetime.now().timestamp())
+        body = {
+            "series": [
+                {
+                    "metric": "datadog.ddr.sync_cli." + metric,
+                    "type": 0,
+                    "points": [{"timestamp": timestamp, "value": 1}],
+                    "tags": tags,
+                }
+            ]
+        }
+        await self.post(path, body)
 
 
 def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
@@ -218,11 +237,20 @@ class UrlObject(object):
                 domain = ".".join(res[-2:])
                 subdomain = ".".join(res[:-2])
 
-            return cls(protocol=parsed_url.scheme, domain=domain, subdomain=subdomain, _default=url)
+            return cls(
+                protocol=parsed_url.scheme,
+                domain=domain,
+                subdomain=subdomain,
+                _default=url,
+            )
         return cls()
 
     def build_url(
-        self, path, protocol: Optional[str] = None, domain: Optional[str] = None, subdomain: Optional[str] = None
+        self,
+        path,
+        protocol: Optional[str] = None,
+        domain: Optional[str] = None,
+        subdomain: Optional[str] = None,
     ) -> str:
         if all(arg is None for arg in (protocol, domain, subdomain)):
             return self._default + path
