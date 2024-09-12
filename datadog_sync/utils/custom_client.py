@@ -155,6 +155,7 @@ class CustomClient:
     def send_metric(self):
         pass
 
+
 def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
     headers = {
         "DD-API-KEY": auth_obj.get("apiKeyAuth", ""),
