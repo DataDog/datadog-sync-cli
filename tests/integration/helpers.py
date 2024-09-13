@@ -86,6 +86,8 @@ class BaseResourcesTestClass:
                     value.append("updated")
                 if isinstance(value, str):
                     value = value + "updated"
+                if isinstance(value, bool):
+                    value = not value
 
                 path_update(resource, self.field_to_update, value)
             except Exception as e:
