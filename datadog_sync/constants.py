@@ -45,3 +45,16 @@ class Origin(Enum):
     ALL = "all"
     SOURCE = "source"
     DESTINATION = "destination"
+
+
+# Metrics
+class Metrics(Enum):
+    PREFIX = "datadog.ddr.sync_cli."
+    ACTION = "action"
+
+
+# Status
+class Status(Enum):
+    SUCCESS = "success"
+    WARNING = "warning"
+    ERROR = "error"

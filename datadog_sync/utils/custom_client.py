@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 import aiohttp
 import certifi
 
-from datadog_sync.constants import LOGGER_NAME
+from datadog_sync.constants import LOGGER_NAME, Metrics
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 log = logging.getLogger(LOGGER_NAME)
@@ -165,7 +165,7 @@ class CustomClient:
         body = {
             "series": [
                 {
-                    "metric": "datadog.ddr.sync_cli." + metric,
+                    "metric": Metrics.PREFIX + metric,
                     "type": 0,
                     "points": [{"timestamp": timestamp, "value": 1}],
                     "tags": tags,
