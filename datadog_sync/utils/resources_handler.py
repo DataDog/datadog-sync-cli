@@ -116,7 +116,7 @@ class ResourcesHandler:
                 prep_resource(r_class.resource_config, resource)
                 await r_class._update_resource(_id, resource)
                 await r_class._send_action_metrics(
-                    Command.SYNC, Status.SUCCESS, [f"id:{_id}", "action_sub_type:update"]
+                    Command.SYNC.value, _id, Status.SUCCESS, tags=["action_sub_type:update"]
                 )
                 self.config.logger.debug(f"Finished update for {resource_type} with {_id}")
 
@@ -125,7 +125,7 @@ class ResourcesHandler:
                 prep_resource(r_class.resource_config, resource)
                 await r_class._create_resource(_id, resource)
                 await r_class._send_action_metrics(
-                    Command.SYNC, Status.SUCCESS, [f"id:{_id}", "action_sub_type:create"]
+                    Command.SYNC.value, _id, Status.SUCCESS, tags=["action_sub_type:create"]
                 )
                 self.config.logger.debug(f"finished create for {resource_type} with id: {_id}")
 
@@ -134,14 +134,14 @@ class ResourcesHandler:
         except SkipResource as e:
             self.config.logger.info(str(e))
             self.worker.counter.increment_skipped()
-            await r_class._send_action_metrics(Command.SYNC, Status.WARNING, [f"id:{_id}"])
+            await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED, tags=["reason:up_to_date"])
         except ResourceConnectionError:
             self.worker.counter.increment_skipped()
-            await r_class._send_action_metrics(Command.SYNC, Status.WARNING, [f"id:{_id}"])
+            await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED, tags=["reason:connection_error"])
         except Exception as e:
             self.worker.counter.increment_failure()
             self.config.logger.error(str(e))
-            await r_class._send_action_metrics(Command.SYNC, Status.ERROR, [f"id:{_id}"])
+            await r_class._send_action_metrics(Command.SYNC.value, _id, Status.FAILURE)
         finally:
             # always place in done queue regardless of exception thrown
             self.sorter.done(q_item)
@@ -234,15 +234,14 @@ class ResourcesHandler:
         try:
             get_resp = await r_class._get_resources(self.config.source_client)
             self.worker.counter.increment_success()
-            await r_class._send_action_metrics(Command.IMPORT, Status.SUCCESS)
             tmp_storage[resource_type] = get_resp
         except Exception as e:
             self.worker.counter.increment_failure()
-            await r_class._send_action_metrics(Command.IMPORT, Status.ERROR)
             self.config.logger.error(f"Error while getting resources {resource_type}: {str(e)}")
 
     async def _import_resource(self, q_item: List) -> None:
         resource_type, resource = q_item
+        _id = resource["id"]
         r_class = self.config.resources[resource_type]
 
         if not r_class.filter(resource):
@@ -252,13 +251,14 @@ class ResourcesHandler:
         try:
             await r_class._import_resource(resource=resource)
             self.worker.counter.increment_success()
+            await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SUCCESS)
         except SkipResource as e:
             self.worker.counter.increment_skipped()
-            await r_class._send_action_metrics(Command.IMPORT, Status.WARNING)
+            await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SKIPPED)
             self.config.logger.debug(str(e))
         except Exception as e:
             self.worker.counter.increment_failure()
-            await r_class._send_action_metrics(Command.IMPORT, Status.ERROR)
+            await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE)
             self.config.logger.error(f"Error while importing resource {resource_type}: {str(e)}")
 
     async def _force_missing_dep_import_cb(self, q_item: List):
@@ -285,10 +285,10 @@ class ResourcesHandler:
 
             await r_class._delete_resource(_id)
             self.worker.counter.increment_success()
-            await r_class._send_action_metrics("delete", Status.SUCCESS, [f"id:{_id}"])
+            await r_class._send_action_metrics("delete", _id, Status.SUCCESS)
         except Exception as e:
             self.worker.counter.increment_failure()
-            await r_class._send_action_metrics("delete", Status.ERROR, [f"id:{_id}"])
+            await r_class._send_action_metrics("delete", _id, Status.FAILURE)
             self.config.logger.error(f"error deleting resource {resource_type} with id {_id}: {str(e)}")
         finally:
             if not r_class.resource_config.concurrent:

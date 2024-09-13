@@ -162,16 +162,18 @@ class CustomClient:
     async def send_metric(self, metric: str, tags: List[str] = None) -> None:
         path = "/api/v2/series"
         timestamp = int(datetime.now().timestamp())
+        full_metric = f"{Metrics.PREFIX}.{metric}"
         body = {
             "series": [
                 {
-                    "metric": Metrics.PREFIX + metric,
+                    "metric": full_metric,
                     "type": 0,
                     "points": [{"timestamp": timestamp, "value": 1}],
                     "tags": tags,
                 }
             ]
         }
+
         await self.post(path, body)
 
 

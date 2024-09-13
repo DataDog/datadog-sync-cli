@@ -107,7 +107,6 @@ class BaseResource(abc.ABC):
                 self.config.logger.warning(
                     f"Error while adding default tags to resource {self.resource_type}. {str(e)}"
                 )
-                await self._send_action_metrics(Command.IMPORT, Status.WARNING, [f"id:{_id}", "code:default_tagging"])
 
         self.config.state.source[self.resource_type][str(_id)] = r
         return str(_id)
@@ -152,7 +151,6 @@ class BaseResource(abc.ABC):
         except CustomClientHTTPError as e:
             if e.status_code == 404:
                 self.config.state.destination[self.resource_type].pop(_id, None)
-                await self._send_action_metrics("delete", Status.ERROR, [f"id:{_id}", "code:missing_resource"])
                 return None
 
             raise e
@@ -222,11 +220,13 @@ class BaseResource(abc.ABC):
             # Filter was specified for resource type but resource did not match any
             return False
 
-    async def _send_action_metrics(self, action: str, status: str, tags: List[str] = None) -> None:
+    async def _send_action_metrics(self, action: str, status: str, _id: Optional[str] = None, tags: Optional[List[str]] = None) -> None:
         if not tags:
             tags = []
-        tags.append(f"action_type: {action}")
-        tags.append(f"status: {status}")
+        if _id:
+            tags.append(f"id:{_id}")
+        tags.append(f"action_type:{action}")
+        tags.append(f"status:{status}")
         tags.append(f"resource_type:{self.resource_type}")
         try:
             await self.config.destination_client.send_metric(Metrics.ACTION, tags)
