@@ -220,7 +220,7 @@ class BaseResource(abc.ABC):
             # Filter was specified for resource type but resource did not match any
             return False
 
-    async def _send_action_metrics(self, action: str, status: str, _id: Optional[str] = None, tags: Optional[List[str]] = None) -> None:
+    async def _send_action_metrics(self, action: str, _id: str, status: str, tags: Optional[List[str]] = None) -> None:
         if not tags:
             tags = []
         if _id:
