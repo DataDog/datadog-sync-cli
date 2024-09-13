@@ -53,22 +53,20 @@ class Configuration(object):
         for resource in self.resources.values():
             await resource.init_async()
 
-        # Attempt to validate the clients.
-        #     For import we require validation of the source client.
-        #     For sync/diffs we require validate the destination client.
+        # Validate the clients. For import we only validate the source client
+        # For sync/diffs we validate the destination client.
         if self.validate:
-            try:
-                await _validate_client(self.destination_client)
-                self.logger.info("destination client validated successfully")
-            except Exception:
-                if cmd in [Command.SYNC, Command.DIFFS]:
+            if cmd in [Command.SYNC, Command.DIFFS]:
+                try:
+                    await _validate_client(self.destination_client)
+                except Exception:
                     exit(1)
-            try:
-                await _validate_client(self.source_client)
-                self.logger.info("source client validated successfully")
-            except Exception:
-                if cmd == Command.IMPORT:
+            if cmd == Command.IMPORT:
+                try:
+                    await _validate_client(self.source_client)
+                except Exception:
                     exit(1)
+            self.logger.info("clients validated successfully")
 
     async def exit_async(self):
         await self.source_client._end_session()
