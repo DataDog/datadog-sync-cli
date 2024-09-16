@@ -230,6 +230,7 @@ When running againts multiple destination organizations, a seperate working dire
 | restriction_policies                   | Sync Datadog restriction policies.                       |
 | roles                                  | Sync Datadog roles.                                      |
 | sensitive_data_scanner_groups          | Sync SDS groups                                          |
+| sensitive_data_scanner_groups_order    | Sync SDS groups order                                    |
 | sensitive_data_scanner_rules           | Sync SDS rules                                           |
 | service_level_objectives               | Sync Datadog SLOs.                                       |
 | slo_corrections                        | Sync Datadog SLO corrections.                            |
@@ -274,6 +275,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | restriction_policies                   | dashboards, service_level_objectives, notebooks, users, roles    |
 | roles                                  | -                                                                |
 | sensitive_data_scanner_groups          | -                                                                |
+| sensitive_data_scanner_groups_order    | sensitive_data_scanner_groups                                    |
 | sensitive_data_scanner_rules           | sensitive_data_scanner_groups                                    |
 | service_level_objectives               | monitors, synthetics_tests                                       |
 | slo_corrections                        | service_level_objectives                                         |
