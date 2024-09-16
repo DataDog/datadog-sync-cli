@@ -1,0 +1,50 @@
+interactions:
+- request:
+    body: '{"meta": {}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config/groups/c92ab6bb-c3b2-4e4f-b541-6a0f3788c76f
+  response:
+    body:
+      string: '{"meta": {"version": 252}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"meta": {}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config/groups/e810a40e-a645-44d5-adf6-bd11b246b5d4
+  response:
+    body:
+      string: '{"meta": {"version": 253}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"meta": {}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config/groups/d4268a4b-6caf-4934-8be7-eee771ff39f5
+  response:
+    body:
+      string: '{"meta": {"version": 254}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

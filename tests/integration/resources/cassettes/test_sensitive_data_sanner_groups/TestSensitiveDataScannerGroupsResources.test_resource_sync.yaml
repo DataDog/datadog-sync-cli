@@ -1,0 +1,74 @@
+interactions:
+- request:
+    body: '{"data": {"attributes": {"name": "Sample Group: Scan production environment
+      telemetry", "is_enabled": true, "filter": {"query": "env:prod"}, "product_list":
+      ["rum", "logs", "events", "apm"], "samplings": []}, "type": "sensitive_data_scanner_group"},
+      "meta": {}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config/groups
+  response:
+    body:
+      string: '{"data": {"id": "d4268a4b-6caf-4934-8be7-eee771ff39f5", "attributes":
+        {"name": "Sample Group: Scan production environment telemetry", "is_enabled":
+        true, "filter": {"query": "env:prod"}, "product_list": ["rum", "logs", "events",
+        "apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
+        {"configuration": {"data": {"id": "3e616b7867fd6e5eb7d4324b4a5347a58858fd4843384eafe84923cf1346a8b2",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
+        "meta": {"version": 246}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"attributes": {"name": "FOO", "is_enabled": false, "filter":
+      {"query": "service:foo "}, "product_list": ["logs"], "description": "Random",
+      "samplings": []}, "type": "sensitive_data_scanner_group"}, "meta": {}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config/groups
+  response:
+    body:
+      string: '{"data": {"id": "c92ab6bb-c3b2-4e4f-b541-6a0f3788c76f", "attributes":
+        {"name": "FOO", "is_enabled": false, "filter": {"query": "service:foo "},
+        "product_list": ["logs"], "description": "Random", "samplings": []}, "type":
+        "sensitive_data_scanner_group", "relationships": {"configuration": {"data":
+        {"id": "3e616b7867fd6e5eb7d4324b4a5347a58858fd4843384eafe84923cf1346a8b2",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
+        "meta": {"version": 247}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"attributes": {"name": "Bar", "is_enabled": false, "filter":
+      {"query": "source:bar "}, "product_list": ["logs"], "description": "bar", "samplings":
+      []}, "type": "sensitive_data_scanner_group"}, "meta": {}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config/groups
+  response:
+    body:
+      string: '{"data": {"id": "e810a40e-a645-44d5-adf6-bd11b246b5d4", "attributes":
+        {"name": "Bar", "is_enabled": false, "filter": {"query": "source:bar "}, "product_list":
+        ["logs"], "description": "bar", "samplings": []}, "type": "sensitive_data_scanner_group",
+        "relationships": {"configuration": {"data": {"id": "3e616b7867fd6e5eb7d4324b4a5347a58858fd4843384eafe84923cf1346a8b2",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
+        "meta": {"version": 248}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

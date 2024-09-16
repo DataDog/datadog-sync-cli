@@ -1,0 +1,59 @@
+interactions:
+- request:
+    body: '{"data": {"attributes": {"name": "Sample Group: Scan production environment
+      telemetryupdated", "is_enabled": true, "filter": {"query": "env:prod"}, "product_list":
+      ["rum", "logs", "events", "apm"], "samplings": []}, "type": "sensitive_data_scanner_group",
+      "id": "d4268a4b-6caf-4934-8be7-eee771ff39f5"}, "meta": {}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config/groups/d4268a4b-6caf-4934-8be7-eee771ff39f5
+  response:
+    body:
+      string: '{"meta": {"version": 249}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"attributes": {"name": "FOOupdated", "is_enabled": false, "filter":
+      {"query": "service:foo "}, "product_list": ["logs"], "description": "Random",
+      "samplings": []}, "type": "sensitive_data_scanner_group", "id": "c92ab6bb-c3b2-4e4f-b541-6a0f3788c76f"},
+      "meta": {}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config/groups/c92ab6bb-c3b2-4e4f-b541-6a0f3788c76f
+  response:
+    body:
+      string: '{"meta": {"version": 250}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"attributes": {"name": "Barupdated", "is_enabled": false, "filter":
+      {"query": "source:bar "}, "product_list": ["logs"], "description": "bar", "samplings":
+      []}, "type": "sensitive_data_scanner_group", "id": "e810a40e-a645-44d5-adf6-bd11b246b5d4"},
+      "meta": {}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PATCH
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config/groups/e810a40e-a645-44d5-adf6-bd11b246b5d4
+  response:
+    body:
+      string: '{"meta": {"version": 251}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1
