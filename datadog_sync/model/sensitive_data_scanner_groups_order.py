@@ -84,9 +84,10 @@ class SensitiveDataScannerGroupsOrder(BaseResource):
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_resources = (
-            self.destination_sensitive_data_scanner_group_order,
-            self.config.state.destination[self.resource_type][_id],
+            self.destination_sensitive_data_scanner_group_order
+            or self.config.state.destination[self.resource_type][_id]
         )
+
         ids_to_omit = set(resource["groups"]) - set(destination_resources["groups"])
 
         extra_ids_to_include = [_id for _id in destination_resources["groups"] if _id not in resource["groups"]]

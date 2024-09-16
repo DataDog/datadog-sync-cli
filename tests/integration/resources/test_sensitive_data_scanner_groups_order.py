@@ -6,11 +6,12 @@
 import pytest
 
 from tests.integration.helpers import BaseResourcesTestClass
-from datadog_sync.models import SensitiveDataScannerGroupsOrder, SensitiveDataScannerGroups
+from datadog_sync.models import SensitiveDataScannerGroupsOrder
 
 
 class TestSensitiveDataScannerGroupsOrder(BaseResourcesTestClass):
-    resource_type = f"{SensitiveDataScannerGroupsOrder.resource_type},{SensitiveDataScannerGroups.resource_type}"
+    resource_type = SensitiveDataScannerGroupsOrder.resource_type
+    force_missing_deps = True
 
     @pytest.mark.skip(reason="resource is only updated by default")
     def test_resource_update_sync(self):
