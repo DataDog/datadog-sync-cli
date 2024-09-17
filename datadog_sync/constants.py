@@ -3,7 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from enum import Enum, StrEnum
+from enum import Enum
 
 # Environment variables
 DD_SOURCE_API_URL = "DD_SOURCE_API_URL"
@@ -47,14 +47,13 @@ class Origin(Enum):
     DESTINATION = "destination"
 
 
-# Metrics
-class Metrics(StrEnum):
+class Metrics(Enum):
     PREFIX = "datadog.ddr.sync_cli"
     ACTION = "action"
 
 
 # Status
-class Status(StrEnum):
+class Status(Enum):
     SUCCESS = "success"
     SKIPPED = "skipped"
     FAILURE = "failure"

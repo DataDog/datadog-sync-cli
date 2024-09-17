@@ -73,6 +73,7 @@ class CustomClient:
         auth: Dict[str, str],
         retry_timeout: int,
         timeout: int,
+        send_metrics: bool,
     ) -> None:
         self.url_object = UrlObject.from_str(host)
         self.timeout = timeout
@@ -80,6 +81,7 @@ class CustomClient:
         self.retry_timeout = retry_timeout
         self.default_pagination = PaginationConfig()
         self.auth = auth
+        self.send_metrics = send_metrics
 
     async def _init_session(self):
         ssl_context = ssl.create_default_context(cafile=certifi.where())
@@ -131,7 +133,8 @@ class CustomClient:
                 log.debug(
                     f"fetching {args[0]} "
                     f"{pagination_config.page_number_param}: {page_number} "
-                    f"{pagination_config.page_size_param}: {page_size}"
+                    f"{pagination_config.page_size_param}: {page_size} "
+                    f"remaining: {remaining}"
                 )
                 params = {
                     pagination_config.page_size_param: page_size,
@@ -160,9 +163,11 @@ class CustomClient:
         return wrapper
 
     async def send_metric(self, metric: str, tags: List[str] = None) -> None:
+        if not self.send_metrics:
+            return None
         path = "/api/v2/series"
         timestamp = int(datetime.now().timestamp())
-        full_metric = f"{Metrics.PREFIX}.{metric}"
+        full_metric = f"{Metrics.PREFIX.value}.{metric}"
         body = {
             "series": [
                 {

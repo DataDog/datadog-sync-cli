@@ -164,6 +164,14 @@ _common_options = [
         "only source api key is validated. On sync/diffs, only destination api key is validated.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--send-metrics",
+        type=bool,
+        required=False,
+        default=True,
+        help="Enables sync-cli metrics being sent to both source and destination",
+        cls=CustomOptionClass,
+    ),
 ]
 
 
