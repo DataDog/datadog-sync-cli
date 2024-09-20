@@ -215,7 +215,10 @@ When running againts multiple destination organizations, a seperate working dire
 | downtimes (**deprecated**)             | Sync Datadog downtimes.                                              |
 | host_tags                              | Sync Datadog host tags.                                              |
 | logs_archives                          | Sync Datadog logs archives. Requires GCP, Azure, or AWS integration. |
+<<<<<<< HEAD
 | logs_archives_order                    | Sync Datadog logs archives order.                                    |
+=======
+>>>>>>> 0331d2b (update readme from feedback)
 | logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                                  |
 | logs_indexes                           | Sync Datadog logs indexes.                                           |
 | logs_indexes_order                     | Sync Datadog logs indexes order.                                     |
@@ -231,9 +234,12 @@ When running againts multiple destination organizations, a seperate working dire
 | powerpacks                             | Sync Datadog powerpacks.                                             |
 | restriction_policies                   | Sync Datadog restriction policies.                                   |
 | roles                                  | Sync Datadog roles.                                                  |
+<<<<<<< HEAD
 | sensitive_data_scanner_groups          | Sync SDS groups                                                      |
 | sensitive_data_scanner_groups_order    | Sync SDS groups order                                                |
 | sensitive_data_scanner_rules           | Sync SDS rules                                                       |
+=======
+>>>>>>> 0331d2b (update readme from feedback)
 | service_level_objectives               | Sync Datadog SLOs.                                                   |
 | slo_corrections                        | Sync Datadog SLO corrections.                                        |
 | spans_metrics                          | Sync Datadog spans metrics.                                          |
@@ -261,8 +267,12 @@ See [Supported resources](#supported-resources) section below for potential reso
 | downtime_schedules                     | monitors                                                         |
 | downtimes (**deprecated**)             | monitors                                                         |
 | host_tags                              | -                                                                |
+<<<<<<< HEAD
 | logs_archives                          | - (Requires manual setup of AWS, GCP or Azure integration)       |
 | logs_archives_order                    | logs_archives                                                    |
+=======
+| logs_archives                          | - (Requires manual setup of AWS, GCP or Azure integrations)      |
+>>>>>>> 0331d2b (update readme from feedback)
 | logs_custom_pipelines (**deprecated**) | -                                                                |
 | logs_indexes                           | -                                                                |
 | logs_indexes_order                     | logs_indexes                                                     |
