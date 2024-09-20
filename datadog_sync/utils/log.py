@@ -26,21 +26,34 @@ class Log:
         self.logger = logging.getLogger(LOGGER_NAME)
         self.logger.propagate = True
 
-    def debug(self, msg, *arg):
+    def debug(self, msg, *arg, _id: str = "", resource_type: str = ""):
+        if resource_type or _id:
+            msg = f"[{resource_type} - {_id}] - {msg}"
+
         self.logger.debug(msg, *arg)
 
-    def exception(self, msg, *arg):
-        self._exception_logged()
+    def exception(self, msg, *arg, _id: str = "", resource_type: str = ""):
+        if resource_type or _id:
+            msg = f"[{resource_type} - {_id}] - {msg}"
+
         self.logger.exception(msg, *arg)
-
-    def error(self, msg, *arg):
         self._exception_logged()
-        self.logger.error(msg, *arg)
 
-    def info(self, msg: str, *arg) -> None:
+    def error(self, msg, *arg, _id: str = "", resource_type: str = ""):
+        if resource_type or _id:
+            msg = f"[{resource_type} - {_id}] - {msg}"
+
+        self.logger.error(msg, *arg)
+        self._exception_logged()
+
+    def info(self, msg: str, *arg, _id: str = "", resource_type: str = "") -> None:
+        if resource_type or _id:
+            msg = f"[{resource_type} - {_id}] - {msg}"
         self.logger.info(msg, *arg)
 
-    def warning(self, msg, *arg):
+    def warning(self, msg, *arg, _id: str = "", resource_type: str = ""):
+        if resource_type or _id:
+            msg = f"[{resource_type} - {_id}] - {msg}"
         self.logger.warning(msg, *arg)
 
     def _exception_logged(self):
