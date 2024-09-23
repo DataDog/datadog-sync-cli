@@ -48,7 +48,7 @@ class Origin(Enum):
 
 
 class Metrics(Enum):
-    PREFIX = "datadog.ddr.sync_cli"
+    PREFIX = "datadog.org-sync"
     ACTION = "action"
 
 
