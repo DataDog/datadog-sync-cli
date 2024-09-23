@@ -109,7 +109,7 @@ class ResourcesHandler:
             if _id in self.config.state.destination[resource_type]:
                 diff = check_diff(r_class.resource_config, resource, self.config.state.destination[resource_type][_id])
                 if not diff:
-                    raise (SkipResource(_id, resource_type, "No differences detected."))
+                    raise SkipResource(_id, resource_type, "No differences detected.")
 
                 self.config.logger.debug(f"Running update for {resource_type} with {_id}")
                 prep_resource(r_class.resource_config, resource)
