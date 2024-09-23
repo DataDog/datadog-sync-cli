@@ -1,0 +1,35 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/logs/config/archive-order
+  response:
+    body:
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["RK1PeXaNRButwKNMn_dRJQ",
+        "V49TnL93R0C3QADZQllO5Q"]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/logs/config/archive-order
+  response:
+    body:
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["79uMvyn6SfS6uspxJUaTqQ"]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

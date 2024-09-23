@@ -1,0 +1,47 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config
+  response:
+    body:
+      string: '{"data": {"id": "3e616b7867fd6e5eb7d4324b4a5347a58858fd4843384eafe84923cf1346a8b2",
+        "attributes": {}, "type": "sensitive_data_scanner_configuration", "relationships":
+        {"groups": {"data": [{"id": "d23b7b78-6ce4-4d94-98d5-bd369c16ae3b", "type":
+        "sensitive_data_scanner_group"}, {"id": "0495d057-c3a2-4f03-80d2-dfaa8d277cac",
+        "type": "sensitive_data_scanner_group"}, {"id": "fe516171-e0d4-482f-929f-2b5ece42ac7d",
+        "type": "sensitive_data_scanner_group"}, {"id": "a0628b87-021a-4741-a672-04af8e39eab2",
+        "type": "sensitive_data_scanner_group"}]}}}, "meta": {"version": 241, "count_limit":
+        100, "group_count_limit": 20, "is_pci_compliant": false, "has_highlight_enabled":
+        true, "has_multi_pass_enabled": true, "has_cascading_enabled": false, "is_configuration_superseded":
+        false}, "included": [{"id": "d23b7b78-6ce4-4d94-98d5-bd369c16ae3b", "attributes":
+        {"name": "Sample Group: Scan production environment telemetry", "is_enabled":
+        true, "filter": {"query": "env:prod"}, "product_list": ["rum", "logs", "events",
+        "apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
+        {"configuration": {"data": {"id": "3e616b7867fd6e5eb7d4324b4a5347a58858fd4843384eafe84923cf1346a8b2",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
+        {"id": "0495d057-c3a2-4f03-80d2-dfaa8d277cac", "attributes": {"name": "FOO",
+        "is_enabled": false, "filter": {"query": "service:foo "}, "product_list":
+        ["logs"], "description": "Random", "samplings": []}, "type": "sensitive_data_scanner_group",
+        "relationships": {"configuration": {"data": {"id": "3e616b7867fd6e5eb7d4324b4a5347a58858fd4843384eafe84923cf1346a8b2",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
+        {"id": "fe516171-e0d4-482f-929f-2b5ece42ac7d", "attributes": {"name": "Bar",
+        "is_enabled": false, "filter": {"query": "source:bar "}, "product_list": ["logs"],
+        "description": "bar", "samplings": []}, "type": "sensitive_data_scanner_group",
+        "relationships": {"configuration": {"data": {"id": "3e616b7867fd6e5eb7d4324b4a5347a58858fd4843384eafe84923cf1346a8b2",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
+        {"id": "a0628b87-021a-4741-a672-04af8e39eab2", "attributes": {"name": "FOO",
+        "is_enabled": false, "filter": {"query": "service:foo "}, "product_list":
+        ["logs"], "description": "Random", "samplings": []}, "type": "sensitive_data_scanner_group",
+        "relationships": {"configuration": {"data": {"id": "3e616b7867fd6e5eb7d4324b4a5347a58858fd4843384eafe84923cf1346a8b2",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

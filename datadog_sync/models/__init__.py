@@ -10,6 +10,8 @@ from datadog_sync.model.dashboards import Dashboards
 from datadog_sync.model.downtime_schedules import DowntimeSchedules
 from datadog_sync.model.downtimes import Downtimes
 from datadog_sync.model.host_tags import HostTags
+from datadog_sync.model.logs_archives_order import LogsArchivesOrder
+from datadog_sync.model.logs_archives import LogsArchives
 from datadog_sync.model.logs_custom_pipelines import LogsCustomPipelines
 from datadog_sync.model.logs_indexes import LogsIndexes
 from datadog_sync.model.logs_indexes_order import LogsIndexesOrder
@@ -25,6 +27,9 @@ from datadog_sync.model.notebooks import Notebooks
 from datadog_sync.model.powerpacks import Powerpacks
 from datadog_sync.model.restriction_policies import RestrictionPolicies
 from datadog_sync.model.roles import Roles
+from datadog_sync.model.sensitive_data_scanner_groups import SensitiveDataScannerGroups
+from datadog_sync.model.sensitive_data_scanner_groups_order import SensitiveDataScannerGroupsOrder
+from datadog_sync.model.sensitive_data_scanner_rules import SensitiveDataScannerRules
 from datadog_sync.model.service_level_objectives import ServiceLevelObjectives
 from datadog_sync.model.slo_corrections import SLOCorrections
 from datadog_sync.model.spans_metrics import SpansMetrics

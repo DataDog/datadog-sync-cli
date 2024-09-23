@@ -18,7 +18,10 @@ class SyntheticsTests(BaseResource):
         resource_connections={
             "synthetics_tests": ["steps.params.subtestPublicId"],
             "synthetics_private_locations": ["locations"],
-            "synthetics_global_variables": ["config.configVariables.id"],
+            "synthetics_global_variables": [
+                "config.configVariables.id",
+                "config.variables.id",
+            ],
             "roles": ["options.restricted_roles"],
         },
         base_path="/api/v1/synthetics/tests",

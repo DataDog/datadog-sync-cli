@@ -47,7 +47,7 @@ class ResourcesHandler:
 
         # Import resources that are missing but needed for resource connections
         if self.config.force_missing_dependencies and missing:
-            self.config.logger.info("Importing missing dependencies...")
+            self.config.logger.info("importing missing dependencies...")
             await self.worker.init_workers(self._force_missing_dep_import_cb, None, len(missing))
             for item in missing:
                 self.worker.work_queue.put_nowait(item)
@@ -60,7 +60,7 @@ class ResourcesHandler:
             if cleanup_resources:
                 cleanup = _cleanup_prompt(self.config, cleanup_resources)
                 if cleanup:
-                    self.config.logger.info("Cleaning up resources...")
+                    self.config.logger.info("cleaning up resources...")
                     await self.worker.init_workers(self._cleanup_worker, None, None)
                     for i in cleanup_resources:
                         self.worker.work_queue.put_nowait(i)
@@ -84,7 +84,7 @@ class ResourcesHandler:
         await self.worker.schedule_workers_with_pbar(
             total=len(self._dependency_graph), additional_coros=[self.run_sorter()]
         )
-        self.config.logger.info(f"Finished syncing resource items. {self.worker.counter}.")
+        self.config.logger.info(f"finished syncing resource items: {self.worker.counter}.")
 
         self.config.state.dump_state()
 
@@ -108,7 +108,6 @@ class ResourcesHandler:
 
             if _id in self.config.state.destination[resource_type]:
                 diff = check_diff(r_class.resource_config, resource, self.config.state.destination[resource_type][_id])
-
                 if not diff:
                     raise (SkipResource(_id, resource_type, "No differences detected."))
 
@@ -119,7 +118,6 @@ class ResourcesHandler:
                     Command.SYNC.value, _id, Status.SUCCESS.value, tags=["action_sub_type:update"]
                 )
                 self.config.logger.debug(f"Finished update for {resource_type} with {_id}")
-
             else:
                 self.config.logger.debug(f"Running create for {resource_type} with id: {_id}")
                 prep_resource(r_class.resource_config, resource)
@@ -132,7 +130,7 @@ class ResourcesHandler:
             self.worker.counter.increment_success()
 
         except SkipResource as e:
-            self.config.logger.debug(str(e))
+            self.config.logger.info(str(e), resource_type=resource_type, _id=_id)
             self.worker.counter.increment_skipped()
             await r_class._send_action_metrics(
                 Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:up_to_date"]
@@ -177,11 +175,11 @@ class ResourcesHandler:
 
         if delete:
             self.config.logger.info(
-                "{} resource with source ID {} to be deleted: \n {}".format(
-                    resource_type,
-                    _id,
+                "to be deleted: \n {}".format(
                     pformat(self.config.state.destination[resource_type][_id]),
-                )
+                ),
+                resource_type=resource_type,
+                _id=_id,
             )
         else:
             resource = self.config.state.source[resource_type][_id]
@@ -198,12 +196,10 @@ class ResourcesHandler:
             if _id in self.config.state.destination[resource_type]:
                 diff = check_diff(r_class.resource_config, self.config.state.destination[resource_type][_id], resource)
                 if diff:
-                    self.config.logger.info(
-                        "{} resource source ID {} diff: \n {}".format(resource_type, _id, pformat(diff))
-                    )
+                    self.config.logger.info("diff: \n {}".format(pformat(diff)), resource_type=resource_type, _id=_id)
             else:
                 self.config.logger.info(
-                    "Resource to be added {} source ID {}: \n {}".format(resource_type, _id, pformat(resource))
+                    "to be created: \n {}".format(pformat(resource)), resource_type=resource_type, _id=_id
                 )
 
     async def import_resources(self) -> None:
@@ -216,7 +212,7 @@ class ResourcesHandler:
         self.config.logger.info(f"Finished getting resources. {self.worker.counter}")
 
         # Begin importing individual resource items
-        self.config.logger.info("Importing individual resource items")
+        self.config.logger.info("importing individual resource items")
         await self.worker.init_workers(self._import_resource, None, None)
         total = 0
         for k, v in tmp_storage.items():
@@ -224,13 +220,13 @@ class ResourcesHandler:
             for resource in v:
                 self.worker.work_queue.put_nowait((k, resource))
         await self.worker.schedule_workers_with_pbar(total=total)
-        self.config.logger.info(f"Finished importing individual resource items. {self.worker.counter}.")
+        self.config.logger.info(f"finished importng individual resource items: {self.worker.counter}.")
 
         # Dump resources
         self.config.state.dump_state(Origin.SOURCE)
 
     async def _import_get_resources_cb(self, resource_type: str, tmp_storage) -> None:
-        self.config.logger.info("Getting resources for %s", resource_type)
+        self.config.logger.info("getting resources", resource_type=resource_type)
 
         r_class = self.config.resources[resource_type]
         self.config.state.source[resource_type].clear()
@@ -269,14 +265,14 @@ class ResourcesHandler:
         except Exception as e:
             self.worker.counter.increment_failure()
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE.value)
-            self.config.logger.error(f"Error while importing resource {resource_type}: {str(e)}")
+            self.config.logger.error(f"error while importing resource: {str(e)}", resource_type=resource_type)
 
     async def _force_missing_dep_import_cb(self, q_item: List):
         resource_type, _id = q_item
         try:
             _id = await self.config.resources[resource_type]._import_resource(_id=_id)
         except CustomClientHTTPError as e:
-            self.config.logger.error(f"error importing dependency {resource_type} with id {_id}: {str(e)}")
+            self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
 
         failed_connections, missing_deps = self._resource_connections(resource_type, _id)
@@ -286,7 +282,7 @@ class ResourcesHandler:
 
     async def _cleanup_worker(self, q_item: List) -> None:
         resource_type, _id = q_item
-        self.config.logger.info(f"deleting resource type {resource_type} with id: {_id}")
+        self.config.logger.info("deleting resource", resource_type=resource_type, _id=_id)
 
         r_class = self.config.resources[resource_type]
         try:
@@ -308,7 +304,7 @@ class ResourcesHandler:
         try:
             await self.config.resources[resource_type]._pre_apply_hook()
         except Exception as e:
-            self.config.logger.warning(f"Error while running pre-apply hook: {str(e)}")
+            self.config.logger.warning(f"error while running pre-apply hook: {str(e)}", resource_type=resource_type)
 
     async def run_sorter(self):
         loop = asyncio.get_event_loop()
@@ -389,7 +385,9 @@ def _cleanup_prompt(
     elif config.cleanup == TRUE:
         for resource_type, _id in resources_to_cleanup:
             config.logger.warning(
-                f"Following resource will be deleted: \n" f"{pformat(config.state.destination[resource_type][_id])}"
+                f"Resource will be deleted: \n" f"{pformat(config.state.destination[resource_type][_id])}",
+                resource_type=resource_type,
+                _id=_id,
             )
 
         return confirm("Delete above resources from destination org?")

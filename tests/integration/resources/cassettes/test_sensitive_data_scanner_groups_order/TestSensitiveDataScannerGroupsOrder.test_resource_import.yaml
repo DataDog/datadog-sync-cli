@@ -1,0 +1,76 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/sensitive-data-scanner/config
+  response:
+    body:
+      string: '{"data": {"id": "42424131d7f7f08b971f746a81c3b1d32d177dfa197c094ecd8c99ec9ef34393",
+        "attributes": {}, "type": "sensitive_data_scanner_configuration", "relationships":
+        {"groups": {"data": [{"id": "830c7579-96ee-40df-b4df-13f92a1e0b14", "type":
+        "sensitive_data_scanner_group"}, {"id": "ca82bd36-0f6e-4b12-876e-d9428824d4d1",
+        "type": "sensitive_data_scanner_group"}, {"id": "d583fc38-625e-4d29-9f82-b5b93419a3ee",
+        "type": "sensitive_data_scanner_group"}]}}}, "meta": {"version": 38, "count_limit":
+        100, "group_count_limit": 20, "is_pci_compliant": false, "has_highlight_enabled":
+        true, "has_multi_pass_enabled": true, "has_cascading_enabled": false, "is_configuration_superseded":
+        false}, "included": [{"id": "830c7579-96ee-40df-b4df-13f92a1e0b14", "attributes":
+        {"name": "Sample Group: Scan production environment telemetry", "is_enabled":
+        true, "filter": {"query": "env:prod"}, "product_list": ["rum", "logs", "events",
+        "apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
+        {"configuration": {"data": {"id": "42424131d7f7f08b971f746a81c3b1d32d177dfa197c094ecd8c99ec9ef34393",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": [{"id":
+        "d245e583-a148-4aaa-ba77-f4f66f709ab7", "type": "sensitive_data_scanner_rule"}]}}},
+        {"id": "d245e583-a148-4aaa-ba77-f4f66f709ab7", "attributes": {"name": "FooBar",
+        "namespaces": [], "excluded_namespaces": [], "pattern": "foo", "text_replacement":
+        {"type": "none"}, "tags": ["sensitive_data:true"], "labels": [], "is_enabled":
+        true, "included_keyword_configuration": {"keywords": ["fo", "foo"], "should_use_standard_pattern_configuration":
+        false, "character_count": 30}}, "type": "sensitive_data_scanner_rule", "relationships":
+        {"group": {"data": {"id": "830c7579-96ee-40df-b4df-13f92a1e0b14", "type":
+        "sensitive_data_scanner_group"}}}}, {"id": "ca82bd36-0f6e-4b12-876e-d9428824d4d1",
+        "attributes": {"name": "FOO", "is_enabled": false, "filter": {"query": "service:foo
+        "}, "product_list": ["logs"], "description": "Random", "samplings": []}, "type":
+        "sensitive_data_scanner_group", "relationships": {"configuration": {"data":
+        {"id": "42424131d7f7f08b971f746a81c3b1d32d177dfa197c094ecd8c99ec9ef34393",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
+        {"id": "d583fc38-625e-4d29-9f82-b5b93419a3ee", "attributes": {"name": "Bar",
+        "is_enabled": false, "filter": {"query": "source:bar "}, "product_list": ["logs"],
+        "description": "bar", "samplings": []}, "type": "sensitive_data_scanner_group",
+        "relationships": {"configuration": {"data": {"id": "42424131d7f7f08b971f746a81c3b1d32d177dfa197c094ecd8c99ec9ef34393",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/sensitive-data-scanner/config
+  response:
+    body:
+      string: '{"data": {"id": "3e616b7867fd6e5eb7d4324b4a5347a58858fd4843384eafe84923cf1346a8b2",
+        "attributes": {}, "type": "sensitive_data_scanner_configuration", "relationships":
+        {"groups": {"data": [{"id": "a0628b87-021a-4741-a672-04af8e39eab2", "type":
+        "sensitive_data_scanner_group"}]}}}, "meta": {"version": 237, "count_limit":
+        100, "group_count_limit": 20, "is_pci_compliant": false, "has_highlight_enabled":
+        true, "has_multi_pass_enabled": true, "has_cascading_enabled": false, "is_configuration_superseded":
+        false}, "included": [{"id": "a0628b87-021a-4741-a672-04af8e39eab2", "attributes":
+        {"name": "FOO", "is_enabled": false, "filter": {"query": "service:foo "},
+        "product_list": ["logs"], "description": "Random", "samplings": []}, "type":
+        "sensitive_data_scanner_group", "relationships": {"configuration": {"data":
+        {"id": "3e616b7867fd6e5eb7d4324b4a5347a58858fd4843384eafe84923cf1346a8b2",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

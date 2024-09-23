@@ -13,8 +13,8 @@ import pytest
 from datadog_sync.cli import cli
 
 
-RESOURCE_TO_ADD_RE = re.compile("Resource to be added")
-RESOURCE_SKIPPED_RE = re.compile("Skipping resource")
+RESOURCE_TO_ADD_RE = re.compile("to be created")
+RESOURCE_SKIPPED_RE = re.compile("skipping resource")
 RESOURCE_FILE_PATH = "resources/{}/{}.json"
 
 
@@ -86,6 +86,8 @@ class BaseResourcesTestClass:
                     value.append("updated")
                 if isinstance(value, str):
                     value = value + "updated"
+                if isinstance(value, bool):
+                    value = not value
 
                 path_update(resource, self.field_to_update, value)
             except Exception as e:
