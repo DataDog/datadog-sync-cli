@@ -36,11 +36,17 @@ class BaseResourcesTestClass:
         caplog.set_level(logging.DEBUG)
 
         ret = runner.invoke(
-            cli, ["import", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
+            cli,
+            [
+                "import",
+                "--validate=false",
+                f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
+            ],
         )
         assert 0 == ret.exit_code
 
-        # Assert at lease one resource is imported
+        # Assert at least one resource is imported
         source_resources, _ = open_resources(self.resource_type)
         assert len(source_resources) > 0
 
@@ -63,7 +69,12 @@ class BaseResourcesTestClass:
 
     def test_resource_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        cmd_list = ["sync", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
+        cmd_list = [
+            "sync",
+            "--validate=false",
+            f"--resources={self.resource_type}",
+            f"--filter={self.filter}",
+        ]
         if self.force_missing_deps:
             cmd_list.append("--force-missing-dependencies")
         ret = runner.invoke(cli, cmd_list)
@@ -72,7 +83,9 @@ class BaseResourcesTestClass:
         # By default, resources  with failed connections are skipped. Hence, count number of skipped + success
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        assert len(source_resources) == (
+            len(destination_resources) + num_resources_skipped
+        )
 
     def test_resource_update_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -98,21 +111,39 @@ class BaseResourcesTestClass:
         caplog.clear()
         # assert diff is produced
         ret = runner.invoke(
-            cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
+            ],
         )
         assert caplog.text
         assert 0 == ret.exit_code
 
         # sync the updated resources
         ret = runner.invoke(
-            cli, ["sync", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
+            cli,
+            [
+                "sync",
+                "--validate=false",
+                f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
+            ],
         )
         assert 0 == ret.exit_code
 
         caplog.clear()
         # assert diff is no longer produced
         ret = runner.invoke(
-            cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
+            ],
         )
         assert 0 == ret.exit_code
         assert "to be deleted" not in caplog.text
@@ -122,12 +153,20 @@ class BaseResourcesTestClass:
         # Assert number of synced and imported resources match
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        assert len(source_resources) == (
+            len(destination_resources) + num_resources_skipped
+        )
 
     def test_no_resource_diffs(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
         ret = runner.invoke(
-            cli, ["diffs", "--validate=false", f"--resources={self.resource_type}", f"--filter={self.filter}"]
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
+            ],
         )
 
         assert "to be deleted" not in caplog.text
@@ -137,7 +176,9 @@ class BaseResourcesTestClass:
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        assert len(source_resources) == (
+            len(destination_resources) + num_resources_skipped
+        )
 
     def test_resource_cleanup(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -173,7 +214,9 @@ class BaseResourcesTestClass:
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        assert len(source_resources) == (
+            len(destination_resources) + num_resources_skipped
+        )
 
 
 def save_source_resources(resource_type, resources):

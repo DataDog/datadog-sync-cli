@@ -239,11 +239,15 @@ class ResourcesHandler:
         except TimeoutError:
             self.worker.counter.increment_failure()
             self.config.logger.error(f"TimeoutError while getting resources {resource_type}")
-            await r_class._send_action_metrics(Command.IMPORT.value + "_resources", resource_type, Status.FAILURE.value, tags=["reason:timeout"])
+            await r_class._send_action_metrics(
+                Command.IMPORT.value + "_resources", resource_type, Status.FAILURE.value, tags=["reason:timeout"]
+            )
         except Exception as e:
             self.worker.counter.increment_failure()
             self.config.logger.error(f"Error while getting resources {resource_type}: {str(e)}")
-            await r_class._send_action_metrics(Command.IMPORT.value + "_resources", resource_type, Status.FAILURE.value, tags=["reason:unknown"])
+            await r_class._send_action_metrics(
+                Command.IMPORT.value + "_resources", resource_type, Status.FAILURE.value, tags=["reason:unknown"]
+            )
 
     async def _import_resource(self, q_item: List) -> None:
         resource_type, resource = q_item

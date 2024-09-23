@@ -50,6 +50,7 @@ class Origin(Enum):
 class Metrics(Enum):
     PREFIX = "datadog.org-sync"
     ACTION = "action"
+    ORIGIN_PRODUCT = 24
 
 
 # Status

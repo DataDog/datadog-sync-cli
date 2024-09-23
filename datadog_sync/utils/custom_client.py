@@ -171,6 +171,11 @@ class CustomClient:
         body = {
             "series": [
                 {
+                    "metadata": {
+                        "origin": {
+                            "origin_product": f"{Metrics.ORIGIN_PRODUCT.value}",
+                        },
+                    },
                     "metric": full_metric,
                     "type": 0,
                     "points": [{"timestamp": timestamp, "value": 1}],
