@@ -173,7 +173,7 @@ class CustomClient:
                 {
                     "metadata": {
                         "origin": {
-                            "origin_product": f"{Metrics.ORIGIN_PRODUCT.value}",
+                            "origin_product": int(f"{Metrics.ORIGIN_PRODUCT.value}"),
                         },
                     },
                     "metric": full_metric,
@@ -183,7 +183,6 @@ class CustomClient:
                 }
             ]
         }
-
         await self.post(path, body)
 
 
