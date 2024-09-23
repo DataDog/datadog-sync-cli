@@ -25,6 +25,7 @@ class Cleanup:
 
         # Delete all supported resources
         self.cleanup_authn_mappings()
+        self.cleanup_sensitive_data_scanner_groups()
         self.cleanup_service_level_objectives()
         self.cleanup_slo_corrections()
         self.cleanup_synthetics_tests()
@@ -182,6 +183,13 @@ class Cleanup:
                 print("deleted resource ", url, payload)
             except requests.exceptions.HTTPError as e:
                 print("Error deleting resource: %s", e)
+
+    def cleanup_sensitive_data_scanner_groups(self):
+        path = "/api/v2/sensitive-data-scanner/config"
+        res = self.get_resources(path)
+        for resource in res["included"]:
+            if resource["type"] == "sensitive_data_scanner_group":
+                self.delete_resource(resource["id"], path + "/groups", data=json.dumps({"meta": {}}))
 
     def cleanup_service_level_objectives(self):
         path = "/api/v1/slo"
