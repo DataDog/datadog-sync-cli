@@ -1,0 +1,130 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/logs/config/archives/RK1PeXaNRButwKNMn_dRJQ
+  response:
+    body:
+      string: '{"data": {"type": "archives", "id": "RK1PeXaNRButwKNMn_dRJQ", "attributes":
+        {"name": "my first azure archive", "query": "service:toto", "state": "UNKNOWN",
+        "destination": {"container": "my-container", "storage_account": "storageaccount",
+        "path": "/path/blou", "type": "azure", "integration": {"tenant_id": "92f7df25-f9d7-4e76-a3b6-4011e64958ea",
+        "client_id": "a75fbdd2-ade6-43d0-a810-4d886c53871e"}}, "rehydration_tags":
+        [], "include_tags": false, "rehydration_max_scan_size_in_gb": null}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/logs/config/archives/V49TnL93R0C3QADZQllO5Q
+  response:
+    body:
+      string: '{"data": {"type": "archives", "id": "V49TnL93R0C3QADZQllO5Q", "attributes":
+        {"name": "my first s3 archive", "query": "service:tutu", "state": "UNKNOWN",
+        "destination": {"bucket": "my-bucket", "path": "/path/foo", "type": "s3",
+        "integration": {"role_name": "testacc-datadog-integration-role", "account_id":
+        "123456789112"}}, "rehydration_tags": ["team:intake", "team:app"], "include_tags":
+        true, "rehydration_max_scan_size_in_gb": 123}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "archives", "attributes": {"name": "my first azure archive",
+      "query": "service:toto", "destination": {"container": "my-container", "storage_account":
+      "storageaccount", "path": "/path/blou", "type": "azure", "integration": {"tenant_id":
+      "92f7df25-f9d7-4e76-a3b6-4011e64958ea", "client_id": "a75fbdd2-ade6-43d0-a810-4d886c53871e"}},
+      "rehydration_tags": [], "include_tags": false, "rehydration_max_scan_size_in_gb":
+      null}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/logs/config/archives
+  response:
+    body:
+      string: '{"data": {"type": "archives", "id": "hbGkZhQ-RlyB-um-Wg7NIw", "attributes":
+        {"name": "my first azure archive", "query": "service:toto", "state": "UNKNOWN",
+        "destination": {"container": "my-container", "storage_account": "storageaccount",
+        "path": "/path/blou", "type": "azure", "integration": {"tenant_id": "92f7df25-f9d7-4e76-a3b6-4011e64958ea",
+        "client_id": "a75fbdd2-ade6-43d0-a810-4d886c53871e"}}, "rehydration_tags":
+        [], "include_tags": false, "rehydration_max_scan_size_in_gb": null}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "archives", "attributes": {"name": "my first s3 archive",
+      "query": "service:tutu", "destination": {"bucket": "my-bucket", "path": "/path/foo",
+      "type": "s3", "integration": {"role_name": "testacc-datadog-integration-role",
+      "account_id": "123456789112"}}, "rehydration_tags": ["team:intake", "team:app"],
+      "include_tags": true, "rehydration_max_scan_size_in_gb": 123}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/logs/config/archives
+  response:
+    body:
+      string: '{"data": {"type": "archives", "id": "vnoZzsiUS1mWBwIsQdKyug", "attributes":
+        {"name": "my first s3 archive", "query": "service:tutu", "state": "UNKNOWN",
+        "destination": {"bucket": "my-bucket", "path": "/path/foo", "type": "s3",
+        "integration": {"role_name": "testacc-datadog-integration-role", "account_id":
+        "123456789112"}}, "rehydration_tags": ["team:intake", "team:app"], "include_tags":
+        true, "rehydration_max_scan_size_in_gb": 123}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/logs/config/archive-order
+  response:
+    body:
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["79uMvyn6SfS6uspxJUaTqQ",
+        "hbGkZhQ-RlyB-um-Wg7NIw", "vnoZzsiUS1mWBwIsQdKyug"]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["hbGkZhQ-RlyB-um-Wg7NIw",
+      "vnoZzsiUS1mWBwIsQdKyug", "79uMvyn6SfS6uspxJUaTqQ"]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.datadoghq.eu/api/v2/logs/config/archive-order
+  response:
+    body:
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["hbGkZhQ-RlyB-um-Wg7NIw",
+        "vnoZzsiUS1mWBwIsQdKyug", "79uMvyn6SfS6uspxJUaTqQ"]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+version: 1

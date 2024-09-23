@@ -10,6 +10,8 @@ from datadog_sync.model.dashboards import Dashboards
 from datadog_sync.model.downtime_schedules import DowntimeSchedules
 from datadog_sync.model.downtimes import Downtimes
 from datadog_sync.model.host_tags import HostTags
+from datadog_sync.model.logs_archives_order import LogsArchivesOrder
+from datadog_sync.model.logs_archives import LogsArchives
 from datadog_sync.model.logs_custom_pipelines import LogsCustomPipelines
 from datadog_sync.model.logs_indexes import LogsIndexes
 from datadog_sync.model.logs_indexes_order import LogsIndexesOrder
