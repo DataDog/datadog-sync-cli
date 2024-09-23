@@ -173,7 +173,7 @@ class CustomClient:
                 {
                     "metadata": {
                         "origin": {
-                            "origin_product": int(f"{Metrics.ORIGIN_PRODUCT.value}"),
+                            "origin_product": Metrics.ORIGIN_PRODUCT.value,
                         },
                     },
                     "metric": full_metric,
