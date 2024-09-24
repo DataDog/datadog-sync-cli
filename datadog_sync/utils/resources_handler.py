@@ -220,7 +220,7 @@ class ResourcesHandler:
             for resource in v:
                 self.worker.work_queue.put_nowait((k, resource))
         await self.worker.schedule_workers_with_pbar(total=total)
-        self.config.logger.info(f"finished importng individual resource items: {self.worker.counter}.")
+        self.config.logger.info(f"finished importing individual resource items: {self.worker.counter}.")
 
         # Dump resources
         self.config.state.dump_state(Origin.SOURCE)
@@ -235,19 +235,12 @@ class ResourcesHandler:
             get_resp = await r_class._get_resources(self.config.source_client)
             self.worker.counter.increment_success()
             tmp_storage[resource_type] = get_resp
-            await r_class._send_action_metrics(Command.IMPORT.value + "_resources", resource_type, Status.SUCCESS.value)
         except TimeoutError:
             self.worker.counter.increment_failure()
             self.config.logger.error(f"TimeoutError while getting resources {resource_type}")
-            await r_class._send_action_metrics(
-                Command.IMPORT.value + "_resources", resource_type, Status.FAILURE.value, tags=["reason:timeout"]
-            )
         except Exception as e:
             self.worker.counter.increment_failure()
             self.config.logger.error(f"Error while getting resources {resource_type}: {str(e)}")
-            await r_class._send_action_metrics(
-                Command.IMPORT.value + "_resources", resource_type, Status.FAILURE.value, tags=["reason:unknown"]
-            )
 
     async def _import_resource(self, q_item: List) -> None:
         resource_type, resource = q_item
