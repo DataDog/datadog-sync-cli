@@ -150,3 +150,16 @@ class TestCli:
         assert "diff:" not in caplog.text
 
         assert 0 == ret.exit_code
+
+    def test_migrate(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+        # Migrate
+        ret = runner.invoke(cli, ["migrate", "--validate=false", f"--resources={self.resources}"])
+        assert 0 == ret.exit_code
+
+        caplog.clear()
+        # Check diff
+        ret = runner.invoke(cli, ["diffs", "--validate=false", "--skip-failed-resource-connections=False"])
+        # assert diffs are produced
+        assert caplog.text
+        assert 0 == ret.exit_code
