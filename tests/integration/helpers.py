@@ -74,6 +74,7 @@ class BaseResourcesTestClass:
             "--validate=false",
             f"--resources={self.resource_type}",
             f"--filter={self.filter}",
+            "--create-global-downtime=False",
         ]
         if self.force_missing_deps:
             cmd_list.append("--force-missing-dependencies")
@@ -128,6 +129,7 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
+                "--create-global-downtime=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -201,6 +203,7 @@ class BaseResourcesTestClass:
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
                 "--cleanup=force",
+                "--create-global-downtime=False",
             ],
         )
 

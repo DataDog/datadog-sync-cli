@@ -46,7 +46,10 @@ class TestCli:
 
         caplog.clear()
         # Check diff
-        ret = runner.invoke(cli, ["diffs", "--validate=false", "--skip-failed-resource-connections=False"])
+        ret = runner.invoke(
+            cli,
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=False"],
+        )
         # assert diffs are produced
         assert caplog.text
         assert 0 == ret.exit_code
@@ -62,6 +65,7 @@ class TestCli:
                 "--validate=false",
                 f"--resources={self.resources}",
                 "--skip-failed-resource-connections=False",
+                "--create-global-downtime=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -112,6 +116,7 @@ class TestCli:
                 f"--resources={self.resources}",
                 "--cleanup=force",
                 "--skip-failed-resource-connections=False",
+                "--create-global-downtime=False",
             ],
         )
         if ret.exit_code != 0:
@@ -128,6 +133,7 @@ class TestCli:
                     f"--resources={self.resources}",
                     "--cleanup=force",
                     "--skip-failed-resource-connections=False",
+                    "--create-global-downtime=False",
                 ],
             )
 
@@ -154,12 +160,23 @@ class TestCli:
     def test_migrate(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
         # Migrate
-        ret = runner.invoke(cli, ["migrate", "--validate=false", f"--resources={self.resources}"])
+        ret = runner.invoke(
+            cli,
+            [
+                "migrate",
+                "--validate=false",
+                f"--resources={self.resources}",
+                "--create-global-downtime=False",
+            ],
+        )
         assert 0 == ret.exit_code
 
         caplog.clear()
         # Check diff
-        ret = runner.invoke(cli, ["diffs", "--validate=false", "--skip-failed-resource-connections=False"])
+        ret = runner.invoke(
+            cli,
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=False"],
+        )
         # assert diffs are produced
         assert caplog.text
         assert 0 == ret.exit_code
