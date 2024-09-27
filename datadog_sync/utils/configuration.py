@@ -43,6 +43,7 @@ class Configuration(object):
     cleanup: int
     create_global_downtime: bool
     validate: bool
+    send_metrics: bool
     state: State
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
@@ -87,20 +88,21 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # Initialize the datadog API Clients based on cmd
     retry_timeout = kwargs.get("http_client_retry_timeout")
     timeout = kwargs.get("http_client_timeout")
+    send_metrics = kwargs.get("send_metrics")
 
     source_auth = {}
     if k := kwargs.get("source_api_key"):
         source_auth["apiKeyAuth"] = k
     if k := kwargs.get("source_app_key"):
         source_auth["appKeyAuth"] = k
-    source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout)
+    source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout, send_metrics)
 
     destination_auth = {}
     if k := kwargs.get("destination_api_key"):
         destination_auth["apiKeyAuth"] = k
     if k := kwargs.get("destination_app_key"):
         destination_auth["appKeyAuth"] = k
-    destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout)
+    destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout, send_metrics)
 
     # Additional settings
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
@@ -133,6 +135,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         cleanup=cleanup,
         create_global_downtime=create_global_downtime,
         validate=validate,
+        send_metrics=send_metrics,
         state=state,
     )
 

@@ -17,6 +17,7 @@ from datadog_sync.utils.resource_utils import (
     find_attr,
     ResourceConnectionError,
 )
+from datadog_sync.constants import Metrics
 
 if TYPE_CHECKING:
     from datadog_sync.utils.configuration import Configuration
@@ -218,3 +219,23 @@ class BaseResource(abc.ABC):
                     return True
             # Filter was specified for resource type but resource did not match any
             return False
+
+    async def _send_action_metrics(self, action: str, _id: str, status: str, tags: Optional[List[str]] = None) -> None:
+        if not tags:
+            tags = []
+        if _id:
+            tags.append(f"id:{_id}")
+        tags.append(f"action_type:{action}")
+        tags.append(f"status:{status}")
+        tags.append(f"resource_type:{self.resource_type}")
+        try:
+            await self.config.destination_client.send_metric(Metrics.ACTION.value, tags + ["client_type:destination"])
+            self.config.logger.debug(f"Sent metrics to destination for {self.resource_type}")
+        except Exception as e:
+            self.config.logger.debug(f"Failed to send metrics to destination for {self.resource_type}: {str(e)}")
+
+        try:
+            await self.config.source_client.send_metric(Metrics.ACTION.value, tags + ["client_type:source"])
+            self.config.logger.debug(f"Sent metrics to source for {self.resource_type}")
+        except Exception as e:
+            self.config.logger.debug(f"Failed to send metrics to source for {self.resource_type}: {str(e)}")

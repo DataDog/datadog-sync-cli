@@ -123,7 +123,7 @@ def vcr_config():
 
 @pytest.fixture(scope="module")
 def config():
-    custom_client = CustomClient(None, {"apiKeyAuth": "123", "appKeyAuth": "123"}, None, None)
+    custom_client = CustomClient(None, {"apiKeyAuth": "123", "appKeyAuth": "123"}, None, None, True)
 
     cfg = Configuration(
         logger=logging.getLogger(__name__),
@@ -138,6 +138,7 @@ def config():
         create_global_downtime=False,
         validate=False,
         state=State(),
+        send_metrics=True,
     )
 
     resources = init_resources(cfg)

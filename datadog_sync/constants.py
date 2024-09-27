@@ -45,3 +45,16 @@ class Origin(Enum):
     ALL = "all"
     SOURCE = "source"
     DESTINATION = "destination"
+
+
+class Metrics(Enum):
+    PREFIX = "datadog.org-sync"
+    ACTION = "action"
+    ORIGIN_PRODUCT = 24
+
+
+# Status
+class Status(Enum):
+    SUCCESS = "success"
+    SKIPPED = "skipped"
+    FAILURE = "failure"
