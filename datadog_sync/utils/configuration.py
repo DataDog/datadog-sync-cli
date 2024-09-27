@@ -57,12 +57,12 @@ class Configuration(object):
         # Validate the clients. For import we only validate the source client
         # For sync/diffs we validate the destination client.
         if self.validate:
-            if cmd in [Command.SYNC, Command.DIFFS]:
+            if cmd in [Command.SYNC, Command.DIFFS, Command.MIGRATE]:
                 try:
                     await _validate_client(self.destination_client)
                 except Exception:
                     exit(1)
-            if cmd == Command.IMPORT:
+            if cmd in [Command.IMPORT, Command.MIGRATE]:
                 try:
                     await _validate_client(self.source_client)
                 except Exception:

@@ -38,6 +38,7 @@ class Command(Enum):
     IMPORT = "import"
     SYNC = "sync"
     DIFFS = "diffs"
+    MIGRATE = "migrate"
 
 
 # Origin

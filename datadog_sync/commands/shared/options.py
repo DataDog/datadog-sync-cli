@@ -94,7 +94,7 @@ _common_options = [
         type=int,
         default=60,
         show_default=True,
-        help="The HTTP request retry timeout period. Defaults to 60s",
+        help="The HTTP request retry timeout period in seconds.",
         cls=CustomOptionClass,
     ),
     option(
@@ -104,7 +104,7 @@ _common_options = [
         type=int,
         default=30,
         show_default=True,
-        help="The HTTP request timeout period. Defaults to 30s",
+        help="The HTTP request timeout period in seconds.",
         cls=CustomOptionClass,
     ),
     option(
@@ -126,6 +126,7 @@ _common_options = [
         "--max-workers",
         envvar=constants.MAX_WORKERS,
         default=100,
+        show_default=True,
         required=False,
         type=int,
         help="Max number of workers when running operations in multi-threads.",
@@ -136,6 +137,7 @@ _common_options = [
         envvar=constants.DD_FILTER_OPERATOR,
         required=False,
         default="OR",
+        show_default=True,
         help="Filter operator when multiple filters are passed. Supports `AND` or `OR`.",
         cls=CustomOptionClass,
     ),
@@ -161,7 +163,8 @@ _common_options = [
         default=True,
         show_default=True,
         help="Enables validation of the provided API during client initialization. On import, "
-        "only source api key is validated. On sync/diffs, only destination api key is validated.",
+        "only source api key is validated. On sync/diffs, only destination api key is validated. "
+        "On migrate, both source and destination api keys are validated.",
         cls=CustomOptionClass,
     ),
     option(
@@ -169,13 +172,14 @@ _common_options = [
         type=bool,
         required=False,
         default=True,
+        show_default=True,
         help="Enables sync-cli metrics being sent to both source and destination",
         cls=CustomOptionClass,
     ),
 ]
 
 
-_non_import_common_options = [
+_diffs_common_options = [
     option(
         "--skip-failed-resource-connections",
         type=bool,
@@ -199,6 +203,29 @@ _non_import_common_options = [
 ]
 
 
+_sync_common_options = [
+    option(
+        "--force-missing-dependencies",
+        required=False,
+        is_flag=True,
+        default=False,
+        show_default=True,
+        help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--create-global-downtime",
+        required=False,
+        is_flag=True,
+        default=False,
+        show_default=True,
+        help="Scheduled downtime is meant to be removed during failover when "
+        "user determines monitors have enough telemetry to trigger appropriately.",
+        cls=CustomOptionClass,
+    ),
+]
+
+
 def source_auth_options(func: Callable) -> Callable:
     return _build_options_helper(func, _source_auth_options)
 
@@ -211,8 +238,12 @@ def common_options(func: Callable) -> Callable:
     return _build_options_helper(func, _common_options)
 
 
-def non_import_common_options(func: Callable) -> Callable:
-    return _build_options_helper(func, _non_import_common_options)
+def diffs_common_options(func: Callable) -> Callable:
+    return _build_options_helper(func, _diffs_common_options)
+
+
+def sync_common_options(func: Callable) -> Callable:
+    return _build_options_helper(func, _sync_common_options)
 
 
 def _build_options_helper(func: Callable, options: List[Callable]) -> Callable:

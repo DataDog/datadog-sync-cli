@@ -17,7 +17,7 @@ def run_cmd(cmd: Command, **kwargs):
         asyncio.run(run_cmd_async(cfg, handler, cmd))
     except KeyboardInterrupt:
         cfg.logger.error("Process interrupted by user")
-        if cmd == Command.SYNC:
+        if cmd in [Command.SYNC, Command.MIGRATE]:
             cfg.logger.info("Writing synced resources to disk before exit...")
             cfg.state.dump_state()
             exit(0)
@@ -41,6 +41,9 @@ async def run_cmd_async(cfg: Configuration, handler: ResourcesHandler, cmd: Comm
             await handler.apply_resources()
         elif cmd == Command.DIFFS:
             await handler.diffs()
+        elif cmd == Command.MIGRATE:
+            await handler.import_resources()
+            await handler.apply_resources()
         else:
             cfg.logger.error(f"Command {cmd.value} not found")
             return
