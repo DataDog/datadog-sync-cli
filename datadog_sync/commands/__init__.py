@@ -12,5 +12,4 @@ ALL_COMMANDS = [
     sync,
     _import,
     diffs,
-    migrate,
 ]
