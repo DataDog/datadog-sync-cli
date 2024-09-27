@@ -8,7 +8,7 @@
 * Inject resource context into logs by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/282
 * Add support for SDS resources by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/284
 * Add support for logs_archives resource by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/270
-* Adding observability metrics to sync-cli by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/283
+* Add observability metrics to sync-cli by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/283
 
 ## New Contributors
 * @romainberger made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/276

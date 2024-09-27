@@ -6,10 +6,12 @@
 from datadog_sync.commands.sync import sync
 from datadog_sync.commands._import import _import
 from datadog_sync.commands.diffs import diffs
+from datadog_sync.commands.migrate import migrate
 
 
 ALL_COMMANDS = [
     sync,
     _import,
     diffs,
+    migrate,
 ]
