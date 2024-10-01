@@ -42,6 +42,7 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
+                "--verify-ddr-status=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -60,6 +61,7 @@ class BaseResourcesTestClass:
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
                 "--skip-failed-resource-connections=false",
+                "--verify-ddr-status=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -74,7 +76,7 @@ class BaseResourcesTestClass:
             "--validate=false",
             f"--resources={self.resource_type}",
             f"--filter={self.filter}",
-            "--create-global-downtime=False",
+            "--verify-ddr-status=False",
         ]
         if self.force_missing_deps:
             cmd_list.append("--force-missing-dependencies")
@@ -116,6 +118,7 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
+                "--verify-ddr-status=False",
             ],
         )
         assert caplog.text
@@ -129,7 +132,7 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
-                "--create-global-downtime=False",
+                "--verify-ddr-status=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -143,6 +146,7 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
+                "--verify-ddr-status=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -164,6 +168,7 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
+                "--verify-ddr-status=False",
             ],
         )
 
@@ -190,6 +195,7 @@ class BaseResourcesTestClass:
                     "--validate=false",
                     f"--resources={self.resource_type}",
                     f"--filter={self.resources_to_preserve_filter}",
+                    "--verify-ddr-status=False",
                 ],
             )
             assert 0 == ret.exit_code
@@ -203,7 +209,7 @@ class BaseResourcesTestClass:
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
                 "--cleanup=force",
-                "--create-global-downtime=False",
+                "--verify-ddr-status=False",
             ],
         )
 

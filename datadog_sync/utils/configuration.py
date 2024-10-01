@@ -25,6 +25,7 @@ from datadog_sync.constants import (
     LOGGER_NAME,
     TRUE,
     VALIDATE_ENDPOINT,
+    VALID_DDR_STATES,
 )
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 from datadog_sync.utils.state import State
@@ -45,6 +46,7 @@ class Configuration(object):
     validate: bool
     send_metrics: bool
     state: State
+    verify_ddr_status: bool
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
 
@@ -68,6 +70,28 @@ class Configuration(object):
                 except Exception:
                     exit(1)
             self.logger.info("clients validated successfully")
+
+        # Don't sync if DDR is active
+        if self.verify_ddr_status:
+            try:
+                await _verify_ddr_status(self.destination_client)
+            except Exception as err:
+                self.logger.error(
+                    "The destination DDR verification failed. Use the --verify-ddr-status "
+                    + f"flag to override, exiting: {err}"
+                )
+                exit(1)
+            try:
+                await _verify_ddr_status(self.source_client)
+            except Exception as err:
+                self.logger.error(
+                    "The source DDR verification failed. Use the --verify-ddr-status "
+                    + f"flag to override, exiting: {err}"
+                )
+                exit(1)
+            self.logger.info("DDR verified successfully")
+        else:
+            self.logger.warning("DDR verification skipped.")
 
     async def exit_async(self):
         await self.source_client._end_session()
@@ -110,6 +134,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     max_workers = kwargs.get("max_workers")
     create_global_downtime = kwargs.get("create_global_downtime")
     validate = kwargs.get("validate")
+    verify_ddr_status = kwargs.get("verify_ddr_status")
 
     cleanup = kwargs.get("cleanup")
     if cleanup:
@@ -137,6 +162,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         validate=validate,
         send_metrics=send_metrics,
         state=state,
+        verify_ddr_status=verify_ddr_status,
     )
 
     # Initialize resource classes
@@ -185,6 +211,15 @@ def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
     )
 
     return resources
+
+
+async def _verify_ddr_status(client: CustomClient) -> None:
+    ddr_state = await client.get_ddr_status()
+    if not ddr_state:
+        raise ConnectionError("Could not get DDR status")
+
+    if ddr_state not in VALID_DDR_STATES:
+        raise ValueError(f"DDR status: {ddr_state.name}")
 
 
 async def _validate_client(client: CustomClient) -> None:

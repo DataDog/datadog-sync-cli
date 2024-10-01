@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 import aiohttp
 import certifi
 
-from datadog_sync.constants import LOGGER_NAME, Metrics
+from datadog_sync.constants import DDR_Status, LOGGER_NAME, Metrics
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 log = logging.getLogger(LOGGER_NAME)
@@ -184,6 +184,26 @@ class CustomClient:
             ]
         }
         await self.post(path, body)
+
+    async def get_ddr_status(self) -> Dict:
+        path = "/api/v2/hamr"
+        resp = await self.get(path)
+        if not resp:
+            return None
+
+        data = resp.get("data")
+        if not data:
+            return None
+
+        attributes = data.get("attributes")
+        if not attributes:
+            return None
+
+        ddr_status = attributes.get("HamrStatus")
+        if not ddr_status:
+            return None
+
+        return DDR_Status(ddr_status)
 
 
 def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:

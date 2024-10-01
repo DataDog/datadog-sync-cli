@@ -41,14 +41,16 @@ class TestCli:
     def test_import(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
         # Import
-        ret = runner.invoke(cli, ["import", "--validate=false", f"--resources={self.resources}"])
+        ret = runner.invoke(
+            cli, ["import", "--validate=false", f"--resources={self.resources}", "--verify-ddr-status=false"]
+        )
         assert 0 == ret.exit_code
 
         caplog.clear()
         # Check diff
         ret = runner.invoke(
             cli,
-            ["diffs", "--validate=false", "--skip-failed-resource-connections=False"],
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=False", "--verify-ddr-status=false"],
         )
         # assert diffs are produced
         assert caplog.text
@@ -65,7 +67,7 @@ class TestCli:
                 "--validate=false",
                 f"--resources={self.resources}",
                 "--skip-failed-resource-connections=False",
-                "--create-global-downtime=False",
+                "--verify-ddr-status=false",
             ],
         )
         assert 0 == ret.exit_code
@@ -79,6 +81,7 @@ class TestCli:
                 "--validate=false",
                 f"--resources={self.resources}",
                 "--skip-failed-resource-connections=False",
+                "--verify-ddr-status=false",
             ],
         )
         # assert no diffs are produced
@@ -103,6 +106,7 @@ class TestCli:
                 "--resources=roles,users",
                 "--filter=Type=roles;Name=attributes.user_count;Value=[^0]+;Operator=SubString",
                 "--filter=Type=users;Name=attributes.status;Value=Active",
+                "--verify-ddr-status=false",
             ],
         )
         assert 0 == ret.exit_code
@@ -116,7 +120,7 @@ class TestCli:
                 f"--resources={self.resources}",
                 "--cleanup=force",
                 "--skip-failed-resource-connections=False",
-                "--create-global-downtime=False",
+                "--verify-ddr-status=false",
             ],
         )
         if ret.exit_code != 0:
@@ -133,7 +137,7 @@ class TestCli:
                     f"--resources={self.resources}",
                     "--cleanup=force",
                     "--skip-failed-resource-connections=False",
-                    "--create-global-downtime=False",
+                    "--verify-ddr-status=false",
                 ],
             )
 
@@ -148,6 +152,7 @@ class TestCli:
                 "--validate=false",
                 f"--resources={self.resources}",
                 "--skip-failed-resource-connections=False",
+                "--verify-ddr-status=false",
             ],
         )
         # assert no diffs are produced
@@ -166,7 +171,7 @@ class TestCli:
                 "migrate",
                 "--validate=false",
                 f"--resources={self.resources}",
-                "--create-global-downtime=False",
+                "--verify-ddr-status=false",
             ],
         )
         assert 0 == ret.exit_code
@@ -175,7 +180,7 @@ class TestCli:
         # Check diff
         ret = runner.invoke(
             cli,
-            ["diffs", "--validate=false", "--skip-failed-resource-connections=False"],
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=False", "--verify-ddr-status=false"],
         )
         # assert diffs are produced
         assert caplog.text

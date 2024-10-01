@@ -88,6 +88,17 @@ def click_config_file_provider(ctx: Context, opts: CustomOptionClass, value: Non
 
 _common_options = [
     option(
+        "--verify-ddr-status",
+        envvar=constants.DD_VERIFY_DDR_STATUS,
+        required=False,
+        type=bool,
+        default=True,
+        show_default=True,
+        help="Verifies DDR status at the source and destination and will not "
+        "sync if either is in an ACTIVE or FAILOVER state.",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--http-client-retry-timeout",
         envvar=constants.DD_HTTP_CLIENT_RETRY_TIMEOUT,
         required=False,
@@ -216,8 +227,8 @@ _sync_common_options = [
     option(
         "--create-global-downtime",
         required=False,
-        type=bool,
-        default=True,
+        is_flag=True,
+        default=False,
         show_default=True,
         help="Scheduled downtime is meant to be removed during failover when "
         "user determines monitors have enough telemetry to trigger appropriately.",

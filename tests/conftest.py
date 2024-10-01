@@ -138,6 +138,7 @@ def config():
         create_global_downtime=False,
         validate=False,
         state=State(),
+        verify_ddr_status=False,
         send_metrics=True,
     )
 

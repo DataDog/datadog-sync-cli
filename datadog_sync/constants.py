@@ -20,6 +20,7 @@ DD_FILTER = "DD_FILTER"
 DD_FILTER_OPERATOR = "DD_FILTER_OPERATOR"
 DD_CLEANUP = "DD_CLEANUP"
 DD_VALIDATE = "DD_VALIDATE"
+DD_VERIFY_DDR_STATUS = "DD_VERIFY_DDR_STATUS"
 
 # Default variables
 DEFAULT_API_URL = "https://api.datadoghq.com"
@@ -59,3 +60,19 @@ class Status(Enum):
     SUCCESS = "success"
     SKIPPED = "skipped"
     FAILURE = "failure"
+
+
+# DDR Status
+class DDR_Status(Enum):
+    ONBOARDING = 1
+    PASSIVE = 2
+    FAILOVER = 3
+    ACTIVE = 4
+    RECOVERY = 5
+
+
+VALID_DDR_STATES = [
+    DDR_Status.ONBOARDING,
+    DDR_Status.PASSIVE,
+    DDR_Status.RECOVERY,
+]
