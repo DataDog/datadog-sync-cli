@@ -60,7 +60,6 @@ class BaseResourcesTestClass:
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
                 "--skip-failed-resource-connections=false",
-                "--verify-ddr-status=False",
             ],
         )
         assert 0 == ret.exit_code
