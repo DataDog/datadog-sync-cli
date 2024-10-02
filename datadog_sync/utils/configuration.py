@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 import logging
-from sys import exit
+import sys
 from dataclasses import dataclass, field
 from typing import Any, Optional, Union, Dict, List
 
@@ -63,12 +63,12 @@ class Configuration(object):
                 try:
                     await _validate_client(self.destination_client)
                 except Exception:
-                    exit(1)
+                    sys.exit(1)
             if cmd in [Command.IMPORT, Command.MIGRATE]:
                 try:
                     await _validate_client(self.source_client)
                 except Exception:
-                    exit(1)
+                    sys.exit(1)
             self.logger.info("clients validated successfully")
 
         # Don't sync if DDR is active
@@ -80,7 +80,7 @@ class Configuration(object):
                     "The destination DDR verification failed. Use the --verify-ddr-status "
                     f"flag to override, exiting: {err}"
                 )
-                exit(1)
+                sys.exit(1)
             try:
                 await _verify_ddr_status(self.source_client)
             except Exception as err:
@@ -88,7 +88,7 @@ class Configuration(object):
                     "The source DDR verification failed. Use the --verify-ddr-status "
                     f"flag to override, exiting: {err}"
                 )
-                exit(1)
+                sys.exit(1)
             self.logger.info("DDR verified successfully")
         else:
             self.logger.warning("DDR verification skipped.")
@@ -187,7 +187,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication"
             )
-            exit(1)
+            sys.exit(1)
 
         resources_arg = list(set(resources_arg) & set(resources.keys()))
     else:
@@ -251,7 +251,7 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication."
             )
-            exit(1)
+            sys.exit(1)
 
         if Downtimes.resource_type in config.resources_arg:
             config.logger.warning("`downtimes` resource has been deprecated in favor of `downtime_schedules`.")
@@ -260,7 +260,7 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
                 "`downtimes` and `downtime_schedules` resource should not"
                 + " be used together as it will cause duplication."
             )
-            exit(1)
+            sys.exit(1)
 
     else:
         # Use logs_custom_pipeline resource if its state files exist.
