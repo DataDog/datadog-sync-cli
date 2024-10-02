@@ -42,7 +42,6 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
-                "--verify-ddr-status=False",
             ],
         )
         assert 0 == ret.exit_code
