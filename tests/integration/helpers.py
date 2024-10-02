@@ -141,7 +141,6 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
-                "--verify-ddr-status=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -163,7 +162,6 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
-                "--verify-ddr-status=False",
             ],
         )
 
@@ -190,7 +188,6 @@ class BaseResourcesTestClass:
                     "--validate=false",
                     f"--resources={self.resource_type}",
                     f"--filter={self.resources_to_preserve_filter}",
-                    "--verify-ddr-status=False",
                 ],
             )
             assert 0 == ret.exit_code
@@ -204,7 +201,6 @@ class BaseResourcesTestClass:
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
                 "--cleanup=force",
-                "--verify-ddr-status=False",
             ],
         )
 

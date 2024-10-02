@@ -31,40 +31,4 @@ interactions:
     status:
       code: 200
       message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/y_VfJhuRSiWPJ7zMVzSX_A
-  response:
-    body:
-      string: '{}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/yrTzh6UJTkOydngXA38xDg
-  response:
-    body:
-      string: '{}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
 version: 1
