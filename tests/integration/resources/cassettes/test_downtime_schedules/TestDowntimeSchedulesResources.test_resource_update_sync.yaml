@@ -1,5 +1,37 @@
 interactions:
 - request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/hamr
+  response:
+    body:
+      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v2/hamr
+  response:
+    body:
+      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: '{"data": {"type": "downtime", "attributes": {"message": "Random monitorupdated",
       "monitor_identifier": {"monitor_tags": ["env:test"]}, "notify_end_types": ["canceled",
       "expired"], "notify_end_states": ["warn", "no data", "alert"], "schedule": {"start":

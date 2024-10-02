@@ -74,7 +74,6 @@ class BaseResourcesTestClass:
             "--validate=false",
             f"--resources={self.resource_type}",
             f"--filter={self.filter}",
-            "--verify-ddr-status=False",
         ]
         if self.force_missing_deps:
             cmd_list.append("--force-missing-dependencies")
