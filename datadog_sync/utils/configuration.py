@@ -78,7 +78,7 @@ class Configuration(object):
             except Exception as err:
                 self.logger.error(
                     "The destination DDR verification failed. Use the --verify-ddr-status "
-                    + f"flag to override, exiting: {err}"
+                    f"flag to override, exiting: {err}"
                 )
                 exit(1)
             try:
@@ -86,7 +86,7 @@ class Configuration(object):
             except Exception as err:
                 self.logger.error(
                     "The source DDR verification failed. Use the --verify-ddr-status "
-                    + f"flag to override, exiting: {err}"
+                    f"flag to override, exiting: {err}"
                 )
                 exit(1)
             self.logger.info("DDR verified successfully")
