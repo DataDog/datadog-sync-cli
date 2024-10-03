@@ -87,6 +87,93 @@ class TestCli:
 
         assert 0 == ret.exit_code
 
+    def test_import_verify_ddr_status_failure(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+
+        for command in ["import", "sync", "migrate", "diffs"]:
+            ret = runner.invoke(cli, [command, "--validate=false", f"--resources={self.resources}"])
+            # The above should fail
+            assert "error while running" not in caplog.text
+            assert 1 == ret.exit_code
+            assert "verification failed" in caplog.text
+
+    def test_without_verify_ddr_status(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+
+        # Import
+        ret = runner.invoke(
+            cli, ["import", "--validate=false", f"--resources={self.resources}", "--verify-ddr-status=False"]
+        )
+        assert "error while running" not in caplog.text
+        assert 0 == ret.exit_code
+
+        caplog.clear()
+        # Check diff
+        ret = runner.invoke(
+            cli,
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=False", "--verify-ddr-status=False"],
+        )
+        assert "error while running" not in caplog.text
+        assert 0 == ret.exit_code
+        # assert diffs are produced
+        assert caplog.text
+
+        #  Sync
+        ret = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--validate=false",
+                f"--resources={self.resources}",
+                "--skip-failed-resource-connections=False",
+                "--verify-ddr-status=False",
+            ],
+        )
+        assert "error while running" not in caplog.text
+        assert 0 == ret.exit_code
+
+        caplog.clear()
+        # Check diff
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                f"--resources={self.resources}",
+                "--skip-failed-resource-connections=False",
+                "--verify-ddr-status=False",
+            ],
+        )
+        assert "error while running" not in caplog.text
+        assert 0 == ret.exit_code
+        ## assert diffs are produced
+        assert caplog.text
+
+        # Migrate
+        ret = runner.invoke(
+            cli,
+            [
+                "migrate",
+                "--validate=false",
+                f"--resources={self.resources}",
+                "--verify-ddr-status=False",
+            ],
+        )
+        assert "error while running" not in caplog.text
+        assert 0 == ret.exit_code
+
+        caplog.clear()
+        # Check diff
+        ret = runner.invoke(
+            cli,
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=False", "--verify-ddr-status=False"],
+        )
+        assert "error while running" not in caplog.text
+        assert 0 == ret.exit_code
+        assert caplog.text
+        # assert diffs are produced
+        assert "error while running" not in caplog.text
+
     def test_cleanup(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
 
@@ -104,6 +191,7 @@ class TestCli:
                 "--filter=Type=users;Name=attributes.status;Value=Active",
             ],
         )
+        assert "error while running" not in caplog.text
         assert 0 == ret.exit_code
 
         # Sync with cleanup
@@ -134,6 +222,7 @@ class TestCli:
                 ],
             )
 
+        assert "error while running" not in caplog.text
         assert 0 == ret.exit_code
 
         caplog.clear()
@@ -147,12 +236,13 @@ class TestCli:
                 "--skip-failed-resource-connections=False",
             ],
         )
+        assert "error while running" not in caplog.text
+        assert 0 == ret.exit_code
+
         # assert no diffs are produced
         assert "to be deleted" not in caplog.text
         assert "to be added" not in caplog.text
         assert "diff:" not in caplog.text
-
-        assert 0 == ret.exit_code
 
     def test_migrate(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -165,6 +255,7 @@ class TestCli:
                 f"--resources={self.resources}",
             ],
         )
+        assert "error while running" not in caplog.text
         assert 0 == ret.exit_code
 
         caplog.clear()
@@ -173,6 +264,7 @@ class TestCli:
             cli,
             ["diffs", "--validate=false", "--skip-failed-resource-connections=False"],
         )
+        assert "error while running" not in caplog.text
+        assert 0 == ret.exit_code
         # assert diffs are produced
         assert caplog.text
-        assert 0 == ret.exit_code
