@@ -203,7 +203,7 @@ For example, `ResourceA` and `ResourceB` are imported and synced, followed by de
 
 #### Verify DDR status flag
 
-By default all commands now check the Datadog Disaster Recovery (DDR) status of both the source and destination organizations before running. This behavior is controlled by the boolean flag `--verify-ddr-status` or the enviornment variable `DD_VERIFY_DDR_STATUS`. 
+By default all commands check the Datadog Disaster Recovery (DDR) status of both the source and destination organizations before running. This behavior is controlled by the boolean flag `--verify-ddr-status` or the environment variable `DD_VERIFY_DDR_STATUS`. 
 
 
 #### State files
