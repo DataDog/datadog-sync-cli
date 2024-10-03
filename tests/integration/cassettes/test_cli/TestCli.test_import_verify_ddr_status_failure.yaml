@@ -8,7 +8,55 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{null}}'
+      string: '{"data":null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/hamr
+  response:
+    body:
+      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":3,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/hamr
+  response:
+    body:
+      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":3,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/hamr
+  response:
+    body:
+      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":4,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
     headers:
       Content-Type:
       - application/json
@@ -25,6 +73,46 @@ interactions:
   response:
     body:
       string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.com/api/v1/slo
+  response:
+    body:
+      string: '{"data": [{"id": "ae04001ea55f52f6ae4b85d9b1023909", "name": "Composite
+        monitor - Child 2", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
+        "7d", "target": 99.0, "target_display": "99."}], "type": "monitor", "type_id":
+        0, "description": "Updated Description Test", "timeframe": "7d", "target_threshold":
+        99.0, "monitor_ids": [37284891, 36239262], "creator": {"name": "Sherzod Karimov",
+        "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com"},
+        "created_at": 1623260678, "modified_at": 1668546720}, {"id": "ba72d10835d75e0c8910597144f3733a",
+        "name": "SLO test", "tags": [], "monitor_tags": [], "thresholds": [{"timeframe":
+        "7d", "target": 99.0, "target_display": "99."}], "type": "metric", "type_id":
+        1, "description": "Test update creation", "timeframe": "7d", "target_threshold":
+        99.0, "query": {"denominator": "sum:api.requests{*}.as_count()", "numerator":
+        "sum:api.requests.status_ok{*}.as_count()"}, "creator": {"name": "Noueman
+        Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email": "noueman.khalikine@datadoghq.com"},
+        "created_at": 1623658372, "modified_at": 1626358963}, {"id": "b02adcb3d95a5c3dbfebf7c94bf4e8c5",
+        "name": "Random monitor slo", "tags": [], "monitor_tags": [], "thresholds":
+        [{"timeframe": "7d", "target": 99.9, "target_display": "99.9"}], "type": "monitor",
+        "type_id": 0, "description": "", "timeframe": "7d", "target_threshold": 99.9,
+        "monitor_ids": [36239262], "creator": {"name": "Sherzod Karimov", "handle":
+        "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com"},
+        "created_at": 1695138080, "modified_at": 1695138180}], "error": null, "metadata":
+        {"page": {"total_count": 3, "total_filtered_count": 3}}}'
     headers:
       Content-Type:
       - application/json

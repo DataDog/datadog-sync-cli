@@ -77,16 +77,14 @@ class Configuration(object):
                 await _verify_ddr_status(self.destination_client)
             except Exception as err:
                 self.logger.error(
-                    "The destination DDR verification failed. Use the --verify-ddr-status "
-                    f"flag to override, exiting: {err}"
+                    f"The destination DDR verification failed. {err} Use the --verify-ddr-status " "flag to override."
                 )
                 sys.exit(1)
             try:
                 await _verify_ddr_status(self.source_client)
             except Exception as err:
                 self.logger.error(
-                    "The source DDR verification failed. Use the --verify-ddr-status "
-                    f"flag to override, exiting: {err}"
+                    f"The source DDR verification failed. {err} Use the --verify-ddr-status " "flag to override."
                 )
                 sys.exit(1)
             self.logger.info("DDR verified successfully")
@@ -216,10 +214,10 @@ def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
 async def _verify_ddr_status(client: CustomClient) -> None:
     ddr_state = await client.get_ddr_status()
     if not ddr_state:
-        raise ConnectionError("Could not get DDR status")
+        raise ConnectionError("This indicates that no DDR status could be retrieved.")
 
     if ddr_state not in VALID_DDR_STATES:
-        raise ValueError(f"DDR status: {ddr_state.name}")
+        raise ValueError(f"This indicates disaster recovery is in progress. DDR status retrieved: {ddr_state.name}")
 
 
 async def _validate_client(client: CustomClient) -> None:
