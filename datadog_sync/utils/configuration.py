@@ -77,14 +77,14 @@ class Configuration(object):
                 await _verify_ddr_status(self.destination_client)
             except Exception as err:
                 self.logger.error(
-                    f"The destination DDR verification failed. {err} Use the --verify-ddr-status " "flag to override."
+                    f"The destination DDR verification failed. {err} Use the --verify-ddr-status flag to override."
                 )
                 sys.exit(1)
             try:
                 await _verify_ddr_status(self.source_client)
             except Exception as err:
                 self.logger.error(
-                    f"The source DDR verification failed. {err} Use the --verify-ddr-status " "flag to override."
+                    f"The source DDR verification failed. {err} Use the --verify-ddr-status flag to override."
                 )
                 sys.exit(1)
             self.logger.info("DDR verified successfully")
