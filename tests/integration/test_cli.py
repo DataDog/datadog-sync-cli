@@ -65,6 +65,7 @@ class TestCli:
                 "--validate=false",
                 f"--resources={self.resources}",
                 "--skip-failed-resource-connections=False",
+                "--create-global-downtime=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -141,6 +142,7 @@ class TestCli:
                 "--skip-failed-resource-connections=False",
                 "--verify-ddr-status=False",
                 "--send-metrics=False",
+                "--create-global-downtime=False",
             ],
         )
         assert "No match for the request" not in caplog.text
@@ -173,6 +175,7 @@ class TestCli:
                 f"--resources={self.resources}",
                 "--verify-ddr-status=False",
                 "--send-metrics=False",
+                "--create-global-downtime=False",
             ],
         )
         assert "No match for the request" not in caplog.text
@@ -227,6 +230,7 @@ class TestCli:
                 "--cleanup=force",
                 "--skip-failed-resource-connections=False",
                 "--send-metrics=False",
+                "--create-global-downtime=False",
             ],
         )
         if ret.exit_code != 0:
@@ -244,6 +248,7 @@ class TestCli:
                     "--cleanup=force",
                     "--skip-failed-resource-connections=False",
                     "--send-metrics=False",
+                    "--create-global-downtime=False",
                 ],
             )
 
@@ -280,6 +285,7 @@ class TestCli:
                 "--validate=false",
                 f"--resources={self.resources}",
                 "--send-metrics=False",
+                "--create-global-downtime=False",
             ],
         )
         assert "No match for the request" not in caplog.text
