@@ -88,6 +88,17 @@ def click_config_file_provider(ctx: Context, opts: CustomOptionClass, value: Non
 
 _common_options = [
     option(
+        "--verify-ddr-status",
+        envvar=constants.DD_VERIFY_DDR_STATUS,
+        required=False,
+        type=bool,
+        default=True,
+        show_default=True,
+        help="Verifies DDR status at the source and destination and will not "
+        "sync if either is in an ACTIVE or FAILOVER state.",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--http-client-retry-timeout",
         envvar=constants.DD_HTTP_CLIENT_RETRY_TIMEOUT,
         required=False,

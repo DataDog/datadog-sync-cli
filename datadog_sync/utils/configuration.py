@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 import logging
-from sys import exit
+import sys
 from dataclasses import dataclass, field
 from typing import Any, Optional, Union, Dict, List
 
@@ -25,6 +25,7 @@ from datadog_sync.constants import (
     LOGGER_NAME,
     TRUE,
     VALIDATE_ENDPOINT,
+    VALID_DDR_STATES,
 )
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 from datadog_sync.utils.state import State
@@ -45,6 +46,7 @@ class Configuration(object):
     validate: bool
     send_metrics: bool
     state: State
+    verify_ddr_status: bool
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
 
@@ -61,13 +63,33 @@ class Configuration(object):
                 try:
                     await _validate_client(self.destination_client)
                 except Exception:
-                    exit(1)
+                    sys.exit(1)
             if cmd in [Command.IMPORT, Command.MIGRATE]:
                 try:
                     await _validate_client(self.source_client)
                 except Exception:
-                    exit(1)
+                    sys.exit(1)
             self.logger.info("clients validated successfully")
+
+        # Don't sync if DDR is active
+        if self.verify_ddr_status:
+            try:
+                await _verify_ddr_status(self.destination_client)
+            except Exception as err:
+                self.logger.error(
+                    f"The destination DDR verification failed. {err} Use the --verify-ddr-status flag to override."
+                )
+                sys.exit(1)
+            try:
+                await _verify_ddr_status(self.source_client)
+            except Exception as err:
+                self.logger.error(
+                    f"The source DDR verification failed. {err} Use the --verify-ddr-status flag to override."
+                )
+                sys.exit(1)
+            self.logger.info("DDR verified successfully")
+        else:
+            self.logger.warning("DDR verification skipped.")
 
     async def exit_async(self):
         await self.source_client._end_session()
@@ -110,6 +132,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     max_workers = kwargs.get("max_workers")
     create_global_downtime = kwargs.get("create_global_downtime")
     validate = kwargs.get("validate")
+    verify_ddr_status = kwargs.get("verify_ddr_status")
 
     cleanup = kwargs.get("cleanup")
     if cleanup:
@@ -137,6 +160,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         validate=validate,
         send_metrics=send_metrics,
         state=state,
+        verify_ddr_status=verify_ddr_status,
     )
 
     # Initialize resource classes
@@ -161,7 +185,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication"
             )
-            exit(1)
+            sys.exit(1)
 
         resources_arg = list(set(resources_arg) & set(resources.keys()))
     else:
@@ -185,6 +209,15 @@ def init_resources(cfg: Configuration) -> Dict[str, BaseResource]:
     )
 
     return resources
+
+
+async def _verify_ddr_status(client: CustomClient) -> None:
+    ddr_state = await client.get_ddr_status()
+    if not ddr_state:
+        raise ConnectionError("This indicates that no DDR status could be retrieved.")
+
+    if ddr_state not in VALID_DDR_STATES:
+        raise ValueError(f"This indicates disaster recovery is in progress. DDR status retrieved: {ddr_state.name}")
 
 
 async def _validate_client(client: CustomClient) -> None:
@@ -216,7 +249,7 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication."
             )
-            exit(1)
+            sys.exit(1)
 
         if Downtimes.resource_type in config.resources_arg:
             config.logger.warning("`downtimes` resource has been deprecated in favor of `downtime_schedules`.")
@@ -225,7 +258,7 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
                 "`downtimes` and `downtime_schedules` resource should not"
                 + " be used together as it will cause duplication."
             )
-            exit(1)
+            sys.exit(1)
 
     else:
         # Use logs_custom_pipeline resource if its state files exist.

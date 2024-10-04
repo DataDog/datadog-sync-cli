@@ -46,7 +46,10 @@ class TestCli:
 
         caplog.clear()
         # Check diff
-        ret = runner.invoke(cli, ["diffs", "--validate=false", "--skip-failed-resource-connections=False"])
+        ret = runner.invoke(
+            cli,
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=False"],
+        )
         # assert diffs are produced
         assert caplog.text
         assert 0 == ret.exit_code
@@ -84,6 +87,115 @@ class TestCli:
 
         assert 0 == ret.exit_code
 
+    def test_import_verify_ddr_status_failure(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+
+        for command in ["import", "sync", "migrate", "diffs"]:
+            ret = runner.invoke(cli, [command, "--validate=false", f"--resources={self.resources}"])
+            # The above should fail
+            assert "No match for the request" not in caplog.text
+            assert 1 == ret.exit_code
+            assert "verification failed" in caplog.text
+
+    def test_without_verify_ddr_status(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+
+        # Import
+        ret = runner.invoke(
+            cli,
+            [
+                "import",
+                "--validate=false",
+                f"--resources={self.resources}",
+                "--verify-ddr-status=False",
+                "--send-metrics=False",
+            ],
+        )
+        assert "No match for the request" not in caplog.text
+        assert 0 == ret.exit_code
+
+        caplog.clear()
+        # Check diff
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--skip-failed-resource-connections=False",
+                "--verify-ddr-status=False",
+                "--send-metrics=False",
+            ],
+        )
+        assert "No match for the request" not in caplog.text
+        assert 0 == ret.exit_code
+        # assert diffs are produced
+        assert caplog.text
+
+        #  Sync
+        ret = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--validate=false",
+                f"--resources={self.resources}",
+                "--skip-failed-resource-connections=False",
+                "--verify-ddr-status=False",
+                "--send-metrics=False",
+            ],
+        )
+        assert "No match for the request" not in caplog.text
+        assert 0 == ret.exit_code
+
+        caplog.clear()
+        # Check diff
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                f"--resources={self.resources}",
+                "--skip-failed-resource-connections=False",
+                "--verify-ddr-status=False",
+                "--send-metrics=False",
+            ],
+        )
+        assert "No match for the request" not in caplog.text
+        assert 0 == ret.exit_code
+        ## assert diffs are produced
+        assert caplog.text
+
+        # Migrate
+        ret = runner.invoke(
+            cli,
+            [
+                "migrate",
+                "--validate=false",
+                f"--resources={self.resources}",
+                "--verify-ddr-status=False",
+                "--send-metrics=False",
+            ],
+        )
+        assert "No match for the request" not in caplog.text
+        assert 0 == ret.exit_code
+
+        caplog.clear()
+        # Check diff
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--skip-failed-resource-connections=False",
+                "--verify-ddr-status=False",
+                "--send-metrics=False",
+            ],
+        )
+        assert "No match for the request" not in caplog.text
+        assert 0 == ret.exit_code
+        assert caplog.text
+        # assert diffs are produced
+        assert "No match for the request" not in caplog.text
+
     def test_cleanup(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
 
@@ -99,8 +211,10 @@ class TestCli:
                 "--resources=roles,users",
                 "--filter=Type=roles;Name=attributes.user_count;Value=[^0]+;Operator=SubString",
                 "--filter=Type=users;Name=attributes.status;Value=Active",
+                "--send-metrics=False",
             ],
         )
+        assert "No match for the request" not in caplog.text
         assert 0 == ret.exit_code
 
         # Sync with cleanup
@@ -112,6 +226,7 @@ class TestCli:
                 f"--resources={self.resources}",
                 "--cleanup=force",
                 "--skip-failed-resource-connections=False",
+                "--send-metrics=False",
             ],
         )
         if ret.exit_code != 0:
@@ -128,9 +243,11 @@ class TestCli:
                     f"--resources={self.resources}",
                     "--cleanup=force",
                     "--skip-failed-resource-connections=False",
+                    "--send-metrics=False",
                 ],
             )
 
+        assert "No match for the request" not in caplog.text
         assert 0 == ret.exit_code
 
         caplog.clear()
@@ -142,24 +259,39 @@ class TestCli:
                 "--validate=false",
                 f"--resources={self.resources}",
                 "--skip-failed-resource-connections=False",
+                "--send-metrics=False",
             ],
         )
+        assert "No match for the request" not in caplog.text
+        assert 0 == ret.exit_code
+
         # assert no diffs are produced
         assert "to be deleted" not in caplog.text
         assert "to be added" not in caplog.text
         assert "diff:" not in caplog.text
 
-        assert 0 == ret.exit_code
-
     def test_migrate(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
         # Migrate
-        ret = runner.invoke(cli, ["migrate", "--validate=false", f"--resources={self.resources}"])
+        ret = runner.invoke(
+            cli,
+            [
+                "migrate",
+                "--validate=false",
+                f"--resources={self.resources}",
+                "--send-metrics=False",
+            ],
+        )
+        assert "No match for the request" not in caplog.text
         assert 0 == ret.exit_code
 
         caplog.clear()
         # Check diff
-        ret = runner.invoke(cli, ["diffs", "--validate=false", "--skip-failed-resource-connections=False"])
+        ret = runner.invoke(
+            cli,
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=False", "--send-metrics=False"],
+        )
+        assert "No match for the request" not in caplog.text
+        assert 0 == ret.exit_code
         # assert diffs are produced
         assert caplog.text
-        assert 0 == ret.exit_code

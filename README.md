@@ -18,6 +18,7 @@ Datadog cli tool to sync resources across organizations.
       - [SubString and ExactMatch Deprecation](#substring-and-exactmatch-deprecation)
   - [Config file](#config-file)
   - [Cleanup flag](#cleanup-flag)
+  - [Verify DDR Status Flag](#verify-ddr-status-flag)
   - [State Files](#state-files)
   - [Supported resources](#supported-resources)
 - [Best practices](#best-practices)
@@ -29,6 +30,8 @@ See [Installing](#installing) section for guides on how to install and setup the
 Run the `import` command to read the specified resources from the source organization and store them locally into JSON files in the directory `resources/source`.
 
 Then, you can run the `sync` command which will use the stored files from previous `import` command (unless `--force-missing-dependencies` flag is passed) to create/modify the resources on the destination organization. The pushed resources are saved in the directory `resources/destination`.
+
+The `migrate` command will run an `import` followed immediately by a `sync`.
 
 *Note*: The tool uses the `resources` directory as the source of truth for determining what resources need to be created and modified. Hence, this directory should not be removed or corrupted.
 
@@ -197,6 +200,11 @@ Then, run: `datadog-sync import --config config`
 The tools `sync` command provides a cleanup flag (`--cleanup`). Passing the cleanup flag will delete resources from the destination organization which have been removed from the source organization. The resources to be deleted are determined based on the difference between the state files of source and destination organization.
 
 For example, `ResourceA` and `ResourceB` are imported and synced, followed by deleting `ResourceA` from the source organization. Running the `import` command will update the source organizations state file to only include `ResourceB`. The following `sync --cleanup=Force` command will now delete `ResourceA` from the destination organization.
+
+#### Verify DDR status flag
+
+By default all commands check the Datadog Disaster Recovery (DDR) status of both the source and destination organizations before running. This behavior is controlled by the boolean flag `--verify-ddr-status` or the environment variable `DD_VERIFY_DDR_STATUS`. 
+
 
 #### State files
 
