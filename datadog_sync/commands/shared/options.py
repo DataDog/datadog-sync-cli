@@ -227,8 +227,8 @@ _sync_common_options = [
     option(
         "--create-global-downtime",
         required=False,
-        is_flag=True,
-        default=False,
+        type=bool,
+        default=True,
         show_default=True,
         help="Scheduled downtime is meant to be removed during failover when "
         "user determines monitors have enough telemetry to trigger appropriately.",

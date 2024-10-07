@@ -48,6 +48,7 @@ class TestLogsIndexesResources(BaseResourcesTestClass):
                 f"--filter={self.filter}",
                 "--cleanup=force",
                 "--verify-ddr-status=False",
+                "--create-global-downtime=False",
             ],
         )
         assert 0 == ret.exit_code
