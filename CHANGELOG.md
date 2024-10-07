@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.0 / 2024-10-07
+
+### Changed
+* Check DDR status in order to run by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/289
+* Change the default value of --create-global-downtime by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/290
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/0.13.0...1.0.0
+
 ## 0.13.0 / 2024-09-27
 
 ### Fixed
