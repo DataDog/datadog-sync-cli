@@ -47,6 +47,7 @@ class Configuration(object):
     send_metrics: bool
     state: State
     verify_ddr_status: bool
+    backup_before_reset: bool
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
 
@@ -56,10 +57,9 @@ class Configuration(object):
         for resource in self.resources.values():
             await resource.init_async()
 
-        # Validate the clients. For import we only validate the source client
-        # For sync/diffs we validate the destination client.
+        # Validate the clients.
         if self.validate:
-            if cmd in [Command.SYNC, Command.DIFFS, Command.MIGRATE]:
+            if cmd in [Command.SYNC, Command.DIFFS, Command.MIGRATE, Command.RESET]:
                 try:
                     await _validate_client(self.destination_client)
                 except Exception:
@@ -133,6 +133,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     create_global_downtime = kwargs.get("create_global_downtime")
     validate = kwargs.get("validate")
     verify_ddr_status = kwargs.get("verify_ddr_status")
+    backup_before_reset = not kwargs.get("do_not_backup")
 
     cleanup = kwargs.get("cleanup")
     if cleanup:
@@ -161,6 +162,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         send_metrics=send_metrics,
         state=state,
         verify_ddr_status=verify_ddr_status,
+        backup_before_reset=backup_before_reset,
     )
 
     # Initialize resource classes

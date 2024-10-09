@@ -7,6 +7,7 @@ from datadog_sync.commands.sync import sync
 from datadog_sync.commands._import import _import
 from datadog_sync.commands.diffs import diffs
 from datadog_sync.commands.migrate import migrate
+from datadog_sync.commands.reset import reset
 
 
 ALL_COMMANDS = [
@@ -14,4 +15,5 @@ ALL_COMMANDS = [
     _import,
     diffs,
     migrate,
+    reset,
 ]

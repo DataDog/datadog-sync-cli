@@ -140,6 +140,7 @@ def config():
         state=State(),
         verify_ddr_status=True,
         send_metrics=True,
+        backup_before_reset=True,
     )
 
     resources = init_resources(cfg)
