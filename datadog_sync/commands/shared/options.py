@@ -187,6 +187,20 @@ _common_options = [
         help="Enables sync-cli metrics being sent to both source and destination",
         cls=CustomOptionClass,
     ),
+    option(
+        "--source-resources-dir",
+        required=False,
+        help="Specify the local path to the source resources",
+        default=constants.SOURCE_DIR_DEFAULT,
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--destination-resources-dir",
+        required=False,
+        help="Specify the local path to the destination resources",
+        default=constants.DESTINATION_DIR_DEFAULT,
+        cls=CustomOptionClass,
+    ),
 ]
 
 

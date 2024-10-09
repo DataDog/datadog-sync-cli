@@ -4,16 +4,27 @@
 # Copyright 2019 Datadog, Inc.
 from typing import Any, Dict, List, Tuple
 
-from datadog_sync.constants import Origin
+from datadog_sync.constants import (
+    Origin,
+    DESTINATION_DIR_PARAM,
+    DESTINATION_DIR_DEFAULT,
+    SOURCE_DIR_PARAM,
+    SOURCE_DIR_DEFAULT,
+)
 from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData
 from datadog_sync.utils.storage.local_file import LocalFile
 from datadog_sync.utils.storage.storage_types import StorageType
 
 
 class State:
-    def __init__(self, type_: StorageType = StorageType.LOCAL_FILE) -> None:
+    def __init__(self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: Any) -> None:
         if type_ == StorageType.LOCAL_FILE:
-            self._storage: BaseStorage = LocalFile()
+            source_resources_dir = kwargs.get(SOURCE_DIR_PARAM, SOURCE_DIR_DEFAULT)
+            destination_resources_dir = kwargs.get(DESTINATION_DIR_PARAM, DESTINATION_DIR_DEFAULT)
+            self._storage: BaseStorage = LocalFile(
+                source_resources_dir=source_resources_dir,
+                destination_resources_dir=destination_resources_dir,
+            )
         else:
             raise NotImplementedError(f"Storage type {type_} not implemented")
 

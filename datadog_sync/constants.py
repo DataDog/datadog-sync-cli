@@ -33,6 +33,12 @@ FALSE = 0
 TRUE = 1
 FORCE = 2
 
+# State parameters
+SOURCE_DIR_PARAM = "source_resources_dir"
+SOURCE_DIR_DEFAULT = "resources/source"
+DESTINATION_DIR_PARAM = "destination_resources_dir"
+DESTINATION_DIR_DEFAULT = "resources/destination"
+
 
 # Commands
 class Command(Enum):

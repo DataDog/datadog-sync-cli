@@ -20,9 +20,13 @@ from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import Filter, process_filters
 from datadog_sync.constants import (
     Command,
+    DESTINATION_DIR_DEFAULT,
+    DESTINATION_DIR_PARAM,
     FALSE,
     FORCE,
     LOGGER_NAME,
+    SOURCE_DIR_DEFAULT,
+    SOURCE_DIR_PARAM,
     TRUE,
     VALIDATE_ENDPOINT,
     VALID_DDR_STATES,
@@ -143,7 +147,9 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         }[cleanup.lower()]
 
     # Initialize state
-    state = State()
+    source_resources_dir = kwargs.get(SOURCE_DIR_PARAM, SOURCE_DIR_DEFAULT)
+    destination_resources_dir = kwargs.get(DESTINATION_DIR_PARAM, DESTINATION_DIR_DEFAULT)
+    state = State(source_resources_dir=source_resources_dir, destination_resources_dir=destination_resources_dir)
 
     # Initialize Configuration
     config = Configuration(
