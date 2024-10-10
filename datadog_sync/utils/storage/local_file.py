@@ -35,7 +35,7 @@ class LocalFile(BaseStorage):
             for file in os.listdir(self.source_resources_dir):
                 if file.endswith(".json"):
                     resource_type = file.split(".")[0]
-                    with open(self.source_resources_dir + f"/{file}", "r") as f:
+                    with open(self.source_resources_dir + f"/{file}") as f:
                         try:
                             data.source[resource_type] = json.load(f)
                         except json.decoder.JSONDecodeError:
@@ -45,7 +45,7 @@ class LocalFile(BaseStorage):
             for file in os.listdir(self.destination_resources_dir):
                 if file.endswith(".json"):
                     resource_type = file.split(".")[0]
-                    with open(self.destination_resources_dir + f"/{file}", "r") as f:
+                    with open(self.destination_resources_dir + f"/{file}") as f:
                         try:
                             data.destination[resource_type] = json.load(f)
                         except json.decoder.JSONDecodeError:

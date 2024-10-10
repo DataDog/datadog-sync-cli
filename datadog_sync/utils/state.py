@@ -17,7 +17,7 @@ from datadog_sync.utils.storage.storage_types import StorageType
 
 
 class State:
-    def __init__(self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: Any) -> None:
+    def __init__(self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: object) -> None:
         if type_ == StorageType.LOCAL_FILE:
             source_resources_dir = kwargs.get(SOURCE_DIR_PARAM, SOURCE_DIR_DEFAULT)
             destination_resources_dir = kwargs.get(DESTINATION_DIR_PARAM, DESTINATION_DIR_DEFAULT)
