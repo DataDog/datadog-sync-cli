@@ -8,6 +8,7 @@ import shutil
 import os
 
 import pytest
+from tempfile import TemporaryDirectory
 
 from datadog_sync.cli import cli
 
@@ -278,18 +279,22 @@ class TestCli:
     def test_migrate(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
         # Migrate
-        ret = runner.invoke(
-            cli,
-            [
-                "migrate",
-                "--validate=false",
-                f"--resources={self.resources}",
-                "--send-metrics=False",
-                "--create-global-downtime=False",
-            ],
-        )
-        assert "No match for the request" not in caplog.text
-        assert 0 == ret.exit_code
+
+        with TemporaryDirectory() as source_path, TemporaryDirectory() as destination_path:
+            ret = runner.invoke(
+                cli,
+                [
+                    "migrate",
+                    "--validate=false",
+                    f"--resources={self.resources}",
+                    "--send-metrics=False",
+                    "--create-global-downtime=False",
+                    f"--source-resources-path={source_path}",
+                    f"--destination-resources-path={destination_path}",
+                ],
+            )
+            assert "No match for the request" not in caplog.text
+            assert 0 == ret.exit_code
 
         caplog.clear()
         # Check diff

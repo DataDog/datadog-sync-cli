@@ -21,6 +21,8 @@ DD_FILTER_OPERATOR = "DD_FILTER_OPERATOR"
 DD_CLEANUP = "DD_CLEANUP"
 DD_VALIDATE = "DD_VALIDATE"
 DD_VERIFY_DDR_STATUS = "DD_VERIFY_DDR_STATUS"
+DD_DESTINATION_RESOURCES_PATH = "DD_DESTINATION_RESOURCES_PATH"
+DD_SOURCE_RESOURCES_PATH = "DD_SOURCE_RESOURCES_PATH"
 
 # Default variables
 DEFAULT_API_URL = "https://api.datadoghq.com"
@@ -34,10 +36,10 @@ TRUE = 1
 FORCE = 2
 
 # State parameters
-SOURCE_DIR_PARAM = "source_resources_dir"
-SOURCE_DIR_DEFAULT = "resources/source"
-DESTINATION_DIR_PARAM = "destination_resources_dir"
-DESTINATION_DIR_DEFAULT = "resources/destination"
+SOURCE_PATH_PARAM = "source_resources_path"
+SOURCE_PATH_DEFAULT = "resources/source"
+DESTINATION_PATH_PARAM = "destination_resources_path"
+DESTINATION_PATH_DEFAULT = "resources/destination"
 
 
 # Commands
