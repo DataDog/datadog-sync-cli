@@ -6,7 +6,7 @@ from __future__ import annotations
 import configobj
 from sys import exit
 
-from click import Choice, Option, option, File
+from click import Choice, Option, option, File, Path
 
 from datadog_sync import constants
 from typing import TYPE_CHECKING, Any, Callable, Dict, List
@@ -185,6 +185,32 @@ _common_options = [
         default=True,
         show_default=True,
         help="Enables sync-cli metrics being sent to both source and destination",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--source-resources-path",
+        envvar=constants.DD_SOURCE_RESOURCES_PATH,
+        type=Path(
+            file_okay=False,
+            dir_okay=True,
+            resolve_path=True,
+        ),
+        required=False,
+        help="Specify the local path to the source resources",
+        default=constants.SOURCE_PATH_DEFAULT,
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--destination-resources-path",
+        envvar=constants.DD_DESTINATION_RESOURCES_PATH,
+        type=Path(
+            file_okay=False,
+            dir_okay=True,
+            resolve_path=True,
+        ),
+        required=False,
+        help="Specify the local path to the destination resources",
+        default=constants.DESTINATION_PATH_DEFAULT,
         cls=CustomOptionClass,
     ),
 ]

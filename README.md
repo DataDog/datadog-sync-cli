@@ -208,7 +208,7 @@ By default all commands check the Datadog Disaster Recovery (DDR) status of both
 
 #### State files
 
-A `resources` directory is generated in the current working directory of the user. This directory contains `json` mapping of resources between the source and destination organization. To avoid duplication and loss of mapping, this directory should be retained between tool usage.
+By default, a `resources` directory is generated in the current working directory of the user. This directory contains `json` mapping of resources between the source and destination organization. To avoid duplication and loss of mapping, this directory should be retained between tool usage. To override these directories use the `--source-resources-path` and `--destination-resource-path`.
 
 When running againts multiple destination organizations, a seperate working directory should be used to ensure seperation of data. 
 
