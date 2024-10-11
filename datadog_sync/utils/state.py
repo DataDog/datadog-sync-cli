@@ -56,7 +56,6 @@ class State:
             Key is a tuple of resource_type and resource id.
         """
         all_resources = {}
-
         for resource_type in resources_types:
             for _id, r in self._data.source[resource_type].items():
                 all_resources[(resource_type, _id)] = r

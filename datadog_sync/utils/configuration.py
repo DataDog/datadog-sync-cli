@@ -69,7 +69,7 @@ class Configuration(object):
                     await _validate_client(self.destination_client)
                 except Exception:
                     sys.exit(1)
-            if cmd in [Command.IMPORT, Command.MIGRATE]:
+            if cmd in [Command.IMPORT, Command.MIGRATE, Command.RESET]:
                 try:
                     await _validate_client(self.source_client)
                 except Exception:
@@ -148,20 +148,20 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             "force": FORCE,
         }[cleanup.lower()]
 
-    # Initialize state
+    # Set resource paths
+    destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
+    source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
+
+    # If backing up a destination for before reset then:
+    #     the source of the backup is the destination
+    #     the path for that backup is different
     if cmd == Command.RESET:
-        timestamp = str(time.time())
-        destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
-        source_resources_path = f"{destination_resources_path}/.backup/{timestamp}"
-        state = State(
-            source_resources_path=source_resources_path, destination_resources_path=destination_resources_path
-        )
-    else:
-        source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
-        destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
-        state = State(
-            source_resources_path=source_resources_path, destination_resources_path=destination_resources_path
-        )
+        cleanup = TRUE
+        source_client = destination_client
+        source_resources_path = f"{destination_resources_path}/.backup/{str(time.time())}"
+
+    # Initialize state
+    state = State(source_resources_path=source_resources_path, destination_resources_path=destination_resources_path)
 
     # Initialize Configuration
     config = Configuration(

@@ -7,6 +7,7 @@ from __future__ import annotations
 import asyncio
 from collections import defaultdict
 from copy import deepcopy
+from time import sleep
 from typing import Dict, TYPE_CHECKING, List, Optional, Set, Tuple
 
 from click import confirm
@@ -40,6 +41,33 @@ class ResourcesHandler:
 
     async def init_async(self) -> None:
         self.worker: Workers = Workers(self.config)
+
+    async def reset(self) -> None:
+        if self.config.backup_before_reset:
+            await self.import_resources()
+        else:
+            # make the warning red and give the user time to hit ctrl-c
+            self.config.logger.warning("\n\033[91m\nABOUT TO RESET WITHOUT BACKUP\033[00m\n")
+            sleep(5)
+            await self.import_resources_without_saving()
+
+        # move the import data from source to destination
+        self.config.state._data.destination = self.config.state._data.source
+
+        for resource_type in self.config.resources_arg:
+            resources = {}
+            for _id, resource in self.config.state._data.destination[resource_type].items():
+                resources[(resource_type, _id)] = resource
+
+            if resources:
+                delete = _cleanup_prompt(self.config, resources)
+                if delete:
+                    self.config.logger.info("deleting resources...")
+                    await self.worker.init_workers(self._cleanup_worker, None, None)
+                    for resource in resources:
+                        self.worker.work_queue.put_nowait(resource)
+                    await self.worker.schedule_workers()
+                    self.config.logger.info("finished deleting resources")
 
     async def apply_resources(self) -> Tuple[int, int]:
         # Build dependency graph and missing resources
@@ -203,6 +231,10 @@ class ResourcesHandler:
                 )
 
     async def import_resources(self) -> None:
+        await self.import_resources_without_saving()
+        self.config.state.dump_state(Origin.SOURCE)
+
+    async def import_resources_without_saving(self) -> None:
         # Get all resources for each resource type
         tmp_storage = defaultdict(list)
         await self.worker.init_workers(self._import_get_resources_cb, None, len(self.config.resources_arg), tmp_storage)
@@ -221,9 +253,6 @@ class ResourcesHandler:
                 self.worker.work_queue.put_nowait((k, resource))
         await self.worker.schedule_workers_with_pbar(total=total)
         self.config.logger.info(f"finished importing individual resource items: {self.worker.counter}.")
-
-        # Dump resources
-        self.config.state.dump_state(Origin.SOURCE)
 
     async def _import_get_resources_cb(self, resource_type: str, tmp_storage) -> None:
         self.config.logger.info("getting resources", resource_type=resource_type)
@@ -387,6 +416,6 @@ def _cleanup_prompt(
                 _id=_id,
             )
 
-        return confirm("Delete above resources from destination org?")
+        return confirm(f"Delete above {len(resources_to_cleanup)} resources from destination org?")
     else:
         return False
