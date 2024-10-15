@@ -33,7 +33,7 @@ Then, you can run the `sync` command which will use the stored files from previo
 
 The `migrate` command will run an `import` followed immediately by a `sync`.
 
-The `reset` command will delete resources at the destination; however, by default it backup those resources first and fail if it cannot. You can (but probably shouldn't) skip the backup by using the `--do-not-backup` flag.
+The `reset` command will delete resources at the destination; however, by default it backs up those resources first and fails if it cannot. You can (but probably shouldn't) skip the backup by using the `--do-not-backup` flag.
 
 *Note*: The tool uses the `resources` directory as the source of truth for determining what resources need to be created and modified. Hence, this directory should not be removed or corrupted.
 
