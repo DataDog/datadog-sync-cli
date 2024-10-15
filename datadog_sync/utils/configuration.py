@@ -152,9 +152,9 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
     destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
 
-    # If backing up a destination for before reset then:
-    #     the source of the backup is the destination
-    #     the path for that backup is different
+    # Confusing, but the source for the import needs to be the destination of the reset
+    # If a destination is going to be reset then a backup needs to be preformed. A back up
+    # is just an import, the source of that import is the destination of the reset.
     if cmd == Command.RESET:
         cleanup = TRUE
         source_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout, send_metrics)
