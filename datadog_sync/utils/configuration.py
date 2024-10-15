@@ -157,7 +157,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     #     the path for that backup is different
     if cmd == Command.RESET:
         cleanup = TRUE
-        source_client = destination_client
+        source_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout, send_metrics)
         source_resources_path = f"{destination_resources_path}/.backup/{str(time.time())}"
 
     # Initialize state
