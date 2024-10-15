@@ -149,8 +149,8 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         }[cleanup.lower()]
 
     # Set resource paths
-    destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
     source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
+    destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
 
     # If backing up a destination for before reset then:
     #     the source of the backup is the destination
