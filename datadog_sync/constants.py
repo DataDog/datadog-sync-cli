@@ -48,6 +48,7 @@ class Command(Enum):
     SYNC = "sync"
     DIFFS = "diffs"
     MIGRATE = "migrate"
+    RESET = "reset"
 
 
 # Origin
