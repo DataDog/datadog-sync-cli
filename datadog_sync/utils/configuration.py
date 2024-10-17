@@ -10,10 +10,6 @@ from dataclasses import dataclass, field
 from typing import Any, Optional, Union, Dict, List
 
 from datadog_sync import models
-from datadog_sync.model.logs_pipelines import LogsPipelines
-from datadog_sync.model.logs_custom_pipelines import LogsCustomPipelines
-from datadog_sync.model.downtimes import Downtimes
-from datadog_sync.model.downtime_schedules import DowntimeSchedules
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
@@ -178,20 +174,6 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
         if unknown_resources:
             logger.warning("invalid resources. Discarding: %s", unknown_resources)
-        if LogsCustomPipelines.resource_type in resources_arg:
-            logger.warning(
-                "`logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines`. "
-                + "Consider upgrading by renaming existing state files"
-                + "`logs_custom_pipelines.json` -> `logs_pipelines.json` and using resource type"
-                + "`logs_pipelines`"
-            )
-
-        if LogsCustomPipelines.resource_type in resources_arg and LogsPipelines.resource_type in resources_arg:
-            logger.error(
-                "`logs_custom_pipelines` and `logs_pipelines` resource should not"
-                + " be used together as it will cause duplication"
-            )
-            sys.exit(1)
 
         resources_arg = list(set(resources_arg) & set(resources.keys()))
     else:
@@ -239,57 +221,4 @@ async def _validate_client(client: CustomClient) -> None:
 
 
 def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
-    if resources_arg_passed:
-        if LogsCustomPipelines.resource_type in config.resources_arg:
-            config.logger.warning(
-                "`logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines`"
-                + "Consider upgrading by renaming existing state files."
-                + "`logs_custom_pipelines.json` -> `logs_pipelines.json` and using resource type"
-                + "`logs_pipelines`."
-            )
-        if (
-            LogsCustomPipelines.resource_type in config.resources_arg
-            and LogsPipelines.resource_type in config.resources_arg
-        ):
-            config.logger.error(
-                "`logs_custom_pipelines` and `logs_pipelines` resource should not"
-                + " be used together as it will cause duplication."
-            )
-            sys.exit(1)
-
-        if Downtimes.resource_type in config.resources_arg:
-            config.logger.warning("`downtimes` resource has been deprecated in favor of `downtime_schedules`.")
-        if Downtimes.resource_type in config.resources_arg and DowntimeSchedules.resource_type in config.resources_arg:
-            config.logger.error(
-                "`downtimes` and `downtime_schedules` resource should not"
-                + " be used together as it will cause duplication."
-            )
-            sys.exit(1)
-
-    else:
-        # Use logs_custom_pipeline resource if its state files exist.
-        # Otherwise fall back on logs_pipelines
-        if (
-            config.state.source[LogsCustomPipelines.resource_type]
-            or config.state.destination[LogsCustomPipelines.resource_type]
-        ):
-            config.logger.warning(
-                "`logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines`. "
-                + "Consider upgrading by renaming existing state files"
-                + "`logs_custom_pipelines.json` -> `logs_pipelines.json`"
-            )
-            config.resources_arg.remove(LogsPipelines.resource_type)
-        else:
-            config.resources_arg.remove(LogsCustomPipelines.resource_type)
-
-        # Use downtimes resource if its state files exist.
-        # Otherwise fall back on downtime_schedules
-        if config.state.source[Downtimes.resource_type] or config.state.destination[Downtimes.resource_type]:
-            config.logger.warning(
-                "`downtimes` resource has been deprecated in favor of `downtime_schedules`. "
-                + "Consider upgrading by removing the existing state files"
-                + "`downtimes.json` from source and destination directory."
-            )
-            config.resources_arg.remove(DowntimeSchedules.resource_type)
-        else:
-            config.resources_arg.remove(Downtimes.resource_type)
+    pass

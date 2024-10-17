@@ -220,11 +220,9 @@ When running againts multiple destination organizations, a seperate working dire
 | dashboard_lists                        | Sync Datadog dashboard lists.                                        |
 | dashboards                             | Sync Datadog dashboards.                                             |
 | downtime_schedules                     | Sync Datadog downtimes.                                              |
-| downtimes (**deprecated**)             | Sync Datadog downtimes.                                              |
 | host_tags                              | Sync Datadog host tags.                                              |
 | logs_archives                          | Sync Datadog logs archives. Requires GCP, Azure, or AWS integration. |
 | logs_archives_order                    | Sync Datadog logs archives order.                                    |
-| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                                  |
 | logs_indexes                           | Sync Datadog logs indexes.                                           |
 | logs_indexes_order                     | Sync Datadog logs indexes order.                                     |
 | logs_metrics                           | Sync Datadog logs metrics.                                           |
@@ -251,8 +249,6 @@ When running againts multiple destination organizations, a seperate working dire
 | teams                                  | Sync Datadog teams (excluding users and permissions).                |
 | users                                  | Sync Datadog users.                                                  |
 
-***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
-
 ## Best practices
 
 Many Datadog resources are interdependent. For example, some Datadog resource can reference `roles` and `dashboards`, which includes widgets that may use Monitors or Synthetics data. The datadog-sync tool syncs these resources in order to ensure dependencies are not broken.
@@ -267,11 +263,9 @@ See [Supported resources](#supported-resources) section below for potential reso
 | dashboard_lists                        | dashboards                                                       |
 | dashboards                             | monitors, roles, powerpacks, service_level_objectives            |
 | downtime_schedules                     | monitors                                                         |
-| downtimes (**deprecated**)             | monitors                                                         |
 | host_tags                              | -                                                                |
 | logs_archives                          | - (Requires manual setup of AWS, GCP or Azure integration)       |
 | logs_archives_order                    | logs_archives                                                    |
-| logs_custom_pipelines (**deprecated**) | -                                                                |
 | logs_indexes                           | -                                                                |
 | logs_indexes_order                     | logs_indexes                                                     |
 | logs_metrics                           | -                                                                |
