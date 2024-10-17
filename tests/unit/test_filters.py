@@ -14,7 +14,7 @@ from datadog_sync.utils.filter import process_filters
     "_filter, r_type, r_obj, expected",
     [
         (
-            ["Type=r_test;Name=attr;Value=exists;Operator=SubString"],
+            ["Type=r_test;Name=attr;Value=.*exists"],
             "r_test",
             {"attr": "attr exists"},
             True,
@@ -73,7 +73,7 @@ def test_filters_basic(_filter, r_type, r_obj, expected):
             True,
         ),
         (
-            ["Type=r_test_two;Name=test;Value=1"],
+            ["Type=r_test_two;Name=test;Value=1$"],
             "r_test_two",
             {"test": ["attr", 123]},
             False,
@@ -126,7 +126,7 @@ def test_filters_numbers(_filter, r_type, r_obj, expected):
             True,
         ),
         (
-            ["Type=r_test;Name=test.nested.list;Value=123"],
+            ["Type=r_test;Name=test.nested.list;Value=123$"],
             "r_test",
             {"test": [{"nested": [{"list": 1234}]}]},
             False,
@@ -144,19 +144,19 @@ def test_filters_numbers(_filter, r_type, r_obj, expected):
             True,
         ),
         (
-            ["Type=r_test;Name=test.nested;Value=123"],
+            ["Type=r_test;Name=test.nested;Value=123$"],
             "r_test",
             {"test": [{"nested": ["1234", "12345"]}]},
             False,
         ),
         (
-            ["Type=r_test;Name=test.nested.deep;Value=sub;Operator=SubString"],
+            ["Type=r_test;Name=test.nested.deep;Value=sub"],
             "r_test",
             {"test": [{"nested": {"deep": "substring"}}]},
             True,
         ),
         (
-            ["Type=r_test;Name=test.nested.deep;Value=sub;"],
+            ["Type=r_test;Name=test.nested.deep;Value=sub$;"],
             "r_test",
             {"test": [{"nested": {"deep": "substring"}}]},
             False,
