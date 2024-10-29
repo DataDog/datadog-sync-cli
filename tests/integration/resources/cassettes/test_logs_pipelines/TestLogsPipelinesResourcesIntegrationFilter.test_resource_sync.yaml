@@ -355,7 +355,7 @@ interactions:
       Content-Type:
       - application/json
     method: POST
-    uri: https://http-intake.logs.api.datadoghq.eu/api/v2/logs
+    uri: https://http-intake.logs.datadoghq.eu/api/v2/logs
   response:
     body:
       string: '{}'
