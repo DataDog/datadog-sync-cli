@@ -15,7 +15,6 @@ Datadog cli tool to sync resources across organizations.
   - [Filtering](#filtering)
     - [Top resources level filtering](#top-resources-level-filtering)
     - [Per resource level filtering](#per-resource-level-filtering)
-      - [SubString and ExactMatch Deprecation](#substring-and-exactmatch-deprecation)
   - [Config file](#config-file)
   - [Cleanup flag](#cleanup-flag)
   - [Verify DDR Status Flag](#verify-ddr-status-flag)
@@ -157,23 +156,8 @@ Available keys:
 - `Value`: Regex to filter attribute value by. Note: special regex characters need to be escaped if filtering by raw string. [required]
 - `Operator`: Available operators are below. All invalid operator's default to `ExactMatch`.
   - `Not`: Match not equal to `Value`.
-  - `SubString` (*Deprecated*): Sub string matching. (This operator will be removed in future releases. See [SubString and ExactMatch Deprecation](#substring-and-exactmatch-deprecation)  section.)
-  - `ExactMatch` (*Deprecated*): Exact string match. (This operator will be removed in future releases. See [SubString and ExactMatch Deprecation](#substring-and-exactmatch-deprecation)  section.)
 
 By default, if multiple filters are passed for the same resource, `OR` logic is applied to the filters. This behavior can be adjusted using the `--filter-operator` option.
-
-##### SubString and ExactMatch Deprecation
-
-In future releases the `SubString` and `ExactMatch` Operator will be removed. This is because the `Value` key supports regex so both of these scenarios are covered by just writing the appropriate regex.  Below is an example:
-
-Let's take the scenario where you would like to filter for monitors that have the `filter test` in the `name` attribute:
-
-| Operator | Command |
-| :-: | :-: |
-| `SubString` | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=SubString'` |
-| Using `Value` | `--filter 'Type=monitors;Name=name;Value=.*filter test.*` |
-| `ExactMatch` | `--filter 'Type=monitors;Name=name;Value=filter test;Operator=ExactMatch'` |
-| Using `Value` | `--filter 'Type=monitors;Name=name;Value=^filter test$` |
 
 #### Config file
 
@@ -220,11 +204,9 @@ When running againts multiple destination organizations, a seperate working dire
 | dashboard_lists                        | Sync Datadog dashboard lists.                                        |
 | dashboards                             | Sync Datadog dashboards.                                             |
 | downtime_schedules                     | Sync Datadog downtimes.                                              |
-| downtimes (**deprecated**)             | Sync Datadog downtimes.                                              |
 | host_tags                              | Sync Datadog host tags.                                              |
 | logs_archives                          | Sync Datadog logs archives. Requires GCP, Azure, or AWS integration. |
 | logs_archives_order                    | Sync Datadog logs archives order.                                    |
-| logs_custom_pipelines (**deprecated**) | Sync Datadog logs custom pipelines.                                  |
 | logs_indexes                           | Sync Datadog logs indexes.                                           |
 | logs_indexes_order                     | Sync Datadog logs indexes order.                                     |
 | logs_metrics                           | Sync Datadog logs metrics.                                           |
@@ -251,8 +233,6 @@ When running againts multiple destination organizations, a seperate working dire
 | teams                                  | Sync Datadog teams (excluding users and permissions).                |
 | users                                  | Sync Datadog users.                                                  |
 
-***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
-
 ## Best practices
 
 Many Datadog resources are interdependent. For example, some Datadog resource can reference `roles` and `dashboards`, which includes widgets that may use Monitors or Synthetics data. The datadog-sync tool syncs these resources in order to ensure dependencies are not broken.
@@ -267,11 +247,9 @@ See [Supported resources](#supported-resources) section below for potential reso
 | dashboard_lists                        | dashboards                                                       |
 | dashboards                             | monitors, roles, powerpacks, service_level_objectives            |
 | downtime_schedules                     | monitors                                                         |
-| downtimes (**deprecated**)             | monitors                                                         |
 | host_tags                              | -                                                                |
 | logs_archives                          | - (Requires manual setup of AWS, GCP or Azure integration)       |
 | logs_archives_order                    | logs_archives                                                    |
-| logs_custom_pipelines (**deprecated**) | -                                                                |
 | logs_indexes                           | -                                                                |
 | logs_indexes_order                     | logs_indexes                                                     |
 | logs_metrics                           | -                                                                |
