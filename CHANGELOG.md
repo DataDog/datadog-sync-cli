@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0 / 2024-10-30
+
+### Fixed
+* Fix subdomain for integration log pipelines by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/296
+### Added
+* Allow the resources directories to be passed in by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/292
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.0.0...1.1.0
+
 ## 1.0.0 / 2024-10-07
 
 ### Changed
