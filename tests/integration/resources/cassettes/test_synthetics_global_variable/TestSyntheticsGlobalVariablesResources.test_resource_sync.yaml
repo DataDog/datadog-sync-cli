@@ -5,29 +5,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -40,10 +27,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -53,10 +43,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"variables": [{"id": "11e28907-016c-478b-8969-795f21350490", "name":
+        "TEST", "description": "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
+        "created_at": "2024-10-31T15:20:51.650968+00:00", "modified_at": "2024-10-31T15:20:51.650968+00:00",
+        "last_error": null, "value": {"value": "test", "secure": false, "options":
+        {}}, "creator": {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
+        "name": "Michael Richey"}, "editor": {"email": "michael.richey@datadoghq.com",
+        "handle": "michael.richey@datadoghq.com", "name": "Michael Richey"}}]}'
     headers:
       Content-Type:
       - application/json
@@ -64,168 +60,64 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: null
+    body: '{"name": "TEST", "description": "test", "type": "variable", "tags": ["team:test",
+      "managed_by:datadog-sync"], "value": {"value": "test", "secure": false, "options":
+      {}}}'
     headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
       Content-Type:
       - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/synthetics/variables/11e28907-016c-478b-8969-795f21350490
   response:
     body:
-      string: '{"variables": []}'
-    headers: {}
+      string: '{"id": "11e28907-016c-478b-8969-795f21350490", "name": "TEST", "description":
+        "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
+        "last_error": null, "value": {"value": "test", "secure": false, "options":
+        {}}}'
+    headers:
+      Content-Type:
+      - application/json
     status:
       code: 200
       message: OK
 - request:
-    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1686121345",
-      "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-      "baz", "managed_by:datadog-sync"], "value": {"secure": false, "value": "variable-value"}}'
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389090, "value":
+      1}], "tags": ["action_sub_type:create", "id:be3fe0f5-63b1-4913-9f09-c147bf6d5e21",
+      "action_type:sync", "status:success", "resource_type:synthetics_global_variables",
+      "client_type:destination"]}]}'
     headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
       Content-Type:
       - application/json
     method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+    uri: https://us5.datadoghq.com/api/v2/series
   response:
     body:
-      string: '{"id": "f76069bb-cbac-40d7-88f4-e4f38ada2a09", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1686121345",
-        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-        "baz", "managed_by:datadog-sync"], "parse_test_public_id": null, "parse_test_name":
-        null, "parse_test_options": null, "parse_test_extracted_at": null, "is_totp":
-        null, "is_fido": null, "last_error": null, "value": {"secure": false, "value":
-        "variable-value"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
-      "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-      "baz", "managed_by:datadog-sync"], "value": {"secure": false, "value": "variable-value"}}'
+      string: '{"errors": []}'
     headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389090, "value":
+      1}], "tags": ["action_sub_type:create", "id:be3fe0f5-63b1-4913-9f09-c147bf6d5e21",
+      "action_type:sync", "status:success", "resource_type:synthetics_global_variables",
+      "client_type:source"]}]}'
+    headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
+    uri: https://api.datadoghq.eu/api/v2/series
   response:
     body:
-      string: '{"id": "5efe34a0-4307-4aee-a3cf-9f9f6d23b16b", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670405911",
-        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-        "baz", "managed_by:datadog-sync"], "parse_test_public_id": null, "parse_test_name":
-        null, "parse_test_options": null, "parse_test_extracted_at": null, "is_totp":
-        null, "is_fido": null, "last_error": null, "value": {"secure": false, "value":
-        "variable-value"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TEST_VARIABLE", "description": "test", "type": "variable", "tags":
-      ["check_type:api", "managed_by:datadog-sync"], "value": {"secure": false, "value":
-      "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
+      string: '{"errors": []}'
     headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
       Content-Type:
       - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"id": "85493102-e045-4a80-b19e-fe53f664129b", "name": "TEST_VARIABLE",
-        "description": "test", "type": "variable", "tags": ["check_type:api", "managed_by:datadog-sync"],
-        "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
-        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
-        null, "value": {"secure": false, "value": "TESTVALUELETSSEEdadsddsadsadadsadsad"}}'
-    headers: {}
     status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
-      "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-      "baz", "managed_by:datadog-sync"], "value": {"secure": false, "value": "variable-value"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"id": "0302332a-7ad4-4042-8310-e250998acac9", "name": "TF_TESTACCDATADOGSYNTHETICSTESTMULTISTEPAPI_BASIC_LOCAL_1670404656",
-        "description": "a global variable", "type": "variable", "tags": ["foo:bar",
-        "baz", "managed_by:datadog-sync"], "parse_test_public_id": null, "parse_test_name":
-        null, "parse_test_options": null, "parse_test_extracted_at": null, "is_totp":
-        null, "is_fido": null, "last_error": null, "value": {"secure": false, "value":
-        "variable-value"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "EXAMPLE_VARIABLE", "description": "Description of the variable",
-      "type": "variable", "tags": ["foo:bar", "env:test", "managed_by:datadog-sync"],
-      "value": {"secure": false, "value": "variable-value"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"id": "85fb4769-26ec-4856-b9a5-6c57ae1553bc", "name": "EXAMPLE_VARIABLE",
-        "description": "Description of the variable", "type": "variable", "tags":
-        ["foo:bar", "env:test", "managed_by:datadog-sync"], "parse_test_public_id":
-        null, "parse_test_name": null, "parse_test_options": null, "parse_test_extracted_at":
-        null, "is_totp": null, "is_fido": null, "last_error": null, "value": {"secure":
-        false, "value": "variable-value"}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "TEST_SECRETS", "description": "", "type": "variable", "tags":
-      ["managed_by:datadog-sync"], "value": {"secure": true, "value": "SECRET"}}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"id": "ef7a983c-b4dd-453d-be09-3c7bc1c6ef48", "name": "TEST_SECRETS",
-        "description": "", "type": "variable", "tags": ["managed_by:datadog-sync"],
-        "parse_test_public_id": null, "parse_test_name": null, "parse_test_options":
-        null, "parse_test_extracted_at": null, "is_totp": null, "is_fido": null, "last_error":
-        null, "value": {"secure": true}}'
-    headers: {}
-    status:
-      code: 200
-      message: OK
+      code: 202
+      message: Accepted
 version: 1

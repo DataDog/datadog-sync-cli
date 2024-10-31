@@ -194,7 +194,12 @@ class ResourcesHandler:
                 return
 
             if _id in self.config.state.destination[resource_type]:
-                diff = check_diff(r_class.resource_config, self.config.state.destination[resource_type][_id], resource)
+                # We have to compare the prepared versions to deal w/ non-nullable attributes
+                destination_copy = deepcopy(self.config.state.destination[resource_type][_id])
+                resource_copy = deepcopy(resource)
+                prep_resource(r_class.resource_config, destination_copy)
+                prep_resource(r_class.resource_config, resource_copy)
+                diff = check_diff(r_class.resource_config, destination_copy, resource_copy)
                 if diff:
                     self.config.logger.info("diff: \n {}".format(pformat(diff)), resource_type=resource_type, _id=_id)
             else:

@@ -5,58 +5,35 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://us5.datadoghq.com/api/v2/hamr
+  response:
+    body:
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/org
-  response:
-    body:
-      string: '{"orgs": [{"public_id": "3cda39a0-9e99-11ee-94d5-da7ad0900005", "name":
-        "datadog-sync-cli N[EU Test Org]", "description": null, "created": "2023-12-19
-        18:05:48", "subscription": {"id": 1000228561, "billing_plan_id": 8, "started":
-        1703009149, "expires": null, "finished": null, "type": "dogfood", "is_custom":
-        false, "is_trial": false, "is_expired": true}, "billing": {}, "settings":
-        {"default_landing_page": "Dashboard Lists", "saml": {"enabled": false}, "saml_can_be_enabled":
-        false, "saml_login_url": null, "saml_idp_metadata_uploaded": false, "saml_idp_endpoint":
-        null, "saml_idp_metadata_valid_until": null, "custom_landing_page": null,
-        "saml_idp_initiated_login": {"enabled": false}, "saml_strict_mode": {"enabled":
-        false}, "saml_autocreate_access_role": "st", "saml_autocreate_users_domains":
-        {"enabled": false, "domains": []}, "private_widget_share": false, "manage_reports":
-        null}}]}'
-    headers: {}
+      - application/vnd.api+json
     status:
       code: 200
       message: OK

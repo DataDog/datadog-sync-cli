@@ -6,6 +6,7 @@
 import logging
 import shutil
 import os
+from unittest import mock
 
 import pytest
 from tempfile import TemporaryDirectory
@@ -70,6 +71,8 @@ class TestCli:
             ],
         )
         assert 0 == ret.exit_code
+        assert caplog.text
+        assert "No match for the request" not in caplog.text
 
         caplog.clear()
         # Check diff
@@ -92,14 +95,15 @@ class TestCli:
     def test_import_verify_ddr_status_failure(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
 
-        for command in ["import", "sync", "migrate", "diffs"]:
-            ret = runner.invoke(cli, [command, "--validate=false", f"--resources={self.resources}"])
-            # The above should fail
-            assert "No match for the request" not in caplog.text
-            assert 1 == ret.exit_code
-            assert "verification failed" in caplog.text
+        with mock.patch.dict(os.environ, {"DD_SOURCE_API_KEY": "fake"}):
+            for command in ["import", "sync", "migrate", "diffs"]:
+                ret = runner.invoke(cli, [command, "--validate=false", f"--resources={self.resources}"])
+                # The above should fail
+                assert "No match for the request" not in caplog.text
+                assert 1 == ret.exit_code
+                assert "verification failed" in caplog.text
 
-    def test_without_verify_ddr_status(self, runner, caplog):
+    def test_import_without_verify_ddr_status(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
 
         # Import
@@ -132,6 +136,9 @@ class TestCli:
         assert 0 == ret.exit_code
         # assert diffs are produced
         assert caplog.text
+
+    def test_sync_without_verify_ddr_status(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
 
         #  Sync
         ret = runner.invoke(
@@ -166,6 +173,9 @@ class TestCli:
         assert 0 == ret.exit_code
         ## assert diffs are produced
         assert caplog.text
+
+    def test_migrate_without_verify_ddr_status(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
 
         # Migrate
         ret = runner.invoke(

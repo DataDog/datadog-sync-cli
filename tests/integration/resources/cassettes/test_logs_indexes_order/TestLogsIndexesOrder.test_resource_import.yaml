@@ -5,29 +5,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -40,68 +27,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/logs/config/indexes
-  response:
-    body:
-      string: '{"indexes": [{"name": "new-index", "filter": {"query": ""}, "num_retention_days":
-        15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
-        {"reset_time": "14:00", "reset_utc_offset": "-04:00"}, "daily_limit_warning_threshold_percentage":
-        null, "exclusion_filters": []}, {"name": "main", "filter": {"query": ""},
-        "num_retention_days": 15, "daily_limit": null, "is_rate_limited": false, "daily_limit_reset":
-        null, "daily_limit_warning_threshold_percentage": null, "exclusion_filters":
-        [{"name": "gcp-filter", "is_enabled": true, "filter": {"query": "source:gcp.*",
-        "sample_rate": 1.0}}]}, {"name": "gcp-index-name", "filter": {"query": "source:gcp.*"},
-        "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited": false,
-        "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "+00:00"},
-        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/logs/config/index-order
-  response:
-    body:
-      string: '{"index_names": ["test-index", "new-index", "main", "gcp-index-name"]}'
-    headers:
-      Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -114,22 +46,14 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/indexes
   response:
     body:
-      string: '{"indexes": [{"name": "new-index", "filter": {"query": "updated"},
+      string: '{"indexes": [{"name": "main", "filter": {"query": ""}, "num_retention_days":
+        15, "daily_limit": null, "is_rate_limited": false, "daily_limit_reset": null,
+        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": [],
+        "num_flex_logs_retention_days": 0}, {"name": "test", "filter": {"query": "host:COMP-XKH4K2XWRC"},
         "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited": false,
         "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "-04:00"},
-        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []},
-        {"name": "main", "filter": {"query": "updated"}, "num_retention_days": 15,
-        "daily_limit": null, "is_rate_limited": false, "daily_limit_reset": null,
-        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": [{"name":
-        "gcp-filter", "is_enabled": true, "filter": {"query": "source:gcp.*", "sample_rate":
-        1.0}}]}, {"name": "gcp-index-name", "filter": {"query": "source:gcp.*updated"},
-        "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited": false,
-        "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "+00:00"},
-        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": []},
-        {"name": "test-index", "filter": {"query": "test:filter"}, "num_retention_days":
-        15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
-        {"reset_time": "14:00", "reset_utc_offset": "-04:00"}, "daily_limit_warning_threshold_percentage":
-        null, "exclusion_filters": []}]}'
+        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": [],
+        "num_flex_logs_retention_days": 0}]}'
     headers:
       Content-Type:
       - application/json
@@ -145,7 +69,118 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/index-order
   response:
     body:
-      string: '{"index_names": ["new-index", "main", "gcp-index-name", "test-index"]}'
+      string: '{"index_names": ["main", "test"]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389008, "value":
+      1}], "tags": ["action_type:import", "status:success", "resource_type:logs_indexes_order",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389008, "value":
+      1}], "tags": ["action_type:import", "status:success", "resource_type:logs_indexes_order",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://us5.datadoghq.com/api/v2/hamr
+  response:
+    body:
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/hamr
+  response:
+    body:
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://us5.datadoghq.com/api/v1/logs/config/indexes
+  response:
+    body:
+      string: '{"indexes": [{"name": "main", "filter": {"query": "updated"}, "num_retention_days":
+        15, "daily_limit": null, "is_rate_limited": false, "daily_limit_reset": null,
+        "daily_limit_warning_threshold_percentage": null, "exclusion_filters": [],
+        "num_flex_logs_retention_days": 0}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://us5.datadoghq.com/api/v1/logs/config/index-order
+  response:
+    body:
+      string: '{"index_names": ["main"]}'
     headers:
       Content-Type:
       - application/json

@@ -24,6 +24,10 @@ class Notebooks(BaseResource):
             "attributes.author",
             "attributes.metadata",
         ],
+        non_nullable_attr=["attributes.schema_version"],
+        null_values = {
+            "schema_version": [0],
+        },
     )
     # Additional Notebooks specific attributes
     pagination_config = PaginationConfig(

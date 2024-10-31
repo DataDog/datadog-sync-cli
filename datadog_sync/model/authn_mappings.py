@@ -19,6 +19,11 @@ class AuthNMappings(BaseResource):
             "attributes.saml_assertion_attribute_id",
             "relationships.saml_assertion_attribute",
         ],
+        non_nullable_attr=["relationships.team", "relationships.role"],
+        null_values={
+            "team": [{"data": None}],
+            "role": [{"data": None}],
+        },
         resource_connections={"roles": ["relationships.role.data.id"], "teams": ["relationships.team.data.id"]},
     )
     # Additional AuthNMappings specific attributes
@@ -49,6 +54,7 @@ class AuthNMappings(BaseResource):
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         payload = {"data": resource}
+        self.remove_null_relationships(payload)
         resp = await destination_client.post(self.resource_config.base_path, payload)
         self.remove_null_relationships(resp)
 
@@ -59,6 +65,7 @@ class AuthNMappings(BaseResource):
         d_id = self.config.state.destination[self.resource_type][_id]["id"]
         resource["id"] = d_id
         payload = {"data": resource}
+        self.remove_null_relationships(payload)
         resp = await destination_client.patch(self.resource_config.base_path + f"/{d_id}", payload)
         self.remove_null_relationships(resp)
 

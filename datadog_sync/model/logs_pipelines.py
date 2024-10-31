@@ -81,6 +81,7 @@ class LogsPipelines(BaseResource):
 
             # Submit a log to the logs intake API to trigger the creation of the integration pipeline
             await destination_client.post(self.logs_intake_path, payload, subdomain=self.logs_intake_subdomain)
+
             created = False
             for _ in range(12):
                 updated_pipelines = await self.get_destination_integration_pipelines()

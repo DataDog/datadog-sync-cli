@@ -22,6 +22,7 @@ class Monitors(BaseResource):
             "monitors": ["query"],
             "roles": ["restricted_roles"],
             "service_level_objectives": ["query"],
+            "restriction_policies": ["restriction_policy"],
         },
         base_path="/api/v1/monitor",
         excluded_attributes=[
@@ -36,6 +37,7 @@ class Monitors(BaseResource):
             "overall_state",
             "overall_state_modified",
         ],
+        non_nullable_attr=["restriction_policy"],
         tagging_config=TaggingConfig(path="tags"),
     )
     # Additional Monitors specific attributes
