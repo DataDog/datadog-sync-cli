@@ -46,10 +46,14 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/logs/config/indexes
   response:
     body:
-      string: '{"indexes": [{"name": "main", "filter": {"query": ""}, "num_retention_days":
+      string: '{"indexes": [{"name": "main", "filter": {"query": "updated"}, "num_retention_days":
         15, "daily_limit": null, "is_rate_limited": false, "daily_limit_reset": null,
         "daily_limit_warning_threshold_percentage": null, "exclusion_filters": [],
-        "num_flex_logs_retention_days": 0}]}'
+        "num_flex_logs_retention_days": 0}, {"name": "test2", "filter": {"query":
+        "source:agentupdated"}, "num_retention_days": 15, "daily_limit": 200000000,
+        "is_rate_limited": false, "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset":
+        "-04:00"}, "daily_limit_warning_threshold_percentage": null, "exclusion_filters":
+        [], "num_flex_logs_retention_days": 0}]}'
     headers:
       Content-Type:
       - application/json

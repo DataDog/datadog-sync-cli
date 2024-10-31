@@ -46,7 +46,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipeline-order
   response:
     body:
-      string: '{"pipeline_ids": ["kKwQ7pmrTV2DhOsoohbzxA"]}'
+      string: '{"pipeline_ids": ["kKwQ7pmrTV2DhOsoohbzxA", "XHeoyuYmRFCQOipL9kfA-Q"]}'
     headers:
       Content-Type:
       - application/json
@@ -55,7 +55,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389025, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408713, "value":
       1}], "tags": ["action_type:import", "status:success", "resource_type:logs_pipelines_order",
       "client_type:destination"]}]}'
     headers:
@@ -74,7 +74,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389025, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408713, "value":
       1}], "tags": ["action_type:import", "status:success", "resource_type:logs_pipelines_order",
       "client_type:source"]}]}'
     headers:
@@ -138,7 +138,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/logs/config/pipeline-order
   response:
     body:
-      string: '{"pipeline_ids": []}'
+      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ"]}'
     headers:
       Content-Type:
       - application/json

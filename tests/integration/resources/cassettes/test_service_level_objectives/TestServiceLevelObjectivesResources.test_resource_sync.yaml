@@ -50,14 +50,14 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/slo
   response:
     body:
-      string: '{"data": [{"id": "753a1e710d4d5d649cbe1591468ede91", "name": "test",
+      string: '{"data": [{"id": "8814e99fd19454e98ee37c7f8cd84a11", "name": "test",
         "tags": ["managed_by:datadog-sync"], "monitor_tags": [], "thresholds": [{"timeframe":
         "7d", "target": 99.9, "target_display": "99.9"}], "type": "metric", "type_id":
         1, "description": "", "timeframe": "7d", "target_threshold": 99.9, "query":
         {"denominator": "sum:datadog.agent.started{*}.as_count()", "numerator": "sum:datadog.agent.started{*}.as_count()"},
         "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com"}, "created_at": 1730389082, "modified_at":
-        1730389082}], "error": null}'
+        "email": "michael.richey@datadoghq.com"}, "created_at": 1730408780, "modified_at":
+        1730408780}], "error": null}'
     headers:
       Content-Type:
       - application/json
@@ -66,7 +66,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389081, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408780, "value":
       1}], "tags": ["action_sub_type:create", "id:650a18e266505a48b319d9b221158a26",
       "action_type:sync", "status:success", "resource_type:service_level_objectives",
       "client_type:destination"]}]}'
@@ -86,7 +86,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389081, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408780, "value":
       1}], "tags": ["action_sub_type:create", "id:650a18e266505a48b319d9b221158a26",
       "action_type:sync", "status:success", "resource_type:service_level_objectives",
       "client_type:source"]}]}'

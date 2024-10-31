@@ -29,7 +29,8 @@ class TestCli:
             "synthetics_private_locations",
             "synthetics_tests",
             "monitors",
-            "downtimes",
+            "downtime_schedules",
+            "powerpacks",
             "service_level_objectives",
             "slo_corrections",
         ]

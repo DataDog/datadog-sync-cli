@@ -82,10 +82,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/AG8myXf8RFOE0IkPsVnQ1g
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/dQI2YrwjS3iEibC4rCQGAg
   response:
     body:
-      string: '{"id": "AG8myXf8RFOE0IkPsVnQ1g", "type": "pipeline", "name": "testupdated",
+      string: '{"id": "dQI2YrwjS3iEibC4rCQGAg", "type": "pipeline", "name": "testupdated",
         "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": []}'
     headers:
@@ -96,7 +96,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730388999, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408677, "value":
       1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
     headers:
@@ -115,7 +115,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730388999, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408677, "value":
       1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
     headers:

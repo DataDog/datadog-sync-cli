@@ -46,7 +46,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/logs/config/pipeline-order
   response:
     body:
-      string: '{"pipeline_ids": []}'
+      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ"]}'
     headers:
       Content-Type:
       - application/json
@@ -55,7 +55,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389026, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408715, "value":
       1}], "tags": ["reason:connection_error", "id:logs-pipeline-order", "action_type:sync",
       "status:skipped", "resource_type:logs_pipelines_order", "client_type:destination"]}]}'
     headers:
@@ -74,7 +74,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389026, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408715, "value":
       1}], "tags": ["reason:connection_error", "id:logs-pipeline-order", "action_type:sync",
       "status:skipped", "resource_type:logs_pipelines_order", "client_type:source"]}]}'
     headers:

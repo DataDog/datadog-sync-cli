@@ -46,7 +46,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/logs/config/pipeline-order
   response:
     body:
-      string: '{"pipeline_ids": []}'
+      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ"]}'
     headers:
       Content-Type:
       - application/json

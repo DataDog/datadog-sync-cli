@@ -58,7 +58,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389032, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408722, "value":
       1}], "tags": ["action_type:import", "status:success", "resource_type:metric_percentiles",
       "client_type:destination"]}]}'
     headers:
@@ -77,7 +77,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389032, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408722, "value":
       1}], "tags": ["action_type:import", "status:success", "resource_type:metric_percentiles",
       "client_type:source"]}]}'
     headers:

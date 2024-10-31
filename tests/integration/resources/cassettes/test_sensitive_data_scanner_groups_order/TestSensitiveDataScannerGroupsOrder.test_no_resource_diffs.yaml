@@ -48,120 +48,32 @@ interactions:
     body:
       string: '{"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "attributes": {}, "type": "sensitive_data_scanner_configuration", "relationships":
-        {"groups": {"data": [{"id": "a0a050ee-fff7-4d48-b1d0-b0585d996d43", "type":
-        "sensitive_data_scanner_group"}, {"id": "c10bc7f5-fea6-4488-9254-dd2c0417bc37",
-        "type": "sensitive_data_scanner_group"}, {"id": "7a96437f-e7a7-4ff8-a37c-957bf6267fac",
-        "type": "sensitive_data_scanner_group"}, {"id": "d3bae0c4-dc98-4d99-b2d8-16bb49f70fb0",
-        "type": "sensitive_data_scanner_group"}, {"id": "64841f79-761d-44ef-8460-e6f6deffc2c5",
-        "type": "sensitive_data_scanner_group"}, {"id": "382317e2-5807-4eec-adf2-651d26323590",
-        "type": "sensitive_data_scanner_group"}, {"id": "4f6607f3-0361-48e1-b38d-302594d0c2f2",
-        "type": "sensitive_data_scanner_group"}, {"id": "9dcd60fd-f729-4039-8864-48a7c43101f6",
-        "type": "sensitive_data_scanner_group"}, {"id": "18ab3af4-2008-4003-aabf-c03979757c2e",
-        "type": "sensitive_data_scanner_group"}, {"id": "3e60ac73-6f52-4182-8b31-f0365fe99e6c",
-        "type": "sensitive_data_scanner_group"}, {"id": "3dd8c6e4-d8fe-4dee-be1c-66c90bf67f1d",
-        "type": "sensitive_data_scanner_group"}, {"id": "178ba2c8-28b3-428e-bda9-b828bab676d7",
-        "type": "sensitive_data_scanner_group"}, {"id": "41c46e5b-26cb-41ff-be76-90849120be37",
-        "type": "sensitive_data_scanner_group"}, {"id": "ae4c0f8e-7707-4f34-9602-3aa742109ebb",
-        "type": "sensitive_data_scanner_group"}, {"id": "892190ac-d803-451e-b297-6d239146bedd",
-        "type": "sensitive_data_scanner_group"}, {"id": "63c3440f-fcf7-40fc-be90-20d653ad05f8",
-        "type": "sensitive_data_scanner_group"}]}}}, "meta": {"version": 87, "count_limit":
+        {"groups": {"data": [{"id": "d40d00d8-ba8a-41e3-a16d-fff4cc706a62", "type":
+        "sensitive_data_scanner_group"}, {"id": "d6bf54d6-fb31-410b-932a-a3f3d2d9be87",
+        "type": "sensitive_data_scanner_group"}, {"id": "0dcff0a6-dae1-4b1c-badc-70ef25d59ef3",
+        "type": "sensitive_data_scanner_group"}, {"id": "cbf04bf0-06ea-4f62-9bd9-b126e2839ca0",
+        "type": "sensitive_data_scanner_group"}]}}}, "meta": {"version": 154, "count_limit":
         100, "group_count_limit": 20, "is_pci_compliant": false, "has_highlight_enabled":
         true, "has_multi_pass_enabled": true, "has_cascading_enabled": false, "is_configuration_superseded":
-        false}, "included": [{"id": "a0a050ee-fff7-4d48-b1d0-b0585d996d43", "attributes":
-        {"name": "Sample Group: Scan production environment telemetry", "is_enabled":
-        true, "filter": {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings":
-        []}, "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
+        false}, "included": [{"id": "d40d00d8-ba8a-41e3-a16d-fff4cc706a62", "attributes":
+        {"name": "watch hello", "is_enabled": false, "filter": {"query": "service:hello"},
+        "product_list": ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group",
+        "relationships": {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "c10bc7f5-fea6-4488-9254-dd2c0417bc37", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
+        {"id": "d6bf54d6-fb31-410b-932a-a3f3d2d9be87", "attributes": {"name": "watch
+        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
+        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
+        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "7a96437f-e7a7-4ff8-a37c-957bf6267fac", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
+        {"id": "0dcff0a6-dae1-4b1c-badc-70ef25d59ef3", "attributes": {"name": "watch
+        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
+        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
+        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "d3bae0c4-dc98-4d99-b2d8-16bb49f70fb0", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "64841f79-761d-44ef-8460-e6f6deffc2c5", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "382317e2-5807-4eec-adf2-651d26323590", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "4f6607f3-0361-48e1-b38d-302594d0c2f2", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "9dcd60fd-f729-4039-8864-48a7c43101f6", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "18ab3af4-2008-4003-aabf-c03979757c2e", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "3e60ac73-6f52-4182-8b31-f0365fe99e6c", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "3dd8c6e4-d8fe-4dee-be1c-66c90bf67f1d", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "178ba2c8-28b3-428e-bda9-b828bab676d7", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "41c46e5b-26cb-41ff-be76-90849120be37", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "ae4c0f8e-7707-4f34-9602-3aa742109ebb", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "892190ac-d803-451e-b297-6d239146bedd", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "63c3440f-fcf7-40fc-be90-20d653ad05f8", "attributes": {"name": "Sample
-        Group: Scan production environment telemetry", "is_enabled": true, "filter":
-        {"query": "env:prod"}, "product_list": ["logs", "apm"], "samplings": []},
-        "type": "sensitive_data_scanner_group", "relationships": {"configuration":
-        {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
+        {"id": "cbf04bf0-06ea-4f62-9bd9-b126e2839ca0", "attributes": {"name": "watch
+        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
+        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
+        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}}]}'
     headers:
       Content-Type:

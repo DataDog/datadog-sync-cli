@@ -53,6 +53,8 @@ class ResourcesHandler:
                 self.worker.work_queue.put_nowait(item)
             await self.worker.schedule_workers()
             self.config.logger.info("finished importing missing dependencies")
+        else:
+            self.config.logger.info("did not import missing dependencies...")
 
         # handle resource cleanups
         if self.config.cleanup != FALSE:

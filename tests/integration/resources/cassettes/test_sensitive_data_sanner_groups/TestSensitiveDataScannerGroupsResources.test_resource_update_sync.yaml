@@ -76,18 +76,18 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"attributes": {"name": "Sample Group: Scan production environment
-      telemetryupdated", "is_enabled": true, "filter": {"query": "env:prod"}, "product_list":
-      ["logs", "apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "id":
-      "d2c097d1-601b-4cea-a425-378cfe12e877"}, "meta": {}}'
+    body: '{"data": {"attributes": {"name": "watch helloupdated", "is_enabled": false,
+      "filter": {"query": "service:hello"}, "product_list": ["apm"], "samplings":
+      []}, "type": "sensitive_data_scanner_group", "id": "50d3b4f9-07ba-4712-ad3f-497e7336d0d4"},
+      "meta": {}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/d2c097d1-601b-4cea-a425-378cfe12e877
+    uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/50d3b4f9-07ba-4712-ad3f-497e7336d0d4
   response:
     body:
-      string: '{"meta": {"version": 84}}'
+      string: '{"meta": {"version": 151}}'
     headers:
       Content-Type:
       - application/json
@@ -96,8 +96,8 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389073, "value":
-      1}], "tags": ["action_sub_type:update", "id:b497c08b-f896-43ac-873d-2a469af16207",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408771, "value":
+      1}], "tags": ["action_sub_type:update", "id:731fff24-2e94-4446-b6a1-efb10ad66e91",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups",
       "client_type:destination"]}]}'
     headers:
@@ -116,8 +116,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389073, "value":
-      1}], "tags": ["action_sub_type:update", "id:b497c08b-f896-43ac-873d-2a469af16207",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408771, "value":
+      1}], "tags": ["action_sub_type:update", "id:731fff24-2e94-4446-b6a1-efb10ad66e91",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups",
       "client_type:source"]}]}'
     headers:

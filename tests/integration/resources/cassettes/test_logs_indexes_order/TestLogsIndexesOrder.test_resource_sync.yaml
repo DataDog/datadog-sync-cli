@@ -62,10 +62,10 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/logs/config/indexes/test
+    uri: https://api.datadoghq.eu/api/v1/logs/config/indexes/test2
   response:
     body:
-      string: '{"name": "test", "filter": {"query": "host:COMP-XKH4K2XWRC"}, "num_retention_days":
+      string: '{"name": "test2", "filter": {"query": "source:agent"}, "num_retention_days":
         15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
         {"reset_time": "14:00", "reset_utc_offset": "-04:00"}, "daily_limit_warning_threshold_percentage":
         null, "exclusion_filters": [], "num_flex_logs_retention_days": 0}'
@@ -84,10 +84,14 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/logs/config/indexes
   response:
     body:
-      string: '{"indexes": [{"name": "main", "filter": {"query": "updated"}, "num_retention_days":
-        15, "daily_limit": null, "is_rate_limited": false, "daily_limit_reset": null,
+      string: '{"indexes": [{"name": "test2", "filter": {"query": "source:agentupdated"},
+        "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited": false,
+        "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "-04:00"},
         "daily_limit_warning_threshold_percentage": null, "exclusion_filters": [],
-        "num_flex_logs_retention_days": 0}]}'
+        "num_flex_logs_retention_days": 0}, {"name": "main", "filter": {"query": "updated"},
+        "num_retention_days": 15, "daily_limit": null, "is_rate_limited": false, "daily_limit_reset":
+        null, "daily_limit_warning_threshold_percentage": null, "exclusion_filters":
+        [], "num_flex_logs_retention_days": 0}]}'
     headers:
       Content-Type:
       - application/json
@@ -103,10 +107,14 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/logs/config/indexes
   response:
     body:
-      string: '{"indexes": [{"name": "main", "filter": {"query": "updated"}, "num_retention_days":
-        15, "daily_limit": null, "is_rate_limited": false, "daily_limit_reset": null,
+      string: '{"indexes": [{"name": "test2", "filter": {"query": "source:agentupdated"},
+        "num_retention_days": 15, "daily_limit": 200000000, "is_rate_limited": false,
+        "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset": "-04:00"},
         "daily_limit_warning_threshold_percentage": null, "exclusion_filters": [],
-        "num_flex_logs_retention_days": 0}]}'
+        "num_flex_logs_retention_days": 0}, {"name": "main", "filter": {"query": "updated"},
+        "num_retention_days": 15, "daily_limit": null, "is_rate_limited": false, "daily_limit_reset":
+        null, "daily_limit_warning_threshold_percentage": null, "exclusion_filters":
+        [], "num_flex_logs_retention_days": 0}]}'
     headers:
       Content-Type:
       - application/json
@@ -122,7 +130,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/logs/config/index-order
   response:
     body:
-      string: '{"index_names": ["main"]}'
+      string: '{"index_names": ["test2", "main"]}'
     headers:
       Content-Type:
       - application/json
@@ -152,7 +160,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389009, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408692, "value":
       1}], "tags": ["action_sub_type:create", "id:main", "action_type:sync", "status:success",
       "resource_type:logs_indexes", "client_type:destination"]}]}'
     headers:
@@ -171,7 +179,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389009, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408692, "value":
       1}], "tags": ["action_sub_type:create", "id:main", "action_type:sync", "status:success",
       "resource_type:logs_indexes", "client_type:source"]}]}'
     headers:
@@ -189,29 +197,32 @@ interactions:
       code: 202
       message: Accepted
 - request:
-    body: '{"name": "test", "filter": {"query": "host:COMP-XKH4K2XWRC"}, "num_retention_days":
-      15, "daily_limit": 200000000, "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset":
+    body: '{"filter": {"query": "source:agent"}, "num_retention_days": 15, "daily_limit":
+      200000000, "daily_limit_reset": {"reset_time": "14:00", "reset_utc_offset":
       "-04:00"}, "daily_limit_warning_threshold_percentage": null, "exclusion_filters":
       [], "num_flex_logs_retention_days": 0}'
     headers:
       Content-Type:
       - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v1/logs/config/indexes
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/logs/config/indexes/test2
   response:
     body:
-      string: '{"errors": ["You do not have permission to do this."]}'
+      string: '{"name": "test2", "filter": {"query": "source:agent"}, "num_retention_days":
+        15, "daily_limit": 200000000, "is_rate_limited": false, "daily_limit_reset":
+        {"reset_time": "14:00", "reset_utc_offset": "-04:00"}, "daily_limit_warning_threshold_percentage":
+        null, "exclusion_filters": [], "num_flex_logs_retention_days": 0}'
     headers:
       Content-Type:
       - application/json
     status:
-      code: 403
-      message: Forbidden
+      code: 200
+      message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389009, "value":
-      1}], "tags": ["id:test", "action_type:sync", "status:failure", "resource_type:logs_indexes",
-      "client_type:destination"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408692, "value":
+      1}], "tags": ["action_sub_type:create", "id:test2", "action_type:sync", "status:success",
+      "resource_type:logs_indexes", "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -228,9 +239,9 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389009, "value":
-      1}], "tags": ["id:test", "action_type:sync", "status:failure", "resource_type:logs_indexes",
-      "client_type:source"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408692, "value":
+      1}], "tags": ["action_sub_type:create", "id:test2", "action_type:sync", "status:success",
+      "resource_type:logs_indexes", "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -246,10 +257,26 @@ interactions:
       code: 202
       message: Accepted
 - request:
+    body: '{"index_names": ["main", "test2"]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/logs/config/index-order
+  response:
+    body:
+      string: '{"index_names": ["main", "test2"]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389009, "value":
-      1}], "tags": ["reason:connection_error", "id:logs-index-order", "action_type:sync",
-      "status:skipped", "resource_type:logs_indexes_order", "client_type:destination"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408692, "value":
+      1}], "tags": ["action_sub_type:create", "id:logs-index-order", "action_type:sync",
+      "status:success", "resource_type:logs_indexes_order", "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -266,9 +293,9 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389009, "value":
-      1}], "tags": ["reason:connection_error", "id:logs-index-order", "action_type:sync",
-      "status:skipped", "resource_type:logs_indexes_order", "client_type:source"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408692, "value":
+      1}], "tags": ["action_sub_type:create", "id:logs-index-order", "action_type:sync",
+      "status:success", "resource_type:logs_indexes_order", "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json

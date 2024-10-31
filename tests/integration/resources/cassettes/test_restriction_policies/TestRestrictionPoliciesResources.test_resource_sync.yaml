@@ -37,4 +37,284 @@ interactions:
     status:
       code: 200
       message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/team/f0cc21b6-6f38-49f0-8641-e25fb3b98476
+  response:
+    body:
+      string: '{"data": {"type": "team", "attributes": {"user_count": 1, "name": "hamr
+        test", "summary": null, "handle": "hamr-test", "link_count": 0, "description":
+        "", "created_at": "2024-10-28T20:20:10.746677+00:00", "modified_at": "2024-10-28T20:20:10.746680+00:00"},
+        "id": "f0cc21b6-6f38-49f0-8641-e25fb3b98476", "relationships": {"user_team_permissions":
+        {"links": {"related": "/api/v2/team/f0cc21b6-6f38-49f0-8641-e25fb3b98476/permission-settings"}},
+        "team_links": {"links": {"related": "/api/v2/team/f0cc21b6-6f38-49f0-8641-e25fb3b98476/links"}}}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/notebooks/181709
+  response:
+    body:
+      string: '{"data": {"type": "notebooks", "id": 181709, "attributes": {"name":
+        "Michael Oct 21 2024 14:52", "cells": [{"type": "notebook_cells", "id": "jzqgkbvg",
+        "attributes": {"definition": {"type": "markdown", "text": "test"}}}], "time":
+        {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
+        false, "is_favorite": false, "type": null}, "template_variables": [], "status":
+        "published", "modified": "2024-10-21T18:52:29.571371+00:00", "created": "2024-10-21T18:52:29.571371+00:00",
+        "deleted": null, "tags": [], "author": {"name": "Michael Richey", "handle":
+        "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "icon":
+        "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}, "schema_version":
+        0}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"data": [], "meta": {"pagination": {"number": 0, "first_number": 0,
+        "prev_number": 0, "next_number": 1, "last_number": 0, "size": 100, "type":
+        "number_size", "total": 0}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
+        "last": null, "next": "https://us5.datadoghq.com/api/v2/team?page[number]=1&page[size]=100",
+        "prev": null, "first": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100"}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://us5.datadoghq.com/api/v1/org
+  response:
+    body:
+      string: '{"orgs": [{"public_id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "name":
+        "DDR Internal Testing US5", "description": null, "created": "2024-10-08 14:08:00",
+        "subscription": {"id": null, "billing_plan_id": 4, "started": 1729536356,
+        "expires": null, "finished": null, "type": "partner", "is_custom": false,
+        "is_trial": false, "is_expired": true}, "billing": {}, "settings": {"default_landing_page":
+        "Dashboard Lists", "saml": {"enabled": false}, "saml_can_be_enabled": false,
+        "saml_login_url": null, "saml_idp_metadata_uploaded": false, "saml_idp_endpoint":
+        null, "saml_idp_metadata_valid_until": null, "custom_landing_page": null,
+        "saml_idp_initiated_login": {"enabled": false}, "saml_strict_mode": {"enabled":
+        false}, "saml_autocreate_access_role": "st", "saml_autocreate_users_domains":
+        {"enabled": false, "domains": []}, "private_widget_share": false, "manage_reports":
+        null}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "notebooks", "attributes": {"name": "Michael Oct 21 2024
+      14:52", "cells": [{"type": "notebook_cells", "id": "jzqgkbvg", "attributes":
+      {"definition": {"type": "markdown", "text": "test"}}}], "time": {"live_span":
+      "1h"}, "status": "published", "deleted": null, "tags": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v1/notebooks
+  response:
+    body:
+      string: '{"data": {"type": "notebooks", "id": 144169, "attributes": {"name":
+        "Michael Oct 21 2024 14:52", "cells": [{"type": "notebook_cells", "attributes":
+        {"definition": {"type": "markdown", "text": "test"}}, "id": "jzqgkbvg"}],
+        "time": {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
+        false, "is_favorite": false, "type": null}, "template_variables": [], "status":
+        "published", "modified": "2024-10-31T21:06:01.456967+00:00", "created": "2024-10-31T21:06:01.456967+00:00",
+        "deleted": null, "tags": [], "author": {"name": "Michael Richey", "handle":
+        "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "icon":
+        "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}, "schema_version":
+        0}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "team", "attributes": {"name": "hamr test", "handle":
+      "hamr-test", "description": ""}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/team
+  response:
+    body:
+      string: '{"data": {"type": "team", "id": "6e468478-529a-42cd-b276-4867494418a1",
+        "attributes": {"name": "hamr test", "handle": "hamr-test", "summary": null,
+        "description": "", "avatar": null, "banner": 13, "visible_modules": [], "hidden_modules":
+        [], "created_at": "2024-10-31T21:06:01.463095+00:00", "modified_at": "2024-10-31T21:06:01.463099+00:00",
+        "user_count": 0, "link_count": 0}, "relationships": {"team_links": {"links":
+        {"related": "/api/v2/team/6e468478-529a-42cd-b276-4867494418a1/links"}}, "user_team_permissions":
+        {"links": {"related": "/api/v2/team/6e468478-529a-42cd-b276-4867494418a1/permission-settings"}}}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408760, "value":
+      1}], "tags": ["action_sub_type:create", "id:181709", "action_type:sync", "status:success",
+      "resource_type:notebooks", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408760, "value":
+      1}], "tags": ["action_sub_type:create", "id:f0cc21b6-6f38-49f0-8641-e25fb3b98476",
+      "action_type:sync", "status:success", "resource_type:teams", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408760, "value":
+      1}], "tags": ["action_sub_type:create", "id:181709", "action_type:sync", "status:success",
+      "resource_type:notebooks", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408760, "value":
+      1}], "tags": ["action_sub_type:create", "id:f0cc21b6-6f38-49f0-8641-e25fb3b98476",
+      "action_type:sync", "status:success", "resource_type:teams", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"data": {"type": "restriction_policy", "id": "notebook:144169", "attributes":
+      {"bindings": [{"relation": "editor", "principals": ["team:6e468478-529a-42cd-b276-4867494418a1"]},
+      {"relation": "viewer", "principals": ["org:b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"]}]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/restriction_policy/notebook:144169
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "notebook:144169", "attributes":
+        {"bindings": [{"relation": "editor", "principals": ["team:6e468478-529a-42cd-b276-4867494418a1"]},
+        {"relation": "viewer", "principals": ["org:b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"]}]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408760, "value":
+      1}], "tags": ["action_sub_type:create", "id:notebook:181709", "action_type:sync",
+      "status:success", "resource_type:restriction_policies", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408760, "value":
+      1}], "tags": ["action_sub_type:create", "id:notebook:181709", "action_type:sync",
+      "status:success", "resource_type:restriction_policies", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
 version: 1

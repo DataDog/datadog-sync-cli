@@ -62,7 +62,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389089, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408790, "value":
       1}], "tags": ["id:be3fe0f5-63b1-4913-9f09-c147bf6d5e21", "action_type:import",
       "status:success", "resource_type:synthetics_global_variables", "client_type:destination"]}]}'
     headers:
@@ -81,7 +81,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389089, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408790, "value":
       1}], "tags": ["id:be3fe0f5-63b1-4913-9f09-c147bf6d5e21", "action_type:import",
       "status:success", "resource_type:synthetics_global_variables", "client_type:source"]}]}'
     headers:
@@ -145,9 +145,9 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "11e28907-016c-478b-8969-795f21350490", "name":
+      string: '{"variables": [{"id": "8fa26804-2bc1-4192-90ac-154bbe1458b9", "name":
         "TEST", "description": "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
-        "created_at": "2024-10-31T15:20:51.650968+00:00", "modified_at": "2024-10-31T15:20:51.650968+00:00",
+        "created_at": "2024-10-31T21:03:36.285101+00:00", "modified_at": "2024-10-31T21:03:36.285101+00:00",
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}, "creator": {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
         "name": "Michael Richey"}, "editor": {"email": "michael.richey@datadoghq.com",

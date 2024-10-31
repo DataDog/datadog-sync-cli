@@ -77,26 +77,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389043, "value":
-      1}], "tags": ["reason:up_to_date", "id:datadog.org_sync.action", "action_type:sync",
-      "status:skipped", "resource_type:metrics_metadata", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389043, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408737, "value":
       1}], "tags": ["reason:up_to_date", "id:dd.seceng.dd_git_hooks.executions", "action_type:sync",
       "status:skipped", "resource_type:metrics_metadata", "client_type:destination"]}]}'
     headers:
@@ -115,7 +96,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389043, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408737, "value":
       1}], "tags": ["reason:up_to_date", "id:test", "action_type:sync", "status:skipped",
       "resource_type:metrics_metadata", "client_type:destination"]}]}'
     headers:
@@ -152,64 +133,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389043, "value":
-      1}], "tags": ["action_sub_type:update", "id:datadog.org_sync.diffs.start", "action_type:sync",
-      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389043, "value":
-      1}], "tags": ["reason:up_to_date", "id:datadog.org_sync.action", "action_type:sync",
-      "status:skipped", "resource_type:metrics_metadata", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389043, "value":
-      1}], "tags": ["reason:up_to_date", "id:test", "action_type:sync", "status:skipped",
-      "resource_type:metrics_metadata", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389043, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408737, "value":
       1}], "tags": ["reason:up_to_date", "id:dd.seceng.dd_git_hooks.executions", "action_type:sync",
       "status:skipped", "resource_type:metrics_metadata", "client_type:source"]}]}'
     headers:
@@ -228,7 +152,45 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730389043, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408737, "value":
+      1}], "tags": ["action_sub_type:update", "id:datadog.org_sync.diffs.start", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408737, "value":
+      1}], "tags": ["reason:up_to_date", "id:test", "action_type:sync", "status:skipped",
+      "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408737, "value":
       1}], "tags": ["action_sub_type:update", "id:datadog.org_sync.diffs.start", "action_type:sync",
       "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
     headers:
