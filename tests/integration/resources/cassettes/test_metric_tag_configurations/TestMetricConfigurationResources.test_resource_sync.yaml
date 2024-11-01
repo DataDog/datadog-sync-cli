@@ -55,7 +55,7 @@ interactions:
       message: OK
 - request:
     body: '{"data": {"type": "manage_tags", "id": "datadog.org_sync.action", "attributes":
-      {"tags": ["action_type", "id", "reason", "resource_type", "status"], "metric_type":
+      {"tags": ["action_type", "id", "resource_type", "reason", "status"], "metric_type":
       "count", "aggregations": [{"time": "avg", "space": "sum"}, {"time": "sum", "space":
       "sum"}], "exclude_tags_mode": false}}}'
     headers:
@@ -66,10 +66,10 @@ interactions:
   response:
     body:
       string: '{"data": {"type": "manage_tags", "id": "datadog.org_sync.action", "attributes":
-        {"tags": ["action_type", "status", "resource_type", "id", "reason"], "created_at":
-        "2024-10-31T17:18:06.195660+00:00", "modified_at": "2024-11-01T13:22:49.791912+00:00",
-        "metric_type": "count", "aggregations": [{"time": "avg", "space": "sum"},
-        {"time": "sum", "space": "sum"}], "exclude_tags_mode": false}}}'
+        {"tags": ["resource_type", "reason", "action_type", "id", "status"], "created_at":
+        "2024-10-31T17:18:06.195660+00:00", "modified_at": "2024-11-01T14:43:34.198269+00:00",
+        "metric_type": "count", "aggregations": [{"time": "sum", "space": "sum"},
+        {"time": "avg", "space": "sum"}], "exclude_tags_mode": false}}}'
     headers:
       Content-Type:
       - application/json
@@ -78,7 +78,7 @@ interactions:
       message: Created
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467369, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472213, "value":
       1}], "tags": ["action_sub_type:create", "id:datadog.org_sync.action", "action_type:sync",
       "status:success", "resource_type:metric_tag_configurations", "client_type:destination"]}]}'
     headers:
@@ -97,7 +97,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467369, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472213, "value":
       1}], "tags": ["action_sub_type:create", "id:datadog.org_sync.action", "action_type:sync",
       "status:success", "resource_type:metric_tag_configurations", "client_type:source"]}]}'
     headers:

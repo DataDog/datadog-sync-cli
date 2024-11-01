@@ -72,7 +72,7 @@ interactions:
         "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
         "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
         false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
-        "processors": []}, {"id": "H2hzMarTQ_i7fCvEA8YEeg", "type": "pipeline", "name":
+        "processors": []}, {"id": "v0Vnze-DR7yt9B-jL-P8kQ", "type": "pipeline", "name":
         "testupdated", "is_enabled": false, "is_read_only": false, "filter": {"query":
         "source:appgate_client "}, "processors": []}]'
     headers:

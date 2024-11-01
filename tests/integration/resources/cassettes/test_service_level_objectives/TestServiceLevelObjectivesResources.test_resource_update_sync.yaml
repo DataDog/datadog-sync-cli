@@ -85,17 +85,17 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/slo/2cd71d9e45ce5fee92cff40683b835ce
+    uri: https://us5.datadoghq.com/api/v1/slo/0be94678213f58b3bbffaf4812ea2e63
   response:
     body:
-      string: '{"data": [{"id": "2cd71d9e45ce5fee92cff40683b835ce", "name": "test",
+      string: '{"data": [{"id": "0be94678213f58b3bbffaf4812ea2e63", "name": "test",
         "tags": ["managed_by:datadog-sync"], "monitor_tags": [], "thresholds": [{"timeframe":
         "7d", "target": 99.9, "target_display": "99.9"}], "type": "metric", "type_id":
         1, "description": "updated", "timeframe": "7d", "target_threshold": 99.9,
         "query": {"denominator": "sum:datadog.agent.started{*}.as_count()", "numerator":
         "sum:datadog.agent.started{*}.as_count()"}, "creator": {"name": "Michael Richey",
         "handle": "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com"},
-        "created_at": 1730467415, "modified_at": 1730467417}], "error": null}'
+        "created_at": 1730472260, "modified_at": 1730472261}], "error": null}'
     headers:
       Content-Type:
       - application/json
@@ -104,7 +104,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467416, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472260, "value":
       1}], "tags": ["action_sub_type:update", "id:650a18e266505a48b319d9b221158a26",
       "action_type:sync", "status:success", "resource_type:service_level_objectives",
       "client_type:destination"]}]}'
@@ -124,7 +124,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467416, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472260, "value":
       1}], "tags": ["action_sub_type:update", "id:650a18e266505a48b319d9b221158a26",
       "action_type:sync", "status:success", "resource_type:service_level_objectives",
       "client_type:source"]}]}'

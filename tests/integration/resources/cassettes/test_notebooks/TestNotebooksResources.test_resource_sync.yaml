@@ -39,9 +39,9 @@ interactions:
       message: OK
 - request:
     body: '{"data": {"type": "notebooks", "attributes": {"name": "Michael Oct 21 2024
-      14:52", "cells": [{"type": "notebook_cells", "id": "jzqgkbvg", "attributes":
-      {"definition": {"type": "markdown", "text": "test"}}}], "time": {"live_span":
-      "1h"}, "status": "published", "deleted": null, "tags": []}}}'
+      14:52", "cells": [{"type": "notebook_cells", "attributes": {"definition": {"type":
+      "markdown", "text": "test"}}, "id": "jzqgkbvg"}], "time": {"live_span": "1h"},
+      "status": "published", "deleted": null, "tags": []}}}'
     headers:
       Content-Type:
       - application/json
@@ -49,12 +49,12 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 144199, "attributes": {"name":
-        "Michael Oct 21 2024 14:52", "cells": [{"type": "notebook_cells", "attributes":
-        {"definition": {"type": "markdown", "text": "test"}}, "id": "jzqgkbvg"}],
-        "time": {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
+      string: '{"data": {"type": "notebooks", "id": 144212, "attributes": {"name":
+        "Michael Oct 21 2024 14:52", "cells": [{"type": "notebook_cells", "id": "jzqgkbvg",
+        "attributes": {"definition": {"type": "markdown", "text": "test"}}}], "time":
+        {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
         false, "is_favorite": false, "type": null}, "template_variables": [], "status":
-        "published", "modified": "2024-11-01T13:23:07.163577+00:00", "created": "2024-11-01T13:23:07.163577+00:00",
+        "published", "modified": "2024-11-01T14:43:51.543322+00:00", "created": "2024-11-01T14:43:51.543322+00:00",
         "deleted": null, "tags": [], "author": {"name": "Michael Richey", "handle":
         "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "icon":
         "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
@@ -68,7 +68,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467386, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472230, "value":
       1}], "tags": ["action_sub_type:create", "id:181709", "action_type:sync", "status:success",
       "resource_type:notebooks", "client_type:destination"]}]}'
     headers:
@@ -87,7 +87,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467386, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472230, "value":
       1}], "tags": ["action_sub_type:create", "id:181709", "action_type:sync", "status:success",
       "resource_type:notebooks", "client_type:source"]}]}'
     headers:

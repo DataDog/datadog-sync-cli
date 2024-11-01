@@ -43,7 +43,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/v9p74E5QQEe5bZ0GFHSbkA
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/Yv2Zflo1TU6vwq9cBvbgqg
   response:
     body:
       string: '{}'
@@ -55,7 +55,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467331, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472186, "value":
       1}], "tags": ["id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:delete", "status:success",
       "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
     headers:
@@ -74,7 +74,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467331, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472186, "value":
       1}], "tags": ["id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:delete", "status:success",
       "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
     headers:

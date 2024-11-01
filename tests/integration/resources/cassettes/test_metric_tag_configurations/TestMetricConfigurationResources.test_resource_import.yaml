@@ -47,7 +47,7 @@ interactions:
   response:
     body:
       string: '{"data": [{"type": "manage_tags", "id": "datadog.org_sync.action",
-        "attributes": {"tags": ["action_type", "id", "reason", "resource_type", "status"],
+        "attributes": {"tags": ["action_type", "id", "resource_type", "reason", "status"],
         "created_at": "2024-10-28T19:04:54.783042+00:00", "modified_at": "2024-10-31T17:17:24.069591+00:00",
         "metric_type": "count", "aggregations": [{"time": "avg", "space": "sum"},
         {"time": "sum", "space": "sum"}], "exclude_tags_mode": false}}]}'
@@ -59,7 +59,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467367, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472211, "value":
       1}], "tags": ["id:datadog.org_sync.action", "action_type:import", "status:success",
       "resource_type:metric_tag_configurations", "client_type:destination"]}]}'
     headers:
@@ -78,7 +78,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467367, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472211, "value":
       1}], "tags": ["id:datadog.org_sync.action", "action_type:import", "status:success",
       "resource_type:metric_tag_configurations", "client_type:source"]}]}'
     headers:

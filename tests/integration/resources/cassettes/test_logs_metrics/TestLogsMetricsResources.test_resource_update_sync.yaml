@@ -83,23 +83,25 @@ interactions:
     headers:
       Content-Type:
       - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/logs/config/metrics
+    method: PATCH
+    uri: https://us5.datadoghq.com/api/v2/logs/config/metrics/test
   response:
     body:
-      string: '{"errors": ["conflict(Field ''data.id'' is invalid: ''test'' cannot
-        be used as metric name, a metric already exists with that name)"]}'
+      string: '{"data": {"id": "test", "attributes": {"filter": {"query": "host:COMP-XKH4K2XWRCupdated"},
+        "group_by": [{"path": "service", "tag_name": "service"}], "compute": {"aggregation_type":
+        "distribution", "path": "ingest_size_in_bytes", "include_percentiles": false}},
+        "type": "logs_metrics"}}'
     headers:
       Content-Type:
       - application/json
     status:
-      code: 409
-      message: Conflict
+      code: 200
+      message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467345, "value":
-      1}], "tags": ["id:test", "action_type:sync", "status:failure", "resource_type:logs_metrics",
-      "client_type:destination"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472189, "value":
+      1}], "tags": ["action_sub_type:update", "id:test", "action_type:sync", "status:success",
+      "resource_type:logs_metrics", "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -116,9 +118,9 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467345, "value":
-      1}], "tags": ["id:test", "action_type:sync", "status:failure", "resource_type:logs_metrics",
-      "client_type:source"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472189, "value":
+      1}], "tags": ["action_sub_type:update", "id:test", "action_type:sync", "status:success",
+      "resource_type:logs_metrics", "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -133,4 +135,42 @@ interactions:
     status:
       code: 202
       message: Accepted
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://us5.datadoghq.com/api/v2/hamr
+  response:
+    body:
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/hamr
+  response:
+    body:
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
 version: 1

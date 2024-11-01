@@ -46,9 +46,9 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "32ffea16-d17d-4469-8474-814aa098d497", "name":
+      string: '{"variables": [{"id": "0aefa13c-1b07-4bf7-93f1-f8c2b6e6ba92", "name":
         "TEST", "description": "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
-        "created_at": "2024-11-01T13:21:38.967741+00:00", "modified_at": "2024-11-01T13:23:45.355883+00:00",
+        "created_at": "2024-11-01T14:40:53.769884+00:00", "modified_at": "2024-11-01T14:44:25.480905+00:00",
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}, "creator": {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
         "name": "Michael Richey"}, "editor": {"email": "michael.richey@datadoghq.com",
@@ -106,9 +106,9 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "32ffea16-d17d-4469-8474-814aa098d497", "name":
+      string: '{"variables": [{"id": "0aefa13c-1b07-4bf7-93f1-f8c2b6e6ba92", "name":
         "TEST", "description": "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
-        "created_at": "2024-11-01T13:21:38.967741+00:00", "modified_at": "2024-11-01T13:23:45.355883+00:00",
+        "created_at": "2024-11-01T14:40:53.769884+00:00", "modified_at": "2024-11-01T14:44:25.480905+00:00",
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}, "creator": {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
         "name": "Michael Richey"}, "editor": {"email": "michael.richey@datadoghq.com",
@@ -127,10 +127,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/synthetics/variables/32ffea16-d17d-4469-8474-814aa098d497
+    uri: https://us5.datadoghq.com/api/v1/synthetics/variables/0aefa13c-1b07-4bf7-93f1-f8c2b6e6ba92
   response:
     body:
-      string: '{"id": "32ffea16-d17d-4469-8474-814aa098d497", "name": "TEST", "description":
+      string: '{"id": "0aefa13c-1b07-4bf7-93f1-f8c2b6e6ba92", "name": "TEST", "description":
         "testupdated", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}}'
@@ -142,7 +142,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467425, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472265, "value":
       1}], "tags": ["action_sub_type:update", "id:be3fe0f5-63b1-4913-9f09-c147bf6d5e21",
       "action_type:sync", "status:success", "resource_type:synthetics_global_variables",
       "client_type:destination"]}]}'
@@ -162,7 +162,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467425, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472265, "value":
       1}], "tags": ["action_sub_type:update", "id:be3fe0f5-63b1-4913-9f09-c147bf6d5e21",
       "action_type:sync", "status:success", "resource_type:synthetics_global_variables",
       "client_type:source"]}]}'
@@ -227,10 +227,10 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "32ffea16-d17d-4469-8474-814aa098d497", "name":
+      string: '{"variables": [{"id": "0aefa13c-1b07-4bf7-93f1-f8c2b6e6ba92", "name":
         "TEST", "description": "testupdated", "type": "variable", "tags": ["team:test",
-        "managed_by:datadog-sync"], "created_at": "2024-11-01T13:21:38.967741+00:00",
-        "modified_at": "2024-11-01T13:23:46.780198+00:00", "last_error": null, "value":
+        "managed_by:datadog-sync"], "created_at": "2024-11-01T14:40:53.769884+00:00",
+        "modified_at": "2024-11-01T14:44:26.931167+00:00", "last_error": null, "value":
         {"value": "test", "secure": false, "options": {}}, "creator": {"email": "michael.richey@datadoghq.com",
         "handle": "michael.richey@datadoghq.com", "name": "Michael Richey"}, "editor":
         {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",

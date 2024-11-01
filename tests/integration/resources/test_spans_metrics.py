@@ -5,7 +5,10 @@
 from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import SpansMetrics
 
+import pytest
 
+
+@pytest.mark.skip(reason="Cannot delete these from destination easily")
 class TestSpansMetrics(BaseResourcesTestClass):
     resource_type = SpansMetrics.resource_type
     field_to_update = "attributes.filter.query"

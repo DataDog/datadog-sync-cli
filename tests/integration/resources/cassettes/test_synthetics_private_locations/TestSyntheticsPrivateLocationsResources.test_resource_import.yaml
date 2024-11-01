@@ -75,7 +75,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:af-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
@@ -94,102 +94,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-southeast-1", "action_type:import", "status:skipped",
-      "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-northeast-3", "action_type:import", "status:skipped",
-      "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-northeast-2", "action_type:import", "status:skipped",
-      "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:ap-northeast-1", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
     headers:
@@ -208,8 +113,46 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ca-central-1", "action_type:import", "status:skipped",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-southeast-1", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -227,26 +170,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-southeast-2", "action_type:import", "status:skipped",
-      "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:ap-southeast-3", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
     headers:
@@ -265,7 +189,83 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-southeast-2", "action_type:import", "status:skipped",
+      "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ca-central-1", "action_type:import", "status:skipped",
+      "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-northeast-3", "action_type:import", "status:skipped",
+      "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-northeast-2", "action_type:import", "status:skipped",
+      "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:af-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
     headers:
@@ -284,7 +284,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:eu-central-1", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
     headers:
@@ -303,121 +303,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-southeast-1", "action_type:import", "status:skipped",
-      "resource_type:synthetics_private_locations", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-northeast-3", "action_type:import", "status:skipped",
-      "resource_type:synthetics_private_locations", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-northeast-2", "action_type:import", "status:skipped",
-      "resource_type:synthetics_private_locations", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ap-northeast-1", "action_type:import", "status:skipped",
-      "resource_type:synthetics_private_locations", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:ca-central-1", "action_type:import", "status:skipped",
-      "resource_type:synthetics_private_locations", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:ap-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
     headers:
@@ -436,7 +322,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:ap-southeast-2", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:source"]}]}'
     headers:
@@ -455,7 +341,83 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-northeast-3", "action_type:import", "status:skipped",
+      "resource_type:synthetics_private_locations", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-northeast-1", "action_type:import", "status:skipped",
+      "resource_type:synthetics_private_locations", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-southeast-1", "action_type:import", "status:skipped",
+      "resource_type:synthetics_private_locations", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:ap-southeast-3", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:source"]}]}'
     headers:
@@ -474,27 +436,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:eu-north-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:eu-central-1", "action_type:import", "status:skipped",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ca-central-1", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:source"]}]}'
     headers:
       Content-Type:
@@ -512,7 +455,26 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:ap-northeast-2", "action_type:import", "status:skipped",
+      "resource_type:synthetics_private_locations", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:eu-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
@@ -531,8 +493,27 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:eu-west-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:eu-central-1", "action_type:import", "status:skipped",
+      "resource_type:synthetics_private_locations", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:eu-north-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -550,64 +531,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:eu-west-2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:me-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:sa-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:eu-west-3", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
@@ -626,8 +550,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:us-east-2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:sa-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -645,7 +569,64 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:eu-west-2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:me-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:eu-west-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:us-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
@@ -664,7 +645,26 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:us-east-2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:us-west-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
@@ -683,26 +683,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:eu-north-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:eu-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
     headers:
@@ -721,7 +702,121 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:eu-north-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:eu-west-3", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:sa-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:eu-west-2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:me-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:us-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:eu-west-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
     headers:
@@ -740,7 +835,26 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:aws:us-east-2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:us-west-2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
@@ -759,83 +873,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:eu-west-2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:sa-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:me-south-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:eu-west-3", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:us-west-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
     headers:
@@ -854,45 +892,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:us-east-2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:aws:us-east-1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:azure:eastus", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
@@ -911,7 +911,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:gcp:asia-northeast1", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
     headers:
@@ -930,7 +930,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:gcp:europe-west3", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
     headers:
@@ -949,7 +949,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:gcp:us-east4", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
@@ -968,26 +968,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:gcp:us-west1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:gcp:us-south1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
@@ -1006,7 +987,26 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:gcp:us-west1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:gcp:us-west2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
     headers:
@@ -1025,7 +1025,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:aws:us-west-2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
     headers:
@@ -1044,7 +1044,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:azure:eastus", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
     headers:
@@ -1063,7 +1063,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:gcp:asia-northeast1", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:source"]}]}'
     headers:
@@ -1082,7 +1082,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:gcp:europe-west3", "action_type:import", "status:skipped",
       "resource_type:synthetics_private_locations", "client_type:source"]}]}'
     headers:
@@ -1101,26 +1101,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:gcp:us-west1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:gcp:us-east4", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
     headers:
@@ -1139,8 +1120,46 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:gcp:us-south1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:gcp:us-west1", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
+      1}], "tags": ["id:gcp:us-west2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
     headers:
       Content-Type:
@@ -1177,26 +1196,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
-      1}], "tags": ["id:gcp:us-west2", "action_type:import", "status:skipped", "resource_type:synthetics_private_locations",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:pl:test-ddd684741691962f1bfdebeef3963a42", "action_type:import",
       "status:success", "resource_type:synthetics_private_locations", "client_type:destination"]}]}'
     headers:
@@ -1215,7 +1215,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467428, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472268, "value":
       1}], "tags": ["id:pl:test-ddd684741691962f1bfdebeef3963a42", "action_type:import",
       "status:success", "resource_type:synthetics_private_locations", "client_type:source"]}]}'
     headers:

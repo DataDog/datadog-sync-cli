@@ -72,7 +72,7 @@ interactions:
         "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
         "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
         false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
-        "processors": []}, {"id": "H2hzMarTQ_i7fCvEA8YEeg", "type": "pipeline", "name":
+        "processors": []}, {"id": "v0Vnze-DR7yt9B-jL-P8kQ", "type": "pipeline", "name":
         "test", "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": []}]'
     headers:
@@ -154,7 +154,7 @@ interactions:
         "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
         "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
         false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
-        "processors": []}, {"id": "H2hzMarTQ_i7fCvEA8YEeg", "type": "pipeline", "name":
+        "processors": []}, {"id": "v0Vnze-DR7yt9B-jL-P8kQ", "type": "pipeline", "name":
         "test", "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": []}]'
     headers:
@@ -170,10 +170,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/H2hzMarTQ_i7fCvEA8YEeg
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/v0Vnze-DR7yt9B-jL-P8kQ
   response:
     body:
-      string: '{"id": "H2hzMarTQ_i7fCvEA8YEeg", "type": "pipeline", "name": "testupdated",
+      string: '{"id": "v0Vnze-DR7yt9B-jL-P8kQ", "type": "pipeline", "name": "testupdated",
         "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": []}'
     headers:
@@ -184,7 +184,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467348, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472194, "value":
       1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_pipelines", "client_type:destination"]}]}'
     headers:
@@ -203,7 +203,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467348, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472194, "value":
       1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_pipelines", "client_type:source"]}]}'
     headers:
@@ -293,7 +293,7 @@ interactions:
         "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
         "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
         false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
-        "processors": []}, {"id": "H2hzMarTQ_i7fCvEA8YEeg", "type": "pipeline", "name":
+        "processors": []}, {"id": "v0Vnze-DR7yt9B-jL-P8kQ", "type": "pipeline", "name":
         "testupdated", "is_enabled": false, "is_read_only": false, "filter": {"query":
         "source:appgate_client "}, "processors": []}]'
     headers:

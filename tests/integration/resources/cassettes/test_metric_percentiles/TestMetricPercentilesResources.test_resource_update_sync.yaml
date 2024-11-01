@@ -96,7 +96,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467364, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472209, "value":
       1}], "tags": ["action_sub_type:update", "id:dd.seceng.dd_git_hooks.duration_seconds",
       "action_type:sync", "status:success", "resource_type:metric_percentiles", "client_type:destination"]}]}'
     headers:
@@ -115,7 +115,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467364, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472209, "value":
       1}], "tags": ["action_sub_type:update", "id:dd.seceng.dd_git_hooks.duration_seconds",
       "action_type:sync", "status:success", "resource_type:metric_percentiles", "client_type:source"]}]}'
     headers:

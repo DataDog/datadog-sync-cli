@@ -43,10 +43,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/dashboard/u5b-hx7-qq5
+    uri: https://us5.datadoghq.com/api/v1/dashboard/ucb-2yv-pm7
   response:
     body:
-      string: '{"deleted_dashboard_id": "u5b-hx7-qq5"}'
+      string: '{"deleted_dashboard_id": "ucb-2yv-pm7"}'
     headers:
       Content-Type:
       - application/json
@@ -55,7 +55,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467315, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472171, "value":
       1}], "tags": ["id:2n3-8ye-5ui", "action_type:delete", "status:success", "resource_type:dashboards",
       "client_type:destination"]}]}'
     headers:
@@ -74,7 +74,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467315, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472171, "value":
       1}], "tags": ["id:2n3-8ye-5ui", "action_type:delete", "status:success", "resource_type:dashboards",
       "client_type:source"]}]}'
     headers:

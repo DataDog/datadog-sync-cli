@@ -78,16 +78,16 @@ interactions:
 - request:
     body: '{"data": {"attributes": {"name": "watch helloupdated", "is_enabled": false,
       "filter": {"query": "service:hello"}, "product_list": ["apm"], "samplings":
-      []}, "type": "sensitive_data_scanner_group", "id": "1a25684a-9c0f-4018-9cae-1bb683617b1d"},
+      []}, "type": "sensitive_data_scanner_group", "id": "5a1d7ff0-c995-4fb1-994a-f64df75fa204"},
       "meta": {}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/1a25684a-9c0f-4018-9cae-1bb683617b1d
+    uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/5a1d7ff0-c995-4fb1-994a-f64df75fa204
   response:
     body:
-      string: '{"meta": {"version": 164}}'
+      string: '{"meta": {"version": 184}}'
     headers:
       Content-Type:
       - application/json
@@ -96,7 +96,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467407, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472251, "value":
       1}], "tags": ["action_sub_type:update", "id:731fff24-2e94-4446-b6a1-efb10ad66e91",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups",
       "client_type:destination"]}]}'
@@ -116,7 +116,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467407, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472251, "value":
       1}], "tags": ["action_sub_type:update", "id:731fff24-2e94-4446-b6a1-efb10ad66e91",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups",
       "client_type:source"]}]}'

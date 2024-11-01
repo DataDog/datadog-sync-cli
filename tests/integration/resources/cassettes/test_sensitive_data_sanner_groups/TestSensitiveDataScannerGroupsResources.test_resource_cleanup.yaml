@@ -43,10 +43,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/1a25684a-9c0f-4018-9cae-1bb683617b1d
+    uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/5a1d7ff0-c995-4fb1-994a-f64df75fa204
   response:
     body:
-      string: '{"meta": {"version": 165}}'
+      string: '{"meta": {"version": 185}}'
     headers:
       Content-Type:
       - application/json
@@ -55,7 +55,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467409, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472254, "value":
       1}], "tags": ["id:731fff24-2e94-4446-b6a1-efb10ad66e91", "action_type:delete",
       "status:success", "resource_type:sensitive_data_scanner_groups", "client_type:destination"]}]}'
     headers:
@@ -74,7 +74,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467409, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472254, "value":
       1}], "tags": ["id:731fff24-2e94-4446-b6a1-efb10ad66e91", "action_type:delete",
       "status:success", "resource_type:sensitive_data_scanner_groups", "client_type:source"]}]}'
     headers:

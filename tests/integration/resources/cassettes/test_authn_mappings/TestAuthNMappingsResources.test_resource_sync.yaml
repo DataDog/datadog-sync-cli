@@ -1170,9 +1170,9 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/roles?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
     body:
-      string: '{"data": [{"id": "4977ff76-956a-11ef-bd4f-da7ad0900005", "type": "roles",
-        "attributes": {"created_at": "2024-10-28T20:22:00.339979Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2024-10-28T20:22:00.340552Z",
+      string: '{"data": [{"id": "f0ba6944-985e-11ef-953e-da7ad0900005", "type": "roles",
+        "attributes": {"created_at": "2024-11-01T14:38:20.485105Z", "created_by_handle":
+        "michael.richey@datadoghq.com", "modified_at": "2024-11-01T14:38:20.486756Z",
         "modified_by_handle": "michael.richey@datadoghq.com", "name": "Copy of Datadog
         Admin Role", "user_count": 1}, "relationships": {"permissions": {"data": [{"id":
         "5e605652-dd12-11e8-9e53-375565b8970e", "type": "permissions"}, {"id": "62cc036c-dd12-11e8-9e54-db9995643092",
@@ -2622,7 +2622,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467302, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472157, "value":
       1}], "tags": ["action_sub_type:create", "id:693fe720-9569-11ef-969d-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:destination"]}]}'
     headers:
@@ -2641,7 +2641,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467302, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472157, "value":
       1}], "tags": ["action_sub_type:create", "id:693fe720-9569-11ef-969d-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:source"]}]}'
     headers:
@@ -2661,7 +2661,7 @@ interactions:
 - request:
     body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "name",
       "attribute_value": "michael"}, "relationships": {"role": {"data": {"type": "roles",
-      "id": "4977ff76-956a-11ef-bd4f-da7ad0900005"}}}}}'
+      "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}}}}'
     headers:
       Content-Type:
       - application/json
@@ -2669,17 +2669,17 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/authn_mappings
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "3cf2b59c-9854-11ef-bb77-da7ad0900005",
+      string: '{"data": {"type": "authn_mappings", "id": "8ac010de-985f-11ef-a159-da7ad0900005",
         "attributes": {"saml_assertion_attribute_id": "3699", "attribute_key": "name",
-        "attribute_value": "michael", "created_at": "2024-11-01T13:21:43.897330+00:00",
-        "modified_at": "2024-11-01T13:21:43.897330+00:00"}, "relationships": {"saml_assertion_attribute":
+        "attribute_value": "michael", "created_at": "2024-11-01T14:42:38.892118+00:00",
+        "modified_at": "2024-11-01T14:42:38.892118+00:00"}, "relationships": {"saml_assertion_attribute":
         {"data": {"type": "saml_assertion_attributes", "id": "3699"}}, "role": {"data":
-        {"type": "roles", "id": "4977ff76-956a-11ef-bd4f-da7ad0900005"}}, "team":
+        {"type": "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}, "team":
         {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
         "3699", "attributes": {"attribute_key": "name", "attribute_value": "michael"}},
-        {"type": "roles", "id": "4977ff76-956a-11ef-bd4f-da7ad0900005", "attributes":
-        {"name": "Copy of Datadog Admin Role", "managed": false, "created_at": "2024-10-28T20:22:00.339979+00:00",
-        "modified_at": "2024-10-28T20:22:00.340552+00:00"}, "relationships": {"permissions":
+        {"type": "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005", "attributes":
+        {"name": "Copy of Datadog Admin Role", "managed": false, "created_at": "2024-11-01T14:38:20.485105+00:00",
+        "modified_at": "2024-11-01T14:38:20.486756+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e"},
         {"type": "permissions", "id": "62cc036c-dd12-11e8-9e54-db9995643092"}, {"type":
         "permissions", "id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73"}, {"type": "permissions",
@@ -2849,7 +2849,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467302, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472157, "value":
       1}], "tags": ["action_sub_type:create", "id:423368a4-956a-11ef-b92a-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:destination"]}]}'
     headers:
@@ -2868,7 +2868,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467302, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472157, "value":
       1}], "tags": ["action_sub_type:create", "id:423368a4-956a-11ef-b92a-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:source"]}]}'
     headers:
