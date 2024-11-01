@@ -58,9 +58,9 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/tests
   response:
     body:
-      string: '{"public_id": "rqx-hyc-2si", "name": "Test on www.datadoghq.com", "status":
+      string: '{"public_id": "n6v-ii5-ut3", "name": "Test on www.datadoghq.com", "status":
         "live", "type": "api", "subtype": "http", "tags": ["managed_by:datadog-sync"],
-        "created_at": "2024-10-31T21:06:45.531048+00:00", "modified_at": "2024-10-31T21:06:45.531048+00:00",
+        "created_at": "2024-11-01T13:23:57.360639+00:00", "modified_at": "2024-11-01T13:23:57.360639+00:00",
         "config": {"assertions": [{"operator": "lessThan", "type": "responseTime",
         "target": 1000}], "request": {"method": "GET", "url": "https://www.datadoghq.com"}},
         "message": "", "options": {"httpVersion": "any", "min_failure_duration": 0,
@@ -73,7 +73,7 @@ interactions:
         "aws:us-west-1", "aws:us-west-2", "azure:eastus", "gcp:asia-northeast1", "gcp:europe-west3",
         "gcp:us-east4", "gcp:us-south1", "gcp:us-west1", "gcp:us-west2"], "created_by":
         {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "email":
-        "michael.richey@datadoghq.com"}, "deleted_at": null, "monitor_id": 1156166,
+        "michael.richey@datadoghq.com"}, "deleted_at": null, "monitor_id": 1156519,
         "org_id": 1300336245, "modified_by": {"name": "Michael Richey", "handle":
         "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com"}}'
     headers:
@@ -84,7 +84,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408804, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467436, "value":
       1}], "tags": ["action_sub_type:create", "id:njk-avc-mjc#20125203", "action_type:sync",
       "status:success", "resource_type:synthetics_tests", "client_type:destination"]}]}'
     headers:
@@ -103,7 +103,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408804, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467436, "value":
       1}], "tags": ["action_sub_type:create", "id:njk-avc-mjc#20125203", "action_type:sync",
       "status:success", "resource_type:synthetics_tests", "client_type:source"]}]}'
     headers:

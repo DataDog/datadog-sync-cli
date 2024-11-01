@@ -49,21 +49,19 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/logs/config/metrics
   response:
     body:
-      string: '{"data": {"id": "test", "attributes": {"filter": {"query": "host:COMP-XKH4K2XWRC"},
-        "group_by": [{"path": "service", "tag_name": "service"}], "compute": {"aggregation_type":
-        "distribution", "path": "ingest_size_in_bytes", "include_percentiles": false}},
-        "type": "logs_metrics"}}'
+      string: '{"errors": ["conflict(Field ''data.id'' is invalid: ''test'' cannot
+        be used as metric name, a metric already exists with that name)"]}'
     headers:
       Content-Type:
       - application/json
     status:
-      code: 200
-      message: OK
+      code: 409
+      message: Conflict
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408698, "value":
-      1}], "tags": ["action_sub_type:create", "id:test", "action_type:sync", "status:success",
-      "resource_type:logs_metrics", "client_type:destination"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467344, "value":
+      1}], "tags": ["id:test", "action_type:sync", "status:failure", "resource_type:logs_metrics",
+      "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -80,9 +78,9 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408698, "value":
-      1}], "tags": ["action_sub_type:create", "id:test", "action_type:sync", "status:success",
-      "resource_type:logs_metrics", "client_type:source"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467344, "value":
+      1}], "tags": ["id:test", "action_type:sync", "status:failure", "resource_type:logs_metrics",
+      "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json

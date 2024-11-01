@@ -47,7 +47,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408688, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467337, "value":
       1}], "tags": ["id:main", "action_type:delete", "status:success", "resource_type:logs_indexes",
       "client_type:destination"]}]}'
     headers:
@@ -66,7 +66,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408688, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467337, "value":
       1}], "tags": ["id:main", "action_type:delete", "status:success", "resource_type:logs_indexes",
       "client_type:source"]}]}'
     headers:
@@ -108,7 +108,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408688, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467337, "value":
       1}], "tags": ["reason:up_to_date", "id:test2", "action_type:sync", "status:skipped",
       "resource_type:logs_indexes", "client_type:destination"]}]}'
     headers:
@@ -127,7 +127,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408688, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467337, "value":
       1}], "tags": ["reason:up_to_date", "id:test2", "action_type:sync", "status:skipped",
       "resource_type:logs_indexes", "client_type:source"]}]}'
     headers:

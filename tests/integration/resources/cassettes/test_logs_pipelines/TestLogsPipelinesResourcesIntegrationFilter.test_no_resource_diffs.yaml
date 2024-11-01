@@ -69,7 +69,10 @@ interactions:
         \\| %{data}\n"}, "type": "grok-parser"}, {"name": "Define `timestamp` as the
         official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
         "date-remapper"}, {"name": "Define `level` as the official status of the log",
-        "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}]'
+        "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
+        "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
+        false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
+        "processors": []}]'
     headers:
       Content-Type:
       - application/json

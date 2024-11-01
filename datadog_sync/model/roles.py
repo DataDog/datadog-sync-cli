@@ -94,9 +94,7 @@ class Roles(BaseResource):
 
         # role is managed at the destination, do nothing
         if "managed" in matching_destination_role["attributes"] and matching_destination_role["attributes"]["managed"]:
-            self.config.logger.warning(
-                f"{role_name} is a managed resource at the destination, can not update it"
-            )
+            self.config.logger.warning(f"{role_name} is a managed resource at the destination, can not update it")
             return _id, role_copy
 
         # role is not managed at destination and it differs
@@ -106,7 +104,6 @@ class Roles(BaseResource):
 
         # role is not managed at destination and does not differ
         return _id, role_copy
-
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client

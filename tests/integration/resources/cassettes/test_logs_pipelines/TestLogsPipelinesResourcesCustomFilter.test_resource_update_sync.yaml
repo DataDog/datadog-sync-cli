@@ -70,9 +70,11 @@ interactions:
         official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
         "date-remapper"}, {"name": "Define `level` as the official status of the log",
         "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
-        "_PZyh4j_SwKNW1rDuWgj2w", "type": "pipeline", "name": "test", "is_enabled":
+        "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
         false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
-        "processors": []}]'
+        "processors": []}, {"id": "H2hzMarTQ_i7fCvEA8YEeg", "type": "pipeline", "name":
+        "test", "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
+        "}, "processors": []}]'
     headers:
       Content-Type:
       - application/json
@@ -150,9 +152,11 @@ interactions:
         official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
         "date-remapper"}, {"name": "Define `level` as the official status of the log",
         "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
-        "_PZyh4j_SwKNW1rDuWgj2w", "type": "pipeline", "name": "test", "is_enabled":
+        "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
         false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
-        "processors": []}]'
+        "processors": []}, {"id": "H2hzMarTQ_i7fCvEA8YEeg", "type": "pipeline", "name":
+        "test", "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
+        "}, "processors": []}]'
     headers:
       Content-Type:
       - application/json
@@ -166,10 +170,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/_PZyh4j_SwKNW1rDuWgj2w
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/H2hzMarTQ_i7fCvEA8YEeg
   response:
     body:
-      string: '{"id": "_PZyh4j_SwKNW1rDuWgj2w", "type": "pipeline", "name": "testupdated",
+      string: '{"id": "H2hzMarTQ_i7fCvEA8YEeg", "type": "pipeline", "name": "testupdated",
         "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": []}'
     headers:
@@ -180,7 +184,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408705, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467348, "value":
       1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_pipelines", "client_type:destination"]}]}'
     headers:
@@ -199,7 +203,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408705, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467348, "value":
       1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_pipelines", "client_type:source"]}]}'
     headers:
@@ -287,9 +291,11 @@ interactions:
         official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
         "date-remapper"}, {"name": "Define `level` as the official status of the log",
         "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
-        "_PZyh4j_SwKNW1rDuWgj2w", "type": "pipeline", "name": "testupdated", "is_enabled":
+        "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
         false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
-        "processors": []}]'
+        "processors": []}, {"id": "H2hzMarTQ_i7fCvEA8YEeg", "type": "pipeline", "name":
+        "testupdated", "is_enabled": false, "is_read_only": false, "filter": {"query":
+        "source:appgate_client "}, "processors": []}]'
     headers:
       Content-Type:
       - application/json

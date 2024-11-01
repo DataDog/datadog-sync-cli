@@ -43,7 +43,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/notebooks/144168
+    uri: https://us5.datadoghq.com/api/v1/notebooks/144199
   response:
     body:
       string: ''
@@ -55,7 +55,7 @@ interactions:
       message: No Content
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408751, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467389, "value":
       1}], "tags": ["id:181709", "action_type:delete", "status:success", "resource_type:notebooks",
       "client_type:destination"]}]}'
     headers:
@@ -74,7 +74,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408751, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467389, "value":
       1}], "tags": ["id:181709", "action_type:delete", "status:success", "resource_type:notebooks",
       "client_type:source"]}]}'
     headers:

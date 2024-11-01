@@ -77,7 +77,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408719, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467360, "value":
       1}], "tags": ["reason:connection_error", "id:6869d64c-8fdf-11ef-9e00-da7ad0900005",
       "action_type:sync", "status:skipped", "resource_type:logs_restriction_queries",
       "client_type:destination"]}]}'
@@ -97,7 +97,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408719, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467360, "value":
       1}], "tags": ["reason:connection_error", "id:6869d64c-8fdf-11ef-9e00-da7ad0900005",
       "action_type:sync", "status:skipped", "resource_type:logs_restriction_queries",
       "client_type:source"]}]}'

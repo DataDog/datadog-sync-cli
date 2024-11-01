@@ -43,7 +43,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v2/powerpacks/eae403ec-97cb-11ef-b791-da7ad0900005
+    uri: https://us5.datadoghq.com/api/v2/powerpacks/71890a54-9854-11ef-8b5a-da7ad0900005
   response:
     body:
       string: ''
@@ -55,7 +55,7 @@ interactions:
       message: No Content
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408757, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467394, "value":
       1}], "tags": ["id:e685afa6-955c-11ef-9254-da7ad0900005", "action_type:delete",
       "status:success", "resource_type:powerpacks", "client_type:destination"]}]}'
     headers:
@@ -74,7 +74,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408757, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467394, "value":
       1}], "tags": ["id:e685afa6-955c-11ef-9254-da7ad0900005", "action_type:delete",
       "status:success", "resource_type:powerpacks", "client_type:source"]}]}'
     headers:

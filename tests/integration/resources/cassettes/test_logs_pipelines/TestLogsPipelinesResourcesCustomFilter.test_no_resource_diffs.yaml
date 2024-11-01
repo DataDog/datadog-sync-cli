@@ -70,9 +70,11 @@ interactions:
         official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
         "date-remapper"}, {"name": "Define `level` as the official status of the log",
         "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
-        "_PZyh4j_SwKNW1rDuWgj2w", "type": "pipeline", "name": "testupdated", "is_enabled":
+        "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
         false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
-        "processors": []}]'
+        "processors": []}, {"id": "H2hzMarTQ_i7fCvEA8YEeg", "type": "pipeline", "name":
+        "testupdated", "is_enabled": false, "is_read_only": false, "filter": {"query":
+        "source:appgate_client "}, "processors": []}]'
     headers:
       Content-Type:
       - application/json

@@ -46,21 +46,21 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
     body:
-      string: '{"data": [{"type": "team", "attributes": {"name": "hamr test", "created_at":
-        "2024-10-31T21:06:01.463095+00:00", "link_count": 0, "summary": "updated",
-        "handle": "hamr-test", "description": "updated", "user_count": 0, "modified_at":
-        "2024-10-31T21:06:53.365096+00:00"}, "id": "6e468478-529a-42cd-b276-4867494418a1",
-        "relationships": {"team_links": {"links": {"related": "/api/v2/team/6e468478-529a-42cd-b276-4867494418a1/links"}},
-        "user_team_permissions": {"links": {"related": "/api/v2/team/6e468478-529a-42cd-b276-4867494418a1/permission-settings"}}}},
-        {"type": "team", "attributes": {"name": "test", "created_at": "2024-10-31T21:06:51.665671+00:00",
-        "link_count": 0, "summary": "updated", "handle": "test", "description": "updated",
-        "user_count": 0, "modified_at": "2024-10-31T21:06:53.435476+00:00"}, "id":
-        "26d55929-c05b-4967-948e-86e0cd8b1b45", "relationships": {"team_links": {"links":
-        {"related": "/api/v2/team/26d55929-c05b-4967-948e-86e0cd8b1b45/links"}}, "user_team_permissions":
-        {"links": {"related": "/api/v2/team/26d55929-c05b-4967-948e-86e0cd8b1b45/permission-settings"}}}}],
-        "meta": {"pagination": {"number": 0, "first_number": 0, "prev_number": 0,
-        "next_number": 1, "last_number": 0, "size": 100, "type": "number_size", "total":
-        2}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
+      string: '{"data": [{"type": "team", "attributes": {"created_at": "2024-11-01T13:23:18.333463+00:00",
+        "description": "updated", "user_count": 0, "handle": "hamr-test", "link_count":
+        0, "modified_at": "2024-11-01T13:24:04.461929+00:00", "summary": "updated",
+        "name": "hamr test"}, "relationships": {"team_links": {"links": {"related":
+        "/api/v2/team/7221b0f3-dc81-4728-8d48-af43c8193992/links"}}, "user_team_permissions":
+        {"links": {"related": "/api/v2/team/7221b0f3-dc81-4728-8d48-af43c8193992/permission-settings"}}},
+        "id": "7221b0f3-dc81-4728-8d48-af43c8193992"}, {"type": "team", "attributes":
+        {"created_at": "2024-11-01T13:24:02.941184+00:00", "description": "updated",
+        "user_count": 0, "handle": "test", "link_count": 0, "modified_at": "2024-11-01T13:24:04.535262+00:00",
+        "summary": "updated", "name": "test"}, "relationships": {"team_links": {"links":
+        {"related": "/api/v2/team/7f061fc8-5e46-4409-bd6e-76711dc6c048/links"}}, "user_team_permissions":
+        {"links": {"related": "/api/v2/team/7f061fc8-5e46-4409-bd6e-76711dc6c048/permission-settings"}}},
+        "id": "7f061fc8-5e46-4409-bd6e-76711dc6c048"}], "meta": {"pagination": {"number":
+        0, "first_number": 0, "prev_number": 0, "next_number": 1, "last_number": 0,
+        "size": 100, "type": "number_size", "total": 2}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
         "last": null, "next": "https://us5.datadoghq.com/api/v2/team?page[number]=1&page[size]=100",
         "prev": null, "first": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100"}}'
     headers:

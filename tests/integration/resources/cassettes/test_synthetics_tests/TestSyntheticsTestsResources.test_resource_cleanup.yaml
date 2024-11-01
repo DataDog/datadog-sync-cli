@@ -38,7 +38,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["rqx-hyc-2si"]}'
+    body: '{"public_ids": ["n6v-ii5-ut3"]}'
     headers:
       Content-Type:
       - application/json
@@ -46,7 +46,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"public_id": "rqx-hyc-2si", "deleted_at": "2024-10-31T21:06:48.836674+00:00"}]}'
+      string: '{"deleted_tests": [{"public_id": "n6v-ii5-ut3", "deleted_at": "2024-11-01T13:24:00.357068+00:00"}]}'
     headers:
       Content-Type:
       - application/json
@@ -55,7 +55,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408808, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467439, "value":
       1}], "tags": ["id:njk-avc-mjc#20125203", "action_type:delete", "status:success",
       "resource_type:synthetics_tests", "client_type:destination"]}]}'
     headers:
@@ -74,7 +74,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408808, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467439, "value":
       1}], "tags": ["id:njk-avc-mjc#20125203", "action_type:delete", "status:success",
       "resource_type:synthetics_tests", "client_type:source"]}]}'
     headers:

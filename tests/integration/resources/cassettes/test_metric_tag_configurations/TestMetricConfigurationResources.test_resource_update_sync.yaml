@@ -47,10 +47,10 @@ interactions:
   response:
     body:
       string: '{"data": [{"type": "manage_tags", "id": "datadog.org_sync.action",
-        "attributes": {"tags": ["action_type", "id", "resource_type", "status", "reason"],
-        "created_at": "2024-10-31T17:18:06.195660+00:00", "modified_at": "2024-10-31T21:05:30.622222+00:00",
-        "metric_type": "count", "aggregations": [{"time": "avg", "space": "sum"},
-        {"time": "sum", "space": "sum"}], "exclude_tags_mode": false}}]}'
+        "attributes": {"tags": ["action_type", "reason", "status", "id", "resource_type"],
+        "created_at": "2024-10-31T17:18:06.195660+00:00", "modified_at": "2024-11-01T13:22:49.791912+00:00",
+        "metric_type": "count", "aggregations": [{"time": "sum", "space": "sum"},
+        {"time": "avg", "space": "sum"}], "exclude_tags_mode": false}}]}'
     headers:
       Content-Type:
       - application/json
@@ -105,10 +105,10 @@ interactions:
   response:
     body:
       string: '{"data": [{"type": "manage_tags", "id": "datadog.org_sync.action",
-        "attributes": {"tags": ["action_type", "resource_type", "id", "reason", "status"],
-        "created_at": "2024-10-31T17:18:06.195660+00:00", "modified_at": "2024-10-31T21:05:30.622222+00:00",
-        "metric_type": "count", "aggregations": [{"time": "sum", "space": "sum"},
-        {"time": "avg", "space": "sum"}], "exclude_tags_mode": false}}]}'
+        "attributes": {"tags": ["action_type", "status", "id", "resource_type", "reason"],
+        "created_at": "2024-10-31T17:18:06.195660+00:00", "modified_at": "2024-11-01T13:22:49.791912+00:00",
+        "metric_type": "count", "aggregations": [{"time": "avg", "space": "sum"},
+        {"time": "sum", "space": "sum"}], "exclude_tags_mode": false}}]}'
     headers:
       Content-Type:
       - application/json
@@ -117,8 +117,8 @@ interactions:
       message: OK
 - request:
     body: '{"data": {"type": "manage_tags", "id": "datadog.org_sync.action", "attributes":
-      {"tags": ["reason", "action_type", "resource_type", "id", "status", "updated"],
-      "aggregations": [{"time": "sum", "space": "sum"}, {"time": "avg", "space": "sum"}],
+      {"tags": ["action_type", "id", "reason", "resource_type", "status", "updated"],
+      "aggregations": [{"time": "avg", "space": "sum"}, {"time": "sum", "space": "sum"}],
       "exclude_tags_mode": false}}}'
     headers:
       Content-Type:
@@ -128,10 +128,10 @@ interactions:
   response:
     body:
       string: '{"data": {"type": "manage_tags", "id": "datadog.org_sync.action", "attributes":
-        {"tags": ["resource_type", "id", "action_type", "status", "reason", "updated"],
-        "created_at": "2024-10-31T17:18:06.195660+00:00", "modified_at": "2024-10-31T21:05:32.489480+00:00",
-        "metric_type": "count", "aggregations": [{"time": "sum", "space": "sum"},
-        {"time": "avg", "space": "sum"}], "exclude_tags_mode": false}}}'
+        {"tags": ["reason", "status", "updated", "id", "action_type", "resource_type"],
+        "created_at": "2024-10-31T17:18:06.195660+00:00", "modified_at": "2024-11-01T13:22:51.374309+00:00",
+        "metric_type": "count", "aggregations": [{"time": "avg", "space": "sum"},
+        {"time": "sum", "space": "sum"}], "exclude_tags_mode": false}}}'
     headers:
       Content-Type:
       - application/json
@@ -140,7 +140,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408731, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467370, "value":
       1}], "tags": ["action_sub_type:update", "id:datadog.org_sync.action", "action_type:sync",
       "status:success", "resource_type:metric_tag_configurations", "client_type:destination"]}]}'
     headers:
@@ -159,7 +159,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408731, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467370, "value":
       1}], "tags": ["action_sub_type:update", "id:datadog.org_sync.action", "action_type:sync",
       "status:success", "resource_type:metric_tag_configurations", "client_type:source"]}]}'
     headers:
@@ -224,9 +224,9 @@ interactions:
   response:
     body:
       string: '{"data": [{"type": "manage_tags", "id": "datadog.org_sync.action",
-        "attributes": {"tags": ["action_type", "resource_type", "reason", "status",
-        "updated", "id"], "created_at": "2024-10-31T17:18:06.195660+00:00", "modified_at":
-        "2024-10-31T21:05:32.489480+00:00", "metric_type": "count", "aggregations":
+        "attributes": {"tags": ["id", "updated", "status", "resource_type", "action_type",
+        "reason"], "created_at": "2024-10-31T17:18:06.195660+00:00", "modified_at":
+        "2024-11-01T13:22:51.374309+00:00", "metric_type": "count", "aggregations":
         [{"time": "avg", "space": "sum"}, {"time": "sum", "space": "sum"}], "exclude_tags_mode":
         false}}]}'
     headers:

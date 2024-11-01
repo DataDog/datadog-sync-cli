@@ -554,7 +554,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408765, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467401, "value":
       1}], "tags": ["action_sub_type:create", "id:693fe720-9569-11ef-969d-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:destination"]}]}'
     headers:
@@ -573,7 +573,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408765, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467401, "value":
       1}], "tags": ["action_sub_type:create", "id:3032ffb8-8582-11ef-8bad-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:destination"]}]}'
     headers:
@@ -592,7 +592,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408765, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467401, "value":
       1}], "tags": ["action_sub_type:create", "id:302b4f34-8582-11ef-b6a4-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:destination"]}]}'
     headers:
@@ -611,7 +611,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408765, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467401, "value":
       1}], "tags": ["action_sub_type:create", "id:3020f50c-8582-11ef-ad61-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:destination"]}]}'
     headers:
@@ -630,7 +630,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408765, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467401, "value":
       1}], "tags": ["action_sub_type:create", "id:693fe720-9569-11ef-969d-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:source"]}]}'
     headers:
@@ -649,7 +649,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408765, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467401, "value":
       1}], "tags": ["action_sub_type:create", "id:3032ffb8-8582-11ef-8bad-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:source"]}]}'
     headers:
@@ -668,7 +668,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408765, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467401, "value":
       1}], "tags": ["action_sub_type:create", "id:302b4f34-8582-11ef-b6a4-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:source"]}]}'
     headers:
@@ -687,7 +687,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408765, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467401, "value":
       1}], "tags": ["action_sub_type:create", "id:3020f50c-8582-11ef-ad61-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:source"]}]}'
     headers:

@@ -57,7 +57,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408784, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467419, "value":
       1}], "tags": ["id:flask.request", "action_type:import", "status:success", "resource_type:spans_metrics",
       "client_type:destination"]}]}'
     headers:
@@ -76,7 +76,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408784, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467419, "value":
       1}], "tags": ["id:flask.request", "action_type:import", "status:success", "resource_type:spans_metrics",
       "client_type:source"]}]}'
     headers:

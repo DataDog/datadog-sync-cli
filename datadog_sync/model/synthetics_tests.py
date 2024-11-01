@@ -45,7 +45,7 @@ class SyntheticsTests(BaseResource):
             "options.monitor_options.new_host_delay",
             "options.monitor_options.include_tags",
         ],
-        null_values = {
+        null_values={
             "on_missing_data": ["show_no_data"],
             "notify_audit": [False],
             "new_host_delay": [300],

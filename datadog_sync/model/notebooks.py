@@ -25,7 +25,7 @@ class Notebooks(BaseResource):
             "attributes.metadata",
         ],
         non_nullable_attr=["attributes.schema_version"],
-        null_values = {
+        null_values={
             "schema_version": [0],
         },
     )

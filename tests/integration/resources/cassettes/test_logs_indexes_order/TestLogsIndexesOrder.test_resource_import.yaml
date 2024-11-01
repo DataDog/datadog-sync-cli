@@ -69,7 +69,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/logs/config/index-order
   response:
     body:
-      string: '{"index_names": ["main", "test", "test2"]}'
+      string: '{"index_names": ["main", "test2"]}'
     headers:
       Content-Type:
       - application/json
@@ -78,7 +78,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408690, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467338, "value":
       1}], "tags": ["action_type:import", "status:success", "resource_type:logs_indexes_order",
       "client_type:destination"]}]}'
     headers:
@@ -97,7 +97,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730408690, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730467338, "value":
       1}], "tags": ["action_type:import", "status:success", "resource_type:logs_indexes_order",
       "client_type:source"]}]}'
     headers:
