@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.1 / 2024-11-04
+
+### Fixed
+* Getting tests running locally and fixing bugs found in tests by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/298
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.1.0...1.1.1
+
 ## 1.1.0 / 2024-10-30
 
 ### Fixed
