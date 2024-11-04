@@ -5,29 +5,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -40,7 +27,54 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines
+  response:
+    body:
+      string: '[{"id": "PottxryNTkKfx-bKCuP1TQ", "type": "pipeline", "name": "Datadog
+        Agent", "is_enabled": true, "is_read_only": true, "filter": {"query": "source:(agent
+        OR datadog-agent OR datadog-agent-cluster-worker OR datadog-cluster-agent
+        OR process-agent OR security-agent OR system-probe OR trace-agent OR cluster-agent)"},
+        "processors": [{"name": "Parsing Datadog Agent logs", "is_enabled": true,
+        "source": "message", "samples": ["2020-07-01 09:48:14 UTC | CORE | INFO |
+        (pkg/collector/runner/runner.go:327 in work) | check:network,type:core | Done
+        running check", "2020-09-15 10:00:07 UTC | CORE | INFO | (pkg/collector/python/datadog_agent.go:120
+        in LogMessage) | kafka_cluster_status:8ca7b736f0aa43e5 | (kafka_cluster_status.py:213)
+        | Checking for out of sync partition replicas", "2019-04-08 13:53:48 UTC |
+        TRACE | INFO | (pkg/trace/agent/agent.go:145 in loop) | exiting", "2019-02-01
+        16:59:41 UTC | INFO | (connection_manager.go:124 in CloseConnection) | Connection
+        closed", "2020-11-18 10:31:13 UTC | JMX | INFO  | App | Successfully initialized
+        instance: cassandra-localhost-7199"], "grok": {"support_rules": "", "match_rules":
+        "agent_rule         %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp} \\| %{notSpace:agent}
+        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)
+        \\|( %{data::keyvalue(\":\")} \\|)?( - \\|)?( \\(%{notSpace:pyFilename}:%{number:pyLineno}\\)
+        \\|)?%{data}\nagent_rule_pre_611 %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp}
+        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)%{data}\njmxfetch_rule      %{date(\"yyyy-MM-dd
+        HH:mm:ss z\"):timestamp} \\| %{notSpace:agent} \\| %{word:level}\\s+\\| %{word:class}
+        \\| %{data}\n"}, "type": "grok-parser"}, {"name": "Define `timestamp` as the
+        official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
+        "date-remapper"}, {"name": "Define `level` as the official status of the log",
+        "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
+        "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
+        false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
+        "processors": []}, {"id": "v0Vnze-DR7yt9B-jL-P8kQ", "type": "pipeline", "name":
+        "testupdated", "is_enabled": false, "is_read_only": false, "filter": {"query":
+        "source:appgate_client "}, "processors": []}]'
     headers:
       Content-Type:
       - application/json

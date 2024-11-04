@@ -5,29 +5,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -40,10 +27,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -53,45 +43,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -104,84 +65,199 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
 - request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "Member-of",
-      "attribute_value": "TestOrgFooBarupdated"}, "relationships": {"role": {"data":
-      {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}}, "id": "2158979a-2a75-11ef-b6cb-da7ad0900005"}}'
+    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "name",
+      "attribute_value": "michaelupdated"}, "relationships": {"role": {"data": {"type":
+      "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}}, "id": "8ac010de-985f-11ef-a159-da7ad0900005"}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://api.datadoghq.eu/api/v2/authn_mappings/2158979a-2a75-11ef-b6cb-da7ad0900005
+    uri: https://us5.datadoghq.com/api/v2/authn_mappings/8ac010de-985f-11ef-a159-da7ad0900005
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "2158979a-2a75-11ef-b6cb-da7ad0900005",
-        "attributes": {"saml_assertion_attribute_id": "36921", "attribute_key": "Member-of",
-        "attribute_value": "TestOrgFooBarupdated", "created_at": "2024-06-14T17:40:03.076111+00:00",
-        "modified_at": "2024-06-14T17:40:03.299775+00:00"}, "relationships": {"saml_assertion_attribute":
-        {"data": {"type": "saml_assertion_attributes", "id": "36921"}}, "role": {"data":
-        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}, "team":
+      string: '{"data": {"type": "authn_mappings", "id": "8ac010de-985f-11ef-a159-da7ad0900005",
+        "attributes": {"saml_assertion_attribute_id": "3700", "attribute_key": "name",
+        "attribute_value": "michaelupdated", "created_at": "2024-11-01T14:42:38.892118+00:00",
+        "modified_at": "2024-11-01T14:42:40.109677+00:00"}, "relationships": {"saml_assertion_attribute":
+        {"data": {"type": "saml_assertion_attributes", "id": "3700"}}, "role": {"data":
+        {"type": "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}, "team":
         {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
-        "36921", "attributes": {"attribute_key": "Member-of", "attribute_value": "TestOrgFooBarupdated"}},
-        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005", "attributes":
-        {"name": "Datadog Read Only Role", "created_at": "2024-06-14T17:40:02.876918+00:00",
-        "modified_at": "2024-06-14T17:40:02.877733+00:00"}, "relationships": {"permissions":
-        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
-        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
-        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
-        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
-        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
-        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
-        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
-        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
-        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
-        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
-        "permissions", "id": "f2f3d048-801f-11eb-9d41-da7ad0900005"}, {"type": "permissions",
-        "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
-        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005"},
-        {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"}, {"type":
-        "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}, {"type": "permissions",
-        "id": "f5e054da-4792-11ec-944b-da7ad0900005"}, {"type": "permissions", "id":
-        "cf873174-574f-11ec-9869-da7ad0900005"}, {"type": "permissions", "id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005"},
-        {"type": "permissions", "id": "e31e0056-8502-11ec-b266-da7ad0900005"}, {"type":
-        "permissions", "id": "e31cca10-8502-11ec-b266-da7ad0900005"}, {"type": "permissions",
-        "id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005"}, {"type": "permissions", "id":
-        "f33f74be-e746-11ec-87e3-da7ad0900005"}, {"type": "permissions", "id": "f42e4c6e-173a-11ed-8654-da7ad0900005"},
-        {"type": "permissions", "id": "72d1e2fe-1cd8-11ed-a26b-da7ad0900005"}, {"type":
-        "permissions", "id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions",
-        "id": "5dedec22-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions", "id":
-        "926612da-7a4c-11ed-b809-da7ad0900005"}, {"type": "permissions", "id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005"},
-        {"type": "permissions", "id": "55f64460-7d61-11ed-9c36-da7ad0900005"}, {"type":
-        "permissions", "id": "94c8a4da-de87-11ed-9e92-da7ad0900005"}, {"type": "permissions",
-        "id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005"}, {"type": "permissions", "id":
-        "3276c638-0ebe-11ee-9428-da7ad0900005"}, {"type": "permissions", "id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005"},
-        {"type": "permissions", "id": "94783714-4e9b-11ee-959b-da7ad0900005"}, {"type":
-        "permissions", "id": "2de35000-69e5-11ee-996b-da7ad0900005"}, {"type": "permissions",
-        "id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005"}, {"type": "permissions", "id":
-        "cccfe6c4-018e-11ef-afb6-da7ad0900005"}, {"type": "permissions", "id": "e120d4c0-0969-11ef-965e-da7ad0900005"}]}}}]}'
+        "3700", "attributes": {"attribute_key": "name", "attribute_value": "michaelupdated"}},
+        {"type": "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005", "attributes":
+        {"name": "Copy of Datadog Admin Role", "managed": false, "created_at": "2024-11-01T14:38:20.485105+00:00",
+        "modified_at": "2024-11-01T14:38:20.486756+00:00"}, "relationships": {"permissions":
+        {"data": [{"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e"},
+        {"type": "permissions", "id": "62cc036c-dd12-11e8-9e54-db9995643092"}, {"type":
+        "permissions", "id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73"}, {"type": "permissions",
+        "id": "7d7c98ac-dd12-11e8-9e56-93700598622d"}, {"type": "permissions", "id":
+        "811ac4ca-dd12-11e8-9e57-676a7f0beef9"}, {"type": "permissions", "id": "84aa3ae4-dd12-11e8-9e58-a373a514ccd0"},
+        {"type": "permissions", "id": "87b00304-dd12-11e8-9e59-cbeb5f71f72f"}, {"type":
+        "permissions", "id": "979df720-aed7-11e9-99c6-a7eb8373165a"}, {"type": "permissions",
+        "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions", "id":
+        "d90f6831-d3d8-11e9-a77a-4fd230ddbc6a"}, {"type": "permissions", "id": "d90f6832-d3d8-11e9-a77a-bf8a2607f864"},
+        {"type": "permissions", "id": "4441648c-d8b1-11e9-a77a-1b899a04b304"}, {"type":
+        "permissions", "id": "48ef71ea-d8b1-11e9-a77a-93f408470ad0"}, {"type": "permissions",
+        "id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f"}, {"type": "permissions", "id":
+        "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb"}, {"type": "permissions", "id": "b382b982-8535-11ea-93de-2bf1bdf20798"},
+        {"type": "permissions", "id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5"}, {"type":
+        "permissions", "id": "7b516476-aa58-11ea-95e2-93718cd56369"}, {"type": "permissions",
+        "id": "80de1ec0-aa58-11ea-95e2-aff381626d5d"}, {"type": "permissions", "id":
+        "5c1680d0-ff6d-11eb-a494-da7ad0900005"}, {"type": "permissions", "id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d"},
+        {"type": "permissions", "id": "9de604d8-e707-11ea-aa2d-93f1a783b3a3"}, {"type":
+        "permissions", "id": "46a301da-ec5c-11ea-aa9f-73bedeab67ee"}, {"type": "permissions",
+        "id": "46a301db-ec5c-11ea-aa9f-2fe72193d60e"}, {"type": "permissions", "id":
+        "46a301dc-ec5c-11ea-aa9f-13b33f8f46ea"}, {"type": "permissions", "id": "46a301dd-ec5c-11ea-aa9f-97edfb345bc9"},
+        {"type": "permissions", "id": "46a301de-ec5c-11ea-aa9f-a73252c24806"}, {"type":
+        "permissions", "id": "46a301df-ec5c-11ea-aa9f-970a9ae645e5"}, {"type": "permissions",
+        "id": "46a301e0-ec5c-11ea-aa9f-6ba6cc675d8c"}, {"type": "permissions", "id":
+        "46a301e1-ec5c-11ea-aa9f-afa39f6f3e36"}, {"type": "permissions", "id": "46a301e2-ec5c-11ea-aa9f-1f511b7305fd"},
+        {"type": "permissions", "id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc"}, {"type":
+        "permissions", "id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e"}, {"type": "permissions",
+        "id": "2fbdac76-f923-11ea-adbc-07f3823e2b43"}, {"type": "permissions", "id":
+        "372896c4-f923-11ea-adbc-4fecd107156d"}, {"type": "permissions", "id": "3e4d4d28-f923-11ea-adbc-e3565938c12e"},
+        {"type": "permissions", "id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9"}, {"type":
+        "permissions", "id": "4ada6e36-f923-11ea-adbc-0788e5c5e3cf"}, {"type": "permissions",
+        "id": "5025ee24-f923-11ea-adbc-576ea241df8d"}, {"type": "permissions", "id":
+        "55f4b5ec-f923-11ea-adbc-1bfa2334a755"}, {"type": "permissions", "id": "5c6b88e2-f923-11ea-adbc-abf57d079420"},
+        {"type": "permissions", "id": "642eebe6-f923-11ea-adbc-eb617674ea04"}, {"type":
+        "permissions", "id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39"}, {"type": "permissions",
+        "id": "a42e94b2-1476-11eb-bd08-efda28c04248"}, {"type": "permissions", "id":
+        "417ba636-2dce-11eb-84c0-6bce5b0d9de0"}, {"type": "permissions", "id": "43fa188e-2dce-11eb-84c0-835ad1fd6287"},
+        {"type": "permissions", "id": "465cfe66-2dce-11eb-84c0-6baa888239fa"}, {"type":
+        "permissions", "id": "4916eebe-2dce-11eb-84c0-271cb2c672e8"}, {"type": "permissions",
+        "id": "4e3f02b4-2dce-11eb-84c0-2fca946a6efc"}, {"type": "permissions", "id":
+        "53950c54-2dce-11eb-84c0-a79ae108f6f8"}, {"type": "permissions", "id": "5cbe5f9c-2dce-11eb-84c0-872d3e9f1076"},
+        {"type": "permissions", "id": "61765026-2dce-11eb-84c0-833e230d1b8f"}, {"type":
+        "permissions", "id": "04bc1cf2-340a-11eb-873a-43b973c760dd"}, {"type": "permissions",
+        "id": "8106300a-54f7-11eb-8cbc-7781a434a67b"}, {"type": "permissions", "id":
+        "edfd5e74-801f-11eb-96d8-da7ad0900002"}, {"type": "permissions", "id": "edfd5e75-801f-11eb-96d8-da7ad0900002"},
+        {"type": "permissions", "id": "bf0dcf7c-90af-11eb-9b82-da7ad0900002"}, {"type":
+        "permissions", "id": "bf0dcf7d-90af-11eb-9b82-da7ad0900002"}, {"type": "permissions",
+        "id": "7df222b6-a45c-11eb-a0af-da7ad0900002"}, {"type": "permissions", "id":
+        "98b984f4-b16d-11eb-a2c6-da7ad0900002"}, {"type": "permissions", "id": "98b984f5-b16d-11eb-a2c6-da7ad0900002"},
+        {"type": "permissions", "id": "12efc20e-d36c-11eb-a9b8-da7ad0900002"}, {"type":
+        "permissions", "id": "12efc211-d36c-11eb-a9b8-da7ad0900002"}, {"type": "permissions",
+        "id": "12efc20f-d36c-11eb-a9b8-da7ad0900002"}, {"type": "permissions", "id":
+        "12efc210-d36c-11eb-a9b8-da7ad0900002"}, {"type": "permissions", "id": "97971c1c-e895-11eb-b13c-da7ad0900002"},
+        {"type": "permissions", "id": "97971c1d-e895-11eb-b13c-da7ad0900002"}, {"type":
+        "permissions", "id": "aa7ccb44-fa13-11eb-b17c-da7ad0900005"}, {"type": "permissions",
+        "id": "aa7d422c-fa13-11eb-b17c-da7ad0900005"}, {"type": "permissions", "id":
+        "1ba2f2d8-16c7-11ec-b77d-da7ad0900005"}, {"type": "permissions", "id": "1ba4caa4-16c7-11ec-b77d-da7ad0900005"},
+        {"type": "permissions", "id": "34438974-1703-11ec-9521-da7ad0900005"}, {"type":
+        "permissions", "id": "ec69c9ae-4792-11ec-a4e4-da7ad0900005"}, {"type": "permissions",
+        "id": "ec6a85f6-4792-11ec-a4e4-da7ad0900005"}, {"type": "permissions", "id":
+        "0c07b512-56a4-11ec-9d67-da7ad0900005"}, {"type": "permissions", "id": "e2371690-574f-11ec-9b69-da7ad0900005"},
+        {"type": "permissions", "id": "8dbe76fe-5884-11ec-82c1-da7ad0900005"}, {"type":
+        "permissions", "id": "8dbeed46-5884-11ec-82c1-da7ad0900005"}, {"type": "permissions",
+        "id": "0fc8e272-8500-11ec-9176-da7ad0900005"}, {"type": "permissions", "id":
+        "0fc97610-8500-11ec-9176-da7ad0900005"}, {"type": "permissions", "id": "0fc93150-8500-11ec-9176-da7ad0900005"},
+        {"type": "permissions", "id": "0fc821fc-8500-11ec-9176-da7ad0900005"}, {"type":
+        "permissions", "id": "0fc894fc-8500-11ec-9176-da7ad0900005"}, {"type": "permissions",
+        "id": "caea6b48-9a59-11ec-b6fc-da7ad0900005"}, {"type": "permissions", "id":
+        "caeae1ea-9a59-11ec-b6fc-da7ad0900005"}, {"type": "permissions", "id": "3f036aae-966b-11ec-87f8-da7ad0900005"},
+        {"type": "permissions", "id": "20c31f82-b9b4-11ec-8235-da7ad0900005"}, {"type":
+        "permissions", "id": "6df70e30-c59e-11ec-9bfe-da7ad0900005"}, {"type": "permissions",
+        "id": "6df8034e-c59e-11ec-9bfe-da7ad0900005"}, {"type": "permissions", "id":
+        "6df7a0de-c59e-11ec-9bfe-da7ad0900005"}, {"type": "permissions", "id": "6df8628a-c59e-11ec-9bfe-da7ad0900005"},
+        {"type": "permissions", "id": "10292ba2-d5e9-11ec-88e7-da7ad0900005"}, {"type":
+        "permissions", "id": "102a0414-d5e9-11ec-88e7-da7ad0900005"}, {"type": "permissions",
+        "id": "b8006c56-e5c4-11ec-bfd9-da7ad0900005"}, {"type": "permissions", "id":
+        "eee67f20-e746-11ec-a905-da7ad0900005"}, {"type": "permissions", "id": "eee6d434-e746-11ec-a905-da7ad0900005"},
+        {"type": "permissions", "id": "eee61788-e746-11ec-a905-da7ad0900005"}, {"type":
+        "permissions", "id": "279926d0-f311-11ec-9321-da7ad0900005"}, {"type": "permissions",
+        "id": "edb17ed8-173a-11ed-b3c2-da7ad0900005"}, {"type": "permissions", "id":
+        "edb0ad50-173a-11ed-b3c2-da7ad0900005"}, {"type": "permissions", "id": "55840f46-1761-11ed-996f-da7ad0900005"},
+        {"type": "permissions", "id": "4244b3e6-248a-11ed-96ae-da7ad0900005"}, {"type":
+        "permissions", "id": "4f2161f6-55d9-11ed-9831-da7ad0900005"}, {"type": "permissions",
+        "id": "4f21ab3e-55d9-11ed-9831-da7ad0900005"}, {"type": "permissions", "id":
+        "4f208ea2-55d9-11ed-9831-da7ad0900005"}, {"type": "permissions", "id": "4f210b2a-55d9-11ed-9831-da7ad0900005"},
+        {"type": "permissions", "id": "9bcfe7e2-5a12-11ed-935c-da7ad0900005"}, {"type":
+        "permissions", "id": "9bd04c46-5a12-11ed-935c-da7ad0900005"}, {"type": "permissions",
+        "id": "841eaad4-7a4c-11ed-bf7d-da7ad0900005"}, {"type": "permissions", "id":
+        "841f1d52-7a4c-11ed-bf7d-da7ad0900005"}, {"type": "permissions", "id": "758f0096-7a5a-11ed-ad92-da7ad0900005"},
+        {"type": "permissions", "id": "758e73c4-7a5a-11ed-ad92-da7ad0900005"}, {"type":
+        "permissions", "id": "6f80e6ce-7aff-11ed-836c-da7ad0900005"}, {"type": "permissions",
+        "id": "6f81882c-7aff-11ed-836c-da7ad0900005"}, {"type": "permissions", "id":
+        "6f807a68-7aff-11ed-836c-da7ad0900005"}, {"type": "permissions", "id": "6f8143ee-7aff-11ed-836c-da7ad0900005"},
+        {"type": "permissions", "id": "6f81cfe4-7aff-11ed-836c-da7ad0900005"}, {"type":
+        "permissions", "id": "6f8289ca-7aff-11ed-836c-da7ad0900005"}, {"type": "permissions",
+        "id": "277f3524-7d61-11ed-9f04-da7ad0900005"}, {"type": "permissions", "id":
+        "0b46276c-9771-11ed-b830-da7ad0900005"}, {"type": "permissions", "id": "c7c539c8-b44f-11ed-9d3d-da7ad0900005"},
+        {"type": "permissions", "id": "6ab61b9e-b468-11ed-9d27-da7ad0900005"}, {"type":
+        "permissions", "id": "6ab623d2-b468-11ed-9d27-da7ad0900005"}, {"type": "permissions",
+        "id": "325b4144-ca2e-11ed-b9ff-da7ad0900005"}, {"type": "permissions", "id":
+        "2d9c7008-ccc0-11ed-99c3-da7ad0900005"}, {"type": "permissions", "id": "4edb890e-db23-11ed-b8c4-da7ad0900005"},
+        {"type": "permissions", "id": "4edb8008-db23-11ed-b8c4-da7ad0900005"}, {"type":
+        "permissions", "id": "e26a6ab8-de71-11ed-8ad1-da7ad0900005"}, {"type": "permissions",
+        "id": "e26a72f6-de71-11ed-8ad1-da7ad0900005"}, {"type": "permissions", "id":
+        "710f0782-f408-11ed-9289-da7ad0900005"}, {"type": "permissions", "id": "710f0ec6-f408-11ed-9289-da7ad0900005"},
+        {"type": "permissions", "id": "93494582-f689-11ed-9d4d-da7ad0900005"}, {"type":
+        "permissions", "id": "47f7b6da-f9a0-11ed-8480-da7ad0900005"}, {"type": "permissions",
+        "id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005"}, {"type": "permissions", "id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005"}, {"type": "permissions", "id": "0fb2c6d2-ff1f-11ed-a62e-da7ad0900005"},
+        {"type": "permissions", "id": "66db2844-0052-11ee-8008-da7ad0900005"}, {"type":
+        "permissions", "id": "1f8daba8-0eab-11ee-8438-da7ad0900005"}, {"type": "permissions",
+        "id": "1f8e7f38-0eab-11ee-8438-da7ad0900005"}, {"type": "permissions", "id":
+        "a28141c0-1106-11ee-b06a-da7ad0900005"}, {"type": "permissions", "id": "6dabb9a8-092c-11ee-ab7c-da7ad0900005"},
+        {"type": "permissions", "id": "6dab81d6-092c-11ee-ab7c-da7ad0900005"}, {"type":
+        "permissions", "id": "6dabb7aa-092c-11ee-ab7c-da7ad0900005"}, {"type": "permissions",
+        "id": "173e87fa-1cd0-11ee-b496-da7ad0900005"}, {"type": "permissions", "id":
+        "0681b99e-2187-11ee-a396-da7ad0900005"}, {"type": "permissions", "id": "0681baf2-2187-11ee-a396-da7ad0900005"},
+        {"type": "permissions", "id": "f8aecc36-20bd-11ee-9f59-da7ad0900005"}, {"type":
+        "permissions", "id": "f8aec1be-20bd-11ee-9f59-da7ad0900005"}, {"type": "permissions",
+        "id": "0681b020-2187-11ee-a396-da7ad0900005"}, {"type": "permissions", "id":
+        "2f3b07ac-2707-11ee-b231-da7ad0900005"}, {"type": "permissions", "id": "2f3afc26-2707-11ee-b231-da7ad0900005"},
+        {"type": "permissions", "id": "76fa39c0-2c87-11ee-9cfd-da7ad0900005"}, {"type":
+        "permissions", "id": "dd34df0c-3d07-11ee-9d84-da7ad0900005"}, {"type": "permissions",
+        "id": "dd34e8b2-3d07-11ee-9d84-da7ad0900005"}, {"type": "permissions", "id":
+        "fa342530-3dd0-11ee-be02-da7ad0900005"}, {"type": "permissions", "id": "b05a8a26-4e88-11ee-90a7-da7ad0900005"},
+        {"type": "permissions", "id": "2d14d054-6909-11ee-a593-da7ad0900005"}, {"type":
+        "permissions", "id": "50559336-69d2-11ee-b70d-da7ad0900005"}, {"type": "permissions",
+        "id": "81d9da4a-6f52-11ee-853f-da7ad0900005"}, {"type": "permissions", "id":
+        "bb5b2d36-982f-11ee-9d81-da7ad0900005"}, {"type": "permissions", "id": "bb5aaf0a-982f-11ee-9d81-da7ad0900005"},
+        {"type": "permissions", "id": "27e324a0-b9f9-11ee-ad81-da7ad0900005"}, {"type":
+        "permissions", "id": "a4a54926-c1d5-11ee-9ba2-da7ad0900005"}, {"type": "permissions",
+        "id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005"}, {"type": "permissions", "id":
+        "1ce7904c-ccd5-11ee-b58b-da7ad0900005"}, {"type": "permissions", "id": "f7569d4e-e20c-11ee-b531-da7ad0900005"},
+        {"type": "permissions", "id": "67dc86ba-e531-11ee-bf1b-da7ad0900005"}, {"type":
+        "permissions", "id": "67dcf988-e531-11ee-bf1b-da7ad0900005"}, {"type": "permissions",
+        "id": "67dd16de-e531-11ee-bf1b-da7ad0900005"}, {"type": "permissions", "id":
+        "d3deb136-f5b1-11ee-8f9a-da7ad0900005"}, {"type": "permissions", "id": "e758ba34-00b2-11ef-8ece-da7ad0900005"},
+        {"type": "permissions", "id": "b121c706-017c-11ef-9743-da7ad0900005"}, {"type":
+        "permissions", "id": "b1233096-017c-11ef-9743-da7ad0900005"}, {"type": "permissions",
+        "id": "b1236d40-017c-11ef-9743-da7ad0900005"}, {"type": "permissions", "id":
+        "b1236f70-017c-11ef-9743-da7ad0900005"}, {"type": "permissions", "id": "b12370f6-017c-11ef-9743-da7ad0900005"},
+        {"type": "permissions", "id": "b12371e6-017c-11ef-9743-da7ad0900005"}, {"type":
+        "permissions", "id": "d96b811c-088d-11ef-9353-da7ad0900005"}, {"type": "permissions",
+        "id": "d96c0fe2-088d-11ef-9353-da7ad0900005"}, {"type": "permissions", "id":
+        "d96c123a-088d-11ef-9353-da7ad0900005"}, {"type": "permissions", "id": "d96c1352-088d-11ef-9353-da7ad0900005"},
+        {"type": "permissions", "id": "03868888-0957-11ef-9e19-da7ad0900005"}, {"type":
+        "permissions", "id": "25c1e1fe-138e-11ef-bf6f-da7ad0900005"}, {"type": "permissions",
+        "id": "34651076-227c-11ef-b4c3-da7ad0900005"}, {"type": "permissions", "id":
+        "c64f5ba8-37b3-11ef-ac1d-da7ad0900005"}, {"type": "permissions", "id": "a4a15c66-387d-11ef-950e-da7ad0900005"},
+        {"type": "permissions", "id": "59c72b84-53fe-11ef-af6a-da7ad0900005"}, {"type":
+        "permissions", "id": "59c8d920-53fe-11ef-af6a-da7ad0900005"}, {"type": "permissions",
+        "id": "1746e9c0-597b-11ef-b8dd-da7ad0900005"}, {"type": "permissions", "id":
+        "7ce1c892-6090-11ef-b3ef-da7ad0900005"}, {"type": "permissions", "id": "7ce1cb26-6090-11ef-b3ef-da7ad0900005"},
+        {"type": "permissions", "id": "7ce175e0-6090-11ef-b3ef-da7ad0900005"}, {"type":
+        "permissions", "id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005"}, {"type": "permissions",
+        "id": "c9ca59c2-66d9-11ef-9bd3-da7ad0900005"}, {"type": "permissions", "id":
+        "b47a3a6e-74fe-11ef-ae6f-da7ad0900005"}, {"type": "permissions", "id": "f764fa80-79c7-11ef-8a97-da7ad0900005"},
+        {"type": "permissions", "id": "e0535584-7c0c-11ef-bb98-da7ad0900005"}, {"type":
+        "permissions", "id": "a8841946-7c42-11ef-93ea-da7ad0900005"}, {"type": "permissions",
+        "id": "4b9cd3ee-810b-11ef-972e-da7ad0900005"}, {"type": "permissions", "id":
+        "4b9d515c-810b-11ef-972e-da7ad0900005"}]}}}]}'
     headers:
       Content-Type:
       - application/json
@@ -189,182 +265,78 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "Member-of",
-      "attribute_value": "TestOrgupdated"}, "relationships": {"role": {"data": {"type":
-      "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}}, "id": "21593696-2a75-11ef-bbf5-da7ad0900005"}}'
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472159, "value":
+      1}], "tags": ["action_sub_type:update", "id:423368a4-956a-11ef-b92a-da7ad0900005",
+      "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
-    method: PATCH
-    uri: https://api.datadoghq.eu/api/v2/authn_mappings/21593696-2a75-11ef-bbf5-da7ad0900005
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "21593696-2a75-11ef-bbf5-da7ad0900005",
-        "attributes": {"saml_assertion_attribute_id": "36922", "attribute_key": "Member-of",
-        "attribute_value": "TestOrgupdated", "created_at": "2024-06-14T17:40:03.079612+00:00",
-        "modified_at": "2024-06-14T17:40:03.313248+00:00"}, "relationships": {"saml_assertion_attribute":
-        {"data": {"type": "saml_assertion_attributes", "id": "36922"}}, "role": {"data":
-        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}, "team":
-        {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
-        "36922", "attributes": {"attribute_key": "Member-of", "attribute_value": "TestOrgupdated"}},
-        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005", "attributes":
-        {"name": "Datadog Read Only Role", "created_at": "2024-06-14T17:40:02.876918+00:00",
-        "modified_at": "2024-06-14T17:40:02.877733+00:00"}, "relationships": {"permissions":
-        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
-        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
-        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
-        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
-        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
-        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
-        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
-        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
-        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
-        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
-        "permissions", "id": "f2f3d048-801f-11eb-9d41-da7ad0900005"}, {"type": "permissions",
-        "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
-        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005"},
-        {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"}, {"type":
-        "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}, {"type": "permissions",
-        "id": "f5e054da-4792-11ec-944b-da7ad0900005"}, {"type": "permissions", "id":
-        "cf873174-574f-11ec-9869-da7ad0900005"}, {"type": "permissions", "id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005"},
-        {"type": "permissions", "id": "e31e0056-8502-11ec-b266-da7ad0900005"}, {"type":
-        "permissions", "id": "e31cca10-8502-11ec-b266-da7ad0900005"}, {"type": "permissions",
-        "id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005"}, {"type": "permissions", "id":
-        "f33f74be-e746-11ec-87e3-da7ad0900005"}, {"type": "permissions", "id": "f42e4c6e-173a-11ed-8654-da7ad0900005"},
-        {"type": "permissions", "id": "72d1e2fe-1cd8-11ed-a26b-da7ad0900005"}, {"type":
-        "permissions", "id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions",
-        "id": "5dedec22-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions", "id":
-        "926612da-7a4c-11ed-b809-da7ad0900005"}, {"type": "permissions", "id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005"},
-        {"type": "permissions", "id": "55f64460-7d61-11ed-9c36-da7ad0900005"}, {"type":
-        "permissions", "id": "94c8a4da-de87-11ed-9e92-da7ad0900005"}, {"type": "permissions",
-        "id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005"}, {"type": "permissions", "id":
-        "3276c638-0ebe-11ee-9428-da7ad0900005"}, {"type": "permissions", "id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005"},
-        {"type": "permissions", "id": "94783714-4e9b-11ee-959b-da7ad0900005"}, {"type":
-        "permissions", "id": "2de35000-69e5-11ee-996b-da7ad0900005"}, {"type": "permissions",
-        "id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005"}, {"type": "permissions", "id":
-        "cccfe6c4-018e-11ef-afb6-da7ad0900005"}, {"type": "permissions", "id": "e120d4c0-0969-11ef-965e-da7ad0900005"}]}}}]}'
+      string: '{"errors": []}'
     headers:
       Content-Type:
       - application/json
     status:
-      code: 200
-      message: OK
+      code: 202
+      message: Accepted
 - request:
-    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "Member-of",
-      "attribute_value": "TestOrgFooupdated"}, "relationships": {"role": {"data":
-      {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}}, "id": "21534c0e-2a75-11ef-8c13-da7ad0900005"}}'
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472159, "value":
+      1}], "tags": ["action_sub_type:update", "id:423368a4-956a-11ef-b92a-da7ad0900005",
+      "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json
-    method: PATCH
-    uri: https://api.datadoghq.eu/api/v2/authn_mappings/21534c0e-2a75-11ef-8c13-da7ad0900005
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "21534c0e-2a75-11ef-8c13-da7ad0900005",
-        "attributes": {"saml_assertion_attribute_id": "36920", "attribute_key": "Member-of",
-        "attribute_value": "TestOrgFooupdated", "created_at": "2024-06-14T17:40:03.040988+00:00",
-        "modified_at": "2024-06-14T17:40:03.316209+00:00"}, "relationships": {"saml_assertion_attribute":
-        {"data": {"type": "saml_assertion_attributes", "id": "36920"}}, "role": {"data":
-        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005"}}, "team":
-        {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
-        "36920", "attributes": {"attribute_key": "Member-of", "attribute_value": "TestOrgFooupdated"}},
-        {"type": "roles", "id": "213a44d4-2a75-11ef-9f66-da7ad0900005", "attributes":
-        {"name": "Datadog Read Only Role", "created_at": "2024-06-14T17:40:02.876918+00:00",
-        "modified_at": "2024-06-14T17:40:02.877733+00:00"}, "relationships": {"permissions":
-        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
-        {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
-        "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
-        "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
-        "bfafd0ce-7823-11ea-9689-c3e5118805ee"}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90"},
-        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f"}, {"type":
-        "permissions", "id": "e0d31696-aa58-11ea-af96-3b02991750c9"}, {"type": "permissions",
-        "id": "b6858556-f925-11ea-9222-1f47b8677b93"}, {"type": "permissions", "id":
-        "b7706de0-2dce-11eb-9145-775e4a0d889a"}, {"type": "permissions", "id": "bcc2fb14-2dce-11eb-9145-9b27b816190a"},
-        {"type": "permissions", "id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5"}, {"type":
-        "permissions", "id": "f2f3d048-801f-11eb-9d41-da7ad0900005"}, {"type": "permissions",
-        "id": "99397470-b16d-11eb-a891-da7ad0900005"}, {"type": "permissions", "id":
-        "122e20a4-d36c-11eb-b2bf-da7ad0900005"}, {"type": "permissions", "id": "f07e4234-e894-11eb-ab79-da7ad0900005"},
-        {"type": "permissions", "id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005"}, {"type":
-        "permissions", "id": "7ee7941c-f376-11eb-a5a7-da7ad0900005"}, {"type": "permissions",
-        "id": "f5e054da-4792-11ec-944b-da7ad0900005"}, {"type": "permissions", "id":
-        "cf873174-574f-11ec-9869-da7ad0900005"}, {"type": "permissions", "id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005"},
-        {"type": "permissions", "id": "e31e0056-8502-11ec-b266-da7ad0900005"}, {"type":
-        "permissions", "id": "e31cca10-8502-11ec-b266-da7ad0900005"}, {"type": "permissions",
-        "id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005"}, {"type": "permissions", "id":
-        "f33f74be-e746-11ec-87e3-da7ad0900005"}, {"type": "permissions", "id": "f42e4c6e-173a-11ed-8654-da7ad0900005"},
-        {"type": "permissions", "id": "72d1e2fe-1cd8-11ed-a26b-da7ad0900005"}, {"type":
-        "permissions", "id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions",
-        "id": "5dedec22-55d9-11ed-9ccb-da7ad0900005"}, {"type": "permissions", "id":
-        "926612da-7a4c-11ed-b809-da7ad0900005"}, {"type": "permissions", "id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005"},
-        {"type": "permissions", "id": "55f64460-7d61-11ed-9c36-da7ad0900005"}, {"type":
-        "permissions", "id": "94c8a4da-de87-11ed-9e92-da7ad0900005"}, {"type": "permissions",
-        "id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005"}, {"type": "permissions", "id":
-        "3276c638-0ebe-11ee-9428-da7ad0900005"}, {"type": "permissions", "id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005"},
-        {"type": "permissions", "id": "94783714-4e9b-11ee-959b-da7ad0900005"}, {"type":
-        "permissions", "id": "2de35000-69e5-11ee-996b-da7ad0900005"}, {"type": "permissions",
-        "id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005"}, {"type": "permissions", "id":
-        "cccfe6c4-018e-11ef-afb6-da7ad0900005"}, {"type": "permissions", "id": "e120d4c0-0969-11ef-965e-da7ad0900005"}]}}}]}'
+      string: '{"errors": []}'
     headers:
       Content-Type:
       - application/json
     status:
-      code: 200
-      message: OK
+      code: 202
+      message: Accepted
 - request:
-    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "Member-of",
-      "attribute_value": "TestOrgFooupdated"}, "relationships": {"team": {"data":
-      {"type": "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b"}}}, "id": "214e8a66-2a75-11ef-9113-da7ad0900005"}}'
+    body: null
     headers:
       Content-Type:
       - application/json
-    method: PATCH
-    uri: https://api.datadoghq.eu/api/v2/authn_mappings/214e8a66-2a75-11ef-9113-da7ad0900005
+    method: GET
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "214e8a66-2a75-11ef-9113-da7ad0900005",
-        "attributes": {"saml_assertion_attribute_id": "36920", "attribute_key": "Member-of",
-        "attribute_value": "TestOrgFooupdated", "created_at": "2024-06-14T17:40:03.009631+00:00",
-        "modified_at": "2024-06-14T17:40:03.299764+00:00"}, "relationships": {"saml_assertion_attribute":
-        {"data": {"type": "saml_assertion_attributes", "id": "36920"}}, "role": {"data":
-        null}, "team": {"data": {"type": "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b"}}}},
-        "included": [{"type": "saml_assertion_attributes", "id": "36920", "attributes":
-        {"attribute_key": "Member-of", "attribute_value": "TestOrgFooupdated"}}, {"type":
-        "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b", "attributes": {"name":
-        "Example team", "handle": "example-team", "summary": "This is the description
-        of a team", "avatar": null, "banner": 2, "user_count": 0, "link_count": 0,
-        "is_open_membership": true, "handles": ["example-team"]}}]}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "Member-of",
-      "attribute_value": "TestOrgupdated"}, "relationships": {"team": {"data": {"type":
-      "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b"}}}, "id": "2151d2ca-2a75-11ef-9510-da7ad0900005"}}'
+    body: null
     headers:
       Content-Type:
       - application/json
-    method: PATCH
-    uri: https://api.datadoghq.eu/api/v2/authn_mappings/2151d2ca-2a75-11ef-9510-da7ad0900005
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "2151d2ca-2a75-11ef-9510-da7ad0900005",
-        "attributes": {"saml_assertion_attribute_id": "36922", "attribute_key": "Member-of",
-        "attribute_value": "TestOrgupdated", "created_at": "2024-06-14T17:40:03.031520+00:00",
-        "modified_at": "2024-06-14T17:40:03.320078+00:00"}, "relationships": {"saml_assertion_attribute":
-        {"data": {"type": "saml_assertion_attributes", "id": "36922"}}, "role": {"data":
-        null}, "team": {"data": {"type": "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b"}}}},
-        "included": [{"type": "saml_assertion_attributes", "id": "36922", "attributes":
-        {"attribute_key": "Member-of", "attribute_value": "TestOrgupdated"}}, {"type":
-        "team", "id": "51fa54f0-d4db-49d4-bc56-523647fd352b", "attributes": {"name":
-        "Example team", "handle": "example-team", "summary": "This is the description
-        of a team", "avatar": null, "banner": 2, "user_count": 0, "link_count": 0,
-        "is_open_membership": true, "handles": ["example-team"]}}]}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK

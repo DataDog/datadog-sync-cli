@@ -18,7 +18,15 @@ class Roles(BaseResource):
     resource_type = "roles"
     resource_config = ResourceConfig(
         base_path="/api/v2/roles",
-        excluded_attributes=["id", "attributes.created_at", "attributes.modified_at", "attributes.user_count"],
+        excluded_attributes=[
+            "attributes.created_at",
+            "attributes.created_by_handle",
+            "attributes.managed",
+            "attributes.modified_at",
+            "attributes.modified_by_handle",
+            "attributes.user_count",
+            "id",
+        ],
     )
     # Additional Roles specific attributes
     source_permissions: Dict = {}
@@ -66,21 +74,36 @@ class Roles(BaseResource):
         await self.remap_permissions(resource)
 
     async def create_resource(self, _id, resource) -> Tuple[str, Dict]:
-        if resource["attributes"]["name"] in self.destination_roles_mapping:
-            role_copy = copy.deepcopy(resource)
-            role_copy.update(self.destination_roles_mapping[resource["attributes"]["name"]])
+        # this method uses role name from matching
+        role_name = resource["attributes"]["name"]
 
-            if check_diff(self.resource_config, resource, role_copy):
-                self.config.state.destination[self.resource_type][_id] = role_copy
-                return await self.update_resource(_id, resource)
-            else:
-                return _id, role_copy
+        # remove the 'managed' attribute since it can not be passed into creation
+        resource["attributes"].pop("managed", None)
 
-        destination_client = self.config.destination_client
-        payload = {"data": resource}
-        resp = await destination_client.post(self.resource_config.base_path, payload)
+        # role does not exist at the destination, so create it
+        if role_name not in self.destination_roles_mapping:
+            destination_client = self.config.destination_client
+            payload = {"data": resource}
+            resp = await destination_client.post(self.resource_config.base_path, payload)
+            return _id, resp["data"]
 
-        return _id, resp["data"]
+        # role already exists at the destination
+        matching_destination_role = self.destination_roles_mapping[role_name]
+        role_copy = copy.deepcopy(resource)
+        role_copy.update(matching_destination_role)
+
+        # role is managed at the destination, do nothing
+        if "managed" in matching_destination_role["attributes"] and matching_destination_role["attributes"]["managed"]:
+            self.config.logger.warning(f"{role_name} is a managed resource at the destination, can not update it")
+            return _id, role_copy
+
+        # role is not managed at destination and it differs
+        if check_diff(self.resource_config, resource, role_copy):
+            self.config.state.destination[self.resource_type][_id] = role_copy
+            return await self.update_resource(_id, resource)
+
+        # role is not managed at destination and does not differ
+        return _id, role_copy
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client

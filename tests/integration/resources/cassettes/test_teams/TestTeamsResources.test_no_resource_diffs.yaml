@@ -5,13 +5,35 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://us5.datadoghq.com/api/v2/hamr
+  response:
+    body:
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -21,48 +43,29 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": [{"type": "team", "relationships": {"user_team_permissions":
+        {"links": {"related": "/api/v2/team/44eaa817-440f-4c22-869d-8291f9aca112/permission-settings"}},
+        "team_links": {"links": {"related": "/api/v2/team/44eaa817-440f-4c22-869d-8291f9aca112/links"}}},
+        "id": "44eaa817-440f-4c22-869d-8291f9aca112", "attributes": {"link_count":
+        0, "user_count": 0, "name": "hamr test", "description": "updated", "summary":
+        "updated", "created_at": "2024-11-01T14:44:03.167907+00:00", "modified_at":
+        "2024-11-01T14:44:44.966064+00:00", "handle": "hamr-test"}}, {"type": "team",
+        "relationships": {"user_team_permissions": {"links": {"related": "/api/v2/team/be963348-643c-4c67-ba64-2d8fe142dd18/permission-settings"}},
+        "team_links": {"links": {"related": "/api/v2/team/be963348-643c-4c67-ba64-2d8fe142dd18/links"}}},
+        "id": "be963348-643c-4c67-ba64-2d8fe142dd18", "attributes": {"link_count":
+        0, "user_count": 0, "name": "test", "description": "updated", "summary": "updated",
+        "created_at": "2024-11-01T14:44:43.425242+00:00", "modified_at": "2024-11-01T14:44:45.076004+00:00",
+        "handle": "test"}}], "meta": {"pagination": {"number": 0, "first_number":
+        0, "prev_number": 0, "next_number": 1, "last_number": 0, "size": 100, "type":
+        "number_size", "total": 2}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
+        "last": null, "next": "https://us5.datadoghq.com/api/v2/team?page[number]=1&page[size]=100",
+        "prev": null, "first": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100"}}'
     headers:
       Content-Type:
       - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
-  response:
-    body:
-      string: '{"data": [{"type": "team", "attributes": {"modified_at": "2024-02-14T17:23:30.954953+00:00",
-        "handle": "example-empty-team", "user_count": 0, "created_at": "2024-02-09T20:08:22.254304+00:00",
-        "description": "updated", "name": "Example empty team", "link_count": 0, "summary":
-        "updated"}, "id": "94002f5e-fe04-4271-a4f6-d62d1668914c", "relationships":
-        {"user_team_permissions": {"links": {"related": "/api/v2/team/94002f5e-fe04-4271-a4f6-d62d1668914c/permission-settings"}},
-        "team_links": {"links": {"related": "/api/v2/team/94002f5e-fe04-4271-a4f6-d62d1668914c/links"}}}},
-        {"type": "team", "attributes": {"modified_at": "2024-02-14T17:23:31.337468+00:00",
-        "handle": "example-team", "user_count": 0, "created_at": "2024-02-14T17:23:29.629129+00:00",
-        "description": "This is the description of a teamupdated", "name": "Example
-        team", "link_count": 0, "summary": "This is the description of a teamupdated"},
-        "id": "fa764177-b387-4d99-b7e9-15908247e702", "relationships": {"user_team_permissions":
-        {"links": {"related": "/api/v2/team/fa764177-b387-4d99-b7e9-15908247e702/permission-settings"}},
-        "team_links": {"links": {"related": "/api/v2/team/fa764177-b387-4d99-b7e9-15908247e702/links"}}}}],
-        "meta": {"pagination": {"number": 0, "first_number": 0, "prev_number": 0,
-        "next_number": 1, "last_number": 0, "size": 100, "type": "number_size", "total":
-        2}}, "links": {"self": "https://api.datadoghq.eu/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100",
-        "last": null, "next": "https://api.datadoghq.eu/api/v2/team?page[number]=1&page[size]=100",
-        "prev": null, "first": "https://api.datadoghq.eu/api/v2/team?page[number]=0&page[size]=100"}}'
-    headers: {}
     status:
       code: 200
       message: OK

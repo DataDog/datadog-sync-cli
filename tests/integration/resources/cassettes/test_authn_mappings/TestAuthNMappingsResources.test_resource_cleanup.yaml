@@ -5,13 +5,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -21,13 +24,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
+    uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -37,7 +43,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/authn_mappings/2158979a-2a75-11ef-b6cb-da7ad0900005
+    uri: https://us5.datadoghq.com/api/v2/authn_mappings/8ac010de-985f-11ef-a159-da7ad0900005
   response:
     body:
       string: ''
@@ -48,67 +54,41 @@ interactions:
       code: 204
       message: No Content
 - request:
-    body: null
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472161, "value":
+      1}], "tags": ["id:423368a4-956a-11ef-b92a-da7ad0900005", "action_type:delete",
+      "status:success", "resource_type:authn_mappings", "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
-    method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/authn_mappings/2151d2ca-2a75-11ef-9510-da7ad0900005
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
   response:
     body:
-      string: ''
+      string: '{"errors": []}'
     headers:
       Content-Type:
-      - text/html; charset=utf-8
+      - application/json
     status:
-      code: 204
-      message: No Content
+      code: 202
+      message: Accepted
 - request:
-    body: null
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472161, "value":
+      1}], "tags": ["id:423368a4-956a-11ef-b92a-da7ad0900005", "action_type:delete",
+      "status:success", "resource_type:authn_mappings", "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json
-    method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/authn_mappings/21593696-2a75-11ef-bbf5-da7ad0900005
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
   response:
     body:
-      string: ''
-    headers:
-      Content-Type:
-      - text/html; charset=utf-8
-    status:
-      code: 204
-      message: No Content
-- request:
-    body: null
+      string: '{"errors": []}'
     headers:
       Content-Type:
       - application/json
-    method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/authn_mappings/21534c0e-2a75-11ef-8c13-da7ad0900005
-  response:
-    body:
-      string: ''
-    headers:
-      Content-Type:
-      - text/html; charset=utf-8
     status:
-      code: 204
-      message: No Content
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.datadoghq.eu/api/v2/authn_mappings/214e8a66-2a75-11ef-9113-da7ad0900005
-  response:
-    body:
-      string: ''
-    headers:
-      Content-Type:
-      - text/html; charset=utf-8
-    status:
-      code: 204
-      message: No Content
+      code: 202
+      message: Accepted
 version: 1

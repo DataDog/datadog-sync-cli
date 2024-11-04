@@ -5,29 +5,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -40,10 +27,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -53,10 +43,20 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
+    uri: https://api.datadoghq.eu/api/v1/notebooks?count=100&include_cells=true&start=0
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": [{"type": "notebooks", "id": 181709, "attributes": {"name":
+        "Michael Oct 21 2024 14:52", "cells": [{"type": "notebook_cells", "attributes":
+        {"definition": {"type": "markdown", "text": "test"}}, "id": "jzqgkbvg"}],
+        "time": {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
+        false, "is_favorite": false, "type": null}, "template_variables": [], "status":
+        "published", "modified": "2024-10-21T18:52:29.571371+00:00", "created": "2024-10-21T18:52:29.571371+00:00",
+        "deleted": null, "tags": [], "author": {"name": "Michael Richey", "handle":
+        "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "icon":
+        "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
+        "title": null, "verified": true, "disabled": false, "status": "Active"}, "schema_version":
+        null}}], "meta": {"page": {"total_count": 1, "total_filtered_count": 1}}}'
     headers:
       Content-Type:
       - application/json
@@ -64,190 +64,78 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472229, "value":
+      1}], "tags": ["id:181709", "action_type:import", "status:success", "resource_type:notebooks",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472229, "value":
+      1}], "tags": ["id:181709", "action_type:import", "status:success", "resource_type:notebooks",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
     body: null
     headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/notebooks?count=100&include_cells=true&start=0
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"meta": {"page": {"total_filtered_count": 5, "total_count": 5}}, "data":
-        [{"type": "notebooks", "id": 1340258, "attributes": {"name": "Noueman Notebook",
-        "cells": [{"attributes": {"definition": {"show_legend": true, "type": "timeseries",
-        "requests": [{"q": "avg:system.load.1{*}", "style": {"line_width": "normal",
-        "palette": "dog_classic", "line_type": "solid"}, "display_type": "line"}],
-        "yaxis": {"scale": "linear"}}, "graph_size": "m", "split_by": {"keys": [],
-        "tags": []}, "time": null}, "type": "notebook_cells", "id": "g6x1knta"}, {"attributes":
-        {"definition": {"text": "Teeeeeest", "type": "markdown"}}, "type": "notebook_cells",
-        "id": "sf3x5n03"}], "time": {"live_span": "1h"}, "metadata": {"is_favorite":
-        false, "is_template": false, "type": null, "take_snapshots": false}, "template_variables":
-        null, "status": "published", "modified": "2021-09-23T23:10:10.033807+00:00",
-        "created": "2021-09-23T23:10:10.033807+00:00", "author": {"name": "Noueman
-        Khalikine", "handle": "noueman.khalikine@datadoghq.com", "email": "noueman.khalikine@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/92d6421ea95d9f7b8d60c8270c95d84a?s=48&d=retro",
-        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
-        {"type": "notebooks", "id": 1249391, "attributes": {"name": "Test Notebook",
-        "cells": [{"attributes": {"definition": {"show_legend": true, "title": "Test
-        Notebook", "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}",
-        "style": {"line_width": "normal", "palette": "dog_classic", "line_type": "solid"},
-        "display_type": "line"}], "yaxis": {"scale": "linear"}}, "graph_size": "m",
-        "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
-        "id": "2fsbpu0n"}, {"attributes": {"definition": {"text": "Test message",
-        "type": "markdown"}}, "type": "notebook_cells", "id": "dp2x1d2e"}, {"attributes":
-        {"definition": {"requests": [{"formulas": [{"formula": "query1"}], "response_format":
-        "scalar", "queries": [{"query": "avg:system.load.1{*}", "data_source": "metrics",
-        "name": "query1", "aggregator": "avg"}]}], "type": "toplist"}, "graph_size":
-        "m", "split_by": {"keys": [], "tags": []}, "time": null}, "type": "notebook_cells",
-        "id": "qoavau2o"}], "time": {"live_span": "1h"}, "metadata": {"is_favorite":
-        false, "is_template": false, "type": null, "take_snapshots": false}, "template_variables":
-        null, "status": "published", "modified": "2021-09-23T21:45:36.493252+00:00",
-        "created": "2021-09-03T14:34:56.849312+00:00", "author": {"name": "Sherzod
-        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
-        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
-        {"type": "notebooks", "id": 1249389, "attributes": {"name": "RFC: [title]
-        (from template)", "cells": [{"attributes": {"definition": {"text": "Property                 |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Author(s)**              |
-        Name (Team name, Role), Name (Team name, Role)            \n**Status:**     |Draft
-        / Review / Accepted / Closed        \n**Date Created:**              |HH:mm
-        UTC MM/dd/yyyy                    \n\n_Use this template to outline your proposal,
-        including graphs, code snippets, and images where necessary._ ", "type": "markdown"}},
-        "type": "notebook_cells", "id": "l8rkjzhd"}, {"attributes": {"definition":
-        {"text": "\n# Overview\n_Concisely describe the problem you need to solve
-        and your recommended solution._\n\n\n# Problem\n_Describe the motivation for
-        this proposal. Why is it important to solve?_\n\n# Constraints\n_Note any
-        requirements that a solution must fulfill._\n\n1. \n2. \n\n\n\n", "type":
-        "markdown"}}, "type": "notebook_cells", "id": "2te0gswu"}, {"attributes":
-        {"definition": {"show_legend": true, "type": "timeseries", "requests": [{"q":
-        "avg:system.load.1{*}", "style": {"line_width": "normal", "palette": "purple",
-        "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale": "linear"}},
-        "graph_size": "xs", "split_by": {"keys": [], "tags": []}, "time": null}, "type":
-        "notebook_cells", "id": "z8youq6a"}, {"attributes": {"definition": {"text":
-        "# Proposed Solution\n_Describe your solution in detail. Explain why it''s
-        better than the current state and other options considered. Address any critical
-        operational issues like failure modes, failover, redundancy, performance,
-        etc. Include graphs and code snippets of design details where necessary._\n\n-
-        Strengths\n     - Example: takes up minimal disk space\n     -\n- Weaknesses\n     -
-        Example: hash isn''t human-readable\n     -\n- Failure Modes\n   \n", "type":
-        "markdown"}}, "type": "notebook_cells", "id": "7dacumjb"}, {"attributes":
-        {"definition": {"text": "```json\n{ \n  \"data\": {\n    \"type\": \"notebooks\",\n    \"id\":
-        0,\n    \"attributes\": {\n      \"cells\": [\n        {\n          \"type\":
-        \"notebook_cells\",\n          \"id\": \"abcd1234\"\n        }\n      ],\n      \"status\":
-        \"published\",\n      \"name\": \"Example Notebook\",\n      \"author\": {\n        \"name\":
-        \"string\",\n        \"handle\": \"string\",\n        \"created_at\": \"2021-03-17T16:42:17.382Z\",  \n        \"email\":
-        \"string\",\n        \"icon\": \"string\",\n        \"title\": \"string\",\n        \"verified\":
-        true,\n        \"disabled\": true,\n        \"status\": \"string\"\n        }\n    }\n  }\n}\n```",
-        "type": "markdown"}}, "type": "notebook_cells", "id": "34uin7xs"}, {"attributes":
-        {"definition": {"text": "# Alternatives Considered\n_Describe other options
-        considered and the tradeoffs relative to the recommended solution._\n## Solution
-        1\n## Solution 2\n\n", "type": "markdown"}}, "type": "notebook_cells", "id":
-        "0ryy65ac"}, {"attributes": {"definition": {"text": "# Open Questions\n_Note
-        relevant questions and design topics._\n\n# Appendix\n_[Link](/) relevant
-        documents or references._", "type": "markdown"}}, "type": "notebook_cells",
-        "id": "5xnxosip"}], "time": {"live_span": "1h"}, "metadata": {"is_favorite":
-        false, "is_template": false, "type": null, "take_snapshots": false}, "template_variables":
-        null, "status": "published", "modified": "2021-09-03T14:34:37.029613+00:00",
-        "created": "2021-09-03T14:34:37.029613+00:00", "author": {"name": "Sherzod
-        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
-        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
-        {"type": "notebooks", "id": 1249388, "attributes": {"name": "Gameday YYYY-MM-DD:
-        [App Name] (from template)", "cells": [{"attributes": {"definition": {"text":
-        "Game days provide a framework to help us discover weaknesses, create more
-        useful alerts, and deploy fixes that improve the way our services respond
-        to failures.\n\n**Using this template:**\n- Record your test plan ahead of
-        time\n- Set the time frame to match your planned failures\n- Use graphs to
-        visualize signals you monitored and responded to\n- Collaborate on follow-up
-        tasks\n\n---", "type": "markdown"}}, "type": "notebook_cells", "id": "vcwaa3le"},
-        {"attributes": {"definition": {"text": "# Participants:\n- Name (Team name,
-        Role)\n- Name (Team name, Role)\n", "type": "markdown"}}, "type": "notebook_cells",
-        "id": "w6f782jr"}, {"attributes": {"definition": {"text": "# Goal\n_What is
-        the purpose of this gameday?_\n\n# Dependencies\n_Which services does the
-        app depend on to function properly? Include graphs where necessary._\n\n#
-        Related services\n_Which related services does the app depend on? Include
-        graphs where necessary._\n- [Related Dashboards](/dashboard/lists)\n\n# Related
-        outages\n_Optional: what outages relate to this exercise?_\n\n", "type": "markdown"}},
-        "type": "notebook_cells", "id": "6iuzz8ye"}, {"attributes": {"definition":
-        {"text": "### [replace this graph with relevant service ]", "type": "markdown"}},
-        "type": "notebook_cells", "id": "rpj42y2g"}, {"attributes": {"definition":
-        {"show_legend": true, "type": "timeseries", "requests": [{"q": "avg:system.load.1{*}
-        by {service}", "style": {"line_width": "normal", "palette": "dog_classic",
-        "line_type": "solid"}, "display_type": "area"}], "yaxis": {"scale": "linear"}},
-        "graph_size": "xs", "split_by": {"keys": [], "tags": []}, "time": null}, "type":
-        "notebook_cells", "id": "rw9np336"}, {"attributes": {"definition": {"text":
-        "# Test 1: [name]\n_Clone this cell to create more tests_\n## Prerequisites\n_Optional
-        tasks to complete before the test_\n- [X] ~~Prereq 1~~\n- [ ] Prereq 2\n\n##
-        Action\n_Actions to take during the test (script to run, instance to shutdown,
-        etc.)_\n- [ ] Action 1\n- [ ] Action 2\n\n## Observability\n_Dashboards, graphs,
-        log files, and other resources to monitor during the test. Include relevant
-        graphs._\n- [Related Dashboards](/dashboard/lists)\n\n\n## Cleanup\n_Optional
-        tasks to go back to a clean state_\n- [ ] Task 1\n- [ ] Task 2\n\nExpected
-        Results | Actual Results|  Comments | \n------------------------|--------------------
-        | ---------------- |\nExample: Monitor ID 1234567890 should trigger  |PASS
-        / FAIL / UNKNOWN |  This went wrong, we believe this is the issue     |\n_  |
-        PASS / FAIL / UNKNOWN   | _ |\n_  | PASS / FAIL / UNKNOWN   | _ |\n\n\n###
-        Notes\n- Optional\n- Interesting graphs, loglines, general comments on the
-        test, etc.", "type": "markdown"}}, "type": "notebook_cells", "id": "08zotnlb"},
-        {"attributes": {"definition": {"show_legend": true, "type": "timeseries",
-        "requests": [{"q": "avg:system.load.1{*} by {service}", "style": {"line_width":
-        "normal", "palette": "dog_classic", "line_type": "solid"}, "display_type":
-        "area"}], "yaxis": {"scale": "linear"}}, "graph_size": "xs", "split_by": {"keys":
-        [], "tags": []}, "time": null}, "type": "notebook_cells", "id": "8uzbdxoc"},
-        {"attributes": {"definition": {"text": "## Follow-up work\nFor each issue/improvement
-        identified, create a follow-up action with an owner, priority, and due date.
-        \n**This is the most important part of the gameday!**\n\n- Issue 1: [Link
-        to follow-up item](/)\n- Issue 2: [Link to follow-up item](/)\n", "type":
-        "markdown"}}, "type": "notebook_cells", "id": "wwhju4ds"}], "time": {"live_span":
-        "1h"}, "metadata": {"is_favorite": false, "is_template": false, "type": null,
-        "take_snapshots": false}, "template_variables": null, "status": "published",
-        "modified": "2021-09-03T14:34:33.365896+00:00", "created": "2021-09-03T14:34:33.365896+00:00",
-        "author": {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com",
-        "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
-        "title": null, "verified": true, "disabled": false, "status": "Active"}}},
-        {"type": "notebooks", "id": 1249387, "attributes": {"name": "Postmortem IR-xxxx:
-        [outage name] (from template)", "cells": [{"attributes": {"definition": {"text":
-        "Incident Property                  |            Details                 |\n-----------------------------|------------------------------------------------------------------------------------------------------------------------\n**Status:**                |Active/Stable/Resolved                  \n**Severity:**     |SEV-X                      \n**Started:**              |HH:mm
-        UTC MM/dd/yyyy                  \n**Commander:**     |[name]                 \n**Incident
-        Overview:** | [IR-xxxx] (/incidents)                 \n**Slack Channel:**        |[#IR-xxxx]
-        (/link)                 \n\n_You can generate a postmortem [from any resolved
-        incident](/incidents?query=state%3Aresolved) with these fields pre-fillled,
-        along with incident metadata and timeline._ ", "type": "markdown"}}, "type":
-        "notebook_cells", "id": "pp1vm0s8"}, {"attributes": {"definition": {"text":
-        "# What happened?\n### Impact on customers\n_How did this incident impact
-        external users?_", "type": "markdown"}}, "type": "notebook_cells", "id": "dci6b8sg"},
-        {"attributes": {"definition": {"text": "# Why did it happen?\n### Root cause\n_A
-        deep dive into the causes and what went particularly wrong._", "type": "markdown"}},
-        "type": "notebook_cells", "id": "zcm3akyt"}, {"attributes": {"definition":
-        {"text": "# Timeline\n\n_A detailed sequence of the events that led to the
-        incident, including contributing factors, notification, and remediation actions._\n\n_You
-        can add graphs that show what happened and scope them to the exact time range
-        of the incident._\n\n", "type": "markdown"}}, "type": "notebook_cells", "id":
-        "xwhr4e9q"}, {"attributes": {"definition": {"text": "- [timestamp] event\n-
-        [timestamp] event", "type": "markdown"}}, "type": "notebook_cells", "id":
-        "hy9zij5i"}, {"attributes": {"definition": {"show_legend": true, "type": "timeseries",
-        "requests": [{"q": "avg:system.load.1{*}", "style": {"line_width": "normal",
-        "palette": "dog_classic", "line_type": "solid"}, "display_type": "area"}],
-        "yaxis": {"scale": "linear"}}, "graph_size": "m", "split_by": {"keys": [],
-        "tags": []}, "time": null}, "type": "notebook_cells", "id": "kmp003ky"}, {"attributes":
-        {"definition": {"text": "# How do we prevent it in the future?\n### Action
-        Items\n_Include both short-term and long-term steps to prevent this in the
-        future. Link to any relevant action items, and include when the action items
-        are planned._\n\n\n### Short-term\n- [X] ~~Action 1~~\n- [ ] Action 2\n\n###
-        Long-term\n- [ ] Action 1\n- [ ] Action 2", "type": "markdown"}}, "type":
-        "notebook_cells", "id": "gajt34ww"}], "time": {"live_span": "1h"}, "metadata":
-        {"is_favorite": false, "is_template": false, "type": "postmortem", "take_snapshots":
-        false}, "template_variables": null, "status": "published", "modified": "2021-09-03T14:34:28.816850+00:00",
-        "created": "2021-09-03T14:34:28.816850+00:00", "author": {"name": "Sherzod
-        Karimov", "handle": "sherzod.karimov@datadoghq.com", "email": "sherzod.karimov@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
-        "title": null, "verified": true, "disabled": false, "status": "Active"}}}]}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
     headers:
       Content-Type:
       - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/hamr
+  response:
+    body:
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
     status:
       code: 200
       message: OK

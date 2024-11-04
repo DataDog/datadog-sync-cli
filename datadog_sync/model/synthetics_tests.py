@@ -39,6 +39,18 @@ class SyntheticsTests(BaseResource):
             "overall_state_modified",
             "stepCount",
         ],
+        non_nullable_attr=[
+            "options.monitor_options.on_missing_data",
+            "options.monitor_options.notify_audit",
+            "options.monitor_options.new_host_delay",
+            "options.monitor_options.include_tags",
+        ],
+        null_values={
+            "on_missing_data": ["show_no_data"],
+            "notify_audit": [False],
+            "new_host_delay": [300],
+            "include_tags": [True],
+        },
         tagging_config=TaggingConfig(path="tags"),
     )
     # Additional SyntheticsTests specific attributes

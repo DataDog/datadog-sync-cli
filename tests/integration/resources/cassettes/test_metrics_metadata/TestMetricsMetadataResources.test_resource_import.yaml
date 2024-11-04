@@ -5,29 +5,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -40,7 +27,30 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/metrics?filter%5Bconfigured%5D=false&window%5Bseconds%5D=1209600
+  response:
+    body:
+      string: '{"data": [{"type": "metrics", "id": "datadog.org_sync.diffs.start"},
+        {"type": "metrics", "id": "datadog.org_sync.sync.start"}, {"type": "metrics",
+        "id": "dd.seceng.dd_git_hooks.executions"}, {"type": "metrics", "id": "test"},
+        {"type": "metrics", "id": "dd.seceng.dd_git_hooks.duration_seconds"}, {"type":
+        "metrics", "id": "datadog.org_sync.import.start"}]}'
     headers:
       Content-Type:
       - application/json
@@ -53,142 +63,10 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
+    uri: https://api.datadoghq.eu/api/v1/metrics/datadog.org_sync.diffs.start
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/metrics?filter%5Bconfigured%5D=false&window%5Bseconds%5D=1209600
-  response:
-    body:
-      string: '{"data": [{"type": "metrics", "id": "datadog.estimated_usage.events.ingested_events"},
-        {"type": "metrics", "id": "datadog.estimated_usage.metrics.custom"}, {"type":
-        "metrics", "id": "datadog.estimated_usage.metrics.custom.by_metric"}, {"type":
-        "metrics", "id": "datadog.estimated_usage.synthetics.api_test_runs"}, {"type":
-        "metrics", "id": "datadog.estimated_usage.synthetics.browser_test_runs"},
-        {"type": "metrics", "id": "datadog.event.tracking.indexation.audit.events"},
-        {"type": "metrics", "id": "datadog.event.tracking.indexation.feed.events"},
-        {"type": "metrics", "id": "datadog.event.tracking.indexation.monresult.events"},
-        {"type": "metrics", "id": "datadog.event.tracking.intake.audit.bytes"}, {"type":
-        "metrics", "id": "datadog.event.tracking.intake.feed.bytes"}, {"type": "metrics",
-        "id": "datadog.event.tracking.intake.monresult.bytes"}, {"type": "metrics",
-        "id": "datadog.event.tracking.intake.synthetics.bytes"}, {"type": "metrics",
-        "id": "datadog.event.tracking.intakev2.audit.bytes"}, {"type": "metrics",
-        "id": "datadog.event.tracking.intakev2.feed.bytes"}, {"type": "metrics", "id":
-        "datadog.event.tracking.intakev2.monresult.bytes"}, {"type": "metrics", "id":
-        "datadog.event.tracking.intakev2.synthetics.bytes"}, {"type": "metrics", "id":
-        "rand.test.metric"}, {"type": "metrics", "id": "synthetics.api.response"},
-        {"type": "metrics", "id": "synthetics.browser.number_of_buckets"}, {"type":
-        "metrics", "id": "synthetics.browser.step.cumulative_layout_shift"}, {"type":
-        "metrics", "id": "synthetics.browser.step.cumulative_layout_shift.distrib"},
-        {"type": "metrics", "id": "synthetics.browser.step.duration"}, {"type": "metrics",
-        "id": "synthetics.browser.step.duration.distrib"}, {"type": "metrics", "id":
-        "synthetics.browser.step.largest_contentful_paint"}, {"type": "metrics", "id":
-        "synthetics.browser.step.largest_contentful_paint.distrib"}, {"type": "metrics",
-        "id": "synthetics.browser.time_to_interactive"}, {"type": "metrics", "id":
-        "synthetics.browser.time_to_interactive.distrib"}, {"type": "metrics", "id":
-        "synthetics.dns.response.time"}, {"type": "metrics", "id": "synthetics.dns.response.time.distrib"},
-        {"type": "metrics", "id": "synthetics.http.connect.time"}, {"type": "metrics",
-        "id": "synthetics.http.connect.time.distrib"}, {"type": "metrics", "id": "synthetics.http.dns.time"},
-        {"type": "metrics", "id": "synthetics.http.dns.time.distrib"}, {"type": "metrics",
-        "id": "synthetics.http.download.time"}, {"type": "metrics", "id": "synthetics.http.download.time.distrib"},
-        {"type": "metrics", "id": "synthetics.http.firstbyte.time"}, {"type": "metrics",
-        "id": "synthetics.http.firstbyte.time.distrib"}, {"type": "metrics", "id":
-        "synthetics.http.response"}, {"type": "metrics", "id": "synthetics.http.response.size"},
-        {"type": "metrics", "id": "synthetics.http.response.time"}, {"type": "metrics",
-        "id": "synthetics.http.response.time.distrib"}, {"type": "metrics", "id":
-        "synthetics.http.ssl.time"}, {"type": "metrics", "id": "synthetics.http.ssl.time.distrib"},
-        {"type": "metrics", "id": "synthetics.multi.response.time"}, {"type": "metrics",
-        "id": "synthetics.multi.response.time.distrib"}, {"type": "metrics", "id":
-        "synthetics.ssl.dns.time"}, {"type": "metrics", "id": "synthetics.ssl.handshake.time"},
-        {"type": "metrics", "id": "synthetics.ssl.response"}, {"type": "metrics",
-        "id": "synthetics.ssl.response.time"}, {"type": "metrics", "id": "synthetics.ssl.response.time.distrib"},
-        {"type": "metrics", "id": "synthetics.ssl.time_to_expiry"}, {"type": "metrics",
-        "id": "synthetics.tcp.connect.time"}, {"type": "metrics", "id": "synthetics.tcp.dns.time"},
-        {"type": "metrics", "id": "synthetics.tcp.response.time"}, {"type": "metrics",
-        "id": "synthetics.tcp.response.time.distrib"}, {"type": "metrics", "id": "synthetics.test_run_steps"},
-        {"type": "metrics", "id": "synthetics.test_runs"}, {"type": "metrics", "id":
-        "test.metric"}, {"type": "metrics", "id": "tls.days_left"}, {"type": "metrics",
-        "id": "tls.seconds_left"}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.estimated_usage.events.ingested_events
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": null, "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.indexation.monresult.events
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": null, "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.estimated_usage.synthetics.api_test_runs
-  response:
-    body:
-      string: '{"description": "Estimated usage for API tests.", "short_name": "API
-        tests est. usage", "type": "count", "unit": "run", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.estimated_usage.metrics.custom.by_metric
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+      string: '{"description": "test", "short_name": null, "type": "count", "unit":
         null, "per_unit": null, "statsd_interval": null, "integration": null}'
     headers:
       Content-Type:
@@ -202,7 +80,43 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.indexation.audit.events
+    uri: https://api.datadoghq.eu/api/v1/metrics/dd.seceng.dd_git_hooks.duration_seconds
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": null, "unit": null,
+        "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:datadog.org_sync.diffs.start", "action_type:import", "status:success",
+      "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/metrics/datadog.org_sync.import.start
   response:
     body:
       string: '{"description": null, "short_name": null, "type": null, "unit": null,
@@ -219,7 +133,24 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.intake.audit.bytes
+    uri: https://api.datadoghq.eu/api/v1/metrics/dd.seceng.dd_git_hooks.executions
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "rate", "unit": null,
+        "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/metrics/datadog.org_sync.sync.start
   response:
     body:
       string: '{"description": null, "short_name": null, "type": null, "unit": null,
@@ -236,889 +167,10 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.estimated_usage.metrics.custom
+    uri: https://api.datadoghq.eu/api/v1/metrics/test
   response:
     body:
       string: '{"description": null, "short_name": null, "type": "gauge", "unit":
-        null, "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.indexation.feed.events
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": null, "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.intake.feed.bytes
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": null, "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.estimated_usage.synthetics.browser_test_runs
-  response:
-    body:
-      string: '{"description": "Estimated usage for browser tests.", "short_name":
-        "Browser tests est. usage", "type": "count", "unit": "run", "per_unit": null,
-        "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.intake.monresult.bytes
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": null, "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.intake.synthetics.bytes
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": null, "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.intakev2.audit.bytes
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": null, "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.intakev2.synthetics.bytes
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": null, "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.api.response
-  response:
-    body:
-      string: '{"description": "The count of API responses we receive.", "short_name":
-        "Response count", "type": "count", "unit": "request", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/rand.test.metric
-  response:
-    body:
-      string: '{"description": "This is a random metric value", "short_name": null,
-        "type": "gauge", "unit": "instance", "per_unit": null, "statsd_interval":
-        null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.browser.number_of_buckets
-  response:
-    body:
-      string: '{"description": "The number of buckets in a browser test. Every 25
-        steps in a browser test is a single bucket.", "short_name": "Number of buckets",
-        "type": "count", "unit": null, "per_unit": null, "statsd_interval": null,
-        "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.intakev2.feed.bytes
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": null, "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.browser.step.cumulative_layout_shift.distrib
-  response:
-    body:
-      string: '{"description": "The Cumulative Layout Shift (core web vital) in a
-        browser test step.", "short_name": "Step CLS", "type": "gauge", "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.browser.step.cumulative_layout_shift
-  response:
-    body:
-      string: '{"description": "The Cumulative Layout Shift (core web vital) in a
-        browser test step.", "short_name": "Step CLS", "type": "gauge", "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/datadog.event.tracking.intakev2.monresult.bytes
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": null, "unit": null,
-        "per_unit": null, "statsd_interval": null, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.browser.step.duration
-  response:
-    body:
-      string: '{"description": "The total time it took to execute a browser test step.",
-        "short_name": "Step duration", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.browser.step.duration.distrib
-  response:
-    body:
-      string: '{"description": "The total time it took to execute a browser test step.",
-        "short_name": "Step duration", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.browser.time_to_interactive.distrib
-  response:
-    body:
-      string: '{"description": "The time until a page can be interacted with. Calculated
-        from the first page in a browser test.", "short_name": "Time to interactive",
-        "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.browser.time_to_interactive
-  response:
-    body:
-      string: '{"description": "The time until a page can be interacted with. Calculated
-        from the first page in a browser test.", "short_name": "Time to interactive",
-        "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.browser.step.largest_contentful_paint
-  response:
-    body:
-      string: '{"description": "The Largest Contentful Paint (core web vital) in a
-        browser test step.", "short_name": "Step LCP", "type": "gauge", "unit": "millisecond",
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.dns.response.time.distrib
-  response:
-    body:
-      string: '{"description": "The overall time the request took to be processed.",
-        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.dns.response.time
-  response:
-    body:
-      string: '{"description": "The overall time the request took to be processed.",
-        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.connect.time
-  response:
-    body:
-      string: '{"description": "The time to establish the TCP connection to the server.",
-        "short_name": "Connect time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.connect.time.distrib
-  response:
-    body:
-      string: '{"description": "The time to establish the TCP connection to the server.",
-        "short_name": "Connect time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.browser.step.largest_contentful_paint.distrib
-  response:
-    body:
-      string: '{"description": "The Largest Contentful Paint (core web vital) in a
-        browser test step.", "short_name": "Step LCP", "type": "gauge", "unit": "millisecond",
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.dns.time
-  response:
-    body:
-      string: '{"description": "The time spent resolving the DNS name of the last
-        request.", "short_name": "DNS time", "type": "gauge", "unit": "millisecond",
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.dns.time.distrib
-  response:
-    body:
-      string: '{"description": "The time spent resolving the DNS name of the last
-        request.", "short_name": "DNS time", "type": "gauge", "unit": "millisecond",
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.download.time.distrib
-  response:
-    body:
-      string: '{"description": "The time spent downloading the response.", "short_name":
-        "Download time", "type": "gauge", "unit": "millisecond", "per_unit": null,
-        "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.response.size
-  response:
-    body:
-      string: '{"description": "The size of the response in bytes.", "short_name":
-        "Response size", "type": "gauge", "unit": "byte", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.download.time
-  response:
-    body:
-      string: '{"description": "The time spent downloading the response.", "short_name":
-        "Download time", "type": "gauge", "unit": "millisecond", "per_unit": null,
-        "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.firstbyte.time
-  response:
-    body:
-      string: '{"description": "The time spent waiting for the first byte of response
-        to be received.", "short_name": "TTFB", "type": "gauge", "unit": "millisecond",
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.response
-  response:
-    body:
-      string: '{"description": "The count of HTTP responses we receive.", "short_name":
-        "Response count", "type": "count", "unit": "request", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.firstbyte.time.distrib
-  response:
-    body:
-      string: '{"description": "The time spent waiting for the first byte of response
-        to be received.", "short_name": "TTFB", "type": "gauge", "unit": "millisecond",
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.response.time.distrib
-  response:
-    body:
-      string: '{"description": "The overall time the request took to be processed.",
-        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.response.time
-  response:
-    body:
-      string: '{"description": "The overall time the request took to be processed.",
-        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.ssl.time
-  response:
-    body:
-      string: '{"description": "The duration of the TLS handshake. This metric does
-        not appear if the last request is not over HTTPS.", "short_name": "SSL time",
-        "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.http.ssl.time.distrib
-  response:
-    body:
-      string: '{"description": "The duration of the TLS handshake. This metric does
-        not appear if the last request is not over HTTPS.", "short_name": "SSL time",
-        "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.multi.response.time
-  response:
-    body:
-      string: '{"description": "The overall time the multistep request took to be
-        processed.", "short_name": "Response time", "type": "gauge", "unit": "millisecond",
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.ssl.response
-  response:
-    body:
-      string: '{"description": "The count of SSL responses we receive.", "short_name":
-        "Response count", "type": "count", "unit": "request", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.ssl.handshake.time
-  response:
-    body:
-      string: '{"description": "The duration of the TLS handshake.", "short_name":
-        "TLS handshake time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.ssl.dns.time
-  response:
-    body:
-      string: '{"description": "The duration of the DNS lookup.", "short_name": "DNS
-        time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.ssl.response.time
-  response:
-    body:
-      string: '{"description": "The overall time the request took to be processed.",
-        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.multi.response.time.distrib
-  response:
-    body:
-      string: '{"description": "The overall time the multistep request took to be
-        processed.", "short_name": "Response time", "type": "gauge", "unit": "millisecond",
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.tcp.dns.time
-  response:
-    body:
-      string: '{"description": "The duration of the DNS lookup.", "short_name": "DNS
-        time", "type": "gauge", "unit": "millisecond", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.ssl.time_to_expiry
-  response:
-    body:
-      string: '{"description": "The remaining time before the SSL certificate expires.",
-        "short_name": "Remaining time before SSL certificate expiration", "type":
-        "gauge", "unit": "minute", "per_unit": null, "statsd_interval": null, "integration":
-        "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.ssl.response.time.distrib
-  response:
-    body:
-      string: '{"description": "The overall time the request took to be processed.",
-        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.tcp.response.time
-  response:
-    body:
-      string: '{"description": "The overall time the request took to be processed.",
-        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.tcp.connect.time
-  response:
-    body:
-      string: '{"description": "The time to establish the TCP connection.", "short_name":
-        "Connect time", "type": "gauge", "unit": "millisecond", "per_unit": null,
-        "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.tcp.response.time.distrib
-  response:
-    body:
-      string: '{"description": "The overall time the request took to be processed.",
-        "short_name": "Response time", "type": "gauge", "unit": "millisecond", "per_unit":
-        null, "statsd_interval": null, "integration": "synthetics"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/test.metric
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": "count", "unit":
         null, "per_unit": null, "statsd_interval": 10, "integration": null}'
     headers:
       Content-Type:
@@ -1127,20 +179,230 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:datadog.org_sync.import.start", "action_type:import", "status:skipped",
+      "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:dd.seceng.dd_git_hooks.duration_seconds", "action_type:import",
+      "status:skipped", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:dd.seceng.dd_git_hooks.executions", "action_type:import",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:datadog.org_sync.diffs.start", "action_type:import", "status:success",
+      "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:test", "action_type:import", "status:success", "resource_type:metrics_metadata",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:datadog.org_sync.sync.start", "action_type:import", "status:skipped",
+      "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:datadog.org_sync.import.start", "action_type:import", "status:skipped",
+      "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:dd.seceng.dd_git_hooks.duration_seconds", "action_type:import",
+      "status:skipped", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:dd.seceng.dd_git_hooks.executions", "action_type:import",
+      "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:datadog.org_sync.sync.start", "action_type:import", "status:skipped",
+      "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472218, "value":
+      1}], "tags": ["id:test", "action_type:import", "status:success", "resource_type:metrics_metadata",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
     body: null
     headers:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.test_runs
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"description": "The number of Synthetic test runs.", "short_name":
-        "Synthetic test runs", "type": "count", "unit": "run", "per_unit": null, "statsd_interval":
-        null, "integration": "synthetics"}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -1150,51 +412,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/synthetics.test_run_steps
+    uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"description": "The number of Synthetic test steps.", "short_name":
-        "The number of Synthetic test run steps", "type": "count", "unit": "step",
-        "per_unit": null, "statsd_interval": null, "integration": "synthetics"}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/tls.days_left
-  response:
-    body:
-      string: '{"description": "Days until X.509 certificate expiration", "short_name":
-        "Days until expiration", "type": "gauge", "unit": "day", "per_unit": null,
-        "statsd_interval": null, "integration": "tls"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v1/metrics/tls.seconds_left
-  response:
-    body:
-      string: '{"description": "Seconds until X.509 certificate expiration", "short_name":
-        "Seconds until expiration", "type": "gauge", "unit": "second", "per_unit":
-        null, "statsd_interval": null, "integration": "tls"}'
-    headers:
-      Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK

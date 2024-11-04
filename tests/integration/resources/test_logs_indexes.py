@@ -6,6 +6,7 @@
 import os
 import json
 import logging
+import pytest
 import urllib.request
 
 from datadog_sync.models import LogsIndexes
@@ -13,6 +14,7 @@ from datadog_sync.cli import cli
 from tests.integration.helpers import BaseResourcesTestClass, open_resources, save_source_resources
 
 
+@pytest.mark.skip(reason="You cannot recreate an index with the same name as a deleted index")
 class TestLogsIndexesResources(BaseResourcesTestClass):
     resource_type = LogsIndexes.resource_type
     field_to_update = "filter.query"

@@ -5,29 +5,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
+    uri: https://us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
-    headers:
-      Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -40,10 +27,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -53,13 +43,88 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v2/hamr
+    uri: https://api.datadoghq.eu/api/v2/powerpacks?page%5Blimit%5D=1000&page%5Boffset%5D=0
   response:
     body:
-      string: '{"data":{"id":"deadbeef-dead-beef-dead-beefdeadbeef","type":"hamr_org_connections","attributes":{"HamrStatus":5,"IsPrimary":false,"ModifiedAt":"2024-06-18 16:30:26.895822","ModifiedBy":"","TargetOrgDatacenter":"us1.prod.dog","TargetOrgName":"Test","TargetOrgUuid":"facefeed-face-feed-face-feedfacefeed"}}}'
+      string: '{"data": [{"type": "powerpack", "id": "e685afa6-955c-11ef-9254-da7ad0900005",
+        "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
+        {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
+        "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
+        "y": 0, "width": 4, "height": 2}, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
+        "data_source": "metrics", "query": "avg:system.cpu.user{*}"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "line"}]}, "id": 7771709005082419}]}}, "template_variables":
+        [], "tags": ["tag:system"]}, "relationships": {"author": {"data": {"type":
+        "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0"}}}}], "included": [{"type":
+        "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "attributes": {"name":
+        "Michael Richey", "email": "michael.richey@datadoghq.com"}}], "meta": {"pagination":
+        {"offset": 0, "first_offset": 0, "prev_offset": 0, "next_offset": 1000, "last_offset":
+        null, "limit": 1000, "type": "offset_limit"}}, "links": {"self": "https://api.datadoghq.eu/api/v2/powerpacks?page[limit]=1000&page[offset]=0",
+        "last": null, "next": "https://api.datadoghq.eu/api/v2/powerpacks?page[offset]=1000&page[limit]=1000",
+        "prev": null, "first": "https://api.datadoghq.eu/api/v2/powerpacks?page[offset]=0&page[limit]=1000"}}'
     headers:
       Content-Type:
       - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472234, "value":
+      1}], "tags": ["id:e685afa6-955c-11ef-9254-da7ad0900005", "action_type:import",
+      "status:success", "resource_type:powerpacks", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472234, "value":
+      1}], "tags": ["id:e685afa6-955c-11ef-9254-da7ad0900005", "action_type:import",
+      "status:success", "resource_type:powerpacks", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://us5.datadoghq.com/api/v2/hamr
+  response:
+    body:
+      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
+        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
     status:
       code: 200
       message: OK
@@ -69,45 +134,16 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.com/api/v2/powerpacks?page%5Blimit%5D=1000&page%5Boffset%5D=0
+    uri: https://api.datadoghq.eu/api/v2/hamr
   response:
     body:
-      string: '{"data": [{"type": "powerpack", "id": "1b48b2e6-0c9c-11ef-90f8-da7ad0900002",
-        "attributes": {"name": "", "description": "Created using the Datadog provider
-        in terraform", "group_widget": {"definition": {"layout_type": "ordered", "type":
-        "group", "widgets": [{"definition": {"event_size": "l", "query": "foo:bar",
-        "title": "Widget Title", "title_align": "right", "title_size": "16", "type":
-        "event_stream"}, "id": 1117178351269546}]}, "layout": {"height": 10, "width":
-        3, "x": 1, "y": 0}, "live_span": "4h"}, "template_variables": [{"defaults":
-        ["defaults"], "name": "datacenter"}], "tags": []}, "relationships": {"author":
-        {"data": {"type": "users", "id": "d5459c54-9e9d-11ee-a5c9-ce6dc639753f"}}}},
-        {"type": "powerpack", "id": "1b47fdb0-0c9c-11ef-8803-da7ad0900002", "attributes":
-        {"name": "", "description": "Created using the Datadog provider in terraform",
-        "group_widget": {"definition": {"layout_type": "ordered", "type": "group",
-        "widgets": [{"definition": {"event_size": "l", "query": "*", "title": "Widget
-        Title", "title_align": "right", "title_size": "16", "type": "event_stream"},
-        "id": 6762997975823800}]}, "layout": {"height": 10, "width": 3, "x": 1, "y":
-        0}, "live_span": "4h"}, "template_variables": [{"defaults": ["defaults"],
-        "name": "datacenter"}], "tags": []}, "relationships": {"author": {"data":
-        {"type": "users", "id": "d5459c54-9e9d-11ee-a5c9-ce6dc639753f"}}}}, {"type":
-        "powerpack", "id": "1b475130-0c9c-11ef-83dd-da7ad0900002", "attributes": {"name":
-        "", "description": "Created using the Datadog provider in terraform", "group_widget":
-        {"definition": {"layout_type": "ordered", "type": "group", "widgets": [{"definition":
-        {"event_size": "l", "query": "random:foo", "title": "Widget Title", "title_align":
-        "right", "title_size": "16", "type": "event_stream"}, "id": 1087309818806203}]},
-        "layout": {"height": 10, "width": 3, "x": 1, "y": 0}, "live_span": "4h"},
-        "template_variables": [{"defaults": ["defaults"], "name": "datacenter"}],
-        "tags": []}, "relationships": {"author": {"data": {"type": "users", "id":
-        "d5459c54-9e9d-11ee-a5c9-ce6dc639753f"}}}}], "included": [{"type": "users",
-        "id": "d5459c54-9e9d-11ee-a5c9-ce6dc639753f", "attributes": {"name": "CI Service
-        Account", "email": "frog@datadoghq.com"}}], "meta": {"pagination": {"offset":
-        0, "first_offset": 0, "prev_offset": 0, "next_offset": 1000, "last_offset":
-        null, "limit": 1000, "type": "offset_limit"}}, "links": {"self": "https://api.datadoghq.com/api/v2/powerpacks?page%5Blimit%5D=1000&page%5Boffset%5D=0",
-        "last": null, "next": "https://api.datadoghq.com/api/v2/powerpacks?page[offset]=1000&page[limit]=1000",
-        "prev": null, "first": "https://api.datadoghq.com/api/v2/powerpacks?page[offset]=0&page[limit]=1000"}}'
+      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
+        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
+        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
+        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 200
       message: OK

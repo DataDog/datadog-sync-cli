@@ -9,6 +9,7 @@ from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import LogsIndexesOrder
 
 
+@pytest.mark.skip(reason="You cannot recreate an index with the same name as a deleted index")
 class TestLogsIndexesOrder(BaseResourcesTestClass):
     resource_type = LogsIndexesOrder.resource_type
     force_missing_deps = True

@@ -55,6 +55,7 @@ class ResourceConfig:
     base_path: str
     resource_connections: Optional[Dict[str, List[str]]] = None
     non_nullable_attr: Optional[List[str]] = None
+    null_values: Optional[Dict[str]] = None
     excluded_attributes: Optional[List[str]] = None
     concurrent: bool = True
     deep_diff_config: dict = field(default_factory=lambda: {"ignore_order": True})

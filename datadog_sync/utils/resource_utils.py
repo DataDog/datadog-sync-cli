@@ -175,7 +175,7 @@ def remove_non_nullable_attributes(resource_config, resource):
     if resource_config.non_nullable_attr:
         for key in resource_config.non_nullable_attr:
             k_list = key.split(".")
-            del_null_attr(k_list, resource)
+            del_null_attr(resource_config, k_list, resource)
 
 
 def del_attr(k_list, resource):
@@ -187,11 +187,16 @@ def del_attr(k_list, resource):
         del_attr(k_list[1:], resource[k_list[0]])
 
 
-def del_null_attr(k_list, resource):
+def del_null_attr(resource_config, k_list, resource):
+    # the nulls get converted to "something", this converts them back
+    if resource_config.null_values and len(k_list) == 1 and k_list[0] in resource_config.null_values:
+        if k_list[0] in resource and resource[k_list[0]] in resource_config.null_values[k_list[0]]:
+            resource[k_list[0]] = None
+
     if len(k_list) == 1 and k_list[0] in resource and resource[k_list[0]] is None:
         resource.pop(k_list[0], None)
     elif len(k_list) > 1 and resource[k_list[0]] is not None:
-        del_null_attr(k_list[1:], resource[k_list[0]])
+        del_null_attr(resource_config, k_list[1:], resource[k_list[0]])
 
 
 def check_diff(resource_config, resource, state):
