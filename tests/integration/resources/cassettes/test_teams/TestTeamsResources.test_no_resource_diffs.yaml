@@ -38,6 +38,42 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.diffs.start", "type": 0, "points": [{"timestamp": 1730818173,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.diffs.start", "type": 0, "points": [{"timestamp": 1730818173,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
     body: null
     headers:
       Content-Type:
@@ -46,21 +82,21 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
     body:
-      string: '{"data": [{"type": "team", "relationships": {"user_team_permissions":
-        {"links": {"related": "/api/v2/team/44eaa817-440f-4c22-869d-8291f9aca112/permission-settings"}},
-        "team_links": {"links": {"related": "/api/v2/team/44eaa817-440f-4c22-869d-8291f9aca112/links"}}},
-        "id": "44eaa817-440f-4c22-869d-8291f9aca112", "attributes": {"link_count":
-        0, "user_count": 0, "name": "hamr test", "description": "updated", "summary":
-        "updated", "created_at": "2024-11-01T14:44:03.167907+00:00", "modified_at":
-        "2024-11-01T14:44:44.966064+00:00", "handle": "hamr-test"}}, {"type": "team",
-        "relationships": {"user_team_permissions": {"links": {"related": "/api/v2/team/be963348-643c-4c67-ba64-2d8fe142dd18/permission-settings"}},
-        "team_links": {"links": {"related": "/api/v2/team/be963348-643c-4c67-ba64-2d8fe142dd18/links"}}},
-        "id": "be963348-643c-4c67-ba64-2d8fe142dd18", "attributes": {"link_count":
-        0, "user_count": 0, "name": "test", "description": "updated", "summary": "updated",
-        "created_at": "2024-11-01T14:44:43.425242+00:00", "modified_at": "2024-11-01T14:44:45.076004+00:00",
-        "handle": "test"}}], "meta": {"pagination": {"number": 0, "first_number":
-        0, "prev_number": 0, "next_number": 1, "last_number": 0, "size": 100, "type":
-        "number_size", "total": 2}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
+      string: '{"data": [{"type": "team", "attributes": {"created_at": "2024-11-05T14:48:32.979126+00:00",
+        "modified_at": "2024-11-05T14:49:31.991140+00:00", "handle": "hamr-test",
+        "description": "updated", "user_count": 0, "summary": "updated", "link_count":
+        0, "name": "hamr test"}, "id": "432b6495-e527-43f4-8819-a9d5321f7939", "relationships":
+        {"user_team_permissions": {"links": {"related": "/api/v2/team/432b6495-e527-43f4-8819-a9d5321f7939/permission-settings"}},
+        "team_links": {"links": {"related": "/api/v2/team/432b6495-e527-43f4-8819-a9d5321f7939/links"}}}},
+        {"type": "team", "attributes": {"created_at": "2024-11-05T14:49:29.859830+00:00",
+        "modified_at": "2024-11-05T14:49:32.075683+00:00", "handle": "test", "description":
+        "updated", "user_count": 0, "summary": "updated", "link_count": 0, "name":
+        "test"}, "id": "1fc53529-74e8-4f28-9773-aa05490e9b2f", "relationships": {"user_team_permissions":
+        {"links": {"related": "/api/v2/team/1fc53529-74e8-4f28-9773-aa05490e9b2f/permission-settings"}},
+        "team_links": {"links": {"related": "/api/v2/team/1fc53529-74e8-4f28-9773-aa05490e9b2f/links"}}}}],
+        "meta": {"pagination": {"number": 0, "first_number": 0, "prev_number": 0,
+        "next_number": 1, "last_number": 0, "size": 100, "type": "number_size", "total":
+        2}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
         "last": null, "next": "https://us5.datadoghq.com/api/v2/team?page[number]=1&page[size]=100",
         "prev": null, "first": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100"}}'
     headers:
