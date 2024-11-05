@@ -38,6 +38,42 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.diffs.start", "type": 0, "points": [{"timestamp": 1730818045,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.diffs.start", "type": 0, "points": [{"timestamp": 1730818045,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
     body: null
     headers:
       Content-Type:
@@ -72,7 +108,7 @@ interactions:
         "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
         "gcuSSxgqTOypu7W9R00ZWg", "type": "pipeline", "name": "test", "is_enabled":
         false, "is_read_only": false, "filter": {"query": "source:appgate_client "},
-        "processors": []}, {"id": "v0Vnze-DR7yt9B-jL-P8kQ", "type": "pipeline", "name":
+        "processors": []}, {"id": "5jEBRRQuStS19UY0t4qO_Q", "type": "pipeline", "name":
         "testupdated", "is_enabled": false, "is_read_only": false, "filter": {"query":
         "source:appgate_client "}, "processors": []}]'
     headers:

@@ -38,12 +38,48 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818046,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818046,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
     body: null
     headers:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/v0Vnze-DR7yt9B-jL-P8kQ
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/5jEBRRQuStS19UY0t4qO_Q
   response:
     body:
       string: '{}'
@@ -55,7 +91,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472196, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818046, "value":
       1}], "tags": ["id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:delete", "status:success",
       "resource_type:logs_pipelines", "client_type:destination"]}]}'
     headers:
@@ -74,7 +110,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472196, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818046, "value":
       1}], "tags": ["id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:delete", "status:success",
       "resource_type:logs_pipelines", "client_type:source"]}]}'
     headers:

@@ -38,15 +38,51 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818008,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818008,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
     body: null
     headers:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/dashboard/ucb-2yv-pm7
+    uri: https://us5.datadoghq.com/api/v1/dashboard/gr3-xam-ssj
   response:
     body:
-      string: '{"deleted_dashboard_id": "ucb-2yv-pm7"}'
+      string: '{"deleted_dashboard_id": "gr3-xam-ssj"}'
     headers:
       Content-Type:
       - application/json
@@ -55,7 +91,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472171, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818008, "value":
       1}], "tags": ["id:2n3-8ye-5ui", "action_type:delete", "status:success", "resource_type:dashboards",
       "client_type:destination"]}]}'
     headers:
@@ -74,7 +110,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472171, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818008, "value":
       1}], "tags": ["id:2n3-8ye-5ui", "action_type:delete", "status:success", "resource_type:dashboards",
       "client_type:source"]}]}'
     headers:

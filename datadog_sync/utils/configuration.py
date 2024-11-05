@@ -95,6 +95,9 @@ class Configuration(object):
         else:
             self.logger.warning("DDR verification skipped.")
 
+        await self.source_client.send_metric(f"{cmd.value}.start")
+        await self.destination_client.send_metric(f"{cmd.value}.start")
+
     async def exit_async(self):
         await self.source_client._end_session()
         await self.destination_client._end_session()

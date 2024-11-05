@@ -38,6 +38,42 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818168,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818168,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
     body: null
     headers:
       Content-Type:
@@ -46,15 +82,15 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
     body:
-      string: '{"data": [{"type": "team", "relationships": {"team_links": {"links":
-        {"related": "/api/v2/team/44eaa817-440f-4c22-869d-8291f9aca112/links"}}, "user_team_permissions":
-        {"links": {"related": "/api/v2/team/44eaa817-440f-4c22-869d-8291f9aca112/permission-settings"}}},
-        "attributes": {"created_at": "2024-11-01T14:44:03.167907+00:00", "summary":
-        null, "description": "", "modified_at": "2024-11-01T14:44:03.167911+00:00",
-        "name": "hamr test", "handle": "hamr-test", "user_count": 0, "link_count":
-        0}, "id": "44eaa817-440f-4c22-869d-8291f9aca112"}], "meta": {"pagination":
-        {"number": 0, "first_number": 0, "prev_number": 0, "next_number": 1, "last_number":
-        0, "size": 100, "type": "number_size", "total": 1}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
+      string: '{"data": [{"type": "team", "attributes": {"summary": null, "description":
+        "", "link_count": 0, "created_at": "2024-11-05T14:48:32.979126+00:00", "name":
+        "hamr test", "modified_at": "2024-11-05T14:48:32.979129+00:00", "handle":
+        "hamr-test", "user_count": 0}, "relationships": {"team_links": {"links": {"related":
+        "/api/v2/team/432b6495-e527-43f4-8819-a9d5321f7939/links"}}, "user_team_permissions":
+        {"links": {"related": "/api/v2/team/432b6495-e527-43f4-8819-a9d5321f7939/permission-settings"}}},
+        "id": "432b6495-e527-43f4-8819-a9d5321f7939"}], "meta": {"pagination": {"number":
+        0, "first_number": 0, "prev_number": 0, "next_number": 1, "last_number": 0,
+        "size": 100, "type": "number_size", "total": 1}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
         "last": null, "next": "https://us5.datadoghq.com/api/v2/team?page[number]=1&page[size]=100",
         "prev": null, "first": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100"}}'
     headers:
@@ -64,22 +100,22 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "team", "attributes": {"handle": "hamr-test", "description":
-      "", "name": "hamr test"}}}'
+    body: '{"data": {"type": "team", "attributes": {"name": "hamr test", "handle":
+      "hamr-test", "description": ""}}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://us5.datadoghq.com/api/v2/team/44eaa817-440f-4c22-869d-8291f9aca112
+    uri: https://us5.datadoghq.com/api/v2/team/432b6495-e527-43f4-8819-a9d5321f7939
   response:
     body:
-      string: '{"data": {"type": "team", "id": "44eaa817-440f-4c22-869d-8291f9aca112",
+      string: '{"data": {"type": "team", "id": "432b6495-e527-43f4-8819-a9d5321f7939",
         "attributes": {"name": "hamr test", "handle": "hamr-test", "summary": null,
-        "description": "", "avatar": null, "banner": 12, "visible_modules": [], "hidden_modules":
-        [], "created_at": "2024-11-01T14:44:03.167907+00:00", "modified_at": "2024-11-01T14:44:43.358966+00:00",
+        "description": "", "avatar": null, "banner": 9, "visible_modules": [], "hidden_modules":
+        [], "created_at": "2024-11-05T14:48:32.979126+00:00", "modified_at": "2024-11-05T14:49:29.827785+00:00",
         "user_count": 0, "link_count": 0}, "relationships": {"team_links": {"links":
-        {"related": "/api/v2/team/44eaa817-440f-4c22-869d-8291f9aca112/links"}}, "user_team_permissions":
-        {"links": {"related": "/api/v2/team/44eaa817-440f-4c22-869d-8291f9aca112/permission-settings"}}}}}'
+        {"related": "/api/v2/team/432b6495-e527-43f4-8819-a9d5321f7939/links"}}, "user_team_permissions":
+        {"links": {"related": "/api/v2/team/432b6495-e527-43f4-8819-a9d5321f7939/permission-settings"}}}}}'
     headers:
       Content-Type:
       - application/json
@@ -88,7 +124,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472282, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818168, "value":
       1}], "tags": ["action_sub_type:create", "id:f0cc21b6-6f38-49f0-8641-e25fb3b98476",
       "action_type:sync", "status:success", "resource_type:teams", "client_type:destination"]}]}'
     headers:
@@ -106,8 +142,8 @@ interactions:
       code: 202
       message: Accepted
 - request:
-    body: '{"data": {"type": "team", "attributes": {"handle": "test", "description":
-      "", "name": "test"}}}'
+    body: '{"data": {"type": "team", "attributes": {"name": "test", "handle": "test",
+      "description": ""}}}'
     headers:
       Content-Type:
       - application/json
@@ -115,13 +151,13 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/team
   response:
     body:
-      string: '{"data": {"type": "team", "id": "be963348-643c-4c67-ba64-2d8fe142dd18",
+      string: '{"data": {"type": "team", "id": "1fc53529-74e8-4f28-9773-aa05490e9b2f",
         "attributes": {"name": "test", "handle": "test", "summary": null, "description":
-        "", "avatar": null, "banner": 4, "visible_modules": [], "hidden_modules":
-        [], "created_at": "2024-11-01T14:44:43.425242+00:00", "modified_at": "2024-11-01T14:44:43.425246+00:00",
+        "", "avatar": null, "banner": 11, "visible_modules": [], "hidden_modules":
+        [], "created_at": "2024-11-05T14:49:29.859830+00:00", "modified_at": "2024-11-05T14:49:29.859833+00:00",
         "user_count": 0, "link_count": 0}, "relationships": {"team_links": {"links":
-        {"related": "/api/v2/team/be963348-643c-4c67-ba64-2d8fe142dd18/links"}}, "user_team_permissions":
-        {"links": {"related": "/api/v2/team/be963348-643c-4c67-ba64-2d8fe142dd18/permission-settings"}}}}}'
+        {"related": "/api/v2/team/1fc53529-74e8-4f28-9773-aa05490e9b2f/links"}}, "user_team_permissions":
+        {"links": {"related": "/api/v2/team/1fc53529-74e8-4f28-9773-aa05490e9b2f/permission-settings"}}}}}'
     headers:
       Content-Type:
       - application/json
@@ -130,7 +166,7 @@ interactions:
       message: Created
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472282, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818168, "value":
       1}], "tags": ["action_sub_type:create", "id:d19a4fc2-aeda-4b9e-856a-b9e48c0e19fa",
       "action_type:sync", "status:success", "resource_type:teams", "client_type:destination"]}]}'
     headers:
@@ -149,7 +185,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472282, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818168, "value":
       1}], "tags": ["action_sub_type:create", "id:f0cc21b6-6f38-49f0-8641-e25fb3b98476",
       "action_type:sync", "status:success", "resource_type:teams", "client_type:source"]}]}'
     headers:
@@ -168,7 +204,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730472282, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818168, "value":
       1}], "tags": ["action_sub_type:create", "id:d19a4fc2-aeda-4b9e-856a-b9e48c0e19fa",
       "action_type:sync", "status:success", "resource_type:teams", "client_type:source"]}]}'
     headers:

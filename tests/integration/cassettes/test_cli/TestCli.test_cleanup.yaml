@@ -5853,7 +5853,23 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v2/powerpacks/de8f1c1e-985f-11ef-809a-da7ad0900005
+    uri: https://us5.datadoghq.com/api/v1/dashboard/lists/manual/11611
+  response:
+    body:
+      string: '{"deleted_dashboard_list_id": 11611}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://us5.datadoghq.com/api/v2/powerpacks/3607a9f2-9b85-11ef-89c3-da7ad0900005
   response:
     body:
       string: ''
@@ -5869,10 +5885,26 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/dashboard/vbh-2h8-spc
+    uri: https://us5.datadoghq.com/api/v1/synthetics/private-locations/pl:test-32346a2499272ad916cee82b9fe9c56e
   response:
     body:
-      string: '{"deleted_dashboard_id": "vbh-2h8-spc"}'
+      string: ''
+    headers:
+      Content-Type:
+      - text/html; charset=utf-8
+    status:
+      code: 204
+      message: No Content
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://us5.datadoghq.com/api/v1/monitor/1159409?force=true
+  response:
+    body:
+      string: '{"deleted_monitor_id": 1159409}'
     headers:
       Content-Type:
       - application/json
@@ -5885,7 +5917,71 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/synthetics/variables/3b41cebb-08b6-4e02-923c-7422a5c91d18
+    uri: https://us5.datadoghq.com/api/v1/slo/844ffe92895c5c3b87125b72d2c9abf8?force=true
+  response:
+    body:
+      string: '{"data": ["844ffe92895c5c3b87125b72d2c9abf8"], "error": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://us5.datadoghq.com/api/v1/monitor/1159411?force=true
+  response:
+    body:
+      string: '{"deleted_monitor_id": 1159411}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://us5.datadoghq.com/api/v1/monitor/1159414?force=true
+  response:
+    body:
+      string: '{"deleted_monitor_id": 1159414}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://us5.datadoghq.com/api/v1/monitor/1159413?force=true
+  response:
+    body:
+      string: '{"deleted_monitor_id": 1159413}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://us5.datadoghq.com/api/v1/synthetics/variables/32bdaa6a-8405-434e-b80a-d8d3c6be375d
   response:
     body:
       string: ''
@@ -5901,10 +5997,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/monitor/1156635?force=true
+    uri: https://us5.datadoghq.com/api/v1/dashboard/5h8-z9u-6fm
   response:
     body:
-      string: '{"deleted_monitor_id": 1156635}'
+      string: '{"deleted_dashboard_id": "5h8-z9u-6fm"}'
     headers:
       Content-Type:
       - application/json
@@ -5917,10 +6013,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/dashboard/t9m-hb9-z33
+    uri: https://us5.datadoghq.com/api/v1/monitor/1159410?force=true
   response:
     body:
-      string: '{"deleted_dashboard_id": "t9m-hb9-z33"}'
+      string: '{"deleted_monitor_id": 1159410}'
     headers:
       Content-Type:
       - application/json
@@ -5928,7 +6024,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["is8-8rq-4jx"]}'
+    body: '{"public_ids": ["jks-4vz-8d5"]}'
     headers:
       Content-Type:
       - application/json
@@ -5936,7 +6032,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"public_id": "is8-8rq-4jx", "deleted_at": "2024-11-01T14:45:08.641077+00:00"}]}'
+      string: '{"deleted_tests": [{"public_id": "jks-4vz-8d5", "deleted_at": "2024-11-05T14:50:01.360305+00:00"}]}'
     headers:
       Content-Type:
       - application/json
@@ -5949,10 +6045,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/monitor/1156634?force=true
+    uri: https://us5.datadoghq.com/api/v1/dashboard/7ah-wcc-w7f
   response:
     body:
-      string: '{"deleted_monitor_id": 1156634}'
+      string: '{"deleted_dashboard_id": "7ah-wcc-w7f"}'
     headers:
       Content-Type:
       - application/json
@@ -5965,71 +6061,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/monitor/1156636?force=true
-  response:
-    body:
-      string: '{"deleted_monitor_id": 1156636}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/dashboard/lists/manual/11599
-  response:
-    body:
-      string: '{"deleted_dashboard_list_id": 11599}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/slo/24397530c65e56bbbb0e428ed970d344?force=true
-  response:
-    body:
-      string: '{"data": ["24397530c65e56bbbb0e428ed970d344"], "error": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/monitor/1156637?force=true
-  response:
-    body:
-      string: '{"deleted_monitor_id": 1156637}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/synthetics/private-locations/pl:test-586d9cb041bac990f6028a617891328a
+    uri: https://us5.datadoghq.com/api/v2/downtime/bc96acb1-91e3-48a5-9576-afefa95854db
   response:
     body:
       string: ''
@@ -6045,39 +6077,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/monitor/1156632?force=true
-  response:
-    body:
-      string: '{"deleted_monitor_id": 1156632}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://us5.datadoghq.com/api/v2/downtime/331829da-9c9c-4d09-9aa0-4c77af34fa15
-  response:
-    body:
-      string: ''
-    headers:
-      Content-Type:
-      - text/html; charset=utf-8
-    status:
-      code: 204
-      message: No Content
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://us5.datadoghq.com/api/v2/downtime/3a966c86-8e00-4ce0-a14f-06ea895a0f13
+    uri: https://us5.datadoghq.com/api/v2/downtime/3662fdc6-ade1-44e1-9db5-46307b3c521a
   response:
     body:
       string: ''
