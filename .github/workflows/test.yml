@@ -15,6 +15,14 @@ on:
       - reopened
       - ready_for_review
 
+env:
+  DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
+  DD_DESTINATION_APP_KEY: ${{ secrets.DD_DESTINATION_APP_KEY }}
+  DD_DESTINATION_API_URL: ${{ secrets.DD_DESTINATION_API_URL }}
+  DD_SOURCE_API_KEY: ${{ secrets.DD_SOURCE_API_KEY }}
+  DD_SOURCE_APP_KEY: ${{ secrets.DD_SOURCE_APP_KEY }}
+  DD_SOURCE_API_URL: ${{ secrets.DD_SOURCE_API_URL }}
+
 jobs:
   test:
     strategy:
