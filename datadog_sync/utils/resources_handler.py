@@ -144,7 +144,7 @@ class ResourcesHandler:
             )
         except Exception as e:
             self.worker.counter.increment_failure()
-            self.config.logger.error(str(e))
+            self.config.logger.error(str(e), resource_type=resource_type, _id=_id)
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.FAILURE.value)
         finally:
             # always place in done queue regardless of exception thrown

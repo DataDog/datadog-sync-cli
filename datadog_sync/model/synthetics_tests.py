@@ -38,6 +38,7 @@ class SyntheticsTests(BaseResource):
             "overall_state",
             "overall_state_modified",
             "stepCount",
+            "steps.public_id",
         ],
         non_nullable_attr=[
             "options.monitor_options.on_missing_data",
