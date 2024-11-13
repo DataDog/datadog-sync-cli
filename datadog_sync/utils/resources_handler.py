@@ -265,11 +265,13 @@ class ResourcesHandler:
         except SkipResource as e:
             self.worker.counter.increment_skipped()
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SKIPPED.value)
+            self.config.logger.warning(f"skip importing resource: resource_type:{resource_type} id:{_id}")
             self.config.logger.debug(str(e))
         except Exception as e:
             self.worker.counter.increment_failure()
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE.value)
-            self.config.logger.error(f"error while importing resource: {str(e)}", resource_type=resource_type)
+            self.config.logger.error(f"error while importing resource: resource_type:{resource_type} id:{_id}")
+            self.config.logger.debug(f"error detail: {str(e)}", resource_type=resource_type)
 
     async def _force_missing_dep_import_cb(self, q_item: List):
         resource_type, _id = q_item
