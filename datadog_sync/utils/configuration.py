@@ -4,20 +4,12 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+from dataclasses import dataclass, field
 import logging
 import sys
-from dataclasses import dataclass, field
+import time
 from typing import Any, Optional, Union, Dict, List
 
-from datadog_sync import models
-from datadog_sync.model.logs_pipelines import LogsPipelines
-from datadog_sync.model.logs_custom_pipelines import LogsCustomPipelines
-from datadog_sync.model.downtimes import Downtimes
-from datadog_sync.model.downtime_schedules import DowntimeSchedules
-from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.base_resource import BaseResource
-from datadog_sync.utils.log import Log
-from datadog_sync.utils.filter import Filter, process_filters
 from datadog_sync.constants import (
     Command,
     DESTINATION_PATH_DEFAULT,
@@ -31,6 +23,15 @@ from datadog_sync.constants import (
     VALIDATE_ENDPOINT,
     VALID_DDR_STATES,
 )
+from datadog_sync import models
+from datadog_sync.model.logs_pipelines import LogsPipelines
+from datadog_sync.model.logs_custom_pipelines import LogsCustomPipelines
+from datadog_sync.model.downtimes import Downtimes
+from datadog_sync.model.downtime_schedules import DowntimeSchedules
+from datadog_sync.utils.custom_client import CustomClient
+from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.log import Log
+from datadog_sync.utils.filter import Filter, process_filters
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 from datadog_sync.utils.state import State
 
@@ -51,6 +52,7 @@ class Configuration(object):
     send_metrics: bool
     state: State
     verify_ddr_status: bool
+    backup_before_reset: bool
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
 
@@ -60,15 +62,14 @@ class Configuration(object):
         for resource in self.resources.values():
             await resource.init_async()
 
-        # Validate the clients. For import we only validate the source client
-        # For sync/diffs we validate the destination client.
+        # Validate the clients.
         if self.validate:
-            if cmd in [Command.SYNC, Command.DIFFS, Command.MIGRATE]:
+            if cmd in [Command.SYNC, Command.DIFFS, Command.MIGRATE, Command.RESET]:
                 try:
                     await _validate_client(self.destination_client)
                 except Exception:
                     sys.exit(1)
-            if cmd in [Command.IMPORT, Command.MIGRATE]:
+            if cmd in [Command.IMPORT, Command.MIGRATE, Command.RESET]:
                 try:
                     await _validate_client(self.source_client)
                 except Exception:
@@ -140,6 +141,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     create_global_downtime = kwargs.get("create_global_downtime")
     validate = kwargs.get("validate")
     verify_ddr_status = kwargs.get("verify_ddr_status")
+    backup_before_reset = not kwargs.get("do_not_backup")
 
     cleanup = kwargs.get("cleanup")
     if cleanup:
@@ -149,9 +151,19 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             "force": FORCE,
         }[cleanup.lower()]
 
-    # Initialize state
+    # Set resource paths
     source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
     destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
+
+    # Confusing, but the source for the import needs to be the destination of the reset
+    # If a destination is going to be reset then a backup needs to be preformed. A back up
+    # is just an import, the source of that import is the destination of the reset.
+    if cmd == Command.RESET:
+        cleanup = TRUE
+        source_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout, send_metrics)
+        source_resources_path = f"{destination_resources_path}/.backup/{str(time.time())}"
+
+    # Initialize state
     state = State(source_resources_path=source_resources_path, destination_resources_path=destination_resources_path)
 
     # Initialize Configuration
@@ -170,6 +182,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         send_metrics=send_metrics,
         state=state,
         verify_ddr_status=verify_ddr_status,
+        backup_before_reset=backup_before_reset,
     )
 
     # Initialize resource classes
