@@ -63,27 +63,19 @@ class SecurityMonitoringRules(BaseResource):
 
         return resp
 
-    async def import_resource(
-        self, _id: Optional[str] = None, resource: Optional[Dict] = None
-    ) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = (
-                await source_client.get(self.resource_config.base_path + f"/{_id}")
-            )["data"]
+            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
 
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         matching_destination_rule = self.destination_rules.get(resource["name"], None)
         if resource.get("isDefault", False) and not matching_destination_rule:
-            raise SkipResource(
-                _id, self.resource_type, "Default rule does not exist at destination"
-            )
+            raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
         if resource["name"] in immutable_rule_names:
-            raise SkipResource(
-                _id, self.resource_type, "This rule is immutable"
-            )
+            raise SkipResource(_id, self.resource_type, "This rule is immutable")
 
     async def pre_apply_hook(self) -> None:
         self.destination_rules = await self.get_destination_rules()
@@ -96,17 +88,13 @@ class SecurityMonitoringRules(BaseResource):
         if rule_name not in self.destination_rules and not resource["isDefault"]:
             destination_client = self.config.destination_client
             self.handle_special_case_attr(resource)
-            resp = await destination_client.post(
-                self.resource_config.base_path, resource
-            )
+            resp = await destination_client.post(self.resource_config.base_path, resource)
             return _id, resp
 
         # Skip any default rules that do no exist at the destination
         matching_destination_rule = self.destination_rules.get(rule_name, None)
         if not matching_destination_rule:
-            raise SkipResource(
-                _id, self.resource_type, "Default rule does not exist at destination"
-            )
+            raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
 
         # if they're different then run an update
         rule_copy = copy.deepcopy(resource)
@@ -122,31 +110,28 @@ class SecurityMonitoringRules(BaseResource):
         # Skip any default rules that do no exist at the destination
         matching_destination_rule = self.destination_rules.get(resource["name"], None)
         if not matching_destination_rule:
-            raise SkipResource(
-                _id, self.resource_type, "Default rule does not exist at destination"
-            )
+            raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
 
         if matching_destination_rule.get("isDeprecated", False):
-            raise SkipResource(
-                _id, self.resource_type, "Cannot update deprecated rules"
-            )
+            raise SkipResource(_id, self.resource_type, "Cannot update deprecated rules")
 
         if resource["name"] in immutable_rule_names:
-            raise SkipResource(
-                _id, self.resource_type, "This rule is immutable"
-            )
+            raise SkipResource(_id, self.resource_type, "This rule is immutable")
 
         # set the version correctly
         resource["version"] = matching_destination_rule["version"]
 
         # only certain fields can be updated on default rules
-        if resource.get("isDefault", False) or resource.get("isPartner", False) or resource.get("partnerIntegrationId", None):
+        if (
+            resource.get("isDefault", False)
+            or resource.get("isPartner", False)
+            or resource.get("partnerIntegrationId", None)
+        ):
             self.limit_resource(resource)
 
         destination_client = self.config.destination_client
         resp = await destination_client.put(
-            self.resource_config.base_path
-            + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
 
@@ -157,28 +142,17 @@ class SecurityMonitoringRules(BaseResource):
         destination_resource = self.config.state.destination[self.resource_type][_id]
 
         if resource["name"] in immutable_rule_names:
-            raise SkipResource(
-                _id, self.resource_type, "This rule is immutable"
-            )
+            raise SkipResource(_id, self.resource_type, "This rule is immutable")
 
         if destination_resource.get("isDefault", False):
-            raise SkipResource(
-                _id, self.resource_type, "Default rule cannot be deleted"
-            )
+            raise SkipResource(_id, self.resource_type, "Default rule cannot be deleted")
 
         if destination_resource.get("isPartner", False):
-            raise SkipResource(
-                _id, self.resource_type, "Cannot delete partner rules"
-            )
+            raise SkipResource(_id, self.resource_type, "Cannot delete partner rules")
 
+        await destination_client.delete(self.resource_config.base_path + f"/{destination_resource['id']}")
 
-        await destination_client.delete(
-            self.resource_config.base_path + f"/{destination_resource['id']}"
-        )
-
-    def connect_id(
-        self, key: str, r_obj: Dict, resource_to_connect: str
-    ) -> Optional[List[str]]:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         pass
 
     @staticmethod
@@ -206,28 +180,16 @@ class SecurityMonitoringRules(BaseResource):
     def handle_special_case_attr(resource):
         """Handle default ComplianceSignal attributes"""
         if "complianceSignalOptions" in resource:
-            default_activation_status = resource["complianceSignalOptions"].get(
-                "defaultActivationStatus", None
-            )
-            user_activation_status = resource["complianceSignalOptions"].get(
-                "userActivationStatus", None
-            )
+            default_activation_status = resource["complianceSignalOptions"].get("defaultActivationStatus", None)
+            user_activation_status = resource["complianceSignalOptions"].get("userActivationStatus", None)
             if not user_activation_status:
-                resource["complianceSignalOptions"][
-                    "userActivationStatus"
-                ] = default_activation_status
+                resource["complianceSignalOptions"]["userActivationStatus"] = default_activation_status
                 resource["complianceSignalOptions"].pop("defaultActivationStatus")
 
-            default_group_by_fields = resource["complianceSignalOptions"].get(
-                "defaultGroupByFields", None
-            )
-            user_group_by_fields = resource["complianceSignalOptions"].get(
-                "userGroupByFields", None
-            )
+            default_group_by_fields = resource["complianceSignalOptions"].get("defaultGroupByFields", None)
+            user_group_by_fields = resource["complianceSignalOptions"].get("userGroupByFields", None)
             if not user_group_by_fields:
-                resource["complianceSignalOptions"][
-                    "userGroupByFields"
-                ] = default_group_by_fields
+                resource["complianceSignalOptions"]["userGroupByFields"] = default_group_by_fields
                 resource["complianceSignalOptions"].pop("defaultGroupByFields")
 
     async def get_destination_rules(self):
@@ -235,9 +197,9 @@ class SecurityMonitoringRules(BaseResource):
         destination_client = self.config.destination_client
         destination_rules = {}
         try:
-            destination_rules_resp = await destination_client.paginated_request(
-                destination_client.get
-            )(self.resource_config.base_path)
+            destination_rules_resp = await destination_client.paginated_request(destination_client.get)(
+                self.resource_config.base_path
+            )
         except CustomClientHTTPError as err:
             self.config.logger.error("error retrieving rules: %s", err)
             return destination_rules

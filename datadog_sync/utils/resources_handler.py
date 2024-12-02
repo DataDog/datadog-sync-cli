@@ -162,9 +162,7 @@ class ResourcesHandler:
         except SkipResource as e:
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.worker.counter.increment_skipped()
-            await r_class._send_action_metrics(
-                Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"]
-            )
+            await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"])
         except ResourceConnectionError:
             self.worker.counter.increment_skipped()
             await r_class._send_action_metrics(

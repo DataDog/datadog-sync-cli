@@ -89,7 +89,7 @@ class BaseResourcesTestClass:
 
     def test_resource_update_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        #source_resources, _ = open_resources(self.resource_type)
+        # source_resources, _ = open_resources(self.resource_type)
         source_resources, destination_resources = open_resources(self.resource_type)
 
         # update fields and save the file.
