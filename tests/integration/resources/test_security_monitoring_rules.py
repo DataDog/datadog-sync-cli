@@ -3,10 +3,13 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+import pytest
+
 from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import SecurityMonitoringRules
 
 
 class TestSecurityMonitoringRules(BaseResourcesTestClass):
     resource_type = SecurityMonitoringRules.resource_type
-    field_to_update = "attributes.name"
+    field_to_update = "isEnabled"
+    filter = "Type=security_monitoring_rules;Name=isDeprecated;Value=false;Operator=ExactMatch"

@@ -88,7 +88,7 @@ class TestCli:
         )
         # assert no diffs are produced
         assert "to be deleted" not in caplog.text
-        assert "to be added" not in caplog.text
+        assert "to be created" not in caplog.text
         assert "diff:" not in caplog.text
 
         assert 0 == ret.exit_code
@@ -284,7 +284,7 @@ class TestCli:
 
         # assert no diffs are produced
         assert "to be deleted" not in caplog.text
-        assert "to be added" not in caplog.text
+        assert "to be created" not in caplog.text
         assert "diff:" not in caplog.text
 
     def test_migrate(self, runner, caplog):

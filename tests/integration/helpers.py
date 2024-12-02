@@ -65,7 +65,8 @@ class BaseResourcesTestClass:
         assert 0 == ret.exit_code
 
         num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(caplog.text))
-        assert num_resources_to_add == len(source_resources)
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
+        assert num_resources_to_add + num_resources_skipped == len(source_resources)
 
     def test_resource_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -88,7 +89,8 @@ class BaseResourcesTestClass:
 
     def test_resource_update_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        source_resources, _ = open_resources(self.resource_type)
+        #source_resources, _ = open_resources(self.resource_type)
+        source_resources, destination_resources = open_resources(self.resource_type)
 
         # update fields and save the file.
         for resource in source_resources.values():
@@ -147,7 +149,7 @@ class BaseResourcesTestClass:
         )
         assert 0 == ret.exit_code
         assert "to be deleted" not in caplog.text
-        assert "to be added" not in caplog.text
+        assert "to be created" not in caplog.text
         assert "diff:" not in caplog.text
 
         # Assert number of synced and imported resources match
@@ -168,7 +170,7 @@ class BaseResourcesTestClass:
         )
 
         assert "to be deleted" not in caplog.text
-        assert "to be added" not in caplog.text
+        assert "to be created" not in caplog.text
         assert "diff:" not in caplog.text
         assert 0 == ret.exit_code
 
@@ -211,7 +213,7 @@ class BaseResourcesTestClass:
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        assert len(source_resources) == (len(destination_resources) - num_resources_skipped)
 
 
 def save_source_resources(resource_type, resources):

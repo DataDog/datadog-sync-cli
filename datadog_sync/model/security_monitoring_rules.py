@@ -11,7 +11,12 @@ from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
+from datadog_sync.utils.resource_utils import (
+    CustomClientHTTPError,
+    SkipResource,
+    check_diff,
+)
+
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -23,7 +28,18 @@ class SecurityMonitoringRules(BaseResource):
     resource_type = "security_monitoring_rules"
     resource_config = ResourceConfig(
         base_path="/api/v2/security_monitoring/rules",
-        excluded_attributes=[],
+        excluded_attributes=[
+            "createdAt",
+            "creationAuthorId",
+            "updateAuthorId",
+            "updatedAt",
+            "isPartner",
+            "isBeta",
+            "isDeleted",
+            "isDeprecated",
+            "defaultTags",
+            "version",
+        ],
         non_nullable_attr=[],
         null_values={},
     )
@@ -34,6 +50,11 @@ class SecurityMonitoringRules(BaseResource):
         page_size_param="page[size]",
         remaining_func=lambda *args: 1,
     )
+    destination_rules = []
+    # can't even enable or disable immutable rules
+    immutable_rule_names = [
+        "Impossible travel event leads to permission enumeration",
+    ]
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.paginated_request(client.get)(
@@ -42,15 +63,27 @@ class SecurityMonitoringRules(BaseResource):
 
         return resp
 
-    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(
+        self, _id: Optional[str] = None, resource: Optional[Dict] = None
+    ) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
+            resource = (
+                await source_client.get(self.resource_config.base_path + f"/{_id}")
+            )["data"]
 
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        pass
+        matching_destination_rule = self.destination_rules.get(resource["name"], None)
+        if resource.get("isDefault", False) and not matching_destination_rule:
+            raise SkipResource(
+                _id, self.resource_type, "Default rule does not exist at destination"
+            )
+        if resource["name"] in immutable_rule_names:
+            raise SkipResource(
+                _id, self.resource_type, "This rule is immutable"
+            )
 
     async def pre_apply_hook(self) -> None:
         self.destination_rules = await self.get_destination_rules()
@@ -59,39 +92,61 @@ class SecurityMonitoringRules(BaseResource):
         # this method uses rule name for matching default rules
         rule_name = resource["name"]
 
-        import pdb;pdb.set_trace()
         # rule does not exist at the destination, so create it
-        if rule_name not in self.destination_rules:
+        if rule_name not in self.destination_rules and not resource["isDefault"]:
             destination_client = self.config.destination_client
             self.handle_special_case_attr(resource)
-            resp = await destination_client.post(self.resource_config.base_path, resource)
+            resp = await destination_client.post(
+                self.resource_config.base_path, resource
+            )
             return _id, resp
 
-        # rule already exists at the destination
-        matching_destination_rule = self.destination_rules[rule_name]
+        # Skip any default rules that do no exist at the destination
+        matching_destination_rule = self.destination_rules.get(rule_name, None)
+        if not matching_destination_rule:
+            raise SkipResource(
+                _id, self.resource_type, "Default rule does not exist at destination"
+            )
+
+        # if they're different then run an update
         rule_copy = copy.deepcopy(resource)
         rule_copy.update(matching_destination_rule)
-
-        if resource["isDefault"]:
-            for field in ["creationAuthorId"]:
-                resource.pop(field)
-                rule_copy.pop(field)
-
-        # stomp on the versioning
-        resource["version"] = rule_copy["version"]
-
         if check_diff(self.resource_config, resource, rule_copy):
             self.config.state.destination[self.resource_type][_id] = rule_copy
             return await self.update_resource(_id, resource)
 
+        # do nothing if they're the same
         return _id, rule_copy
 
-
-
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        # Skip any default rules that do no exist at the destination
+        matching_destination_rule = self.destination_rules.get(resource["name"], None)
+        if not matching_destination_rule:
+            raise SkipResource(
+                _id, self.resource_type, "Default rule does not exist at destination"
+            )
+
+        if matching_destination_rule.get("isDeprecated", False):
+            raise SkipResource(
+                _id, self.resource_type, "Cannot update deprecated rules"
+            )
+
+        if resource["name"] in immutable_rule_names:
+            raise SkipResource(
+                _id, self.resource_type, "This rule is immutable"
+            )
+
+        # set the version correctly
+        resource["version"] = matching_destination_rule["version"]
+
+        # only certain fields can be updated on default rules
+        if resource.get("isDefault", False) or resource.get("isPartner", False) or resource.get("partnerIntegrationId", None):
+            self.limit_resource(resource)
+
         destination_client = self.config.destination_client
         resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+            self.resource_config.base_path
+            + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
 
@@ -99,36 +154,90 @@ class SecurityMonitoringRules(BaseResource):
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
+        destination_resource = self.config.state.destination[self.resource_type][_id]
+
+        if resource["name"] in immutable_rule_names:
+            raise SkipResource(
+                _id, self.resource_type, "This rule is immutable"
+            )
+
+        if destination_resource.get("isDefault", False):
+            raise SkipResource(
+                _id, self.resource_type, "Default rule cannot be deleted"
+            )
+
+        if destination_resource.get("isPartner", False):
+            raise SkipResource(
+                _id, self.resource_type, "Cannot delete partner rules"
+            )
+
+
         await destination_client.delete(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
+            self.resource_config.base_path + f"/{destination_resource['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+    def connect_id(
+        self, key: str, r_obj: Dict, resource_to_connect: str
+    ) -> Optional[List[str]]:
         pass
 
     @staticmethod
+    def limit_resource(resource):
+        """Default and partner security rules have some fields that cannot be updated we need to remove them"""
+        for field in [
+            "message",
+            "name",
+            "hasExtendedTitle",
+            "cases",
+            "complianceSignalOptions",
+            "filters",
+            "options",
+            "queries",
+            "referenceTables",
+            "thirdPartyCases",
+            "type",
+        ]:
+            resource.pop(field, None)
+        resource.pop("isDefault", None)
+        resource.pop("isPartner", None)
+        resource.pop("partnerIntegrationId", None)
+
+    @staticmethod
     def handle_special_case_attr(resource):
-        # Handle default ComplianceSignal attributes
+        """Handle default ComplianceSignal attributes"""
         if "complianceSignalOptions" in resource:
-            default_activation_status = resource["complianceSignalOptions"].get("defaultActivationStatus", None)
-            user_activation_status = resource["complianceSignalOptions"].get("userActivationStatus", None)
+            default_activation_status = resource["complianceSignalOptions"].get(
+                "defaultActivationStatus", None
+            )
+            user_activation_status = resource["complianceSignalOptions"].get(
+                "userActivationStatus", None
+            )
             if not user_activation_status:
-                resource["complianceSignalOptions"]["userActivationStatus"] = default_activation_status
+                resource["complianceSignalOptions"][
+                    "userActivationStatus"
+                ] = default_activation_status
                 resource["complianceSignalOptions"].pop("defaultActivationStatus")
 
-            default_group_by_fields = resource["complianceSignalOptions"].get("defaultGroupByFields", None)
-            user_group_by_fields = resource["complianceSignalOptions"].get("userGroupByFields", None)
+            default_group_by_fields = resource["complianceSignalOptions"].get(
+                "defaultGroupByFields", None
+            )
+            user_group_by_fields = resource["complianceSignalOptions"].get(
+                "userGroupByFields", None
+            )
             if not user_group_by_fields:
-                resource["complianceSignalOptions"]["userGroupByFields"] = default_group_by_fields
+                resource["complianceSignalOptions"][
+                    "userGroupByFields"
+                ] = default_group_by_fields
                 resource["complianceSignalOptions"].pop("defaultGroupByFields")
 
     async def get_destination_rules(self):
+        """Get the existing rules from the destination"""
         destination_client = self.config.destination_client
         destination_rules = {}
         try:
-            destination_rules_resp = await destination_client.paginated_request(destination_client.get)(
-                self.resource_config.base_path
-            )
+            destination_rules_resp = await destination_client.paginated_request(
+                destination_client.get
+            )(self.resource_config.base_path)
         except CustomClientHTTPError as err:
             self.config.logger.error("error retrieving rules: %s", err)
             return destination_rules
