@@ -74,7 +74,7 @@ class SecurityMonitoringRules(BaseResource):
         matching_destination_rule = self.destination_rules.get(resource["name"], None)
         if resource.get("isDefault", False) and not matching_destination_rule:
             raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
-        if resource["name"] in immutable_rule_names:
+        if resource["name"] in self.immutable_rule_names:
             raise SkipResource(_id, self.resource_type, "This rule is immutable")
 
     async def pre_apply_hook(self) -> None:
@@ -115,7 +115,7 @@ class SecurityMonitoringRules(BaseResource):
         if matching_destination_rule.get("isDeprecated", False):
             raise SkipResource(_id, self.resource_type, "Cannot update deprecated rules")
 
-        if resource["name"] in immutable_rule_names:
+        if resource["name"] in self.immutable_rule_names:
             raise SkipResource(_id, self.resource_type, "This rule is immutable")
 
         # set the version correctly
@@ -141,7 +141,7 @@ class SecurityMonitoringRules(BaseResource):
         destination_client = self.config.destination_client
         destination_resource = self.config.state.destination[self.resource_type][_id]
 
-        if resource["name"] in immutable_rule_names:
+        if destination_resource["name"] in self.immutable_rule_names:
             raise SkipResource(_id, self.resource_type, "This rule is immutable")
 
         if destination_resource.get("isDefault", False):
