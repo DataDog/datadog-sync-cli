@@ -7,7 +7,7 @@
 
 from __future__ import annotations
 import copy
-from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
+from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
@@ -50,13 +50,14 @@ class SecurityMonitoringRules(BaseResource):
         page_size_param="page[size]",
         remaining_func=lambda *args: 1,
     )
-    destination_rules = []
+    destination_rules = {}
     # can't even enable or disable immutable rules
     immutable_rule_names = [
         "Impossible travel event leads to permission enumeration",
     ]
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
+        self.destination_rules = await self.get_destination_rules()
         resp = await client.paginated_request(client.get)(
             self.resource_config.base_path, pagination_config=self.pagination_config
         )
@@ -68,6 +69,15 @@ class SecurityMonitoringRules(BaseResource):
             source_client = self.config.source_client
             resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
 
+        resource = cast(dict, resource)
+        matching_destination_rule = self.destination_rules.get(resource["name"], None)
+        if resource.get("isDefault", False) and not matching_destination_rule:
+            raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
+        if resource["name"] in self.immutable_rule_names:
+            raise SkipResource(_id, self.resource_type, "This rule is immutable")
+        if matching_destination_rule.get("isDeprecated", False):
+            raise SkipResource(_id, self.resource_type, "Cannot update deprecated rules")
+
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
@@ -76,6 +86,8 @@ class SecurityMonitoringRules(BaseResource):
             raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
         if resource["name"] in self.immutable_rule_names:
             raise SkipResource(_id, self.resource_type, "This rule is immutable")
+        if matching_destination_rule.get("isDeprecated", False):
+            raise SkipResource(_id, self.resource_type, "Cannot update deprecated rules")
 
     async def pre_apply_hook(self) -> None:
         self.destination_rules = await self.get_destination_rules()

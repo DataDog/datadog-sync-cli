@@ -11,3 +11,4 @@ class TestSecurityMonitoringRules(BaseResourcesTestClass):
     resource_type = SecurityMonitoringRules.resource_type
     field_to_update = "isEnabled"
     filter = "Type=security_monitoring_rules;Name=isDeprecated;Value=false;Operator=ExactMatch"
+    resources_to_preserve_filter = "Type=security_monitoring_rules;Name=isDeprecated;Value=false;Operator=ExactMatch"

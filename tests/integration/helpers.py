@@ -65,8 +65,7 @@ class BaseResourcesTestClass:
         assert 0 == ret.exit_code
 
         num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(caplog.text))
-        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
-        assert num_resources_to_add + num_resources_skipped == len(source_resources)
+        assert num_resources_to_add == len(source_resources)
 
     def test_resource_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -213,7 +212,7 @@ class BaseResourcesTestClass:
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (len(destination_resources) - num_resources_skipped)
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
 
 
 def save_source_resources(resource_type, resources):
