@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 import copy
+import json
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -55,6 +56,10 @@ class SecurityMonitoringRules(BaseResource):
     immutable_rule_names = [
         "Impossible travel event leads to permission enumeration",
     ]
+    errors_to_skip = [
+        "Invalid rule configuration",
+    ]
+
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         self.destination_rules = await self.get_destination_rules()
@@ -100,8 +105,19 @@ class SecurityMonitoringRules(BaseResource):
         if rule_name not in self.destination_rules and not resource["isDefault"]:
             destination_client = self.config.destination_client
             self.handle_special_case_attr(resource)
-            resp = await destination_client.post(self.resource_config.base_path, resource)
-            return _id, resp
+            try:
+                resp = await destination_client.post(self.resource_config.base_path, resource)
+                return _id, resp
+            except CustomClientHTTPError as err:
+                if err.status_code == 400:
+                    preamble = "400 Bad Request - "
+                    error_json_no_preamble = err.args[0][len(preamble):]
+                    error_obj = json.loads(error_json_no_preamble)
+                    errors = error_obj["errors"]
+                    for error_message in errors:
+                        if error_message in self.errors_to_skip:
+                            raise SkipResource(_id, self.resource_type, err.args[0])
+                raise err
 
         # Skip any default rules that do no exist at the destination
         matching_destination_rule = self.destination_rules.get(rule_name, None)
@@ -123,6 +139,9 @@ class SecurityMonitoringRules(BaseResource):
         matching_destination_rule = self.destination_rules.get(resource["name"], None)
         if not matching_destination_rule:
             raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
+
+        if resource["isDefault"] != matching_destination_rule["isDefault"]:
+            raise SkipResource(_id, self.resource_type, "Default status differs between source and destination")
 
         if matching_destination_rule.get("isDeprecated", False):
             raise SkipResource(_id, self.resource_type, "Cannot update deprecated rules")
