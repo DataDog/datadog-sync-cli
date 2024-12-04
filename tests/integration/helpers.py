@@ -27,6 +27,9 @@ class BaseResourcesTestClass:
     filter = ""
     force_missing_deps = False
 
+    # by default ignore skips and just return the resource_count
+    compute_changes = lambda _, resource_count, num_of_skips: resource_count
+
     @pytest.fixture(autouse=True, scope="class")
     def setup(self, tmpdir_factory):
         my_tmpdir = tmpdir_factory.mktemp("tmp")
@@ -179,7 +182,6 @@ class BaseResourcesTestClass:
 
     def test_resource_cleanup(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        initial_source_resources, initial_destination_resources = open_resources(self.resource_type)
         # Remove current source resources
         shutil.rmtree("resources/source", ignore_errors=True)
 
@@ -195,7 +197,6 @@ class BaseResourcesTestClass:
                 ],
             )
             assert 0 == ret.exit_code
-            initial_source_resources, initial_destination_resources = open_resources(self.resource_type)
 
         # Sync with cleanup
         ret = runner.invoke(
@@ -213,10 +214,10 @@ class BaseResourcesTestClass:
         assert 0 == ret.exit_code
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
-        _, destination_resources = open_resources(self.resource_type)
+        source_resources, destination_resources = open_resources(self.resource_type)
+        
+        assert len(source_resources) == self.compute_changes(len(destination_resources), num_resources_skipped)
 
-        change_count = len(initial_destination_resources) - len(destination_resources)
-        assert len(initial_source_resources) == num_resources_skipped + change_count
 
 
 def save_source_resources(resource_type, resources):
