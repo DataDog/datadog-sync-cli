@@ -60,7 +60,6 @@ class SecurityMonitoringRules(BaseResource):
         "Invalid rule configuration",
     ]
 
-
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         self.destination_rules = await self.get_destination_rules()
         resp = await client.paginated_request(client.get)(
@@ -111,7 +110,7 @@ class SecurityMonitoringRules(BaseResource):
             except CustomClientHTTPError as err:
                 if err.status_code == 400:
                     preamble = "400 Bad Request - "
-                    error_json_no_preamble = err.args[0][len(preamble):]
+                    error_json_no_preamble = err.args[0][len(preamble) :]
                     error_obj = json.loads(error_json_no_preamble)
                     errors = error_obj["errors"]
                     for error_message in errors:
