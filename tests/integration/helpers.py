@@ -179,6 +179,7 @@ class BaseResourcesTestClass:
 
     def test_resource_cleanup(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
+        initial_source_resources, initial_destination_resources = open_resources(self.resource_type)
         # Remove current source resources
         shutil.rmtree("resources/source", ignore_errors=True)
 
@@ -194,6 +195,7 @@ class BaseResourcesTestClass:
                 ],
             )
             assert 0 == ret.exit_code
+            initial_source_resources, initial_destination_resources = open_resources(self.resource_type)
 
         # Sync with cleanup
         ret = runner.invoke(
@@ -211,8 +213,10 @@ class BaseResourcesTestClass:
         assert 0 == ret.exit_code
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
-        source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        _, destination_resources = open_resources(self.resource_type)
+
+        change_count = len(initial_destination_resources) - len(destination_resources)
+        assert len(initial_source_resources) == num_resources_skipped + change_count
 
 
 def save_source_resources(resource_type, resources):
