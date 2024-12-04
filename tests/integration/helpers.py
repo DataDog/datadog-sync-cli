@@ -27,8 +27,10 @@ class BaseResourcesTestClass:
     filter = ""
     force_missing_deps = False
 
-    # by default ignore skips and just return the resource_count
-    compute_changes = lambda _, resource_count, num_of_skips: resource_count
+    @staticmethod
+    def compute_changes(resource_count, num_of_skips):
+        """By default we just return the resource count"""
+        return resource_count
 
     @pytest.fixture(autouse=True, scope="class")
     def setup(self, tmpdir_factory):
@@ -215,9 +217,8 @@ class BaseResourcesTestClass:
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        
-        assert len(source_resources) == self.compute_changes(len(destination_resources), num_resources_skipped)
 
+        assert len(source_resources) == self.compute_changes(len(destination_resources), num_resources_skipped)
 
 
 def save_source_resources(resource_type, resources):

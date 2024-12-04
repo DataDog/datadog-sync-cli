@@ -8,8 +8,10 @@ from datadog_sync.models import Users
 
 
 class TestUsersResources(BaseResourcesTestClass):
-    # Add the skips to the resource count
-    compute_changes = lambda _, resource_count, num_of_skips: resource_count + num_of_skips
+    @staticmethod
+    def compute_changes(resource_count, num_of_skips):
+        """Add the skips to the resource count"""
+        return resource_count + num_of_skips
 
     resource_type = Users.resource_type
     field_to_update = "attributes.name"

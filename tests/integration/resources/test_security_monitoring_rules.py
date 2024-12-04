@@ -9,8 +9,11 @@ from datadog_sync.models import SecurityMonitoringRules
 
 class TestSecurityMonitoringRules(BaseResourcesTestClass):
     """Filter out the deprecated security rules"""
-    # Subtract the skips from the resource count
-    compute_changes = lambda _, resource_count, num_of_skips: resource_count - num_of_skips
+
+    @staticmethod
+    def compute_changes(resource_count, num_of_skips): 
+        """Subtract the skips from the resource count"""
+        return resource_count - num_of_skips
 
     resource_type = SecurityMonitoringRules.resource_type
     field_to_update = "isEnabled"
