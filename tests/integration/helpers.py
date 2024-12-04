@@ -27,6 +27,11 @@ class BaseResourcesTestClass:
     filter = ""
     force_missing_deps = False
 
+    @staticmethod
+    def compute_changes(resource_count, num_of_skips):
+        """By default we just return the resource count"""
+        return resource_count
+
     @pytest.fixture(autouse=True, scope="class")
     def setup(self, tmpdir_factory):
         my_tmpdir = tmpdir_factory.mktemp("tmp")
@@ -88,7 +93,8 @@ class BaseResourcesTestClass:
 
     def test_resource_update_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        source_resources, _ = open_resources(self.resource_type)
+        # source_resources, _ = open_resources(self.resource_type)
+        source_resources, destination_resources = open_resources(self.resource_type)
 
         # update fields and save the file.
         for resource in source_resources.values():
@@ -147,7 +153,7 @@ class BaseResourcesTestClass:
         )
         assert 0 == ret.exit_code
         assert "to be deleted" not in caplog.text
-        assert "to be added" not in caplog.text
+        assert "to be created" not in caplog.text
         assert "diff:" not in caplog.text
 
         # Assert number of synced and imported resources match
@@ -168,7 +174,7 @@ class BaseResourcesTestClass:
         )
 
         assert "to be deleted" not in caplog.text
-        assert "to be added" not in caplog.text
+        assert "to be created" not in caplog.text
         assert "diff:" not in caplog.text
         assert 0 == ret.exit_code
 
@@ -211,7 +217,8 @@ class BaseResourcesTestClass:
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+
+        assert len(source_resources) == self.compute_changes(len(destination_resources), num_resources_skipped)
 
 
 def save_source_resources(resource_type, resources):

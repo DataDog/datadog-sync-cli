@@ -160,11 +160,9 @@ class ResourcesHandler:
             self.worker.counter.increment_success()
 
         except SkipResource as e:
-            self.config.logger.info(str(e), resource_type=resource_type, _id=_id)
+            self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.worker.counter.increment_skipped()
-            await r_class._send_action_metrics(
-                Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:up_to_date"]
-            )
+            await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"])
         except ResourceConnectionError:
             self.worker.counter.increment_skipped()
             await r_class._send_action_metrics(
@@ -216,7 +214,13 @@ class ResourcesHandler:
 
             if not r_class.filter(resource):
                 return
-            await r_class._pre_resource_action_hook(_id, resource)
+
+            try:
+                await r_class._pre_resource_action_hook(_id, resource)
+            except SkipResource as e:
+                self.config.logger.warning(f"skipping resource: resource_type:{resource_type} id:{_id}")
+                self.config.logger.debug(str(e))
+                return
 
             try:
                 r_class.connect_resources(_id, resource)
@@ -233,9 +237,7 @@ class ResourcesHandler:
                 if diff:
                     self.config.logger.info("diff: \n {}".format(pformat(diff)), resource_type=resource_type, _id=_id)
             else:
-                self.config.logger.info(
-                    "to be created: \n {}".format(pformat(resource)), resource_type=resource_type, _id=_id
-                )
+                self.config.logger.info(f"to be created: {resource_type} {_id}")
 
     async def import_resources(self) -> None:
         await self.import_resources_without_saving()
@@ -294,7 +296,7 @@ class ResourcesHandler:
         except SkipResource as e:
             self.worker.counter.increment_skipped()
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SKIPPED.value)
-            self.config.logger.warning(f"skip importing resource: resource_type:{resource_type} id:{_id}")
+            self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.debug(str(e))
         except Exception as e:
             self.worker.counter.increment_failure()
@@ -327,6 +329,11 @@ class ResourcesHandler:
             await r_class._delete_resource(_id)
             self.worker.counter.increment_success()
             await r_class._send_action_metrics("delete", _id, Status.SUCCESS.value)
+        except SkipResource as e:
+            self.worker.counter.increment_skipped()
+            await r_class._send_action_metrics("delete", _id, Status.SKIPPED.value, tags=["reason:unknown"])
+            self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
+            self.config.logger.info(f"skip deleting resource: {str(e)}", resource_type=resource_type, _id=_id)
         except Exception as e:
             self.worker.counter.increment_failure()
             await r_class._send_action_metrics("delete", _id, Status.FAILURE.value)
