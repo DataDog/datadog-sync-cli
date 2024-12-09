@@ -75,12 +75,6 @@ class SecurityMonitoringRules(BaseResource):
 
         resource = cast(dict, resource)
         matching_destination_rule = self.destination_rules.get(resource["name"], None)
-        if resource.get("isDefault", False) and not matching_destination_rule:
-            raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
-        if resource["name"] in self.immutable_rule_names:
-            raise SkipResource(_id, self.resource_type, "This rule is immutable")
-        if matching_destination_rule and matching_destination_rule.get("isDeprecated", False):
-            raise SkipResource(_id, self.resource_type, "Cannot update deprecated rules")
 
         return resource["id"], resource
 

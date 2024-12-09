@@ -9,7 +9,7 @@ from datadog_sync.models import Users
 
 class TestUsersResources(BaseResourcesTestClass):
     @staticmethod
-    def compute_changes(resource_count, num_of_skips):
+    def compute_cleanup_changes(resource_count, num_of_skips):
         """Add the skips to the resource count"""
         return resource_count + num_of_skips
 

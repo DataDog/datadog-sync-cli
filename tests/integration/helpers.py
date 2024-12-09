@@ -28,7 +28,12 @@ class BaseResourcesTestClass:
     force_missing_deps = False
 
     @staticmethod
-    def compute_changes(resource_count, num_of_skips):
+    def compute_cleanup_changes(resource_count, num_of_skips):
+        """By default we just return the resource count"""
+        return resource_count
+
+    @staticmethod
+    def compute_import_changes(resource_count, num_of_skips):
         """By default we just return the resource count"""
         return resource_count
 
@@ -70,7 +75,8 @@ class BaseResourcesTestClass:
         assert 0 == ret.exit_code
 
         num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(caplog.text))
-        assert num_resources_to_add == len(source_resources)
+        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
+        assert len(source_resources) == self.compute_import_changes(num_resources_to_add, num_resources_skipped)
 
     def test_resource_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -218,7 +224,7 @@ class BaseResourcesTestClass:
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
 
-        assert len(source_resources) == self.compute_changes(len(destination_resources), num_resources_skipped)
+        assert len(source_resources) == self.compute_cleanup_changes(len(destination_resources), num_resources_skipped)
 
 
 def save_source_resources(resource_type, resources):

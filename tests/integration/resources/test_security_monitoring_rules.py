@@ -11,9 +11,14 @@ class TestSecurityMonitoringRules(BaseResourcesTestClass):
     """Filter out the deprecated security rules"""
 
     @staticmethod
-    def compute_changes(resource_count, num_of_skips):
+    def compute_cleanup_changes(resource_count, num_of_skips):
         """Subtract the skips from the resource count"""
         return resource_count - num_of_skips
+
+    @staticmethod
+    def compute_import_changes(resource_count, num_of_skips):
+        """Add the skips from the resource count"""
+        return resource_count + num_of_skips
 
     resource_type = SecurityMonitoringRules.resource_type
     field_to_update = "isEnabled"
