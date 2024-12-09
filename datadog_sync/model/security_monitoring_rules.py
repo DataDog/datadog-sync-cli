@@ -74,7 +74,6 @@ class SecurityMonitoringRules(BaseResource):
             resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
 
         resource = cast(dict, resource)
-        matching_destination_rule = self.destination_rules.get(resource["name"], None)
 
         return resource["id"], resource
 
