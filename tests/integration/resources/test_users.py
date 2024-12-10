@@ -8,6 +8,11 @@ from datadog_sync.models import Users
 
 
 class TestUsersResources(BaseResourcesTestClass):
+    @staticmethod
+    def compute_cleanup_changes(resource_count, num_of_skips):
+        """Add the skips to the resource count"""
+        return resource_count + num_of_skips
+
     resource_type = Users.resource_type
     field_to_update = "attributes.name"
     resources_to_preserve_filter = "Type=users;Name=attributes.status;Value=Active"
