@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.2.1 / 2024-12-10
+
+### Fixed
+* Remove `public_id` from synthetics sub step by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/302
+### Added
+* Add two metrics to mark when a command starts by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/300
+* Add a reset command to remove destination resources by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/293
+* add security rules as a resource by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/304
+### Changed
+* Small logging cleanup by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/303
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.1.1...1.2.1
+
 ## 1.1.1 / 2024-11-04
 
 ### Fixed
