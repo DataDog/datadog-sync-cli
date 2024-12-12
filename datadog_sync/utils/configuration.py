@@ -96,8 +96,21 @@ class Configuration(object):
         else:
             self.logger.warning("DDR verification skipped.")
 
-        await self.source_client.send_metric(f"{cmd.value}.start")
-        await self.destination_client.send_metric(f"{cmd.value}.start")
+        if cmd in [Command.IMPORT] and self.send_metrics:
+            await self.source_client.send_metric(f"{cmd.value}.start")
+            try:
+                await self.destination_client.send_metric(f"{cmd.value}.start")
+            except Exception:
+                self.logger.info("Optional destination not defined")
+        if cmd in [Command.SYNC, Command.RESET] and self.send_metrics:
+            await self.destination_client.send_metric(f"{cmd.value}.start")
+            try:
+                await self.source_client.send_metric(f"{cmd.value}.start")
+            except Exception:
+                self.logger.info("Optional source not defined")
+        if cmd in [Command.MIGRATE] and self.send_metrics:
+            await self.source_client.send_metric(f"{cmd.value}.start")
+            await self.destination_client.send_metric(f"{cmd.value}.start")
 
     async def exit_async(self):
         await self.source_client._end_session()
