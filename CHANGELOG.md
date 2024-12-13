@@ -3,7 +3,7 @@
 ## 1.3.0 / 2024-12-12
 
 ### Fixed
-* Fix a bug with sending metrics by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/307
+* Fixed a bug with sending metrics by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/307
 
 
 **Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.2.0...1.3.0
