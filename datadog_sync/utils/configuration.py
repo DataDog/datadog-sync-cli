@@ -12,6 +12,7 @@ from typing import Any, Optional, Union, Dict, List
 
 from datadog_sync.constants import (
     Command,
+    AWS_CONFIG_PROPERTIES,
     DESTINATION_PATH_DEFAULT,
     DESTINATION_PATH_PARAM,
     FALSE,
@@ -34,6 +35,7 @@ from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import Filter, process_filters
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 from datadog_sync.utils.state import State
+from datadog_sync.utils.storage.storage_types import StorageType
 
 
 @dataclass
@@ -164,9 +166,25 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             "force": FORCE,
         }[cleanup.lower()]
 
-    # Set resource paths
-    source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
-    destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
+    # determine where the states are stored
+    use_aws_s3 = kwargs.get("use_aws_s3_bucket", False)
+    config = {}
+
+    if use_aws_s3:
+        logger.info("Using AWS S3 to store state files")
+        storage_type = StorageType.AWS_S3_BUCKET
+        source_resources_path = kwargs.get("aws_bucket_key_prefix_source", SOURCE_PATH_DEFAULT)
+        destination_resources_path = kwargs.get("aws_bucket_key_prefix_destination", DESTINATION_PATH_DEFAULT)
+        for aws_config_property in AWS_CONFIG_PROPERTIES:
+            property_value = kwargs.get(aws_config_property, None)
+            if not property_value:
+                raise ValueError(f"Missing AWS configuration parameter: {aws_config_property}")
+            config[aws_config_property] = property_value
+    else:
+        logger.info("Using local filesystem to store state files")
+        storage_type = StorageType.LOCAL_FILE
+        source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
+        destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
 
     # Confusing, but the source for the import needs to be the destination of the reset
     # If a destination is going to be reset then a backup needs to be preformed. A back up
@@ -177,7 +195,12 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         source_resources_path = f"{destination_resources_path}/.backup/{str(time.time())}"
 
     # Initialize state
-    state = State(source_resources_path=source_resources_path, destination_resources_path=destination_resources_path)
+    state = State(
+        type_=storage_type,
+        source_resources_path=source_resources_path,
+        destination_resources_path=destination_resources_path,
+        config=config,
+    )
 
     # Initialize Configuration
     config = Configuration(
