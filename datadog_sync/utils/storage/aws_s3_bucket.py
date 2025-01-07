@@ -3,9 +3,10 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-import boto3
 import json
 import logging
+
+import boto3
 
 from datadog_sync.constants import (
     Origin,
@@ -22,12 +23,17 @@ log = logging.getLogger(LOGGER_NAME)
 class AWSS3Bucket(BaseStorage):
 
     def __init__(
-        self, source_resources_path=SOURCE_PATH_DEFAULT, destination_resources_path=DESTINATION_PATH_DEFAULT, config={}
+        self,
+        source_resources_path=SOURCE_PATH_DEFAULT,
+        destination_resources_path=DESTINATION_PATH_DEFAULT,
+        config=None,
     ) -> None:
         log.info("AWS S3 init called")
         super().__init__()
         self.source_resources_path = source_resources_path
         self.destination_resources_path = destination_resources_path
+        if not config:
+            raise ValueError("No S3 configuration passed in")
         self.client = boto3.client(
             "s3",
             region_name=config.get("aws_region_name", ""),
