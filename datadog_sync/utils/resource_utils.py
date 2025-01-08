@@ -192,16 +192,20 @@ def del_attr(k_list, resource):
         del_attr(k_list[1:], resource[k_list[0]])
 
 
-def del_null_attr(resource_config, k_list, resource):
+def del_null_attr(resource_config, k_list, resources):
     # the nulls get converted to "something", this converts them back
-    if resource_config.null_values and len(k_list) == 1 and k_list[0] in resource_config.null_values:
-        if k_list[0] in resource and resource[k_list[0]] in resource_config.null_values[k_list[0]]:
-            resource[k_list[0]] = None
+    if not isinstance(resources, list):
+        resources = [resources]
 
-    if len(k_list) == 1 and k_list[0] in resource and resource[k_list[0]] is None:
-        resource.pop(k_list[0], None)
-    elif len(k_list) > 1 and resource[k_list[0]] is not None:
-        del_null_attr(resource_config, k_list[1:], resource[k_list[0]])
+    for resource in resources:
+        if resource_config.null_values and len(k_list) == 1 and k_list[0] in resource_config.null_values:
+            if k_list[0] in resource and resource[k_list[0]] in resource_config.null_values[k_list[0]]:
+                resource[k_list[0]] = None
+
+        if len(k_list) == 1 and k_list[0] in resource and resource[k_list[0]] is None:
+            resource.pop(k_list[0], None)
+        elif len(k_list) > 1 and resource[k_list[0]] is not None:
+            del_null_attr(resource_config, k_list[1:], resource[k_list[0]])
 
 
 def check_diff(resource_config, resource, state):
