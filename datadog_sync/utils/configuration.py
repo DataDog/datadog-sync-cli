@@ -188,7 +188,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
         destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
     else:
-        raise ValueError(f"Unsupported storage type")
+        raise ValueError("Unsupported storage type")
 
     # Confusing, but the source for the import needs to be the destination of the reset
     # If a destination is going to be reset then a backup needs to be preformed. A back up
