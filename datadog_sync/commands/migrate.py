@@ -11,6 +11,7 @@ from datadog_sync.commands.shared.options import (
     diffs_common_options,
     source_auth_options,
     sync_common_options,
+    storage_options,
 )
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.constants import Command
@@ -22,6 +23,7 @@ from datadog_sync.constants import Command
 @common_options
 @diffs_common_options
 @sync_common_options
+@storage_options
 def migrate(**kwargs):
     """Migrate Datadog resources from one datacenter to another."""
     run_cmd(Command.MIGRATE, **kwargs)

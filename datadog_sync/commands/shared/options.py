@@ -187,8 +187,24 @@ _common_options = [
         help="Enables sync-cli metrics being sent to both source and destination",
         cls=CustomOptionClass,
     ),
+]
+
+_storage_options = [
+    option(
+        "--storage-type",
+        default=constants.LOCAL_STORAGE_TYPE,
+        show_default=True,
+        type=Choice(
+            constants.STORAGE_TYPES,
+            case_sensitive=False,
+        ),
+        help=f"Set to one of {constants.STORAGE_TYPES} to specify which type of storage to use",
+        cls=CustomOptionClass,
+    ),
     option(
         "--source-resources-path",
+        default=constants.SOURCE_PATH_DEFAULT,
+        show_default=True,
         envvar=constants.DD_SOURCE_RESOURCES_PATH,
         type=Path(
             file_okay=False,
@@ -196,12 +212,13 @@ _common_options = [
             resolve_path=True,
         ),
         required=False,
-        help="Specify the local path to the source resources, ignored if --use-aws-s3-bucket is True",
-        default=constants.SOURCE_PATH_DEFAULT,
+        help=f"Path to the source resources, only used if --storage-type is '{constants.LOCAL_STORAGE_TYPE}'",
         cls=CustomOptionClass,
     ),
     option(
         "--destination-resources-path",
+        default=constants.DESTINATION_PATH_DEFAULT,
+        show_default=True,
         envvar=constants.DD_DESTINATION_RESOURCES_PATH,
         type=Path(
             file_okay=False,
@@ -209,70 +226,60 @@ _common_options = [
             resolve_path=True,
         ),
         required=False,
-        help="Specify the local path to the destination resources, ignored if --use-aws-s3-bucket is True",
-        default=constants.DESTINATION_PATH_DEFAULT,
-        cls=CustomOptionClass,
-    ),
-    option(
-        "--use-aws-s3-bucket",
-        required=False,
-        type=bool,
-        default=False,
-        show_default=True,
-        help="Enables using an AWS S3 bucket to store resources' state",
+        help=f"Path to the destination resources, only used if --storage-type is '{constants.LOCAL_STORAGE_TYPE}'",
         cls=CustomOptionClass,
     ),
     option(
         "--aws-access-key-id",
         envvar=constants.AWS_ACCESS_KEY_ID,
         required=False,
-        help="AWS access key id for using an S3 bucket to store resources' state",
+        help=f"AWS access key id, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
         cls=CustomOptionClass,
     ),
     option(
         "--aws-bucket-name",
         envvar=constants.AWS_BUCKET_NAME,
         required=False,
-        help="AWS bucket name for using an S3 bucket to store resources' state",
+        help=f"AWS bucket name, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
         cls=CustomOptionClass,
     ),
     option(
         "--aws-bucket-key-prefix-source",
-        envvar=constants.AWS_BUCKET_KEY_PREFIX_SOURCE,
-        required=False,
-        help="AWS S3 bucket key prefix for storing source resources' state",
         default=constants.SOURCE_PATH_DEFAULT,
         show_default=True,
+        envvar=constants.AWS_BUCKET_KEY_PREFIX_SOURCE,
+        required=False,
+        help=f"AWS S3 bucket source key prefix, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
         cls=CustomOptionClass,
     ),
     option(
         "--aws-bucket-key-prefix-destination",
-        envvar=constants.AWS_BUCKET_KEY_PREFIX_DESTINATION,
-        required=False,
-        help="AWS S3 bucket key prefix for storing destination resources' state",
         default=constants.DESTINATION_PATH_DEFAULT,
         show_default=True,
+        envvar=constants.AWS_BUCKET_KEY_PREFIX_DESTINATION,
+        required=False,
+        help=f"AWS S3 bucket destination key prefix, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
         cls=CustomOptionClass,
     ),
     option(
         "--aws-region-name",
         envvar=constants.AWS_REGION_NAME,
         required=False,
-        help="AWS region name for using an S3 bucket to store resources' state",
+        help=f"AWS region name, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
         cls=CustomOptionClass,
     ),
     option(
         "--aws-secret-access-key",
         envvar=constants.AWS_SECRET_ACCESS_KEY,
         required=False,
-        help="AWS secret access key for using an S3 bucket to store resources' state",
+        help=f"AWS secret access key, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
         cls=CustomOptionClass,
     ),
     option(
         "--aws-session-token",
         envvar=constants.AWS_SESSION_TOKEN,
         required=False,
-        help="AWS session token for using an S3 bucket to store resources' state",
+        help=f"AWS session token, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
         cls=CustomOptionClass,
     ),
 ]
@@ -335,6 +342,9 @@ def destination_auth_options(func: Callable) -> Callable:
 
 def common_options(func: Callable) -> Callable:
     return _build_options_helper(func, _common_options)
+
+def storage_options(func: Callable) -> Callable:
+    return _build_options_helper(func, _storage_options)
 
 
 def diffs_common_options(func: Callable) -> Callable:

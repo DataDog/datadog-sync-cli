@@ -17,7 +17,9 @@ from datadog_sync.constants import (
     DESTINATION_PATH_PARAM,
     FALSE,
     FORCE,
+    LOCAL_STORAGE_TYPE,
     LOGGER_NAME,
+    S3_STORAGE_TYPE,
     SOURCE_PATH_DEFAULT,
     SOURCE_PATH_PARAM,
     TRUE,
@@ -167,10 +169,10 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         }[cleanup.lower()]
 
     # determine where the states are stored
-    use_aws_s3 = kwargs.get("use_aws_s3_bucket", False)
+    storage_type = kwargs.get("storage_type", "local").lower()
     config = {}
 
-    if use_aws_s3:
+    if storage_type == S3_STORAGE_TYPE:
         logger.info("Using AWS S3 to store state files")
         storage_type = StorageType.AWS_S3_BUCKET
         source_resources_path = kwargs.get("aws_bucket_key_prefix_source", SOURCE_PATH_DEFAULT)
@@ -180,11 +182,13 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             if not property_value:
                 raise ValueError(f"Missing AWS configuration parameter: {aws_config_property}")
             config[aws_config_property] = property_value
-    else:
+    elif storage_type == LOCAL_STORAGE_TYPE:
         logger.info("Using local filesystem to store state files")
         storage_type = StorageType.LOCAL_FILE
         source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
         destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
+    else:
+        raise ValueError(f"Unsupported storage type")
 
     # Confusing, but the source for the import needs to be the destination of the reset
     # If a destination is going to be reset then a backup needs to be preformed. A back up

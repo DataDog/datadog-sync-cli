@@ -9,6 +9,7 @@ from datadog_sync.commands.shared.options import (
     common_options,
     destination_auth_options,
     source_auth_options,
+    storage_options,
 )
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.constants import Command
@@ -18,6 +19,7 @@ from datadog_sync.constants import Command
 @source_auth_options
 @destination_auth_options
 @common_options
+@storage_options
 def _import(**kwargs):
     """Import Datadog resources."""
     run_cmd(Command.IMPORT, **kwargs)
