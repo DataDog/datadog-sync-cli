@@ -343,6 +343,7 @@ def destination_auth_options(func: Callable) -> Callable:
 def common_options(func: Callable) -> Callable:
     return _build_options_helper(func, _common_options)
 
+
 def storage_options(func: Callable) -> Callable:
     return _build_options_helper(func, _storage_options)
 

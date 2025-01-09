@@ -44,13 +44,7 @@ class SecurityMonitoringRules(BaseResource):
             "options.impossibleTravelOptions",
             "cases.condition",
         ],
-        non_nullable_attr=[
-            "queries.additionalFilters",
-            "blocking",
-            "metadata",
-            "creator",
-            "updater"
-        ],
+        non_nullable_attr=["queries.additionalFilters", "blocking", "metadata", "creator", "updater"],
         null_values={
             "additionalFilters": [""],
             "blocking": [False],
