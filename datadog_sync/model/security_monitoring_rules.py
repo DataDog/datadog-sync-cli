@@ -40,9 +40,24 @@ class SecurityMonitoringRules(BaseResource):
             "isDeprecated",
             "defaultTags",
             "version",
+            "options.anomalyDetectionOptions",
+            "options.impossibleTravelOptions",
+            "cases.condition",
         ],
-        non_nullable_attr=[],
-        null_values={},
+        non_nullable_attr=[
+            "queries.additionalFilters",
+            "blocking",
+            "metadata",
+            "creator",
+            "updater"
+        ],
+        null_values={
+            "additionalFilters": [""],
+            "blocking": [False],
+            "metadata": [{"entities": None, "sources": None}],
+            "creator": [{"handle": "", "name": ""}],
+            "updater": [{"handle": "", "name": ""}],
+        },
     )
     # maximum page_size for this endpoint is 100 according to public api doc
     pagination_config = PaginationConfig(

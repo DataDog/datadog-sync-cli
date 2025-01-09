@@ -136,13 +136,13 @@ class ResourcesHandler:
             await r_class._pre_resource_action_hook(_id, resource)
             r_class.connect_resources(_id, resource)
 
+            prep_resource(r_class.resource_config, resource)
             if _id in self.config.state.destination[resource_type]:
                 diff = check_diff(r_class.resource_config, resource, self.config.state.destination[resource_type][_id])
                 if not diff:
                     raise SkipResource(_id, resource_type, "No differences detected.")
 
                 self.config.logger.debug(f"Running update for {resource_type} with {_id}")
-                prep_resource(r_class.resource_config, resource)
                 await r_class._update_resource(_id, resource)
                 await r_class._send_action_metrics(
                     Command.SYNC.value, _id, Status.SUCCESS.value, tags=["action_sub_type:update"]
@@ -150,7 +150,6 @@ class ResourcesHandler:
                 self.config.logger.debug(f"Finished update for {resource_type} with {_id}")
             else:
                 self.config.logger.debug(f"Running create for {resource_type} with id: {_id}")
-                prep_resource(r_class.resource_config, resource)
                 await r_class._create_resource(_id, resource)
                 await r_class._send_action_metrics(
                     Command.SYNC.value, _id, Status.SUCCESS.value, tags=["action_sub_type:create"]
