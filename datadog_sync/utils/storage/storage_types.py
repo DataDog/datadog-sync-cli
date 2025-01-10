@@ -8,3 +8,4 @@ from enum import Enum
 
 class StorageType(Enum):
     LOCAL_FILE = 1
+    AWS_S3_BUCKET = 2
