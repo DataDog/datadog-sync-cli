@@ -21,7 +21,15 @@ class LogsPipelines(BaseResource):
     resource_config = ResourceConfig(
         concurrent=False,
         base_path="/api/v1/logs/config/pipelines",
-        excluded_attributes=["id", "type", "__datadog_sync_invalid"],
+        excluded_attributes=["id", "type", "__datadog_sync_invalid", "meta"],
+        non_nullable_attr=[
+            "tags",
+            "description",
+        ],
+        null_values={
+            "tags": [[]],
+            "description": [""]
+        },
     )
     # Additional LogsPipelines specific attributes
     destination_integration_pipelines: Dict[str, Dict] = dict()
