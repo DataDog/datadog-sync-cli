@@ -3,10 +3,10 @@
 ## 1.4.0 / 2025-01-13
 
 ### Fixed
-* The security monitoring rules API has changed by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/311
-* Fix log pipelines for new non-nullable fields and meta by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/312
+* Fixed the security monitoring rules since the API has changed by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/311
+* Fixed log pipelines for new non-nullable fields and meta by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/312
 ### Added
-* Add support for writing to an S3 bucket by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/310
+* Added support for writing to an S3 bucket by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/310
 
 
 **Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.3.0...1.4.0
