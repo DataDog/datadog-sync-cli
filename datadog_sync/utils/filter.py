@@ -102,8 +102,8 @@ def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
         if not f_dict.get(FILTER_OPERATOR_KEY):
             f_dict[FILTER_OPERATOR_KEY] = EXACT_MATCH_OPERATOR
             log.warning(
-                "Defaulting to filter Operator `ExactMatch'. Please ensure the filter Value provided is"
-                + "updated as this behavior will be removed in the future. See the official README for more information"
+                "Defaulting to filter Operator `ExactMatch'. Please ensure the filter Value provided is "
+                + "updated as this behavior will be removed in the future. See the official README.md for more information."
             )
 
         # Build and assign regex matcher to VALUE key for the deprecated Operators
