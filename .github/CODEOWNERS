@@ -3,7 +3,7 @@
 # and another team can own the rest of the directory.
 
 # All your base
-*                       @DataDog/api-clients
+*                       @DataDog/api-clients @DataDog/web-frameworks
 
 # Documentation
-*.md                    @DataDog/documentation @DataDog/api-clients
+*.md                    @DataDog/documentation @DataDog/api-clients @DataDog/web-frameworks
