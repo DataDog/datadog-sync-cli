@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 from dateutil.parser import parse
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import PaginationConfig
 from datadog_sync.utils.resource_utils import DowntimeSchedulesDateOperator, SkipResource
 
 if TYPE_CHECKING:
@@ -34,12 +35,22 @@ class DowntimeSchedules(BaseResource):
             "custom_operators": [DowntimeSchedulesDateOperator()],
         },
     )
+    pagination_config = PaginationConfig(
+        page_size=100,
+        page_size_param="page[limit]",
+        page_number_param="page[offset]",
+        page_number_func=lambda idx, page_size, page_number: page_number + page_size,
+        remaining_func=lambda *args: 1,
+    )
     # Additional DowntimeSchedules specific attributes
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = await client.get(self.resource_config.base_path)
+        resp = await client.paginated_request(client.get)(
+            self.resource_config.base_path,
+            pagination_config=self.pagination_config,
+        )
 
-        return resp.get("data", [])
+        return resp
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:

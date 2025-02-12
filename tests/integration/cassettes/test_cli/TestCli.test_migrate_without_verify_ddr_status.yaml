@@ -2309,7 +2309,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/downtime
+    uri: https://api.datadoghq.eu/api/v2/downtime?page%5Blimit%5D=100&page%5Boffset%5D=0
   response:
     body:
       string: '{"data": [{"type": "downtime", "attributes": {"schedule": {"end": null,
