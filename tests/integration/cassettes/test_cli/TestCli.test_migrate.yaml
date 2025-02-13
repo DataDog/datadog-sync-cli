@@ -43,6 +43,79 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.datadoghq.eu/api/v1/synthetics/locations
+  response:
+    body:
+      string: '{"locations": [{"id": "aws:af-south-1", "name": "Cape Town (AWS)"},
+        {"id": "aws:ap-east-1", "name": "Hong Kong (AWS)"}, {"id": "aws:ap-northeast-1",
+        "name": "Tokyo (AWS)"}, {"id": "aws:ap-northeast-2", "name": "Seoul (AWS)"},
+        {"id": "aws:ap-northeast-3", "name": "Osaka (AWS)"}, {"id": "aws:ap-south-1",
+        "name": "Mumbai (AWS)"}, {"id": "aws:ap-southeast-1", "name": "Singapore (AWS)"},
+        {"id": "aws:ap-southeast-2", "name": "Sydney (AWS)"}, {"id": "aws:ap-southeast-3",
+        "name": "Jakarta (AWS)"}, {"id": "aws:ca-central-1", "name": "Canada Central
+        (AWS)"}, {"id": "aws:eu-central-1", "name": "Frankfurt (AWS)"}, {"id": "aws:eu-north-1",
+        "name": "Stockholm (AWS)"}, {"id": "aws:eu-south-1", "name": "Milan (AWS)"},
+        {"id": "aws:eu-west-1", "name": "Ireland (AWS)"}, {"id": "aws:eu-west-2",
+        "name": "London (AWS)"}, {"id": "aws:eu-west-3", "name": "Paris (AWS)"}, {"id":
+        "aws:me-south-1", "name": "Bahrain (AWS)"}, {"id": "aws:sa-east-1", "name":
+        "S\u00e3o Paulo (AWS)"}, {"id": "aws:us-east-1", "name": "N. Virginia (AWS)"},
+        {"id": "aws:us-east-2", "name": "Ohio (AWS)"}, {"id": "aws:us-west-1", "name":
+        "N. California (AWS)"}, {"id": "aws:us-west-2", "name": "Oregon (AWS)"}, {"id":
+        "azure:eastus", "name": "Virginia (Azure)"}, {"id": "gcp:asia-northeast1",
+        "name": "Tokyo (GCP)"}, {"id": "gcp:europe-west3", "name": "Frankfurt (GCP)"},
+        {"id": "gcp:us-east4", "name": "Virginia (GCP)"}, {"id": "gcp:us-south1",
+        "name": "Dallas (GCP)"}, {"id": "gcp:us-west1", "name": "Oregon (GCP)"}, {"id":
+        "gcp:us-west2", "name": "Los Angeles (GCP)"}, {"id": "pl:test-ddd684741691962f1bfdebeef3963a42",
+        "name": "test"}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
+  response:
+    body:
+      string: '{"dashboard_lists": [{"author": {"name": "Michael Richey", "handle":
+        "michael.richey@datadoghq.com"}, "created": "2024-10-21T18:44:00.062011+00:00",
+        "dashboards": null, "dashboard_count": 1, "id": 40438, "is_favorite": true,
+        "modified": "2024-10-21T18:45:11.663010+00:00", "name": "Michael''s List",
+        "type": "manual_dashboard_list"}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/slo/correction
+  response:
+    body:
+      string: '{"data": [], "meta": {"page": {"total_count": 0, "total_filtered_count":
+        0}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v2/powerpacks?page%5Blimit%5D=1000&page%5Boffset%5D=0
   response:
     body:
@@ -77,11 +150,52 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/slo/correction
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests
   response:
     body:
-      string: '{"data": [], "meta": {"page": {"total_count": 0, "total_filtered_count":
-        0}}}'
+      string: '{"tests": [{"public_id": "njk-avc-mjc", "name": "Test on www.datadoghq.com",
+        "status": "live", "type": "api", "subtype": "http", "tags": [], "created_at":
+        "2024-10-28T18:50:32.939904+00:00", "modified_at": "2024-10-28T18:50:32.939904+00:00",
+        "config": {"assertions": [{"operator": "lessThan", "type": "responseTime",
+        "target": 1000}], "request": {"method": "GET", "url": "https://www.datadoghq.com"}},
+        "message": "", "options": {"httpVersion": "any", "min_failure_duration": 0,
+        "min_location_failed": 1, "monitor_options": {"notification_preset_name":
+        "show_all", "on_missing_data": "show_no_data", "notify_audit": false, "new_host_delay":
+        300, "include_tags": true}, "tick_every": 60}, "locations": ["aws:af-south-1",
+        "aws:ap-east-1", "aws:ap-northeast-1", "aws:ap-northeast-2", "aws:ap-northeast-3",
+        "aws:ap-south-1", "aws:ap-southeast-1", "aws:ap-southeast-2", "aws:ap-southeast-3",
+        "aws:ca-central-1", "aws:eu-central-1", "aws:eu-north-1", "aws:eu-south-1",
+        "aws:eu-west-1", "aws:eu-west-2", "aws:eu-west-3", "aws:me-south-1", "aws:sa-east-1",
+        "aws:us-east-1", "aws:us-east-2", "aws:us-west-1", "aws:us-west-2", "azure:eastus",
+        "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
+        "gcp:us-west1", "gcp:us-west2"], "monitor_id": 20125203, "creator": {"name":
+        "Michael Richey", "handle": "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com"}}],
+        "total": 1}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard
+  response:
+    body:
+      string: '{"dashboards": [{"id": "2n3-8ye-5ui", "title": "sync-cli customer dashboard",
+        "description": "[[suggested_dashboards]]", "layout_type": "ordered", "url":
+        "/dashboard/2n3-8ye-5ui/sync-cli-customer-dashboard", "is_read_only": false,
+        "created_at": "2024-10-24T15:14:37.892787+00:00", "modified_at": "2024-11-05T14:55:50.821949+00:00",
+        "author_handle": "michael.richey@datadoghq.com", "deleted_at": null}, {"id":
+        "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
+        null, "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
+        "is_read_only": false, "created_at": "2024-10-28T18:45:47.629189+00:00", "modified_at":
+        "2024-10-31T20:20:27.062979+00:00", "author_handle": "michael.richey@datadoghq.com",
+        "deleted_at": null}]}'
     headers:
       Content-Type:
       - application/json
@@ -658,131 +772,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
-  response:
-    body:
-      string: '{"dashboard_lists": [{"author": {"name": "Michael Richey", "handle":
-        "michael.richey@datadoghq.com"}, "created": "2024-10-21T18:44:00.062011+00:00",
-        "dashboards": null, "dashboard_count": 1, "id": 40438, "is_favorite": true,
-        "modified": "2024-10-21T18:45:11.663010+00:00", "name": "Michael''s List",
-        "type": "manual_dashboard_list"}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard
-  response:
-    body:
-      string: '{"dashboards": [{"id": "2n3-8ye-5ui", "title": "sync-cli customer dashboard",
-        "description": "[[suggested_dashboards]]", "layout_type": "ordered", "url":
-        "/dashboard/2n3-8ye-5ui/sync-cli-customer-dashboard", "is_read_only": false,
-        "created_at": "2024-10-24T15:14:37.892787+00:00", "modified_at": "2024-11-05T14:55:50.821949+00:00",
-        "author_handle": "michael.richey@datadoghq.com", "deleted_at": null}, {"id":
-        "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
-        null, "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
-        "is_read_only": false, "created_at": "2024-10-28T18:45:47.629189+00:00", "modified_at":
-        "2024-10-31T20:20:27.062979+00:00", "author_handle": "michael.richey@datadoghq.com",
-        "deleted_at": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/slo
-  response:
-    body:
-      string: '{"data": [{"id": "650a18e266505a48b319d9b221158a26", "name": "test",
-        "tags": [], "monitor_tags": [], "thresholds": [{"timeframe": "7d", "target":
-        99.9, "target_display": "99.9"}], "type": "metric", "type_id": 1, "description":
-        "", "timeframe": "7d", "target_threshold": 99.9, "query": {"denominator":
-        "sum:datadog.agent.started{*}.as_count()", "numerator": "sum:datadog.agent.started{*}.as_count()"},
-        "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com"}, "created_at": 1729537004, "modified_at":
-        1729537004}], "error": null, "metadata": {"page": {"total_count": 1, "total_filtered_count":
-        1}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests
-  response:
-    body:
-      string: '{"tests": [{"public_id": "njk-avc-mjc", "name": "Test on www.datadoghq.com",
-        "status": "live", "type": "api", "subtype": "http", "tags": [], "created_at":
-        "2024-10-28T18:50:32.939904+00:00", "modified_at": "2024-10-28T18:50:32.939904+00:00",
-        "config": {"assertions": [{"operator": "lessThan", "type": "responseTime",
-        "target": 1000}], "request": {"method": "GET", "url": "https://www.datadoghq.com"}},
-        "message": "", "options": {"httpVersion": "any", "min_failure_duration": 0,
-        "min_location_failed": 1, "monitor_options": {"notification_preset_name":
-        "show_all", "on_missing_data": "show_no_data", "notify_audit": false, "new_host_delay":
-        300, "include_tags": true}, "tick_every": 60}, "locations": ["aws:af-south-1",
-        "aws:ap-east-1", "aws:ap-northeast-1", "aws:ap-northeast-2", "aws:ap-northeast-3",
-        "aws:ap-south-1", "aws:ap-southeast-1", "aws:ap-southeast-2", "aws:ap-southeast-3",
-        "aws:ca-central-1", "aws:eu-central-1", "aws:eu-north-1", "aws:eu-south-1",
-        "aws:eu-west-1", "aws:eu-west-2", "aws:eu-west-3", "aws:me-south-1", "aws:sa-east-1",
-        "aws:us-east-1", "aws:us-east-2", "aws:us-west-1", "aws:us-west-2", "azure:eastus",
-        "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
-        "gcp:us-west1", "gcp:us-west2"], "monitor_id": 20125203, "creator": {"name":
-        "Michael Richey", "handle": "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com"}}],
-        "total": 1}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"variables": [{"id": "be3fe0f5-63b1-4913-9f09-c147bf6d5e21", "name":
-        "TEST", "description": "test", "type": "variable", "tags": ["team:test"],
-        "created_at": "2024-10-21T18:59:34.361092+00:00", "modified_at": "2024-10-21T18:59:34.361092+00:00",
-        "last_error": null, "attributes": {"bindings": []}, "value": {"value": "test",
-        "secure": false, "options": {}}, "creator": {"email": "michael.richey@datadoghq.com",
-        "handle": "michael.richey@datadoghq.com", "name": "Michael Richey"}, "editor":
-        {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
-        "name": "Michael Richey"}}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v1/monitor?page=0&page_size=1000
   response:
     body:
@@ -812,7 +801,7 @@ interactions:
         true, "silenced": {}}, "multi": false, "created_at": 1730141432000, "created":
         "2024-10-28T18:50:32.908477+00:00", "modified": "2024-10-28T18:50:32.908477+00:00",
         "deleted": null, "priority": null, "restricted_roles": null, "overall_state_modified":
-        "2025-02-13T19:38:33+00:00", "overall_state": "OK", "creator": {"name": "Michael
+        "2025-02-13T21:29:03+00:00", "overall_state": "OK", "creator": {"name": "Michael
         Richey", "email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
         "id": 1002072115}, "matching_downtimes": []}, {"id": 20125249, "org_id": 1000315894,
         "type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
@@ -867,6 +856,37 @@ interactions:
         "id": 1002072115}, "matching_downtimes": [{"id": 505145498, "active": true,
         "monitor_id": 20125252, "start": 1730142200, "end": null, "scope": ["*"],
         "groups": []}]}]'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/downtime?page%5Blimit%5D=100&page%5Boffset%5D=0
+  response:
+    body:
+      string: '{"data": [{"type": "downtime", "id": "84867542-29d9-4c77-b9f8-117e19347a27",
+        "attributes": {"notify_end_types": ["canceled", "expired"], "modified": "2024-10-28T19:03:37.269181+00:00",
+        "monitor_identifier": {"monitor_id": 20125252}, "status": "active", "mute_first_recovery_notification":
+        false, "scope": "*", "schedule": {"end": null, "start": "2024-10-28T19:03:20.783000+00:00"},
+        "canceled": null, "notify_end_states": ["alert", "warn", "no data"], "display_timezone":
+        "America/New_York", "created": "2024-10-28T19:03:37.269181+00:00", "message":
+        ""}}, {"type": "downtime", "id": "e7c79b6e-4c04-4540-ad20-0d1f71d79061", "attributes":
+        {"notify_end_types": ["canceled", "expired"], "modified": "2025-02-13T19:56:15.142933+00:00",
+        "monitor_identifier": {"monitor_id": 20046756}, "status": "scheduled", "mute_first_recovery_notification":
+        false, "scope": "agent_type:native", "schedule": {"recurrences": [{"rrule":
+        "FREQ=DAILY;INTERVAL=1", "duration": "10m", "start": "2024-10-28T14:46:00"}],
+        "timezone": "America/New_York", "current_downtime": {"end": "2025-02-14T19:56:00+00:00",
+        "start": "2025-02-14T19:46:00+00:00"}}, "canceled": null, "notify_end_states":
+        ["alert", "warn", "no data"], "display_timezone": "America/New_York", "created":
+        "2024-10-28T18:47:00.157356+00:00", "message": "test"}}], "meta": {"page":
+        {"total_filtered_count": 2}}}'
     headers:
       Content-Type:
       - application/json
@@ -2510,30 +2530,17 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/locations
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"locations": [{"id": "aws:af-south-1", "name": "Cape Town (AWS)"},
-        {"id": "aws:ap-east-1", "name": "Hong Kong (AWS)"}, {"id": "aws:ap-northeast-1",
-        "name": "Tokyo (AWS)"}, {"id": "aws:ap-northeast-2", "name": "Seoul (AWS)"},
-        {"id": "aws:ap-northeast-3", "name": "Osaka (AWS)"}, {"id": "aws:ap-south-1",
-        "name": "Mumbai (AWS)"}, {"id": "aws:ap-southeast-1", "name": "Singapore (AWS)"},
-        {"id": "aws:ap-southeast-2", "name": "Sydney (AWS)"}, {"id": "aws:ap-southeast-3",
-        "name": "Jakarta (AWS)"}, {"id": "aws:ca-central-1", "name": "Canada Central
-        (AWS)"}, {"id": "aws:eu-central-1", "name": "Frankfurt (AWS)"}, {"id": "aws:eu-north-1",
-        "name": "Stockholm (AWS)"}, {"id": "aws:eu-south-1", "name": "Milan (AWS)"},
-        {"id": "aws:eu-west-1", "name": "Ireland (AWS)"}, {"id": "aws:eu-west-2",
-        "name": "London (AWS)"}, {"id": "aws:eu-west-3", "name": "Paris (AWS)"}, {"id":
-        "aws:me-south-1", "name": "Bahrain (AWS)"}, {"id": "aws:sa-east-1", "name":
-        "S\u00e3o Paulo (AWS)"}, {"id": "aws:us-east-1", "name": "N. Virginia (AWS)"},
-        {"id": "aws:us-east-2", "name": "Ohio (AWS)"}, {"id": "aws:us-west-1", "name":
-        "N. California (AWS)"}, {"id": "aws:us-west-2", "name": "Oregon (AWS)"}, {"id":
-        "azure:eastus", "name": "Virginia (Azure)"}, {"id": "gcp:asia-northeast1",
-        "name": "Tokyo (GCP)"}, {"id": "gcp:europe-west3", "name": "Frankfurt (GCP)"},
-        {"id": "gcp:us-east4", "name": "Virginia (GCP)"}, {"id": "gcp:us-south1",
-        "name": "Dallas (GCP)"}, {"id": "gcp:us-west1", "name": "Oregon (GCP)"}, {"id":
-        "gcp:us-west2", "name": "Los Angeles (GCP)"}, {"id": "pl:test-ddd684741691962f1bfdebeef3963a42",
-        "name": "test"}]}'
+      string: '{"variables": [{"id": "be3fe0f5-63b1-4913-9f09-c147bf6d5e21", "name":
+        "TEST", "description": "test", "type": "variable", "tags": ["team:test"],
+        "created_at": "2024-10-21T18:59:34.361092+00:00", "modified_at": "2024-10-21T18:59:34.361092+00:00",
+        "last_error": null, "attributes": {"bindings": []}, "value": {"value": "test",
+        "secure": false, "options": {}}, "creator": {"email": "michael.richey@datadoghq.com",
+        "handle": "michael.richey@datadoghq.com", "name": "Michael Richey"}, "editor":
+        {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
+        "name": "Michael Richey"}}]}'
     headers:
       Content-Type:
       - application/json
@@ -2546,26 +2553,18 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/downtime?page%5Blimit%5D=100&page%5Boffset%5D=0
+    uri: https://api.datadoghq.eu/api/v1/slo
   response:
     body:
-      string: '{"data": [{"type": "downtime", "attributes": {"message": "", "scope":
-        "*", "modified": "2024-10-28T19:03:37.269181+00:00", "monitor_identifier":
-        {"monitor_id": 20125252}, "canceled": null, "notify_end_types": ["canceled",
-        "expired"], "display_timezone": "America/New_York", "created": "2024-10-28T19:03:37.269181+00:00",
-        "notify_end_states": ["warn", "no data", "alert"], "status": "active", "mute_first_recovery_notification":
-        false, "schedule": {"end": null, "start": "2024-10-28T19:03:20.783000+00:00"}},
-        "id": "84867542-29d9-4c77-b9f8-117e19347a27"}, {"type": "downtime", "attributes":
-        {"message": "test", "scope": "agent_type:native", "modified": "2025-02-12T19:56:10.206224+00:00",
-        "monitor_identifier": {"monitor_id": 20046756}, "canceled": null, "notify_end_types":
-        ["canceled", "expired"], "display_timezone": "America/New_York", "created":
-        "2024-10-28T18:47:00.157356+00:00", "notify_end_states": ["warn", "alert",
-        "no data"], "status": "scheduled", "mute_first_recovery_notification": false,
-        "schedule": {"recurrences": [{"duration": "10m", "start": "2024-10-28T14:46:00",
-        "rrule": "FREQ=DAILY;INTERVAL=1"}], "timezone": "America/New_York", "current_downtime":
-        {"end": "2025-02-13T19:56:00+00:00", "start": "2025-02-13T19:46:00+00:00"}}},
-        "id": "e7c79b6e-4c04-4540-ad20-0d1f71d79061"}], "meta": {"page": {"total_filtered_count":
-        2}}}'
+      string: '{"data": [{"id": "650a18e266505a48b319d9b221158a26", "name": "test",
+        "tags": [], "monitor_tags": [], "thresholds": [{"timeframe": "7d", "target":
+        99.9, "target_display": "99.9"}], "type": "metric", "type_id": 1, "description":
+        "", "timeframe": "7d", "target_threshold": 99.9, "query": {"denominator":
+        "sum:datadog.agent.started{*}.as_count()", "numerator": "sum:datadog.agent.started{*}.as_count()"},
+        "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
+        "email": "michael.richey@datadoghq.com"}, "created_at": 1729537004, "modified_at":
+        1729537004}], "error": null, "metadata": {"page": {"total_count": 1, "total_filtered_count":
+        1}}}'
     headers:
       Content-Type:
       - application/json
@@ -6681,6 +6680,38 @@ interactions:
     headers:
       Content-Type:
       - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/api/njk-avc-mjc
+  response:
+    body:
+      string: '{"public_id": "njk-avc-mjc", "name": "Test on www.datadoghq.com", "status":
+        "live", "type": "api", "subtype": "http", "tags": [], "created_at": "2024-10-28T18:50:32.939904+00:00",
+        "modified_at": "2024-10-28T18:50:32.939904+00:00", "config": {"assertions":
+        [{"operator": "lessThan", "type": "responseTime", "target": 1000}], "request":
+        {"method": "GET", "url": "https://www.datadoghq.com"}}, "message": "", "options":
+        {"httpVersion": "any", "min_failure_duration": 0, "min_location_failed": 1,
+        "monitor_options": {"notification_preset_name": "show_all", "on_missing_data":
+        "show_no_data", "notify_audit": false, "new_host_delay": 300, "include_tags":
+        true}, "tick_every": 60}, "locations": ["aws:af-south-1", "aws:ap-east-1",
+        "aws:ap-northeast-1", "aws:ap-northeast-2", "aws:ap-northeast-3", "aws:ap-south-1",
+        "aws:ap-southeast-1", "aws:ap-southeast-2", "aws:ap-southeast-3", "aws:ca-central-1",
+        "aws:eu-central-1", "aws:eu-north-1", "aws:eu-south-1", "aws:eu-west-1", "aws:eu-west-2",
+        "aws:eu-west-3", "aws:me-south-1", "aws:sa-east-1", "aws:us-east-1", "aws:us-east-2",
+        "aws:us-west-1", "aws:us-west-2", "azure:eastus", "gcp:asia-northeast1", "gcp:europe-west3",
+        "gcp:us-east4", "gcp:us-south1", "gcp:us-west1", "gcp:us-west2"], "monitor_id":
+        20125203, "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
+        "email": "michael.richey@datadoghq.com"}}'
+    headers:
+      Content-Type:
+      - application/json
     status:
       code: 200
       message: OK
@@ -6711,51 +6742,13 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
+    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-ddd684741691962f1bfdebeef3963a42
   response:
     body:
-      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
-        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
-        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
-        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
-        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
-        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/api/njk-avc-mjc
-  response:
-    body:
-      string: '{"public_id": "njk-avc-mjc", "name": "Test on www.datadoghq.com", "status":
-        "live", "type": "api", "subtype": "http", "tags": [], "created_at": "2024-10-28T18:50:32.939904+00:00",
-        "modified_at": "2024-10-28T18:50:32.939904+00:00", "config": {"assertions":
-        [{"operator": "lessThan", "type": "responseTime", "target": 1000}], "request":
-        {"method": "GET", "url": "https://www.datadoghq.com"}}, "message": "", "options":
-        {"httpVersion": "any", "min_failure_duration": 0, "min_location_failed": 1,
-        "monitor_options": {"notification_preset_name": "show_all", "on_missing_data":
-        "show_no_data", "notify_audit": false, "new_host_delay": 300, "include_tags":
-        true}, "tick_every": 60}, "locations": ["aws:af-south-1", "aws:ap-east-1",
-        "aws:ap-northeast-1", "aws:ap-northeast-2", "aws:ap-northeast-3", "aws:ap-south-1",
-        "aws:ap-southeast-1", "aws:ap-southeast-2", "aws:ap-southeast-3", "aws:ca-central-1",
-        "aws:eu-central-1", "aws:eu-north-1", "aws:eu-south-1", "aws:eu-west-1", "aws:eu-west-2",
-        "aws:eu-west-3", "aws:me-south-1", "aws:sa-east-1", "aws:us-east-1", "aws:us-east-2",
-        "aws:us-west-1", "aws:us-west-2", "azure:eastus", "gcp:asia-northeast1", "gcp:europe-west3",
-        "gcp:us-east4", "gcp:us-south1", "gcp:us-west1", "gcp:us-west2"], "monitor_id":
-        20125203, "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com"}}'
+      string: '{"createdAt": "2024-10-28T18:55:32.131820+00:00", "modifiedAt": "2024-10-28T18:55:32.131820+00:00",
+        "description": "test", "tags": ["team:test"], "name": "test", "metadata":
+        {"restricted_roles": []}, "id": "pl:test-ddd684741691962f1bfdebeef3963a42",
+        "createdBy": "michael.richey@datadoghq.com"}'
     headers:
       Content-Type:
       - application/json
@@ -6985,13 +6978,19 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-ddd684741691962f1bfdebeef3963a42
+    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
   response:
     body:
-      string: '{"createdAt": "2024-10-28T18:55:32.131820+00:00", "modifiedAt": "2024-10-28T18:55:32.131820+00:00",
-        "description": "test", "tags": ["team:test"], "name": "test", "metadata":
-        {"restricted_roles": []}, "id": "pl:test-ddd684741691962f1bfdebeef3963a42",
-        "createdBy": "michael.richey@datadoghq.com"}'
+      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
+        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
+        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
+        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
+        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
+        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
+        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -9254,6 +9253,82 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"name": "Test on www.datadoghq.com", "status": "live", "type": "api",
+      "subtype": "http", "tags": ["managed_by:datadog-sync"], "config": {"assertions":
+      [{"operator": "lessThan", "type": "responseTime", "target": 1000}], "request":
+      {"method": "GET", "url": "https://www.datadoghq.com"}}, "message": "", "options":
+      {"httpVersion": "any", "min_failure_duration": 0, "min_location_failed": 1,
+      "monitor_options": {"notification_preset_name": "show_all"}, "tick_every": 60},
+      "locations": ["aws:af-south-1", "aws:ap-east-1", "aws:ap-northeast-1", "aws:ap-northeast-2",
+      "aws:ap-northeast-3", "aws:ap-south-1", "aws:ap-southeast-1", "aws:ap-southeast-2",
+      "aws:ap-southeast-3", "aws:ca-central-1", "aws:eu-central-1", "aws:eu-north-1",
+      "aws:eu-south-1", "aws:eu-west-1", "aws:eu-west-2", "aws:eu-west-3", "aws:me-south-1",
+      "aws:sa-east-1", "aws:us-east-1", "aws:us-east-2", "aws:us-west-1", "aws:us-west-2",
+      "azure:eastus", "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
+      "gcp:us-west1", "gcp:us-west2"]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v1/synthetics/tests
+  response:
+    body:
+      string: '{"public_id": "zts-jw5-qri", "name": "Test on www.datadoghq.com", "status":
+        "live", "type": "api", "subtype": "http", "tags": ["managed_by:datadog-sync"],
+        "created_at": "2025-02-13T21:32:23.410052+00:00", "modified_at": "2025-02-13T21:32:23.410052+00:00",
+        "config": {"assertions": [{"operator": "lessThan", "type": "responseTime",
+        "target": 1000}], "request": {"method": "GET", "url": "https://www.datadoghq.com"}},
+        "message": "", "options": {"httpVersion": "any", "min_failure_duration": 0,
+        "min_location_failed": 1, "monitor_options": {"notification_preset_name":
+        "show_all", "on_missing_data": "show_no_data", "notify_audit": false, "new_host_delay":
+        300, "include_tags": true}, "tick_every": 60}, "locations": ["aws:af-south-1",
+        "aws:ap-east-1", "aws:ap-northeast-1", "aws:ap-northeast-2", "aws:ap-northeast-3",
+        "aws:ap-south-1", "aws:ap-southeast-1", "aws:ap-southeast-2", "aws:ap-southeast-3",
+        "aws:ca-central-1", "aws:eu-central-1", "aws:eu-north-1", "aws:eu-south-1",
+        "aws:eu-west-1", "aws:eu-west-2", "aws:eu-west-3", "aws:me-south-1", "aws:sa-east-1",
+        "aws:us-east-1", "aws:us-east-2", "aws:us-west-1", "aws:us-west-2", "azure:eastus",
+        "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
+        "gcp:us-west1", "gcp:us-west2"], "created_by": {"name": "Michael Richey",
+        "handle": "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com"},
+        "deleted_at": null, "monitor_id": 1286249, "org_id": 1300336245, "modified_by":
+        {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "email":
+        "michael.richey@datadoghq.com"}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "query alert", "name": "test", "message": "teset", "tags": ["managed_by:datadog-sync"],
+      "query": "avg(last_5m):avg:system.load.1{*} > 5", "options": {"thresholds":
+      {"critical": 5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
+      false, "new_host_delay": 300, "silenced": {}}, "multi": false, "priority": null,
+      "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v1/monitor
+  response:
+    body:
+      string: '{"id": 1286251, "org_id": 1300336245, "type": "query alert", "name":
+        "test", "message": "teset", "tags": ["managed_by:datadog-sync"], "query":
+        "avg(last_5m):avg:system.load.1{*} > 5", "options": {"thresholds": {"critical":
+        5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
+        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
+        1739482343000, "created": "2025-02-13T21:32:23.533627+00:00", "modified":
+        "2025-02-13T21:32:23.533627+00:00", "deleted": null, "priority": null, "restricted_roles":
+        null, "restriction_policy": null, "overall_state_modified": null, "overall_state":
+        "No Data", "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
+        "email": "michael.richey@datadoghq.com", "id": 1615666}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: '{"name": "TEST", "description": "test", "type": "variable", "tags": ["team:test",
       "managed_by:datadog-sync"], "value": {"value": "test", "secure": false, "options":
       {}}}'
@@ -9264,7 +9339,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"id": "af65861a-3226-43e1-b6ba-4b313063884f", "name": "TEST", "description":
+      string: '{"id": "2a5202be-e240-4e8d-b933-8fbc3422c462", "name": "TEST", "description":
         "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}}'
@@ -9293,7 +9368,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/powerpacks
   response:
     body:
-      string: '{"data": {"type": "powerpack", "id": "dc836742-ea42-11ef-b5be-da7ad0900005",
+      string: '{"data": {"type": "powerpack", "id": "03531566-ea52-11ef-b47e-da7ad0900005",
         "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
         {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
         "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
@@ -9315,40 +9390,13 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"type": "query alert", "name": "test", "message": "teset", "tags": ["managed_by:datadog-sync"],
-      "query": "avg(last_5m):avg:system.load.1{*} > 5", "options": {"thresholds":
-      {"critical": 5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
-      false, "new_host_delay": 300, "silenced": {}}, "multi": false, "priority": null,
-      "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v1/monitor
-  response:
-    body:
-      string: '{"id": 1286036, "org_id": 1300336245, "type": "query alert", "name":
-        "test", "message": "teset", "tags": ["managed_by:datadog-sync"], "query":
-        "avg(last_5m):avg:system.load.1{*} > 5", "options": {"thresholds": {"critical":
-        5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
-        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1739475836000, "created": "2025-02-13T19:43:56.079303+00:00", "modified":
-        "2025-02-13T19:43:56.079303+00:00", "deleted": null, "priority": null, "restricted_roles":
-        null, "restriction_policy": null, "overall_state_modified": null, "overall_state":
-        "No Data", "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com", "id": 1615666}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
     body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      stopped reporting", "message": "Private location {{location_id.name}} stopped
-      reporting to Datadog.", "tags": ["managed_by:datadog-sync"], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
-      by {location_id} < 1", "options": {"notify_no_data": true, "thresholds": {"critical":
-      1.0}, "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+      is underprovisioned", "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
+      this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+      "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
+      < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
+      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
       {}}, "multi": true, "priority": null, "restricted_roles": null}'
     headers:
       Content-Type:
@@ -9357,14 +9405,16 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 1286037, "org_id": 1300336245, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} stopped reporting", "message":
-        "Private location {{location_id.name}} stopped reporting to Datadog.", "tags":
-        ["managed_by:datadog-sync"], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
-        by {location_id} < 1", "options": {"notify_no_data": true, "thresholds": {"critical":
-        1.0}, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
-        "silenced": {}}, "multi": true, "created_at": 1739475836000, "created": "2025-02-13T19:43:56.098369+00:00",
-        "modified": "2025-02-13T19:43:56.098369+00:00", "deleted": null, "priority":
+      string: '{"id": 1286252, "org_id": 1300336245, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} is underprovisioned",
+        "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
+        this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+        "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
+        < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
+        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+        {}}, "multi": true, "created_at": 1739482343000, "created": "2025-02-13T21:32:23.599841+00:00",
+        "modified": "2025-02-13T21:32:23.599841+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Michael Richey", "handle":
         "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "id":
@@ -9393,7 +9443,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 1286038, "org_id": 1300336245, "type": "metric alert", "name":
+      string: '{"id": 1286253, "org_id": 1300336245, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} uses an outdated image
         version", "message": "Private location {{location_id.name}} is running an
         outdated image version. Learn more about the current version in use on your
@@ -9403,127 +9453,8 @@ interactions:
         tag.", "tags": ["managed_by:datadog-sync"], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*}
         by {location_id} > 0", "options": {"thresholds": {"critical": 0.0}, "notify_no_data":
         false, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
-        "silenced": {}}, "multi": true, "created_at": 1739475836000, "created": "2025-02-13T19:43:56.095367+00:00",
-        "modified": "2025-02-13T19:43:56.095367+00:00", "deleted": null, "priority":
-        null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
-        null, "overall_state": "No Data", "creator": {"name": "Michael Richey", "handle":
-        "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "id":
-        1615666}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"name": "Test on www.datadoghq.com", "status": "live", "type": "api",
-      "subtype": "http", "tags": ["managed_by:datadog-sync"], "config": {"assertions":
-      [{"operator": "lessThan", "type": "responseTime", "target": 1000}], "request":
-      {"method": "GET", "url": "https://www.datadoghq.com"}}, "message": "", "options":
-      {"httpVersion": "any", "min_failure_duration": 0, "min_location_failed": 1,
-      "monitor_options": {"notification_preset_name": "show_all"}, "tick_every": 60},
-      "locations": ["aws:af-south-1", "aws:ap-east-1", "aws:ap-northeast-1", "aws:ap-northeast-2",
-      "aws:ap-northeast-3", "aws:ap-south-1", "aws:ap-southeast-1", "aws:ap-southeast-2",
-      "aws:ap-southeast-3", "aws:ca-central-1", "aws:eu-central-1", "aws:eu-north-1",
-      "aws:eu-south-1", "aws:eu-west-1", "aws:eu-west-2", "aws:eu-west-3", "aws:me-south-1",
-      "aws:sa-east-1", "aws:us-east-1", "aws:us-east-2", "aws:us-west-1", "aws:us-west-2",
-      "azure:eastus", "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
-      "gcp:us-west1", "gcp:us-west2"]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v1/synthetics/tests
-  response:
-    body:
-      string: '{"public_id": "7vb-c3y-mbi", "name": "Test on www.datadoghq.com", "status":
-        "live", "type": "api", "subtype": "http", "tags": ["managed_by:datadog-sync"],
-        "created_at": "2025-02-13T19:43:56.085518+00:00", "modified_at": "2025-02-13T19:43:56.085518+00:00",
-        "config": {"assertions": [{"operator": "lessThan", "type": "responseTime",
-        "target": 1000}], "request": {"method": "GET", "url": "https://www.datadoghq.com"}},
-        "message": "", "options": {"httpVersion": "any", "min_failure_duration": 0,
-        "min_location_failed": 1, "monitor_options": {"notification_preset_name":
-        "show_all", "on_missing_data": "show_no_data", "notify_audit": false, "new_host_delay":
-        300, "include_tags": true}, "tick_every": 60}, "locations": ["aws:af-south-1",
-        "aws:ap-east-1", "aws:ap-northeast-1", "aws:ap-northeast-2", "aws:ap-northeast-3",
-        "aws:ap-south-1", "aws:ap-southeast-1", "aws:ap-southeast-2", "aws:ap-southeast-3",
-        "aws:ca-central-1", "aws:eu-central-1", "aws:eu-north-1", "aws:eu-south-1",
-        "aws:eu-west-1", "aws:eu-west-2", "aws:eu-west-3", "aws:me-south-1", "aws:sa-east-1",
-        "aws:us-east-1", "aws:us-east-2", "aws:us-west-1", "aws:us-west-2", "azure:eastus",
-        "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
-        "gcp:us-west1", "gcp:us-west2"], "created_by": {"name": "Michael Richey",
-        "handle": "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com"},
-        "deleted_at": null, "monitor_id": 1286035, "org_id": 1300336245, "modified_by":
-        {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "email":
-        "michael.richey@datadoghq.com"}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      is taking too long to poll", "message": "Private location {{location_id.name}}
-      is taking too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-      "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id} >
-      30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
-      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-      {}}, "multi": true, "priority": null, "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v1/monitor
-  response:
-    body:
-      string: '{"id": 1286039, "org_id": 1300336245, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} is taking too long to
-        poll", "message": "Private location {{location_id.name}} is taking too long
-        to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-        "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id}
-        > 30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
-        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-        {}}, "multi": true, "created_at": 1739475836000, "created": "2025-02-13T19:43:56.227210+00:00",
-        "modified": "2025-02-13T19:43:56.227210+00:00", "deleted": null, "priority":
-        null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
-        null, "overall_state": "No Data", "creator": {"name": "Michael Richey", "handle":
-        "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "id":
-        1615666}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      is underprovisioned", "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
-      this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-      "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
-      < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
-      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-      {}}, "multi": true, "priority": null, "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v1/monitor
-  response:
-    body:
-      string: '{"id": 1286040, "org_id": 1300336245, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} is underprovisioned",
-        "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
-        this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-        "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
-        < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
-        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-        {}}, "multi": true, "created_at": 1739475836000, "created": "2025-02-13T19:43:56.228705+00:00",
-        "modified": "2025-02-13T19:43:56.228705+00:00", "deleted": null, "priority":
+        "silenced": {}}, "multi": true, "created_at": 1739482343000, "created": "2025-02-13T21:32:23.600728+00:00",
+        "modified": "2025-02-13T21:32:23.600728+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Michael Richey", "handle":
         "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "id":
@@ -9547,14 +9478,14 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/slo
   response:
     body:
-      string: '{"data": [{"id": "f46527454a135e79adc28ea620ff0490", "name": "test",
+      string: '{"data": [{"id": "10d24f16afd85fc085b3da0a9d7e0a9a", "name": "test",
         "tags": ["managed_by:datadog-sync"], "monitor_tags": [], "thresholds": [{"timeframe":
         "7d", "target": 99.9, "target_display": "99.9"}], "type": "metric", "type_id":
         1, "description": "", "timeframe": "7d", "target_threshold": 99.9, "query":
         {"denominator": "sum:datadog.agent.started{*}.as_count()", "numerator": "sum:datadog.agent.started{*}.as_count()"},
         "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com"}, "created_at": 1739475836, "modified_at":
-        1739475836}], "error": null}'
+        "email": "michael.richey@datadoghq.com"}, "created_at": 1739482343, "modified_at":
+        1739482343}], "error": null}'
     headers:
       Content-Type:
       - application/json
@@ -9562,30 +9493,35 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
-      null, "layout_type": "ordered", "template_variables": [], "widgets": [{"id":
-      5949103957093766, "definition": {"title": "New group", "show_title": true, "powerpack_id":
-      "dc836742-ea42-11ef-b5be-da7ad0900005", "template_variables": {"controlled_externally":
-      [], "controlled_by_powerpack": []}, "type": "powerpack"}, "layout": {"x": 0,
-      "y": 0, "width": 12, "height": 3}}], "notify_list": [], "reflow_type": "fixed",
-      "restricted_roles": []}'
+    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
+      is taking too long to poll", "message": "Private location {{location_id.name}}
+      is taking too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+      "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id} >
+      30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
+      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+      {}}, "multi": true, "priority": null, "restricted_roles": null}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://us5.datadoghq.com/api/v1/dashboard
+    uri: https://us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": "qkz-t89-t2x", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/qkz-t89-t2x/michaels-dashboard-mon-oct-28-24547-pm",
-        "is_read_only": false, "template_variables": [], "widgets": [{"id": 5949103957093766,
-        "definition": {"title": "New group", "show_title": true, "powerpack_id": "dc836742-ea42-11ef-b5be-da7ad0900005",
-        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
-        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": [], "created_at": "2025-02-13T19:43:56.249450+00:00",
-        "modified_at": "2025-02-13T19:43:56.249450+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
+      string: '{"id": 1286250, "org_id": 1300336245, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} is taking too long to
+        poll", "message": "Private location {{location_id.name}} is taking too long
+        to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+        "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id}
+        > 30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
+        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+        {}}, "multi": true, "created_at": 1739482343000, "created": "2025-02-13T21:32:23.539689+00:00",
+        "modified": "2025-02-13T21:32:23.539689+00:00", "deleted": null, "priority":
+        null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
+        null, "overall_state": "No Data", "creator": {"name": "Michael Richey", "handle":
+        "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "id":
+        1615666}}'
     headers:
       Content-Type:
       - application/json
@@ -9798,9 +9734,9 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "jc8-i7a-jvb", "title": "sync-cli customer dashboard", "description":
+      string: '{"id": "5rh-8g5-ydc", "title": "sync-cli customer dashboard", "description":
         "[[suggested_dashboards]]", "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jc8-i7a-jvb/sync-cli-customer-dashboard",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/5rh-8g5-ydc/sync-cli-customer-dashboard",
         "is_read_only": false, "template_variables": [{"name": "resource_type", "prefix":
         "resource_type", "available_values": ["monitors", "dashboards"], "default":
         "*"}, {"name": "client_type", "prefix": "client_type", "available_values":
@@ -9997,8 +9933,8 @@ interactions:
         "metrics", "query": "sum:datadog.org_sync.sync.start{*}"}], "response_format":
         "timeseries", "style": {"palette": "dog_classic", "order_by": "values", "line_type":
         "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        0, "y": 0, "width": 4, "height": 2}}], "notify_list": [], "created_at": "2025-02-13T19:43:56.381387+00:00",
-        "modified_at": "2025-02-13T19:43:56.381387+00:00", "reflow_type": "fixed",
+        0, "y": 0, "width": 4, "height": 2}}], "notify_list": [], "created_at": "2025-02-13T21:32:23.667481+00:00",
+        "modified_at": "2025-02-13T21:32:23.667481+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -10007,36 +9943,30 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "downtime", "attributes": {"message": "test", "scope":
-      "agent_type:native", "monitor_identifier": {"monitor_id": 1286036}, "notify_end_types":
-      ["canceled", "expired"], "display_timezone": "America/New_York", "notify_end_states":
-      ["warn", "alert", "no data"], "mute_first_recovery_notification": false, "schedule":
-      {"recurrences": [{"duration": "10m", "start": "2024-10-28T14:46:00", "rrule":
-      "FREQ=DAILY;INTERVAL=1"}], "timezone": "America/New_York"}}}}'
+    body: '{"title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
+      null, "layout_type": "ordered", "template_variables": [], "widgets": [{"id":
+      5949103957093766, "definition": {"title": "New group", "show_title": true, "powerpack_id":
+      "03531566-ea52-11ef-b47e-da7ad0900005", "template_variables": {"controlled_externally":
+      [], "controlled_by_powerpack": []}, "type": "powerpack"}, "layout": {"x": 0,
+      "y": 0, "width": 12, "height": 3}}], "notify_list": [], "reflow_type": "fixed",
+      "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://us5.datadoghq.com/api/v2/downtime
+    uri: https://us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"data": {"type": "downtime", "attributes": {"notify_end_types": ["canceled",
-        "expired"], "created": "2025-02-13T19:43:56.369237+00:00", "mute_first_recovery_notification":
-        false, "display_timezone": "America/New_York", "status": "scheduled", "notify_end_states":
-        ["no data", "warn", "alert"], "monitor_identifier": {"monitor_id": 1286036},
-        "scope": "agent_type:native", "schedule": {"recurrences": [{"rrule": "FREQ=DAILY;INTERVAL=1",
-        "duration": "10m", "start": "2024-10-28T14:46:00"}], "timezone": "America/New_York",
-        "current_downtime": {"end": "2025-02-13T19:56:00+00:00", "start": "2025-02-13T19:46:00+00:00"}},
-        "modified": "2025-02-13T19:43:56.369237+00:00", "message": "test", "canceled":
-        null}, "relationships": {"created_by": {"data": {"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8"}},
-        "monitor": {"data": {"type": "monitor", "id": "1286036"}}}, "id": "18105ee1-baa1-4750-86a9-ff4effb9fe79"},
-        "included": [{"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8",
-        "attributes": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "created_at": "2024-10-21T18:31:19.037245+00:00", "modified_at": "2024-10-25T18:09:58.392238+00:00",
-        "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
-        "title": null, "verified": true, "service_account": false, "disabled": false,
-        "allowed_login_methods": [], "status": "Active"}}, {"type": "monitor", "id":
-        1286036, "attributes": {"name": "test"}}]}'
+      string: '{"id": "p6p-5ap-bc2", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/p6p-5ap-bc2/michaels-dashboard-mon-oct-28-24547-pm",
+        "is_read_only": false, "template_variables": [], "widgets": [{"id": 5949103957093766,
+        "definition": {"title": "New group", "show_title": true, "powerpack_id": "03531566-ea52-11ef-b47e-da7ad0900005",
+        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
+        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
+        3}}], "notify_list": [], "created_at": "2025-02-13T21:32:23.760507+00:00",
+        "modified_at": "2025-02-13T21:32:23.760507+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -10044,11 +9974,44 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "downtime", "attributes": {"message": "", "scope": "*",
-      "monitor_identifier": {"monitor_id": 1286039}, "notify_end_types": ["canceled",
-      "expired"], "display_timezone": "America/New_York", "notify_end_states": ["warn",
-      "no data", "alert"], "mute_first_recovery_notification": false, "schedule":
-      {"end": null, "start": "2025-02-13T19:44:54.200Z"}}}}'
+    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
+      stopped reporting", "message": "Private location {{location_id.name}} stopped
+      reporting to Datadog.", "tags": ["managed_by:datadog-sync"], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
+      by {location_id} < 1", "options": {"notify_no_data": true, "thresholds": {"critical":
+      1.0}, "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+      {}}, "multi": true, "priority": null, "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v1/monitor
+  response:
+    body:
+      string: '{"id": 1286254, "org_id": 1300336245, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} stopped reporting", "message":
+        "Private location {{location_id.name}} stopped reporting to Datadog.", "tags":
+        ["managed_by:datadog-sync"], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
+        by {location_id} < 1", "options": {"notify_no_data": true, "thresholds": {"critical":
+        1.0}, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
+        "silenced": {}}, "multi": true, "created_at": 1739482343000, "created": "2025-02-13T21:32:23.783596+00:00",
+        "modified": "2025-02-13T21:32:23.783596+00:00", "deleted": null, "priority":
+        null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
+        null, "overall_state": "No Data", "creator": {"name": "Michael Richey", "handle":
+        "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "id":
+        1615666}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "downtime", "attributes": {"notify_end_types": ["canceled",
+      "expired"], "monitor_identifier": {"monitor_id": 1286251}, "mute_first_recovery_notification":
+      false, "scope": "agent_type:native", "schedule": {"recurrences": [{"rrule":
+      "FREQ=DAILY;INTERVAL=1", "duration": "10m", "start": "2024-10-28T14:46:00"}],
+      "timezone": "America/New_York"}, "notify_end_states": ["alert", "warn", "no
+      data"], "display_timezone": "America/New_York", "message": "test"}}}'
     headers:
       Content-Type:
       - application/json
@@ -10056,23 +10019,60 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/downtime
   response:
     body:
-      string: '{"data": {"type": "downtime", "attributes": {"monitor_identifier":
-        {"monitor_id": 1286039}, "modified": "2025-02-13T19:43:56.430570+00:00", "status":
-        "scheduled", "canceled": null, "scope": "*", "message": "", "notify_end_types":
-        ["expired", "canceled"], "display_timezone": "America/New_York", "notify_end_states":
-        ["alert", "warn", "no data"], "mute_first_recovery_notification": false, "schedule":
-        {"start": "2025-02-13T19:44:54.200000+00:00", "end": null}, "created": "2025-02-13T19:43:56.430570+00:00"},
-        "id": "87fad20f-7f1b-4527-b172-74946505d79a", "relationships": {"created_by":
-        {"data": {"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8"}},
-        "monitor": {"data": {"type": "monitor", "id": "1286039"}}}}, "included": [{"type":
-        "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8", "attributes": {"name":
-        "Michael Richey", "handle": "michael.richey@datadoghq.com", "created_at":
-        "2024-10-21T18:31:19.037245+00:00", "modified_at": "2024-10-25T18:09:58.392238+00:00",
+      string: '{"data": {"type": "downtime", "attributes": {"scope": "agent_type:native",
+        "modified": "2025-02-13T21:32:23.844092+00:00", "notify_end_types": ["expired",
+        "canceled"], "canceled": null, "notify_end_states": ["alert", "warn", "no
+        data"], "display_timezone": "America/New_York", "message": "test", "schedule":
+        {"recurrences": [{"start": "2024-10-28T14:46:00", "rrule": "FREQ=DAILY;INTERVAL=1",
+        "duration": "10m"}], "current_downtime": {"end": "2025-02-14T19:56:00+00:00",
+        "start": "2025-02-14T19:46:00+00:00"}, "timezone": "America/New_York"}, "created":
+        "2025-02-13T21:32:23.844092+00:00", "monitor_identifier": {"monitor_id": 1286251},
+        "mute_first_recovery_notification": false, "status": "scheduled"}, "relationships":
+        {"monitor": {"data": {"type": "monitor", "id": "1286251"}}, "created_by":
+        {"data": {"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8"}}},
+        "id": "306dfb85-6ad9-4e2e-a95e-490df1d599e1"}, "included": [{"type": "monitor",
+        "id": 1286251, "attributes": {"name": "test"}}, {"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8",
+        "attributes": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
+        "created_at": "2024-10-21T18:31:19.037245+00:00", "modified_at": "2024-10-25T18:09:58.392238+00:00",
+        "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
+        "title": null, "verified": true, "service_account": false, "disabled": false,
+        "allowed_login_methods": [], "status": "Active"}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "downtime", "attributes": {"notify_end_types": ["canceled",
+      "expired"], "monitor_identifier": {"monitor_id": 1286250}, "mute_first_recovery_notification":
+      false, "scope": "*", "schedule": {"end": null, "start": "2025-02-13T21:33:21.618Z"},
+      "notify_end_states": ["alert", "warn", "no data"], "display_timezone": "America/New_York",
+      "message": ""}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/downtime
+  response:
+    body:
+      string: '{"data": {"type": "downtime", "attributes": {"notify_end_states": ["alert",
+        "no data", "warn"], "monitor_identifier": {"monitor_id": 1286250}, "scope":
+        "*", "notify_end_types": ["canceled", "expired"], "display_timezone": "America/New_York",
+        "modified": "2025-02-13T21:32:24.105136+00:00", "mute_first_recovery_notification":
+        false, "message": "", "created": "2025-02-13T21:32:24.105136+00:00", "canceled":
+        null, "status": "scheduled", "schedule": {"start": "2025-02-13T21:33:21.618000+00:00",
+        "end": null}}, "relationships": {"created_by": {"data": {"type": "users",
+        "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8"}}, "monitor": {"data": {"type":
+        "monitor", "id": "1286250"}}}, "id": "70c3ba63-d3b5-4392-ac15-45b80c0523e4"},
+        "included": [{"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8",
+        "attributes": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
+        "created_at": "2024-10-21T18:31:19.037245+00:00", "modified_at": "2024-10-25T18:09:58.392238+00:00",
         "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": null, "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Active"}}, {"type": "monitor", "attributes":
         {"name": "[Synthetic Private Locations] {{location_id.name}} is taking too
-        long to poll"}, "id": 1286039}]}'
+        long to poll"}, "id": 1286250}]}'
     headers:
       Content-Type:
       - application/json
@@ -10089,10 +10089,10 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/private-locations
   response:
     body:
-      string: '{"private_location": {"createdAt": "2025-02-13T19:43:57.314069+00:00",
-        "modifiedAt": "2025-02-13T19:43:57.314069+00:00", "description": "test", "tags":
+      string: '{"private_location": {"createdAt": "2025-02-13T21:32:24.888453+00:00",
+        "modifiedAt": "2025-02-13T21:32:24.888453+00:00", "description": "test", "tags":
         ["team:test", "managed_by:datadog-sync"], "name": "test", "metadata": {"restricted_roles":
-        []}, "id": "pl:test-0fbfec49972cb334b838db9bc6d18bfb", "createdBy": "michael.richey@datadoghq.com",
+        []}, "id": "pl:test-2c5ddbc83c5f30b1c745d123bf8ba474", "createdBy": "michael.richey@datadoghq.com",
         "config": {"site": "us5.datadoghq.com"}}, "result_encryption": {"id": "sha256$base64$9ucvNmlRWqa2uszeSwV4XKe79OpikCqSlkwIEmqLLJI=",
         "key": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA609V+ZyMCTConr98t2Kr\nx4lXUdsadwRQIzvHwkXLYRu2bqD3f+QsvdimPUoIyvyeBt6xp9rAUBGV8HGWuzVj\nI7buCuejZw/BGqB6+hXtaMy6HhUwfjkpyuUBvbxqlm+eRywicWN0r77EO4weQ/kY\nWkxmLsDBLBi6zXShnrgkkWBgrIUtX+rx0Gkkf2pVqPZTPFRqL7lRJq/pvkI+UbUT\nqdo6ZGdj0zmliYhpWZwQ0E1dLxNJXcREOL3WutqRuxyxo4RZh06eMRFKfdooU+Y+\n6DGboTO9dcMlAv3YVrzdifH9986ocWUsTnEViY64BEiQf2wbldT9zrepnAiz0JZG\nybgyW5trEXdlrUQQt2LVYlTyZAxjT7V6YilnWgH1gX9wtLIPgyo6XMb/2GDfB69S\nOFRq5XO8gryJB7s2R7XFpIUQJofSqbzqvn39tLZNpuh1uI287wcX7tyt5tqTO1Kd\nk5dkhB2YqXiCshsNjedtFpuAWeaqv1pxmwOzAVe/wCeIHliG58or/iRjRoQ/bIIp\nKryrOAStdG+SfcKhxYnvCVE6itnPE6VomuTLT1X6NNKWEVDL0lGt4CYwm3OoSwt4\npOjctcTfCsP0gAjMzgOTLD+ziWNw7YQa32P8X1sOaaGOkAP9cxD3SqFfO01ihV52\nitBNv4mhGH0j3N2zBSoBUekCAwEAAQ==\n-----END
         PUBLIC KEY-----\n"}}'

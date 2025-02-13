@@ -5,23 +5,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/slo/correction
-  response:
-    body:
-      string: '{"data": [], "meta": {"page": {"total_count": 0, "total_filtered_count":
-        0}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v1/dashboard/lists/manual
   response:
     body:
@@ -30,40 +13,6 @@ interactions:
         "dashboards": null, "dashboard_count": 1, "id": 40438, "is_favorite": true,
         "modified": "2024-10-21T18:45:11.663010+00:00", "name": "Michael''s List",
         "type": "manual_dashboard_list"}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v2/powerpacks?page%5Blimit%5D=1000&page%5Boffset%5D=0
-  response:
-    body:
-      string: '{"data": [{"type": "powerpack", "id": "e685afa6-955c-11ef-9254-da7ad0900005",
-        "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
-        {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
-        "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
-        "y": 0, "width": 4, "height": 2}, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
-        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
-        "data_source": "metrics", "query": "avg:system.cpu.user{*}"}], "style": {"palette":
-        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "line"}]}, "id": 7771709005082419}]}}, "template_variables":
-        [], "tags": ["tag:system"]}, "relationships": {"author": {"data": {"type":
-        "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0"}}}}], "included": [{"type":
-        "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "attributes": {"name":
-        "Michael Richey", "email": "michael.richey@datadoghq.com"}}], "meta": {"pagination":
-        {"offset": 0, "first_offset": 0, "prev_offset": 0, "next_offset": 1000, "last_offset":
-        null, "limit": 1000, "type": "offset_limit"}}, "links": {"self": "https://api.datadoghq.eu/api/v2/powerpacks?page[limit]=1000&page[offset]=0",
-        "last": null, "next": "https://api.datadoghq.eu/api/v2/powerpacks?page[offset]=1000&page[limit]=1000",
-        "prev": null, "first": "https://api.datadoghq.eu/api/v2/powerpacks?page[offset]=0&page[limit]=1000"}}'
     headers:
       Content-Type:
       - application/json
@@ -640,18 +589,81 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/slo
+    uri: https://api.datadoghq.eu/api/v2/powerpacks?page%5Blimit%5D=1000&page%5Boffset%5D=0
   response:
     body:
-      string: '{"data": [{"id": "650a18e266505a48b319d9b221158a26", "name": "test",
-        "tags": [], "monitor_tags": [], "thresholds": [{"timeframe": "7d", "target":
-        99.9, "target_display": "99.9"}], "type": "metric", "type_id": 1, "description":
-        "", "timeframe": "7d", "target_threshold": 99.9, "query": {"denominator":
-        "sum:datadog.agent.started{*}.as_count()", "numerator": "sum:datadog.agent.started{*}.as_count()"},
-        "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com"}, "created_at": 1729537004, "modified_at":
-        1729537004}], "error": null, "metadata": {"page": {"total_count": 1, "total_filtered_count":
-        1}}}'
+      string: '{"data": [{"type": "powerpack", "id": "e685afa6-955c-11ef-9254-da7ad0900005",
+        "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
+        {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
+        "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
+        "y": 0, "width": 4, "height": 2}, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
+        "data_source": "metrics", "query": "avg:system.cpu.user{*}"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "line"}]}, "id": 7771709005082419}]}}, "template_variables":
+        [], "tags": ["tag:system"]}, "relationships": {"author": {"data": {"type":
+        "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0"}}}}], "included": [{"type":
+        "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "attributes": {"name":
+        "Michael Richey", "email": "michael.richey@datadoghq.com"}}], "meta": {"pagination":
+        {"offset": 0, "first_offset": 0, "prev_offset": 0, "next_offset": 1000, "last_offset":
+        null, "limit": 1000, "type": "offset_limit"}}, "links": {"self": "https://api.datadoghq.eu/api/v2/powerpacks?page[limit]=1000&page[offset]=0",
+        "last": null, "next": "https://api.datadoghq.eu/api/v2/powerpacks?page[offset]=1000&page[limit]=1000",
+        "prev": null, "first": "https://api.datadoghq.eu/api/v2/powerpacks?page[offset]=0&page[limit]=1000"}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/slo/correction
+  response:
+    body:
+      string: '{"data": [], "meta": {"page": {"total_count": 0, "total_filtered_count":
+        0}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/synthetics/locations
+  response:
+    body:
+      string: '{"locations": [{"id": "aws:af-south-1", "name": "Cape Town (AWS)"},
+        {"id": "aws:ap-east-1", "name": "Hong Kong (AWS)"}, {"id": "aws:ap-northeast-1",
+        "name": "Tokyo (AWS)"}, {"id": "aws:ap-northeast-2", "name": "Seoul (AWS)"},
+        {"id": "aws:ap-northeast-3", "name": "Osaka (AWS)"}, {"id": "aws:ap-south-1",
+        "name": "Mumbai (AWS)"}, {"id": "aws:ap-southeast-1", "name": "Singapore (AWS)"},
+        {"id": "aws:ap-southeast-2", "name": "Sydney (AWS)"}, {"id": "aws:ap-southeast-3",
+        "name": "Jakarta (AWS)"}, {"id": "aws:ca-central-1", "name": "Canada Central
+        (AWS)"}, {"id": "aws:eu-central-1", "name": "Frankfurt (AWS)"}, {"id": "aws:eu-north-1",
+        "name": "Stockholm (AWS)"}, {"id": "aws:eu-south-1", "name": "Milan (AWS)"},
+        {"id": "aws:eu-west-1", "name": "Ireland (AWS)"}, {"id": "aws:eu-west-2",
+        "name": "London (AWS)"}, {"id": "aws:eu-west-3", "name": "Paris (AWS)"}, {"id":
+        "aws:me-south-1", "name": "Bahrain (AWS)"}, {"id": "aws:sa-east-1", "name":
+        "S\u00e3o Paulo (AWS)"}, {"id": "aws:us-east-1", "name": "N. Virginia (AWS)"},
+        {"id": "aws:us-east-2", "name": "Ohio (AWS)"}, {"id": "aws:us-west-1", "name":
+        "N. California (AWS)"}, {"id": "aws:us-west-2", "name": "Oregon (AWS)"}, {"id":
+        "azure:eastus", "name": "Virginia (Azure)"}, {"id": "gcp:asia-northeast1",
+        "name": "Tokyo (GCP)"}, {"id": "gcp:europe-west3", "name": "Frankfurt (GCP)"},
+        {"id": "gcp:us-east4", "name": "Virginia (GCP)"}, {"id": "gcp:us-south1",
+        "name": "Dallas (GCP)"}, {"id": "gcp:us-west1", "name": "Oregon (GCP)"}, {"id":
+        "gcp:us-west2", "name": "Los Angeles (GCP)"}, {"id": "pl:test-ddd684741691962f1bfdebeef3963a42",
+        "name": "test"}]}'
     headers:
       Content-Type:
       - application/json
@@ -677,29 +689,6 @@ interactions:
         "is_read_only": false, "created_at": "2024-10-28T18:45:47.629189+00:00", "modified_at":
         "2024-10-31T20:20:27.062979+00:00", "author_handle": "michael.richey@datadoghq.com",
         "deleted_at": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
-  response:
-    body:
-      string: '{"variables": [{"id": "be3fe0f5-63b1-4913-9f09-c147bf6d5e21", "name":
-        "TEST", "description": "test", "type": "variable", "tags": ["team:test"],
-        "created_at": "2024-10-21T18:59:34.361092+00:00", "modified_at": "2024-10-21T18:59:34.361092+00:00",
-        "last_error": null, "attributes": {"bindings": []}, "value": {"value": "test",
-        "secure": false, "options": {}}, "creator": {"email": "michael.richey@datadoghq.com",
-        "handle": "michael.richey@datadoghq.com", "name": "Michael Richey"}, "editor":
-        {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
-        "name": "Michael Richey"}}]}'
     headers:
       Content-Type:
       - application/json
@@ -745,6 +734,37 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.datadoghq.eu/api/v2/downtime?page%5Blimit%5D=100&page%5Boffset%5D=0
+  response:
+    body:
+      string: '{"data": [{"type": "downtime", "attributes": {"display_timezone": "America/New_York",
+        "notify_end_states": ["warn", "alert", "no data"], "scope": "*", "notify_end_types":
+        ["expired", "canceled"], "modified": "2024-10-28T19:03:37.269181+00:00", "schedule":
+        {"start": "2024-10-28T19:03:20.783000+00:00", "end": null}, "message": "",
+        "mute_first_recovery_notification": false, "canceled": null, "monitor_identifier":
+        {"monitor_id": 20125252}, "created": "2024-10-28T19:03:37.269181+00:00", "status":
+        "active"}, "id": "84867542-29d9-4c77-b9f8-117e19347a27"}, {"type": "downtime",
+        "attributes": {"display_timezone": "America/New_York", "notify_end_states":
+        ["warn", "alert", "no data"], "scope": "agent_type:native", "notify_end_types":
+        ["expired", "canceled"], "modified": "2025-02-13T19:56:15.142933+00:00", "schedule":
+        {"timezone": "America/New_York", "current_downtime": {"start": "2025-02-14T19:46:00+00:00",
+        "end": "2025-02-14T19:56:00+00:00"}, "recurrences": [{"rrule": "FREQ=DAILY;INTERVAL=1",
+        "start": "2024-10-28T14:46:00", "duration": "10m"}]}, "message": "test", "mute_first_recovery_notification":
+        false, "canceled": null, "monitor_identifier": {"monitor_id": 20046756}, "created":
+        "2024-10-28T18:47:00.157356+00:00", "status": "scheduled"}, "id": "e7c79b6e-4c04-4540-ad20-0d1f71d79061"}],
+        "meta": {"page": {"total_filtered_count": 2}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v1/monitor?page=0&page_size=1000
   response:
     body:
@@ -774,7 +794,7 @@ interactions:
         true, "silenced": {}}, "multi": false, "created_at": 1730141432000, "created":
         "2024-10-28T18:50:32.908477+00:00", "modified": "2024-10-28T18:50:32.908477+00:00",
         "deleted": null, "priority": null, "restricted_roles": null, "overall_state_modified":
-        "2025-02-13T19:38:33+00:00", "overall_state": "OK", "creator": {"name": "Michael
+        "2025-02-13T21:29:03+00:00", "overall_state": "OK", "creator": {"name": "Michael
         Richey", "email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
         "id": 1002072115}, "matching_downtimes": []}, {"id": 20125249, "org_id": 1000315894,
         "type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
@@ -2472,30 +2492,18 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/locations
+    uri: https://api.datadoghq.eu/api/v1/slo
   response:
     body:
-      string: '{"locations": [{"id": "aws:af-south-1", "name": "Cape Town (AWS)"},
-        {"id": "aws:ap-east-1", "name": "Hong Kong (AWS)"}, {"id": "aws:ap-northeast-1",
-        "name": "Tokyo (AWS)"}, {"id": "aws:ap-northeast-2", "name": "Seoul (AWS)"},
-        {"id": "aws:ap-northeast-3", "name": "Osaka (AWS)"}, {"id": "aws:ap-south-1",
-        "name": "Mumbai (AWS)"}, {"id": "aws:ap-southeast-1", "name": "Singapore (AWS)"},
-        {"id": "aws:ap-southeast-2", "name": "Sydney (AWS)"}, {"id": "aws:ap-southeast-3",
-        "name": "Jakarta (AWS)"}, {"id": "aws:ca-central-1", "name": "Canada Central
-        (AWS)"}, {"id": "aws:eu-central-1", "name": "Frankfurt (AWS)"}, {"id": "aws:eu-north-1",
-        "name": "Stockholm (AWS)"}, {"id": "aws:eu-south-1", "name": "Milan (AWS)"},
-        {"id": "aws:eu-west-1", "name": "Ireland (AWS)"}, {"id": "aws:eu-west-2",
-        "name": "London (AWS)"}, {"id": "aws:eu-west-3", "name": "Paris (AWS)"}, {"id":
-        "aws:me-south-1", "name": "Bahrain (AWS)"}, {"id": "aws:sa-east-1", "name":
-        "S\u00e3o Paulo (AWS)"}, {"id": "aws:us-east-1", "name": "N. Virginia (AWS)"},
-        {"id": "aws:us-east-2", "name": "Ohio (AWS)"}, {"id": "aws:us-west-1", "name":
-        "N. California (AWS)"}, {"id": "aws:us-west-2", "name": "Oregon (AWS)"}, {"id":
-        "azure:eastus", "name": "Virginia (Azure)"}, {"id": "gcp:asia-northeast1",
-        "name": "Tokyo (GCP)"}, {"id": "gcp:europe-west3", "name": "Frankfurt (GCP)"},
-        {"id": "gcp:us-east4", "name": "Virginia (GCP)"}, {"id": "gcp:us-south1",
-        "name": "Dallas (GCP)"}, {"id": "gcp:us-west1", "name": "Oregon (GCP)"}, {"id":
-        "gcp:us-west2", "name": "Los Angeles (GCP)"}, {"id": "pl:test-ddd684741691962f1bfdebeef3963a42",
-        "name": "test"}]}'
+      string: '{"data": [{"id": "650a18e266505a48b319d9b221158a26", "name": "test",
+        "tags": [], "monitor_tags": [], "thresholds": [{"timeframe": "7d", "target":
+        99.9, "target_display": "99.9"}], "type": "metric", "type_id": 1, "description":
+        "", "timeframe": "7d", "target_threshold": 99.9, "query": {"denominator":
+        "sum:datadog.agent.started{*}.as_count()", "numerator": "sum:datadog.agent.started{*}.as_count()"},
+        "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
+        "email": "michael.richey@datadoghq.com"}, "created_at": 1729537004, "modified_at":
+        1729537004}], "error": null, "metadata": {"page": {"total_count": 1, "total_filtered_count":
+        1}}}'
     headers:
       Content-Type:
       - application/json
@@ -2508,26 +2516,17 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/downtime?page%5Blimit%5D=100&page%5Boffset%5D=0
+    uri: https://api.datadoghq.eu/api/v1/synthetics/variables
   response:
     body:
-      string: '{"data": [{"type": "downtime", "attributes": {"notify_end_states":
-        ["warn", "no data", "alert"], "modified": "2024-10-28T19:03:37.269181+00:00",
-        "status": "active", "message": "", "scope": "*", "canceled": null, "display_timezone":
-        "America/New_York", "created": "2024-10-28T19:03:37.269181+00:00", "monitor_identifier":
-        {"monitor_id": 20125252}, "mute_first_recovery_notification": false, "schedule":
-        {"end": null, "start": "2024-10-28T19:03:20.783000+00:00"}, "notify_end_types":
-        ["canceled", "expired"]}, "id": "84867542-29d9-4c77-b9f8-117e19347a27"}, {"type":
-        "downtime", "attributes": {"notify_end_states": ["warn", "no data", "alert"],
-        "modified": "2025-02-12T19:56:10.206224+00:00", "status": "scheduled", "message":
-        "test", "scope": "agent_type:native", "canceled": null, "display_timezone":
-        "America/New_York", "created": "2024-10-28T18:47:00.157356+00:00", "monitor_identifier":
-        {"monitor_id": 20046756}, "mute_first_recovery_notification": false, "schedule":
-        {"timezone": "America/New_York", "current_downtime": {"end": "2025-02-13T19:56:00+00:00",
-        "start": "2025-02-13T19:46:00+00:00"}, "recurrences": [{"rrule": "FREQ=DAILY;INTERVAL=1",
-        "start": "2024-10-28T14:46:00", "duration": "10m"}]}, "notify_end_types":
-        ["canceled", "expired"]}, "id": "e7c79b6e-4c04-4540-ad20-0d1f71d79061"}],
-        "meta": {"page": {"total_filtered_count": 2}}}'
+      string: '{"variables": [{"id": "be3fe0f5-63b1-4913-9f09-c147bf6d5e21", "name":
+        "TEST", "description": "test", "type": "variable", "tags": ["team:test"],
+        "created_at": "2024-10-21T18:59:34.361092+00:00", "modified_at": "2024-10-21T18:59:34.361092+00:00",
+        "last_error": null, "attributes": {"bindings": []}, "value": {"value": "test",
+        "secure": false, "options": {}}, "creator": {"email": "michael.richey@datadoghq.com",
+        "handle": "michael.richey@datadoghq.com", "name": "Michael Richey"}, "editor":
+        {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
+        "name": "Michael Richey"}}]}'
     headers:
       Content-Type:
       - application/json
@@ -6673,6 +6672,57 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/api/njk-avc-mjc
+  response:
+    body:
+      string: '{"public_id": "njk-avc-mjc", "name": "Test on www.datadoghq.com", "status":
+        "live", "type": "api", "subtype": "http", "tags": [], "created_at": "2024-10-28T18:50:32.939904+00:00",
+        "modified_at": "2024-10-28T18:50:32.939904+00:00", "config": {"assertions":
+        [{"operator": "lessThan", "type": "responseTime", "target": 1000}], "request":
+        {"method": "GET", "url": "https://www.datadoghq.com"}}, "message": "", "options":
+        {"httpVersion": "any", "min_failure_duration": 0, "min_location_failed": 1,
+        "monitor_options": {"notification_preset_name": "show_all", "on_missing_data":
+        "show_no_data", "notify_audit": false, "new_host_delay": 300, "include_tags":
+        true}, "tick_every": 60}, "locations": ["aws:af-south-1", "aws:ap-east-1",
+        "aws:ap-northeast-1", "aws:ap-northeast-2", "aws:ap-northeast-3", "aws:ap-south-1",
+        "aws:ap-southeast-1", "aws:ap-southeast-2", "aws:ap-southeast-3", "aws:ca-central-1",
+        "aws:eu-central-1", "aws:eu-north-1", "aws:eu-south-1", "aws:eu-west-1", "aws:eu-west-2",
+        "aws:eu-west-3", "aws:me-south-1", "aws:sa-east-1", "aws:us-east-1", "aws:us-east-2",
+        "aws:us-west-1", "aws:us-west-2", "azure:eastus", "gcp:asia-northeast1", "gcp:europe-west3",
+        "gcp:us-east4", "gcp:us-south1", "gcp:us-west1", "gcp:us-west2"], "monitor_id":
+        20125203, "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
+        "email": "michael.richey@datadoghq.com"}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-ddd684741691962f1bfdebeef3963a42
+  response:
+    body:
+      string: '{"createdAt": "2024-10-28T18:55:32.131820+00:00", "modifiedAt": "2024-10-28T18:55:32.131820+00:00",
+        "description": "test", "tags": ["team:test"], "name": "test", "metadata":
+        {"restricted_roles": []}, "id": "pl:test-ddd684741691962f1bfdebeef3963a42",
+        "createdBy": "michael.richey@datadoghq.com"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v1/dashboard/2n3-8ye-5ui
   response:
     body:
@@ -6903,57 +6953,6 @@ interactions:
         3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
         "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/private-locations/pl:test-ddd684741691962f1bfdebeef3963a42
-  response:
-    body:
-      string: '{"createdAt": "2024-10-28T18:55:32.131820+00:00", "modifiedAt": "2024-10-28T18:55:32.131820+00:00",
-        "description": "test", "tags": ["team:test"], "name": "test", "metadata":
-        {"restricted_roles": []}, "id": "pl:test-ddd684741691962f1bfdebeef3963a42",
-        "createdBy": "michael.richey@datadoghq.com"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/api/njk-avc-mjc
-  response:
-    body:
-      string: '{"public_id": "njk-avc-mjc", "name": "Test on www.datadoghq.com", "status":
-        "live", "type": "api", "subtype": "http", "tags": [], "created_at": "2024-10-28T18:50:32.939904+00:00",
-        "modified_at": "2024-10-28T18:50:32.939904+00:00", "config": {"assertions":
-        [{"operator": "lessThan", "type": "responseTime", "target": 1000}], "request":
-        {"method": "GET", "url": "https://www.datadoghq.com"}}, "message": "", "options":
-        {"httpVersion": "any", "min_failure_duration": 0, "min_location_failed": 1,
-        "monitor_options": {"notification_preset_name": "show_all", "on_missing_data":
-        "show_no_data", "notify_audit": false, "new_host_delay": 300, "include_tags":
-        true}, "tick_every": 60}, "locations": ["aws:af-south-1", "aws:ap-east-1",
-        "aws:ap-northeast-1", "aws:ap-northeast-2", "aws:ap-northeast-3", "aws:ap-south-1",
-        "aws:ap-southeast-1", "aws:ap-southeast-2", "aws:ap-southeast-3", "aws:ca-central-1",
-        "aws:eu-central-1", "aws:eu-north-1", "aws:eu-south-1", "aws:eu-west-1", "aws:eu-west-2",
-        "aws:eu-west-3", "aws:me-south-1", "aws:sa-east-1", "aws:us-east-1", "aws:us-east-2",
-        "aws:us-west-1", "aws:us-west-2", "azure:eastus", "gcp:asia-northeast1", "gcp:europe-west3",
-        "gcp:us-east4", "gcp:us-south1", "gcp:us-west1", "gcp:us-west2"], "monitor_id":
-        20125203, "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com"}}'
     headers:
       Content-Type:
       - application/json
@@ -7536,9 +7535,9 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "3a191760-c048-4820-abb3-d35c88cf0633", "name":
+      string: '{"variables": [{"id": "e328a283-9762-4a1c-ae4a-61cddcb933a1", "name":
         "TEST", "description": "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
-        "created_at": "2025-02-13T19:42:53.633127+00:00", "modified_at": "2025-02-13T19:43:39.567899+00:00",
+        "created_at": "2025-02-13T21:32:08.437463+00:00", "modified_at": "2025-02-13T21:32:08.437463+00:00",
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}, "creator": {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
         "name": "Michael Richey"}, "editor": {"email": "michael.richey@datadoghq.com",
