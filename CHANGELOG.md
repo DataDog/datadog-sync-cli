@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.2 / 2025-02-13
+
+### Fixed
+* The dashboards API has changed, is_read_only is no longer supported by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/321
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.4.1...1.4.2
+
 ## 1.4.1 / 2025-02-12
 
 ### Fixed
