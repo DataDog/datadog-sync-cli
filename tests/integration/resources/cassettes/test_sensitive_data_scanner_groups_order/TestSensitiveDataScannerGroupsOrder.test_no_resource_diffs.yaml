@@ -38,42 +38,6 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.diffs.start", "type": 0, "points": [{"timestamp": 1730818133,
-      "value": 1}], "tags": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.diffs.start", "type": 0, "points": [{"timestamp": 1730818133,
-      "value": 1}], "tags": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
     body: null
     headers:
       Content-Type:
@@ -84,95 +48,65 @@ interactions:
     body:
       string: '{"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "attributes": {}, "type": "sensitive_data_scanner_configuration", "relationships":
-        {"groups": {"data": [{"id": "e11ee35c-2755-47ee-a8e3-235d2cfb9ce3", "type":
-        "sensitive_data_scanner_group"}, {"id": "73860403-d524-40cd-9474-0fe2c13508bf",
-        "type": "sensitive_data_scanner_group"}, {"id": "d1ee3d9b-2368-416d-9305-f89a3fc3adf1",
-        "type": "sensitive_data_scanner_group"}, {"id": "12389883-bd89-4e45-b598-a7784e3b2beb",
-        "type": "sensitive_data_scanner_group"}, {"id": "839b90c6-df3e-46cd-8722-6b125532169b",
-        "type": "sensitive_data_scanner_group"}, {"id": "f3d84fae-6754-45b6-bae0-f6c622be9a5e",
-        "type": "sensitive_data_scanner_group"}, {"id": "c2c3b5af-c3d2-4a1a-b4ef-be95af12ca95",
-        "type": "sensitive_data_scanner_group"}, {"id": "11059add-1c16-47f2-80b3-84a46bedea5e",
-        "type": "sensitive_data_scanner_group"}, {"id": "441ca6ab-b54a-49d7-bb67-d2a40239c40f",
-        "type": "sensitive_data_scanner_group"}, {"id": "dd57d67f-4ca4-4657-8553-238db1fb5fe1",
-        "type": "sensitive_data_scanner_group"}, {"id": "335efcff-4990-4cfe-9f42-72f3d72b8d5c",
-        "type": "sensitive_data_scanner_group"}, {"id": "d40d00d8-ba8a-41e3-a16d-fff4cc706a62",
-        "type": "sensitive_data_scanner_group"}, {"id": "d6bf54d6-fb31-410b-932a-a3f3d2d9be87",
-        "type": "sensitive_data_scanner_group"}, {"id": "0dcff0a6-dae1-4b1c-badc-70ef25d59ef3",
-        "type": "sensitive_data_scanner_group"}, {"id": "cbf04bf0-06ea-4f62-9bd9-b126e2839ca0",
-        "type": "sensitive_data_scanner_group"}]}}}, "meta": {"version": 206, "count_limit":
+        {"groups": {"data": [{"id": "0fa15e15-70e4-4611-82f6-2113b3b8ab11", "type":
+        "sensitive_data_scanner_group"}, {"id": "84557507-1b2d-4828-817f-bee1e35844b7",
+        "type": "sensitive_data_scanner_group"}, {"id": "720077cb-19f5-4f6d-832e-c70fba63992e",
+        "type": "sensitive_data_scanner_group"}, {"id": "278ecf68-aa30-4b80-99fd-e85fc1fa840a",
+        "type": "sensitive_data_scanner_group"}, {"id": "518db9ad-c4c8-4d44-9505-e1c1abfbc155",
+        "type": "sensitive_data_scanner_group"}, {"id": "0e016d0b-afe5-4bce-923a-25921a503de7",
+        "type": "sensitive_data_scanner_group"}, {"id": "48d41f2f-b3df-405a-8521-619fe4520568",
+        "type": "sensitive_data_scanner_group"}, {"id": "9be7edde-65f9-4c64-abfa-ad849106e2eb",
+        "type": "sensitive_data_scanner_group"}, {"id": "f5a415ac-f0cf-439e-b88c-4fbf0f0915b6",
+        "type": "sensitive_data_scanner_group"}, {"id": "668c47d7-0bb8-4e06-82eb-bfaf9dd7223c",
+        "type": "sensitive_data_scanner_group"}]}}}, "meta": {"version": 277, "count_limit":
         100, "group_count_limit": 20, "is_pci_compliant": false, "has_highlight_enabled":
         true, "has_multi_pass_enabled": true, "has_cascading_enabled": false, "is_configuration_superseded":
-        false}, "included": [{"id": "e11ee35c-2755-47ee-a8e3-235d2cfb9ce3", "attributes":
+        false}, "included": [{"id": "0fa15e15-70e4-4611-82f6-2113b3b8ab11", "attributes":
         {"name": "watch hello", "is_enabled": false, "filter": {"query": "service:hello"},
         "product_list": ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group",
         "relationships": {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "73860403-d524-40cd-9474-0fe2c13508bf", "attributes": {"name": "watch
+        {"id": "84557507-1b2d-4828-817f-bee1e35844b7", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "d1ee3d9b-2368-416d-9305-f89a3fc3adf1", "attributes": {"name": "watch
+        {"id": "720077cb-19f5-4f6d-832e-c70fba63992e", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "12389883-bd89-4e45-b598-a7784e3b2beb", "attributes": {"name": "watch
+        {"id": "278ecf68-aa30-4b80-99fd-e85fc1fa840a", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "839b90c6-df3e-46cd-8722-6b125532169b", "attributes": {"name": "watch
+        {"id": "518db9ad-c4c8-4d44-9505-e1c1abfbc155", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "f3d84fae-6754-45b6-bae0-f6c622be9a5e", "attributes": {"name": "watch
+        {"id": "0e016d0b-afe5-4bce-923a-25921a503de7", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "c2c3b5af-c3d2-4a1a-b4ef-be95af12ca95", "attributes": {"name": "watch
+        {"id": "48d41f2f-b3df-405a-8521-619fe4520568", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "11059add-1c16-47f2-80b3-84a46bedea5e", "attributes": {"name": "watch
+        {"id": "9be7edde-65f9-4c64-abfa-ad849106e2eb", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "441ca6ab-b54a-49d7-bb67-d2a40239c40f", "attributes": {"name": "watch
+        {"id": "f5a415ac-f0cf-439e-b88c-4fbf0f0915b6", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "dd57d67f-4ca4-4657-8553-238db1fb5fe1", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "335efcff-4990-4cfe-9f42-72f3d72b8d5c", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "d40d00d8-ba8a-41e3-a16d-fff4cc706a62", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "d6bf54d6-fb31-410b-932a-a3f3d2d9be87", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "0dcff0a6-dae1-4b1c-badc-70ef25d59ef3", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "cbf04bf0-06ea-4f62-9bd9-b126e2839ca0", "attributes": {"name": "watch
+        {"id": "668c47d7-0bb8-4e06-82eb-bfaf9dd7223c", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",

@@ -39,13 +39,13 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818053,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482173,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
+    uri: https://us5.datadoghq.com/api/v2/series
   response:
     body:
       string: '{"errors": []}'
@@ -57,13 +57,13 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818053,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482173,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
+    uri: https://api.datadoghq.eu/api/v2/series
   response:
     body:
       string: '{"errors": []}'
@@ -82,7 +82,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/logs/config/pipeline-order
   response:
     body:
-      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "gcuSSxgqTOypu7W9R00ZWg"]}'
+      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "uSFmijucS6ijnto601ad2w"]}'
     headers:
       Content-Type:
       - application/json
@@ -91,7 +91,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818053, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482173, "value":
       1}], "tags": ["reason:connection_error", "id:logs-pipeline-order", "action_type:sync",
       "status:skipped", "resource_type:logs_pipelines_order", "client_type:destination"]}]}'
     headers:
@@ -110,7 +110,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818053, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482173, "value":
       1}], "tags": ["reason:connection_error", "id:logs-pipeline-order", "action_type:sync",
       "status:skipped", "resource_type:logs_pipelines_order", "client_type:source"]}]}'
     headers:

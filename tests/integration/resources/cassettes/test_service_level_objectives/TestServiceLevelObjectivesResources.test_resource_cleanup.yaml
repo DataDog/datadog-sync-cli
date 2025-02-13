@@ -39,25 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818140,
-      "value": 1}], "tags": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818140,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482264,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -74,15 +56,33 @@ interactions:
       code: 202
       message: Accepted
 - request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482264,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
     body: null
     headers:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/slo/efbde29c51bd5169acc017f36daa4728?force=true
+    uri: https://us5.datadoghq.com/api/v1/slo/effd78dbdba15cc8bb91cdecc8dd917f?force=true
   response:
     body:
-      string: '{"data": ["efbde29c51bd5169acc017f36daa4728"], "error": null}'
+      string: '{"data": ["effd78dbdba15cc8bb91cdecc8dd917f"], "error": null}'
     headers:
       Content-Type:
       - application/json
@@ -91,7 +91,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818140, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482264, "value":
       1}], "tags": ["id:650a18e266505a48b319d9b221158a26", "action_type:delete", "status:success",
       "resource_type:service_level_objectives", "client_type:destination"]}]}'
     headers:
@@ -110,7 +110,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818140, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482264, "value":
       1}], "tags": ["id:650a18e266505a48b319d9b221158a26", "action_type:delete", "status:success",
       "resource_type:service_level_objectives", "client_type:source"]}]}'
     headers:

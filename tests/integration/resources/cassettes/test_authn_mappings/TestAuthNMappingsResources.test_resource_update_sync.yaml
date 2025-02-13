@@ -38,42 +38,6 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.diffs.start", "type": 0, "points": [{"timestamp": 1730817991,
-      "value": 1}], "tags": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.diffs.start", "type": 0, "points": [{"timestamp": 1730817991,
-      "value": 1}], "tags": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
     body: null
     headers:
       Content-Type:
@@ -113,25 +77,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730817991,
-      "value": 1}], "tags": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730817991,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482108,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -148,20 +94,38 @@ interactions:
       code: 202
       message: Accepted
 - request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482108,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
     body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "name",
       "attribute_value": "michaelupdated"}, "relationships": {"role": {"data": {"type":
-      "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}}, "id": "bef4e690-9b84-11ef-aa89-da7ad0900005"}}'
+      "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}}, "id": "77247ec2-ea51-11ef-a0a7-da7ad0900005"}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://us5.datadoghq.com/api/v2/authn_mappings/bef4e690-9b84-11ef-aa89-da7ad0900005
+    uri: https://us5.datadoghq.com/api/v2/authn_mappings/77247ec2-ea51-11ef-a0a7-da7ad0900005
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "bef4e690-9b84-11ef-aa89-da7ad0900005",
+      string: '{"data": {"type": "authn_mappings", "id": "77247ec2-ea51-11ef-a0a7-da7ad0900005",
         "attributes": {"saml_assertion_attribute_id": "3700", "attribute_key": "name",
-        "attribute_value": "michaelupdated", "created_at": "2024-11-05T14:46:31.346552+00:00",
-        "modified_at": "2024-11-05T14:46:33.143449+00:00"}, "relationships": {"saml_assertion_attribute":
+        "attribute_value": "michaelupdated", "created_at": "2025-02-13T21:28:28.388555+00:00",
+        "modified_at": "2025-02-13T21:28:29.983103+00:00"}, "relationships": {"saml_assertion_attribute":
         {"data": {"type": "saml_assertion_attributes", "id": "3700"}}, "role": {"data":
         {"type": "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}, "team":
         {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
@@ -321,15 +285,27 @@ interactions:
         {"type": "permissions", "id": "59c72b84-53fe-11ef-af6a-da7ad0900005"}, {"type":
         "permissions", "id": "59c8d920-53fe-11ef-af6a-da7ad0900005"}, {"type": "permissions",
         "id": "1746e9c0-597b-11ef-b8dd-da7ad0900005"}, {"type": "permissions", "id":
-        "7ce1c892-6090-11ef-b3ef-da7ad0900005"}, {"type": "permissions", "id": "7ce1cb26-6090-11ef-b3ef-da7ad0900005"},
-        {"type": "permissions", "id": "7ce175e0-6090-11ef-b3ef-da7ad0900005"}, {"type":
-        "permissions", "id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005"}, {"type": "permissions",
-        "id": "c9ca59c2-66d9-11ef-9bd3-da7ad0900005"}, {"type": "permissions", "id":
-        "b47a3a6e-74fe-11ef-ae6f-da7ad0900005"}, {"type": "permissions", "id": "f764fa80-79c7-11ef-8a97-da7ad0900005"},
-        {"type": "permissions", "id": "e0535584-7c0c-11ef-bb98-da7ad0900005"}, {"type":
-        "permissions", "id": "a8841946-7c42-11ef-93ea-da7ad0900005"}, {"type": "permissions",
-        "id": "4b9cd3ee-810b-11ef-972e-da7ad0900005"}, {"type": "permissions", "id":
-        "4b9d515c-810b-11ef-972e-da7ad0900005"}]}}}]}'
+        "aca6448a-647e-11ef-82de-da7ad0900005"}, {"type": "permissions", "id": "aca6f060-647e-11ef-82de-da7ad0900005"},
+        {"type": "permissions", "id": "7ce1c892-6090-11ef-b3ef-da7ad0900005"}, {"type":
+        "permissions", "id": "7ce1cb26-6090-11ef-b3ef-da7ad0900005"}, {"type": "permissions",
+        "id": "7ce175e0-6090-11ef-b3ef-da7ad0900005"}, {"type": "permissions", "id":
+        "c9c9a086-66d9-11ef-9bd3-da7ad0900005"}, {"type": "permissions", "id": "c9ca59c2-66d9-11ef-9bd3-da7ad0900005"},
+        {"type": "permissions", "id": "b47a3a6e-74fe-11ef-ae6f-da7ad0900005"}, {"type":
+        "permissions", "id": "f764fa80-79c7-11ef-8a97-da7ad0900005"}, {"type": "permissions",
+        "id": "e0535584-7c0c-11ef-bb98-da7ad0900005"}, {"type": "permissions", "id":
+        "a8841946-7c42-11ef-93ea-da7ad0900005"}, {"type": "permissions", "id": "4b9cd3ee-810b-11ef-972e-da7ad0900005"},
+        {"type": "permissions", "id": "4b9d515c-810b-11ef-972e-da7ad0900005"}, {"type":
+        "permissions", "id": "ae260840-8a26-11ef-b0ad-da7ad0900005"}, {"type": "permissions",
+        "id": "b5e1108e-9895-11ef-a80d-da7ad0900005"}, {"type": "permissions", "id":
+        "b5e1c574-9895-11ef-a80d-da7ad0900005"}, {"type": "permissions", "id": "20cdc770-9c9c-11ef-8bf8-da7ad0900005"},
+        {"type": "permissions", "id": "20ced020-9c9c-11ef-8bf8-da7ad0900005"}, {"type":
+        "permissions", "id": "20ced1f6-9c9c-11ef-8bf8-da7ad0900005"}, {"type": "permissions",
+        "id": "c09a5320-a69e-11ef-854d-da7ad0900005"}, {"type": "permissions", "id":
+        "8cca9812-a8f5-11ef-a551-da7ad0900005"}, {"type": "permissions", "id": "8ccad534-a8f5-11ef-a551-da7ad0900005"},
+        {"type": "permissions", "id": "d77b8882-b7e9-11ef-9071-da7ad0900005"}, {"type":
+        "permissions", "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005"}, {"type": "permissions",
+        "id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions", "id":
+        "fbb166e4-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions", "id": "5ed2476e-d29b-11ef-be68-da7ad0900005"}]}}}]}'
     headers:
       Content-Type:
       - application/json
@@ -338,7 +314,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730817991, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482108, "value":
       1}], "tags": ["action_sub_type:update", "id:423368a4-956a-11ef-b92a-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:destination"]}]}'
     headers:
@@ -357,7 +333,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730817991, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482108, "value":
       1}], "tags": ["action_sub_type:update", "id:423368a4-956a-11ef-b92a-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:source"]}]}'
     headers:
@@ -412,40 +388,4 @@ interactions:
     status:
       code: 200
       message: OK
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.diffs.start", "type": 0, "points": [{"timestamp": 1730817991,
-      "value": 1}], "tags": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.diffs.start", "type": 0, "points": [{"timestamp": 1730817991,
-      "value": 1}], "tags": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
 version: 1

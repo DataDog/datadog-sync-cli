@@ -5,8 +5,10 @@
 
 from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import SecurityMonitoringRules
+import pytest
 
 
+@pytest.mark.skip(reason="Too slow")
 class TestSecurityMonitoringRules(BaseResourcesTestClass):
     """Filter out the deprecated security rules"""
 

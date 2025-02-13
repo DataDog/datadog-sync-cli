@@ -135,7 +135,7 @@ interactions:
         "Define `level` as the official status of the log", "is_enabled": true, "sources":
         ["level"], "type": "status-remapper"}, {"name": "Define `dd.trace_id` as the
         official trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id"],
-        "type": "trace-id-remapper"}]}, {"id": "75YthjXSSPWWiei51Oal4g", "type": "pipeline",
+        "type": "trace-id-remapper"}]}, {"id": "qFTSL4_GSoqVT_RZULJS4g", "type": "pipeline",
         "name": "test", "is_enabled": false, "is_read_only": false, "filter": {"query":
         "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -184,7 +184,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1736525670,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482161,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -202,7 +202,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1736525670,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482161,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -316,7 +316,7 @@ interactions:
         "Define `level` as the official status of the log", "is_enabled": true, "sources":
         ["level"], "type": "status-remapper"}, {"name": "Define `dd.trace_id` as the
         official trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id"],
-        "type": "trace-id-remapper"}]}, {"id": "75YthjXSSPWWiei51Oal4g", "type": "pipeline",
+        "type": "trace-id-remapper"}]}, {"id": "qFTSL4_GSoqVT_RZULJS4g", "type": "pipeline",
         "name": "test", "is_enabled": false, "is_read_only": false, "filter": {"query":
         "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -332,13 +332,12 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/75YthjXSSPWWiei51Oal4g
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/qFTSL4_GSoqVT_RZULJS4g
   response:
     body:
-      string: '{"id": "75YthjXSSPWWiei51Oal4g", "type": "pipeline", "name": "testupdated",
+      string: '{"id": "qFTSL4_GSoqVT_RZULJS4g", "type": "pipeline", "name": "testupdated",
         "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
-        "}, "processors": [], "meta": {"last_update": {"user_id": "1615666", "timestamp":
-        1736525672350}, "tags": []}}'
+        "}, "processors": [], "tags": []}'
     headers:
       Content-Type:
       - application/json
@@ -347,7 +346,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1736525670, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482161, "value":
       1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_pipelines", "client_type:destination"]}]}'
     headers:
@@ -366,7 +365,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1736525670, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482161, "value":
       1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_pipelines", "client_type:source"]}]}'
     headers:
@@ -519,7 +518,7 @@ interactions:
         "Define `level` as the official status of the log", "is_enabled": true, "sources":
         ["level"], "type": "status-remapper"}, {"name": "Define `dd.trace_id` as the
         official trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id"],
-        "type": "trace-id-remapper"}]}, {"id": "75YthjXSSPWWiei51Oal4g", "type": "pipeline",
+        "type": "trace-id-remapper"}]}, {"id": "qFTSL4_GSoqVT_RZULJS4g", "type": "pipeline",
         "name": "testupdated", "is_enabled": false, "is_read_only": false, "filter":
         {"query": "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
