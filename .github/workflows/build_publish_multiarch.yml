@@ -1,18 +1,27 @@
 name: Build and publish docker image
 
+#on:
+#  pull_request:
+#    types: [closed]
+#    branches:
+#      - main
+
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
-      - main
+      - 'michael.richey/**'
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 jobs:
   build-and-push-image:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
-    runs-on: ubuntu-latest
+#    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
+    strategy:
+      matrix:
+        os: [ubuntu-24.04,ubuntu-24.04-arm]
+
+    runs-on: ${{ matrix.os }}
 
     permissions:
       contents: read
