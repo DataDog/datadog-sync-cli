@@ -77,7 +77,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482261,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001582,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -95,7 +95,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482261,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001582,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -121,17 +121,17 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/slo/effd78dbdba15cc8bb91cdecc8dd917f
+    uri: https://us5.datadoghq.com/api/v1/slo/432966371d525d5aaf94015c8a0ef8b7
   response:
     body:
-      string: '{"data": [{"id": "effd78dbdba15cc8bb91cdecc8dd917f", "name": "test",
+      string: '{"data": [{"id": "432966371d525d5aaf94015c8a0ef8b7", "name": "test",
         "tags": ["managed_by:datadog-sync"], "monitor_tags": [], "thresholds": [{"timeframe":
         "7d", "target": 99.9, "target_display": "99.9"}], "type": "metric", "type_id":
         1, "description": "updated", "timeframe": "7d", "target_threshold": 99.9,
         "query": {"denominator": "sum:datadog.agent.started{*}.as_count()", "numerator":
         "sum:datadog.agent.started{*}.as_count()"}, "creator": {"name": "Michael Richey",
         "handle": "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com"},
-        "created_at": 1739482261, "modified_at": 1739482263}], "error": null}'
+        "created_at": 1740001581, "modified_at": 1740001583}], "error": null}'
     headers:
       Content-Type:
       - application/json
@@ -140,7 +140,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482261, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001582, "value":
       1}], "tags": ["action_sub_type:update", "id:650a18e266505a48b319d9b221158a26",
       "action_type:sync", "status:success", "resource_type:service_level_objectives",
       "client_type:destination"]}]}'
@@ -160,7 +160,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482261, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001582, "value":
       1}], "tags": ["action_sub_type:update", "id:650a18e266505a48b319d9b221158a26",
       "action_type:sync", "status:success", "resource_type:service_level_objectives",
       "client_type:source"]}]}'

@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482273,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001592,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482273,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001592,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -79,7 +79,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/synthetics/variables/b7d85a3d-397c-4c6e-942c-3aac1c603953
+    uri: https://us5.datadoghq.com/api/v1/synthetics/variables/82f45b60-3dbf-4a37-a6c6-6e340b30db9b
   response:
     body:
       string: ''
@@ -91,7 +91,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482273, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001592, "value":
       1}], "tags": ["id:be3fe0f5-63b1-4913-9f09-c147bf6d5e21", "action_type:delete",
       "status:success", "resource_type:synthetics_global_variables", "client_type:destination"]}]}'
     headers:
@@ -110,7 +110,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482273, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001592, "value":
       1}], "tags": ["id:be3fe0f5-63b1-4913-9f09-c147bf6d5e21", "action_type:delete",
       "status:success", "resource_type:synthetics_global_variables", "client_type:source"]}]}'
     headers:

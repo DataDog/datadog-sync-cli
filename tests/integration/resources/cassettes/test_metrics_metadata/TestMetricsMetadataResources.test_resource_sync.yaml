@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482194,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001526,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482194,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001526,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -74,16 +74,16 @@ interactions:
       code: 202
       message: Accepted
 - request:
-    body: '{"description": null, "short_name": null, "type": "count", "unit": null,
+    body: '{"description": null, "short_name": null, "type": "gauge", "unit": null,
       "per_unit": null, "statsd_interval": 10}'
     headers:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/metrics/flask.request
+    uri: https://us5.datadoghq.com/api/v1/metrics/example_metric.histogram.95percentile
   response:
     body:
-      string: '{"description": null, "short_name": null, "type": "count", "unit":
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
         null, "per_unit": null, "statsd_interval": 10, "integration": null}'
     headers:
       Content-Type:
@@ -93,14 +93,556 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482194, "value":
-      1}], "tags": ["action_sub_type:create", "id:flask.request", "action_type:sync",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:example_metric.histogram.95percentile",
+      "action_type:sync", "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"description": null, "short_name": null, "type": "gauge", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/example_metric.histogram.avg
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": null, "short_name": null, "type": "gauge", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/msr.histogram.75percentile
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": "Does this count as a configuration?", "short_name": "",
+      "type": "gauge", "unit": null, "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/msr.gauge
+  response:
+    body:
+      string: '{"description": "Does this count as a configuration?", "short_name":
+        "", "type": "gauge", "unit": null, "per_unit": null, "statsd_interval": 10,
+        "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": null, "short_name": null, "type": "rate", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/example_metric.histogram.count
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "rate", "unit": null,
+        "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": null, "short_name": null, "type": "rate", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/msr.histogram.count
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "rate", "unit": null,
+        "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": null, "short_name": null, "type": "gauge", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/msr.histogram.avg
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:example_metric.histogram.avg", "action_type:sync",
       "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
     method: POST
     uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.75percentile", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.gauge", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:example_metric.histogram.count",
+      "action_type:sync", "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.count", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.avg", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"description": null, "short_name": null, "type": "gauge", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/example_metric.histogram.median
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:example_metric.histogram.95percentile",
+      "action_type:sync", "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"description": null, "short_name": null, "type": "gauge", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/example_metric.histogram.max
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"description": null, "short_name": null, "type": "gauge", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/msr.histogram.95percentile
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:example_metric.histogram.median",
+      "action_type:sync", "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:example_metric.histogram.max", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.95percentile", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"description": null, "short_name": null, "type": "gauge", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/msr.histogram.max
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:example_metric.histogram.avg", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.75percentile", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:example_metric.histogram.count",
+      "action_type:sync", "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.gauge", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.count", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.avg", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.max", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:example_metric.histogram.median",
+      "action_type:sync", "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:example_metric.histogram.max", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
   response:
     body:
       string: '{"errors": []}'
@@ -129,8 +671,101 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"description": null, "short_name": null, "type": "gauge", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/msr.histogram.median
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482194, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.95percentile", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"description": null, "short_name": null, "type": "rate", "unit": null,
+      "per_unit": null, "statsd_interval": 10}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/metrics/msr.increment
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "rate", "unit": null,
+        "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.max", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.median", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
       1}], "tags": ["action_sub_type:create", "id:test", "action_type:sync", "status:success",
       "resource_type:metrics_metadata", "client_type:destination"]}]}'
     headers:
@@ -149,8 +784,27 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482194, "value":
-      1}], "tags": ["action_sub_type:create", "id:flask.request", "action_type:sync",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.increment", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.histogram.median", "action_type:sync",
       "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
     headers:
       Content-Type:
@@ -168,9 +822,28 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482194, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
       1}], "tags": ["action_sub_type:create", "id:test", "action_type:sync", "status:success",
       "resource_type:metrics_metadata", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001526, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.increment", "action_type:sync",
+      "status:success", "resource_type:metrics_metadata", "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json

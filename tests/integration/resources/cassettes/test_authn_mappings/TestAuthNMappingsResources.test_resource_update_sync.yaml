@@ -77,7 +77,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482108,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001443,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -95,7 +95,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482108,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001443,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -114,18 +114,18 @@ interactions:
 - request:
     body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "name",
       "attribute_value": "michaelupdated"}, "relationships": {"role": {"data": {"type":
-      "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}}, "id": "77247ec2-ea51-11ef-a0a7-da7ad0900005"}}'
+      "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}}, "id": "a2c41192-ef0a-11ef-a0fe-da7ad0900005"}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://us5.datadoghq.com/api/v2/authn_mappings/77247ec2-ea51-11ef-a0a7-da7ad0900005
+    uri: https://us5.datadoghq.com/api/v2/authn_mappings/a2c41192-ef0a-11ef-a0fe-da7ad0900005
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "77247ec2-ea51-11ef-a0a7-da7ad0900005",
+      string: '{"data": {"type": "authn_mappings", "id": "a2c41192-ef0a-11ef-a0fe-da7ad0900005",
         "attributes": {"saml_assertion_attribute_id": "3700", "attribute_key": "name",
-        "attribute_value": "michaelupdated", "created_at": "2025-02-13T21:28:28.388555+00:00",
-        "modified_at": "2025-02-13T21:28:29.983103+00:00"}, "relationships": {"saml_assertion_attribute":
+        "attribute_value": "michaelupdated", "created_at": "2025-02-19T21:44:03.123252+00:00",
+        "modified_at": "2025-02-19T21:44:04.827810+00:00"}, "relationships": {"saml_assertion_attribute":
         {"data": {"type": "saml_assertion_attributes", "id": "3700"}}, "role": {"data":
         {"type": "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}, "team":
         {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
@@ -314,7 +314,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482108, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001443, "value":
       1}], "tags": ["action_sub_type:update", "id:423368a4-956a-11ef-b92a-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:destination"]}]}'
     headers:
@@ -333,7 +333,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482108, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001443, "value":
       1}], "tags": ["action_sub_type:update", "id:423368a4-956a-11ef-b92a-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:source"]}]}'
     headers:

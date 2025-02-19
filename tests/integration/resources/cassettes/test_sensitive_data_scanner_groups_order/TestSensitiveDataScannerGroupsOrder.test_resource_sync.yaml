@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482254,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001575,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482254,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001575,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -110,12 +110,12 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups
   response:
     body:
-      string: '{"data": {"id": "0fa15e15-70e4-4611-82f6-2113b3b8ab11", "attributes":
+      string: '{"data": {"id": "13745b5f-76ae-403a-a4e0-42d8d9b47392", "attributes":
         {"name": "watch hello", "is_enabled": false, "filter": {"query": "service:hello"},
         "product_list": ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group",
         "relationships": {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        "meta": {"version": 276}}'
+        "meta": {"version": 515}}'
     headers:
       Content-Type:
       - application/json
@@ -124,7 +124,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482254, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001575, "value":
       1}], "tags": ["action_sub_type:create", "id:731fff24-2e94-4446-b6a1-efb10ad66e91",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups",
       "client_type:destination"]}]}'
@@ -144,7 +144,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482254, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001575, "value":
       1}], "tags": ["action_sub_type:create", "id:731fff24-2e94-4446-b6a1-efb10ad66e91",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups",
       "client_type:source"]}]}'
@@ -173,65 +173,17 @@ interactions:
     body:
       string: '{"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "attributes": {}, "type": "sensitive_data_scanner_configuration", "relationships":
-        {"groups": {"data": [{"id": "84557507-1b2d-4828-817f-bee1e35844b7", "type":
-        "sensitive_data_scanner_group"}, {"id": "720077cb-19f5-4f6d-832e-c70fba63992e",
-        "type": "sensitive_data_scanner_group"}, {"id": "278ecf68-aa30-4b80-99fd-e85fc1fa840a",
-        "type": "sensitive_data_scanner_group"}, {"id": "518db9ad-c4c8-4d44-9505-e1c1abfbc155",
-        "type": "sensitive_data_scanner_group"}, {"id": "0e016d0b-afe5-4bce-923a-25921a503de7",
-        "type": "sensitive_data_scanner_group"}, {"id": "48d41f2f-b3df-405a-8521-619fe4520568",
-        "type": "sensitive_data_scanner_group"}, {"id": "9be7edde-65f9-4c64-abfa-ad849106e2eb",
-        "type": "sensitive_data_scanner_group"}, {"id": "f5a415ac-f0cf-439e-b88c-4fbf0f0915b6",
-        "type": "sensitive_data_scanner_group"}, {"id": "668c47d7-0bb8-4e06-82eb-bfaf9dd7223c",
-        "type": "sensitive_data_scanner_group"}, {"id": "0fa15e15-70e4-4611-82f6-2113b3b8ab11",
-        "type": "sensitive_data_scanner_group"}]}}}, "meta": {"version": 276, "count_limit":
+        {"groups": {"data": [{"id": "301c924a-36ba-4701-8644-113c1b055219", "type":
+        "sensitive_data_scanner_group"}, {"id": "13745b5f-76ae-403a-a4e0-42d8d9b47392",
+        "type": "sensitive_data_scanner_group"}]}}}, "meta": {"version": 515, "count_limit":
         100, "group_count_limit": 20, "is_pci_compliant": false, "has_highlight_enabled":
         true, "has_multi_pass_enabled": true, "has_cascading_enabled": false, "is_configuration_superseded":
-        false}, "included": [{"id": "84557507-1b2d-4828-817f-bee1e35844b7", "attributes":
+        false}, "included": [{"id": "301c924a-36ba-4701-8644-113c1b055219", "attributes":
         {"name": "watch hello", "is_enabled": false, "filter": {"query": "service:hello"},
         "product_list": ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group",
         "relationships": {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "720077cb-19f5-4f6d-832e-c70fba63992e", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "278ecf68-aa30-4b80-99fd-e85fc1fa840a", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "518db9ad-c4c8-4d44-9505-e1c1abfbc155", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "0e016d0b-afe5-4bce-923a-25921a503de7", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "48d41f2f-b3df-405a-8521-619fe4520568", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "9be7edde-65f9-4c64-abfa-ad849106e2eb", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "f5a415ac-f0cf-439e-b88c-4fbf0f0915b6", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "668c47d7-0bb8-4e06-82eb-bfaf9dd7223c", "attributes": {"name": "watch
-        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
-        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
-        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "0fa15e15-70e4-4611-82f6-2113b3b8ab11", "attributes": {"name": "watch
+        {"id": "13745b5f-76ae-403a-a4e0-42d8d9b47392", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
@@ -244,16 +196,8 @@ interactions:
       message: OK
 - request:
     body: '{"data": {"type": "sensitive_data_scanner_configuration", "id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-      "relationships": {"groups": {"data": [{"id": "0fa15e15-70e4-4611-82f6-2113b3b8ab11",
-      "type": "sensitive_data_scanner_group"}, {"id": "84557507-1b2d-4828-817f-bee1e35844b7",
-      "type": "sensitive_data_scanner_group"}, {"id": "720077cb-19f5-4f6d-832e-c70fba63992e",
-      "type": "sensitive_data_scanner_group"}, {"id": "278ecf68-aa30-4b80-99fd-e85fc1fa840a",
-      "type": "sensitive_data_scanner_group"}, {"id": "518db9ad-c4c8-4d44-9505-e1c1abfbc155",
-      "type": "sensitive_data_scanner_group"}, {"id": "0e016d0b-afe5-4bce-923a-25921a503de7",
-      "type": "sensitive_data_scanner_group"}, {"id": "48d41f2f-b3df-405a-8521-619fe4520568",
-      "type": "sensitive_data_scanner_group"}, {"id": "9be7edde-65f9-4c64-abfa-ad849106e2eb",
-      "type": "sensitive_data_scanner_group"}, {"id": "f5a415ac-f0cf-439e-b88c-4fbf0f0915b6",
-      "type": "sensitive_data_scanner_group"}, {"id": "668c47d7-0bb8-4e06-82eb-bfaf9dd7223c",
+      "relationships": {"groups": {"data": [{"id": "13745b5f-76ae-403a-a4e0-42d8d9b47392",
+      "type": "sensitive_data_scanner_group"}, {"id": "301c924a-36ba-4701-8644-113c1b055219",
       "type": "sensitive_data_scanner_group"}]}}}, "meta": {}}'
     headers:
       Content-Type:
@@ -262,7 +206,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config
   response:
     body:
-      string: '{"meta": {"version": 277, "count_limit": 100, "group_count_limit":
+      string: '{"meta": {"version": 516, "count_limit": 100, "group_count_limit":
         20, "is_pci_compliant": false, "has_highlight_enabled": true, "has_multi_pass_enabled":
         false, "has_cascading_enabled": false, "is_configuration_superseded": false}}'
     headers:
@@ -273,7 +217,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482254, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001575, "value":
       1}], "tags": ["action_sub_type:create", "id:sensitive-data-scanner-group-order",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups_order",
       "client_type:destination"]}]}'
@@ -293,7 +237,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482254, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001575, "value":
       1}], "tags": ["action_sub_type:create", "id:sensitive-data-scanner-group-order",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups_order",
       "client_type:source"]}]}'
