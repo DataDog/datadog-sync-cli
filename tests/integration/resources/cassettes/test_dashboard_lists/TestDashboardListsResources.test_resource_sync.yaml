@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482115,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001449,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482115,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001449,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -75,8 +75,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482115, "value":
-      1}], "tags": ["reason:connection_error", "id:40438", "action_type:sync", "status:skipped",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001449, "value":
+      1}], "tags": ["reason:connection_error", "id:42665", "action_type:sync", "status:skipped",
       "resource_type:dashboard_lists", "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -94,8 +94,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482115, "value":
-      1}], "tags": ["reason:connection_error", "id:40438", "action_type:sync", "status:skipped",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001449, "value":
+      1}], "tags": ["reason:connection_error", "id:42665", "action_type:sync", "status:skipped",
       "resource_type:dashboard_lists", "client_type:source"]}]}'
     headers:
       Content-Type:

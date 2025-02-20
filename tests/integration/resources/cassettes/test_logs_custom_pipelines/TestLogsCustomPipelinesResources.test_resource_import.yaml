@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1739482144,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1740001475,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1739482144,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1740001475,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -116,7 +116,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482144, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001475, "value":
       1}], "tags": ["id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:import", "status:success",
       "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
     headers:
@@ -135,26 +135,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482144, "value":
-      1}], "tags": ["id:XHeoyuYmRFCQOipL9kfA-Q", "action_type:import", "status:skipped",
-      "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482144, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001475, "value":
       1}], "tags": ["id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:import", "status:success",
       "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
     headers:
@@ -173,7 +154,26 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482144, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001475, "value":
+      1}], "tags": ["id:XHeoyuYmRFCQOipL9kfA-Q", "action_type:import", "status:skipped",
+      "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001475, "value":
       1}], "tags": ["id:XHeoyuYmRFCQOipL9kfA-Q", "action_type:import", "status:skipped",
       "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
     headers:

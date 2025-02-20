@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482292,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001607,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482292,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001607,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -74,7 +74,7 @@ interactions:
       code: 202
       message: Accepted
 - request:
-    body: '{"public_ids": ["ztw-9ku-xfi"]}'
+    body: '{"public_ids": ["7ca-jvx-f45"]}'
     headers:
       Content-Type:
       - application/json
@@ -82,7 +82,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"public_id": "ztw-9ku-xfi", "deleted_at": "2025-02-13T21:31:34.895813+00:00"}]}'
+      string: '{"deleted_tests": [{"public_id": "7ca-jvx-f45", "deleted_at": "2025-02-19T21:46:48.214413+00:00"}]}'
     headers:
       Content-Type:
       - application/json
@@ -91,7 +91,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482292, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001607, "value":
       1}], "tags": ["id:njk-avc-mjc#20125203", "action_type:delete", "status:success",
       "resource_type:synthetics_tests", "client_type:destination"]}]}'
     headers:
@@ -110,7 +110,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482292, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001607, "value":
       1}], "tags": ["id:njk-avc-mjc#20125203", "action_type:delete", "status:success",
       "resource_type:synthetics_tests", "client_type:source"]}]}'
     headers:

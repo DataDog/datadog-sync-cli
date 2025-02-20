@@ -39,7 +39,25 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818069,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001515,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001515,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,8 +75,9 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818069,
-      "value": 1}], "tags": null}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001515, "value":
+      1}], "tags": ["id:msr.distribution", "action_type:delete", "status:success",
+      "resource_type:metric_percentiles", "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -75,9 +94,28 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818069, "value":
-      1}], "tags": ["id:dd.seceng.dd_git_hooks.duration_seconds", "action_type:delete",
-      "status:success", "resource_type:metric_percentiles", "client_type:destination"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001515, "value":
+      1}], "tags": ["id:msr.distribution", "action_type:delete", "status:success",
+      "resource_type:metric_percentiles", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001515, "value":
+      1}], "tags": ["id:msr.other_distribution", "action_type:delete", "status:success",
+      "resource_type:metric_percentiles", "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -94,9 +132,9 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818069, "value":
-      1}], "tags": ["id:dd.seceng.dd_git_hooks.duration_seconds", "action_type:delete",
-      "status:success", "resource_type:metric_percentiles", "client_type:source"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001515, "value":
+      1}], "tags": ["id:msr.other_distribution", "action_type:delete", "status:success",
+      "resource_type:metric_percentiles", "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json

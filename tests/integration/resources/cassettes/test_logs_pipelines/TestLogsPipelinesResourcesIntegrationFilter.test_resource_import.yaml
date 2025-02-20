@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1739482165,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1740001495,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1739482165,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1740001495,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -116,7 +116,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482165, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001495, "value":
       1}], "tags": ["id:XHeoyuYmRFCQOipL9kfA-Q", "action_type:import", "status:success",
       "resource_type:logs_pipelines", "client_type:destination"]}]}'
     headers:
@@ -135,7 +135,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482165, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001495, "value":
       1}], "tags": ["id:XHeoyuYmRFCQOipL9kfA-Q", "action_type:import", "status:success",
       "resource_type:logs_pipelines", "client_type:source"]}]}'
     headers:

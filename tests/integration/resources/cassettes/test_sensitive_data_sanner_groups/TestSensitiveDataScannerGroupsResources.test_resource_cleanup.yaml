@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482251,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001572,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482251,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001572,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -79,10 +79,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/bfc68797-1979-4537-8e8a-08ec4b0f1dcb
+    uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/d2790c47-4c45-4863-8bbb-0f8704c67078
   response:
     body:
-      string: '{"meta": {"version": 275}}'
+      string: '{"meta": {"version": 514}}'
     headers:
       Content-Type:
       - application/json
@@ -91,7 +91,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482251, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001572, "value":
       1}], "tags": ["id:731fff24-2e94-4446-b6a1-efb10ad66e91", "action_type:delete",
       "status:success", "resource_type:sensitive_data_scanner_groups", "client_type:destination"]}]}'
     headers:
@@ -110,7 +110,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482251, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001572, "value":
       1}], "tags": ["id:731fff24-2e94-4446-b6a1-efb10ad66e91", "action_type:delete",
       "status:success", "resource_type:sensitive_data_scanner_groups", "client_type:source"]}]}'
     headers:

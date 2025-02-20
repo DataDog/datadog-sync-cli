@@ -3,8 +3,8 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import SyntheticsTests
+from tests.integration.helpers import BaseResourcesTestClass
 
 
 class TestSyntheticsTestsResources(BaseResourcesTestClass):

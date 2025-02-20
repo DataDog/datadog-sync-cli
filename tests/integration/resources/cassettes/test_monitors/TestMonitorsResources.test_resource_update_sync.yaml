@@ -77,7 +77,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482203,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001535,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -95,7 +95,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482203,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001535,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -121,16 +121,16 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/monitor/1286237
+    uri: https://us5.datadoghq.com/api/v1/monitor/1293291
   response:
     body:
-      string: '{"id": 1286237, "org_id": 1300336245, "type": "query alert", "name":
+      string: '{"id": 1293291, "org_id": 1300336245, "type": "query alert", "name":
         "testupdated", "message": "teset", "tags": ["managed_by:datadog-sync"], "query":
         "avg(last_5m):avg:system.load.1{*} > 5", "options": {"thresholds": {"critical":
         5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
         false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1739482203000, "created": "2025-02-13T21:30:03.177661+00:00", "modified":
-        "2025-02-13T21:30:05.425129+00:00", "deleted": null, "priority": null, "restricted_roles":
+        1740001535000, "created": "2025-02-19T21:45:35.106420+00:00", "modified":
+        "2025-02-19T21:45:37.031989+00:00", "deleted": null, "priority": null, "restricted_roles":
         null, "restriction_policy": null, "overall_state_modified": null, "overall_state":
         "No Data"}'
     headers:
@@ -140,36 +140,24 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      stopped reportingupdated", "message": "Private location {{location_id.name}}
-      stopped reporting to Datadog.", "tags": ["managed_by:datadog-sync"], "query":
-      "min(last_5m):avg:synthetics.pl.worker.running{*} by {location_id} < 1", "options":
-      {"notify_no_data": true, "thresholds": {"critical": 1.0}, "notify_audit": false,
-      "new_host_delay": 300, "include_tags": true, "silenced": {}}, "multi": true,
-      "priority": null, "restricted_roles": null}'
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001535, "value":
+      1}], "tags": ["action_sub_type:update", "id:20046756", "action_type:sync", "status:success",
+      "resource_type:monitors", "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
-    method: PUT
-    uri: https://us5.datadoghq.com/api/v1/monitor/1286240
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
   response:
     body:
-      string: '{"id": 1286240, "org_id": 1300336245, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} stopped reportingupdated",
-        "message": "Private location {{location_id.name}} stopped reporting to Datadog.",
-        "tags": ["managed_by:datadog-sync"], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
-        by {location_id} < 1", "options": {"notify_no_data": true, "thresholds": {"critical":
-        1.0}, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
-        "silenced": {}}, "multi": true, "created_at": 1739482203000, "created": "2025-02-13T21:30:03.410484+00:00",
-        "modified": "2025-02-13T21:30:05.528762+00:00", "deleted": null, "priority":
-        null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
-        null, "overall_state": "No Data"}'
+      string: '{"errors": []}'
     headers:
       Content-Type:
       - application/json
     status:
-      code: 200
-      message: OK
+      code: 202
+      message: Accepted
 - request:
     body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
       is underprovisionedupdated", "message": "Private location {{location_id.name}}
@@ -183,10 +171,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/monitor/1286238
+    uri: https://us5.datadoghq.com/api/v1/monitor/1293294
   response:
     body:
-      string: '{"id": 1286238, "org_id": 1300336245, "type": "metric alert", "name":
+      string: '{"id": 1293294, "org_id": 1300336245, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} is underprovisionedupdated",
         "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
         this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
@@ -194,8 +182,8 @@ interactions:
         "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
         < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
         "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-        {}}, "multi": true, "created_at": 1739482203000, "created": "2025-02-13T21:30:03.246393+00:00",
-        "modified": "2025-02-13T21:30:05.536468+00:00", "deleted": null, "priority":
+        {}}, "multi": true, "created_at": 1740001535000, "created": "2025-02-19T21:45:35.297199+00:00",
+        "modified": "2025-02-19T21:45:37.094296+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
         null, "overall_state": "No Data"}'
     headers:
@@ -206,14 +194,136 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482203, "value":
-      1}], "tags": ["action_sub_type:update", "id:20046756", "action_type:sync", "status:success",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001535, "value":
+      1}], "tags": ["action_sub_type:update", "id:20125251", "action_type:sync", "status:success",
       "resource_type:monitors", "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
     method: POST
     uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001535, "value":
+      1}], "tags": ["action_sub_type:update", "id:20046756", "action_type:sync", "status:success",
+      "resource_type:monitors", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
+      is taking too long to pollupdated", "message": "Private location {{location_id.name}}
+      is taking too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+      "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id} >
+      30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
+      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+      {}}, "multi": true, "priority": null, "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/monitor/1293292
+  response:
+    body:
+      string: '{"id": 1293292, "org_id": 1300336245, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} is taking too long to
+        pollupdated", "message": "Private location {{location_id.name}} is taking
+        too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+        "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id}
+        > 30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
+        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+        {}}, "multi": true, "created_at": 1740001535000, "created": "2025-02-19T21:45:35.192960+00:00",
+        "modified": "2025-02-19T21:45:37.216543+00:00", "deleted": null, "priority":
+        null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
+        null, "overall_state": "No Data"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001535, "value":
+      1}], "tags": ["action_sub_type:update", "id:20125252", "action_type:sync", "status:success",
+      "resource_type:monitors", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
+      stopped reportingupdated", "message": "Private location {{location_id.name}}
+      stopped reporting to Datadog.", "tags": ["managed_by:datadog-sync"], "query":
+      "min(last_5m):avg:synthetics.pl.worker.running{*} by {location_id} < 1", "options":
+      {"notify_no_data": true, "thresholds": {"critical": 1.0}, "notify_audit": false,
+      "new_host_delay": 300, "include_tags": true, "silenced": {}}, "multi": true,
+      "priority": null, "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/monitor/1293295
+  response:
+    body:
+      string: '{"id": 1293295, "org_id": 1300336245, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} stopped reportingupdated",
+        "message": "Private location {{location_id.name}} stopped reporting to Datadog.",
+        "tags": ["managed_by:datadog-sync"], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
+        by {location_id} < 1", "options": {"notify_no_data": true, "thresholds": {"critical":
+        1.0}, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
+        "silenced": {}}, "multi": true, "created_at": 1740001535000, "created": "2025-02-19T21:45:35.309871+00:00",
+        "modified": "2025-02-19T21:45:37.216238+00:00", "deleted": null, "priority":
+        null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
+        null, "overall_state": "No Data"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001535, "value":
+      1}], "tags": ["action_sub_type:update", "id:20125251", "action_type:sync", "status:success",
+      "resource_type:monitors", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
   response:
     body:
       string: '{"errors": []}'
@@ -238,10 +348,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/monitor/1286241
+    uri: https://us5.datadoghq.com/api/v1/monitor/1293293
   response:
     body:
-      string: '{"id": 1286241, "org_id": 1300336245, "type": "metric alert", "name":
+      string: '{"id": 1293293, "org_id": 1300336245, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} uses an outdated image
         versionupdated", "message": "Private location {{location_id.name}} is running
         an outdated image version. Learn more about the current version in use on
@@ -251,8 +361,8 @@ interactions:
         tag.", "tags": ["managed_by:datadog-sync"], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*}
         by {location_id} > 0", "options": {"thresholds": {"critical": 0.0}, "notify_no_data":
         false, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
-        "silenced": {}}, "multi": true, "created_at": 1739482203000, "created": "2025-02-13T21:30:03.525028+00:00",
-        "modified": "2025-02-13T21:30:05.557970+00:00", "deleted": null, "priority":
+        "silenced": {}}, "multi": true, "created_at": 1740001535000, "created": "2025-02-19T21:45:35.190569+00:00",
+        "modified": "2025-02-19T21:45:37.319220+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
         null, "overall_state": "No Data"}'
     headers:
@@ -263,7 +373,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482203, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001535, "value":
       1}], "tags": ["action_sub_type:update", "id:20125249", "action_type:sync", "status:success",
       "resource_type:monitors", "client_type:destination"]}]}'
     headers:
@@ -282,80 +392,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482203, "value":
-      1}], "tags": ["action_sub_type:update", "id:20125251", "action_type:sync", "status:success",
-      "resource_type:monitors", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482203, "value":
-      1}], "tags": ["action_sub_type:update", "id:20125250", "action_type:sync", "status:success",
-      "resource_type:monitors", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      is taking too long to pollupdated", "message": "Private location {{location_id.name}}
-      is taking too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-      "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id} >
-      30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
-      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-      {}}, "multi": true, "priority": null, "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://us5.datadoghq.com/api/v1/monitor/1286239
-  response:
-    body:
-      string: '{"id": 1286239, "org_id": 1300336245, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} is taking too long to
-        pollupdated", "message": "Private location {{location_id.name}} is taking
-        too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-        "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id}
-        > 30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
-        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-        {}}, "multi": true, "created_at": 1739482203000, "created": "2025-02-13T21:30:03.275592+00:00",
-        "modified": "2025-02-13T21:30:05.614722+00:00", "deleted": null, "priority":
-        null, "restricted_roles": null, "restriction_policy": null, "overall_state_modified":
-        null, "overall_state": "No Data"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482203, "value":
-      1}], "tags": ["action_sub_type:update", "id:20046756", "action_type:sync", "status:success",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001535, "value":
+      1}], "tags": ["action_sub_type:update", "id:20125252", "action_type:sync", "status:success",
       "resource_type:monitors", "client_type:source"]}]}'
     headers:
       Content-Type:
@@ -373,8 +411,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482203, "value":
-      1}], "tags": ["action_sub_type:update", "id:20125252", "action_type:sync", "status:success",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001535, "value":
+      1}], "tags": ["action_sub_type:update", "id:20125250", "action_type:sync", "status:success",
       "resource_type:monitors", "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -392,7 +430,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482203, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001535, "value":
       1}], "tags": ["action_sub_type:update", "id:20125249", "action_type:sync", "status:success",
       "resource_type:monitors", "client_type:source"]}]}'
     headers:
@@ -411,46 +449,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482203, "value":
-      1}], "tags": ["action_sub_type:update", "id:20125251", "action_type:sync", "status:success",
-      "resource_type:monitors", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482203, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001535, "value":
       1}], "tags": ["action_sub_type:update", "id:20125250", "action_type:sync", "status:success",
-      "resource_type:monitors", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482203, "value":
-      1}], "tags": ["action_sub_type:update", "id:20125252", "action_type:sync", "status:success",
       "resource_type:monitors", "client_type:source"]}]}'
     headers:
       Content-Type:

@@ -39,7 +39,25 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818077,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001523,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001523,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -56,30 +74,12 @@ interactions:
       code: 202
       message: Accepted
 - request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818077,
-      "value": 1}], "tags": null}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
     body: null
     headers:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v2/metrics/datadog.org_sync.action/tags
+    uri: https://us5.datadoghq.com/api/v2/metrics/msr.decrement/tags
   response:
     body:
       string: ''
@@ -91,9 +91,9 @@ interactions:
       message: No Content
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818077, "value":
-      1}], "tags": ["id:datadog.org_sync.action", "action_type:delete", "status:success",
-      "resource_type:metric_tag_configurations", "client_type:destination"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001523, "value":
+      1}], "tags": ["id:msr.decrement", "action_type:delete", "status:success", "resource_type:metric_tag_configurations",
+      "client_type:destination"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -110,9 +110,9 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818077, "value":
-      1}], "tags": ["id:datadog.org_sync.action", "action_type:delete", "status:success",
-      "resource_type:metric_tag_configurations", "client_type:source"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001523, "value":
+      1}], "tags": ["id:msr.decrement", "action_type:delete", "status:success", "resource_type:metric_tag_configurations",
+      "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json

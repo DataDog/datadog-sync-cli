@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482225,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001551,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482225,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001551,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -79,7 +79,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v2/powerpacks/bb70c428-ea51-11ef-93c2-da7ad0900005
+    uri: https://us5.datadoghq.com/api/v2/powerpacks/e1cbb9ee-ef0a-11ef-8d75-da7ad0900005
   response:
     body:
       string: ''
@@ -91,7 +91,7 @@ interactions:
       message: No Content
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482225, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001551, "value":
       1}], "tags": ["id:e685afa6-955c-11ef-9254-da7ad0900005", "action_type:delete",
       "status:success", "resource_type:powerpacks", "client_type:destination"]}]}'
     headers:
@@ -110,7 +110,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482225, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001551, "value":
       1}], "tags": ["id:e685afa6-955c-11ef-9254-da7ad0900005", "action_type:delete",
       "status:success", "resource_type:powerpacks", "client_type:source"]}]}'
     headers:

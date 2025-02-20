@@ -46,10 +46,10 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "b7d85a3d-397c-4c6e-942c-3aac1c603953", "name":
+      string: '{"variables": [{"id": "82f45b60-3dbf-4a37-a6c6-6e340b30db9b", "name":
         "TEST", "description": "testupdated", "type": "variable", "tags": ["team:test",
-        "managed_by:datadog-sync"], "created_at": "2025-02-13T21:26:31.537882+00:00",
-        "modified_at": "2025-02-13T21:31:10.869189+00:00", "last_error": null, "value":
+        "managed_by:datadog-sync"], "created_at": "2025-02-19T21:46:28.878124+00:00",
+        "modified_at": "2025-02-19T21:46:30.765595+00:00", "last_error": null, "value":
         {"value": "test", "secure": false, "options": {}}, "creator": {"email": "michael.richey@datadoghq.com",
         "handle": "michael.richey@datadoghq.com", "name": "Michael Richey"}, "editor":
         {"email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",

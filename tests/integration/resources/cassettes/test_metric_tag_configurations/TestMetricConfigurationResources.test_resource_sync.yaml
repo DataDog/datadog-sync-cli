@@ -39,13 +39,13 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818072,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001518,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
+    uri: https://us5.datadoghq.com/api/v2/series
   response:
     body:
       string: '{"errors": []}'
@@ -57,13 +57,13 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1730818072,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001518,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
+    uri: https://api.datadoghq.eu/api/v2/series
   response:
     body:
       string: '{"errors": []}'
@@ -90,22 +90,20 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "manage_tags", "id": "datadog.org_sync.action", "attributes":
-      {"tags": ["action_type", "resource_type", "reason", "status", "id"], "metric_type":
-      "count", "aggregations": [{"time": "avg", "space": "sum"}, {"time": "sum", "space":
+    body: '{"data": {"type": "manage_tags", "id": "msr.decrement", "attributes": {"tags":
+      ["department"], "metric_type": "rate", "aggregations": [{"time": "sum", "space":
       "sum"}], "exclude_tags_mode": false}}}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://us5.datadoghq.com/api/v2/metrics/datadog.org_sync.action/tags
+    uri: https://us5.datadoghq.com/api/v2/metrics/msr.decrement/tags
   response:
     body:
-      string: '{"data": {"type": "manage_tags", "id": "datadog.org_sync.action", "attributes":
-        {"tags": ["reason", "action_type", "resource_type", "status", "id"], "created_at":
-        "2024-10-31T17:18:06.195660+00:00", "modified_at": "2024-11-05T14:47:53.138379+00:00",
-        "metric_type": "count", "aggregations": [{"time": "avg", "space": "sum"},
-        {"time": "sum", "space": "sum"}], "exclude_tags_mode": false}}}'
+      string: '{"data": {"type": "manage_tags", "id": "msr.decrement", "attributes":
+        {"tags": ["department"], "created_at": "2025-02-19T21:41:16.513682+00:00",
+        "modified_at": "2025-02-19T21:45:19.408174+00:00", "metric_type": "rate",
+        "aggregations": [{"time": "sum", "space": "sum"}], "exclude_tags_mode": false}}}'
     headers:
       Content-Type:
       - application/json
@@ -114,8 +112,8 @@ interactions:
       message: Created
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818072, "value":
-      1}], "tags": ["action_sub_type:create", "id:datadog.org_sync.action", "action_type:sync",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001518, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.decrement", "action_type:sync",
       "status:success", "resource_type:metric_tag_configurations", "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -133,8 +131,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1730818072, "value":
-      1}], "tags": ["action_sub_type:create", "id:datadog.org_sync.action", "action_type:sync",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001518, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.decrement", "action_type:sync",
       "status:success", "resource_type:metric_tag_configurations", "client_type:source"]}]}'
     headers:
       Content-Type:

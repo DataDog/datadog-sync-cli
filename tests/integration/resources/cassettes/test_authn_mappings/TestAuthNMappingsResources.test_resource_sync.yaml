@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482106,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001441,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1739482106,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001441,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -1068,12 +1068,12 @@ interactions:
         "display_type": "write", "group_name": "Log Management", "name": "logs_write_workspaces",
         "restricted": false}}, {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-07T18:36:31.39209Z", "description":
-        "View Audience Management data.", "display_name": "Audience Management Read",
-        "display_type": "read", "group_name": "Product Analytics", "name": "audience_management_read",
+        "View Audience Management data.", "display_name": "Profiles Read", "display_type":
+        "read", "group_name": "Product Analytics", "name": "audience_management_read",
         "restricted": false}}, {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-07T18:36:31.39209Z", "description":
-        "Modify Audience Management data.", "display_name": "Audience Management Write",
-        "display_type": "write", "group_name": "Product Analytics", "name": "audience_management_write",
+        "Modify Audience Management data.", "display_name": "Profiles Write", "display_type":
+        "write", "group_name": "Product Analytics", "name": "audience_management_write",
         "restricted": false}}, {"id": "5034771e-d2a9-11ef-b55e-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-14T18:56:50.868001Z", "description":
         "Read logs configuration.", "display_name": "Logs Configuration Read", "display_type":
@@ -1261,33 +1261,33 @@ interactions:
         "type": "permissions"}, {"id": "2de35000-69e5-11ee-996b-da7ad0900005", "type":
         "permissions"}, {"id": "f33eaf3e-e746-11ec-87e3-da7ad0900005", "type": "permissions"},
         {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"}, {"id":
-        "83fc9760-7c51-11ef-b846-da7ad0900005", "type": "permissions"}, {"id": "06e3004e-5987-11ef-89c3-da7ad0900005",
-        "type": "permissions"}, {"id": "76e47222-8a30-11ef-8675-da7ad0900005", "type":
-        "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005", "type": "permissions"},
-        {"id": "48bb9ee8-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id":
-        "7fbc682c-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id": "7fbe2266-c59e-11ec-90fb-da7ad0900005",
-        "type": "permissions"}, {"id": "7fbd9756-c59e-11ec-90fb-da7ad0900005", "type":
-        "permissions"}, {"id": "ccd05a00-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
-        {"id": "ccd08d36-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
-        "ccd09204-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "ccd09ca4-018e-11ef-afb6-da7ad0900005",
-        "type": "permissions"}, {"id": "ccd09f06-018e-11ef-afb6-da7ad0900005", "type":
-        "permissions"}, {"id": "b4b67a6c-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"},
-        {"id": "b4b707b6-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id":
-        "b4b70996-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id": "b4b734a2-08a0-11ef-b2a8-da7ad0900005",
-        "type": "permissions"}, {"id": "d039cfec-b44f-11ed-8db8-da7ad0900005", "type":
-        "permissions"}, {"id": "3bffdb2a-a901-11ef-af48-da7ad0900005", "type": "permissions"},
-        {"id": "3c002814-a901-11ef-af48-da7ad0900005", "type": "permissions"}, {"id":
-        "71957e76-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"}, {"id": "71958024-9d0c-11ef-a87c-da7ad0900005",
-        "type": "permissions"}, {"id": "54f10334-a6a9-11ef-98f1-da7ad0900005", "type":
-        "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"},
-        {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id":
+        "83fc9760-7c51-11ef-b846-da7ad0900005", "type": "permissions"}, {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005",
+        "type": "permissions"}, {"id": "06e3004e-5987-11ef-89c3-da7ad0900005", "type":
+        "permissions"}, {"id": "76e47222-8a30-11ef-8675-da7ad0900005", "type": "permissions"},
+        {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id":
+        "48bb9ee8-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id": "7fbc682c-c59e-11ec-90fb-da7ad0900005",
+        "type": "permissions"}, {"id": "7fbe2266-c59e-11ec-90fb-da7ad0900005", "type":
+        "permissions"}, {"id": "7fbd9756-c59e-11ec-90fb-da7ad0900005", "type": "permissions"},
+        {"id": "ccd05a00-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
+        "ccd08d36-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "ccd09204-018e-11ef-afb6-da7ad0900005",
+        "type": "permissions"}, {"id": "ccd09ca4-018e-11ef-afb6-da7ad0900005", "type":
+        "permissions"}, {"id": "ccd09f06-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
+        {"id": "b4b67a6c-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id":
+        "b4b707b6-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id": "b4b70996-08a0-11ef-b2a8-da7ad0900005",
+        "type": "permissions"}, {"id": "b4b734a2-08a0-11ef-b2a8-da7ad0900005", "type":
+        "permissions"}, {"id": "d039cfec-b44f-11ed-8db8-da7ad0900005", "type": "permissions"},
+        {"id": "3bffdb2a-a901-11ef-af48-da7ad0900005", "type": "permissions"}, {"id":
+        "3c002814-a901-11ef-af48-da7ad0900005", "type": "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005",
+        "type": "permissions"}, {"id": "71958024-9d0c-11ef-a87c-da7ad0900005", "type":
+        "permissions"}, {"id": "54f10334-a6a9-11ef-98f1-da7ad0900005", "type": "permissions"},
+        {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"}, {"id":
         "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"}, {"id": "28395f82-b7f5-11ef-afc8-da7ad0900005",
         "type": "permissions"}, {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type":
         "permissions"}, {"id": "1d47fcb8-60a3-11ef-a05a-da7ad0900005", "type": "permissions"},
         {"id": "1d472d7e-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
-        "eadf64b2-2199-11ee-9a0e-da7ad0900005", "type": "permissions"}, {"id": "eadf675a-2199-11ee-9a0e-da7ad0900005",
-        "type": "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005", "type":
-        "permissions"}, {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}]}}}}'
+        "5073050c-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id": "eadf64b2-2199-11ee-9a0e-da7ad0900005",
+        "type": "permissions"}, {"id": "eadf675a-2199-11ee-9a0e-da7ad0900005", "type":
+        "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005", "type": "permissions"}]}}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -1307,7 +1307,7 @@ interactions:
         "attributes": {"created_at": "2024-11-01T14:38:20.485105Z", "created_by_handle":
         "michael.richey@datadoghq.com", "modified_at": "2024-11-01T14:38:20.486756Z",
         "modified_by_handle": "michael.richey@datadoghq.com", "name": "Copy of Datadog
-        Admin Role", "team_count": 0, "user_count": 2}, "relationships": {"permissions":
+        Admin Role", "team_count": 0, "user_count": 5}, "relationships": {"permissions":
         {"data": [{"id": "5e605652-dd12-11e8-9e53-375565b8970e", "type": "permissions"},
         {"id": "62cc036c-dd12-11e8-9e54-db9995643092", "type": "permissions"}, {"id":
         "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"}, {"id": "7d7c98ac-dd12-11e8-9e56-93700598622d",
@@ -1481,10 +1481,10 @@ interactions:
         "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005",
         "type": "permissions"}, {"id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005", "type":
         "permissions"}, {"id": "5ed2476e-d29b-11ef-be68-da7ad0900005", "type": "permissions"}]}}},
-        {"id": "bd302e4c-9219-11ef-9fba-da7ad0900005", "type": "roles", "attributes":
-        {"created_at": "2024-10-24T15:07:51.764091Z", "created_by_handle": "michael.richey@datadoghq.com",
-        "modified_at": "2025-02-12T18:15:47.003459Z", "modified_by_handle": "sherzod.karimov@datadoghq.com",
-        "name": "Datadog Admin Role", "team_count": 0, "user_count": 10}, "relationships":
+        {"id": "4b5f3782-ef01-11ef-820e-da7ad0900005", "type": "roles", "attributes":
+        {"created_at": "2025-02-19T20:37:11.029398Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "modified_at": "2025-02-19T20:37:11.030668Z", "modified_by_handle": "michael.richey@datadoghq.com",
+        "name": "Datadog Admin Role", "team_count": 0, "user_count": 9}, "relationships":
         {"permissions": {"data": [{"id": "5e605652-dd12-11e8-9e53-375565b8970e", "type":
         "permissions"}, {"id": "62cc036c-dd12-11e8-9e54-db9995643092", "type": "permissions"},
         {"id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"}, {"id":
@@ -1661,11 +1661,11 @@ interactions:
         "permissions"}, {"id": "47af6ecc-da7a-11ef-a039-da7ad0900005", "type": "permissions"},
         {"id": "47af895c-da7a-11ef-a039-da7ad0900005", "type": "permissions"}, {"id":
         "47af90c8-da7a-11ef-a039-da7ad0900005", "type": "permissions"}, {"id": "bee35d36-e27d-11ef-8ab4-da7ad0900005",
-        "type": "permissions"}]}}}, {"id": "bd3578a2-9219-11ef-8f41-da7ad0900005",
-        "type": "roles", "attributes": {"created_at": "2024-10-24T15:07:51.762563Z",
-        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-02-12T18:15:46.988299Z",
-        "modified_by_handle": "sherzod.karimov@datadoghq.com", "name": "Datadog Read
-        Only Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
+        "type": "permissions"}]}}}, {"id": "c339bf0c-ef06-11ef-84b7-da7ad0900005",
+        "type": "roles", "attributes": {"created_at": "2025-02-19T21:16:19.59448Z",
+        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-02-19T21:16:19.595378Z",
+        "modified_by_handle": "michael.richey@datadoghq.com", "name": "Datadog Read
+        Only Role", "team_count": 0, "user_count": 2}, "relationships": {"permissions":
         {"data": [{"id": "5e605652-dd12-11e8-9e53-375565b8970e", "type": "permissions"},
         {"id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"}, {"id":
         "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2", "type": "permissions"}, {"id": "4441648c-d8b1-11e9-a77a-1b899a04b304",
@@ -1713,11 +1713,11 @@ interactions:
         "permissions"}, {"id": "d77b8882-b7e9-11ef-9071-da7ad0900005", "type": "permissions"},
         {"id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id":
         "5ed2476e-d29b-11ef-be68-da7ad0900005", "type": "permissions"}, {"id": "47af6ecc-da7a-11ef-a039-da7ad0900005",
-        "type": "permissions"}]}}}, {"id": "2b23af98-92fe-11ef-a693-da7ad0900005",
-        "type": "roles", "attributes": {"created_at": "2024-10-25T18:23:01.476269Z",
-        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-02-12T18:15:47.011449Z",
-        "modified_by_handle": "sherzod.karimov@datadoghq.com", "name": "Datadog Standard
-        Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
+        "type": "permissions"}]}}}, {"id": "4b5f1dd8-ef01-11ef-84b7-da7ad0900005",
+        "type": "roles", "attributes": {"created_at": "2025-02-19T20:37:11.028798Z",
+        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-02-19T20:37:11.029967Z",
+        "modified_by_handle": "michael.richey@datadoghq.com", "name": "Datadog Standard
+        Role", "team_count": 0, "user_count": 3}, "relationships": {"permissions":
         {"data": [{"id": "5e605652-dd12-11e8-9e53-375565b8970e", "type": "permissions"},
         {"id": "62cc036c-dd12-11e8-9e54-db9995643092", "type": "permissions"}, {"id":
         "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"}, {"id": "7d7c98ac-dd12-11e8-9e56-93700598622d",
@@ -2856,12 +2856,12 @@ interactions:
         "display_type": "write", "group_name": "Log Management", "name": "logs_write_workspaces",
         "restricted": false}}, {"id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-07T17:22:34.221944Z", "description":
-        "View Audience Management data.", "display_name": "Audience Management Read",
-        "display_type": "read", "group_name": "Product Analytics", "name": "audience_management_read",
+        "View Audience Management data.", "display_name": "Profiles Read", "display_type":
+        "read", "group_name": "Product Analytics", "name": "audience_management_read",
         "restricted": false}}, {"id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-07T17:22:34.221944Z", "description":
-        "Modify Audience Management data.", "display_name": "Audience Management Write",
-        "display_type": "write", "group_name": "Product Analytics", "name": "audience_management_write",
+        "Modify Audience Management data.", "display_name": "Profiles Write", "display_type":
+        "write", "group_name": "Product Analytics", "name": "audience_management_write",
         "restricted": false}}, {"id": "5ed2476e-d29b-11ef-be68-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-14T17:17:02.436037Z", "description":
         "Read logs configuration.", "display_name": "Logs Configuration Read", "display_type":
@@ -2891,7 +2891,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482106, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001441, "value":
       1}], "tags": ["action_sub_type:create", "id:693fe720-9569-11ef-969d-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:destination"]}]}'
     headers:
@@ -2910,7 +2910,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482106, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001441, "value":
       1}], "tags": ["action_sub_type:create", "id:693fe720-9569-11ef-969d-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:roles", "client_type:source"]}]}'
     headers:
@@ -2938,10 +2938,10 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/authn_mappings
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "77247ec2-ea51-11ef-a0a7-da7ad0900005",
+      string: '{"data": {"type": "authn_mappings", "id": "a2c41192-ef0a-11ef-a0fe-da7ad0900005",
         "attributes": {"saml_assertion_attribute_id": "3699", "attribute_key": "name",
-        "attribute_value": "michael", "created_at": "2025-02-13T21:28:28.388555+00:00",
-        "modified_at": "2025-02-13T21:28:28.388555+00:00"}, "relationships": {"saml_assertion_attribute":
+        "attribute_value": "michael", "created_at": "2025-02-19T21:44:03.123252+00:00",
+        "modified_at": "2025-02-19T21:44:03.123252+00:00"}, "relationships": {"saml_assertion_attribute":
         {"data": {"type": "saml_assertion_attributes", "id": "3699"}}, "role": {"data":
         {"type": "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}, "team":
         {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
@@ -3130,7 +3130,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482106, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001441, "value":
       1}], "tags": ["action_sub_type:create", "id:423368a4-956a-11ef-b92a-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:destination"]}]}'
     headers:
@@ -3149,7 +3149,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1739482106, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001441, "value":
       1}], "tags": ["action_sub_type:create", "id:423368a4-956a-11ef-b92a-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:source"]}]}'
     headers:
