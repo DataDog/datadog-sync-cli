@@ -39,7 +39,8 @@ class LogsIndexes(BaseResource):
         resource = cast(dict, resource)
         if not resource.get("daily_limit"):
             resource["disable_daily_limit"] = True
-        # TODO(takuya.kajiwara): Remove this block once the Logs Indexes API is fixed to return null for indexes with no flex logs
+        # TODO(takuya.kajiwara): Remove this block once the Logs Indexes API is fixed to return null for indexes
+        # with no flex logs
         if resource.get("num_flex_logs_retention_days") == 0:
             resource.pop("num_flex_logs_retention_days")
 
