@@ -94,11 +94,21 @@ class TestCli:
         # cleanup after ourselves
         self.test_cleanup(runner, caplog)
 
-    def test_import_verify_ddr_status_failure(self, runner, caplog):
+    def test_verify_ddr_status_failure(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
 
+        # source ddr fails
         with mock.patch.dict(os.environ, {"DD_SOURCE_API_KEY": "fake"}):
-            for command in ["import", "sync", "migrate", "diffs"]:
+            for command in ["import", "migrate", "diffs"]:
+                ret = runner.invoke(cli, [command, "--validate=false", f"--resources={self.resources}"])
+                # The above should fail
+                assert "No match for the request" not in caplog.text
+                assert 1 == ret.exit_code
+                assert "verification failed" in caplog.text
+
+        # destination ddr fails
+        with mock.patch.dict(os.environ, {"DD_DESTINATION_API_KEY": "fake"}):
+            for command in ["sync", "migrate", "diffs", "reset"]:
                 ret = runner.invoke(cli, [command, "--validate=false", f"--resources={self.resources}"])
                 # The above should fail
                 assert "No match for the request" not in caplog.text

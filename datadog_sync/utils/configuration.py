@@ -82,20 +82,22 @@ class Configuration(object):
 
         # Don't sync if DDR is active
         if self.verify_ddr_status:
-            try:
-                await _verify_ddr_status(self.destination_client)
-            except Exception as err:
-                self.logger.error(
-                    f"The destination DDR verification failed. {err} Use the --verify-ddr-status flag to override."
-                )
-                sys.exit(1)
-            try:
-                await _verify_ddr_status(self.source_client)
-            except Exception as err:
-                self.logger.error(
-                    f"The source DDR verification failed. {err} Use the --verify-ddr-status flag to override."
-                )
-                sys.exit(1)
+            if cmd in [Command.SYNC, Command.DIFFS, Command.MIGRATE, Command.RESET]:
+                try:
+                    await _verify_ddr_status(self.destination_client)
+                except Exception as err:
+                    self.logger.error(
+                        f"The destination DDR verification failed. {err} Use the --verify-ddr-status flag to override."
+                    )
+                    sys.exit(1)
+            if cmd in [Command.IMPORT, Command.DIFFS, Command.MIGRATE]:
+                try:
+                    await _verify_ddr_status(self.source_client)
+                except Exception as err:
+                    self.logger.error(
+                        f"The source DDR verification failed. {err} Use the --verify-ddr-status flag to override."
+                    )
+                    sys.exit(1)
             self.logger.info("DDR verified successfully")
         else:
             self.logger.warning("DDR verification skipped.")
