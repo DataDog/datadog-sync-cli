@@ -6,10 +6,9 @@
 from __future__ import annotations
 import copy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
-from time import sleep
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff, SkipResource
+from datadog_sync.utils.resource_utils import check_diff, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -23,7 +22,10 @@ class TeamMemberships(BaseResource):
             "users": ["relationships.user.data.id"],
         },
         base_path="/api/v2/team",
-        excluded_attributes=[],
+        excluded_attributes=[
+            "id",
+            "attributes.provisioned_by_id",
+        ],
     )
     team_memberships_path = "/api/v2/team/{}/memberships"
     destination_team_memberships = []
@@ -48,9 +50,7 @@ class TeamMemberships(BaseResource):
 
         return all_team_memberships
 
-    async def import_resource(
-        self, _id: Optional[str] = None, resource: Optional[Dict] = None
-    ) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
 
         if _id:
@@ -73,13 +73,11 @@ class TeamMemberships(BaseResource):
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource_team_id = resource["relationships"]["team"]["data"]["id"]
-        resource_user_id = resource["relationships"]["user"]["data"]["id"]
         destination_resource = copy.deepcopy(resource)
-        del destination_resource["id"]
 
         existing = self._get_existing_team_membership(destination_resource)
         if existing:
-            raise SkipResource(resource["id"], self.resource_type, "User is already a member of the team")
+            raise SkipResource(_id, self.resource_type, "User is already a member of the team")
 
         resp = await destination_client.post(
             self.team_memberships_path.format(resource_team_id),
@@ -109,10 +107,9 @@ class TeamMemberships(BaseResource):
             self.team_memberships_path.format(team_id) + f"/{user_id}",
             {"data": resource},
         )
-        resp["data"]["relationships"]["team"] = {"data": {"type": "team", "id": resource_team_id}}
+        resp["data"]["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
         return _id, resp["data"]
 
-            
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         self.destination_team_memberships = await self.get_resources(destination_client)
@@ -139,13 +136,13 @@ class TeamMemberships(BaseResource):
         if resource_to_connect == "users" and _type == "users":
             users = self.config.state.destination["users"]
             if _id in users:
-                r_obj[key] = users[_id]['id']
+                r_obj[key] = users[_id]["id"]
             else:
                 failed_connections.append(_id)
         elif resource_to_connect == "teams" and _type == "team":
             teams = self.config.state.destination["teams"]
             if _id in teams:
-                r_obj[key] = teams[_id]['id']
+                r_obj[key] = teams[_id]["id"]
             else:
                 failed_connections.append(_id)
         return failed_connections
@@ -156,8 +153,10 @@ class TeamMemberships(BaseResource):
             state_team_id = state["relationships"]["team"]["data"]["id"]
             state_user_id = state["relationships"]["user"]["data"]["id"]
             for destination_team_membership in self.destination_team_memberships:
-                if destination_team_membership["relationships"]["team"]["data"]["id"] == state_team_id and destination_team_membership["relationships"]["user"]["data"]["id"] == state_user_id:
+                if (
+                    destination_team_membership["relationships"]["team"]["data"]["id"] == state_team_id
+                    and destination_team_membership["relationships"]["user"]["data"]["id"] == state_user_id
+                ):
                     existing = destination_team_membership
                     break
         return existing
-

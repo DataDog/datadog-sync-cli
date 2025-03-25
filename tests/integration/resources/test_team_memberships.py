@@ -9,5 +9,5 @@ from datadog_sync.models import TeamMemberships
 
 class TestTeamMembershipsResources(BaseResourcesTestClass):
     resource_type = TeamMemberships.resource_type
-    field_to_update = "relationships.users.id"
+    field_to_update = "attributes.provisioned_by"
     force_missing_deps = True
