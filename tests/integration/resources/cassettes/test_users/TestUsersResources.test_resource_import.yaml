@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1740001617,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1743014057,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1740001617,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1743014057,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -100,7 +100,7 @@ interactions:
         "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
         {"type": "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "attributes":
         {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "created_at":
-        "2024-10-21T18:30:50.420260+00:00", "modified_at": "2024-10-21T18:32:14.119601+00:00",
+        "2024-10-21T18:30:50.420260+00:00", "modified_at": "2025-03-03T15:47:53.789029+00:00",
         "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
@@ -317,27 +317,31 @@ interactions:
         "permissions", "id": "71958024-9d0c-11ef-a87c-da7ad0900005"}, {"type": "permissions",
         "id": "54f10334-a6a9-11ef-98f1-da7ad0900005"}, {"type": "permissions", "id":
         "3bffdb2a-a901-11ef-af48-da7ad0900005"}, {"type": "permissions", "id": "3c002814-a901-11ef-af48-da7ad0900005"},
-        {"type": "permissions", "id": "2837cb18-b7f5-11ef-afc8-da7ad0900005"}, {"type":
-        "permissions", "id": "28395f82-b7f5-11ef-afc8-da7ad0900005"}, {"type": "permissions",
-        "id": "5072e504-cd26-11ef-a4d9-da7ad0900005"}, {"type": "permissions", "id":
-        "5073050c-cd26-11ef-a4d9-da7ad0900005"}, {"type": "permissions", "id": "5034771e-d2a9-11ef-b55e-da7ad0900005"},
-        {"type": "permissions", "id": "9b00426a-da87-11ef-9de6-da7ad0900005"}, {"type":
-        "permissions", "id": "9b00ed28-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions",
-        "id": "9b010d44-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions", "id":
-        "7ad4419a-e288-11ef-bbbc-da7ad0900005"}]}}}, {"type": "permissions", "id":
-        "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "attributes": {"name": "logs_read_index_data",
-        "display_name": "Logs Read Index Data", "description": "Read log data, possibly
-        scoped to one or more indexes. In order to read log data, a user must have
-        both this permission and Logs Read Data. This permission can be granted in
-        a limited capacity per index from the Logs interface or APIs. If granted via
-        the Roles interface or API the permission has global scope. Restrictions are
-        limited to the Log Management product.", "created": "2018-10-31T14:00:23.650159+00:00",
-        "group_name": "Log Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c", "attributes":
-        {"name": "logs_modify_indexes", "display_name": "Logs Modify Indexes", "description":
-        "Read and modify all indexes in your account. This includes the ability to
-        grant the Logs Read Index Data and Logs Write Exclusion Filters permission
-        to other roles, for some or all indexes.", "created": "2018-10-31T14:00:23.664332+00:00",
+        {"type": "permissions", "id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005"}, {"type":
+        "permissions", "id": "9b5d3748-b72a-11ef-bb07-da7ad0900005"}, {"type": "permissions",
+        "id": "9b5d3bbc-b72a-11ef-bb07-da7ad0900005"}, {"type": "permissions", "id":
+        "2837cb18-b7f5-11ef-afc8-da7ad0900005"}, {"type": "permissions", "id": "28395f82-b7f5-11ef-afc8-da7ad0900005"},
+        {"type": "permissions", "id": "5072e504-cd26-11ef-a4d9-da7ad0900005"}, {"type":
+        "permissions", "id": "5073050c-cd26-11ef-a4d9-da7ad0900005"}, {"type": "permissions",
+        "id": "5034771e-d2a9-11ef-b55e-da7ad0900005"}, {"type": "permissions", "id":
+        "9b00426a-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions", "id": "9b00ed28-da87-11ef-9de6-da7ad0900005"},
+        {"type": "permissions", "id": "9b010d44-da87-11ef-9de6-da7ad0900005"}, {"type":
+        "permissions", "id": "35e4e288-df3b-11ef-886f-da7ad0900005"}, {"type": "permissions",
+        "id": "7ad4419a-e288-11ef-bbbc-da7ad0900005"}, {"type": "permissions", "id":
+        "23f76dc4-f607-11ef-99cf-da7ad0900005"}, {"type": "permissions", "id": "23f87c8c-f607-11ef-99cf-da7ad0900005"}]}}},
+        {"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "attributes":
+        {"name": "logs_read_index_data", "display_name": "Logs Read Index Data", "description":
+        "Read log data, possibly scoped to one or more indexes. In order to read log
+        data, a user must have both this permission and Logs Read Data. This permission
+        can be granted in a limited capacity per index from the Logs interface or
+        APIs. If granted via the Roles interface or API the permission has global
+        scope. Restrictions are limited to the Log Management product.", "created":
+        "2018-10-31T14:00:23.650159+00:00", "group_name": "Log Management", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c",
+        "attributes": {"name": "logs_modify_indexes", "display_name": "Logs Modify
+        Indexes", "description": "Read and modify all indexes in your account. This
+        includes the ability to grant the Logs Read Index Data and Logs Write Exclusion
+        Filters permission to other roles, for some or all indexes.", "created": "2018-10-31T14:00:23.664332+00:00",
         "group_name": "Log Management", "display_type": "write", "restricted": false}},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "attributes":
         {"name": "logs_live_tail", "display_name": "Logs Live Tail", "description":
@@ -380,36 +384,36 @@ interactions:
         "created": "2019-09-10T14:41:53.136336+00:00", "group_name": "Dashboards",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
         "214c10b2-d3d9-11e9-a614-3759c7ad528f", "attributes": {"name": "dashboards_public_share",
-        "display_name": "Dashboards Public Share", "description": "Generate public
-        and authenticated links to share dashboards or embeddable graphs externally.",
-        "created": "2019-09-10T14:41:53.150548+00:00", "group_name": "Dashboards",
+        "display_name": "Shared Dashboards Public Write", "description": "Create,
+        modify and delete shared dashboards with share type ''Public''. These dashboards
+        can be accessed by anyone on the internet.", "created": "2019-09-10T14:41:53.150548+00:00",
+        "group_name": "Dashboards", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "attributes":
+        {"name": "monitors_read", "display_name": "Monitors Read", "description":
+        "View monitors.", "created": "2019-09-16T18:49:59.270746+00:00", "group_name":
+        "Monitors", "display_type": "read", "restricted": true}}, {"type": "permissions",
+        "id": "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8", "attributes": {"name": "monitors_write",
+        "display_name": "Monitors Write", "description": "Edit and delete individual
+        monitors.", "created": "2019-09-16T18:50:07.944781+00:00", "group_name": "Monitors",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "attributes": {"name": "monitors_read",
-        "display_name": "Monitors Read", "description": "View monitors.", "created":
-        "2019-09-16T18:49:59.270746+00:00", "group_name": "Monitors", "display_type":
-        "read", "restricted": true}}, {"type": "permissions", "id": "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8",
-        "attributes": {"name": "monitors_write", "display_name": "Monitors Write",
-        "description": "Edit and delete individual monitors.", "created": "2019-09-16T18:50:07.944781+00:00",
+        "d3159858-d8b2-11e9-a336-e363d6ef331b", "attributes": {"name": "monitors_downtime",
+        "display_name": "Manage Downtimes", "description": "Set downtimes to suppress
+        alerts from any monitor in an organization. Mute and unmute monitors. The
+        ability to write monitors is not required to set downtimes.", "created": "2019-09-16T18:50:16.869407+00:00",
         "group_name": "Monitors", "display_type": "write", "restricted": false}},
-        {"type": "permissions", "id": "d3159858-d8b2-11e9-a336-e363d6ef331b", "attributes":
-        {"name": "monitors_downtime", "display_name": "Manage Downtimes", "description":
-        "Set downtimes to suppress alerts from any monitor in an organization. Mute
-        and unmute monitors. The ability to write monitors is not required to set
-        downtimes.", "created": "2019-09-16T18:50:16.869407+00:00", "group_name":
-        "Monitors", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "attributes": {"name": "logs_read_data",
-        "display_name": "Logs Read Data", "description": "Read log data. In order
-        to read log data, a user must have both this permission and Logs Read Index
-        Data. This permission can be restricted with restriction queries. Restrictions
-        are limited to the Log Management product.", "created": "2020-04-06T16:29:12.337169+00:00",
-        "group_name": "Log Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90", "attributes":
-        {"name": "logs_read_archives", "display_name": "Logs Read Archives", "description":
-        "Read Log Archives location and use it for rehydration.", "created": "2020-04-23T07:45:13.801938+00:00",
-        "group_name": "Log Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "attributes":
-        {"name": "security_monitoring_rules_read", "display_name": "Security Rules
-        Read", "description": "Read Detection Rules.", "created": "2020-06-09T13:55:12.166762+00:00",
+        {"type": "permissions", "id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "attributes":
+        {"name": "logs_read_data", "display_name": "Logs Read Data", "description":
+        "Read log data. In order to read log data, a user must have both this permission
+        and Logs Read Index Data. This permission can be restricted with restriction
+        queries. Restrictions are limited to the Log Management product.", "created":
+        "2020-04-06T16:29:12.337169+00:00", "group_name": "Log Management", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "5de1e178-8536-11ea-968a-2fd9395bff90",
+        "attributes": {"name": "logs_read_archives", "display_name": "Logs Read Archives",
+        "description": "Read Log Archives location and use it for rehydration.", "created":
+        "2020-04-23T07:45:13.801938+00:00", "group_name": "Log Management", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "d68dc046-aa58-11ea-8f98-3f18bf50279f",
+        "attributes": {"name": "security_monitoring_rules_read", "display_name": "Security
+        Rules Read", "description": "Read Detection Rules.", "created": "2020-06-09T13:55:12.166762+00:00",
         "group_name": "Cloud Security Platform", "display_type": "read", "restricted":
         false}}, {"type": "permissions", "id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14",
         "attributes": {"name": "security_monitoring_rules_write", "display_name":
@@ -863,27 +867,28 @@ interactions:
         "group_name": "Software Delivery", "display_type": "write", "restricted":
         false}}, {"type": "permissions", "id": "8b282770-7aff-11ed-9d0d-da7ad0900005",
         "attributes": {"name": "intelligent_test_runner_activation_write", "display_name":
-        "Intelligent Test Runner Activation Write", "description": "Enable or disable
-        Intelligent Test Runner.", "created": "2022-12-13T16:02:28.826271+00:00",
+        "Intelligent Test Runner Activation Write", "description": "Deprecated. Enable
+        or disable Intelligent Test Runner.", "created": "2022-12-13T16:02:28.826271+00:00",
         "group_name": "Software Delivery", "display_type": "write", "restricted":
         false}}, {"type": "permissions", "id": "8b28b686-7aff-11ed-9d0d-da7ad0900005",
         "attributes": {"name": "intelligent_test_runner_settings_write", "display_name":
-        "Intelligent Test Runner Settings Write", "description": "Edit Intelligent
-        Test Runner settings, such as modifying ITR excluded branch list.", "created":
-        "2022-12-13T16:02:28.830112+00:00", "group_name": "Software Delivery", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "55f64460-7d61-11ed-9c36-da7ad0900005",
-        "attributes": {"name": "continuous_profiler_read", "display_name": "Continuous
-        Profiler Read", "description": "View data in Continuous Profiler.", "created":
-        "2022-12-16T16:47:32.584514+00:00", "group_name": "APM", "display_type": "read",
-        "restricted": false}}, {"type": "permissions", "id": "1535624c-9771-11ed-ad25-da7ad0900005",
-        "attributes": {"name": "teams_manage", "display_name": "Teams Manage", "description":
-        "Manage Teams. Create, delete, rename, and edit metadata of all Teams. To
-        control Team membership across all Teams, use the User Access Manage permission.",
-        "created": "2023-01-18T20:45:46.126002+00:00", "group_name": "Teams", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "d039cfec-b44f-11ed-8db8-da7ad0900005",
-        "attributes": {"name": "security_monitoring_findings_read", "display_name":
-        "Security Monitoring Findings Read", "description": "View a list of findings
-        that include both misconfigurations and identity risks.", "created": "2023-02-24T14:30:40.720618+00:00",
+        "Intelligent Test Runner Settings Write", "description": "Deprecated. Edit
+        Intelligent Test Runner settings, such as modifying ITR excluded branch list.",
+        "created": "2022-12-13T16:02:28.830112+00:00", "group_name": "Software Delivery",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "55f64460-7d61-11ed-9c36-da7ad0900005", "attributes": {"name": "continuous_profiler_read",
+        "display_name": "Continuous Profiler Read", "description": "View data in Continuous
+        Profiler.", "created": "2022-12-16T16:47:32.584514+00:00", "group_name": "APM",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "1535624c-9771-11ed-ad25-da7ad0900005", "attributes": {"name": "teams_manage",
+        "display_name": "Teams Manage", "description": "Manage Teams. Create, delete,
+        rename, and edit metadata of all Teams. To control Team membership across
+        all Teams, use the User Access Manage permission.", "created": "2023-01-18T20:45:46.126002+00:00",
+        "group_name": "Teams", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "d039cfec-b44f-11ed-8db8-da7ad0900005", "attributes":
+        {"name": "security_monitoring_findings_read", "display_name": "Security Monitoring
+        Findings Read", "description": "View a list of findings that include both
+        misconfigurations and identity risks.", "created": "2023-02-24T14:30:40.720618+00:00",
         "group_name": "Cloud Security Platform", "display_type": "read", "restricted":
         false}}, {"type": "permissions", "id": "77ed7a00-b468-11ed-b0f0-da7ad0900005",
         "attributes": {"name": "incident_notification_settings_read", "display_name":
@@ -1171,8 +1176,8 @@ interactions:
         "description": "View Reference Tables.", "created": "2024-06-04T16:26:01.400743+00:00",
         "group_name": "Reference Tables", "display_type": "read", "restricted": false}},
         {"type": "permissions", "id": "75066402-3890-11ef-bbb1-da7ad0900005", "attributes":
-        {"name": "fleet_policies_write", "display_name": "Fleet Policies Write", "description":
-        "Create Fleet Automation Policies.", "created": "2024-07-02T16:30:56.156267+00:00",
+        {"name": "fleet_policies_write", "display_name": "Agent Configuration Management",
+        "description": "Create and deploy Agent configurations.", "created": "2024-07-02T16:30:56.156267+00:00",
         "group_name": "Fleet Automation", "display_type": "write", "restricted": false}},
         {"type": "permissions", "id": "75072806-3890-11ef-bbb1-da7ad0900005", "attributes":
         {"name": "orchestration_custom_resource_definitions_write", "display_name":
@@ -1226,7 +1231,7 @@ interactions:
         "attributes": {"name": "security_pipelines_write", "display_name": "Security
         Pipelines Write", "description": "Create, edit, and delete Security Pipelines.",
         "created": "2024-08-30T16:25:36.779590+00:00", "group_name": "Cloud Security
-        Platform", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        Platform", "display_type": "write", "restricted": false}}, {"type": "permissions",
         "id": "8e9b2142-7511-11ef-b225-da7ad0900005", "attributes": {"name": "connection_groups_write",
         "display_name": "Connection Groups Write", "description": "Create, delete
         and update connection groups.", "created": "2024-09-17T16:26:13.918826+00:00",
@@ -1291,11 +1296,27 @@ interactions:
         {"name": "security_comments_read", "display_name": "Security Comments Read",
         "description": "Read comments of vulnerabilities.", "created": "2024-11-22T18:40:23.844837+00:00",
         "group_name": "Cloud Security Platform", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "2837cb18-b7f5-11ef-afc8-da7ad0900005",
-        "attributes": {"name": "logs_read_workspaces", "display_name": "Read Logs
-        Workspaces", "description": "View Logs Workspaces.", "created": "2024-12-11T19:21:44.137884+00:00",
-        "group_name": "Log Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "28395f82-b7f5-11ef-afc8-da7ad0900005", "attributes":
+        false}}, {"type": "permissions", "id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005",
+        "attributes": {"name": "dashboards_invite_share", "display_name": "Shared
+        Dashboards Invite-only Write", "description": "Create, modify and delete shared
+        dashboards with share type ''Invite-only''. These dashboards can only be accessed
+        by user-specified email addresses.", "created": "2024-12-10T19:11:49.480076+00:00",
+        "group_name": "Dashboards", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "9b5d3748-b72a-11ef-bb07-da7ad0900005", "attributes":
+        {"name": "dashboards_embed_share", "display_name": "Shared Dashboards Embed
+        Write", "description": "Create, modify and delete shared dashboards with share
+        type ''Embed''. These dashboards can be embedded on user-specified domains.",
+        "created": "2024-12-10T19:11:49.480076+00:00", "group_name": "Dashboards",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "9b5d3bbc-b72a-11ef-bb07-da7ad0900005", "attributes": {"name": "embeddable_graphs_share",
+        "display_name": "Shared Graphs Write", "description": "Generate public links
+        to share embeddable graphs externally.", "created": "2024-12-10T19:11:49.480076+00:00",
+        "group_name": "Dashboards", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "attributes":
+        {"name": "logs_read_workspaces", "display_name": "Read Logs Workspaces", "description":
+        "View Logs Workspaces.", "created": "2024-12-11T19:21:44.137884+00:00", "group_name":
+        "Log Management", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "28395f82-b7f5-11ef-afc8-da7ad0900005", "attributes":
         {"name": "logs_write_workspaces", "display_name": "Write Logs Workspaces",
         "description": "Create, update, and delete Logs Workspaces.", "created": "2024-12-11T19:21:44.137884+00:00",
         "group_name": "Log Management", "display_type": "write", "restricted": false}},
@@ -1317,19 +1338,30 @@ interactions:
         "2025-01-24T19:15:42.768282+00:00", "group_name": "On-Call", "display_type":
         "read", "restricted": false}}, {"type": "permissions", "id": "9b00ed28-da87-11ef-9de6-da7ad0900005",
         "attributes": {"name": "on_call_write", "display_name": "On-Call Write", "description":
-        "Create, update, and delete On-Call teams, schedules, escalation policies
-        and overrides.", "created": "2025-01-24T19:15:42.768282+00:00", "group_name":
-        "On-Call", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "9b010d44-da87-11ef-9de6-da7ad0900005", "attributes": {"name": "on_call_page",
-        "display_name": "On-Call Page", "description": "Page On-Call teams and users.",
+        "Create, update, and delete On-Call teams, schedules and escalation policies.",
         "created": "2025-01-24T19:15:42.768282+00:00", "group_name": "On-Call", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "7ad4419a-e288-11ef-bbbc-da7ad0900005",
-        "attributes": {"name": "on_call_respond", "display_name": "On-Call Responder",
-        "description": "Acknowledge and resolve pages. Allow users to configure their
+        "write", "restricted": false}}, {"type": "permissions", "id": "9b010d44-da87-11ef-9de6-da7ad0900005",
+        "attributes": {"name": "on_call_page", "display_name": "On-Call Page", "description":
+        "Page On-Call teams and users.", "created": "2025-01-24T19:15:42.768282+00:00",
+        "group_name": "On-Call", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "35e4e288-df3b-11ef-886f-da7ad0900005", "attributes":
+        {"name": "error_tracking_read", "display_name": "Error Tracking Read", "description":
+        "View Error Tracking data.", "created": "2025-01-30T18:51:27.197297+00:00",
+        "group_name": "Error Tracking", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "attributes":
+        {"name": "on_call_respond", "display_name": "On-Call Responder", "description":
+        "Acknowledge, resolve pages and edit overrides. Allow users to configure their
         On-Call profile.", "created": "2025-02-03T23:42:07.592356+00:00", "group_name":
-        "On-Call", "display_type": "write", "restricted": false}}, {"type": "roles",
-        "id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "attributes": {"name": "Datadog
-        Read Only Role", "managed": true, "created_at": "2024-10-08T14:32:47.265744+00:00",
+        "On-Call", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "23f76dc4-f607-11ef-99cf-da7ad0900005", "attributes": {"name": "coterm_write",
+        "display_name": "CoTerm Write", "description": "Write terminal recordings.",
+        "created": "2025-02-28T19:06:40.038336+00:00", "group_name": "CoTerm", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "23f87c8c-f607-11ef-99cf-da7ad0900005",
+        "attributes": {"name": "coterm_read", "display_name": "CoTerm Read", "description":
+        "Read terminal recordings.", "created": "2025-02-28T19:06:40.038336+00:00",
+        "group_name": "CoTerm", "display_type": "read", "restricted": false}}, {"type":
+        "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "attributes": {"name":
+        "Datadog Read Only Role", "managed": true, "created_at": "2024-10-08T14:32:47.265744+00:00",
         "modified_at": "2024-10-08T14:32:47.266206+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
@@ -1378,9 +1410,10 @@ interactions:
         "3c002814-a901-11ef-af48-da7ad0900005"}, {"type": "permissions", "id": "2837cb18-b7f5-11ef-afc8-da7ad0900005"},
         {"type": "permissions", "id": "5072e504-cd26-11ef-a4d9-da7ad0900005"}, {"type":
         "permissions", "id": "5034771e-d2a9-11ef-b55e-da7ad0900005"}, {"type": "permissions",
-        "id": "9b00426a-da87-11ef-9de6-da7ad0900005"}]}}}, {"type": "roles", "id":
-        "693fe720-9569-11ef-969d-da7ad0900005", "attributes": {"name": "Copy of Datadog
-        Admin Role", "managed": false, "created_at": "2024-10-28T20:15:44.156681+00:00",
+        "id": "9b00426a-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions", "id":
+        "35e4e288-df3b-11ef-886f-da7ad0900005"}, {"type": "permissions", "id": "23f87c8c-f607-11ef-99cf-da7ad0900005"}]}}},
+        {"type": "roles", "id": "693fe720-9569-11ef-969d-da7ad0900005", "attributes":
+        {"name": "Copy of Datadog Admin Role", "managed": false, "created_at": "2024-10-28T20:15:44.156681+00:00",
         "modified_at": "2024-10-28T20:15:44.167199+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c"}, {"type":
@@ -1551,14 +1584,17 @@ interactions:
         "permissions", "id": "71958024-9d0c-11ef-a87c-da7ad0900005"}, {"type": "permissions",
         "id": "54f10334-a6a9-11ef-98f1-da7ad0900005"}, {"type": "permissions", "id":
         "3bffdb2a-a901-11ef-af48-da7ad0900005"}, {"type": "permissions", "id": "3c002814-a901-11ef-af48-da7ad0900005"},
-        {"type": "permissions", "id": "2837cb18-b7f5-11ef-afc8-da7ad0900005"}, {"type":
-        "permissions", "id": "28395f82-b7f5-11ef-afc8-da7ad0900005"}, {"type": "permissions",
-        "id": "5072e504-cd26-11ef-a4d9-da7ad0900005"}, {"type": "permissions", "id":
-        "5073050c-cd26-11ef-a4d9-da7ad0900005"}, {"type": "permissions", "id": "5034771e-d2a9-11ef-b55e-da7ad0900005"}]}}},
-        {"type": "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005", "attributes":
-        {"name": "Datadog Standard Role", "managed": true, "created_at": "2024-10-08T14:32:47.215056+00:00",
-        "modified_at": "2024-10-08T14:32:47.215828+00:00"}, "relationships": {"permissions":
-        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+        {"type": "permissions", "id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005"}, {"type":
+        "permissions", "id": "9b5d3748-b72a-11ef-bb07-da7ad0900005"}, {"type": "permissions",
+        "id": "9b5d3bbc-b72a-11ef-bb07-da7ad0900005"}, {"type": "permissions", "id":
+        "2837cb18-b7f5-11ef-afc8-da7ad0900005"}, {"type": "permissions", "id": "28395f82-b7f5-11ef-afc8-da7ad0900005"},
+        {"type": "permissions", "id": "5072e504-cd26-11ef-a4d9-da7ad0900005"}, {"type":
+        "permissions", "id": "5073050c-cd26-11ef-a4d9-da7ad0900005"}, {"type": "permissions",
+        "id": "5034771e-d2a9-11ef-b55e-da7ad0900005"}, {"type": "permissions", "id":
+        "35e4e288-df3b-11ef-886f-da7ad0900005"}]}}}, {"type": "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005",
+        "attributes": {"name": "Datadog Standard Role", "managed": true, "created_at":
+        "2024-10-08T14:32:47.215056+00:00", "modified_at": "2024-10-08T14:32:47.215828+00:00"},
+        "relationships": {"permissions": {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c"}, {"type":
         "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type": "permissions",
         "id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039"}, {"type": "permissions", "id":
@@ -1676,24 +1712,28 @@ interactions:
         "id": "1d47fa88-60a3-11ef-a05a-da7ad0900005"}, {"type": "permissions", "id":
         "1d47fcb8-60a3-11ef-a05a-da7ad0900005"}, {"type": "permissions", "id": "1d472d7e-60a3-11ef-a05a-da7ad0900005"},
         {"type": "permissions", "id": "7d08a48c-66ec-11ef-96b3-da7ad0900005"}, {"type":
-        "permissions", "id": "7d096d86-66ec-11ef-96b3-da7ad0900005"}, {"type": "permissions",
-        "id": "8e9b2142-7511-11ef-b225-da7ad0900005"}, {"type": "permissions", "id":
-        "b309fe04-79d5-11ef-a56c-da7ad0900005"}, {"type": "permissions", "id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005"},
-        {"type": "permissions", "id": "300f69c6-8114-11ef-84c0-da7ad0900005"}, {"type":
-        "permissions", "id": "300f81cc-8114-11ef-84c0-da7ad0900005"}, {"type": "permissions",
-        "id": "76e47222-8a30-11ef-8675-da7ad0900005"}, {"type": "permissions", "id":
-        "80adf9c4-9898-11ef-8b23-da7ad0900005"}, {"type": "permissions", "id": "71957e76-9d0c-11ef-a87c-da7ad0900005"},
-        {"type": "permissions", "id": "71958024-9d0c-11ef-a87c-da7ad0900005"}, {"type":
-        "permissions", "id": "54f10334-a6a9-11ef-98f1-da7ad0900005"}, {"type": "permissions",
-        "id": "3bffdb2a-a901-11ef-af48-da7ad0900005"}, {"type": "permissions", "id":
-        "3c002814-a901-11ef-af48-da7ad0900005"}, {"type": "permissions", "id": "2837cb18-b7f5-11ef-afc8-da7ad0900005"},
-        {"type": "permissions", "id": "28395f82-b7f5-11ef-afc8-da7ad0900005"}, {"type":
-        "permissions", "id": "5072e504-cd26-11ef-a4d9-da7ad0900005"}, {"type": "permissions",
-        "id": "5073050c-cd26-11ef-a4d9-da7ad0900005"}, {"type": "permissions", "id":
-        "5034771e-d2a9-11ef-b55e-da7ad0900005"}, {"type": "permissions", "id": "9b00426a-da87-11ef-9de6-da7ad0900005"},
-        {"type": "permissions", "id": "9b00ed28-da87-11ef-9de6-da7ad0900005"}, {"type":
-        "permissions", "id": "9b010d44-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions",
-        "id": "7ad4419a-e288-11ef-bbbc-da7ad0900005"}]}}}], "meta": {"page": {"total_count":
+        "permissions", "id": "8e9b2142-7511-11ef-b225-da7ad0900005"}, {"type": "permissions",
+        "id": "b309fe04-79d5-11ef-a56c-da7ad0900005"}, {"type": "permissions", "id":
+        "8f8df1e2-7c14-11ef-87e0-da7ad0900005"}, {"type": "permissions", "id": "300f69c6-8114-11ef-84c0-da7ad0900005"},
+        {"type": "permissions", "id": "300f81cc-8114-11ef-84c0-da7ad0900005"}, {"type":
+        "permissions", "id": "76e47222-8a30-11ef-8675-da7ad0900005"}, {"type": "permissions",
+        "id": "80adf9c4-9898-11ef-8b23-da7ad0900005"}, {"type": "permissions", "id":
+        "71957e76-9d0c-11ef-a87c-da7ad0900005"}, {"type": "permissions", "id": "71958024-9d0c-11ef-a87c-da7ad0900005"},
+        {"type": "permissions", "id": "54f10334-a6a9-11ef-98f1-da7ad0900005"}, {"type":
+        "permissions", "id": "3bffdb2a-a901-11ef-af48-da7ad0900005"}, {"type": "permissions",
+        "id": "3c002814-a901-11ef-af48-da7ad0900005"}, {"type": "permissions", "id":
+        "9b5c7a38-b72a-11ef-bb07-da7ad0900005"}, {"type": "permissions", "id": "9b5d3748-b72a-11ef-bb07-da7ad0900005"},
+        {"type": "permissions", "id": "9b5d3bbc-b72a-11ef-bb07-da7ad0900005"}, {"type":
+        "permissions", "id": "2837cb18-b7f5-11ef-afc8-da7ad0900005"}, {"type": "permissions",
+        "id": "28395f82-b7f5-11ef-afc8-da7ad0900005"}, {"type": "permissions", "id":
+        "5072e504-cd26-11ef-a4d9-da7ad0900005"}, {"type": "permissions", "id": "5073050c-cd26-11ef-a4d9-da7ad0900005"},
+        {"type": "permissions", "id": "5034771e-d2a9-11ef-b55e-da7ad0900005"}, {"type":
+        "permissions", "id": "9b00426a-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions",
+        "id": "9b00ed28-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions", "id":
+        "9b010d44-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions", "id": "35e4e288-df3b-11ef-886f-da7ad0900005"},
+        {"type": "permissions", "id": "7ad4419a-e288-11ef-bbbc-da7ad0900005"}, {"type":
+        "permissions", "id": "23f76dc4-f607-11ef-99cf-da7ad0900005"}, {"type": "permissions",
+        "id": "23f87c8c-f607-11ef-99cf-da7ad0900005"}]}}}], "meta": {"page": {"total_count":
         7, "total_filtered_count": 7, "max_page_size": 1000}}}'
     headers:
       Content-Type:
@@ -1703,7 +1743,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
       1}], "tags": ["id:81f6f2c7-923f-11ef-879a-6ee0822e247c", "action_type:import",
       "status:success", "resource_type:users", "client_type:destination"]}]}'
     headers:
@@ -1722,8 +1762,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
-      1}], "tags": ["id:b32f283f-8582-11ef-be6e-1e59aae1ca5b", "action_type:import",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
+      1}], "tags": ["id:98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "action_type:import",
       "status:success", "resource_type:users", "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -1741,7 +1781,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
       1}], "tags": ["id:265f9002-9b9e-11ef-9152-56a58ecd5b70", "action_type:import",
       "status:success", "resource_type:users", "client_type:destination"]}]}'
     headers:
@@ -1760,7 +1800,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
       1}], "tags": ["id:81f6f2c7-923f-11ef-879a-6ee0822e247c", "action_type:import",
       "status:success", "resource_type:users", "client_type:source"]}]}'
     headers:
@@ -1779,7 +1819,64 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
+      1}], "tags": ["id:b32e572e-8582-11ef-98fe-f2a776cd34b8", "action_type:import",
+      "status:success", "resource_type:users", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
+      1}], "tags": ["id:b32f283f-8582-11ef-be6e-1e59aae1ca5b", "action_type:import",
+      "status:success", "resource_type:users", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
+      1}], "tags": ["id:30533c3c-8582-11ef-938f-cecf6f9ed4ad", "action_type:import",
+      "status:success", "resource_type:users", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
       1}], "tags": ["id:b301b340-8582-11ef-ba31-3219ecc6cb25", "action_type:import",
       "status:skipped", "resource_type:users", "client_type:destination"]}]}'
     headers:
@@ -1798,65 +1895,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
-      1}], "tags": ["id:30533c3c-8582-11ef-938f-cecf6f9ed4ad", "action_type:import",
-      "status:success", "resource_type:users", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
       1}], "tags": ["id:98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "action_type:import",
-      "status:success", "resource_type:users", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
-      1}], "tags": ["id:b32e572e-8582-11ef-98fe-f2a776cd34b8", "action_type:import",
-      "status:success", "resource_type:users", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
-      1}], "tags": ["id:b32f283f-8582-11ef-be6e-1e59aae1ca5b", "action_type:import",
       "status:success", "resource_type:users", "client_type:source"]}]}'
     headers:
       Content-Type:
@@ -1874,7 +1914,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
       1}], "tags": ["id:265f9002-9b9e-11ef-9152-56a58ecd5b70", "action_type:import",
       "status:success", "resource_type:users", "client_type:source"]}]}'
     headers:
@@ -1893,7 +1933,45 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
+      1}], "tags": ["id:b32e572e-8582-11ef-98fe-f2a776cd34b8", "action_type:import",
+      "status:success", "resource_type:users", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
+      1}], "tags": ["id:b32f283f-8582-11ef-be6e-1e59aae1ca5b", "action_type:import",
+      "status:success", "resource_type:users", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
       1}], "tags": ["id:b301b340-8582-11ef-ba31-3219ecc6cb25", "action_type:import",
       "status:skipped", "resource_type:users", "client_type:source"]}]}'
     headers:
@@ -1912,46 +1990,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014057, "value":
       1}], "tags": ["id:30533c3c-8582-11ef-938f-cecf6f9ed4ad", "action_type:import",
-      "status:success", "resource_type:users", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
-      1}], "tags": ["id:98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "action_type:import",
-      "status:success", "resource_type:users", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001617, "value":
-      1}], "tags": ["id:b32e572e-8582-11ef-98fe-f2a776cd34b8", "action_type:import",
       "status:success", "resource_type:users", "client_type:source"]}]}'
     headers:
       Content-Type:
@@ -2023,8 +2063,19 @@ interactions:
         {"roles": {"data": [{"type": "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"},
         {"type": "roles", "id": "4b5f3782-ef01-11ef-820e-da7ad0900005"}]}, "org":
         {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
-        {"type": "users", "id": "5c804048-a856-11ef-873c-029fb97b71a7", "attributes":
-        {"name": "", "handle": "james.jackson@datadoghq.com", "created_at": "2024-11-21T22:17:14.433778+00:00",
+        {"type": "users", "id": "397ecc9e-f058-11ef-9b1c-96cd2249736e", "attributes":
+        {"name": "Erwann Masson", "handle": "erwann.masson@datadoghq.com", "created_at":
+        "2025-02-21T13:31:58.417449+00:00", "modified_at": "2025-02-21T13:33:10.664814+00:00",
+        "email": "erwann.masson@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3c689578c775d76853e16b6e82dd5e22?s=48&d=retro",
+        "title": "", "verified": true, "service_account": false, "disabled": false,
+        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
+        {"roles": {"data": [{"type": "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"},
+        {"type": "roles", "id": "4b5f3782-ef01-11ef-820e-da7ad0900005"}, {"type":
+        "roles", "id": "c339bf0c-ef06-11ef-84b7-da7ad0900005"}, {"type": "roles",
+        "id": "4b5f1dd8-ef01-11ef-84b7-da7ad0900005"}]}, "org": {"data": {"type":
+        "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}}, {"type": "users",
+        "id": "5c804048-a856-11ef-873c-029fb97b71a7", "attributes": {"name": "", "handle":
+        "james.jackson@datadoghq.com", "created_at": "2024-11-21T22:17:14.433778+00:00",
         "modified_at": "2025-01-07T20:03:05.032008+00:00", "email": "james.jackson@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/52f86e717f5982a080412150cacb3c99?s=48&d=retro",
         "title": "", "verified": false, "service_account": false, "disabled": true,
@@ -2058,7 +2109,7 @@ interactions:
         "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}}, {"type": "users", "id":
         "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8", "attributes": {"name": "Michael Richey",
         "handle": "michael.richey@datadoghq.com", "created_at": "2024-10-21T18:31:19.037245+00:00",
-        "modified_at": "2025-02-19T21:11:25.069146+00:00", "email": "michael.richey@datadoghq.com",
+        "modified_at": "2025-03-21T17:20:20.821290+00:00", "email": "michael.richey@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
@@ -2292,23 +2343,27 @@ interactions:
         "permissions", "id": "20ced1f6-9c9c-11ef-8bf8-da7ad0900005"}, {"type": "permissions",
         "id": "c09a5320-a69e-11ef-854d-da7ad0900005"}, {"type": "permissions", "id":
         "8cca9812-a8f5-11ef-a551-da7ad0900005"}, {"type": "permissions", "id": "8ccad534-a8f5-11ef-a551-da7ad0900005"},
-        {"type": "permissions", "id": "d77b8882-b7e9-11ef-9071-da7ad0900005"}, {"type":
-        "permissions", "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005"}, {"type": "permissions",
-        "id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions", "id":
-        "fbb166e4-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions", "id": "5ed2476e-d29b-11ef-be68-da7ad0900005"}]}}},
-        {"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e", "attributes":
-        {"name": "logs_read_index_data", "display_name": "Logs Read Index Data", "description":
-        "Read log data, possibly scoped to one or more indexes. In order to read log
-        data, a user must have both this permission and Logs Read Data. This permission
-        can be granted in a limited capacity per index from the Logs interface or
-        APIs. If granted via the Roles interface or API the permission has global
-        scope. Restrictions are limited to the Log Management product.", "created":
-        "2018-10-31T13:39:19.727450+00:00", "group_name": "Log Management", "display_type":
-        "read", "restricted": false}}, {"type": "permissions", "id": "62cc036c-dd12-11e8-9e54-db9995643092",
-        "attributes": {"name": "logs_modify_indexes", "display_name": "Logs Modify
-        Indexes", "description": "Read and modify all indexes in your account. This
-        includes the ability to grant the Logs Read Index Data and Logs Write Exclusion
-        Filters permission to other roles, for some or all indexes.", "created": "2018-10-31T13:39:27.148615+00:00",
+        {"type": "permissions", "id": "b0b878f2-b71e-11ef-a582-da7ad0900005"}, {"type":
+        "permissions", "id": "b0b958b2-b71e-11ef-a582-da7ad0900005"}, {"type": "permissions",
+        "id": "b0b95b6e-b71e-11ef-a582-da7ad0900005"}, {"type": "permissions", "id":
+        "d77b8882-b7e9-11ef-9071-da7ad0900005"}, {"type": "permissions", "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005"},
+        {"type": "permissions", "id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005"}, {"type":
+        "permissions", "id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions",
+        "id": "5ed2476e-d29b-11ef-be68-da7ad0900005"}, {"type": "permissions", "id":
+        "4c7e10ac-df2f-11ef-8eba-da7ad0900005"}]}}}, {"type": "permissions", "id":
+        "5e605652-dd12-11e8-9e53-375565b8970e", "attributes": {"name": "logs_read_index_data",
+        "display_name": "Logs Read Index Data", "description": "Read log data, possibly
+        scoped to one or more indexes. In order to read log data, a user must have
+        both this permission and Logs Read Data. This permission can be granted in
+        a limited capacity per index from the Logs interface or APIs. If granted via
+        the Roles interface or API the permission has global scope. Restrictions are
+        limited to the Log Management product.", "created": "2018-10-31T13:39:19.727450+00:00",
+        "group_name": "Log Management", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "62cc036c-dd12-11e8-9e54-db9995643092", "attributes":
+        {"name": "logs_modify_indexes", "display_name": "Logs Modify Indexes", "description":
+        "Read and modify all indexes in your account. This includes the ability to
+        grant the Logs Read Index Data and Logs Write Exclusion Filters permission
+        to other roles, for some or all indexes.", "created": "2018-10-31T13:39:27.148615+00:00",
         "group_name": "Log Management", "display_type": "write", "restricted": false}},
         {"type": "permissions", "id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "attributes":
         {"name": "logs_live_tail", "display_name": "Logs Live Tail", "description":
@@ -2351,36 +2406,36 @@ interactions:
         "created": "2019-09-10T14:39:51.962944+00:00", "group_name": "Dashboards",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
         "d90f6832-d3d8-11e9-a77a-bf8a2607f864", "attributes": {"name": "dashboards_public_share",
-        "display_name": "Dashboards Public Share", "description": "Generate public
-        and authenticated links to share dashboards or embeddable graphs externally.",
-        "created": "2019-09-10T14:39:51.967094+00:00", "group_name": "Dashboards",
+        "display_name": "Shared Dashboards Public Write", "description": "Create,
+        modify and delete shared dashboards with share type ''Public''. These dashboards
+        can be accessed by anyone on the internet.", "created": "2019-09-10T14:39:51.967094+00:00",
+        "group_name": "Dashboards", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "4441648c-d8b1-11e9-a77a-1b899a04b304", "attributes":
+        {"name": "monitors_read", "display_name": "Monitors Read", "description":
+        "View monitors.", "created": "2019-09-16T18:39:07.744297+00:00", "group_name":
+        "Monitors", "display_type": "read", "restricted": true}}, {"type": "permissions",
+        "id": "48ef71ea-d8b1-11e9-a77a-93f408470ad0", "attributes": {"name": "monitors_write",
+        "display_name": "Monitors Write", "description": "Edit and delete individual
+        monitors.", "created": "2019-09-16T18:39:15.597109+00:00", "group_name": "Monitors",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "4441648c-d8b1-11e9-a77a-1b899a04b304", "attributes": {"name": "monitors_read",
-        "display_name": "Monitors Read", "description": "View monitors.", "created":
-        "2019-09-16T18:39:07.744297+00:00", "group_name": "Monitors", "display_type":
-        "read", "restricted": true}}, {"type": "permissions", "id": "48ef71ea-d8b1-11e9-a77a-93f408470ad0",
-        "attributes": {"name": "monitors_write", "display_name": "Monitors Write",
-        "description": "Edit and delete individual monitors.", "created": "2019-09-16T18:39:15.597109+00:00",
+        "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f", "attributes": {"name": "monitors_downtime",
+        "display_name": "Manage Downtimes", "description": "Set downtimes to suppress
+        alerts from any monitor in an organization. Mute and unmute monitors. The
+        ability to write monitors is not required to set downtimes.", "created": "2019-09-16T18:39:23.306702+00:00",
         "group_name": "Monitors", "display_type": "write", "restricted": false}},
-        {"type": "permissions", "id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f", "attributes":
-        {"name": "monitors_downtime", "display_name": "Manage Downtimes", "description":
-        "Set downtimes to suppress alerts from any monitor in an organization. Mute
-        and unmute monitors. The ability to write monitors is not required to set
-        downtimes.", "created": "2019-09-16T18:39:23.306702+00:00", "group_name":
-        "Monitors", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "attributes": {"name": "logs_read_data",
-        "display_name": "Logs Read Data", "description": "Read log data. In order
-        to read log data, a user must have both this permission and Logs Read Index
-        Data. This permission can be restricted with restriction queries. Restrictions
-        are limited to the Log Management product.", "created": "2020-04-06T16:24:35.989108+00:00",
-        "group_name": "Log Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "b382b982-8535-11ea-93de-2bf1bdf20798", "attributes":
-        {"name": "logs_read_archives", "display_name": "Logs Read Archives", "description":
-        "Read Log Archives location and use it for rehydration.", "created": "2020-04-23T07:40:27.966133+00:00",
-        "group_name": "Log Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "attributes":
-        {"name": "security_monitoring_rules_read", "display_name": "Security Rules
-        Read", "description": "Read Detection Rules.", "created": "2020-06-09T13:52:25.279909+00:00",
+        {"type": "permissions", "id": "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "attributes":
+        {"name": "logs_read_data", "display_name": "Logs Read Data", "description":
+        "Read log data. In order to read log data, a user must have both this permission
+        and Logs Read Index Data. This permission can be restricted with restriction
+        queries. Restrictions are limited to the Log Management product.", "created":
+        "2020-04-06T16:24:35.989108+00:00", "group_name": "Log Management", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "b382b982-8535-11ea-93de-2bf1bdf20798",
+        "attributes": {"name": "logs_read_archives", "display_name": "Logs Read Archives",
+        "description": "Read Log Archives location and use it for rehydration.", "created":
+        "2020-04-23T07:40:27.966133+00:00", "group_name": "Log Management", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5",
+        "attributes": {"name": "security_monitoring_rules_read", "display_name": "Security
+        Rules Read", "description": "Read Detection Rules.", "created": "2020-06-09T13:52:25.279909+00:00",
         "group_name": "Cloud Security Platform", "display_type": "read", "restricted":
         false}}, {"type": "permissions", "id": "7b516476-aa58-11ea-95e2-93718cd56369",
         "attributes": {"name": "security_monitoring_rules_write", "display_name":
@@ -2834,27 +2889,28 @@ interactions:
         "group_name": "Software Delivery", "display_type": "write", "restricted":
         false}}, {"type": "permissions", "id": "6f81cfe4-7aff-11ed-836c-da7ad0900005",
         "attributes": {"name": "intelligent_test_runner_activation_write", "display_name":
-        "Intelligent Test Runner Activation Write", "description": "Enable or disable
-        Intelligent Test Runner.", "created": "2022-12-13T16:01:42.437909+00:00",
+        "Intelligent Test Runner Activation Write", "description": "Deprecated. Enable
+        or disable Intelligent Test Runner.", "created": "2022-12-13T16:01:42.437909+00:00",
         "group_name": "Software Delivery", "display_type": "write", "restricted":
         false}}, {"type": "permissions", "id": "6f8289ca-7aff-11ed-836c-da7ad0900005",
         "attributes": {"name": "intelligent_test_runner_settings_write", "display_name":
-        "Intelligent Test Runner Settings Write", "description": "Edit Intelligent
-        Test Runner settings, such as modifying ITR excluded branch list.", "created":
-        "2022-12-13T16:01:42.442682+00:00", "group_name": "Software Delivery", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "277f3524-7d61-11ed-9f04-da7ad0900005",
-        "attributes": {"name": "continuous_profiler_read", "display_name": "Continuous
-        Profiler Read", "description": "View data in Continuous Profiler.", "created":
-        "2022-12-16T16:46:14.629079+00:00", "group_name": "APM", "display_type": "read",
-        "restricted": false}}, {"type": "permissions", "id": "0b46276c-9771-11ed-b830-da7ad0900005",
-        "attributes": {"name": "teams_manage", "display_name": "Teams Manage", "description":
-        "Manage Teams. Create, delete, rename, and edit metadata of all Teams. To
-        control Team membership across all Teams, use the User Access Manage permission.",
-        "created": "2023-01-18T20:45:29.458999+00:00", "group_name": "Teams", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "c7c539c8-b44f-11ed-9d3d-da7ad0900005",
-        "attributes": {"name": "security_monitoring_findings_read", "display_name":
-        "Security Monitoring Findings Read", "description": "View a list of findings
-        that include both misconfigurations and identity risks.", "created": "2023-02-24T14:30:26.535042+00:00",
+        "Intelligent Test Runner Settings Write", "description": "Deprecated. Edit
+        Intelligent Test Runner settings, such as modifying ITR excluded branch list.",
+        "created": "2022-12-13T16:01:42.442682+00:00", "group_name": "Software Delivery",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "277f3524-7d61-11ed-9f04-da7ad0900005", "attributes": {"name": "continuous_profiler_read",
+        "display_name": "Continuous Profiler Read", "description": "View data in Continuous
+        Profiler.", "created": "2022-12-16T16:46:14.629079+00:00", "group_name": "APM",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "0b46276c-9771-11ed-b830-da7ad0900005", "attributes": {"name": "teams_manage",
+        "display_name": "Teams Manage", "description": "Manage Teams. Create, delete,
+        rename, and edit metadata of all Teams. To control Team membership across
+        all Teams, use the User Access Manage permission.", "created": "2023-01-18T20:45:29.458999+00:00",
+        "group_name": "Teams", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "c7c539c8-b44f-11ed-9d3d-da7ad0900005", "attributes":
+        {"name": "security_monitoring_findings_read", "display_name": "Security Monitoring
+        Findings Read", "description": "View a list of findings that include both
+        misconfigurations and identity risks.", "created": "2023-02-24T14:30:26.535042+00:00",
         "group_name": "Cloud Security Platform", "display_type": "read", "restricted":
         false}}, {"type": "permissions", "id": "6ab61b9e-b468-11ed-9d27-da7ad0900005",
         "attributes": {"name": "incident_notification_settings_read", "display_name":
@@ -3142,8 +3198,8 @@ interactions:
         "description": "View Reference Tables.", "created": "2024-06-04T14:10:32.209110+00:00",
         "group_name": "Reference Tables", "display_type": "read", "restricted": false}},
         {"type": "permissions", "id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "attributes":
-        {"name": "fleet_policies_write", "display_name": "Fleet Policies Write", "description":
-        "Create Fleet Automation Policies.", "created": "2024-07-01T14:11:13.752741+00:00",
+        {"name": "fleet_policies_write", "display_name": "Agent Configuration Management",
+        "description": "Create and deploy Agent configurations.", "created": "2024-07-01T14:11:13.752741+00:00",
         "group_name": "Fleet Automation", "display_type": "write", "restricted": false}},
         {"type": "permissions", "id": "a4a15c66-387d-11ef-950e-da7ad0900005", "attributes":
         {"name": "orchestration_custom_resource_definitions_write", "display_name":
@@ -3197,7 +3253,7 @@ interactions:
         "attributes": {"name": "security_pipelines_write", "display_name": "Security
         Pipelines Write", "description": "Create, edit, and delete Security Pipelines.",
         "created": "2024-08-30T14:11:45.112348+00:00", "group_name": "Cloud Security
-        Platform", "display_type": "read", "restricted": false}}, {"type": "permissions",
+        Platform", "display_type": "write", "restricted": false}}, {"type": "permissions",
         "id": "b47a3a6e-74fe-11ef-ae6f-da7ad0900005", "attributes": {"name": "connection_groups_write",
         "display_name": "Connection Groups Write", "description": "Create, delete
         and update connection groups.", "created": "2024-09-17T14:11:17.018764+00:00",
@@ -3262,11 +3318,27 @@ interactions:
         {"name": "security_comments_read", "display_name": "Security Comments Read",
         "description": "Read comments of vulnerabilities.", "created": "2024-11-22T17:16:45.430341+00:00",
         "group_name": "Cloud Security Platform", "display_type": "read", "restricted":
-        false}}, {"type": "permissions", "id": "d77b8882-b7e9-11ef-9071-da7ad0900005",
-        "attributes": {"name": "logs_read_workspaces", "display_name": "Read Logs
-        Workspaces", "description": "View Logs Workspaces.", "created": "2024-12-11T18:00:44.221955+00:00",
-        "group_name": "Log Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "attributes":
+        false}}, {"type": "permissions", "id": "b0b878f2-b71e-11ef-a582-da7ad0900005",
+        "attributes": {"name": "dashboards_invite_share", "display_name": "Shared
+        Dashboards Invite-only Write", "description": "Create, modify and delete shared
+        dashboards with share type ''Invite-only''. These dashboards can only be accessed
+        by user-specified email addresses.", "created": "2024-12-10T17:46:31.354222+00:00",
+        "group_name": "Dashboards", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "b0b958b2-b71e-11ef-a582-da7ad0900005", "attributes":
+        {"name": "dashboards_embed_share", "display_name": "Shared Dashboards Embed
+        Write", "description": "Create, modify and delete shared dashboards with share
+        type ''Embed''. These dashboards can be embedded on user-specified domains.",
+        "created": "2024-12-10T17:46:31.354222+00:00", "group_name": "Dashboards",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "b0b95b6e-b71e-11ef-a582-da7ad0900005", "attributes": {"name": "embeddable_graphs_share",
+        "display_name": "Shared Graphs Write", "description": "Generate public links
+        to share embeddable graphs externally.", "created": "2024-12-10T17:46:31.354222+00:00",
+        "group_name": "Dashboards", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "d77b8882-b7e9-11ef-9071-da7ad0900005", "attributes":
+        {"name": "logs_read_workspaces", "display_name": "Read Logs Workspaces", "description":
+        "View Logs Workspaces.", "created": "2024-12-11T18:00:44.221955+00:00", "group_name":
+        "Log Management", "display_type": "read", "restricted": false}}, {"type":
+        "permissions", "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "attributes":
         {"name": "logs_write_workspaces", "display_name": "Write Logs Workspaces",
         "description": "Create, update, and delete Logs Workspaces.", "created": "2024-12-11T18:00:44.221955+00:00",
         "group_name": "Log Management", "display_type": "write", "restricted": false}},
@@ -3282,9 +3354,13 @@ interactions:
         "attributes": {"name": "logs_read_config", "display_name": "Logs Configuration
         Read", "description": "Read logs configuration.", "created": "2025-01-14T17:17:02.436037+00:00",
         "group_name": "Log Management", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "attributes":
+        {"name": "error_tracking_read", "display_name": "Error Tracking Read", "description":
+        "View Error Tracking data.", "created": "2025-01-30T17:26:11.148467+00:00",
+        "group_name": "Error Tracking", "display_type": "read", "restricted": false}},
         {"type": "roles", "id": "4b5f3782-ef01-11ef-820e-da7ad0900005", "attributes":
         {"name": "Datadog Admin Role", "managed": false, "created_at": "2025-02-19T20:37:11.029398+00:00",
-        "modified_at": "2025-02-19T20:37:11.030668+00:00"}, "relationships": {"permissions":
+        "modified_at": "2025-03-19T18:51:59.041650+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e"},
         {"type": "permissions", "id": "62cc036c-dd12-11e8-9e54-db9995643092"}, {"type":
         "permissions", "id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73"}, {"type": "permissions",
@@ -3454,34 +3530,45 @@ interactions:
         "permissions", "id": "20ced1f6-9c9c-11ef-8bf8-da7ad0900005"}, {"type": "permissions",
         "id": "c09a5320-a69e-11ef-854d-da7ad0900005"}, {"type": "permissions", "id":
         "8cca9812-a8f5-11ef-a551-da7ad0900005"}, {"type": "permissions", "id": "8ccad534-a8f5-11ef-a551-da7ad0900005"},
-        {"type": "permissions", "id": "d77b8882-b7e9-11ef-9071-da7ad0900005"}, {"type":
-        "permissions", "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005"}, {"type": "permissions",
-        "id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions", "id":
-        "fbb166e4-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions", "id": "5ed2476e-d29b-11ef-be68-da7ad0900005"},
-        {"type": "permissions", "id": "47af6ecc-da7a-11ef-a039-da7ad0900005"}, {"type":
-        "permissions", "id": "47af895c-da7a-11ef-a039-da7ad0900005"}, {"type": "permissions",
-        "id": "47af90c8-da7a-11ef-a039-da7ad0900005"}, {"type": "permissions", "id":
-        "bee35d36-e27d-11ef-8ab4-da7ad0900005"}]}}}, {"type": "permissions", "id":
-        "47af6ecc-da7a-11ef-a039-da7ad0900005", "attributes": {"name": "on_call_read",
-        "display_name": "On-Call Read", "description": "View On-Call teams, schedules,
-        escalation policies and overrides.", "created": "2025-01-24T17:40:19.530408+00:00",
-        "group_name": "On-Call", "display_type": "read", "restricted": false}}, {"type":
-        "permissions", "id": "47af895c-da7a-11ef-a039-da7ad0900005", "attributes":
-        {"name": "on_call_write", "display_name": "On-Call Write", "description":
-        "Create, update, and delete On-Call teams, schedules, escalation policies
-        and overrides.", "created": "2025-01-24T17:40:19.530408+00:00", "group_name":
-        "On-Call", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "47af90c8-da7a-11ef-a039-da7ad0900005", "attributes": {"name": "on_call_page",
-        "display_name": "On-Call Page", "description": "Page On-Call teams and users.",
+        {"type": "permissions", "id": "b0b878f2-b71e-11ef-a582-da7ad0900005"}, {"type":
+        "permissions", "id": "b0b958b2-b71e-11ef-a582-da7ad0900005"}, {"type": "permissions",
+        "id": "b0b95b6e-b71e-11ef-a582-da7ad0900005"}, {"type": "permissions", "id":
+        "d77b8882-b7e9-11ef-9071-da7ad0900005"}, {"type": "permissions", "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005"},
+        {"type": "permissions", "id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005"}, {"type":
+        "permissions", "id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions",
+        "id": "5ed2476e-d29b-11ef-be68-da7ad0900005"}, {"type": "permissions", "id":
+        "47af6ecc-da7a-11ef-a039-da7ad0900005"}, {"type": "permissions", "id": "47af895c-da7a-11ef-a039-da7ad0900005"},
+        {"type": "permissions", "id": "47af90c8-da7a-11ef-a039-da7ad0900005"}, {"type":
+        "permissions", "id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005"}, {"type": "permissions",
+        "id": "bee35d36-e27d-11ef-8ab4-da7ad0900005"}, {"type": "permissions", "id":
+        "30d41870-f5fe-11ef-aac9-da7ad0900005"}, {"type": "permissions", "id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005"}]}}},
+        {"type": "permissions", "id": "47af6ecc-da7a-11ef-a039-da7ad0900005", "attributes":
+        {"name": "on_call_read", "display_name": "On-Call Read", "description": "View
+        On-Call teams, schedules, escalation policies and overrides.", "created":
+        "2025-01-24T17:40:19.530408+00:00", "group_name": "On-Call", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "47af895c-da7a-11ef-a039-da7ad0900005",
+        "attributes": {"name": "on_call_write", "display_name": "On-Call Write", "description":
+        "Create, update, and delete On-Call teams, schedules and escalation policies.",
         "created": "2025-01-24T17:40:19.530408+00:00", "group_name": "On-Call", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "bee35d36-e27d-11ef-8ab4-da7ad0900005",
-        "attributes": {"name": "on_call_respond", "display_name": "On-Call Responder",
-        "description": "Acknowledge and resolve pages. Allow users to configure their
+        "write", "restricted": false}}, {"type": "permissions", "id": "47af90c8-da7a-11ef-a039-da7ad0900005",
+        "attributes": {"name": "on_call_page", "display_name": "On-Call Page", "description":
+        "Page On-Call teams and users.", "created": "2025-01-24T17:40:19.530408+00:00",
+        "group_name": "On-Call", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "bee35d36-e27d-11ef-8ab4-da7ad0900005", "attributes":
+        {"name": "on_call_respond", "display_name": "On-Call Responder", "description":
+        "Acknowledge, resolve pages and edit overrides. Allow users to configure their
         On-Call profile.", "created": "2025-02-03T22:25:17.312321+00:00", "group_name":
-        "On-Call", "display_type": "write", "restricted": false}}, {"type": "roles",
-        "id": "c339bf0c-ef06-11ef-84b7-da7ad0900005", "attributes": {"name": "Datadog
-        Read Only Role", "managed": false, "created_at": "2025-02-19T21:16:19.594480+00:00",
-        "modified_at": "2025-02-19T21:16:19.595378+00:00"}, "relationships": {"permissions":
+        "On-Call", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "30d41870-f5fe-11ef-aac9-da7ad0900005", "attributes": {"name": "coterm_write",
+        "display_name": "CoTerm Write", "description": "Write terminal recordings.",
+        "created": "2025-02-28T18:02:36.146248+00:00", "group_name": "CoTerm", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005",
+        "attributes": {"name": "coterm_read", "display_name": "CoTerm Read", "description":
+        "Read terminal recordings.", "created": "2025-02-28T18:02:36.146248+00:00",
+        "group_name": "CoTerm", "display_type": "read", "restricted": false}}, {"type":
+        "roles", "id": "c339bf0c-ef06-11ef-84b7-da7ad0900005", "attributes": {"name":
+        "Datadog Read Only Role", "managed": false, "created_at": "2025-02-19T21:16:19.594480+00:00",
+        "modified_at": "2025-03-19T18:51:59.009131+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e"},
         {"type": "permissions", "id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73"}, {"type":
         "permissions", "id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2"}, {"type": "permissions",
@@ -3529,10 +3616,11 @@ interactions:
         "8ccad534-a8f5-11ef-a551-da7ad0900005"}, {"type": "permissions", "id": "d77b8882-b7e9-11ef-9071-da7ad0900005"},
         {"type": "permissions", "id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005"}, {"type":
         "permissions", "id": "5ed2476e-d29b-11ef-be68-da7ad0900005"}, {"type": "permissions",
-        "id": "47af6ecc-da7a-11ef-a039-da7ad0900005"}]}}}, {"type": "roles", "id":
-        "4b5f1dd8-ef01-11ef-84b7-da7ad0900005", "attributes": {"name": "Datadog Standard
-        Role", "managed": false, "created_at": "2025-02-19T20:37:11.028798+00:00",
-        "modified_at": "2025-02-19T20:37:11.029967+00:00"}, "relationships": {"permissions":
+        "id": "47af6ecc-da7a-11ef-a039-da7ad0900005"}, {"type": "permissions", "id":
+        "4c7e10ac-df2f-11ef-8eba-da7ad0900005"}, {"type": "permissions", "id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005"}]}}},
+        {"type": "roles", "id": "4b5f1dd8-ef01-11ef-84b7-da7ad0900005", "attributes":
+        {"name": "Datadog Standard Role", "managed": false, "created_at": "2025-02-19T20:37:11.028798+00:00",
+        "modified_at": "2025-03-21T15:32:20.999753+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "5e605652-dd12-11e8-9e53-375565b8970e"},
         {"type": "permissions", "id": "62cc036c-dd12-11e8-9e54-db9995643092"}, {"type":
         "permissions", "id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73"}, {"type": "permissions",
@@ -3651,25 +3739,29 @@ interactions:
         "id": "7ce1c892-6090-11ef-b3ef-da7ad0900005"}, {"type": "permissions", "id":
         "7ce1cb26-6090-11ef-b3ef-da7ad0900005"}, {"type": "permissions", "id": "7ce175e0-6090-11ef-b3ef-da7ad0900005"},
         {"type": "permissions", "id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005"}, {"type":
-        "permissions", "id": "c9ca59c2-66d9-11ef-9bd3-da7ad0900005"}, {"type": "permissions",
-        "id": "b47a3a6e-74fe-11ef-ae6f-da7ad0900005"}, {"type": "permissions", "id":
-        "f764fa80-79c7-11ef-8a97-da7ad0900005"}, {"type": "permissions", "id": "e0535584-7c0c-11ef-bb98-da7ad0900005"},
-        {"type": "permissions", "id": "4b9cd3ee-810b-11ef-972e-da7ad0900005"}, {"type":
-        "permissions", "id": "4b9d515c-810b-11ef-972e-da7ad0900005"}, {"type": "permissions",
-        "id": "ae260840-8a26-11ef-b0ad-da7ad0900005"}, {"type": "permissions", "id":
-        "b5e1108e-9895-11ef-a80d-da7ad0900005"}, {"type": "permissions", "id": "20ced020-9c9c-11ef-8bf8-da7ad0900005"},
-        {"type": "permissions", "id": "20ced1f6-9c9c-11ef-8bf8-da7ad0900005"}, {"type":
-        "permissions", "id": "c09a5320-a69e-11ef-854d-da7ad0900005"}, {"type": "permissions",
-        "id": "8cca9812-a8f5-11ef-a551-da7ad0900005"}, {"type": "permissions", "id":
-        "8ccad534-a8f5-11ef-a551-da7ad0900005"}, {"type": "permissions", "id": "d77b8882-b7e9-11ef-9071-da7ad0900005"},
-        {"type": "permissions", "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005"}, {"type":
-        "permissions", "id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions",
-        "id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions", "id":
-        "5ed2476e-d29b-11ef-be68-da7ad0900005"}, {"type": "permissions", "id": "47af6ecc-da7a-11ef-a039-da7ad0900005"},
-        {"type": "permissions", "id": "47af895c-da7a-11ef-a039-da7ad0900005"}, {"type":
-        "permissions", "id": "47af90c8-da7a-11ef-a039-da7ad0900005"}, {"type": "permissions",
-        "id": "bee35d36-e27d-11ef-8ab4-da7ad0900005"}]}}}], "meta": {"page": {"total_count":
-        12, "total_filtered_count": 12, "max_page_size": 1000}}}'
+        "permissions", "id": "b47a3a6e-74fe-11ef-ae6f-da7ad0900005"}, {"type": "permissions",
+        "id": "f764fa80-79c7-11ef-8a97-da7ad0900005"}, {"type": "permissions", "id":
+        "e0535584-7c0c-11ef-bb98-da7ad0900005"}, {"type": "permissions", "id": "4b9cd3ee-810b-11ef-972e-da7ad0900005"},
+        {"type": "permissions", "id": "4b9d515c-810b-11ef-972e-da7ad0900005"}, {"type":
+        "permissions", "id": "ae260840-8a26-11ef-b0ad-da7ad0900005"}, {"type": "permissions",
+        "id": "b5e1108e-9895-11ef-a80d-da7ad0900005"}, {"type": "permissions", "id":
+        "20ced020-9c9c-11ef-8bf8-da7ad0900005"}, {"type": "permissions", "id": "20ced1f6-9c9c-11ef-8bf8-da7ad0900005"},
+        {"type": "permissions", "id": "c09a5320-a69e-11ef-854d-da7ad0900005"}, {"type":
+        "permissions", "id": "8cca9812-a8f5-11ef-a551-da7ad0900005"}, {"type": "permissions",
+        "id": "8ccad534-a8f5-11ef-a551-da7ad0900005"}, {"type": "permissions", "id":
+        "b0b878f2-b71e-11ef-a582-da7ad0900005"}, {"type": "permissions", "id": "b0b958b2-b71e-11ef-a582-da7ad0900005"},
+        {"type": "permissions", "id": "b0b95b6e-b71e-11ef-a582-da7ad0900005"}, {"type":
+        "permissions", "id": "d77b8882-b7e9-11ef-9071-da7ad0900005"}, {"type": "permissions",
+        "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005"}, {"type": "permissions", "id":
+        "fbb07996-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions", "id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005"},
+        {"type": "permissions", "id": "5ed2476e-d29b-11ef-be68-da7ad0900005"}, {"type":
+        "permissions", "id": "47af6ecc-da7a-11ef-a039-da7ad0900005"}, {"type": "permissions",
+        "id": "47af895c-da7a-11ef-a039-da7ad0900005"}, {"type": "permissions", "id":
+        "47af90c8-da7a-11ef-a039-da7ad0900005"}, {"type": "permissions", "id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005"},
+        {"type": "permissions", "id": "bee35d36-e27d-11ef-8ab4-da7ad0900005"}, {"type":
+        "permissions", "id": "30d41870-f5fe-11ef-aac9-da7ad0900005"}, {"type": "permissions",
+        "id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005"}]}}}], "meta": {"page": {"total_count":
+        13, "total_filtered_count": 13, "max_page_size": 1000}}}'
     headers:
       Content-Type:
       - application/json

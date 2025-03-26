@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001548,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013980,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001548,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013980,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -92,7 +92,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/powerpacks
   response:
     body:
-      string: '{"data": {"type": "powerpack", "id": "e1cbb9ee-ef0a-11ef-8d75-da7ad0900005",
+      string: '{"data": {"type": "powerpack", "id": "bf7b89f6-0a70-11f0-b591-da7ad0900005",
         "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
         {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
         "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
@@ -115,7 +115,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001548, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013980, "value":
       1}], "tags": ["action_sub_type:create", "id:e685afa6-955c-11ef-9254-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:powerpacks", "client_type:destination"]}]}'
     headers:
@@ -134,7 +134,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001548, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013980, "value":
       1}], "tags": ["action_sub_type:create", "id:e685afa6-955c-11ef-9254-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:powerpacks", "client_type:source"]}]}'
     headers:

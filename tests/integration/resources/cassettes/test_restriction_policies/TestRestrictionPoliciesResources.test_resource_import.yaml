@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1740001552,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1743013985,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1740001552,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1743013985,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -117,7 +117,7 @@ interactions:
         "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com", "icon":
         "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": null, "verified": true, "disabled": false, "status": "Active"}, "schema_version":
-        null}}], "meta": {"page": {"total_count": 1, "total_filtered_count": 1}}}'
+        0}}], "meta": {"page": {"total_count": 1, "total_filtered_count": 1}}}'
     headers:
       Content-Type:
       - application/json
@@ -219,7 +219,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001552, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013985, "value":
       1}], "tags": ["id:dashboard:2n3-8ye-5ui", "action_type:import", "status:skipped",
       "resource_type:restriction_policies", "client_type:destination"]}]}'
     headers:
@@ -238,7 +238,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001552, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013985, "value":
       1}], "tags": ["id:dashboard:2n3-8ye-5ui", "action_type:import", "status:skipped",
       "resource_type:restriction_policies", "client_type:source"]}]}'
     headers:
@@ -257,7 +257,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001552, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013985, "value":
       1}], "tags": ["id:dashboard:jh3-vsk-99c", "action_type:import", "status:skipped",
       "resource_type:restriction_policies", "client_type:destination"]}]}'
     headers:
@@ -276,7 +276,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001552, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013985, "value":
       1}], "tags": ["id:notebook:181709", "action_type:import", "status:success",
       "resource_type:restriction_policies", "client_type:destination"]}]}'
     headers:
@@ -295,7 +295,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001552, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013985, "value":
       1}], "tags": ["id:slo:650a18e266505a48b319d9b221158a26", "action_type:import",
       "status:skipped", "resource_type:restriction_policies", "client_type:destination"]}]}'
     headers:
@@ -314,7 +314,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001552, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013985, "value":
       1}], "tags": ["id:dashboard:jh3-vsk-99c", "action_type:import", "status:skipped",
       "resource_type:restriction_policies", "client_type:source"]}]}'
     headers:
@@ -333,9 +333,9 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001552, "value":
-      1}], "tags": ["id:notebook:181709", "action_type:import", "status:success",
-      "resource_type:restriction_policies", "client_type:source"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013985, "value":
+      1}], "tags": ["id:slo:650a18e266505a48b319d9b221158a26", "action_type:import",
+      "status:skipped", "resource_type:restriction_policies", "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -352,9 +352,9 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001552, "value":
-      1}], "tags": ["id:slo:650a18e266505a48b319d9b221158a26", "action_type:import",
-      "status:skipped", "resource_type:restriction_policies", "client_type:source"]}]}'
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013985, "value":
+      1}], "tags": ["id:notebook:181709", "action_type:import", "status:success",
+      "resource_type:restriction_policies", "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json
@@ -421,13 +421,12 @@ interactions:
         "subscription": {"id": null, "billing_plan_id": 4, "started": 1729536356,
         "expires": null, "finished": null, "type": "partner", "is_custom": false,
         "is_trial": false, "is_expired": true}, "billing": {}, "settings": {"default_landing_page":
-        "Dashboard Lists", "saml": {"enabled": false}, "saml_can_be_enabled": false,
-        "saml_login_url": null, "saml_idp_metadata_uploaded": false, "saml_idp_endpoint":
-        null, "saml_idp_metadata_valid_until": null, "custom_landing_page": null,
-        "saml_idp_initiated_login": {"enabled": false}, "saml_strict_mode": {"enabled":
-        false}, "saml_autocreate_access_role": "st", "saml_autocreate_users_domains":
-        {"enabled": false, "domains": []}, "private_widget_share": false, "manage_reports":
-        null}}]}'
+        "APM Home", "saml": {"enabled": false}, "saml_can_be_enabled": false, "saml_login_url":
+        null, "saml_idp_metadata_uploaded": false, "saml_idp_endpoint": null, "saml_idp_metadata_valid_until":
+        null, "custom_landing_page": null, "saml_idp_initiated_login": {"enabled":
+        false}, "saml_strict_mode": {"enabled": false}, "saml_autocreate_access_role":
+        "st", "saml_autocreate_users_domains": {"enabled": false, "domains": []},
+        "private_widget_share": false, "manage_reports": null}}]}'
     headers:
       Content-Type:
       - application/json

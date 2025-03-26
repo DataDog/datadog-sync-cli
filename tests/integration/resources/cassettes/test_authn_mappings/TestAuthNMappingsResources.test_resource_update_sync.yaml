@@ -77,7 +77,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001443,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013865,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -95,7 +95,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001443,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013865,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -114,18 +114,18 @@ interactions:
 - request:
     body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "name",
       "attribute_value": "michaelupdated"}, "relationships": {"role": {"data": {"type":
-      "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}}, "id": "a2c41192-ef0a-11ef-a0fe-da7ad0900005"}}'
+      "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}}, "id": "7a688fc6-0a70-11f0-93bf-da7ad0900005"}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://us5.datadoghq.com/api/v2/authn_mappings/a2c41192-ef0a-11ef-a0fe-da7ad0900005
+    uri: https://us5.datadoghq.com/api/v2/authn_mappings/7a688fc6-0a70-11f0-93bf-da7ad0900005
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "a2c41192-ef0a-11ef-a0fe-da7ad0900005",
+      string: '{"data": {"type": "authn_mappings", "id": "7a688fc6-0a70-11f0-93bf-da7ad0900005",
         "attributes": {"saml_assertion_attribute_id": "3700", "attribute_key": "name",
-        "attribute_value": "michaelupdated", "created_at": "2025-02-19T21:44:03.123252+00:00",
-        "modified_at": "2025-02-19T21:44:04.827810+00:00"}, "relationships": {"saml_assertion_attribute":
+        "attribute_value": "michaelupdated", "created_at": "2025-03-26T18:31:05.476884+00:00",
+        "modified_at": "2025-03-26T18:31:07.222342+00:00"}, "relationships": {"saml_assertion_attribute":
         {"data": {"type": "saml_assertion_attributes", "id": "3700"}}, "role": {"data":
         {"type": "roles", "id": "f0ba6944-985e-11ef-953e-da7ad0900005"}}, "team":
         {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
@@ -302,10 +302,14 @@ interactions:
         "permissions", "id": "20ced1f6-9c9c-11ef-8bf8-da7ad0900005"}, {"type": "permissions",
         "id": "c09a5320-a69e-11ef-854d-da7ad0900005"}, {"type": "permissions", "id":
         "8cca9812-a8f5-11ef-a551-da7ad0900005"}, {"type": "permissions", "id": "8ccad534-a8f5-11ef-a551-da7ad0900005"},
-        {"type": "permissions", "id": "d77b8882-b7e9-11ef-9071-da7ad0900005"}, {"type":
-        "permissions", "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005"}, {"type": "permissions",
-        "id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions", "id":
-        "fbb166e4-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions", "id": "5ed2476e-d29b-11ef-be68-da7ad0900005"}]}}}]}'
+        {"type": "permissions", "id": "b0b878f2-b71e-11ef-a582-da7ad0900005"}, {"type":
+        "permissions", "id": "b0b958b2-b71e-11ef-a582-da7ad0900005"}, {"type": "permissions",
+        "id": "b0b95b6e-b71e-11ef-a582-da7ad0900005"}, {"type": "permissions", "id":
+        "d77b8882-b7e9-11ef-9071-da7ad0900005"}, {"type": "permissions", "id": "d77c6e96-b7e9-11ef-9071-da7ad0900005"},
+        {"type": "permissions", "id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005"}, {"type":
+        "permissions", "id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005"}, {"type": "permissions",
+        "id": "5ed2476e-d29b-11ef-be68-da7ad0900005"}, {"type": "permissions", "id":
+        "4c7e10ac-df2f-11ef-8eba-da7ad0900005"}]}}}]}'
     headers:
       Content-Type:
       - application/json
@@ -314,7 +318,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001443, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013865, "value":
       1}], "tags": ["action_sub_type:update", "id:423368a4-956a-11ef-b92a-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:destination"]}]}'
     headers:
@@ -333,7 +337,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001443, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013865, "value":
       1}], "tags": ["action_sub_type:update", "id:423368a4-956a-11ef-b92a-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:authn_mappings", "client_type:source"]}]}'
     headers:

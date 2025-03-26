@@ -77,7 +77,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001478,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013901,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -95,7 +95,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001478,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013901,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -118,10 +118,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/0CkFj00fSJ-ONlvLHcEAmw
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/50IS1v_ORCSvlhcwapDGSQ
   response:
     body:
-      string: '{"id": "0CkFj00fSJ-ONlvLHcEAmw", "type": "pipeline", "name": "testupdated",
+      string: '{"id": "50IS1v_ORCSvlhcwapDGSQ", "type": "pipeline", "name": "testupdated",
         "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": [], "description": ""}'
     headers:
@@ -132,7 +132,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001478, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013901, "value":
       1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
     headers:
@@ -151,7 +151,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001478, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013901, "value":
       1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
     headers:

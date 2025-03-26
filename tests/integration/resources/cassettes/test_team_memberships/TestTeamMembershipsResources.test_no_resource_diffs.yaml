@@ -46,21 +46,15 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
     body:
-      string: '{"data": [{"type": "team", "relationships": {"team_links": {"links":
-        {"related": "/api/v2/team/24ef75ba-1d06-469e-9169-709e69cbd5a6/links"}}, "user_team_permissions":
-        {"links": {"related": "/api/v2/team/24ef75ba-1d06-469e-9169-709e69cbd5a6/permission-settings"}}},
-        "attributes": {"user_count": 2, "is_managed": false, "modified_at": "2025-03-25T21:01:25.382260+00:00",
-        "link_count": 0, "handle": "hamr-test", "name": "hamr test", "description":
-        "", "summary": null, "created_at": "2025-03-25T20:56:11.660218+00:00"}, "id":
-        "24ef75ba-1d06-469e-9169-709e69cbd5a6"}, {"type": "team", "relationships":
-        {"team_links": {"links": {"related": "/api/v2/team/c913562a-c831-4e6c-aed6-37b216f6988d/links"}},
-        "user_team_permissions": {"links": {"related": "/api/v2/team/c913562a-c831-4e6c-aed6-37b216f6988d/permission-settings"}}},
-        "attributes": {"user_count": 1, "is_managed": false, "modified_at": "2025-03-25T21:01:25.387674+00:00",
-        "link_count": 0, "handle": "test", "name": "test", "description": "", "summary":
-        null, "created_at": "2025-03-25T20:56:11.654416+00:00"}, "id": "c913562a-c831-4e6c-aed6-37b216f6988d"}],
-        "meta": {"pagination": {"number": 0, "first_number": 0, "prev_number": 0,
-        "next_number": 1, "last_number": 0, "size": 100, "type": "number_size", "total":
-        2}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
+      string: '{"data": [{"type": "team", "attributes": {"created_at": "2025-03-26T18:33:09.676726+00:00",
+        "is_managed": false, "description": "", "name": "hamr test", "link_count":
+        0, "modified_at": "2025-03-26T18:33:09.676730+00:00", "handle": "hamr-test",
+        "user_count": 0, "summary": null}, "relationships": {"user_team_permissions":
+        {"links": {"related": "/api/v2/team/98b24161-1e4f-4aaf-a81c-147566cc9832/permission-settings"}},
+        "team_links": {"links": {"related": "/api/v2/team/98b24161-1e4f-4aaf-a81c-147566cc9832/links"}}},
+        "id": "98b24161-1e4f-4aaf-a81c-147566cc9832"}], "meta": {"pagination": {"number":
+        0, "first_number": 0, "prev_number": 0, "next_number": 1, "last_number": 0,
+        "size": 100, "type": "number_size", "total": 1}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
         "last": null, "next": "https://us5.datadoghq.com/api/v2/team?page[number]=1&page[size]=100",
         "prev": null, "first": "https://us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100"}}'
     headers:
@@ -75,55 +69,14 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://us5.datadoghq.com/api/v2/team/24ef75ba-1d06-469e-9169-709e69cbd5a6/memberships?page%5Bnumber%5D=0&page%5Bsize%5D=100
+    uri: https://us5.datadoghq.com/api/v2/team/98b24161-1e4f-4aaf-a81c-147566cc9832/memberships?page%5Bnumber%5D=0&page%5Bsize%5D=100
   response:
     body:
-      string: '{"data": [{"type": "team_memberships", "id": "TeamMembership-24ef75ba-1d06-469e-9169-709e69cbd5a6-1615666",
-        "attributes": {"role": null, "provisioned_by": null, "provisioned_by_id":
-        "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8"}, "relationships": {"user": {"data":
-        {"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8"}}}}, {"type":
-        "team_memberships", "id": "TeamMembership-24ef75ba-1d06-469e-9169-709e69cbd5a6-1575150",
-        "attributes": {"role": null, "provisioned_by": null, "provisioned_by_id":
-        "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8"}, "relationships": {"user": {"data":
-        {"type": "users", "id": "490663c7-8581-11ef-8ce5-127d9e8aadbb"}}}}], "included":
-        [{"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8", "attributes":
-        {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "email":
-        "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
-        "disabled": false, "service_account": false}}, {"type": "users", "id": "490663c7-8581-11ef-8ce5-127d9e8aadbb",
-        "attributes": {"name": "Ron Hay", "handle": "ron.hay@datadoghq.com", "email":
-        "ron.hay@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/1c9c2a5daac55fc5ae86178cd5e7b9c2?s=48&d=retro",
-        "disabled": false, "service_account": false}}], "meta": {"pagination": {"number":
-        0, "first_number": 0, "prev_number": 0, "next_number": 1, "last_number": 0,
-        "size": 100, "type": "number_size", "total": 2}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team/24ef75ba-1d06-469e-9169-709e69cbd5a6/memberships?page[number]=0&page[size]=100",
-        "last": null, "next": "https://us5.datadoghq.com/api/v2/team/24ef75ba-1d06-469e-9169-709e69cbd5a6/memberships?page[number]=1&page[size]=100",
-        "prev": null, "first": "https://us5.datadoghq.com/api/v2/team/24ef75ba-1d06-469e-9169-709e69cbd5a6/memberships?page[number]=0&page[size]=100"}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://us5.datadoghq.com/api/v2/team/c913562a-c831-4e6c-aed6-37b216f6988d/memberships?page%5Bnumber%5D=0&page%5Bsize%5D=100
-  response:
-    body:
-      string: '{"data": [{"type": "team_memberships", "id": "TeamMembership-c913562a-c831-4e6c-aed6-37b216f6988d-1615666",
-        "attributes": {"role": null, "provisioned_by": null, "provisioned_by_id":
-        "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8"}, "relationships": {"user": {"data":
-        {"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8"}}}}], "included":
-        [{"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8", "attributes":
-        {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "email":
-        "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
-        "disabled": false, "service_account": false}}], "meta": {"pagination": {"number":
-        0, "first_number": 0, "prev_number": 0, "next_number": 1, "last_number": 0,
-        "size": 100, "type": "number_size", "total": 1}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team/c913562a-c831-4e6c-aed6-37b216f6988d/memberships?page[number]=0&page[size]=100",
-        "last": null, "next": "https://us5.datadoghq.com/api/v2/team/c913562a-c831-4e6c-aed6-37b216f6988d/memberships?page[number]=1&page[size]=100",
-        "prev": null, "first": "https://us5.datadoghq.com/api/v2/team/c913562a-c831-4e6c-aed6-37b216f6988d/memberships?page[number]=0&page[size]=100"}}'
+      string: '{"data": [], "meta": {"pagination": {"number": 0, "first_number": 0,
+        "prev_number": 0, "next_number": 1, "last_number": 0, "size": 100, "type":
+        "number_size", "total": 0}}, "links": {"self": "https://us5.datadoghq.com/api/v2/team/98b24161-1e4f-4aaf-a81c-147566cc9832/memberships?page[number]=0&page[size]=100",
+        "last": null, "next": "https://us5.datadoghq.com/api/v2/team/98b24161-1e4f-4aaf-a81c-147566cc9832/memberships?page[number]=1&page[size]=100",
+        "prev": null, "first": "https://us5.datadoghq.com/api/v2/team/98b24161-1e4f-4aaf-a81c-147566cc9832/memberships?page[number]=0&page[size]=100"}}'
     headers:
       Content-Type:
       - application/json

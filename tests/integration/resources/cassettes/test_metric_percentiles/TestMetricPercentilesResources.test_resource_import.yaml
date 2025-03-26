@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1740001509,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1743013934,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1740001509,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1743013934,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -82,12 +82,24 @@ interactions:
     uri: https://api.datadoghq.eu/metric/distribution/list_summaries?window=1209600
   response:
     body:
-      string: '[{"metric_name": "msr.other_distribution", "group_by": ["environment"],
-        "include_percentiles": true, "aggr_mode": "include_all", "summary_type": "default",
-        "groups_negated": false, "key": 285536557, "source": "intake"}, {"metric_name":
-        "msr.distribution", "group_by": ["environment"], "include_percentiles": true,
-        "aggr_mode": "include_all", "summary_type": "default", "groups_negated": false,
-        "key": 285529188, "source": "intake"}]'
+      string: '[{"metric_name": "dd.seceng.dd_git_hooks.duration_seconds", "group_by":
+        ["action_sub_type", "action_type", "actual_retries", "agent", "agent_type",
+        "agent_version_major", "agent_version_minor", "agent_version_patch", "availability_zone",
+        "blocked", "branch", "cdn_cached", "cdn_provider", "check_id", "check_subtype",
+        "check_type", "client", "client_transport", "client_type", "client_version",
+        "command", "configured", "datadog_index", "datadog_is_excluded", "date-hour",
+        "department", "destination_id", "device", "device_model", "dmi.product.serial_number",
+        "domain", "duration", "endpoint", "filtered", "git_name", "github_org", "github_repo",
+        "hook", "hook_version", "host", "id", "integration", "is_trace_buffer_set",
+        "last_retry", "location", "location_name", "memory", "region", "resolved_ip",
+        "resource_type", "result", "retention", "revision"], "include_percentiles":
+        false, "aggr_mode": "include_all", "summary_type": "default", "groups_negated":
+        false, "key": 250743476, "source": "intake"}, {"metric_name": "msr.other_distribution",
+        "group_by": [], "include_percentiles": true, "aggr_mode": "include_all", "summary_type":
+        "default", "groups_negated": false, "key": 285536557, "source": "intake"},
+        {"metric_name": "msr.distribution", "group_by": ["agent"], "include_percentiles":
+        true, "aggr_mode": "include_all", "summary_type": "default", "groups_negated":
+        false, "key": 285529188, "source": "intake"}]'
     headers:
       Content-Type:
       - application/json
@@ -96,7 +108,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001509, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013934, "value":
       1}], "tags": ["action_type:import", "status:success", "resource_type:metric_percentiles",
       "client_type:destination"]}]}'
     headers:
@@ -115,7 +127,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001509, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013934, "value":
       1}], "tags": ["action_type:import", "status:success", "resource_type:metric_percentiles",
       "client_type:destination"]}]}'
     headers:
@@ -134,7 +146,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001509, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013934, "value":
       1}], "tags": ["action_type:import", "status:success", "resource_type:metric_percentiles",
       "client_type:source"]}]}'
     headers:
@@ -153,7 +165,45 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001509, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013934, "value":
+      1}], "tags": ["action_type:import", "status:success", "resource_type:metric_percentiles",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013934, "value":
+      1}], "tags": ["action_type:import", "status:success", "resource_type:metric_percentiles",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013934, "value":
       1}], "tags": ["action_type:import", "status:success", "resource_type:metric_percentiles",
       "client_type:source"]}]}'
     headers:

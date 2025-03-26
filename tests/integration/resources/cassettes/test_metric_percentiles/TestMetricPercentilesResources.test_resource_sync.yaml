@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001511,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013936,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001511,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013936,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -74,9 +74,55 @@ interactions:
       code: 202
       message: Accepted
 - request:
-    body: '{"group_by": ["environment"], "include_percentiles": true, "aggr_mode":
-      "include_all", "summary_type": "default", "groups_negated": false, "source":
-      "intake", "metric": "msr.other_distribution"}'
+    body: '{"group_by": ["action_sub_type", "action_type", "actual_retries", "agent",
+      "agent_type", "agent_version_major", "agent_version_minor", "agent_version_patch",
+      "availability_zone", "blocked", "branch", "cdn_cached", "cdn_provider", "check_id",
+      "check_subtype", "check_type", "client", "client_transport", "client_type",
+      "client_version", "command", "configured", "datadog_index", "datadog_is_excluded",
+      "date-hour", "department", "destination_id", "device", "device_model", "dmi.product.serial_number",
+      "domain", "duration", "endpoint", "filtered", "git_name", "github_org", "github_repo",
+      "hook", "hook_version", "host", "id", "integration", "is_trace_buffer_set",
+      "last_retry", "location", "location_name", "memory", "region", "resolved_ip",
+      "resource_type", "result", "retention", "revision"], "include_percentiles":
+      false, "aggr_mode": "include_all", "summary_type": "default", "groups_negated":
+      false, "source": "intake", "metric": "dd.seceng.dd_git_hooks.duration_seconds"}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/metric/distribution/summary_aggr
+  response:
+    body:
+      string: '{"key": 82782325, "metric_key": 794702851}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013936, "value":
+      1}], "tags": ["action_sub_type:create", "id:dd.seceng.dd_git_hooks.duration_seconds",
+      "action_type:sync", "status:success", "resource_type:metric_percentiles", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"group_by": [], "include_percentiles": true, "aggr_mode": "include_all",
+      "summary_type": "default", "groups_negated": false, "source": "intake", "metric":
+      "msr.other_distribution"}'
     headers:
       Content-Type:
       - application/json
@@ -92,8 +138,26 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"group_by": ["agent"], "include_percentiles": true, "aggr_mode": "include_all",
+      "summary_type": "default", "groups_negated": false, "source": "intake", "metric":
+      "msr.distribution"}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/metric/distribution/summary_aggr
+  response:
+    body:
+      string: '{"key": 91943795, "metric_key": 1067326977}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001511, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013936, "value":
       1}], "tags": ["action_sub_type:create", "id:msr.other_distribution", "action_type:sync",
       "status:success", "resource_type:metric_percentiles", "client_type:destination"]}]}'
     headers:
@@ -111,26 +175,27 @@ interactions:
       code: 202
       message: Accepted
 - request:
-    body: '{"group_by": ["environment"], "include_percentiles": true, "aggr_mode":
-      "include_all", "summary_type": "default", "groups_negated": false, "source":
-      "intake", "metric": "msr.distribution"}'
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013936, "value":
+      1}], "tags": ["action_sub_type:create", "id:dd.seceng.dd_git_hooks.duration_seconds",
+      "action_type:sync", "status:success", "resource_type:metric_percentiles", "client_type:source"]}]}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://us5.datadoghq.com/metric/distribution/summary_aggr
+    uri: https://api.datadoghq.eu/api/v2/series
   response:
     body:
-      string: '{"key": 91943795, "metric_key": 1067326977}'
+      string: '{"errors": []}'
     headers:
       Content-Type:
       - application/json
     status:
-      code: 200
-      message: OK
+      code: 202
+      message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001511, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013936, "value":
       1}], "tags": ["action_sub_type:create", "id:msr.distribution", "action_type:sync",
       "status:success", "resource_type:metric_percentiles", "client_type:destination"]}]}'
     headers:
@@ -149,8 +214,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001511, "value":
-      1}], "tags": ["action_sub_type:create", "id:msr.other_distribution", "action_type:sync",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013936, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.distribution", "action_type:sync",
       "status:success", "resource_type:metric_percentiles", "client_type:source"]}]}'
     headers:
       Content-Type:
@@ -168,8 +233,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001511, "value":
-      1}], "tags": ["action_sub_type:create", "id:msr.distribution", "action_type:sync",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013936, "value":
+      1}], "tags": ["action_sub_type:create", "id:msr.other_distribution", "action_type:sync",
       "status:success", "resource_type:metric_percentiles", "client_type:source"]}]}'
     headers:
       Content-Type:

@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001587,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743014020,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001587,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743014020,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -100,7 +100,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"id": "82f45b60-3dbf-4a37-a6c6-6e340b30db9b", "name": "TEST", "description":
+      string: '{"id": "e578d6dd-9930-44b2-8412-6b886ed9fa01", "name": "TEST", "description":
         "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}}'
@@ -112,7 +112,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001587, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014020, "value":
       1}], "tags": ["action_sub_type:create", "id:be3fe0f5-63b1-4913-9f09-c147bf6d5e21",
       "action_type:sync", "status:success", "resource_type:synthetics_global_variables",
       "client_type:destination"]}]}'
@@ -132,7 +132,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001587, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014020, "value":
       1}], "tags": ["action_sub_type:create", "id:be3fe0f5-63b1-4913-9f09-c147bf6d5e21",
       "action_type:sync", "status:success", "resource_type:synthetics_global_variables",
       "client_type:source"]}]}'

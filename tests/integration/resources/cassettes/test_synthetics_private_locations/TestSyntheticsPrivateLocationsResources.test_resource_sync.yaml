@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001595,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743014028,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001595,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743014028,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -83,10 +83,10 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/synthetics/private-locations
   response:
     body:
-      string: '{"private_location": {"createdAt": "2025-02-19T21:46:37.618658+00:00",
-        "modifiedAt": "2025-02-19T21:46:37.618658+00:00", "description": "test", "tags":
+      string: '{"private_location": {"createdAt": "2025-03-26T18:33:49.278410+00:00",
+        "modifiedAt": "2025-03-26T18:33:49.278410+00:00", "description": "test", "tags":
         ["team:test", "managed_by:datadog-sync"], "name": "test", "metadata": {"restricted_roles":
-        []}, "id": "pl:test-87c308f25759788ea80e8771e27008ce", "createdBy": "michael.richey@datadoghq.com",
+        []}, "id": "pl:test-fe118cf0708050d2150ec7171f00d11d", "createdBy": "michael.richey@datadoghq.com",
         "config": {"site": "us5.datadoghq.com"}}, "result_encryption": {"id": "sha256$base64$9ucvNmlRWqa2uszeSwV4XKe79OpikCqSlkwIEmqLLJI=",
         "key": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA609V+ZyMCTConr98t2Kr\nx4lXUdsadwRQIzvHwkXLYRu2bqD3f+QsvdimPUoIyvyeBt6xp9rAUBGV8HGWuzVj\nI7buCuejZw/BGqB6+hXtaMy6HhUwfjkpyuUBvbxqlm+eRywicWN0r77EO4weQ/kY\nWkxmLsDBLBi6zXShnrgkkWBgrIUtX+rx0Gkkf2pVqPZTPFRqL7lRJq/pvkI+UbUT\nqdo6ZGdj0zmliYhpWZwQ0E1dLxNJXcREOL3WutqRuxyxo4RZh06eMRFKfdooU+Y+\n6DGboTO9dcMlAv3YVrzdifH9986ocWUsTnEViY64BEiQf2wbldT9zrepnAiz0JZG\nybgyW5trEXdlrUQQt2LVYlTyZAxjT7V6YilnWgH1gX9wtLIPgyo6XMb/2GDfB69S\nOFRq5XO8gryJB7s2R7XFpIUQJofSqbzqvn39tLZNpuh1uI287wcX7tyt5tqTO1Kd\nk5dkhB2YqXiCshsNjedtFpuAWeaqv1pxmwOzAVe/wCeIHliG58or/iRjRoQ/bIIp\nKryrOAStdG+SfcKhxYnvCVE6itnPE6VomuTLT1X6NNKWEVDL0lGt4CYwm3OoSwt4\npOjctcTfCsP0gAjMzgOTLD+ziWNw7YQa32P8X1sOaaGOkAP9cxD3SqFfO01ihV52\nitBNv4mhGH0j3N2zBSoBUekCAwEAAQ==\n-----END
         PUBLIC KEY-----\n"}}'
@@ -98,7 +98,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001595, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014028, "value":
       1}], "tags": ["action_sub_type:create", "id:pl:test-ddd684741691962f1bfdebeef3963a42",
       "action_type:sync", "status:success", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
@@ -118,7 +118,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001595, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014028, "value":
       1}], "tags": ["action_sub_type:create", "id:pl:test-ddd684741691962f1bfdebeef3963a42",
       "action_type:sync", "status:success", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
