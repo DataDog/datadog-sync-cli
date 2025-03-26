@@ -16,12 +16,13 @@ from datadog_sync.cli import cli
 @pytest.mark.vcr
 @pytest.mark.integration
 class TestCli:
-    # We test resources with resource dependencies only. The rest of the resources are
-    # tested in the individual resource test files
+    # We test resources with resource dependencies only. To do that we have to also test those dependencies.
+    # The rest of the resources are tested in the individual resource test files
     resources = ",".join(
         [
             "roles",
             "users",
+            "teams",
             "dashboards",
             "dashboard_lists",
             "synthetics_global_variables",
@@ -32,6 +33,7 @@ class TestCli:
             "powerpacks",
             "service_level_objectives",
             "slo_corrections",
+            "team_memberships",
         ]
     )
 
