@@ -28,7 +28,7 @@ class TeamMemberships(BaseResource):
         ],
     )
     team_memberships_path = "/api/v2/team/{}/memberships"
-    destination_team_memberships = []
+    destination_team_memberships: List[Dict] = []
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         # get all the teams
@@ -59,7 +59,12 @@ class TeamMemberships(BaseResource):
             )
 
         resource = cast(dict, resource)
-        _id = str(resource["id"])
+        if not resource:
+            raise ValueError("Error creating team membership resource")
+
+        _id = str(resource.get("id"))
+        if not _id:
+            raise ValueError("Error creating team membership resource, no id")
 
         return _id, resource
 
