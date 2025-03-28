@@ -38,4 +38,5 @@ from datadog_sync.model.synthetics_global_variables import SyntheticsGlobalVaria
 from datadog_sync.model.synthetics_private_locations import SyntheticsPrivateLocations
 from datadog_sync.model.synthetics_tests import SyntheticsTests
 from datadog_sync.model.teams import Teams
+from datadog_sync.model.team_memberships import TeamMemberships
 from datadog_sync.model.users import Users

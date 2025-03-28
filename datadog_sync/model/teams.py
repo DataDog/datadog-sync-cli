@@ -57,6 +57,7 @@ class Teams(BaseResource):
     async def pre_apply_hook(self) -> None:
         client = self.config.destination_client
         resp = await self.get_resources(client)
+        self.destination_teams = {}
         for r in resp:
             self.destination_teams[f"{r['attributes']['name']}:{r['attributes']['handle']}"] = r
 

@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001575,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743014007,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001575,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743014007,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -88,7 +88,8 @@ interactions:
         "sensitive_data_scanner_group"}]}}}, "meta": {"version": 10, "count_limit":
         100, "group_count_limit": 20, "is_pci_compliant": false, "has_highlight_enabled":
         true, "has_multi_pass_enabled": true, "has_cascading_enabled": false, "is_configuration_superseded":
-        false}, "included": [{"id": "731fff24-2e94-4446-b6a1-efb10ad66e91", "attributes":
+        false, "is_float_sampling_rate_enabled": false, "min_sampling_rate": 10.0},
+        "included": [{"id": "731fff24-2e94-4446-b6a1-efb10ad66e91", "attributes":
         {"name": "watch hello", "is_enabled": false, "filter": {"query": "service:hello"},
         "product_list": ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group",
         "relationships": {"configuration": {"data": {"id": "27dabeb7aa3925c87b76e66473e086286a0d84fd461fb7861924cd54815fb9c8",
@@ -110,12 +111,12 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups
   response:
     body:
-      string: '{"data": {"id": "13745b5f-76ae-403a-a4e0-42d8d9b47392", "attributes":
+      string: '{"data": {"id": "7062f8e6-5695-461e-8e20-9b86888dfeee", "attributes":
         {"name": "watch hello", "is_enabled": false, "filter": {"query": "service:hello"},
         "product_list": ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group",
         "relationships": {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        "meta": {"version": 515}}'
+        "meta": {"version": 902}}'
     headers:
       Content-Type:
       - application/json
@@ -124,7 +125,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001575, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014007, "value":
       1}], "tags": ["action_sub_type:create", "id:731fff24-2e94-4446-b6a1-efb10ad66e91",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups",
       "client_type:destination"]}]}'
@@ -144,7 +145,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001575, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014007, "value":
       1}], "tags": ["action_sub_type:create", "id:731fff24-2e94-4446-b6a1-efb10ad66e91",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups",
       "client_type:source"]}]}'
@@ -173,17 +174,36 @@ interactions:
     body:
       string: '{"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "attributes": {}, "type": "sensitive_data_scanner_configuration", "relationships":
-        {"groups": {"data": [{"id": "301c924a-36ba-4701-8644-113c1b055219", "type":
-        "sensitive_data_scanner_group"}, {"id": "13745b5f-76ae-403a-a4e0-42d8d9b47392",
-        "type": "sensitive_data_scanner_group"}]}}}, "meta": {"version": 515, "count_limit":
+        {"groups": {"data": [{"id": "fd92b2ee-4d18-4cee-800c-7a8d9f7c0bcc", "type":
+        "sensitive_data_scanner_group"}, {"id": "532244da-9b48-4b71-8ccd-f31b2f29cb0e",
+        "type": "sensitive_data_scanner_group"}, {"id": "491ab5a9-c933-4449-b080-bf7eced978ef",
+        "type": "sensitive_data_scanner_group"}, {"id": "86555b72-f078-4530-a5cb-e32dd9f9ecc3",
+        "type": "sensitive_data_scanner_group"}, {"id": "7062f8e6-5695-461e-8e20-9b86888dfeee",
+        "type": "sensitive_data_scanner_group"}]}}}, "meta": {"version": 902, "count_limit":
         100, "group_count_limit": 20, "is_pci_compliant": false, "has_highlight_enabled":
         true, "has_multi_pass_enabled": true, "has_cascading_enabled": false, "is_configuration_superseded":
-        false}, "included": [{"id": "301c924a-36ba-4701-8644-113c1b055219", "attributes":
+        false, "is_float_sampling_rate_enabled": false, "min_sampling_rate": 10.0},
+        "included": [{"id": "fd92b2ee-4d18-4cee-800c-7a8d9f7c0bcc", "attributes":
         {"name": "watch hello", "is_enabled": false, "filter": {"query": "service:hello"},
         "product_list": ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group",
         "relationships": {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        {"id": "13745b5f-76ae-403a-a4e0-42d8d9b47392", "attributes": {"name": "watch
+        {"id": "532244da-9b48-4b71-8ccd-f31b2f29cb0e", "attributes": {"name": "watch
+        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
+        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
+        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
+        {"id": "491ab5a9-c933-4449-b080-bf7eced978ef", "attributes": {"name": "watch
+        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
+        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
+        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
+        {"id": "86555b72-f078-4530-a5cb-e32dd9f9ecc3", "attributes": {"name": "watch
+        hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
+        ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
+        {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
+        "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
+        {"id": "7062f8e6-5695-461e-8e20-9b86888dfeee", "attributes": {"name": "watch
         hello", "is_enabled": false, "filter": {"query": "service:hello"}, "product_list":
         ["apm"], "samplings": []}, "type": "sensitive_data_scanner_group", "relationships":
         {"configuration": {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
@@ -196,8 +216,11 @@ interactions:
       message: OK
 - request:
     body: '{"data": {"type": "sensitive_data_scanner_configuration", "id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-      "relationships": {"groups": {"data": [{"id": "13745b5f-76ae-403a-a4e0-42d8d9b47392",
-      "type": "sensitive_data_scanner_group"}, {"id": "301c924a-36ba-4701-8644-113c1b055219",
+      "relationships": {"groups": {"data": [{"id": "7062f8e6-5695-461e-8e20-9b86888dfeee",
+      "type": "sensitive_data_scanner_group"}, {"id": "fd92b2ee-4d18-4cee-800c-7a8d9f7c0bcc",
+      "type": "sensitive_data_scanner_group"}, {"id": "532244da-9b48-4b71-8ccd-f31b2f29cb0e",
+      "type": "sensitive_data_scanner_group"}, {"id": "491ab5a9-c933-4449-b080-bf7eced978ef",
+      "type": "sensitive_data_scanner_group"}, {"id": "86555b72-f078-4530-a5cb-e32dd9f9ecc3",
       "type": "sensitive_data_scanner_group"}]}}}, "meta": {}}'
     headers:
       Content-Type:
@@ -206,9 +229,10 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/sensitive-data-scanner/config
   response:
     body:
-      string: '{"meta": {"version": 516, "count_limit": 100, "group_count_limit":
+      string: '{"meta": {"version": 903, "count_limit": 100, "group_count_limit":
         20, "is_pci_compliant": false, "has_highlight_enabled": true, "has_multi_pass_enabled":
-        false, "has_cascading_enabled": false, "is_configuration_superseded": false}}'
+        false, "has_cascading_enabled": false, "is_configuration_superseded": false,
+        "is_float_sampling_rate_enabled": false, "min_sampling_rate": 0.0}}'
     headers:
       Content-Type:
       - application/json
@@ -217,7 +241,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001575, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014007, "value":
       1}], "tags": ["action_sub_type:create", "id:sensitive-data-scanner-group-order",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups_order",
       "client_type:destination"]}]}'
@@ -237,7 +261,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001575, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014007, "value":
       1}], "tags": ["action_sub_type:create", "id:sensitive-data-scanner-group-order",
       "action_type:sync", "status:success", "resource_type:sensitive_data_scanner_groups_order",
       "client_type:source"]}]}'

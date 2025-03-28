@@ -250,7 +250,8 @@ When running againts multiple destination organizations, a seperate working dire
 | synthetics_global_variables            | Sync Datadog synthetic global variables.                             |
 | synthetics_private_locations           | Sync Datadog synthetic private locations.                            |
 | synthetics_tests                       | Sync Datadog synthetic tests.                                        |
-| teams                                  | Sync Datadog teams (excluding users and permissions).                |
+| teams                                  | Sync Datadog teams (excluding permissions).                          |
+| team_memberships                       | Sync Datadog team memberships.                                       |
 | users                                  | Sync Datadog users.                                                  |
 
 ***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
@@ -298,4 +299,5 @@ See [Supported resources](#supported-resources) section below for potential reso
 | synthetics_private_locations           | -                                                                |
 | synthetics_tests                       | synthetics_private_locations, synthetics_global_variables, roles |
 | teams                                  | -                                                                |
+| team_memberships                       | teams, users                                                     |
 | users                                  | roles                                                            |

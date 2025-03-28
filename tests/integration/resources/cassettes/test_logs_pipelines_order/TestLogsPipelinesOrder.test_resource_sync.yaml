@@ -39,7 +39,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001501,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013926,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -57,7 +57,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001501,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013926,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -82,7 +82,8 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/logs/config/pipeline-order
   response:
     body:
-      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "uSFmijucS6ijnto601ad2w"]}'
+      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "uSFmijucS6ijnto601ad2w",
+        "06NJ6fGXQXuwbIJTQPaqUA"]}'
     headers:
       Content-Type:
       - application/json
@@ -91,7 +92,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001501, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013926, "value":
       1}], "tags": ["reason:connection_error", "id:logs-pipeline-order", "action_type:sync",
       "status:skipped", "resource_type:logs_pipelines_order", "client_type:destination"]}]}'
     headers:
@@ -110,7 +111,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001501, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013926, "value":
       1}], "tags": ["reason:connection_error", "id:logs-pipeline-order", "action_type:sync",
       "status:skipped", "resource_type:logs_pipelines_order", "client_type:source"]}]}'
     headers:

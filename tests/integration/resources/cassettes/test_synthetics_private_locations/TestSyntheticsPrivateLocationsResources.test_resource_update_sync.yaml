@@ -77,7 +77,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001597,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743014029,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -95,7 +95,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1740001597,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743014029,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -118,12 +118,12 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/synthetics/private-locations/pl:test-87c308f25759788ea80e8771e27008ce
+    uri: https://us5.datadoghq.com/api/v1/synthetics/private-locations/pl:test-fe118cf0708050d2150ec7171f00d11d
   response:
     body:
-      string: '{"createdAt": "2025-02-19T21:46:37.618658+00:00", "modifiedAt": "2025-02-19T21:46:39.227411+00:00",
+      string: '{"createdAt": "2025-03-26T18:33:49.278410+00:00", "modifiedAt": "2025-03-26T18:33:50.869503+00:00",
         "description": "test", "tags": ["team:test", "managed_by:datadog-sync"], "name":
-        "testupdated", "metadata": {"restricted_roles": []}, "id": "pl:test-87c308f25759788ea80e8771e27008ce",
+        "testupdated", "metadata": {"restricted_roles": []}, "id": "pl:test-fe118cf0708050d2150ec7171f00d11d",
         "createdBy": "michael.richey@datadoghq.com"}'
     headers:
       Content-Type:
@@ -133,7 +133,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001597, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014029, "value":
       1}], "tags": ["action_sub_type:update", "id:pl:test-ddd684741691962f1bfdebeef3963a42",
       "action_type:sync", "status:success", "resource_type:synthetics_private_locations",
       "client_type:destination"]}]}'
@@ -153,7 +153,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1740001597, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743014029, "value":
       1}], "tags": ["action_sub_type:update", "id:pl:test-ddd684741691962f1bfdebeef3963a42",
       "action_type:sync", "status:success", "resource_type:synthetics_private_locations",
       "client_type:source"]}]}'
