@@ -6,8 +6,6 @@ from typing import Any, Dict, List, Tuple
 
 from datadog_sync.constants import (
     Origin,
-    AWS_BUCKET_KEY_PREFIX_DESTINATION,
-    AWS_BUCKET_KEY_PREFIX_SOURCE,
     DESTINATION_PATH_DEFAULT,
     DESTINATION_PATH_PARAM,
     SOURCE_PATH_DEFAULT,
@@ -21,16 +19,14 @@ from datadog_sync.utils.storage.storage_types import StorageType
 
 class State:
     def __init__(self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: object) -> None:
+        source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
+        destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
         if type_ == StorageType.LOCAL_FILE:
-            source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
-            destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
             self._storage: BaseStorage = LocalFile(
                 source_resources_path=source_resources_path,
                 destination_resources_path=destination_resources_path,
             )
         elif type_ == StorageType.AWS_S3_BUCKET:
-            source_resources_path = kwargs.get(AWS_BUCKET_KEY_PREFIX_SOURCE, SOURCE_PATH_DEFAULT)
-            destination_resources_path = kwargs.get(AWS_BUCKET_KEY_PREFIX_DESTINATION, DESTINATION_PATH_DEFAULT)
             config = kwargs.get("config", {})
             if not config:
                 raise ValueError("AWS configuration not found")
