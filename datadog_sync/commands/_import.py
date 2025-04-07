@@ -6,7 +6,6 @@
 from click import command
 
 from datadog_sync.commands.shared.options import (
-    common_options,
     destination_auth_options,
     source_auth_options,
     storage_options,

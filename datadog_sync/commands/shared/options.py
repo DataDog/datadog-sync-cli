@@ -355,6 +355,7 @@ def diffs_options(func: Callable) -> Callable:
 def sync_options(func: Callable) -> Callable:
     return _build_options_helper(func, _sync_options)
 
+
 def _build_options_helper(func: Callable, options: List[Callable]) -> Callable:
     for _option in options:
         func = _option(func)
