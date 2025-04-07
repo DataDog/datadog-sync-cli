@@ -285,7 +285,7 @@ _storage_options = [
 ]
 
 
-_diffs_common_options = [
+_diffs_options = [
     option(
         "--skip-failed-resource-connections",
         type=bool,
@@ -309,7 +309,7 @@ _diffs_common_options = [
 ]
 
 
-_sync_common_options = [
+_sync_options = [
     option(
         "--force-missing-dependencies",
         required=False,
@@ -348,12 +348,12 @@ def storage_options(func: Callable) -> Callable:
     return _build_options_helper(func, _storage_options)
 
 
-def diffs_common_options(func: Callable) -> Callable:
-    return _build_options_helper(func, _diffs_common_options)
+def diffs_options(func: Callable) -> Callable:
+    return _build_options_helper(func, _diffs_options)
 
 
-def sync_common_options(func: Callable) -> Callable:
-    return _build_options_helper(func, _sync_common_options)
+def sync_options(func: Callable) -> Callable:
+    return _build_options_helper(func, _sync_options)
 
 
 def _build_options_helper(func: Callable, options: List[Callable]) -> Callable:
