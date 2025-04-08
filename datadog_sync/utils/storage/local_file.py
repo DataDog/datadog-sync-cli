@@ -85,13 +85,12 @@ class LocalFile(BaseStorage):
             for resource_type, value in data.source.items():
                 filename = f"{self.source_resources_path}/{resource_type}"
                 if self.resource_per_file:
-                    filename += f".{value.keys()[0]}"
-                filename += ".json"
-                if self.resource_per_file:
                     for _id, resource in value.items():
+                        filename += f".{_id}.json"
                         with open(filename, "w+", encoding="utf-8") as out_file:
                             json.dump({_id: resource}, out_file)
                 else:
+                    filename += ".json"
                     with open(filename, "w+", encoding="utf-8") as out_file:
                         json.dump(value, out_file)
 
@@ -99,12 +98,11 @@ class LocalFile(BaseStorage):
             for resource_type, value in data.destination.items():
                 filename = f"{self.destination_resources_path}/{resource_type}"
                 if self.resource_per_file:
-                    filename += f".{value.keys()[0]}"
-                filename += ".json"
-                if self.resource_per_file:
                     for _id, resource in value.items():
+                        filename += f".{_id}.json"
                         with open(filename, "w+", encoding="utf-8") as out_file:
                             json.dump({_id: resource}, out_file)
                 else:
+                    filename += ".json"
                     with open(filename, "w+", encoding="utf-8") as out_file:
                         json.dump(value, out_file)
