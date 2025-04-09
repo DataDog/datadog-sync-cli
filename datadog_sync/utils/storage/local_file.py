@@ -56,11 +56,7 @@ class LocalFile(BaseStorage):
             for file in os.listdir(self.destination_resources_path):
                 if file.endswith(".json"):
                     resource_type = file.split(".")[0]
-                    with open(
-                        self.destination_resources_path + f"/{file}",
-                        "r",
-                        encoding="utf-8",
-                    ) as input_file:
+                    with open(self.destination_resources_path + f"/{file}", "r", encoding="utf-8") as input_file:
                         try:
                             if not data.destination[resource_type]:
                                 data.destination[resource_type] = json.load(input_file)
@@ -83,26 +79,26 @@ class LocalFile(BaseStorage):
     def write_resources_file(self, origin: Origin, data: StorageData) -> None:
         if origin in [Origin.SOURCE, Origin.ALL]:
             for resource_type, value in data.source.items():
-                filename = f"{self.source_resources_path}/{resource_type}"
+                base_filename = f"{self.source_resources_path}/{resource_type}"
                 if self.resource_per_file:
                     for _id, resource in value.items():
-                        filename += f".{_id}.json"
+                        filename = f"{base_filename}.{_id}.json"
                         with open(filename, "w+", encoding="utf-8") as out_file:
                             json.dump({_id: resource}, out_file)
                 else:
-                    filename += ".json"
+                    filename = f"{base_filename}.json"
                     with open(filename, "w+", encoding="utf-8") as out_file:
                         json.dump(value, out_file)
 
         if origin in [Origin.DESTINATION, Origin.ALL]:
             for resource_type, value in data.destination.items():
-                filename = f"{self.destination_resources_path}/{resource_type}"
+                base_filename = f"{self.destination_resources_path}/{resource_type}"
                 if self.resource_per_file:
                     for _id, resource in value.items():
-                        filename += f".{_id}.json"
+                        filename = f"{base_filename}.{_id}.json"
                         with open(filename, "w+", encoding="utf-8") as out_file:
                             json.dump({_id: resource}, out_file)
                 else:
-                    filename += ".json"
+                    filename = f"{base_filename}.json"
                     with open(filename, "w+", encoding="utf-8") as out_file:
                         json.dump(value, out_file)

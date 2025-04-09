@@ -42,6 +42,7 @@ class State:
                 source_resources_path=source_resources_path,
                 destination_resources_path=destination_resources_path,
                 config=config,
+                resource_per_file=resource_per_file,
             )
         else:
             raise NotImplementedError(f"Storage type {type_} not implemented")

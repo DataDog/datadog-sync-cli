@@ -99,10 +99,10 @@ class AWSS3Bucket(BaseStorage):
         log.info("AWS S3 put called")
         if origin in [Origin.SOURCE, Origin.ALL]:
             for resource_type, resource_data in data.source.items():
-                key = f"{self.source_resources_path}/{resource_type}"
+                base_key = f"{self.source_resources_path}/{resource_type}"
                 if self.resource_per_file:
                     for _id, resource in resource_data.items():
-                        key += f".{_id}.json"
+                        key = f"{base_key}.{_id}.json"
                         binary_data = bytes(json.dumps({_id: resource}), "UTF-8")
                         self.client.put_object(
                             Body=binary_data,
@@ -110,7 +110,7 @@ class AWSS3Bucket(BaseStorage):
                             Key=key,
                         )
                 else:
-                    key += ".json"
+                    key = f"{base_key}.json"
                     binary_data = bytes(json.dumps(resource_data), "UTF-8")
                     self.client.put_object(
                         Body=binary_data,
@@ -120,10 +120,10 @@ class AWSS3Bucket(BaseStorage):
 
         if origin in [Origin.DESTINATION, Origin.ALL]:
             for resource_type, resource_data in data.destination.items():
-                key = f"{self.destination_resources_path}/{resource_type}"
+                base_key = f"{self.destination_resources_path}/{resource_type}"
                 if self.resource_per_file:
                     for _id, resource in resource_data.items():
-                        key += f".{_id}.json"
+                        key = f"{base_key}.{_id}.json"
                         binary_data = bytes(json.dumps({_id: resource}), "UTF-8")
                         self.client.put_object(
                             Body=binary_data,
@@ -131,7 +131,7 @@ class AWSS3Bucket(BaseStorage):
                             Key=key,
                         )
                 else:
-                    key += ".json"
+                    key = f"{base_key}.json"
                     binary_data = bytes(json.dumps(resource_data), "UTF-8")
                     self.client.put_object(
                         Body=binary_data,
