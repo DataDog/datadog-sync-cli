@@ -187,6 +187,16 @@ _common_options = [
         help="Enables sync-cli metrics being sent to both source and destination",
         cls=CustomOptionClass,
     ),
+    option(
+        "--resource-per-file",
+        required=False,
+        is_flag=True,
+        default=False,
+        show_default=True,
+        help="By default resource files contain many resources of the same resource type, setting this flag to true "
+        "will create a resource file for each individual resource.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 _storage_options = [

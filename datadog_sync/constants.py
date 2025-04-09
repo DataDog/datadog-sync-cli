@@ -64,6 +64,7 @@ SOURCE_PATH_PARAM = "source_resources_path"
 SOURCE_PATH_DEFAULT = "resources/source"
 DESTINATION_PATH_PARAM = "destination_resources_path"
 DESTINATION_PATH_DEFAULT = "resources/destination"
+RESOURCE_PER_FILE = "resource_per_file"
 
 
 # Commands
