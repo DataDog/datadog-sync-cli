@@ -9,4 +9,6 @@ from datadog_sync.models import DowntimeSchedules
 
 class TestDowntimeSchedulesResources(BaseResourcesTestClass):
     resource_type = DowntimeSchedules.resource_type
+    dependencies = list(DowntimeSchedules.resource_config.resource_connections.keys())
     field_to_update = "attributes.message"
+    force_missing_deps = True

@@ -8,4 +8,6 @@ from datadog_sync.models import Monitors
 
 class TestMonitorsResources(BaseResourcesTestClass):
     resource_type = Monitors.resource_type
+    dependencies = list(Monitors.resource_config.resource_connections.keys())
     field_to_update = "name"
+    force_missing_deps = True

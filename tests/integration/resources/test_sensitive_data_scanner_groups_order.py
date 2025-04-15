@@ -11,6 +11,7 @@ from datadog_sync.models import SensitiveDataScannerGroupsOrder
 
 class TestSensitiveDataScannerGroupsOrder(BaseResourcesTestClass):
     resource_type = SensitiveDataScannerGroupsOrder.resource_type
+    dependencies = list(SensitiveDataScannerGroupsOrder.resource_config.resource_connections.keys())
     force_missing_deps = True
 
     @pytest.mark.skip(reason="resource is only updated by default")

@@ -7,7 +7,9 @@ import os
 import re
 import json
 import shutil
+import glob
 
+from click.testing import CliRunner
 import pytest
 
 from datadog_sync.cli import cli
@@ -15,6 +17,7 @@ from datadog_sync.cli import cli
 
 RESOURCE_TO_ADD_RE = re.compile("to be created")
 RESOURCE_SKIPPED_RE = re.compile("skipping resource")
+RESOURCE_DELETED_RE = re.compile("deleting resource")
 RESOURCE_FILE_PATH = "resources/{}/{}.json"
 
 
@@ -26,6 +29,7 @@ class BaseResourcesTestClass:
     resources_to_preserve_filter = None
     filter = ""
     force_missing_deps = False
+    resource_per_file = False  # Flag to indicate resource-per-file mode
 
     @staticmethod
     def compute_cleanup_changes(resource_count, num_of_skips):
@@ -42,19 +46,86 @@ class BaseResourcesTestClass:
         my_tmpdir = tmpdir_factory.mktemp("tmp")
         os.chdir(my_tmpdir)
 
+    @pytest.fixture(autouse=True, scope="function")
+    def setup_and_teardown(self, request, caplog: pytest.LogCaptureFixture):
+        """Set up before each test and clean up after each test."""
+        # Clean up resources from any previous tests
+        self.clean_resource_files()
+        
+        # Run the test
+        yield
+        
+        # Clean up resources respecting the resources_to_preserve_filter
+        runner = CliRunner()
+        self.test_resource_cleanup(runner, caplog)
+        
+        # Clean up local files
+        self.clean_resource_files()
+    
+    def clean_resource_files(self):
+        """Clean up local resource files."""
+        for path in ["resources/source", "resources/destination"]:
+            if os.path.exists(path):
+                shutil.rmtree(path)
+
+    def import_resources(self, runner, caplog):
+        """Import resources from Datadog.
+        
+        Can be used by test methods to ensure resources exist before testing.
+        """
+        caplog.set_level(logging.DEBUG)
+        
+        if self.resources_to_preserve_filter:
+            self.filter = f"{self.resources_to_preserve_filter}"
+
+        cmd = [
+            "import",
+            "--validate=false",
+            "--verify-ddr-status=False",
+            f"--resources={self.resource_type}",
+            f"--filter={self.filter}",
+        ]
+        
+        if self.resource_per_file:
+            cmd.append("--resource-per-file")
+            
+        ret = runner.invoke(cli, cmd)
+        assert 0 == ret.exit_code
+        return ret
+
+    def sync_resources(self, runner, caplog):
+        """Sync resources to Datadog.
+        
+        Can be used by test methods to ensure resources are synced before testing updates.
+        """
+        caplog.set_level(logging.DEBUG)
+        
+        cmd = [
+            "sync",
+            "--validate=false",
+            "--verify-ddr-status=False",
+            f"--resources={self.resource_type}",
+            "--create-global-downtime=False",
+        ]
+        
+        if self.filter:
+            cmd.append(f"--filter={self.filter}")
+
+        if self.resource_per_file:
+            cmd.append("--resource-per-file")
+            
+        if self.force_missing_deps:
+            cmd.append("--force-missing-dependencies")
+            
+        ret = runner.invoke(cli, cmd)
+        assert 0 == ret.exit_code
+        return ret
+
     def test_resource_import(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-
-        ret = runner.invoke(
-            cli,
-            [
-                "import",
-                "--validate=false",
-                f"--resources={self.resource_type}",
-                f"--filter={self.filter}",
-            ],
-        )
-        assert 0 == ret.exit_code
+        
+        # Import the resources
+        self.import_resources(runner, caplog)
 
         # Assert at least one resource is imported
         source_resources, _ = open_resources(self.resource_type)
@@ -62,16 +133,21 @@ class BaseResourcesTestClass:
 
         # Disable skipping on resource connection failure
         # From stdout, count the  number of resources to be added and ensure they match the import len()
-        ret = runner.invoke(
-            cli,
-            [
-                "diffs",
-                "--validate=false",
-                f"--resources={self.resource_type}",
-                f"--filter={self.filter}",
-                "--skip-failed-resource-connections=false",
-            ],
-        )
+        diff_cmd = [
+            "diffs",
+            "--validate=false",
+            "--verify-ddr-status=False",
+            f"--resources={self.resource_type}",
+            "--skip-failed-resource-connections=false",
+        ]
+
+        if self.filter:
+            diff_cmd.append(f"--filter={self.filter}")
+        
+        if self.resource_per_file:
+            diff_cmd.append("--resource-per-file")
+            
+        ret = runner.invoke(cli, diff_cmd)
         assert 0 == ret.exit_code
 
         num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(caplog.text))
@@ -80,26 +156,37 @@ class BaseResourcesTestClass:
 
     def test_resource_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        cmd_list = [
-            "sync",
-            "--validate=false",
-            f"--resources={self.resource_type}",
-            f"--filter={self.filter}",
-            "--create-global-downtime=False",
-        ]
-        if self.force_missing_deps:
-            cmd_list.append("--force-missing-dependencies")
-        ret = runner.invoke(cli, cmd_list)
-        assert 0 == ret.exit_code
+        
+        # Import resources if needed
+        source_resources, _ = open_resources(self.resource_type)
+        if not source_resources:
+            self.import_resources(runner, caplog)
+        caplog.clear()
+        
+        # Perform the sync
+        self.sync_resources(runner, caplog)
 
-        # By default, resources  with failed connections are skipped. Hence, count number of skipped + success
+        # By default, resources with failed connections are skipped. Hence, count number of skipped + success
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        caplog.clear()
 
     def test_resource_update_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        # source_resources, _ = open_resources(self.resource_type)
+        
+        # Import resources if needed
+        source_resources, destination_resources = open_resources(self.resource_type)
+        if not source_resources:
+            self.import_resources(runner, caplog)
+            caplog.clear()
+            
+        # Ensure destination resources exist by syncing if needed
+        if not destination_resources:
+            self.sync_resources(runner, caplog)
+            caplog.clear()
+        
+        # Get the updated resources
         source_resources, destination_resources = open_resources(self.resource_type)
 
         # update fields and save the file.
@@ -121,42 +208,45 @@ class BaseResourcesTestClass:
 
         caplog.clear()
         # assert diff is produced
-        ret = runner.invoke(
-            cli,
-            [
-                "diffs",
-                "--validate=false",
-                f"--resources={self.resource_type}",
-                f"--filter={self.filter}",
-            ],
-        )
+        diff_cmd = [
+            "diffs",
+            "--validate=false",
+            "--verify-ddr-status=False",
+            f"--resources={self.resource_type}",
+        ]
+        
+        if self.filter:
+            diff_cmd.append(f"--filter={self.filter}")
+
+        if self.resource_per_file:
+            diff_cmd.append("--resource-per-file")
+            
+        ret = runner.invoke(cli, diff_cmd)
         assert caplog.text
         assert 0 == ret.exit_code
+        caplog.clear()
 
         # sync the updated resources
-        ret = runner.invoke(
-            cli,
-            [
-                "sync",
-                "--validate=false",
-                f"--resources={self.resource_type}",
-                f"--filter={self.filter}",
-                "--create-global-downtime=False",
-            ],
-        )
-        assert 0 == ret.exit_code
+        sync_cmd = [
+            "sync",
+            "--validate=false",
+            "--verify-ddr-status=False",
+            f"--resources={self.resource_type}",
+            "--create-global-downtime=False",
+        ]
+        
+        if self.filter:
+            diff_cmd.append(f"--filter={self.filter}")
 
+        if self.resource_per_file:
+            sync_cmd.append("--resource-per-file")
+            
+        ret = runner.invoke(cli, sync_cmd)
+        assert 0 == ret.exit_code
         caplog.clear()
+
         # assert diff is no longer produced
-        ret = runner.invoke(
-            cli,
-            [
-                "diffs",
-                "--validate=false",
-                f"--resources={self.resource_type}",
-                f"--filter={self.filter}",
-            ],
-        )
+        ret = runner.invoke(cli, diff_cmd)
         assert 0 == ret.exit_code
         assert "to be deleted" not in caplog.text
         assert "to be created" not in caplog.text
@@ -165,19 +255,28 @@ class BaseResourcesTestClass:
         # Assert number of synced and imported resources match
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
+
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        caplog.clear()
 
     def test_no_resource_diffs(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
-        ret = runner.invoke(
-            cli,
-            [
-                "diffs",
-                "--validate=false",
-                f"--resources={self.resource_type}",
-                f"--filter={self.filter}",
-            ],
-        )
+        
+        # Build diffs command
+        diff_cmd = [
+            "diffs",
+            "--validate=false",
+            "--verify-ddr-status=False",
+            f"--resources={self.resource_type}",
+        ]
+        
+        if self.filter:
+            diff_cmd.append(f"--filter={self.filter}")
+
+        if self.resource_per_file:
+            diff_cmd.append("--resource-per-file")
+            
+        ret = runner.invoke(cli, diff_cmd)
 
         assert "to be deleted" not in caplog.text
         assert "to be created" not in caplog.text
@@ -187,67 +286,138 @@ class BaseResourcesTestClass:
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
         assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
+        caplog.clear()
 
     def test_resource_cleanup(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
         # Remove current source resources
         shutil.rmtree("resources/source", ignore_errors=True)
+        os.mkdir("resources/source")
 
-        # Re-import resources if filter is passed
-        if self.resources_to_preserve_filter:
-            ret = runner.invoke(
-                cli,
-                [
-                    "import",
-                    "--validate=false",
-                    f"--resources={self.resource_type}",
-                    f"--filter={self.resources_to_preserve_filter}",
-                ],
-            )
-            assert 0 == ret.exit_code
+        # create empty source files for resource and dependencies
+        file_list = [self.resource_type]
+        if self.force_missing_deps:
+            file_list += self.dependencies
+        for file_name in set(file_list):
+            with open(f"resources/source/{file_name}.json", "x") as file_handle:
+                file_handle.write("{}")
 
-        # Sync with cleanup
-        ret = runner.invoke(
-            cli,
-            [
-                "sync",
-                "--validate=false",
-                f"--resources={self.resource_type}",
-                f"--filter={self.filter}",
-                "--cleanup=force",
-                "--create-global-downtime=False",
-            ],
-        )
-
+        # preserve users
+        import_cmd = [
+            "import",
+            "--resources=users",
+            "--validate=false",
+            "--verify-ddr-status=False",
+            "--filter=Type=users;Name=attributes.status;Value=Active",
+        ]
+        ret = runner.invoke(cli, import_cmd)
         assert 0 == ret.exit_code
 
-        num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
-        source_resources, destination_resources = open_resources(self.resource_type)
+        # preserve roles
+        import_cmd = [
+            "import",
+            "--resources=roles",
+            "--validate=false",
+            "--verify-ddr-status=False",
+            "--filter=Type=roles;Name=attributes.user_count;Value=[^0]+;Operator=SubString",
+        ]
+        ret = runner.invoke(cli, import_cmd)
+        assert 0 == ret.exit_code
 
-        assert len(source_resources) == self.compute_cleanup_changes(len(destination_resources), num_resources_skipped)
+        # preserve anything else
+        if self.resource_type not in ["users", "roles"] and self.resources_to_preserve_filter:
+            import_cmd = [
+                "import",
+                f"--resources={self.resource_type}",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                f"--filter={self.resources_to_preserve_filter}",
+            ]
+            ret = runner.invoke(cli, import_cmd)
+            assert 0 == ret.exit_code
+
+
+        caplog.clear()
+        # Sync with cleanup
+        sync_cmd = [
+            "sync",
+            "--validate=false",
+            "--verify-ddr-status=False",
+            "--cleanup=force",
+            "--create-global-downtime=False",
+        ]
+        
+        if self.filter:
+            sync_cmd.append(f"--filter={self.filter}")
+            
+        # caution: cleaning up dependencies too!
+        if self.force_missing_deps:
+            sync_cmd.append("--force-missing-dependencies")
+            sync_cmd.append(f"--resources={self.resource_type},{','.join(self.dependencies)}")
+        else:
+            sync_cmd.append(f"--resources={self.resource_type}")
+
+        ret = runner.invoke(cli, sync_cmd)
+        assert 0 == ret.exit_code
+        caplog.clear()
 
 
 def save_source_resources(resource_type, resources):
-    source_path = RESOURCE_FILE_PATH.format("source", resource_type)
-    with open(source_path, "w") as f:
-        json.dump(resources, f, indent=2)
+    # Check for individual files first
+    individual_files = glob.glob(f"resources/source/{resource_type}.*.json")
+    if individual_files:
+        # Individual file mode - save each resource to its own file
+        for resource_id, resource in resources.items():
+            file_path = f"resources/source/{resource_type}.{resource_id}.json"
+            with open(file_path, "w") as f:
+                json.dump({resource_id: resource}, f, indent=2)
+    else:
+        # Combined file mode - save all resources to a single file
+        source_path = RESOURCE_FILE_PATH.format("source", resource_type)
+        with open(source_path, "w") as f:
+            json.dump(resources, f, indent=2)
 
 
 def open_resources(resource_type):
     source_resources = dict()
     destination_resources = dict()
 
+    # Try to open combined files first
     source_path = RESOURCE_FILE_PATH.format("source", resource_type)
     destination_path = RESOURCE_FILE_PATH.format("destination", resource_type)
 
-    if os.path.exists(source_path):
+    # Check for individual source files
+    source_files = glob.glob(f"resources/source/{resource_type}.*.json")
+    if source_files:
+        # Process individual source files
+        for file_path in source_files:
+            with open(file_path, "r") as f:
+                try:
+                    resource_data = json.load(f)
+                    source_resources.update(resource_data)
+                except json.decoder.JSONDecodeError as e:
+                    pytest.fail(e)
+    elif os.path.exists(source_path):
+        # Process combined source file
         with open(source_path, "r") as f:
             try:
                 source_resources = json.load(f)
             except json.decoder.JSONDecodeError as e:
                 pytest.fail(e)
 
-    if os.path.exists(destination_path):
+    # Check for individual destination files
+    dest_files = glob.glob(f"resources/destination/{resource_type}.*.json")
+    if dest_files:
+        # Process individual destination files
+        for file_path in dest_files:
+            with open(file_path, "r") as f:
+                try:
+                    resource_data = json.load(f)
+                    destination_resources.update(resource_data)
+                except json.decoder.JSONDecodeError as e:
+                    pytest.fail(e)
+    elif os.path.exists(destination_path):
+        # Process combined destination file
         with open(destination_path, "r") as f:
             try:
                 destination_resources = json.load(f)

@@ -7,7 +7,10 @@ import os
 import glob
 import json
 import logging
+import re
+import shutil
 import pytest
+from click.testing import CliRunner
 
 from datadog_sync.cli import cli
 from datadog_sync.models import Dashboards
@@ -19,6 +22,7 @@ class TestResourcePerFileDashboards(BaseResourcesTestClass):
 
     resource_type = Dashboards.resource_type
     field_to_update = "title"
+    resource_per_file = True
 
     def test_resource_import_per_file(self, runner, caplog):
         """Test that importing dashboards with --resource-per-file creates individual files."""
@@ -68,8 +72,6 @@ class TestResourcePerFileDashboards(BaseResourcesTestClass):
         assert 0 == ret.exit_code
 
         # Count resources that should be added
-        import re
-
         num_resources_to_add = len(re.compile("to be created").findall(caplog.text))
         num_resources_skipped = len(re.compile("skipping resource").findall(caplog.text))
 
@@ -79,6 +81,19 @@ class TestResourcePerFileDashboards(BaseResourcesTestClass):
     def test_resource_sync_per_file(self, runner, caplog):
         """Test that syncing dashboards with --resource-per-file creates individual files."""
         caplog.set_level(logging.DEBUG)
+
+        # First import resources to work with
+        ret = runner.invoke(
+            cli,
+            [
+                "import",
+                "--validate=false",
+                f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
+                "--resource-per-file",
+            ],
+        )
+        assert 0 == ret.exit_code
 
         # Sync with resource-per-file flag
         ret = runner.invoke(
@@ -121,6 +136,33 @@ class TestResourcePerFileDashboards(BaseResourcesTestClass):
         """Test updating resources stored in individual files."""
         caplog.set_level(logging.DEBUG)
 
+        # First import resources to work with
+        ret = runner.invoke(
+            cli,
+            [
+                "import",
+                "--validate=false",
+                f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
+                "--resource-per-file",
+            ],
+        )
+        assert 0 == ret.exit_code
+
+        # Ensure initial sync so destination files exist
+        ret = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--validate=false",
+                f"--resources={self.resource_type}",
+                f"--filter={self.filter}",
+                "--resource-per-file",
+                "--create-global-downtime=False",
+            ],
+        )
+        assert 0 == ret.exit_code
+
         # First, load all resources from individual files
         source_files = glob.glob(f"resources/source/{self.resource_type}.*.json")
         source_resources = {}
@@ -142,8 +184,6 @@ class TestResourcePerFileDashboards(BaseResourcesTestClass):
         # Update fields in source resources
         for resource_id, resource in source_resources.items():
             try:
-                import re
-
                 path_parts = self.field_to_update.split(".")
                 target = resource
 

@@ -1,83 +1,267 @@
 interactions:
 - request:
-    body: null
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744307457,
+      "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
       - application/json
-    method: GET
-    uri: https://us5.datadoghq.com/api/v2/hamr
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
   response:
     body:
-      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
-        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
-        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
-        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
+      string: '{"errors": []}'
     headers:
       Content-Type:
-      - application/vnd.api+json
+      - application/json
     status:
-      code: 200
-      message: OK
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744307457,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
 - request:
     body: null
     headers:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
-        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
-        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
-        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
-    headers:
-      Content-Type:
-      - application/vnd.api+json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
+      string: '[{"id": "kKwQ7pmrTV2DhOsoohbzxA", "type": "pipeline", "name": "test",
+        "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
+        "}, "processors": [], "tags": [], "description": ""}, {"id": "XHeoyuYmRFCQOipL9kfA-Q",
+        "type": "pipeline", "name": "Datadog Agent", "is_enabled": true, "is_read_only":
+        true, "filter": {"query": "source:(agent OR datadog-agent OR datadog-agent-cluster-worker
+        OR datadog-cluster-agent OR process-agent OR security-agent OR system-probe
+        OR trace-agent OR cluster-agent)"}, "processors": [{"name": "Parsing Datadog
+        Agent logs", "is_enabled": true, "source": "message", "samples": ["2020-07-01
+        09:48:14 UTC | CORE | INFO | (pkg/collector/runner/runner.go:327 in work)
+        | check:network,type:core | Done running check", "2020-09-15 10:00:07 UTC
+        | CORE | INFO | (pkg/collector/python/datadog_agent.go:120 in LogMessage)
+        | kafka_cluster_status:8ca7b736f0aa43e5 | (kafka_cluster_status.py:213) |
+        Checking for out of sync partition replicas", "2019-04-08 13:53:48 UTC | TRACE
+        | INFO | (pkg/trace/agent/agent.go:145 in loop) | exiting", "2019-02-01 16:59:41
+        UTC | INFO | (connection_manager.go:124 in CloseConnection) | Connection closed",
+        "2020-11-18 10:31:13 UTC | JMX | INFO  | App | Successfully initialized instance:
+        cassandra-localhost-7199"], "grok": {"support_rules": "", "match_rules": "agent_rule         %{date(\"yyyy-MM-dd
+        HH:mm:ss z\"):timestamp} \\| %{notSpace:agent} \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno}
+        in %{word:process}\\) \\|( %{data::keyvalue(\":\")} \\|)?( - \\|)?( \\(%{notSpace:pyFilename}:%{number:pyLineno}\\)
+        \\|)?%{data}\nagent_rule_pre_611 %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp}
+        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)%{data}\njmxfetch_rule      %{date(\"yyyy-MM-dd
+        HH:mm:ss z\"):timestamp} \\| %{notSpace:agent} \\| %{word:level}\\s+\\| %{word:class}
+        \\| %{data}\n"}, "type": "grok-parser"}, {"name": "Define `timestamp` as the
+        official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
+        "date-remapper"}, {"name": "Define `level` as the official status of the log",
+        "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}, {"id":
+        "tgw9zA52T9-oxo4PTARN0w", "type": "pipeline", "name": "python", "is_enabled":
+        true, "is_read_only": true, "filter": {"query": "source:python"}, "processors":
+        [{"name": "Parsing python default format", "is_enabled": true, "source": "message",
+        "samples": ["2017-12-19T14:37:58,995 INFO  [process.name] [20081] this is
+        my python log", "2019-01-07 15:20:15,972 DEBUG [flask.app] [app.py:100] [dd.trace_id=5688176451479556031
+        dd.span_id=4663104081780224235] - Hook: teardown_appcontext", "2020-03-20
+        14:15:07,124 INFO [root] [app.py:78] [dd.service=excelsior dd.env=prod dd.version=abc123
+        dd.trace_id=9659687005038611690 dd.span_id=6632586210846541907] - This is
+        a test of info logs", "2021-07-09 8:58:31,137 WARNING [root] [views.py:42]
+        [dd.service=datadoggo dd.env=prod dd.version=abc546 dd.trace_id=2296056412404370861
+        dd.span_id=16818077145337196836] - New post view.", "2017-12-26T10:44:59,311
+        ERROR [dd.dogweb.lib.static_asset] [20081] rid=b0RV4J Error reading statics_version
+        file.Traceback (most recent call last): File \"/home/pythonrepo/lib/asset.py\",
+        line 16, in version    with open(\"/etc/statics_version.txt\", \"r\") as statics_version_file:
+        IOError: [Errno 2] No such file or directory: /etc/statics_version.txt"],
+        "grok": {"support_rules": "_datadog_prefix (%{date(\"yyyy-MM-dd HH:mm:ss,SSS\"):timestamp}|%{date(\"yyyy-MM-dd
+        H:mm:ss,SSS\"):timestamp}) %{word:levelname}\\s+\\[%{notSpace:process.name}\\]\\s+\\[%{notSpace:filename}:%{number:lineno}\\]\\s+\\[%{data::keyvalue}dd.trace_id=%{word:dd.trace_id}
+        dd.span_id=%{word:dd.span_id}\\] -\n_python_prefix %{date(\"yyyy-MM-dd''T''HH:mm:ss'',''SSS\"):timestamp}\\s+%{word:levelname}\\s+\\[%{notSpace:process.name}\\]\\s+\\[%{integer:process.id}\\]\n_message_with_keyvalue
+        %{regex(\"(?<message>.*)\")::keyvalue}\n", "match_rules": "traceback_format
+        (%{_python_prefix}|%{_datadog_prefix})\\s+%{_message_with_keyvalue}Traceback
+        \\(most recent call last\\):(?s)\\s*%{data:error.stack}\npython_format (%{_python_prefix}|%{_datadog_prefix})\\s+%{_message_with_keyvalue}\npython_fallback
+        %{date(\"yyyy-MM-dd''T''HH:mm:ss'',''SSS\"):timestamp}\\s+%{word:levelname}\\s+%{_message_with_keyvalue}((\\n|\\t)%{data:error.stack})?\n#Samples\n#2017-12-19T14:37:58,995
+        INFO  [process.name] [20081] this is my python log\n# Datadog format\n#2019-01-07
+        15:20:15,972 DEBUG [flask.app] [app.py:100] [dd.trace_id=5688176451479556031
+        dd.span_id=4663104081780224235] - Hook: teardown_appcontext\n"}, "type": "grok-parser"},
+        {"name": "Define `timestamp` as the official date of the log", "is_enabled":
+        true, "sources": ["timestamp"], "type": "date-remapper"}, {"name": "Define
+        `levelname` as the official status of the log", "is_enabled": true, "sources":
+        ["levelname"], "type": "status-remapper"}, {"name": "Define `message` as the
+        official message of the log", "is_enabled": true, "sources": ["message"],
+        "type": "message-remapper"}, {"name": "Map `traceback` to `error.stack`",
+        "is_enabled": true, "sources": ["traceback"], "source_type": "attribute",
+        "target": "error.stack", "target_type": "attribute", "preserve_source": false,
+        "override_on_conflict": false, "type": "attribute-remapper"}, {"name": "Map
+        `name` to `logger.name`", "is_enabled": true, "sources": ["name"], "source_type":
+        "attribute", "target": "logger.name", "target_type": "attribute", "preserve_source":
+        false, "override_on_conflict": false, "type": "attribute-remapper"}, {"name":
+        "Map `threadName` to `logger.thread_name`", "is_enabled": true, "sources":
+        ["threadName"], "source_type": "attribute", "target": "logger.thread_name",
+        "target_type": "attribute", "preserve_source": false, "override_on_conflict":
+        false, "type": "attribute-remapper"}, {"name": "Map `exc_info` to `error.stack`",
+        "is_enabled": true, "sources": ["exc_info"], "source_type": "attribute", "target":
+        "error.stack", "target_type": "attribute", "preserve_source": true, "override_on_conflict":
+        false, "type": "attribute-remapper"}, {"name": "Parsing python traceback",
+        "is_enabled": true, "source": "error.stack", "samples": ["File \"/home/pythonrepo/lib/asset.py\",
+        line 16, in version    with open(\"/etc/statics_version.txt\", \"r\") as statics_version_file:
+        IOError: [Errno 2] No such file or directory: /etc/statics_version.txt"],
+        "grok": {"support_rules": "", "match_rules": "parsing_traceback File \"%{notSpace:filename}\",
+        line %{integer:lineno}.*\\s+%{regex(\"[a-zA-Z]*Error[a-zA-Z]*\"):error.kind}:
+        %{data:error.message}\n"}, "type": "grok-parser"}, {"name": "Map `extra.dd.span_id`,
+        `record.extra.dd.span_id` to `dd.span_id`", "is_enabled": true, "sources":
+        ["extra.dd.span_id", "record.extra.dd.span_id"], "source_type": "attribute",
+        "target": "dd.span_id", "target_type": "attribute", "preserve_source": false,
+        "override_on_conflict": true, "type": "attribute-remapper"}, {"name": "Define
+        `dd.trace_id`, `extra.dd.trace_id`, `record.extra.dd.trace_id` as the official
+        trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id", "extra.dd.trace_id",
+        "record.extra.dd.trace_id"], "type": "trace-id-remapper"}, {"name": "Map attribute
+        `dd.env`, `extra.dd.env`, `record.extra.dd.env` to tag `env`", "is_enabled":
+        true, "sources": ["dd.env", "extra.dd.env", "record.extra.dd.env"], "source_type":
+        "attribute", "target": "env", "target_type": "tag", "preserve_source": false,
+        "override_on_conflict": true, "type": "attribute-remapper"}, {"name": "Map
+        attribute `dd.version`, `extra.dd.version`, `record.extra.dd.version` to tag
+        `version`", "is_enabled": true, "sources": ["dd.version", "extra.dd.version",
+        "record.extra.dd.version"], "source_type": "attribute", "target": "version",
+        "target_type": "tag", "preserve_source": false, "override_on_conflict": true,
+        "type": "attribute-remapper"}, {"name": "Define `dd.service`, `extra.dd.service`,
+        `record.extra.dd.service` as the official service of the log", "is_enabled":
+        true, "sources": ["dd.service", "extra.dd.service", "record.extra.dd.service"],
+        "type": "service-remapper"}]}]'
     headers:
       Content-Type:
       - application/json
-    method: GET
-    uri: https://us5.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
-        "attributes": {"HamrStatus": 1, "IsPrimary": false, "ModifiedAt": "2024-10-08
-        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "eu1.prod.dog",
-        "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
-    headers:
-      Content-Type:
-      - application/vnd.api+json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
-  response:
-    body:
-      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
-        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
-        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
-        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
-    headers:
-      Content-Type:
-      - application/vnd.api+json
     status:
       code: 200
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013901,
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307457, "value":
+      1}], "tags": ["id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:import", "status:success",
+      "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307457, "value":
+      1}], "tags": ["id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:import", "status:success",
+      "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307457, "value":
+      1}], "tags": ["id:XHeoyuYmRFCQOipL9kfA-Q", "action_type:import", "status:skipped",
+      "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307457, "value":
+      1}], "tags": ["id:tgw9zA52T9-oxo4PTARN0w", "action_type:import", "status:skipped",
+      "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307457, "value":
+      1}], "tags": ["id:XHeoyuYmRFCQOipL9kfA-Q", "action_type:import", "status:skipped",
+      "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307457, "value":
+      1}], "tags": ["id:tgw9zA52T9-oxo4PTARN0w", "action_type:import", "status:skipped",
+      "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744307457,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -95,7 +279,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1743013901,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744307457,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -112,16 +296,16 @@ interactions:
       code: 202
       message: Accepted
 - request:
-    body: '{"name": "testupdated", "is_enabled": false, "filter": {"query": "source:appgate_client
+    body: '{"name": "test", "is_enabled": false, "filter": {"query": "source:appgate_client
       "}, "processors": [], "tags": [], "description": ""}'
     headers:
       Content-Type:
       - application/json
-    method: PUT
-    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/50IS1v_ORCSvlhcwapDGSQ
+    method: POST
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "50IS1v_ORCSvlhcwapDGSQ", "type": "pipeline", "name": "testupdated",
+      string: '{"id": "ugyet10SRSOl-5_vZyeUiA", "type": "pipeline", "name": "test",
         "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": [], "description": ""}'
     headers:
@@ -132,8 +316,8 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013901, "value":
-      1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307457, "value":
+      1}], "tags": ["action_sub_type:create", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -151,8 +335,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1743013901, "value":
-      1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307457, "value":
+      1}], "tags": ["action_sub_type:create", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
       "status:success", "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
     headers:
       Content-Type:
@@ -188,22 +372,186 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744307457,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744307457,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"name": "testupdated", "is_enabled": false, "filter": {"query": "source:appgate_client
+      "}, "processors": [], "tags": [], "description": ""}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/ugyet10SRSOl-5_vZyeUiA
+  response:
+    body:
+      string: '{"id": "ugyet10SRSOl-5_vZyeUiA", "type": "pipeline", "name": "testupdated",
+        "is_enabled": false, "is_read_only": false, "filter": {"query": "source:appgate_client
+        "}, "processors": [], "tags": [], "description": ""}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307457, "value":
+      1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
+      "status:success", "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307457, "value":
+      1}], "tags": ["action_sub_type:update", "id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:sync",
+      "status:success", "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744307460,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744307461,
+      "value": 1}], "tags": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
     body: null
     headers:
       Content-Type:
       - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v2/hamr
+    method: DELETE
+    uri: https://us5.datadoghq.com/api/v1/logs/config/pipelines/ugyet10SRSOl-5_vZyeUiA
   response:
     body:
-      string: '{"data": {"id": "30187db5-8582-11ef-969b-8248c7cda362", "type": "hamr_org_connections",
-        "attributes": {"HamrStatus": 1, "IsPrimary": true, "ModifiedAt": "2024-10-08
-        15:06:20.300120", "ModifiedBy": "charlie.zhang", "TargetOrgDatacenter": "us5.prod.dog",
-        "TargetOrgName": "DDR Internal Testing US5", "TargetOrgUuid": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}'
+      string: '{}'
     headers:
       Content-Type:
-      - application/vnd.api+json
+      - application/json
     status:
       code: 200
       message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307461, "value":
+      1}], "tags": ["id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:delete", "status:success",
+      "resource_type:logs_custom_pipelines", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744307461, "value":
+      1}], "tags": ["id:kKwQ7pmrTV2DhOsoohbzxA", "action_type:delete", "status:success",
+      "resource_type:logs_custom_pipelines", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
 version: 1

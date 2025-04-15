@@ -11,6 +11,8 @@ from datadog_sync.models import LogsPipelinesOrder
 
 class TestLogsPipelinesOrder(BaseResourcesTestClass):
     resource_type = LogsPipelinesOrder.resource_type
+    dependencies = list(LogsPipelinesOrder.resource_config.resource_connections.keys())
+    force_missing_deps = True
 
     @pytest.mark.skip(reason="resource is only updated by default")
     def test_resource_update_sync(self):

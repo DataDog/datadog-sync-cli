@@ -10,6 +10,7 @@ from datadog_sync.models import RestrictionPolicies
 
 class TestRestrictionPoliciesResources(BaseResourcesTestClass):
     resource_type = RestrictionPolicies.resource_type
+    dependencies = list(RestrictionPolicies.resource_config.resource_connections.keys())
     field_to_update = "attributes.name"
     force_missing_deps = True
 
