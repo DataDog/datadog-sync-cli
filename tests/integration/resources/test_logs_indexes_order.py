@@ -19,6 +19,10 @@ class TestLogsIndexesOrder(BaseResourcesTestClass):
     def test_resource_update_sync(self):
         pass
 
+    @pytest.mark.skip(reason="resource is only updated by default")
+    def test_resource_update_sync_per_file(self):
+        pass
+
 
 @pytest.mark.parametrize(
     "resource, destination_resource, expected",

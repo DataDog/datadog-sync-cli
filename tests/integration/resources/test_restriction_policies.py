@@ -17,3 +17,7 @@ class TestRestrictionPoliciesResources(BaseResourcesTestClass):
     @pytest.mark.skip(reason="Difficult to test without creating another user/role/teams to test with.")
     def test_resource_update_sync(self):
         pass
+
+    @pytest.mark.skip(reason="Difficult to test without creating another user/role/teams to test with.")
+    def test_resource_update_sync_per_file(self):
+        pass
