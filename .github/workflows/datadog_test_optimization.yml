@@ -4,16 +4,9 @@ permissions:
   checks: write
   contents: read
 
-on:
-  pull_request:
-    branches:
-      - main
-    types:
-      - labeled
-      - unlabeled
-      - opened
-      - synchronize
-      - reopened
+env:
+  DD_API_KEY: ${{ secrets.DD_API_KEY }}
+on: push
 
 jobs:
   test-optimization:
