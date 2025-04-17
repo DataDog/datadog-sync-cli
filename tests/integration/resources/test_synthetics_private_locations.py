@@ -9,4 +9,6 @@ from datadog_sync.models import SyntheticsPrivateLocations
 
 class TestSyntheticsPrivateLocationsResources(BaseResourcesTestClass):
     resource_type = SyntheticsPrivateLocations.resource_type
+    dependencies = list(SyntheticsPrivateLocations.resource_config.resource_connections.keys())
     field_to_update = "name"
+    force_missing_deps = True
