@@ -76,7 +76,7 @@ class LocalFile(BaseStorage):
                 base_filename = f"{self.source_resources_path}/{resource_type}"
                 if self.resource_per_file:
                     for _id, resource in value.items():
-                        filename = f"{base_filename}.{_id.replace(':','.')}.json" # windows can't handle ":"
+                        filename = f"{base_filename}.{_id.replace(':','.')}.json"  # windows can't handle ":"
                         with open(filename, "w+", encoding="utf-8") as out_file:
                             json.dump({_id: resource}, out_file)
                 else:
@@ -89,7 +89,7 @@ class LocalFile(BaseStorage):
                 base_filename = f"{self.destination_resources_path}/{resource_type}"
                 if self.resource_per_file:
                     for _id, resource in value.items():
-                        filename = f"{base_filename}.{_id.replace(':','.')}.json" # windows can't handle ":"
+                        filename = f"{base_filename}.{_id.replace(':','.')}.json"  # windows can't handle ":"
                         with open(filename, "w+", encoding="utf-8") as out_file:
                             json.dump({_id: resource}, out_file)
                 else:
