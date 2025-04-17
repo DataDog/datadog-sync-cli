@@ -31,7 +31,7 @@ jobs:
           python -m pip install .
           python -m pip install -r scripts/test_requirements.txt
       - name: Configure Datadog Test Optimization
-        uses: datadog/test-visibility-github-action@v2.3.4
+        uses: datadog/test-visibility-github-action@fa5d4c02a5f2329cf2c62a70fd8ec532317af1c9
         with:
           languages: python
           api_key: ${{env.DD_API_KEY}}
