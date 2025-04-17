@@ -29,3 +29,6 @@ jobs:
           languages: python
           api_key: ${{env.DD_API_KEY}}
           site: datadoghq.com
+        - name: Run tests
+          shell: bash
+          run: pytest
