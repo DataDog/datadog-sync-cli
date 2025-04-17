@@ -418,7 +418,8 @@ class BaseResourcesTestClass:
                 prefix_index = file_name.find(prefix)
                 suffix = ".json"
                 file_id = file_name[prefix_index+len(prefix):-len(suffix)]
-                assert file_id in content, f"File {file_name} should contain resource with ID {file_id}"
+                resource_id = list(content.keys())[0]
+                assert file_id == resource_id.replace(":","."), f"Resource with ID {resource_id} should have a file with {file_id}"
 
         # Run diffs to ensure everything is recognized properly
         ret = runner.invoke(
