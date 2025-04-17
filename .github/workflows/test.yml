@@ -68,3 +68,9 @@ jobs:
         run: |
           dist/datadog-sync diffs --validate=false --verify-ddr-status=false
           exit $?
+      - name: Configure Datadog Test Optimization
+        uses: datadog/test-visibility-github-action@v2
+        with:
+          languages: python
+          api_key: ${{secrets.DD_API_KEY}}
+          site: datadoghq.com
