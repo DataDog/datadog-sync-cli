@@ -36,7 +36,7 @@ class AWSS3Bucket(BaseStorage):
         # resource_per_file is a boolean, when False we maintain the behavior of storing all the resources
         # by their resource type, so there is one file for all the monitors and another file for all the
         # dashboards. In that case files are named {resource_type}.json. When the boolean is True each resource
-        # will be in its own file. The file anme will be {resource_type}.{identifier}.json.
+        # will be in its own file. The file name will be {resource_type}.{identifier}.json.
         self.resource_per_file = resource_per_file
         if not config:
             raise ValueError("No S3 configuration passed in")
