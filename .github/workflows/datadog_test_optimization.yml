@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Python
-        uses: actions/setup-python@f03e505388af670b5a108629e0ba26befc08d5c62b41f46146a45fe29ae509a5
+        uses: actions/setup-python@sha256:f03e505388af670b5a108629e0ba26befc08d5c62b41f46146a45fe29ae509a5
         with:
           python-version: 3.12
       - name: Checkout code
