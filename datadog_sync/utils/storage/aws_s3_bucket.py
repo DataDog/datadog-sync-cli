@@ -66,10 +66,7 @@ class AWSS3Bucket(BaseStorage):
                     )
                     content_body = response.get("Body")
                     try:
-                        if not data.source[resource_type]:
-                            data.source[resource_type] = json.load(content_body)
-                        else:
-                            data.source[resource_type].update(json.load(content_body))
+                        data.source[resource_type].update(json.load(content_body))
                     except json.decoder.JSONDecodeError:
                         log.warning(f"invalid json in aws source resource file: {resource_type}")
 
@@ -86,10 +83,7 @@ class AWSS3Bucket(BaseStorage):
                     )
                     content_body = response.get("Body")
                     try:
-                        if not data.destination[resource_type]:
-                            data.destination[resource_type] = json.load(content_body)
-                        else:
-                            data.destination[resource_type].update(json.load(content_body))
+                        data.destination[resource_type].update(json.load(content_body))
                     except json.decoder.JSONDecodeError:
                         log.warning(f"invalid json in aws destination resource file: {resource_type}")
 
