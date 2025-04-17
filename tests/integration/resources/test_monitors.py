@@ -6,6 +6,7 @@
 from datadog_sync.models import Monitors
 from tests.integration.helpers import BaseResourcesTestClass
 
+
 class TestMonitorsResources(BaseResourcesTestClass):
     resource_type = Monitors.resource_type
     dependencies = list(Monitors.resource_config.resource_connections.keys())

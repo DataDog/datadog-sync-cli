@@ -155,9 +155,7 @@ class BaseResourcesTestClass:
 
         num_resources_to_add = len(RESOURCE_TO_ADD_RE.findall(caplog.text))
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
-        assert len(source_resources) == self.compute_import_changes(
-            num_resources_to_add, num_resources_skipped
-        )
+        assert len(source_resources) == self.compute_import_changes(num_resources_to_add, num_resources_skipped)
 
     def test_resource_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -172,9 +170,7 @@ class BaseResourcesTestClass:
         # By default, resources with failed connections are skipped. Hence, count number of skipped + success
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (
-            len(destination_resources) + num_resources_skipped
-        )
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
         caplog.clear()
 
     def test_resource_update_sync(self, runner, caplog):
@@ -263,9 +259,7 @@ class BaseResourcesTestClass:
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
 
-        assert len(source_resources) == (
-            len(destination_resources) + num_resources_skipped
-        )
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
         caplog.clear()
 
     def test_no_resource_diffs(self, runner, caplog):
@@ -295,9 +289,7 @@ class BaseResourcesTestClass:
 
         num_resources_skipped = len(RESOURCE_SKIPPED_RE.findall(caplog.text))
         source_resources, destination_resources = open_resources(self.resource_type)
-        assert len(source_resources) == (
-            len(destination_resources) + num_resources_skipped
-        )
+        assert len(source_resources) == (len(destination_resources) + num_resources_skipped)
         caplog.clear()
 
     def test_resource_cleanup(self, runner, caplog):
@@ -339,10 +331,7 @@ class BaseResourcesTestClass:
         assert 0 == ret.exit_code
 
         # preserve anything else
-        if (
-            self.resource_type not in ["users", "roles"]
-            and self.resources_to_preserve_filter
-        ):
+        if self.resource_type not in ["users", "roles"] and self.resources_to_preserve_filter:
             import_cmd = [
                 "import",
                 f"--resources={self.resource_type}",
@@ -371,9 +360,7 @@ class BaseResourcesTestClass:
         # caution: cleaning up dependencies too!
         if self.force_missing_deps:
             sync_cmd.append("--force-missing-dependencies")
-            sync_cmd.append(
-                f"--resources={self.resource_type},{','.join(self.dependencies)}"
-            )
+            sync_cmd.append(f"--resources={self.resource_type},{','.join(self.dependencies)}")
         else:
             sync_cmd.append(f"--resources={self.resource_type}")
 
@@ -417,9 +404,11 @@ class BaseResourcesTestClass:
                 prefix = f"{self.resource_type}."
                 prefix_index = file_name.find(prefix)
                 suffix = ".json"
-                file_id = file_name[prefix_index+len(prefix):-len(suffix)]
+                file_id = file_name[prefix_index + len(prefix) : -len(suffix)]
                 resource_id = list(content.keys())[0]
-                assert file_id == resource_id.replace(":","."), f"Resource with ID {resource_id} should have a file with {file_id}"
+                assert file_id == resource_id.replace(
+                    ":", "."
+                ), f"Resource with ID {resource_id} should have a file with {file_id}"
 
         # Run diffs to ensure everything is recognized properly
         ret = runner.invoke(

@@ -6,6 +6,7 @@
 from datadog_sync.models import Dashboards
 from tests.integration.helpers import BaseResourcesTestClass
 
+
 class TestDashboardsResources(BaseResourcesTestClass):
     resource_type = Dashboards.resource_type
     dependencies = list(Dashboards.resource_config.resource_connections.keys())
