@@ -8,6 +8,12 @@ on: push
 
 env:
   DD_API_KEY: ${{ secrets.DD_API_KEY }}
+  DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
+  DD_DESTINATION_APP_KEY: ${{ secrets.DD_DESTINATION_APP_KEY }}
+  DD_DESTINATION_API_URL: ${{ secrets.DD_DESTINATION_API_URL }}
+  DD_SOURCE_API_KEY: ${{ secrets.DD_SOURCE_API_KEY }}
+  DD_SOURCE_APP_KEY: ${{ secrets.DD_SOURCE_APP_KEY }}
+  DD_SOURCE_API_URL: ${{ secrets.DD_SOURCE_API_URL }}
 
 jobs:
   test-optimization:
@@ -31,4 +37,4 @@ jobs:
           site: datadoghq.com
       - name: Run tests
         shell: bash
-        run: pytest
+        run: RECORD=true pytest
