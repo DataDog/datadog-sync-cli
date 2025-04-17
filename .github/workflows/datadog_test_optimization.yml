@@ -12,11 +12,6 @@ env:
 jobs:
   test-optimization:
     runs-on: ubuntu-latest
-    services:
-      datadog-agent:
-        image: datadog/agent:latest
-        ports:
-          - 8126:8126
     steps:
       - name: Configure Datadog Test Optimization
         uses: datadog/test-visibility-github-action@v2
