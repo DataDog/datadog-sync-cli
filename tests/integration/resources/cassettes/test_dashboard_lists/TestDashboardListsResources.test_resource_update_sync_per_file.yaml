@@ -20,7 +20,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744836313,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744895390,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -38,7 +38,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744836313,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744895390,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -104,7 +104,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
       1}], "tags": ["id:42665", "action_type:import", "status:success", "resource_type:dashboard_lists",
       "client_type:destination"]}]}'
     headers:
@@ -123,7 +123,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
       1}], "tags": ["id:42665", "action_type:import", "status:success", "resource_type:dashboard_lists",
       "client_type:source"]}]}'
     headers:
@@ -161,7 +161,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744836313,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744895390,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -179,7 +179,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744836313,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744895390,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -195,31 +195,6 @@ interactions:
     status:
       code: 202
       message: Accepted
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
-  response:
-    body:
-      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
-        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
-        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
-        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
-        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
-        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
 - request:
     body: null
     headers:
@@ -443,6 +418,31 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
+  response:
+    body:
+      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
+        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
+        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
+        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
+        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
+        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
+        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v2/powerpacks/e685afa6-955c-11ef-9254-da7ad0900005
   response:
     body:
@@ -486,7 +486,7 @@ interactions:
     uri: https://us5.datadoghq.com/api/v2/powerpacks
   response:
     body:
-      string: '{"data": {"type": "powerpack", "id": "b373dbba-1b03-11f0-afea-da7ad0900005",
+      string: '{"data": {"type": "powerpack", "id": "401673aa-1b8d-11f0-82ae-da7ad0900005",
         "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
         {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
         "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
@@ -507,6 +507,25 @@ interactions:
     status:
       code: 200
       message: OK
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
+      1}], "tags": ["action_sub_type:create", "id:e685afa6-955c-11ef-9254-da7ad0900005",
+      "action_type:sync", "status:success", "resource_type:powerpacks", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
 - request:
     body: '{"title": "sync-cli customer dashboard", "description": "[[suggested_dashboards]]",
       "layout_type": "ordered", "template_variables": [{"name": "resource_type", "prefix":
@@ -713,9 +732,9 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "aku-kyh-s69", "title": "sync-cli customer dashboard", "description":
+      string: '{"id": "vsg-76s-d2f", "title": "sync-cli customer dashboard", "description":
         "[[suggested_dashboards]]", "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/aku-kyh-s69/sync-cli-customer-dashboard",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/vsg-76s-d2f/sync-cli-customer-dashboard",
         "is_read_only": false, "template_variables": [{"name": "resource_type", "prefix":
         "resource_type", "available_values": ["monitors", "dashboards"], "default":
         "*"}, {"name": "client_type", "prefix": "client_type", "available_values":
@@ -912,8 +931,8 @@ interactions:
         "metrics", "query": "sum:datadog.org_sync.sync.start{*}"}], "response_format":
         "timeseries", "style": {"palette": "dog_classic", "order_by": "values", "line_type":
         "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        0, "y": 0, "width": 4, "height": 2}}], "notify_list": [], "created_at": "2025-04-16T20:45:15.737030+00:00",
-        "modified_at": "2025-04-16T20:45:15.737030+00:00", "reflow_type": "fixed",
+        0, "y": 0, "width": 4, "height": 2}}], "notify_list": [], "created_at": "2025-04-17T13:09:52.907283+00:00",
+        "modified_at": "2025-04-17T13:09:52.907283+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -923,45 +942,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
-      1}], "tags": ["action_sub_type:create", "id:e685afa6-955c-11ef-9254-da7ad0900005",
-      "action_type:sync", "status:success", "resource_type:powerpacks", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
-      1}], "tags": ["action_sub_type:create", "id:2n3-8ye-5ui", "action_type:sync",
-      "status:success", "resource_type:dashboards", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
       1}], "tags": ["action_sub_type:create", "id:e685afa6-955c-11ef-9254-da7ad0900005",
       "action_type:sync", "status:success", "resource_type:powerpacks", "client_type:source"]}]}'
     headers:
@@ -980,7 +961,26 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
+      1}], "tags": ["action_sub_type:create", "id:2n3-8ye-5ui", "action_type:sync",
+      "status:success", "resource_type:dashboards", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
       1}], "tags": ["action_sub_type:create", "id:2n3-8ye-5ui", "action_type:sync",
       "status:success", "resource_type:dashboards", "client_type:source"]}]}'
     headers:
@@ -1001,7 +1001,7 @@ interactions:
     body: '{"title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
       null, "layout_type": "ordered", "template_variables": [], "widgets": [{"id":
       5949103957093766, "definition": {"title": "New group", "show_title": true, "powerpack_id":
-      "b373dbba-1b03-11f0-afea-da7ad0900005", "template_variables": {"controlled_externally":
+      "401673aa-1b8d-11f0-82ae-da7ad0900005", "template_variables": {"controlled_externally":
       [], "controlled_by_powerpack": []}, "type": "powerpack"}, "layout": {"x": 0,
       "y": 0, "width": 12, "height": 3}}], "notify_list": [], "reflow_type": "fixed",
       "restricted_roles": []}'
@@ -1012,15 +1012,15 @@ interactions:
     uri: https://us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "pw9-cmi-vv4", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+      string: '{"id": "s2n-udj-n83", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
         pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/pw9-cmi-vv4/michaels-dashboard-mon-oct-28-24547-pm",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/s2n-udj-n83/michaels-dashboard-mon-oct-28-24547-pm",
         "is_read_only": false, "template_variables": [], "widgets": [{"id": 5949103957093766,
-        "definition": {"title": "New group", "show_title": true, "powerpack_id": "b373dbba-1b03-11f0-afea-da7ad0900005",
+        "definition": {"title": "New group", "show_title": true, "powerpack_id": "401673aa-1b8d-11f0-82ae-da7ad0900005",
         "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
         []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": [], "created_at": "2025-04-16T20:45:16.224466+00:00",
-        "modified_at": "2025-04-16T20:45:16.224466+00:00", "reflow_type": "fixed",
+        3}}], "notify_list": [], "created_at": "2025-04-17T13:09:53.220151+00:00",
+        "modified_at": "2025-04-17T13:09:53.220151+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -1030,7 +1030,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
       1}], "tags": ["action_sub_type:create", "id:jh3-vsk-99c", "action_type:sync",
       "status:success", "resource_type:dashboards", "client_type:destination"]}]}'
     headers:
@@ -1049,7 +1049,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
       1}], "tags": ["action_sub_type:create", "id:jh3-vsk-99c", "action_type:sync",
       "status:success", "resource_type:dashboards", "client_type:source"]}]}'
     headers:
@@ -1076,8 +1076,8 @@ interactions:
   response:
     body:
       string: '{"author": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com"},
-        "created": "2025-04-16T20:45:16.617082+00:00", "dashboards": null, "dashboard_count":
-        0, "id": 13407, "is_favorite": false, "modified": "2025-04-16T20:45:16.617087+00:00",
+        "created": "2025-04-17T13:09:53.615476+00:00", "dashboards": null, "dashboard_count":
+        0, "id": 13428, "is_favorite": false, "modified": "2025-04-17T13:09:53.615483+00:00",
         "name": "Michael''s List", "type": "manual_dashboard_list"}'
     headers:
       Content-Type:
@@ -1086,17 +1086,17 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"dashboards": [{"id": "pw9-cmi-vv4", "type": "custom_timeboard"}, {"id":
-      "aku-kyh-s69", "type": "custom_timeboard"}]}'
+    body: '{"dashboards": [{"id": "s2n-udj-n83", "type": "custom_timeboard"}, {"id":
+      "vsg-76s-d2f", "type": "custom_timeboard"}]}'
     headers:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v2/dashboard/lists/manual/13407/dashboards
+    uri: https://us5.datadoghq.com/api/v2/dashboard/lists/manual/13428/dashboards
   response:
     body:
-      string: '{"dashboards": [{"type": "custom_timeboard", "id": "pw9-cmi-vv4"},
-        {"type": "custom_timeboard", "id": "aku-kyh-s69"}]}'
+      string: '{"dashboards": [{"type": "custom_timeboard", "id": "s2n-udj-n83"},
+        {"type": "custom_timeboard", "id": "vsg-76s-d2f"}]}'
     headers:
       Content-Type:
       - application/json
@@ -1105,7 +1105,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
       1}], "tags": ["action_sub_type:create", "id:42665", "action_type:sync", "status:success",
       "resource_type:dashboard_lists", "client_type:destination"]}]}'
     headers:
@@ -1124,7 +1124,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
       1}], "tags": ["action_sub_type:create", "id:42665", "action_type:sync", "status:success",
       "resource_type:dashboard_lists", "client_type:source"]}]}'
     headers:
@@ -1200,7 +1200,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744836313,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744895390,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -1218,7 +1218,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744836313,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744895390,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -1240,12 +1240,12 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://us5.datadoghq.com/api/v1/dashboard/lists/manual/13407
+    uri: https://us5.datadoghq.com/api/v1/dashboard/lists/manual/13428
   response:
     body:
       string: '{"author": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com"},
-        "created": "2025-04-16T20:45:16.617082+00:00", "dashboards": null, "dashboard_count":
-        2, "id": 13407, "is_favorite": false, "modified": "2025-04-16T20:45:19.078036+00:00",
+        "created": "2025-04-17T13:09:53.615476+00:00", "dashboards": null, "dashboard_count":
+        2, "id": 13428, "is_favorite": false, "modified": "2025-04-17T13:09:55.186172+00:00",
         "name": "Michael''s Listupdated", "type": "manual_dashboard_list"}'
     headers:
       Content-Type:
@@ -1255,7 +1255,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
       1}], "tags": ["action_sub_type:update", "id:42665", "action_type:sync", "status:success",
       "resource_type:dashboard_lists", "client_type:destination"]}]}'
     headers:
@@ -1274,7 +1274,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836313, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895390, "value":
       1}], "tags": ["action_sub_type:update", "id:42665", "action_type:sync", "status:success",
       "resource_type:dashboard_lists", "client_type:source"]}]}'
     headers:
@@ -1331,7 +1331,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744836319,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744895396,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -1349,7 +1349,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744836320,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744895396,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -3064,7 +3064,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895396, "value":
       1}], "tags": ["id:81f6f2c7-923f-11ef-879a-6ee0822e247c", "action_type:import",
       "status:success", "resource_type:users", "client_type:destination"]}]}'
     headers:
@@ -3083,7 +3083,45 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895396, "value":
+      1}], "tags": ["id:265f9002-9b9e-11ef-9152-56a58ecd5b70", "action_type:import",
+      "status:success", "resource_type:users", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895396, "value":
+      1}], "tags": ["id:98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "action_type:import",
+      "status:success", "resource_type:users", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895396, "value":
       1}], "tags": ["id:b32f283f-8582-11ef-be6e-1e59aae1ca5b", "action_type:import",
       "status:success", "resource_type:users", "client_type:destination"]}]}'
     headers:
@@ -3102,26 +3140,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
-      1}], "tags": ["id:30533c3c-8582-11ef-938f-cecf6f9ed4ad", "action_type:import",
-      "status:success", "resource_type:users", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895396, "value":
       1}], "tags": ["id:81f6f2c7-923f-11ef-879a-6ee0822e247c", "action_type:import",
       "status:success", "resource_type:users", "client_type:source"]}]}'
     headers:
@@ -3140,8 +3159,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
-      1}], "tags": ["id:265f9002-9b9e-11ef-9152-56a58ecd5b70", "action_type:import",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895396, "value":
+      1}], "tags": ["id:30533c3c-8582-11ef-938f-cecf6f9ed4ad", "action_type:import",
       "status:success", "resource_type:users", "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -3159,26 +3178,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
-      1}], "tags": ["id:98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "action_type:import",
-      "status:success", "resource_type:users", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895396, "value":
       1}], "tags": ["id:b32e572e-8582-11ef-98fe-f2a776cd34b8", "action_type:import",
       "status:success", "resource_type:users", "client_type:destination"]}]}'
     headers:
@@ -3197,8 +3197,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
-      1}], "tags": ["id:30533c3c-8582-11ef-938f-cecf6f9ed4ad", "action_type:import",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895397, "value":
+      1}], "tags": ["id:265f9002-9b9e-11ef-9152-56a58ecd5b70", "action_type:import",
       "status:success", "resource_type:users", "client_type:source"]}]}'
     headers:
       Content-Type:
@@ -3216,7 +3216,26 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895397, "value":
+      1}], "tags": ["id:98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "action_type:import",
+      "status:success", "resource_type:users", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895397, "value":
       1}], "tags": ["id:b32f283f-8582-11ef-be6e-1e59aae1ca5b", "action_type:import",
       "status:success", "resource_type:users", "client_type:source"]}]}'
     headers:
@@ -3235,8 +3254,8 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
-      1}], "tags": ["id:265f9002-9b9e-11ef-9152-56a58ecd5b70", "action_type:import",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895397, "value":
+      1}], "tags": ["id:30533c3c-8582-11ef-938f-cecf6f9ed4ad", "action_type:import",
       "status:success", "resource_type:users", "client_type:source"]}]}'
     headers:
       Content-Type:
@@ -3254,26 +3273,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
-      1}], "tags": ["id:98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "action_type:import",
-      "status:success", "resource_type:users", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836320, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895397, "value":
       1}], "tags": ["id:b32e572e-8582-11ef-98fe-f2a776cd34b8", "action_type:import",
       "status:success", "resource_type:users", "client_type:source"]}]}'
     headers:
@@ -3292,7 +3292,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744836321,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744895397,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -3310,7 +3310,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744836321,
+      "datadog.org-sync.import.start", "type": 0, "points": [{"timestamp": 1744895397,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -7139,7 +7139,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836321, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895398, "value":
       1}], "tags": ["id:693fe720-9569-11ef-969d-da7ad0900005", "action_type:import",
       "status:success", "resource_type:roles", "client_type:destination"]}]}'
     headers:
@@ -8233,8 +8233,8 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836322, "value":
-      1}], "tags": ["id:302b4f34-8582-11ef-b6a4-da7ad0900005", "action_type:import",
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895398, "value":
+      1}], "tags": ["id:3020f50c-8582-11ef-ad61-da7ad0900005", "action_type:import",
       "status:success", "resource_type:roles", "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -8252,7 +8252,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836322, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895398, "value":
       1}], "tags": ["id:693fe720-9569-11ef-969d-da7ad0900005", "action_type:import",
       "status:success", "resource_type:roles", "client_type:source"]}]}'
     headers:
@@ -8271,26 +8271,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836322, "value":
-      1}], "tags": ["id:3020f50c-8582-11ef-ad61-da7ad0900005", "action_type:import",
-      "status:success", "resource_type:roles", "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836322, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895398, "value":
       1}], "tags": ["id:3032ffb8-8582-11ef-8bad-da7ad0900005", "action_type:import",
       "status:success", "resource_type:roles", "client_type:destination"]}]}'
     headers:
@@ -8309,7 +8290,64 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836322, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895398, "value":
+      1}], "tags": ["id:3020f50c-8582-11ef-ad61-da7ad0900005", "action_type:import",
+      "status:success", "resource_type:roles", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895398, "value":
+      1}], "tags": ["id:302b4f34-8582-11ef-b6a4-da7ad0900005", "action_type:import",
+      "status:success", "resource_type:roles", "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895398, "value":
+      1}], "tags": ["id:3032ffb8-8582-11ef-8bad-da7ad0900005", "action_type:import",
+      "status:success", "resource_type:roles", "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895398, "value":
       1}], "tags": ["id:302b4f34-8582-11ef-b6a4-da7ad0900005", "action_type:import",
       "status:success", "resource_type:roles", "client_type:source"]}]}'
     headers:
@@ -8328,45 +8366,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836322, "value":
-      1}], "tags": ["id:3020f50c-8582-11ef-ad61-da7ad0900005", "action_type:import",
-      "status:success", "resource_type:roles", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836322, "value":
-      1}], "tags": ["id:3032ffb8-8582-11ef-8bad-da7ad0900005", "action_type:import",
-      "status:success", "resource_type:roles", "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744836322,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744895398,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -8384,7 +8384,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744836322,
+      "datadog.org-sync.sync.start", "type": 0, "points": [{"timestamp": 1744895398,
       "value": 1}], "tags": null}]}'
     headers:
       Content-Type:
@@ -8406,26 +8406,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/dashboard/pw9-cmi-vv4
+    uri: https://us5.datadoghq.com/api/v1/dashboard/lists/manual/13428
   response:
     body:
-      string: '{"deleted_dashboard_id": "pw9-cmi-vv4"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/dashboard/lists/manual/13407
-  response:
-    body:
-      string: '{"deleted_dashboard_list_id": 13407}'
+      string: '{"deleted_dashboard_list_id": 13428}'
     headers:
       Content-Type:
       - application/json
@@ -8434,26 +8418,7 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836323, "value":
-      1}], "tags": ["id:jh3-vsk-99c", "action_type:delete", "status:success", "resource_type:dashboards",
-      "client_type:destination"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://us5.datadoghq.com/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836323, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895399, "value":
       1}], "tags": ["id:42665", "action_type:delete", "status:success", "resource_type:dashboard_lists",
       "client_type:destination"]}]}'
     headers:
@@ -8476,10 +8441,26 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://us5.datadoghq.com/api/v1/dashboard/aku-kyh-s69
+    uri: https://us5.datadoghq.com/api/v1/dashboard/s2n-udj-n83
   response:
     body:
-      string: '{"deleted_dashboard_id": "aku-kyh-s69"}'
+      string: '{"deleted_dashboard_id": "s2n-udj-n83"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://us5.datadoghq.com/api/v1/dashboard/vsg-76s-d2f
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "vsg-76s-d2f"}'
     headers:
       Content-Type:
       - application/json
@@ -8488,27 +8469,8 @@ interactions:
       message: OK
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836323, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895399, "value":
       1}], "tags": ["id:jh3-vsk-99c", "action_type:delete", "status:success", "resource_type:dashboards",
-      "client_type:source"]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.datadoghq.eu/api/v2/series
-  response:
-    body:
-      string: '{"errors": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 202
-      message: Accepted
-- request:
-    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836323, "value":
-      1}], "tags": ["id:2n3-8ye-5ui", "action_type:delete", "status:success", "resource_type:dashboards",
       "client_type:destination"]}]}'
     headers:
       Content-Type:
@@ -8526,7 +8488,7 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836323, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895399, "value":
       1}], "tags": ["id:42665", "action_type:delete", "status:success", "resource_type:dashboard_lists",
       "client_type:source"]}]}'
     headers:
@@ -8545,8 +8507,46 @@ interactions:
       message: Accepted
 - request:
     body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
-      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744836323, "value":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895399, "value":
       1}], "tags": ["id:2n3-8ye-5ui", "action_type:delete", "status:success", "resource_type:dashboards",
+      "client_type:destination"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://us5.datadoghq.com/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895399, "value":
+      1}], "tags": ["id:2n3-8ye-5ui", "action_type:delete", "status:success", "resource_type:dashboards",
+      "client_type:source"]}]}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.datadoghq.eu/api/v2/series
+  response:
+    body:
+      string: '{"errors": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: '{"series": [{"metadata": {"origin": {"origin_product": 24}}, "metric":
+      "datadog.org-sync.action", "type": 0, "points": [{"timestamp": 1744895399, "value":
+      1}], "tags": ["id:jh3-vsk-99c", "action_type:delete", "status:success", "resource_type:dashboards",
       "client_type:source"]}]}'
     headers:
       Content-Type:

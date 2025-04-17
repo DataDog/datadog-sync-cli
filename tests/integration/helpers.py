@@ -84,6 +84,7 @@ class BaseResourcesTestClass:
             "--verify-ddr-status=False",
             f"--resources={self.resource_type}",
             f"--filter={self.filter}",
+            "--send-metrics=False",
         ]
 
         if self.resource_per_file:
@@ -106,6 +107,7 @@ class BaseResourcesTestClass:
             "--verify-ddr-status=False",
             f"--resources={self.resource_type}",
             "--create-global-downtime=False",
+            "--send-metrics=False",
         ]
 
         if self.filter:
@@ -139,6 +141,7 @@ class BaseResourcesTestClass:
             "--verify-ddr-status=False",
             f"--resources={self.resource_type}",
             "--skip-failed-resource-connections=false",
+            "--send-metrics=False",
         ]
 
         if self.filter:
@@ -159,10 +162,8 @@ class BaseResourcesTestClass:
     def test_resource_sync(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
 
-        # Import resources if needed
-        source_resources, _ = open_resources(self.resource_type)
-        if not source_resources:
-            self.import_resources(runner, caplog)
+        # Import resources
+        self.import_resources(runner, caplog)
         caplog.clear()
 
         # Perform the sync
@@ -182,16 +183,13 @@ class BaseResourcesTestClass:
         if self.resource_type == "metric_tag_configurations":
             sleep(5)
 
-        # Import resources if needed
-        source_resources, destination_resources = open_resources(self.resource_type)
-        if not source_resources:
-            self.import_resources(runner, caplog)
-            caplog.clear()
+        # Import resources
+        self.import_resources(runner, caplog)
+        caplog.clear()
 
-        # Ensure destination resources exist by syncing if needed
-        if not destination_resources:
-            self.sync_resources(runner, caplog)
-            caplog.clear()
+        # Ensure destination resources exist by syncing
+        self.sync_resources(runner, caplog)
+        caplog.clear()
 
         # Get the updated resources
         source_resources, destination_resources = open_resources(self.resource_type)
@@ -220,6 +218,7 @@ class BaseResourcesTestClass:
             "--validate=false",
             "--verify-ddr-status=False",
             f"--resources={self.resource_type}",
+            "--send-metrics=False",
         ]
 
         if self.filter:
@@ -240,6 +239,7 @@ class BaseResourcesTestClass:
             "--verify-ddr-status=False",
             f"--resources={self.resource_type}",
             "--create-global-downtime=False",
+            "--send-metrics=False",
         ]
 
         if self.filter:
@@ -277,6 +277,7 @@ class BaseResourcesTestClass:
             "--validate=false",
             "--verify-ddr-status=False",
             f"--resources={self.resource_type}",
+            "--send-metrics=False",
         ]
 
         if self.filter:
@@ -320,6 +321,7 @@ class BaseResourcesTestClass:
             "--validate=false",
             "--verify-ddr-status=False",
             "--filter=Type=users;Name=attributes.status;Value=Active",
+            "--send-metrics=False",
         ]
         ret = runner.invoke(cli, import_cmd)
         assert 0 == ret.exit_code
@@ -331,6 +333,7 @@ class BaseResourcesTestClass:
             "--validate=false",
             "--verify-ddr-status=False",
             "--filter=Type=roles;Name=attributes.user_count;Value=[^0]+;Operator=SubString",
+            "--send-metrics=False",
         ]
         ret = runner.invoke(cli, import_cmd)
         assert 0 == ret.exit_code
@@ -346,6 +349,7 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 "--verify-ddr-status=False",
                 f"--filter={self.resources_to_preserve_filter}",
+                "--send-metrics=False",
             ]
             ret = runner.invoke(cli, import_cmd)
             assert 0 == ret.exit_code
@@ -358,6 +362,7 @@ class BaseResourcesTestClass:
             "--verify-ddr-status=False",
             "--cleanup=force",
             "--create-global-downtime=False",
+            "--send-metrics=False",
         ]
 
         if self.filter:
@@ -390,6 +395,7 @@ class BaseResourcesTestClass:
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
                 "--resource-per-file",
+                "--send-metrics=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -423,6 +429,7 @@ class BaseResourcesTestClass:
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
                 "--skip-failed-resource-connections=false",
+                "--send-metrics=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -448,6 +455,7 @@ class BaseResourcesTestClass:
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
                 "--resource-per-file",
+                "--send-metrics=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -463,6 +471,7 @@ class BaseResourcesTestClass:
                 "--resource-per-file",
                 "--force-missing-dependencies",
                 "--create-global-downtime=False",
+                "--send-metrics=False",
             ],
         )
         assert 0 == ret.exit_code
@@ -505,6 +514,7 @@ class BaseResourcesTestClass:
             "--validate=false",
             f"--resources={self.resource_type}",
             "--resource-per-file",
+            "--send-metrics=False",
         ]
         if self.filter:
             import_cmd.append(f"--filter={self.filter}")
@@ -522,6 +532,7 @@ class BaseResourcesTestClass:
             "--resource-per-file",
             "--force-missing-dependencies",
             "--create-global-downtime=False",
+            "--send-metrics=False",
         ]
         if self.filter:
             sync_cmd.append(f"--filter={self.filter}")
@@ -577,6 +588,7 @@ class BaseResourcesTestClass:
             "--validate=false",
             f"--resources={self.resource_type}",
             "--resource-per-file",
+            "--send-metrics=False",
         ]
         if self.filter:
             diffs_cmd.append(f"--filter={self.filter}")
