@@ -14,6 +14,7 @@ env:
   DD_SOURCE_API_KEY: ${{ secrets.DD_SOURCE_API_KEY }}
   DD_SOURCE_APP_KEY: ${{ secrets.DD_SOURCE_APP_KEY }}
   DD_SOURCE_API_URL: ${{ secrets.DD_SOURCE_API_URL }}
+  RECORD: true
 
 jobs:
   test-optimization:
@@ -37,4 +38,4 @@ jobs:
           site: datadoghq.com
       - name: Run tests
         shell: bash
-        run: RECORD=true pytest
+        run: pytest
