@@ -1,0 +1,32 @@
+name: Datadog Test Optimization
+
+permissions: 
+  checks: write
+  contents: read
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - labeled
+      - unlabeled
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  test-optimization:
+    runs-on: ubuntu-latest
+    services:
+      datadog-agent:
+        image: datadog/agent:latest
+        ports:
+          - 8126:8126
+    steps:
+      - name: Configure Datadog Test Optimization
+        uses: datadog/test-visibility-github-action@v2
+        with:
+          languages: python
+          api_key: ${{secrets.DD_API_KEY}}
+          site: datadoghq.com
