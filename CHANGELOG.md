@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.4.2 / 2025-02-13
+
+### Fixed
+* Fixed the dashboard synchronization by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/321
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.4.1...1.4.2
+
+## 1.4.1 / 2025-02-12
+
+### Fixed
+* Add pagination support for downtime_schedules by @skarimo in https://github.com/DataDog/datadog-sync-cli/pull/314
+
+## New Contributors
+* @mateo-villa made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/315
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.4.0...1.4.1
+
 ## 1.4.0 / 2025-01-13
 
 ### Fixed

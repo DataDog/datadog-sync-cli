@@ -9,7 +9,6 @@ import os
 from unittest import mock
 
 import pytest
-from tempfile import TemporaryDirectory
 
 from datadog_sync.cli import cli
 
@@ -17,12 +16,13 @@ from datadog_sync.cli import cli
 @pytest.mark.vcr
 @pytest.mark.integration
 class TestCli:
-    # We test resources with resource dependencies only. The rest of the resources are
-    # tested in the individual resource test files
+    # We test resources with resource dependencies only. To do that we have to also test those dependencies.
+    # The rest of the resources are tested in the individual resource test files
     resources = ",".join(
         [
             "roles",
             "users",
+            "teams",
             "dashboards",
             "dashboard_lists",
             "synthetics_global_variables",
@@ -33,6 +33,7 @@ class TestCli:
             "powerpacks",
             "service_level_objectives",
             "slo_corrections",
+            "team_memberships",
         ]
     )
 
@@ -92,12 +93,24 @@ class TestCli:
         assert "diff:" not in caplog.text
 
         assert 0 == ret.exit_code
+        # cleanup after ourselves
+        self.test_cleanup(runner, caplog)
 
-    def test_import_verify_ddr_status_failure(self, runner, caplog):
+    def test_verify_ddr_status_failure(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
 
+        # source ddr fails
         with mock.patch.dict(os.environ, {"DD_SOURCE_API_KEY": "fake"}):
-            for command in ["import", "sync", "migrate", "diffs"]:
+            for command in ["import", "migrate", "diffs"]:
+                ret = runner.invoke(cli, [command, "--validate=false", f"--resources={self.resources}"])
+                # The above should fail
+                assert "No match for the request" not in caplog.text
+                assert 1 == ret.exit_code
+                assert "verification failed" in caplog.text
+
+        # destination ddr fails
+        with mock.patch.dict(os.environ, {"DD_DESTINATION_API_KEY": "fake"}):
+            for command in ["sync", "migrate", "diffs", "reset"]:
                 ret = runner.invoke(cli, [command, "--validate=false", f"--resources={self.resources}"])
                 # The above should fail
                 assert "No match for the request" not in caplog.text
@@ -174,6 +187,8 @@ class TestCli:
         assert 0 == ret.exit_code
         ## assert diffs are produced
         assert caplog.text
+        # cleanup after ourselves
+        self.test_cleanup(runner, caplog)
 
     def test_migrate_without_verify_ddr_status(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -210,6 +225,38 @@ class TestCli:
         assert caplog.text
         # assert diffs are produced
         assert "No match for the request" not in caplog.text
+        # cleanup after ourselves
+        self.test_cleanup(runner, caplog)
+
+    def test_migrate(self, runner, caplog):
+        caplog.set_level(logging.DEBUG)
+        # Migrate
+
+        ret = runner.invoke(
+            cli,
+            [
+                "migrate",
+                "--validate=false",
+                f"--resources={self.resources}",
+                "--send-metrics=False",
+                "--create-global-downtime=False",
+            ],
+        )
+        assert "No match for the request" not in caplog.text
+        assert 0 == ret.exit_code
+
+        caplog.clear()
+        # Check diff
+        ret = runner.invoke(
+            cli,
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=False", "--send-metrics=False"],
+        )
+        assert "No match for the request" not in caplog.text
+        assert 0 == ret.exit_code
+        # assert diffs are produced
+        assert caplog.text
+        # cleanup after ourselves
+        self.test_cleanup(runner, caplog)
 
     def test_cleanup(self, runner, caplog):
         caplog.set_level(logging.DEBUG)
@@ -286,34 +333,3 @@ class TestCli:
         assert "to be deleted" not in caplog.text
         assert "to be created" not in caplog.text
         assert "diff:" not in caplog.text
-
-    def test_migrate(self, runner, caplog):
-        caplog.set_level(logging.DEBUG)
-        # Migrate
-
-        with TemporaryDirectory() as source_path, TemporaryDirectory() as destination_path:
-            ret = runner.invoke(
-                cli,
-                [
-                    "migrate",
-                    "--validate=false",
-                    f"--resources={self.resources}",
-                    "--send-metrics=False",
-                    "--create-global-downtime=False",
-                    f"--source-resources-path={source_path}",
-                    f"--destination-resources-path={destination_path}",
-                ],
-            )
-            assert "No match for the request" not in caplog.text
-            assert 0 == ret.exit_code
-
-        caplog.clear()
-        # Check diff
-        ret = runner.invoke(
-            cli,
-            ["diffs", "--validate=false", "--skip-failed-resource-connections=False", "--send-metrics=False"],
-        )
-        assert "No match for the request" not in caplog.text
-        assert 0 == ret.exit_code
-        # assert diffs are produced
-        assert caplog.text

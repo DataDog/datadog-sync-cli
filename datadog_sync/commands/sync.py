@@ -8,10 +8,10 @@ from click import command
 from datadog_sync.commands.shared.options import (
     common_options,
     destination_auth_options,
-    diffs_common_options,
+    diffs_options,
     source_auth_options,
     storage_options,
-    sync_common_options,
+    sync_options,
 )
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.constants import Command
@@ -21,8 +21,8 @@ from datadog_sync.constants import Command
 @source_auth_options
 @destination_auth_options
 @common_options
-@diffs_common_options
-@sync_common_options
+@diffs_options
+@sync_options
 @storage_options
 def sync(**kwargs):
     """Sync Datadog resources to destination."""

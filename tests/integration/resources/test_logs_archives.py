@@ -16,3 +16,7 @@ class TestLogsArchivesResources(BaseResourcesTestClass):
     @pytest.mark.skip(reason="Logs archive require an AWS, GCP, or Azure account")
     def test_resource_import(self):
         pass
+
+    @pytest.mark.skip(reason="Logs archive require an AWS, GCP, or Azure account")
+    def test_resource_import_per_file(self):
+        pass

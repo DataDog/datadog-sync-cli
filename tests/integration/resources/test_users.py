@@ -14,5 +14,7 @@ class TestUsersResources(BaseResourcesTestClass):
         return resource_count + num_of_skips
 
     resource_type = Users.resource_type
+    dependencies = list(Users.resource_config.resource_connections.keys())
     field_to_update = "attributes.name"
     resources_to_preserve_filter = "Type=users;Name=attributes.status;Value=Active"
+    force_missing_deps = True

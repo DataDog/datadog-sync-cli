@@ -9,4 +9,6 @@ from datadog_sync.models import LogsRestrictionQueries
 
 class TestLogsRestrictionQueries(BaseResourcesTestClass):
     resource_type = LogsRestrictionQueries.resource_type
+    dependencies = list(LogsRestrictionQueries.resource_config.resource_connections.keys())
     field_to_update = "data.attributes.restriction_query"
+    force_missing_deps = True

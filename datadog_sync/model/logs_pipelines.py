@@ -26,10 +26,7 @@ class LogsPipelines(BaseResource):
             "tags",
             "description",
         ],
-        null_values={
-            "tags": [[]],
-            "description": [""]
-        },
+        null_values={"tags": [[]], "description": [""]},
     )
     # Additional LogsPipelines specific attributes
     destination_integration_pipelines: Dict[str, Dict] = dict()

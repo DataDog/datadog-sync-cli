@@ -19,6 +19,7 @@ from datadog_sync.constants import (
     FORCE,
     LOCAL_STORAGE_TYPE,
     LOGGER_NAME,
+    RESOURCE_PER_FILE,
     S3_STORAGE_TYPE,
     SOURCE_PATH_DEFAULT,
     SOURCE_PATH_PARAM,
@@ -82,20 +83,22 @@ class Configuration(object):
 
         # Don't sync if DDR is active
         if self.verify_ddr_status:
-            try:
-                await _verify_ddr_status(self.destination_client)
-            except Exception as err:
-                self.logger.error(
-                    f"The destination DDR verification failed. {err} Use the --verify-ddr-status flag to override."
-                )
-                sys.exit(1)
-            try:
-                await _verify_ddr_status(self.source_client)
-            except Exception as err:
-                self.logger.error(
-                    f"The source DDR verification failed. {err} Use the --verify-ddr-status flag to override."
-                )
-                sys.exit(1)
+            if cmd in [Command.SYNC, Command.DIFFS, Command.MIGRATE, Command.RESET]:
+                try:
+                    await _verify_ddr_status(self.destination_client)
+                except Exception as err:
+                    self.logger.error(
+                        f"The destination DDR verification failed. {err} Use the --verify-ddr-status flag to override."
+                    )
+                    sys.exit(1)
+            if cmd in [Command.IMPORT, Command.DIFFS, Command.MIGRATE]:
+                try:
+                    await _verify_ddr_status(self.source_client)
+                except Exception as err:
+                    self.logger.error(
+                        f"The source DDR verification failed. {err} Use the --verify-ddr-status flag to override."
+                    )
+                    sys.exit(1)
             self.logger.info("DDR verified successfully")
         else:
             self.logger.warning("DDR verification skipped.")
@@ -175,8 +178,13 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     if storage_type == S3_STORAGE_TYPE:
         logger.info("Using AWS S3 to store state files")
         storage_type = StorageType.AWS_S3_BUCKET
-        source_resources_path = kwargs.get("aws_bucket_key_prefix_source", SOURCE_PATH_DEFAULT)
-        destination_resources_path = kwargs.get("aws_bucket_key_prefix_destination", DESTINATION_PATH_DEFAULT)
+
+        local_source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
+        source_resources_path = kwargs.get("aws_bucket_key_prefix_source", local_source_resources_path)
+
+        local_destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
+        destination_resources_path = kwargs.get("aws_bucket_key_prefix_destination", local_destination_resources_path)
+
         for aws_config_property in AWS_CONFIG_PROPERTIES:
             property_value = kwargs.get(aws_config_property, None)
             if not property_value:
@@ -198,12 +206,14 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         source_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout, send_metrics)
         source_resources_path = f"{destination_resources_path}/.backup/{str(time.time())}"
 
+    resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
     # Initialize state
     state = State(
         type_=storage_type,
         source_resources_path=source_resources_path,
         destination_resources_path=destination_resources_path,
         config=config,
+        resource_per_file=resource_per_file,
     )
 
     # Initialize Configuration
