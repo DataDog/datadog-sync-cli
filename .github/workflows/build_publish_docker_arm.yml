@@ -1,5 +1,11 @@
 name: Build and publish docker image on arm
 
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
+
 on:
   pull_request:
     types: [closed]
