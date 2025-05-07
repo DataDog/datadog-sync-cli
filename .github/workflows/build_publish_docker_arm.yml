@@ -1,17 +1,16 @@
 name: Build and publish docker image on arm
 
 on:
-  permissions:
-    contents: read
-    packages: write
-    attestations: write
-    id-token: write
-    metadata: write
-
   pull_request:
     types: [closed]
     branches:
       - main
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+      metadata: write
 
 env:
   REGISTRY: ghcr.io
@@ -26,6 +25,7 @@ jobs:
       packages: write
       attestations: write
       id-token: write
+      metadata: write
 
     steps:
       - name: Checkout repository
