@@ -27,7 +27,7 @@ env:
   DD_ENV: ci
   DD_SERVICE: datadog-sync-cli
   DD_TAGS: "team:hamr"
-#  DD_TRACE_ANALYTICS_ENABLED: "true"
+  DD_TRACE_ANALYTICS_ENABLED: "true"
 
 jobs:
   test-optimization:
