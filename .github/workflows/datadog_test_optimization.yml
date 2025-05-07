@@ -45,8 +45,6 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install .
-          python -m pip install ddtrace
           python -m pip install tox
-          python -m pip install -r scripts/test_requirements.txt
       - name: Run unit tests
         run: tox -e py312
