@@ -4,7 +4,10 @@ permissions:
   checks: write
   contents: read
 
-on: push
+on:
+  schedule:
+    # every hour, 9-5 eastern, M-F
+    - cron: '0 12-21 * * 1-5'
 
 env:
   DD_API_KEY: ${{ secrets.DD_API_KEY }}
