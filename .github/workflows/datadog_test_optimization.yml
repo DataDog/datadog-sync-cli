@@ -35,15 +35,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    services:
-      datadog-agent:
-        image: datadog/agent:latest
-        ports:
-          - 8126:8126
-        env:
-          DD_API_KEY: ${{ secrets.DD_API_KEY }}
-          DD_HOSTNAME: "none"
-          DD_INSIDE_CI: "true"
     steps:
       - name: Install Python
         uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c
@@ -51,6 +42,12 @@ jobs:
           python-version: 3.12
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Configure Datadog Test Optimization
+        uses: datadog/test-visibility-github-action@v2
+        with:
+          languages: java
+          api_key: ${{ secrets.DD_API_KEY }}
+          site: datadoghq.com
       - name: Install requirements
         run: |
           python -m pip install .
