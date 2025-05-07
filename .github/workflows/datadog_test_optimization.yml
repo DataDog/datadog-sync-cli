@@ -9,6 +9,11 @@ on:
     # every hour, 9-5 eastern, M-F
     - cron: '7 12-21 * * 1-5'
 
+  push:
+    branches:
+      - 'main'
+      - 'michael.richey/dd-test-opt'
+
 env:
   DD_API_KEY: ${{ secrets.DD_API_KEY }}
   DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
