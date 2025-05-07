@@ -11,8 +11,13 @@ from datadog_sync.models import LogsArchivesOrder
 
 class TestLogsArchivesOrder(BaseResourcesTestClass):
     resource_type = LogsArchivesOrder.resource_type
+    dependencies = list(LogsArchivesOrder.resource_config.resource_connections.keys())
     force_missing_deps = True
 
     @pytest.mark.skip(reason="resource is only updated by default")
     def test_resource_update_sync(self):
+        pass
+
+    @pytest.mark.skip(reason="resource is only updated by default")
+    def test_resource_update_sync_per_file(self):
         pass

@@ -17,3 +17,7 @@ class TestRolesResources(BaseResourcesTestClass):
     @pytest.mark.skip(reason="We cannot run this test as the test org does not have RBAC enabled")
     def test_resource_update_sync(self):
         pass
+
+    @pytest.mark.skip(reason="We cannot run this test as the test org does not have RBAC enabled")
+    def test_resource_update_sync_per_file(self):
+        pass

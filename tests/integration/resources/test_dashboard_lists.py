@@ -9,4 +9,6 @@ from datadog_sync.models import DashboardLists
 
 class TestDashboardListsResources(BaseResourcesTestClass):
     resource_type = DashboardLists.resource_type
+    dependencies = list(DashboardLists.resource_config.resource_connections.keys())
     field_to_update = "name"
+    force_missing_deps = True
