@@ -48,4 +48,4 @@ jobs:
           site: datadoghq.com
       - name: Run tests
         shell: bash
-        run: pytest
+        run: pytest --ddtrace
