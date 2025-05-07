@@ -1,6 +1,18 @@
 name: Build and publish docker image on arm
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
+  metadata: write
 
 on:
+  permissions:
+    contents: read
+    packages: write
+    attestations: write
+    id-token: write
+    metadata: write
   pull_request:
     types: [closed]
     branches:
@@ -15,7 +27,19 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  permissions:
+    contents: read
+    packages: write
+    attestations: write
+    id-token: write
+    metadata: write
 jobs:
+  permissions:
+    contents: read
+    packages: write
+    attestations: write
+    id-token: write
+    metadata: write
   build-and-push-image:
     if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-22.04-arm
