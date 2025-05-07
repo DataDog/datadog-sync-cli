@@ -8,10 +8,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
-  attestations: write
-  id-token: write
-  metadata: write
 
 env:
   REGISTRY: ghcr.io
