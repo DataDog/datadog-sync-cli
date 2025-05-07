@@ -12,6 +12,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'michael.richey/dd-test-opt'
 
 env:
   DD_API_KEY: ${{ secrets.DD_API_KEY }}
