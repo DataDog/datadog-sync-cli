@@ -40,13 +40,14 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install .
+          python -m pip install ddtrace
           python -m pip install -r scripts/test_requirements.txt
-      - name: Configure Datadog Test Optimization
-        uses: datadog/test-visibility-github-action@fa5d4c02a5f2329cf2c62a70fd8ec532317af1c9
-        with:
-          languages: python
-          api_key: ${{env.DD_API_KEY}}
-          site: datadoghq.com
+#      - name: Configure Datadog Test Optimization
+#        uses: datadog/test-visibility-github-action@fa5d4c02a5f2329cf2c62a70fd8ec532317af1c9
+#        with:
+#          languages: python
+#          api_key: ${{env.DD_API_KEY}}
+#          site: datadoghq.com
       - name: Run tests
         shell: bash
         run: pytest --ddtrace
