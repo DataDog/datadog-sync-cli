@@ -2,9 +2,8 @@ name: Build and publish docker image on arm
 
 permissions:
   contents: read
-  packages: write
-  attestations: write
-  id-token: write
+  packages: read
+  metadata: read
 
 on:
   pull_request:
