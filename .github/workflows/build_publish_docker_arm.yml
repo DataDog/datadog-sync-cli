@@ -12,6 +12,8 @@ on:
     types: [closed]
     branches:
       - main
+  push:
+    branches:
       - michael.richey/arm64-action
 
 env:
