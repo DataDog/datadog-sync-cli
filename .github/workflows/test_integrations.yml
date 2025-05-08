@@ -30,7 +30,6 @@ env:
 jobs:
   test-integrations:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
     services:
       datadog-agent:
         image: datadog/agent:latest
