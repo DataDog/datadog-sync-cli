@@ -13,6 +13,7 @@ on:
     branches:
       - 'main'
       - 'michael.richey/dd-test-opt'
+      - 'gnufede/dd-test-opt'
 
 env:
   DD_API_KEY: ${{ secrets.DD_API_KEY }}
@@ -43,7 +44,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Configure Datadog Test Optimization
-        uses: datadog/test-visibility-github-action@v2
+        uses: datadog/test-visibility-github-action@99be6970b3ed4e839e728aedaed838e4d87aaee3
         with:
           languages: python
           api_key: ${{ secrets.DD_API_KEY }}
