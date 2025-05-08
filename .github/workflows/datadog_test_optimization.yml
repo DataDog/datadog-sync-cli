@@ -23,7 +23,6 @@ env:
   DD_SOURCE_APP_KEY: ${{ secrets.DD_SOURCE_APP_KEY }}
   DD_SOURCE_API_URL: ${{ secrets.DD_SOURCE_API_URL }}
   RECORD: false
-  PYTEST_ADDOPTS: "--ddtrace"
   DD_ENV: ci
   DD_SERVICE: datadog-sync-cli
   DD_TAGS: "team:hamr"
@@ -53,4 +52,4 @@ jobs:
           python -m pip install .
           python -m pip install tox
       - name: Run unit tests
-        run: tox -e py312
+        run: tox -e py312 --ddtrace
