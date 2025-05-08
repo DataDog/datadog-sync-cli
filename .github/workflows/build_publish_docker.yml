@@ -1,24 +1,27 @@
 name: Build and publish docker image
 
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
+
 on:
   pull_request:
     types: [closed]
     branches:
       - main
+  push:
+    branches:
+      - michael.richey/arm64-action
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 jobs:
   build-and-push-image:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
+    #if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
-      attestations: write
-      id-token: write
 
     steps:
       - name: Checkout repository
@@ -49,6 +52,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
