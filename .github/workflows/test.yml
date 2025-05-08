@@ -14,6 +14,9 @@ on:
       - reopened
       - reopened
       - ready_for_review
+  push:
+    branches:
+      - michael.richey/arm64-action
 
 env:
   DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
