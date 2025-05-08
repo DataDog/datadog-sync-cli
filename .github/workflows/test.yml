@@ -14,6 +14,9 @@ on:
       - reopened
       - reopened
       - ready_for_review
+  schedule:
+    # every hour, 9-5 eastern, M-F
+    - cron: '45 12-21 * * 1-5'
 
 env:
   DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
