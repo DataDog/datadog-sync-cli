@@ -1,13 +1,18 @@
 name: Build and publish docker image on arm
 
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
+  metadata: write
+
 on:
   pull_request:
     types: [closed]
     branches:
       - main
-
-permissions:
-  contents: read
+      - michael.richey/arm64-action
 
 env:
   REGISTRY: ghcr.io
