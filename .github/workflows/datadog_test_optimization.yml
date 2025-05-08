@@ -52,4 +52,4 @@ jobs:
           python -m pip install .
           python -m pip install tox
       - name: Run unit tests
-        run: tox -e py312 --ddtrace
+        run: tox -e py312 -- --ddtrace
