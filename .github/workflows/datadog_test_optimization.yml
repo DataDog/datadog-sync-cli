@@ -30,6 +30,7 @@ env:
   DD_TAGS: "team:hamr"
   DD_TRACE_ANALYTICS_ENABLED: "true"
   DD_TRACE_PARTIAL_FLUSH_MIN_SPANS: 1
+  _DD_CIVISIBILITY_USE_CI_CONTEXT_PROVIDER: "true"
 
 jobs:
   test-optimization:
