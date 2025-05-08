@@ -29,6 +29,7 @@ env:
   DD_SERVICE: datadog-sync-cli
   DD_TAGS: "team:hamr"
   DD_TRACE_ANALYTICS_ENABLED: "true"
+  DD_TRACE_PARTIAL_FLUSH_MIN_SPANS: 1
 
 jobs:
   test-optimization:
