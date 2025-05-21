@@ -8,6 +8,7 @@ import copy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import PaginationConfig
 from datadog_sync.utils.resource_utils import check_diff, SkipResource
 
 if TYPE_CHECKING:
@@ -29,18 +30,20 @@ class TeamMemberships(BaseResource):
     )
     team_memberships_path = "/api/v2/team/{}/memberships"
     destination_team_memberships: List[Dict] = []
+    # Additional TeamMemberships specific attributes
+    pagination_config = PaginationConfig(remaining_func=lambda *args: 1)
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         # get all the teams
         teams = await client.paginated_request(client.get)(
-            self.resource_config.base_path,
+            self.resource_config.base_path, pagination_config=self.pagination_config,
         )
 
         # iterate over the teams and create a list of all members of all teams
         all_team_memberships = []
         for team in teams:
             members_of_team = await client.paginated_request(client.get)(
-                self.team_memberships_path.format(team["id"]),
+                self.team_memberships_path.format(team["id"]), pagination_config=self.pagination_config,
             )
 
             # add the team relationship
@@ -55,7 +58,7 @@ class TeamMemberships(BaseResource):
 
         if _id:
             resource = await source_client.paginated_request(source_client.get)(
-                self.team_memberships_path.format(_id),
+                self.team_memberships_path.format(_id), pagination_config=self.pagination_config,
             )
 
         resource = cast(dict, resource)
