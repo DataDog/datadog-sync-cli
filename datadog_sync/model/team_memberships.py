@@ -31,12 +31,7 @@ class TeamMemberships(BaseResource):
     team_memberships_path = "/api/v2/team/{}/memberships"
     destination_team_memberships: List[Dict] = []
     # Additional TeamMemberships specific attributes
-    pagination_config = PaginationConfig(
-        page_size=100,
-        page_number_param="page[number]",
-        page_size_param="page[size]",
-        remaining_func=lambda *args: 1,
-    )
+    pagination_config = PaginationConfig(remaining_func=lambda *args: 1)
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         # get all the teams
@@ -44,11 +39,9 @@ class TeamMemberships(BaseResource):
             self.resource_config.base_path, pagination_config=self.pagination_config,
         )
 
-        self.config.logger.info(f"tracer start loop len(teams) = {len(teams)}")
         # iterate over the teams and create a list of all members of all teams
         all_team_memberships = []
         for team in teams:
-            self.config.logger.info(f"tracer team = {team}")
             members_of_team = await client.paginated_request(client.get)(
                 self.team_memberships_path.format(team["id"]), pagination_config=self.pagination_config,
             )
