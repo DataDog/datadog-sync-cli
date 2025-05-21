@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.4.4 / 2025-05-21
+
+### Fixed
+
+* Fix team membership paging by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/347
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.4.3...1.4.4
+
 ## 1.4.3 / 2025-05-09
 
 ### Fixed
