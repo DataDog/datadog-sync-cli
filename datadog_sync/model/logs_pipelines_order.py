@@ -43,7 +43,7 @@ class LogsPipelinesOrder(BaseResource):
         return self.default_id, resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        pass
+        self.destination_pipeline_order = await self.get_destination_pipeline_order()
 
     async def pre_apply_hook(self) -> None:
         self.destination_pipeline_order = await self.get_destination_pipeline_order()

@@ -71,6 +71,7 @@ class Roles(BaseResource):
         self.destination_roles_mapping = await self.get_destination_roles_mapping()
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
+        self.destination_roles_mapping = await self.get_destination_roles_mapping()
         await self.remap_permissions(resource)
 
     async def create_resource(self, _id, resource) -> Tuple[str, Dict]:

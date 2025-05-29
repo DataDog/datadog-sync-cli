@@ -1,5 +1,34 @@
 # Changelog
 
+## 1.4.4 / 2025-05-21
+
+### Fixed
+
+* Fix team membership paging by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/347
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.4.3...1.4.4
+
+## 1.4.3 / 2025-05-09
+
+### Fixed
+* Support migration of log indexes without Flex tier by @k4ji in https://github.com/DataDog/datadog-sync-cli/pull/333
+* Pin the pytest-recording library to resolve a windows build issue by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/344
+### Added
+* Adding more python versions to testing by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/326
+* Michael.richey/team members by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/336
+* Produce an arm64 image by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/319
+### Changed
+* Changes to make the tests run more reliably by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/325
+* Narrow the scope of DDR checking based on the command by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/335
+* Split resource files into multiple files by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/339
+* Tests updated to be more independent and test multiple files by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/341
+
+## New Contributors
+* @k4ji made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/334
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.4.2...1.4.3
+
 ## 1.4.2 / 2025-02-13
 
 ### Fixed

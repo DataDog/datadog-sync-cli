@@ -9,5 +9,6 @@ from datadog_sync.models import AuthNMappings
 
 class TestAuthNMappingsResources(BaseResourcesTestClass):
     resource_type = AuthNMappings.resource_type
+    dependencies = list(AuthNMappings.resource_config.resource_connections.keys())
     field_to_update = "attributes.attribute_value"
     force_missing_deps = True

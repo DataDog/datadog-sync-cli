@@ -22,9 +22,17 @@ log = logging.getLogger(LOGGER_NAME)
 class LocalFile(BaseStorage):
 
     def __init__(
-        self, source_resources_path=SOURCE_PATH_DEFAULT, destination_resources_path=DESTINATION_PATH_DEFAULT
+        self,
+        source_resources_path=SOURCE_PATH_DEFAULT,
+        destination_resources_path=DESTINATION_PATH_DEFAULT,
+        resource_per_file=False,
     ) -> None:
         super().__init__()
+        # resource_per_file is a boolean, when False we maintain the behavior of storing all the resources
+        # by their resource type, so there is one file for all the monitors and another file for all the
+        # dashboards. In that case files are named {resource_type}.json. When the boolean is True each resource
+        # will be in its own file. The file name will be {resource_type}.{identifier}.json.
+        self.resource_per_file = resource_per_file
         self.source_resources_path = source_resources_path
         self.destination_resources_path = destination_resources_path
 
@@ -35,21 +43,21 @@ class LocalFile(BaseStorage):
             for file in os.listdir(self.source_resources_path):
                 if file.endswith(".json"):
                     resource_type = file.split(".")[0]
-                    with open(self.source_resources_path + f"/{file}") as f:
+                    with open(self.source_resources_path + f"/{file}", "r", encoding="utf-8") as input_file:
                         try:
-                            data.source[resource_type] = json.load(f)
+                            data.source[resource_type].update(json.load(input_file))
                         except json.decoder.JSONDecodeError:
-                            log.warning(f"invalid json in source resource file: {resource_type}")
+                            log.warning(f"invalid json in source resource file: {file}")
 
         if origin in [Origin.DESTINATION, Origin.ALL] and os.path.exists(self.destination_resources_path):
             for file in os.listdir(self.destination_resources_path):
                 if file.endswith(".json"):
                     resource_type = file.split(".")[0]
-                    with open(self.destination_resources_path + f"/{file}") as f:
+                    with open(self.destination_resources_path + f"/{file}", "r", encoding="utf-8") as input_file:
                         try:
-                            data.destination[resource_type] = json.load(f)
+                            data.destination[resource_type].update(json.load(input_file))
                         except json.decoder.JSONDecodeError:
-                            log.warning(f"invalid json in destination resource file: {resource_type}")
+                            log.warning(f"invalid json in destination resource file: {file}")
 
         return data
 
@@ -64,11 +72,27 @@ class LocalFile(BaseStorage):
 
     def write_resources_file(self, origin: Origin, data: StorageData) -> None:
         if origin in [Origin.SOURCE, Origin.ALL]:
-            for resource_type, v in data.source.items():
-                with open(self.source_resources_path + f"/{resource_type}.json", "w+") as f:
-                    json.dump(v, f)
+            for resource_type, value in data.source.items():
+                base_filename = f"{self.source_resources_path}/{resource_type}"
+                if self.resource_per_file:
+                    for _id, resource in value.items():
+                        filename = f"{base_filename}.{_id.replace(':','.')}.json"  # windows can't handle ":"
+                        with open(filename, "w+", encoding="utf-8") as out_file:
+                            json.dump({_id: resource}, out_file)
+                else:
+                    filename = f"{base_filename}.json"
+                    with open(filename, "w+", encoding="utf-8") as out_file:
+                        json.dump(value, out_file)
 
         if origin in [Origin.DESTINATION, Origin.ALL]:
-            for resource_type, v in data.destination.items():
-                with open(self.destination_resources_path + f"/{resource_type}.json", "w+") as f:
-                    json.dump(v, f)
+            for resource_type, value in data.destination.items():
+                base_filename = f"{self.destination_resources_path}/{resource_type}"
+                if self.resource_per_file:
+                    for _id, resource in value.items():
+                        filename = f"{base_filename}.{_id.replace(':','.')}.json"  # windows can't handle ":"
+                        with open(filename, "w+", encoding="utf-8") as out_file:
+                            json.dump({_id: resource}, out_file)
+                else:
+                    filename = f"{base_filename}.json"
+                    with open(filename, "w+", encoding="utf-8") as out_file:
+                        json.dump(value, out_file)

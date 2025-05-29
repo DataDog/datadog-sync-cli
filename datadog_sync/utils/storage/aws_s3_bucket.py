@@ -26,12 +26,18 @@ class AWSS3Bucket(BaseStorage):
         self,
         source_resources_path=SOURCE_PATH_DEFAULT,
         destination_resources_path=DESTINATION_PATH_DEFAULT,
+        resource_per_file=False,
         config=None,
     ) -> None:
         log.info("AWS S3 init called")
         super().__init__()
         self.source_resources_path = source_resources_path
         self.destination_resources_path = destination_resources_path
+        # resource_per_file is a boolean, when False we maintain the behavior of storing all the resources
+        # by their resource type, so there is one file for all the monitors and another file for all the
+        # dashboards. In that case files are named {resource_type}.json. When the boolean is True each resource
+        # will be in its own file. The file name will be {resource_type}.{identifier}.json.
+        self.resource_per_file = resource_per_file
         if not config:
             raise ValueError("No S3 configuration passed in")
         self.client = boto3.client(
@@ -60,7 +66,7 @@ class AWSS3Bucket(BaseStorage):
                     )
                     content_body = response.get("Body")
                     try:
-                        data.source[resource_type] = json.load(content_body)
+                        data.source[resource_type].update(json.load(content_body))
                     except json.decoder.JSONDecodeError:
                         log.warning(f"invalid json in aws source resource file: {resource_type}")
 
@@ -77,7 +83,7 @@ class AWSS3Bucket(BaseStorage):
                     )
                     content_body = response.get("Body")
                     try:
-                        data.destination[resource_type] = json.load(content_body)
+                        data.destination[resource_type].update(json.load(content_body))
                     except json.decoder.JSONDecodeError:
                         log.warning(f"invalid json in aws destination resource file: {resource_type}")
 
@@ -87,18 +93,42 @@ class AWSS3Bucket(BaseStorage):
         log.info("AWS S3 put called")
         if origin in [Origin.SOURCE, Origin.ALL]:
             for resource_type, resource_data in data.source.items():
-                binary_data = bytes(json.dumps(resource_data), "UTF-8")
-                self.client.put_object(
-                    Body=binary_data,
-                    Bucket=self.bucket_name,
-                    Key=f"{self.source_resources_path}/{resource_type}.json",
-                )
+                base_key = f"{self.source_resources_path}/{resource_type}"
+                if self.resource_per_file:
+                    for _id, resource in resource_data.items():
+                        key = f"{base_key}.{_id}.json"
+                        binary_data = bytes(json.dumps({_id: resource}), "UTF-8")
+                        self.client.put_object(
+                            Body=binary_data,
+                            Bucket=self.bucket_name,
+                            Key=key,
+                        )
+                else:
+                    key = f"{base_key}.json"
+                    binary_data = bytes(json.dumps(resource_data), "UTF-8")
+                    self.client.put_object(
+                        Body=binary_data,
+                        Bucket=self.bucket_name,
+                        Key=key,
+                    )
 
         if origin in [Origin.DESTINATION, Origin.ALL]:
             for resource_type, resource_data in data.destination.items():
-                binary_data = bytes(json.dumps(resource_data), "UTF-8")
-                self.client.put_object(
-                    Body=binary_data,
-                    Bucket=self.bucket_name,
-                    Key=f"{self.destination_resources_path}/{resource_type}.json",
-                )
+                base_key = f"{self.destination_resources_path}/{resource_type}"
+                if self.resource_per_file:
+                    for _id, resource in resource_data.items():
+                        key = f"{base_key}.{_id}.json"
+                        binary_data = bytes(json.dumps({_id: resource}), "UTF-8")
+                        self.client.put_object(
+                            Body=binary_data,
+                            Bucket=self.bucket_name,
+                            Key=key,
+                        )
+                else:
+                    key = f"{base_key}.json"
+                    binary_data = bytes(json.dumps(resource_data), "UTF-8")
+                    self.client.put_object(
+                        Body=binary_data,
+                        Bucket=self.bucket_name,
+                        Key=key,
+                    )
