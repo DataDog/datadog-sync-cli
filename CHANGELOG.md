@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.5 / 2025-05-30
+
+### Fixed
+* Fix from PR337 to resolve AWS prefix issue by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/349
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.4.4...1.4.5
+
 ## 1.4.4 / 2025-05-21
 
 ### Fixed
