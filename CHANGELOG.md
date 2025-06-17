@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.6 / 2025-06-17
+
+### Fixed
+* Fix log pipelines resource requests by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/351
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.4.5...1.4.6
+
 ## 1.4.5 / 2025-05-30
 
 ### Fixed
