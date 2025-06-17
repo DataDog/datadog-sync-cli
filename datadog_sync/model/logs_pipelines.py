@@ -85,9 +85,11 @@ class LogsPipelines(BaseResource):
             }
 
             # Submit a log to the logs intake API to trigger the creation of the integration pipeline
-            subdomain = self.logs_intake_subdomain
-            if destination_client.url_object.subdomain != "api":
-                subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain}"
+            subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain}"
+            if destination_client.url_object.subdomain == "api":
+                subdomain = self.logs_intake_subdomain
+            elif destination_client.url_object.subdomain.startswith("api."):
+                subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain[4:]}"
 
             await destination_client.post(self.logs_intake_path, payload, subdomain=subdomain)
 
