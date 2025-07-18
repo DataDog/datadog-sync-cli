@@ -52,7 +52,7 @@ class TestCli:
         # Check diff
         ret = runner.invoke(
             cli,
-            ["diffs", "--validate=false", "--skip-failed-resource-connections=False"],
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=true"],
         )
         # assert diffs are produced
         assert caplog.text
@@ -68,7 +68,7 @@ class TestCli:
                 "sync",
                 "--validate=false",
                 f"--resources={self.resources}",
-                "--skip-failed-resource-connections=False",
+                "--skip-failed-resource-connections=true",
                 "--create-global-downtime=False",
             ],
         )
@@ -84,7 +84,7 @@ class TestCli:
                 "diffs",
                 "--validate=false",
                 f"--resources={self.resources}",
-                "--skip-failed-resource-connections=False",
+                "--skip-failed-resource-connections=true",
             ],
         )
         # assert no diffs are produced
@@ -141,7 +141,7 @@ class TestCli:
             [
                 "diffs",
                 "--validate=false",
-                "--skip-failed-resource-connections=False",
+                "--skip-failed-resource-connections=true",
                 "--verify-ddr-status=False",
                 "--send-metrics=False",
             ],
@@ -161,7 +161,7 @@ class TestCli:
                 "sync",
                 "--validate=false",
                 f"--resources={self.resources}",
-                "--skip-failed-resource-connections=False",
+                "--skip-failed-resource-connections=true",
                 "--verify-ddr-status=False",
                 "--send-metrics=False",
                 "--create-global-downtime=False",
@@ -178,7 +178,7 @@ class TestCli:
                 "diffs",
                 "--validate=false",
                 f"--resources={self.resources}",
-                "--skip-failed-resource-connections=False",
+                "--skip-failed-resource-connections=true",
                 "--verify-ddr-status=False",
                 "--send-metrics=False",
             ],
@@ -215,7 +215,7 @@ class TestCli:
             [
                 "diffs",
                 "--validate=false",
-                "--skip-failed-resource-connections=False",
+                "--skip-failed-resource-connections=true",
                 "--verify-ddr-status=False",
                 "--send-metrics=False",
             ],
@@ -249,7 +249,7 @@ class TestCli:
         # Check diff
         ret = runner.invoke(
             cli,
-            ["diffs", "--validate=false", "--skip-failed-resource-connections=False", "--send-metrics=False"],
+            ["diffs", "--validate=false", "--skip-failed-resource-connections=true", "--send-metrics=False"],
         )
         assert "No match for the request" not in caplog.text
         assert 0 == ret.exit_code
@@ -287,7 +287,7 @@ class TestCli:
                 "--validate=false",
                 f"--resources={self.resources}",
                 "--cleanup=force",
-                "--skip-failed-resource-connections=False",
+                "--skip-failed-resource-connections=true",
                 "--send-metrics=False",
                 "--create-global-downtime=False",
             ],
@@ -305,7 +305,7 @@ class TestCli:
                     "--validate=false",
                     f"--resources={self.resources}",
                     "--cleanup=force",
-                    "--skip-failed-resource-connections=False",
+                    "--skip-failed-resource-connections=true",
                     "--send-metrics=False",
                     "--create-global-downtime=False",
                 ],
@@ -322,7 +322,7 @@ class TestCli:
                 "diffs",
                 "--validate=false",
                 f"--resources={self.resources}",
-                "--skip-failed-resource-connections=False",
+                "--skip-failed-resource-connections=true",
                 "--send-metrics=False",
             ],
         )

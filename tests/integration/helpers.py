@@ -140,7 +140,7 @@ class BaseResourcesTestClass:
             "--validate=false",
             "--verify-ddr-status=False",
             f"--resources={self.resource_type}",
-            "--skip-failed-resource-connections=false",
+            "--skip-failed-resource-connections=true",
             "--send-metrics=False",
         ]
 
@@ -225,6 +225,7 @@ class BaseResourcesTestClass:
 
         ret = runner.invoke(cli, diff_cmd)
         assert caplog.text
+        assert "diff:" in caplog.text
         assert 0 == ret.exit_code
         caplog.clear()
 
@@ -418,7 +419,7 @@ class BaseResourcesTestClass:
                 "--validate=false",
                 f"--resources={self.resource_type}",
                 f"--filter={self.filter}",
-                "--skip-failed-resource-connections=false",
+                "--skip-failed-resource-connections=true",
                 "--send-metrics=False",
             ],
         )
