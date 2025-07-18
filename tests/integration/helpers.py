@@ -570,7 +570,7 @@ class BaseResourcesTestClass:
                 pytest.fail(str(e))
 
             # Save the updated resource back to its individual file
-            with open(f"resources/source/{self.resource_type}.{resource_id}.json", "w") as f:
+            with open(f"resources/source/{self.resource_type}.{resource_id.replace(':','.')}.json", "w") as f:
                 json.dump({resource_id: resource}, f)
 
         # Assert diff is produced
@@ -616,7 +616,7 @@ def save_source_resources(resource_type, resources):
     if individual_files:
         # Individual file mode - save each resource to its own file
         for resource_id, resource in resources.items():
-            file_path = f"resources/source/{resource_type}.{resource_id}.json"
+            file_path = f"resources/source/{resource_type}.{resource_id.replace(':','.')}.json"
             with open(file_path, "w", encoding="utf-8") as f:
                 json.dump({resource_id: resource}, f, indent=2)
     else:
