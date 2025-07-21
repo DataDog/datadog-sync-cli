@@ -38,13 +38,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups
   response:
     body:
-      string: '{"data": {"id": "1dbe9313-dbe5-41b7-b97c-d0f1994d6abd", "attributes":
+      string: '{"data": {"id": "04a677b6-3c02-447f-8b84-a70f6b6faea1", "attributes":
         {"name": "test", "is_enabled": false, "filter": {"query": "host:COMP-XKH4K2XWRC"},
         "product_list": ["logs", "events"], "description": "test", "samplings": []},
         "type": "sensitive_data_scanner_group", "relationships": {"configuration":
         {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        "meta": {"version": 1563}}'
+        "meta": {"version": 1675}}'
     headers:
       Content-Type:
       - application/json
@@ -6984,10 +6984,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/1dbe9313-dbe5-41b7-b97c-d0f1994d6abd
+    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/04a677b6-3c02-447f-8b84-a70f6b6faea1
   response:
     body:
-      string: '{"meta": {"version": 1564}}'
+      string: '{"meta": {"version": 1676}}'
     headers:
       Content-Type:
       - application/json

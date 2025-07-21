@@ -62,13 +62,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/team
   response:
     body:
-      string: '{"data": {"type": "team", "id": "42407d55-8529-48b3-a096-791b70cf9c07",
+      string: '{"data": {"type": "team", "id": "753f9aa6-6a20-4270-bb27-49d4791a881c",
         "attributes": {"name": "hamr test", "handle": "hamr-test", "summary": null,
-        "description": "", "avatar": null, "banner": 15, "visible_modules": [], "hidden_modules":
-        [], "created_at": "2025-07-17T21:10:19.085253+00:00", "modified_at": "2025-07-17T21:10:19.085259+00:00",
+        "description": "", "avatar": null, "banner": 5, "visible_modules": [], "hidden_modules":
+        [], "created_at": "2025-07-18T21:43:27.802844+00:00", "modified_at": "2025-07-18T21:43:27.802851+00:00",
         "user_count": 0, "link_count": 0, "is_managed": false}, "relationships": {"team_links":
-        {"links": {"related": "/api/v2/team/42407d55-8529-48b3-a096-791b70cf9c07/links"}},
-        "user_team_permissions": {"links": {"related": "/api/v2/team/42407d55-8529-48b3-a096-791b70cf9c07/permission-settings"}}}}}'
+        {"links": {"related": "/api/v2/team/753f9aa6-6a20-4270-bb27-49d4791a881c/links"}},
+        "user_team_permissions": {"links": {"related": "/api/v2/team/753f9aa6-6a20-4270-bb27-49d4791a881c/permission-settings"}}}}}'
     headers:
       Content-Type:
       - application/json
@@ -85,13 +85,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/team
   response:
     body:
-      string: '{"data": {"type": "team", "id": "c2051a17-bcb3-433b-aa5c-40a9bbeea760",
+      string: '{"data": {"type": "team", "id": "a245f625-0133-4e83-a779-368943bf4472",
         "attributes": {"name": "test", "handle": "test", "summary": null, "description":
-        "", "avatar": null, "banner": 12, "visible_modules": [], "hidden_modules":
-        [], "created_at": "2025-07-17T21:10:19.166161+00:00", "modified_at": "2025-07-17T21:10:19.166169+00:00",
+        "", "avatar": null, "banner": 4, "visible_modules": [], "hidden_modules":
+        [], "created_at": "2025-07-18T21:43:27.881657+00:00", "modified_at": "2025-07-18T21:43:27.881664+00:00",
         "user_count": 0, "link_count": 0, "is_managed": false}, "relationships": {"team_links":
-        {"links": {"related": "/api/v2/team/c2051a17-bcb3-433b-aa5c-40a9bbeea760/links"}},
-        "user_team_permissions": {"links": {"related": "/api/v2/team/c2051a17-bcb3-433b-aa5c-40a9bbeea760/permission-settings"}}}}}'
+        {"links": {"related": "/api/v2/team/a245f625-0133-4e83-a779-368943bf4472/links"}},
+        "user_team_permissions": {"links": {"related": "/api/v2/team/a245f625-0133-4e83-a779-368943bf4472/permission-settings"}}}}}'
     headers:
       Content-Type:
       - application/json
@@ -7031,7 +7031,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/team/42407d55-8529-48b3-a096-791b70cf9c07
+    uri: https://api.us5.datadoghq.com/api/v2/team/a245f625-0133-4e83-a779-368943bf4472
   response:
     body:
       string: ''
@@ -7045,7 +7045,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/team/c2051a17-bcb3-433b-aa5c-40a9bbeea760
+    uri: https://api.us5.datadoghq.com/api/v2/team/753f9aa6-6a20-4270-bb27-49d4791a881c
   response:
     body:
       string: ''

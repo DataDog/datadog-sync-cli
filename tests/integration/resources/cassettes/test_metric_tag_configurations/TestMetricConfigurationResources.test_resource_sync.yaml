@@ -48,7 +48,7 @@ interactions:
     body:
       string: '{"data": {"type": "manage_tags", "id": "msr.distribution", "attributes":
         {"tags": ["environment", "host"], "include_percentiles": true, "created_at":
-        "2025-02-18T18:53:08.713421+00:00", "modified_at": "2025-07-18T15:10:04.049217+00:00",
+        "2025-02-18T18:53:08.713421+00:00", "modified_at": "2025-07-21T13:04:57.103284+00:00",
         "metric_type": "distribution", "exclude_tags_mode": false}}}'
     headers:
       Content-Type:

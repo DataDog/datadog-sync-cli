@@ -82,39 +82,15 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/t82-cj3-j7p
+    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
   response:
     body:
-      string: '{"id": "t82-cj3-j7p", "title": "Is It Working?", "description": null,
-        "author_handle": "ron.hay@datadoghq.com", "author_name": "Ron Hay", "layout_type":
-        "ordered", "url": "/dashboard/t82-cj3-j7p/is-it-working", "template_variables":
-        [], "widgets": [{"id": 8014768014333920, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
-        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
-        "data_source": "metrics", "query": "avg:datadog.agent.running{*}"}, {"name":
-        "query2", "data_source": "metrics", "query": "sum:datadog.agent.started{*}.as_count()"}],
-        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
-        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}, {"id": 2586000650834072, "definition": {"title": "", "title_size": "16",
-        "title_align": "left", "show_legend": true, "legend_layout": "auto", "legend_columns":
-        ["avg", "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"response_format":
-        "timeseries", "queries": [{"name": "query1", "data_source": "metrics", "query":
-        "avg:system.cpu.user{*}"}], "style": {"palette": "dog_classic", "order_by":
-        "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
-        "layout": {"x": 4, "y": 0, "width": 4, "height": 2}}, {"id": 885880749974638,
-        "definition": {"title": "", "title_size": "16", "title_align": "left", "show_legend":
-        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"response_format": "timeseries",
-        "queries": [{"name": "query1", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_read_capacity_units{*}"},
-        {"name": "query2", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_write_capacity_units{*}"}],
-        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
-        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-        2}}], "notify_list": [], "created_at": "2025-06-10T13:34:37.296465+00:00",
-        "modified_at": "2025-06-10T13:34:50.794550+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
+      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
+        "template_variables": null, "widgets": [], "notify_list": null, "created_at":
+        "2025-07-14T20:22:25.530702+00:00", "modified_at": "2025-07-14T20:22:25.530702+00:00",
+        "reflow_type": "fixed", "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -344,15 +320,39 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
+    uri: https://api.datadoghq.eu/api/v1/dashboard/t82-cj3-j7p
   response:
     body:
-      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
-        "template_variables": null, "widgets": [], "notify_list": null, "created_at":
-        "2025-07-14T20:22:25.530702+00:00", "modified_at": "2025-07-14T20:22:25.530702+00:00",
-        "reflow_type": "fixed", "restricted_roles": []}'
+      string: '{"id": "t82-cj3-j7p", "title": "Is It Working?", "description": null,
+        "author_handle": "ron.hay@datadoghq.com", "author_name": "Ron Hay", "layout_type":
+        "ordered", "url": "/dashboard/t82-cj3-j7p/is-it-working", "template_variables":
+        [], "widgets": [{"id": 8014768014333920, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
+        "data_source": "metrics", "query": "avg:datadog.agent.running{*}"}, {"name":
+        "query2", "data_source": "metrics", "query": "sum:datadog.agent.started{*}.as_count()"}],
+        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}, {"id": 2586000650834072, "definition": {"title": "", "title_size": "16",
+        "title_align": "left", "show_legend": true, "legend_layout": "auto", "legend_columns":
+        ["avg", "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"response_format":
+        "timeseries", "queries": [{"name": "query1", "data_source": "metrics", "query":
+        "avg:system.cpu.user{*}"}], "style": {"palette": "dog_classic", "order_by":
+        "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
+        "layout": {"x": 4, "y": 0, "width": 4, "height": 2}}, {"id": 885880749974638,
+        "definition": {"title": "", "title_size": "16", "title_align": "left", "show_legend":
+        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"response_format": "timeseries",
+        "queries": [{"name": "query1", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_read_capacity_units{*}"},
+        {"name": "query2", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_write_capacity_units{*}"}],
+        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
+        2}}], "notify_list": [], "created_at": "2025-06-10T13:34:37.296465+00:00",
+        "modified_at": "2025-06-10T13:34:50.794550+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json

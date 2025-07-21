@@ -76,13 +76,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups
   response:
     body:
-      string: '{"data": {"id": "0f90eaf2-c1ad-402e-8601-84d88357d0db", "attributes":
+      string: '{"data": {"id": "070144ca-1038-4f16-8a3f-40ded89d822b", "attributes":
         {"name": "test", "is_enabled": false, "filter": {"query": "host:COMP-XKH4K2XWRC"},
         "product_list": ["logs", "events"], "description": "test", "samplings": []},
         "type": "sensitive_data_scanner_group", "relationships": {"configuration":
         {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        "meta": {"version": 1568}}'
+        "meta": {"version": 1680}}'
     headers:
       Content-Type:
       - application/json
@@ -7022,10 +7022,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/0f90eaf2-c1ad-402e-8601-84d88357d0db
+    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/070144ca-1038-4f16-8a3f-40ded89d822b
   response:
     body:
-      string: '{"meta": {"version": 1569}}'
+      string: '{"meta": {"version": 1681}}'
     headers:
       Content-Type:
       - application/json

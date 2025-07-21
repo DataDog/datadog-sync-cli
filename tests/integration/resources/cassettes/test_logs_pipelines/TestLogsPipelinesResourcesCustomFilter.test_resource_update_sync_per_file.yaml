@@ -395,7 +395,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "pNk3EIKLTfmHzePNaKp0QQ", "type": "pipeline", "name": "test",
+      string: '{"id": "6l3oKJNHTdmUeCVR6YFYGQ", "type": "pipeline", "name": "test",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -608,7 +608,7 @@ interactions:
         "Define `level` as the official status of the log", "is_enabled": true, "sources":
         ["level"], "type": "status-remapper"}, {"name": "Define `dd.trace_id` as the
         official trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id"],
-        "type": "trace-id-remapper"}]}, {"id": "pNk3EIKLTfmHzePNaKp0QQ", "type": "pipeline",
+        "type": "trace-id-remapper"}]}, {"id": "6l3oKJNHTdmUeCVR6YFYGQ", "type": "pipeline",
         "name": "test", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -802,7 +802,7 @@ interactions:
         "Define `level` as the official status of the log", "is_enabled": true, "sources":
         ["level"], "type": "status-remapper"}, {"name": "Define `dd.trace_id` as the
         official trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id"],
-        "type": "trace-id-remapper"}]}, {"id": "pNk3EIKLTfmHzePNaKp0QQ", "type": "pipeline",
+        "type": "trace-id-remapper"}]}, {"id": "6l3oKJNHTdmUeCVR6YFYGQ", "type": "pipeline",
         "name": "test", "is_enabled": true, "is_read_only": false, "filter": {"query":
         "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -818,10 +818,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/pNk3EIKLTfmHzePNaKp0QQ
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/6l3oKJNHTdmUeCVR6YFYGQ
   response:
     body:
-      string: '{"id": "pNk3EIKLTfmHzePNaKp0QQ", "type": "pipeline", "name": "testupdated",
+      string: '{"id": "6l3oKJNHTdmUeCVR6YFYGQ", "type": "pipeline", "name": "testupdated",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -1034,7 +1034,7 @@ interactions:
         "Define `level` as the official status of the log", "is_enabled": true, "sources":
         ["level"], "type": "status-remapper"}, {"name": "Define `dd.trace_id` as the
         official trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id"],
-        "type": "trace-id-remapper"}]}, {"id": "pNk3EIKLTfmHzePNaKp0QQ", "type": "pipeline",
+        "type": "trace-id-remapper"}]}, {"id": "6l3oKJNHTdmUeCVR6YFYGQ", "type": "pipeline",
         "name": "testupdated", "is_enabled": true, "is_read_only": false, "filter":
         {"query": "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -7976,7 +7976,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/pNk3EIKLTfmHzePNaKp0QQ
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/6l3oKJNHTdmUeCVR6YFYGQ
   response:
     body:
       string: '{}'

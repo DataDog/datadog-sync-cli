@@ -51,7 +51,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives
   response:
     body:
-      string: '{"data": {"type": "archives", "id": "YoqQeYVcSku6iXPCA0P-Dg", "attributes":
+      string: '{"data": {"type": "archives", "id": "AlT8CNXFTaOOop_Hccr3fQ", "attributes":
         {"name": "Main Archive", "query": "host:COMP-XKH4K2XWRC", "state": "UNKNOWN",
         "destination": {"bucket": "hamr-logs-archive-for-internal-testing", "encryption":
         {"type": "NO_OVERRIDE"}, "storage_class": "STANDARD", "path": "/logs-archive-testing",
@@ -73,7 +73,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archive-order
   response:
     body:
-      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["YoqQeYVcSku6iXPCA0P-Dg"]}}}'
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["AlT8CNXFTaOOop_Hccr3fQ"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -81,7 +81,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["YoqQeYVcSku6iXPCA0P-Dg"]}}}'
+    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["AlT8CNXFTaOOop_Hccr3fQ"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -89,7 +89,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archive-order
   response:
     body:
-      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["YoqQeYVcSku6iXPCA0P-Dg"]}}}'
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["AlT8CNXFTaOOop_Hccr3fQ"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -7029,7 +7029,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/YoqQeYVcSku6iXPCA0P-Dg
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/AlT8CNXFTaOOop_Hccr3fQ
   response:
     body:
       string: ''

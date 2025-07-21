@@ -28,9 +28,9 @@ interactions:
   response:
     body:
       string: '{"data": [{"type": "notebooks", "id": 229667, "attributes": {"name":
-        "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "attributes":
-        {"definition": {"type": "markdown", "text": "test"}}, "id": "98dce3fs"}],
-        "time": {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
+        "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "id": "5awhhsds",
+        "attributes": {"definition": {"type": "markdown", "text": "test"}}}], "time":
+        {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
         false, "is_favorite": false, "type": null}, "template_variables": [], "status":
         "published", "modified": "2025-06-10T16:07:05.984889+00:00", "created": "2025-06-10T14:49:04.514872+00:00",
         "deleted": null, "tags": [], "author": {"name": "Michael Richey", "handle":
@@ -75,12 +75,12 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 191269, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 191503, "attributes": {"name":
         "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "attributes":
-        {"definition": {"type": "markdown", "text": "test"}}, "id": "ps6gfo4d"}],
+        {"definition": {"type": "markdown", "text": "test"}}, "id": "m2xvncjn"}],
         "time": {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
         false, "is_favorite": false, "type": null}, "template_variables": [], "status":
-        "published", "modified": "2025-07-17T21:07:16.186556+00:00", "created": "2025-07-17T21:07:16.186556+00:00",
+        "published", "modified": "2025-07-18T21:40:34.109066+00:00", "created": "2025-07-18T21:40:34.109066+00:00",
         "deleted": null, "tags": [], "author": {"name": "Michael S Richey", "handle":
         "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com",
         "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?s=48&d=retro",
@@ -7024,7 +7024,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/notebooks/191269
+    uri: https://api.us5.datadoghq.com/api/v1/notebooks/191503
   response:
     body:
       string: ''

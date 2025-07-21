@@ -38,13 +38,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups
   response:
     body:
-      string: '{"data": {"id": "d27ebaff-25ed-4a25-9a48-ce01d6e6d6cf", "attributes":
+      string: '{"data": {"id": "09253492-023f-4d97-b2b0-f030f34eabc1", "attributes":
         {"name": "test", "is_enabled": false, "filter": {"query": "host:COMP-XKH4K2XWRC"},
         "product_list": ["logs", "events"], "description": "test", "samplings": []},
         "type": "sensitive_data_scanner_group", "relationships": {"configuration":
         {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        "meta": {"version": 1565}}'
+        "meta": {"version": 1677}}'
     headers:
       Content-Type:
       - application/json
@@ -54,16 +54,16 @@ interactions:
 - request:
     body: '{"data": {"attributes": {"name": "testupdated", "is_enabled": false, "filter":
       {"query": "host:COMP-XKH4K2XWRC"}, "product_list": ["logs", "events"], "description":
-      "test", "samplings": []}, "type": "sensitive_data_scanner_group", "id": "d27ebaff-25ed-4a25-9a48-ce01d6e6d6cf"},
+      "test", "samplings": []}, "type": "sensitive_data_scanner_group", "id": "09253492-023f-4d97-b2b0-f030f34eabc1"},
       "meta": {}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/d27ebaff-25ed-4a25-9a48-ce01d6e6d6cf
+    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/09253492-023f-4d97-b2b0-f030f34eabc1
   response:
     body:
-      string: '{"meta": {"version": 1566}}'
+      string: '{"meta": {"version": 1678}}'
     headers:
       Content-Type:
       - application/json
@@ -7003,10 +7003,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/d27ebaff-25ed-4a25-9a48-ce01d6e6d6cf
+    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/09253492-023f-4d97-b2b0-f030f34eabc1
   response:
     body:
-      string: '{"meta": {"version": 1567}}'
+      string: '{"meta": {"version": 1679}}'
     headers:
       Content-Type:
       - application/json

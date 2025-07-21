@@ -123,9 +123,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests
   response:
     body:
-      string: '{"public_id": "vst-cim-yiz", "name": "Test on www.datadoghq.com", "status":
+      string: '{"public_id": "2yj-4w8-xwt", "name": "Test on www.datadoghq.com", "status":
         "live", "type": "api", "subtype": "http", "tags": ["managed_by:datadog-sync"],
-        "created_at": "2025-07-17T21:09:50.638888+00:00", "modified_at": "2025-07-17T21:09:50.638888+00:00",
+        "created_at": "2025-07-21T13:05:57.935317+00:00", "modified_at": "2025-07-21T13:05:57.935317+00:00",
         "config": {"assertions": [{"operator": "lessThan", "type": "responseTime",
         "target": 1000}], "request": {"method": "GET", "url": "https://www.datadoghq.com"}},
         "message": "", "options": {"httpVersion": "any", "min_failure_duration": 0,
@@ -140,7 +140,7 @@ interactions:
         "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
         "gcp:us-west1", "gcp:us-west2"], "created_by": {"name": "Michael S Richey",
         "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com"},
-        "deleted_at": null, "monitor_id": 10510395, "org_id": 1300336245, "modified_by":
+        "deleted_at": null, "monitor_id": 10834121, "org_id": 1300336245, "modified_by":
         {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "email": "michael.richey@gmail.com"}}'
     headers:
@@ -7077,7 +7077,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["vst-cim-yiz"]}'
+    body: '{"public_ids": ["2yj-4w8-xwt"]}'
     headers:
       Content-Type:
       - application/json
@@ -7085,7 +7085,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"public_id": "vst-cim-yiz", "deleted_at": "2025-07-17T21:09:52.145657+00:00"}]}'
+      string: '{"deleted_tests": [{"public_id": "2yj-4w8-xwt", "deleted_at": "2025-07-21T13:05:59.324539+00:00"}]}'
     headers:
       Content-Type:
       - application/json

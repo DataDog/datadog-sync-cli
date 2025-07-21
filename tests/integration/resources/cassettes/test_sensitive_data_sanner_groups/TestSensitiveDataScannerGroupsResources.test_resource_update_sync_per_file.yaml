@@ -76,13 +76,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups
   response:
     body:
-      string: '{"data": {"id": "1fa76406-dc11-49cd-9415-a9c688359b28", "attributes":
+      string: '{"data": {"id": "d2a67d55-d7d3-4cf1-a76f-58cd8988e696", "attributes":
         {"name": "test", "is_enabled": false, "filter": {"query": "host:COMP-XKH4K2XWRC"},
         "product_list": ["logs", "events"], "description": "test", "samplings": []},
         "type": "sensitive_data_scanner_group", "relationships": {"configuration":
         {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        "meta": {"version": 1570}}'
+        "meta": {"version": 1682}}'
     headers:
       Content-Type:
       - application/json
@@ -149,16 +149,16 @@ interactions:
 - request:
     body: '{"data": {"attributes": {"name": "testupdated", "is_enabled": false, "filter":
       {"query": "host:COMP-XKH4K2XWRC"}, "product_list": ["logs", "events"], "description":
-      "test", "samplings": []}, "type": "sensitive_data_scanner_group", "id": "1fa76406-dc11-49cd-9415-a9c688359b28"},
+      "test", "samplings": []}, "type": "sensitive_data_scanner_group", "id": "d2a67d55-d7d3-4cf1-a76f-58cd8988e696"},
       "meta": {}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/1fa76406-dc11-49cd-9415-a9c688359b28
+    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/d2a67d55-d7d3-4cf1-a76f-58cd8988e696
   response:
     body:
-      string: '{"meta": {"version": 1571}}'
+      string: '{"meta": {"version": 1683}}'
     headers:
       Content-Type:
       - application/json
@@ -7136,10 +7136,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/1fa76406-dc11-49cd-9415-a9c688359b28
+    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/d2a67d55-d7d3-4cf1-a76f-58cd8988e696
   response:
     body:
-      string: '{"meta": {"version": 1572}}'
+      string: '{"meta": {"version": 1684}}'
     headers:
       Content-Type:
       - application/json

@@ -28,7 +28,7 @@ interactions:
   response:
     body:
       string: '{"data": [{"type": "notebooks", "id": 229667, "attributes": {"name":
-        "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "id": "nei7i38w",
+        "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "id": "zxf4l33m",
         "attributes": {"definition": {"type": "markdown", "text": "test"}}}], "time":
         {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
         false, "is_favorite": false, "type": null}, "template_variables": [], "status":

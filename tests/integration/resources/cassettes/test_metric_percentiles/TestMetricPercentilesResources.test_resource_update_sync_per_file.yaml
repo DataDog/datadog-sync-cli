@@ -30,7 +30,7 @@ interactions:
       string: '[{"metric_name": "msr.other_distribution", "group_by": [], "include_percentiles":
         true, "aggr_mode": "include_all", "summary_type": "default", "groups_negated":
         false, "key": 285536557, "source": "intake"}, {"metric_name": "msr.distribution",
-        "group_by": ["environment", "host"], "include_percentiles": false, "aggr_mode":
+        "group_by": ["environment", "host"], "include_percentiles": true, "aggr_mode":
         "use_groups", "summary_type": "default", "groups_negated": false, "key": 285529188,
         "source": "intake"}]'
     headers:
@@ -77,7 +77,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"group_by": ["environment", "host"], "include_percentiles": false, "aggr_mode":
+    body: '{"group_by": ["environment", "host"], "include_percentiles": true, "aggr_mode":
       "use_groups", "summary_type": "default", "groups_negated": false, "source":
       "intake", "metric": "msr.distribution"}'
     headers:
@@ -171,7 +171,7 @@ interactions:
       message: OK
 - request:
     body: '{"group_by": ["environment", "host", "updated"], "include_percentiles":
-      false, "aggr_mode": "use_groups", "summary_type": "default", "groups_negated":
+      true, "aggr_mode": "use_groups", "summary_type": "default", "groups_negated":
       false, "source": "intake", "metric": "msr.distribution"}'
     headers:
       Content-Type:

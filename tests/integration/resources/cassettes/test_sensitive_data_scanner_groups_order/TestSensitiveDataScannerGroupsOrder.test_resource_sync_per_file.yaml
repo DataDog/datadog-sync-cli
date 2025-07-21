@@ -104,13 +104,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups
   response:
     body:
-      string: '{"data": {"id": "e4e4e66a-3548-4980-8155-f9e6823f2d5c", "attributes":
+      string: '{"data": {"id": "c3d3b897-8729-4c78-a920-dbb81642b2b9", "attributes":
         {"name": "test", "is_enabled": false, "filter": {"query": "host:COMP-XKH4K2XWRC"},
         "product_list": ["logs", "events"], "description": "test", "samplings": []},
         "type": "sensitive_data_scanner_group", "relationships": {"configuration":
         {"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "type": "sensitive_data_scanner_configuration"}}, "rules": {"data": []}}},
-        "meta": {"version": 1576}}'
+        "meta": {"version": 1688}}'
     headers:
       Content-Type:
       - application/json
@@ -128,12 +128,12 @@ interactions:
     body:
       string: '{"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "attributes": {}, "type": "sensitive_data_scanner_configuration", "relationships":
-        {"groups": {"data": [{"id": "e4e4e66a-3548-4980-8155-f9e6823f2d5c", "type":
-        "sensitive_data_scanner_group"}]}}}, "meta": {"version": 1576, "count_limit":
+        {"groups": {"data": [{"id": "c3d3b897-8729-4c78-a920-dbb81642b2b9", "type":
+        "sensitive_data_scanner_group"}]}}}, "meta": {"version": 1688, "count_limit":
         100, "group_count_limit": 20, "is_pci_compliant": false, "has_highlight_enabled":
         true, "has_multi_pass_enabled": true, "has_cascading_enabled": false, "is_configuration_superseded":
         false, "is_float_sampling_rate_enabled": false, "min_sampling_rate": 10.0},
-        "included": [{"id": "e4e4e66a-3548-4980-8155-f9e6823f2d5c", "attributes":
+        "included": [{"id": "c3d3b897-8729-4c78-a920-dbb81642b2b9", "attributes":
         {"name": "test", "is_enabled": false, "filter": {"query": "host:COMP-XKH4K2XWRC"},
         "product_list": ["logs", "events"], "description": "test", "samplings": []},
         "type": "sensitive_data_scanner_group", "relationships": {"configuration":
@@ -147,7 +147,7 @@ interactions:
       message: OK
 - request:
     body: '{"data": {"type": "sensitive_data_scanner_configuration", "id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
-      "relationships": {"groups": {"data": [{"id": "e4e4e66a-3548-4980-8155-f9e6823f2d5c",
+      "relationships": {"groups": {"data": [{"id": "c3d3b897-8729-4c78-a920-dbb81642b2b9",
       "type": "sensitive_data_scanner_group"}]}}}, "meta": {}}'
     headers:
       Content-Type:
@@ -156,7 +156,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config
   response:
     body:
-      string: '{"meta": {"version": 1577, "count_limit": 100, "group_count_limit":
+      string: '{"meta": {"version": 1689, "count_limit": 100, "group_count_limit":
         20, "is_pci_compliant": false, "has_highlight_enabled": true, "has_multi_pass_enabled":
         false, "has_cascading_enabled": false, "is_configuration_superseded": false,
         "is_float_sampling_rate_enabled": false, "min_sampling_rate": 0.0}}'
@@ -7099,10 +7099,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/e4e4e66a-3548-4980-8155-f9e6823f2d5c
+    uri: https://api.us5.datadoghq.com/api/v2/sensitive-data-scanner/config/groups/c3d3b897-8729-4c78-a920-dbb81642b2b9
   response:
     body:
-      string: '{"meta": {"version": 1578}}'
+      string: '{"meta": {"version": 1690}}'
     headers:
       Content-Type:
       - application/json

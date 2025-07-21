@@ -52,7 +52,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/powerpacks
   response:
     body:
-      string: '{"data": {"type": "powerpack", "id": "0896206c-6352-11f0-855d-da7ad0900005",
+      string: '{"data": {"type": "powerpack", "id": "d9b8dfae-641f-11f0-9398-da7ad0900005",
         "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
         {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
         "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
@@ -7006,7 +7006,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/powerpacks/0896206c-6352-11f0-855d-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/powerpacks/d9b8dfae-641f-11f0-9398-da7ad0900005
   response:
     body:
       string: ''

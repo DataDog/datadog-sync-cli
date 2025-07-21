@@ -87,7 +87,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"id": "47c871d2-cb37-422b-8c61-9755fa968181", "name": "TEST", "description":
+      string: '{"id": "037db4ca-f69b-4da5-9169-0c487fd037e9", "name": "TEST", "description":
         "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}}'
@@ -7030,7 +7030,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables/47c871d2-cb37-422b-8c61-9755fa968181
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables/037db4ca-f69b-4da5-9169-0c487fd037e9
   response:
     body:
       string: ''

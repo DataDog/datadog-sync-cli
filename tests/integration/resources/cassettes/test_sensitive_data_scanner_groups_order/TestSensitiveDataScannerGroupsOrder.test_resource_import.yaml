@@ -38,7 +38,7 @@ interactions:
     body:
       string: '{"data": {"id": "206368e3882e23aa9d1fa07013a9a80cf630f2b2a0722206a539d09b3e1e5b6e",
         "attributes": {}, "type": "sensitive_data_scanner_configuration", "relationships":
-        {"groups": {"data": []}}}, "meta": {"version": 1572, "count_limit": 100, "group_count_limit":
+        {"groups": {"data": []}}}, "meta": {"version": 1684, "count_limit": 100, "group_count_limit":
         20, "is_pci_compliant": false, "has_highlight_enabled": true, "has_multi_pass_enabled":
         true, "has_cascading_enabled": false, "is_configuration_superseded": false,
         "is_float_sampling_rate_enabled": false, "min_sampling_rate": 10.0}}'
