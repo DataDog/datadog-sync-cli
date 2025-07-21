@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0 / 2025-07-21
+
+### Fixed
+* Fix for skipping resource connections and api changes by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/354
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.4.6...2.0.0
+
 ## 1.4.6 / 2025-06-17
 
 ### Fixed
