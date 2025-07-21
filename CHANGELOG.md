@@ -3,7 +3,7 @@
 ## 2.0.0 / 2025-07-21
 
 ### Fixed
-* Fix for skipping resource connections and api changes. This is breaking change as the behavior of `--skip-failed-resource-connections` is now correct and users may have been working around it by passing in the incorrect value by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/354
+* Fix for skipping resource connections and API changes. This is a breaking change because the behavior of `--skip-failed-resource-connections` is now correct and users may have been working around it by passing in the incorrect value by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/354
 
 
 **Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/1.4.6...2.0.0
