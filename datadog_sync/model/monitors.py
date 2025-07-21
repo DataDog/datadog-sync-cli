@@ -37,7 +37,8 @@ class Monitors(BaseResource):
             "overall_state",
             "overall_state_modified",
         ],
-        non_nullable_attr=["restriction_policy"],
+        non_nullable_attr=["restriction_policy", "draft_status"],
+        null_values={"draft_status": "published"},
         tagging_config=TaggingConfig(path="tags"),
     )
     # Additional Monitors specific attributes

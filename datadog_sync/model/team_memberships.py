@@ -25,6 +25,7 @@ class TeamMemberships(BaseResource):
         base_path="/api/v2/team",
         excluded_attributes=[
             "id",
+            "attributes.provisioned_by",
             "attributes.provisioned_by_id",
         ],
     )
@@ -36,14 +37,16 @@ class TeamMemberships(BaseResource):
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         # get all the teams
         teams = await client.paginated_request(client.get)(
-            self.resource_config.base_path, pagination_config=self.pagination_config,
+            self.resource_config.base_path,
+            pagination_config=self.pagination_config,
         )
 
         # iterate over the teams and create a list of all members of all teams
         all_team_memberships = []
         for team in teams:
             members_of_team = await client.paginated_request(client.get)(
-                self.team_memberships_path.format(team["id"]), pagination_config=self.pagination_config,
+                self.team_memberships_path.format(team["id"]),
+                pagination_config=self.pagination_config,
             )
 
             # add the team relationship
@@ -58,7 +61,8 @@ class TeamMemberships(BaseResource):
 
         if _id:
             resource = await source_client.paginated_request(source_client.get)(
-                self.team_memberships_path.format(_id), pagination_config=self.pagination_config,
+                self.team_memberships_path.format(_id),
+                pagination_config=self.pagination_config,
             )
 
         resource = cast(dict, resource)

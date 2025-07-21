@@ -19,6 +19,7 @@ class Notebooks(BaseResource):
         base_path="/api/v1/notebooks",
         excluded_attributes=[
             "id",
+            "attributes.cells.id",
             "attributes.created",
             "attributes.modified",
             "attributes.author",

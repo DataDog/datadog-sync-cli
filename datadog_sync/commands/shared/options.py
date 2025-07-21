@@ -299,8 +299,8 @@ _diffs_options = [
     option(
         "--skip-failed-resource-connections",
         type=bool,
-        default=True,
-        show_default=True,
+        default=False,
+        show_default=False,
         help="Skip resource if resource connection fails.",
         cls=CustomOptionClass,
     ),

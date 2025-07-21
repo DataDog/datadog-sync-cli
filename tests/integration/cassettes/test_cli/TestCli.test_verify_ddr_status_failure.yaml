@@ -23,7 +23,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://us5.datadoghq.com/api/v2/hamr
+    uri: https://api.us5.datadoghq.com/api/v2/hamr
   response:
     body:
       string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
@@ -60,7 +60,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://us5.datadoghq.com/api/v2/hamr
+    uri: https://api.us5.datadoghq.com/api/v2/hamr
   response:
     body:
       string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
@@ -97,72 +97,15 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://us5.datadoghq.com/api/v2/hamr
+    uri: https://api.us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: "<!DOCTYPE html>\\n<html lang=\"en\">\\n<head>\\n\t<meta charset=\"utf-8\"
-        />\\n\t<title>Forbidden</title>\\n\t<style>\\n\t\t/* 960 stuff: */\\n\t\t/*
-        reset */\\n\t\thtml,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}\\n\t\t/*
-        text */\\n\t\tbody{font:13px/1.5 'NotoSans','Lucida Grande','Lucida Sans Unicode',sans-serif}a:focus{outline:1px
-        dotted}hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}h1{font-size:25px}h2{font-size:20px}h3{font-size:16px}h4{font-size:14px}h5{font-size:13px}h6{font-size:13px}ol{list-style:decimal}ul{list-style:disc}li{margin-left:30px}p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table,address,fieldset{margin:0
-        0 16px}\\n\t\t.clear{clear:both;display:block;overflow:hidden;visibility:hidden;width:0;height:0}\\n\t\t.clearfix:after{clear:both;content:'
-        ';display:block;font-size:0;line-height:0;visibility:hidden;width:0;height:0}\\n\t\t*
-        html .clearfix,*:first-child+html .clearfix{zoom:1}\\n\t\t/* end 960 */\\n\t\tbody
-        {\\n\t\t\tcolor:#333;\\n\t\t\tbackground:#fff;\\n\t\t\tmin-width:980px;\\n\t\t}\\n\t\ta
-        {\\n\t\t\tcolor:#39c;\\n\t\t}\\n\t\ta:hover {\\n\t\t\tcolor:#1966aa;\\n\t\t}\\n\t\th1
-        {\\n\t\t\tpadding:3px 60px;\\n\t\t\tcolor:#fff;\\n\t\t\tbackground:#443e4a;\\n\t\t\tborder-bottom:1px
-        solid #543473;\\n\t\t}\\n\t\th1 img {\\n\t\t\tvertical-align:baseline;\\n\t\t\tmargin:0
-        10px -8px 0;\\n\t\t\theight:32px;\\n\t\t}\\n\t\th2 {\\n\t\t\tmargin:0 0 20px;\\n\t\t\tpadding:30px
-        0 0;\\n\t\t\tfont-size:32px;\\n\t\t\tline-height:36px;\\n\t\t}\\n\t\t.content
-        {\\n\t\t\tpadding-left:20em;\\n\t\t\tmargin:4em auto;\\n\t\t\tfont-size:16px;\\n\t\t\tmax-width:50em;\\n\t\t}\\n\t\t.nocss
-        {\\n\t\t\tdisplay:none;\\n\t\t}\\n\t\tul {\\n\t\t\tmargin:0;\\n\t\t\tpadding:0
-        0 0 2em;\\n\t\t}\\n\t\tli {\\n\t\t\tmargin:0;\\n\t\t\tpadding:0;\\n\t\t}\\n\t\t.hide
-        {\\n\t\t\tdisplay:none;\\n\t\t}\\n\t\t#color-dot {\\n\t\t\tborder-radius:99px;\\n\t\t\tdisplay:inline-block;\\n\t\t\twidth:10px;\\n\t\t\theight:10px;\\n\t\t\tmargin-right:5px;\\n\t\t}\\n\t\t.critical
-        {\\n\t\t\tbackground-color:#e74c3c;\\n\t\t}\\n\t\t.major {\\n\t\t\tbackground-color:#e67e22;\\n\t\t}\\n\t\t.minor
-        {\\n\t\t\tbackground-color:#f1c40f;\\n\t\t}\\n\t\t.none {\\n\t\t\tbackground-color:#2ecc71;\\n\t\t}\\n\t</style>\\n</head>\\n<body>\\n\t<h1><a
-        href=\"/\"><img src=\"/static/images/datadog-horizontal-logo.svg\" alt=\"Datadog\"
-        /><span class=\"nocss\">Datadog</span></a></h1>\\n\t<div class=\"content\">\\n\t\t<img
-        src=\"/static/images/datadog-error-icon.svg\" alt=\"Sad Bits\" style=\"float:left;margin:0
-        0 0 -20em;height:295px\" />\\n\t\t<h2>403 - Forbidden!</h2>\\n\t\t<ul>\\n\t\t\t<li
-        id='live_status' class='hide'>Datadog status:\\n\t\t\t\t<span class=\"meta\">\\n\t\t\t\t\t<a
-        href=\"http://status.us5.datadoghq.com\" target=\"_blank\">\\n\t\t\t\t\t\t<span
-        id=\"color-dot\"></span>\\n\t\t\t\t\t\t<span id=\"status-description\"></span>\\n\t\t\t\t\t</a>\\n\t\t\t\t</span>\\n\t\t\t</li>\\n\t\t\t<li
-        id='generic_status'><a href=\"http://status.us5.datadoghq.com\">Check the
-        Datadog Status Page &rarr;</a></li>\\n\t\t\t<li>Follow <a href=\"http://twitter.com/datadogops\">@datadogops</a>
-        for status updates</li>\\n\t\t\t<li>Email us at <a href='mailto:support@datadoghq.com'>support@datadoghq.com</a></li>\\n\t\t\t<li><a
-        href=\"javascript:void(0)\" onclick=\"location.reload()\" style=\"text-decoration:underline\">Try
-        Datadog again &rarr;</a>\\n\t\t</ul>\\n\t\t<div class=\"maint\">\\n\t\t\t<h2
-        id='sched_maint' class='hide'>Scheduled Maintenance</h2>\\n\t\t\t<div id=\"maint-description\"></div>\\n\t\t\t<p
-        id='statuspage_link' class='hide'>See the <a href='http://status.us5.datadoghq.com'>Datadog
-        Status Page</a> for more info.</p>\\n\t\t</div>\\n\t</div>\\n\\n\t<script
-        src=\"https://cdn.statuspage.io/se-v2.js\" type=\"text/javascript\"></script>\\n\t<script>\\n\t\tfunction
-        htmlEscape(str) {\\n\t\t\treturn String(str).replace(/&/g, '&amp;')\\n\t\t\t
-        \                 .replace(/\"/g, '&quot;')\\n\t\t\t                  .replace(/'/g,
-        '&#39;')\\n\t\t\t                  .replace(/</g, '&lt;')\\n\t\t\t                  .replace(/>/g,
-        '&gt;');\\n\t\t}\\n\\n\t\tif (typeof StatusPage !== 'undefined') {\\n\t\t\tvar
-        sp = new StatusPage.page({ page: 'j4lqw648ygf1' });\\n\t\t\tsp.status({\\n\t\t\t\tsuccess:
-        function(data) {\\n\t\t\t\t\tstatus_indicator = String(data.status.indicator);\\n\t\t\t\t\tif
-        (status_indicator && status_indicator.toLowerCase() !== 'none') {\\n\t\t\t\t\t\tdocument.getElementById('color-dot').className
-        = htmlEscape(status_indicator);\\n\t\t\t\t\t\tdocument.getElementById('status-description').innerHTML
-        = htmlEscape(data.status.description);\\n\t\t\t\t\t\tdocument.getElementById('live_status').className
-        = '';\\n\t\t\t\t\t\tdocument.getElementById('generic_status').className =
-        'hide';\\n\t\t\t\t\t}\\n\t\t\t\t}\\n\t\t\t});\\n\t\t\tsp.scheduled_maintenances({\\n\t\t\t\tfilter:
-        'active',\\n\t\t\t\tsuccess: function(data) {\\n\t\t\t\t\tif (\\n\t\t\t\t\t\tdata
-        &&\\n\t\t\t\t\t\tdata.scheduled_maintenances &&\\n\t\t\t\t\t\tdata.scheduled_maintenances.length
-        > 0 &&\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates &&\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates.length
-        > 0\\n\t\t\t\t\t) {\\n\t\t\t\t\t\tdocument.getElementById('sched_maint').className
-        = '';\\n\t\t\t\t\t\tdocument.getElementById('statuspage_link').className =
-        '';\\n\t\t\t\t\t\tvar desc = document.getElementById('maint-description');\\n\t\t\t\t\t\tincident_text
-        =\\n\t\t\t\t\t\t\t'<p><b>Scheduled Start:</b> ' +\\n\t\t\t\t\t\t\thtmlEscape(data.scheduled_maintenances[0].scheduled_for);\\n\t\t\t\t\t\tincident_text
-        +=\\n\t\t\t\t\t\t\t'</p><p><b>Scheduled End:</b> ' +\\n\t\t\t\t\t\t\thtmlEscape(data.scheduled_maintenances[0].scheduled_until);\\n\t\t\t\t\t\tincident_text
-        += '</p>';\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates.forEach(function(incident)
-        {\\n\t\t\t\t\t\t\tincident_text += '<p>';\\n\t\t\t\t\t\t\tincident_text +=
-        htmlEscape(incident.body);\\n\t\t\t\t\t\t\tincident_text += '</p>';\\n\t\t\t\t\t\t});\\n\\n\t\t\t\t\t\tdesc.innerHTML
-        = String(incident_text).replace(/\\n/g, '<br />');\\n\t\t\t\t\t}\\n\t\t\t\t}\\n\t\t\t});\\n\t\t}\\n\\n\t\tsetTimeout(function()
-        {\\n\t\t\tlocation.reload()\\n\t\t}, 60 * 1000);\\n\t</script>\\n\\n</body>\\n</html>"
+      string: '{"status": "error", "code": 403, "errors": ["Forbidden"], "statuspage":
+        "http://status.us5.datadoghq.com", "twitter": "http://twitter.com/datadogops",
+        "email": "support@datadoghq.com"}'
     headers:
       Content-Type:
-      - text/html
+      - application/json
     status:
       code: 403
       message: Forbidden
@@ -172,72 +115,15 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://us5.datadoghq.com/api/v2/hamr
+    uri: https://api.us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: "<!DOCTYPE html>\\n<html lang=\"en\">\\n<head>\\n\t<meta charset=\"utf-8\"
-        />\\n\t<title>Forbidden</title>\\n\t<style>\\n\t\t/* 960 stuff: */\\n\t\t/*
-        reset */\\n\t\thtml,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}\\n\t\t/*
-        text */\\n\t\tbody{font:13px/1.5 'NotoSans','Lucida Grande','Lucida Sans Unicode',sans-serif}a:focus{outline:1px
-        dotted}hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}h1{font-size:25px}h2{font-size:20px}h3{font-size:16px}h4{font-size:14px}h5{font-size:13px}h6{font-size:13px}ol{list-style:decimal}ul{list-style:disc}li{margin-left:30px}p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table,address,fieldset{margin:0
-        0 16px}\\n\t\t.clear{clear:both;display:block;overflow:hidden;visibility:hidden;width:0;height:0}\\n\t\t.clearfix:after{clear:both;content:'
-        ';display:block;font-size:0;line-height:0;visibility:hidden;width:0;height:0}\\n\t\t*
-        html .clearfix,*:first-child+html .clearfix{zoom:1}\\n\t\t/* end 960 */\\n\t\tbody
-        {\\n\t\t\tcolor:#333;\\n\t\t\tbackground:#fff;\\n\t\t\tmin-width:980px;\\n\t\t}\\n\t\ta
-        {\\n\t\t\tcolor:#39c;\\n\t\t}\\n\t\ta:hover {\\n\t\t\tcolor:#1966aa;\\n\t\t}\\n\t\th1
-        {\\n\t\t\tpadding:3px 60px;\\n\t\t\tcolor:#fff;\\n\t\t\tbackground:#443e4a;\\n\t\t\tborder-bottom:1px
-        solid #543473;\\n\t\t}\\n\t\th1 img {\\n\t\t\tvertical-align:baseline;\\n\t\t\tmargin:0
-        10px -8px 0;\\n\t\t\theight:32px;\\n\t\t}\\n\t\th2 {\\n\t\t\tmargin:0 0 20px;\\n\t\t\tpadding:30px
-        0 0;\\n\t\t\tfont-size:32px;\\n\t\t\tline-height:36px;\\n\t\t}\\n\t\t.content
-        {\\n\t\t\tpadding-left:20em;\\n\t\t\tmargin:4em auto;\\n\t\t\tfont-size:16px;\\n\t\t\tmax-width:50em;\\n\t\t}\\n\t\t.nocss
-        {\\n\t\t\tdisplay:none;\\n\t\t}\\n\t\tul {\\n\t\t\tmargin:0;\\n\t\t\tpadding:0
-        0 0 2em;\\n\t\t}\\n\t\tli {\\n\t\t\tmargin:0;\\n\t\t\tpadding:0;\\n\t\t}\\n\t\t.hide
-        {\\n\t\t\tdisplay:none;\\n\t\t}\\n\t\t#color-dot {\\n\t\t\tborder-radius:99px;\\n\t\t\tdisplay:inline-block;\\n\t\t\twidth:10px;\\n\t\t\theight:10px;\\n\t\t\tmargin-right:5px;\\n\t\t}\\n\t\t.critical
-        {\\n\t\t\tbackground-color:#e74c3c;\\n\t\t}\\n\t\t.major {\\n\t\t\tbackground-color:#e67e22;\\n\t\t}\\n\t\t.minor
-        {\\n\t\t\tbackground-color:#f1c40f;\\n\t\t}\\n\t\t.none {\\n\t\t\tbackground-color:#2ecc71;\\n\t\t}\\n\t</style>\\n</head>\\n<body>\\n\t<h1><a
-        href=\"/\"><img src=\"/static/images/datadog-horizontal-logo.svg\" alt=\"Datadog\"
-        /><span class=\"nocss\">Datadog</span></a></h1>\\n\t<div class=\"content\">\\n\t\t<img
-        src=\"/static/images/datadog-error-icon.svg\" alt=\"Sad Bits\" style=\"float:left;margin:0
-        0 0 -20em;height:295px\" />\\n\t\t<h2>403 - Forbidden!</h2>\\n\t\t<ul>\\n\t\t\t<li
-        id='live_status' class='hide'>Datadog status:\\n\t\t\t\t<span class=\"meta\">\\n\t\t\t\t\t<a
-        href=\"http://status.us5.datadoghq.com\" target=\"_blank\">\\n\t\t\t\t\t\t<span
-        id=\"color-dot\"></span>\\n\t\t\t\t\t\t<span id=\"status-description\"></span>\\n\t\t\t\t\t</a>\\n\t\t\t\t</span>\\n\t\t\t</li>\\n\t\t\t<li
-        id='generic_status'><a href=\"http://status.us5.datadoghq.com\">Check the
-        Datadog Status Page &rarr;</a></li>\\n\t\t\t<li>Follow <a href=\"http://twitter.com/datadogops\">@datadogops</a>
-        for status updates</li>\\n\t\t\t<li>Email us at <a href='mailto:support@datadoghq.com'>support@datadoghq.com</a></li>\\n\t\t\t<li><a
-        href=\"javascript:void(0)\" onclick=\"location.reload()\" style=\"text-decoration:underline\">Try
-        Datadog again &rarr;</a>\\n\t\t</ul>\\n\t\t<div class=\"maint\">\\n\t\t\t<h2
-        id='sched_maint' class='hide'>Scheduled Maintenance</h2>\\n\t\t\t<div id=\"maint-description\"></div>\\n\t\t\t<p
-        id='statuspage_link' class='hide'>See the <a href='http://status.us5.datadoghq.com'>Datadog
-        Status Page</a> for more info.</p>\\n\t\t</div>\\n\t</div>\\n\\n\t<script
-        src=\"https://cdn.statuspage.io/se-v2.js\" type=\"text/javascript\"></script>\\n\t<script>\\n\t\tfunction
-        htmlEscape(str) {\\n\t\t\treturn String(str).replace(/&/g, '&amp;')\\n\t\t\t
-        \                 .replace(/\"/g, '&quot;')\\n\t\t\t                  .replace(/'/g,
-        '&#39;')\\n\t\t\t                  .replace(/</g, '&lt;')\\n\t\t\t                  .replace(/>/g,
-        '&gt;');\\n\t\t}\\n\\n\t\tif (typeof StatusPage !== 'undefined') {\\n\t\t\tvar
-        sp = new StatusPage.page({ page: 'j4lqw648ygf1' });\\n\t\t\tsp.status({\\n\t\t\t\tsuccess:
-        function(data) {\\n\t\t\t\t\tstatus_indicator = String(data.status.indicator);\\n\t\t\t\t\tif
-        (status_indicator && status_indicator.toLowerCase() !== 'none') {\\n\t\t\t\t\t\tdocument.getElementById('color-dot').className
-        = htmlEscape(status_indicator);\\n\t\t\t\t\t\tdocument.getElementById('status-description').innerHTML
-        = htmlEscape(data.status.description);\\n\t\t\t\t\t\tdocument.getElementById('live_status').className
-        = '';\\n\t\t\t\t\t\tdocument.getElementById('generic_status').className =
-        'hide';\\n\t\t\t\t\t}\\n\t\t\t\t}\\n\t\t\t});\\n\t\t\tsp.scheduled_maintenances({\\n\t\t\t\tfilter:
-        'active',\\n\t\t\t\tsuccess: function(data) {\\n\t\t\t\t\tif (\\n\t\t\t\t\t\tdata
-        &&\\n\t\t\t\t\t\tdata.scheduled_maintenances &&\\n\t\t\t\t\t\tdata.scheduled_maintenances.length
-        > 0 &&\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates &&\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates.length
-        > 0\\n\t\t\t\t\t) {\\n\t\t\t\t\t\tdocument.getElementById('sched_maint').className
-        = '';\\n\t\t\t\t\t\tdocument.getElementById('statuspage_link').className =
-        '';\\n\t\t\t\t\t\tvar desc = document.getElementById('maint-description');\\n\t\t\t\t\t\tincident_text
-        =\\n\t\t\t\t\t\t\t'<p><b>Scheduled Start:</b> ' +\\n\t\t\t\t\t\t\thtmlEscape(data.scheduled_maintenances[0].scheduled_for);\\n\t\t\t\t\t\tincident_text
-        +=\\n\t\t\t\t\t\t\t'</p><p><b>Scheduled End:</b> ' +\\n\t\t\t\t\t\t\thtmlEscape(data.scheduled_maintenances[0].scheduled_until);\\n\t\t\t\t\t\tincident_text
-        += '</p>';\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates.forEach(function(incident)
-        {\\n\t\t\t\t\t\t\tincident_text += '<p>';\\n\t\t\t\t\t\t\tincident_text +=
-        htmlEscape(incident.body);\\n\t\t\t\t\t\t\tincident_text += '</p>';\\n\t\t\t\t\t\t});\\n\\n\t\t\t\t\t\tdesc.innerHTML
-        = String(incident_text).replace(/\\n/g, '<br />');\\n\t\t\t\t\t}\\n\t\t\t\t}\\n\t\t\t});\\n\t\t}\\n\\n\t\tsetTimeout(function()
-        {\\n\t\t\tlocation.reload()\\n\t\t}, 60 * 1000);\\n\t</script>\\n\\n</body>\\n</html>"
+      string: '{"status": "error", "code": 403, "errors": ["Forbidden"], "statuspage":
+        "http://status.us5.datadoghq.com", "twitter": "http://twitter.com/datadogops",
+        "email": "support@datadoghq.com"}'
     headers:
       Content-Type:
-      - text/html
+      - application/json
     status:
       code: 403
       message: Forbidden
@@ -247,72 +133,15 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://us5.datadoghq.com/api/v2/hamr
+    uri: https://api.us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: "<!DOCTYPE html>\\n<html lang=\"en\">\\n<head>\\n\t<meta charset=\"utf-8\"
-        />\\n\t<title>Forbidden</title>\\n\t<style>\\n\t\t/* 960 stuff: */\\n\t\t/*
-        reset */\\n\t\thtml,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}\\n\t\t/*
-        text */\\n\t\tbody{font:13px/1.5 'NotoSans','Lucida Grande','Lucida Sans Unicode',sans-serif}a:focus{outline:1px
-        dotted}hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}h1{font-size:25px}h2{font-size:20px}h3{font-size:16px}h4{font-size:14px}h5{font-size:13px}h6{font-size:13px}ol{list-style:decimal}ul{list-style:disc}li{margin-left:30px}p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table,address,fieldset{margin:0
-        0 16px}\\n\t\t.clear{clear:both;display:block;overflow:hidden;visibility:hidden;width:0;height:0}\\n\t\t.clearfix:after{clear:both;content:'
-        ';display:block;font-size:0;line-height:0;visibility:hidden;width:0;height:0}\\n\t\t*
-        html .clearfix,*:first-child+html .clearfix{zoom:1}\\n\t\t/* end 960 */\\n\t\tbody
-        {\\n\t\t\tcolor:#333;\\n\t\t\tbackground:#fff;\\n\t\t\tmin-width:980px;\\n\t\t}\\n\t\ta
-        {\\n\t\t\tcolor:#39c;\\n\t\t}\\n\t\ta:hover {\\n\t\t\tcolor:#1966aa;\\n\t\t}\\n\t\th1
-        {\\n\t\t\tpadding:3px 60px;\\n\t\t\tcolor:#fff;\\n\t\t\tbackground:#443e4a;\\n\t\t\tborder-bottom:1px
-        solid #543473;\\n\t\t}\\n\t\th1 img {\\n\t\t\tvertical-align:baseline;\\n\t\t\tmargin:0
-        10px -8px 0;\\n\t\t\theight:32px;\\n\t\t}\\n\t\th2 {\\n\t\t\tmargin:0 0 20px;\\n\t\t\tpadding:30px
-        0 0;\\n\t\t\tfont-size:32px;\\n\t\t\tline-height:36px;\\n\t\t}\\n\t\t.content
-        {\\n\t\t\tpadding-left:20em;\\n\t\t\tmargin:4em auto;\\n\t\t\tfont-size:16px;\\n\t\t\tmax-width:50em;\\n\t\t}\\n\t\t.nocss
-        {\\n\t\t\tdisplay:none;\\n\t\t}\\n\t\tul {\\n\t\t\tmargin:0;\\n\t\t\tpadding:0
-        0 0 2em;\\n\t\t}\\n\t\tli {\\n\t\t\tmargin:0;\\n\t\t\tpadding:0;\\n\t\t}\\n\t\t.hide
-        {\\n\t\t\tdisplay:none;\\n\t\t}\\n\t\t#color-dot {\\n\t\t\tborder-radius:99px;\\n\t\t\tdisplay:inline-block;\\n\t\t\twidth:10px;\\n\t\t\theight:10px;\\n\t\t\tmargin-right:5px;\\n\t\t}\\n\t\t.critical
-        {\\n\t\t\tbackground-color:#e74c3c;\\n\t\t}\\n\t\t.major {\\n\t\t\tbackground-color:#e67e22;\\n\t\t}\\n\t\t.minor
-        {\\n\t\t\tbackground-color:#f1c40f;\\n\t\t}\\n\t\t.none {\\n\t\t\tbackground-color:#2ecc71;\\n\t\t}\\n\t</style>\\n</head>\\n<body>\\n\t<h1><a
-        href=\"/\"><img src=\"/static/images/datadog-horizontal-logo.svg\" alt=\"Datadog\"
-        /><span class=\"nocss\">Datadog</span></a></h1>\\n\t<div class=\"content\">\\n\t\t<img
-        src=\"/static/images/datadog-error-icon.svg\" alt=\"Sad Bits\" style=\"float:left;margin:0
-        0 0 -20em;height:295px\" />\\n\t\t<h2>403 - Forbidden!</h2>\\n\t\t<ul>\\n\t\t\t<li
-        id='live_status' class='hide'>Datadog status:\\n\t\t\t\t<span class=\"meta\">\\n\t\t\t\t\t<a
-        href=\"http://status.us5.datadoghq.com\" target=\"_blank\">\\n\t\t\t\t\t\t<span
-        id=\"color-dot\"></span>\\n\t\t\t\t\t\t<span id=\"status-description\"></span>\\n\t\t\t\t\t</a>\\n\t\t\t\t</span>\\n\t\t\t</li>\\n\t\t\t<li
-        id='generic_status'><a href=\"http://status.us5.datadoghq.com\">Check the
-        Datadog Status Page &rarr;</a></li>\\n\t\t\t<li>Follow <a href=\"http://twitter.com/datadogops\">@datadogops</a>
-        for status updates</li>\\n\t\t\t<li>Email us at <a href='mailto:support@datadoghq.com'>support@datadoghq.com</a></li>\\n\t\t\t<li><a
-        href=\"javascript:void(0)\" onclick=\"location.reload()\" style=\"text-decoration:underline\">Try
-        Datadog again &rarr;</a>\\n\t\t</ul>\\n\t\t<div class=\"maint\">\\n\t\t\t<h2
-        id='sched_maint' class='hide'>Scheduled Maintenance</h2>\\n\t\t\t<div id=\"maint-description\"></div>\\n\t\t\t<p
-        id='statuspage_link' class='hide'>See the <a href='http://status.us5.datadoghq.com'>Datadog
-        Status Page</a> for more info.</p>\\n\t\t</div>\\n\t</div>\\n\\n\t<script
-        src=\"https://cdn.statuspage.io/se-v2.js\" type=\"text/javascript\"></script>\\n\t<script>\\n\t\tfunction
-        htmlEscape(str) {\\n\t\t\treturn String(str).replace(/&/g, '&amp;')\\n\t\t\t
-        \                 .replace(/\"/g, '&quot;')\\n\t\t\t                  .replace(/'/g,
-        '&#39;')\\n\t\t\t                  .replace(/</g, '&lt;')\\n\t\t\t                  .replace(/>/g,
-        '&gt;');\\n\t\t}\\n\\n\t\tif (typeof StatusPage !== 'undefined') {\\n\t\t\tvar
-        sp = new StatusPage.page({ page: 'j4lqw648ygf1' });\\n\t\t\tsp.status({\\n\t\t\t\tsuccess:
-        function(data) {\\n\t\t\t\t\tstatus_indicator = String(data.status.indicator);\\n\t\t\t\t\tif
-        (status_indicator && status_indicator.toLowerCase() !== 'none') {\\n\t\t\t\t\t\tdocument.getElementById('color-dot').className
-        = htmlEscape(status_indicator);\\n\t\t\t\t\t\tdocument.getElementById('status-description').innerHTML
-        = htmlEscape(data.status.description);\\n\t\t\t\t\t\tdocument.getElementById('live_status').className
-        = '';\\n\t\t\t\t\t\tdocument.getElementById('generic_status').className =
-        'hide';\\n\t\t\t\t\t}\\n\t\t\t\t}\\n\t\t\t});\\n\t\t\tsp.scheduled_maintenances({\\n\t\t\t\tfilter:
-        'active',\\n\t\t\t\tsuccess: function(data) {\\n\t\t\t\t\tif (\\n\t\t\t\t\t\tdata
-        &&\\n\t\t\t\t\t\tdata.scheduled_maintenances &&\\n\t\t\t\t\t\tdata.scheduled_maintenances.length
-        > 0 &&\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates &&\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates.length
-        > 0\\n\t\t\t\t\t) {\\n\t\t\t\t\t\tdocument.getElementById('sched_maint').className
-        = '';\\n\t\t\t\t\t\tdocument.getElementById('statuspage_link').className =
-        '';\\n\t\t\t\t\t\tvar desc = document.getElementById('maint-description');\\n\t\t\t\t\t\tincident_text
-        =\\n\t\t\t\t\t\t\t'<p><b>Scheduled Start:</b> ' +\\n\t\t\t\t\t\t\thtmlEscape(data.scheduled_maintenances[0].scheduled_for);\\n\t\t\t\t\t\tincident_text
-        +=\\n\t\t\t\t\t\t\t'</p><p><b>Scheduled End:</b> ' +\\n\t\t\t\t\t\t\thtmlEscape(data.scheduled_maintenances[0].scheduled_until);\\n\t\t\t\t\t\tincident_text
-        += '</p>';\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates.forEach(function(incident)
-        {\\n\t\t\t\t\t\t\tincident_text += '<p>';\\n\t\t\t\t\t\t\tincident_text +=
-        htmlEscape(incident.body);\\n\t\t\t\t\t\t\tincident_text += '</p>';\\n\t\t\t\t\t\t});\\n\\n\t\t\t\t\t\tdesc.innerHTML
-        = String(incident_text).replace(/\\n/g, '<br />');\\n\t\t\t\t\t}\\n\t\t\t\t}\\n\t\t\t});\\n\t\t}\\n\\n\t\tsetTimeout(function()
-        {\\n\t\t\tlocation.reload()\\n\t\t}, 60 * 1000);\\n\t</script>\\n\\n</body>\\n</html>"
+      string: '{"status": "error", "code": 403, "errors": ["Forbidden"], "statuspage":
+        "http://status.us5.datadoghq.com", "twitter": "http://twitter.com/datadogops",
+        "email": "support@datadoghq.com"}'
     headers:
       Content-Type:
-      - text/html
+      - application/json
     status:
       code: 403
       message: Forbidden
@@ -322,72 +151,15 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://us5.datadoghq.com/api/v2/hamr
+    uri: https://api.us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: "<!DOCTYPE html>\\n<html lang=\"en\">\\n<head>\\n\t<meta charset=\"utf-8\"
-        />\\n\t<title>Forbidden</title>\\n\t<style>\\n\t\t/* 960 stuff: */\\n\t\t/*
-        reset */\\n\t\thtml,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}\\n\t\t/*
-        text */\\n\t\tbody{font:13px/1.5 'NotoSans','Lucida Grande','Lucida Sans Unicode',sans-serif}a:focus{outline:1px
-        dotted}hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}h1{font-size:25px}h2{font-size:20px}h3{font-size:16px}h4{font-size:14px}h5{font-size:13px}h6{font-size:13px}ol{list-style:decimal}ul{list-style:disc}li{margin-left:30px}p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table,address,fieldset{margin:0
-        0 16px}\\n\t\t.clear{clear:both;display:block;overflow:hidden;visibility:hidden;width:0;height:0}\\n\t\t.clearfix:after{clear:both;content:'
-        ';display:block;font-size:0;line-height:0;visibility:hidden;width:0;height:0}\\n\t\t*
-        html .clearfix,*:first-child+html .clearfix{zoom:1}\\n\t\t/* end 960 */\\n\t\tbody
-        {\\n\t\t\tcolor:#333;\\n\t\t\tbackground:#fff;\\n\t\t\tmin-width:980px;\\n\t\t}\\n\t\ta
-        {\\n\t\t\tcolor:#39c;\\n\t\t}\\n\t\ta:hover {\\n\t\t\tcolor:#1966aa;\\n\t\t}\\n\t\th1
-        {\\n\t\t\tpadding:3px 60px;\\n\t\t\tcolor:#fff;\\n\t\t\tbackground:#443e4a;\\n\t\t\tborder-bottom:1px
-        solid #543473;\\n\t\t}\\n\t\th1 img {\\n\t\t\tvertical-align:baseline;\\n\t\t\tmargin:0
-        10px -8px 0;\\n\t\t\theight:32px;\\n\t\t}\\n\t\th2 {\\n\t\t\tmargin:0 0 20px;\\n\t\t\tpadding:30px
-        0 0;\\n\t\t\tfont-size:32px;\\n\t\t\tline-height:36px;\\n\t\t}\\n\t\t.content
-        {\\n\t\t\tpadding-left:20em;\\n\t\t\tmargin:4em auto;\\n\t\t\tfont-size:16px;\\n\t\t\tmax-width:50em;\\n\t\t}\\n\t\t.nocss
-        {\\n\t\t\tdisplay:none;\\n\t\t}\\n\t\tul {\\n\t\t\tmargin:0;\\n\t\t\tpadding:0
-        0 0 2em;\\n\t\t}\\n\t\tli {\\n\t\t\tmargin:0;\\n\t\t\tpadding:0;\\n\t\t}\\n\t\t.hide
-        {\\n\t\t\tdisplay:none;\\n\t\t}\\n\t\t#color-dot {\\n\t\t\tborder-radius:99px;\\n\t\t\tdisplay:inline-block;\\n\t\t\twidth:10px;\\n\t\t\theight:10px;\\n\t\t\tmargin-right:5px;\\n\t\t}\\n\t\t.critical
-        {\\n\t\t\tbackground-color:#e74c3c;\\n\t\t}\\n\t\t.major {\\n\t\t\tbackground-color:#e67e22;\\n\t\t}\\n\t\t.minor
-        {\\n\t\t\tbackground-color:#f1c40f;\\n\t\t}\\n\t\t.none {\\n\t\t\tbackground-color:#2ecc71;\\n\t\t}\\n\t</style>\\n</head>\\n<body>\\n\t<h1><a
-        href=\"/\"><img src=\"/static/images/datadog-horizontal-logo.svg\" alt=\"Datadog\"
-        /><span class=\"nocss\">Datadog</span></a></h1>\\n\t<div class=\"content\">\\n\t\t<img
-        src=\"/static/images/datadog-error-icon.svg\" alt=\"Sad Bits\" style=\"float:left;margin:0
-        0 0 -20em;height:295px\" />\\n\t\t<h2>403 - Forbidden!</h2>\\n\t\t<ul>\\n\t\t\t<li
-        id='live_status' class='hide'>Datadog status:\\n\t\t\t\t<span class=\"meta\">\\n\t\t\t\t\t<a
-        href=\"http://status.us5.datadoghq.com\" target=\"_blank\">\\n\t\t\t\t\t\t<span
-        id=\"color-dot\"></span>\\n\t\t\t\t\t\t<span id=\"status-description\"></span>\\n\t\t\t\t\t</a>\\n\t\t\t\t</span>\\n\t\t\t</li>\\n\t\t\t<li
-        id='generic_status'><a href=\"http://status.us5.datadoghq.com\">Check the
-        Datadog Status Page &rarr;</a></li>\\n\t\t\t<li>Follow <a href=\"http://twitter.com/datadogops\">@datadogops</a>
-        for status updates</li>\\n\t\t\t<li>Email us at <a href='mailto:support@datadoghq.com'>support@datadoghq.com</a></li>\\n\t\t\t<li><a
-        href=\"javascript:void(0)\" onclick=\"location.reload()\" style=\"text-decoration:underline\">Try
-        Datadog again &rarr;</a>\\n\t\t</ul>\\n\t\t<div class=\"maint\">\\n\t\t\t<h2
-        id='sched_maint' class='hide'>Scheduled Maintenance</h2>\\n\t\t\t<div id=\"maint-description\"></div>\\n\t\t\t<p
-        id='statuspage_link' class='hide'>See the <a href='http://status.us5.datadoghq.com'>Datadog
-        Status Page</a> for more info.</p>\\n\t\t</div>\\n\t</div>\\n\\n\t<script
-        src=\"https://cdn.statuspage.io/se-v2.js\" type=\"text/javascript\"></script>\\n\t<script>\\n\t\tfunction
-        htmlEscape(str) {\\n\t\t\treturn String(str).replace(/&/g, '&amp;')\\n\t\t\t
-        \                 .replace(/\"/g, '&quot;')\\n\t\t\t                  .replace(/'/g,
-        '&#39;')\\n\t\t\t                  .replace(/</g, '&lt;')\\n\t\t\t                  .replace(/>/g,
-        '&gt;');\\n\t\t}\\n\\n\t\tif (typeof StatusPage !== 'undefined') {\\n\t\t\tvar
-        sp = new StatusPage.page({ page: 'j4lqw648ygf1' });\\n\t\t\tsp.status({\\n\t\t\t\tsuccess:
-        function(data) {\\n\t\t\t\t\tstatus_indicator = String(data.status.indicator);\\n\t\t\t\t\tif
-        (status_indicator && status_indicator.toLowerCase() !== 'none') {\\n\t\t\t\t\t\tdocument.getElementById('color-dot').className
-        = htmlEscape(status_indicator);\\n\t\t\t\t\t\tdocument.getElementById('status-description').innerHTML
-        = htmlEscape(data.status.description);\\n\t\t\t\t\t\tdocument.getElementById('live_status').className
-        = '';\\n\t\t\t\t\t\tdocument.getElementById('generic_status').className =
-        'hide';\\n\t\t\t\t\t}\\n\t\t\t\t}\\n\t\t\t});\\n\t\t\tsp.scheduled_maintenances({\\n\t\t\t\tfilter:
-        'active',\\n\t\t\t\tsuccess: function(data) {\\n\t\t\t\t\tif (\\n\t\t\t\t\t\tdata
-        &&\\n\t\t\t\t\t\tdata.scheduled_maintenances &&\\n\t\t\t\t\t\tdata.scheduled_maintenances.length
-        > 0 &&\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates &&\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates.length
-        > 0\\n\t\t\t\t\t) {\\n\t\t\t\t\t\tdocument.getElementById('sched_maint').className
-        = '';\\n\t\t\t\t\t\tdocument.getElementById('statuspage_link').className =
-        '';\\n\t\t\t\t\t\tvar desc = document.getElementById('maint-description');\\n\t\t\t\t\t\tincident_text
-        =\\n\t\t\t\t\t\t\t'<p><b>Scheduled Start:</b> ' +\\n\t\t\t\t\t\t\thtmlEscape(data.scheduled_maintenances[0].scheduled_for);\\n\t\t\t\t\t\tincident_text
-        +=\\n\t\t\t\t\t\t\t'</p><p><b>Scheduled End:</b> ' +\\n\t\t\t\t\t\t\thtmlEscape(data.scheduled_maintenances[0].scheduled_until);\\n\t\t\t\t\t\tincident_text
-        += '</p>';\\n\t\t\t\t\t\tdata.scheduled_maintenances[0].incident_updates.forEach(function(incident)
-        {\\n\t\t\t\t\t\t\tincident_text += '<p>';\\n\t\t\t\t\t\t\tincident_text +=
-        htmlEscape(incident.body);\\n\t\t\t\t\t\t\tincident_text += '</p>';\\n\t\t\t\t\t\t});\\n\\n\t\t\t\t\t\tdesc.innerHTML
-        = String(incident_text).replace(/\\n/g, '<br />');\\n\t\t\t\t\t}\\n\t\t\t\t}\\n\t\t\t});\\n\t\t}\\n\\n\t\tsetTimeout(function()
-        {\\n\t\t\tlocation.reload()\\n\t\t}, 60 * 1000);\\n\t</script>\\n\\n</body>\\n</html>"
+      string: '{"status": "error", "code": 403, "errors": ["Forbidden"], "statuspage":
+        "http://status.us5.datadoghq.com", "twitter": "http://twitter.com/datadogops",
+        "email": "support@datadoghq.com"}'
     headers:
       Content-Type:
-      - text/html
+      - application/json
     status:
       code: 403
       message: Forbidden
