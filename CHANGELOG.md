@@ -3,7 +3,7 @@
 ## 2.0.1 / 2025-07-22
 
 ### Changed
-* Change docker base image by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/356
+* Changed Docker base image by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/356
 
 
 **Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.0.0...2.0.1
