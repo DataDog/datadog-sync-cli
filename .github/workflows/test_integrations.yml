@@ -5,16 +5,18 @@ permissions:
   contents: read
 
 on:
+  push:
+    branches:
+      - michael.richey/regularly-run-integration-tests
   pull_request:
     branches:
       - main
-      - michael.richey/regularly-run-integration-tests
-#    types:
-#      - labeled
-#      - unlabeled
-#      - opened
-#      - synchronize
-#      - reopened
+    types:
+      - labeled
+      - unlabeled
+      - opened
+      - synchronize
+      - reopened
   schedule:
     # Mon-Fri, 1:23am EST
     # - cron: '23 6 * * 1-5'
