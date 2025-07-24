@@ -5,9 +5,6 @@ permissions:
   contents: read
 
 on:
-  push:
-    branches:
-      - michael.richey/regularly-run-integration-tests
   pull_request:
     branches:
       - main
@@ -19,9 +16,7 @@ on:
       - reopened
   schedule:
     # Mon-Fri, 1:23am EST
-    # - cron: '23 6 * * 1-5'
-    # every 15 minutes
-    - cron: '*/15 * * * *'
+    - cron: '23 6 * * 1-5'
 
 env:
   DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
