@@ -5,6 +5,9 @@ permissions:
   contents: read
 
 on:
+  push:
+    branches:
+      - michael.richey/regularly-run-integration-tests
   pull_request:
     branches:
       - main
@@ -58,3 +61,4 @@ jobs:
           DD_TRACE_ANALYTICS_ENABLED: "true"
           RECORD: "none"
           PYTEST_ADDOPTS: "--ddtrace --disable-recording --retries 2"
+          
