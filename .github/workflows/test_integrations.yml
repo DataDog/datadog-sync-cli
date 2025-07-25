@@ -60,7 +60,7 @@ jobs:
           DD_TAGS: "team:hamr"
           DD_TRACE_ANALYTICS_ENABLED: "true"
           RECORD: "none"
-          PYTEST_ADDOPTS: "--ddtrace --disable-recording"
+          PYTEST_ADDOPTS: "--ddtrace --disable-recording --retries 2"
       - name: Cleanup
         run: |
           python -m pip install requests
