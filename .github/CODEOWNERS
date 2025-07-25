@@ -3,7 +3,7 @@
 # and another team can own the rest of the directory.
 
 # All your base
-*                       @DataDog/web-frameworks
+*                       @DataDog/hamr
 
 # Documentation
-*.md                    @DataDog/documentation @DataDog/web-frameworks
+*.md                    @DataDog/documentation @DataDog/hamr
