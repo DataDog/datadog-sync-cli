@@ -5,9 +5,6 @@ permissions:
   contents: read
 
 on:
-  push:
-    branches:
-      - michael.richey/regularly-run-integration-tests
   pull_request:
     branches:
       - main
@@ -18,8 +15,8 @@ on:
       - synchronize
       - reopened
   schedule:
-    # every hour, 9-5 eastern, M-F
-    - cron: '15 12-21 * * 1-5'
+    # M-F at 06:17 GMT
+    - cron: '17 6 * * 1-5'
 
 env:
   DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
@@ -33,7 +30,6 @@ env:
 jobs:
   test-integrations:
     runs-on: ubuntu-latest
-#    if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
     services:
       datadog-agent:
         image: datadog/agent:latest
