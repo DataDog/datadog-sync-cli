@@ -5,9 +5,6 @@ permissions:
   contents: read
 
 on:
-  push:
-    branches:
-      - michael.richey/regularly-run-integration-tests
   pull_request:
     branches:
       - main
