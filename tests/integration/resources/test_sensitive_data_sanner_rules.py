@@ -9,7 +9,7 @@ from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import SensitiveDataScannerRules
 
 
-@pytest.mark.skipif(get_record_mode() != "new_episodes", reason="test is run in integration mode only")
+@pytest.mark.skipif(get_record_mode() in ["all", "none", "once"], reason="test is run in integration mode only")
 class TestSensitiveDataScannerRulesResources(BaseResourcesTestClass):
     resource_type = SensitiveDataScannerRules.resource_type
     dependencies = list(SensitiveDataScannerRules.resource_config.resource_connections.keys())
