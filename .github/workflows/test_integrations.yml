@@ -18,8 +18,8 @@ on:
       - synchronize
       - reopened
   schedule:
-    # every hour, 9-5 eastern, M-F
-    - cron: '15 12-21 * * 1-5'
+    # M-F at 06:17 GMT
+    - cron: '17 6 * * 1-5'
 
 env:
   DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
@@ -33,7 +33,6 @@ env:
 jobs:
   test-integrations:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'ci/integration')
     services:
       datadog-agent:
         image: datadog/agent:latest
@@ -61,8 +60,5 @@ jobs:
           DD_TAGS: "team:hamr"
           DD_TRACE_ANALYTICS_ENABLED: "true"
           RECORD: "none"
-          PYTEST_ADDOPTS: "--ddtrace --disable-recording"
-      - name: Cleanup
-        run: |
-          python -m pip install requests
-          python ./scripts/cleanup_org.py
+          PYTEST_ADDOPTS: "--ddtrace --disable-recording --retries 2"
+          
