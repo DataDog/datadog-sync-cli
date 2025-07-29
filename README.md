@@ -248,7 +248,6 @@ When running againts multiple destination organizations, a seperate working dire
 | slo_corrections                        | Sync Datadog SLO corrections.                                        |
 | spans_metrics                          | Sync Datadog spans metrics.                                          |
 | synthetics_global_variables            | Sync Datadog synthetic global variables.                             |
-| synthetics_private_locations           | Sync Datadog synthetic private locations.                            |
 | synthetics_tests                       | Sync Datadog synthetic tests.                                        |
 | teams                                  | Sync Datadog teams (excluding permissions).                          |
 | team_memberships                       | Sync Datadog team memberships.                                       |
@@ -296,8 +295,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | slo_corrections                        | service_level_objectives                                         |
 | spans_metrics                          | -                                                                |
 | synthetics_global_variables            | synthetics_tests                                                 |
-| synthetics_private_locations           | -                                                                |
-| synthetics_tests                       | synthetics_private_locations, synthetics_global_variables, roles |
+| synthetics_tests                       | synthetics_global_variables, roles                               |
 | teams                                  | -                                                                |
 | team_memberships                       | teams, users                                                     |
 | users                                  | roles                                                            |
