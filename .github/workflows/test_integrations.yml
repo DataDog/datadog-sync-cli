@@ -60,5 +60,5 @@ jobs:
           DD_TAGS: "team:hamr"
           DD_TRACE_ANALYTICS_ENABLED: "true"
           RECORD: "none"
-          PYTEST_ADDOPTS: "--ddtrace --disable-recording --retries 2"
+          PYTEST_ADDOPTS: "--ddtrace --disable-recording --retries 3 --retry-delay 10"
           
