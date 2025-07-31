@@ -1,9 +1,5 @@
 name: Prepare release
 
-permissions: 
-  contents: write
-  pull-requests: write
-
 env:
   GIT_AUTHOR_EMAIL: "packages@datadoghq.com"
   GIT_AUTHOR_NAME: "ci.datadog-sync-cli"
@@ -18,7 +14,16 @@ jobs:
   prepare_release:
     name: Create release PR
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
+      - name: Get access token
+        uses: DataDog/dd-octo-sts-action@08f2144903ced3254a3dafec2592563409ba2aa0 # v1.0.1
+        id: octo-sts
+        with:
+          scope: DataDog/datadog-sync-cli
+          policy: self.prepare-release.create-pr
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -47,7 +52,7 @@ jobs:
         env:
           RELEASE_VERSION: ${{ steps.get_version.outputs.version }}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ steps.octo-sts.outputs.token }}
           script: |
             const { data: notes } = await github.rest.repos.generateReleaseNotes({
               owner: context.repo.owner,
