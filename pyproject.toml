@@ -3,6 +3,6 @@ requires = ["setuptools >= 67.6.0", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = ["datadog-sync-cli"]
+name = "datadog-sync-cli"
 dynamic = ["version"]
 
