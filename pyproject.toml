@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "datadog-sync-cli"
-dynamic = ["version", "dependencies", "optional-dependencies"]
+dynamic = ["version", "dependencies", "optional-dependencies", "scripts"]
 
 [tool.setuptools_scm]
 # Optional: Add specific setuptools-scm configurations here
