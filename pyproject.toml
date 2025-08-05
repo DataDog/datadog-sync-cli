@@ -6,3 +6,6 @@ build-backend = "setuptools.build_meta"
 name = "datadog-sync-cli"
 dynamic = ["version"]
 
+[tool.setuptools_scm]
+# Optional: Add specific setuptools-scm configurations here
+# For example: version_scheme = "post-release"
