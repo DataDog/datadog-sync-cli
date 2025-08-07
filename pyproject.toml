@@ -1,3 +1,11 @@
 [build-system]
 requires = ["setuptools >= 67.6.0", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "datadog-sync-cli"
+dynamic = ["version", "dependencies", "optional-dependencies", "scripts", "urls", "classifiers", "keywords", "authors", "license", "requires-python", "readme", "description"]
+
+[tool.setuptools_scm]
+# Optional: Add specific setuptools-scm configurations here
+# For example: version_scheme = "post-release"
