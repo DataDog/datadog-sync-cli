@@ -129,9 +129,15 @@ class CustomClient:
             resources = []
             kwargs["params"] = kwargs.get("params", {}) or {}
             idx = 0
+            original_page_size = page_size
+            restore_page_size = False
+            resources_attempted = 0
+            saved_idx = idx
+            save_idx = True
             while remaining > 0:
                 log.debug(
                     f"fetching {args[0]} "
+                    f"idx {idx} "
                     f"{pagination_config.page_number_param}: {page_number} "
                     f"{pagination_config.page_size_param}: {page_size} "
                     f"remaining: {remaining}"
@@ -142,20 +148,64 @@ class CustomClient:
                 }
                 kwargs["params"].update(params)
 
-                resp = await func(*args, **kwargs)
+                try:
+                    resp = await func(*args, **kwargs)
+                    resp_len = 0
+                    if pagination_config.response_list_accessor:
+                        resources.extend(resp[pagination_config.response_list_accessor])
+                        resp_len = len(resp[pagination_config.response_list_accessor])
+                    else:
+                        resources.extend(resp)
+                        resp_len = len(resp)
 
-                resp_len = 0
-                if pagination_config.response_list_accessor:
-                    resources.extend(resp[pagination_config.response_list_accessor])
-                    resp_len = len(resp[pagination_config.response_list_accessor])
-                else:
-                    resources.extend(resp)
-                    resp_len = len(resp)
+                    if resp_len < page_size:
+                        break
 
-                if resp_len < page_size:
-                    break
+                    resources_attempted += resp_len
+                    if restore_page_size:
+                        if resources_attempted % original_page_size == 0:
+                            log.warning("Back to regular paging")
+                            page_size = original_page_size
+                            page_number = pagination_config.page_number_func(idx, page_size, page_number)
+                            restore_page_size = False
+                            
+                            idx = saved_idx
+                            save_idx = True
+                    remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
+                except CustomClientHTTPError as err:
+                    if err.status_code >= 500:
+                        log.warning(
+                            "500 error during a paginated request, attempting to isolate"
+                        )
+                        if save_idx:
+                            saved_idx = idx
+                            save_idx = False
 
-                remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
+                        error_handled = False
+                        if page_size == 1:
+                            log.warning("Error isolated, skipping resource:")
+                            log.warning(
+                                f"fetching {args[0]} "
+                                f"{pagination_config.page_number_param}: {page_number} "
+                                f"{pagination_config.page_size_param}: {page_size} "
+                            )
+                            resources_attempted += 1
+                            error_handled = True
+
+                        if not error_handled:
+                            new_page_size = page_size // 2
+                            if new_page_size == 0:
+                                new_page_size = 1
+                            while resources_attempted % new_page_size != 0:
+                                new_page_size -= 1
+                            page_size = new_page_size
+
+                            idx = resources_attempted // page_size - 1
+
+                            page_number = pagination_config.page_number_func(idx, page_size, page_number)
+                        else:
+                            restore_page_size = True
+
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
                 idx += 1
             return resources
