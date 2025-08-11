@@ -32,9 +32,9 @@ class TeamMemberships(BaseResource):
     team_memberships_path = "/api/v2/team/{}/memberships"
     destination_team_memberships: List[Dict] = []
     # Additional TeamMemberships specific attributes
-    pagination_config = PaginationConfig(remaining_func=lambda *args: 1)
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
+        pagination_config = PaginationConfig(remaining_func=lambda *args: 1)
         # get all the teams
         teams = await client.paginated_request(client.get)(
             self.resource_config.base_path,
@@ -57,6 +57,7 @@ class TeamMemberships(BaseResource):
         return all_team_memberships
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+        pagination_config = PaginationConfig(remaining_func=lambda *args: 1)
         source_client = self.config.source_client
 
         if _id:
