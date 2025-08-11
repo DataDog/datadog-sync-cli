@@ -128,6 +128,7 @@ class CustomClient:
 
             page_size = pagination_config.page_size
             page_number = pagination_config.page_number
+            log.debug("hard code set remaining to 1")
             remaining = 1
             resources = []
             kwargs["params"] = kwargs.get("params", {}) or {}
@@ -137,7 +138,9 @@ class CustomClient:
             resources_attempted = 0
             saved_idx = idx
             save_idx = True
+            log.debug("while remaining > 0")
             while remaining > 0:
+                log.debug(f"remaining == ${remaining}")
                 log.debug(
                     f"fetching {args[0]} "
                     f"{pagination_config.page_number_param}: {page_number} "
@@ -178,6 +181,7 @@ class CustomClient:
                             idx = saved_idx
                             save_idx = True
 
+                    log.debug("about to alter remaining")
                     remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
                     log.debug(f"remaining just calculated: {remaining} "
                         f"idx:{idx} page_size:{page_size} page_number:{page_number}"
@@ -291,6 +295,7 @@ def _get_user_agent() -> str:
 
 
 def remaining_func(idx, resp, page_size, page_number):
+    log.debug("inside the remaining_func")
     return resp["meta"]["page"]["total_count"] - page_size * (page_number + 1)
 
 
