@@ -161,7 +161,7 @@ class CustomClient:
                         resp_len = len(resp)
 
                     if resp_len < page_size:
-                        log.debug(f"The response length {resp_len} is less than the page size {page_size}")
+                        log.debug(f"The response length {resp_len} is less than the page size {page_size}, breaking")
                         break
 
                     resources_attempted += resp_len
@@ -193,7 +193,7 @@ class CustomClient:
                         if page_size == 1:
                             log.warning("Error isolated, skipping resource:")
                             log.warning(
-                                f"fetching {args[0]} "
+                                f"Fetching {args[0]} "
                                 f"{pagination_config.page_number_param}: {page_number} "
                                 f"{pagination_config.page_size_param}: {page_size} "
                             )
