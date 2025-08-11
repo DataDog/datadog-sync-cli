@@ -165,7 +165,7 @@ class CustomClient:
 
                     resources_attempted += resp_len
                     if restore_page_size:
-                        log.debug("Restoring the page size"))
+                        log.debug("Restoring the page size")
                         if resources_attempted % original_page_size == 0:
                             log.warning("Back to regular paging")
                             page_size = original_page_size
