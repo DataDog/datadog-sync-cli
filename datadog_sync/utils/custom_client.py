@@ -176,7 +176,9 @@ class CustomClient:
                             save_idx = True
 
                     remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
-                    log.debug(f"remaining just calculated: {remaining} idx:{idx} page_size:{page_size} page_number:{page_number}")
+                    log.debug(f"remaining just calculated: {remaining} "
+                        f"idx:{idx} page_size:{page_size} page_number:{page_number}"
+                    )
                 except CustomClientHTTPError as err:
                     if err.status_code >= 500:
                         log.warning(
