@@ -140,7 +140,7 @@ class CustomClient:
             save_idx = True
             log.debug("while remaining > 0")
             while remaining > 0:
-                log.debug(f"remaining == ${remaining}")
+                log.debug(f"remaining == {remaining}")
                 log.debug(
                     f"fetching {args[0]} "
                     f"{pagination_config.page_number_param}: {page_number} "
