@@ -122,6 +122,7 @@ class CustomClient:
     def paginated_request(self, func: Awaitable) -> Awaitable:
         async def wrapper(*args, **kwargs):
             pagination_config = kwargs.pop("pagination_config", self.default_pagination)
+            log.debug(f"pagination_config: {pagination_config}")
 
             page_size = pagination_config.page_size
             page_number = pagination_config.page_number
