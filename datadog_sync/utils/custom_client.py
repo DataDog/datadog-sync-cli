@@ -151,17 +151,21 @@ class CustomClient:
                     resp = await func(*args, **kwargs)
                     resp_len = 0
                     if pagination_config.response_list_accessor:
+                        log.debug("We have a response_list_accessor in the config")
                         resources.extend(resp[pagination_config.response_list_accessor])
                         resp_len = len(resp[pagination_config.response_list_accessor])
                     else:
+                        log.debug("We do not have a response_list_accessor in the config")
                         resources.extend(resp)
                         resp_len = len(resp)
 
                     if resp_len < page_size:
+                        log.debug(f"The response length {resp_len} is less than the page size {page_size}")
                         break
 
                     resources_attempted += resp_len
                     if restore_page_size:
+                        log.debug("Restoring the page size"))
                         if resources_attempted % original_page_size == 0:
                             log.warning("Back to regular paging")
                             page_size = original_page_size
@@ -170,7 +174,9 @@ class CustomClient:
                             
                             idx = saved_idx
                             save_idx = True
+
                     remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
+                    log.debug(f"remaining just calculated: {remaining} idx:{idx} page_size:{page_size} page_number:{page_number}")
                 except CustomClientHTTPError as err:
                     if err.status_code >= 500:
                         log.warning(
