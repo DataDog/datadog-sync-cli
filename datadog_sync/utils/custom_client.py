@@ -154,6 +154,7 @@ class CustomClient:
                 kwargs["params"].update(params)
 
                 try:
+                    log.debug(f"make an async call to the func")
                     resp = await func(*args, **kwargs)
                     resp_len = 0
                     if pagination_config.response_list_accessor:
@@ -165,9 +166,13 @@ class CustomClient:
                         resources.extend(resp)
                         resp_len = len(resp)
 
+                    log.debug(f"above the break")
+
                     if resp_len < page_size:
                         log.debug(f"The response length {resp_len} is less than the page size {page_size}, breaking")
                         break
+
+                    log.debug(f"below the break")
 
                     resources_attempted += resp_len
                     if restore_page_size:
