@@ -137,7 +137,6 @@ class CustomClient:
             while remaining > 0:
                 log.debug(
                     f"fetching {args[0]} "
-                    f"idx {idx} "
                     f"{pagination_config.page_number_param}: {page_number} "
                     f"{pagination_config.page_size_param}: {page_size} "
                     f"remaining: {remaining}"
