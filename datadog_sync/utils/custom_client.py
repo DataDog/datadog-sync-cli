@@ -120,7 +120,9 @@ class CustomClient:
         return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
 
     def paginated_request(self, func: Awaitable) -> Awaitable:
+        log.debug("pagination_request")
         async def wrapper(*args, **kwargs):
+            log.debug("pagination_request_wrapper")
             pagination_config = kwargs.pop("pagination_config", self.default_pagination)
             log.debug(f"pagination_config: {pagination_config}")
 
