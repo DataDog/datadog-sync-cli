@@ -41,8 +41,7 @@ class TeamMemberships(BaseResource):
             page_size_param="page[size]",
             remaining_func=lambda idx, resp, page_size, page_number: max(
                 0,
-                resp["meta"]["pagination"]["last_number"]
-                - resp["meta"]["pagination"]["number"],
+                resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
             ),
         )
         teams = await client.paginated_request(client.get)(
@@ -59,8 +58,7 @@ class TeamMemberships(BaseResource):
                 page_size_param="page[size]",
                 remaining_func=lambda idx, resp, page_size, page_number: max(
                     0,
-                    resp["meta"]["pagination"]["last_number"]
-                    - resp["meta"]["pagination"]["number"],
+                    resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
                 ),
             )
             members_of_team = await client.paginated_request(client.get)(
@@ -87,8 +85,7 @@ class TeamMemberships(BaseResource):
             page_size_param="page[size]",
             remaining_func=lambda idx, resp, page_size, page_number: max(
                 0,
-                resp["meta"]["pagination"]["last_number"]
-                - resp["meta"]["pagination"]["number"],
+                resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
             ),
         )
 

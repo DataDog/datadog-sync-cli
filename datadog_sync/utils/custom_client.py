@@ -135,6 +135,7 @@ class CustomClient:
             saved_idx = idx
             save_idx = True
             while remaining > 0:
+                remaining = 0
                 log.debug(
                     f"fetching {args[0]} "
                     f"{pagination_config.page_number_param}: {page_number} "
@@ -164,9 +165,8 @@ class CustomClient:
                     if resp_len < page_size:
                         break
 
-                    resources_attempted += resp_len
-
                     # restore the page size if we had to lower it to deal w/ a bad resource return
+                    resources_attempted += resp_len
                     if restore_page_size:
                         if resources_attempted % original_page_size == 0:
                             page_size = original_page_size
@@ -175,7 +175,6 @@ class CustomClient:
                             idx = saved_idx
                             save_idx = True
 
-                    # calculate remaining resources
                     remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
                 except CustomClientHTTPError as err:
                     if err.status_code >= 500:
