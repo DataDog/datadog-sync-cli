@@ -39,7 +39,11 @@ class TeamMemberships(BaseResource):
             page_size=100,
             page_number_param="page[number]",
             page_size_param="page[size]",
-            remaining_func=lambda idx, resp, page_size, page_number: max(0, resp["meta"]["pagination"]["last_number"] - resp["meta"]["pagination"]["number"]),
+            remaining_func=lambda idx, resp, page_size, page_number: max(
+                0,
+                resp["meta"]["pagination"]["last_number"]
+                - resp["meta"]["pagination"]["number"],
+            ),
         )
         teams = await client.paginated_request(client.get)(
             self.resource_config.base_path,
@@ -53,7 +57,11 @@ class TeamMemberships(BaseResource):
                 page_size=100,
                 page_number_param="page[number]",
                 page_size_param="page[size]",
-                remaining_func=lambda idx, resp, page_size, page_number: max(0, resp["meta"]["pagination"]["last_number"] - resp["meta"]["pagination"]["number"]),
+                remaining_func=lambda idx, resp, page_size, page_number: max(
+                    0,
+                    resp["meta"]["pagination"]["last_number"]
+                    - resp["meta"]["pagination"]["number"],
+                ),
             )
             members_of_team = await client.paginated_request(client.get)(
                 self.team_memberships_path.format(team["id"]),
@@ -62,18 +70,26 @@ class TeamMemberships(BaseResource):
 
             # add the team relationship
             for member in members_of_team:
-                member["relationships"]["team"] = {"data": {"type": "team", "id": team["id"]}}
+                member["relationships"]["team"] = {
+                    "data": {"type": "team", "id": team["id"]}
+                }
             all_team_memberships += members_of_team
 
         return all_team_memberships
 
-    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(
+        self, _id: Optional[str] = None, resource: Optional[Dict] = None
+    ) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         pagination_config = PaginationConfig(
             page_size=100,
             page_number_param="page[number]",
             page_size_param="page[size]",
-            remaining_func=lambda idx, resp, page_size, page_number: max(0, resp["meta"]["pagination"]["last_number"] - resp["meta"]["pagination"]["number"]),
+            remaining_func=lambda idx, resp, page_size, page_number: max(
+                0,
+                resp["meta"]["pagination"]["last_number"]
+                - resp["meta"]["pagination"]["number"],
+            ),
         )
 
         if _id:
@@ -106,13 +122,17 @@ class TeamMemberships(BaseResource):
 
         existing = self._get_existing_team_membership(destination_resource)
         if existing:
-            raise SkipResource(_id, self.resource_type, "User is already a member of the team")
+            raise SkipResource(
+                _id, self.resource_type, "User is already a member of the team"
+            )
 
         resp = await destination_client.post(
             self.team_memberships_path.format(resource_team_id),
             {"data": destination_resource},
         )
-        resp["data"]["relationships"]["team"] = {"data": {"type": "team", "id": resource_team_id}}
+        resp["data"]["relationships"]["team"] = {
+            "data": {"type": "team", "id": resource_team_id}
+        }
         return _id, resp["data"]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
@@ -127,7 +147,9 @@ class TeamMemberships(BaseResource):
         # skip if there are no differences
         diff = check_diff(self.resource_config, state, existing)
         if not diff:
-            raise SkipResource(resource["id"], self.resource_type, "No differences detected")
+            raise SkipResource(
+                resource["id"], self.resource_type, "No differences detected"
+            )
 
         # update the existing resource
         team_id = existing["relationships"]["team"]["data"]["id"]
@@ -136,7 +158,9 @@ class TeamMemberships(BaseResource):
             self.team_memberships_path.format(team_id) + f"/{user_id}",
             {"data": resource},
         )
-        resp["data"]["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
+        resp["data"]["relationships"]["team"] = {
+            "data": {"type": "team", "id": team_id}
+        }
         return _id, resp["data"]
 
     async def delete_resource(self, _id: str) -> None:
@@ -149,7 +173,9 @@ class TeamMemberships(BaseResource):
 
         # skip if the membership isn't found at the destination
         if not existing:
-            raise SkipResource(_id, self.resource_type, f"resource {_id} not found for deletion")
+            raise SkipResource(
+                _id, self.resource_type, f"resource {_id} not found for deletion"
+            )
 
         # delete the matching resource
         team_id = existing["relationships"]["team"]["data"]["id"]
@@ -158,7 +184,9 @@ class TeamMemberships(BaseResource):
             self.team_memberships_path.format(team_id) + f"/{user_id}",
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+    def connect_id(
+        self, key: str, r_obj: Dict, resource_to_connect: str
+    ) -> Optional[List[str]]:
         failed_connections = []
         _id = r_obj["id"]
         _type = r_obj["type"]
@@ -183,8 +211,12 @@ class TeamMemberships(BaseResource):
             state_user_id = state["relationships"]["user"]["data"]["id"]
             for destination_team_membership in self.destination_team_memberships:
                 if (
-                    destination_team_membership["relationships"]["team"]["data"]["id"] == state_team_id
-                    and destination_team_membership["relationships"]["user"]["data"]["id"] == state_user_id
+                    destination_team_membership["relationships"]["team"]["data"]["id"]
+                    == state_team_id
+                    and destination_team_membership["relationships"]["user"]["data"][
+                        "id"
+                    ]
+                    == state_user_id
                 ):
                     existing = destination_team_membership
                     break
