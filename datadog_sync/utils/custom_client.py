@@ -120,15 +120,11 @@ class CustomClient:
         return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
 
     def paginated_request(self, func: Awaitable) -> Awaitable:
-        log.debug("pagination_request")
         async def wrapper(*args, **kwargs):
-            log.debug("pagination_request_wrapper")
             pagination_config = kwargs.pop("pagination_config", self.default_pagination)
-            log.debug(f"pagination_config: {pagination_config}")
 
             page_size = pagination_config.page_size
             page_number = pagination_config.page_number
-            log.debug("hard code set remaining to 1")
             remaining = 1
             resources = []
             kwargs["params"] = kwargs.get("params", {}) or {}
@@ -138,9 +134,7 @@ class CustomClient:
             resources_attempted = 0
             saved_idx = idx
             save_idx = True
-            log.debug("while remaining > 0")
             while remaining > 0:
-                log.debug(f"remaining == {remaining}")
                 log.debug(
                     f"fetching {args[0]} "
                     f"{pagination_config.page_number_param}: {page_number} "
@@ -154,52 +148,47 @@ class CustomClient:
                 kwargs["params"].update(params)
 
                 try:
-                    log.debug("make an async call to the func")
+                    # call the actual awaitable function
                     resp = await func(*args, **kwargs)
                     resp_len = 0
+
+                    # add resources from the page to our list
                     if pagination_config.response_list_accessor:
-                        log.debug("We have a response_list_accessor in the config")
                         resources.extend(resp[pagination_config.response_list_accessor])
                         resp_len = len(resp[pagination_config.response_list_accessor])
                     else:
-                        log.debug("We do not have a response_list_accessor in the config")
                         resources.extend(resp)
                         resp_len = len(resp)
 
-                    log.debug("above the break")
-
+                    # if it's a partial page then we're done, it's the last page
                     if resp_len < page_size:
-                        log.debug(f"The response length {resp_len} is less than the page size {page_size}, breaking")
                         break
 
-                    log.debug("below the break")
-
                     resources_attempted += resp_len
+
+                    # restore the page size if we had to lower it to deal w/ a bad resource return
                     if restore_page_size:
-                        log.debug("Restoring the page size")
                         if resources_attempted % original_page_size == 0:
-                            log.warning("Back to regular paging")
                             page_size = original_page_size
                             page_number = pagination_config.page_number_func(idx, page_size, page_number)
                             restore_page_size = False
-                            
                             idx = saved_idx
                             save_idx = True
 
-                    log.debug("about to alter remaining")
+                    # calculate remaining resources
                     remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
-                    log.debug(f"remaining just calculated: {remaining} "
-                        f"idx:{idx} page_size:{page_size} page_number:{page_number}"
-                    )
                 except CustomClientHTTPError as err:
                     if err.status_code >= 500:
                         log.warning(
                             "500 error during a paginated request, attempting to isolate"
                         )
+
+                        # save the index so we can come back to it after dealing with this batch
                         if save_idx:
                             saved_idx = idx
                             save_idx = False
 
+                        # we're in the except and our page size is 1, we've found the bad resources
                         error_handled = False
                         if page_size == 1:
                             log.warning("Error isolated, skipping resource:")
@@ -211,22 +200,29 @@ class CustomClient:
                             resources_attempted += 1
                             error_handled = True
 
-                        if not error_handled:
+                        if error_handled:
+                            restore_page_size = True
+                        else:
+                            # reduce the page size by 50% to isolate the bad resource
                             new_page_size = page_size // 2
+                            # page size can't be 0
                             if new_page_size == 0:
                                 new_page_size = 1
+                            # to start on the right page number the resources we've attempted so far
+                            # need to be evenly divisible by the page_size
                             while resources_attempted % new_page_size != 0:
                                 new_page_size -= 1
+                            
+                            # set the page_size, idx, and page_number in that order
                             page_size = new_page_size
-
                             idx = resources_attempted // page_size - 1
-
                             page_number = pagination_config.page_number_func(idx, page_size, page_number)
-                        else:
-                            restore_page_size = True
 
+                # made it through the try/except no increase the page number and idx
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
                 idx += 1
+            
+            # return our list of good resources
             return resources
 
         return wrapper
@@ -300,7 +296,6 @@ def _get_user_agent() -> str:
 
 
 def remaining_func(idx, resp, page_size, page_number):
-    log.debug("inside the remaining_func")
     return resp["meta"]["page"]["total_count"] - page_size * (page_number + 1)
 
 
