@@ -34,22 +34,30 @@ class TeamMemberships(BaseResource):
     # Additional TeamMemberships specific attributes
     pagination_config = PaginationConfig(
         remaining_func=lambda *args: 1,
-        page_number_func=lambda idx, page_size, page_number: page_size * (idx+1),
+        page_number_func=lambda idx, page_size, page_number: page_size * (idx),
     )
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         # get all the teams
+        teams_pagination_config = PaginationConfig(
+            remaining_func=lambda *args: 1,
+            page_number_func=lambda idx, page_size, page_number: page_size * (idx),
+        )
         teams = await client.paginated_request(client.get)(
             self.resource_config.base_path,
-            pagination_config=self.pagination_config,
+            pagination_config=teams_pagination_config,
         )
 
         # iterate over the teams and create a list of all members of all teams
         all_team_memberships = []
         for team in teams:
+            members_pagination_config = PaginationConfig(
+                remaining_func=lambda *args: 1,
+                page_number_func=lambda idx, page_size, page_number: page_size * (idx),
+            )
             members_of_team = await client.paginated_request(client.get)(
                 self.team_memberships_path.format(team["id"]),
-                pagination_config=self.pagination_config,
+                pagination_config=members_pagination_config,
             )
 
             # add the team relationship
