@@ -135,13 +135,14 @@ class CustomClient:
             saved_idx = idx
             save_idx = True
             while remaining > 0:
-                remaining = 0
                 log.debug(
                     f"fetching {args[0]} "
                     f"{pagination_config.page_number_param}: {page_number} "
                     f"{pagination_config.page_size_param}: {page_size} "
+                    f"idx: {idx} "
                     f"remaining: {remaining}"
                 )
+                remaining = 0
                 params = {
                     pagination_config.page_size_param: page_size,
                     pagination_config.page_number_param: page_number,
@@ -175,7 +176,6 @@ class CustomClient:
                             idx = saved_idx
                             save_idx = True
 
-                    remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
                 except CustomClientHTTPError as err:
                     if err.status_code >= 500:
                         log.warning("500 error during a paginated request, attempting to isolate")
@@ -216,6 +216,7 @@ class CustomClient:
                             page_number = pagination_config.page_number_func(idx, page_size, page_number)
 
                 # made it through the try/except no increase the page number and idx
+                remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
                 idx += 1
 
