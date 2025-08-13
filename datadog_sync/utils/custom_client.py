@@ -178,9 +178,7 @@ class CustomClient:
                     remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
                 except CustomClientHTTPError as err:
                     if err.status_code >= 500:
-                        log.warning(
-                            "500 error during a paginated request, attempting to isolate"
-                        )
+                        log.warning("500 error during a paginated request, attempting to isolate")
 
                         # save the index so we can come back to it after dealing with this batch
                         if save_idx:
@@ -211,7 +209,7 @@ class CustomClient:
                             # need to be evenly divisible by the page_size
                             while resources_attempted % new_page_size != 0:
                                 new_page_size -= 1
-                            
+
                             # set the page_size, idx, and page_number in that order
                             page_size = new_page_size
                             idx = resources_attempted // page_size - 1
@@ -220,7 +218,7 @@ class CustomClient:
                 # made it through the try/except no increase the page number and idx
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
                 idx += 1
-            
+
             # return our list of good resources
             return resources
 
