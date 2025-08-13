@@ -32,7 +32,10 @@ interactions:
         false, "key": 285536557, "source": "intake"}, {"metric_name": "msr.distribution",
         "group_by": ["environment", "host"], "include_percentiles": true, "aggr_mode":
         "use_groups", "summary_type": "default", "groups_negated": false, "key": 285529188,
-        "source": "intake"}]'
+        "source": "intake"}, {"metric_name": "dd.seceng.dd_git_hooks.run_local_duration_seconds",
+        "group_by": ["success"], "include_percentiles": false, "aggr_mode": "include_all",
+        "summary_type": "default", "groups_negated": false, "key": 335567925, "source":
+        "intake"}]'
     headers:
       Content-Type:
       - application/json
@@ -59,9 +62,9 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"group_by": [], "include_percentiles": true, "aggr_mode": "include_all",
+    body: '{"group_by": ["success"], "include_percentiles": false, "aggr_mode": "include_all",
       "summary_type": "default", "groups_negated": false, "source": "intake", "metric":
-      "msr.other_distribution"}'
+      "dd.seceng.dd_git_hooks.run_local_duration_seconds"}'
     headers:
       Content-Type:
       - application/json
@@ -69,7 +72,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/metric/distribution/summary_aggr
   response:
     body:
-      string: '{"key": 91943796, "metric_key": 1067326978}'
+      string: '{"key": 122410448, "metric_key": 1020510221}'
     headers:
       Content-Type:
       - application/json
@@ -95,6 +98,24 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: '{"group_by": [], "include_percentiles": true, "aggr_mode": "include_all",
+      "summary_type": "default", "groups_negated": false, "source": "intake", "metric":
+      "msr.other_distribution"}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/metric/distribution/summary_aggr
+  response:
+    body:
+      string: '{"key": 91943796, "metric_key": 1067326978}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: null
     headers:
       Content-Type:
@@ -103,9 +124,17 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=500
   response:
     body:
-      string: '{"data": [{"type": "users", "id": "81f6f2c7-923f-11ef-879a-6ee0822e247c",
-        "attributes": {"name": "Justine Lo", "handle": "justine.lo@datadoghq.com",
-        "created_at": "2024-10-24T19:38:13.281489+00:00", "modified_at": "2024-10-25T14:18:33.835459+00:00",
+      string: '{"data": [{"type": "users", "id": "6b69113d-6f18-11f0-9ad5-1ad15dd71168",
+        "attributes": {"name": "Ida Adjivon", "handle": "ida.adjivon@datadoghq.com",
+        "created_at": "2025-08-01T20:45:12.043180+00:00", "modified_at": "2025-08-01T21:35:25.635446+00:00",
+        "email": "ida.adjivon@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/d3ff11e3ff125d30050f4dfff3fa614c?s=48&d=retro",
+        "title": "", "verified": true, "service_account": false, "disabled": false,
+        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
+        {"roles": {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
+        {"type": "users", "id": "81f6f2c7-923f-11ef-879a-6ee0822e247c", "attributes":
+        {"name": "Justine Lo", "handle": "justine.lo@datadoghq.com", "created_at":
+        "2024-10-24T19:38:13.281489+00:00", "modified_at": "2024-10-25T14:18:33.835459+00:00",
         "email": "justine.lo@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/7d75964971289cf50e6090d76b45e3f6?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
@@ -119,14 +148,6 @@ interactions:
         "allowed_login_methods": [], "status": "Disabled", "mfa_enabled": false},
         "relationships": {"roles": {"data": [{"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
-        {"type": "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "attributes":
-        {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "created_at":
-        "2024-10-21T18:30:50.420260+00:00", "modified_at": "2025-03-03T15:47:53.789029+00:00",
-        "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
-        "title": "", "verified": true, "service_account": false, "disabled": false,
-        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
-        {"roles": {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
-        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
         {"type": "users", "id": "30533c3c-8582-11ef-938f-cecf6f9ed4ad", "attributes":
         {"name": "Michael Richey", "handle": "michael.richey+ddreu1@datadoghq.com",
         "created_at": "2024-10-08T14:32:47.477901+00:00", "modified_at": "2024-10-08T14:32:47.477901+00:00",
@@ -136,6 +157,14 @@ interactions:
         {"roles": {"data": [{"type": "roles", "id": "693fe720-9569-11ef-969d-da7ad0900005"},
         {"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]}, "org":
         {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
+        {"type": "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "attributes":
+        {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "created_at":
+        "2024-10-21T18:30:50.420260+00:00", "modified_at": "2025-03-03T15:47:53.789029+00:00",
+        "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
+        "title": "", "verified": true, "service_account": false, "disabled": false,
+        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
+        {"roles": {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
         {"type": "users", "id": "b32e572e-8582-11ef-98fe-f2a776cd34b8", "attributes":
         {"name": "Ron Hay", "handle": "ron.hay@datadoghq.com", "created_at": "2024-10-08T14:36:27.017641+00:00",
         "modified_at": "2025-06-10T13:33:23.138895+00:00", "email": "ron.hay@datadoghq.com",
@@ -354,30 +383,31 @@ interactions:
         "permissions", "id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005"}, {"type": "permissions",
         "id": "df7cae4a-e8b7-11ef-a4b4-da7ad0900005"}, {"type": "permissions", "id":
         "23f76dc4-f607-11ef-99cf-da7ad0900005"}, {"type": "permissions", "id": "23f87c8c-f607-11ef-99cf-da7ad0900005"},
-        {"type": "permissions", "id": "db45b75e-0360-11f0-8ac3-da7ad0900005"}, {"type":
-        "permissions", "id": "9bb09240-0fee-11f0-958c-da7ad0900005"}, {"type": "permissions",
-        "id": "9bb09a10-0fee-11f0-958c-da7ad0900005"}, {"type": "permissions", "id":
-        "54f8b154-2153-11f0-9edc-da7ad0900005"}, {"type": "permissions", "id": "54f96e6e-2153-11f0-9edc-da7ad0900005"},
-        {"type": "permissions", "id": "54f98c32-2153-11f0-9edc-da7ad0900005"}, {"type":
-        "permissions", "id": "02d58f7e-252b-11f0-b39e-da7ad0900005"}, {"type": "permissions",
-        "id": "fbf76e2c-2618-11f0-8595-da7ad0900005"}, {"type": "permissions", "id":
-        "fbf841c6-2618-11f0-8595-da7ad0900005"}, {"type": "permissions", "id": "2cead6ec-34db-11f0-9eb2-da7ad0900005"},
-        {"type": "permissions", "id": "12465c5e-3a5c-11f0-becd-da7ad0900005"}, {"type":
-        "permissions", "id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005"}, {"type": "permissions",
-        "id": "d2c0335e-5688-11f0-ad5e-da7ad0900005"}]}}}, {"type": "permissions",
-        "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "attributes": {"name": "logs_read_index_data",
-        "display_name": "Logs Read Index Data", "description": "Read log data, possibly
-        scoped to one or more indexes. In order to read log data, a user must have
-        both this permission and Logs Read Data. This permission can be granted in
-        a limited capacity per index from the Logs interface or APIs. If granted via
-        the Roles interface or API the permission has global scope. Restrictions are
-        limited to the Log Management product.", "created": "2018-10-31T14:00:23.650159+00:00",
-        "group_name": "Log Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c", "attributes":
-        {"name": "logs_modify_indexes", "display_name": "Logs Modify Indexes", "description":
-        "Read and modify all indexes in your account. This includes the ability to
-        grant the Logs Read Index Data and Logs Write Exclusion Filters permission
-        to other roles, for some or all indexes.", "created": "2018-10-31T14:00:23.664332+00:00",
+        {"type": "permissions", "id": "02e65e42-fabc-11ef-a653-da7ad0900005"}, {"type":
+        "permissions", "id": "db45b75e-0360-11f0-8ac3-da7ad0900005"}, {"type": "permissions",
+        "id": "9bb09240-0fee-11f0-958c-da7ad0900005"}, {"type": "permissions", "id":
+        "9bb09a10-0fee-11f0-958c-da7ad0900005"}, {"type": "permissions", "id": "54f8b154-2153-11f0-9edc-da7ad0900005"},
+        {"type": "permissions", "id": "54f96e6e-2153-11f0-9edc-da7ad0900005"}, {"type":
+        "permissions", "id": "54f98c32-2153-11f0-9edc-da7ad0900005"}, {"type": "permissions",
+        "id": "02d58f7e-252b-11f0-b39e-da7ad0900005"}, {"type": "permissions", "id":
+        "fbf76e2c-2618-11f0-8595-da7ad0900005"}, {"type": "permissions", "id": "fbf841c6-2618-11f0-8595-da7ad0900005"},
+        {"type": "permissions", "id": "2cead6ec-34db-11f0-9eb2-da7ad0900005"}, {"type":
+        "permissions", "id": "12465c5e-3a5c-11f0-becd-da7ad0900005"}, {"type": "permissions",
+        "id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005"}, {"type": "permissions", "id":
+        "d2c0335e-5688-11f0-ad5e-da7ad0900005"}, {"type": "permissions", "id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005"}]}}},
+        {"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "attributes":
+        {"name": "logs_read_index_data", "display_name": "Logs Read Index Data", "description":
+        "Read log data, possibly scoped to one or more indexes. In order to read log
+        data, a user must have both this permission and Logs Read Data. This permission
+        can be granted in a limited capacity per index from the Logs interface or
+        APIs. If granted via the Roles interface or API the permission has global
+        scope. Restrictions are limited to the Log Management product.", "created":
+        "2018-10-31T14:00:23.650159+00:00", "group_name": "Log Management", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c",
+        "attributes": {"name": "logs_modify_indexes", "display_name": "Logs Modify
+        Indexes", "description": "Read and modify all indexes in your account. This
+        includes the ability to grant the Logs Read Index Data and Logs Write Exclusion
+        Filters permission to other roles, for some or all indexes.", "created": "2018-10-31T14:00:23.664332+00:00",
         "group_name": "Log Management", "display_type": "write", "restricted": false}},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "attributes":
         {"name": "logs_live_tail", "display_name": "Logs Live Tail", "description":
@@ -1383,29 +1413,31 @@ interactions:
         "group_name": "On-Call", "display_type": "write", "restricted": false}}, {"type":
         "permissions", "id": "35e4e288-df3b-11ef-886f-da7ad0900005", "attributes":
         {"name": "error_tracking_read", "display_name": "Error Tracking Read", "description":
-        "View Error Tracking data.", "created": "2025-01-30T18:51:27.197297+00:00",
-        "group_name": "Error Tracking", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "attributes":
-        {"name": "on_call_respond", "display_name": "On-Call Responder", "description":
-        "Acknowledge, resolve pages and edit overrides. Allow users to configure their
-        On-Call profile.", "created": "2025-02-03T23:42:07.592356+00:00", "group_name":
-        "On-Call", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "attributes": {"name": "process_tags_read",
-        "display_name": "Process Tags Read", "description": "View Process Tag Rules.",
-        "created": "2025-02-10T23:25:18.781209+00:00", "group_name": "Processes",
+        "View Error Tracking data, including stack traces, error messages, and context.
+        Also includes issue classifications and statuses such as For Review and Reviewed.
+        If Exception Replay is enabled, includes variable values captured from exceptions.",
+        "created": "2025-01-30T18:51:27.197297+00:00", "group_name": "Error Tracking",
         "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
-        "4a6cadb6-e806-11ef-8710-da7ad0900005", "attributes": {"name": "process_tags_write",
-        "display_name": "Process Tags Write", "description": "Create, edit and delete
-        Process Tag Rules.", "created": "2025-02-10T23:25:18.781209+00:00", "group_name":
-        "Processes", "display_type": "write", "restricted": false}}, {"type": "permissions",
-        "id": "4a6cc8b4-e806-11ef-8710-da7ad0900005", "attributes": {"name": "network_connections_read",
-        "display_name": "Network Connections Read", "description": "Read Cloud Network
-        Connections.", "created": "2025-02-10T23:25:18.781209+00:00", "group_name":
-        "Cloud Network Monitoring", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "attributes":
-        {"name": "serverless_aws_instrumentation_read", "display_name": "Serverless
-        AWS Instrumentation Read", "description": "View remote instrumentation configuration
-        for serverless workloads.", "created": "2025-02-11T20:36:29.786935+00:00",
+        "7ad4419a-e288-11ef-bbbc-da7ad0900005", "attributes": {"name": "on_call_respond",
+        "display_name": "On-Call Responder", "description": "Acknowledge, resolve
+        pages and edit overrides. Allow users to configure their On-Call profile.",
+        "created": "2025-02-03T23:42:07.592356+00:00", "group_name": "On-Call", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "4a6c29d6-e806-11ef-8710-da7ad0900005",
+        "attributes": {"name": "process_tags_read", "display_name": "Process Tags
+        Read", "description": "View Process Tag Rules.", "created": "2025-02-10T23:25:18.781209+00:00",
+        "group_name": "Processes", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "4a6cadb6-e806-11ef-8710-da7ad0900005", "attributes":
+        {"name": "process_tags_write", "display_name": "Process Tags Write", "description":
+        "Create, edit and delete Process Tag Rules.", "created": "2025-02-10T23:25:18.781209+00:00",
+        "group_name": "Processes", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "4a6cc8b4-e806-11ef-8710-da7ad0900005", "attributes":
+        {"name": "network_connections_read", "display_name": "Network Connections
+        Read", "description": "Read Cloud Network Connections.", "created": "2025-02-10T23:25:18.781209+00:00",
+        "group_name": "Cloud Network Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005",
+        "attributes": {"name": "serverless_aws_instrumentation_read", "display_name":
+        "Serverless AWS Instrumentation Read", "description": "View remote instrumentation
+        configuration for serverless workloads.", "created": "2025-02-11T20:36:29.786935+00:00",
         "group_name": "Serverless", "display_type": "read", "restricted": false}},
         {"type": "permissions", "id": "df7cae4a-e8b7-11ef-a4b4-da7ad0900005", "attributes":
         {"name": "serverless_aws_instrumentation_write", "display_name": "Serverless
@@ -1419,7 +1451,12 @@ interactions:
         "id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "attributes": {"name": "coterm_read",
         "display_name": "CoTerm Read", "description": "Read terminal recordings.",
         "created": "2025-02-28T19:06:40.038336+00:00", "group_name": "CoTerm", "display_type":
-        "read", "restricted": false}}, {"type": "permissions", "id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
+        "read", "restricted": false}}, {"type": "permissions", "id": "02e65e42-fabc-11ef-a653-da7ad0900005",
+        "attributes": {"name": "data_streams_monitoring_capture_messages", "display_name":
+        "Data Streams Monitoring Capture Messages", "description": "Capture messages
+        from Kafka topics in the Data Streams Monitoring product.", "created": "2025-03-06T18:51:28.120564+00:00",
+        "group_name": "Data Streams Monitoring", "display_type": "write", "restricted":
+        false}}, {"type": "permissions", "id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
         "attributes": {"name": "cloudcraft_read", "display_name": "Cloudcraft Read",
         "description": "View infrastructure diagrams in the Cloudcraft product.",
         "created": "2025-03-17T18:51:37.899118+00:00", "group_name": "Infrastructure",
@@ -1472,7 +1509,11 @@ interactions:
         "attributes": {"name": "actions_interface_run", "display_name": "Actions Interface
         Run", "description": "Execute actions in the Bits AI Action Interface.", "created":
         "2025-07-01T14:36:49.982499+00:00", "group_name": "App Builder & Workflow
-        Automation", "display_type": "write", "restricted": false}}, {"type": "roles",
+        Automation", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005", "attributes": {"name": "ai_guard_evaluate",
+        "display_name": "AI Guard Evaluate", "description": "Evaluate AI Guard rules.",
+        "created": "2025-07-09T18:30:33.053855+00:00", "group_name": "Application
+        Security", "display_type": "write", "restricted": false}}, {"type": "roles",
         "id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "attributes": {"name": "Datadog
         Read Only Role", "managed": true, "created_at": "2024-10-08T14:32:47.265744+00:00",
         "modified_at": "2024-10-08T14:32:47.266206+00:00"}, "relationships": {"permissions":
@@ -1865,8 +1906,9 @@ interactions:
         "fbf76e2c-2618-11f0-8595-da7ad0900005"}, {"type": "permissions", "id": "fbf841c6-2618-11f0-8595-da7ad0900005"},
         {"type": "permissions", "id": "12465c5e-3a5c-11f0-becd-da7ad0900005"}, {"type":
         "permissions", "id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005"}, {"type": "permissions",
-        "id": "d2c0335e-5688-11f0-ad5e-da7ad0900005"}]}}}], "meta": {"page": {"total_count":
-        7, "total_filtered_count": 7, "max_page_size": 1000}}}'
+        "id": "d2c0335e-5688-11f0-ad5e-da7ad0900005"}, {"type": "permissions", "id":
+        "cc7517b0-5cf2-11f0-85d4-da7ad0900005"}]}}}], "meta": {"page": {"total_count":
+        8, "total_filtered_count": 8, "max_page_size": 1000}}}'
     headers:
       Content-Type:
       - application/json
@@ -2053,20 +2095,20 @@ interactions:
         "type": "permissions"}, {"id": "28395f82-b7f5-11ef-afc8-da7ad0900005", "type":
         "permissions"}, {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"},
         {"id": "1d47fcb8-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
-        "1d472d7e-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005",
-        "type": "permissions"}, {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005", "type":
-        "permissions"}, {"id": "214c10b2-d3d9-11e9-a614-3759c7ad528f", "type": "permissions"},
-        {"id": "eadf64b2-2199-11ee-9a0e-da7ad0900005", "type": "permissions"}, {"id":
-        "eadf675a-2199-11ee-9a0e-da7ad0900005", "type": "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005",
-        "type": "permissions"}, {"id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005", "type":
-        "permissions"}, {"id": "9b5d3748-b72a-11ef-bb07-da7ad0900005", "type": "permissions"},
-        {"id": "9b5d3bbc-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id":
-        "8b28b686-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005",
+        "1d472d7e-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005",
+        "type": "permissions"}, {"id": "214c10b2-d3d9-11e9-a614-3759c7ad528f", "type":
+        "permissions"}, {"id": "eadf64b2-2199-11ee-9a0e-da7ad0900005", "type": "permissions"},
+        {"id": "eadf675a-2199-11ee-9a0e-da7ad0900005", "type": "permissions"}, {"id":
+        "7d9641ac-6494-11ef-997a-da7ad0900005", "type": "permissions"}, {"id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005",
+        "type": "permissions"}, {"id": "9b5d3748-b72a-11ef-bb07-da7ad0900005", "type":
+        "permissions"}, {"id": "9b5d3bbc-b72a-11ef-bb07-da7ad0900005", "type": "permissions"},
+        {"id": "8b28b686-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id":
+        "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005",
         "type": "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type":
         "permissions"}]}}}, {"id": "3020f50c-8582-11ef-ad61-da7ad0900005", "type":
         "roles", "attributes": {"created_at": "2024-10-08T14:32:47.147289Z", "managed":
         true, "modified_at": "2024-10-08T14:32:47.147932Z", "name": "Datadog Admin
-        Role", "team_count": 0, "user_count": 6}, "relationships": {"permissions":
+        Role", "team_count": 0, "user_count": 7}, "relationships": {"permissions":
         {"data": [{"id": "505fd138-dd15-11e8-9308-afd2db62791e", "type": "permissions"},
         {"id": "81e488c0-db35-11ed-a170-da7ad0900005", "type": "permissions"}, {"id":
         "24d31064-b9b4-11ec-a2af-da7ad0900005", "type": "permissions"}, {"id": "65eea998-f6a1-11ed-9953-da7ad0900005",
@@ -2173,73 +2215,73 @@ interactions:
         "type": "permissions"}, {"id": "11280c24-cce8-11ee-af00-da7ad0900005", "type":
         "permissions"}, {"id": "619b2642-f41b-11ed-b4e1-da7ad0900005", "type": "permissions"},
         {"id": "619b8f9c-f41b-11ed-b4e1-da7ad0900005", "type": "permissions"}, {"id":
-        "33ee9a80-ccc0-11ed-861a-da7ad0900005", "type": "permissions"}, {"id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005",
-        "type": "permissions"}, {"id": "ac2cf7d8-3d1a-11ee-8f54-da7ad0900005", "type":
-        "permissions"}, {"id": "f2cbfc5c-9841-11ee-a301-da7ad0900005", "type": "permissions"},
-        {"id": "f5e054da-4792-11ec-944b-da7ad0900005", "type": "permissions"}, {"id":
-        "f5e1489a-4792-11ec-944b-da7ad0900005", "type": "permissions"}, {"id": "c94811de-16c7-11ec-88cc-da7ad0900005",
-        "type": "permissions"}, {"id": "c948b30a-16c7-11ec-88cc-da7ad0900005", "type":
-        "permissions"}, {"id": "fc48661c-56a3-11ec-bd5c-da7ad0900005", "type": "permissions"},
-        {"id": "cf873174-574f-11ec-9869-da7ad0900005", "type": "permissions"}, {"id":
-        "55769e70-2c9a-11ee-a7df-da7ad0900005", "type": "permissions"}, {"id": "13a7297c-1ce3-11ee-b01a-da7ad0900005",
-        "type": "permissions"}, {"id": "7d096d86-66ec-11ef-96b3-da7ad0900005", "type":
-        "permissions"}, {"id": "23f76dc4-f607-11ef-99cf-da7ad0900005", "type": "permissions"},
-        {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions"}, {"id":
-        "95e9a5ce-5884-11ec-8b3a-da7ad0900005", "type": "permissions"}, {"id": "95ea50d2-5884-11ec-8b3a-da7ad0900005",
-        "type": "permissions"}, {"id": "5034771e-d2a9-11ef-b55e-da7ad0900005", "type":
-        "permissions"}, {"id": "eaded894-2199-11ee-9a0e-da7ad0900005", "type": "permissions"},
-        {"id": "09a13d52-691c-11ee-b7a4-da7ad0900005", "type": "permissions"}, {"id":
-        "f2f1d31a-801f-11eb-9d41-da7ad0900005", "type": "permissions"}, {"id": "54f38ef0-6f65-11ee-a094-da7ad0900005",
-        "type": "permissions"}, {"id": "e31e0056-8502-11ec-b266-da7ad0900005", "type":
-        "permissions"}, {"id": "4316826e-093f-11ee-98e9-da7ad0900005", "type": "permissions"},
-        {"id": "e31f0230-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id":
-        "b309fe04-79d5-11ef-a56c-da7ad0900005", "type": "permissions"}, {"id": "e31cca10-8502-11ec-b266-da7ad0900005",
-        "type": "permissions"}, {"id": "e31d8e28-8502-11ec-b266-da7ad0900005", "type":
-        "permissions"}, {"id": "4758d632-248a-11ed-817b-da7ad0900005", "type": "permissions"},
-        {"id": "c0490360-5a12-11ed-adbe-da7ad0900005", "type": "permissions"}, {"id":
-        "c04a7614-5a12-11ed-adbe-da7ad0900005", "type": "permissions"}, {"id": "8b254e6a-7aff-11ed-9d0d-da7ad0900005",
-        "type": "permissions"}, {"id": "8b26e284-7aff-11ed-9d0d-da7ad0900005", "type":
-        "permissions"}, {"id": "4129ef9a-ca2e-11ed-b1b8-da7ad0900005", "type": "permissions"},
-        {"id": "48d8ce74-0065-11ee-9c16-da7ad0900005", "type": "permissions"}, {"id":
-        "3276c638-0ebe-11ee-9428-da7ad0900005", "type": "permissions"}, {"id": "3276cf02-0ebe-11ee-9428-da7ad0900005",
-        "type": "permissions"}, {"id": "e8c17678-3de3-11ee-a66f-da7ad0900005", "type":
-        "permissions"}, {"id": "94783714-4e9b-11ee-959b-da7ad0900005", "type": "permissions"},
-        {"id": "8e9b2142-7511-11ef-b225-da7ad0900005", "type": "permissions"}, {"id":
-        "06f715e2-aed9-11e9-aac6-eb5723c0dffc", "type": "permissions"}, {"id": "d3159858-d8b2-11e9-a336-e363d6ef331b",
-        "type": "permissions"}, {"id": "93654d1c-e706-11ea-9a85-d320ff02824d", "type":
-        "permissions"}, {"id": "999bc3fa-e706-11ea-9a85-3b29fe548c19", "type": "permissions"},
-        {"id": "046682c4-ec5c-11ea-9483-2727954feb30", "type": "permissions"}, {"id":
-        "294580e0-1703-11ec-9b92-da7ad0900005", "type": "permissions"}, {"id": "e31e6b54-8502-11ec-b266-da7ad0900005",
-        "type": "permissions"}, {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005", "type":
-        "permissions"}, {"id": "2de35000-69e5-11ee-996b-da7ad0900005", "type": "permissions"},
-        {"id": "8b282770-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id":
-        "f33eaf3e-e746-11ec-87e3-da7ad0900005", "type": "permissions"}, {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005",
-        "type": "permissions"}, {"id": "83fc9760-7c51-11ef-b846-da7ad0900005", "type":
-        "permissions"}, {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"},
-        {"id": "06e3004e-5987-11ef-89c3-da7ad0900005", "type": "permissions"}, {"id":
-        "76e47222-8a30-11ef-8675-da7ad0900005", "type": "permissions"}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005",
-        "type": "permissions"}, {"id": "48bb9ee8-e544-11ee-93aa-da7ad0900005", "type":
-        "permissions"}, {"id": "7fbc682c-c59e-11ec-90fb-da7ad0900005", "type": "permissions"},
-        {"id": "7fbe2266-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id":
-        "7fbd9756-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id": "ccd05a00-018e-11ef-afb6-da7ad0900005",
-        "type": "permissions"}, {"id": "ccd08d36-018e-11ef-afb6-da7ad0900005", "type":
-        "permissions"}, {"id": "ccd09204-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
-        {"id": "ccd09ca4-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
-        "ccd09f06-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "b4b67a6c-08a0-11ef-b2a8-da7ad0900005",
-        "type": "permissions"}, {"id": "b4b707b6-08a0-11ef-b2a8-da7ad0900005", "type":
-        "permissions"}, {"id": "b4b70996-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"},
-        {"id": "b4b734a2-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id":
-        "d039cfec-b44f-11ed-8db8-da7ad0900005", "type": "permissions"}, {"id": "3bffdb2a-a901-11ef-af48-da7ad0900005",
-        "type": "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005", "type":
-        "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"},
-        {"id": "71958024-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"}, {"id":
-        "54f10334-a6a9-11ef-98f1-da7ad0900005", "type": "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005",
-        "type": "permissions"}, {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type":
-        "permissions"}, {"id": "28395f82-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"},
-        {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
-        "1d47fcb8-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "1d472d7e-60a3-11ef-a05a-da7ad0900005",
-        "type": "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005", "type":
-        "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions"},
+        "33ee9a80-ccc0-11ed-861a-da7ad0900005", "type": "permissions"}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005",
+        "type": "permissions"}, {"id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type":
+        "permissions"}, {"id": "ac2cf7d8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"},
+        {"id": "f2cbfc5c-9841-11ee-a301-da7ad0900005", "type": "permissions"}, {"id":
+        "f5e054da-4792-11ec-944b-da7ad0900005", "type": "permissions"}, {"id": "f5e1489a-4792-11ec-944b-da7ad0900005",
+        "type": "permissions"}, {"id": "c94811de-16c7-11ec-88cc-da7ad0900005", "type":
+        "permissions"}, {"id": "c948b30a-16c7-11ec-88cc-da7ad0900005", "type": "permissions"},
+        {"id": "fc48661c-56a3-11ec-bd5c-da7ad0900005", "type": "permissions"}, {"id":
+        "cf873174-574f-11ec-9869-da7ad0900005", "type": "permissions"}, {"id": "55769e70-2c9a-11ee-a7df-da7ad0900005",
+        "type": "permissions"}, {"id": "13a7297c-1ce3-11ee-b01a-da7ad0900005", "type":
+        "permissions"}, {"id": "7d096d86-66ec-11ef-96b3-da7ad0900005", "type": "permissions"},
+        {"id": "23f76dc4-f607-11ef-99cf-da7ad0900005", "type": "permissions"}, {"id":
+        "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions"}, {"id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005",
+        "type": "permissions"}, {"id": "95ea50d2-5884-11ec-8b3a-da7ad0900005", "type":
+        "permissions"}, {"id": "5034771e-d2a9-11ef-b55e-da7ad0900005", "type": "permissions"},
+        {"id": "eaded894-2199-11ee-9a0e-da7ad0900005", "type": "permissions"}, {"id":
+        "09a13d52-691c-11ee-b7a4-da7ad0900005", "type": "permissions"}, {"id": "f2f1d31a-801f-11eb-9d41-da7ad0900005",
+        "type": "permissions"}, {"id": "54f38ef0-6f65-11ee-a094-da7ad0900005", "type":
+        "permissions"}, {"id": "e31e0056-8502-11ec-b266-da7ad0900005", "type": "permissions"},
+        {"id": "4316826e-093f-11ee-98e9-da7ad0900005", "type": "permissions"}, {"id":
+        "e31f0230-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id": "b309fe04-79d5-11ef-a56c-da7ad0900005",
+        "type": "permissions"}, {"id": "e31cca10-8502-11ec-b266-da7ad0900005", "type":
+        "permissions"}, {"id": "e31d8e28-8502-11ec-b266-da7ad0900005", "type": "permissions"},
+        {"id": "4758d632-248a-11ed-817b-da7ad0900005", "type": "permissions"}, {"id":
+        "c0490360-5a12-11ed-adbe-da7ad0900005", "type": "permissions"}, {"id": "c04a7614-5a12-11ed-adbe-da7ad0900005",
+        "type": "permissions"}, {"id": "8b254e6a-7aff-11ed-9d0d-da7ad0900005", "type":
+        "permissions"}, {"id": "8b26e284-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"},
+        {"id": "4129ef9a-ca2e-11ed-b1b8-da7ad0900005", "type": "permissions"}, {"id":
+        "48d8ce74-0065-11ee-9c16-da7ad0900005", "type": "permissions"}, {"id": "3276c638-0ebe-11ee-9428-da7ad0900005",
+        "type": "permissions"}, {"id": "3276cf02-0ebe-11ee-9428-da7ad0900005", "type":
+        "permissions"}, {"id": "e8c17678-3de3-11ee-a66f-da7ad0900005", "type": "permissions"},
+        {"id": "94783714-4e9b-11ee-959b-da7ad0900005", "type": "permissions"}, {"id":
+        "8e9b2142-7511-11ef-b225-da7ad0900005", "type": "permissions"}, {"id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc",
+        "type": "permissions"}, {"id": "d3159858-d8b2-11e9-a336-e363d6ef331b", "type":
+        "permissions"}, {"id": "93654d1c-e706-11ea-9a85-d320ff02824d", "type": "permissions"},
+        {"id": "999bc3fa-e706-11ea-9a85-3b29fe548c19", "type": "permissions"}, {"id":
+        "046682c4-ec5c-11ea-9483-2727954feb30", "type": "permissions"}, {"id": "294580e0-1703-11ec-9b92-da7ad0900005",
+        "type": "permissions"}, {"id": "e31e6b54-8502-11ec-b266-da7ad0900005", "type":
+        "permissions"}, {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005", "type": "permissions"},
+        {"id": "2de35000-69e5-11ee-996b-da7ad0900005", "type": "permissions"}, {"id":
+        "8b282770-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id": "f33eaf3e-e746-11ec-87e3-da7ad0900005",
+        "type": "permissions"}, {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type":
+        "permissions"}, {"id": "83fc9760-7c51-11ef-b846-da7ad0900005", "type": "permissions"},
+        {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id":
+        "06e3004e-5987-11ef-89c3-da7ad0900005", "type": "permissions"}, {"id": "76e47222-8a30-11ef-8675-da7ad0900005",
+        "type": "permissions"}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005", "type":
+        "permissions"}, {"id": "48bb9ee8-e544-11ee-93aa-da7ad0900005", "type": "permissions"},
+        {"id": "7fbc682c-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id":
+        "7fbe2266-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id": "7fbd9756-c59e-11ec-90fb-da7ad0900005",
+        "type": "permissions"}, {"id": "ccd05a00-018e-11ef-afb6-da7ad0900005", "type":
+        "permissions"}, {"id": "ccd08d36-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
+        {"id": "ccd09204-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
+        "ccd09ca4-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "ccd09f06-018e-11ef-afb6-da7ad0900005",
+        "type": "permissions"}, {"id": "b4b67a6c-08a0-11ef-b2a8-da7ad0900005", "type":
+        "permissions"}, {"id": "b4b707b6-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"},
+        {"id": "b4b70996-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id":
+        "b4b734a2-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id": "d039cfec-b44f-11ed-8db8-da7ad0900005",
+        "type": "permissions"}, {"id": "3bffdb2a-a901-11ef-af48-da7ad0900005", "type":
+        "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005", "type": "permissions"},
+        {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"}, {"id":
+        "71958024-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"}, {"id": "54f10334-a6a9-11ef-98f1-da7ad0900005",
+        "type": "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type":
+        "permissions"}, {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"},
+        {"id": "28395f82-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"}, {"id":
+        "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "1d47fcb8-60a3-11ef-a05a-da7ad0900005",
+        "type": "permissions"}, {"id": "1d472d7e-60a3-11ef-a05a-da7ad0900005", "type":
+        "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005", "type": "permissions"},
         {"id": "9b010d44-da87-11ef-9de6-da7ad0900005", "type": "permissions"}, {"id":
         "5073050c-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id": "214c10b2-d3d9-11e9-a614-3759c7ad528f",
         "type": "permissions"}, {"id": "9b00ed28-da87-11ef-9de6-da7ad0900005", "type":
@@ -2253,156 +2295,158 @@ interactions:
         "type": "permissions"}, {"id": "4a6cadb6-e806-11ef-8710-da7ad0900005", "type":
         "permissions"}, {"id": "9bb09240-0fee-11f0-958c-da7ad0900005", "type": "permissions"},
         {"id": "9bb09a10-0fee-11f0-958c-da7ad0900005", "type": "permissions"}, {"id":
-        "db45b75e-0360-11f0-8ac3-da7ad0900005", "type": "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005",
-        "type": "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type":
-        "permissions"}, {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"},
-        {"id": "df7cae4a-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"}, {"id":
-        "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type": "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
-        "type": "permissions"}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions"}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
-        {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions"}, {"id":
-        "fbf841c6-2618-11f0-8595-da7ad0900005", "type": "permissions"}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005",
-        "type": "permissions"}]}}}, {"id": "3032ffb8-8582-11ef-8bad-da7ad0900005",
-        "type": "roles", "attributes": {"created_at": "2024-10-08T14:32:47.265744Z",
-        "managed": true, "modified_at": "2024-10-08T14:32:47.266206Z", "name": "Datadog
-        Read Only Role", "team_count": 0, "user_count": 2}, "relationships": {"permissions":
-        {"data": [{"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005", "type": "permissions"},
-        {"id": "21c5475c-228f-11ef-a00d-da7ad0900005", "type": "permissions"}, {"id":
-        "b7706de0-2dce-11eb-9145-775e4a0d889a", "type": "permissions"}, {"id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5",
-        "type": "permissions"}, {"id": "926612da-7a4c-11ed-b809-da7ad0900005", "type":
-        "permissions"}, {"id": "e120d4c0-0969-11ef-965e-da7ad0900005", "type": "permissions"},
-        {"id": "a05f69c8-5410-11ef-9378-da7ad0900005", "type": "permissions"}, {"id":
-        "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"}, {"id": "122e20a4-d36c-11eb-b2bf-da7ad0900005",
-        "type": "permissions"}, {"id": "99397470-b16d-11eb-a891-da7ad0900005", "type":
-        "permissions"}, {"id": "f07e4234-e894-11eb-ab79-da7ad0900005", "type": "permissions"},
-        {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type": "permissions"}, {"id":
-        "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"}, {"id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5",
-        "type": "permissions"}, {"id": "80adf9c4-9898-11ef-8b23-da7ad0900005", "type":
-        "permissions"}, {"id": "b6858556-f925-11ea-9222-1f47b8677b93", "type": "permissions"},
-        {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type": "permissions"}, {"id":
-        "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "type": "permissions"}, {"id": "4a6cc8b4-e806-11ef-8710-da7ad0900005",
-        "type": "permissions"}, {"id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005", "type":
-        "permissions"}, {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"},
-        {"id": "94c8a4da-de87-11ed-9e92-da7ad0900005", "type": "permissions"}, {"id":
-        "d68dc046-aa58-11ea-8f98-3f18bf50279f", "type": "permissions"}, {"id": "e0d31696-aa58-11ea-af96-3b02991750c9",
+        "db45b75e-0360-11f0-8ac3-da7ad0900005", "type": "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005",
+        "type": "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005", "type":
+        "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"},
+        {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"}, {"id":
+        "df7cae4a-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"}, {"id": "02e65e42-fabc-11ef-a653-da7ad0900005",
+        "type": "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type":
+        "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
+        {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id":
+        "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005",
+        "type": "permissions"}, {"id": "fbf841c6-2618-11f0-8595-da7ad0900005", "type":
+        "permissions"}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions"}]}}},
+        {"id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "type": "roles", "attributes":
+        {"created_at": "2024-10-08T14:32:47.265744Z", "managed": true, "modified_at":
+        "2024-10-08T14:32:47.266206Z", "name": "Datadog Read Only Role", "team_count":
+        0, "user_count": 2}, "relationships": {"permissions": {"data": [{"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005",
+        "type": "permissions"}, {"id": "21c5475c-228f-11ef-a00d-da7ad0900005", "type":
+        "permissions"}, {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "type": "permissions"},
+        {"id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "type": "permissions"}, {"id":
+        "926612da-7a4c-11ed-b809-da7ad0900005", "type": "permissions"}, {"id": "e120d4c0-0969-11ef-965e-da7ad0900005",
+        "type": "permissions"}, {"id": "a05f69c8-5410-11ef-9378-da7ad0900005", "type":
+        "permissions"}, {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"},
+        {"id": "122e20a4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id":
+        "99397470-b16d-11eb-a891-da7ad0900005", "type": "permissions"}, {"id": "f07e4234-e894-11eb-ab79-da7ad0900005",
+        "type": "permissions"}, {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type":
+        "permissions"}, {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"},
+        {"id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type": "permissions"}, {"id":
+        "80adf9c4-9898-11ef-8b23-da7ad0900005", "type": "permissions"}, {"id": "b6858556-f925-11ea-9222-1f47b8677b93",
+        "type": "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type":
+        "permissions"}, {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "type": "permissions"},
+        {"id": "4a6cc8b4-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id":
+        "5def2f6a-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005",
+        "type": "permissions"}, {"id": "94c8a4da-de87-11ed-9e92-da7ad0900005", "type":
+        "permissions"}, {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "type": "permissions"},
+        {"id": "e0d31696-aa58-11ea-af96-3b02991750c9", "type": "permissions"}, {"id":
+        "bebb2bca-c1e7-11ee-b9dc-da7ad0900005", "type": "permissions"}, {"id": "300f69c6-8114-11ef-84c0-da7ad0900005",
+        "type": "permissions"}, {"id": "f42e4c6e-173a-11ed-8654-da7ad0900005", "type":
+        "permissions"}, {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "type": "permissions"},
+        {"id": "5de1e178-8536-11ea-968a-2fd9395bff90", "type": "permissions"}, {"id":
+        "f33f74be-e746-11ec-87e3-da7ad0900005", "type": "permissions"}, {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005",
+        "type": "permissions"}, {"id": "cccfe6c4-018e-11ef-afb6-da7ad0900005", "type":
+        "permissions"}, {"id": "55f64460-7d61-11ed-9c36-da7ad0900005", "type": "permissions"},
+        {"id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id":
+        "bcc2fb14-2dce-11eb-9145-9b27b816190a", "type": "permissions"}, {"id": "f2f3d048-801f-11eb-9d41-da7ad0900005",
+        "type": "permissions"}, {"id": "7d08a48c-66ec-11ef-96b3-da7ad0900005", "type":
+        "permissions"}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions"},
+        {"id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"}, {"id":
+        "f5e054da-4792-11ec-944b-da7ad0900005", "type": "permissions"}, {"id": "c94811de-16c7-11ec-88cc-da7ad0900005",
+        "type": "permissions"}, {"id": "cf873174-574f-11ec-9869-da7ad0900005", "type":
+        "permissions"}, {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions"},
+        {"id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005", "type": "permissions"}, {"id":
+        "5034771e-d2a9-11ef-b55e-da7ad0900005", "type": "permissions"}, {"id": "e31e0056-8502-11ec-b266-da7ad0900005",
+        "type": "permissions"}, {"id": "b309fe04-79d5-11ef-a56c-da7ad0900005", "type":
+        "permissions"}, {"id": "e31cca10-8502-11ec-b266-da7ad0900005", "type": "permissions"},
+        {"id": "3276c638-0ebe-11ee-9428-da7ad0900005", "type": "permissions"}, {"id":
+        "94783714-4e9b-11ee-959b-da7ad0900005", "type": "permissions"}, {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005",
+        "type": "permissions"}, {"id": "2de35000-69e5-11ee-996b-da7ad0900005", "type":
+        "permissions"}, {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"},
+        {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id":
+        "76e47222-8a30-11ef-8675-da7ad0900005", "type": "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005",
+        "type": "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type":
+        "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"},
+        {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"}, {"id":
+        "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005",
+        "type": "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type":
+        "permissions"}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005", "type": "permissions"},
+        {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions"}, {"id":
+        "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"}, {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005",
+        "type": "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type":
+        "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
+        {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id":
+        "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "302b4f34-8582-11ef-b6a4-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2024-10-08T14:32:47.215056Z", "managed": true, "modified_at": "2024-10-08T14:32:47.215828Z",
+        "name": "Datadog Standard Role", "team_count": 0, "user_count": 3}, "relationships":
+        {"permissions": {"data": [{"id": "81e488c0-db35-11ed-a170-da7ad0900005", "type":
+        "permissions"}, {"id": "24d31064-b9b4-11ec-a2af-da7ad0900005", "type": "permissions"},
+        {"id": "65eea998-f6a1-11ed-9953-da7ad0900005", "type": "permissions"}, {"id":
+        "ffb0167e-11e1-11ee-8f46-da7ad0900005", "type": "permissions"}, {"id": "046692fa-ec5c-11ea-9483-d713671ea3a9",
+        "type": "permissions"}, {"id": "5dee9f64-55d9-11ed-9ccb-da7ad0900005", "type":
+        "permissions"}, {"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005", "type": "permissions"},
+        {"id": "9311970e-f925-11ea-ab4d-1760e76381c1", "type": "permissions"}, {"id":
+        "ae2f8fbe-f925-11ea-b51c-67ba7de17f88", "type": "permissions"}, {"id": "21c5475c-228f-11ef-a00d-da7ad0900005",
+        "type": "permissions"}, {"id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a", "type":
+        "permissions"}, {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "type": "permissions"},
+        {"id": "7fbea6aa-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id":
+        "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "type": "permissions"}, {"id": "c7acc6a6-9a59-11ec-9cd5-da7ad0900005",
+        "type": "permissions"}, {"id": "f07f557a-e894-11eb-ab79-da7ad0900005", "type":
+        "permissions"}, {"id": "b03b5256-e5c4-11ec-a04e-da7ad0900005", "type": "permissions"},
+        {"id": "926612da-7a4c-11ed-b809-da7ad0900005", "type": "permissions"}, {"id":
+        "81e4434c-db35-11ed-a170-da7ad0900005", "type": "permissions"}, {"id": "e120d4c0-0969-11ef-965e-da7ad0900005",
+        "type": "permissions"}, {"id": "a05f69c8-5410-11ef-9378-da7ad0900005", "type":
+        "permissions"}, {"id": "e49aeb24-2dce-11eb-9145-6b8664bc9097", "type": "permissions"},
+        {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"}, {"id":
+        "122e20a4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id": "99397470-b16d-11eb-a891-da7ad0900005",
+        "type": "permissions"}, {"id": "32f12a0a-ba0c-11ee-b34b-da7ad0900005", "type":
+        "permissions"}, {"id": "1535624c-9771-11ed-ad25-da7ad0900005", "type": "permissions"},
+        {"id": "f07e4234-e894-11eb-ab79-da7ad0900005", "type": "permissions"}, {"id":
+        "a726d3bc-f925-11ea-8c05-476d8eebc4cb", "type": "permissions"}, {"id": "37e36580-5440-11eb-91d4-03a23fd3e1d1",
+        "type": "permissions"}, {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type":
+        "permissions"}, {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"},
+        {"id": "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8", "type": "permissions"}, {"id":
+        "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type": "permissions"}, {"id": "80adf9c4-9898-11ef-8b23-da7ad0900005",
+        "type": "permissions"}, {"id": "b6858556-f925-11ea-9222-1f47b8677b93", "type":
+        "permissions"}, {"id": "ca8897be-f925-11ea-a3a2-d30492cbe671", "type": "permissions"},
+        {"id": "cf223140-f925-11ea-a3a2-df370532bcf7", "type": "permissions"}, {"id":
+        "f42ef088-173a-11ed-8654-da7ad0900005", "type": "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee",
+        "type": "permissions"}, {"id": "2149e512-d3d9-11e9-a614-bb8f0dcf0205", "type":
+        "permissions"}, {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "type": "permissions"},
+        {"id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039", "type": "permissions"}, {"id":
+        "505f4538-dd15-11e8-9308-47a4732f715f", "type": "permissions"}, {"id": "4a6cc8b4-e806-11ef-8710-da7ad0900005",
+        "type": "permissions"}, {"id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee", "type":
+        "permissions"}, {"id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"},
+        {"id": "5defc9e8-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id":
+        "ace5cc0e-ff71-11ed-b518-da7ad0900005", "type": "permissions"}, {"id": "4316b5b8-093f-11ee-98e9-da7ad0900005",
+        "type": "permissions"}, {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005", "type":
+        "permissions"}, {"id": "ae9c303e-f5c4-11ee-b3e7-da7ad0900005", "type": "permissions"},
+        {"id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c", "type": "permissions"}, {"id":
+        "8a78e224-7a5a-11ed-a3ad-da7ad0900005", "type": "permissions"}, {"id": "77ed7a00-b468-11ed-b0f0-da7ad0900005",
+        "type": "permissions"}, {"id": "77ed87a2-b468-11ed-b0f0-da7ad0900005", "type":
+        "permissions"}, {"id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4", "type": "permissions"},
+        {"id": "96a0c17a-f7f8-11ea-add4-d3659d81b152", "type": "permissions"}, {"id":
+        "94c8a4da-de87-11ed-9e92-da7ad0900005", "type": "permissions"}, {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f",
+        "type": "permissions"}, {"id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14", "type":
+        "permissions"}, {"id": "e0d31696-aa58-11ea-af96-3b02991750c9", "type": "permissions"},
+        {"id": "60759a94-ff6d-11eb-a4f0-da7ad0900005", "type": "permissions"}, {"id":
+        "75072806-3890-11ef-bbb1-da7ad0900005", "type": "permissions"}, {"id": "bebbe3b2-c1e7-11ee-b9dc-da7ad0900005",
         "type": "permissions"}, {"id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005", "type":
         "permissions"}, {"id": "300f69c6-8114-11ef-84c0-da7ad0900005", "type": "permissions"},
-        {"id": "f42e4c6e-173a-11ed-8654-da7ad0900005", "type": "permissions"}, {"id":
-        "bfafd0ce-7823-11ea-9689-c3e5118805ee", "type": "permissions"}, {"id": "5de1e178-8536-11ea-968a-2fd9395bff90",
-        "type": "permissions"}, {"id": "f33f74be-e746-11ec-87e3-da7ad0900005", "type":
-        "permissions"}, {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005", "type": "permissions"},
-        {"id": "cccfe6c4-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
-        "55f64460-7d61-11ed-9c36-da7ad0900005", "type": "permissions"}, {"id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005",
+        {"id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a", "type": "permissions"}, {"id":
+        "f42e4c6e-173a-11ed-8654-da7ad0900005", "type": "permissions"}, {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee",
+        "type": "permissions"}, {"id": "5de1e178-8536-11ea-968a-2fd9395bff90", "type":
+        "permissions"}, {"id": "ef44c426-20d0-11ee-83e9-da7ad0900005", "type": "permissions"},
+        {"id": "f33f74be-e746-11ec-87e3-da7ad0900005", "type": "permissions"}, {"id":
+        "f340161c-e746-11ec-87e3-da7ad0900005", "type": "permissions"}, {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005",
+        "type": "permissions"}, {"id": "9266e93a-7a4c-11ed-b809-da7ad0900005", "type":
+        "permissions"}, {"id": "122f7508-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"},
+        {"id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id":
+        "cccfe6c4-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "94c927e8-de87-11ed-9e92-da7ad0900005",
+        "type": "permissions"}, {"id": "2a92b62c-f9b3-11ed-9a97-da7ad0900005", "type":
+        "permissions"}, {"id": "300f81cc-8114-11ef-84c0-da7ad0900005", "type": "permissions"},
+        {"id": "55f64460-7d61-11ed-9c36-da7ad0900005", "type": "permissions"}, {"id":
+        "04668dd2-ec5c-11ea-9483-f7c5fcc9418b", "type": "permissions"}, {"id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005",
         "type": "permissions"}, {"id": "bcc2fb14-2dce-11eb-9145-9b27b816190a", "type":
-        "permissions"}, {"id": "f2f3d048-801f-11eb-9d41-da7ad0900005", "type": "permissions"},
-        {"id": "7d08a48c-66ec-11ef-96b3-da7ad0900005", "type": "permissions"}, {"id":
-        "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions"}, {"id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005",
-        "type": "permissions"}, {"id": "f5e054da-4792-11ec-944b-da7ad0900005", "type":
-        "permissions"}, {"id": "c94811de-16c7-11ec-88cc-da7ad0900005", "type": "permissions"},
-        {"id": "cf873174-574f-11ec-9869-da7ad0900005", "type": "permissions"}, {"id":
-        "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions"}, {"id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005",
-        "type": "permissions"}, {"id": "5034771e-d2a9-11ef-b55e-da7ad0900005", "type":
-        "permissions"}, {"id": "e31e0056-8502-11ec-b266-da7ad0900005", "type": "permissions"},
-        {"id": "b309fe04-79d5-11ef-a56c-da7ad0900005", "type": "permissions"}, {"id":
-        "e31cca10-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id": "3276c638-0ebe-11ee-9428-da7ad0900005",
-        "type": "permissions"}, {"id": "94783714-4e9b-11ee-959b-da7ad0900005", "type":
-        "permissions"}, {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005", "type": "permissions"},
-        {"id": "2de35000-69e5-11ee-996b-da7ad0900005", "type": "permissions"}, {"id":
-        "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"}, {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005",
-        "type": "permissions"}, {"id": "76e47222-8a30-11ef-8675-da7ad0900005", "type":
-        "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005", "type": "permissions"},
-        {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"}, {"id":
-        "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"}, {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005",
-        "type": "permissions"}, {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type":
-        "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005", "type": "permissions"},
-        {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions"}, {"id":
-        "4a6c29d6-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
-        "type": "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type":
-        "permissions"}, {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"},
-        {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type": "permissions"}, {"id":
-        "54f8b154-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005",
-        "type": "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005", "type":
-        "permissions"}]}}}, {"id": "302b4f34-8582-11ef-b6a4-da7ad0900005", "type":
-        "roles", "attributes": {"created_at": "2024-10-08T14:32:47.215056Z", "managed":
-        true, "modified_at": "2024-10-08T14:32:47.215828Z", "name": "Datadog Standard
-        Role", "team_count": 0, "user_count": 3}, "relationships": {"permissions":
-        {"data": [{"id": "81e488c0-db35-11ed-a170-da7ad0900005", "type": "permissions"},
-        {"id": "24d31064-b9b4-11ec-a2af-da7ad0900005", "type": "permissions"}, {"id":
-        "65eea998-f6a1-11ed-9953-da7ad0900005", "type": "permissions"}, {"id": "ffb0167e-11e1-11ee-8f46-da7ad0900005",
-        "type": "permissions"}, {"id": "046692fa-ec5c-11ea-9483-d713671ea3a9", "type":
-        "permissions"}, {"id": "5dee9f64-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"},
-        {"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005", "type": "permissions"}, {"id":
-        "9311970e-f925-11ea-ab4d-1760e76381c1", "type": "permissions"}, {"id": "ae2f8fbe-f925-11ea-b51c-67ba7de17f88",
-        "type": "permissions"}, {"id": "21c5475c-228f-11ef-a00d-da7ad0900005", "type":
-        "permissions"}, {"id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a", "type": "permissions"},
-        {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "type": "permissions"}, {"id":
-        "7fbea6aa-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5",
-        "type": "permissions"}, {"id": "c7acc6a6-9a59-11ec-9cd5-da7ad0900005", "type":
-        "permissions"}, {"id": "f07f557a-e894-11eb-ab79-da7ad0900005", "type": "permissions"},
-        {"id": "b03b5256-e5c4-11ec-a04e-da7ad0900005", "type": "permissions"}, {"id":
-        "926612da-7a4c-11ed-b809-da7ad0900005", "type": "permissions"}, {"id": "81e4434c-db35-11ed-a170-da7ad0900005",
-        "type": "permissions"}, {"id": "e120d4c0-0969-11ef-965e-da7ad0900005", "type":
-        "permissions"}, {"id": "a05f69c8-5410-11ef-9378-da7ad0900005", "type": "permissions"},
-        {"id": "e49aeb24-2dce-11eb-9145-6b8664bc9097", "type": "permissions"}, {"id":
-        "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"}, {"id": "122e20a4-d36c-11eb-b2bf-da7ad0900005",
-        "type": "permissions"}, {"id": "99397470-b16d-11eb-a891-da7ad0900005", "type":
-        "permissions"}, {"id": "32f12a0a-ba0c-11ee-b34b-da7ad0900005", "type": "permissions"},
-        {"id": "1535624c-9771-11ed-ad25-da7ad0900005", "type": "permissions"}, {"id":
-        "f07e4234-e894-11eb-ab79-da7ad0900005", "type": "permissions"}, {"id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb",
-        "type": "permissions"}, {"id": "37e36580-5440-11eb-91d4-03a23fd3e1d1", "type":
-        "permissions"}, {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type": "permissions"},
-        {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"}, {"id":
-        "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8", "type": "permissions"}, {"id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5",
-        "type": "permissions"}, {"id": "80adf9c4-9898-11ef-8b23-da7ad0900005", "type":
-        "permissions"}, {"id": "b6858556-f925-11ea-9222-1f47b8677b93", "type": "permissions"},
-        {"id": "ca8897be-f925-11ea-a3a2-d30492cbe671", "type": "permissions"}, {"id":
-        "cf223140-f925-11ea-a3a2-df370532bcf7", "type": "permissions"}, {"id": "f42ef088-173a-11ed-8654-da7ad0900005",
-        "type": "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type":
-        "permissions"}, {"id": "2149e512-d3d9-11e9-a614-bb8f0dcf0205", "type": "permissions"},
-        {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "type": "permissions"}, {"id":
-        "4fc2807c-dd15-11e8-9308-d3bfffb7f039", "type": "permissions"}, {"id": "505f4538-dd15-11e8-9308-47a4732f715f",
-        "type": "permissions"}, {"id": "4a6cc8b4-e806-11ef-8710-da7ad0900005", "type":
-        "permissions"}, {"id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee", "type": "permissions"},
-        {"id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id":
-        "5defc9e8-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id": "ace5cc0e-ff71-11ed-b518-da7ad0900005",
-        "type": "permissions"}, {"id": "4316b5b8-093f-11ee-98e9-da7ad0900005", "type":
-        "permissions"}, {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"},
-        {"id": "ae9c303e-f5c4-11ee-b3e7-da7ad0900005", "type": "permissions"}, {"id":
-        "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c", "type": "permissions"}, {"id": "8a78e224-7a5a-11ed-a3ad-da7ad0900005",
-        "type": "permissions"}, {"id": "77ed7a00-b468-11ed-b0f0-da7ad0900005", "type":
-        "permissions"}, {"id": "77ed87a2-b468-11ed-b0f0-da7ad0900005", "type": "permissions"},
-        {"id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4", "type": "permissions"}, {"id":
-        "96a0c17a-f7f8-11ea-add4-d3659d81b152", "type": "permissions"}, {"id": "94c8a4da-de87-11ed-9e92-da7ad0900005",
-        "type": "permissions"}, {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "type":
-        "permissions"}, {"id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14", "type": "permissions"},
-        {"id": "e0d31696-aa58-11ea-af96-3b02991750c9", "type": "permissions"}, {"id":
-        "60759a94-ff6d-11eb-a4f0-da7ad0900005", "type": "permissions"}, {"id": "75072806-3890-11ef-bbb1-da7ad0900005",
-        "type": "permissions"}, {"id": "bebbe3b2-c1e7-11ee-b9dc-da7ad0900005", "type":
-        "permissions"}, {"id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005", "type": "permissions"},
-        {"id": "300f69c6-8114-11ef-84c0-da7ad0900005", "type": "permissions"}, {"id":
-        "04668bde-ec5c-11ea-9483-fb6cb6586c6a", "type": "permissions"}, {"id": "f42e4c6e-173a-11ed-8654-da7ad0900005",
-        "type": "permissions"}, {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "type":
-        "permissions"}, {"id": "5de1e178-8536-11ea-968a-2fd9395bff90", "type": "permissions"},
-        {"id": "ef44c426-20d0-11ee-83e9-da7ad0900005", "type": "permissions"}, {"id":
-        "f33f74be-e746-11ec-87e3-da7ad0900005", "type": "permissions"}, {"id": "f340161c-e746-11ec-87e3-da7ad0900005",
-        "type": "permissions"}, {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005", "type":
-        "permissions"}, {"id": "9266e93a-7a4c-11ed-b809-da7ad0900005", "type": "permissions"},
-        {"id": "122f7508-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id":
-        "122ff9c4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id": "cccfe6c4-018e-11ef-afb6-da7ad0900005",
-        "type": "permissions"}, {"id": "94c927e8-de87-11ed-9e92-da7ad0900005", "type":
-        "permissions"}, {"id": "2a92b62c-f9b3-11ed-9a97-da7ad0900005", "type": "permissions"},
-        {"id": "300f81cc-8114-11ef-84c0-da7ad0900005", "type": "permissions"}, {"id":
-        "55f64460-7d61-11ed-9c36-da7ad0900005", "type": "permissions"}, {"id": "04668dd2-ec5c-11ea-9483-f7c5fcc9418b",
-        "type": "permissions"}, {"id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005", "type":
-        "permissions"}, {"id": "bcc2fb14-2dce-11eb-9145-9b27b816190a", "type": "permissions"},
-        {"id": "123098f2-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id":
-        "f2f3d048-801f-11eb-9d41-da7ad0900005", "type": "permissions"}, {"id": "7d08a48c-66ec-11ef-96b3-da7ad0900005",
-        "type": "permissions"}, {"id": "3c06647c-ffe8-11ed-b4b4-da7ad0900005", "type":
-        "permissions"}, {"id": "8b276eb6-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"},
-        {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions"}, {"id":
-        "11280c24-cce8-11ee-af00-da7ad0900005", "type": "permissions"}, {"id": "619b2642-f41b-11ed-b4e1-da7ad0900005",
-        "type": "permissions"}, {"id": "619b8f9c-f41b-11ed-b4e1-da7ad0900005", "type":
-        "permissions"}, {"id": "33ee9a80-ccc0-11ed-861a-da7ad0900005", "type": "permissions"},
+        "permissions"}, {"id": "123098f2-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"},
+        {"id": "f2f3d048-801f-11eb-9d41-da7ad0900005", "type": "permissions"}, {"id":
+        "7d08a48c-66ec-11ef-96b3-da7ad0900005", "type": "permissions"}, {"id": "3c06647c-ffe8-11ed-b4b4-da7ad0900005",
+        "type": "permissions"}, {"id": "8b276eb6-7aff-11ed-9d0d-da7ad0900005", "type":
+        "permissions"}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions"},
+        {"id": "11280c24-cce8-11ee-af00-da7ad0900005", "type": "permissions"}, {"id":
+        "619b2642-f41b-11ed-b4e1-da7ad0900005", "type": "permissions"}, {"id": "619b8f9c-f41b-11ed-b4e1-da7ad0900005",
+        "type": "permissions"}, {"id": "33ee9a80-ccc0-11ed-861a-da7ad0900005", "type":
+        "permissions"}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005", "type": "permissions"},
         {"id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"}, {"id":
         "ac2cf7d8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"}, {"id": "f5e054da-4792-11ec-944b-da7ad0900005",
         "type": "permissions"}, {"id": "f5e1489a-4792-11ec-944b-da7ad0900005", "type":
@@ -2457,18 +2501,18 @@ interactions:
         "permissions"}, {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"},
         {"id": "1d47fcb8-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
         "1d472d7e-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005",
-        "type": "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
-        "permissions"}, {"id": "9b010d44-da87-11ef-9de6-da7ad0900005", "type": "permissions"},
-        {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id":
-        "214c10b2-d3d9-11e9-a614-3759c7ad528f", "type": "permissions"}, {"id": "9b00ed28-da87-11ef-9de6-da7ad0900005",
-        "type": "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005", "type":
-        "permissions"}, {"id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005", "type": "permissions"},
-        {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions"}, {"id":
-        "9b5d3748-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id": "9b5d3bbc-b72a-11ef-bb07-da7ad0900005",
-        "type": "permissions"}, {"id": "8b28b686-7aff-11ed-9d0d-da7ad0900005", "type":
-        "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type": "permissions"},
-        {"id": "4a6cadb6-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id":
-        "9bb09240-0fee-11f0-958c-da7ad0900005", "type": "permissions"}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
+        "type": "permissions"}, {"id": "9b010d44-da87-11ef-9de6-da7ad0900005", "type":
+        "permissions"}, {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"},
+        {"id": "214c10b2-d3d9-11e9-a614-3759c7ad528f", "type": "permissions"}, {"id":
+        "9b00ed28-da87-11ef-9de6-da7ad0900005", "type": "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005",
+        "type": "permissions"}, {"id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005", "type":
+        "permissions"}, {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions"},
+        {"id": "9b5d3748-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id":
+        "9b5d3bbc-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id": "8b28b686-7aff-11ed-9d0d-da7ad0900005",
+        "type": "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type":
+        "permissions"}, {"id": "4a6cadb6-e806-11ef-8710-da7ad0900005", "type": "permissions"},
+        {"id": "9bb09240-0fee-11f0-958c-da7ad0900005", "type": "permissions"}, {"id":
+        "db45b75e-0360-11f0-8ac3-da7ad0900005", "type": "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005",
         "type": "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005", "type":
         "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"},
         {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"}, {"id":
@@ -3522,11 +3566,14 @@ interactions:
         "display_type": "write", "group_name": "On-Call", "name": "on_call_page",
         "restricted": false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description":
-        "View Error Tracking data.", "display_name": "Error Tracking Read", "display_type":
-        "read", "group_name": "Error Tracking", "name": "error_tracking_read", "restricted":
-        false}}, {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-02-03T23:42:07.592356Z", "description": "Acknowledge,
-        resolve pages and edit overrides. Allow users to configure their On-Call profile.",
+        "View Error Tracking data, including stack traces, error messages, and context.
+        Also includes issue classifications and statuses such as For Review and Reviewed.
+        If Exception Replay is enabled, includes variable values captured from exceptions.",
+        "display_name": "Error Tracking Read", "display_type": "read", "group_name":
+        "Error Tracking", "name": "error_tracking_read", "restricted": false}}, {"id":
+        "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-02-03T23:42:07.592356Z", "description": "Acknowledge, resolve
+        pages and edit overrides. Allow users to configure their On-Call profile.",
         "display_name": "On-Call Responder", "display_type": "write", "group_name":
         "On-Call", "name": "on_call_respond", "restricted": false}}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-02-10T23:25:18.781209Z",
@@ -3557,10 +3604,15 @@ interactions:
         {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-02-28T19:06:40.038336Z", "description": "Read terminal recordings.",
         "display_name": "CoTerm Read", "display_type": "read", "group_name": "CoTerm",
-        "name": "coterm_read", "restricted": false}}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
-        "type": "permissions", "attributes": {"created": "2025-03-17T18:51:37.899118Z",
-        "description": "View infrastructure diagrams in the Cloudcraft product.",
-        "display_name": "Cloudcraft Read", "display_type": "read", "group_name": "Infrastructure",
+        "name": "coterm_read", "restricted": false}}, {"id": "02e65e42-fabc-11ef-a653-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-03-06T18:51:28.120564Z",
+        "description": "Capture messages from Kafka topics in the Data Streams Monitoring
+        product.", "display_name": "Data Streams Monitoring Capture Messages", "display_type":
+        "write", "group_name": "Data Streams Monitoring", "name": "data_streams_monitoring_capture_messages",
+        "restricted": false}}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-03-17T18:51:37.899118Z", "description":
+        "View infrastructure diagrams in the Cloudcraft product.", "display_name":
+        "Cloudcraft Read", "display_type": "read", "group_name": "Infrastructure",
         "name": "cloudcraft_read", "restricted": false}}, {"id": "9bb09240-0fee-11f0-958c-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-02T18:16:33.714415Z",
         "description": "View NDM device profiles.", "display_name": "NDM Device Profiles
@@ -3612,7 +3664,11 @@ interactions:
         {"created": "2025-07-01T14:36:49.982499Z", "description": "Execute actions
         in the Bits AI Action Interface.", "display_name": "Actions Interface Run",
         "display_type": "write", "group_name": "App Builder & Workflow Automation",
-        "name": "actions_interface_run", "restricted": false}}]}'
+        "name": "actions_interface_run", "restricted": false}}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
+        "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
+        "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
+        "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -4656,11 +4712,14 @@ interactions:
         "display_type": "write", "group_name": "On-Call", "name": "on_call_page",
         "restricted": false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description":
-        "View Error Tracking data.", "display_name": "Error Tracking Read", "display_type":
-        "read", "group_name": "Error Tracking", "name": "error_tracking_read", "restricted":
-        false}}, {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-02-03T23:42:07.592356Z", "description": "Acknowledge,
-        resolve pages and edit overrides. Allow users to configure their On-Call profile.",
+        "View Error Tracking data, including stack traces, error messages, and context.
+        Also includes issue classifications and statuses such as For Review and Reviewed.
+        If Exception Replay is enabled, includes variable values captured from exceptions.",
+        "display_name": "Error Tracking Read", "display_type": "read", "group_name":
+        "Error Tracking", "name": "error_tracking_read", "restricted": false}}, {"id":
+        "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-02-03T23:42:07.592356Z", "description": "Acknowledge, resolve
+        pages and edit overrides. Allow users to configure their On-Call profile.",
         "display_name": "On-Call Responder", "display_type": "write", "group_name":
         "On-Call", "name": "on_call_respond", "restricted": false}}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-02-10T23:25:18.781209Z",
@@ -4691,10 +4750,15 @@ interactions:
         {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-02-28T19:06:40.038336Z", "description": "Read terminal recordings.",
         "display_name": "CoTerm Read", "display_type": "read", "group_name": "CoTerm",
-        "name": "coterm_read", "restricted": false}}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
-        "type": "permissions", "attributes": {"created": "2025-03-17T18:51:37.899118Z",
-        "description": "View infrastructure diagrams in the Cloudcraft product.",
-        "display_name": "Cloudcraft Read", "display_type": "read", "group_name": "Infrastructure",
+        "name": "coterm_read", "restricted": false}}, {"id": "02e65e42-fabc-11ef-a653-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-03-06T18:51:28.120564Z",
+        "description": "Capture messages from Kafka topics in the Data Streams Monitoring
+        product.", "display_name": "Data Streams Monitoring Capture Messages", "display_type":
+        "write", "group_name": "Data Streams Monitoring", "name": "data_streams_monitoring_capture_messages",
+        "restricted": false}}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-03-17T18:51:37.899118Z", "description":
+        "View infrastructure diagrams in the Cloudcraft product.", "display_name":
+        "Cloudcraft Read", "display_type": "read", "group_name": "Infrastructure",
         "name": "cloudcraft_read", "restricted": false}}, {"id": "9bb09240-0fee-11f0-958c-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-02T18:16:33.714415Z",
         "description": "View NDM device profiles.", "display_name": "NDM Device Profiles
@@ -4746,7 +4810,11 @@ interactions:
         {"created": "2025-07-01T14:36:49.982499Z", "description": "Execute actions
         in the Bits AI Action Interface.", "display_name": "Actions Interface Run",
         "display_type": "write", "group_name": "App Builder & Workflow Automation",
-        "name": "actions_interface_run", "restricted": false}}]}'
+        "name": "actions_interface_run", "restricted": false}}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
+        "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
+        "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
+        "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -5790,11 +5858,14 @@ interactions:
         "display_type": "write", "group_name": "On-Call", "name": "on_call_page",
         "restricted": false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description":
-        "View Error Tracking data.", "display_name": "Error Tracking Read", "display_type":
-        "read", "group_name": "Error Tracking", "name": "error_tracking_read", "restricted":
-        false}}, {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-02-03T23:42:07.592356Z", "description": "Acknowledge,
-        resolve pages and edit overrides. Allow users to configure their On-Call profile.",
+        "View Error Tracking data, including stack traces, error messages, and context.
+        Also includes issue classifications and statuses such as For Review and Reviewed.
+        If Exception Replay is enabled, includes variable values captured from exceptions.",
+        "display_name": "Error Tracking Read", "display_type": "read", "group_name":
+        "Error Tracking", "name": "error_tracking_read", "restricted": false}}, {"id":
+        "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-02-03T23:42:07.592356Z", "description": "Acknowledge, resolve
+        pages and edit overrides. Allow users to configure their On-Call profile.",
         "display_name": "On-Call Responder", "display_type": "write", "group_name":
         "On-Call", "name": "on_call_respond", "restricted": false}}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-02-10T23:25:18.781209Z",
@@ -5825,10 +5896,15 @@ interactions:
         {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-02-28T19:06:40.038336Z", "description": "Read terminal recordings.",
         "display_name": "CoTerm Read", "display_type": "read", "group_name": "CoTerm",
-        "name": "coterm_read", "restricted": false}}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
-        "type": "permissions", "attributes": {"created": "2025-03-17T18:51:37.899118Z",
-        "description": "View infrastructure diagrams in the Cloudcraft product.",
-        "display_name": "Cloudcraft Read", "display_type": "read", "group_name": "Infrastructure",
+        "name": "coterm_read", "restricted": false}}, {"id": "02e65e42-fabc-11ef-a653-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-03-06T18:51:28.120564Z",
+        "description": "Capture messages from Kafka topics in the Data Streams Monitoring
+        product.", "display_name": "Data Streams Monitoring Capture Messages", "display_type":
+        "write", "group_name": "Data Streams Monitoring", "name": "data_streams_monitoring_capture_messages",
+        "restricted": false}}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-03-17T18:51:37.899118Z", "description":
+        "View infrastructure diagrams in the Cloudcraft product.", "display_name":
+        "Cloudcraft Read", "display_type": "read", "group_name": "Infrastructure",
         "name": "cloudcraft_read", "restricted": false}}, {"id": "9bb09240-0fee-11f0-958c-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-02T18:16:33.714415Z",
         "description": "View NDM device profiles.", "display_name": "NDM Device Profiles
@@ -5880,7 +5956,11 @@ interactions:
         {"created": "2025-07-01T14:36:49.982499Z", "description": "Execute actions
         in the Bits AI Action Interface.", "display_name": "Actions Interface Run",
         "display_type": "write", "group_name": "App Builder & Workflow Automation",
-        "name": "actions_interface_run", "restricted": false}}]}'
+        "name": "actions_interface_run", "restricted": false}}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
+        "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
+        "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
+        "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -6924,11 +7004,14 @@ interactions:
         "display_type": "write", "group_name": "On-Call", "name": "on_call_page",
         "restricted": false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description":
-        "View Error Tracking data.", "display_name": "Error Tracking Read", "display_type":
-        "read", "group_name": "Error Tracking", "name": "error_tracking_read", "restricted":
-        false}}, {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-02-03T23:42:07.592356Z", "description": "Acknowledge,
-        resolve pages and edit overrides. Allow users to configure their On-Call profile.",
+        "View Error Tracking data, including stack traces, error messages, and context.
+        Also includes issue classifications and statuses such as For Review and Reviewed.
+        If Exception Replay is enabled, includes variable values captured from exceptions.",
+        "display_name": "Error Tracking Read", "display_type": "read", "group_name":
+        "Error Tracking", "name": "error_tracking_read", "restricted": false}}, {"id":
+        "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-02-03T23:42:07.592356Z", "description": "Acknowledge, resolve
+        pages and edit overrides. Allow users to configure their On-Call profile.",
         "display_name": "On-Call Responder", "display_type": "write", "group_name":
         "On-Call", "name": "on_call_respond", "restricted": false}}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-02-10T23:25:18.781209Z",
@@ -6959,10 +7042,15 @@ interactions:
         {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-02-28T19:06:40.038336Z", "description": "Read terminal recordings.",
         "display_name": "CoTerm Read", "display_type": "read", "group_name": "CoTerm",
-        "name": "coterm_read", "restricted": false}}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
-        "type": "permissions", "attributes": {"created": "2025-03-17T18:51:37.899118Z",
-        "description": "View infrastructure diagrams in the Cloudcraft product.",
-        "display_name": "Cloudcraft Read", "display_type": "read", "group_name": "Infrastructure",
+        "name": "coterm_read", "restricted": false}}, {"id": "02e65e42-fabc-11ef-a653-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-03-06T18:51:28.120564Z",
+        "description": "Capture messages from Kafka topics in the Data Streams Monitoring
+        product.", "display_name": "Data Streams Monitoring Capture Messages", "display_type":
+        "write", "group_name": "Data Streams Monitoring", "name": "data_streams_monitoring_capture_messages",
+        "restricted": false}}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-03-17T18:51:37.899118Z", "description":
+        "View infrastructure diagrams in the Cloudcraft product.", "display_name":
+        "Cloudcraft Read", "display_type": "read", "group_name": "Infrastructure",
         "name": "cloudcraft_read", "restricted": false}}, {"id": "9bb09240-0fee-11f0-958c-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-02T18:16:33.714415Z",
         "description": "View NDM device profiles.", "display_name": "NDM Device Profiles
@@ -7014,7 +7102,11 @@ interactions:
         {"created": "2025-07-01T14:36:49.982499Z", "description": "Execute actions
         in the Bits AI Action Interface.", "display_name": "Actions Interface Run",
         "display_type": "write", "group_name": "App Builder & Workflow Automation",
-        "name": "actions_interface_run", "restricted": false}}]}'
+        "name": "actions_interface_run", "restricted": false}}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
+        "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
+        "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
+        "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
