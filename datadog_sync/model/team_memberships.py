@@ -32,21 +32,38 @@ class TeamMemberships(BaseResource):
     team_memberships_path = "/api/v2/team/{}/memberships"
     destination_team_memberships: List[Dict] = []
     # Additional TeamMemberships specific attributes
-    pagination_config = PaginationConfig(remaining_func=lambda *args: 1)
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         # get all the teams
+        teams_pagination_config = PaginationConfig(
+            page_size=100,
+            page_number_param="page[number]",
+            page_size_param="page[size]",
+            remaining_func=lambda idx, resp, page_size, page_number: max(
+                0,
+                resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
+            ),
+        )
         teams = await client.paginated_request(client.get)(
             self.resource_config.base_path,
-            pagination_config=self.pagination_config,
+            pagination_config=teams_pagination_config,
         )
 
         # iterate over the teams and create a list of all members of all teams
         all_team_memberships = []
         for team in teams:
+            members_pagination_config = PaginationConfig(
+                page_size=100,
+                page_number_param="page[number]",
+                page_size_param="page[size]",
+                remaining_func=lambda idx, resp, page_size, page_number: max(
+                    0,
+                    resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
+                ),
+            )
             members_of_team = await client.paginated_request(client.get)(
                 self.team_memberships_path.format(team["id"]),
-                pagination_config=self.pagination_config,
+                pagination_config=members_pagination_config,
             )
 
             # add the team relationship
@@ -58,11 +75,20 @@ class TeamMemberships(BaseResource):
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
+        pagination_config = PaginationConfig(
+            page_size=100,
+            page_number_param="page[number]",
+            page_size_param="page[size]",
+            remaining_func=lambda idx, resp, page_size, page_number: max(
+                0,
+                resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
+            ),
+        )
 
         if _id:
             resource = await source_client.paginated_request(source_client.get)(
                 self.team_memberships_path.format(_id),
-                pagination_config=self.pagination_config,
+                pagination_config=pagination_config,
             )
 
         resource = cast(dict, resource)

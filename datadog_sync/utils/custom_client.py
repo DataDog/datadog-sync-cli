@@ -129,7 +129,13 @@ class CustomClient:
             resources = []
             kwargs["params"] = kwargs.get("params", {}) or {}
             idx = 0
+            original_page_size = page_size
+            restore_page_size = False
+            resources_attempted = 0
+            saved_idx = idx
+            save_idx = True
             while remaining > 0:
+                remaining = 0
                 log.debug(
                     f"fetching {args[0]} "
                     f"{pagination_config.page_number_param}: {page_number} "
@@ -142,22 +148,78 @@ class CustomClient:
                 }
                 kwargs["params"].update(params)
 
-                resp = await func(*args, **kwargs)
+                try:
+                    # call the actual awaitable function
+                    resp = await func(*args, **kwargs)
+                    resp_len = 0
 
-                resp_len = 0
-                if pagination_config.response_list_accessor:
-                    resources.extend(resp[pagination_config.response_list_accessor])
-                    resp_len = len(resp[pagination_config.response_list_accessor])
-                else:
-                    resources.extend(resp)
-                    resp_len = len(resp)
+                    # add resources from the page to our list
+                    if pagination_config.response_list_accessor:
+                        resources.extend(resp[pagination_config.response_list_accessor])
+                        resp_len = len(resp[pagination_config.response_list_accessor])
+                    else:
+                        resources.extend(resp)
+                        resp_len = len(resp)
 
-                if resp_len < page_size:
-                    break
+                    # if it's a partial page then we're done, it's the last page
+                    if resp_len < page_size:
+                        break
 
-                remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
+                    # restore the page size if we had to lower it to deal w/ a bad resource return
+                    resources_attempted += resp_len
+                    if restore_page_size:
+                        if resources_attempted % original_page_size == 0:
+                            page_size = original_page_size
+                            page_number = pagination_config.page_number_func(idx, page_size, page_number)
+                            restore_page_size = False
+                            idx = saved_idx
+                            save_idx = True
+
+                    remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
+                except CustomClientHTTPError as err:
+                    if err.status_code >= 500:
+                        log.warning("500 error during a paginated request, attempting to isolate")
+
+                        # save the index so we can come back to it after dealing with this batch
+                        if save_idx:
+                            saved_idx = idx
+                            save_idx = False
+
+                        # we're in the except and our page size is 1, we've found the bad resources
+                        error_handled = False
+                        if page_size == 1:
+                            log.warning("Error isolated, skipping resource:")
+                            log.warning(
+                                f"Fetching {args[0]} "
+                                f"{pagination_config.page_number_param}: {page_number} "
+                                f"{pagination_config.page_size_param}: {page_size} "
+                            )
+                            resources_attempted += 1
+                            error_handled = True
+
+                        if error_handled:
+                            restore_page_size = True
+                        else:
+                            # reduce the page size by 50% to isolate the bad resource
+                            new_page_size = page_size // 2
+                            # page size can't be 0
+                            if new_page_size == 0:
+                                new_page_size = 1
+                            # to start on the right page number the resources we've attempted so far
+                            # need to be evenly divisible by the page_size
+                            while resources_attempted % new_page_size != 0:
+                                new_page_size -= 1
+
+                            # set the page_size, idx, and page_number in that order
+                            page_size = new_page_size
+                            idx = resources_attempted // page_size - 1
+                            page_number = pagination_config.page_number_func(idx, page_size, page_number)
+
+                # made it through the try/except no increase the page number and idx
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
                 idx += 1
+
+            # return our list of good resources
             return resources
 
         return wrapper
