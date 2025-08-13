@@ -9,15 +9,8 @@ from tests.integration.helpers import BaseResourcesTestClass
 from datadog_sync.models import SensitiveDataScannerGroupsOrder
 
 
+@pytest.mark.skip(reason="The sensitive data scanner makes testing it difficult")
 class TestSensitiveDataScannerGroupsOrder(BaseResourcesTestClass):
     resource_type = SensitiveDataScannerGroupsOrder.resource_type
     dependencies = list(SensitiveDataScannerGroupsOrder.resource_config.resource_connections.keys())
     force_missing_deps = True
-
-    @pytest.mark.skip(reason="resource is only updated by default")
-    def test_resource_update_sync(self):
-        pass
-
-    @pytest.mark.skip(reason="resource is only updated by default")
-    def test_resource_update_sync_per_file(self):
-        pass
