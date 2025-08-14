@@ -198,7 +198,7 @@ class CustomClient:
                             resources_attempted += 1
                             error_handled = True
                         else:
-                            remaining = 1 # keep going
+                            remaining = 1  # keep going
 
                         if error_handled:
                             restore_page_size = True
