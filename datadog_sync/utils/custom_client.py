@@ -176,6 +176,7 @@ class CustomClient:
                             idx = saved_idx
                             save_idx = True
 
+                    remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
                 except CustomClientHTTPError as err:
                     if err.status_code >= 500:
                         log.warning("500 error during a paginated request, attempting to isolate")
@@ -196,6 +197,8 @@ class CustomClient:
                             )
                             resources_attempted += 1
                             error_handled = True
+                        else:
+                            remaining = 1 # keep going
 
                         if error_handled:
                             restore_page_size = True
@@ -216,7 +219,6 @@ class CustomClient:
                             page_number = pagination_config.page_number_func(idx, page_size, page_number)
 
                 # made it through the try/except no increase the page number and idx
-                remaining = pagination_config.remaining_func(idx, resp, page_size, page_number)
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
                 idx += 1
 
