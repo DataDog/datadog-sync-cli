@@ -1314,17 +1314,18 @@ interactions:
         Edit", "display_type": "write", "group_name": "Network Device Monitoring",
         "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
-        "description": "Read NDM data.", "display_name": "NDM Read", "display_type":
-        "read", "group_name": "Network Device Monitoring", "name": "ndm_devices_read",
-        "restricted": false}}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z", "description":
-        "Write NDM device tags.", "display_name": "NDM Device Tags Write", "display_type":
-        "write", "group_name": "Network Device Monitoring", "name": "ndm_device_tags_write",
-        "restricted": false}}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z", "description":
-        "View workload autoscaling objects and recommendations. Note: This permission
-        is in Preview Mode and will be enforced soon.", "display_name": "Workload
-        Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
+        "description": "Read NDM data directly. Note: even without this permission,
+        NDM data can be retrieved via general infrastructure query APIs.", "display_name":
+        "NDM Read", "display_type": "read", "group_name": "Network Device Monitoring",
+        "name": "ndm_devices_read", "restricted": false}}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
+        "description": "Write NDM device tags.", "display_name": "NDM Device Tags
+        Write", "display_type": "write", "group_name": "Network Device Monitoring",
+        "name": "ndm_device_tags_write", "restricted": false}}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
+        "description": "View workload autoscaling objects and recommendations. Note:
+        This permission is in Preview Mode and will be enforced soon.", "display_name":
+        "Workload Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
         "name": "orchestration_workload_scaling_read", "restricted": false}}, {"id":
         "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.
@@ -1359,7 +1360,17 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
         "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
         "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
-        "restricted": false}}]}'
+        "restricted": false}}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description":
+        "View all report schedules and manage only the ones they''ve created.", "display_name":
+        "Cloud Cost Report Schedules Write", "display_type": "write", "group_name":
+        "Cloud Cost Management", "name": "generate_ccm_report_schedules", "restricted":
+        false}}, {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description": "View,
+        create, and fully manage all report schedules across the organization.", "display_name":
+        "Cloud Cost Report Schedules Manage", "display_type": "write", "group_name":
+        "Cloud Cost Management", "name": "manage_ccm_report_schedules", "restricted":
+        false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -1755,7 +1766,7 @@ interactions:
         "type": "permissions"}, {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type":
         "permissions"}]}}}, {"id": "4e508ad0-1630-11f0-a6fb-da7ad0900005", "type":
         "roles", "attributes": {"created_at": "2025-04-10T17:21:57.647641Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2025-08-11T18:34:01.486884Z",
+        "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.162015Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Admin Role", "team_count": 0, "user_count": 8}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -1946,17 +1957,19 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "f27c14ba-34d2-11f0-8b57-da7ad0900005", "type": "permissions"},
         {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
         "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "7a662f7c-5ce8-11f0-abff-da7ad0900005",
-        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
-        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
-        {"id": "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes":
-        {"created_at": "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005", "type":
+        "permissions"}, {"id": "f8df8236-5db0-11f0-a618-da7ad0900005", "type": "permissions"},
+        {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type": "permissions"}, {"id":
+        "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
         "modified_at": "2025-06-10T12:59:04.70116Z", "modified_by_handle": "michael.richey@datadoghq.com",
         "name": "Datadog Read Only Role", "team_count": 0, "user_count": 3}, "relationships":
         {"permissions": {"data": [{"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type":
@@ -2012,12 +2025,12 @@ interactions:
         {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id":
         "8ccad534-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id":
-        "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
         "type": "permissions"}]}}}, {"id": "514c41b6-1630-11f0-910b-da7ad0900005",
         "type": "roles", "attributes": {"created_at": "2025-04-10T17:22:02.665532Z",
-        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-05T20:23:53.273256Z",
+        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.226408Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Standard Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -2164,16 +2177,23 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
         {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
-        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005",
-        "type": "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type":
-        "permissions"}]}}}], "meta": {"page": {"total_count": 4, "total_filtered_count":
-        4}}}'
+        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005",
+        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
+        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
+        {"id": "183a94ae-7864-11f0-a118-da7ad0900005", "type": "roles", "attributes":
+        {"created_at": "2025-08-13T16:39:34.702927Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "modified_at": "2025-08-13T16:55:21.875653Z", "modified_by_handle": "michael.richey@datadoghq.com",
+        "name": "Minimum DDR Role", "team_count": 0, "user_count": 1}, "relationships":
+        {"permissions": {"data": [{"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type":
+        "permissions"}, {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}]}}}],
+        "meta": {"page": {"total_count": 5, "total_filtered_count": 5}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -2372,7 +2392,7 @@ interactions:
         "type": "permissions"}, {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type":
         "permissions"}]}}}, {"id": "4e508ad0-1630-11f0-a6fb-da7ad0900005", "type":
         "roles", "attributes": {"created_at": "2025-04-10T17:21:57.647641Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2025-08-11T18:34:01.486884Z",
+        "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.162015Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Admin Role", "team_count": 0, "user_count": 8}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -2563,17 +2583,19 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "f27c14ba-34d2-11f0-8b57-da7ad0900005", "type": "permissions"},
         {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
         "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "7a662f7c-5ce8-11f0-abff-da7ad0900005",
-        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
-        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
-        {"id": "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes":
-        {"created_at": "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005", "type":
+        "permissions"}, {"id": "f8df8236-5db0-11f0-a618-da7ad0900005", "type": "permissions"},
+        {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type": "permissions"}, {"id":
+        "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
         "modified_at": "2025-06-10T12:59:04.70116Z", "modified_by_handle": "michael.richey@datadoghq.com",
         "name": "Datadog Read Only Role", "team_count": 0, "user_count": 3}, "relationships":
         {"permissions": {"data": [{"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type":
@@ -2629,12 +2651,12 @@ interactions:
         {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id":
         "8ccad534-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id":
-        "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
         "type": "permissions"}]}}}, {"id": "514c41b6-1630-11f0-910b-da7ad0900005",
         "type": "roles", "attributes": {"created_at": "2025-04-10T17:22:02.665532Z",
-        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-05T20:23:53.273256Z",
+        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.226408Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Standard Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -2781,16 +2803,23 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
         {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
-        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005",
-        "type": "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type":
-        "permissions"}]}}}], "meta": {"page": {"total_count": 4, "total_filtered_count":
-        4}}}'
+        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005",
+        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
+        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
+        {"id": "183a94ae-7864-11f0-a118-da7ad0900005", "type": "roles", "attributes":
+        {"created_at": "2025-08-13T16:39:34.702927Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "modified_at": "2025-08-13T16:55:21.875653Z", "modified_by_handle": "michael.richey@datadoghq.com",
+        "name": "Minimum DDR Role", "team_count": 0, "user_count": 1}, "relationships":
+        {"permissions": {"data": [{"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type":
+        "permissions"}, {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}]}}}],
+        "meta": {"page": {"total_count": 5, "total_filtered_count": 5}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -2808,10 +2837,10 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/authn_mappings
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "518238b2-784a-11f0-9db8-da7ad0900005",
+      string: '{"data": {"type": "authn_mappings", "id": "e0735ed6-79ec-11f0-b797-da7ad0900005",
         "attributes": {"saml_assertion_attribute_id": "3699", "attribute_key": "name",
-        "attribute_value": "michael", "created_at": "2025-08-13T13:35:03.888223+00:00",
-        "modified_at": "2025-08-13T13:35:03.888223+00:00"}, "relationships": {"saml_assertion_attribute":
+        "attribute_value": "michael", "created_at": "2025-08-15T15:31:13.337607+00:00",
+        "modified_at": "2025-08-15T15:31:13.337607+00:00"}, "relationships": {"saml_assertion_attribute":
         {"data": {"type": "saml_assertion_attributes", "id": "3699"}}, "role": {"data":
         {"type": "roles", "id": "512f60fa-1630-11f0-910b-da7ad0900005"}}, "team":
         {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
@@ -3016,76 +3045,80 @@ interactions:
         "created_at": "2025-08-01T20:45:12.043180+00:00", "modified_at": "2025-08-01T21:35:25.635446+00:00",
         "email": "ida.adjivon@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/d3ff11e3ff125d30050f4dfff3fa614c?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
-        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
-        {"roles": {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
-        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
-        {"type": "users", "id": "81f6f2c7-923f-11ef-879a-6ee0822e247c", "attributes":
-        {"name": "Justine Lo", "handle": "justine.lo@datadoghq.com", "created_at":
-        "2024-10-24T19:38:13.281489+00:00", "modified_at": "2024-10-25T14:18:33.835459+00:00",
-        "email": "justine.lo@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/7d75964971289cf50e6090d76b45e3f6?s=48&d=retro",
+        "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
+        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
+        "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]}, "org": {"data": {"type":
+        "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type": "users",
+        "id": "81f6f2c7-923f-11ef-879a-6ee0822e247c", "attributes": {"name": "Justine
+        Lo", "handle": "justine.lo@datadoghq.com", "created_at": "2024-10-24T19:38:13.281489+00:00",
+        "modified_at": "2024-10-25T14:18:33.835459+00:00", "email": "justine.lo@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/7d75964971289cf50e6090d76b45e3f6?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
-        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
-        {"roles": {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
-        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
-        {"type": "users", "id": "b301b340-8582-11ef-ba31-3219ecc6cb25", "attributes":
-        {"name": "Louis Cheynel", "handle": "louis.cheynel@datadoghq.com", "created_at":
-        "2024-10-08T14:36:26.725077+00:00", "modified_at": "2025-02-19T21:12:46.164959+00:00",
-        "email": "louis.cheynel@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/791d1a56daa2bd0f5bb25ed286d3f8bb?s=48&d=retro",
+        "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
+        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
+        "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]}, "org": {"data": {"type":
+        "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type": "users",
+        "id": "b301b340-8582-11ef-ba31-3219ecc6cb25", "attributes": {"name": "Louis
+        Cheynel", "handle": "louis.cheynel@datadoghq.com", "created_at": "2024-10-08T14:36:26.725077+00:00",
+        "modified_at": "2025-02-19T21:12:46.164959+00:00", "email": "louis.cheynel@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/791d1a56daa2bd0f5bb25ed286d3f8bb?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": true,
-        "allowed_login_methods": [], "status": "Disabled", "mfa_enabled": false},
-        "relationships": {"roles": {"data": [{"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"}]},
-        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
-        {"type": "users", "id": "30533c3c-8582-11ef-938f-cecf6f9ed4ad", "attributes":
-        {"name": "Michael Richey", "handle": "michael.richey+ddreu1@datadoghq.com",
-        "created_at": "2024-10-08T14:32:47.477901+00:00", "modified_at": "2024-10-08T14:32:47.477901+00:00",
-        "email": "michael.richey+ddreu1@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/b5b0452adbe01caf57c1e5f6fb97a631?s=48&d=retro",
+        "allowed_login_methods": ["google_oidc", "standard"], "status": "Disabled",
+        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
+        "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"}]}, "org": {"data": {"type":
+        "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type": "users",
+        "id": "30533c3c-8582-11ef-938f-cecf6f9ed4ad", "attributes": {"name": "Michael
+        Richey", "handle": "michael.richey+ddreu1@datadoghq.com", "created_at": "2024-10-08T14:32:47.477901+00:00",
+        "modified_at": "2024-10-08T14:32:47.477901+00:00", "email": "michael.richey+ddreu1@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/b5b0452adbe01caf57c1e5f6fb97a631?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
-        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
-        {"roles": {"data": [{"type": "roles", "id": "693fe720-9569-11ef-969d-da7ad0900005"},
-        {"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]}, "org":
-        {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
+        "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
+        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
+        "id": "693fe720-9569-11ef-969d-da7ad0900005"}, {"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
         {"type": "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "attributes":
         {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "created_at":
         "2024-10-21T18:30:50.420260+00:00", "modified_at": "2025-03-03T15:47:53.789029+00:00",
         "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
-        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
-        {"roles": {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
-        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
-        {"type": "users", "id": "b32e572e-8582-11ef-98fe-f2a776cd34b8", "attributes":
-        {"name": "Ron Hay", "handle": "ron.hay@datadoghq.com", "created_at": "2024-10-08T14:36:27.017641+00:00",
+        "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
+        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
+        "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]}, "org": {"data": {"type":
+        "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type": "users",
+        "id": "b32e572e-8582-11ef-98fe-f2a776cd34b8", "attributes": {"name": "Ron
+        Hay", "handle": "ron.hay@datadoghq.com", "created_at": "2024-10-08T14:36:27.017641+00:00",
         "modified_at": "2025-06-10T13:33:23.138895+00:00", "email": "ron.hay@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/1c9c2a5daac55fc5ae86178cd5e7b9c2?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
-        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
-        {"roles": {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"},
-        {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"}, {"type":
-        "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org": {"data":
-        {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type":
-        "users", "id": "265f9002-9b9e-11ef-9152-56a58ecd5b70", "attributes": {"name":
-        "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "created_at":
+        "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
+        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
+        "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}, {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"},
+        {"type": "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org":
+        {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
+        {"type": "users", "id": "265f9002-9b9e-11ef-9152-56a58ecd5b70", "attributes":
+        {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "created_at":
         "2024-11-05T17:48:22.271026+00:00", "modified_at": "2025-01-23T19:52:06.634848+00:00",
         "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
-        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
-        {"roles": {"data": [{"type": "roles", "id": "693fe720-9569-11ef-969d-da7ad0900005"},
-        {"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}, {"type":
-        "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org": {"data":
-        {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type":
-        "users", "id": "b32f283f-8582-11ef-be6e-1e59aae1ca5b", "attributes": {"name":
-        "Tim Alexander", "handle": "tim.alexander@datadoghq.com", "created_at": "2024-10-08T14:36:27.022996+00:00",
-        "modified_at": "2024-10-08T15:29:54.659973+00:00", "email": "tim.alexander@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/6269dae26686287d4bdd307a26e33f34?s=48&d=retro",
+        "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
+        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
+        "id": "693fe720-9569-11ef-969d-da7ad0900005"}, {"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"},
+        {"type": "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org":
+        {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
+        {"type": "users", "id": "b32f283f-8582-11ef-be6e-1e59aae1ca5b", "attributes":
+        {"name": "Tim Alexander", "handle": "tim.alexander@datadoghq.com", "created_at":
+        "2024-10-08T14:36:27.022996+00:00", "modified_at": "2024-10-08T15:29:54.659973+00:00",
+        "email": "tim.alexander@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/6269dae26686287d4bdd307a26e33f34?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
-        "allowed_login_methods": [], "status": "Active", "mfa_enabled": false}, "relationships":
-        {"roles": {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"},
-        {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"}, {"type":
-        "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org": {"data":
-        {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}], "included":
-        [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005", "attributes":
-        {"name": "Datadog Admin Role", "managed": true, "created_at": "2024-10-08T14:32:47.147289+00:00",
-        "modified_at": "2024-10-08T14:32:47.147932+00:00"}, "relationships": {"permissions":
-        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+        "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
+        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
+        "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}, {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"},
+        {"type": "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org":
+        {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}],
+        "included": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005",
+        "attributes": {"name": "Datadog Admin Role", "managed": true, "created_at":
+        "2024-10-08T14:32:47.147289+00:00", "modified_at": "2024-10-08T14:32:47.147932+00:00"},
+        "relationships": {"permissions": {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c"}, {"type":
         "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type": "permissions",
         "id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039"}, {"type": "permissions", "id":
@@ -3281,8 +3314,10 @@ interactions:
         {"type": "permissions", "id": "2cead6ec-34db-11f0-9eb2-da7ad0900005"}, {"type":
         "permissions", "id": "12465c5e-3a5c-11f0-becd-da7ad0900005"}, {"type": "permissions",
         "id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005"}, {"type": "permissions", "id":
-        "d2c0335e-5688-11f0-ad5e-da7ad0900005"}, {"type": "permissions", "id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005"}]}}},
-        {"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "attributes":
+        "d2c0335e-5688-11f0-ad5e-da7ad0900005"}, {"type": "permissions", "id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005"},
+        {"type": "permissions", "id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005"}, {"type":
+        "permissions", "id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005"}]}}}, {"type":
+        "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "attributes":
         {"name": "logs_read_index_data", "display_name": "Logs Read Index Data", "description":
         "Read log data, possibly scoped to one or more indexes. In order to read log
         data, a user must have both this permission and Logs Read Data. This permission
@@ -4358,11 +4393,12 @@ interactions:
         "group_name": "Network Device Monitoring", "display_type": "write", "restricted":
         false}}, {"type": "permissions", "id": "54f8b154-2153-11f0-9edc-da7ad0900005",
         "attributes": {"name": "ndm_devices_read", "display_name": "NDM Read", "description":
-        "Read NDM data.", "created": "2025-04-24T21:30:24.005670+00:00", "group_name":
-        "Network Device Monitoring", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "attributes":
-        {"name": "ndm_device_tags_write", "display_name": "NDM Device Tags Write",
-        "description": "Write NDM device tags.", "created": "2025-04-24T21:30:24.005670+00:00",
+        "Read NDM data directly. Note: even without this permission, NDM data can
+        be retrieved via general infrastructure query APIs.", "created": "2025-04-24T21:30:24.005670+00:00",
+        "group_name": "Network Device Monitoring", "display_type": "read", "restricted":
+        false}}, {"type": "permissions", "id": "54f96e6e-2153-11f0-9edc-da7ad0900005",
+        "attributes": {"name": "ndm_device_tags_write", "display_name": "NDM Device
+        Tags Write", "description": "Write NDM device tags.", "created": "2025-04-24T21:30:24.005670+00:00",
         "group_name": "Network Device Monitoring", "display_type": "write", "restricted":
         false}}, {"type": "permissions", "id": "54f98c32-2153-11f0-9edc-da7ad0900005",
         "attributes": {"name": "orchestration_workload_scaling_read", "display_name":
@@ -4400,11 +4436,20 @@ interactions:
         "id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005", "attributes": {"name": "ai_guard_evaluate",
         "display_name": "AI Guard Evaluate", "description": "Evaluate AI Guard rules.",
         "created": "2025-07-09T18:30:33.053855+00:00", "group_name": "Application
-        Security", "display_type": "write", "restricted": false}}, {"type": "roles",
-        "id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "attributes": {"name": "Datadog
-        Read Only Role", "managed": true, "created_at": "2024-10-08T14:32:47.265744+00:00",
-        "modified_at": "2024-10-08T14:32:47.266206+00:00"}, "relationships": {"permissions":
-        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+        Security", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "attributes": {"name": "generate_ccm_report_schedules",
+        "display_name": "Cloud Cost Report Schedules Write", "description": "View
+        all report schedules and manage only the ones they''ve created.", "created":
+        "2025-07-10T18:40:35.388063+00:00", "group_name": "Cloud Cost Management",
+        "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
+        "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "attributes": {"name": "manage_ccm_report_schedules",
+        "display_name": "Cloud Cost Report Schedules Manage", "description": "View,
+        create, and fully manage all report schedules across the organization.", "created":
+        "2025-07-10T18:40:35.388063+00:00", "group_name": "Cloud Cost Management",
+        "display_type": "write", "restricted": false}}, {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005",
+        "attributes": {"name": "Datadog Read Only Role", "managed": true, "created_at":
+        "2024-10-08T14:32:47.265744+00:00", "modified_at": "2024-10-08T14:32:47.266206+00:00"},
+        "relationships": {"permissions": {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
         "permissions", "id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee"}, {"type": "permissions",
         "id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d"}, {"type": "permissions", "id":
@@ -4794,8 +4839,9 @@ interactions:
         {"type": "permissions", "id": "12465c5e-3a5c-11f0-becd-da7ad0900005"}, {"type":
         "permissions", "id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005"}, {"type": "permissions",
         "id": "d2c0335e-5688-11f0-ad5e-da7ad0900005"}, {"type": "permissions", "id":
-        "cc7517b0-5cf2-11f0-85d4-da7ad0900005"}]}}}], "meta": {"page": {"total_count":
-        8, "total_filtered_count": 8, "max_page_size": 1000}}}'
+        "cc7517b0-5cf2-11f0-85d4-da7ad0900005"}, {"type": "permissions", "id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005"}]}}}],
+        "meta": {"page": {"total_count": 8, "total_filtered_count": 8, "max_page_size":
+        1000}}}'
     headers:
       Content-Type:
       - application/json
@@ -5188,228 +5234,230 @@ interactions:
         {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"}, {"id":
         "df7cae4a-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"}, {"id": "02e65e42-fabc-11ef-a653-da7ad0900005",
         "type": "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type":
+        "permissions"}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions"},
+        {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions"}, {"id":
+        "54f8b154-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions"}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type":
+        "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions"},
+        {"id": "fbf841c6-2618-11f0-8595-da7ad0900005", "type": "permissions"}, {"id":
+        "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "3032ffb8-8582-11ef-8bad-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2024-10-08T14:32:47.265744Z", "managed": true, "modified_at": "2024-10-08T14:32:47.266206Z",
+        "name": "Datadog Read Only Role", "team_count": 0, "user_count": 2}, "relationships":
+        {"permissions": {"data": [{"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005", "type":
+        "permissions"}, {"id": "21c5475c-228f-11ef-a00d-da7ad0900005", "type": "permissions"},
+        {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "type": "permissions"}, {"id":
+        "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "type": "permissions"}, {"id": "926612da-7a4c-11ed-b809-da7ad0900005",
+        "type": "permissions"}, {"id": "e120d4c0-0969-11ef-965e-da7ad0900005", "type":
+        "permissions"}, {"id": "a05f69c8-5410-11ef-9378-da7ad0900005", "type": "permissions"},
+        {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"}, {"id":
+        "122e20a4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id": "99397470-b16d-11eb-a891-da7ad0900005",
+        "type": "permissions"}, {"id": "f07e4234-e894-11eb-ab79-da7ad0900005", "type":
+        "permissions"}, {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type": "permissions"},
+        {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"}, {"id":
+        "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type": "permissions"}, {"id": "80adf9c4-9898-11ef-8b23-da7ad0900005",
+        "type": "permissions"}, {"id": "b6858556-f925-11ea-9222-1f47b8677b93", "type":
+        "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type": "permissions"},
+        {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "type": "permissions"}, {"id":
+        "4a6cc8b4-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005",
+        "type": "permissions"}, {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005", "type":
+        "permissions"}, {"id": "94c8a4da-de87-11ed-9e92-da7ad0900005", "type": "permissions"},
+        {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "type": "permissions"}, {"id":
+        "e0d31696-aa58-11ea-af96-3b02991750c9", "type": "permissions"}, {"id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005",
+        "type": "permissions"}, {"id": "300f69c6-8114-11ef-84c0-da7ad0900005", "type":
+        "permissions"}, {"id": "f42e4c6e-173a-11ed-8654-da7ad0900005", "type": "permissions"},
+        {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "type": "permissions"}, {"id":
+        "5de1e178-8536-11ea-968a-2fd9395bff90", "type": "permissions"}, {"id": "f33f74be-e746-11ec-87e3-da7ad0900005",
+        "type": "permissions"}, {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005", "type":
+        "permissions"}, {"id": "cccfe6c4-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
+        {"id": "55f64460-7d61-11ed-9c36-da7ad0900005", "type": "permissions"}, {"id":
+        "8b2660ac-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id": "bcc2fb14-2dce-11eb-9145-9b27b816190a",
+        "type": "permissions"}, {"id": "f2f3d048-801f-11eb-9d41-da7ad0900005", "type":
+        "permissions"}, {"id": "7d08a48c-66ec-11ef-96b3-da7ad0900005", "type": "permissions"},
+        {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions"}, {"id":
+        "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"}, {"id": "f5e054da-4792-11ec-944b-da7ad0900005",
+        "type": "permissions"}, {"id": "c94811de-16c7-11ec-88cc-da7ad0900005", "type":
+        "permissions"}, {"id": "cf873174-574f-11ec-9869-da7ad0900005", "type": "permissions"},
+        {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions"}, {"id":
+        "95e9a5ce-5884-11ec-8b3a-da7ad0900005", "type": "permissions"}, {"id": "5034771e-d2a9-11ef-b55e-da7ad0900005",
+        "type": "permissions"}, {"id": "e31e0056-8502-11ec-b266-da7ad0900005", "type":
+        "permissions"}, {"id": "b309fe04-79d5-11ef-a56c-da7ad0900005", "type": "permissions"},
+        {"id": "e31cca10-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id":
+        "3276c638-0ebe-11ee-9428-da7ad0900005", "type": "permissions"}, {"id": "94783714-4e9b-11ee-959b-da7ad0900005",
+        "type": "permissions"}, {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005", "type":
+        "permissions"}, {"id": "2de35000-69e5-11ee-996b-da7ad0900005", "type": "permissions"},
+        {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"}, {"id":
+        "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id": "76e47222-8a30-11ef-8675-da7ad0900005",
+        "type": "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005", "type":
+        "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"},
+        {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"}, {"id":
+        "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"}, {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005",
+        "type": "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005", "type":
+        "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type": "permissions"},
+        {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005", "type": "permissions"}, {"id":
+        "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005",
+        "type": "permissions"}, {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type":
+        "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type": "permissions"},
+        {"id": "54f8b154-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id":
+        "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005",
+        "type": "permissions"}]}}}, {"id": "302b4f34-8582-11ef-b6a4-da7ad0900005",
+        "type": "roles", "attributes": {"created_at": "2024-10-08T14:32:47.215056Z",
+        "managed": true, "modified_at": "2024-10-08T14:32:47.215828Z", "name": "Datadog
+        Standard Role", "team_count": 0, "user_count": 3}, "relationships": {"permissions":
+        {"data": [{"id": "81e488c0-db35-11ed-a170-da7ad0900005", "type": "permissions"},
+        {"id": "24d31064-b9b4-11ec-a2af-da7ad0900005", "type": "permissions"}, {"id":
+        "65eea998-f6a1-11ed-9953-da7ad0900005", "type": "permissions"}, {"id": "ffb0167e-11e1-11ee-8f46-da7ad0900005",
+        "type": "permissions"}, {"id": "046692fa-ec5c-11ea-9483-d713671ea3a9", "type":
+        "permissions"}, {"id": "5dee9f64-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"},
+        {"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005", "type": "permissions"}, {"id":
+        "9311970e-f925-11ea-ab4d-1760e76381c1", "type": "permissions"}, {"id": "ae2f8fbe-f925-11ea-b51c-67ba7de17f88",
+        "type": "permissions"}, {"id": "21c5475c-228f-11ef-a00d-da7ad0900005", "type":
+        "permissions"}, {"id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a", "type": "permissions"},
+        {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "type": "permissions"}, {"id":
+        "7fbea6aa-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5",
+        "type": "permissions"}, {"id": "c7acc6a6-9a59-11ec-9cd5-da7ad0900005", "type":
+        "permissions"}, {"id": "f07f557a-e894-11eb-ab79-da7ad0900005", "type": "permissions"},
+        {"id": "b03b5256-e5c4-11ec-a04e-da7ad0900005", "type": "permissions"}, {"id":
+        "926612da-7a4c-11ed-b809-da7ad0900005", "type": "permissions"}, {"id": "81e4434c-db35-11ed-a170-da7ad0900005",
+        "type": "permissions"}, {"id": "e120d4c0-0969-11ef-965e-da7ad0900005", "type":
+        "permissions"}, {"id": "a05f69c8-5410-11ef-9378-da7ad0900005", "type": "permissions"},
+        {"id": "e49aeb24-2dce-11eb-9145-6b8664bc9097", "type": "permissions"}, {"id":
+        "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"}, {"id": "122e20a4-d36c-11eb-b2bf-da7ad0900005",
+        "type": "permissions"}, {"id": "99397470-b16d-11eb-a891-da7ad0900005", "type":
+        "permissions"}, {"id": "32f12a0a-ba0c-11ee-b34b-da7ad0900005", "type": "permissions"},
+        {"id": "1535624c-9771-11ed-ad25-da7ad0900005", "type": "permissions"}, {"id":
+        "f07e4234-e894-11eb-ab79-da7ad0900005", "type": "permissions"}, {"id": "a726d3bc-f925-11ea-8c05-476d8eebc4cb",
+        "type": "permissions"}, {"id": "37e36580-5440-11eb-91d4-03a23fd3e1d1", "type":
+        "permissions"}, {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type": "permissions"},
+        {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"}, {"id":
+        "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8", "type": "permissions"}, {"id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5",
+        "type": "permissions"}, {"id": "80adf9c4-9898-11ef-8b23-da7ad0900005", "type":
+        "permissions"}, {"id": "b6858556-f925-11ea-9222-1f47b8677b93", "type": "permissions"},
+        {"id": "ca8897be-f925-11ea-a3a2-d30492cbe671", "type": "permissions"}, {"id":
+        "cf223140-f925-11ea-a3a2-df370532bcf7", "type": "permissions"}, {"id": "f42ef088-173a-11ed-8654-da7ad0900005",
+        "type": "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type":
+        "permissions"}, {"id": "2149e512-d3d9-11e9-a614-bb8f0dcf0205", "type": "permissions"},
+        {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "type": "permissions"}, {"id":
+        "4fc2807c-dd15-11e8-9308-d3bfffb7f039", "type": "permissions"}, {"id": "505f4538-dd15-11e8-9308-47a4732f715f",
+        "type": "permissions"}, {"id": "4a6cc8b4-e806-11ef-8710-da7ad0900005", "type":
+        "permissions"}, {"id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee", "type": "permissions"},
+        {"id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id":
+        "5defc9e8-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id": "ace5cc0e-ff71-11ed-b518-da7ad0900005",
+        "type": "permissions"}, {"id": "4316b5b8-093f-11ee-98e9-da7ad0900005", "type":
+        "permissions"}, {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"},
+        {"id": "ae9c303e-f5c4-11ee-b3e7-da7ad0900005", "type": "permissions"}, {"id":
+        "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c", "type": "permissions"}, {"id": "8a78e224-7a5a-11ed-a3ad-da7ad0900005",
+        "type": "permissions"}, {"id": "77ed7a00-b468-11ed-b0f0-da7ad0900005", "type":
+        "permissions"}, {"id": "77ed87a2-b468-11ed-b0f0-da7ad0900005", "type": "permissions"},
+        {"id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4", "type": "permissions"}, {"id":
+        "96a0c17a-f7f8-11ea-add4-d3659d81b152", "type": "permissions"}, {"id": "94c8a4da-de87-11ed-9e92-da7ad0900005",
+        "type": "permissions"}, {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "type":
+        "permissions"}, {"id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14", "type": "permissions"},
+        {"id": "e0d31696-aa58-11ea-af96-3b02991750c9", "type": "permissions"}, {"id":
+        "60759a94-ff6d-11eb-a4f0-da7ad0900005", "type": "permissions"}, {"id": "75072806-3890-11ef-bbb1-da7ad0900005",
+        "type": "permissions"}, {"id": "bebbe3b2-c1e7-11ee-b9dc-da7ad0900005", "type":
+        "permissions"}, {"id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005", "type": "permissions"},
+        {"id": "300f69c6-8114-11ef-84c0-da7ad0900005", "type": "permissions"}, {"id":
+        "04668bde-ec5c-11ea-9483-fb6cb6586c6a", "type": "permissions"}, {"id": "f42e4c6e-173a-11ed-8654-da7ad0900005",
+        "type": "permissions"}, {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "type":
+        "permissions"}, {"id": "5de1e178-8536-11ea-968a-2fd9395bff90", "type": "permissions"},
+        {"id": "ef44c426-20d0-11ee-83e9-da7ad0900005", "type": "permissions"}, {"id":
+        "f33f74be-e746-11ec-87e3-da7ad0900005", "type": "permissions"}, {"id": "f340161c-e746-11ec-87e3-da7ad0900005",
+        "type": "permissions"}, {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005", "type":
+        "permissions"}, {"id": "9266e93a-7a4c-11ed-b809-da7ad0900005", "type": "permissions"},
+        {"id": "122f7508-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id":
+        "122ff9c4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id": "cccfe6c4-018e-11ef-afb6-da7ad0900005",
+        "type": "permissions"}, {"id": "94c927e8-de87-11ed-9e92-da7ad0900005", "type":
+        "permissions"}, {"id": "2a92b62c-f9b3-11ed-9a97-da7ad0900005", "type": "permissions"},
+        {"id": "300f81cc-8114-11ef-84c0-da7ad0900005", "type": "permissions"}, {"id":
+        "55f64460-7d61-11ed-9c36-da7ad0900005", "type": "permissions"}, {"id": "04668dd2-ec5c-11ea-9483-f7c5fcc9418b",
+        "type": "permissions"}, {"id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005", "type":
+        "permissions"}, {"id": "bcc2fb14-2dce-11eb-9145-9b27b816190a", "type": "permissions"},
+        {"id": "123098f2-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id":
+        "f2f3d048-801f-11eb-9d41-da7ad0900005", "type": "permissions"}, {"id": "7d08a48c-66ec-11ef-96b3-da7ad0900005",
+        "type": "permissions"}, {"id": "3c06647c-ffe8-11ed-b4b4-da7ad0900005", "type":
+        "permissions"}, {"id": "8b276eb6-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"},
+        {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions"}, {"id":
+        "11280c24-cce8-11ee-af00-da7ad0900005", "type": "permissions"}, {"id": "619b2642-f41b-11ed-b4e1-da7ad0900005",
+        "type": "permissions"}, {"id": "619b8f9c-f41b-11ed-b4e1-da7ad0900005", "type":
+        "permissions"}, {"id": "33ee9a80-ccc0-11ed-861a-da7ad0900005", "type": "permissions"},
+        {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005", "type": "permissions"}, {"id":
+        "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"}, {"id": "ac2cf7d8-3d1a-11ee-8f54-da7ad0900005",
+        "type": "permissions"}, {"id": "f5e054da-4792-11ec-944b-da7ad0900005", "type":
+        "permissions"}, {"id": "f5e1489a-4792-11ec-944b-da7ad0900005", "type": "permissions"},
+        {"id": "c94811de-16c7-11ec-88cc-da7ad0900005", "type": "permissions"}, {"id":
+        "c948b30a-16c7-11ec-88cc-da7ad0900005", "type": "permissions"}, {"id": "cf873174-574f-11ec-9869-da7ad0900005",
+        "type": "permissions"}, {"id": "55769e70-2c9a-11ee-a7df-da7ad0900005", "type":
+        "permissions"}, {"id": "13a7297c-1ce3-11ee-b01a-da7ad0900005", "type": "permissions"},
+        {"id": "23f76dc4-f607-11ef-99cf-da7ad0900005", "type": "permissions"}, {"id":
+        "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions"}, {"id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005",
+        "type": "permissions"}, {"id": "95ea50d2-5884-11ec-8b3a-da7ad0900005", "type":
+        "permissions"}, {"id": "5034771e-d2a9-11ef-b55e-da7ad0900005", "type": "permissions"},
+        {"id": "eaded894-2199-11ee-9a0e-da7ad0900005", "type": "permissions"}, {"id":
+        "09a13d52-691c-11ee-b7a4-da7ad0900005", "type": "permissions"}, {"id": "e31e0056-8502-11ec-b266-da7ad0900005",
+        "type": "permissions"}, {"id": "4316826e-093f-11ee-98e9-da7ad0900005", "type":
+        "permissions"}, {"id": "e31f0230-8502-11ec-b266-da7ad0900005", "type": "permissions"},
+        {"id": "b309fe04-79d5-11ef-a56c-da7ad0900005", "type": "permissions"}, {"id":
+        "e31cca10-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id": "e31d8e28-8502-11ec-b266-da7ad0900005",
+        "type": "permissions"}, {"id": "4758d632-248a-11ed-817b-da7ad0900005", "type":
+        "permissions"}, {"id": "c0490360-5a12-11ed-adbe-da7ad0900005", "type": "permissions"},
+        {"id": "c04a7614-5a12-11ed-adbe-da7ad0900005", "type": "permissions"}, {"id":
+        "8b26e284-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id": "48d8ce74-0065-11ee-9c16-da7ad0900005",
+        "type": "permissions"}, {"id": "3276c638-0ebe-11ee-9428-da7ad0900005", "type":
+        "permissions"}, {"id": "94783714-4e9b-11ee-959b-da7ad0900005", "type": "permissions"},
+        {"id": "8e9b2142-7511-11ef-b225-da7ad0900005", "type": "permissions"}, {"id":
+        "06f715e2-aed9-11e9-aac6-eb5723c0dffc", "type": "permissions"}, {"id": "d3159858-d8b2-11e9-a336-e363d6ef331b",
+        "type": "permissions"}, {"id": "93654d1c-e706-11ea-9a85-d320ff02824d", "type":
+        "permissions"}, {"id": "046682c4-ec5c-11ea-9483-2727954feb30", "type": "permissions"},
+        {"id": "294580e0-1703-11ec-9b92-da7ad0900005", "type": "permissions"}, {"id":
+        "e31e6b54-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005",
+        "type": "permissions"}, {"id": "2de35000-69e5-11ee-996b-da7ad0900005", "type":
+        "permissions"}, {"id": "f33eaf3e-e746-11ec-87e3-da7ad0900005", "type": "permissions"},
+        {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"}, {"id":
+        "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id": "76e47222-8a30-11ef-8675-da7ad0900005",
+        "type": "permissions"}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005", "type":
+        "permissions"}, {"id": "7fbc682c-c59e-11ec-90fb-da7ad0900005", "type": "permissions"},
+        {"id": "7fbe2266-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id":
+        "7fbd9756-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id": "ccd05a00-018e-11ef-afb6-da7ad0900005",
+        "type": "permissions"}, {"id": "ccd08d36-018e-11ef-afb6-da7ad0900005", "type":
+        "permissions"}, {"id": "ccd09204-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
+        {"id": "ccd09ca4-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
+        "ccd09f06-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "b4b67a6c-08a0-11ef-b2a8-da7ad0900005",
+        "type": "permissions"}, {"id": "b4b707b6-08a0-11ef-b2a8-da7ad0900005", "type":
+        "permissions"}, {"id": "b4b70996-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"},
+        {"id": "b4b734a2-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id":
+        "d039cfec-b44f-11ed-8db8-da7ad0900005", "type": "permissions"}, {"id": "3bffdb2a-a901-11ef-af48-da7ad0900005",
+        "type": "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005", "type":
+        "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"},
+        {"id": "71958024-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"}, {"id":
+        "54f10334-a6a9-11ef-98f1-da7ad0900005", "type": "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005",
+        "type": "permissions"}, {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type":
+        "permissions"}, {"id": "28395f82-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"},
+        {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
+        "1d47fcb8-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "1d472d7e-60a3-11ef-a05a-da7ad0900005",
+        "type": "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005", "type":
+        "permissions"}, {"id": "9b010d44-da87-11ef-9de6-da7ad0900005", "type": "permissions"},
+        {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id":
+        "214c10b2-d3d9-11e9-a614-3759c7ad528f", "type": "permissions"}, {"id": "9b00ed28-da87-11ef-9de6-da7ad0900005",
+        "type": "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005", "type":
+        "permissions"}, {"id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005", "type": "permissions"},
+        {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions"}, {"id":
+        "9b5d3748-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id": "9b5d3bbc-b72a-11ef-bb07-da7ad0900005",
+        "type": "permissions"}, {"id": "8b28b686-7aff-11ed-9d0d-da7ad0900005", "type":
+        "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type": "permissions"},
+        {"id": "4a6cadb6-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id":
+        "9bb09240-0fee-11f0-958c-da7ad0900005", "type": "permissions"}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
+        "type": "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
+        "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005", "type": "permissions"},
+        {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"}, {"id":
+        "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005",
+        "type": "permissions"}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type":
         "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
         {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id":
         "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005",
         "type": "permissions"}, {"id": "fbf841c6-2618-11f0-8595-da7ad0900005", "type":
-        "permissions"}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions"}]}}},
-        {"id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "type": "roles", "attributes":
-        {"created_at": "2024-10-08T14:32:47.265744Z", "managed": true, "modified_at":
-        "2024-10-08T14:32:47.266206Z", "name": "Datadog Read Only Role", "team_count":
-        0, "user_count": 2}, "relationships": {"permissions": {"data": [{"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005",
-        "type": "permissions"}, {"id": "21c5475c-228f-11ef-a00d-da7ad0900005", "type":
-        "permissions"}, {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "type": "permissions"},
-        {"id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "type": "permissions"}, {"id":
-        "926612da-7a4c-11ed-b809-da7ad0900005", "type": "permissions"}, {"id": "e120d4c0-0969-11ef-965e-da7ad0900005",
-        "type": "permissions"}, {"id": "a05f69c8-5410-11ef-9378-da7ad0900005", "type":
-        "permissions"}, {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"},
-        {"id": "122e20a4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id":
-        "99397470-b16d-11eb-a891-da7ad0900005", "type": "permissions"}, {"id": "f07e4234-e894-11eb-ab79-da7ad0900005",
-        "type": "permissions"}, {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type":
-        "permissions"}, {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"},
-        {"id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type": "permissions"}, {"id":
-        "80adf9c4-9898-11ef-8b23-da7ad0900005", "type": "permissions"}, {"id": "b6858556-f925-11ea-9222-1f47b8677b93",
-        "type": "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type":
-        "permissions"}, {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "type": "permissions"},
-        {"id": "4a6cc8b4-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id":
-        "5def2f6a-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005",
-        "type": "permissions"}, {"id": "94c8a4da-de87-11ed-9e92-da7ad0900005", "type":
-        "permissions"}, {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "type": "permissions"},
-        {"id": "e0d31696-aa58-11ea-af96-3b02991750c9", "type": "permissions"}, {"id":
-        "bebb2bca-c1e7-11ee-b9dc-da7ad0900005", "type": "permissions"}, {"id": "300f69c6-8114-11ef-84c0-da7ad0900005",
-        "type": "permissions"}, {"id": "f42e4c6e-173a-11ed-8654-da7ad0900005", "type":
-        "permissions"}, {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "type": "permissions"},
-        {"id": "5de1e178-8536-11ea-968a-2fd9395bff90", "type": "permissions"}, {"id":
-        "f33f74be-e746-11ec-87e3-da7ad0900005", "type": "permissions"}, {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005",
-        "type": "permissions"}, {"id": "cccfe6c4-018e-11ef-afb6-da7ad0900005", "type":
-        "permissions"}, {"id": "55f64460-7d61-11ed-9c36-da7ad0900005", "type": "permissions"},
-        {"id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id":
-        "bcc2fb14-2dce-11eb-9145-9b27b816190a", "type": "permissions"}, {"id": "f2f3d048-801f-11eb-9d41-da7ad0900005",
-        "type": "permissions"}, {"id": "7d08a48c-66ec-11ef-96b3-da7ad0900005", "type":
-        "permissions"}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions"},
-        {"id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"}, {"id":
-        "f5e054da-4792-11ec-944b-da7ad0900005", "type": "permissions"}, {"id": "c94811de-16c7-11ec-88cc-da7ad0900005",
-        "type": "permissions"}, {"id": "cf873174-574f-11ec-9869-da7ad0900005", "type":
-        "permissions"}, {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions"},
-        {"id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005", "type": "permissions"}, {"id":
-        "5034771e-d2a9-11ef-b55e-da7ad0900005", "type": "permissions"}, {"id": "e31e0056-8502-11ec-b266-da7ad0900005",
-        "type": "permissions"}, {"id": "b309fe04-79d5-11ef-a56c-da7ad0900005", "type":
-        "permissions"}, {"id": "e31cca10-8502-11ec-b266-da7ad0900005", "type": "permissions"},
-        {"id": "3276c638-0ebe-11ee-9428-da7ad0900005", "type": "permissions"}, {"id":
-        "94783714-4e9b-11ee-959b-da7ad0900005", "type": "permissions"}, {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005",
-        "type": "permissions"}, {"id": "2de35000-69e5-11ee-996b-da7ad0900005", "type":
-        "permissions"}, {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"},
-        {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id":
-        "76e47222-8a30-11ef-8675-da7ad0900005", "type": "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005",
-        "type": "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type":
-        "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"},
-        {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"}, {"id":
-        "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005",
-        "type": "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type":
-        "permissions"}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005", "type": "permissions"},
-        {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions"}, {"id":
-        "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"}, {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005",
-        "type": "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type":
-        "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
-        {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id":
-        "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions"}]}}}, {"id":
-        "302b4f34-8582-11ef-b6a4-da7ad0900005", "type": "roles", "attributes": {"created_at":
-        "2024-10-08T14:32:47.215056Z", "managed": true, "modified_at": "2024-10-08T14:32:47.215828Z",
-        "name": "Datadog Standard Role", "team_count": 0, "user_count": 3}, "relationships":
-        {"permissions": {"data": [{"id": "81e488c0-db35-11ed-a170-da7ad0900005", "type":
-        "permissions"}, {"id": "24d31064-b9b4-11ec-a2af-da7ad0900005", "type": "permissions"},
-        {"id": "65eea998-f6a1-11ed-9953-da7ad0900005", "type": "permissions"}, {"id":
-        "ffb0167e-11e1-11ee-8f46-da7ad0900005", "type": "permissions"}, {"id": "046692fa-ec5c-11ea-9483-d713671ea3a9",
-        "type": "permissions"}, {"id": "5dee9f64-55d9-11ed-9ccb-da7ad0900005", "type":
-        "permissions"}, {"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005", "type": "permissions"},
-        {"id": "9311970e-f925-11ea-ab4d-1760e76381c1", "type": "permissions"}, {"id":
-        "ae2f8fbe-f925-11ea-b51c-67ba7de17f88", "type": "permissions"}, {"id": "21c5475c-228f-11ef-a00d-da7ad0900005",
-        "type": "permissions"}, {"id": "bd5bb850-f925-11ea-a3a2-77cbb581c92a", "type":
-        "permissions"}, {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "type": "permissions"},
-        {"id": "7fbea6aa-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id":
-        "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "type": "permissions"}, {"id": "c7acc6a6-9a59-11ec-9cd5-da7ad0900005",
-        "type": "permissions"}, {"id": "f07f557a-e894-11eb-ab79-da7ad0900005", "type":
-        "permissions"}, {"id": "b03b5256-e5c4-11ec-a04e-da7ad0900005", "type": "permissions"},
-        {"id": "926612da-7a4c-11ed-b809-da7ad0900005", "type": "permissions"}, {"id":
-        "81e4434c-db35-11ed-a170-da7ad0900005", "type": "permissions"}, {"id": "e120d4c0-0969-11ef-965e-da7ad0900005",
-        "type": "permissions"}, {"id": "a05f69c8-5410-11ef-9378-da7ad0900005", "type":
-        "permissions"}, {"id": "e49aeb24-2dce-11eb-9145-6b8664bc9097", "type": "permissions"},
-        {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"}, {"id":
-        "122e20a4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id": "99397470-b16d-11eb-a891-da7ad0900005",
-        "type": "permissions"}, {"id": "32f12a0a-ba0c-11ee-b34b-da7ad0900005", "type":
-        "permissions"}, {"id": "1535624c-9771-11ed-ad25-da7ad0900005", "type": "permissions"},
-        {"id": "f07e4234-e894-11eb-ab79-da7ad0900005", "type": "permissions"}, {"id":
-        "a726d3bc-f925-11ea-8c05-476d8eebc4cb", "type": "permissions"}, {"id": "37e36580-5440-11eb-91d4-03a23fd3e1d1",
-        "type": "permissions"}, {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type":
-        "permissions"}, {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"},
-        {"id": "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8", "type": "permissions"}, {"id":
-        "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type": "permissions"}, {"id": "80adf9c4-9898-11ef-8b23-da7ad0900005",
-        "type": "permissions"}, {"id": "b6858556-f925-11ea-9222-1f47b8677b93", "type":
-        "permissions"}, {"id": "ca8897be-f925-11ea-a3a2-d30492cbe671", "type": "permissions"},
-        {"id": "cf223140-f925-11ea-a3a2-df370532bcf7", "type": "permissions"}, {"id":
-        "f42ef088-173a-11ed-8654-da7ad0900005", "type": "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee",
-        "type": "permissions"}, {"id": "2149e512-d3d9-11e9-a614-bb8f0dcf0205", "type":
-        "permissions"}, {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "type": "permissions"},
-        {"id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039", "type": "permissions"}, {"id":
-        "505f4538-dd15-11e8-9308-47a4732f715f", "type": "permissions"}, {"id": "4a6cc8b4-e806-11ef-8710-da7ad0900005",
-        "type": "permissions"}, {"id": "5e21e4b6-0e1c-11eb-ab24-a3d385baf4ee", "type":
-        "permissions"}, {"id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"},
-        {"id": "5defc9e8-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id":
-        "ace5cc0e-ff71-11ed-b518-da7ad0900005", "type": "permissions"}, {"id": "4316b5b8-093f-11ee-98e9-da7ad0900005",
-        "type": "permissions"}, {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005", "type":
-        "permissions"}, {"id": "ae9c303e-f5c4-11ee-b3e7-da7ad0900005", "type": "permissions"},
-        {"id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c", "type": "permissions"}, {"id":
-        "8a78e224-7a5a-11ed-a3ad-da7ad0900005", "type": "permissions"}, {"id": "77ed7a00-b468-11ed-b0f0-da7ad0900005",
-        "type": "permissions"}, {"id": "77ed87a2-b468-11ed-b0f0-da7ad0900005", "type":
-        "permissions"}, {"id": "4fc43656-dd15-11e8-9308-f3e2bb5e31b4", "type": "permissions"},
-        {"id": "96a0c17a-f7f8-11ea-add4-d3659d81b152", "type": "permissions"}, {"id":
-        "94c8a4da-de87-11ed-9e92-da7ad0900005", "type": "permissions"}, {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f",
-        "type": "permissions"}, {"id": "dbd71214-aa58-11ea-8f98-d71d49bb1d14", "type":
-        "permissions"}, {"id": "e0d31696-aa58-11ea-af96-3b02991750c9", "type": "permissions"},
-        {"id": "60759a94-ff6d-11eb-a4f0-da7ad0900005", "type": "permissions"}, {"id":
-        "75072806-3890-11ef-bbb1-da7ad0900005", "type": "permissions"}, {"id": "bebbe3b2-c1e7-11ee-b9dc-da7ad0900005",
-        "type": "permissions"}, {"id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005", "type":
-        "permissions"}, {"id": "300f69c6-8114-11ef-84c0-da7ad0900005", "type": "permissions"},
-        {"id": "04668bde-ec5c-11ea-9483-fb6cb6586c6a", "type": "permissions"}, {"id":
-        "f42e4c6e-173a-11ed-8654-da7ad0900005", "type": "permissions"}, {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee",
-        "type": "permissions"}, {"id": "5de1e178-8536-11ea-968a-2fd9395bff90", "type":
-        "permissions"}, {"id": "ef44c426-20d0-11ee-83e9-da7ad0900005", "type": "permissions"},
-        {"id": "f33f74be-e746-11ec-87e3-da7ad0900005", "type": "permissions"}, {"id":
-        "f340161c-e746-11ec-87e3-da7ad0900005", "type": "permissions"}, {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005",
-        "type": "permissions"}, {"id": "9266e93a-7a4c-11ed-b809-da7ad0900005", "type":
-        "permissions"}, {"id": "122f7508-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"},
-        {"id": "122ff9c4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id":
-        "cccfe6c4-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "94c927e8-de87-11ed-9e92-da7ad0900005",
-        "type": "permissions"}, {"id": "2a92b62c-f9b3-11ed-9a97-da7ad0900005", "type":
-        "permissions"}, {"id": "300f81cc-8114-11ef-84c0-da7ad0900005", "type": "permissions"},
-        {"id": "55f64460-7d61-11ed-9c36-da7ad0900005", "type": "permissions"}, {"id":
-        "04668dd2-ec5c-11ea-9483-f7c5fcc9418b", "type": "permissions"}, {"id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005",
-        "type": "permissions"}, {"id": "bcc2fb14-2dce-11eb-9145-9b27b816190a", "type":
-        "permissions"}, {"id": "123098f2-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"},
-        {"id": "f2f3d048-801f-11eb-9d41-da7ad0900005", "type": "permissions"}, {"id":
-        "7d08a48c-66ec-11ef-96b3-da7ad0900005", "type": "permissions"}, {"id": "3c06647c-ffe8-11ed-b4b4-da7ad0900005",
-        "type": "permissions"}, {"id": "8b276eb6-7aff-11ed-9d0d-da7ad0900005", "type":
-        "permissions"}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions"},
-        {"id": "11280c24-cce8-11ee-af00-da7ad0900005", "type": "permissions"}, {"id":
-        "619b2642-f41b-11ed-b4e1-da7ad0900005", "type": "permissions"}, {"id": "619b8f9c-f41b-11ed-b4e1-da7ad0900005",
-        "type": "permissions"}, {"id": "33ee9a80-ccc0-11ed-861a-da7ad0900005", "type":
-        "permissions"}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005", "type": "permissions"},
-        {"id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"}, {"id":
-        "ac2cf7d8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"}, {"id": "f5e054da-4792-11ec-944b-da7ad0900005",
-        "type": "permissions"}, {"id": "f5e1489a-4792-11ec-944b-da7ad0900005", "type":
-        "permissions"}, {"id": "c94811de-16c7-11ec-88cc-da7ad0900005", "type": "permissions"},
-        {"id": "c948b30a-16c7-11ec-88cc-da7ad0900005", "type": "permissions"}, {"id":
-        "cf873174-574f-11ec-9869-da7ad0900005", "type": "permissions"}, {"id": "55769e70-2c9a-11ee-a7df-da7ad0900005",
-        "type": "permissions"}, {"id": "13a7297c-1ce3-11ee-b01a-da7ad0900005", "type":
-        "permissions"}, {"id": "23f76dc4-f607-11ef-99cf-da7ad0900005", "type": "permissions"},
-        {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions"}, {"id":
-        "95e9a5ce-5884-11ec-8b3a-da7ad0900005", "type": "permissions"}, {"id": "95ea50d2-5884-11ec-8b3a-da7ad0900005",
-        "type": "permissions"}, {"id": "5034771e-d2a9-11ef-b55e-da7ad0900005", "type":
-        "permissions"}, {"id": "eaded894-2199-11ee-9a0e-da7ad0900005", "type": "permissions"},
-        {"id": "09a13d52-691c-11ee-b7a4-da7ad0900005", "type": "permissions"}, {"id":
-        "e31e0056-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id": "4316826e-093f-11ee-98e9-da7ad0900005",
-        "type": "permissions"}, {"id": "e31f0230-8502-11ec-b266-da7ad0900005", "type":
-        "permissions"}, {"id": "b309fe04-79d5-11ef-a56c-da7ad0900005", "type": "permissions"},
-        {"id": "e31cca10-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id":
-        "e31d8e28-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id": "4758d632-248a-11ed-817b-da7ad0900005",
-        "type": "permissions"}, {"id": "c0490360-5a12-11ed-adbe-da7ad0900005", "type":
-        "permissions"}, {"id": "c04a7614-5a12-11ed-adbe-da7ad0900005", "type": "permissions"},
-        {"id": "8b26e284-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id":
-        "48d8ce74-0065-11ee-9c16-da7ad0900005", "type": "permissions"}, {"id": "3276c638-0ebe-11ee-9428-da7ad0900005",
-        "type": "permissions"}, {"id": "94783714-4e9b-11ee-959b-da7ad0900005", "type":
-        "permissions"}, {"id": "8e9b2142-7511-11ef-b225-da7ad0900005", "type": "permissions"},
-        {"id": "06f715e2-aed9-11e9-aac6-eb5723c0dffc", "type": "permissions"}, {"id":
-        "d3159858-d8b2-11e9-a336-e363d6ef331b", "type": "permissions"}, {"id": "93654d1c-e706-11ea-9a85-d320ff02824d",
-        "type": "permissions"}, {"id": "046682c4-ec5c-11ea-9483-2727954feb30", "type":
-        "permissions"}, {"id": "294580e0-1703-11ec-9b92-da7ad0900005", "type": "permissions"},
-        {"id": "e31e6b54-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id":
-        "48bb8df4-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id": "2de35000-69e5-11ee-996b-da7ad0900005",
-        "type": "permissions"}, {"id": "f33eaf3e-e746-11ec-87e3-da7ad0900005", "type":
-        "permissions"}, {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"},
-        {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id":
-        "76e47222-8a30-11ef-8675-da7ad0900005", "type": "permissions"}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005",
-        "type": "permissions"}, {"id": "7fbc682c-c59e-11ec-90fb-da7ad0900005", "type":
-        "permissions"}, {"id": "7fbe2266-c59e-11ec-90fb-da7ad0900005", "type": "permissions"},
-        {"id": "7fbd9756-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id":
-        "ccd05a00-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "ccd08d36-018e-11ef-afb6-da7ad0900005",
-        "type": "permissions"}, {"id": "ccd09204-018e-11ef-afb6-da7ad0900005", "type":
-        "permissions"}, {"id": "ccd09ca4-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
-        {"id": "ccd09f06-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
-        "b4b67a6c-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id": "b4b707b6-08a0-11ef-b2a8-da7ad0900005",
-        "type": "permissions"}, {"id": "b4b70996-08a0-11ef-b2a8-da7ad0900005", "type":
-        "permissions"}, {"id": "b4b734a2-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"},
-        {"id": "d039cfec-b44f-11ed-8db8-da7ad0900005", "type": "permissions"}, {"id":
-        "3bffdb2a-a901-11ef-af48-da7ad0900005", "type": "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005",
-        "type": "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type":
-        "permissions"}, {"id": "71958024-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"},
-        {"id": "54f10334-a6a9-11ef-98f1-da7ad0900005", "type": "permissions"}, {"id":
-        "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"}, {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005",
-        "type": "permissions"}, {"id": "28395f82-b7f5-11ef-afc8-da7ad0900005", "type":
-        "permissions"}, {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"},
-        {"id": "1d47fcb8-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
-        "1d472d7e-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005",
-        "type": "permissions"}, {"id": "9b010d44-da87-11ef-9de6-da7ad0900005", "type":
-        "permissions"}, {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"},
-        {"id": "214c10b2-d3d9-11e9-a614-3759c7ad528f", "type": "permissions"}, {"id":
-        "9b00ed28-da87-11ef-9de6-da7ad0900005", "type": "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005",
-        "type": "permissions"}, {"id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005", "type":
-        "permissions"}, {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions"},
-        {"id": "9b5d3748-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id":
-        "9b5d3bbc-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id": "8b28b686-7aff-11ed-9d0d-da7ad0900005",
-        "type": "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type":
-        "permissions"}, {"id": "4a6cadb6-e806-11ef-8710-da7ad0900005", "type": "permissions"},
-        {"id": "9bb09240-0fee-11f0-958c-da7ad0900005", "type": "permissions"}, {"id":
-        "db45b75e-0360-11f0-8ac3-da7ad0900005", "type": "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005",
-        "type": "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005", "type":
-        "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"},
-        {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"}, {"id":
-        "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type": "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
-        "type": "permissions"}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions"}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
-        {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions"}, {"id":
-        "fbf841c6-2618-11f0-8595-da7ad0900005", "type": "permissions"}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005",
-        "type": "permissions"}]}}}], "meta": {"page": {"total_count": 4, "total_filtered_count":
-        4}}}'
+        "permissions"}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions"}]}}}],
+        "meta": {"page": {"total_count": 4, "total_filtered_count": 4}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -6510,17 +6558,18 @@ interactions:
         Edit", "display_type": "write", "group_name": "Network Device Monitoring",
         "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
-        "description": "Read NDM data.", "display_name": "NDM Read", "display_type":
-        "read", "group_name": "Network Device Monitoring", "name": "ndm_devices_read",
-        "restricted": false}}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z", "description":
-        "Write NDM device tags.", "display_name": "NDM Device Tags Write", "display_type":
-        "write", "group_name": "Network Device Monitoring", "name": "ndm_device_tags_write",
-        "restricted": false}}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z", "description":
-        "View workload autoscaling objects and recommendations. Note: This permission
-        is in Preview Mode and will be enforced soon.", "display_name": "Workload
-        Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
+        "description": "Read NDM data directly. Note: even without this permission,
+        NDM data can be retrieved via general infrastructure query APIs.", "display_name":
+        "NDM Read", "display_type": "read", "group_name": "Network Device Monitoring",
+        "name": "ndm_devices_read", "restricted": false}}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
+        "description": "Write NDM device tags.", "display_name": "NDM Device Tags
+        Write", "display_type": "write", "group_name": "Network Device Monitoring",
+        "name": "ndm_device_tags_write", "restricted": false}}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
+        "description": "View workload autoscaling objects and recommendations. Note:
+        This permission is in Preview Mode and will be enforced soon.", "display_name":
+        "Workload Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
         "name": "orchestration_workload_scaling_read", "restricted": false}}, {"id":
         "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.
@@ -6555,7 +6604,17 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
         "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
         "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
-        "restricted": false}}]}'
+        "restricted": false}}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description":
+        "View all report schedules and manage only the ones they''ve created.", "display_name":
+        "Cloud Cost Report Schedules Write", "display_type": "write", "group_name":
+        "Cloud Cost Management", "name": "generate_ccm_report_schedules", "restricted":
+        false}}, {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description": "View,
+        create, and fully manage all report schedules across the organization.", "display_name":
+        "Cloud Cost Report Schedules Manage", "display_type": "write", "group_name":
+        "Cloud Cost Management", "name": "manage_ccm_report_schedules", "restricted":
+        false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -7656,17 +7715,18 @@ interactions:
         Edit", "display_type": "write", "group_name": "Network Device Monitoring",
         "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
-        "description": "Read NDM data.", "display_name": "NDM Read", "display_type":
-        "read", "group_name": "Network Device Monitoring", "name": "ndm_devices_read",
-        "restricted": false}}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z", "description":
-        "Write NDM device tags.", "display_name": "NDM Device Tags Write", "display_type":
-        "write", "group_name": "Network Device Monitoring", "name": "ndm_device_tags_write",
-        "restricted": false}}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z", "description":
-        "View workload autoscaling objects and recommendations. Note: This permission
-        is in Preview Mode and will be enforced soon.", "display_name": "Workload
-        Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
+        "description": "Read NDM data directly. Note: even without this permission,
+        NDM data can be retrieved via general infrastructure query APIs.", "display_name":
+        "NDM Read", "display_type": "read", "group_name": "Network Device Monitoring",
+        "name": "ndm_devices_read", "restricted": false}}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
+        "description": "Write NDM device tags.", "display_name": "NDM Device Tags
+        Write", "display_type": "write", "group_name": "Network Device Monitoring",
+        "name": "ndm_device_tags_write", "restricted": false}}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
+        "description": "View workload autoscaling objects and recommendations. Note:
+        This permission is in Preview Mode and will be enforced soon.", "display_name":
+        "Workload Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
         "name": "orchestration_workload_scaling_read", "restricted": false}}, {"id":
         "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.
@@ -7701,7 +7761,17 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
         "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
         "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
-        "restricted": false}}]}'
+        "restricted": false}}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description":
+        "View all report schedules and manage only the ones they''ve created.", "display_name":
+        "Cloud Cost Report Schedules Write", "display_type": "write", "group_name":
+        "Cloud Cost Management", "name": "generate_ccm_report_schedules", "restricted":
+        false}}, {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description": "View,
+        create, and fully manage all report schedules across the organization.", "display_name":
+        "Cloud Cost Report Schedules Manage", "display_type": "write", "group_name":
+        "Cloud Cost Management", "name": "manage_ccm_report_schedules", "restricted":
+        false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -8802,17 +8872,18 @@ interactions:
         Edit", "display_type": "write", "group_name": "Network Device Monitoring",
         "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
-        "description": "Read NDM data.", "display_name": "NDM Read", "display_type":
-        "read", "group_name": "Network Device Monitoring", "name": "ndm_devices_read",
-        "restricted": false}}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z", "description":
-        "Write NDM device tags.", "display_name": "NDM Device Tags Write", "display_type":
-        "write", "group_name": "Network Device Monitoring", "name": "ndm_device_tags_write",
-        "restricted": false}}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z", "description":
-        "View workload autoscaling objects and recommendations. Note: This permission
-        is in Preview Mode and will be enforced soon.", "display_name": "Workload
-        Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
+        "description": "Read NDM data directly. Note: even without this permission,
+        NDM data can be retrieved via general infrastructure query APIs.", "display_name":
+        "NDM Read", "display_type": "read", "group_name": "Network Device Monitoring",
+        "name": "ndm_devices_read", "restricted": false}}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
+        "description": "Write NDM device tags.", "display_name": "NDM Device Tags
+        Write", "display_type": "write", "group_name": "Network Device Monitoring",
+        "name": "ndm_device_tags_write", "restricted": false}}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
+        "description": "View workload autoscaling objects and recommendations. Note:
+        This permission is in Preview Mode and will be enforced soon.", "display_name":
+        "Workload Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
         "name": "orchestration_workload_scaling_read", "restricted": false}}, {"id":
         "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.
@@ -8847,7 +8918,17 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
         "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
         "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
-        "restricted": false}}]}'
+        "restricted": false}}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description":
+        "View all report schedules and manage only the ones they''ve created.", "display_name":
+        "Cloud Cost Report Schedules Write", "display_type": "write", "group_name":
+        "Cloud Cost Management", "name": "generate_ccm_report_schedules", "restricted":
+        false}}, {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description": "View,
+        create, and fully manage all report schedules across the organization.", "display_name":
+        "Cloud Cost Report Schedules Manage", "display_type": "write", "group_name":
+        "Cloud Cost Management", "name": "manage_ccm_report_schedules", "restricted":
+        false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -9948,17 +10029,18 @@ interactions:
         Edit", "display_type": "write", "group_name": "Network Device Monitoring",
         "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
-        "description": "Read NDM data.", "display_name": "NDM Read", "display_type":
-        "read", "group_name": "Network Device Monitoring", "name": "ndm_devices_read",
-        "restricted": false}}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z", "description":
-        "Write NDM device tags.", "display_name": "NDM Device Tags Write", "display_type":
-        "write", "group_name": "Network Device Monitoring", "name": "ndm_device_tags_write",
-        "restricted": false}}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z", "description":
-        "View workload autoscaling objects and recommendations. Note: This permission
-        is in Preview Mode and will be enforced soon.", "display_name": "Workload
-        Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
+        "description": "Read NDM data directly. Note: even without this permission,
+        NDM data can be retrieved via general infrastructure query APIs.", "display_name":
+        "NDM Read", "display_type": "read", "group_name": "Network Device Monitoring",
+        "name": "ndm_devices_read", "restricted": false}}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
+        "description": "Write NDM device tags.", "display_name": "NDM Device Tags
+        Write", "display_type": "write", "group_name": "Network Device Monitoring",
+        "name": "ndm_device_tags_write", "restricted": false}}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
+        "description": "View workload autoscaling objects and recommendations. Note:
+        This permission is in Preview Mode and will be enforced soon.", "display_name":
+        "Workload Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
         "name": "orchestration_workload_scaling_read", "restricted": false}}, {"id":
         "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.
@@ -9993,7 +10075,17 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
         "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
         "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
-        "restricted": false}}]}'
+        "restricted": false}}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description":
+        "View all report schedules and manage only the ones they''ve created.", "display_name":
+        "Cloud Cost Report Schedules Write", "display_type": "write", "group_name":
+        "Cloud Cost Management", "name": "generate_ccm_report_schedules", "restricted":
+        false}}, {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description": "View,
+        create, and fully manage all report schedules across the organization.", "display_name":
+        "Cloud Cost Report Schedules Manage", "display_type": "write", "group_name":
+        "Cloud Cost Management", "name": "manage_ccm_report_schedules", "restricted":
+        false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -10006,7 +10098,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/authn_mappings/518238b2-784a-11f0-9db8-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/authn_mappings/e0735ed6-79ec-11f0-b797-da7ad0900005
   response:
     body:
       string: ''
@@ -10208,7 +10300,7 @@ interactions:
         "type": "permissions"}, {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type":
         "permissions"}]}}}, {"id": "4e508ad0-1630-11f0-a6fb-da7ad0900005", "type":
         "roles", "attributes": {"created_at": "2025-04-10T17:21:57.647641Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2025-08-11T18:34:01.486884Z",
+        "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.162015Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Admin Role", "team_count": 0, "user_count": 8}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -10399,17 +10491,19 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "f27c14ba-34d2-11f0-8b57-da7ad0900005", "type": "permissions"},
         {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
         "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "7a662f7c-5ce8-11f0-abff-da7ad0900005",
-        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
-        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
-        {"id": "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes":
-        {"created_at": "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005", "type":
+        "permissions"}, {"id": "f8df8236-5db0-11f0-a618-da7ad0900005", "type": "permissions"},
+        {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type": "permissions"}, {"id":
+        "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
         "modified_at": "2025-06-10T12:59:04.70116Z", "modified_by_handle": "michael.richey@datadoghq.com",
         "name": "Datadog Read Only Role", "team_count": 0, "user_count": 3}, "relationships":
         {"permissions": {"data": [{"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type":
@@ -10465,12 +10559,12 @@ interactions:
         {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id":
         "8ccad534-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id":
-        "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
         "type": "permissions"}]}}}, {"id": "514c41b6-1630-11f0-910b-da7ad0900005",
         "type": "roles", "attributes": {"created_at": "2025-04-10T17:22:02.665532Z",
-        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-05T20:23:53.273256Z",
+        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.226408Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Standard Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -10617,16 +10711,23 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
         {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
-        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005",
-        "type": "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type":
-        "permissions"}]}}}], "meta": {"page": {"total_count": 4, "total_filtered_count":
-        4}}}'
+        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005",
+        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
+        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
+        {"id": "183a94ae-7864-11f0-a118-da7ad0900005", "type": "roles", "attributes":
+        {"created_at": "2025-08-13T16:39:34.702927Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "modified_at": "2025-08-13T16:55:21.875653Z", "modified_by_handle": "michael.richey@datadoghq.com",
+        "name": "Minimum DDR Role", "team_count": 0, "user_count": 1}, "relationships":
+        {"permissions": {"data": [{"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type":
+        "permissions"}, {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}]}}}],
+        "meta": {"page": {"total_count": 5, "total_filtered_count": 5}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -10825,7 +10926,7 @@ interactions:
         "type": "permissions"}, {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type":
         "permissions"}]}}}, {"id": "4e508ad0-1630-11f0-a6fb-da7ad0900005", "type":
         "roles", "attributes": {"created_at": "2025-04-10T17:21:57.647641Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2025-08-11T18:34:01.486884Z",
+        "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.162015Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Admin Role", "team_count": 0, "user_count": 8}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -11016,17 +11117,19 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "f27c14ba-34d2-11f0-8b57-da7ad0900005", "type": "permissions"},
         {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
         "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "7a662f7c-5ce8-11f0-abff-da7ad0900005",
-        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
-        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
-        {"id": "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes":
-        {"created_at": "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005", "type":
+        "permissions"}, {"id": "f8df8236-5db0-11f0-a618-da7ad0900005", "type": "permissions"},
+        {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type": "permissions"}, {"id":
+        "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
         "modified_at": "2025-06-10T12:59:04.70116Z", "modified_by_handle": "michael.richey@datadoghq.com",
         "name": "Datadog Read Only Role", "team_count": 0, "user_count": 3}, "relationships":
         {"permissions": {"data": [{"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type":
@@ -11082,12 +11185,12 @@ interactions:
         {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id":
         "8ccad534-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id":
-        "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
         "type": "permissions"}]}}}, {"id": "514c41b6-1630-11f0-910b-da7ad0900005",
         "type": "roles", "attributes": {"created_at": "2025-04-10T17:22:02.665532Z",
-        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-05T20:23:53.273256Z",
+        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.226408Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Standard Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -11234,16 +11337,23 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
         {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
-        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005",
-        "type": "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type":
-        "permissions"}]}}}], "meta": {"page": {"total_count": 4, "total_filtered_count":
-        4}}}'
+        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005",
+        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
+        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
+        {"id": "183a94ae-7864-11f0-a118-da7ad0900005", "type": "roles", "attributes":
+        {"created_at": "2025-08-13T16:39:34.702927Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "modified_at": "2025-08-13T16:55:21.875653Z", "modified_by_handle": "michael.richey@datadoghq.com",
+        "name": "Minimum DDR Role", "team_count": 0, "user_count": 1}, "relationships":
+        {"permissions": {"data": [{"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type":
+        "permissions"}, {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}]}}}],
+        "meta": {"page": {"total_count": 5, "total_filtered_count": 5}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -11442,7 +11552,7 @@ interactions:
         "type": "permissions"}, {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type":
         "permissions"}]}}}, {"id": "4e508ad0-1630-11f0-a6fb-da7ad0900005", "type":
         "roles", "attributes": {"created_at": "2025-04-10T17:21:57.647641Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2025-08-11T18:34:01.486884Z",
+        "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.162015Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Admin Role", "team_count": 0, "user_count": 8}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -11633,17 +11743,19 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "f27c14ba-34d2-11f0-8b57-da7ad0900005", "type": "permissions"},
         {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
         "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "7a662f7c-5ce8-11f0-abff-da7ad0900005",
-        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
-        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
-        {"id": "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes":
-        {"created_at": "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005", "type":
+        "permissions"}, {"id": "f8df8236-5db0-11f0-a618-da7ad0900005", "type": "permissions"},
+        {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type": "permissions"}, {"id":
+        "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
         "modified_at": "2025-06-10T12:59:04.70116Z", "modified_by_handle": "michael.richey@datadoghq.com",
         "name": "Datadog Read Only Role", "team_count": 0, "user_count": 3}, "relationships":
         {"permissions": {"data": [{"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type":
@@ -11699,12 +11811,12 @@ interactions:
         {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id":
         "8ccad534-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id":
-        "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
         "type": "permissions"}]}}}, {"id": "514c41b6-1630-11f0-910b-da7ad0900005",
         "type": "roles", "attributes": {"created_at": "2025-04-10T17:22:02.665532Z",
-        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-05T20:23:53.273256Z",
+        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.226408Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Standard Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -11851,16 +11963,23 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
         {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
-        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005",
-        "type": "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type":
-        "permissions"}]}}}], "meta": {"page": {"total_count": 4, "total_filtered_count":
-        4}}}'
+        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005",
+        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
+        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
+        {"id": "183a94ae-7864-11f0-a118-da7ad0900005", "type": "roles", "attributes":
+        {"created_at": "2025-08-13T16:39:34.702927Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "modified_at": "2025-08-13T16:55:21.875653Z", "modified_by_handle": "michael.richey@datadoghq.com",
+        "name": "Minimum DDR Role", "team_count": 0, "user_count": 1}, "relationships":
+        {"permissions": {"data": [{"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type":
+        "permissions"}, {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}]}}}],
+        "meta": {"page": {"total_count": 5, "total_filtered_count": 5}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -12059,7 +12178,7 @@ interactions:
         "type": "permissions"}, {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type":
         "permissions"}]}}}, {"id": "4e508ad0-1630-11f0-a6fb-da7ad0900005", "type":
         "roles", "attributes": {"created_at": "2025-04-10T17:21:57.647641Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2025-08-11T18:34:01.486884Z",
+        "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.162015Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Admin Role", "team_count": 0, "user_count": 8}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -12250,17 +12369,19 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "f27c14ba-34d2-11f0-8b57-da7ad0900005", "type": "permissions"},
         {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
         "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "7a662f7c-5ce8-11f0-abff-da7ad0900005",
-        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
-        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
-        {"id": "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes":
-        {"created_at": "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005", "type":
+        "permissions"}, {"id": "f8df8236-5db0-11f0-a618-da7ad0900005", "type": "permissions"},
+        {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type": "permissions"}, {"id":
+        "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
         "modified_at": "2025-06-10T12:59:04.70116Z", "modified_by_handle": "michael.richey@datadoghq.com",
         "name": "Datadog Read Only Role", "team_count": 0, "user_count": 3}, "relationships":
         {"permissions": {"data": [{"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type":
@@ -12316,12 +12437,12 @@ interactions:
         {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id":
         "8ccad534-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id":
-        "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
         "type": "permissions"}]}}}, {"id": "514c41b6-1630-11f0-910b-da7ad0900005",
         "type": "roles", "attributes": {"created_at": "2025-04-10T17:22:02.665532Z",
-        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-05T20:23:53.273256Z",
+        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.226408Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Standard Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -12468,16 +12589,23 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
         {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
-        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005",
-        "type": "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type":
-        "permissions"}]}}}], "meta": {"page": {"total_count": 4, "total_filtered_count":
-        4}}}'
+        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005",
+        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
+        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
+        {"id": "183a94ae-7864-11f0-a118-da7ad0900005", "type": "roles", "attributes":
+        {"created_at": "2025-08-13T16:39:34.702927Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "modified_at": "2025-08-13T16:55:21.875653Z", "modified_by_handle": "michael.richey@datadoghq.com",
+        "name": "Minimum DDR Role", "team_count": 0, "user_count": 1}, "relationships":
+        {"permissions": {"data": [{"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type":
+        "permissions"}, {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}]}}}],
+        "meta": {"page": {"total_count": 5, "total_filtered_count": 5}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -12676,7 +12804,7 @@ interactions:
         "type": "permissions"}, {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type":
         "permissions"}]}}}, {"id": "4e508ad0-1630-11f0-a6fb-da7ad0900005", "type":
         "roles", "attributes": {"created_at": "2025-04-10T17:21:57.647641Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2025-08-11T18:34:01.486884Z",
+        "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.162015Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Admin Role", "team_count": 0, "user_count": 8}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -12867,17 +12995,19 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "f27c14ba-34d2-11f0-8b57-da7ad0900005", "type": "permissions"},
         {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
         "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "7a662f7c-5ce8-11f0-abff-da7ad0900005",
-        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
-        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
-        {"id": "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes":
-        {"created_at": "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005", "type":
+        "permissions"}, {"id": "f8df8236-5db0-11f0-a618-da7ad0900005", "type": "permissions"},
+        {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type": "permissions"}, {"id":
+        "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
         "modified_at": "2025-06-10T12:59:04.70116Z", "modified_by_handle": "michael.richey@datadoghq.com",
         "name": "Datadog Read Only Role", "team_count": 0, "user_count": 3}, "relationships":
         {"permissions": {"data": [{"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type":
@@ -12933,12 +13063,12 @@ interactions:
         {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id":
         "8ccad534-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id":
-        "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005",
         "type": "permissions"}]}}}, {"id": "514c41b6-1630-11f0-910b-da7ad0900005",
         "type": "roles", "attributes": {"created_at": "2025-04-10T17:22:02.665532Z",
-        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-05T20:23:53.273256Z",
+        "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2025-08-14T06:28:12.226408Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Standard Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
         {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
@@ -13085,16 +13215,23 @@ interactions:
         {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
         "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005",
         "type": "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type":
-        "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005", "type":
         "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
         {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
-        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005",
-        "type": "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type":
-        "permissions"}]}}}], "meta": {"page": {"total_count": 4, "total_filtered_count":
-        4}}}'
+        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005",
+        "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type":
+        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}]}}},
+        {"id": "183a94ae-7864-11f0-a118-da7ad0900005", "type": "roles", "attributes":
+        {"created_at": "2025-08-13T16:39:34.702927Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "modified_at": "2025-08-13T16:55:21.875653Z", "modified_by_handle": "michael.richey@datadoghq.com",
+        "name": "Minimum DDR Role", "team_count": 0, "user_count": 1}, "relationships":
+        {"permissions": {"data": [{"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type":
+        "permissions"}, {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}]}}}],
+        "meta": {"page": {"total_count": 5, "total_filtered_count": 5}}}'
     headers:
       Content-Type:
       - application/vnd.api+json

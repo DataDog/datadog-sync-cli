@@ -134,14 +134,16 @@ class CustomClient:
             resources_attempted = 0
             saved_idx = idx
             save_idx = True
+
             while remaining > 0:
-                remaining = 0
                 log.debug(
                     f"fetching {args[0]} "
                     f"{pagination_config.page_number_param}: {page_number} "
                     f"{pagination_config.page_size_param}: {page_size} "
+                    f"idx: {idx} "
                     f"remaining: {remaining}"
                 )
+                remaining = 0
                 params = {
                     pagination_config.page_size_param: page_size,
                     pagination_config.page_number_param: page_number,
@@ -214,6 +216,10 @@ class CustomClient:
                             page_size = new_page_size
                             idx = resources_attempted // page_size - 1
                             page_number = pagination_config.page_number_func(idx, page_size, page_number)
+                        remaining = 1  # after this error we need to keep processing
+                    else:
+                        log.error(f"Error during paginated request: {err}")
+                        break
 
                 # made it through the try/except no increase the page number and idx
                 page_number = pagination_config.page_number_func(idx, page_size, page_number)
