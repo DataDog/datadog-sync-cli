@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.0.2 / 2025-08-18
+
+### Fixed
+* Fix an error with a paging endpoint by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/364
+* Fix remaining calc if there's an error by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/365
+
+## New Contributors
+* @xopham made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/362
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.0.1...2.0.2
+
 ## 2.0.1 / 2025-07-22
 
 ### Changed
