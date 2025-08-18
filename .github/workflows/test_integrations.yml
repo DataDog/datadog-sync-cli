@@ -18,8 +18,8 @@ on:
       - synchronize
       - reopened
   schedule:
-    # M-F at 06:17 GMT
-    - cron: '17 6 * * 1-5'
+    # Every day at 06:17 GMT
+    - cron: '17 6 * * *'
 
 env:
   DD_DESTINATION_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
