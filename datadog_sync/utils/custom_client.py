@@ -28,8 +28,9 @@ def request_with_retry(func: Awaitable) -> Awaitable:
         retry_count = 0
         timeout = time.time() + args[0].retry_timeout
         err_text = None
+        max_retries = 3
 
-        while retry and timeout > time.time():
+        while retry and timeout > time.time() and retry_count <= max_retries:
             async with await func(*args, **kwargs) as resp:
                 err_text = await resp.text()
                 try:
@@ -61,7 +62,7 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                         retry_count += 1
                         continue
                     raise CustomClientHTTPError(e, message=err_text)
-        raise Exception("retry timeout has reached. Last error: " + err_text)
+        raise Exception(f"retry limit exceeded timeout: {timeout} retry_count: {retry_count} error: {err_text}")
 
     return wrapper
 
