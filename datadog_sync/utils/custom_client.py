@@ -28,8 +28,9 @@ def request_with_retry(func: Awaitable) -> Awaitable:
         retry_count = 0
         timeout = time.time() + args[0].retry_timeout
         err_text = None
+        max_retries = 3
 
-        while retry and timeout > time.time():
+        while retry and timeout > time.time() and retry_count <= max_retries:
             async with await func(*args, **kwargs) as resp:
                 err_text = await resp.text()
                 try:
