@@ -8,24 +8,90 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/dashboard
   response:
     body:
-      string: '{"dashboards": [{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard
-        Mon, Oct 28, 2:45:47 pm", "description": null, "layout_type": "ordered", "url":
-        "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm", "is_read_only":
-        false, "created_at": "2024-10-28T18:45:47.629189+00:00", "modified_at": "2024-10-31T20:20:27.062979+00:00",
-        "author_handle": "michael.richey@datadoghq.com", "deleted_at": null}, {"id":
-        "2n3-8ye-5ui", "title": "sync-cli customer dashboard", "description": "[[suggested_dashboards]]",
-        "layout_type": "ordered", "url": "/dashboard/2n3-8ye-5ui/sync-cli-customer-dashboard",
-        "is_read_only": false, "created_at": "2024-10-24T15:14:37.892787+00:00", "modified_at":
-        "2024-11-05T14:55:50.821949+00:00", "author_handle": "michael.richey@datadoghq.com",
-        "deleted_at": null}, {"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard
+      string: '{"dashboards": [{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard
         Mon, Jul 14, 4:22:25 pm", "description": null, "layout_type": "ordered", "url":
         "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm", "is_read_only":
         false, "created_at": "2025-07-14T20:22:25.530702+00:00", "modified_at": "2025-07-14T20:22:25.530702+00:00",
         "author_handle": "michael.richey@datadoghq.com", "deleted_at": null}, {"id":
-        "t82-cj3-j7p", "title": "Is It Working?", "description": null, "layout_type":
-        "ordered", "url": "/dashboard/t82-cj3-j7p/is-it-working", "is_read_only":
-        false, "created_at": "2025-06-10T13:34:37.296465+00:00", "modified_at": "2025-06-10T13:34:50.794550+00:00",
-        "author_handle": "ron.hay@datadoghq.com", "deleted_at": null}]}'
+        "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
+        null, "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
+        "is_read_only": false, "created_at": "2024-10-28T18:45:47.629189+00:00", "modified_at":
+        "2024-10-31T20:20:27.062979+00:00", "author_handle": "michael.richey@datadoghq.com",
+        "deleted_at": null}, {"id": "t82-cj3-j7p", "title": "Is It Working?", "description":
+        null, "layout_type": "ordered", "url": "/dashboard/t82-cj3-j7p/is-it-working",
+        "is_read_only": false, "created_at": "2025-06-10T13:34:37.296465+00:00", "modified_at":
+        "2025-06-10T13:34:50.794550+00:00", "author_handle": "ron.hay@datadoghq.com",
+        "deleted_at": null}, {"id": "2n3-8ye-5ui", "title": "sync-cli customer dashboard",
+        "description": "[[suggested_dashboards]]", "layout_type": "ordered", "url":
+        "/dashboard/2n3-8ye-5ui/sync-cli-customer-dashboard", "is_read_only": false,
+        "created_at": "2024-10-24T15:14:37.892787+00:00", "modified_at": "2024-11-05T14:55:50.821949+00:00",
+        "author_handle": "michael.richey@datadoghq.com", "deleted_at": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
+  response:
+    body:
+      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
+        "template_variables": null, "widgets": [], "notify_list": null, "created_at":
+        "2025-07-14T20:22:25.530702+00:00", "modified_at": "2025-07-14T20:22:25.530702+00:00",
+        "reflow_type": "fixed", "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/t82-cj3-j7p
+  response:
+    body:
+      string: '{"id": "t82-cj3-j7p", "title": "Is It Working?", "description": null,
+        "author_handle": "ron.hay@datadoghq.com", "author_name": "Ron Hay", "layout_type":
+        "ordered", "url": "/dashboard/t82-cj3-j7p/is-it-working", "template_variables":
+        [], "widgets": [{"id": 8014768014333920, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
+        "data_source": "metrics", "query": "avg:datadog.agent.running{*}"}, {"name":
+        "query2", "data_source": "metrics", "query": "sum:datadog.agent.started{*}.as_count()"}],
+        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}, {"id": 2586000650834072, "definition": {"title": "", "title_size": "16",
+        "title_align": "left", "show_legend": true, "legend_layout": "auto", "legend_columns":
+        ["avg", "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"response_format":
+        "timeseries", "queries": [{"name": "query1", "data_source": "metrics", "query":
+        "avg:system.cpu.user{*}"}], "style": {"palette": "dog_classic", "order_by":
+        "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
+        "layout": {"x": 4, "y": 0, "width": 4, "height": 2}}, {"id": 885880749974638,
+        "definition": {"title": "", "title_size": "16", "title_align": "left", "show_legend":
+        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"response_format": "timeseries",
+        "queries": [{"name": "query1", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_read_capacity_units{*}"},
+        {"name": "query2", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_write_capacity_units{*}"}],
+        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
+        2}}], "notify_list": [], "created_at": "2025-06-10T13:34:37.296465+00:00",
+        "modified_at": "2025-06-10T13:34:50.794550+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -280,72 +346,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
-  response:
-    body:
-      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
-        "template_variables": null, "widgets": [], "notify_list": null, "created_at":
-        "2025-07-14T20:22:25.530702+00:00", "modified_at": "2025-07-14T20:22:25.530702+00:00",
-        "reflow_type": "fixed", "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/t82-cj3-j7p
-  response:
-    body:
-      string: '{"id": "t82-cj3-j7p", "title": "Is It Working?", "description": null,
-        "author_handle": "ron.hay@datadoghq.com", "author_name": "Ron Hay", "layout_type":
-        "ordered", "url": "/dashboard/t82-cj3-j7p/is-it-working", "template_variables":
-        [], "widgets": [{"id": 8014768014333920, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
-        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
-        "data_source": "metrics", "query": "avg:datadog.agent.running{*}"}, {"name":
-        "query2", "data_source": "metrics", "query": "sum:datadog.agent.started{*}.as_count()"}],
-        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
-        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}, {"id": 2586000650834072, "definition": {"title": "", "title_size": "16",
-        "title_align": "left", "show_legend": true, "legend_layout": "auto", "legend_columns":
-        ["avg", "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"response_format":
-        "timeseries", "queries": [{"name": "query1", "data_source": "metrics", "query":
-        "avg:system.cpu.user{*}"}], "style": {"palette": "dog_classic", "order_by":
-        "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
-        "layout": {"x": 4, "y": 0, "width": 4, "height": 2}}, {"id": 885880749974638,
-        "definition": {"title": "", "title_size": "16", "title_align": "left", "show_legend":
-        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"response_format": "timeseries",
-        "queries": [{"name": "query1", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_read_capacity_units{*}"},
-        {"name": "query2", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_write_capacity_units{*}"}],
-        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
-        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-        2}}], "notify_list": [], "created_at": "2025-06-10T13:34:37.296465+00:00",
-        "modified_at": "2025-06-10T13:34:50.794550+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v2/powerpacks/e685afa6-955c-11ef-9254-da7ad0900005
   response:
     body:
@@ -389,7 +389,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/powerpacks
   response:
     body:
-      string: '{"data": {"type": "powerpack", "id": "fba083f0-79ec-11f0-94c2-da7ad0900005",
+      string: '{"data": {"type": "powerpack", "id": "5a2863ea-7d24-11f0-9092-da7ad0900005",
         "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
         {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
         "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
@@ -404,6 +404,29 @@ interactions:
         "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea"}}}}, "included": [{"type":
         "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea", "attributes": {"name":
         "Michael S Richey", "email": "michael.richey@gmail.com"}}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"title": "Michael''s Dashboard Mon, Jul 14, 4:22:25 pm", "description":
+      null, "layout_type": "ordered", "template_variables": null, "widgets": [], "reflow_type":
+      "fixed", "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard
+  response:
+    body:
+      string: '{"id": "cd5-mqs-xy3", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
+        pm", "description": null, "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/cd5-mqs-xy3/michaels-dashboard-mon-jul-14-42225-pm",
+        "template_variables": null, "widgets": [], "notify_list": [], "created_at":
+        "2025-08-19T17:45:53.378130+00:00", "modified_at": "2025-08-19T17:45:53.378130+00:00",
+        "reflow_type": "fixed", "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -436,7 +459,7 @@ interactions:
       "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
       "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
       "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-      2}}], "notify_list": [], "reflow_type": "fixed", "restricted_roles": []}'
+      2}}], "reflow_type": "fixed", "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -444,9 +467,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "djf-k5k-dge", "title": "Is It Working?", "description": null,
+      string: '{"id": "cmq-62q-m56", "title": "Is It Working?", "description": null,
         "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "author_name": "Michael
-        S Richey", "layout_type": "ordered", "url": "/dashboard/djf-k5k-dge/is-it-working",
+        S Richey", "layout_type": "ordered", "url": "/dashboard/cmq-62q-m56/is-it-working",
         "template_variables": [], "widgets": [{"id": 8014768014333920, "definition":
         {"title": "", "title_size": "16", "title_align": "left", "show_legend": true,
         "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
@@ -471,32 +494,9 @@ interactions:
         "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
         "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
         "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-        2}}], "notify_list": [], "created_at": "2025-08-15T15:31:59.008770+00:00",
-        "modified_at": "2025-08-15T15:31:59.008770+00:00", "reflow_type": "fixed",
+        2}}], "notify_list": [], "created_at": "2025-08-19T17:45:53.542835+00:00",
+        "modified_at": "2025-08-19T17:45:53.542835+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"title": "Michael''s Dashboard Mon, Jul 14, 4:22:25 pm", "description":
-      null, "layout_type": "ordered", "template_variables": null, "widgets": [], "notify_list":
-      null, "reflow_type": "fixed", "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard
-  response:
-    body:
-      string: '{"id": "3f6-kvc-y76", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
-        pm", "description": null, "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/3f6-kvc-y76/michaels-dashboard-mon-jul-14-42225-pm",
-        "template_variables": null, "widgets": [], "notify_list": null, "created_at":
-        "2025-08-15T15:31:59.021458+00:00", "modified_at": "2025-08-15T15:31:59.021458+00:00",
-        "reflow_type": "fixed", "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -507,10 +507,10 @@ interactions:
     body: '{"title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
       null, "layout_type": "ordered", "template_variables": [], "widgets": [{"id":
       5949103957093766, "definition": {"title": "New group", "show_title": true, "powerpack_id":
-      "fba083f0-79ec-11f0-94c2-da7ad0900005", "template_variables": {"controlled_externally":
+      "5a2863ea-7d24-11f0-9092-da7ad0900005", "template_variables": {"controlled_externally":
       [], "controlled_by_powerpack": []}, "type": "powerpack"}, "layout": {"x": 0,
-      "y": 0, "width": 12, "height": 3}}], "notify_list": [], "reflow_type": "fixed",
-      "restricted_roles": []}'
+      "y": 0, "width": 12, "height": 3}}], "reflow_type": "fixed", "restricted_roles":
+      []}'
     headers:
       Content-Type:
       - application/json
@@ -518,15 +518,15 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "mn4-re4-dj8", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+      string: '{"id": "jg8-4xq-ffn", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
         pm", "description": null, "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/mn4-re4-dj8/michaels-dashboard-mon-oct-28-24547-pm",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/jg8-4xq-ffn/michaels-dashboard-mon-oct-28-24547-pm",
         "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
-        {"title": "New group", "show_title": true, "powerpack_id": "fba083f0-79ec-11f0-94c2-da7ad0900005",
+        {"title": "New group", "show_title": true, "powerpack_id": "5a2863ea-7d24-11f0-9092-da7ad0900005",
         "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
         []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": [], "created_at": "2025-08-15T15:31:59.158245+00:00",
-        "modified_at": "2025-08-15T15:31:59.158245+00:00", "reflow_type": "fixed",
+        3}}], "notify_list": [], "created_at": "2025-08-19T17:45:53.574175+00:00",
+        "modified_at": "2025-08-19T17:45:53.574175+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -731,8 +731,8 @@ interactions:
       {"name": "query3", "data_source": "metrics", "query": "sum:datadog.org_sync.sync.start{*}"}],
       "response_format": "timeseries", "style": {"palette": "dog_classic", "order_by":
       "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
-      "layout": {"x": 0, "y": 0, "width": 4, "height": 2}}], "notify_list": [], "reflow_type":
-      "fixed", "restricted_roles": []}'
+      "layout": {"x": 0, "y": 0, "width": 4, "height": 2}}], "reflow_type": "fixed",
+      "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -740,9 +740,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "d88-ez9-vxh", "title": "sync-cli customer dashboard", "description":
+      string: '{"id": "8b2-nd5-i34", "title": "sync-cli customer dashboard", "description":
         "[[suggested_dashboards]]", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/d88-ez9-vxh/sync-cli-customer-dashboard",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/8b2-nd5-i34/sync-cli-customer-dashboard",
         "template_variables": [{"name": "resource_type", "prefix": "resource_type",
         "available_values": ["monitors", "dashboards"], "default": "*"}, {"name":
         "client_type", "prefix": "client_type", "available_values": ["source", "destination"],
@@ -939,8 +939,8 @@ interactions:
         "metrics", "query": "sum:datadog.org_sync.sync.start{*}"}], "response_format":
         "timeseries", "style": {"palette": "dog_classic", "order_by": "values", "line_type":
         "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        0, "y": 0, "width": 4, "height": 2}}], "notify_list": [], "created_at": "2025-08-15T15:31:59.270932+00:00",
-        "modified_at": "2025-08-15T15:31:59.270932+00:00", "reflow_type": "fixed",
+        0, "y": 0, "width": 4, "height": 2}}], "notify_list": [], "created_at": "2025-08-19T17:45:54.126726+00:00",
+        "modified_at": "2025-08-19T17:45:54.126726+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -8015,7 +8015,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/powerpacks/fba083f0-79ec-11f0-94c2-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/powerpacks/5a2863ea-7d24-11f0-9092-da7ad0900005
   response:
     body:
       string: ''
@@ -8031,10 +8031,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/djf-k5k-dge
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/cmq-62q-m56
   response:
     body:
-      string: '{"deleted_dashboard_id": "djf-k5k-dge"}'
+      string: '{"deleted_dashboard_id": "cmq-62q-m56"}'
     headers:
       Content-Type:
       - application/json
@@ -8047,10 +8047,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/mn4-re4-dj8
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/cd5-mqs-xy3
   response:
     body:
-      string: '{"deleted_dashboard_id": "mn4-re4-dj8"}'
+      string: '{"deleted_dashboard_id": "cd5-mqs-xy3"}'
     headers:
       Content-Type:
       - application/json
@@ -8063,10 +8063,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/3f6-kvc-y76
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/jg8-4xq-ffn
   response:
     body:
-      string: '{"deleted_dashboard_id": "3f6-kvc-y76"}'
+      string: '{"deleted_dashboard_id": "jg8-4xq-ffn"}'
     headers:
       Content-Type:
       - application/json
@@ -8079,10 +8079,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/d88-ez9-vxh
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/8b2-nd5-i34
   response:
     body:
-      string: '{"deleted_dashboard_id": "d88-ez9-vxh"}'
+      string: '{"deleted_dashboard_id": "8b2-nd5-i34"}'
     headers:
       Content-Type:
       - application/json
