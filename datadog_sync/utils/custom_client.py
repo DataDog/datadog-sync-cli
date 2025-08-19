@@ -62,7 +62,7 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                         retry_count += 1
                         continue
                     raise CustomClientHTTPError(e, message=err_text)
-        raise Exception("retry timeout has reached. Last error: " + err_text)
+        raise Exception(f"retry limit exceeded timeout: {timeout} retry_count: {retry_count} error: {err_text}")
 
     return wrapper
 
