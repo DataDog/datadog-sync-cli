@@ -27,24 +27,45 @@ interactions:
     uri: https://api.datadoghq.eu/api/v1/dashboard
   response:
     body:
-      string: '{"dashboards": [{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard
-        Mon, Oct 28, 2:45:47 pm", "description": null, "layout_type": "ordered", "url":
-        "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm", "is_read_only":
-        false, "created_at": "2024-10-28T18:45:47.629189+00:00", "modified_at": "2024-10-31T20:20:27.062979+00:00",
-        "author_handle": "michael.richey@datadoghq.com", "deleted_at": null}, {"id":
-        "2n3-8ye-5ui", "title": "sync-cli customer dashboard", "description": "[[suggested_dashboards]]",
-        "layout_type": "ordered", "url": "/dashboard/2n3-8ye-5ui/sync-cli-customer-dashboard",
-        "is_read_only": false, "created_at": "2024-10-24T15:14:37.892787+00:00", "modified_at":
-        "2024-11-05T14:55:50.821949+00:00", "author_handle": "michael.richey@datadoghq.com",
-        "deleted_at": null}, {"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard
+      string: '{"dashboards": [{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard
         Mon, Jul 14, 4:22:25 pm", "description": null, "layout_type": "ordered", "url":
         "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm", "is_read_only":
         false, "created_at": "2025-07-14T20:22:25.530702+00:00", "modified_at": "2025-07-14T20:22:25.530702+00:00",
         "author_handle": "michael.richey@datadoghq.com", "deleted_at": null}, {"id":
-        "t82-cj3-j7p", "title": "Is It Working?", "description": null, "layout_type":
-        "ordered", "url": "/dashboard/t82-cj3-j7p/is-it-working", "is_read_only":
-        false, "created_at": "2025-06-10T13:34:37.296465+00:00", "modified_at": "2025-06-10T13:34:50.794550+00:00",
-        "author_handle": "ron.hay@datadoghq.com", "deleted_at": null}]}'
+        "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
+        null, "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
+        "is_read_only": false, "created_at": "2024-10-28T18:45:47.629189+00:00", "modified_at":
+        "2024-10-31T20:20:27.062979+00:00", "author_handle": "michael.richey@datadoghq.com",
+        "deleted_at": null}, {"id": "t82-cj3-j7p", "title": "Is It Working?", "description":
+        null, "layout_type": "ordered", "url": "/dashboard/t82-cj3-j7p/is-it-working",
+        "is_read_only": false, "created_at": "2025-06-10T13:34:37.296465+00:00", "modified_at":
+        "2025-06-10T13:34:50.794550+00:00", "author_handle": "ron.hay@datadoghq.com",
+        "deleted_at": null}, {"id": "2n3-8ye-5ui", "title": "sync-cli customer dashboard",
+        "description": "[[suggested_dashboards]]", "layout_type": "ordered", "url":
+        "/dashboard/2n3-8ye-5ui/sync-cli-customer-dashboard", "is_read_only": false,
+        "created_at": "2024-10-24T15:14:37.892787+00:00", "modified_at": "2024-11-05T14:55:50.821949+00:00",
+        "author_handle": "michael.richey@datadoghq.com", "deleted_at": null}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
+  response:
+    body:
+      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
+        "template_variables": null, "widgets": [], "notify_list": null, "created_at":
+        "2025-07-14T20:22:25.530702+00:00", "modified_at": "2025-07-14T20:22:25.530702+00:00",
+        "reflow_type": "fixed", "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -70,27 +91,6 @@ interactions:
         3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
         "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
-  response:
-    body:
-      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
-        "template_variables": null, "widgets": [], "notify_list": null, "created_at":
-        "2025-07-14T20:22:25.530702+00:00", "modified_at": "2025-07-14T20:22:25.530702+00:00",
-        "reflow_type": "fixed", "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
