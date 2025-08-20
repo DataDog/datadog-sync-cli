@@ -46,20 +46,25 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                         except ValueError:
                             sleep_duration = retry_count * default_backoff
                         if (sleep_duration + time.time()) > timeout:
-                            log.debug(f"{e}. retry timeout has or will exceed timeout duration")
+                            log.warning(f"{e}. retry timeout has or will exceed timeout duration")
                             raise CustomClientHTTPError(e, message=err_text)
-                        log.debug(f"{e}. retrying request after {sleep_duration}s")
+                        log.warning(f"{e}. retrying request after {sleep_duration}s")
                         await asyncio.sleep(sleep_duration)
                         retry_count += 1
+                        log.debug(f"retry count: {retry_count}")
                         continue
                     elif e.status >= 500 or e.status == 429:
                         sleep_duration = retry_count * default_backoff
                         if (sleep_duration + time.time()) > timeout:
-                            log.debug("retry timeout has or will exceed timeout duration")
+                            log.warning("retry timeout has or will exceed timeout duration")
                             raise CustomClientHTTPError(e, message=err_text)
-                        log.debug(f"{e}. retrying request after {sleep_duration}s")
+                        if retry_count + 1 >= max_retries:
+                            log.warning("retry count has or will exceed retry maximum")
+                            raise CustomClientHTTPError(e, message=err_text)
+                        log.warning(f"{e}. retrying request after {sleep_duration}s")
                         await asyncio.sleep(retry_count * default_backoff)
                         retry_count += 1
+                        log.debug(f"retry count: {retry_count}")
                         continue
                     raise CustomClientHTTPError(e, message=err_text)
         raise Exception(f"retry limit exceeded timeout: {timeout} retry_count: {retry_count} error: {err_text}")
