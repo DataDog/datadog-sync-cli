@@ -105,9 +105,5 @@ class DashboardLists(BaseResource):
     async def update_dash_list_items(self, _id: str, dashboards: Dict, dashboard_list: dict):
         payload = {"dashboards": dashboards}
         destination_client = self.config.destination_client
-        try:
-            dashboards = await destination_client.put(self.dash_list_items_path.format(_id), payload)
-        except CustomClientHTTPError as e:
-            self.config.logger.error("error updating dashboard list items: %s", e)
-            return
+        dashboards = await destination_client.put(self.dash_list_items_path.format(_id), payload)
         dashboard_list.update(dashboards)
