@@ -138,7 +138,9 @@ class ResourcesHandler:
 
             prep_resource(r_class.resource_config, resource)
             if _id in self.config.state.destination[resource_type]:
-                diff = check_diff(r_class.resource_config, resource, self.config.state.destination[resource_type][_id])
+                destination_copy = deepcopy(self.config.state.destination[resource_type][_id])
+                prep_resource(r_class.resource_config, destination_copy)
+                diff = check_diff(r_class.resource_config, resource, destination_copy)
                 if not diff:
                     raise SkipResource(_id, resource_type, "No differences detected.")
 
