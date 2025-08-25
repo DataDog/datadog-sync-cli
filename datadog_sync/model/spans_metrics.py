@@ -12,6 +12,12 @@ class SpansMetrics(BaseResource):
     resource_type = "spans_metrics"
     resource_config = ResourceConfig(
         base_path="/api/v2/apm/config/metrics",
+        non_nullable_list_vals=[
+            (
+                "attributes.group_by",
+                {"path": "resource_hash", "tag_name": "resource"},
+            ),
+        ],
     )
     # Additional SpansMetrics specific attributes
 

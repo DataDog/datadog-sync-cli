@@ -61,6 +61,7 @@ class ResourceConfig:
     deep_diff_config: dict = field(default_factory=lambda: {"ignore_order": True})
     tagging_config: Optional[TaggingConfig] = None
     async_lock: Optional[Lock] = None
+    non_nullable_list_vals: Optional[List[Tuple[str, Dict[str, str]]]] = None
 
     async def init_async(self) -> None:
         self.async_lock = Lock()
