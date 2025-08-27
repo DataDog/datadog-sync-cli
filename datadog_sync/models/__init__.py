@@ -27,6 +27,7 @@ from datadog_sync.model.notebooks import Notebooks
 from datadog_sync.model.powerpacks import Powerpacks
 from datadog_sync.model.restriction_policies import RestrictionPolicies
 from datadog_sync.model.roles import Roles
+from datadog_sync.model.rum_applications import RUMApplications
 from datadog_sync.model.security_monitoring_rules import SecurityMonitoringRules
 from datadog_sync.model.sensitive_data_scanner_groups import SensitiveDataScannerGroups
 from datadog_sync.model.sensitive_data_scanner_groups_order import SensitiveDataScannerGroupsOrder
