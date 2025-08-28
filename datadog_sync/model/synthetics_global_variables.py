@@ -64,6 +64,9 @@ class SyntheticsGlobalVariables(BaseResource):
         if "value" not in resource["value"]:
             resource["value"]["value"] = "SECRET"
 
+        if "is_fido" in resource and resource["is_fido"]:
+            resource.pop("value")
+
         resp = await destination_client.post(self.resource_config.base_path, resource)
 
         return _id, resp
