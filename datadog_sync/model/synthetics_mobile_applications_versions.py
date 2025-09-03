@@ -141,6 +141,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
                         {"PartNumber": int(part_number), "ETag": response.headers["Etag"].replace('"', "")}
                     )
                 else:
+                    await session.close()
                     raise SkipResource(_id, self.resource_type, f"Could not upload mobile application: {response}")
         await session.close()
         self.config.logger.debug("all parts uploaded")
@@ -169,21 +170,14 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        destination_id = self.config.state.destination[self.resource_type][_id]["id"]
+        destination_resource = self.config.state.destination[self.resource_type][_id]
+        destination_id = destination_resource["id"]
 
-        # if the resource doesn't exist at the destination then create it
-        existing_resources = await self.get_resources(destination_client)
-        existing_resource_ids = {r["id"]: r for r in existing_resources}
-        if destination_id not in existing_resource_ids:
-            self.config.logger.debug(f"{destination_id} not found, creating it")
-            return await self.create_resource(_id, resource)
-
-        # resource exists so we can update it (only 2 fields are updatable)
         if (
-            resource["version_name"] == existing_resource_ids[destination_id]["version_name"]
-            and resource["is_latest"] == existing_resource_ids[destination_id]["is_latest"]
+            resource["version_name"] == destination_resource["version_name"]
+            and resource["is_latest"] == destination_resource["is_latest"]
         ):
-            raise SkipResource(_id, self.resource_type, "No change to version fields")
+            raise SkipResource(_id, self.resource_type, "No change")
 
         resp = await destination_client.put(
             self.resource_config.base_path + "/" + destination_id,
