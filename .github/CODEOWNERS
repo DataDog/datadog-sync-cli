@@ -6,4 +6,4 @@
 *                       @DataDog/hamr
 
 # Documentation
-*.md                    @DataDog/documentation @DataDog/hamr
+*.md                    @DataDog/hamr
