@@ -234,14 +234,12 @@ def del_null_attr(resource_config, k_list, resources):
 
 
 def check_diff(resource_config, resource, state):
-    diff = DeepDiff(
+    return DeepDiff(
         resource,
         state,
         exclude_paths=resource_config.excluded_attributes,
         **resource_config.deep_diff_config,
     )
-    log.debug(f"diff: {diff}")
-    return diff
 
 
 def init_topological_sorter(graph: Dict[Tuple[str, str], Set[Tuple[str, str]]]) -> TopologicalSorter:
