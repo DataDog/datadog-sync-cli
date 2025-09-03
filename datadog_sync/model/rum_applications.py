@@ -18,12 +18,14 @@ class RUMApplications(BaseResource):
         base_path="/api/v2/rum/applications",
         excluded_attributes=[
             "id",
+            "attributes.api_key_id",
             "attributes.application_id",
             "attributes.client_token",
             "attributes.created_at",
             "attributes.created_by_handle",
             "attributes.hash",
             "attributes.is_active",
+            "attributes.ootb_metrics_installed",
             "attributes.org_id",
             "attributes.updated_at",
             "attributes.updated_by_handle",
@@ -31,6 +33,7 @@ class RUMApplications(BaseResource):
             "attributes.product_scales.product_analytics_retention_scale.state",
             "attributes.product_scales.rum_event_processing_scale.last_modified_at",
             "attributes.remote_config_id",
+            "attributes.short_name",
         ],
     )
     # Additional RUM Applications specific attributes
