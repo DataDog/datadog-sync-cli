@@ -36,7 +36,7 @@ class SyntheticsMobileApplications(BaseResource):
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))
+            resource = await source_client.get(self.resource_config.base_path + f"/{_id}")
 
         resource = cast(dict, resource)
         return resource["id"], resource

@@ -11,11 +11,12 @@ import certifi
 import hashlib
 import ssl
 import sys
-from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
+from typing import Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import SkipResource
+
 
 class SyntheticsMobileApplicationsVersions(BaseResource):
     resource_type = "synthetics_mobile_applications_versions"
@@ -33,7 +34,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         ],
     )
     # Additional Synthetics Mobile Applications Versions specific attributes
-    applications_path="/api/unstable/synthetics/mobile/applications"
+    applications_path = "/api/unstable/synthetics/mobile/applications"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         """
@@ -45,14 +46,14 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         for application in resp["applications"]:
             for version in application["versions"]:
                 _id = version["id"]
-                resource = (await client.get(self.resource_config.base_path + f"/{_id}"))
+                resource = await client.get(self.resource_config.base_path + f"/{_id}")
                 resources.append(resource)
         return resources
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))
+            resource = await source_client.get(self.resource_config.base_path + f"/{_id}")
 
         resource = cast(dict, resource)
         return resource["id"], resource
@@ -71,7 +72,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
 
         # get the presigned url from source
         source_client = self.config.source_client
-        presigned_download_url = (await source_client.post(self.resource_config.base_path + f"/{_id}/download", {}))
+        presigned_download_url = await source_client.post(self.resource_config.base_path + f"/{_id}/download", {})
         presigned_download_url = presigned_download_url.replace("'", "")
         self.config.logger.debug(f"downloading from: {presigned_download_url}")
 
@@ -99,7 +100,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
             if end > len(blob):
                 end = len(blob)
             chunk = blob[start:end]
-            md5_digest = base64.b64encode((hashlib.md5(chunk).digest())).decode('utf-8')
+            md5_digest = base64.b64encode((hashlib.md5(chunk).digest())).decode("utf-8")
             part = {
                 "md5": md5_digest,
                 "partNumber": part_number + 1,
@@ -109,8 +110,12 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
 
         # get multipart presigned urls
         source_application_id = resource["application_id"]
-        destination_application_id = self.config.state.destination["synthetics_mobile_applications"][source_application_id]["id"]
-        resp  = await self.config.destination_client.post(self.applications_path + f"/{destination_application_id}/multipart-presigned-urls", parts)
+        destination_application_id = self.config.state.destination["synthetics_mobile_applications"][
+            source_application_id
+        ]["id"]
+        resp = await self.config.destination_client.post(
+            self.applications_path + f"/{destination_application_id}/multipart-presigned-urls", parts
+        )
 
         file_name = resp["file_name"]
         upload_id = resp["multipart_presigned_urls_params"]["upload_id"]
@@ -129,10 +134,12 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
             start = (part_number - 1) * chunk_size
             end = part_number * chunk_size
             chunk = blob[start:end]
-            async with session.put(url=url,data=chunk,headers=headers) as response:
+            async with session.put(url=url, data=chunk, headers=headers) as response:
                 _ = await response.read()
                 if "Etag" in response.headers:
-                    complete_parts.append({"PartNumber": int(part_number), "ETag": response.headers["Etag"].replace("\"","")})
+                    complete_parts.append(
+                        {"PartNumber": int(part_number), "ETag": response.headers["Etag"].replace('"', "")}
+                    )
                 else:
                     raise SkipResource(_id, self.resource_type, f"Could not upload mobile application: {response}")
         await session.close()
@@ -144,7 +151,9 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
             "uploadId": upload_id,
             "parts": complete_parts,
         }
-        _  = await self.config.destination_client.post(self.applications_path + f"/{destination_application_id}/multipart-upload-complete", body)
+        _ = await self.config.destination_client.post(
+            self.applications_path + f"/{destination_application_id}/multipart-upload-complete", body
+        )
         self.config.logger.debug("mobile app upload completed")
         return file_name, destination_application_id
 
@@ -164,15 +173,18 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
 
         # if the resource doesn't exist at the destination then create it
         existing_resources = await self.get_resources(destination_client)
-        existing_resource_ids = {r["id"]:r for r in existing_resources}
+        existing_resource_ids = {r["id"]: r for r in existing_resources}
         if destination_id not in existing_resource_ids:
             self.config.logger.debug(f"{destination_id} not found, creating it")
             return await self.create_resource(_id, resource)
 
         # resource exists so we can update it (only 2 fields are updatable)
-        if resource["version_name"] == existing_resource_ids[destination_id]["version_name"] and resource["is_latest"] == existing_resource_ids[destination_id]["is_latest"]:
-            raise SkipResource(_id, self.resource_type, f"No change to version fields")
-            
+        if (
+            resource["version_name"] == existing_resource_ids[destination_id]["version_name"]
+            and resource["is_latest"] == existing_resource_ids[destination_id]["is_latest"]
+        ):
+            raise SkipResource(_id, self.resource_type, "No change to version fields")
+
         resp = await destination_client.put(
             self.resource_config.base_path + "/" + destination_id,
             {"version_name": resource["version_name"], "is_latest": resource["is_latest"]},
