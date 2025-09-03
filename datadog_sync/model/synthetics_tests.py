@@ -23,7 +23,8 @@ class SyntheticsTests(BaseResource):
                 "config.variables.id",
             ],
             "roles": ["options.restricted_roles"],
-            "rum_applications": ["options.mobileApplication.applicationId"],
+            "rum_applications": ["options.rumSettings.applicationId"],
+            "synthetics_mobile_applications": ["options.mobileApplication.referenceId"],
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
@@ -134,6 +135,17 @@ class SyntheticsTests(BaseResource):
             for k, v in resources.items():
                 if k.startswith(r_obj[key]):
                     r_obj[key] = v["public_id"]
+                    found = True
+                    break
+            if not found:
+                failed_connections.append(r_obj[key])
+            return failed_connections
+        elif resource_to_connect == "synthetics_mobile_applications":
+            resources = self.config.state.destination[resource_to_connect]
+            found = False
+            for k, v in resources.items():
+                if k.startswith(r_obj[key]):
+                    r_obj[key] = v["id"]
                     found = True
                     break
             if not found:

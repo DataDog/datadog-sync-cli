@@ -106,8 +106,16 @@ class CustomClient:
         return self.session.get(url, timeout=self.timeout, **kwargs)
 
     @request_with_retry
+    async def get_with_url(self, url, **kwargs):
+        return self.session.get(url, timeout=self.timeout, **kwargs)
+
+    @request_with_retry
     async def post(self, path, body, domain=None, subdomain=None, **kwargs):
         url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
+        return self.session.post(url, json=body, timeout=self.timeout, **kwargs)
+
+    @request_with_retry
+    async def post_with_url(self, url, body, **kwargs):
         return self.session.post(url, json=body, timeout=self.timeout, **kwargs)
 
     @request_with_retry
