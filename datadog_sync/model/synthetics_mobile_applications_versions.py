@@ -23,8 +23,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
     resource_config = ResourceConfig(
         base_path="/api/unstable/synthetics/mobile/applications/versions",
         resource_connections={
-            "synthetics_mobile_applications": ["versions.id", "application_id"],
-            "synthetics_mobile_applications_versions_blobs": ["file_name"],
+            "synthetics_mobile_applications": ["application_id"],
         },
         excluded_attributes=[
             "id",
@@ -109,13 +108,11 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         self.config.logger.debug(f"parts: {parts}")
 
         # get multipart presigned urls
-        source_application_id = resource["application_id"]
-        destination_application_id = self.config.state.destination["synthetics_mobile_applications"][
-            source_application_id
-        ]["id"]
+        destination_application_id = resource["application_id"]
         resp = await self.config.destination_client.post(
             self.applications_path + f"/{destination_application_id}/multipart-presigned-urls", parts
         )
+        self.config.logger.debug(f"resp: {resp}")
 
         file_name = resp["file_name"]
         upload_id = resp["multipart_presigned_urls_params"]["upload_id"]
@@ -124,26 +121,30 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         self.config.logger.debug(f"file_name: {file_name}")
 
         # post to multipart presigned urls
-        complete_parts = []
-        for part in parts["parts"]:
-            headers = {
-                "content-md5": part["md5"],
-            }
-            part_number = part["partNumber"]
-            url = urls[str(part_number)]
-            start = (part_number - 1) * chunk_size
-            end = part_number * chunk_size
-            chunk = blob[start:end]
-            async with session.put(url=url, data=chunk, headers=headers) as response:
-                _ = await response.read()
-                if "Etag" in response.headers:
-                    complete_parts.append(
-                        {"PartNumber": int(part_number), "ETag": response.headers["Etag"].replace('"', "")}
-                    )
-                else:
-                    await session.close()
-                    raise SkipResource(_id, self.resource_type, f"Could not upload mobile application: {response}")
-        await session.close()
+        try:
+            complete_parts = []
+            for part in parts["parts"]:
+                headers = {
+                    "content-md5": part["md5"],
+                }
+                part_number = part["partNumber"]
+                url = urls[str(part_number)]
+                start = (part_number - 1) * chunk_size
+                end = part_number * chunk_size
+                chunk = blob[start:end]
+                async with session.put(url=url, data=chunk, headers=headers) as response:
+                    _ = await response.read()
+                    if "Etag" in response.headers:
+                        complete_parts.append(
+                            {"PartNumber": int(part_number), "ETag": response.headers["Etag"].replace('"', "")}
+                        )
+                    else:
+                        raise SkipResource(_id, self.resource_type, f"Could not upload mobile application: {response}")
+        except Exception as err:
+            self.config.logger.error(f"Error duing mobile app upload: {err}")
+            raise err
+        finally:
+            await session.close()
         self.config.logger.debug("all parts uploaded")
 
         # complete multipart upload
@@ -191,5 +192,5 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass
+#    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+#        pass
