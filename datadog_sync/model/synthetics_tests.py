@@ -23,6 +23,8 @@ class SyntheticsTests(BaseResource):
                 "config.variables.id",
             ],
             "roles": ["options.restricted_roles"],
+            "rum_applications": ["options.rumSettings.applicationId"],
+            "synthetics_mobile_applications": ["options.mobileApplication.referenceId"],
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
@@ -57,6 +59,7 @@ class SyntheticsTests(BaseResource):
     # Additional SyntheticsTests specific attributes
     browser_test_path: str = "/api/v1/synthetics/tests/browser/{}"
     api_test_path: str = "/api/v1/synthetics/tests/api/{}"
+    mobile_test_path: str = "/api/v1/synthetics/tests/mobile/{}"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
@@ -69,7 +72,10 @@ class SyntheticsTests(BaseResource):
             try:
                 resource = await source_client.get(self.browser_test_path.format(_id))
             except Exception:
-                resource = await source_client.get(self.api_test_path.format(_id))
+                try:
+                    resource = await source_client.get(self.api_test_path.format(_id))
+                except Exception:
+                    resource = await source_client.get(self.mobile_test_path.format(_id))
 
         resource = cast(dict, resource)
         _id = resource["public_id"]
@@ -77,6 +83,8 @@ class SyntheticsTests(BaseResource):
             resource = await source_client.get(self.browser_test_path.format(_id))
         elif resource.get("type") == "api":
             resource = await source_client.get(self.api_test_path.format(_id))
+        elif resource.get("type") == "mobile":
+            resource = await source_client.get(self.mobile_test_path.format(_id))
 
         resource = cast(dict, resource)
         return f"{resource['public_id']}#{resource['monitor_id']}", resource
@@ -127,6 +135,17 @@ class SyntheticsTests(BaseResource):
             for k, v in resources.items():
                 if k.startswith(r_obj[key]):
                     r_obj[key] = v["public_id"]
+                    found = True
+                    break
+            if not found:
+                failed_connections.append(r_obj[key])
+            return failed_connections
+        elif resource_to_connect == "synthetics_mobile_applications":
+            resources = self.config.state.destination[resource_to_connect]
+            found = False
+            for k, v in resources.items():
+                if k.startswith(r_obj[key]):
+                    r_obj[key] = v["id"]
                     found = True
                     break
             if not found:

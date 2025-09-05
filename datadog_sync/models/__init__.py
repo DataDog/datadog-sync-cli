@@ -27,6 +27,7 @@ from datadog_sync.model.notebooks import Notebooks
 from datadog_sync.model.powerpacks import Powerpacks
 from datadog_sync.model.restriction_policies import RestrictionPolicies
 from datadog_sync.model.roles import Roles
+from datadog_sync.model.rum_applications import RUMApplications
 from datadog_sync.model.security_monitoring_rules import SecurityMonitoringRules
 from datadog_sync.model.sensitive_data_scanner_groups import SensitiveDataScannerGroups
 from datadog_sync.model.sensitive_data_scanner_groups_order import SensitiveDataScannerGroupsOrder
@@ -35,6 +36,8 @@ from datadog_sync.model.service_level_objectives import ServiceLevelObjectives
 from datadog_sync.model.slo_corrections import SLOCorrections
 from datadog_sync.model.spans_metrics import SpansMetrics
 from datadog_sync.model.synthetics_global_variables import SyntheticsGlobalVariables
+from datadog_sync.model.synthetics_mobile_applications import SyntheticsMobileApplications
+from datadog_sync.model.synthetics_mobile_applications_versions import SyntheticsMobileApplicationsVersions
 from datadog_sync.model.synthetics_private_locations import SyntheticsPrivateLocations
 from datadog_sync.model.synthetics_tests import SyntheticsTests
 from datadog_sync.model.teams import Teams

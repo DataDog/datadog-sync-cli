@@ -61,6 +61,7 @@ class ResourceConfig:
     deep_diff_config: dict = field(default_factory=lambda: {"ignore_order": True})
     tagging_config: Optional[TaggingConfig] = None
     async_lock: Optional[Lock] = None
+    non_nullable_list_vals: Optional[List[Tuple[str, Dict[str, str]]]] = None
 
     async def init_async(self) -> None:
         self.async_lock = Lock()
@@ -158,7 +159,6 @@ class BaseResource(abc.ABC):
 
         self.config.state.destination[self.resource_type].pop(_id, None)
 
-    @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         resources = self.config.state.destination[resource_to_connect]
 

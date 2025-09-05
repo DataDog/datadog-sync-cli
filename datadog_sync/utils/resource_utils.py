@@ -162,6 +162,7 @@ def find_attr(keys_list_str: str, resource_to_connect: str, r_obj: Any, connect_
 def prep_resource(resource_config, resource):
     remove_excluded_attr(resource_config, resource)
     remove_non_nullable_attributes(resource_config, resource)
+    remove_non_nullable_list_vals(resource_config, resource)
 
 
 def remove_excluded_attr(resource_config, resource):
@@ -176,6 +177,30 @@ def remove_non_nullable_attributes(resource_config, resource):
         for key in resource_config.non_nullable_attr:
             k_list = key.split(".")
             del_null_attr(resource_config, k_list, resource)
+
+
+def remove_non_nullable_list_vals(resource_config, resource):
+    if resource_config.non_nullable_list_vals:
+        for key, val in resource_config.non_nullable_list_vals:
+            k_list = key.split(".")
+            del_list_val(k_list, resource, None, val)
+
+
+def del_list_val(k_list, resource, key, val):
+    if len(k_list) > 0:
+        key = k_list.pop(0)
+        del_list_val(k_list, resource[key], key, val)
+        return
+
+    if not isinstance(resource, list):
+        log.error(f"resource: {resource} is not a list")
+
+    try:
+        index_of_val = resource.index(val)
+        resource.pop(index_of_val)
+        log.debug(f"Removed {val} from list {key}")
+    except ValueError as err:
+        log.debug(f"{val} not in list {key}, err: {err}")
 
 
 def del_attr(k_list, resource):
@@ -209,12 +234,14 @@ def del_null_attr(resource_config, k_list, resources):
 
 
 def check_diff(resource_config, resource, state):
-    return DeepDiff(
+    diff = DeepDiff(
         resource,
         state,
         exclude_paths=resource_config.excluded_attributes,
         **resource_config.deep_diff_config,
     )
+    #log.info(f"diff: {diff}") # this debug statement will break tests that look for diffs
+    return diff
 
 
 def init_topological_sorter(graph: Dict[Tuple[str, str], Set[Tuple[str, str]]]) -> TopologicalSorter:
