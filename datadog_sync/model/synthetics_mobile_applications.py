@@ -16,9 +16,13 @@ class SyntheticsMobileApplications(BaseResource):
     resource_type = "synthetics_mobile_applications"
     resource_config = ResourceConfig(
         base_path="/api/unstable/synthetics/mobile/applications",
+        resource_connections={
+            "synthetics_mobile_applications_versions": ["versions.id"],
+        },
         excluded_attributes=[
             "id",
             "created_at",
+            "versions",
         ],
         non_nullable_attr=[
             "framework",
@@ -56,13 +60,6 @@ class SyntheticsMobileApplications(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         destination_id = self.config.state.destination[self.resource_type][_id]["id"]
-
-        # if the resource doesn't exist at the destination then create it
-        existing_resources = await self.get_resources(destination_client)
-        existing_resource_ids = [r["id"] for r in existing_resources]
-        if destination_id not in existing_resource_ids:
-            self.config.logger.debug(f"{destination_id} not found, creating it")
-            return await self.create_resource(_id, resource)
 
         # resource exists so we can update it
         resource["id"] = destination_id
