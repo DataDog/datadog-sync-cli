@@ -159,7 +159,6 @@ class BaseResource(abc.ABC):
 
         self.config.state.destination[self.resource_type].pop(_id, None)
 
-    @abc.abstractmethod
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         resources = self.config.state.destination[resource_to_connect]
 
