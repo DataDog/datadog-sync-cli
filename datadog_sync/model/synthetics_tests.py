@@ -24,7 +24,10 @@ class SyntheticsTests(BaseResource):
             ],
             "roles": ["options.restricted_roles"],
             "rum_applications": ["options.rumSettings.applicationId"],
-            "synthetics_mobile_applications": ["options.mobileApplication.referenceId","options.mobileApplication.applicationId"],
+            "synthetics_mobile_applications": [
+                "options.mobileApplication.referenceId",
+                "options.mobileApplication.applicationId",
+            ],
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
