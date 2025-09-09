@@ -83,15 +83,15 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         app_size = sys.getsizeof(blob)
         self.config.logger.debug(f"app_size: {app_size}")
 
-        # chunk size, 5 MB is the minimum or googleapis throws errors
-        chunk_size = 1024 * 1024 * 5
+        # chunk size, 5 MB is the minimum or googleapis throws errors, 10 MB recommended by synthetics team
+        chunk_size = 1024 * 1024 * 10
 
         # calculate parts
         parts = {
             "appSize": app_size,
             "parts": [],
         }
-        num_of_parts = max(app_size // chunk_size, 1)
+        num_of_parts = app_size // chunk_size + 1
         self.config.logger.debug(f"num_of_parts: {num_of_parts}")
         for part_number in list(range(0, num_of_parts)):
             start = part_number * chunk_size
