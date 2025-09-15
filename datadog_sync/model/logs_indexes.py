@@ -92,9 +92,6 @@ class LogsIndexes(BaseResource):
             index_order["index_names"].append(index_name)
             await self.config.destination_client.put(self.logs_indexes_order_url, index_order)
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass
-
     async def get_destination_logs_indexes(self) -> Dict[str, Dict]:
         destination_global_variable_obj = {}
         destination_client = self.config.destination_client

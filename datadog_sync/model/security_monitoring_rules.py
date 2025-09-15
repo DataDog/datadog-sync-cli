@@ -184,9 +184,6 @@ class SecurityMonitoringRules(BaseResource):
 
         await destination_client.delete(self.resource_config.base_path + f"/{destination_resource['id']}")
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass
-
     @staticmethod
     def limit_resource(resource):
         """Default and partner security rules have some fields that cannot be updated we need to remove them"""

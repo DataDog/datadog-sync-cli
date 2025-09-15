@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -44,9 +45,14 @@ class Dashboards(BaseResource):
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
-        resource = await source_client.get(self.resource_config.base_path + f"/{import_id}")
-        resource = cast(dict, resource)
+        try:
+            resource = await source_client.get(self.resource_config.base_path + f"/{import_id}")
+        except CustomClientHTTPError as err:
+            if err.status_code == 403:
+                raise SkipResource(import_id, self.resource_type, "No access to restricted dashboard")   
+            raise err
 
+        resource = cast(dict, resource)
         return import_id, resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
