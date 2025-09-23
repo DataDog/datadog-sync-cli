@@ -16,9 +16,6 @@ class SyntheticsMobileApplications(BaseResource):
     resource_type = "synthetics_mobile_applications"
     resource_config = ResourceConfig(
         base_path="/api/unstable/synthetics/mobile/applications",
-        resource_connections={
-            "synthetics_mobile_applications_versions": ["versions.id"],
-        },
         excluded_attributes=[
             "id",
             "created_at",

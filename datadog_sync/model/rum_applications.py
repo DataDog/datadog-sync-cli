@@ -29,6 +29,7 @@ class RUMApplications(BaseResource):
             "attributes.org_id",
             "attributes.updated_at",
             "attributes.updated_by_handle",
+            "attributes.product_analytics_preview_disabled",
             "attributes.product_scales.product_analytics_retention_scale.last_modified_at",
             "attributes.product_scales.product_analytics_retention_scale.state",
             "attributes.product_scales.rum_event_processing_scale.last_modified_at",

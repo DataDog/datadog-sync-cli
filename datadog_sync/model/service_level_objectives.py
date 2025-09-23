@@ -3,11 +3,12 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
-#from collections import defaultdict
+from collections import defaultdict
+from copy import deepcopy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
-from datadog_sync.utils.resource_utils import check_diff, SkipResource
+from datadog_sync.utils.resource_utils import check_diff, find_attr, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -41,34 +42,38 @@ class ServiceLevelObjectives(BaseResource):
     async def pre_apply_hook(self) -> None:
         pass
 
-    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+    async def _clean_resource_connections(self, _id: str, resource: Dict) -> Dict:
         # SLO failed connections to monitors may need to be removed from the resource
-#        if self.config.skip_failed_resource_connections:
-#            failed_connections_dict = defaultdict(list)
-#            for resource_to_connect, v in self.resource_config.resource_connections.items():
-#                for attr_connection in v:
-#                    c = find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
-#                    if c:
-#                        failed_connections_dict[resource_to_connect].extend(c)
-#            for missing_monitor_id in failed_connections_dict["monitors"]:
-#                resource["monitor_ids"].remove(int(missing_monitor_id))
-#            diff = check_diff(
-#                self.resource_config,
-#                self.config.state.destination[self.resource_type][_id],
-#                resource,
-#            )
-#            if not diff:
-#                raise SkipResource(_id, self.resource_type, "No differences after failed connections removed")
+        cleaned_resource = deepcopy(resource)
+        if self.config.skip_failed_resource_connections:
+            if "monitor_ids" in cleaned_resource.keys():
+                failed_connections = self.connect_id("monitor_ids", cleaned_resource, "monitors")
+                for monitor_id in failed_connections:
+                    if "monitor_ids" in cleaned_resource.keys() and int(monitor_id) in cleaned_resource["monitor_ids"]:
+                        cleaned_resource["monitor_ids"].remove(int(monitor_id))
+            if _id in self.config.state.destination[self.resource_type]:
+                diff = check_diff(self.resource_config, self.config.state.destination[self.resource_type][_id], cleaned_resource)
+                if not diff:
+                    raise SkipResource(_id, self.resource_type, "No differences after failed connections removed")
+        return cleaned_resource
+
+    async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        cleaned_resource = await self._clean_resource_connections(_id, self.config.state.source[self.resource_type][_id])
+        if resource.get("monitor_ids", None) and not cleaned_resource.get("monitor_ids", None):
+            raise SkipResource(_id, self.resource_type, "None of the monitor_ids exist at destination")
 
         destination_client = self.config.destination_client
-        resp = await destination_client.post(self.resource_config.base_path, resource)
+        resp = await destination_client.post(self.resource_config.base_path, cleaned_resource)
         return _id, resp["data"][0]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        cleaned_resource = await self._clean_resource_connections(_id, self.config.state.source[self.resource_type][_id])
+        if resource.get("monitor_ids", None) and not cleaned_resource.get("monitor_ids", None):
+            raise SkipResource(_id, self.resource_type, "None of the monitor_ids exist at destination")
         destination_client = self.config.destination_client
         resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
-            resource,
+            cleaned_resource,
         )
 
         return _id, resp["data"][0]
