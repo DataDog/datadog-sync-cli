@@ -24,7 +24,10 @@ class SyntheticsTests(BaseResource):
             ],
             "roles": ["options.restricted_roles"],
             "rum_applications": ["options.rumSettings.applicationId"],
-            "synthetics_mobile_applications": ["options.mobileApplication.referenceId"],
+            "synthetics_mobile_applications": [
+                "options.mobileApplication.referenceId",
+                "options.mobileApplication.applicationId",
+            ],
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
@@ -47,12 +50,14 @@ class SyntheticsTests(BaseResource):
             "options.monitor_options.notify_audit",
             "options.monitor_options.new_host_delay",
             "options.monitor_options.include_tags",
+            "steps",
         ],
         null_values={
             "on_missing_data": ["show_no_data"],
             "notify_audit": [False],
             "new_host_delay": [300],
             "include_tags": [True],
+            "steps": [[]],
         },
         tagging_config=TaggingConfig(path="tags"),
     )
@@ -97,7 +102,8 @@ class SyntheticsTests(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        resp = await destination_client.post(self.resource_config.base_path, resource)
+        test_type = resource["type"]
+        resp = await destination_client.post(self.resource_config.base_path + f"/{test_type}", resource)
 
         return _id, resp
 
@@ -135,17 +141,6 @@ class SyntheticsTests(BaseResource):
             for k, v in resources.items():
                 if k.startswith(r_obj[key]):
                     r_obj[key] = v["public_id"]
-                    found = True
-                    break
-            if not found:
-                failed_connections.append(r_obj[key])
-            return failed_connections
-        elif resource_to_connect == "synthetics_mobile_applications":
-            resources = self.config.state.destination[resource_to_connect]
-            found = False
-            for k, v in resources.items():
-                if k.startswith(r_obj[key]):
-                    r_obj[key] = v["id"]
                     found = True
                     break
             if not found:

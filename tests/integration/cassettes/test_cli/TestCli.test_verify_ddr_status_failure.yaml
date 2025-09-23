@@ -100,15 +100,29 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"status": "error", "code": 403, "errors": ["Forbidden"], "statuspage":
-        "http://status.us5.datadoghq.com", "twitter": "http://twitter.com/datadogops",
-        "email": "support@datadoghq.com"}'
+      string: '{"errors": ["Unauthorized"]}'
     headers:
       Content-Type:
       - application/json
     status:
-      code: 403
-      message: Forbidden
+      code: 401
+      message: Unauthorized
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v2/hamr
+  response:
+    body:
+      string: '{"errors": ["Unauthorized"]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 401
+      message: Unauthorized
 - request:
     body: null
     headers:
@@ -136,31 +150,11 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/hamr
   response:
     body:
-      string: '{"status": "error", "code": 403, "errors": ["Forbidden"], "statuspage":
-        "http://status.us5.datadoghq.com", "twitter": "http://twitter.com/datadogops",
-        "email": "support@datadoghq.com"}'
+      string: '{"errors": ["Unauthorized"]}'
     headers:
       Content-Type:
       - application/json
     status:
-      code: 403
-      message: Forbidden
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.us5.datadoghq.com/api/v2/hamr
-  response:
-    body:
-      string: '{"status": "error", "code": 403, "errors": ["Forbidden"], "statuspage":
-        "http://status.us5.datadoghq.com", "twitter": "http://twitter.com/datadogops",
-        "email": "support@datadoghq.com"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 403
-      message: Forbidden
+      code: 401
+      message: Unauthorized
 version: 1
