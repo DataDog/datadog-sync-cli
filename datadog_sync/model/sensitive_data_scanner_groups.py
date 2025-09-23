@@ -56,7 +56,6 @@ class SensitiveDataScannerGroups(BaseResource):
     async def pre_apply_hook(self) -> None:
         pass
 
-
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         payload = {"data": resource, "meta": {}}

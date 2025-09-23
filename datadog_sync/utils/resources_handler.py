@@ -89,7 +89,7 @@ class ResourcesHandler:
             cleanup_resources = self.config.state.get_resources_to_cleanup(self.config.resources_arg)
             if cleanup_resources:
                 cleanup = _cleanup_prompt(self.config, cleanup_resources)
-                resource_types = [k for (k,v) in cleanup_resources.keys()]
+                resource_types = [k for (k, v) in cleanup_resources.keys()]
                 prev_resource_type = resource_types[0]
                 if cleanup:
                     self.config.logger.info("cleaning up resources...")

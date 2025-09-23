@@ -52,13 +52,17 @@ class ServiceLevelObjectives(BaseResource):
                     if "monitor_ids" in cleaned_resource.keys() and int(monitor_id) in cleaned_resource["monitor_ids"]:
                         cleaned_resource["monitor_ids"].remove(int(monitor_id))
             if _id in self.config.state.destination[self.resource_type]:
-                diff = check_diff(self.resource_config, self.config.state.destination[self.resource_type][_id], cleaned_resource)
+                diff = check_diff(
+                    self.resource_config, self.config.state.destination[self.resource_type][_id], cleaned_resource
+                )
                 if not diff:
                     raise SkipResource(_id, self.resource_type, "No differences after failed connections removed")
         return cleaned_resource
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        cleaned_resource = await self._clean_resource_connections(_id, self.config.state.source[self.resource_type][_id])
+        cleaned_resource = await self._clean_resource_connections(
+            _id, self.config.state.source[self.resource_type][_id]
+        )
         if resource.get("monitor_ids", None) and not cleaned_resource.get("monitor_ids", None):
             raise SkipResource(_id, self.resource_type, "None of the monitor_ids exist at destination")
 
@@ -67,7 +71,9 @@ class ServiceLevelObjectives(BaseResource):
         return _id, resp["data"][0]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        cleaned_resource = await self._clean_resource_connections(_id, self.config.state.source[self.resource_type][_id])
+        cleaned_resource = await self._clean_resource_connections(
+            _id, self.config.state.source[self.resource_type][_id]
+        )
         if resource.get("monitor_ids", None) and not cleaned_resource.get("monitor_ids", None):
             raise SkipResource(_id, self.resource_type, "None of the monitor_ids exist at destination")
         destination_client = self.config.destination_client

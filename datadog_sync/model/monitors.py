@@ -105,7 +105,11 @@ class Monitors(BaseResource):
         slos = self.config.state.destination["service_level_objectives"]
         rum_applications = self.config.state.destination["rum_applications"]
 
-        if r_obj.get("type") == "composite" and key == "query" and resource_to_connect not in ["service_level_objectives", "rum_applications"]:
+        if (
+            r_obj.get("type") == "composite"
+            and key == "query"
+            and resource_to_connect not in ["service_level_objectives", "rum_applications"]
+        ):
             failed_connections = []
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:

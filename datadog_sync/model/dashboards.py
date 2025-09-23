@@ -49,7 +49,7 @@ class Dashboards(BaseResource):
             resource = await source_client.get(self.resource_config.base_path + f"/{import_id}")
         except CustomClientHTTPError as err:
             if err.status_code == 403:
-                raise SkipResource(import_id, self.resource_type, "No access to restricted dashboard")   
+                raise SkipResource(import_id, self.resource_type, "No access to restricted dashboard")
             raise err
 
         resource = cast(dict, resource)
