@@ -55,7 +55,7 @@ class Notebooks(BaseResource):
                 resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
             except CustomClientHTTPError as err:
                 if err.status_code == 403:
-                    raise SkipResource(import_id, self.resource_type, "No access to restricted notebook")
+                    raise SkipResource(_id, self.resource_type, "No access to restricted notebook")
 
         resource = cast(dict, resource)
         self.handle_special_case_attr(resource)

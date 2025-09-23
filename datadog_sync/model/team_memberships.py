@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
+from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
@@ -77,7 +77,7 @@ class TeamMemberships(BaseResource):
             all_team_memberships = self.get_resources(source_client)
             for team_member in all_team_memberships:
                 if team_member["id"] == _id:
-                    reresource = team_member
+                    resource = team_member
                     break
 
         return resource["id"], resource

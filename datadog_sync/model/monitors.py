@@ -139,8 +139,11 @@ class Monitors(BaseResource):
             return failed_connections
         elif resource_to_connect == "rum_applications" and r_obj.get("type") == "rum alert" and key == "query":
             failed_connections = []
-            app_id_regex_pattern = r"application.id\:([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})"
-            if res := re.search(app_id_regex_pattern, r_obj[key]):
+            regex = (
+                r"application.id"
+                + r"\:([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})"
+            )
+            if res := re.search(regex, r_obj[key]):
                 _id = res.group(1)
                 if _id in rum_applications:
                     r_obj[key] = re.sub(_id, rum_applications[_id]["id"], r_obj[key])
