@@ -88,9 +88,6 @@ class Notebooks(BaseResource):
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass
-
     @staticmethod
     def handle_special_case_attr(resource):
         # Handle template_variables attribute
