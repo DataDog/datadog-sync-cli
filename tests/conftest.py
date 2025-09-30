@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from datadog_sync.utils.state import State
+import base64
 import pytest
 import os
 import logging
@@ -71,6 +72,7 @@ def filter_response_data():
     def before_record_response(response):
         _filter_response_headers(response)
         # add filter functions below
+        response = _deal_with_binary(response)
         response = filter_private_location_data(response)
         return response
 
@@ -82,6 +84,21 @@ def _filter_response_headers(response):
         if key not in HEADERS_TO_PERSISTS:
             response["headers"].pop(key, None)
 
+def _is_binary(data):
+    # A simple heuristic to check for binary data
+    try:
+        data.decode("utf-8")
+    except UnicodeDecodeError:
+        return True
+    return False
+
+def _deal_with_binary(response):
+    if "body" in response:
+        body = response["body"].get("string")
+        if body and _is_binary(body):
+            response["body"]["string"] = base64.b64encode(body).decode("ascii")
+            response["body"]["encoding"] = "base64"
+    return response
 
 def _disable_recording():
     """Disable VCR.py integration."""

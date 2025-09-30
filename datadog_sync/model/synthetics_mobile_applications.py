@@ -16,9 +16,6 @@ class SyntheticsMobileApplications(BaseResource):
     resource_type = "synthetics_mobile_applications"
     resource_config = ResourceConfig(
         base_path="/api/unstable/synthetics/mobile/applications",
-        resource_connections={
-            "synthetics_mobile_applications_versions": ["versions.id"],
-        },
         excluded_attributes=[
             "id",
             "created_at",
@@ -61,13 +58,16 @@ class SyntheticsMobileApplications(BaseResource):
         destination_client = self.config.destination_client
         destination_id = self.config.state.destination[self.resource_type][_id]["id"]
 
-        # resource exists so we can update it
-        resource["id"] = destination_id
-        payload = {"data": resource}
+        # can't update these fields
+        resource.pop("framework", None)
+        resource.pop("id", None)
+        resource.pop("platform", None)
+
         resp = await destination_client.put(
             self.resource_config.base_path + "/" + destination_id,
-            payload,
+            resource,
         )
+
         return _id, resp
 
     async def delete_resource(self, _id: str) -> None:
