@@ -376,23 +376,6 @@ class ResourcesHandler:
             dependency_graph[(resource_type, _id)] = deps
             missing_resources.update(missing)
 
-        # mobile tests have a hidden dependency on synthetics_mobile_applications_versions
-        # get the synthetics tests for mobile applications
-        synthetics_mobile_tests = {
-            k: v for k, v in dependency_graph.items() \
-            if k[0] == "synthetics_tests" and "synthetics_mobile_applications" in [i[0] for i in v]
-        }
-        # get mobile application versions
-        versions = {
-            k: v for k, v in dependency_graph.items() \
-            if k[0] == "synthetics_mobile_applications_versions"
-        }
-        # loop over both tests and add the versions' dependencies to the test
-        for synthetics_mobile_test, application_from_test in synthetics_mobile_tests.items():
-            for version, application_from_version in versions.items():
-                if application_from_test == application_from_version:
-                    dependency_graph[synthetics_mobile_test].add(version)
-
         return dependency_graph, missing_resources
 
     def _resource_connections(self, resource_type: str, _id: str) -> Tuple[Set[Tuple[str, str]], Set[Tuple[str, str]]]:
