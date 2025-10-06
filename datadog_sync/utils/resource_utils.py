@@ -100,7 +100,7 @@ class DowntimeSchedulesDateOperator(BaseOperator):
             pass
 
         return False
-    
+
     def normalize_value_for_hashing(self, parent: Any, obj: Any) -> Any:
         """
         Used for ignore_order=True (required in later versions of deepdiff)
