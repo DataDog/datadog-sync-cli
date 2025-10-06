@@ -84,6 +84,7 @@ def _filter_response_headers(response):
         if key not in HEADERS_TO_PERSISTS:
             response["headers"].pop(key, None)
 
+
 def _is_binary(data):
     # A simple heuristic to check for binary data
     try:
@@ -92,6 +93,7 @@ def _is_binary(data):
         return True
     return False
 
+
 def _deal_with_binary(response):
     if "body" in response:
         body = response["body"].get("string")
@@ -99,6 +101,7 @@ def _deal_with_binary(response):
             response["body"]["string"] = base64.b64encode(body).decode("ascii")
             response["body"]["encoding"] = "base64"
     return response
+
 
 def _disable_recording():
     """Disable VCR.py integration."""

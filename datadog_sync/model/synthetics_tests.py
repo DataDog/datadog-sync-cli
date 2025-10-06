@@ -95,7 +95,12 @@ class SyntheticsTests(BaseResource):
             resource = await source_client.get(self.api_test_path.format(_id))
         elif resource.get("type") == "mobile":
             resource = await source_client.get(self.mobile_test_path.format(_id))
-            resource["mobileApplicationsVersions"] = [i["id"] for i in self.versions if i["application_id"] == resource["options"]["mobileApplication"]["applicationId"]]
+            versions = [
+                i["id"]
+                for i in self.versions
+                if i["application_id"] == resource["options"]["mobileApplication"]["applicationId"]
+            ]
+            resource["mobileApplicationsVersions"] = list(set(versions))
 
         resource = cast(dict, resource)
         return f"{resource['public_id']}#{resource['monitor_id']}", resource
