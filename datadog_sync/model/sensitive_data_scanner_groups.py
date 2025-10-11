@@ -18,7 +18,7 @@ class SensitiveDataScannerGroups(BaseResource):
         base_path="/api/v2/sensitive-data-scanner/config",
         excluded_attributes=[
             "id",
-            "relationships",
+            "relationships.rules",
         ],
         concurrent=False,
     )
@@ -45,7 +45,13 @@ class SensitiveDataScannerGroups(BaseResource):
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        pass
+        """
+        The relationships.configuration.data.id is unique per org, so we need to pull
+        the config id from the destination and change the destination resource to have it
+        """
+        destination_client = self.config.destination_client
+        resp = await destination_client.get("/api/v2/sensitive-data-scanner/config")
+        resource["relationships"]["configuration"]["data"]["id"] = resp["data"]["id"]
 
     async def pre_apply_hook(self) -> None:
         pass
@@ -75,6 +81,3 @@ class SensitiveDataScannerGroups(BaseResource):
             self.resource_config.base_path + f"/groups/{self.config.state.destination[self.resource_type][_id]['id']}",
             body=payload,
         )
-
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass

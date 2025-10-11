@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -50,7 +51,11 @@ class Notebooks(BaseResource):
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
+            try:
+                resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
+            except CustomClientHTTPError as err:
+                if err.status_code == 403:
+                    raise SkipResource(_id, self.resource_type, "No access to restricted notebook")
 
         resource = cast(dict, resource)
         self.handle_special_case_attr(resource)
@@ -87,9 +92,6 @@ class Notebooks(BaseResource):
         await destination_client.delete(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
-
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass
 
     @staticmethod
     def handle_special_case_attr(resource):

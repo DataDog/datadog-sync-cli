@@ -23,6 +23,7 @@ class Monitors(BaseResource):
             "roles": ["restricted_roles"],
             "service_level_objectives": ["query"],
             "restriction_policies": ["restriction_policy"],
+            "rum_applications": ["query"],
         },
         base_path="/api/v1/monitor",
         excluded_attributes=[
@@ -102,8 +103,13 @@ class Monitors(BaseResource):
         monitors = self.config.state.destination[resource_to_connect]
         synthetics_tests = self.config.state.destination["synthetics_tests"]
         slos = self.config.state.destination["service_level_objectives"]
+        rum_applications = self.config.state.destination["rum_applications"]
 
-        if r_obj.get("type") == "composite" and key == "query" and resource_to_connect != "service_level_objectives":
+        if (
+            r_obj.get("type") == "composite"
+            and key == "query"
+            and resource_to_connect not in ["service_level_objectives", "rum_applications"]
+        ):
             failed_connections = []
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:
@@ -128,6 +134,19 @@ class Monitors(BaseResource):
                 _id = res.group(1)
                 if _id in slos:
                     r_obj[key] = re.sub(_id, slos[_id]["id"], r_obj[key])
+                else:
+                    failed_connections.append(_id)
+            return failed_connections
+        elif resource_to_connect == "rum_applications" and r_obj.get("type") == "rum alert" and key == "query":
+            failed_connections = []
+            regex = (
+                r"application.id"
+                + r"\:([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})"
+            )
+            if res := re.search(regex, r_obj[key]):
+                _id = res.group(1)
+                if _id in rum_applications:
+                    r_obj[key] = re.sub(_id, rum_applications[_id]["id"], r_obj[key])
                 else:
                     failed_connections.append(_id)
             return failed_connections

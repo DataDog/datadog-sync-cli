@@ -44,16 +44,19 @@ class MetricsMetadata(BaseResource):
         pass
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        if resource.get("type", None) == "distribution":
+            metric_name = _id or resource["id"]
+            raise SkipResource(metric_name, self.resource_type, "Metric metadata not supported for distributions.")
         return await self.update_resource(_id, resource)
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        if resource.get("type", None) == "distribution":
+            metric_name = _id or resource["id"]
+            raise SkipResource(metric_name, self.resource_type, "Metric metadata not supported for distributions.")
         destination_client = self.config.destination_client
         resp = await destination_client.put(self.resource_config.base_path + f"/{_id}", resource)
 
         return _id, resp
 
     async def delete_resource(self, _id: str) -> None:
-        pass
-
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         pass

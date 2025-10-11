@@ -89,10 +89,17 @@ class ResourcesHandler:
             cleanup_resources = self.config.state.get_resources_to_cleanup(self.config.resources_arg)
             if cleanup_resources:
                 cleanup = _cleanup_prompt(self.config, cleanup_resources)
+                resource_types = [k for (k, v) in cleanup_resources.keys()]
+                prev_resource_type = resource_types[0]
                 if cleanup:
                     self.config.logger.info("cleaning up resources...")
                     await self.worker.init_workers(self._cleanup_worker, None, None)
                     for i in cleanup_resources:
+                        # wait for dependencies to be deleted before moving on to next resource type
+                        if i[0] != prev_resource_type:
+                            self.config.logger.debug(f"clean {prev_resource_type} resources")
+                            await self.worker.schedule_workers()
+                            prev_resource_type = i[0]
                         self.worker.work_queue.put_nowait(i)
                     await self.worker.schedule_workers()
                     self.config.logger.info("finished cleaning up resources")
@@ -161,7 +168,7 @@ class ResourcesHandler:
             self.worker.counter.increment_success()
 
         except SkipResource as e:
-            self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
+            self.config.logger.debug(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.worker.counter.increment_skipped()
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"])
         except ResourceConnectionError:
@@ -219,7 +226,7 @@ class ResourcesHandler:
             try:
                 await r_class._pre_resource_action_hook(_id, resource)
             except SkipResource as e:
-                self.config.logger.warning(f"skipping resource: resource_type:{resource_type} id:{_id}")
+                self.config.logger.debug(f"skipping resource: resource_type:{resource_type} id:{_id}")
                 self.config.logger.debug(str(e))
                 return
 
@@ -297,7 +304,7 @@ class ResourcesHandler:
         except SkipResource as e:
             self.worker.counter.increment_skipped()
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SKIPPED.value)
-            self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
+            self.config.logger.debug(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.debug(str(e))
         except Exception as e:
             self.worker.counter.increment_failure()
@@ -333,7 +340,7 @@ class ResourcesHandler:
         except SkipResource as e:
             self.worker.counter.increment_skipped()
             await r_class._send_action_metrics("delete", _id, Status.SKIPPED.value, tags=["reason:unknown"])
-            self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
+            self.config.logger.debug(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.info(f"skip deleting resource: {str(e)}", resource_type=resource_type, _id=_id)
         except Exception as e:
             self.worker.counter.increment_failure()

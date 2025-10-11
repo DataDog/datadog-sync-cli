@@ -16,9 +16,6 @@ class SyntheticsMobileApplications(BaseResource):
     resource_type = "synthetics_mobile_applications"
     resource_config = ResourceConfig(
         base_path="/api/unstable/synthetics/mobile/applications",
-        resource_connections={
-            "synthetics_mobile_applications_versions": ["versions.id"],
-        },
         excluded_attributes=[
             "id",
             "created_at",
@@ -75,6 +72,3 @@ class SyntheticsMobileApplications(BaseResource):
         await destination_client.delete(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
-
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass

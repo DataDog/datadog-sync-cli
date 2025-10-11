@@ -29,6 +29,7 @@ class RUMApplications(BaseResource):
             "attributes.org_id",
             "attributes.updated_at",
             "attributes.updated_by_handle",
+            "attributes.product_analytics_preview_disabled",
             "attributes.product_scales.product_analytics_retention_scale.last_modified_at",
             "attributes.product_scales.product_analytics_retention_scale.state",
             "attributes.product_scales.rum_event_processing_scale.last_modified_at",
@@ -97,6 +98,3 @@ class RUMApplications(BaseResource):
         await destination_client.delete(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
-
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass
