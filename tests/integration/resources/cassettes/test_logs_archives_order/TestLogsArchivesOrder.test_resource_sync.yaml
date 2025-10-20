@@ -51,7 +51,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives
   response:
     body:
-      string: '{"data": {"type": "archives", "id": "vz26Qb7fS9KIBPQJkvxcKQ", "attributes":
+      string: '{"data": {"type": "archives", "id": "1kLyczUQTSiE39U53qRDKw", "attributes":
         {"name": "Main Archive", "query": "host:COMP-XKH4K2XWRC", "state": "UNKNOWN",
         "destination": {"bucket": "hamr-logs-archive-for-internal-testing", "encryption":
         {"type": "NO_OVERRIDE"}, "storage_class": "STANDARD", "path": "/logs-archive-testing",
@@ -73,7 +73,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archive-order
   response:
     body:
-      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["vz26Qb7fS9KIBPQJkvxcKQ"]}}}'
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["1kLyczUQTSiE39U53qRDKw"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -81,7 +81,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["vz26Qb7fS9KIBPQJkvxcKQ"]}}}'
+    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["1kLyczUQTSiE39U53qRDKw"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -89,7 +89,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archive-order
   response:
     body:
-      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["vz26Qb7fS9KIBPQJkvxcKQ"]}}}'
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["1kLyczUQTSiE39U53qRDKw"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -7503,7 +7503,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/vz26Qb7fS9KIBPQJkvxcKQ
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/1kLyczUQTSiE39U53qRDKw
   response:
     body:
       string: ''

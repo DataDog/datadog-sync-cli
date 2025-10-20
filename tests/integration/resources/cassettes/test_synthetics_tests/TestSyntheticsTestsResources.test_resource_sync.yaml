@@ -162,9 +162,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests/api
   response:
     body:
-      string: '{"public_id": "cm9-b55-zq4", "name": "Test on www.datadoghq.com", "status":
+      string: '{"public_id": "upn-skr-232", "name": "Test on www.datadoghq.com", "status":
         "live", "type": "api", "subtype": "http", "tags": ["managed_by:datadog-sync"],
-        "created_at": "2025-10-20T18:41:15.995370+00:00", "modified_at": "2025-10-20T18:41:15.995370+00:00",
+        "created_at": "2025-10-20T19:07:38.077550+00:00", "modified_at": "2025-10-20T19:07:38.077550+00:00",
         "config": {"assertions": [{"operator": "lessThan", "type": "responseTime",
         "target": 1000}], "request": {"method": "GET", "url": "https://www.datadoghq.com"}},
         "message": "", "options": {"httpVersion": "any", "min_failure_duration": 0,
@@ -179,7 +179,7 @@ interactions:
         "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
         "gcp:us-west1", "gcp:us-west2"], "created_by": {"name": "Michael S Richey",
         "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com"},
-        "deleted_at": null, "monitor_id": 16263620, "org_id": 1300336245, "modified_by":
+        "deleted_at": null, "monitor_id": 16264375, "org_id": 1300336245, "modified_by":
         {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "email": "michael.richey@gmail.com"}}'
     headers:
@@ -7590,7 +7590,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["cm9-b55-zq4"]}'
+    body: '{"public_ids": ["upn-skr-232"]}'
     headers:
       Content-Type:
       - application/json
@@ -7598,7 +7598,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"public_id": "cm9-b55-zq4", "deleted_at": "2025-10-20T18:41:17.334277+00:00"}]}'
+      string: '{"deleted_tests": [{"public_id": "upn-skr-232", "deleted_at": "2025-10-20T19:07:39.390247+00:00"}]}'
     headers:
       Content-Type:
       - application/json

@@ -425,7 +425,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "SkWSfdjVTU-9_GGGnYcaSw", "type": "pipeline", "name": "test",
+      string: '{"id": "_JYswhG2Q_STCj26luaVFg", "type": "pipeline", "name": "test",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -654,7 +654,7 @@ interactions:
         "source_type": "attribute", "target": "evt.outcome", "target_type": "attribute",
         "preserve_source": false, "override_on_conflict": false, "type": "attribute-remapper"},
         {"name": "Define `msg` as the official message of the log", "is_enabled":
-        true, "sources": ["msg"], "type": "message-remapper"}]}, {"id": "SkWSfdjVTU-9_GGGnYcaSw",
+        true, "sources": ["msg"], "type": "message-remapper"}]}, {"id": "_JYswhG2Q_STCj26luaVFg",
         "type": "pipeline", "name": "test", "is_enabled": true, "is_read_only": false,
         "filter": {"query": "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -863,7 +863,7 @@ interactions:
         "source_type": "attribute", "target": "evt.outcome", "target_type": "attribute",
         "preserve_source": false, "override_on_conflict": false, "type": "attribute-remapper"},
         {"name": "Define `msg` as the official message of the log", "is_enabled":
-        true, "sources": ["msg"], "type": "message-remapper"}]}, {"id": "SkWSfdjVTU-9_GGGnYcaSw",
+        true, "sources": ["msg"], "type": "message-remapper"}]}, {"id": "_JYswhG2Q_STCj26luaVFg",
         "type": "pipeline", "name": "test", "is_enabled": true, "is_read_only": false,
         "filter": {"query": "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -879,10 +879,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/SkWSfdjVTU-9_GGGnYcaSw
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/_JYswhG2Q_STCj26luaVFg
   response:
     body:
-      string: '{"id": "SkWSfdjVTU-9_GGGnYcaSw", "type": "pipeline", "name": "testupdated",
+      string: '{"id": "_JYswhG2Q_STCj26luaVFg", "type": "pipeline", "name": "testupdated",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -1111,7 +1111,7 @@ interactions:
         "source_type": "attribute", "target": "evt.outcome", "target_type": "attribute",
         "preserve_source": false, "override_on_conflict": false, "type": "attribute-remapper"},
         {"name": "Define `msg` as the official message of the log", "is_enabled":
-        true, "sources": ["msg"], "type": "message-remapper"}]}, {"id": "SkWSfdjVTU-9_GGGnYcaSw",
+        true, "sources": ["msg"], "type": "message-remapper"}]}, {"id": "_JYswhG2Q_STCj26luaVFg",
         "type": "pipeline", "name": "testupdated", "is_enabled": true, "is_read_only":
         false, "filter": {"query": "source:appgate_client "}, "processors": [], "tags":
         []}]'
@@ -8528,7 +8528,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/SkWSfdjVTU-9_GGGnYcaSw
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/_JYswhG2Q_STCj26luaVFg
   response:
     body:
       string: '{}'

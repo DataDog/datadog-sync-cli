@@ -6842,9 +6842,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries
   response:
     body:
-      string: '{"data": {"type": "logs_restriction_queries", "id": "cef47cb4-ade3-11f0-970e-da7ad0900005",
+      string: '{"data": {"type": "logs_restriction_queries", "id": "8199ae90-ade7-11f0-93d0-da7ad0900005",
         "attributes": {"restriction_query": "host:COMP-XKH4K2XWRC ", "created_at":
-        "2025-10-20T18:37:18.978963+00:00", "modified_at": "2025-10-20T18:37:18.978963+00:00"}}}'
+        "2025-10-20T19:03:47.185117+00:00", "modified_at": "2025-10-20T19:03:47.185117+00:00"}}}'
     headers:
       Content-Type:
       - application/json
@@ -6852,12 +6852,12 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"id": "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles"}}'
+    body: '{"data": {"id": "514c41b6-1630-11f0-910b-da7ad0900005", "type": "roles"}}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/cef47cb4-ade3-11f0-970e-da7ad0900005/roles
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/8199ae90-ade7-11f0-93d0-da7ad0900005/roles
   response:
     body:
       string: ''
@@ -6873,7 +6873,7 @@ interactions:
       Content-Type:
       - application/json
     method: POST
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/cef47cb4-ade3-11f0-970e-da7ad0900005/roles
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/8199ae90-ade7-11f0-93d0-da7ad0900005/roles
   response:
     body:
       string: ''
@@ -6884,12 +6884,12 @@ interactions:
       code: 204
       message: No Content
 - request:
-    body: '{"data": {"id": "514c41b6-1630-11f0-910b-da7ad0900005", "type": "roles"}}'
+    body: '{"data": {"id": "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles"}}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/cef47cb4-ade3-11f0-970e-da7ad0900005/roles
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/8199ae90-ade7-11f0-93d0-da7ad0900005/roles
   response:
     body:
       string: ''
@@ -6966,12 +6966,12 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/cef47cb4-ade3-11f0-970e-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/8199ae90-ade7-11f0-93d0-da7ad0900005
   response:
     body:
-      string: '{"data": {"type": "logs_restriction_queries", "id": "cef47cb4-ade3-11f0-970e-da7ad0900005",
+      string: '{"data": {"type": "logs_restriction_queries", "id": "8199ae90-ade7-11f0-93d0-da7ad0900005",
         "attributes": {"restriction_query": "host:COMP-XKH4K2XWRC updated", "created_at":
-        "2025-10-20T18:37:18.978963+00:00", "modified_at": "2025-10-20T18:37:20.245678+00:00"}}}'
+        "2025-10-20T19:03:47.185117+00:00", "modified_at": "2025-10-20T19:03:48.499377+00:00"}}}'
     headers:
       Content-Type:
       - application/json
@@ -14425,7 +14425,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/cef47cb4-ade3-11f0-970e-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/8199ae90-ade7-11f0-93d0-da7ad0900005
   response:
     body:
       string: ''

@@ -8,13 +8,13 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/downtime?page%5Blimit%5D=100&page%5Boffset%5D=0
   response:
     body:
-      string: '{"data": [{"type": "downtime", "attributes": {"scope": "*", "notify_end_states":
-        ["warn", "alert", "no data"], "modified": "2025-07-18T18:01:55.478390+00:00",
-        "monitor_identifier": {"monitor_id": 20046756}, "schedule": {"end": null,
-        "start": "2027-01-14T05:01:00+00:00"}, "notify_end_types": ["expired", "canceled"],
-        "mute_first_recovery_notification": false, "created": "2025-03-31T14:02:01.562470+00:00",
-        "display_timezone": "America/New_York", "canceled": null, "status": "scheduled",
-        "message": "test2"}, "id": "50800db3-0b9c-49ce-bede-c20d6a525b5e"}], "meta":
+      string: '{"data": [{"type": "downtime", "id": "50800db3-0b9c-49ce-bede-c20d6a525b5e",
+        "attributes": {"message": "test2", "modified": "2025-07-18T18:01:55.478390+00:00",
+        "monitor_identifier": {"monitor_id": 20046756}, "notify_end_states": ["alert",
+        "warn", "no data"], "canceled": null, "created": "2025-03-31T14:02:01.562470+00:00",
+        "schedule": {"end": null, "start": "2027-01-14T05:01:00+00:00"}, "status":
+        "scheduled", "display_timezone": "America/New_York", "notify_end_types": ["canceled",
+        "expired"], "mute_first_recovery_notification": false, "scope": "*"}}], "meta":
         {"page": {"total_filtered_count": 1}}}'
     headers:
       Content-Type:
