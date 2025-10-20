@@ -76,14 +76,14 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/slo
   response:
     body:
-      string: '{"data": [{"id": "23d2b71fc37d54d1a0961d704211ef18", "name": "test",
+      string: '{"data": [{"id": "93c74e4f37e552fd8f9b4edfa253c829", "name": "test",
         "tags": ["managed_by:datadog-sync"], "monitor_tags": [], "thresholds": [{"timeframe":
         "7d", "target": 99.9, "target_display": "99.9"}], "type": "metric", "type_id":
         1, "description": "", "timeframe": "7d", "target_threshold": 99.9, "query":
         {"denominator": "sum:datadog.agent.started{*}.as_count()", "numerator": "sum:datadog.agent.started{*}.as_count()"},
         "creator": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "email": "michael.richey@gmail.com"}, "created_at": 1760981368, "modified_at":
-        1760981368}], "error": null}'
+        "email": "michael.richey@gmail.com"}, "created_at": 1760982366, "modified_at":
+        1760982366}], "error": null}'
     headers:
       Content-Type:
       - application/json
@@ -7497,10 +7497,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/slo/23d2b71fc37d54d1a0961d704211ef18?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/slo/93c74e4f37e552fd8f9b4edfa253c829?force=true
   response:
     body:
-      string: '{"data": ["23d2b71fc37d54d1a0961d704211ef18"], "error": null}'
+      string: '{"data": ["93c74e4f37e552fd8f9b4edfa253c829"], "error": null}'
     headers:
       Content-Type:
       - application/json

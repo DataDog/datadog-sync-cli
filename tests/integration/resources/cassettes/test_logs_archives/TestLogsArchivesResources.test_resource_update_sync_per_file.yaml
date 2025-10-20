@@ -75,7 +75,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives
   response:
     body:
-      string: '{"data": {"type": "archives", "id": "C4LUFjxoSjOl9z73JEBoKA", "attributes":
+      string: '{"data": {"type": "archives", "id": "IMy91YifSBiJj66XRm9xmQ", "attributes":
         {"name": "Main Archive", "query": "host:COMP-XKH4K2XWRC", "state": "UNKNOWN",
         "destination": {"bucket": "hamr-logs-archive-for-internal-testing", "encryption":
         {"type": "NO_OVERRIDE"}, "storage_class": "STANDARD", "path": "/logs-archive-testing",
@@ -159,10 +159,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/C4LUFjxoSjOl9z73JEBoKA
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/IMy91YifSBiJj66XRm9xmQ
   response:
     body:
-      string: '{"data": {"type": "archives", "id": "C4LUFjxoSjOl9z73JEBoKA", "attributes":
+      string: '{"data": {"type": "archives", "id": "IMy91YifSBiJj66XRm9xmQ", "attributes":
         {"name": "Main Archiveupdated", "query": "host:COMP-XKH4K2XWRC", "state":
         "UNKNOWN", "destination": {"bucket": "hamr-logs-archive-for-internal-testing",
         "encryption": {"type": "NO_OVERRIDE"}, "storage_class": "STANDARD", "path":
@@ -7622,7 +7622,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/C4LUFjxoSjOl9z73JEBoKA
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/IMy91YifSBiJj66XRm9xmQ
   response:
     body:
       string: ''

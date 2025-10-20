@@ -49,7 +49,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"id": "8d354ece-79a8-4dc2-bf9d-e395930296f7", "name": "TEST", "description":
+      string: '{"id": "d7bf701b-59b2-43cb-853d-b5f522b24edb", "name": "TEST", "description":
         "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}}'
@@ -68,9 +68,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "8d354ece-79a8-4dc2-bf9d-e395930296f7", "name":
+      string: '{"variables": [{"id": "d7bf701b-59b2-43cb-853d-b5f522b24edb", "name":
         "TEST", "description": "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
-        "created_at": "2025-10-20T17:29:37.243553+00:00", "modified_at": "2025-10-20T17:29:37.243553+00:00",
+        "created_at": "2025-10-20T17:46:16.128505+00:00", "modified_at": "2025-10-20T17:46:16.128505+00:00",
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}, "creator": {"email": "michael.richey@gmail.com", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "name": "Michael S Richey"}, "editor": {"email": "michael.richey@gmail.com",
@@ -90,9 +90,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "8d354ece-79a8-4dc2-bf9d-e395930296f7", "name":
+      string: '{"variables": [{"id": "d7bf701b-59b2-43cb-853d-b5f522b24edb", "name":
         "TEST", "description": "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
-        "created_at": "2025-10-20T17:29:37.243553+00:00", "modified_at": "2025-10-20T17:29:37.243553+00:00",
+        "created_at": "2025-10-20T17:46:16.128505+00:00", "modified_at": "2025-10-20T17:46:16.128505+00:00",
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}, "creator": {"email": "michael.richey@gmail.com", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "name": "Michael S Richey"}, "editor": {"email": "michael.richey@gmail.com",
@@ -111,10 +111,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables/8d354ece-79a8-4dc2-bf9d-e395930296f7
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables/d7bf701b-59b2-43cb-853d-b5f522b24edb
   response:
     body:
-      string: '{"id": "8d354ece-79a8-4dc2-bf9d-e395930296f7", "name": "TEST", "description":
+      string: '{"id": "d7bf701b-59b2-43cb-853d-b5f522b24edb", "name": "TEST", "description":
         "testupdated", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}}'
@@ -133,10 +133,10 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "8d354ece-79a8-4dc2-bf9d-e395930296f7", "name":
+      string: '{"variables": [{"id": "d7bf701b-59b2-43cb-853d-b5f522b24edb", "name":
         "TEST", "description": "testupdated", "type": "variable", "tags": ["team:test",
-        "managed_by:datadog-sync"], "created_at": "2025-10-20T17:29:37.243553+00:00",
-        "modified_at": "2025-10-20T17:29:37.943754+00:00", "last_error": null, "value":
+        "managed_by:datadog-sync"], "created_at": "2025-10-20T17:46:16.128505+00:00",
+        "modified_at": "2025-10-20T17:46:16.792379+00:00", "last_error": null, "value":
         {"value": "test", "secure": false, "options": {}}, "creator": {"email": "michael.richey@gmail.com",
         "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Michael S Richey"},
         "editor": {"email": "michael.richey@gmail.com", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
@@ -7554,7 +7554,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables/8d354ece-79a8-4dc2-bf9d-e395930296f7
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables/d7bf701b-59b2-43cb-853d-b5f522b24edb
   response:
     body:
       string: ''

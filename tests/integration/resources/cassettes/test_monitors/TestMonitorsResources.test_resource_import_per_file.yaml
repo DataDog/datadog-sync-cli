@@ -55,8 +55,8 @@ interactions:
         true, "silenced": {}}, "multi": false, "created_at": 1730141432000, "created":
         "2024-10-28T18:50:32.908477+00:00", "modified": "2024-10-28T18:50:32.908477+00:00",
         "deleted": null, "priority": null, "restricted_roles": null, "draft_status":
-        "published", "overall_state_modified": "2025-10-20T17:27:04+00:00", "overall_state":
-        "OK", "creator": {"name": "Michael Richey", "email": "michael.richey@datadoghq.com",
+        "published", "overall_state_modified": "2025-10-20T17:44:04+00:00", "overall_state":
+        "Alert", "creator": {"name": "Michael Richey", "email": "michael.richey@datadoghq.com",
         "handle": "michael.richey@datadoghq.com", "id": 1002072115}, "matching_downtimes":
         []}, {"id": 20125249, "org_id": 1000315894, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} stopped reporting", "message":

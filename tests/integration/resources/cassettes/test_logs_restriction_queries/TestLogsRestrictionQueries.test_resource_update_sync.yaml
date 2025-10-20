@@ -3709,85 +3709,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/roles/3032ffb8-8582-11ef-8bad-da7ad0900005
-  response:
-    body:
-      string: '{"data": {"id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "type": "roles",
-        "attributes": {"created_at": "2024-10-08T14:32:47.265744Z", "managed": true,
-        "modified_at": "2024-10-08T14:32:47.266206Z", "name": "Datadog Read Only Role",
-        "team_count": 0, "user_count": 2}, "relationships": {"permissions": {"data":
-        [{"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005", "type": "permissions"}, {"id":
-        "21c5475c-228f-11ef-a00d-da7ad0900005", "type": "permissions"}, {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a",
-        "type": "permissions"}, {"id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "type":
-        "permissions"}, {"id": "926612da-7a4c-11ed-b809-da7ad0900005", "type": "permissions"},
-        {"id": "e120d4c0-0969-11ef-965e-da7ad0900005", "type": "permissions"}, {"id":
-        "a05f69c8-5410-11ef-9378-da7ad0900005", "type": "permissions"}, {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7",
-        "type": "permissions"}, {"id": "122e20a4-d36c-11eb-b2bf-da7ad0900005", "type":
-        "permissions"}, {"id": "99397470-b16d-11eb-a891-da7ad0900005", "type": "permissions"},
-        {"id": "f07e4234-e894-11eb-ab79-da7ad0900005", "type": "permissions"}, {"id":
-        "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type": "permissions"}, {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005",
-        "type": "permissions"}, {"id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type":
-        "permissions"}, {"id": "80adf9c4-9898-11ef-8b23-da7ad0900005", "type": "permissions"},
-        {"id": "b6858556-f925-11ea-9222-1f47b8677b93", "type": "permissions"}, {"id":
-        "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type": "permissions"}, {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d",
-        "type": "permissions"}, {"id": "4a6cc8b4-e806-11ef-8710-da7ad0900005", "type":
-        "permissions"}, {"id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"},
-        {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id":
-        "94c8a4da-de87-11ed-9e92-da7ad0900005", "type": "permissions"}, {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f",
-        "type": "permissions"}, {"id": "e0d31696-aa58-11ea-af96-3b02991750c9", "type":
-        "permissions"}, {"id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005", "type": "permissions"},
-        {"id": "300f69c6-8114-11ef-84c0-da7ad0900005", "type": "permissions"}, {"id":
-        "f42e4c6e-173a-11ed-8654-da7ad0900005", "type": "permissions"}, {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee",
-        "type": "permissions"}, {"id": "5de1e178-8536-11ea-968a-2fd9395bff90", "type":
-        "permissions"}, {"id": "f33f74be-e746-11ec-87e3-da7ad0900005", "type": "permissions"},
-        {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005", "type": "permissions"}, {"id":
-        "cccfe6c4-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "55f64460-7d61-11ed-9c36-da7ad0900005",
-        "type": "permissions"}, {"id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005", "type":
-        "permissions"}, {"id": "bcc2fb14-2dce-11eb-9145-9b27b816190a", "type": "permissions"},
-        {"id": "f2f3d048-801f-11eb-9d41-da7ad0900005", "type": "permissions"}, {"id":
-        "7d08a48c-66ec-11ef-96b3-da7ad0900005", "type": "permissions"}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005",
-        "type": "permissions"}, {"id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type":
-        "permissions"}, {"id": "f5e054da-4792-11ec-944b-da7ad0900005", "type": "permissions"},
-        {"id": "c94811de-16c7-11ec-88cc-da7ad0900005", "type": "permissions"}, {"id":
-        "cf873174-574f-11ec-9869-da7ad0900005", "type": "permissions"}, {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005",
-        "type": "permissions"}, {"id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005", "type":
-        "permissions"}, {"id": "5034771e-d2a9-11ef-b55e-da7ad0900005", "type": "permissions"},
-        {"id": "e31e0056-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id":
-        "b309fe04-79d5-11ef-a56c-da7ad0900005", "type": "permissions"}, {"id": "e31cca10-8502-11ec-b266-da7ad0900005",
-        "type": "permissions"}, {"id": "3276c638-0ebe-11ee-9428-da7ad0900005", "type":
-        "permissions"}, {"id": "94783714-4e9b-11ee-959b-da7ad0900005", "type": "permissions"},
-        {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id":
-        "2de35000-69e5-11ee-996b-da7ad0900005", "type": "permissions"}, {"id": "35e42f3c-df3b-11ef-886f-da7ad0900005",
-        "type": "permissions"}, {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type":
-        "permissions"}, {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"},
-        {"id": "76e47222-8a30-11ef-8675-da7ad0900005", "type": "permissions"}, {"id":
-        "3c002814-a901-11ef-af48-da7ad0900005", "type": "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005",
-        "type": "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type":
-        "permissions"}, {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"},
-        {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
-        "9b00426a-da87-11ef-9de6-da7ad0900005", "type": "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005",
-        "type": "permissions"}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005", "type":
-        "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"},
-        {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"}, {"id":
-        "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type": "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
-        "type": "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
-        "permissions"}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
-        {"id": "c92b68ea-29dd-11f0-91f4-da7ad0900005", "type": "permissions"}, {"id":
-        "e9f3b446-8e74-11f0-b41a-da7ad0900005", "type": "permissions"}, {"id": "e9f3dc78-8e74-11f0-b41a-da7ad0900005",
-        "type": "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005", "type":
-        "permissions"}]}}}}'
-    headers:
-      Content-Type:
-      - application/vnd.api+json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v2/roles/3020f50c-8582-11ef-ad61-da7ad0900005
   response:
     body:
@@ -4186,6 +4107,85 @@ interactions:
         "type": "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005", "type":
         "permissions"}, {"id": "fbf841c6-2618-11f0-8595-da7ad0900005", "type": "permissions"},
         {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions"}]}}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/roles/3032ffb8-8582-11ef-8bad-da7ad0900005
+  response:
+    body:
+      string: '{"data": {"id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "type": "roles",
+        "attributes": {"created_at": "2024-10-08T14:32:47.265744Z", "managed": true,
+        "modified_at": "2024-10-08T14:32:47.266206Z", "name": "Datadog Read Only Role",
+        "team_count": 0, "user_count": 2}, "relationships": {"permissions": {"data":
+        [{"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005", "type": "permissions"}, {"id":
+        "21c5475c-228f-11ef-a00d-da7ad0900005", "type": "permissions"}, {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a",
+        "type": "permissions"}, {"id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "type":
+        "permissions"}, {"id": "926612da-7a4c-11ed-b809-da7ad0900005", "type": "permissions"},
+        {"id": "e120d4c0-0969-11ef-965e-da7ad0900005", "type": "permissions"}, {"id":
+        "a05f69c8-5410-11ef-9378-da7ad0900005", "type": "permissions"}, {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7",
+        "type": "permissions"}, {"id": "122e20a4-d36c-11eb-b2bf-da7ad0900005", "type":
+        "permissions"}, {"id": "99397470-b16d-11eb-a891-da7ad0900005", "type": "permissions"},
+        {"id": "f07e4234-e894-11eb-ab79-da7ad0900005", "type": "permissions"}, {"id":
+        "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type": "permissions"}, {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005",
+        "type": "permissions"}, {"id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type":
+        "permissions"}, {"id": "80adf9c4-9898-11ef-8b23-da7ad0900005", "type": "permissions"},
+        {"id": "b6858556-f925-11ea-9222-1f47b8677b93", "type": "permissions"}, {"id":
+        "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type": "permissions"}, {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d",
+        "type": "permissions"}, {"id": "4a6cc8b4-e806-11ef-8710-da7ad0900005", "type":
+        "permissions"}, {"id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"},
+        {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id":
+        "94c8a4da-de87-11ed-9e92-da7ad0900005", "type": "permissions"}, {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f",
+        "type": "permissions"}, {"id": "e0d31696-aa58-11ea-af96-3b02991750c9", "type":
+        "permissions"}, {"id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005", "type": "permissions"},
+        {"id": "300f69c6-8114-11ef-84c0-da7ad0900005", "type": "permissions"}, {"id":
+        "f42e4c6e-173a-11ed-8654-da7ad0900005", "type": "permissions"}, {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee",
+        "type": "permissions"}, {"id": "5de1e178-8536-11ea-968a-2fd9395bff90", "type":
+        "permissions"}, {"id": "f33f74be-e746-11ec-87e3-da7ad0900005", "type": "permissions"},
+        {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005", "type": "permissions"}, {"id":
+        "cccfe6c4-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "55f64460-7d61-11ed-9c36-da7ad0900005",
+        "type": "permissions"}, {"id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005", "type":
+        "permissions"}, {"id": "bcc2fb14-2dce-11eb-9145-9b27b816190a", "type": "permissions"},
+        {"id": "f2f3d048-801f-11eb-9d41-da7ad0900005", "type": "permissions"}, {"id":
+        "7d08a48c-66ec-11ef-96b3-da7ad0900005", "type": "permissions"}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005",
+        "type": "permissions"}, {"id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type":
+        "permissions"}, {"id": "f5e054da-4792-11ec-944b-da7ad0900005", "type": "permissions"},
+        {"id": "c94811de-16c7-11ec-88cc-da7ad0900005", "type": "permissions"}, {"id":
+        "cf873174-574f-11ec-9869-da7ad0900005", "type": "permissions"}, {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005",
+        "type": "permissions"}, {"id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005", "type":
+        "permissions"}, {"id": "5034771e-d2a9-11ef-b55e-da7ad0900005", "type": "permissions"},
+        {"id": "e31e0056-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id":
+        "b309fe04-79d5-11ef-a56c-da7ad0900005", "type": "permissions"}, {"id": "e31cca10-8502-11ec-b266-da7ad0900005",
+        "type": "permissions"}, {"id": "3276c638-0ebe-11ee-9428-da7ad0900005", "type":
+        "permissions"}, {"id": "94783714-4e9b-11ee-959b-da7ad0900005", "type": "permissions"},
+        {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id":
+        "2de35000-69e5-11ee-996b-da7ad0900005", "type": "permissions"}, {"id": "35e42f3c-df3b-11ef-886f-da7ad0900005",
+        "type": "permissions"}, {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type":
+        "permissions"}, {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"},
+        {"id": "76e47222-8a30-11ef-8675-da7ad0900005", "type": "permissions"}, {"id":
+        "3c002814-a901-11ef-af48-da7ad0900005", "type": "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005",
+        "type": "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type":
+        "permissions"}, {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"},
+        {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
+        "9b00426a-da87-11ef-9de6-da7ad0900005", "type": "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005",
+        "type": "permissions"}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005", "type":
+        "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"},
+        {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"}, {"id":
+        "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type": "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
+        "permissions"}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
+        {"id": "c92b68ea-29dd-11f0-91f4-da7ad0900005", "type": "permissions"}, {"id":
+        "e9f3b446-8e74-11f0-b41a-da7ad0900005", "type": "permissions"}, {"id": "e9f3dc78-8e74-11f0-b41a-da7ad0900005",
+        "type": "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005", "type":
+        "permissions"}]}}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -6802,9 +6802,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries
   response:
     body:
-      string: '{"data": {"type": "logs_restriction_queries", "id": "dd5f579c-add9-11f0-966f-da7ad0900005",
+      string: '{"data": {"type": "logs_restriction_queries", "id": "329003b8-addc-11f0-b0b6-da7ad0900005",
         "attributes": {"restriction_query": "host:COMP-XKH4K2XWRC ", "created_at":
-        "2025-10-20T17:26:08.199175+00:00", "modified_at": "2025-10-20T17:26:08.199175+00:00"}}}'
+        "2025-10-20T17:42:50.117987+00:00", "modified_at": "2025-10-20T17:42:50.117987+00:00"}}}'
     headers:
       Content-Type:
       - application/json
@@ -6817,23 +6817,7 @@ interactions:
       Content-Type:
       - application/json
     method: POST
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/dd5f579c-add9-11f0-966f-da7ad0900005/roles
-  response:
-    body:
-      string: ''
-    headers:
-      Content-Type:
-      - text/html; charset=utf-8
-    status:
-      code: 204
-      message: No Content
-- request:
-    body: '{"data": {"id": "514c41b6-1630-11f0-910b-da7ad0900005", "type": "roles"}}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/dd5f579c-add9-11f0-966f-da7ad0900005/roles
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/329003b8-addc-11f0-b0b6-da7ad0900005/roles
   response:
     body:
       string: ''
@@ -6849,7 +6833,23 @@ interactions:
       Content-Type:
       - application/json
     method: POST
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/dd5f579c-add9-11f0-966f-da7ad0900005/roles
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/329003b8-addc-11f0-b0b6-da7ad0900005/roles
+  response:
+    body:
+      string: ''
+    headers:
+      Content-Type:
+      - text/html; charset=utf-8
+    status:
+      code: 204
+      message: No Content
+- request:
+    body: '{"data": {"id": "514c41b6-1630-11f0-910b-da7ad0900005", "type": "roles"}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/329003b8-addc-11f0-b0b6-da7ad0900005/roles
   response:
     body:
       string: ''
@@ -6866,12 +6866,12 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/dd5f579c-add9-11f0-966f-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/329003b8-addc-11f0-b0b6-da7ad0900005
   response:
     body:
-      string: '{"data": {"type": "logs_restriction_queries", "id": "dd5f579c-add9-11f0-966f-da7ad0900005",
+      string: '{"data": {"type": "logs_restriction_queries", "id": "329003b8-addc-11f0-b0b6-da7ad0900005",
         "attributes": {"restriction_query": "host:COMP-XKH4K2XWRC updated", "created_at":
-        "2025-10-20T17:26:08.199175+00:00", "modified_at": "2025-10-20T17:26:08.987609+00:00"}}}'
+        "2025-10-20T17:42:50.117987+00:00", "modified_at": "2025-10-20T17:42:50.881237+00:00"}}}'
     headers:
       Content-Type:
       - application/json
@@ -14285,7 +14285,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/dd5f579c-add9-11f0-966f-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/restriction_queries/329003b8-addc-11f0-b0b6-da7ad0900005
   response:
     body:
       string: ''

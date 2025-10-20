@@ -30,7 +30,7 @@ interactions:
     body:
       string: '{"data": [{"type": "notebooks", "id": 229667, "attributes": {"name":
         "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "attributes":
-        {"definition": {"type": "markdown", "text": "test"}}, "id": "7gjd93oa"}],
+        {"definition": {"type": "markdown", "text": "test"}}, "id": "xtqwbh39"}],
         "time": {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
         false, "is_favorite": false, "type": null}, "template_variables": [], "status":
         "published", "modified": "2025-06-10T16:07:05.984889+00:00", "created": "2025-06-10T14:49:04.514872+00:00",

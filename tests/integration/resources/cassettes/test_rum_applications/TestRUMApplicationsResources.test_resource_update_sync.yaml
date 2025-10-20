@@ -8,16 +8,15 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/rum/applications
   response:
     body:
-      string: '{"data": [{"type": "rum_application", "attributes": {"created_at":
-        1756321641996, "type": "browser", "remote_config_id": "0256b730-312e-419a-904f-2ab6d9836eba",
-        "short_name": "test_rum_application", "name": "Test RUM Application", "org_id":
-        1000315894, "updated_by_handle": "Datadog", "tags": [], "application_id":
-        "16371816-ab2a-41aa-b12a-40ec4d9628e8", "updated_at": 1760546256038, "api_key_id":
-        209917, "ootb_metrics_installed": true, "created_by_handle": "michael.richey@datadoghq.com",
-        "product_analytics_replay_sample_rate": 100, "product_scales": {"product_analytics_retention_scale":
-        {"last_modified_at": 1756321641996, "state": "NONE"}, "rum_event_processing_scale":
-        {"last_modified_at": 1756321641996, "state": "ALL"}}, "is_active": true},
-        "id": "16371816-ab2a-41aa-b12a-40ec4d9628e8"}]}'
+      string: '{"data": [{"type": "rum_application", "attributes": {"is_active": true,
+        "updated_by_handle": "Datadog", "api_key_id": 209917, "application_id": "16371816-ab2a-41aa-b12a-40ec4d9628e8",
+        "ootb_metrics_installed": true, "name": "Test RUM Application", "product_scales":
+        {"product_analytics_retention_scale": {"last_modified_at": 1756321641996,
+        "state": "NONE"}, "rum_event_processing_scale": {"last_modified_at": 1756321641996,
+        "state": "ALL"}}, "tags": [], "org_id": 1000315894, "short_name": "test_rum_application",
+        "created_by_handle": "michael.richey@datadoghq.com", "product_analytics_replay_sample_rate":
+        100, "updated_at": 1760546256038, "remote_config_id": "0256b730-312e-419a-904f-2ab6d9836eba",
+        "type": "browser", "created_at": 1756321641996}, "id": "16371816-ab2a-41aa-b12a-40ec4d9628e8"}]}'
     headers:
       Content-Type:
       - application/json
@@ -33,17 +32,17 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/rum/applications/16371816-ab2a-41aa-b12a-40ec4d9628e8
   response:
     body:
-      string: '{"data": {"type": "rum_application", "attributes": {"name": "Test RUM
-        Application", "hash": "pubcfef5fa71c23a0c961cc1f1f69db5a32", "created_by_handle":
-        "michael.richey@datadoghq.com", "api_key_id": 209917, "tags": [], "updated_at":
-        1760546256038, "ootb_metrics_installed": true, "is_active": true, "type":
-        "browser", "remote_config_id": "0256b730-312e-419a-904f-2ab6d9836eba", "updated_by_handle":
-        "Datadog", "product_analytics_replay_sample_rate": 100, "product_scales":
-        {"product_analytics_retention_scale": {"last_modified_at": 1756321641996,
-        "state": "NONE"}, "rum_event_processing_scale": {"last_modified_at": 1756321641996,
-        "state": "ALL"}}, "org_id": 1000315894, "created_at": 1756321641996, "short_name":
-        "test_rum_application", "client_token": "pubcfef5fa71c23a0c961cc1f1f69db5a32",
-        "application_id": "16371816-ab2a-41aa-b12a-40ec4d9628e8"}, "id": "16371816-ab2a-41aa-b12a-40ec4d9628e8"}}'
+      string: '{"data": {"type": "rum_application", "attributes": {"remote_config_id":
+        "0256b730-312e-419a-904f-2ab6d9836eba", "short_name": "test_rum_application",
+        "hash": "pubcfef5fa71c23a0c961cc1f1f69db5a32", "api_key_id": 209917, "product_scales":
+        {"rum_event_processing_scale": {"last_modified_at": 1756321641996, "state":
+        "ALL"}, "product_analytics_retention_scale": {"last_modified_at": 1756321641996,
+        "state": "NONE"}}, "application_id": "16371816-ab2a-41aa-b12a-40ec4d9628e8",
+        "org_id": 1000315894, "updated_by_handle": "Datadog", "name": "Test RUM Application",
+        "created_at": 1756321641996, "ootb_metrics_installed": true, "updated_at":
+        1760546256038, "product_analytics_replay_sample_rate": 100, "created_by_handle":
+        "michael.richey@datadoghq.com", "is_active": true, "type": "browser", "tags":
+        [], "client_token": "pubcfef5fa71c23a0c961cc1f1f69db5a32"}, "id": "16371816-ab2a-41aa-b12a-40ec4d9628e8"}}'
     headers:
       Content-Type:
       - application/json
@@ -51,10 +50,10 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "rum_application_create", "attributes": {"name": "Test
-      RUM Application", "tags": [], "type": "browser", "product_analytics_replay_sample_rate":
-      100, "product_scales": {"product_analytics_retention_scale": {}, "rum_event_processing_scale":
-      {"state": "ALL"}}}}}'
+    body: '{"data": {"type": "rum_application_create", "attributes": {"product_scales":
+      {"rum_event_processing_scale": {"state": "ALL"}, "product_analytics_retention_scale":
+      {}}, "name": "Test RUM Application", "product_analytics_replay_sample_rate":
+      100, "type": "browser", "tags": []}}}'
     headers:
       Content-Type:
       - application/json
@@ -62,16 +61,17 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/rum/applications
   response:
     body:
-      string: '{"data": {"type": "rum_application", "attributes": {"product_analytics_replay_sample_rate":
-        100, "api_key_id": 262255, "ootb_metrics_installed": false, "org_id": 1300336245,
-        "short_name": "test_rum_application_493", "created_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "application_id": "9a2d59cd-1476-4aea-879f-a75142e78169", "hash": "pub4242dff18eea655e635409f41f0ff2bd",
-        "is_active": false, "name": "Test RUM Application", "created_at": 1760981343576,
-        "product_scales": {"product_analytics_retention_scale": {"state": "NONE",
-        "last_modified_at": 1760981343576}, "rum_event_processing_scale": {"state":
-        "ALL", "last_modified_at": 1760981343576}}, "updated_at": 1760981343576, "updated_by_handle":
-        "17d29c8a-6285-11f0-be9b-76de006a05ea", "client_token": "pub4242dff18eea655e635409f41f0ff2bd",
-        "type": "browser", "tags": []}, "id": "9a2d59cd-1476-4aea-879f-a75142e78169"}}'
+      string: '{"data": {"type": "rum_application", "attributes": {"type": "browser",
+        "is_active": false, "client_token": "pub5ca04fab67b7f5014b8dc66f8762d4ac",
+        "hash": "pub5ca04fab67b7f5014b8dc66f8762d4ac", "updated_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "product_analytics_replay_sample_rate": 100, "ootb_metrics_installed": false,
+        "product_scales": {"rum_event_processing_scale": {"last_modified_at": 1760982340422,
+        "state": "ALL"}, "product_analytics_retention_scale": {"last_modified_at":
+        1760982340422, "state": "NONE"}}, "org_id": 1300336245, "created_at": 1760982340422,
+        "api_key_id": 262275, "created_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "updated_at": 1760982340422, "short_name": "test_rum_application_497", "application_id":
+        "52c5612a-6350-4845-8e47-0e4acfc42048", "name": "Test RUM Application", "tags":
+        []}, "id": "52c5612a-6350-4845-8e47-0e4acfc42048"}}'
     headers:
       Content-Type:
       - application/json
@@ -87,16 +87,16 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/rum/applications
   response:
     body:
-      string: '{"data": [{"type": "rum_application", "attributes": {"created_by_handle":
-        "17d29c8a-6285-11f0-be9b-76de006a05ea", "api_key_id": 262255, "created_at":
-        1760981343576, "product_scales": {"rum_event_processing_scale": {"last_modified_at":
-        1760981343576, "state": "ALL"}, "product_analytics_retention_scale": {"last_modified_at":
-        1760981343576, "state": "NONE"}}, "tags": [], "name": "Test RUM Application",
-        "application_id": "9a2d59cd-1476-4aea-879f-a75142e78169", "is_active": false,
-        "updated_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "short_name":
-        "test_rum_application_493", "ootb_metrics_installed": false, "updated_at":
-        1760981343576, "type": "browser", "org_id": 1300336245, "product_analytics_replay_sample_rate":
-        100}, "id": "9a2d59cd-1476-4aea-879f-a75142e78169"}]}'
+      string: '{"data": [{"type": "rum_application", "id": "52c5612a-6350-4845-8e47-0e4acfc42048",
+        "attributes": {"application_id": "52c5612a-6350-4845-8e47-0e4acfc42048", "name":
+        "Test RUM Application", "product_analytics_replay_sample_rate": 100, "created_at":
+        1760982340422, "short_name": "test_rum_application_497", "created_by_handle":
+        "17d29c8a-6285-11f0-be9b-76de006a05ea", "api_key_id": 262275, "product_scales":
+        {"rum_event_processing_scale": {"last_modified_at": 1760982340422, "state":
+        "ALL"}, "product_analytics_retention_scale": {"last_modified_at": 1760982340422,
+        "state": "NONE"}}, "ootb_metrics_installed": false, "tags": [], "type": "browser",
+        "updated_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "org_id": 1300336245,
+        "is_active": false, "updated_at": 1760982340422}}]}'
     headers:
       Content-Type:
       - application/json
@@ -109,19 +109,19 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.us5.datadoghq.com/api/v2/rum/applications/9a2d59cd-1476-4aea-879f-a75142e78169
+    uri: https://api.us5.datadoghq.com/api/v2/rum/applications/52c5612a-6350-4845-8e47-0e4acfc42048
   response:
     body:
-      string: '{"data": {"type": "rum_application", "attributes": {"tags": [], "updated_by_handle":
-        "17d29c8a-6285-11f0-be9b-76de006a05ea", "created_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "org_id": 1300336245, "type": "browser", "product_analytics_replay_sample_rate":
-        100, "application_id": "9a2d59cd-1476-4aea-879f-a75142e78169", "product_scales":
-        {"rum_event_processing_scale": {"state": "ALL", "last_modified_at": 1760981343576},
-        "product_analytics_retention_scale": {"state": "NONE", "last_modified_at":
-        1760981343576}}, "api_key_id": 262255, "ootb_metrics_installed": false, "updated_at":
-        1760981343576, "is_active": false, "hash": "pub4242dff18eea655e635409f41f0ff2bd",
-        "short_name": "test_rum_application_493", "client_token": "pub4242dff18eea655e635409f41f0ff2bd",
-        "name": "Test RUM Application", "created_at": 1760981343576}, "id": "9a2d59cd-1476-4aea-879f-a75142e78169"}}'
+      string: '{"data": {"type": "rum_application", "attributes": {"api_key_id": 262275,
+        "client_token": "pub5ca04fab67b7f5014b8dc66f8762d4ac", "application_id": "52c5612a-6350-4845-8e47-0e4acfc42048",
+        "org_id": 1300336245, "created_at": 1760982340422, "product_scales": {"product_analytics_retention_scale":
+        {"last_modified_at": 1760982340422, "state": "NONE"}, "rum_event_processing_scale":
+        {"last_modified_at": 1760982340422, "state": "ALL"}}, "ootb_metrics_installed":
+        false, "hash": "pub5ca04fab67b7f5014b8dc66f8762d4ac", "updated_by_handle":
+        "17d29c8a-6285-11f0-be9b-76de006a05ea", "updated_at": 1760982340422, "tags":
+        [], "created_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "product_analytics_replay_sample_rate":
+        100, "is_active": false, "type": "browser", "name": "Test RUM Application",
+        "short_name": "test_rum_application_497"}, "id": "52c5612a-6350-4845-8e47-0e4acfc42048"}}'
     headers:
       Content-Type:
       - application/json
@@ -129,28 +129,27 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "rum_application_update", "attributes": {"name": "Test
-      RUM Applicationupdated", "tags": [], "type": "browser", "product_analytics_replay_sample_rate":
-      100, "product_scales": {"product_analytics_retention_scale": {}, "rum_event_processing_scale":
-      {"state": "ALL"}}}, "id": "9a2d59cd-1476-4aea-879f-a75142e78169"}}'
+    body: '{"data": {"type": "rum_application_update", "attributes": {"product_scales":
+      {"rum_event_processing_scale": {"state": "ALL"}, "product_analytics_retention_scale":
+      {}}, "name": "Test RUM Applicationupdated", "product_analytics_replay_sample_rate":
+      100, "type": "browser", "tags": []}, "id": "52c5612a-6350-4845-8e47-0e4acfc42048"}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://api.us5.datadoghq.com/api/v2/rum/applications/9a2d59cd-1476-4aea-879f-a75142e78169
+    uri: https://api.us5.datadoghq.com/api/v2/rum/applications/52c5612a-6350-4845-8e47-0e4acfc42048
   response:
     body:
-      string: '{"data": {"type": "rum_application", "attributes": {"api_key_id": 262255,
-        "created_at": 1760981343576, "application_id": "9a2d59cd-1476-4aea-879f-a75142e78169",
-        "created_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "ootb_metrics_installed":
-        false, "name": "Test RUM Applicationupdated", "short_name": "test_rum_application_493",
-        "is_active": false, "tags": [], "product_analytics_replay_sample_rate": 100,
-        "updated_at": 1760981344150, "client_token": "pub4242dff18eea655e635409f41f0ff2bd",
-        "org_id": 1300336245, "product_scales": {"product_analytics_retention_scale":
-        {"state": "NONE", "last_modified_at": 1760981343576}, "rum_event_processing_scale":
-        {"state": "ALL", "last_modified_at": 1760981343576}}, "type": "browser", "hash":
-        "pub4242dff18eea655e635409f41f0ff2bd", "updated_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea"},
-        "id": "9a2d59cd-1476-4aea-879f-a75142e78169"}}'
+      string: '{"data": {"type": "rum_application", "attributes": {"api_key_id": 262275,
+        "tags": [], "created_at": 1760982340422, "name": "Test RUM Applicationupdated",
+        "updated_at": 1760982341049, "org_id": 1300336245, "updated_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "created_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "client_token":
+        "pub5ca04fab67b7f5014b8dc66f8762d4ac", "product_scales": {"product_analytics_retention_scale":
+        {"state": "NONE", "last_modified_at": 1760982340422}, "rum_event_processing_scale":
+        {"state": "ALL", "last_modified_at": 1760982340422}}, "type": "browser", "hash":
+        "pub5ca04fab67b7f5014b8dc66f8762d4ac", "application_id": "52c5612a-6350-4845-8e47-0e4acfc42048",
+        "ootb_metrics_installed": false, "is_active": false, "short_name": "test_rum_application_497",
+        "product_analytics_replay_sample_rate": 100}, "id": "52c5612a-6350-4845-8e47-0e4acfc42048"}}'
     headers:
       Content-Type:
       - application/json
@@ -7564,7 +7563,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/rum/applications/9a2d59cd-1476-4aea-879f-a75142e78169
+    uri: https://api.us5.datadoghq.com/api/v2/rum/applications/52c5612a-6350-4845-8e47-0e4acfc42048
   response:
     body:
       string: ''
