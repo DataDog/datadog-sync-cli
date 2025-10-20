@@ -62,13 +62,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/team
   response:
     body:
-      string: '{"data": {"id": "072ea0c5-30d3-4e10-ab95-f0dbdf40afd2", "type": "team",
-        "attributes": {"avatar": null, "banner": 6, "created_at": "2025-10-20T18:12:21.402539+00:00",
+      string: '{"data": {"id": "116817d2-8176-424d-9584-473ad0f9fb91", "type": "team",
+        "attributes": {"avatar": null, "banner": 6, "created_at": "2025-10-20T18:41:57.488731+00:00",
         "description": "", "handle": "hamr-test", "hidden_modules": null, "is_managed":
-        false, "link_count": 0, "modified_at": "2025-10-20T18:12:21.402539+00:00",
+        false, "link_count": 0, "modified_at": "2025-10-20T18:41:57.488731+00:00",
         "name": "hamr test", "summary": "", "user_count": 0, "visible_modules": null},
-        "relationships": {"team_links": {"data": [], "links": {"related": "/api/v2/team/072ea0c5-30d3-4e10-ab95-f0dbdf40afd2/links"}},
-        "user_team_permissions": {"data": null, "links": {"related": "/api/v2/team/072ea0c5-30d3-4e10-ab95-f0dbdf40afd2/permission-settings"}}}}}'
+        "relationships": {"team_links": {"data": [], "links": {"related": "/api/v2/team/116817d2-8176-424d-9584-473ad0f9fb91/links"}},
+        "user_team_permissions": {"data": null, "links": {"related": "/api/v2/team/116817d2-8176-424d-9584-473ad0f9fb91/permission-settings"}}}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -85,16 +85,16 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/team
   response:
     body:
-      string: '{"data": {"type": "team", "id": "81b4ab75-6f28-4823-876d-042cc6c726f7",
-        "attributes": {"name": "test", "handle": "test", "summary": null, "description":
-        "", "avatar": null, "banner": 14, "visible_modules": [], "hidden_modules":
-        [], "created_at": "2025-10-20T18:12:21.496210+00:00", "modified_at": "2025-10-20T18:12:21.496220+00:00",
-        "user_count": 0, "link_count": 0, "is_managed": false}, "relationships": {"team_links":
-        {"links": {"related": "/api/v2/team/81b4ab75-6f28-4823-876d-042cc6c726f7/links"}},
-        "user_team_permissions": {"links": {"related": "/api/v2/team/81b4ab75-6f28-4823-876d-042cc6c726f7/permission-settings"}}}}}'
+      string: '{"data": {"id": "9297e988-a349-4d4b-8246-ef3deb639ba5", "type": "team",
+        "attributes": {"avatar": null, "banner": 13, "created_at": "2025-10-20T18:41:57.574372+00:00",
+        "description": "", "handle": "test", "hidden_modules": null, "is_managed":
+        false, "link_count": 0, "modified_at": "2025-10-20T18:41:57.574372+00:00",
+        "name": "test", "summary": "", "user_count": 0, "visible_modules": null},
+        "relationships": {"team_links": {"data": [], "links": {"related": "/api/v2/team/9297e988-a349-4d4b-8246-ef3deb639ba5/links"}},
+        "user_team_permissions": {"data": null, "links": {"related": "/api/v2/team/9297e988-a349-4d4b-8246-ef3deb639ba5/permission-settings"}}}}}'
     headers:
       Content-Type:
-      - application/json
+      - application/vnd.api+json
     status:
       code: 201
       message: Created
@@ -7505,7 +7505,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/team/072ea0c5-30d3-4e10-ab95-f0dbdf40afd2
+    uri: https://api.us5.datadoghq.com/api/v2/team/9297e988-a349-4d4b-8246-ef3deb639ba5
   response:
     body:
       string: ''
@@ -7519,7 +7519,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/team/81b4ab75-6f28-4823-876d-042cc6c726f7
+    uri: https://api.us5.datadoghq.com/api/v2/team/116817d2-8176-424d-9584-473ad0f9fb91
   response:
     body:
       string: ''

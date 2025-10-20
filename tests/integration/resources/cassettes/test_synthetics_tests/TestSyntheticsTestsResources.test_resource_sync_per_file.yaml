@@ -202,9 +202,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests/api
   response:
     body:
-      string: '{"public_id": "a8k-czv-dtd", "name": "Test on www.datadoghq.com", "status":
+      string: '{"public_id": "nx9-8nw-d32", "name": "Test on www.datadoghq.com", "status":
         "live", "type": "api", "subtype": "http", "tags": ["managed_by:datadog-sync"],
-        "created_at": "2025-10-20T18:11:53.716390+00:00", "modified_at": "2025-10-20T18:11:53.716390+00:00",
+        "created_at": "2025-10-20T18:41:28.540649+00:00", "modified_at": "2025-10-20T18:41:28.540649+00:00",
         "config": {"assertions": [{"operator": "lessThan", "type": "responseTime",
         "target": 1000}], "request": {"method": "GET", "url": "https://www.datadoghq.com"}},
         "message": "", "options": {"httpVersion": "any", "min_failure_duration": 0,
@@ -219,7 +219,7 @@ interactions:
         "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
         "gcp:us-west1", "gcp:us-west2"], "created_by": {"name": "Michael S Richey",
         "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com"},
-        "deleted_at": null, "monitor_id": 16262719, "org_id": 1300336245, "modified_by":
+        "deleted_at": null, "monitor_id": 16263625, "org_id": 1300336245, "modified_by":
         {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "email": "michael.richey@gmail.com"}}'
     headers:
@@ -7630,7 +7630,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["a8k-czv-dtd"]}'
+    body: '{"public_ids": ["nx9-8nw-d32"]}'
     headers:
       Content-Type:
       - application/json
@@ -7638,7 +7638,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"public_id": "a8k-czv-dtd", "deleted_at": "2025-10-20T18:11:55.172229+00:00"}]}'
+      string: '{"deleted_tests": [{"public_id": "nx9-8nw-d32", "deleted_at": "2025-10-20T18:41:30.002518+00:00"}]}'
     headers:
       Content-Type:
       - application/json

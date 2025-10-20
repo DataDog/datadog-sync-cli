@@ -62,144 +62,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/XHeoyuYmRFCQOipL9kfA-Q
-  response:
-    body:
-      string: '{"id": "XHeoyuYmRFCQOipL9kfA-Q", "type": "pipeline", "name": "Datadog
-        Agent", "is_enabled": true, "is_read_only": true, "filter": {"query": "source:(agent
-        OR datadog-agent OR datadog-agent-cluster-worker OR datadog-cluster-agent
-        OR process-agent OR security-agent OR system-probe OR trace-agent OR cluster-agent)"},
-        "processors": [{"name": "Parsing Datadog Agent logs", "is_enabled": true,
-        "source": "message", "samples": ["2020-07-01 09:48:14 UTC | CORE | INFO |
-        (pkg/collector/runner/runner.go:327 in work) | check:network,type:core | Done
-        running check", "2020-09-15 10:00:07 UTC | CORE | INFO | (pkg/collector/python/datadog_agent.go:120
-        in LogMessage) | kafka_cluster_status:8ca7b736f0aa43e5 | (kafka_cluster_status.py:213)
-        | Checking for out of sync partition replicas", "2019-04-08 13:53:48 UTC |
-        TRACE | INFO | (pkg/trace/agent/agent.go:145 in loop) | exiting", "2019-02-01
-        16:59:41 UTC | INFO | (connection_manager.go:124 in CloseConnection) | Connection
-        closed", "2020-11-18 10:31:13 UTC | JMX | INFO  | App | Successfully initialized
-        instance: cassandra-localhost-7199"], "grok": {"support_rules": "", "match_rules":
-        "agent_rule         %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp} \\| %{notSpace:agent}
-        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)
-        \\|( %{data::keyvalue(\":\")} \\|)?( - \\|)?( \\(%{notSpace:pyFilename}:%{number:pyLineno}\\)
-        \\|)?%{data}\nagent_rule_pre_611 %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp}
-        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)%{data}\njmxfetch_rule      %{date(\"yyyy-MM-dd
-        HH:mm:ss z\"):timestamp} \\| %{notSpace:agent} \\| %{word:level}\\s+\\| %{word:class}
-        \\| %{data}\n"}, "type": "grok-parser"}, {"name": "Define `timestamp` as the
-        official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
-        "date-remapper"}, {"name": "Define `level` as the official status of the log",
-        "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/_SgMOgxiTnSBiOyMyf8onw
-  response:
-    body:
-      string: '{"id": "_SgMOgxiTnSBiOyMyf8onw", "type": "pipeline", "name": "AWS Lambda",
-        "is_enabled": true, "is_read_only": true, "filter": {"query": "source:lambda"},
-        "processors": [{"name": "Parsing Lambda logs", "is_enabled": true, "source":
-        "message", "samples": ["START RequestId: c9a3b892-c2ca-4391-82fe-a47570039262
-        Version: $LATEST", "REPORT RequestId: ece907e2-848d-11e8-b0d2-01bad55f3174    Duration:
-        3056.26 ms      Billed Duration: 3100 ms      Memory Size: 128 MB       Max
-        Memory Used: 85 MB     Runtime Duration: 550 ms    Post Runtime Duration:
-        2506.26 ms", "2019-07-18T18:58:55.265Z\t189a9433-fb77-4659-90d4-bc06edb890e0\tERROR\tInvoke
-        Error\t{\"errorType\":\"Error\",\"errorMessage\":\"A test error\"}", "[ERROR]\t2019-07-18T21:30:46.599Z\tffbce4c2-d80e-4ffa-a0bc-505361e28b8a\tThis
-        is a regular python error", "2019-07-18T19:47:18.146Z\t95ce2ab7-cf99-4030-bede-2055a69cedec\tERROR\tThis
-        is a regular node error"], "grok": {"support_rules": "_timestamp (?:%{date(\"yyyy-MM-dd''T''HH:mm:ss.SSSZ\"):timestamp}|%{date(\"yyyy-MM-dd''T''HH:mm:ss.SSZ\"):timestamp}|%{date(\"yyyy-MM-dd''T''HH:mm:ss.SZ\"):timestamp})\n_request_id
-        RequestId: %{notSpace:lambda.request_id}\n_trace_context (\\s+\\[dd.trace_id=%{word:dd.trace_id}
-        dd.span_id=%{word:dd.span_id}\\])\n", "match_rules": "# Common\nreport_rule
-        REPORT %{_request_id}\\s+Duration: %{number:duration:scale(1000000)} ms\\s+Billed
-        Duration: %{number:lambda.billed_duration} ms\\s+Memory Size: %{number:lambda.
-        memorysize} MB\\s+Max Memory Used: %{number:lambda.max_memory_used} MB(\\s+Init
-        Duration: %{number:lambda.init_duration} ms)?(\\s+Runtime Duration: %{number:lambda.runtime_duration}
-        ms\\s+Post Runtime Duration: %{number:lambda.post_runtime_duration} ms)?%{data:xray:keyvalue(\":
-        \")}\n# with slightly different order of attributes\nreport_rule_v2 REPORT
-        %{_request_id}\\s+Duration: %{number:duration:scale(1000000)} ms(\\s+Runtime
-        Duration: %{number:lambda.runtime_duration} ms\\s+Post Runtime Duration: %{number:lambda.post_runtime_duration}
-        ms)?\\s+Billed Duration: %{number:lambda.billed_duration} ms\\s+Memory Size:
-        %{number:lambda. memorysize} MB\\s+Max Memory Used: %{number:lambda.max_memory_used}
-        MB(\\s+Init Duration: %{number:lambda.init_duration} ms)?%{data:xray:keyvalue(\":
-        \")}\n\ndefault_request_rule %{word:lambda.step}\\s+%{_request_id}(\\s+Version:
-        %{notSpace:lambda.version})?\n\ntimeout_rule %{_timestamp}\\s+%{notSpace:lambda.request_id:nullIf(\"undefined\")}\\s+%{regex(\"Task
-        timed out\"):error.message} after (%{number:duration:scale(1000000000)} seconds|%{number:duration:scale(1000000)}
-        milliseconds)\n\nprocess_error_rule %{_request_id} (%{regex(\"Process exited
-        before completing request\"):error.message}|%{regex(\"Error\"):level}:%{data:error.message})\n\n#
-        Node\nnode_json_rule %{_timestamp}\\s+%{notSpace:lambda.request_id:nullIf(\"undefined\")}\\s+(\\[)?+%{word:level}+(\\])?%{_trace_context}?(\\s*Invoke
-        Error\\s*)?%{data::json}\n\n# Python\npython_rule \\[%{word:level}\\]?\\s+%{_timestamp}\\s+%{notSpace:lambda.request_id:nullIf(\"datadog_lambda_wrapper\")}%{_trace_context}?.*\npython_error
-        %{regex(\"[^:]*\"):error.message}: %{notSpace:error.kind}(\\n|\\s|\\t)*Traceback
-        \\(most recent call last\\):(?s)\\s*%{data:error.stack}\npython37_error \\[%{regex(\"ERROR\"):level}\\]
-        %{notSpace:error.kind}(: %{data:error.message})?(\\n|\\s|\\t)*Traceback \\(most
-        recent call last\\):(?s)\\s*%{data:error.stack}\n\n# Ruby\nruby_basic %{regex(\"[\\\\w]\")},\\s\\[%{date(\"yyyy-MM-dd''T''HH:mm:ss.SSSSSS\"):timestamp}
-        #%{number}\\]\\s+%{word:level} --\\s*: %{data::keyvalue}\n\nfallback_json
-        (%{date(\"yyyy-MM-dd''T''HH:mm:ss.SSSZ\"):timestamp}|%{date(\"yyyy-MM-dd''T''HH:mm:ss.SSZ\"):timestamp})\\s+%{notSpace:lambda.request_id}\\s+(%{word:level}:)?(%{data::json})\n\n#
-        Extra samples:\n# 2019-07-18T18:58:22.286Z b5264ab7-2056-4f5b-bb0f-a06a70f6205d
-        Task timed out after 30.03 seconds\n# [INFO]\t2019-07-18T21:30:46.599Z\tffbce4c2-d80e-4ffa-a0bc-505361e28b8a
-        [dd.trace_id=7063307899004166955 dd.span_id=1811285018776771759] This is a
-        regular python info\n"}, "type": "grok-parser"}, {"name": "Define `timestamp`
-        as the official date of the log", "is_enabled": true, "sources": ["timestamp"],
-        "type": "date-remapper"}, {"name": "Map `errorType` to `error.kind`", "is_enabled":
-        true, "sources": ["errorType"], "source_type": "attribute", "target": "error.kind",
-        "target_type": "attribute", "preserve_source": true, "override_on_conflict":
-        false, "type": "attribute-remapper"}, {"name": "Map `errorMessage` to `error.message`",
-        "is_enabled": true, "sources": ["errorMessage"], "source_type": "attribute",
-        "target": "error.message", "target_type": "attribute", "preserve_source":
-        true, "override_on_conflict": false, "type": "attribute-remapper"}, {"name":
-        "Calculate memory left", "is_enabled": true, "expression": "(lambda.memorysize
-        - lambda.max_memory_used)", "target": "lambda.memory_left", "is_replace_missing":
-        false, "type": "arithmetic-processor"}, {"name": "Calculate memory usage",
-        "is_enabled": true, "expression": "((lambda.max_memory_used/lambda.memorysize)*100)",
-        "target": "lambda.memory_pct", "is_replace_missing": false, "type": "arithmetic-processor"},
-        {"name": "Identify timeout errors", "is_enabled": true, "categories": [{"filter":
-        {"query": "message:\"*Task timed out*\""}, "name": "TimeOut"}], "target":
-        "error.kind", "type": "category-processor"}, {"name": "Recognize Runtime Panics",
-        "is_enabled": true, "categories": [{"filter": {"query": "\"runtime error\""},
-        "name": "Panic"}], "target": "error.kind", "type": "category-processor"},
-        {"name": "Define logs as error if they have an error kind or message", "is_enabled":
-        true, "categories": [{"filter": {"query": "(@error.kind:* OR @error.message:*)"},
-        "name": "error"}], "target": "level", "type": "category-processor"}, {"name":
-        "Define `level` as the official status of the log", "is_enabled": true, "sources":
-        ["level"], "type": "status-remapper"}, {"name": "Define `dd.trace_id` as the
-        official trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id"],
-        "type": "trace-id-remapper"}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/kKwQ7pmrTV2DhOsoohbzxA
-  response:
-    body:
-      string: '{"id": "kKwQ7pmrTV2DhOsoohbzxA", "type": "pipeline", "name": "test",
-        "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
-        "}, "processors": [], "tags": [], "description": ""}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/tgw9zA52T9-oxo4PTARN0w
   response:
     body:
@@ -285,6 +147,63 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/kKwQ7pmrTV2DhOsoohbzxA
+  response:
+    body:
+      string: '{"id": "kKwQ7pmrTV2DhOsoohbzxA", "type": "pipeline", "name": "test",
+        "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
+        "}, "processors": [], "tags": [], "description": ""}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/XHeoyuYmRFCQOipL9kfA-Q
+  response:
+    body:
+      string: '{"id": "XHeoyuYmRFCQOipL9kfA-Q", "type": "pipeline", "name": "Datadog
+        Agent", "is_enabled": true, "is_read_only": true, "filter": {"query": "source:(agent
+        OR datadog-agent OR datadog-agent-cluster-worker OR datadog-cluster-agent
+        OR process-agent OR security-agent OR system-probe OR trace-agent OR cluster-agent)"},
+        "processors": [{"name": "Parsing Datadog Agent logs", "is_enabled": true,
+        "source": "message", "samples": ["2020-07-01 09:48:14 UTC | CORE | INFO |
+        (pkg/collector/runner/runner.go:327 in work) | check:network,type:core | Done
+        running check", "2020-09-15 10:00:07 UTC | CORE | INFO | (pkg/collector/python/datadog_agent.go:120
+        in LogMessage) | kafka_cluster_status:8ca7b736f0aa43e5 | (kafka_cluster_status.py:213)
+        | Checking for out of sync partition replicas", "2019-04-08 13:53:48 UTC |
+        TRACE | INFO | (pkg/trace/agent/agent.go:145 in loop) | exiting", "2019-02-01
+        16:59:41 UTC | INFO | (connection_manager.go:124 in CloseConnection) | Connection
+        closed", "2020-11-18 10:31:13 UTC | JMX | INFO  | App | Successfully initialized
+        instance: cassandra-localhost-7199"], "grok": {"support_rules": "", "match_rules":
+        "agent_rule         %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp} \\| %{notSpace:agent}
+        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)
+        \\|( %{data::keyvalue(\":\")} \\|)?( - \\|)?( \\(%{notSpace:pyFilename}:%{number:pyLineno}\\)
+        \\|)?%{data}\nagent_rule_pre_611 %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp}
+        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)%{data}\njmxfetch_rule      %{date(\"yyyy-MM-dd
+        HH:mm:ss z\"):timestamp} \\| %{notSpace:agent} \\| %{word:level}\\s+\\| %{word:class}
+        \\| %{data}\n"}, "type": "grok-parser"}, {"name": "Define `timestamp` as the
+        official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
+        "date-remapper"}, {"name": "Define `level` as the official status of the log",
+        "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/AphSktL2TYG7CKh0vhNGTQ
   response:
     body:
@@ -314,11 +233,75 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipeline-order
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/_SgMOgxiTnSBiOyMyf8onw
   response:
     body:
-      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
-        "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ"]}'
+      string: '{"id": "_SgMOgxiTnSBiOyMyf8onw", "type": "pipeline", "name": "AWS Lambda",
+        "is_enabled": true, "is_read_only": true, "filter": {"query": "source:lambda"},
+        "processors": [{"name": "Parsing Lambda logs", "is_enabled": true, "source":
+        "message", "samples": ["START RequestId: c9a3b892-c2ca-4391-82fe-a47570039262
+        Version: $LATEST", "REPORT RequestId: ece907e2-848d-11e8-b0d2-01bad55f3174    Duration:
+        3056.26 ms      Billed Duration: 3100 ms      Memory Size: 128 MB       Max
+        Memory Used: 85 MB     Runtime Duration: 550 ms    Post Runtime Duration:
+        2506.26 ms", "2019-07-18T18:58:55.265Z\t189a9433-fb77-4659-90d4-bc06edb890e0\tERROR\tInvoke
+        Error\t{\"errorType\":\"Error\",\"errorMessage\":\"A test error\"}", "[ERROR]\t2019-07-18T21:30:46.599Z\tffbce4c2-d80e-4ffa-a0bc-505361e28b8a\tThis
+        is a regular python error", "2019-07-18T19:47:18.146Z\t95ce2ab7-cf99-4030-bede-2055a69cedec\tERROR\tThis
+        is a regular node error"], "grok": {"support_rules": "_timestamp (?:%{date(\"yyyy-MM-dd''T''HH:mm:ss.SSSZ\"):timestamp}|%{date(\"yyyy-MM-dd''T''HH:mm:ss.SSZ\"):timestamp}|%{date(\"yyyy-MM-dd''T''HH:mm:ss.SZ\"):timestamp})\n_request_id
+        RequestId: %{notSpace:lambda.request_id}\n_trace_context (\\s+\\[dd.trace_id=%{word:dd.trace_id}
+        dd.span_id=%{word:dd.span_id}\\])\n", "match_rules": "# Common\nreport_rule
+        REPORT %{_request_id}\\s+Duration: %{number:duration:scale(1000000)} ms\\s+Billed
+        Duration: %{number:lambda.billed_duration} ms\\s+Memory Size: %{number:lambda.
+        memorysize} MB\\s+Max Memory Used: %{number:lambda.max_memory_used} MB(\\s+Init
+        Duration: %{number:lambda.init_duration} ms)?(\\s+Runtime Duration: %{number:lambda.runtime_duration}
+        ms\\s+Post Runtime Duration: %{number:lambda.post_runtime_duration} ms)?%{data:xray:keyvalue(\":
+        \")}\n# with slightly different order of attributes\nreport_rule_v2 REPORT
+        %{_request_id}\\s+Duration: %{number:duration:scale(1000000)} ms(\\s+Runtime
+        Duration: %{number:lambda.runtime_duration} ms\\s+Post Runtime Duration: %{number:lambda.post_runtime_duration}
+        ms)?\\s+Billed Duration: %{number:lambda.billed_duration} ms\\s+Memory Size:
+        %{number:lambda. memorysize} MB\\s+Max Memory Used: %{number:lambda.max_memory_used}
+        MB(\\s+Init Duration: %{number:lambda.init_duration} ms)?%{data:xray:keyvalue(\":
+        \")}\n\ndefault_request_rule %{word:lambda.step}\\s+%{_request_id}(\\s+Version:
+        %{notSpace:lambda.version})?\n\ntimeout_rule %{_timestamp}\\s+%{notSpace:lambda.request_id:nullIf(\"undefined\")}\\s+%{regex(\"Task
+        timed out\"):error.message} after (%{number:duration:scale(1000000000)} seconds|%{number:duration:scale(1000000)}
+        milliseconds)\n\nprocess_error_rule %{_request_id} (%{regex(\"Process exited
+        before completing request\"):error.message}|%{regex(\"Error\"):level}:%{data:error.message})\n\n#
+        Node\nnode_json_rule %{_timestamp}\\s+%{notSpace:lambda.request_id:nullIf(\"undefined\")}\\s+(\\[)?+%{word:level}+(\\])?%{_trace_context}?(\\s*Invoke
+        Error\\s*)?%{data::json}\n\n# Python\npython_rule \\[%{word:level}\\]?\\s+%{_timestamp}\\s+%{notSpace:lambda.request_id:nullIf(\"datadog_lambda_wrapper\")}%{_trace_context}?.*\npython_error
+        %{regex(\"[^:]*\"):error.message}: %{notSpace:error.kind}(\\n|\\s|\\t)*Traceback
+        \\(most recent call last\\):(?s)\\s*%{data:error.stack}\npython37_error \\[%{regex(\"ERROR\"):level}\\]
+        %{notSpace:error.kind}(: %{data:error.message})?(\\n|\\s|\\t)*Traceback \\(most
+        recent call last\\):(?s)\\s*%{data:error.stack}\n\n# Ruby\nruby_basic %{regex(\"[\\\\w]\")},\\s\\[%{date(\"yyyy-MM-dd''T''HH:mm:ss.SSSSSS\"):timestamp}
+        #%{number}\\]\\s+%{word:level} --\\s*: %{data::keyvalue}\n\nfallback_json
+        (%{date(\"yyyy-MM-dd''T''HH:mm:ss.SSSZ\"):timestamp}|%{date(\"yyyy-MM-dd''T''HH:mm:ss.SSZ\"):timestamp})\\s+%{notSpace:lambda.request_id}\\s+(%{word:level}:)?(%{data::json})\n\n#
+        Extra samples:\n# 2019-07-18T18:58:22.286Z b5264ab7-2056-4f5b-bb0f-a06a70f6205d
+        Task timed out after 30.03 seconds\n# [INFO]\t2019-07-18T21:30:46.599Z\tffbce4c2-d80e-4ffa-a0bc-505361e28b8a
+        [dd.trace_id=7063307899004166955 dd.span_id=1811285018776771759] This is a
+        regular python info\n"}, "type": "grok-parser"}, {"name": "Define `timestamp`
+        as the official date of the log", "is_enabled": true, "sources": ["timestamp"],
+        "type": "date-remapper"}, {"name": "Map `errorType` to `error.kind`", "is_enabled":
+        true, "sources": ["errorType"], "source_type": "attribute", "target": "error.kind",
+        "target_type": "attribute", "preserve_source": true, "override_on_conflict":
+        false, "type": "attribute-remapper"}, {"name": "Map `errorMessage` to `error.message`",
+        "is_enabled": true, "sources": ["errorMessage"], "source_type": "attribute",
+        "target": "error.message", "target_type": "attribute", "preserve_source":
+        true, "override_on_conflict": false, "type": "attribute-remapper"}, {"name":
+        "Calculate memory left", "is_enabled": true, "expression": "(lambda.memorysize
+        - lambda.max_memory_used)", "target": "lambda.memory_left", "is_replace_missing":
+        false, "type": "arithmetic-processor"}, {"name": "Calculate memory usage",
+        "is_enabled": true, "expression": "((lambda.max_memory_used/lambda.memorysize)*100)",
+        "target": "lambda.memory_pct", "is_replace_missing": false, "type": "arithmetic-processor"},
+        {"name": "Identify timeout errors", "is_enabled": true, "categories": [{"filter":
+        {"query": "message:\"*Task timed out*\""}, "name": "TimeOut"}], "target":
+        "error.kind", "type": "category-processor"}, {"name": "Recognize Runtime Panics",
+        "is_enabled": true, "categories": [{"filter": {"query": "\"runtime error\""},
+        "name": "Panic"}], "target": "error.kind", "type": "category-processor"},
+        {"name": "Define logs as error if they have an error kind or message", "is_enabled":
+        true, "categories": [{"filter": {"query": "(@error.kind:* OR @error.message:*)"},
+        "name": "error"}], "target": "level", "type": "category-processor"}, {"name":
+        "Define `level` as the official status of the log", "is_enabled": true, "sources":
+        ["level"], "type": "status-remapper"}, {"name": "Define `dd.trace_id` as the
+        official trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id"],
+        "type": "trace-id-remapper"}]}'
     headers:
       Content-Type:
       - application/json
@@ -513,6 +496,23 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipeline-order
+  response:
+    body:
+      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
+        "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ"]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: '{"name": "test", "is_enabled": true, "is_read_only": false, "filter": {"query":
       "source:appgate_client "}, "processors": []}'
     headers:
@@ -522,7 +522,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "mSvYFH2hRJunV4bnBUrRlQ", "type": "pipeline", "name": "test",
+      string: '{"id": "q6RIHfVHRzKV2UQ-r_b-5Q", "type": "pipeline", "name": "test",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -541,7 +541,7 @@ interactions:
   response:
     body:
       string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
-        "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ", "mSvYFH2hRJunV4bnBUrRlQ"]}'
+        "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ", "q6RIHfVHRzKV2UQ-r_b-5Q"]}'
     headers:
       Content-Type:
       - application/json
@@ -549,7 +549,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"pipeline_ids": ["mSvYFH2hRJunV4bnBUrRlQ", "PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
+    body: '{"pipeline_ids": ["q6RIHfVHRzKV2UQ-r_b-5Q", "PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
       "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ"]}'
     headers:
       Content-Type:
@@ -558,7 +558,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipeline-order
   response:
     body:
-      string: '{"pipeline_ids": ["mSvYFH2hRJunV4bnBUrRlQ", "PottxryNTkKfx-bKCuP1TQ",
+      string: '{"pipeline_ids": ["q6RIHfVHRzKV2UQ-r_b-5Q", "PottxryNTkKfx-bKCuP1TQ",
         "06NJ6fGXQXuwbIJTQPaqUA", "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ"]}'
     headers:
       Content-Type:
@@ -7973,7 +7973,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/mSvYFH2hRJunV4bnBUrRlQ
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/q6RIHfVHRzKV2UQ-r_b-5Q
   response:
     body:
       string: '{}'
