@@ -36,14 +36,14 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/slo
   response:
     body:
-      string: '{"data": [{"id": "566e7ddc554354c5813c15b7329d6d97", "name": "test",
+      string: '{"data": [{"id": "7d2e0acfa1945a0fb774c8b540faa61d", "name": "test",
         "tags": ["managed_by:datadog-sync"], "monitor_tags": [], "thresholds": [{"timeframe":
         "7d", "target": 99.9, "target_display": "99.9"}], "type": "metric", "type_id":
         1, "description": "", "timeframe": "7d", "target_threshold": 99.9, "query":
         {"denominator": "sum:datadog.agent.started{*}.as_count()", "numerator": "sum:datadog.agent.started{*}.as_count()"},
         "creator": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "email": "michael.richey@gmail.com"}, "created_at": 1760976765, "modified_at":
-        1760976765}], "error": null}'
+        "email": "michael.richey@gmail.com"}, "created_at": 1760981360, "modified_at":
+        1760981360}], "error": null}'
     headers:
       Content-Type:
       - application/json
@@ -60,17 +60,17 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/slo/566e7ddc554354c5813c15b7329d6d97
+    uri: https://api.us5.datadoghq.com/api/v1/slo/7d2e0acfa1945a0fb774c8b540faa61d
   response:
     body:
-      string: '{"data": [{"id": "566e7ddc554354c5813c15b7329d6d97", "name": "test",
+      string: '{"data": [{"id": "7d2e0acfa1945a0fb774c8b540faa61d", "name": "test",
         "tags": ["managed_by:datadog-sync"], "monitor_tags": [], "thresholds": [{"timeframe":
         "7d", "target": 99.9, "target_display": "99.9"}], "type": "metric", "type_id":
         1, "description": "updated", "timeframe": "7d", "target_threshold": 99.9,
         "query": {"denominator": "sum:datadog.agent.started{*}.as_count()", "numerator":
         "sum:datadog.agent.started{*}.as_count()"}, "creator": {"name": "Michael S
         Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com"},
-        "created_at": 1760976765, "modified_at": 1760976766}], "error": null}'
+        "created_at": 1760981360, "modified_at": 1760981361}], "error": null}'
     headers:
       Content-Type:
       - application/json
@@ -7484,10 +7484,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/slo/566e7ddc554354c5813c15b7329d6d97?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/slo/7d2e0acfa1945a0fb774c8b540faa61d?force=true
   response:
     body:
-      string: '{"data": ["566e7ddc554354c5813c15b7329d6d97"], "error": null}'
+      string: '{"data": ["7d2e0acfa1945a0fb774c8b540faa61d"], "error": null}'
     headers:
       Content-Type:
       - application/json

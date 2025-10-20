@@ -8,12 +8,12 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/downtime?page%5Blimit%5D=100&page%5Boffset%5D=0
   response:
     body:
-      string: '{"data": [{"type": "downtime", "attributes": {"schedule": {"end": null,
-        "start": "2027-01-14T05:01:00+00:00"}, "notify_end_states": ["alert", "no
-        data", "warn"], "message": "test2", "canceled": null, "modified": "2025-07-18T18:01:55.478390+00:00",
-        "created": "2025-03-31T14:02:01.562470+00:00", "display_timezone": "America/New_York",
-        "scope": "*", "notify_end_types": ["canceled", "expired"], "mute_first_recovery_notification":
-        false, "monitor_identifier": {"monitor_id": 20046756}, "status": "scheduled"},
+      string: '{"data": [{"type": "downtime", "attributes": {"notify_end_types": ["canceled",
+        "expired"], "schedule": {"start": "2027-01-14T05:01:00+00:00", "end": null},
+        "canceled": null, "monitor_identifier": {"monitor_id": 20046756}, "mute_first_recovery_notification":
+        false, "message": "test2", "scope": "*", "created": "2025-03-31T14:02:01.562470+00:00",
+        "modified": "2025-07-18T18:01:55.478390+00:00", "display_timezone": "America/New_York",
+        "notify_end_states": ["alert", "no data", "warn"], "status": "scheduled"},
         "id": "50800db3-0b9c-49ce-bede-c20d6a525b5e"}], "meta": {"page": {"total_filtered_count":
         1}}}'
     headers:

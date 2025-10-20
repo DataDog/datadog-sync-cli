@@ -7446,6 +7446,716 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"data": [], "meta": {"pagination": {"type": "number_size", "number":
+        0, "size": 100, "total": 0, "first_number": 0, "prev_number": null, "next_number":
+        null, "last_number": 0}}, "links": {"self": "https://api.us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100",
+        "first": "https://api.us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
+        "last": "https://api.us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100"}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"data": [], "meta": {"pagination": {"type": "number_size", "number":
+        0, "size": 100, "total": 0, "first_number": 0, "prev_number": null, "next_number":
+        null, "last_number": 0}}, "links": {"self": "https://api.us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100",
+        "first": "https://api.us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
+        "last": "https://api.us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100"}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"data": [], "meta": {"pagination": {"type": "number_size", "number":
+        0, "size": 100, "total": 0, "first_number": 0, "prev_number": null, "next_number":
+        null, "last_number": 0}}, "links": {"self": "https://api.us5.datadoghq.com/api/v2/team?page%5Bnumber%5D=0&page%5Bsize%5D=100",
+        "first": "https://api.us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100",
+        "last": "https://api.us5.datadoghq.com/api/v2/team?page[number]=0&page[size]=100"}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v2/roles?page%5Bnumber%5D=0&page%5Bsize%5D=100
+  response:
+    body:
+      string: '{"data": [{"id": "512f60fa-1630-11f0-910b-da7ad0900005", "type": "roles",
+        "attributes": {"created_at": "2025-04-10T17:22:02.47535Z", "created_by_handle":
+        "michael.richey@datadoghq.com", "modified_at": "2025-04-16T01:16:55.980773Z",
+        "modified_by_handle": "michael.richey@datadoghq.com", "name": "Copy of Datadog
+        Admin Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
+        {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
+        {"id": "20c31f82-b9b4-11ec-8235-da7ad0900005", "type": "permissions"}, {"id":
+        "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type": "permissions"}, {"id": "b382b982-8535-11ea-93de-2bf1bdf20798",
+        "type": "permissions"}, {"id": "edfd5e74-801f-11eb-96d8-da7ad0900002", "type":
+        "permissions"}, {"id": "43fa188e-2dce-11eb-84c0-835ad1fd6287", "type": "permissions"},
+        {"id": "8106300a-54f7-11eb-8cbc-7781a434a67b", "type": "permissions"}, {"id":
+        "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"}, {"id": "7d7c98ac-dd12-11e8-9e56-93700598622d",
+        "type": "permissions"}, {"id": "2f3afc26-2707-11ee-b231-da7ad0900005", "type":
+        "permissions"}, {"id": "bf0dcf7c-90af-11eb-9b82-da7ad0900002", "type": "permissions"},
+        {"id": "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "type": "permissions"}, {"id":
+        "edfd5e75-801f-11eb-96d8-da7ad0900002", "type": "permissions"}, {"id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39",
+        "type": "permissions"}, {"id": "5025ee24-f923-11ea-adbc-576ea241df8d", "type":
+        "permissions"}, {"id": "81d9da4a-6f52-11ee-853f-da7ad0900005", "type": "permissions"},
+        {"id": "48ef71ea-d8b1-11e9-a77a-93f408470ad0", "type": "permissions"}, {"id":
+        "27e324a0-b9f9-11ee-ad81-da7ad0900005", "type": "permissions"}, {"id": "d3deb136-f5b1-11ee-8f9a-da7ad0900005",
+        "type": "permissions"}, {"id": "c09a5320-a69e-11ef-854d-da7ad0900005", "type":
+        "permissions"}, {"id": "bf0dcf7d-90af-11eb-9b82-da7ad0900002", "type": "permissions"},
+        {"id": "a4a15c66-387d-11ef-950e-da7ad0900005", "type": "permissions"}, {"id":
+        "841eaad4-7a4c-11ed-bf7d-da7ad0900005", "type": "permissions"}, {"id": "841f1d52-7a4c-11ed-bf7d-da7ad0900005",
+        "type": "permissions"}, {"id": "7b516476-aa58-11ea-95e2-93718cd56369", "type":
+        "permissions"}, {"id": "80de1ec0-aa58-11ea-95e2-aff381626d5d", "type": "permissions"},
+        {"id": "46a301db-ec5c-11ea-aa9f-2fe72193d60e", "type": "permissions"}, {"id":
+        "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2", "type": "permissions"}, {"id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5",
+        "type": "permissions"}, {"id": "d90f6831-d3d8-11e9-a77a-4fd230ddbc6a", "type":
+        "permissions"}, {"id": "4441648c-d8b1-11e9-a77a-1b899a04b304", "type": "permissions"},
+        {"id": "46a301df-ec5c-11ea-aa9f-970a9ae645e5", "type": "permissions"}, {"id":
+        "46a301e0-ec5c-11ea-aa9f-6ba6cc675d8c", "type": "permissions"}, {"id": "46a301e1-ec5c-11ea-aa9f-afa39f6f3e36",
+        "type": "permissions"}, {"id": "4ada6e36-f923-11ea-adbc-0788e5c5e3cf", "type":
+        "permissions"}, {"id": "87b00304-dd12-11e8-9e59-cbeb5f71f72f", "type": "permissions"},
+        {"id": "2d14d054-6909-11ee-a593-da7ad0900005", "type": "permissions"}, {"id":
+        "a4a54926-c1d5-11ee-9ba2-da7ad0900005", "type": "permissions"}, {"id": "102a0414-d5e9-11ec-88e7-da7ad0900005",
+        "type": "permissions"}, {"id": "04bc1cf2-340a-11eb-873a-43b973c760dd", "type":
+        "permissions"}, {"id": "a28141c0-1106-11ee-b06a-da7ad0900005", "type": "permissions"},
+        {"id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9", "type": "permissions"}, {"id":
+        "12efc211-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"}, {"id": "6df8628a-c59e-11ec-9bfe-da7ad0900005",
+        "type": "permissions"}, {"id": "97971c1c-e895-11eb-b13c-da7ad0900002", "type":
+        "permissions"}, {"id": "97971c1d-e895-11eb-b13c-da7ad0900002", "type": "permissions"},
+        {"id": "3e4d4d28-f923-11ea-adbc-e3565938c12e", "type": "permissions"}, {"id":
+        "fbb166e4-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id": "59c8d920-53fe-11ef-af6a-da7ad0900005",
+        "type": "permissions"}, {"id": "9bcfe7e2-5a12-11ed-935c-da7ad0900005", "type":
+        "permissions"}, {"id": "b05a8a26-4e88-11ee-90a7-da7ad0900005", "type": "permissions"},
+        {"id": "98b984f5-b16d-11eb-a2c6-da7ad0900002", "type": "permissions"}, {"id":
+        "53950c54-2dce-11eb-84c0-a79ae108f6f8", "type": "permissions"}, {"id": "5cbe5f9c-2dce-11eb-84c0-872d3e9f1076",
+        "type": "permissions"}, {"id": "46a301dc-ec5c-11ea-aa9f-13b33f8f46ea", "type":
+        "permissions"}, {"id": "46a301e2-ec5c-11ea-aa9f-1f511b7305fd", "type": "permissions"},
+        {"id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc", "type": "permissions"}, {"id":
+        "372896c4-f923-11ea-adbc-4fecd107156d", "type": "permissions"}, {"id": "55f4b5ec-f923-11ea-adbc-1bfa2334a755",
+        "type": "permissions"}, {"id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0", "type":
+        "permissions"}, {"id": "4916eebe-2dce-11eb-84c0-271cb2c672e8", "type": "permissions"},
+        {"id": "4e3f02b4-2dce-11eb-84c0-2fca946a6efc", "type": "permissions"}, {"id":
+        "61765026-2dce-11eb-84c0-833e230d1b8f", "type": "permissions"}, {"id": "4edb8008-db23-11ed-b8c4-da7ad0900005",
+        "type": "permissions"}, {"id": "277f3524-7d61-11ed-9f04-da7ad0900005", "type":
+        "permissions"}, {"id": "f7569d4e-e20c-11ee-b531-da7ad0900005", "type": "permissions"},
+        {"id": "2fbdac76-f923-11ea-adbc-07f3823e2b43", "type": "permissions"}, {"id":
+        "edb0ad50-173a-11ed-b3c2-da7ad0900005", "type": "permissions"}, {"id": "5c6b88e2-f923-11ea-adbc-abf57d079420",
+        "type": "permissions"}, {"id": "aa7d422c-fa13-11eb-b17c-da7ad0900005", "type":
+        "permissions"}, {"id": "1ce7904c-ccd5-11ee-b58b-da7ad0900005", "type": "permissions"},
+        {"id": "642eebe6-f923-11ea-adbc-eb617674ea04", "type": "permissions"}, {"id":
+        "e758ba34-00b2-11ef-8ece-da7ad0900005", "type": "permissions"}, {"id": "b8006c56-e5c4-11ec-bfd9-da7ad0900005",
+        "type": "permissions"}, {"id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005", "type":
+        "permissions"}, {"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type": "permissions"},
+        {"id": "20cdc770-9c9c-11ef-8bf8-da7ad0900005", "type": "permissions"}, {"id":
+        "12efc20f-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"}, {"id": "12efc210-d36c-11eb-a9b8-da7ad0900002",
+        "type": "permissions"}, {"id": "4edb890e-db23-11ed-b8c4-da7ad0900005", "type":
+        "permissions"}, {"id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"},
+        {"id": "a42e94b2-1476-11eb-bd08-efda28c04248", "type": "permissions"}, {"id":
+        "1ba2f2d8-16c7-11ec-b77d-da7ad0900005", "type": "permissions"}, {"id": "1ba4caa4-16c7-11ec-b77d-da7ad0900005",
+        "type": "permissions"}, {"id": "98b984f4-b16d-11eb-a2c6-da7ad0900002", "type":
+        "permissions"}, {"id": "aa7ccb44-fa13-11eb-b17c-da7ad0900005", "type": "permissions"},
+        {"id": "0c07b512-56a4-11ec-9d67-da7ad0900005", "type": "permissions"}, {"id":
+        "e2371690-574f-11ec-9b69-da7ad0900005", "type": "permissions"}, {"id": "5c1680d0-ff6d-11eb-a494-da7ad0900005",
+        "type": "permissions"}, {"id": "10292ba2-d5e9-11ec-88e7-da7ad0900005", "type":
+        "permissions"}, {"id": "5ed2476e-d29b-11ef-be68-da7ad0900005", "type": "permissions"},
+        {"id": "ec69c9ae-4792-11ec-a4e4-da7ad0900005", "type": "permissions"}, {"id":
+        "5e605652-dd12-11e8-9e53-375565b8970e", "type": "permissions"}, {"id": "84aa3ae4-dd12-11e8-9e58-a373a514ccd0",
+        "type": "permissions"}, {"id": "0fb2c6d2-ff1f-11ed-a62e-da7ad0900005", "type":
+        "permissions"}, {"id": "caea6b48-9a59-11ec-b6fc-da7ad0900005", "type": "permissions"},
+        {"id": "caeae1ea-9a59-11ec-b6fc-da7ad0900005", "type": "permissions"}, {"id":
+        "55840f46-1761-11ed-996f-da7ad0900005", "type": "permissions"}, {"id": "2d9c7008-ccc0-11ed-99c3-da7ad0900005",
+        "type": "permissions"}, {"id": "0fc8e272-8500-11ec-9176-da7ad0900005", "type":
+        "permissions"}, {"id": "eee67f20-e746-11ec-a905-da7ad0900005", "type": "permissions"},
+        {"id": "eee6d434-e746-11ec-a905-da7ad0900005", "type": "permissions"}, {"id":
+        "b121c706-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "edb17ed8-173a-11ed-b3c2-da7ad0900005",
+        "type": "permissions"}, {"id": "6f80e6ce-7aff-11ed-836c-da7ad0900005", "type":
+        "permissions"}, {"id": "3f036aae-966b-11ec-87f8-da7ad0900005", "type": "permissions"},
+        {"id": "ec6a85f6-4792-11ec-a4e4-da7ad0900005", "type": "permissions"}, {"id":
+        "4f2161f6-55d9-11ed-9831-da7ad0900005", "type": "permissions"}, {"id": "4f21ab3e-55d9-11ed-9831-da7ad0900005",
+        "type": "permissions"}, {"id": "0fc97610-8500-11ec-9176-da7ad0900005", "type":
+        "permissions"}, {"id": "6f81882c-7aff-11ed-836c-da7ad0900005", "type": "permissions"},
+        {"id": "1f8daba8-0eab-11ee-8438-da7ad0900005", "type": "permissions"}, {"id":
+        "b1233096-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "c9ca59c2-66d9-11ef-9bd3-da7ad0900005",
+        "type": "permissions"}, {"id": "67dc86ba-e531-11ee-bf1b-da7ad0900005", "type":
+        "permissions"}, {"id": "279926d0-f311-11ec-9321-da7ad0900005", "type": "permissions"},
+        {"id": "758f0096-7a5a-11ed-ad92-da7ad0900005", "type": "permissions"}, {"id":
+        "758e73c4-7a5a-11ed-ad92-da7ad0900005", "type": "permissions"}, {"id": "4f208ea2-55d9-11ed-9831-da7ad0900005",
+        "type": "permissions"}, {"id": "4f210b2a-55d9-11ed-9831-da7ad0900005", "type":
+        "permissions"}, {"id": "0b46276c-9771-11ed-b830-da7ad0900005", "type": "permissions"},
+        {"id": "7df222b6-a45c-11eb-a0af-da7ad0900002", "type": "permissions"}, {"id":
+        "6ab61b9e-b468-11ed-9d27-da7ad0900005", "type": "permissions"}, {"id": "6ab623d2-b468-11ed-9d27-da7ad0900005",
+        "type": "permissions"}, {"id": "1746e9c0-597b-11ef-b8dd-da7ad0900005", "type":
+        "permissions"}, {"id": "46a301dd-ec5c-11ea-aa9f-97edfb345bc9", "type": "permissions"},
+        {"id": "46a301de-ec5c-11ea-aa9f-a73252c24806", "type": "permissions"}, {"id":
+        "465cfe66-2dce-11eb-84c0-6baa888239fa", "type": "permissions"}, {"id": "12efc20e-d36c-11eb-a9b8-da7ad0900002",
+        "type": "permissions"}, {"id": "e26a6ab8-de71-11ed-8ad1-da7ad0900005", "type":
+        "permissions"}, {"id": "e26a72f6-de71-11ed-8ad1-da7ad0900005", "type": "permissions"},
+        {"id": "b47a3a6e-74fe-11ef-ae6f-da7ad0900005", "type": "permissions"}, {"id":
+        "710f0782-f408-11ed-9289-da7ad0900005", "type": "permissions"}, {"id": "710f0ec6-f408-11ed-9289-da7ad0900005",
+        "type": "permissions"}, {"id": "ae260840-8a26-11ef-b0ad-da7ad0900005", "type":
+        "permissions"}, {"id": "0fc821fc-8500-11ec-9176-da7ad0900005", "type": "permissions"},
+        {"id": "0fc894fc-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
+        "4244b3e6-248a-11ed-96ae-da7ad0900005", "type": "permissions"}, {"id": "9bd04c46-5a12-11ed-935c-da7ad0900005",
+        "type": "permissions"}, {"id": "6f807a68-7aff-11ed-836c-da7ad0900005", "type":
+        "permissions"}, {"id": "6f8143ee-7aff-11ed-836c-da7ad0900005", "type": "permissions"},
+        {"id": "325b4144-ca2e-11ed-b9ff-da7ad0900005", "type": "permissions"}, {"id":
+        "59c72b84-53fe-11ef-af6a-da7ad0900005", "type": "permissions"}, {"id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f",
+        "type": "permissions"}, {"id": "46a301da-ec5c-11ea-aa9f-73bedeab67ee", "type":
+        "permissions"}, {"id": "34438974-1703-11ec-9521-da7ad0900005", "type": "permissions"},
+        {"id": "0fc93150-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
+        "b1236d40-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "93494582-f689-11ed-9d4d-da7ad0900005",
+        "type": "permissions"}, {"id": "47f7b6da-f9a0-11ed-8480-da7ad0900005", "type":
+        "permissions"}, {"id": "dd34df0c-3d07-11ee-9d84-da7ad0900005", "type": "permissions"},
+        {"id": "bb5b2d36-982f-11ee-9d81-da7ad0900005", "type": "permissions"}, {"id":
+        "0681b020-2187-11ee-a396-da7ad0900005", "type": "permissions"}, {"id": "6dabb7aa-092c-11ee-ab7c-da7ad0900005",
+        "type": "permissions"}, {"id": "6dabb9a8-092c-11ee-ab7c-da7ad0900005", "type":
+        "permissions"}, {"id": "dd34e8b2-3d07-11ee-9d84-da7ad0900005", "type": "permissions"},
+        {"id": "f8aecc36-20bd-11ee-9f59-da7ad0900005", "type": "permissions"}, {"id":
+        "f8aec1be-20bd-11ee-9f59-da7ad0900005", "type": "permissions"}, {"id": "173e87fa-1cd0-11ee-b496-da7ad0900005",
+        "type": "permissions"}, {"id": "76fa39c0-2c87-11ee-9cfd-da7ad0900005", "type":
+        "permissions"}, {"id": "2f3b07ac-2707-11ee-b231-da7ad0900005", "type": "permissions"},
+        {"id": "6dab81d6-092c-11ee-ab7c-da7ad0900005", "type": "permissions"}, {"id":
+        "62cc036c-dd12-11e8-9e54-db9995643092", "type": "permissions"}, {"id": "811ac4ca-dd12-11e8-9e57-676a7f0beef9",
+        "type": "permissions"}, {"id": "bb5aaf0a-982f-11ee-9d81-da7ad0900005", "type":
+        "permissions"}, {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"},
+        {"id": "66db2844-0052-11ee-8008-da7ad0900005", "type": "permissions"}, {"id":
+        "1f8e7f38-0eab-11ee-8438-da7ad0900005", "type": "permissions"}, {"id": "fa342530-3dd0-11ee-be02-da7ad0900005",
+        "type": "permissions"}, {"id": "979df720-aed7-11e9-99c6-a7eb8373165a", "type":
+        "permissions"}, {"id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d", "type": "permissions"},
+        {"id": "9de604d8-e707-11ea-aa2d-93f1a783b3a3", "type": "permissions"}, {"id":
+        "7ce1c892-6090-11ef-b3ef-da7ad0900005", "type": "permissions"}, {"id": "0681b99e-2187-11ee-a396-da7ad0900005",
+        "type": "permissions"}, {"id": "0681baf2-2187-11ee-a396-da7ad0900005", "type":
+        "permissions"}, {"id": "25c1e1fe-138e-11ef-bf6f-da7ad0900005", "type": "permissions"},
+        {"id": "34651076-227c-11ef-b4c3-da7ad0900005", "type": "permissions"}, {"id":
+        "4b9cd3ee-810b-11ef-972e-da7ad0900005", "type": "permissions"}, {"id": "eee61788-e746-11ec-a905-da7ad0900005",
+        "type": "permissions"}, {"id": "03868888-0957-11ef-9e19-da7ad0900005", "type":
+        "permissions"}, {"id": "4b9d515c-810b-11ef-972e-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id":
+        "67dd16de-e531-11ee-bf1b-da7ad0900005", "type": "permissions"}, {"id": "6df70e30-c59e-11ec-9bfe-da7ad0900005",
+        "type": "permissions"}, {"id": "6df8034e-c59e-11ec-9bfe-da7ad0900005", "type":
+        "permissions"}, {"id": "6df7a0de-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"},
+        {"id": "b1236f70-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id":
+        "b12370f6-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "b12371e6-017c-11ef-9743-da7ad0900005",
+        "type": "permissions"}, {"id": "d96b811c-088d-11ef-9353-da7ad0900005", "type":
+        "permissions"}, {"id": "d96c0fe2-088d-11ef-9353-da7ad0900005", "type": "permissions"},
+        {"id": "d96c123a-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id":
+        "d96c1352-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id": "f764fa80-79c7-11ef-8a97-da7ad0900005",
+        "type": "permissions"}, {"id": "e0535584-7c0c-11ef-bb98-da7ad0900005", "type":
+        "permissions"}, {"id": "a8841946-7c42-11ef-93ea-da7ad0900005", "type": "permissions"},
+        {"id": "20ced020-9c9c-11ef-8bf8-da7ad0900005", "type": "permissions"}, {"id":
+        "20ced1f6-9c9c-11ef-8bf8-da7ad0900005", "type": "permissions"}, {"id": "c7c539c8-b44f-11ed-9d3d-da7ad0900005",
+        "type": "permissions"}, {"id": "50559336-69d2-11ee-b70d-da7ad0900005", "type":
+        "permissions"}, {"id": "7ce1cb26-6090-11ef-b3ef-da7ad0900005", "type": "permissions"},
+        {"id": "7ce175e0-6090-11ef-b3ef-da7ad0900005", "type": "permissions"}, {"id":
+        "d77b8882-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id": "6f81cfe4-7aff-11ed-836c-da7ad0900005",
+        "type": "permissions"}, {"id": "8dbe76fe-5884-11ec-82c1-da7ad0900005", "type":
+        "permissions"}, {"id": "8dbeed46-5884-11ec-82c1-da7ad0900005", "type": "permissions"},
+        {"id": "aca6448a-647e-11ef-82de-da7ad0900005", "type": "permissions"}, {"id":
+        "aca6f060-647e-11ef-82de-da7ad0900005", "type": "permissions"}, {"id": "6f8289ca-7aff-11ed-836c-da7ad0900005",
+        "type": "permissions"}, {"id": "d90f6832-d3d8-11e9-a77a-bf8a2607f864", "type":
+        "permissions"}, {"id": "b0b878f2-b71e-11ef-a582-da7ad0900005", "type": "permissions"},
+        {"id": "b0b958b2-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id":
+        "b0b95b6e-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id": "67dcf988-e531-11ee-bf1b-da7ad0900005",
+        "type": "permissions"}, {"id": "8cca9812-a8f5-11ef-a551-da7ad0900005", "type":
+        "permissions"}, {"id": "8ccad534-a8f5-11ef-a551-da7ad0900005", "type": "permissions"},
+        {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
+        "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
+        "type": "permissions"}, {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type":
+        "permissions"}]}}}, {"id": "4e508ad0-1630-11f0-a6fb-da7ad0900005", "type":
+        "roles", "attributes": {"created_at": "2025-04-10T17:21:57.647641Z", "created_by_handle":
+        "michael.richey@datadoghq.com", "modified_at": "2025-10-10T06:31:15.012281Z",
+        "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
+        Admin Role", "team_count": 0, "user_count": 9}, "relationships": {"permissions":
+        {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
+        {"id": "20c31f82-b9b4-11ec-8235-da7ad0900005", "type": "permissions"}, {"id":
+        "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type": "permissions"}, {"id": "b382b982-8535-11ea-93de-2bf1bdf20798",
+        "type": "permissions"}, {"id": "edfd5e74-801f-11eb-96d8-da7ad0900002", "type":
+        "permissions"}, {"id": "43fa188e-2dce-11eb-84c0-835ad1fd6287", "type": "permissions"},
+        {"id": "8106300a-54f7-11eb-8cbc-7781a434a67b", "type": "permissions"}, {"id":
+        "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"}, {"id": "7d7c98ac-dd12-11e8-9e56-93700598622d",
+        "type": "permissions"}, {"id": "2f3afc26-2707-11ee-b231-da7ad0900005", "type":
+        "permissions"}, {"id": "b89ab20a-3a55-11f0-bcdb-da7ad0900005", "type": "permissions"},
+        {"id": "bf0dcf7c-90af-11eb-9b82-da7ad0900002", "type": "permissions"}, {"id":
+        "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "type": "permissions"}, {"id": "edfd5e75-801f-11eb-96d8-da7ad0900002",
+        "type": "permissions"}, {"id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39", "type":
+        "permissions"}, {"id": "5025ee24-f923-11ea-adbc-576ea241df8d", "type": "permissions"},
+        {"id": "81d9da4a-6f52-11ee-853f-da7ad0900005", "type": "permissions"}, {"id":
+        "48ef71ea-d8b1-11e9-a77a-93f408470ad0", "type": "permissions"}, {"id": "27e324a0-b9f9-11ee-ad81-da7ad0900005",
+        "type": "permissions"}, {"id": "d3deb136-f5b1-11ee-8f9a-da7ad0900005", "type":
+        "permissions"}, {"id": "c09a5320-a69e-11ef-854d-da7ad0900005", "type": "permissions"},
+        {"id": "bf0dcf7d-90af-11eb-9b82-da7ad0900002", "type": "permissions"}, {"id":
+        "a4a15c66-387d-11ef-950e-da7ad0900005", "type": "permissions"}, {"id": "841eaad4-7a4c-11ed-bf7d-da7ad0900005",
+        "type": "permissions"}, {"id": "841f1d52-7a4c-11ed-bf7d-da7ad0900005", "type":
+        "permissions"}, {"id": "7b516476-aa58-11ea-95e2-93718cd56369", "type": "permissions"},
+        {"id": "80de1ec0-aa58-11ea-95e2-aff381626d5d", "type": "permissions"}, {"id":
+        "46a301db-ec5c-11ea-aa9f-2fe72193d60e", "type": "permissions"}, {"id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2",
+        "type": "permissions"}, {"id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "type":
+        "permissions"}, {"id": "d90f6831-d3d8-11e9-a77a-4fd230ddbc6a", "type": "permissions"},
+        {"id": "4441648c-d8b1-11e9-a77a-1b899a04b304", "type": "permissions"}, {"id":
+        "46a301df-ec5c-11ea-aa9f-970a9ae645e5", "type": "permissions"}, {"id": "46a301e0-ec5c-11ea-aa9f-6ba6cc675d8c",
+        "type": "permissions"}, {"id": "46a301e1-ec5c-11ea-aa9f-afa39f6f3e36", "type":
+        "permissions"}, {"id": "4ada6e36-f923-11ea-adbc-0788e5c5e3cf", "type": "permissions"},
+        {"id": "87b00304-dd12-11e8-9e59-cbeb5f71f72f", "type": "permissions"}, {"id":
+        "1c5f7228-fab2-11ef-94e7-da7ad0900005", "type": "permissions"}, {"id": "2d14d054-6909-11ee-a593-da7ad0900005",
+        "type": "permissions"}, {"id": "a4a54926-c1d5-11ee-9ba2-da7ad0900005", "type":
+        "permissions"}, {"id": "102a0414-d5e9-11ec-88e7-da7ad0900005", "type": "permissions"},
+        {"id": "04bc1cf2-340a-11eb-873a-43b973c760dd", "type": "permissions"}, {"id":
+        "a28141c0-1106-11ee-b06a-da7ad0900005", "type": "permissions"}, {"id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9",
+        "type": "permissions"}, {"id": "12efc211-d36c-11eb-a9b8-da7ad0900002", "type":
+        "permissions"}, {"id": "6df8628a-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"},
+        {"id": "97971c1c-e895-11eb-b13c-da7ad0900002", "type": "permissions"}, {"id":
+        "97971c1d-e895-11eb-b13c-da7ad0900002", "type": "permissions"}, {"id": "3e4d4d28-f923-11ea-adbc-e3565938c12e",
+        "type": "permissions"}, {"id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005", "type":
+        "permissions"}, {"id": "59c8d920-53fe-11ef-af6a-da7ad0900005", "type": "permissions"},
+        {"id": "9bcfe7e2-5a12-11ed-935c-da7ad0900005", "type": "permissions"}, {"id":
+        "b05a8a26-4e88-11ee-90a7-da7ad0900005", "type": "permissions"}, {"id": "98b984f5-b16d-11eb-a2c6-da7ad0900002",
+        "type": "permissions"}, {"id": "53950c54-2dce-11eb-84c0-a79ae108f6f8", "type":
+        "permissions"}, {"id": "5cbe5f9c-2dce-11eb-84c0-872d3e9f1076", "type": "permissions"},
+        {"id": "46a301dc-ec5c-11ea-aa9f-13b33f8f46ea", "type": "permissions"}, {"id":
+        "46a301e2-ec5c-11ea-aa9f-1f511b7305fd", "type": "permissions"}, {"id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc",
+        "type": "permissions"}, {"id": "372896c4-f923-11ea-adbc-4fecd107156d", "type":
+        "permissions"}, {"id": "55f4b5ec-f923-11ea-adbc-1bfa2334a755", "type": "permissions"},
+        {"id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0", "type": "permissions"}, {"id":
+        "4916eebe-2dce-11eb-84c0-271cb2c672e8", "type": "permissions"}, {"id": "4e3f02b4-2dce-11eb-84c0-2fca946a6efc",
+        "type": "permissions"}, {"id": "61765026-2dce-11eb-84c0-833e230d1b8f", "type":
+        "permissions"}, {"id": "4edb8008-db23-11ed-b8c4-da7ad0900005", "type": "permissions"},
+        {"id": "277f3524-7d61-11ed-9f04-da7ad0900005", "type": "permissions"}, {"id":
+        "f7569d4e-e20c-11ee-b531-da7ad0900005", "type": "permissions"}, {"id": "2fbdac76-f923-11ea-adbc-07f3823e2b43",
+        "type": "permissions"}, {"id": "edb0ad50-173a-11ed-b3c2-da7ad0900005", "type":
+        "permissions"}, {"id": "5c6b88e2-f923-11ea-adbc-abf57d079420", "type": "permissions"},
+        {"id": "aa7d422c-fa13-11eb-b17c-da7ad0900005", "type": "permissions"}, {"id":
+        "1ce7904c-ccd5-11ee-b58b-da7ad0900005", "type": "permissions"}, {"id": "642eebe6-f923-11ea-adbc-eb617674ea04",
+        "type": "permissions"}, {"id": "e758ba34-00b2-11ef-8ece-da7ad0900005", "type":
+        "permissions"}, {"id": "b8006c56-e5c4-11ec-bfd9-da7ad0900005", "type": "permissions"},
+        {"id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005", "type": "permissions"}, {"id":
+        "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type": "permissions"}, {"id": "20cdc770-9c9c-11ef-8bf8-da7ad0900005",
+        "type": "permissions"}, {"id": "12efc20f-d36c-11eb-a9b8-da7ad0900002", "type":
+        "permissions"}, {"id": "12efc210-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"},
+        {"id": "4edb890e-db23-11ed-b8c4-da7ad0900005", "type": "permissions"}, {"id":
+        "fbb07996-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id": "a42e94b2-1476-11eb-bd08-efda28c04248",
+        "type": "permissions"}, {"id": "1ba2f2d8-16c7-11ec-b77d-da7ad0900005", "type":
+        "permissions"}, {"id": "1ba4caa4-16c7-11ec-b77d-da7ad0900005", "type": "permissions"},
+        {"id": "98b984f4-b16d-11eb-a2c6-da7ad0900002", "type": "permissions"}, {"id":
+        "aa7ccb44-fa13-11eb-b17c-da7ad0900005", "type": "permissions"}, {"id": "0c07b512-56a4-11ec-9d67-da7ad0900005",
+        "type": "permissions"}, {"id": "e2371690-574f-11ec-9b69-da7ad0900005", "type":
+        "permissions"}, {"id": "5c1680d0-ff6d-11eb-a494-da7ad0900005", "type": "permissions"},
+        {"id": "10292ba2-d5e9-11ec-88e7-da7ad0900005", "type": "permissions"}, {"id":
+        "5ed2476e-d29b-11ef-be68-da7ad0900005", "type": "permissions"}, {"id": "ec69c9ae-4792-11ec-a4e4-da7ad0900005",
+        "type": "permissions"}, {"id": "5e605652-dd12-11e8-9e53-375565b8970e", "type":
+        "permissions"}, {"id": "84aa3ae4-dd12-11e8-9e58-a373a514ccd0", "type": "permissions"},
+        {"id": "0fb2c6d2-ff1f-11ed-a62e-da7ad0900005", "type": "permissions"}, {"id":
+        "caea6b48-9a59-11ec-b6fc-da7ad0900005", "type": "permissions"}, {"id": "caeae1ea-9a59-11ec-b6fc-da7ad0900005",
+        "type": "permissions"}, {"id": "55840f46-1761-11ed-996f-da7ad0900005", "type":
+        "permissions"}, {"id": "2d9c7008-ccc0-11ed-99c3-da7ad0900005", "type": "permissions"},
+        {"id": "0fc8e272-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
+        "eee67f20-e746-11ec-a905-da7ad0900005", "type": "permissions"}, {"id": "eee6d434-e746-11ec-a905-da7ad0900005",
+        "type": "permissions"}, {"id": "b121c706-017c-11ef-9743-da7ad0900005", "type":
+        "permissions"}, {"id": "edb17ed8-173a-11ed-b3c2-da7ad0900005", "type": "permissions"},
+        {"id": "6f80e6ce-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id":
+        "3f036aae-966b-11ec-87f8-da7ad0900005", "type": "permissions"}, {"id": "ec6a85f6-4792-11ec-a4e4-da7ad0900005",
+        "type": "permissions"}, {"id": "4f2161f6-55d9-11ed-9831-da7ad0900005", "type":
+        "permissions"}, {"id": "4f21ab3e-55d9-11ed-9831-da7ad0900005", "type": "permissions"},
+        {"id": "0fc97610-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
+        "6f81882c-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id": "1f8daba8-0eab-11ee-8438-da7ad0900005",
+        "type": "permissions"}, {"id": "b1233096-017c-11ef-9743-da7ad0900005", "type":
+        "permissions"}, {"id": "c9ca59c2-66d9-11ef-9bd3-da7ad0900005", "type": "permissions"},
+        {"id": "67dc86ba-e531-11ee-bf1b-da7ad0900005", "type": "permissions"}, {"id":
+        "279926d0-f311-11ec-9321-da7ad0900005", "type": "permissions"}, {"id": "758f0096-7a5a-11ed-ad92-da7ad0900005",
+        "type": "permissions"}, {"id": "758e73c4-7a5a-11ed-ad92-da7ad0900005", "type":
+        "permissions"}, {"id": "30d41870-f5fe-11ef-aac9-da7ad0900005", "type": "permissions"},
+        {"id": "4f208ea2-55d9-11ed-9831-da7ad0900005", "type": "permissions"}, {"id":
+        "4f210b2a-55d9-11ed-9831-da7ad0900005", "type": "permissions"}, {"id": "0b46276c-9771-11ed-b830-da7ad0900005",
+        "type": "permissions"}, {"id": "7df222b6-a45c-11eb-a0af-da7ad0900002", "type":
+        "permissions"}, {"id": "6ab61b9e-b468-11ed-9d27-da7ad0900005", "type": "permissions"},
+        {"id": "6ab623d2-b468-11ed-9d27-da7ad0900005", "type": "permissions"}, {"id":
+        "1746e9c0-597b-11ef-b8dd-da7ad0900005", "type": "permissions"}, {"id": "46a301dd-ec5c-11ea-aa9f-97edfb345bc9",
+        "type": "permissions"}, {"id": "46a301de-ec5c-11ea-aa9f-a73252c24806", "type":
+        "permissions"}, {"id": "465cfe66-2dce-11eb-84c0-6baa888239fa", "type": "permissions"},
+        {"id": "12efc20e-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"}, {"id":
+        "e26a6ab8-de71-11ed-8ad1-da7ad0900005", "type": "permissions"}, {"id": "e26a72f6-de71-11ed-8ad1-da7ad0900005",
+        "type": "permissions"}, {"id": "b47a3a6e-74fe-11ef-ae6f-da7ad0900005", "type":
+        "permissions"}, {"id": "710f0782-f408-11ed-9289-da7ad0900005", "type": "permissions"},
+        {"id": "710f0ec6-f408-11ed-9289-da7ad0900005", "type": "permissions"}, {"id":
+        "ae260840-8a26-11ef-b0ad-da7ad0900005", "type": "permissions"}, {"id": "0fc821fc-8500-11ec-9176-da7ad0900005",
+        "type": "permissions"}, {"id": "0fc894fc-8500-11ec-9176-da7ad0900005", "type":
+        "permissions"}, {"id": "4244b3e6-248a-11ed-96ae-da7ad0900005", "type": "permissions"},
+        {"id": "9bd04c46-5a12-11ed-935c-da7ad0900005", "type": "permissions"}, {"id":
+        "6f807a68-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id": "6f8143ee-7aff-11ed-836c-da7ad0900005",
+        "type": "permissions"}, {"id": "325b4144-ca2e-11ed-b9ff-da7ad0900005", "type":
+        "permissions"}, {"id": "59c72b84-53fe-11ef-af6a-da7ad0900005", "type": "permissions"},
+        {"id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f", "type": "permissions"}, {"id":
+        "46a301da-ec5c-11ea-aa9f-73bedeab67ee", "type": "permissions"}, {"id": "34438974-1703-11ec-9521-da7ad0900005",
+        "type": "permissions"}, {"id": "0fc93150-8500-11ec-9176-da7ad0900005", "type":
+        "permissions"}, {"id": "b1236d40-017c-11ef-9743-da7ad0900005", "type": "permissions"},
+        {"id": "6dc694fa-2520-11f0-bb2e-da7ad0900005", "type": "permissions"}, {"id":
+        "93494582-f689-11ed-9d4d-da7ad0900005", "type": "permissions"}, {"id": "47f7b6da-f9a0-11ed-8480-da7ad0900005",
+        "type": "permissions"}, {"id": "dd34df0c-3d07-11ee-9d84-da7ad0900005", "type":
+        "permissions"}, {"id": "bb5b2d36-982f-11ee-9d81-da7ad0900005", "type": "permissions"},
+        {"id": "0681b020-2187-11ee-a396-da7ad0900005", "type": "permissions"}, {"id":
+        "6dabb7aa-092c-11ee-ab7c-da7ad0900005", "type": "permissions"}, {"id": "6dabb9a8-092c-11ee-ab7c-da7ad0900005",
+        "type": "permissions"}, {"id": "dd34e8b2-3d07-11ee-9d84-da7ad0900005", "type":
+        "permissions"}, {"id": "f8aecc36-20bd-11ee-9f59-da7ad0900005", "type": "permissions"},
+        {"id": "f8aec1be-20bd-11ee-9f59-da7ad0900005", "type": "permissions"}, {"id":
+        "173e87fa-1cd0-11ee-b496-da7ad0900005", "type": "permissions"}, {"id": "76fa39c0-2c87-11ee-9cfd-da7ad0900005",
+        "type": "permissions"}, {"id": "47af6ecc-da7a-11ef-a039-da7ad0900005", "type":
+        "permissions"}, {"id": "2f3b07ac-2707-11ee-b231-da7ad0900005", "type": "permissions"},
+        {"id": "6dab81d6-092c-11ee-ab7c-da7ad0900005", "type": "permissions"}, {"id":
+        "62cc036c-dd12-11e8-9e54-db9995643092", "type": "permissions"}, {"id": "811ac4ca-dd12-11e8-9e57-676a7f0beef9",
+        "type": "permissions"}, {"id": "bb5aaf0a-982f-11ee-9d81-da7ad0900005", "type":
+        "permissions"}, {"id": "f6b37df2-836a-11f0-9ca5-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id":
+        "66db2844-0052-11ee-8008-da7ad0900005", "type": "permissions"}, {"id": "1f8e7f38-0eab-11ee-8438-da7ad0900005",
+        "type": "permissions"}, {"id": "fa342530-3dd0-11ee-be02-da7ad0900005", "type":
+        "permissions"}, {"id": "979df720-aed7-11e9-99c6-a7eb8373165a", "type": "permissions"},
+        {"id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d", "type": "permissions"}, {"id":
+        "9de604d8-e707-11ea-aa2d-93f1a783b3a3", "type": "permissions"}, {"id": "7ce1c892-6090-11ef-b3ef-da7ad0900005",
+        "type": "permissions"}, {"id": "0681b99e-2187-11ee-a396-da7ad0900005", "type":
+        "permissions"}, {"id": "0681baf2-2187-11ee-a396-da7ad0900005", "type": "permissions"},
+        {"id": "25c1e1fe-138e-11ef-bf6f-da7ad0900005", "type": "permissions"}, {"id":
+        "34651076-227c-11ef-b4c3-da7ad0900005", "type": "permissions"}, {"id": "4b9cd3ee-810b-11ef-972e-da7ad0900005",
+        "type": "permissions"}, {"id": "eee61788-e746-11ec-a905-da7ad0900005", "type":
+        "permissions"}, {"id": "03868888-0957-11ef-9e19-da7ad0900005", "type": "permissions"},
+        {"id": "4b9d515c-810b-11ef-972e-da7ad0900005", "type": "permissions"}, {"id":
+        "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id": "47af90c8-da7a-11ef-a039-da7ad0900005",
+        "type": "permissions"}, {"id": "67dd16de-e531-11ee-bf1b-da7ad0900005", "type":
+        "permissions"}, {"id": "6df70e30-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"},
+        {"id": "6df8034e-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"}, {"id":
+        "6df7a0de-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"}, {"id": "b1236f70-017c-11ef-9743-da7ad0900005",
+        "type": "permissions"}, {"id": "b12370f6-017c-11ef-9743-da7ad0900005", "type":
+        "permissions"}, {"id": "b12371e6-017c-11ef-9743-da7ad0900005", "type": "permissions"},
+        {"id": "d96b811c-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id":
+        "d96c0fe2-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id": "d96c123a-088d-11ef-9353-da7ad0900005",
+        "type": "permissions"}, {"id": "d96c1352-088d-11ef-9353-da7ad0900005", "type":
+        "permissions"}, {"id": "f764fa80-79c7-11ef-8a97-da7ad0900005", "type": "permissions"},
+        {"id": "e0535584-7c0c-11ef-bb98-da7ad0900005", "type": "permissions"}, {"id":
+        "a8841946-7c42-11ef-93ea-da7ad0900005", "type": "permissions"}, {"id": "20ced020-9c9c-11ef-8bf8-da7ad0900005",
+        "type": "permissions"}, {"id": "20ced1f6-9c9c-11ef-8bf8-da7ad0900005", "type":
+        "permissions"}, {"id": "c7c539c8-b44f-11ed-9d3d-da7ad0900005", "type": "permissions"},
+        {"id": "50559336-69d2-11ee-b70d-da7ad0900005", "type": "permissions"}, {"id":
+        "7ce1cb26-6090-11ef-b3ef-da7ad0900005", "type": "permissions"}, {"id": "7ce175e0-6090-11ef-b3ef-da7ad0900005",
+        "type": "permissions"}, {"id": "751cbee0-e7ff-11ef-9bf6-da7ad0900005", "type":
+        "permissions"}, {"id": "d77b8882-b7e9-11ef-9071-da7ad0900005", "type": "permissions"},
+        {"id": "6f81cfe4-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id":
+        "8dbe76fe-5884-11ec-82c1-da7ad0900005", "type": "permissions"}, {"id": "8dbeed46-5884-11ec-82c1-da7ad0900005",
+        "type": "permissions"}, {"id": "aca6448a-647e-11ef-82de-da7ad0900005", "type":
+        "permissions"}, {"id": "aca6f060-647e-11ef-82de-da7ad0900005", "type": "permissions"},
+        {"id": "6f8289ca-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id":
+        "751da530-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id": "bee35d36-e27d-11ef-8ab4-da7ad0900005",
+        "type": "permissions"}, {"id": "d90f6832-d3d8-11e9-a77a-bf8a2607f864", "type":
+        "permissions"}, {"id": "b0b878f2-b71e-11ef-a582-da7ad0900005", "type": "permissions"},
+        {"id": "b0b958b2-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id":
+        "b0b95b6e-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id": "e63ee4dc-0fea-11f0-a34b-da7ad0900005",
+        "type": "permissions"}, {"id": "e6401d5c-0fea-11f0-a34b-da7ad0900005", "type":
+        "permissions"}, {"id": "5263ade0-7de7-11f0-aa4c-da7ad0900005", "type": "permissions"},
+        {"id": "addb52b6-035a-11f0-a4f7-da7ad0900005", "type": "permissions"}, {"id":
+        "67dcf988-e531-11ee-bf1b-da7ad0900005", "type": "permissions"}, {"id": "28a47646-30e5-11f0-aeee-da7ad0900005",
+        "type": "permissions"}, {"id": "425512fa-e89f-11ef-9ec6-da7ad0900005", "type":
+        "permissions"}, {"id": "425650de-e89f-11ef-9ec6-da7ad0900005", "type": "permissions"},
+        {"id": "e48d63cc-29d8-11f0-a591-da7ad0900005", "type": "permissions"}, {"id":
+        "e48d6700-29d8-11f0-a591-da7ad0900005", "type": "permissions"}, {"id": "e48d68f4-29d8-11f0-a591-da7ad0900005",
+        "type": "permissions"}, {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type":
+        "permissions"}, {"id": "d6420bf6-1178-11f0-bb81-da7ad0900005", "type": "permissions"},
+        {"id": "d6434dd6-1178-11f0-bb81-da7ad0900005", "type": "permissions"}, {"id":
+        "8cca9812-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "8ccad534-a8f5-11ef-a551-da7ad0900005",
+        "type": "permissions"}, {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type":
+        "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005", "type": "permissions"},
+        {"id": "4c7de64a-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id":
+        "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005",
+        "type": "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type":
+        "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"},
+        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "f27c14ba-34d2-11f0-8b57-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
+        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005",
+        "type": "permissions"}, {"id": "f8df8236-5db0-11f0-a618-da7ad0900005", "type":
+        "permissions"}, {"id": "1da0a06c-79fb-11f0-9ada-da7ad0900005", "type": "permissions"},
+        {"id": "890895f0-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}, {"id":
+        "890c6914-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005",
+        "type": "permissions"}, {"id": "890c96d2-8e6c-11f0-adc4-da7ad0900005", "type":
+        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"},
+        {"id": "890c9894-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}, {"id":
+        "939cc7aa-8432-11f0-9aac-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "modified_at": "2025-10-06T20:09:22.58082Z", "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "name": "Datadog Read Only Role", "team_count": 0, "user_count": 4}, "relationships":
+        {"permissions": {"data": [{"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type":
+        "permissions"}, {"id": "b382b982-8535-11ea-93de-2bf1bdf20798", "type": "permissions"},
+        {"id": "43fa188e-2dce-11eb-84c0-835ad1fd6287", "type": "permissions"}, {"id":
+        "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"}, {"id": "2f3afc26-2707-11ee-b231-da7ad0900005",
+        "type": "permissions"}, {"id": "b89ab20a-3a55-11f0-bcdb-da7ad0900005", "type":
+        "permissions"}, {"id": "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "type": "permissions"},
+        {"id": "edfd5e75-801f-11eb-96d8-da7ad0900002", "type": "permissions"}, {"id":
+        "5025ee24-f923-11ea-adbc-576ea241df8d", "type": "permissions"}, {"id": "841eaad4-7a4c-11ed-bf7d-da7ad0900005",
+        "type": "permissions"}, {"id": "80de1ec0-aa58-11ea-95e2-aff381626d5d", "type":
+        "permissions"}, {"id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2", "type": "permissions"},
+        {"id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "type": "permissions"}, {"id":
+        "4441648c-d8b1-11e9-a77a-1b899a04b304", "type": "permissions"}, {"id": "97971c1c-e895-11eb-b13c-da7ad0900002",
+        "type": "permissions"}, {"id": "b05a8a26-4e88-11ee-90a7-da7ad0900005", "type":
+        "permissions"}, {"id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0", "type": "permissions"},
+        {"id": "4916eebe-2dce-11eb-84c0-271cb2c672e8", "type": "permissions"}, {"id":
+        "277f3524-7d61-11ed-9f04-da7ad0900005", "type": "permissions"}, {"id": "edb0ad50-173a-11ed-b3c2-da7ad0900005",
+        "type": "permissions"}, {"id": "aa7d422c-fa13-11eb-b17c-da7ad0900005", "type":
+        "permissions"}, {"id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005", "type": "permissions"},
+        {"id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id":
+        "1ba2f2d8-16c7-11ec-b77d-da7ad0900005", "type": "permissions"}, {"id": "98b984f4-b16d-11eb-a2c6-da7ad0900002",
+        "type": "permissions"}, {"id": "aa7ccb44-fa13-11eb-b17c-da7ad0900005", "type":
+        "permissions"}, {"id": "e2371690-574f-11ec-9b69-da7ad0900005", "type": "permissions"},
+        {"id": "5ed2476e-d29b-11ef-be68-da7ad0900005", "type": "permissions"}, {"id":
+        "ec69c9ae-4792-11ec-a4e4-da7ad0900005", "type": "permissions"}, {"id": "5e605652-dd12-11e8-9e53-375565b8970e",
+        "type": "permissions"}, {"id": "caea6b48-9a59-11ec-b6fc-da7ad0900005", "type":
+        "permissions"}, {"id": "0fc8e272-8500-11ec-9176-da7ad0900005", "type": "permissions"},
+        {"id": "eee67f20-e746-11ec-a905-da7ad0900005", "type": "permissions"}, {"id":
+        "b121c706-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "6f80e6ce-7aff-11ed-836c-da7ad0900005",
+        "type": "permissions"}, {"id": "4f2161f6-55d9-11ed-9831-da7ad0900005", "type":
+        "permissions"}, {"id": "1f8daba8-0eab-11ee-8438-da7ad0900005", "type": "permissions"},
+        {"id": "67dc86ba-e531-11ee-bf1b-da7ad0900005", "type": "permissions"}, {"id":
+        "4f208ea2-55d9-11ed-9831-da7ad0900005", "type": "permissions"}, {"id": "12efc20e-d36c-11eb-a9b8-da7ad0900002",
+        "type": "permissions"}, {"id": "e26a6ab8-de71-11ed-8ad1-da7ad0900005", "type":
+        "permissions"}, {"id": "ae260840-8a26-11ef-b0ad-da7ad0900005", "type": "permissions"},
+        {"id": "0fc821fc-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
+        "59c72b84-53fe-11ef-af6a-da7ad0900005", "type": "permissions"}, {"id": "6dc694fa-2520-11f0-bb2e-da7ad0900005",
+        "type": "permissions"}, {"id": "dd34df0c-3d07-11ee-9d84-da7ad0900005", "type":
+        "permissions"}, {"id": "47af6ecc-da7a-11ef-a039-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id":
+        "7ce1c892-6090-11ef-b3ef-da7ad0900005", "type": "permissions"}, {"id": "34651076-227c-11ef-b4c3-da7ad0900005",
+        "type": "permissions"}, {"id": "4b9cd3ee-810b-11ef-972e-da7ad0900005", "type":
+        "permissions"}, {"id": "03868888-0957-11ef-9e19-da7ad0900005", "type": "permissions"},
+        {"id": "f764fa80-79c7-11ef-8a97-da7ad0900005", "type": "permissions"}, {"id":
+        "e0535584-7c0c-11ef-bb98-da7ad0900005", "type": "permissions"}, {"id": "20ced020-9c9c-11ef-8bf8-da7ad0900005",
+        "type": "permissions"}, {"id": "50559336-69d2-11ee-b70d-da7ad0900005", "type":
+        "permissions"}, {"id": "751cbee0-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"},
+        {"id": "d77b8882-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
+        "8dbe76fe-5884-11ec-82c1-da7ad0900005", "type": "permissions"}, {"id": "aca6448a-647e-11ef-82de-da7ad0900005",
+        "type": "permissions"}, {"id": "addb52b6-035a-11f0-a4f7-da7ad0900005", "type":
+        "permissions"}, {"id": "425512fa-e89f-11ef-9ec6-da7ad0900005", "type": "permissions"},
+        {"id": "e48d63cc-29d8-11f0-a591-da7ad0900005", "type": "permissions"}, {"id":
+        "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id": "8ccad534-a8f5-11ef-a551-da7ad0900005",
+        "type": "permissions"}, {"id": "4c7de64a-df2f-11ef-8eba-da7ad0900005", "type":
+        "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type": "permissions"},
+        {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
+        "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
+        "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "890c6914-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}, {"id":
+        "890c9894-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "514c41b6-1630-11f0-910b-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2025-04-10T17:22:02.665532Z", "created_by_handle": "michael.richey@datadoghq.com",
+        "modified_at": "2025-10-10T06:31:14.978828Z", "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "name": "Datadog Standard Role", "team_count": 0, "user_count": 5}, "relationships":
+        {"permissions": {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type":
+        "permissions"}, {"id": "20c31f82-b9b4-11ec-8235-da7ad0900005", "type": "permissions"},
+        {"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type": "permissions"}, {"id":
+        "b382b982-8535-11ea-93de-2bf1bdf20798", "type": "permissions"}, {"id": "43fa188e-2dce-11eb-84c0-835ad1fd6287",
+        "type": "permissions"}, {"id": "8106300a-54f7-11eb-8cbc-7781a434a67b", "type":
+        "permissions"}, {"id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"},
+        {"id": "7d7c98ac-dd12-11e8-9e56-93700598622d", "type": "permissions"}, {"id":
+        "2f3afc26-2707-11ee-b231-da7ad0900005", "type": "permissions"}, {"id": "b89ab20a-3a55-11f0-bcdb-da7ad0900005",
+        "type": "permissions"}, {"id": "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "type":
+        "permissions"}, {"id": "edfd5e75-801f-11eb-96d8-da7ad0900002", "type": "permissions"},
+        {"id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39", "type": "permissions"}, {"id":
+        "5025ee24-f923-11ea-adbc-576ea241df8d", "type": "permissions"}, {"id": "48ef71ea-d8b1-11e9-a77a-93f408470ad0",
+        "type": "permissions"}, {"id": "27e324a0-b9f9-11ee-ad81-da7ad0900005", "type":
+        "permissions"}, {"id": "d3deb136-f5b1-11ee-8f9a-da7ad0900005", "type": "permissions"},
+        {"id": "c09a5320-a69e-11ef-854d-da7ad0900005", "type": "permissions"}, {"id":
+        "a4a15c66-387d-11ef-950e-da7ad0900005", "type": "permissions"}, {"id": "841eaad4-7a4c-11ed-bf7d-da7ad0900005",
+        "type": "permissions"}, {"id": "841f1d52-7a4c-11ed-bf7d-da7ad0900005", "type":
+        "permissions"}, {"id": "7b516476-aa58-11ea-95e2-93718cd56369", "type": "permissions"},
+        {"id": "80de1ec0-aa58-11ea-95e2-aff381626d5d", "type": "permissions"}, {"id":
+        "46a301db-ec5c-11ea-aa9f-2fe72193d60e", "type": "permissions"}, {"id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2",
+        "type": "permissions"}, {"id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "type":
+        "permissions"}, {"id": "d90f6831-d3d8-11e9-a77a-4fd230ddbc6a", "type": "permissions"},
+        {"id": "4441648c-d8b1-11e9-a77a-1b899a04b304", "type": "permissions"}, {"id":
+        "4ada6e36-f923-11ea-adbc-0788e5c5e3cf", "type": "permissions"}, {"id": "2d14d054-6909-11ee-a593-da7ad0900005",
+        "type": "permissions"}, {"id": "a4a54926-c1d5-11ee-9ba2-da7ad0900005", "type":
+        "permissions"}, {"id": "a28141c0-1106-11ee-b06a-da7ad0900005", "type": "permissions"},
+        {"id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9", "type": "permissions"}, {"id":
+        "12efc211-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"}, {"id": "6df8628a-c59e-11ec-9bfe-da7ad0900005",
+        "type": "permissions"}, {"id": "97971c1c-e895-11eb-b13c-da7ad0900002", "type":
+        "permissions"}, {"id": "97971c1d-e895-11eb-b13c-da7ad0900002", "type": "permissions"},
+        {"id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id":
+        "9bcfe7e2-5a12-11ed-935c-da7ad0900005", "type": "permissions"}, {"id": "b05a8a26-4e88-11ee-90a7-da7ad0900005",
+        "type": "permissions"}, {"id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc", "type":
+        "permissions"}, {"id": "372896c4-f923-11ea-adbc-4fecd107156d", "type": "permissions"},
+        {"id": "55f4b5ec-f923-11ea-adbc-1bfa2334a755", "type": "permissions"}, {"id":
+        "417ba636-2dce-11eb-84c0-6bce5b0d9de0", "type": "permissions"}, {"id": "4916eebe-2dce-11eb-84c0-271cb2c672e8",
+        "type": "permissions"}, {"id": "61765026-2dce-11eb-84c0-833e230d1b8f", "type":
+        "permissions"}, {"id": "4edb8008-db23-11ed-b8c4-da7ad0900005", "type": "permissions"},
+        {"id": "277f3524-7d61-11ed-9f04-da7ad0900005", "type": "permissions"}, {"id":
+        "edb0ad50-173a-11ed-b3c2-da7ad0900005", "type": "permissions"}, {"id": "5c6b88e2-f923-11ea-adbc-abf57d079420",
+        "type": "permissions"}, {"id": "aa7d422c-fa13-11eb-b17c-da7ad0900005", "type":
+        "permissions"}, {"id": "1ce7904c-ccd5-11ee-b58b-da7ad0900005", "type": "permissions"},
+        {"id": "642eebe6-f923-11ea-adbc-eb617674ea04", "type": "permissions"}, {"id":
+        "b8006c56-e5c4-11ec-bfd9-da7ad0900005", "type": "permissions"}, {"id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005",
+        "type": "permissions"}, {"id": "12efc20f-d36c-11eb-a9b8-da7ad0900002", "type":
+        "permissions"}, {"id": "12efc210-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"},
+        {"id": "4edb890e-db23-11ed-b8c4-da7ad0900005", "type": "permissions"}, {"id":
+        "fbb07996-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id": "1ba2f2d8-16c7-11ec-b77d-da7ad0900005",
+        "type": "permissions"}, {"id": "1ba4caa4-16c7-11ec-b77d-da7ad0900005", "type":
+        "permissions"}, {"id": "98b984f4-b16d-11eb-a2c6-da7ad0900002", "type": "permissions"},
+        {"id": "aa7ccb44-fa13-11eb-b17c-da7ad0900005", "type": "permissions"}, {"id":
+        "e2371690-574f-11ec-9b69-da7ad0900005", "type": "permissions"}, {"id": "5c1680d0-ff6d-11eb-a494-da7ad0900005",
+        "type": "permissions"}, {"id": "5ed2476e-d29b-11ef-be68-da7ad0900005", "type":
+        "permissions"}, {"id": "ec69c9ae-4792-11ec-a4e4-da7ad0900005", "type": "permissions"},
+        {"id": "5e605652-dd12-11e8-9e53-375565b8970e", "type": "permissions"}, {"id":
+        "84aa3ae4-dd12-11e8-9e58-a373a514ccd0", "type": "permissions"}, {"id": "0fb2c6d2-ff1f-11ed-a62e-da7ad0900005",
+        "type": "permissions"}, {"id": "caea6b48-9a59-11ec-b6fc-da7ad0900005", "type":
+        "permissions"}, {"id": "caeae1ea-9a59-11ec-b6fc-da7ad0900005", "type": "permissions"},
+        {"id": "2d9c7008-ccc0-11ed-99c3-da7ad0900005", "type": "permissions"}, {"id":
+        "0fc8e272-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id": "eee67f20-e746-11ec-a905-da7ad0900005",
+        "type": "permissions"}, {"id": "eee6d434-e746-11ec-a905-da7ad0900005", "type":
+        "permissions"}, {"id": "b121c706-017c-11ef-9743-da7ad0900005", "type": "permissions"},
+        {"id": "edb17ed8-173a-11ed-b3c2-da7ad0900005", "type": "permissions"}, {"id":
+        "6f80e6ce-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id": "ec6a85f6-4792-11ec-a4e4-da7ad0900005",
+        "type": "permissions"}, {"id": "4f2161f6-55d9-11ed-9831-da7ad0900005", "type":
+        "permissions"}, {"id": "4f21ab3e-55d9-11ed-9831-da7ad0900005", "type": "permissions"},
+        {"id": "0fc97610-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
+        "6f81882c-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id": "1f8daba8-0eab-11ee-8438-da7ad0900005",
+        "type": "permissions"}, {"id": "b1233096-017c-11ef-9743-da7ad0900005", "type":
+        "permissions"}, {"id": "67dc86ba-e531-11ee-bf1b-da7ad0900005", "type": "permissions"},
+        {"id": "758e73c4-7a5a-11ed-ad92-da7ad0900005", "type": "permissions"}, {"id":
+        "30d41870-f5fe-11ef-aac9-da7ad0900005", "type": "permissions"}, {"id": "4f208ea2-55d9-11ed-9831-da7ad0900005",
+        "type": "permissions"}, {"id": "4f210b2a-55d9-11ed-9831-da7ad0900005", "type":
+        "permissions"}, {"id": "0b46276c-9771-11ed-b830-da7ad0900005", "type": "permissions"},
+        {"id": "6ab61b9e-b468-11ed-9d27-da7ad0900005", "type": "permissions"}, {"id":
+        "6ab623d2-b468-11ed-9d27-da7ad0900005", "type": "permissions"}, {"id": "46a301dd-ec5c-11ea-aa9f-97edfb345bc9",
+        "type": "permissions"}, {"id": "12efc20e-d36c-11eb-a9b8-da7ad0900002", "type":
+        "permissions"}, {"id": "e26a6ab8-de71-11ed-8ad1-da7ad0900005", "type": "permissions"},
+        {"id": "e26a72f6-de71-11ed-8ad1-da7ad0900005", "type": "permissions"}, {"id":
+        "b47a3a6e-74fe-11ef-ae6f-da7ad0900005", "type": "permissions"}, {"id": "710f0782-f408-11ed-9289-da7ad0900005",
+        "type": "permissions"}, {"id": "710f0ec6-f408-11ed-9289-da7ad0900005", "type":
+        "permissions"}, {"id": "ae260840-8a26-11ef-b0ad-da7ad0900005", "type": "permissions"},
+        {"id": "0fc821fc-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
+        "0fc894fc-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id": "4244b3e6-248a-11ed-96ae-da7ad0900005",
+        "type": "permissions"}, {"id": "9bd04c46-5a12-11ed-935c-da7ad0900005", "type":
+        "permissions"}, {"id": "6f8143ee-7aff-11ed-836c-da7ad0900005", "type": "permissions"},
+        {"id": "59c72b84-53fe-11ef-af6a-da7ad0900005", "type": "permissions"}, {"id":
+        "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f", "type": "permissions"}, {"id": "46a301da-ec5c-11ea-aa9f-73bedeab67ee",
+        "type": "permissions"}, {"id": "34438974-1703-11ec-9521-da7ad0900005", "type":
+        "permissions"}, {"id": "0fc93150-8500-11ec-9176-da7ad0900005", "type": "permissions"},
+        {"id": "b1236d40-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id":
+        "6dc694fa-2520-11f0-bb2e-da7ad0900005", "type": "permissions"}, {"id": "93494582-f689-11ed-9d4d-da7ad0900005",
+        "type": "permissions"}, {"id": "47f7b6da-f9a0-11ed-8480-da7ad0900005", "type":
+        "permissions"}, {"id": "dd34df0c-3d07-11ee-9d84-da7ad0900005", "type": "permissions"},
+        {"id": "0681b020-2187-11ee-a396-da7ad0900005", "type": "permissions"}, {"id":
+        "6dabb7aa-092c-11ee-ab7c-da7ad0900005", "type": "permissions"}, {"id": "dd34e8b2-3d07-11ee-9d84-da7ad0900005",
+        "type": "permissions"}, {"id": "f8aecc36-20bd-11ee-9f59-da7ad0900005", "type":
+        "permissions"}, {"id": "173e87fa-1cd0-11ee-b496-da7ad0900005", "type": "permissions"},
+        {"id": "76fa39c0-2c87-11ee-9cfd-da7ad0900005", "type": "permissions"}, {"id":
+        "47af6ecc-da7a-11ef-a039-da7ad0900005", "type": "permissions"}, {"id": "6dab81d6-092c-11ee-ab7c-da7ad0900005",
+        "type": "permissions"}, {"id": "62cc036c-dd12-11e8-9e54-db9995643092", "type":
+        "permissions"}, {"id": "811ac4ca-dd12-11e8-9e57-676a7f0beef9", "type": "permissions"},
+        {"id": "f6b37df2-836a-11f0-9ca5-da7ad0900005", "type": "permissions"}, {"id":
+        "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id": "66db2844-0052-11ee-8008-da7ad0900005",
+        "type": "permissions"}, {"id": "979df720-aed7-11e9-99c6-a7eb8373165a", "type":
+        "permissions"}, {"id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d", "type": "permissions"},
+        {"id": "7ce1c892-6090-11ef-b3ef-da7ad0900005", "type": "permissions"}, {"id":
+        "34651076-227c-11ef-b4c3-da7ad0900005", "type": "permissions"}, {"id": "4b9cd3ee-810b-11ef-972e-da7ad0900005",
+        "type": "permissions"}, {"id": "eee61788-e746-11ec-a905-da7ad0900005", "type":
+        "permissions"}, {"id": "03868888-0957-11ef-9e19-da7ad0900005", "type": "permissions"},
+        {"id": "4b9d515c-810b-11ef-972e-da7ad0900005", "type": "permissions"}, {"id":
+        "47af90c8-da7a-11ef-a039-da7ad0900005", "type": "permissions"}, {"id": "6df70e30-c59e-11ec-9bfe-da7ad0900005",
+        "type": "permissions"}, {"id": "6df8034e-c59e-11ec-9bfe-da7ad0900005", "type":
+        "permissions"}, {"id": "6df7a0de-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"},
+        {"id": "b1236f70-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id":
+        "b12370f6-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "b12371e6-017c-11ef-9743-da7ad0900005",
+        "type": "permissions"}, {"id": "d96b811c-088d-11ef-9353-da7ad0900005", "type":
+        "permissions"}, {"id": "d96c0fe2-088d-11ef-9353-da7ad0900005", "type": "permissions"},
+        {"id": "d96c123a-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id":
+        "d96c1352-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id": "f764fa80-79c7-11ef-8a97-da7ad0900005",
+        "type": "permissions"}, {"id": "e0535584-7c0c-11ef-bb98-da7ad0900005", "type":
+        "permissions"}, {"id": "20ced020-9c9c-11ef-8bf8-da7ad0900005", "type": "permissions"},
+        {"id": "20ced1f6-9c9c-11ef-8bf8-da7ad0900005", "type": "permissions"}, {"id":
+        "c7c539c8-b44f-11ed-9d3d-da7ad0900005", "type": "permissions"}, {"id": "50559336-69d2-11ee-b70d-da7ad0900005",
+        "type": "permissions"}, {"id": "7ce1cb26-6090-11ef-b3ef-da7ad0900005", "type":
+        "permissions"}, {"id": "7ce175e0-6090-11ef-b3ef-da7ad0900005", "type": "permissions"},
+        {"id": "751cbee0-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id":
+        "d77b8882-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id": "8dbe76fe-5884-11ec-82c1-da7ad0900005",
+        "type": "permissions"}, {"id": "8dbeed46-5884-11ec-82c1-da7ad0900005", "type":
+        "permissions"}, {"id": "aca6448a-647e-11ef-82de-da7ad0900005", "type": "permissions"},
+        {"id": "aca6f060-647e-11ef-82de-da7ad0900005", "type": "permissions"}, {"id":
+        "6f8289ca-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id": "751da530-e7ff-11ef-9bf6-da7ad0900005",
+        "type": "permissions"}, {"id": "bee35d36-e27d-11ef-8ab4-da7ad0900005", "type":
+        "permissions"}, {"id": "d90f6832-d3d8-11e9-a77a-bf8a2607f864", "type": "permissions"},
+        {"id": "b0b878f2-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id":
+        "b0b958b2-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id": "b0b95b6e-b71e-11ef-a582-da7ad0900005",
+        "type": "permissions"}, {"id": "e63ee4dc-0fea-11f0-a34b-da7ad0900005", "type":
+        "permissions"}, {"id": "5263ade0-7de7-11f0-aa4c-da7ad0900005", "type": "permissions"},
+        {"id": "addb52b6-035a-11f0-a4f7-da7ad0900005", "type": "permissions"}, {"id":
+        "67dcf988-e531-11ee-bf1b-da7ad0900005", "type": "permissions"}, {"id": "425512fa-e89f-11ef-9ec6-da7ad0900005",
+        "type": "permissions"}, {"id": "e48d63cc-29d8-11f0-a591-da7ad0900005", "type":
+        "permissions"}, {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"},
+        {"id": "d6420bf6-1178-11f0-bb81-da7ad0900005", "type": "permissions"}, {"id":
+        "8cca9812-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "8ccad534-a8f5-11ef-a551-da7ad0900005",
+        "type": "permissions"}, {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type":
+        "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005", "type": "permissions"},
+        {"id": "4c7de64a-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id":
+        "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005",
+        "type": "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type":
+        "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"},
+        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
+        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
+        "type": "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type":
+        "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
+        {"id": "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id":
+        "f8dd46ec-5db0-11f0-a618-da7ad0900005", "type": "permissions"}, {"id": "890895f0-8e6c-11f0-adc4-da7ad0900005",
+        "type": "permissions"}, {"id": "890c6914-8e6c-11f0-adc4-da7ad0900005", "type":
+        "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type": "permissions"},
+        {"id": "890c96d2-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}, {"id":
+        "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}, {"id": "890c9894-8e6c-11f0-adc4-da7ad0900005",
+        "type": "permissions"}, {"id": "939cc7aa-8432-11f0-9aac-da7ad0900005", "type":
+        "permissions"}]}}}, {"id": "183a94ae-7864-11f0-a118-da7ad0900005", "type":
+        "roles", "attributes": {"created_at": "2025-08-13T16:39:34.702927Z", "created_by_handle":
+        "michael.richey@datadoghq.com", "modified_at": "2025-08-13T16:55:21.875653Z",
+        "modified_by_handle": "michael.richey@datadoghq.com", "name": "Minimum DDR
+        Role", "team_count": 0, "user_count": 1}, "relationships": {"permissions":
+        {"data": [{"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type": "permissions"},
+        {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id":
+        "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}]}}}], "meta":
+        {"page": {"total_count": 5, "total_filtered_count": 5}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.us5.datadoghq.com/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=500
   response:
     body:
@@ -7479,7 +8189,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "5a5acac3-6f18-11f0-a3f8-ae7d4f23c5d4", "attributes":
         {"name": "Ida Adjivon", "handle": "ida.adjivon@datadoghq.com", "created_at":
-        "2025-08-01T20:44:43.428341+00:00", "modified_at": "2025-10-20T16:17:23.405774+00:00",
+        "2025-08-01T20:44:43.428341+00:00", "modified_at": "2025-10-20T17:32:15.384611+00:00",
         "email": "ida.adjivon@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/d3ff11e3ff125d30050f4dfff3fa614c?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -7504,7 +8214,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "680b4953-923f-11ef-8f6a-0a7168950f69", "attributes":
         {"name": "Justine Lo", "handle": "justine.lo@datadoghq.com", "created_at":
-        "2024-10-24T19:37:29.794003+00:00", "modified_at": "2025-10-20T16:17:23.445522+00:00",
+        "2024-10-24T19:37:29.794003+00:00", "modified_at": "2025-10-20T17:32:15.390887+00:00",
         "email": "justine.lo@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/7d75964971289cf50e6090d76b45e3f6?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -7521,7 +8231,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "4bda4ca7-ef03-11ef-85b0-0e0a6c12bf4a", "attributes":
         {"name": "Michael Richey", "handle": "michael.richey+ddreu1@datadoghq.com",
-        "created_at": "2025-02-19T20:51:30.831306+00:00", "modified_at": "2025-10-20T16:17:23.549469+00:00",
+        "created_at": "2025-02-19T20:51:30.831306+00:00", "modified_at": "2025-10-20T17:32:15.438265+00:00",
         "email": "michael.richey+ddreu1@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/b5b0452adbe01caf57c1e5f6fb97a631?s=48&d=retro",
         "title": "", "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Pending",
@@ -7540,7 +8250,7 @@ interactions:
         "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8", "attributes":
         {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "created_at":
-        "2024-10-21T18:31:19.037245+00:00", "modified_at": "2025-10-20T16:17:23.576978+00:00",
+        "2024-10-21T18:31:19.037245+00:00", "modified_at": "2025-10-20T17:32:15.409305+00:00",
         "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -7569,7 +8279,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "490663c7-8581-11ef-8ce5-127d9e8aadbb", "attributes":
         {"name": "Ron Hay", "handle": "ron.hay@datadoghq.com", "created_at": "2024-10-08T14:26:19.420588+00:00",
-        "modified_at": "2025-10-20T16:17:23.542080+00:00", "email": "ron.hay@datadoghq.com",
+        "modified_at": "2025-10-20T17:32:15.412397+00:00", "email": "ron.hay@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/1c9c2a5daac55fc5ae86178cd5e7b9c2?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -7580,7 +8290,7 @@ interactions:
         {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}}, {"type":
         "users", "id": "3663729d-9b9e-11ef-9bab-c29722a28a84", "attributes": {"name":
         "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "created_at":
-        "2024-11-05T17:48:49.140010+00:00", "modified_at": "2025-10-20T16:17:23.570066+00:00",
+        "2024-11-05T17:48:49.140010+00:00", "modified_at": "2025-10-20T17:32:15.412770+00:00",
         "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -7591,7 +8301,7 @@ interactions:
         {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}}, {"type":
         "users", "id": "49059ee4-8581-11ef-afbd-c64ba5fcf2d1", "attributes": {"name":
         "Tim Alexander", "handle": "tim.alexander@datadoghq.com", "created_at": "2024-10-08T14:26:19.415552+00:00",
-        "modified_at": "2025-10-20T16:17:23.581427+00:00", "email": "tim.alexander@datadoghq.com",
+        "modified_at": "2025-10-20T17:32:15.396020+00:00", "email": "tim.alexander@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/6269dae26686287d4bdd307a26e33f34?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -12007,656 +12717,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.us5.datadoghq.com/api/v2/roles?page%5Bnumber%5D=0&page%5Bsize%5D=100
-  response:
-    body:
-      string: '{"data": [{"id": "512f60fa-1630-11f0-910b-da7ad0900005", "type": "roles",
-        "attributes": {"created_at": "2025-04-10T17:22:02.47535Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2025-04-16T01:16:55.980773Z",
-        "modified_by_handle": "michael.richey@datadoghq.com", "name": "Copy of Datadog
-        Admin Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
-        {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
-        {"id": "20c31f82-b9b4-11ec-8235-da7ad0900005", "type": "permissions"}, {"id":
-        "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type": "permissions"}, {"id": "b382b982-8535-11ea-93de-2bf1bdf20798",
-        "type": "permissions"}, {"id": "edfd5e74-801f-11eb-96d8-da7ad0900002", "type":
-        "permissions"}, {"id": "43fa188e-2dce-11eb-84c0-835ad1fd6287", "type": "permissions"},
-        {"id": "8106300a-54f7-11eb-8cbc-7781a434a67b", "type": "permissions"}, {"id":
-        "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"}, {"id": "7d7c98ac-dd12-11e8-9e56-93700598622d",
-        "type": "permissions"}, {"id": "2f3afc26-2707-11ee-b231-da7ad0900005", "type":
-        "permissions"}, {"id": "bf0dcf7c-90af-11eb-9b82-da7ad0900002", "type": "permissions"},
-        {"id": "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "type": "permissions"}, {"id":
-        "edfd5e75-801f-11eb-96d8-da7ad0900002", "type": "permissions"}, {"id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39",
-        "type": "permissions"}, {"id": "5025ee24-f923-11ea-adbc-576ea241df8d", "type":
-        "permissions"}, {"id": "81d9da4a-6f52-11ee-853f-da7ad0900005", "type": "permissions"},
-        {"id": "48ef71ea-d8b1-11e9-a77a-93f408470ad0", "type": "permissions"}, {"id":
-        "27e324a0-b9f9-11ee-ad81-da7ad0900005", "type": "permissions"}, {"id": "d3deb136-f5b1-11ee-8f9a-da7ad0900005",
-        "type": "permissions"}, {"id": "c09a5320-a69e-11ef-854d-da7ad0900005", "type":
-        "permissions"}, {"id": "bf0dcf7d-90af-11eb-9b82-da7ad0900002", "type": "permissions"},
-        {"id": "a4a15c66-387d-11ef-950e-da7ad0900005", "type": "permissions"}, {"id":
-        "841eaad4-7a4c-11ed-bf7d-da7ad0900005", "type": "permissions"}, {"id": "841f1d52-7a4c-11ed-bf7d-da7ad0900005",
-        "type": "permissions"}, {"id": "7b516476-aa58-11ea-95e2-93718cd56369", "type":
-        "permissions"}, {"id": "80de1ec0-aa58-11ea-95e2-aff381626d5d", "type": "permissions"},
-        {"id": "46a301db-ec5c-11ea-aa9f-2fe72193d60e", "type": "permissions"}, {"id":
-        "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2", "type": "permissions"}, {"id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5",
-        "type": "permissions"}, {"id": "d90f6831-d3d8-11e9-a77a-4fd230ddbc6a", "type":
-        "permissions"}, {"id": "4441648c-d8b1-11e9-a77a-1b899a04b304", "type": "permissions"},
-        {"id": "46a301df-ec5c-11ea-aa9f-970a9ae645e5", "type": "permissions"}, {"id":
-        "46a301e0-ec5c-11ea-aa9f-6ba6cc675d8c", "type": "permissions"}, {"id": "46a301e1-ec5c-11ea-aa9f-afa39f6f3e36",
-        "type": "permissions"}, {"id": "4ada6e36-f923-11ea-adbc-0788e5c5e3cf", "type":
-        "permissions"}, {"id": "87b00304-dd12-11e8-9e59-cbeb5f71f72f", "type": "permissions"},
-        {"id": "2d14d054-6909-11ee-a593-da7ad0900005", "type": "permissions"}, {"id":
-        "a4a54926-c1d5-11ee-9ba2-da7ad0900005", "type": "permissions"}, {"id": "102a0414-d5e9-11ec-88e7-da7ad0900005",
-        "type": "permissions"}, {"id": "04bc1cf2-340a-11eb-873a-43b973c760dd", "type":
-        "permissions"}, {"id": "a28141c0-1106-11ee-b06a-da7ad0900005", "type": "permissions"},
-        {"id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9", "type": "permissions"}, {"id":
-        "12efc211-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"}, {"id": "6df8628a-c59e-11ec-9bfe-da7ad0900005",
-        "type": "permissions"}, {"id": "97971c1c-e895-11eb-b13c-da7ad0900002", "type":
-        "permissions"}, {"id": "97971c1d-e895-11eb-b13c-da7ad0900002", "type": "permissions"},
-        {"id": "3e4d4d28-f923-11ea-adbc-e3565938c12e", "type": "permissions"}, {"id":
-        "fbb166e4-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id": "59c8d920-53fe-11ef-af6a-da7ad0900005",
-        "type": "permissions"}, {"id": "9bcfe7e2-5a12-11ed-935c-da7ad0900005", "type":
-        "permissions"}, {"id": "b05a8a26-4e88-11ee-90a7-da7ad0900005", "type": "permissions"},
-        {"id": "98b984f5-b16d-11eb-a2c6-da7ad0900002", "type": "permissions"}, {"id":
-        "53950c54-2dce-11eb-84c0-a79ae108f6f8", "type": "permissions"}, {"id": "5cbe5f9c-2dce-11eb-84c0-872d3e9f1076",
-        "type": "permissions"}, {"id": "46a301dc-ec5c-11ea-aa9f-13b33f8f46ea", "type":
-        "permissions"}, {"id": "46a301e2-ec5c-11ea-aa9f-1f511b7305fd", "type": "permissions"},
-        {"id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc", "type": "permissions"}, {"id":
-        "372896c4-f923-11ea-adbc-4fecd107156d", "type": "permissions"}, {"id": "55f4b5ec-f923-11ea-adbc-1bfa2334a755",
-        "type": "permissions"}, {"id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0", "type":
-        "permissions"}, {"id": "4916eebe-2dce-11eb-84c0-271cb2c672e8", "type": "permissions"},
-        {"id": "4e3f02b4-2dce-11eb-84c0-2fca946a6efc", "type": "permissions"}, {"id":
-        "61765026-2dce-11eb-84c0-833e230d1b8f", "type": "permissions"}, {"id": "4edb8008-db23-11ed-b8c4-da7ad0900005",
-        "type": "permissions"}, {"id": "277f3524-7d61-11ed-9f04-da7ad0900005", "type":
-        "permissions"}, {"id": "f7569d4e-e20c-11ee-b531-da7ad0900005", "type": "permissions"},
-        {"id": "2fbdac76-f923-11ea-adbc-07f3823e2b43", "type": "permissions"}, {"id":
-        "edb0ad50-173a-11ed-b3c2-da7ad0900005", "type": "permissions"}, {"id": "5c6b88e2-f923-11ea-adbc-abf57d079420",
-        "type": "permissions"}, {"id": "aa7d422c-fa13-11eb-b17c-da7ad0900005", "type":
-        "permissions"}, {"id": "1ce7904c-ccd5-11ee-b58b-da7ad0900005", "type": "permissions"},
-        {"id": "642eebe6-f923-11ea-adbc-eb617674ea04", "type": "permissions"}, {"id":
-        "e758ba34-00b2-11ef-8ece-da7ad0900005", "type": "permissions"}, {"id": "b8006c56-e5c4-11ec-bfd9-da7ad0900005",
-        "type": "permissions"}, {"id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005", "type":
-        "permissions"}, {"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type": "permissions"},
-        {"id": "20cdc770-9c9c-11ef-8bf8-da7ad0900005", "type": "permissions"}, {"id":
-        "12efc20f-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"}, {"id": "12efc210-d36c-11eb-a9b8-da7ad0900002",
-        "type": "permissions"}, {"id": "4edb890e-db23-11ed-b8c4-da7ad0900005", "type":
-        "permissions"}, {"id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"},
-        {"id": "a42e94b2-1476-11eb-bd08-efda28c04248", "type": "permissions"}, {"id":
-        "1ba2f2d8-16c7-11ec-b77d-da7ad0900005", "type": "permissions"}, {"id": "1ba4caa4-16c7-11ec-b77d-da7ad0900005",
-        "type": "permissions"}, {"id": "98b984f4-b16d-11eb-a2c6-da7ad0900002", "type":
-        "permissions"}, {"id": "aa7ccb44-fa13-11eb-b17c-da7ad0900005", "type": "permissions"},
-        {"id": "0c07b512-56a4-11ec-9d67-da7ad0900005", "type": "permissions"}, {"id":
-        "e2371690-574f-11ec-9b69-da7ad0900005", "type": "permissions"}, {"id": "5c1680d0-ff6d-11eb-a494-da7ad0900005",
-        "type": "permissions"}, {"id": "10292ba2-d5e9-11ec-88e7-da7ad0900005", "type":
-        "permissions"}, {"id": "5ed2476e-d29b-11ef-be68-da7ad0900005", "type": "permissions"},
-        {"id": "ec69c9ae-4792-11ec-a4e4-da7ad0900005", "type": "permissions"}, {"id":
-        "5e605652-dd12-11e8-9e53-375565b8970e", "type": "permissions"}, {"id": "84aa3ae4-dd12-11e8-9e58-a373a514ccd0",
-        "type": "permissions"}, {"id": "0fb2c6d2-ff1f-11ed-a62e-da7ad0900005", "type":
-        "permissions"}, {"id": "caea6b48-9a59-11ec-b6fc-da7ad0900005", "type": "permissions"},
-        {"id": "caeae1ea-9a59-11ec-b6fc-da7ad0900005", "type": "permissions"}, {"id":
-        "55840f46-1761-11ed-996f-da7ad0900005", "type": "permissions"}, {"id": "2d9c7008-ccc0-11ed-99c3-da7ad0900005",
-        "type": "permissions"}, {"id": "0fc8e272-8500-11ec-9176-da7ad0900005", "type":
-        "permissions"}, {"id": "eee67f20-e746-11ec-a905-da7ad0900005", "type": "permissions"},
-        {"id": "eee6d434-e746-11ec-a905-da7ad0900005", "type": "permissions"}, {"id":
-        "b121c706-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "edb17ed8-173a-11ed-b3c2-da7ad0900005",
-        "type": "permissions"}, {"id": "6f80e6ce-7aff-11ed-836c-da7ad0900005", "type":
-        "permissions"}, {"id": "3f036aae-966b-11ec-87f8-da7ad0900005", "type": "permissions"},
-        {"id": "ec6a85f6-4792-11ec-a4e4-da7ad0900005", "type": "permissions"}, {"id":
-        "4f2161f6-55d9-11ed-9831-da7ad0900005", "type": "permissions"}, {"id": "4f21ab3e-55d9-11ed-9831-da7ad0900005",
-        "type": "permissions"}, {"id": "0fc97610-8500-11ec-9176-da7ad0900005", "type":
-        "permissions"}, {"id": "6f81882c-7aff-11ed-836c-da7ad0900005", "type": "permissions"},
-        {"id": "1f8daba8-0eab-11ee-8438-da7ad0900005", "type": "permissions"}, {"id":
-        "b1233096-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "c9ca59c2-66d9-11ef-9bd3-da7ad0900005",
-        "type": "permissions"}, {"id": "67dc86ba-e531-11ee-bf1b-da7ad0900005", "type":
-        "permissions"}, {"id": "279926d0-f311-11ec-9321-da7ad0900005", "type": "permissions"},
-        {"id": "758f0096-7a5a-11ed-ad92-da7ad0900005", "type": "permissions"}, {"id":
-        "758e73c4-7a5a-11ed-ad92-da7ad0900005", "type": "permissions"}, {"id": "4f208ea2-55d9-11ed-9831-da7ad0900005",
-        "type": "permissions"}, {"id": "4f210b2a-55d9-11ed-9831-da7ad0900005", "type":
-        "permissions"}, {"id": "0b46276c-9771-11ed-b830-da7ad0900005", "type": "permissions"},
-        {"id": "7df222b6-a45c-11eb-a0af-da7ad0900002", "type": "permissions"}, {"id":
-        "6ab61b9e-b468-11ed-9d27-da7ad0900005", "type": "permissions"}, {"id": "6ab623d2-b468-11ed-9d27-da7ad0900005",
-        "type": "permissions"}, {"id": "1746e9c0-597b-11ef-b8dd-da7ad0900005", "type":
-        "permissions"}, {"id": "46a301dd-ec5c-11ea-aa9f-97edfb345bc9", "type": "permissions"},
-        {"id": "46a301de-ec5c-11ea-aa9f-a73252c24806", "type": "permissions"}, {"id":
-        "465cfe66-2dce-11eb-84c0-6baa888239fa", "type": "permissions"}, {"id": "12efc20e-d36c-11eb-a9b8-da7ad0900002",
-        "type": "permissions"}, {"id": "e26a6ab8-de71-11ed-8ad1-da7ad0900005", "type":
-        "permissions"}, {"id": "e26a72f6-de71-11ed-8ad1-da7ad0900005", "type": "permissions"},
-        {"id": "b47a3a6e-74fe-11ef-ae6f-da7ad0900005", "type": "permissions"}, {"id":
-        "710f0782-f408-11ed-9289-da7ad0900005", "type": "permissions"}, {"id": "710f0ec6-f408-11ed-9289-da7ad0900005",
-        "type": "permissions"}, {"id": "ae260840-8a26-11ef-b0ad-da7ad0900005", "type":
-        "permissions"}, {"id": "0fc821fc-8500-11ec-9176-da7ad0900005", "type": "permissions"},
-        {"id": "0fc894fc-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
-        "4244b3e6-248a-11ed-96ae-da7ad0900005", "type": "permissions"}, {"id": "9bd04c46-5a12-11ed-935c-da7ad0900005",
-        "type": "permissions"}, {"id": "6f807a68-7aff-11ed-836c-da7ad0900005", "type":
-        "permissions"}, {"id": "6f8143ee-7aff-11ed-836c-da7ad0900005", "type": "permissions"},
-        {"id": "325b4144-ca2e-11ed-b9ff-da7ad0900005", "type": "permissions"}, {"id":
-        "59c72b84-53fe-11ef-af6a-da7ad0900005", "type": "permissions"}, {"id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f",
-        "type": "permissions"}, {"id": "46a301da-ec5c-11ea-aa9f-73bedeab67ee", "type":
-        "permissions"}, {"id": "34438974-1703-11ec-9521-da7ad0900005", "type": "permissions"},
-        {"id": "0fc93150-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
-        "b1236d40-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "93494582-f689-11ed-9d4d-da7ad0900005",
-        "type": "permissions"}, {"id": "47f7b6da-f9a0-11ed-8480-da7ad0900005", "type":
-        "permissions"}, {"id": "dd34df0c-3d07-11ee-9d84-da7ad0900005", "type": "permissions"},
-        {"id": "bb5b2d36-982f-11ee-9d81-da7ad0900005", "type": "permissions"}, {"id":
-        "0681b020-2187-11ee-a396-da7ad0900005", "type": "permissions"}, {"id": "6dabb7aa-092c-11ee-ab7c-da7ad0900005",
-        "type": "permissions"}, {"id": "6dabb9a8-092c-11ee-ab7c-da7ad0900005", "type":
-        "permissions"}, {"id": "dd34e8b2-3d07-11ee-9d84-da7ad0900005", "type": "permissions"},
-        {"id": "f8aecc36-20bd-11ee-9f59-da7ad0900005", "type": "permissions"}, {"id":
-        "f8aec1be-20bd-11ee-9f59-da7ad0900005", "type": "permissions"}, {"id": "173e87fa-1cd0-11ee-b496-da7ad0900005",
-        "type": "permissions"}, {"id": "76fa39c0-2c87-11ee-9cfd-da7ad0900005", "type":
-        "permissions"}, {"id": "2f3b07ac-2707-11ee-b231-da7ad0900005", "type": "permissions"},
-        {"id": "6dab81d6-092c-11ee-ab7c-da7ad0900005", "type": "permissions"}, {"id":
-        "62cc036c-dd12-11e8-9e54-db9995643092", "type": "permissions"}, {"id": "811ac4ca-dd12-11e8-9e57-676a7f0beef9",
-        "type": "permissions"}, {"id": "bb5aaf0a-982f-11ee-9d81-da7ad0900005", "type":
-        "permissions"}, {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"},
-        {"id": "66db2844-0052-11ee-8008-da7ad0900005", "type": "permissions"}, {"id":
-        "1f8e7f38-0eab-11ee-8438-da7ad0900005", "type": "permissions"}, {"id": "fa342530-3dd0-11ee-be02-da7ad0900005",
-        "type": "permissions"}, {"id": "979df720-aed7-11e9-99c6-a7eb8373165a", "type":
-        "permissions"}, {"id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d", "type": "permissions"},
-        {"id": "9de604d8-e707-11ea-aa2d-93f1a783b3a3", "type": "permissions"}, {"id":
-        "7ce1c892-6090-11ef-b3ef-da7ad0900005", "type": "permissions"}, {"id": "0681b99e-2187-11ee-a396-da7ad0900005",
-        "type": "permissions"}, {"id": "0681baf2-2187-11ee-a396-da7ad0900005", "type":
-        "permissions"}, {"id": "25c1e1fe-138e-11ef-bf6f-da7ad0900005", "type": "permissions"},
-        {"id": "34651076-227c-11ef-b4c3-da7ad0900005", "type": "permissions"}, {"id":
-        "4b9cd3ee-810b-11ef-972e-da7ad0900005", "type": "permissions"}, {"id": "eee61788-e746-11ec-a905-da7ad0900005",
-        "type": "permissions"}, {"id": "03868888-0957-11ef-9e19-da7ad0900005", "type":
-        "permissions"}, {"id": "4b9d515c-810b-11ef-972e-da7ad0900005", "type": "permissions"},
-        {"id": "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id":
-        "67dd16de-e531-11ee-bf1b-da7ad0900005", "type": "permissions"}, {"id": "6df70e30-c59e-11ec-9bfe-da7ad0900005",
-        "type": "permissions"}, {"id": "6df8034e-c59e-11ec-9bfe-da7ad0900005", "type":
-        "permissions"}, {"id": "6df7a0de-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"},
-        {"id": "b1236f70-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id":
-        "b12370f6-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "b12371e6-017c-11ef-9743-da7ad0900005",
-        "type": "permissions"}, {"id": "d96b811c-088d-11ef-9353-da7ad0900005", "type":
-        "permissions"}, {"id": "d96c0fe2-088d-11ef-9353-da7ad0900005", "type": "permissions"},
-        {"id": "d96c123a-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id":
-        "d96c1352-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id": "f764fa80-79c7-11ef-8a97-da7ad0900005",
-        "type": "permissions"}, {"id": "e0535584-7c0c-11ef-bb98-da7ad0900005", "type":
-        "permissions"}, {"id": "a8841946-7c42-11ef-93ea-da7ad0900005", "type": "permissions"},
-        {"id": "20ced020-9c9c-11ef-8bf8-da7ad0900005", "type": "permissions"}, {"id":
-        "20ced1f6-9c9c-11ef-8bf8-da7ad0900005", "type": "permissions"}, {"id": "c7c539c8-b44f-11ed-9d3d-da7ad0900005",
-        "type": "permissions"}, {"id": "50559336-69d2-11ee-b70d-da7ad0900005", "type":
-        "permissions"}, {"id": "7ce1cb26-6090-11ef-b3ef-da7ad0900005", "type": "permissions"},
-        {"id": "7ce175e0-6090-11ef-b3ef-da7ad0900005", "type": "permissions"}, {"id":
-        "d77b8882-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id": "6f81cfe4-7aff-11ed-836c-da7ad0900005",
-        "type": "permissions"}, {"id": "8dbe76fe-5884-11ec-82c1-da7ad0900005", "type":
-        "permissions"}, {"id": "8dbeed46-5884-11ec-82c1-da7ad0900005", "type": "permissions"},
-        {"id": "aca6448a-647e-11ef-82de-da7ad0900005", "type": "permissions"}, {"id":
-        "aca6f060-647e-11ef-82de-da7ad0900005", "type": "permissions"}, {"id": "6f8289ca-7aff-11ed-836c-da7ad0900005",
-        "type": "permissions"}, {"id": "d90f6832-d3d8-11e9-a77a-bf8a2607f864", "type":
-        "permissions"}, {"id": "b0b878f2-b71e-11ef-a582-da7ad0900005", "type": "permissions"},
-        {"id": "b0b958b2-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id":
-        "b0b95b6e-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id": "67dcf988-e531-11ee-bf1b-da7ad0900005",
-        "type": "permissions"}, {"id": "8cca9812-a8f5-11ef-a551-da7ad0900005", "type":
-        "permissions"}, {"id": "8ccad534-a8f5-11ef-a551-da7ad0900005", "type": "permissions"},
-        {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
-        "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
-        "type": "permissions"}, {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type":
-        "permissions"}]}}}, {"id": "4e508ad0-1630-11f0-a6fb-da7ad0900005", "type":
-        "roles", "attributes": {"created_at": "2025-04-10T17:21:57.647641Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2025-10-10T06:31:15.012281Z",
-        "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
-        Admin Role", "team_count": 0, "user_count": 9}, "relationships": {"permissions":
-        {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type": "permissions"},
-        {"id": "20c31f82-b9b4-11ec-8235-da7ad0900005", "type": "permissions"}, {"id":
-        "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type": "permissions"}, {"id": "b382b982-8535-11ea-93de-2bf1bdf20798",
-        "type": "permissions"}, {"id": "edfd5e74-801f-11eb-96d8-da7ad0900002", "type":
-        "permissions"}, {"id": "43fa188e-2dce-11eb-84c0-835ad1fd6287", "type": "permissions"},
-        {"id": "8106300a-54f7-11eb-8cbc-7781a434a67b", "type": "permissions"}, {"id":
-        "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"}, {"id": "7d7c98ac-dd12-11e8-9e56-93700598622d",
-        "type": "permissions"}, {"id": "2f3afc26-2707-11ee-b231-da7ad0900005", "type":
-        "permissions"}, {"id": "b89ab20a-3a55-11f0-bcdb-da7ad0900005", "type": "permissions"},
-        {"id": "bf0dcf7c-90af-11eb-9b82-da7ad0900002", "type": "permissions"}, {"id":
-        "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "type": "permissions"}, {"id": "edfd5e75-801f-11eb-96d8-da7ad0900002",
-        "type": "permissions"}, {"id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39", "type":
-        "permissions"}, {"id": "5025ee24-f923-11ea-adbc-576ea241df8d", "type": "permissions"},
-        {"id": "81d9da4a-6f52-11ee-853f-da7ad0900005", "type": "permissions"}, {"id":
-        "48ef71ea-d8b1-11e9-a77a-93f408470ad0", "type": "permissions"}, {"id": "27e324a0-b9f9-11ee-ad81-da7ad0900005",
-        "type": "permissions"}, {"id": "d3deb136-f5b1-11ee-8f9a-da7ad0900005", "type":
-        "permissions"}, {"id": "c09a5320-a69e-11ef-854d-da7ad0900005", "type": "permissions"},
-        {"id": "bf0dcf7d-90af-11eb-9b82-da7ad0900002", "type": "permissions"}, {"id":
-        "a4a15c66-387d-11ef-950e-da7ad0900005", "type": "permissions"}, {"id": "841eaad4-7a4c-11ed-bf7d-da7ad0900005",
-        "type": "permissions"}, {"id": "841f1d52-7a4c-11ed-bf7d-da7ad0900005", "type":
-        "permissions"}, {"id": "7b516476-aa58-11ea-95e2-93718cd56369", "type": "permissions"},
-        {"id": "80de1ec0-aa58-11ea-95e2-aff381626d5d", "type": "permissions"}, {"id":
-        "46a301db-ec5c-11ea-aa9f-2fe72193d60e", "type": "permissions"}, {"id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2",
-        "type": "permissions"}, {"id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "type":
-        "permissions"}, {"id": "d90f6831-d3d8-11e9-a77a-4fd230ddbc6a", "type": "permissions"},
-        {"id": "4441648c-d8b1-11e9-a77a-1b899a04b304", "type": "permissions"}, {"id":
-        "46a301df-ec5c-11ea-aa9f-970a9ae645e5", "type": "permissions"}, {"id": "46a301e0-ec5c-11ea-aa9f-6ba6cc675d8c",
-        "type": "permissions"}, {"id": "46a301e1-ec5c-11ea-aa9f-afa39f6f3e36", "type":
-        "permissions"}, {"id": "4ada6e36-f923-11ea-adbc-0788e5c5e3cf", "type": "permissions"},
-        {"id": "87b00304-dd12-11e8-9e59-cbeb5f71f72f", "type": "permissions"}, {"id":
-        "1c5f7228-fab2-11ef-94e7-da7ad0900005", "type": "permissions"}, {"id": "2d14d054-6909-11ee-a593-da7ad0900005",
-        "type": "permissions"}, {"id": "a4a54926-c1d5-11ee-9ba2-da7ad0900005", "type":
-        "permissions"}, {"id": "102a0414-d5e9-11ec-88e7-da7ad0900005", "type": "permissions"},
-        {"id": "04bc1cf2-340a-11eb-873a-43b973c760dd", "type": "permissions"}, {"id":
-        "a28141c0-1106-11ee-b06a-da7ad0900005", "type": "permissions"}, {"id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9",
-        "type": "permissions"}, {"id": "12efc211-d36c-11eb-a9b8-da7ad0900002", "type":
-        "permissions"}, {"id": "6df8628a-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"},
-        {"id": "97971c1c-e895-11eb-b13c-da7ad0900002", "type": "permissions"}, {"id":
-        "97971c1d-e895-11eb-b13c-da7ad0900002", "type": "permissions"}, {"id": "3e4d4d28-f923-11ea-adbc-e3565938c12e",
-        "type": "permissions"}, {"id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005", "type":
-        "permissions"}, {"id": "59c8d920-53fe-11ef-af6a-da7ad0900005", "type": "permissions"},
-        {"id": "9bcfe7e2-5a12-11ed-935c-da7ad0900005", "type": "permissions"}, {"id":
-        "b05a8a26-4e88-11ee-90a7-da7ad0900005", "type": "permissions"}, {"id": "98b984f5-b16d-11eb-a2c6-da7ad0900002",
-        "type": "permissions"}, {"id": "53950c54-2dce-11eb-84c0-a79ae108f6f8", "type":
-        "permissions"}, {"id": "5cbe5f9c-2dce-11eb-84c0-872d3e9f1076", "type": "permissions"},
-        {"id": "46a301dc-ec5c-11ea-aa9f-13b33f8f46ea", "type": "permissions"}, {"id":
-        "46a301e2-ec5c-11ea-aa9f-1f511b7305fd", "type": "permissions"}, {"id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc",
-        "type": "permissions"}, {"id": "372896c4-f923-11ea-adbc-4fecd107156d", "type":
-        "permissions"}, {"id": "55f4b5ec-f923-11ea-adbc-1bfa2334a755", "type": "permissions"},
-        {"id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0", "type": "permissions"}, {"id":
-        "4916eebe-2dce-11eb-84c0-271cb2c672e8", "type": "permissions"}, {"id": "4e3f02b4-2dce-11eb-84c0-2fca946a6efc",
-        "type": "permissions"}, {"id": "61765026-2dce-11eb-84c0-833e230d1b8f", "type":
-        "permissions"}, {"id": "4edb8008-db23-11ed-b8c4-da7ad0900005", "type": "permissions"},
-        {"id": "277f3524-7d61-11ed-9f04-da7ad0900005", "type": "permissions"}, {"id":
-        "f7569d4e-e20c-11ee-b531-da7ad0900005", "type": "permissions"}, {"id": "2fbdac76-f923-11ea-adbc-07f3823e2b43",
-        "type": "permissions"}, {"id": "edb0ad50-173a-11ed-b3c2-da7ad0900005", "type":
-        "permissions"}, {"id": "5c6b88e2-f923-11ea-adbc-abf57d079420", "type": "permissions"},
-        {"id": "aa7d422c-fa13-11eb-b17c-da7ad0900005", "type": "permissions"}, {"id":
-        "1ce7904c-ccd5-11ee-b58b-da7ad0900005", "type": "permissions"}, {"id": "642eebe6-f923-11ea-adbc-eb617674ea04",
-        "type": "permissions"}, {"id": "e758ba34-00b2-11ef-8ece-da7ad0900005", "type":
-        "permissions"}, {"id": "b8006c56-e5c4-11ec-bfd9-da7ad0900005", "type": "permissions"},
-        {"id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005", "type": "permissions"}, {"id":
-        "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type": "permissions"}, {"id": "20cdc770-9c9c-11ef-8bf8-da7ad0900005",
-        "type": "permissions"}, {"id": "12efc20f-d36c-11eb-a9b8-da7ad0900002", "type":
-        "permissions"}, {"id": "12efc210-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"},
-        {"id": "4edb890e-db23-11ed-b8c4-da7ad0900005", "type": "permissions"}, {"id":
-        "fbb07996-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id": "a42e94b2-1476-11eb-bd08-efda28c04248",
-        "type": "permissions"}, {"id": "1ba2f2d8-16c7-11ec-b77d-da7ad0900005", "type":
-        "permissions"}, {"id": "1ba4caa4-16c7-11ec-b77d-da7ad0900005", "type": "permissions"},
-        {"id": "98b984f4-b16d-11eb-a2c6-da7ad0900002", "type": "permissions"}, {"id":
-        "aa7ccb44-fa13-11eb-b17c-da7ad0900005", "type": "permissions"}, {"id": "0c07b512-56a4-11ec-9d67-da7ad0900005",
-        "type": "permissions"}, {"id": "e2371690-574f-11ec-9b69-da7ad0900005", "type":
-        "permissions"}, {"id": "5c1680d0-ff6d-11eb-a494-da7ad0900005", "type": "permissions"},
-        {"id": "10292ba2-d5e9-11ec-88e7-da7ad0900005", "type": "permissions"}, {"id":
-        "5ed2476e-d29b-11ef-be68-da7ad0900005", "type": "permissions"}, {"id": "ec69c9ae-4792-11ec-a4e4-da7ad0900005",
-        "type": "permissions"}, {"id": "5e605652-dd12-11e8-9e53-375565b8970e", "type":
-        "permissions"}, {"id": "84aa3ae4-dd12-11e8-9e58-a373a514ccd0", "type": "permissions"},
-        {"id": "0fb2c6d2-ff1f-11ed-a62e-da7ad0900005", "type": "permissions"}, {"id":
-        "caea6b48-9a59-11ec-b6fc-da7ad0900005", "type": "permissions"}, {"id": "caeae1ea-9a59-11ec-b6fc-da7ad0900005",
-        "type": "permissions"}, {"id": "55840f46-1761-11ed-996f-da7ad0900005", "type":
-        "permissions"}, {"id": "2d9c7008-ccc0-11ed-99c3-da7ad0900005", "type": "permissions"},
-        {"id": "0fc8e272-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
-        "eee67f20-e746-11ec-a905-da7ad0900005", "type": "permissions"}, {"id": "eee6d434-e746-11ec-a905-da7ad0900005",
-        "type": "permissions"}, {"id": "b121c706-017c-11ef-9743-da7ad0900005", "type":
-        "permissions"}, {"id": "edb17ed8-173a-11ed-b3c2-da7ad0900005", "type": "permissions"},
-        {"id": "6f80e6ce-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id":
-        "3f036aae-966b-11ec-87f8-da7ad0900005", "type": "permissions"}, {"id": "ec6a85f6-4792-11ec-a4e4-da7ad0900005",
-        "type": "permissions"}, {"id": "4f2161f6-55d9-11ed-9831-da7ad0900005", "type":
-        "permissions"}, {"id": "4f21ab3e-55d9-11ed-9831-da7ad0900005", "type": "permissions"},
-        {"id": "0fc97610-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
-        "6f81882c-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id": "1f8daba8-0eab-11ee-8438-da7ad0900005",
-        "type": "permissions"}, {"id": "b1233096-017c-11ef-9743-da7ad0900005", "type":
-        "permissions"}, {"id": "c9ca59c2-66d9-11ef-9bd3-da7ad0900005", "type": "permissions"},
-        {"id": "67dc86ba-e531-11ee-bf1b-da7ad0900005", "type": "permissions"}, {"id":
-        "279926d0-f311-11ec-9321-da7ad0900005", "type": "permissions"}, {"id": "758f0096-7a5a-11ed-ad92-da7ad0900005",
-        "type": "permissions"}, {"id": "758e73c4-7a5a-11ed-ad92-da7ad0900005", "type":
-        "permissions"}, {"id": "30d41870-f5fe-11ef-aac9-da7ad0900005", "type": "permissions"},
-        {"id": "4f208ea2-55d9-11ed-9831-da7ad0900005", "type": "permissions"}, {"id":
-        "4f210b2a-55d9-11ed-9831-da7ad0900005", "type": "permissions"}, {"id": "0b46276c-9771-11ed-b830-da7ad0900005",
-        "type": "permissions"}, {"id": "7df222b6-a45c-11eb-a0af-da7ad0900002", "type":
-        "permissions"}, {"id": "6ab61b9e-b468-11ed-9d27-da7ad0900005", "type": "permissions"},
-        {"id": "6ab623d2-b468-11ed-9d27-da7ad0900005", "type": "permissions"}, {"id":
-        "1746e9c0-597b-11ef-b8dd-da7ad0900005", "type": "permissions"}, {"id": "46a301dd-ec5c-11ea-aa9f-97edfb345bc9",
-        "type": "permissions"}, {"id": "46a301de-ec5c-11ea-aa9f-a73252c24806", "type":
-        "permissions"}, {"id": "465cfe66-2dce-11eb-84c0-6baa888239fa", "type": "permissions"},
-        {"id": "12efc20e-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"}, {"id":
-        "e26a6ab8-de71-11ed-8ad1-da7ad0900005", "type": "permissions"}, {"id": "e26a72f6-de71-11ed-8ad1-da7ad0900005",
-        "type": "permissions"}, {"id": "b47a3a6e-74fe-11ef-ae6f-da7ad0900005", "type":
-        "permissions"}, {"id": "710f0782-f408-11ed-9289-da7ad0900005", "type": "permissions"},
-        {"id": "710f0ec6-f408-11ed-9289-da7ad0900005", "type": "permissions"}, {"id":
-        "ae260840-8a26-11ef-b0ad-da7ad0900005", "type": "permissions"}, {"id": "0fc821fc-8500-11ec-9176-da7ad0900005",
-        "type": "permissions"}, {"id": "0fc894fc-8500-11ec-9176-da7ad0900005", "type":
-        "permissions"}, {"id": "4244b3e6-248a-11ed-96ae-da7ad0900005", "type": "permissions"},
-        {"id": "9bd04c46-5a12-11ed-935c-da7ad0900005", "type": "permissions"}, {"id":
-        "6f807a68-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id": "6f8143ee-7aff-11ed-836c-da7ad0900005",
-        "type": "permissions"}, {"id": "325b4144-ca2e-11ed-b9ff-da7ad0900005", "type":
-        "permissions"}, {"id": "59c72b84-53fe-11ef-af6a-da7ad0900005", "type": "permissions"},
-        {"id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f", "type": "permissions"}, {"id":
-        "46a301da-ec5c-11ea-aa9f-73bedeab67ee", "type": "permissions"}, {"id": "34438974-1703-11ec-9521-da7ad0900005",
-        "type": "permissions"}, {"id": "0fc93150-8500-11ec-9176-da7ad0900005", "type":
-        "permissions"}, {"id": "b1236d40-017c-11ef-9743-da7ad0900005", "type": "permissions"},
-        {"id": "6dc694fa-2520-11f0-bb2e-da7ad0900005", "type": "permissions"}, {"id":
-        "93494582-f689-11ed-9d4d-da7ad0900005", "type": "permissions"}, {"id": "47f7b6da-f9a0-11ed-8480-da7ad0900005",
-        "type": "permissions"}, {"id": "dd34df0c-3d07-11ee-9d84-da7ad0900005", "type":
-        "permissions"}, {"id": "bb5b2d36-982f-11ee-9d81-da7ad0900005", "type": "permissions"},
-        {"id": "0681b020-2187-11ee-a396-da7ad0900005", "type": "permissions"}, {"id":
-        "6dabb7aa-092c-11ee-ab7c-da7ad0900005", "type": "permissions"}, {"id": "6dabb9a8-092c-11ee-ab7c-da7ad0900005",
-        "type": "permissions"}, {"id": "dd34e8b2-3d07-11ee-9d84-da7ad0900005", "type":
-        "permissions"}, {"id": "f8aecc36-20bd-11ee-9f59-da7ad0900005", "type": "permissions"},
-        {"id": "f8aec1be-20bd-11ee-9f59-da7ad0900005", "type": "permissions"}, {"id":
-        "173e87fa-1cd0-11ee-b496-da7ad0900005", "type": "permissions"}, {"id": "76fa39c0-2c87-11ee-9cfd-da7ad0900005",
-        "type": "permissions"}, {"id": "47af6ecc-da7a-11ef-a039-da7ad0900005", "type":
-        "permissions"}, {"id": "2f3b07ac-2707-11ee-b231-da7ad0900005", "type": "permissions"},
-        {"id": "6dab81d6-092c-11ee-ab7c-da7ad0900005", "type": "permissions"}, {"id":
-        "62cc036c-dd12-11e8-9e54-db9995643092", "type": "permissions"}, {"id": "811ac4ca-dd12-11e8-9e57-676a7f0beef9",
-        "type": "permissions"}, {"id": "bb5aaf0a-982f-11ee-9d81-da7ad0900005", "type":
-        "permissions"}, {"id": "f6b37df2-836a-11f0-9ca5-da7ad0900005", "type": "permissions"},
-        {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id":
-        "66db2844-0052-11ee-8008-da7ad0900005", "type": "permissions"}, {"id": "1f8e7f38-0eab-11ee-8438-da7ad0900005",
-        "type": "permissions"}, {"id": "fa342530-3dd0-11ee-be02-da7ad0900005", "type":
-        "permissions"}, {"id": "979df720-aed7-11e9-99c6-a7eb8373165a", "type": "permissions"},
-        {"id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d", "type": "permissions"}, {"id":
-        "9de604d8-e707-11ea-aa2d-93f1a783b3a3", "type": "permissions"}, {"id": "7ce1c892-6090-11ef-b3ef-da7ad0900005",
-        "type": "permissions"}, {"id": "0681b99e-2187-11ee-a396-da7ad0900005", "type":
-        "permissions"}, {"id": "0681baf2-2187-11ee-a396-da7ad0900005", "type": "permissions"},
-        {"id": "25c1e1fe-138e-11ef-bf6f-da7ad0900005", "type": "permissions"}, {"id":
-        "34651076-227c-11ef-b4c3-da7ad0900005", "type": "permissions"}, {"id": "4b9cd3ee-810b-11ef-972e-da7ad0900005",
-        "type": "permissions"}, {"id": "eee61788-e746-11ec-a905-da7ad0900005", "type":
-        "permissions"}, {"id": "03868888-0957-11ef-9e19-da7ad0900005", "type": "permissions"},
-        {"id": "4b9d515c-810b-11ef-972e-da7ad0900005", "type": "permissions"}, {"id":
-        "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id": "47af90c8-da7a-11ef-a039-da7ad0900005",
-        "type": "permissions"}, {"id": "67dd16de-e531-11ee-bf1b-da7ad0900005", "type":
-        "permissions"}, {"id": "6df70e30-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"},
-        {"id": "6df8034e-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"}, {"id":
-        "6df7a0de-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"}, {"id": "b1236f70-017c-11ef-9743-da7ad0900005",
-        "type": "permissions"}, {"id": "b12370f6-017c-11ef-9743-da7ad0900005", "type":
-        "permissions"}, {"id": "b12371e6-017c-11ef-9743-da7ad0900005", "type": "permissions"},
-        {"id": "d96b811c-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id":
-        "d96c0fe2-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id": "d96c123a-088d-11ef-9353-da7ad0900005",
-        "type": "permissions"}, {"id": "d96c1352-088d-11ef-9353-da7ad0900005", "type":
-        "permissions"}, {"id": "f764fa80-79c7-11ef-8a97-da7ad0900005", "type": "permissions"},
-        {"id": "e0535584-7c0c-11ef-bb98-da7ad0900005", "type": "permissions"}, {"id":
-        "a8841946-7c42-11ef-93ea-da7ad0900005", "type": "permissions"}, {"id": "20ced020-9c9c-11ef-8bf8-da7ad0900005",
-        "type": "permissions"}, {"id": "20ced1f6-9c9c-11ef-8bf8-da7ad0900005", "type":
-        "permissions"}, {"id": "c7c539c8-b44f-11ed-9d3d-da7ad0900005", "type": "permissions"},
-        {"id": "50559336-69d2-11ee-b70d-da7ad0900005", "type": "permissions"}, {"id":
-        "7ce1cb26-6090-11ef-b3ef-da7ad0900005", "type": "permissions"}, {"id": "7ce175e0-6090-11ef-b3ef-da7ad0900005",
-        "type": "permissions"}, {"id": "751cbee0-e7ff-11ef-9bf6-da7ad0900005", "type":
-        "permissions"}, {"id": "d77b8882-b7e9-11ef-9071-da7ad0900005", "type": "permissions"},
-        {"id": "6f81cfe4-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id":
-        "8dbe76fe-5884-11ec-82c1-da7ad0900005", "type": "permissions"}, {"id": "8dbeed46-5884-11ec-82c1-da7ad0900005",
-        "type": "permissions"}, {"id": "aca6448a-647e-11ef-82de-da7ad0900005", "type":
-        "permissions"}, {"id": "aca6f060-647e-11ef-82de-da7ad0900005", "type": "permissions"},
-        {"id": "6f8289ca-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id":
-        "751da530-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id": "bee35d36-e27d-11ef-8ab4-da7ad0900005",
-        "type": "permissions"}, {"id": "d90f6832-d3d8-11e9-a77a-bf8a2607f864", "type":
-        "permissions"}, {"id": "b0b878f2-b71e-11ef-a582-da7ad0900005", "type": "permissions"},
-        {"id": "b0b958b2-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id":
-        "b0b95b6e-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id": "e63ee4dc-0fea-11f0-a34b-da7ad0900005",
-        "type": "permissions"}, {"id": "e6401d5c-0fea-11f0-a34b-da7ad0900005", "type":
-        "permissions"}, {"id": "5263ade0-7de7-11f0-aa4c-da7ad0900005", "type": "permissions"},
-        {"id": "addb52b6-035a-11f0-a4f7-da7ad0900005", "type": "permissions"}, {"id":
-        "67dcf988-e531-11ee-bf1b-da7ad0900005", "type": "permissions"}, {"id": "28a47646-30e5-11f0-aeee-da7ad0900005",
-        "type": "permissions"}, {"id": "425512fa-e89f-11ef-9ec6-da7ad0900005", "type":
-        "permissions"}, {"id": "425650de-e89f-11ef-9ec6-da7ad0900005", "type": "permissions"},
-        {"id": "e48d63cc-29d8-11f0-a591-da7ad0900005", "type": "permissions"}, {"id":
-        "e48d6700-29d8-11f0-a591-da7ad0900005", "type": "permissions"}, {"id": "e48d68f4-29d8-11f0-a591-da7ad0900005",
-        "type": "permissions"}, {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type":
-        "permissions"}, {"id": "d6420bf6-1178-11f0-bb81-da7ad0900005", "type": "permissions"},
-        {"id": "d6434dd6-1178-11f0-bb81-da7ad0900005", "type": "permissions"}, {"id":
-        "8cca9812-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "8ccad534-a8f5-11ef-a551-da7ad0900005",
-        "type": "permissions"}, {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type":
-        "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005", "type": "permissions"},
-        {"id": "4c7de64a-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id":
-        "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005",
-        "type": "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type":
-        "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "f27c14ba-34d2-11f0-8b57-da7ad0900005", "type":
-        "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
-        {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
-        "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id": "f8dd46ec-5db0-11f0-a618-da7ad0900005",
-        "type": "permissions"}, {"id": "f8df8236-5db0-11f0-a618-da7ad0900005", "type":
-        "permissions"}, {"id": "1da0a06c-79fb-11f0-9ada-da7ad0900005", "type": "permissions"},
-        {"id": "890895f0-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}, {"id":
-        "890c6914-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005",
-        "type": "permissions"}, {"id": "890c96d2-8e6c-11f0-adc4-da7ad0900005", "type":
-        "permissions"}, {"id": "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"},
-        {"id": "890c9894-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}, {"id":
-        "939cc7aa-8432-11f0-9aac-da7ad0900005", "type": "permissions"}]}}}, {"id":
-        "026c7c8e-1642-11f0-840a-da7ad0900005", "type": "roles", "attributes": {"created_at":
-        "2025-04-10T19:28:41.277792Z", "created_by_handle": "michael.richey@datadoghq.com",
-        "modified_at": "2025-10-06T20:09:22.58082Z", "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "name": "Datadog Read Only Role", "team_count": 0, "user_count": 4}, "relationships":
-        {"permissions": {"data": [{"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type":
-        "permissions"}, {"id": "b382b982-8535-11ea-93de-2bf1bdf20798", "type": "permissions"},
-        {"id": "43fa188e-2dce-11eb-84c0-835ad1fd6287", "type": "permissions"}, {"id":
-        "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"}, {"id": "2f3afc26-2707-11ee-b231-da7ad0900005",
-        "type": "permissions"}, {"id": "b89ab20a-3a55-11f0-bcdb-da7ad0900005", "type":
-        "permissions"}, {"id": "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "type": "permissions"},
-        {"id": "edfd5e75-801f-11eb-96d8-da7ad0900002", "type": "permissions"}, {"id":
-        "5025ee24-f923-11ea-adbc-576ea241df8d", "type": "permissions"}, {"id": "841eaad4-7a4c-11ed-bf7d-da7ad0900005",
-        "type": "permissions"}, {"id": "80de1ec0-aa58-11ea-95e2-aff381626d5d", "type":
-        "permissions"}, {"id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2", "type": "permissions"},
-        {"id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "type": "permissions"}, {"id":
-        "4441648c-d8b1-11e9-a77a-1b899a04b304", "type": "permissions"}, {"id": "97971c1c-e895-11eb-b13c-da7ad0900002",
-        "type": "permissions"}, {"id": "b05a8a26-4e88-11ee-90a7-da7ad0900005", "type":
-        "permissions"}, {"id": "417ba636-2dce-11eb-84c0-6bce5b0d9de0", "type": "permissions"},
-        {"id": "4916eebe-2dce-11eb-84c0-271cb2c672e8", "type": "permissions"}, {"id":
-        "277f3524-7d61-11ed-9f04-da7ad0900005", "type": "permissions"}, {"id": "edb0ad50-173a-11ed-b3c2-da7ad0900005",
-        "type": "permissions"}, {"id": "aa7d422c-fa13-11eb-b17c-da7ad0900005", "type":
-        "permissions"}, {"id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005", "type": "permissions"},
-        {"id": "fbb07996-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id":
-        "1ba2f2d8-16c7-11ec-b77d-da7ad0900005", "type": "permissions"}, {"id": "98b984f4-b16d-11eb-a2c6-da7ad0900002",
-        "type": "permissions"}, {"id": "aa7ccb44-fa13-11eb-b17c-da7ad0900005", "type":
-        "permissions"}, {"id": "e2371690-574f-11ec-9b69-da7ad0900005", "type": "permissions"},
-        {"id": "5ed2476e-d29b-11ef-be68-da7ad0900005", "type": "permissions"}, {"id":
-        "ec69c9ae-4792-11ec-a4e4-da7ad0900005", "type": "permissions"}, {"id": "5e605652-dd12-11e8-9e53-375565b8970e",
-        "type": "permissions"}, {"id": "caea6b48-9a59-11ec-b6fc-da7ad0900005", "type":
-        "permissions"}, {"id": "0fc8e272-8500-11ec-9176-da7ad0900005", "type": "permissions"},
-        {"id": "eee67f20-e746-11ec-a905-da7ad0900005", "type": "permissions"}, {"id":
-        "b121c706-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "6f80e6ce-7aff-11ed-836c-da7ad0900005",
-        "type": "permissions"}, {"id": "4f2161f6-55d9-11ed-9831-da7ad0900005", "type":
-        "permissions"}, {"id": "1f8daba8-0eab-11ee-8438-da7ad0900005", "type": "permissions"},
-        {"id": "67dc86ba-e531-11ee-bf1b-da7ad0900005", "type": "permissions"}, {"id":
-        "4f208ea2-55d9-11ed-9831-da7ad0900005", "type": "permissions"}, {"id": "12efc20e-d36c-11eb-a9b8-da7ad0900002",
-        "type": "permissions"}, {"id": "e26a6ab8-de71-11ed-8ad1-da7ad0900005", "type":
-        "permissions"}, {"id": "ae260840-8a26-11ef-b0ad-da7ad0900005", "type": "permissions"},
-        {"id": "0fc821fc-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
-        "59c72b84-53fe-11ef-af6a-da7ad0900005", "type": "permissions"}, {"id": "6dc694fa-2520-11f0-bb2e-da7ad0900005",
-        "type": "permissions"}, {"id": "dd34df0c-3d07-11ee-9d84-da7ad0900005", "type":
-        "permissions"}, {"id": "47af6ecc-da7a-11ef-a039-da7ad0900005", "type": "permissions"},
-        {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id":
-        "7ce1c892-6090-11ef-b3ef-da7ad0900005", "type": "permissions"}, {"id": "34651076-227c-11ef-b4c3-da7ad0900005",
-        "type": "permissions"}, {"id": "4b9cd3ee-810b-11ef-972e-da7ad0900005", "type":
-        "permissions"}, {"id": "03868888-0957-11ef-9e19-da7ad0900005", "type": "permissions"},
-        {"id": "f764fa80-79c7-11ef-8a97-da7ad0900005", "type": "permissions"}, {"id":
-        "e0535584-7c0c-11ef-bb98-da7ad0900005", "type": "permissions"}, {"id": "20ced020-9c9c-11ef-8bf8-da7ad0900005",
-        "type": "permissions"}, {"id": "50559336-69d2-11ee-b70d-da7ad0900005", "type":
-        "permissions"}, {"id": "751cbee0-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"},
-        {"id": "d77b8882-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id":
-        "8dbe76fe-5884-11ec-82c1-da7ad0900005", "type": "permissions"}, {"id": "aca6448a-647e-11ef-82de-da7ad0900005",
-        "type": "permissions"}, {"id": "addb52b6-035a-11f0-a4f7-da7ad0900005", "type":
-        "permissions"}, {"id": "425512fa-e89f-11ef-9ec6-da7ad0900005", "type": "permissions"},
-        {"id": "e48d63cc-29d8-11f0-a591-da7ad0900005", "type": "permissions"}, {"id":
-        "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id": "8ccad534-a8f5-11ef-a551-da7ad0900005",
-        "type": "permissions"}, {"id": "4c7de64a-df2f-11ef-8eba-da7ad0900005", "type":
-        "permissions"}, {"id": "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type": "permissions"},
-        {"id": "3cf37162-214d-11f0-89a9-da7ad0900005", "type": "permissions"}, {"id":
-        "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005",
-        "type": "permissions"}, {"id": "2a05b566-2610-11f0-b373-da7ad0900005", "type":
-        "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
-        {"id": "890c6914-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}, {"id":
-        "890c9894-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}]}}}, {"id":
-        "514c41b6-1630-11f0-910b-da7ad0900005", "type": "roles", "attributes": {"created_at":
-        "2025-04-10T17:22:02.665532Z", "created_by_handle": "michael.richey@datadoghq.com",
-        "modified_at": "2025-10-10T06:31:14.978828Z", "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "name": "Datadog Standard Role", "team_count": 0, "user_count": 5}, "relationships":
-        {"permissions": {"data": [{"id": "07c3c146-f7f8-11ea-acf6-0bd62b9ae60e", "type":
-        "permissions"}, {"id": "20c31f82-b9b4-11ec-8235-da7ad0900005", "type": "permissions"},
-        {"id": "a4a47ff0-c1d5-11ee-9ba2-da7ad0900005", "type": "permissions"}, {"id":
-        "b382b982-8535-11ea-93de-2bf1bdf20798", "type": "permissions"}, {"id": "43fa188e-2dce-11eb-84c0-835ad1fd6287",
-        "type": "permissions"}, {"id": "8106300a-54f7-11eb-8cbc-7781a434a67b", "type":
-        "permissions"}, {"id": "6f66600e-dd12-11e8-9e55-7f30fbb45e73", "type": "permissions"},
-        {"id": "7d7c98ac-dd12-11e8-9e56-93700598622d", "type": "permissions"}, {"id":
-        "2f3afc26-2707-11ee-b231-da7ad0900005", "type": "permissions"}, {"id": "b89ab20a-3a55-11f0-bcdb-da7ad0900005",
-        "type": "permissions"}, {"id": "1af86ce4-7823-11ea-93dc-d7cad1b1c6cb", "type":
-        "permissions"}, {"id": "edfd5e75-801f-11eb-96d8-da7ad0900002", "type": "permissions"},
-        {"id": "6ba32d22-0e1a-11eb-ba44-bf9a5aafaa39", "type": "permissions"}, {"id":
-        "5025ee24-f923-11ea-adbc-576ea241df8d", "type": "permissions"}, {"id": "48ef71ea-d8b1-11e9-a77a-93f408470ad0",
-        "type": "permissions"}, {"id": "27e324a0-b9f9-11ee-ad81-da7ad0900005", "type":
-        "permissions"}, {"id": "d3deb136-f5b1-11ee-8f9a-da7ad0900005", "type": "permissions"},
-        {"id": "c09a5320-a69e-11ef-854d-da7ad0900005", "type": "permissions"}, {"id":
-        "a4a15c66-387d-11ef-950e-da7ad0900005", "type": "permissions"}, {"id": "841eaad4-7a4c-11ed-bf7d-da7ad0900005",
-        "type": "permissions"}, {"id": "841f1d52-7a4c-11ed-bf7d-da7ad0900005", "type":
-        "permissions"}, {"id": "7b516476-aa58-11ea-95e2-93718cd56369", "type": "permissions"},
-        {"id": "80de1ec0-aa58-11ea-95e2-aff381626d5d", "type": "permissions"}, {"id":
-        "46a301db-ec5c-11ea-aa9f-2fe72193d60e", "type": "permissions"}, {"id": "d90f6830-d3d8-11e9-a77a-b3404e5e9ee2",
-        "type": "permissions"}, {"id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "type":
-        "permissions"}, {"id": "d90f6831-d3d8-11e9-a77a-4fd230ddbc6a", "type": "permissions"},
-        {"id": "4441648c-d8b1-11e9-a77a-1b899a04b304", "type": "permissions"}, {"id":
-        "4ada6e36-f923-11ea-adbc-0788e5c5e3cf", "type": "permissions"}, {"id": "2d14d054-6909-11ee-a593-da7ad0900005",
-        "type": "permissions"}, {"id": "a4a54926-c1d5-11ee-9ba2-da7ad0900005", "type":
-        "permissions"}, {"id": "a28141c0-1106-11ee-b06a-da7ad0900005", "type": "permissions"},
-        {"id": "4628ca54-f923-11ea-adbc-4b2b7f88c5e9", "type": "permissions"}, {"id":
-        "12efc211-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"}, {"id": "6df8628a-c59e-11ec-9bfe-da7ad0900005",
-        "type": "permissions"}, {"id": "97971c1c-e895-11eb-b13c-da7ad0900002", "type":
-        "permissions"}, {"id": "97971c1d-e895-11eb-b13c-da7ad0900002", "type": "permissions"},
-        {"id": "fbb166e4-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id":
-        "9bcfe7e2-5a12-11ed-935c-da7ad0900005", "type": "permissions"}, {"id": "b05a8a26-4e88-11ee-90a7-da7ad0900005",
-        "type": "permissions"}, {"id": "46a301e4-ec5c-11ea-aa9f-87282b3a50cc", "type":
-        "permissions"}, {"id": "372896c4-f923-11ea-adbc-4fecd107156d", "type": "permissions"},
-        {"id": "55f4b5ec-f923-11ea-adbc-1bfa2334a755", "type": "permissions"}, {"id":
-        "417ba636-2dce-11eb-84c0-6bce5b0d9de0", "type": "permissions"}, {"id": "4916eebe-2dce-11eb-84c0-271cb2c672e8",
-        "type": "permissions"}, {"id": "61765026-2dce-11eb-84c0-833e230d1b8f", "type":
-        "permissions"}, {"id": "4edb8008-db23-11ed-b8c4-da7ad0900005", "type": "permissions"},
-        {"id": "277f3524-7d61-11ed-9f04-da7ad0900005", "type": "permissions"}, {"id":
-        "edb0ad50-173a-11ed-b3c2-da7ad0900005", "type": "permissions"}, {"id": "5c6b88e2-f923-11ea-adbc-abf57d079420",
-        "type": "permissions"}, {"id": "aa7d422c-fa13-11eb-b17c-da7ad0900005", "type":
-        "permissions"}, {"id": "1ce7904c-ccd5-11ee-b58b-da7ad0900005", "type": "permissions"},
-        {"id": "642eebe6-f923-11ea-adbc-eb617674ea04", "type": "permissions"}, {"id":
-        "b8006c56-e5c4-11ec-bfd9-da7ad0900005", "type": "permissions"}, {"id": "c9c9a086-66d9-11ef-9bd3-da7ad0900005",
-        "type": "permissions"}, {"id": "12efc20f-d36c-11eb-a9b8-da7ad0900002", "type":
-        "permissions"}, {"id": "12efc210-d36c-11eb-a9b8-da7ad0900002", "type": "permissions"},
-        {"id": "4edb890e-db23-11ed-b8c4-da7ad0900005", "type": "permissions"}, {"id":
-        "fbb07996-cd1b-11ef-9f1a-da7ad0900005", "type": "permissions"}, {"id": "1ba2f2d8-16c7-11ec-b77d-da7ad0900005",
-        "type": "permissions"}, {"id": "1ba4caa4-16c7-11ec-b77d-da7ad0900005", "type":
-        "permissions"}, {"id": "98b984f4-b16d-11eb-a2c6-da7ad0900002", "type": "permissions"},
-        {"id": "aa7ccb44-fa13-11eb-b17c-da7ad0900005", "type": "permissions"}, {"id":
-        "e2371690-574f-11ec-9b69-da7ad0900005", "type": "permissions"}, {"id": "5c1680d0-ff6d-11eb-a494-da7ad0900005",
-        "type": "permissions"}, {"id": "5ed2476e-d29b-11ef-be68-da7ad0900005", "type":
-        "permissions"}, {"id": "ec69c9ae-4792-11ec-a4e4-da7ad0900005", "type": "permissions"},
-        {"id": "5e605652-dd12-11e8-9e53-375565b8970e", "type": "permissions"}, {"id":
-        "84aa3ae4-dd12-11e8-9e58-a373a514ccd0", "type": "permissions"}, {"id": "0fb2c6d2-ff1f-11ed-a62e-da7ad0900005",
-        "type": "permissions"}, {"id": "caea6b48-9a59-11ec-b6fc-da7ad0900005", "type":
-        "permissions"}, {"id": "caeae1ea-9a59-11ec-b6fc-da7ad0900005", "type": "permissions"},
-        {"id": "2d9c7008-ccc0-11ed-99c3-da7ad0900005", "type": "permissions"}, {"id":
-        "0fc8e272-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id": "eee67f20-e746-11ec-a905-da7ad0900005",
-        "type": "permissions"}, {"id": "eee6d434-e746-11ec-a905-da7ad0900005", "type":
-        "permissions"}, {"id": "b121c706-017c-11ef-9743-da7ad0900005", "type": "permissions"},
-        {"id": "edb17ed8-173a-11ed-b3c2-da7ad0900005", "type": "permissions"}, {"id":
-        "6f80e6ce-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id": "ec6a85f6-4792-11ec-a4e4-da7ad0900005",
-        "type": "permissions"}, {"id": "4f2161f6-55d9-11ed-9831-da7ad0900005", "type":
-        "permissions"}, {"id": "4f21ab3e-55d9-11ed-9831-da7ad0900005", "type": "permissions"},
-        {"id": "0fc97610-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
-        "6f81882c-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id": "1f8daba8-0eab-11ee-8438-da7ad0900005",
-        "type": "permissions"}, {"id": "b1233096-017c-11ef-9743-da7ad0900005", "type":
-        "permissions"}, {"id": "67dc86ba-e531-11ee-bf1b-da7ad0900005", "type": "permissions"},
-        {"id": "758e73c4-7a5a-11ed-ad92-da7ad0900005", "type": "permissions"}, {"id":
-        "30d41870-f5fe-11ef-aac9-da7ad0900005", "type": "permissions"}, {"id": "4f208ea2-55d9-11ed-9831-da7ad0900005",
-        "type": "permissions"}, {"id": "4f210b2a-55d9-11ed-9831-da7ad0900005", "type":
-        "permissions"}, {"id": "0b46276c-9771-11ed-b830-da7ad0900005", "type": "permissions"},
-        {"id": "6ab61b9e-b468-11ed-9d27-da7ad0900005", "type": "permissions"}, {"id":
-        "6ab623d2-b468-11ed-9d27-da7ad0900005", "type": "permissions"}, {"id": "46a301dd-ec5c-11ea-aa9f-97edfb345bc9",
-        "type": "permissions"}, {"id": "12efc20e-d36c-11eb-a9b8-da7ad0900002", "type":
-        "permissions"}, {"id": "e26a6ab8-de71-11ed-8ad1-da7ad0900005", "type": "permissions"},
-        {"id": "e26a72f6-de71-11ed-8ad1-da7ad0900005", "type": "permissions"}, {"id":
-        "b47a3a6e-74fe-11ef-ae6f-da7ad0900005", "type": "permissions"}, {"id": "710f0782-f408-11ed-9289-da7ad0900005",
-        "type": "permissions"}, {"id": "710f0ec6-f408-11ed-9289-da7ad0900005", "type":
-        "permissions"}, {"id": "ae260840-8a26-11ef-b0ad-da7ad0900005", "type": "permissions"},
-        {"id": "0fc821fc-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id":
-        "0fc894fc-8500-11ec-9176-da7ad0900005", "type": "permissions"}, {"id": "4244b3e6-248a-11ed-96ae-da7ad0900005",
-        "type": "permissions"}, {"id": "9bd04c46-5a12-11ed-935c-da7ad0900005", "type":
-        "permissions"}, {"id": "6f8143ee-7aff-11ed-836c-da7ad0900005", "type": "permissions"},
-        {"id": "59c72b84-53fe-11ef-af6a-da7ad0900005", "type": "permissions"}, {"id":
-        "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f", "type": "permissions"}, {"id": "46a301da-ec5c-11ea-aa9f-73bedeab67ee",
-        "type": "permissions"}, {"id": "34438974-1703-11ec-9521-da7ad0900005", "type":
-        "permissions"}, {"id": "0fc93150-8500-11ec-9176-da7ad0900005", "type": "permissions"},
-        {"id": "b1236d40-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id":
-        "6dc694fa-2520-11f0-bb2e-da7ad0900005", "type": "permissions"}, {"id": "93494582-f689-11ed-9d4d-da7ad0900005",
-        "type": "permissions"}, {"id": "47f7b6da-f9a0-11ed-8480-da7ad0900005", "type":
-        "permissions"}, {"id": "dd34df0c-3d07-11ee-9d84-da7ad0900005", "type": "permissions"},
-        {"id": "0681b020-2187-11ee-a396-da7ad0900005", "type": "permissions"}, {"id":
-        "6dabb7aa-092c-11ee-ab7c-da7ad0900005", "type": "permissions"}, {"id": "dd34e8b2-3d07-11ee-9d84-da7ad0900005",
-        "type": "permissions"}, {"id": "f8aecc36-20bd-11ee-9f59-da7ad0900005", "type":
-        "permissions"}, {"id": "173e87fa-1cd0-11ee-b496-da7ad0900005", "type": "permissions"},
-        {"id": "76fa39c0-2c87-11ee-9cfd-da7ad0900005", "type": "permissions"}, {"id":
-        "47af6ecc-da7a-11ef-a039-da7ad0900005", "type": "permissions"}, {"id": "6dab81d6-092c-11ee-ab7c-da7ad0900005",
-        "type": "permissions"}, {"id": "62cc036c-dd12-11e8-9e54-db9995643092", "type":
-        "permissions"}, {"id": "811ac4ca-dd12-11e8-9e57-676a7f0beef9", "type": "permissions"},
-        {"id": "f6b37df2-836a-11f0-9ca5-da7ad0900005", "type": "permissions"}, {"id":
-        "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id": "66db2844-0052-11ee-8008-da7ad0900005",
-        "type": "permissions"}, {"id": "979df720-aed7-11e9-99c6-a7eb8373165a", "type":
-        "permissions"}, {"id": "9ac1d8cc-e707-11ea-aa2d-73d37e989a9d", "type": "permissions"},
-        {"id": "7ce1c892-6090-11ef-b3ef-da7ad0900005", "type": "permissions"}, {"id":
-        "34651076-227c-11ef-b4c3-da7ad0900005", "type": "permissions"}, {"id": "4b9cd3ee-810b-11ef-972e-da7ad0900005",
-        "type": "permissions"}, {"id": "eee61788-e746-11ec-a905-da7ad0900005", "type":
-        "permissions"}, {"id": "03868888-0957-11ef-9e19-da7ad0900005", "type": "permissions"},
-        {"id": "4b9d515c-810b-11ef-972e-da7ad0900005", "type": "permissions"}, {"id":
-        "47af90c8-da7a-11ef-a039-da7ad0900005", "type": "permissions"}, {"id": "6df70e30-c59e-11ec-9bfe-da7ad0900005",
-        "type": "permissions"}, {"id": "6df8034e-c59e-11ec-9bfe-da7ad0900005", "type":
-        "permissions"}, {"id": "6df7a0de-c59e-11ec-9bfe-da7ad0900005", "type": "permissions"},
-        {"id": "b1236f70-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id":
-        "b12370f6-017c-11ef-9743-da7ad0900005", "type": "permissions"}, {"id": "b12371e6-017c-11ef-9743-da7ad0900005",
-        "type": "permissions"}, {"id": "d96b811c-088d-11ef-9353-da7ad0900005", "type":
-        "permissions"}, {"id": "d96c0fe2-088d-11ef-9353-da7ad0900005", "type": "permissions"},
-        {"id": "d96c123a-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id":
-        "d96c1352-088d-11ef-9353-da7ad0900005", "type": "permissions"}, {"id": "f764fa80-79c7-11ef-8a97-da7ad0900005",
-        "type": "permissions"}, {"id": "e0535584-7c0c-11ef-bb98-da7ad0900005", "type":
-        "permissions"}, {"id": "20ced020-9c9c-11ef-8bf8-da7ad0900005", "type": "permissions"},
-        {"id": "20ced1f6-9c9c-11ef-8bf8-da7ad0900005", "type": "permissions"}, {"id":
-        "c7c539c8-b44f-11ed-9d3d-da7ad0900005", "type": "permissions"}, {"id": "50559336-69d2-11ee-b70d-da7ad0900005",
-        "type": "permissions"}, {"id": "7ce1cb26-6090-11ef-b3ef-da7ad0900005", "type":
-        "permissions"}, {"id": "7ce175e0-6090-11ef-b3ef-da7ad0900005", "type": "permissions"},
-        {"id": "751cbee0-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"}, {"id":
-        "d77b8882-b7e9-11ef-9071-da7ad0900005", "type": "permissions"}, {"id": "8dbe76fe-5884-11ec-82c1-da7ad0900005",
-        "type": "permissions"}, {"id": "8dbeed46-5884-11ec-82c1-da7ad0900005", "type":
-        "permissions"}, {"id": "aca6448a-647e-11ef-82de-da7ad0900005", "type": "permissions"},
-        {"id": "aca6f060-647e-11ef-82de-da7ad0900005", "type": "permissions"}, {"id":
-        "6f8289ca-7aff-11ed-836c-da7ad0900005", "type": "permissions"}, {"id": "751da530-e7ff-11ef-9bf6-da7ad0900005",
-        "type": "permissions"}, {"id": "bee35d36-e27d-11ef-8ab4-da7ad0900005", "type":
-        "permissions"}, {"id": "d90f6832-d3d8-11e9-a77a-bf8a2607f864", "type": "permissions"},
-        {"id": "b0b878f2-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id":
-        "b0b958b2-b71e-11ef-a582-da7ad0900005", "type": "permissions"}, {"id": "b0b95b6e-b71e-11ef-a582-da7ad0900005",
-        "type": "permissions"}, {"id": "e63ee4dc-0fea-11f0-a34b-da7ad0900005", "type":
-        "permissions"}, {"id": "5263ade0-7de7-11f0-aa4c-da7ad0900005", "type": "permissions"},
-        {"id": "addb52b6-035a-11f0-a4f7-da7ad0900005", "type": "permissions"}, {"id":
-        "67dcf988-e531-11ee-bf1b-da7ad0900005", "type": "permissions"}, {"id": "425512fa-e89f-11ef-9ec6-da7ad0900005",
-        "type": "permissions"}, {"id": "e48d63cc-29d8-11f0-a591-da7ad0900005", "type":
-        "permissions"}, {"id": "751dd960-e7ff-11ef-9bf6-da7ad0900005", "type": "permissions"},
-        {"id": "d6420bf6-1178-11f0-bb81-da7ad0900005", "type": "permissions"}, {"id":
-        "8cca9812-a8f5-11ef-a551-da7ad0900005", "type": "permissions"}, {"id": "8ccad534-a8f5-11ef-a551-da7ad0900005",
-        "type": "permissions"}, {"id": "d77c6e96-b7e9-11ef-9071-da7ad0900005", "type":
-        "permissions"}, {"id": "47af895c-da7a-11ef-a039-da7ad0900005", "type": "permissions"},
-        {"id": "4c7de64a-df2f-11ef-8eba-da7ad0900005", "type": "permissions"}, {"id":
-        "30d42ab8-f5fe-11ef-aac9-da7ad0900005", "type": "permissions"}, {"id": "3cf37162-214d-11f0-89a9-da7ad0900005",
-        "type": "permissions"}, {"id": "632a0b2c-ffce-11ed-9cc5-da7ad0900005", "type":
-        "permissions"}, {"id": "4c7e10ac-df2f-11ef-8eba-da7ad0900005", "type": "permissions"},
-        {"id": "632a1112-ffce-11ed-9cc5-da7ad0900005", "type": "permissions"}, {"id":
-        "2a05b566-2610-11f0-b373-da7ad0900005", "type": "permissions"}, {"id": "2a06d054-2610-11f0-b373-da7ad0900005",
-        "type": "permissions"}, {"id": "3cf52fb6-214d-11f0-89a9-da7ad0900005", "type":
-        "permissions"}, {"id": "3cf5593c-214d-11f0-89a9-da7ad0900005", "type": "permissions"},
-        {"id": "7a662f7c-5ce8-11f0-abff-da7ad0900005", "type": "permissions"}, {"id":
-        "f8dd46ec-5db0-11f0-a618-da7ad0900005", "type": "permissions"}, {"id": "890895f0-8e6c-11f0-adc4-da7ad0900005",
-        "type": "permissions"}, {"id": "890c6914-8e6c-11f0-adc4-da7ad0900005", "type":
-        "permissions"}, {"id": "f0529096-4b9e-11f0-90eb-da7ad0900005", "type": "permissions"},
-        {"id": "890c96d2-8e6c-11f0-adc4-da7ad0900005", "type": "permissions"}, {"id":
-        "de57ccfc-5685-11f0-b443-da7ad0900005", "type": "permissions"}, {"id": "890c9894-8e6c-11f0-adc4-da7ad0900005",
-        "type": "permissions"}, {"id": "939cc7aa-8432-11f0-9aac-da7ad0900005", "type":
-        "permissions"}]}}}, {"id": "183a94ae-7864-11f0-a118-da7ad0900005", "type":
-        "roles", "attributes": {"created_at": "2025-08-13T16:39:34.702927Z", "created_by_handle":
-        "michael.richey@datadoghq.com", "modified_at": "2025-08-13T16:55:21.875653Z",
-        "modified_by_handle": "michael.richey@datadoghq.com", "name": "Minimum DDR
-        Role", "team_count": 0, "user_count": 1}, "relationships": {"permissions":
-        {"data": [{"id": "c64f5ba8-37b3-11ef-ac1d-da7ad0900005", "type": "permissions"},
-        {"id": "b5e1108e-9895-11ef-a80d-da7ad0900005", "type": "permissions"}, {"id":
-        "b5e1c574-9895-11ef-a80d-da7ad0900005", "type": "permissions"}]}}}], "meta":
-        {"page": {"total_count": 5, "total_filtered_count": 5}}}'
-    headers:
-      Content-Type:
-      - application/vnd.api+json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.us5.datadoghq.com/api/v2/hamr
   response:
     body:
@@ -13380,7 +13440,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "5a5acac3-6f18-11f0-a3f8-ae7d4f23c5d4", "attributes":
         {"name": "Ida Adjivon", "handle": "ida.adjivon@datadoghq.com", "created_at":
-        "2025-08-01T20:44:43.428341+00:00", "modified_at": "2025-10-20T16:17:23.405774+00:00",
+        "2025-08-01T20:44:43.428341+00:00", "modified_at": "2025-10-20T17:32:15.384611+00:00",
         "email": "ida.adjivon@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/d3ff11e3ff125d30050f4dfff3fa614c?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -13405,7 +13465,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "680b4953-923f-11ef-8f6a-0a7168950f69", "attributes":
         {"name": "Justine Lo", "handle": "justine.lo@datadoghq.com", "created_at":
-        "2024-10-24T19:37:29.794003+00:00", "modified_at": "2025-10-20T16:17:23.445522+00:00",
+        "2024-10-24T19:37:29.794003+00:00", "modified_at": "2025-10-20T17:32:15.390887+00:00",
         "email": "justine.lo@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/7d75964971289cf50e6090d76b45e3f6?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -13422,7 +13482,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "4bda4ca7-ef03-11ef-85b0-0e0a6c12bf4a", "attributes":
         {"name": "Michael Richey", "handle": "michael.richey+ddreu1@datadoghq.com",
-        "created_at": "2025-02-19T20:51:30.831306+00:00", "modified_at": "2025-10-20T16:17:23.549469+00:00",
+        "created_at": "2025-02-19T20:51:30.831306+00:00", "modified_at": "2025-10-20T17:32:15.438265+00:00",
         "email": "michael.richey+ddreu1@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/b5b0452adbe01caf57c1e5f6fb97a631?s=48&d=retro",
         "title": "", "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Pending",
@@ -13441,7 +13501,7 @@ interactions:
         "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8", "attributes":
         {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "created_at":
-        "2024-10-21T18:31:19.037245+00:00", "modified_at": "2025-10-20T16:17:23.576978+00:00",
+        "2024-10-21T18:31:19.037245+00:00", "modified_at": "2025-10-20T17:32:15.409305+00:00",
         "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -13470,7 +13530,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "490663c7-8581-11ef-8ce5-127d9e8aadbb", "attributes":
         {"name": "Ron Hay", "handle": "ron.hay@datadoghq.com", "created_at": "2024-10-08T14:26:19.420588+00:00",
-        "modified_at": "2025-10-20T16:17:23.542080+00:00", "email": "ron.hay@datadoghq.com",
+        "modified_at": "2025-10-20T17:32:15.412397+00:00", "email": "ron.hay@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/1c9c2a5daac55fc5ae86178cd5e7b9c2?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -13481,7 +13541,7 @@ interactions:
         {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}}, {"type":
         "users", "id": "3663729d-9b9e-11ef-9bab-c29722a28a84", "attributes": {"name":
         "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "created_at":
-        "2024-11-05T17:48:49.140010+00:00", "modified_at": "2025-10-20T16:17:23.570066+00:00",
+        "2024-11-05T17:48:49.140010+00:00", "modified_at": "2025-10-20T17:32:15.412770+00:00",
         "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -13492,7 +13552,7 @@ interactions:
         {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}}, {"type":
         "users", "id": "49059ee4-8581-11ef-afbd-c64ba5fcf2d1", "attributes": {"name":
         "Tim Alexander", "handle": "tim.alexander@datadoghq.com", "created_at": "2024-10-08T14:26:19.415552+00:00",
-        "modified_at": "2025-10-20T16:17:23.581427+00:00", "email": "tim.alexander@datadoghq.com",
+        "modified_at": "2025-10-20T17:32:15.396020+00:00", "email": "tim.alexander@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/6269dae26686287d4bdd307a26e33f34?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",

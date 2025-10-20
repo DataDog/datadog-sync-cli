@@ -29,9 +29,9 @@ interactions:
   response:
     body:
       string: '{"data": [{"type": "metrics", "id": "msr.distribution"}, {"type": "manage_tags",
-        "id": "msr.distribution", "attributes": {"tags": ["environment", "host", "updated"],
+        "id": "msr.distribution", "attributes": {"tags": ["environment", "host"],
         "include_percentiles": true, "created_at": "2025-02-18T18:53:08.713421+00:00",
-        "modified_at": "2025-10-20T16:09:54.496644+00:00", "metric_type": "distribution",
+        "modified_at": "2025-10-20T17:26:43.128100+00:00", "metric_type": "distribution",
         "exclude_tags_mode": false}}]}'
     headers:
       Content-Type:

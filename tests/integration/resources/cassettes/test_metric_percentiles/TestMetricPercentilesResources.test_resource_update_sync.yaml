@@ -57,24 +57,6 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"group_by": ["updated"], "include_percentiles": true, "aggr_mode": "include_all",
-      "summary_type": "default", "groups_negated": false, "source": "intake", "metric":
-      "msr.other_distribution"}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/metric/distribution/summary_aggr
-  response:
-    body:
-      string: '{"key": 91943796, "metric_key": 1067326978}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
     body: '{"group_by": ["environment", "host", "updated"], "include_percentiles":
       true, "aggr_mode": "use_groups", "summary_type": "default", "groups_negated":
       false, "source": "intake", "metric": "msr.distribution"}'
@@ -86,6 +68,24 @@ interactions:
   response:
     body:
       string: '{"key": 91943795, "metric_key": 1067326977}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"group_by": ["updated"], "include_percentiles": true, "aggr_mode": "include_all",
+      "summary_type": "default", "groups_negated": false, "source": "intake", "metric":
+      "msr.other_distribution"}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/metric/distribution/summary_aggr
+  response:
+    body:
+      string: '{"key": 91943796, "metric_key": 1067326978}'
     headers:
       Content-Type:
       - application/json

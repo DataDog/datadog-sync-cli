@@ -51,63 +51,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/kKwQ7pmrTV2DhOsoohbzxA
-  response:
-    body:
-      string: '{"id": "kKwQ7pmrTV2DhOsoohbzxA", "type": "pipeline", "name": "test",
-        "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
-        "}, "processors": [], "tags": [], "description": ""}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/XHeoyuYmRFCQOipL9kfA-Q
-  response:
-    body:
-      string: '{"id": "XHeoyuYmRFCQOipL9kfA-Q", "type": "pipeline", "name": "Datadog
-        Agent", "is_enabled": true, "is_read_only": true, "filter": {"query": "source:(agent
-        OR datadog-agent OR datadog-agent-cluster-worker OR datadog-cluster-agent
-        OR process-agent OR security-agent OR system-probe OR trace-agent OR cluster-agent)"},
-        "processors": [{"name": "Parsing Datadog Agent logs", "is_enabled": true,
-        "source": "message", "samples": ["2020-07-01 09:48:14 UTC | CORE | INFO |
-        (pkg/collector/runner/runner.go:327 in work) | check:network,type:core | Done
-        running check", "2020-09-15 10:00:07 UTC | CORE | INFO | (pkg/collector/python/datadog_agent.go:120
-        in LogMessage) | kafka_cluster_status:8ca7b736f0aa43e5 | (kafka_cluster_status.py:213)
-        | Checking for out of sync partition replicas", "2019-04-08 13:53:48 UTC |
-        TRACE | INFO | (pkg/trace/agent/agent.go:145 in loop) | exiting", "2019-02-01
-        16:59:41 UTC | INFO | (connection_manager.go:124 in CloseConnection) | Connection
-        closed", "2020-11-18 10:31:13 UTC | JMX | INFO  | App | Successfully initialized
-        instance: cassandra-localhost-7199"], "grok": {"support_rules": "", "match_rules":
-        "agent_rule         %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp} \\| %{notSpace:agent}
-        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)
-        \\|( %{data::keyvalue(\":\")} \\|)?( - \\|)?( \\(%{notSpace:pyFilename}:%{number:pyLineno}\\)
-        \\|)?%{data}\nagent_rule_pre_611 %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp}
-        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)%{data}\njmxfetch_rule      %{date(\"yyyy-MM-dd
-        HH:mm:ss z\"):timestamp} \\| %{notSpace:agent} \\| %{word:level}\\s+\\| %{word:class}
-        \\| %{data}\n"}, "type": "grok-parser"}, {"name": "Define `timestamp` as the
-        official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
-        "date-remapper"}, {"name": "Define `level` as the official status of the log",
-        "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/tgw9zA52T9-oxo4PTARN0w
   response:
     body:
@@ -262,6 +205,63 @@ interactions:
         ["level"], "type": "status-remapper"}, {"name": "Define `dd.trace_id` as the
         official trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id"],
         "type": "trace-id-remapper"}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/kKwQ7pmrTV2DhOsoohbzxA
+  response:
+    body:
+      string: '{"id": "kKwQ7pmrTV2DhOsoohbzxA", "type": "pipeline", "name": "test",
+        "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
+        "}, "processors": [], "tags": [], "description": ""}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/XHeoyuYmRFCQOipL9kfA-Q
+  response:
+    body:
+      string: '{"id": "XHeoyuYmRFCQOipL9kfA-Q", "type": "pipeline", "name": "Datadog
+        Agent", "is_enabled": true, "is_read_only": true, "filter": {"query": "source:(agent
+        OR datadog-agent OR datadog-agent-cluster-worker OR datadog-cluster-agent
+        OR process-agent OR security-agent OR system-probe OR trace-agent OR cluster-agent)"},
+        "processors": [{"name": "Parsing Datadog Agent logs", "is_enabled": true,
+        "source": "message", "samples": ["2020-07-01 09:48:14 UTC | CORE | INFO |
+        (pkg/collector/runner/runner.go:327 in work) | check:network,type:core | Done
+        running check", "2020-09-15 10:00:07 UTC | CORE | INFO | (pkg/collector/python/datadog_agent.go:120
+        in LogMessage) | kafka_cluster_status:8ca7b736f0aa43e5 | (kafka_cluster_status.py:213)
+        | Checking for out of sync partition replicas", "2019-04-08 13:53:48 UTC |
+        TRACE | INFO | (pkg/trace/agent/agent.go:145 in loop) | exiting", "2019-02-01
+        16:59:41 UTC | INFO | (connection_manager.go:124 in CloseConnection) | Connection
+        closed", "2020-11-18 10:31:13 UTC | JMX | INFO  | App | Successfully initialized
+        instance: cassandra-localhost-7199"], "grok": {"support_rules": "", "match_rules":
+        "agent_rule         %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp} \\| %{notSpace:agent}
+        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)
+        \\|( %{data::keyvalue(\":\")} \\|)?( - \\|)?( \\(%{notSpace:pyFilename}:%{number:pyLineno}\\)
+        \\|)?%{data}\nagent_rule_pre_611 %{date(\"yyyy-MM-dd HH:mm:ss z\"):timestamp}
+        \\| %{word:level} \\| \\(%{notSpace:filename}:%{number:lineno} in %{word:process}\\)%{data}\njmxfetch_rule      %{date(\"yyyy-MM-dd
+        HH:mm:ss z\"):timestamp} \\| %{notSpace:agent} \\| %{word:level}\\s+\\| %{word:class}
+        \\| %{data}\n"}, "type": "grok-parser"}, {"name": "Define `timestamp` as the
+        official date of the log", "is_enabled": true, "sources": ["timestamp"], "type":
+        "date-remapper"}, {"name": "Define `level` as the official status of the log",
+        "is_enabled": true, "sources": ["level"], "type": "status-remapper"}]}'
     headers:
       Content-Type:
       - application/json
@@ -482,7 +482,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "tTv_PEpQRDC5gD-zTylQ3w", "type": "pipeline", "name": "test",
+      string: '{"id": "vlSuILp7SXSarWJXpx3_EA", "type": "pipeline", "name": "test",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -501,7 +501,7 @@ interactions:
   response:
     body:
       string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
-        "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ", "tTv_PEpQRDC5gD-zTylQ3w"]}'
+        "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ", "vlSuILp7SXSarWJXpx3_EA"]}'
     headers:
       Content-Type:
       - application/json
@@ -509,7 +509,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"pipeline_ids": ["tTv_PEpQRDC5gD-zTylQ3w", "PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
+    body: '{"pipeline_ids": ["vlSuILp7SXSarWJXpx3_EA", "PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
       "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ"]}'
     headers:
       Content-Type:
@@ -518,7 +518,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipeline-order
   response:
     body:
-      string: '{"pipeline_ids": ["tTv_PEpQRDC5gD-zTylQ3w", "PottxryNTkKfx-bKCuP1TQ",
+      string: '{"pipeline_ids": ["vlSuILp7SXSarWJXpx3_EA", "PottxryNTkKfx-bKCuP1TQ",
         "06NJ6fGXQXuwbIJTQPaqUA", "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ"]}'
     headers:
       Content-Type:
@@ -7933,7 +7933,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/tTv_PEpQRDC5gD-zTylQ3w
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/vlSuILp7SXSarWJXpx3_EA
   response:
     body:
       string: '{}'

@@ -51,7 +51,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives
   response:
     body:
-      string: '{"data": {"type": "archives", "id": "NqOK0Lm2QauBQjORkBOvPw", "attributes":
+      string: '{"data": {"type": "archives", "id": "tO9QygR7RP-0ii0MLsFSfA", "attributes":
         {"name": "Main Archive", "query": "host:COMP-XKH4K2XWRC", "state": "UNKNOWN",
         "destination": {"bucket": "hamr-logs-archive-for-internal-testing", "encryption":
         {"type": "NO_OVERRIDE"}, "storage_class": "STANDARD", "path": "/logs-archive-testing",
@@ -73,7 +73,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archive-order
   response:
     body:
-      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["NqOK0Lm2QauBQjORkBOvPw"]}}}'
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["tO9QygR7RP-0ii0MLsFSfA"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -81,7 +81,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["NqOK0Lm2QauBQjORkBOvPw"]}}}'
+    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["tO9QygR7RP-0ii0MLsFSfA"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -89,7 +89,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archive-order
   response:
     body:
-      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["NqOK0Lm2QauBQjORkBOvPw"]}}}'
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["tO9QygR7RP-0ii0MLsFSfA"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -7503,7 +7503,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/NqOK0Lm2QauBQjORkBOvPw
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/tO9QygR7RP-0ii0MLsFSfA
   response:
     body:
       string: ''

@@ -8,12 +8,12 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/downtime?page%5Blimit%5D=100&page%5Boffset%5D=0
   response:
     body:
-      string: '{"data": [{"type": "downtime", "attributes": {"message": "test2", "schedule":
-        {"end": null, "start": "2027-01-14T05:01:00+00:00"}, "notify_end_states":
-        ["warn", "no data", "alert"], "monitor_identifier": {"monitor_id": 20046756},
-        "status": "scheduled", "notify_end_types": ["canceled", "expired"], "mute_first_recovery_notification":
-        false, "scope": "*", "canceled": null, "display_timezone": "America/New_York",
-        "created": "2025-03-31T14:02:01.562470+00:00", "modified": "2025-07-18T18:01:55.478390+00:00"},
+      string: '{"data": [{"type": "downtime", "attributes": {"message": "test2", "notify_end_types":
+        ["canceled", "expired"], "mute_first_recovery_notification": false, "schedule":
+        {"start": "2027-01-14T05:01:00+00:00", "end": null}, "scope": "*", "display_timezone":
+        "America/New_York", "canceled": null, "status": "scheduled", "created": "2025-03-31T14:02:01.562470+00:00",
+        "modified": "2025-07-18T18:01:55.478390+00:00", "notify_end_states": ["no
+        data", "alert", "warn"], "monitor_identifier": {"monitor_id": 20046756}},
         "id": "50800db3-0b9c-49ce-bede-c20d6a525b5e"}], "meta": {"page": {"total_filtered_count":
         1}}}'
     headers:
@@ -38,7 +38,7 @@ interactions:
         "silenced": {}}, "multi": false, "created_at": 1729785751000, "created": "2024-10-24T16:02:31.374332+00:00",
         "modified": "2025-03-26T19:25:53.581839+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "draft_status": "published", "overall_state_modified":
-        "2025-10-20T15:17:37+00:00", "overall_state": "OK", "creator": {"name": "Michael
+        "2025-10-20T17:13:36+00:00", "overall_state": "OK", "creator": {"name": "Michael
         Richey", "email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
         "id": 1002072115}}'
     headers:
@@ -60,13 +60,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 16259036, "org_id": 1300336245, "type": "query alert", "name":
+      string: '{"id": 16261212, "org_id": 1300336245, "type": "query alert", "name":
         "test", "message": "test  @pagerduty-hamrddr", "tags": ["managed_by:datadog-sync"],
         "query": "avg(last_5m):avg:system.load.1{*} > 5", "options": {"thresholds":
         {"critical": 5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
         false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1760976459000, "created": "2025-10-20T16:07:39.516582+00:00", "modified":
-        "2025-10-20T16:07:39.516582+00:00", "deleted": null, "priority": null, "restricted_roles":
+        1760981063000, "created": "2025-10-20T17:24:23.191068+00:00", "modified":
+        "2025-10-20T17:24:23.191068+00:00", "deleted": null, "priority": null, "restricted_roles":
         null, "restriction_policy": null, "draft_status": "published", "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Michael S Richey",
         "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com",
@@ -78,11 +78,11 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "downtime", "attributes": {"message": "test2", "schedule":
-      {"end": null, "start": "2027-01-14T05:01:00+00:00"}, "notify_end_states": ["warn",
-      "no data", "alert"], "monitor_identifier": {"monitor_id": 16259036}, "notify_end_types":
-      ["canceled", "expired"], "mute_first_recovery_notification": false, "scope":
-      "*", "display_timezone": "America/New_York"}}}'
+    body: '{"data": {"type": "downtime", "attributes": {"message": "test2", "notify_end_types":
+      ["canceled", "expired"], "mute_first_recovery_notification": false, "schedule":
+      {"start": "2027-01-14T05:01:00+00:00", "end": null}, "scope": "*", "display_timezone":
+      "America/New_York", "notify_end_states": ["no data", "alert", "warn"], "monitor_identifier":
+      {"monitor_id": 16261212}}}}'
     headers:
       Content-Type:
       - application/json
@@ -90,22 +90,21 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/downtime
   response:
     body:
-      string: '{"data": {"type": "downtime", "relationships": {"monitor": {"data":
-        {"type": "monitor", "id": "16259036"}}, "created_by": {"data": {"type": "users",
-        "id": "17d29c8a-6285-11f0-be9b-76de006a05ea"}}}, "attributes": {"display_timezone":
-        "America/New_York", "modified": "2025-10-20T16:07:39.712854+00:00", "scope":
-        "*", "monitor_identifier": {"monitor_id": 16259036}, "mute_first_recovery_notification":
-        false, "schedule": {"start": "2027-01-14T05:01:00+00:00", "end": null}, "notify_end_states":
-        ["no data", "warn", "alert"], "canceled": null, "created": "2025-10-20T16:07:39.712854+00:00",
-        "message": "test2", "status": "scheduled", "notify_end_types": ["canceled",
-        "expired"]}, "id": "33be7757-9ca8-48ae-9798-7b5fef23c913"}, "included": [{"type":
-        "monitor", "attributes": {"name": "test"}, "id": 16259036}, {"type": "users",
-        "id": "17d29c8a-6285-11f0-be9b-76de006a05ea", "attributes": {"name": "Michael
-        S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "created_at":
-        "2025-07-16T20:40:21.833658+00:00", "modified_at": "2025-07-16T20:40:21.833658+00:00",
+      string: '{"data": {"type": "downtime", "attributes": {"modified": "2025-10-20T17:24:23.401153+00:00",
+        "scope": "*", "notify_end_states": ["no data", "alert", "warn"], "canceled":
+        null, "monitor_identifier": {"monitor_id": 16261212}, "status": "scheduled",
+        "display_timezone": "America/New_York", "created": "2025-10-20T17:24:23.401153+00:00",
+        "mute_first_recovery_notification": false, "schedule": {"start": "2027-01-14T05:01:00+00:00",
+        "end": null}, "notify_end_types": ["canceled", "expired"], "message": "test2"},
+        "relationships": {"created_by": {"data": {"type": "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea"}},
+        "monitor": {"data": {"type": "monitor", "id": "16261212"}}}, "id": "c19e1f0f-2568-4794-828f-c532be9271eb"},
+        "included": [{"type": "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "attributes": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "created_at": "2025-07-16T20:40:21.833658+00:00", "modified_at": "2025-07-16T20:40:21.833658+00:00",
         "email": "michael.richey@gmail.com", "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?s=48&d=retro",
         "title": null, "verified": true, "service_account": true, "disabled": false,
-        "allowed_login_methods": [], "status": "Active", "last_login_time": null}}]}'
+        "allowed_login_methods": [], "status": "Active", "last_login_time": null}},
+        {"type": "monitor", "attributes": {"name": "test"}, "id": 16261212}]}'
     headers:
       Content-Type:
       - application/json
@@ -7519,7 +7518,23 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/downtime/33be7757-9ca8-48ae-9798-7b5fef23c913
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/16261212?force=true
+  response:
+    body:
+      string: '{"deleted_monitor_id": 16261212}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v2/downtime/c19e1f0f-2568-4794-828f-c532be9271eb
   response:
     body:
       string: ''
@@ -7529,20 +7544,4 @@ interactions:
     status:
       code: 204
       message: No Content
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/16259036?force=true
-  response:
-    body:
-      string: '{"deleted_monitor_id": 16259036}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
 version: 1
