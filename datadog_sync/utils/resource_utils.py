@@ -250,7 +250,9 @@ def check_diff(resource_config, resource, state):
     return diff
 
 
-def init_topological_sorter(graph: Dict[Tuple[str, str], Set[Tuple[str, str]]]) -> TopologicalSorter:
+def init_topological_sorter(
+    graph: Dict[Tuple[str, str], Set[Tuple[str, str]]],
+) -> TopologicalSorter:
     sorter = TopologicalSorter(graph)
     sorter.prepare()
     return sorter

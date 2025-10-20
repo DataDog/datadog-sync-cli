@@ -28,6 +28,8 @@ class TestCli:
             "synthetics_global_variables",
             "synthetics_private_locations",
             "synthetics_tests",
+            "synthetics_mobile_applications",
+            "synthetics_mobile_applications_versions",
             "monitors",
             "downtime_schedules",
             "powerpacks",
