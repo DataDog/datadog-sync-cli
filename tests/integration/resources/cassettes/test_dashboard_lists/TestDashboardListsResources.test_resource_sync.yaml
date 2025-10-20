@@ -33,7 +33,7 @@ interactions:
         false, "modified": "2024-10-31T20:20:27.062979+00:00", "title": "Michael''s
         Dashboard Mon, Oct 28, 2:45:47 pm", "type": "custom_timeboard", "id": "jh3-vsk-99c",
         "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm", "is_read_only":
-        false, "tags": null, "icon": null, "integration_id": null, "popularity": 2},
+        false, "tags": null, "icon": null, "integration_id": null, "popularity": 1},
         {"author": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com"},
         "created": "2024-10-24T15:14:37.892787+00:00", "is_favorite": true, "is_shared":
         false, "modified": "2024-11-05T14:55:50.821949+00:00", "title": "sync-cli
@@ -41,31 +41,6 @@ interactions:
         "/dashboard/2n3-8ye-5ui/sync-cli-customer-dashboard", "is_read_only": false,
         "tags": null, "icon": null, "integration_id": null, "popularity": 0}], "total":
         2}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
-  response:
-    body:
-      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
-        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
-        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
-        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
-        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
-        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -295,6 +270,31 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
+  response:
+    body:
+      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
+        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
+        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
+        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
+        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
+        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
+        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v2/powerpacks/e685afa6-955c-11ef-9254-da7ad0900005
   response:
     body:
@@ -338,7 +338,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/powerpacks
   response:
     body:
-      string: '{"data": {"type": "powerpack", "id": "a7138138-8da7-11f0-a415-da7ad0900005",
+      string: '{"data": {"type": "powerpack", "id": "ca7bb680-adce-11f0-a9a7-da7ad0900005",
         "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
         {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
         "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
@@ -565,9 +565,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "zjs-38n-39k", "title": "sync-cli customer dashboard", "description":
+      string: '{"id": "9ff-9x9-mkh", "title": "sync-cli customer dashboard", "description":
         "[[suggested_dashboards]]", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/zjs-38n-39k/sync-cli-customer-dashboard",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/9ff-9x9-mkh/sync-cli-customer-dashboard",
         "template_variables": [{"name": "resource_type", "prefix": "resource_type",
         "available_values": ["monitors", "dashboards"], "default": "*"}, {"name":
         "client_type", "prefix": "client_type", "available_values": ["source", "destination"],
@@ -765,7 +765,7 @@ interactions:
         "timeseries", "style": {"palette": "dog_classic", "order_by": "values", "line_type":
         "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
         0, "y": 0, "width": 4, "height": 2}}], "notify_list": null, "created_at":
-        "2025-09-09T18:06:05.143946+00:00", "modified_at": "2025-09-09T18:06:05.143946+00:00",
+        "2025-10-20T16:06:52.126978+00:00", "modified_at": "2025-10-20T16:06:52.126978+00:00",
         "reflow_type": "fixed", "restricted_roles": []}'
     headers:
       Content-Type:
@@ -777,7 +777,7 @@ interactions:
     body: '{"title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
       null, "layout_type": "ordered", "template_variables": [], "widgets": [{"id":
       5949103957093766, "definition": {"title": "New group", "show_title": true, "powerpack_id":
-      "a7138138-8da7-11f0-a415-da7ad0900005", "template_variables": {"controlled_externally":
+      "ca7bb680-adce-11f0-a9a7-da7ad0900005", "template_variables": {"controlled_externally":
       [], "controlled_by_powerpack": []}, "type": "powerpack"}, "layout": {"x": 0,
       "y": 0, "width": 12, "height": 3}}], "reflow_type": "fixed", "restricted_roles":
       []}'
@@ -788,15 +788,15 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "qxu-ufk-na4", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+      string: '{"id": "m6d-hne-p63", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
         pm", "description": null, "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/qxu-ufk-na4/michaels-dashboard-mon-oct-28-24547-pm",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/m6d-hne-p63/michaels-dashboard-mon-oct-28-24547-pm",
         "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
-        {"title": "New group", "show_title": true, "powerpack_id": "a7138138-8da7-11f0-a415-da7ad0900005",
+        {"title": "New group", "show_title": true, "powerpack_id": "ca7bb680-adce-11f0-a9a7-da7ad0900005",
         "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
         []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": null, "created_at": "2025-09-09T18:06:05.318437+00:00",
-        "modified_at": "2025-09-09T18:06:05.318437+00:00", "reflow_type": "fixed",
+        3}}], "notify_list": null, "created_at": "2025-10-20T16:06:52.336679+00:00",
+        "modified_at": "2025-10-20T16:06:52.336679+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -814,8 +814,8 @@ interactions:
   response:
     body:
       string: '{"author": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea"},
-        "created": "2025-09-09T18:06:05.521004+00:00", "dashboards": null, "dashboard_count":
-        0, "id": 18928, "is_favorite": false, "modified": "2025-09-09T18:06:05.521028+00:00",
+        "created": "2025-10-20T16:06:52.511161+00:00", "dashboards": null, "dashboard_count":
+        0, "id": 20385, "is_favorite": false, "modified": "2025-10-20T16:06:52.511168+00:00",
         "name": "Michael''s List", "type": "manual_dashboard_list"}'
     headers:
       Content-Type:
@@ -824,17 +824,17 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"dashboards": [{"id": "qxu-ufk-na4", "type": "custom_timeboard"}, {"id":
-      "zjs-38n-39k", "type": "custom_timeboard"}]}'
+    body: '{"dashboards": [{"id": "m6d-hne-p63", "type": "custom_timeboard"}, {"id":
+      "9ff-9x9-mkh", "type": "custom_timeboard"}]}'
     headers:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v2/dashboard/lists/manual/18928/dashboards
+    uri: https://api.us5.datadoghq.com/api/v2/dashboard/lists/manual/20385/dashboards
   response:
     body:
-      string: '{"dashboards": [{"type": "custom_timeboard", "id": "qxu-ufk-na4"},
-        {"type": "custom_timeboard", "id": "zjs-38n-39k"}]}'
+      string: '{"dashboards": [{"type": "custom_timeboard", "id": "m6d-hne-p63"},
+        {"type": "custom_timeboard", "id": "9ff-9x9-mkh"}]}'
     headers:
       Content-Type:
       - application/json
@@ -856,79 +856,83 @@ interactions:
         "email": "ida.adjivon@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/d3ff11e3ff125d30050f4dfff3fa614c?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
-        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
-        "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]}, "org": {"data": {"type":
-        "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type": "users",
-        "id": "81f6f2c7-923f-11ef-879a-6ee0822e247c", "attributes": {"name": "Justine
-        Lo", "handle": "justine.lo@datadoghq.com", "created_at": "2024-10-24T19:38:13.281489+00:00",
-        "modified_at": "2024-10-25T14:18:33.835459+00:00", "email": "justine.lo@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/7d75964971289cf50e6090d76b45e3f6?s=48&d=retro",
+        "mfa_enabled": false, "last_login_time": null}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
+        {"type": "users", "id": "81f6f2c7-923f-11ef-879a-6ee0822e247c", "attributes":
+        {"name": "Justine Lo", "handle": "justine.lo@datadoghq.com", "created_at":
+        "2024-10-24T19:38:13.281489+00:00", "modified_at": "2024-10-25T14:18:33.835459+00:00",
+        "email": "justine.lo@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/7d75964971289cf50e6090d76b45e3f6?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
-        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
-        "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]}, "org": {"data": {"type":
-        "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type": "users",
-        "id": "b301b340-8582-11ef-ba31-3219ecc6cb25", "attributes": {"name": "Louis
-        Cheynel", "handle": "louis.cheynel@datadoghq.com", "created_at": "2024-10-08T14:36:26.725077+00:00",
-        "modified_at": "2025-02-19T21:12:46.164959+00:00", "email": "louis.cheynel@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/791d1a56daa2bd0f5bb25ed286d3f8bb?s=48&d=retro",
+        "mfa_enabled": false, "last_login_time": null}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
+        {"type": "users", "id": "b301b340-8582-11ef-ba31-3219ecc6cb25", "attributes":
+        {"name": "Louis Cheynel", "handle": "louis.cheynel@datadoghq.com", "created_at":
+        "2024-10-08T14:36:26.725077+00:00", "modified_at": "2025-02-19T21:12:46.164959+00:00",
+        "email": "louis.cheynel@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/791d1a56daa2bd0f5bb25ed286d3f8bb?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": true,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Disabled",
-        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
-        "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"}]}, "org": {"data": {"type":
-        "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type": "users",
-        "id": "30533c3c-8582-11ef-938f-cecf6f9ed4ad", "attributes": {"name": "Michael
-        Richey", "handle": "michael.richey+ddreu1@datadoghq.com", "created_at": "2024-10-08T14:32:47.477901+00:00",
-        "modified_at": "2024-10-08T14:32:47.477901+00:00", "email": "michael.richey+ddreu1@datadoghq.com",
-        "icon": "https://secure.gravatar.com/avatar/b5b0452adbe01caf57c1e5f6fb97a631?s=48&d=retro",
+        "mfa_enabled": false, "last_login_time": null}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
+        {"type": "users", "id": "30533c3c-8582-11ef-938f-cecf6f9ed4ad", "attributes":
+        {"name": "Michael Richey", "handle": "michael.richey+ddreu1@datadoghq.com",
+        "created_at": "2024-10-08T14:32:47.477901+00:00", "modified_at": "2024-10-08T14:32:47.477901+00:00",
+        "email": "michael.richey+ddreu1@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/b5b0452adbe01caf57c1e5f6fb97a631?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
-        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
-        "id": "693fe720-9569-11ef-969d-da7ad0900005"}, {"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
-        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
+        "mfa_enabled": false, "last_login_time": null}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "693fe720-9569-11ef-969d-da7ad0900005"},
+        {"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]}, "org":
+        {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
         {"type": "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0", "attributes":
         {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "created_at":
         "2024-10-21T18:30:50.420260+00:00", "modified_at": "2025-03-03T15:47:53.789029+00:00",
         "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
-        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
-        "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]}, "org": {"data": {"type":
-        "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type": "users",
-        "id": "b32e572e-8582-11ef-98fe-f2a776cd34b8", "attributes": {"name": "Ron
-        Hay", "handle": "ron.hay@datadoghq.com", "created_at": "2024-10-08T14:36:27.017641+00:00",
+        "mfa_enabled": false, "last_login_time": null}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
+        "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
+        {"type": "users", "id": "b32e572e-8582-11ef-98fe-f2a776cd34b8", "attributes":
+        {"name": "Ron Hay", "handle": "ron.hay@datadoghq.com", "created_at": "2024-10-08T14:36:27.017641+00:00",
         "modified_at": "2025-06-10T13:33:23.138895+00:00", "email": "ron.hay@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/1c9c2a5daac55fc5ae86178cd5e7b9c2?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
-        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
-        "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}, {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"},
-        {"type": "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org":
-        {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
-        {"type": "users", "id": "265f9002-9b9e-11ef-9152-56a58ecd5b70", "attributes":
-        {"name": "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "created_at":
+        "mfa_enabled": false, "last_login_time": null}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"},
+        {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"}, {"type":
+        "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org": {"data":
+        {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type":
+        "users", "id": "265f9002-9b9e-11ef-9152-56a58ecd5b70", "attributes": {"name":
+        "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "created_at":
         "2024-11-05T17:48:22.271026+00:00", "modified_at": "2025-01-23T19:52:06.634848+00:00",
         "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
-        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
-        "id": "693fe720-9569-11ef-969d-da7ad0900005"}, {"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"},
-        {"type": "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org":
-        {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
-        {"type": "users", "id": "b32f283f-8582-11ef-be6e-1e59aae1ca5b", "attributes":
-        {"name": "Tim Alexander", "handle": "tim.alexander@datadoghq.com", "created_at":
-        "2024-10-08T14:36:27.022996+00:00", "modified_at": "2024-10-08T15:29:54.659973+00:00",
-        "email": "tim.alexander@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/6269dae26686287d4bdd307a26e33f34?s=48&d=retro",
+        "mfa_enabled": false, "last_login_time": null}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "693fe720-9569-11ef-969d-da7ad0900005"},
+        {"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}, {"type":
+        "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org": {"data":
+        {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}, {"type":
+        "users", "id": "b32f283f-8582-11ef-be6e-1e59aae1ca5b", "attributes": {"name":
+        "Tim Alexander", "handle": "tim.alexander@datadoghq.com", "created_at": "2024-10-08T14:36:27.022996+00:00",
+        "modified_at": "2024-10-08T15:29:54.659973+00:00", "email": "tim.alexander@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/6269dae26686287d4bdd307a26e33f34?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
-        "mfa_enabled": false}, "relationships": {"roles": {"data": [{"type": "roles",
-        "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}, {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"},
-        {"type": "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org":
-        {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}],
-        "included": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005",
-        "attributes": {"name": "Datadog Admin Role", "managed": true, "created_at":
-        "2024-10-08T14:32:47.147289+00:00", "modified_at": "2024-10-08T14:32:47.147932+00:00"},
-        "relationships": {"permissions": {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+        "mfa_enabled": false, "last_login_time": null}, "relationships": {"roles":
+        {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"},
+        {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005"}, {"type":
+        "roles", "id": "302b4f34-8582-11ef-b6a4-da7ad0900005"}]}, "org": {"data":
+        {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}}], "included":
+        [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005", "attributes":
+        {"name": "Datadog Admin Role", "managed": true, "created_at": "2024-10-08T14:32:47.147289+00:00",
+        "modified_at": "2024-10-08T14:32:47.147932+00:00"}, "relationships": {"permissions":
+        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c"}, {"type":
         "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type": "permissions",
         "id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039"}, {"type": "permissions", "id":
@@ -1106,42 +1110,48 @@ interactions:
         "id": "5034771e-d2a9-11ef-b55e-da7ad0900005"}, {"type": "permissions", "id":
         "9b00426a-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions", "id": "9b00ed28-da87-11ef-9de6-da7ad0900005"},
         {"type": "permissions", "id": "9b010d44-da87-11ef-9de6-da7ad0900005"}, {"type":
-        "permissions", "id": "35e4e288-df3b-11ef-886f-da7ad0900005"}, {"type": "permissions",
-        "id": "7ad4419a-e288-11ef-bbbc-da7ad0900005"}, {"type": "permissions", "id":
-        "4a6c29d6-e806-11ef-8710-da7ad0900005"}, {"type": "permissions", "id": "4a6cadb6-e806-11ef-8710-da7ad0900005"},
-        {"type": "permissions", "id": "4a6cc8b4-e806-11ef-8710-da7ad0900005"}, {"type":
-        "permissions", "id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005"}, {"type": "permissions",
-        "id": "df7cae4a-e8b7-11ef-a4b4-da7ad0900005"}, {"type": "permissions", "id":
-        "23f76dc4-f607-11ef-99cf-da7ad0900005"}, {"type": "permissions", "id": "23f87c8c-f607-11ef-99cf-da7ad0900005"},
-        {"type": "permissions", "id": "02e65e42-fabc-11ef-a653-da7ad0900005"}, {"type":
-        "permissions", "id": "db45b75e-0360-11f0-8ac3-da7ad0900005"}, {"type": "permissions",
-        "id": "9bb09240-0fee-11f0-958c-da7ad0900005"}, {"type": "permissions", "id":
-        "9bb09a10-0fee-11f0-958c-da7ad0900005"}, {"type": "permissions", "id": "54f8b154-2153-11f0-9edc-da7ad0900005"},
-        {"type": "permissions", "id": "54f96e6e-2153-11f0-9edc-da7ad0900005"}, {"type":
-        "permissions", "id": "54f98c32-2153-11f0-9edc-da7ad0900005"}, {"type": "permissions",
-        "id": "02d58f7e-252b-11f0-b39e-da7ad0900005"}, {"type": "permissions", "id":
-        "fbf76e2c-2618-11f0-8595-da7ad0900005"}, {"type": "permissions", "id": "fbf841c6-2618-11f0-8595-da7ad0900005"},
-        {"type": "permissions", "id": "2cead6ec-34db-11f0-9eb2-da7ad0900005"}, {"type":
-        "permissions", "id": "12465c5e-3a5c-11f0-becd-da7ad0900005"}, {"type": "permissions",
-        "id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005"}, {"type": "permissions", "id":
-        "d2c0335e-5688-11f0-ad5e-da7ad0900005"}, {"type": "permissions", "id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005"},
-        {"type": "permissions", "id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005"}, {"type":
-        "permissions", "id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005"}, {"type": "permissions",
-        "id": "ffd9df0e-7df0-11f0-bfc3-da7ad0900005"}, {"type": "permissions", "id":
-        "bf240e2e-8374-11f0-a85a-da7ad0900005"}]}}}, {"type": "permissions", "id":
-        "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "attributes": {"name": "logs_read_index_data",
-        "display_name": "Logs Read Index Data", "description": "Read log data, possibly
-        scoped to one or more indexes. In order to read log data, a user must have
-        both this permission and Logs Read Data. This permission can be granted in
-        a limited capacity per index from the Logs interface or APIs. If granted via
-        the Roles interface or API the permission has global scope. Restrictions are
-        limited to the Log Management product.", "created": "2018-10-31T14:00:23.650159+00:00",
-        "group_name": "Log Management", "display_type": "read", "restricted": false}},
-        {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c", "attributes":
-        {"name": "logs_modify_indexes", "display_name": "Logs Modify Indexes", "description":
-        "Read and modify all indexes in your account. This includes the ability to
-        grant the Logs Read Index Data and Logs Write Exclusion Filters permission
-        to other roles, for some or all indexes.", "created": "2018-10-31T14:00:23.664332+00:00",
+        "permissions", "id": "35e42f3c-df3b-11ef-886f-da7ad0900005"}, {"type": "permissions",
+        "id": "35e4e288-df3b-11ef-886f-da7ad0900005"}, {"type": "permissions", "id":
+        "7ad4419a-e288-11ef-bbbc-da7ad0900005"}, {"type": "permissions", "id": "4a6c29d6-e806-11ef-8710-da7ad0900005"},
+        {"type": "permissions", "id": "4a6cadb6-e806-11ef-8710-da7ad0900005"}, {"type":
+        "permissions", "id": "4a6cc8b4-e806-11ef-8710-da7ad0900005"}, {"type": "permissions",
+        "id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005"}, {"type": "permissions", "id":
+        "df7cae4a-e8b7-11ef-a4b4-da7ad0900005"}, {"type": "permissions", "id": "23f76dc4-f607-11ef-99cf-da7ad0900005"},
+        {"type": "permissions", "id": "23f87c8c-f607-11ef-99cf-da7ad0900005"}, {"type":
+        "permissions", "id": "02e65e42-fabc-11ef-a653-da7ad0900005"}, {"type": "permissions",
+        "id": "db45b75e-0360-11f0-8ac3-da7ad0900005"}, {"type": "permissions", "id":
+        "9bb09240-0fee-11f0-958c-da7ad0900005"}, {"type": "permissions", "id": "9bb09a10-0fee-11f0-958c-da7ad0900005"},
+        {"type": "permissions", "id": "54f8b154-2153-11f0-9edc-da7ad0900005"}, {"type":
+        "permissions", "id": "54f96e6e-2153-11f0-9edc-da7ad0900005"}, {"type": "permissions",
+        "id": "54f98c32-2153-11f0-9edc-da7ad0900005"}, {"type": "permissions", "id":
+        "02d58f7e-252b-11f0-b39e-da7ad0900005"}, {"type": "permissions", "id": "fbf76e2c-2618-11f0-8595-da7ad0900005"},
+        {"type": "permissions", "id": "fbf841c6-2618-11f0-8595-da7ad0900005"}, {"type":
+        "permissions", "id": "11a20f2c-30ee-11f0-a77c-da7ad0900005"}, {"type": "permissions",
+        "id": "2cead6ec-34db-11f0-9eb2-da7ad0900005"}, {"type": "permissions", "id":
+        "12465c5e-3a5c-11f0-becd-da7ad0900005"}, {"type": "permissions", "id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005"},
+        {"type": "permissions", "id": "d2c0335e-5688-11f0-ad5e-da7ad0900005"}, {"type":
+        "permissions", "id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005"}, {"type": "permissions",
+        "id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005"}, {"type": "permissions", "id":
+        "5de41cf8-5dbd-11f0-b0ef-da7ad0900005"}, {"type": "permissions", "id": "77942998-7a07-11f0-a33d-da7ad0900005"},
+        {"type": "permissions", "id": "ffd9df0e-7df0-11f0-bfc3-da7ad0900005"}, {"type":
+        "permissions", "id": "bf240e2e-8374-11f0-a85a-da7ad0900005"}, {"type": "permissions",
+        "id": "2d8cc178-843b-11f0-85d9-da7ad0900005"}, {"type": "permissions", "id":
+        "e9f3010e-8e74-11f0-b41a-da7ad0900005"}, {"type": "permissions", "id": "e9f3b446-8e74-11f0-b41a-da7ad0900005"},
+        {"type": "permissions", "id": "e9f3da16-8e74-11f0-b41a-da7ad0900005"}, {"type":
+        "permissions", "id": "e9f3dc78-8e74-11f0-b41a-da7ad0900005"}]}}}, {"type":
+        "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "attributes":
+        {"name": "logs_read_index_data", "display_name": "Logs Read Index Data", "description":
+        "Read log data, possibly scoped to one or more indexes. In order to read log
+        data, a user must have both this permission and Logs Read Data. This permission
+        can be granted in a limited capacity per index from the Logs interface or
+        APIs. If granted via the Roles interface or API the permission has global
+        scope. Restrictions are limited to the Log Management product.", "created":
+        "2018-10-31T14:00:23.650159+00:00", "group_name": "Log Management", "display_type":
+        "read", "restricted": false}}, {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c",
+        "attributes": {"name": "logs_modify_indexes", "display_name": "Logs Modify
+        Indexes", "description": "Read and modify all indexes in your account. This
+        includes the ability to grant the Logs Read Index Data and Logs Write Exclusion
+        Filters permission to other roles, for some or all indexes.", "created": "2018-10-31T14:00:23.664332+00:00",
         "group_name": "Log Management", "display_type": "write", "restricted": false}},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "attributes":
         {"name": "logs_live_tail", "display_name": "Logs Live Tail", "description":
@@ -2145,6 +2155,10 @@ interactions:
         "attributes": {"name": "on_call_page", "display_name": "On-Call Page", "description":
         "Page On-Call teams and users.", "created": "2025-01-24T19:15:42.768282+00:00",
         "group_name": "On-Call", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "35e42f3c-df3b-11ef-886f-da7ad0900005", "attributes":
+        {"name": "dora_metrics_read", "display_name": "DORA Metrics Read", "description":
+        "View DORA metrics.", "created": "2025-01-30T18:51:27.197297+00:00", "group_name":
+        "Software Delivery", "display_type": "read", "restricted": false}}, {"type":
         "permissions", "id": "35e4e288-df3b-11ef-886f-da7ad0900005", "attributes":
         {"name": "error_tracking_read", "display_name": "Error Tracking Read", "description":
         "View Error Tracking data, including stack traces, error messages, and context.
@@ -2226,9 +2240,13 @@ interactions:
         "id": "fbf841c6-2618-11f0-8595-da7ad0900005", "attributes": {"name": "sheets_write",
         "display_name": "Sheets Write", "description": "Create and change Sheets.",
         "created": "2025-04-30T23:15:19.683852+00:00", "group_name": "Sheets", "display_type":
-        "write", "restricted": false}}, {"type": "permissions", "id": "2cead6ec-34db-11f0-9eb2-da7ad0900005",
-        "attributes": {"name": "orchestration_autoscaling_manage", "display_name":
-        "Autoscaling Manage", "description": "Manage autoscaling cluster level configuration.",
+        "write", "restricted": false}}, {"type": "permissions", "id": "11a20f2c-30ee-11f0-a77c-da7ad0900005",
+        "attributes": {"name": "on_call_admin", "display_name": "On-Call Admin", "description":
+        "Manage sensitive and advanced On-Call settings.", "created": "2025-05-14T18:05:50.465560+00:00",
+        "group_name": "On-Call", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "2cead6ec-34db-11f0-9eb2-da7ad0900005", "attributes":
+        {"name": "orchestration_autoscaling_manage", "display_name": "Autoscaling
+        Manage", "description": "Manage autoscaling cluster level configuration.",
         "created": "2025-05-19T18:00:40.454044+00:00", "group_name": "Orchestration",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
         "12465c5e-3a5c-11f0-becd-da7ad0900005", "attributes": {"name": "code_coverage_read",
@@ -2258,16 +2276,43 @@ interactions:
         create, and fully manage all report schedules across the organization.", "created":
         "2025-07-10T18:40:35.388063+00:00", "group_name": "Cloud Cost Management",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "ffd9df0e-7df0-11f0-bfc3-da7ad0900005", "attributes": {"name": "dora_metrics_write",
-        "display_name": "DORA Metrics Write", "description": "Edit DORA metrics.",
-        "created": "2025-08-20T18:10:48.656097+00:00", "group_name": "Software Delivery",
+        "77942998-7a07-11f0-a33d-da7ad0900005", "attributes": {"name": "data_scanner_unmask",
+        "display_name": "Data Scanner Unmask", "description": "Unmask (view) sensitive
+        data that was previouly masked.", "created": "2025-08-15T18:41:33.803115+00:00",
+        "group_name": "Compliance", "display_type": "read", "restricted": false}},
+        {"type": "permissions", "id": "ffd9df0e-7df0-11f0-bfc3-da7ad0900005", "attributes":
+        {"name": "dora_metrics_write", "display_name": "DORA Metrics Write", "description":
+        "Edit DORA metrics.", "created": "2025-08-20T18:10:48.656097+00:00", "group_name":
+        "Software Delivery", "display_type": "write", "restricted": false}}, {"type":
+        "permissions", "id": "bf240e2e-8374-11f0-a85a-da7ad0900005", "attributes":
+        {"name": "bits_investigations_write", "display_name": "Bits Investigations
+        Write", "description": "Run and configure Bits investigations.", "created":
+        "2025-08-27T18:36:29.472438+00:00", "group_name": "Bits AI", "display_type":
+        "write", "restricted": false}}, {"type": "permissions", "id": "2d8cc178-843b-11f0-85d9-da7ad0900005",
+        "attributes": {"name": "debugger_write_pre_prod", "display_name": "Dynamic
+        Instrumentation Write Pre-Prod", "description": "Edit Dynamic Instrumentation
+        configuration. Create or Modify Dynamic Instrumentation probes targeted at
+        pre-prod environments.", "created": "2025-08-28T18:16:55.060989+00:00", "group_name":
+        "APM", "display_type": "write", "restricted": false}}, {"type": "permissions",
+        "id": "e9f3010e-8e74-11f0-b41a-da7ad0900005", "attributes": {"name": "feature_flag_config_write",
+        "display_name": "Feature Flag Write", "description": "Edit Feature Flag Configurations.",
+        "created": "2025-09-10T18:35:24.083679+00:00", "group_name": "Feature Flags",
         "display_type": "write", "restricted": false}}, {"type": "permissions", "id":
-        "bf240e2e-8374-11f0-a85a-da7ad0900005", "attributes": {"name": "bits_investigations_write",
-        "display_name": "Bits Investigations Write", "description": "Run and configure
-        Bits investigations.", "created": "2025-08-27T18:36:29.472438+00:00", "group_name":
-        "Bits AI", "display_type": "write", "restricted": false}}, {"type": "roles",
-        "id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "attributes": {"name": "Datadog
-        Read Only Role", "managed": true, "created_at": "2024-10-08T14:32:47.265744+00:00",
+        "e9f3b446-8e74-11f0-b41a-da7ad0900005", "attributes": {"name": "feature_flag_config_read",
+        "display_name": "Feature Flag Read", "description": "View Feature Flag Configurations.",
+        "created": "2025-09-10T18:35:24.083679+00:00", "group_name": "Feature Flags",
+        "display_type": "read", "restricted": false}}, {"type": "permissions", "id":
+        "e9f3da16-8e74-11f0-b41a-da7ad0900005", "attributes": {"name": "feature_flag_environment_config_write",
+        "display_name": "Feature Flag Environment Write", "description": "Ability
+        to modify Feature Flag Environment settings.", "created": "2025-09-10T18:35:24.083679+00:00",
+        "group_name": "Feature Flags", "display_type": "write", "restricted": false}},
+        {"type": "permissions", "id": "e9f3dc78-8e74-11f0-b41a-da7ad0900005", "attributes":
+        {"name": "feature_flag_environment_config_read", "display_name": "Feature
+        Flag Environment Read", "description": "Ability to view Feature Flag Environment
+        settings.", "created": "2025-09-10T18:35:24.083679+00:00", "group_name": "Feature
+        Flags", "display_type": "read", "restricted": false}}, {"type": "roles", "id":
+        "3032ffb8-8582-11ef-8bad-da7ad0900005", "attributes": {"name": "Datadog Read
+        Only Role", "managed": true, "created_at": "2024-10-08T14:32:47.265744+00:00",
         "modified_at": "2024-10-08T14:32:47.266206+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
@@ -2317,18 +2362,21 @@ interactions:
         {"type": "permissions", "id": "5072e504-cd26-11ef-a4d9-da7ad0900005"}, {"type":
         "permissions", "id": "5034771e-d2a9-11ef-b55e-da7ad0900005"}, {"type": "permissions",
         "id": "9b00426a-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions", "id":
-        "35e4e288-df3b-11ef-886f-da7ad0900005"}, {"type": "permissions", "id": "4a6c29d6-e806-11ef-8710-da7ad0900005"},
-        {"type": "permissions", "id": "4a6cc8b4-e806-11ef-8710-da7ad0900005"}, {"type":
-        "permissions", "id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005"}, {"type": "permissions",
-        "id": "23f87c8c-f607-11ef-99cf-da7ad0900005"}, {"type": "permissions", "id":
-        "db45b75e-0360-11f0-8ac3-da7ad0900005"}, {"type": "permissions", "id": "54f8b154-2153-11f0-9edc-da7ad0900005"},
-        {"type": "permissions", "id": "54f98c32-2153-11f0-9edc-da7ad0900005"}, {"type":
-        "permissions", "id": "02d58f7e-252b-11f0-b39e-da7ad0900005"}, {"type": "permissions",
-        "id": "fbf76e2c-2618-11f0-8595-da7ad0900005"}, {"type": "permissions", "id":
-        "12465c5e-3a5c-11f0-becd-da7ad0900005"}]}}}, {"type": "roles", "id": "693fe720-9569-11ef-969d-da7ad0900005",
-        "attributes": {"name": "Copy of Datadog Admin Role", "managed": false, "created_at":
-        "2024-10-28T20:15:44.156681+00:00", "modified_at": "2024-10-28T20:15:44.167199+00:00"},
-        "relationships": {"permissions": {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
+        "35e42f3c-df3b-11ef-886f-da7ad0900005"}, {"type": "permissions", "id": "35e4e288-df3b-11ef-886f-da7ad0900005"},
+        {"type": "permissions", "id": "4a6c29d6-e806-11ef-8710-da7ad0900005"}, {"type":
+        "permissions", "id": "4a6cc8b4-e806-11ef-8710-da7ad0900005"}, {"type": "permissions",
+        "id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005"}, {"type": "permissions", "id":
+        "23f87c8c-f607-11ef-99cf-da7ad0900005"}, {"type": "permissions", "id": "db45b75e-0360-11f0-8ac3-da7ad0900005"},
+        {"type": "permissions", "id": "54f8b154-2153-11f0-9edc-da7ad0900005"}, {"type":
+        "permissions", "id": "54f98c32-2153-11f0-9edc-da7ad0900005"}, {"type": "permissions",
+        "id": "02d58f7e-252b-11f0-b39e-da7ad0900005"}, {"type": "permissions", "id":
+        "fbf76e2c-2618-11f0-8595-da7ad0900005"}, {"type": "permissions", "id": "12465c5e-3a5c-11f0-becd-da7ad0900005"},
+        {"type": "permissions", "id": "e9f3b446-8e74-11f0-b41a-da7ad0900005"}, {"type":
+        "permissions", "id": "e9f3dc78-8e74-11f0-b41a-da7ad0900005"}]}}}, {"type":
+        "roles", "id": "693fe720-9569-11ef-969d-da7ad0900005", "attributes": {"name":
+        "Copy of Datadog Admin Role", "managed": false, "created_at": "2024-10-28T20:15:44.156681+00:00",
+        "modified_at": "2024-10-28T20:15:44.167199+00:00"}, "relationships": {"permissions":
+        {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbd1e66-dd15-11e8-9308-53cb90e4ef1c"}, {"type":
         "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type": "permissions",
         "id": "4fc2807c-dd15-11e8-9308-d3bfffb7f039"}, {"type": "permissions", "id":
@@ -2643,26 +2691,31 @@ interactions:
         {"type": "permissions", "id": "5034771e-d2a9-11ef-b55e-da7ad0900005"}, {"type":
         "permissions", "id": "9b00426a-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions",
         "id": "9b00ed28-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions", "id":
-        "9b010d44-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions", "id": "35e4e288-df3b-11ef-886f-da7ad0900005"},
-        {"type": "permissions", "id": "7ad4419a-e288-11ef-bbbc-da7ad0900005"}, {"type":
-        "permissions", "id": "4a6c29d6-e806-11ef-8710-da7ad0900005"}, {"type": "permissions",
-        "id": "4a6cadb6-e806-11ef-8710-da7ad0900005"}, {"type": "permissions", "id":
-        "4a6cc8b4-e806-11ef-8710-da7ad0900005"}, {"type": "permissions", "id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005"},
-        {"type": "permissions", "id": "23f76dc4-f607-11ef-99cf-da7ad0900005"}, {"type":
-        "permissions", "id": "23f87c8c-f607-11ef-99cf-da7ad0900005"}, {"type": "permissions",
-        "id": "db45b75e-0360-11f0-8ac3-da7ad0900005"}, {"type": "permissions", "id":
-        "9bb09240-0fee-11f0-958c-da7ad0900005"}, {"type": "permissions", "id": "54f8b154-2153-11f0-9edc-da7ad0900005"},
-        {"type": "permissions", "id": "54f96e6e-2153-11f0-9edc-da7ad0900005"}, {"type":
-        "permissions", "id": "54f98c32-2153-11f0-9edc-da7ad0900005"}, {"type": "permissions",
-        "id": "02d58f7e-252b-11f0-b39e-da7ad0900005"}, {"type": "permissions", "id":
-        "fbf76e2c-2618-11f0-8595-da7ad0900005"}, {"type": "permissions", "id": "fbf841c6-2618-11f0-8595-da7ad0900005"},
-        {"type": "permissions", "id": "12465c5e-3a5c-11f0-becd-da7ad0900005"}, {"type":
-        "permissions", "id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005"}, {"type": "permissions",
-        "id": "d2c0335e-5688-11f0-ad5e-da7ad0900005"}, {"type": "permissions", "id":
-        "cc7517b0-5cf2-11f0-85d4-da7ad0900005"}, {"type": "permissions", "id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005"},
-        {"type": "permissions", "id": "ffd9df0e-7df0-11f0-bfc3-da7ad0900005"}, {"type":
-        "permissions", "id": "bf240e2e-8374-11f0-a85a-da7ad0900005"}]}}}], "meta":
-        {"page": {"total_count": 8, "total_filtered_count": 8, "max_page_size": 1000}}}'
+        "9b010d44-da87-11ef-9de6-da7ad0900005"}, {"type": "permissions", "id": "35e42f3c-df3b-11ef-886f-da7ad0900005"},
+        {"type": "permissions", "id": "35e4e288-df3b-11ef-886f-da7ad0900005"}, {"type":
+        "permissions", "id": "7ad4419a-e288-11ef-bbbc-da7ad0900005"}, {"type": "permissions",
+        "id": "4a6c29d6-e806-11ef-8710-da7ad0900005"}, {"type": "permissions", "id":
+        "4a6cadb6-e806-11ef-8710-da7ad0900005"}, {"type": "permissions", "id": "4a6cc8b4-e806-11ef-8710-da7ad0900005"},
+        {"type": "permissions", "id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005"}, {"type":
+        "permissions", "id": "23f76dc4-f607-11ef-99cf-da7ad0900005"}, {"type": "permissions",
+        "id": "23f87c8c-f607-11ef-99cf-da7ad0900005"}, {"type": "permissions", "id":
+        "db45b75e-0360-11f0-8ac3-da7ad0900005"}, {"type": "permissions", "id": "9bb09240-0fee-11f0-958c-da7ad0900005"},
+        {"type": "permissions", "id": "54f8b154-2153-11f0-9edc-da7ad0900005"}, {"type":
+        "permissions", "id": "54f96e6e-2153-11f0-9edc-da7ad0900005"}, {"type": "permissions",
+        "id": "54f98c32-2153-11f0-9edc-da7ad0900005"}, {"type": "permissions", "id":
+        "02d58f7e-252b-11f0-b39e-da7ad0900005"}, {"type": "permissions", "id": "fbf76e2c-2618-11f0-8595-da7ad0900005"},
+        {"type": "permissions", "id": "fbf841c6-2618-11f0-8595-da7ad0900005"}, {"type":
+        "permissions", "id": "12465c5e-3a5c-11f0-becd-da7ad0900005"}, {"type": "permissions",
+        "id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005"}, {"type": "permissions", "id":
+        "d2c0335e-5688-11f0-ad5e-da7ad0900005"}, {"type": "permissions", "id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005"},
+        {"type": "permissions", "id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005"}, {"type":
+        "permissions", "id": "ffd9df0e-7df0-11f0-bfc3-da7ad0900005"}, {"type": "permissions",
+        "id": "bf240e2e-8374-11f0-a85a-da7ad0900005"}, {"type": "permissions", "id":
+        "2d8cc178-843b-11f0-85d9-da7ad0900005"}, {"type": "permissions", "id": "e9f3010e-8e74-11f0-b41a-da7ad0900005"},
+        {"type": "permissions", "id": "e9f3b446-8e74-11f0-b41a-da7ad0900005"}, {"type":
+        "permissions", "id": "e9f3da16-8e74-11f0-b41a-da7ad0900005"}, {"type": "permissions",
+        "id": "e9f3dc78-8e74-11f0-b41a-da7ad0900005"}]}}}], "meta": {"page": {"total_count":
+        8, "total_filtered_count": 8, "max_page_size": 1000}}}'
     headers:
       Content-Type:
       - application/json
@@ -2901,7 +2954,7 @@ interactions:
         "type": "permissions"}, {"id": "4316b75c-093f-11ee-98e9-da7ad0900005", "type":
         "permissions"}, {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type": "permissions"},
         {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"}, {"id":
-        "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8", "type": "permissions"}, {"id": "77942998-7a07-11f0-a33d-da7ad0900005",
+        "cdc3e3d2-d8b2-11e9-943b-e70db6c573b8", "type": "permissions"}, {"id": "11a20f2c-30ee-11f0-a77c-da7ad0900005",
         "type": "permissions"}, {"id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type":
         "permissions"}, {"id": "80adf9c4-9898-11ef-8b23-da7ad0900005", "type": "permissions"},
         {"id": "b6858556-f925-11ea-9222-1f47b8677b93", "type": "permissions"}, {"id":
@@ -3010,119 +3063,132 @@ interactions:
         "permissions"}, {"id": "e31e6b54-8502-11ec-b266-da7ad0900005", "type": "permissions"},
         {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id":
         "2de35000-69e5-11ee-996b-da7ad0900005", "type": "permissions"}, {"id": "8b282770-7aff-11ed-9d0d-da7ad0900005",
-        "type": "permissions"}, {"id": "f33eaf3e-e746-11ec-87e3-da7ad0900005", "type":
-        "permissions"}, {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"},
-        {"id": "83fc9760-7c51-11ef-b846-da7ad0900005", "type": "permissions"}, {"id":
-        "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id": "06e3004e-5987-11ef-89c3-da7ad0900005",
-        "type": "permissions"}, {"id": "76e47222-8a30-11ef-8675-da7ad0900005", "type":
-        "permissions"}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005", "type": "permissions"},
-        {"id": "48bb9ee8-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id":
-        "7fbc682c-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id": "7fbe2266-c59e-11ec-90fb-da7ad0900005",
-        "type": "permissions"}, {"id": "7fbd9756-c59e-11ec-90fb-da7ad0900005", "type":
-        "permissions"}, {"id": "ccd05a00-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
-        {"id": "ccd08d36-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
-        "ccd09204-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "ccd09ca4-018e-11ef-afb6-da7ad0900005",
-        "type": "permissions"}, {"id": "ccd09f06-018e-11ef-afb6-da7ad0900005", "type":
-        "permissions"}, {"id": "b4b67a6c-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"},
-        {"id": "b4b707b6-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id":
-        "b4b70996-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id": "b4b734a2-08a0-11ef-b2a8-da7ad0900005",
-        "type": "permissions"}, {"id": "d039cfec-b44f-11ed-8db8-da7ad0900005", "type":
-        "permissions"}, {"id": "3bffdb2a-a901-11ef-af48-da7ad0900005", "type": "permissions"},
-        {"id": "3c002814-a901-11ef-af48-da7ad0900005", "type": "permissions"}, {"id":
-        "71957e76-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"}, {"id": "71958024-9d0c-11ef-a87c-da7ad0900005",
-        "type": "permissions"}, {"id": "54f10334-a6a9-11ef-98f1-da7ad0900005", "type":
-        "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"},
-        {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"}, {"id":
-        "28395f82-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"}, {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005",
-        "type": "permissions"}, {"id": "1d47fcb8-60a3-11ef-a05a-da7ad0900005", "type":
-        "permissions"}, {"id": "1d472d7e-60a3-11ef-a05a-da7ad0900005", "type": "permissions"},
-        {"id": "9b00426a-da87-11ef-9de6-da7ad0900005", "type": "permissions"}, {"id":
-        "9b010d44-da87-11ef-9de6-da7ad0900005", "type": "permissions"}, {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005",
-        "type": "permissions"}, {"id": "214c10b2-d3d9-11e9-a614-3759c7ad528f", "type":
-        "permissions"}, {"id": "9b00ed28-da87-11ef-9de6-da7ad0900005", "type": "permissions"},
-        {"id": "eadf64b2-2199-11ee-9a0e-da7ad0900005", "type": "permissions"}, {"id":
-        "eadf675a-2199-11ee-9a0e-da7ad0900005", "type": "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005",
-        "type": "permissions"}, {"id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005", "type":
-        "permissions"}, {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions"},
-        {"id": "9b5d3748-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id":
-        "9b5d3bbc-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id": "8b28b686-7aff-11ed-9d0d-da7ad0900005",
-        "type": "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type":
-        "permissions"}, {"id": "4a6cadb6-e806-11ef-8710-da7ad0900005", "type": "permissions"},
-        {"id": "9bb09240-0fee-11f0-958c-da7ad0900005", "type": "permissions"}, {"id":
-        "9bb09a10-0fee-11f0-958c-da7ad0900005", "type": "permissions"}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
-        "type": "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005", "type":
-        "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"},
-        {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"}, {"id":
-        "df7cae4a-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"}, {"id": "02e65e42-fabc-11ef-a653-da7ad0900005",
-        "type": "permissions"}, {"id": "bf240e2e-8374-11f0-a85a-da7ad0900005", "type":
-        "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type": "permissions"},
-        {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions"}, {"id":
-        "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions"}, {"id": "ffd9df0e-7df0-11f0-bfc3-da7ad0900005",
-        "type": "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions"},
-        {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id":
-        "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005",
-        "type": "permissions"}, {"id": "fbf841c6-2618-11f0-8595-da7ad0900005", "type":
-        "permissions"}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions"}]}}},
-        {"id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "type": "roles", "attributes":
-        {"created_at": "2024-10-08T14:32:47.265744Z", "managed": true, "modified_at":
-        "2024-10-08T14:32:47.266206Z", "name": "Datadog Read Only Role", "team_count":
-        0, "user_count": 2}, "relationships": {"permissions": {"data": [{"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005",
-        "type": "permissions"}, {"id": "21c5475c-228f-11ef-a00d-da7ad0900005", "type":
-        "permissions"}, {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "type": "permissions"},
-        {"id": "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "type": "permissions"}, {"id":
-        "926612da-7a4c-11ed-b809-da7ad0900005", "type": "permissions"}, {"id": "e120d4c0-0969-11ef-965e-da7ad0900005",
-        "type": "permissions"}, {"id": "a05f69c8-5410-11ef-9378-da7ad0900005", "type":
-        "permissions"}, {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"},
-        {"id": "122e20a4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id":
-        "99397470-b16d-11eb-a891-da7ad0900005", "type": "permissions"}, {"id": "f07e4234-e894-11eb-ab79-da7ad0900005",
-        "type": "permissions"}, {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type":
-        "permissions"}, {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"},
-        {"id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type": "permissions"}, {"id":
-        "80adf9c4-9898-11ef-8b23-da7ad0900005", "type": "permissions"}, {"id": "b6858556-f925-11ea-9222-1f47b8677b93",
-        "type": "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type":
-        "permissions"}, {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "type": "permissions"},
-        {"id": "4a6cc8b4-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id":
-        "5def2f6a-55d9-11ed-9ccb-da7ad0900005", "type": "permissions"}, {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005",
-        "type": "permissions"}, {"id": "94c8a4da-de87-11ed-9e92-da7ad0900005", "type":
-        "permissions"}, {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "type": "permissions"},
-        {"id": "e0d31696-aa58-11ea-af96-3b02991750c9", "type": "permissions"}, {"id":
-        "bebb2bca-c1e7-11ee-b9dc-da7ad0900005", "type": "permissions"}, {"id": "300f69c6-8114-11ef-84c0-da7ad0900005",
-        "type": "permissions"}, {"id": "f42e4c6e-173a-11ed-8654-da7ad0900005", "type":
-        "permissions"}, {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "type": "permissions"},
-        {"id": "5de1e178-8536-11ea-968a-2fd9395bff90", "type": "permissions"}, {"id":
-        "f33f74be-e746-11ec-87e3-da7ad0900005", "type": "permissions"}, {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005",
-        "type": "permissions"}, {"id": "cccfe6c4-018e-11ef-afb6-da7ad0900005", "type":
-        "permissions"}, {"id": "55f64460-7d61-11ed-9c36-da7ad0900005", "type": "permissions"},
-        {"id": "8b2660ac-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id":
-        "bcc2fb14-2dce-11eb-9145-9b27b816190a", "type": "permissions"}, {"id": "f2f3d048-801f-11eb-9d41-da7ad0900005",
-        "type": "permissions"}, {"id": "7d08a48c-66ec-11ef-96b3-da7ad0900005", "type":
-        "permissions"}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions"},
-        {"id": "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"}, {"id":
-        "f5e054da-4792-11ec-944b-da7ad0900005", "type": "permissions"}, {"id": "c94811de-16c7-11ec-88cc-da7ad0900005",
-        "type": "permissions"}, {"id": "cf873174-574f-11ec-9869-da7ad0900005", "type":
-        "permissions"}, {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions"},
-        {"id": "95e9a5ce-5884-11ec-8b3a-da7ad0900005", "type": "permissions"}, {"id":
-        "5034771e-d2a9-11ef-b55e-da7ad0900005", "type": "permissions"}, {"id": "e31e0056-8502-11ec-b266-da7ad0900005",
-        "type": "permissions"}, {"id": "b309fe04-79d5-11ef-a56c-da7ad0900005", "type":
-        "permissions"}, {"id": "e31cca10-8502-11ec-b266-da7ad0900005", "type": "permissions"},
-        {"id": "3276c638-0ebe-11ee-9428-da7ad0900005", "type": "permissions"}, {"id":
-        "94783714-4e9b-11ee-959b-da7ad0900005", "type": "permissions"}, {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005",
-        "type": "permissions"}, {"id": "2de35000-69e5-11ee-996b-da7ad0900005", "type":
-        "permissions"}, {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"},
-        {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id":
-        "76e47222-8a30-11ef-8675-da7ad0900005", "type": "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005",
-        "type": "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type":
-        "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"},
-        {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"}, {"id":
-        "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005",
-        "type": "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type":
+        "type": "permissions"}, {"id": "35e42f3c-df3b-11ef-886f-da7ad0900005", "type":
+        "permissions"}, {"id": "f33eaf3e-e746-11ec-87e3-da7ad0900005", "type": "permissions"},
+        {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"}, {"id":
+        "83fc9760-7c51-11ef-b846-da7ad0900005", "type": "permissions"}, {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005",
+        "type": "permissions"}, {"id": "06e3004e-5987-11ef-89c3-da7ad0900005", "type":
+        "permissions"}, {"id": "76e47222-8a30-11ef-8675-da7ad0900005", "type": "permissions"},
+        {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005", "type": "permissions"}, {"id":
+        "48bb9ee8-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id": "7fbc682c-c59e-11ec-90fb-da7ad0900005",
+        "type": "permissions"}, {"id": "7fbe2266-c59e-11ec-90fb-da7ad0900005", "type":
+        "permissions"}, {"id": "7fbd9756-c59e-11ec-90fb-da7ad0900005", "type": "permissions"},
+        {"id": "ccd05a00-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
+        "ccd08d36-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "ccd09204-018e-11ef-afb6-da7ad0900005",
+        "type": "permissions"}, {"id": "ccd09ca4-018e-11ef-afb6-da7ad0900005", "type":
+        "permissions"}, {"id": "ccd09f06-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
+        {"id": "b4b67a6c-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id":
+        "b4b707b6-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id": "b4b70996-08a0-11ef-b2a8-da7ad0900005",
+        "type": "permissions"}, {"id": "b4b734a2-08a0-11ef-b2a8-da7ad0900005", "type":
+        "permissions"}, {"id": "d039cfec-b44f-11ed-8db8-da7ad0900005", "type": "permissions"},
+        {"id": "3bffdb2a-a901-11ef-af48-da7ad0900005", "type": "permissions"}, {"id":
+        "3c002814-a901-11ef-af48-da7ad0900005", "type": "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005",
+        "type": "permissions"}, {"id": "71958024-9d0c-11ef-a87c-da7ad0900005", "type":
+        "permissions"}, {"id": "54f10334-a6a9-11ef-98f1-da7ad0900005", "type": "permissions"},
+        {"id": "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"}, {"id":
+        "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"}, {"id": "28395f82-b7f5-11ef-afc8-da7ad0900005",
+        "type": "permissions"}, {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type":
+        "permissions"}, {"id": "1d47fcb8-60a3-11ef-a05a-da7ad0900005", "type": "permissions"},
+        {"id": "1d472d7e-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
+        "9b00426a-da87-11ef-9de6-da7ad0900005", "type": "permissions"}, {"id": "9b010d44-da87-11ef-9de6-da7ad0900005",
+        "type": "permissions"}, {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005", "type":
+        "permissions"}, {"id": "214c10b2-d3d9-11e9-a614-3759c7ad528f", "type": "permissions"},
+        {"id": "9b00ed28-da87-11ef-9de6-da7ad0900005", "type": "permissions"}, {"id":
+        "eadf64b2-2199-11ee-9a0e-da7ad0900005", "type": "permissions"}, {"id": "eadf675a-2199-11ee-9a0e-da7ad0900005",
+        "type": "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005", "type":
+        "permissions"}, {"id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005", "type": "permissions"},
+        {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions"}, {"id":
+        "9b5d3748-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id": "9b5d3bbc-b72a-11ef-bb07-da7ad0900005",
+        "type": "permissions"}, {"id": "8b28b686-7aff-11ed-9d0d-da7ad0900005", "type":
+        "permissions"}, {"id": "77942998-7a07-11f0-a33d-da7ad0900005", "type": "permissions"},
+        {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id":
+        "4a6cadb6-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id": "9bb09240-0fee-11f0-958c-da7ad0900005",
+        "type": "permissions"}, {"id": "9bb09a10-0fee-11f0-958c-da7ad0900005", "type":
         "permissions"}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005", "type": "permissions"},
-        {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"}, {"id":
-        "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005",
-        "type": "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005", "type":
-        "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions"},
+        {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id":
+        "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"}, {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005",
+        "type": "permissions"}, {"id": "fc833fb0-1182-11f0-a419-da7ad0900005", "type":
+        "permissions"}, {"id": "fc83f5ea-1182-11f0-a419-da7ad0900005", "type": "permissions"},
+        {"id": "df7cae4a-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"}, {"id":
+        "02e65e42-fabc-11ef-a653-da7ad0900005", "type": "permissions"}, {"id": "bf240e2e-8374-11f0-a85a-da7ad0900005",
+        "type": "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type":
+        "permissions"}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions"},
+        {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions"}, {"id":
+        "ffd9df0e-7df0-11f0-bfc3-da7ad0900005", "type": "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
+        "permissions"}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
         {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id":
+        "c92b68ea-29dd-11f0-91f4-da7ad0900005", "type": "permissions"}, {"id": "c92b6c3c-29dd-11f0-91f4-da7ad0900005",
+        "type": "permissions"}, {"id": "c92b6dfe-29dd-11f0-91f4-da7ad0900005", "type":
+        "permissions"}, {"id": "e9f3010e-8e74-11f0-b41a-da7ad0900005", "type": "permissions"},
+        {"id": "e9f3b446-8e74-11f0-b41a-da7ad0900005", "type": "permissions"}, {"id":
+        "e9f3da16-8e74-11f0-b41a-da7ad0900005", "type": "permissions"}, {"id": "e9f3dc78-8e74-11f0-b41a-da7ad0900005",
+        "type": "permissions"}, {"id": "2d8cc178-843b-11f0-85d9-da7ad0900005", "type":
+        "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions"},
+        {"id": "fbf841c6-2618-11f0-8595-da7ad0900005", "type": "permissions"}, {"id":
+        "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions"}]}}}, {"id":
+        "3032ffb8-8582-11ef-8bad-da7ad0900005", "type": "roles", "attributes": {"created_at":
+        "2024-10-08T14:32:47.265744Z", "managed": true, "modified_at": "2024-10-08T14:32:47.266206Z",
+        "name": "Datadog Read Only Role", "team_count": 0, "user_count": 2}, "relationships":
+        {"permissions": {"data": [{"id": "c7ac3e2a-9a59-11ec-9cd5-da7ad0900005", "type":
+        "permissions"}, {"id": "21c5475c-228f-11ef-a00d-da7ad0900005", "type": "permissions"},
+        {"id": "b7706de0-2dce-11eb-9145-775e4a0d889a", "type": "permissions"}, {"id":
+        "c52a6ed6-2dce-11eb-9145-1399370e8bf5", "type": "permissions"}, {"id": "926612da-7a4c-11ed-b809-da7ad0900005",
+        "type": "permissions"}, {"id": "e120d4c0-0969-11ef-965e-da7ad0900005", "type":
+        "permissions"}, {"id": "a05f69c8-5410-11ef-9378-da7ad0900005", "type": "permissions"},
+        {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"}, {"id":
+        "122e20a4-d36c-11eb-b2bf-da7ad0900005", "type": "permissions"}, {"id": "99397470-b16d-11eb-a891-da7ad0900005",
+        "type": "permissions"}, {"id": "f07e4234-e894-11eb-ab79-da7ad0900005", "type":
+        "permissions"}, {"id": "7ee6e4ea-f376-11eb-a5a7-da7ad0900005", "type": "permissions"},
+        {"id": "7ee7941c-f376-11eb-a5a7-da7ad0900005", "type": "permissions"}, {"id":
+        "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type": "permissions"}, {"id": "80adf9c4-9898-11ef-8b23-da7ad0900005",
+        "type": "permissions"}, {"id": "b6858556-f925-11ea-9222-1f47b8677b93", "type":
+        "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type": "permissions"},
+        {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d", "type": "permissions"}, {"id":
+        "4a6cc8b4-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id": "5def2f6a-55d9-11ed-9ccb-da7ad0900005",
+        "type": "permissions"}, {"id": "5dedec22-55d9-11ed-9ccb-da7ad0900005", "type":
+        "permissions"}, {"id": "94c8a4da-de87-11ed-9e92-da7ad0900005", "type": "permissions"},
+        {"id": "d68dc046-aa58-11ea-8f98-3f18bf50279f", "type": "permissions"}, {"id":
+        "e0d31696-aa58-11ea-af96-3b02991750c9", "type": "permissions"}, {"id": "bebb2bca-c1e7-11ee-b9dc-da7ad0900005",
+        "type": "permissions"}, {"id": "300f69c6-8114-11ef-84c0-da7ad0900005", "type":
+        "permissions"}, {"id": "f42e4c6e-173a-11ed-8654-da7ad0900005", "type": "permissions"},
+        {"id": "bfafd0ce-7823-11ea-9689-c3e5118805ee", "type": "permissions"}, {"id":
+        "5de1e178-8536-11ea-968a-2fd9395bff90", "type": "permissions"}, {"id": "f33f74be-e746-11ec-87e3-da7ad0900005",
+        "type": "permissions"}, {"id": "0fbf051e-271a-11ee-ab39-da7ad0900005", "type":
+        "permissions"}, {"id": "cccfe6c4-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
+        {"id": "55f64460-7d61-11ed-9c36-da7ad0900005", "type": "permissions"}, {"id":
+        "8b2660ac-7aff-11ed-9d0d-da7ad0900005", "type": "permissions"}, {"id": "bcc2fb14-2dce-11eb-9145-9b27b816190a",
+        "type": "permissions"}, {"id": "f2f3d048-801f-11eb-9d41-da7ad0900005", "type":
+        "permissions"}, {"id": "7d08a48c-66ec-11ef-96b3-da7ad0900005", "type": "permissions"},
+        {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions"}, {"id":
+        "ac2c73f8-3d1a-11ee-8f54-da7ad0900005", "type": "permissions"}, {"id": "f5e054da-4792-11ec-944b-da7ad0900005",
+        "type": "permissions"}, {"id": "c94811de-16c7-11ec-88cc-da7ad0900005", "type":
+        "permissions"}, {"id": "cf873174-574f-11ec-9869-da7ad0900005", "type": "permissions"},
+        {"id": "23f87c8c-f607-11ef-99cf-da7ad0900005", "type": "permissions"}, {"id":
+        "95e9a5ce-5884-11ec-8b3a-da7ad0900005", "type": "permissions"}, {"id": "5034771e-d2a9-11ef-b55e-da7ad0900005",
+        "type": "permissions"}, {"id": "e31e0056-8502-11ec-b266-da7ad0900005", "type":
+        "permissions"}, {"id": "b309fe04-79d5-11ef-a56c-da7ad0900005", "type": "permissions"},
+        {"id": "e31cca10-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id":
+        "3276c638-0ebe-11ee-9428-da7ad0900005", "type": "permissions"}, {"id": "94783714-4e9b-11ee-959b-da7ad0900005",
+        "type": "permissions"}, {"id": "48bb8df4-e544-11ee-93aa-da7ad0900005", "type":
+        "permissions"}, {"id": "2de35000-69e5-11ee-996b-da7ad0900005", "type": "permissions"},
+        {"id": "35e42f3c-df3b-11ef-886f-da7ad0900005", "type": "permissions"}, {"id":
+        "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"}, {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005",
+        "type": "permissions"}, {"id": "76e47222-8a30-11ef-8675-da7ad0900005", "type":
+        "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005", "type": "permissions"},
+        {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"}, {"id":
+        "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"}, {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005",
+        "type": "permissions"}, {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type":
+        "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005", "type": "permissions"},
+        {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id":
+        "db45b75e-0360-11f0-8ac3-da7ad0900005", "type": "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005",
+        "type": "permissions"}, {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type":
+        "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type": "permissions"},
+        {"id": "54f8b154-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id":
+        "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions"}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005",
+        "type": "permissions"}, {"id": "c92b68ea-29dd-11f0-91f4-da7ad0900005", "type":
+        "permissions"}, {"id": "e9f3b446-8e74-11f0-b41a-da7ad0900005", "type": "permissions"},
+        {"id": "e9f3dc78-8e74-11f0-b41a-da7ad0900005", "type": "permissions"}, {"id":
         "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions"}]}}}, {"id":
         "302b4f34-8582-11ef-b6a4-da7ad0900005", "type": "roles", "attributes": {"created_at":
         "2024-10-08T14:32:47.215056Z", "managed": true, "modified_at": "2024-10-08T14:32:47.215828Z",
@@ -3235,54 +3301,61 @@ interactions:
         "permissions"}, {"id": "294580e0-1703-11ec-9b92-da7ad0900005", "type": "permissions"},
         {"id": "e31e6b54-8502-11ec-b266-da7ad0900005", "type": "permissions"}, {"id":
         "48bb8df4-e544-11ee-93aa-da7ad0900005", "type": "permissions"}, {"id": "2de35000-69e5-11ee-996b-da7ad0900005",
-        "type": "permissions"}, {"id": "f33eaf3e-e746-11ec-87e3-da7ad0900005", "type":
-        "permissions"}, {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"},
-        {"id": "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id":
-        "76e47222-8a30-11ef-8675-da7ad0900005", "type": "permissions"}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005",
-        "type": "permissions"}, {"id": "7fbc682c-c59e-11ec-90fb-da7ad0900005", "type":
-        "permissions"}, {"id": "7fbe2266-c59e-11ec-90fb-da7ad0900005", "type": "permissions"},
-        {"id": "7fbd9756-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id":
-        "ccd05a00-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "ccd08d36-018e-11ef-afb6-da7ad0900005",
-        "type": "permissions"}, {"id": "ccd09204-018e-11ef-afb6-da7ad0900005", "type":
-        "permissions"}, {"id": "ccd09ca4-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
-        {"id": "ccd09f06-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
-        "b4b67a6c-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id": "b4b707b6-08a0-11ef-b2a8-da7ad0900005",
-        "type": "permissions"}, {"id": "b4b70996-08a0-11ef-b2a8-da7ad0900005", "type":
-        "permissions"}, {"id": "b4b734a2-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"},
-        {"id": "d039cfec-b44f-11ed-8db8-da7ad0900005", "type": "permissions"}, {"id":
-        "3bffdb2a-a901-11ef-af48-da7ad0900005", "type": "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005",
-        "type": "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type":
-        "permissions"}, {"id": "71958024-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"},
-        {"id": "54f10334-a6a9-11ef-98f1-da7ad0900005", "type": "permissions"}, {"id":
-        "7d962a3c-6494-11ef-997a-da7ad0900005", "type": "permissions"}, {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005",
-        "type": "permissions"}, {"id": "28395f82-b7f5-11ef-afc8-da7ad0900005", "type":
-        "permissions"}, {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"},
-        {"id": "1d47fcb8-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
-        "1d472d7e-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005",
-        "type": "permissions"}, {"id": "9b010d44-da87-11ef-9de6-da7ad0900005", "type":
-        "permissions"}, {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"},
-        {"id": "214c10b2-d3d9-11e9-a614-3759c7ad528f", "type": "permissions"}, {"id":
-        "9b00ed28-da87-11ef-9de6-da7ad0900005", "type": "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005",
-        "type": "permissions"}, {"id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005", "type":
-        "permissions"}, {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions"},
-        {"id": "9b5d3748-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id":
-        "9b5d3bbc-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id": "8b28b686-7aff-11ed-9d0d-da7ad0900005",
-        "type": "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type":
-        "permissions"}, {"id": "4a6cadb6-e806-11ef-8710-da7ad0900005", "type": "permissions"},
-        {"id": "9bb09240-0fee-11f0-958c-da7ad0900005", "type": "permissions"}, {"id":
-        "db45b75e-0360-11f0-8ac3-da7ad0900005", "type": "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005",
-        "type": "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type":
-        "permissions"}, {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"},
-        {"id": "bf240e2e-8374-11f0-a85a-da7ad0900005", "type": "permissions"}, {"id":
-        "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type": "permissions"}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005",
-        "type": "permissions"}, {"id": "ffd9df0e-7df0-11f0-bfc3-da7ad0900005", "type":
-        "permissions"}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
-        {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions"}, {"id":
-        "54f96e6e-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005",
-        "type": "permissions"}, {"id": "fbf76e2c-2618-11f0-8595-da7ad0900005", "type":
-        "permissions"}, {"id": "fbf841c6-2618-11f0-8595-da7ad0900005", "type": "permissions"},
-        {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions"}]}}}],
-        "meta": {"page": {"total_count": 4, "total_filtered_count": 4}}}'
+        "type": "permissions"}, {"id": "35e42f3c-df3b-11ef-886f-da7ad0900005", "type":
+        "permissions"}, {"id": "f33eaf3e-e746-11ec-87e3-da7ad0900005", "type": "permissions"},
+        {"id": "8f8df1e2-7c14-11ef-87e0-da7ad0900005", "type": "permissions"}, {"id":
+        "5072e504-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id": "76e47222-8a30-11ef-8675-da7ad0900005",
+        "type": "permissions"}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005", "type":
+        "permissions"}, {"id": "7fbc682c-c59e-11ec-90fb-da7ad0900005", "type": "permissions"},
+        {"id": "7fbe2266-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id":
+        "7fbd9756-c59e-11ec-90fb-da7ad0900005", "type": "permissions"}, {"id": "ccd05a00-018e-11ef-afb6-da7ad0900005",
+        "type": "permissions"}, {"id": "ccd08d36-018e-11ef-afb6-da7ad0900005", "type":
+        "permissions"}, {"id": "ccd09204-018e-11ef-afb6-da7ad0900005", "type": "permissions"},
+        {"id": "ccd09ca4-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id":
+        "ccd09f06-018e-11ef-afb6-da7ad0900005", "type": "permissions"}, {"id": "b4b67a6c-08a0-11ef-b2a8-da7ad0900005",
+        "type": "permissions"}, {"id": "b4b707b6-08a0-11ef-b2a8-da7ad0900005", "type":
+        "permissions"}, {"id": "b4b70996-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"},
+        {"id": "b4b734a2-08a0-11ef-b2a8-da7ad0900005", "type": "permissions"}, {"id":
+        "d039cfec-b44f-11ed-8db8-da7ad0900005", "type": "permissions"}, {"id": "3bffdb2a-a901-11ef-af48-da7ad0900005",
+        "type": "permissions"}, {"id": "3c002814-a901-11ef-af48-da7ad0900005", "type":
+        "permissions"}, {"id": "71957e76-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"},
+        {"id": "71958024-9d0c-11ef-a87c-da7ad0900005", "type": "permissions"}, {"id":
+        "54f10334-a6a9-11ef-98f1-da7ad0900005", "type": "permissions"}, {"id": "7d962a3c-6494-11ef-997a-da7ad0900005",
+        "type": "permissions"}, {"id": "2837cb18-b7f5-11ef-afc8-da7ad0900005", "type":
+        "permissions"}, {"id": "28395f82-b7f5-11ef-afc8-da7ad0900005", "type": "permissions"},
+        {"id": "1d47fa88-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id":
+        "1d47fcb8-60a3-11ef-a05a-da7ad0900005", "type": "permissions"}, {"id": "1d472d7e-60a3-11ef-a05a-da7ad0900005",
+        "type": "permissions"}, {"id": "9b00426a-da87-11ef-9de6-da7ad0900005", "type":
+        "permissions"}, {"id": "9b010d44-da87-11ef-9de6-da7ad0900005", "type": "permissions"},
+        {"id": "5073050c-cd26-11ef-a4d9-da7ad0900005", "type": "permissions"}, {"id":
+        "214c10b2-d3d9-11e9-a614-3759c7ad528f", "type": "permissions"}, {"id": "9b00ed28-da87-11ef-9de6-da7ad0900005",
+        "type": "permissions"}, {"id": "7d9641ac-6494-11ef-997a-da7ad0900005", "type":
+        "permissions"}, {"id": "9b5c7a38-b72a-11ef-bb07-da7ad0900005", "type": "permissions"},
+        {"id": "7ad4419a-e288-11ef-bbbc-da7ad0900005", "type": "permissions"}, {"id":
+        "9b5d3748-b72a-11ef-bb07-da7ad0900005", "type": "permissions"}, {"id": "9b5d3bbc-b72a-11ef-bb07-da7ad0900005",
+        "type": "permissions"}, {"id": "8b28b686-7aff-11ed-9d0d-da7ad0900005", "type":
+        "permissions"}, {"id": "4a6c29d6-e806-11ef-8710-da7ad0900005", "type": "permissions"},
+        {"id": "4a6cadb6-e806-11ef-8710-da7ad0900005", "type": "permissions"}, {"id":
+        "9bb09240-0fee-11f0-958c-da7ad0900005", "type": "permissions"}, {"id": "db45b75e-0360-11f0-8ac3-da7ad0900005",
+        "type": "permissions"}, {"id": "48bb9d1c-e544-11ee-93aa-da7ad0900005", "type":
+        "permissions"}, {"id": "df7c0ce2-e8b7-11ef-a4b4-da7ad0900005", "type": "permissions"},
+        {"id": "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions"}, {"id":
+        "fc833fb0-1182-11f0-a419-da7ad0900005", "type": "permissions"}, {"id": "bf240e2e-8374-11f0-a85a-da7ad0900005",
+        "type": "permissions"}, {"id": "3c05b450-ffe8-11ed-b4b4-da7ad0900005", "type":
+        "permissions"}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions"},
+        {"id": "ffd9df0e-7df0-11f0-bfc3-da7ad0900005", "type": "permissions"}, {"id":
+        "54f8b154-2153-11f0-9edc-da7ad0900005", "type": "permissions"}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005",
+        "type": "permissions"}, {"id": "54f96e6e-2153-11f0-9edc-da7ad0900005", "type":
+        "permissions"}, {"id": "54f98c32-2153-11f0-9edc-da7ad0900005", "type": "permissions"},
+        {"id": "c92b68ea-29dd-11f0-91f4-da7ad0900005", "type": "permissions"}, {"id":
+        "e9f3010e-8e74-11f0-b41a-da7ad0900005", "type": "permissions"}, {"id": "e9f3b446-8e74-11f0-b41a-da7ad0900005",
+        "type": "permissions"}, {"id": "e9f3da16-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions"}, {"id": "e9f3dc78-8e74-11f0-b41a-da7ad0900005", "type": "permissions"},
+        {"id": "2d8cc178-843b-11f0-85d9-da7ad0900005", "type": "permissions"}, {"id":
+        "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions"}, {"id": "fbf841c6-2618-11f0-8595-da7ad0900005",
+        "type": "permissions"}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type":
+        "permissions"}]}}}], "meta": {"page": {"total_count": 4, "total_filtered_count":
+        4}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -4324,9 +4397,14 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-01-24T19:15:42.768282Z",
         "description": "Page On-Call teams and users.", "display_name": "On-Call Page",
         "display_type": "write", "group_name": "On-Call", "name": "on_call_page",
-        "restricted": false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
+        "restricted": false}}, {"id": "35e42f3c-df3b-11ef-886f-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description":
-        "View Error Tracking data, including stack traces, error messages, and context.
+        "View DORA metrics. Note: This permission is in Preview Mode and will be enforced
+        soon.", "display_name": "DORA Metrics Read (Preview)", "display_type": "read",
+        "group_name": "Software Delivery", "name": "dora_metrics_read", "restricted":
+        false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description": "View
+        Error Tracking data, including stack traces, error messages, and context.
         Also includes issue classifications and statuses such as For Review and Reviewed.",
         "display_name": "Error Tracking Read", "display_type": "read", "group_name":
         "Error Tracking", "name": "error_tracking_read", "restricted": false}}, {"id":
@@ -4380,7 +4458,16 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-04-02T18:16:33.714415Z",
         "description": "Edit NDM device profiles.", "display_name": "NDM Device Profiles
         Edit", "display_type": "write", "group_name": "Network Device Monitoring",
-        "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
+        "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "fc833fb0-1182-11f0-a419-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-04T18:31:12.834953Z",
+        "description": "Schedule CSV reports. View CSV report schedules created by
+        other users.", "display_name": "CSV Report Schedules Write", "display_type":
+        "write", "group_name": "Cross-Product Features", "name": "generate_log_reports",
+        "restricted": false}}, {"id": "fc83f5ea-1182-11f0-a419-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-04-04T18:31:12.834953Z", "description":
+        "Edit CSV report schedules created by other users.", "display_name": "CSV
+        Report Schedules Manage", "display_type": "write", "group_name": "Cross-Product
+        Features", "name": "manage_log_reports", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
         "description": "Read NDM data directly. Note: even without this permission,
         NDM data can be retrieved via general infrastructure query APIs.", "display_name":
@@ -4396,9 +4483,8 @@ interactions:
         "Workload Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
         "name": "orchestration_workload_scaling_read", "restricted": false}}, {"id":
         "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.
-        Note: This permission is in Preview Mode and will be enforced soon.", "display_name":
-        "Bits Investigations Read (Preview)", "display_type": "read", "group_name":
+        {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.",
+        "display_name": "Bits Investigations Read", "display_type": "read", "group_name":
         "Bits AI", "name": "bits_investigations_read", "restricted": false}}, {"id":
         "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-04-30T23:15:19.683852Z", "description": "View Sheets.",
@@ -4407,35 +4493,52 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-04-30T23:15:19.683852Z",
         "description": "Create and change Sheets.", "display_name": "Sheets Write",
         "display_type": "write", "group_name": "Sheets", "name": "sheets_write", "restricted":
-        false}}, {"id": "2cead6ec-34db-11f0-9eb2-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-05-19T18:00:40.454044Z", "description": "Manage
-        autoscaling cluster level configuration.", "display_name": "Autoscaling Manage",
-        "display_type": "write", "group_name": "Orchestration", "name": "orchestration_autoscaling_manage",
-        "restricted": false}}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-05-26T18:05:56.647Z", "description":
-        "View Code Coverage data.", "display_name": "Code Coverage read", "display_type":
-        "read", "group_name": "Software Delivery", "name": "code_coverage_read", "restricted":
-        false}}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-06-17T18:22:00.814348Z", "description": "Configure
-        shared settings for Case Management.", "display_name": "Case Management Shared
-        Settings Write", "display_type": "write", "group_name": "Case and Incident
-        Management", "name": "cases_shared_settings_write", "restricted": false}},
-        {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2025-07-01T14:36:49.982499Z", "description": "Execute actions
-        in the Bits AI Action Interface.", "display_name": "Actions Interface Run",
-        "display_type": "write", "group_name": "App Builder & Workflow Automation",
-        "name": "actions_interface_run", "restricted": false}}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005",
-        "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
-        "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
-        "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
-        "restricted": false}}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description":
-        "View all report schedules and manage only the ones they''ve created.", "display_name":
-        "Cloud Cost Report Schedules Write", "display_type": "write", "group_name":
-        "Cloud Cost Management", "name": "generate_ccm_report_schedules", "restricted":
-        false}}, {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description": "View,
-        create, and fully manage all report schedules across the organization.", "display_name":
+        false}}, {"id": "c92b68ea-29dd-11f0-91f4-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-05-05T18:21:38.794042Z", "description": "View
+        pages and settings in Status Pages.", "display_name": "Status Pages Settings
+        Read", "display_type": "read", "group_name": "Status Pages", "name": "status_pages_settings_read",
+        "restricted": false}}, {"id": "c92b6c3c-29dd-11f0-91f4-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-05-05T18:21:38.794042Z", "description":
+        "Configure page settings in Status Pages.", "display_name": "Status Pages
+        Settings Write", "display_type": "write", "group_name": "Status Pages", "name":
+        "status_pages_settings_write", "restricted": false}}, {"id": "c92b6dfe-29dd-11f0-91f4-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-05T18:21:38.794042Z",
+        "description": "Publish notices in Status Pages.", "display_name": "Status
+        Pages Notice Write", "display_type": "write", "group_name": "Status Pages",
+        "name": "status_pages_incident_write", "restricted": false}}, {"id": "11a20f2c-30ee-11f0-a77c-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-14T18:05:50.46556Z",
+        "description": "Manage sensitive and advanced On-Call settings.", "display_name":
+        "On-Call Admin", "display_type": "write", "group_name": "On-Call", "name":
+        "on_call_admin", "restricted": false}}, {"id": "2cead6ec-34db-11f0-9eb2-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-19T18:00:40.454044Z",
+        "description": "Manage autoscaling cluster level configuration.", "display_name":
+        "Autoscaling Manage", "display_type": "write", "group_name": "Orchestration",
+        "name": "orchestration_autoscaling_manage", "restricted": false}}, {"id":
+        "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-05-26T18:05:56.647Z", "description": "View Code Coverage
+        data.", "display_name": "Code Coverage read", "display_type": "read", "group_name":
+        "Software Delivery", "name": "code_coverage_read", "restricted": false}},
+        {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-06-17T18:22:00.814348Z", "description": "Configure shared
+        settings for Case Management.", "display_name": "Case Management Shared Settings
+        Write", "display_type": "write", "group_name": "Case and Incident Management",
+        "name": "cases_shared_settings_write", "restricted": false}}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-07-01T14:36:49.982499Z",
+        "description": "Execute actions in the Bits AI Action Interface.", "display_name":
+        "Actions Interface Run", "display_type": "write", "group_name": "App Builder
+        & Workflow Automation", "name": "actions_interface_run", "restricted": false}},
+        {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-09T18:30:33.053855Z", "description": "Evaluate AI Guard
+        rules.", "display_name": "AI Guard Evaluate", "display_type": "write", "group_name":
+        "Application Security", "name": "ai_guard_evaluate", "restricted": false}},
+        {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-10T18:40:35.388063Z", "description": "View all report
+        schedules and manage only the ones they''ve created.", "display_name": "Cloud
+        Cost Report Schedules Write", "display_type": "write", "group_name": "Cloud
+        Cost Management", "name": "generate_ccm_report_schedules", "restricted": false}},
+        {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-10T18:40:35.388063Z", "description": "View, create, and
+        fully manage all report schedules across the organization.", "display_name":
         "Cloud Cost Report Schedules Manage", "display_type": "write", "group_name":
         "Cloud Cost Management", "name": "manage_ccm_report_schedules", "restricted":
         false}}, {"id": "77942998-7a07-11f0-a33d-da7ad0900005", "type": "permissions",
@@ -4448,9 +4551,30 @@ interactions:
         "write", "group_name": "Software Delivery", "name": "dora_metrics_write",
         "restricted": false}}, {"id": "bf240e2e-8374-11f0-a85a-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-08-27T18:36:29.472438Z", "description":
-        "Run and configure Bits investigations. Note: This permission is in Preview
-        Mode and will be enforced soon.", "display_name": "Bits Investigations Write
-        (Preview)", "display_type": "write", "group_name": "Bits AI", "name": "bits_investigations_write",
+        "Run and configure Bits investigations.", "display_name": "Bits Investigations
+        Write", "display_type": "write", "group_name": "Bits AI", "name": "bits_investigations_write",
+        "restricted": false}}, {"id": "2d8cc178-843b-11f0-85d9-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-08-28T18:16:55.060989Z", "description":
+        "Edit Dynamic Instrumentation configuration. Create or Modify Dynamic Instrumentation
+        probes targeted at pre-prod environments.", "display_name": "Dynamic Instrumentation
+        Write Pre-Prod", "display_type": "write", "group_name": "APM", "name": "debugger_write_pre_prod",
+        "restricted": false}}, {"id": "e9f3010e-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "Edit Feature Flag Configurations.", "display_name": "Feature Flag Write",
+        "display_type": "write", "group_name": "Feature Flags", "name": "feature_flag_config_write",
+        "restricted": false}}, {"id": "e9f3b446-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "View Feature Flag Configurations.", "display_name": "Feature Flag Read",
+        "display_type": "read", "group_name": "Feature Flags", "name": "feature_flag_config_read",
+        "restricted": false}}, {"id": "e9f3da16-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "Ability to modify Feature Flag Environment settings.", "display_name": "Feature
+        Flag Environment Write", "display_type": "write", "group_name": "Feature Flags",
+        "name": "feature_flag_environment_config_write", "restricted": false}}, {"id":
+        "e9f3dc78-8e74-11f0-b41a-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-09-10T18:35:24.083679Z", "description": "Ability to view
+        Feature Flag Environment settings.", "display_name": "Feature Flag Environment
+        Read", "display_type": "read", "group_name": "Feature Flags", "name": "feature_flag_environment_config_read",
         "restricted": false}}]}'
     headers:
       Content-Type:
@@ -5493,9 +5617,14 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-01-24T19:15:42.768282Z",
         "description": "Page On-Call teams and users.", "display_name": "On-Call Page",
         "display_type": "write", "group_name": "On-Call", "name": "on_call_page",
-        "restricted": false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
+        "restricted": false}}, {"id": "35e42f3c-df3b-11ef-886f-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description":
-        "View Error Tracking data, including stack traces, error messages, and context.
+        "View DORA metrics. Note: This permission is in Preview Mode and will be enforced
+        soon.", "display_name": "DORA Metrics Read (Preview)", "display_type": "read",
+        "group_name": "Software Delivery", "name": "dora_metrics_read", "restricted":
+        false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description": "View
+        Error Tracking data, including stack traces, error messages, and context.
         Also includes issue classifications and statuses such as For Review and Reviewed.",
         "display_name": "Error Tracking Read", "display_type": "read", "group_name":
         "Error Tracking", "name": "error_tracking_read", "restricted": false}}, {"id":
@@ -5549,7 +5678,16 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-04-02T18:16:33.714415Z",
         "description": "Edit NDM device profiles.", "display_name": "NDM Device Profiles
         Edit", "display_type": "write", "group_name": "Network Device Monitoring",
-        "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
+        "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "fc833fb0-1182-11f0-a419-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-04T18:31:12.834953Z",
+        "description": "Schedule CSV reports. View CSV report schedules created by
+        other users.", "display_name": "CSV Report Schedules Write", "display_type":
+        "write", "group_name": "Cross-Product Features", "name": "generate_log_reports",
+        "restricted": false}}, {"id": "fc83f5ea-1182-11f0-a419-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-04-04T18:31:12.834953Z", "description":
+        "Edit CSV report schedules created by other users.", "display_name": "CSV
+        Report Schedules Manage", "display_type": "write", "group_name": "Cross-Product
+        Features", "name": "manage_log_reports", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
         "description": "Read NDM data directly. Note: even without this permission,
         NDM data can be retrieved via general infrastructure query APIs.", "display_name":
@@ -5565,9 +5703,8 @@ interactions:
         "Workload Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
         "name": "orchestration_workload_scaling_read", "restricted": false}}, {"id":
         "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.
-        Note: This permission is in Preview Mode and will be enforced soon.", "display_name":
-        "Bits Investigations Read (Preview)", "display_type": "read", "group_name":
+        {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.",
+        "display_name": "Bits Investigations Read", "display_type": "read", "group_name":
         "Bits AI", "name": "bits_investigations_read", "restricted": false}}, {"id":
         "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-04-30T23:15:19.683852Z", "description": "View Sheets.",
@@ -5576,35 +5713,52 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-04-30T23:15:19.683852Z",
         "description": "Create and change Sheets.", "display_name": "Sheets Write",
         "display_type": "write", "group_name": "Sheets", "name": "sheets_write", "restricted":
-        false}}, {"id": "2cead6ec-34db-11f0-9eb2-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-05-19T18:00:40.454044Z", "description": "Manage
-        autoscaling cluster level configuration.", "display_name": "Autoscaling Manage",
-        "display_type": "write", "group_name": "Orchestration", "name": "orchestration_autoscaling_manage",
-        "restricted": false}}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-05-26T18:05:56.647Z", "description":
-        "View Code Coverage data.", "display_name": "Code Coverage read", "display_type":
-        "read", "group_name": "Software Delivery", "name": "code_coverage_read", "restricted":
-        false}}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-06-17T18:22:00.814348Z", "description": "Configure
-        shared settings for Case Management.", "display_name": "Case Management Shared
-        Settings Write", "display_type": "write", "group_name": "Case and Incident
-        Management", "name": "cases_shared_settings_write", "restricted": false}},
-        {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2025-07-01T14:36:49.982499Z", "description": "Execute actions
-        in the Bits AI Action Interface.", "display_name": "Actions Interface Run",
-        "display_type": "write", "group_name": "App Builder & Workflow Automation",
-        "name": "actions_interface_run", "restricted": false}}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005",
-        "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
-        "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
-        "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
-        "restricted": false}}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description":
-        "View all report schedules and manage only the ones they''ve created.", "display_name":
-        "Cloud Cost Report Schedules Write", "display_type": "write", "group_name":
-        "Cloud Cost Management", "name": "generate_ccm_report_schedules", "restricted":
-        false}}, {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description": "View,
-        create, and fully manage all report schedules across the organization.", "display_name":
+        false}}, {"id": "c92b68ea-29dd-11f0-91f4-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-05-05T18:21:38.794042Z", "description": "View
+        pages and settings in Status Pages.", "display_name": "Status Pages Settings
+        Read", "display_type": "read", "group_name": "Status Pages", "name": "status_pages_settings_read",
+        "restricted": false}}, {"id": "c92b6c3c-29dd-11f0-91f4-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-05-05T18:21:38.794042Z", "description":
+        "Configure page settings in Status Pages.", "display_name": "Status Pages
+        Settings Write", "display_type": "write", "group_name": "Status Pages", "name":
+        "status_pages_settings_write", "restricted": false}}, {"id": "c92b6dfe-29dd-11f0-91f4-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-05T18:21:38.794042Z",
+        "description": "Publish notices in Status Pages.", "display_name": "Status
+        Pages Notice Write", "display_type": "write", "group_name": "Status Pages",
+        "name": "status_pages_incident_write", "restricted": false}}, {"id": "11a20f2c-30ee-11f0-a77c-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-14T18:05:50.46556Z",
+        "description": "Manage sensitive and advanced On-Call settings.", "display_name":
+        "On-Call Admin", "display_type": "write", "group_name": "On-Call", "name":
+        "on_call_admin", "restricted": false}}, {"id": "2cead6ec-34db-11f0-9eb2-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-19T18:00:40.454044Z",
+        "description": "Manage autoscaling cluster level configuration.", "display_name":
+        "Autoscaling Manage", "display_type": "write", "group_name": "Orchestration",
+        "name": "orchestration_autoscaling_manage", "restricted": false}}, {"id":
+        "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-05-26T18:05:56.647Z", "description": "View Code Coverage
+        data.", "display_name": "Code Coverage read", "display_type": "read", "group_name":
+        "Software Delivery", "name": "code_coverage_read", "restricted": false}},
+        {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-06-17T18:22:00.814348Z", "description": "Configure shared
+        settings for Case Management.", "display_name": "Case Management Shared Settings
+        Write", "display_type": "write", "group_name": "Case and Incident Management",
+        "name": "cases_shared_settings_write", "restricted": false}}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-07-01T14:36:49.982499Z",
+        "description": "Execute actions in the Bits AI Action Interface.", "display_name":
+        "Actions Interface Run", "display_type": "write", "group_name": "App Builder
+        & Workflow Automation", "name": "actions_interface_run", "restricted": false}},
+        {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-09T18:30:33.053855Z", "description": "Evaluate AI Guard
+        rules.", "display_name": "AI Guard Evaluate", "display_type": "write", "group_name":
+        "Application Security", "name": "ai_guard_evaluate", "restricted": false}},
+        {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-10T18:40:35.388063Z", "description": "View all report
+        schedules and manage only the ones they''ve created.", "display_name": "Cloud
+        Cost Report Schedules Write", "display_type": "write", "group_name": "Cloud
+        Cost Management", "name": "generate_ccm_report_schedules", "restricted": false}},
+        {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-10T18:40:35.388063Z", "description": "View, create, and
+        fully manage all report schedules across the organization.", "display_name":
         "Cloud Cost Report Schedules Manage", "display_type": "write", "group_name":
         "Cloud Cost Management", "name": "manage_ccm_report_schedules", "restricted":
         false}}, {"id": "77942998-7a07-11f0-a33d-da7ad0900005", "type": "permissions",
@@ -5617,9 +5771,30 @@ interactions:
         "write", "group_name": "Software Delivery", "name": "dora_metrics_write",
         "restricted": false}}, {"id": "bf240e2e-8374-11f0-a85a-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-08-27T18:36:29.472438Z", "description":
-        "Run and configure Bits investigations. Note: This permission is in Preview
-        Mode and will be enforced soon.", "display_name": "Bits Investigations Write
-        (Preview)", "display_type": "write", "group_name": "Bits AI", "name": "bits_investigations_write",
+        "Run and configure Bits investigations.", "display_name": "Bits Investigations
+        Write", "display_type": "write", "group_name": "Bits AI", "name": "bits_investigations_write",
+        "restricted": false}}, {"id": "2d8cc178-843b-11f0-85d9-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-08-28T18:16:55.060989Z", "description":
+        "Edit Dynamic Instrumentation configuration. Create or Modify Dynamic Instrumentation
+        probes targeted at pre-prod environments.", "display_name": "Dynamic Instrumentation
+        Write Pre-Prod", "display_type": "write", "group_name": "APM", "name": "debugger_write_pre_prod",
+        "restricted": false}}, {"id": "e9f3010e-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "Edit Feature Flag Configurations.", "display_name": "Feature Flag Write",
+        "display_type": "write", "group_name": "Feature Flags", "name": "feature_flag_config_write",
+        "restricted": false}}, {"id": "e9f3b446-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "View Feature Flag Configurations.", "display_name": "Feature Flag Read",
+        "display_type": "read", "group_name": "Feature Flags", "name": "feature_flag_config_read",
+        "restricted": false}}, {"id": "e9f3da16-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "Ability to modify Feature Flag Environment settings.", "display_name": "Feature
+        Flag Environment Write", "display_type": "write", "group_name": "Feature Flags",
+        "name": "feature_flag_environment_config_write", "restricted": false}}, {"id":
+        "e9f3dc78-8e74-11f0-b41a-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-09-10T18:35:24.083679Z", "description": "Ability to view
+        Feature Flag Environment settings.", "display_name": "Feature Flag Environment
+        Read", "display_type": "read", "group_name": "Feature Flags", "name": "feature_flag_environment_config_read",
         "restricted": false}}]}'
     headers:
       Content-Type:
@@ -6662,9 +6837,14 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-01-24T19:15:42.768282Z",
         "description": "Page On-Call teams and users.", "display_name": "On-Call Page",
         "display_type": "write", "group_name": "On-Call", "name": "on_call_page",
-        "restricted": false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
+        "restricted": false}}, {"id": "35e42f3c-df3b-11ef-886f-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description":
-        "View Error Tracking data, including stack traces, error messages, and context.
+        "View DORA metrics. Note: This permission is in Preview Mode and will be enforced
+        soon.", "display_name": "DORA Metrics Read (Preview)", "display_type": "read",
+        "group_name": "Software Delivery", "name": "dora_metrics_read", "restricted":
+        false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description": "View
+        Error Tracking data, including stack traces, error messages, and context.
         Also includes issue classifications and statuses such as For Review and Reviewed.",
         "display_name": "Error Tracking Read", "display_type": "read", "group_name":
         "Error Tracking", "name": "error_tracking_read", "restricted": false}}, {"id":
@@ -6718,7 +6898,16 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-04-02T18:16:33.714415Z",
         "description": "Edit NDM device profiles.", "display_name": "NDM Device Profiles
         Edit", "display_type": "write", "group_name": "Network Device Monitoring",
-        "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
+        "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "fc833fb0-1182-11f0-a419-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-04T18:31:12.834953Z",
+        "description": "Schedule CSV reports. View CSV report schedules created by
+        other users.", "display_name": "CSV Report Schedules Write", "display_type":
+        "write", "group_name": "Cross-Product Features", "name": "generate_log_reports",
+        "restricted": false}}, {"id": "fc83f5ea-1182-11f0-a419-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-04-04T18:31:12.834953Z", "description":
+        "Edit CSV report schedules created by other users.", "display_name": "CSV
+        Report Schedules Manage", "display_type": "write", "group_name": "Cross-Product
+        Features", "name": "manage_log_reports", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
         "description": "Read NDM data directly. Note: even without this permission,
         NDM data can be retrieved via general infrastructure query APIs.", "display_name":
@@ -6734,9 +6923,8 @@ interactions:
         "Workload Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
         "name": "orchestration_workload_scaling_read", "restricted": false}}, {"id":
         "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.
-        Note: This permission is in Preview Mode and will be enforced soon.", "display_name":
-        "Bits Investigations Read (Preview)", "display_type": "read", "group_name":
+        {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.",
+        "display_name": "Bits Investigations Read", "display_type": "read", "group_name":
         "Bits AI", "name": "bits_investigations_read", "restricted": false}}, {"id":
         "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-04-30T23:15:19.683852Z", "description": "View Sheets.",
@@ -6745,35 +6933,52 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-04-30T23:15:19.683852Z",
         "description": "Create and change Sheets.", "display_name": "Sheets Write",
         "display_type": "write", "group_name": "Sheets", "name": "sheets_write", "restricted":
-        false}}, {"id": "2cead6ec-34db-11f0-9eb2-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-05-19T18:00:40.454044Z", "description": "Manage
-        autoscaling cluster level configuration.", "display_name": "Autoscaling Manage",
-        "display_type": "write", "group_name": "Orchestration", "name": "orchestration_autoscaling_manage",
-        "restricted": false}}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-05-26T18:05:56.647Z", "description":
-        "View Code Coverage data.", "display_name": "Code Coverage read", "display_type":
-        "read", "group_name": "Software Delivery", "name": "code_coverage_read", "restricted":
-        false}}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-06-17T18:22:00.814348Z", "description": "Configure
-        shared settings for Case Management.", "display_name": "Case Management Shared
-        Settings Write", "display_type": "write", "group_name": "Case and Incident
-        Management", "name": "cases_shared_settings_write", "restricted": false}},
-        {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2025-07-01T14:36:49.982499Z", "description": "Execute actions
-        in the Bits AI Action Interface.", "display_name": "Actions Interface Run",
-        "display_type": "write", "group_name": "App Builder & Workflow Automation",
-        "name": "actions_interface_run", "restricted": false}}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005",
-        "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
-        "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
-        "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
-        "restricted": false}}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description":
-        "View all report schedules and manage only the ones they''ve created.", "display_name":
-        "Cloud Cost Report Schedules Write", "display_type": "write", "group_name":
-        "Cloud Cost Management", "name": "generate_ccm_report_schedules", "restricted":
-        false}}, {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description": "View,
-        create, and fully manage all report schedules across the organization.", "display_name":
+        false}}, {"id": "c92b68ea-29dd-11f0-91f4-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-05-05T18:21:38.794042Z", "description": "View
+        pages and settings in Status Pages.", "display_name": "Status Pages Settings
+        Read", "display_type": "read", "group_name": "Status Pages", "name": "status_pages_settings_read",
+        "restricted": false}}, {"id": "c92b6c3c-29dd-11f0-91f4-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-05-05T18:21:38.794042Z", "description":
+        "Configure page settings in Status Pages.", "display_name": "Status Pages
+        Settings Write", "display_type": "write", "group_name": "Status Pages", "name":
+        "status_pages_settings_write", "restricted": false}}, {"id": "c92b6dfe-29dd-11f0-91f4-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-05T18:21:38.794042Z",
+        "description": "Publish notices in Status Pages.", "display_name": "Status
+        Pages Notice Write", "display_type": "write", "group_name": "Status Pages",
+        "name": "status_pages_incident_write", "restricted": false}}, {"id": "11a20f2c-30ee-11f0-a77c-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-14T18:05:50.46556Z",
+        "description": "Manage sensitive and advanced On-Call settings.", "display_name":
+        "On-Call Admin", "display_type": "write", "group_name": "On-Call", "name":
+        "on_call_admin", "restricted": false}}, {"id": "2cead6ec-34db-11f0-9eb2-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-19T18:00:40.454044Z",
+        "description": "Manage autoscaling cluster level configuration.", "display_name":
+        "Autoscaling Manage", "display_type": "write", "group_name": "Orchestration",
+        "name": "orchestration_autoscaling_manage", "restricted": false}}, {"id":
+        "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-05-26T18:05:56.647Z", "description": "View Code Coverage
+        data.", "display_name": "Code Coverage read", "display_type": "read", "group_name":
+        "Software Delivery", "name": "code_coverage_read", "restricted": false}},
+        {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-06-17T18:22:00.814348Z", "description": "Configure shared
+        settings for Case Management.", "display_name": "Case Management Shared Settings
+        Write", "display_type": "write", "group_name": "Case and Incident Management",
+        "name": "cases_shared_settings_write", "restricted": false}}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-07-01T14:36:49.982499Z",
+        "description": "Execute actions in the Bits AI Action Interface.", "display_name":
+        "Actions Interface Run", "display_type": "write", "group_name": "App Builder
+        & Workflow Automation", "name": "actions_interface_run", "restricted": false}},
+        {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-09T18:30:33.053855Z", "description": "Evaluate AI Guard
+        rules.", "display_name": "AI Guard Evaluate", "display_type": "write", "group_name":
+        "Application Security", "name": "ai_guard_evaluate", "restricted": false}},
+        {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-10T18:40:35.388063Z", "description": "View all report
+        schedules and manage only the ones they''ve created.", "display_name": "Cloud
+        Cost Report Schedules Write", "display_type": "write", "group_name": "Cloud
+        Cost Management", "name": "generate_ccm_report_schedules", "restricted": false}},
+        {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-10T18:40:35.388063Z", "description": "View, create, and
+        fully manage all report schedules across the organization.", "display_name":
         "Cloud Cost Report Schedules Manage", "display_type": "write", "group_name":
         "Cloud Cost Management", "name": "manage_ccm_report_schedules", "restricted":
         false}}, {"id": "77942998-7a07-11f0-a33d-da7ad0900005", "type": "permissions",
@@ -6786,9 +6991,30 @@ interactions:
         "write", "group_name": "Software Delivery", "name": "dora_metrics_write",
         "restricted": false}}, {"id": "bf240e2e-8374-11f0-a85a-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-08-27T18:36:29.472438Z", "description":
-        "Run and configure Bits investigations. Note: This permission is in Preview
-        Mode and will be enforced soon.", "display_name": "Bits Investigations Write
-        (Preview)", "display_type": "write", "group_name": "Bits AI", "name": "bits_investigations_write",
+        "Run and configure Bits investigations.", "display_name": "Bits Investigations
+        Write", "display_type": "write", "group_name": "Bits AI", "name": "bits_investigations_write",
+        "restricted": false}}, {"id": "2d8cc178-843b-11f0-85d9-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-08-28T18:16:55.060989Z", "description":
+        "Edit Dynamic Instrumentation configuration. Create or Modify Dynamic Instrumentation
+        probes targeted at pre-prod environments.", "display_name": "Dynamic Instrumentation
+        Write Pre-Prod", "display_type": "write", "group_name": "APM", "name": "debugger_write_pre_prod",
+        "restricted": false}}, {"id": "e9f3010e-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "Edit Feature Flag Configurations.", "display_name": "Feature Flag Write",
+        "display_type": "write", "group_name": "Feature Flags", "name": "feature_flag_config_write",
+        "restricted": false}}, {"id": "e9f3b446-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "View Feature Flag Configurations.", "display_name": "Feature Flag Read",
+        "display_type": "read", "group_name": "Feature Flags", "name": "feature_flag_config_read",
+        "restricted": false}}, {"id": "e9f3da16-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "Ability to modify Feature Flag Environment settings.", "display_name": "Feature
+        Flag Environment Write", "display_type": "write", "group_name": "Feature Flags",
+        "name": "feature_flag_environment_config_write", "restricted": false}}, {"id":
+        "e9f3dc78-8e74-11f0-b41a-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-09-10T18:35:24.083679Z", "description": "Ability to view
+        Feature Flag Environment settings.", "display_name": "Feature Flag Environment
+        Read", "display_type": "read", "group_name": "Feature Flags", "name": "feature_flag_environment_config_read",
         "restricted": false}}]}'
     headers:
       Content-Type:
@@ -7831,9 +8057,14 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-01-24T19:15:42.768282Z",
         "description": "Page On-Call teams and users.", "display_name": "On-Call Page",
         "display_type": "write", "group_name": "On-Call", "name": "on_call_page",
-        "restricted": false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type":
+        "restricted": false}}, {"id": "35e42f3c-df3b-11ef-886f-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description":
-        "View Error Tracking data, including stack traces, error messages, and context.
+        "View DORA metrics. Note: This permission is in Preview Mode and will be enforced
+        soon.", "display_name": "DORA Metrics Read (Preview)", "display_type": "read",
+        "group_name": "Software Delivery", "name": "dora_metrics_read", "restricted":
+        false}}, {"id": "35e4e288-df3b-11ef-886f-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-01-30T18:51:27.197297Z", "description": "View
+        Error Tracking data, including stack traces, error messages, and context.
         Also includes issue classifications and statuses such as For Review and Reviewed.",
         "display_name": "Error Tracking Read", "display_type": "read", "group_name":
         "Error Tracking", "name": "error_tracking_read", "restricted": false}}, {"id":
@@ -7887,7 +8118,16 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-04-02T18:16:33.714415Z",
         "description": "Edit NDM device profiles.", "display_name": "NDM Device Profiles
         Edit", "display_type": "write", "group_name": "Network Device Monitoring",
-        "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
+        "name": "ndm_device_profiles_edit", "restricted": false}}, {"id": "fc833fb0-1182-11f0-a419-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-04-04T18:31:12.834953Z",
+        "description": "Schedule CSV reports. View CSV report schedules created by
+        other users.", "display_name": "CSV Report Schedules Write", "display_type":
+        "write", "group_name": "Cross-Product Features", "name": "generate_log_reports",
+        "restricted": false}}, {"id": "fc83f5ea-1182-11f0-a419-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-04-04T18:31:12.834953Z", "description":
+        "Edit CSV report schedules created by other users.", "display_name": "CSV
+        Report Schedules Manage", "display_type": "write", "group_name": "Cross-Product
+        Features", "name": "manage_log_reports", "restricted": false}}, {"id": "54f8b154-2153-11f0-9edc-da7ad0900005",
         "type": "permissions", "attributes": {"created": "2025-04-24T21:30:24.00567Z",
         "description": "Read NDM data directly. Note: even without this permission,
         NDM data can be retrieved via general infrastructure query APIs.", "display_name":
@@ -7903,9 +8143,8 @@ interactions:
         "Workload Scaling Read (Preview)", "display_type": "read", "group_name": "Orchestration",
         "name": "orchestration_workload_scaling_read", "restricted": false}}, {"id":
         "02d58f7e-252b-11f0-b39e-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.
-        Note: This permission is in Preview Mode and will be enforced soon.", "display_name":
-        "Bits Investigations Read (Preview)", "display_type": "read", "group_name":
+        {"created": "2025-04-29T18:51:50.984055Z", "description": "Read Bits investigations.",
+        "display_name": "Bits Investigations Read", "display_type": "read", "group_name":
         "Bits AI", "name": "bits_investigations_read", "restricted": false}}, {"id":
         "fbf76e2c-2618-11f0-8595-da7ad0900005", "type": "permissions", "attributes":
         {"created": "2025-04-30T23:15:19.683852Z", "description": "View Sheets.",
@@ -7914,35 +8153,52 @@ interactions:
         "type": "permissions", "attributes": {"created": "2025-04-30T23:15:19.683852Z",
         "description": "Create and change Sheets.", "display_name": "Sheets Write",
         "display_type": "write", "group_name": "Sheets", "name": "sheets_write", "restricted":
-        false}}, {"id": "2cead6ec-34db-11f0-9eb2-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-05-19T18:00:40.454044Z", "description": "Manage
-        autoscaling cluster level configuration.", "display_name": "Autoscaling Manage",
-        "display_type": "write", "group_name": "Orchestration", "name": "orchestration_autoscaling_manage",
-        "restricted": false}}, {"id": "12465c5e-3a5c-11f0-becd-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-05-26T18:05:56.647Z", "description":
-        "View Code Coverage data.", "display_name": "Code Coverage read", "display_type":
-        "read", "group_name": "Software Delivery", "name": "code_coverage_read", "restricted":
-        false}}, {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-06-17T18:22:00.814348Z", "description": "Configure
-        shared settings for Case Management.", "display_name": "Case Management Shared
-        Settings Write", "display_type": "write", "group_name": "Case and Incident
-        Management", "name": "cases_shared_settings_write", "restricted": false}},
-        {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2025-07-01T14:36:49.982499Z", "description": "Execute actions
-        in the Bits AI Action Interface.", "display_name": "Actions Interface Run",
-        "display_type": "write", "group_name": "App Builder & Workflow Automation",
-        "name": "actions_interface_run", "restricted": false}}, {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005",
-        "type": "permissions", "attributes": {"created": "2025-07-09T18:30:33.053855Z",
-        "description": "Evaluate AI Guard rules.", "display_name": "AI Guard Evaluate",
-        "display_type": "write", "group_name": "Application Security", "name": "ai_guard_evaluate",
-        "restricted": false}}, {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type":
-        "permissions", "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description":
-        "View all report schedules and manage only the ones they''ve created.", "display_name":
-        "Cloud Cost Report Schedules Write", "display_type": "write", "group_name":
-        "Cloud Cost Management", "name": "generate_ccm_report_schedules", "restricted":
-        false}}, {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions",
-        "attributes": {"created": "2025-07-10T18:40:35.388063Z", "description": "View,
-        create, and fully manage all report schedules across the organization.", "display_name":
+        false}}, {"id": "c92b68ea-29dd-11f0-91f4-da7ad0900005", "type": "permissions",
+        "attributes": {"created": "2025-05-05T18:21:38.794042Z", "description": "View
+        pages and settings in Status Pages.", "display_name": "Status Pages Settings
+        Read", "display_type": "read", "group_name": "Status Pages", "name": "status_pages_settings_read",
+        "restricted": false}}, {"id": "c92b6c3c-29dd-11f0-91f4-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-05-05T18:21:38.794042Z", "description":
+        "Configure page settings in Status Pages.", "display_name": "Status Pages
+        Settings Write", "display_type": "write", "group_name": "Status Pages", "name":
+        "status_pages_settings_write", "restricted": false}}, {"id": "c92b6dfe-29dd-11f0-91f4-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-05T18:21:38.794042Z",
+        "description": "Publish notices in Status Pages.", "display_name": "Status
+        Pages Notice Write", "display_type": "write", "group_name": "Status Pages",
+        "name": "status_pages_incident_write", "restricted": false}}, {"id": "11a20f2c-30ee-11f0-a77c-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-14T18:05:50.46556Z",
+        "description": "Manage sensitive and advanced On-Call settings.", "display_name":
+        "On-Call Admin", "display_type": "write", "group_name": "On-Call", "name":
+        "on_call_admin", "restricted": false}}, {"id": "2cead6ec-34db-11f0-9eb2-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-05-19T18:00:40.454044Z",
+        "description": "Manage autoscaling cluster level configuration.", "display_name":
+        "Autoscaling Manage", "display_type": "write", "group_name": "Orchestration",
+        "name": "orchestration_autoscaling_manage", "restricted": false}}, {"id":
+        "12465c5e-3a5c-11f0-becd-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-05-26T18:05:56.647Z", "description": "View Code Coverage
+        data.", "display_name": "Code Coverage read", "display_type": "read", "group_name":
+        "Software Delivery", "name": "code_coverage_read", "restricted": false}},
+        {"id": "f60d1eb2-4ba7-11f0-9459-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-06-17T18:22:00.814348Z", "description": "Configure shared
+        settings for Case Management.", "display_name": "Case Management Shared Settings
+        Write", "display_type": "write", "group_name": "Case and Incident Management",
+        "name": "cases_shared_settings_write", "restricted": false}}, {"id": "d2c0335e-5688-11f0-ad5e-da7ad0900005",
+        "type": "permissions", "attributes": {"created": "2025-07-01T14:36:49.982499Z",
+        "description": "Execute actions in the Bits AI Action Interface.", "display_name":
+        "Actions Interface Run", "display_type": "write", "group_name": "App Builder
+        & Workflow Automation", "name": "actions_interface_run", "restricted": false}},
+        {"id": "cc7517b0-5cf2-11f0-85d4-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-09T18:30:33.053855Z", "description": "Evaluate AI Guard
+        rules.", "display_name": "AI Guard Evaluate", "display_type": "write", "group_name":
+        "Application Security", "name": "ai_guard_evaluate", "restricted": false}},
+        {"id": "5de3ca8c-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-10T18:40:35.388063Z", "description": "View all report
+        schedules and manage only the ones they''ve created.", "display_name": "Cloud
+        Cost Report Schedules Write", "display_type": "write", "group_name": "Cloud
+        Cost Management", "name": "generate_ccm_report_schedules", "restricted": false}},
+        {"id": "5de41cf8-5dbd-11f0-b0ef-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-07-10T18:40:35.388063Z", "description": "View, create, and
+        fully manage all report schedules across the organization.", "display_name":
         "Cloud Cost Report Schedules Manage", "display_type": "write", "group_name":
         "Cloud Cost Management", "name": "manage_ccm_report_schedules", "restricted":
         false}}, {"id": "77942998-7a07-11f0-a33d-da7ad0900005", "type": "permissions",
@@ -7955,9 +8211,30 @@ interactions:
         "write", "group_name": "Software Delivery", "name": "dora_metrics_write",
         "restricted": false}}, {"id": "bf240e2e-8374-11f0-a85a-da7ad0900005", "type":
         "permissions", "attributes": {"created": "2025-08-27T18:36:29.472438Z", "description":
-        "Run and configure Bits investigations. Note: This permission is in Preview
-        Mode and will be enforced soon.", "display_name": "Bits Investigations Write
-        (Preview)", "display_type": "write", "group_name": "Bits AI", "name": "bits_investigations_write",
+        "Run and configure Bits investigations.", "display_name": "Bits Investigations
+        Write", "display_type": "write", "group_name": "Bits AI", "name": "bits_investigations_write",
+        "restricted": false}}, {"id": "2d8cc178-843b-11f0-85d9-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-08-28T18:16:55.060989Z", "description":
+        "Edit Dynamic Instrumentation configuration. Create or Modify Dynamic Instrumentation
+        probes targeted at pre-prod environments.", "display_name": "Dynamic Instrumentation
+        Write Pre-Prod", "display_type": "write", "group_name": "APM", "name": "debugger_write_pre_prod",
+        "restricted": false}}, {"id": "e9f3010e-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "Edit Feature Flag Configurations.", "display_name": "Feature Flag Write",
+        "display_type": "write", "group_name": "Feature Flags", "name": "feature_flag_config_write",
+        "restricted": false}}, {"id": "e9f3b446-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "View Feature Flag Configurations.", "display_name": "Feature Flag Read",
+        "display_type": "read", "group_name": "Feature Flags", "name": "feature_flag_config_read",
+        "restricted": false}}, {"id": "e9f3da16-8e74-11f0-b41a-da7ad0900005", "type":
+        "permissions", "attributes": {"created": "2025-09-10T18:35:24.083679Z", "description":
+        "Ability to modify Feature Flag Environment settings.", "display_name": "Feature
+        Flag Environment Write", "display_type": "write", "group_name": "Feature Flags",
+        "name": "feature_flag_environment_config_write", "restricted": false}}, {"id":
+        "e9f3dc78-8e74-11f0-b41a-da7ad0900005", "type": "permissions", "attributes":
+        {"created": "2025-09-10T18:35:24.083679Z", "description": "Ability to view
+        Feature Flag Environment settings.", "display_name": "Feature Flag Environment
+        Read", "display_type": "read", "group_name": "Feature Flags", "name": "feature_flag_environment_config_read",
         "restricted": false}}]}'
     headers:
       Content-Type:
@@ -7971,10 +8248,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/lists/manual/18928
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/lists/manual/20385
   response:
     body:
-      string: '{"deleted_dashboard_list_id": 18928}'
+      string: '{"deleted_dashboard_list_id": 20385}'
     headers:
       Content-Type:
       - application/json
@@ -7987,10 +8264,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/qxu-ufk-na4
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/m6d-hne-p63
   response:
     body:
-      string: '{"deleted_dashboard_id": "qxu-ufk-na4"}'
+      string: '{"deleted_dashboard_id": "m6d-hne-p63"}'
     headers:
       Content-Type:
       - application/json
@@ -8003,10 +8280,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/zjs-38n-39k
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/9ff-9x9-mkh
   response:
     body:
-      string: '{"deleted_dashboard_id": "zjs-38n-39k"}'
+      string: '{"deleted_dashboard_id": "9ff-9x9-mkh"}'
     headers:
       Content-Type:
       - application/json
