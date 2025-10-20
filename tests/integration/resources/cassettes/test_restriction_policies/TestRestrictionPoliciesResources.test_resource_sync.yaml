@@ -42,7 +42,7 @@ interactions:
   response:
     body:
       string: '{"data": [{"type": "notebooks", "id": 229667, "attributes": {"name":
-        "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "id": "1adrk22j",
+        "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "id": "hgfk01kl",
         "attributes": {"definition": {"type": "markdown", "text": "test"}}}], "time":
         {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
         false, "is_favorite": false, "type": null}, "template_variables": [], "status":
@@ -105,23 +105,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/restriction_policy/dashboard:t82-cj3-j7p
-  response:
-    body:
-      string: '{"data": {"type": "restriction_policy", "id": "dashboard:t82-cj3-j7p",
-        "attributes": {"bindings": []}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v2/restriction_policy/slo:650a18e266505a48b319d9b221158a26
   response:
     body:
@@ -139,27 +122,10 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/restriction_policy/notebook:229667
+    uri: https://api.datadoghq.eu/api/v2/restriction_policy/dashboard:t82-cj3-j7p
   response:
     body:
-      string: '{"data": {"type": "restriction_policy", "id": "notebook:229667", "attributes":
-        {"bindings": []}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v2/restriction_policy/dashboard:2n3-8ye-5ui
-  response:
-    body:
-      string: '{"data": {"type": "restriction_policy", "id": "dashboard:2n3-8ye-5ui",
+      string: '{"data": {"type": "restriction_policy", "id": "dashboard:t82-cj3-j7p",
         "attributes": {"bindings": []}}}'
     headers:
       Content-Type:
@@ -191,19 +157,31 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v2/team/f0cc21b6-6f38-49f0-8641-e25fb3b98476
+    uri: https://api.datadoghq.eu/api/v2/restriction_policy/dashboard:2n3-8ye-5ui
   response:
     body:
-      string: '{"data": {"id": "f0cc21b6-6f38-49f0-8641-e25fb3b98476", "type": "team",
-        "attributes": {"created_at": "2024-10-28T20:20:10.746677+00:00", "description":
-        "", "handle": "hamr-test", "is_managed": false, "link_count": 0, "modified_at":
-        "2024-10-28T20:20:10.746680+00:00", "name": "hamr test", "summary": null,
-        "user_count": 2}, "relationships": {"team_links": {"data": [], "links": {"related":
-        "/api/v2/team/f0cc21b6-6f38-49f0-8641-e25fb3b98476/links"}}, "user_team_permissions":
-        {"data": null, "links": {"related": "/api/v2/team/f0cc21b6-6f38-49f0-8641-e25fb3b98476/permission-settings"}}}}}'
+      string: '{"data": {"type": "restriction_policy", "id": "dashboard:2n3-8ye-5ui",
+        "attributes": {"bindings": []}}}'
     headers:
       Content-Type:
-      - application/vnd.api+json
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/restriction_policy/notebook:229667
+  response:
+    body:
+      string: '{"data": {"type": "restriction_policy", "id": "notebook:229667", "attributes":
+        {"bindings": []}}}'
+    headers:
+      Content-Type:
+      - application/json
     status:
       code: 200
       message: OK
@@ -222,6 +200,28 @@ interactions:
         "2024-10-21T18:57:43.124312+00:00", "name": "test", "summary": null, "user_count":
         1}, "relationships": {"team_links": {"data": [], "links": {"related": "/api/v2/team/d19a4fc2-aeda-4b9e-856a-b9e48c0e19fa/links"}},
         "user_team_permissions": {"data": null, "links": {"related": "/api/v2/team/d19a4fc2-aeda-4b9e-856a-b9e48c0e19fa/permission-settings"}}}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/team/f0cc21b6-6f38-49f0-8641-e25fb3b98476
+  response:
+    body:
+      string: '{"data": {"id": "f0cc21b6-6f38-49f0-8641-e25fb3b98476", "type": "team",
+        "attributes": {"created_at": "2024-10-28T20:20:10.746677+00:00", "description":
+        "", "handle": "hamr-test", "is_managed": false, "link_count": 0, "modified_at":
+        "2024-10-28T20:20:10.746680+00:00", "name": "hamr test", "summary": null,
+        "user_count": 2}, "relationships": {"team_links": {"data": [], "links": {"related":
+        "/api/v2/team/f0cc21b6-6f38-49f0-8641-e25fb3b98476/links"}}, "user_team_permissions":
+        {"data": null, "links": {"related": "/api/v2/team/f0cc21b6-6f38-49f0-8641-e25fb3b98476/permission-settings"}}}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -331,29 +331,6 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "team", "attributes": {"description": "", "handle": "test",
-      "is_managed": false, "name": "test"}}}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v2/team
-  response:
-    body:
-      string: '{"data": {"id": "a091965e-d05c-4d35-a77d-3412f6845845", "type": "team",
-        "attributes": {"avatar": null, "banner": 10, "created_at": "2025-10-20T17:45:01.887380+00:00",
-        "description": "", "handle": "test", "hidden_modules": null, "is_managed":
-        false, "link_count": 0, "modified_at": "2025-10-20T17:45:01.887380+00:00",
-        "name": "test", "summary": "", "user_count": 0, "visible_modules": null},
-        "relationships": {"team_links": {"data": [], "links": {"related": "/api/v2/team/a091965e-d05c-4d35-a77d-3412f6845845/links"}},
-        "user_team_permissions": {"data": null, "links": {"related": "/api/v2/team/a091965e-d05c-4d35-a77d-3412f6845845/permission-settings"}}}}}'
-    headers:
-      Content-Type:
-      - application/vnd.api+json
-    status:
-      code: 201
-      message: Created
-- request:
     body: '{"data": {"type": "team", "attributes": {"description": "", "handle": "hamr-test",
       "is_managed": false, "name": "hamr test"}}}'
     headers:
@@ -363,13 +340,36 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/team
   response:
     body:
-      string: '{"data": {"id": "9ff12486-b3e3-4372-95f9-6a39bba19b65", "type": "team",
-        "attributes": {"avatar": null, "banner": 8, "created_at": "2025-10-20T17:45:01.902865+00:00",
+      string: '{"data": {"id": "5bbbedd3-11f0-4cfa-9011-e524652383f6", "type": "team",
+        "attributes": {"avatar": null, "banner": 2, "created_at": "2025-10-20T18:09:49.866196+00:00",
         "description": "", "handle": "hamr-test", "hidden_modules": null, "is_managed":
-        false, "link_count": 0, "modified_at": "2025-10-20T17:45:01.902865+00:00",
+        false, "link_count": 0, "modified_at": "2025-10-20T18:09:49.866196+00:00",
         "name": "hamr test", "summary": "", "user_count": 0, "visible_modules": null},
-        "relationships": {"team_links": {"data": [], "links": {"related": "/api/v2/team/9ff12486-b3e3-4372-95f9-6a39bba19b65/links"}},
-        "user_team_permissions": {"data": null, "links": {"related": "/api/v2/team/9ff12486-b3e3-4372-95f9-6a39bba19b65/permission-settings"}}}}}'
+        "relationships": {"team_links": {"data": [], "links": {"related": "/api/v2/team/5bbbedd3-11f0-4cfa-9011-e524652383f6/links"}},
+        "user_team_permissions": {"data": null, "links": {"related": "/api/v2/team/5bbbedd3-11f0-4cfa-9011-e524652383f6/permission-settings"}}}}}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"data": {"type": "team", "attributes": {"description": "", "handle": "test",
+      "is_managed": false, "name": "test"}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v2/team
+  response:
+    body:
+      string: '{"data": {"id": "1a682e76-d397-422b-8b0c-60078cc36746", "type": "team",
+        "attributes": {"avatar": null, "banner": 8, "created_at": "2025-10-20T18:09:49.872170+00:00",
+        "description": "", "handle": "test", "hidden_modules": null, "is_managed":
+        false, "link_count": 0, "modified_at": "2025-10-20T18:09:49.872171+00:00",
+        "name": "test", "summary": "", "user_count": 0, "visible_modules": null},
+        "relationships": {"team_links": {"data": [], "links": {"related": "/api/v2/team/1a682e76-d397-422b-8b0c-60078cc36746/links"}},
+        "user_team_permissions": {"data": null, "links": {"related": "/api/v2/team/1a682e76-d397-422b-8b0c-60078cc36746/permission-settings"}}}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -395,7 +395,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/powerpacks
   response:
     body:
-      string: '{"data": {"type": "powerpack", "id": "812f030c-addc-11f0-b259-da7ad0900005",
+      string: '{"data": {"type": "powerpack", "id": "f8193d86-addf-11f0-9553-da7ad0900005",
         "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
         {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
         "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
@@ -420,7 +420,7 @@ interactions:
     body: '{"title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
       null, "layout_type": "ordered", "template_variables": [], "widgets": [{"id":
       5949103957093766, "definition": {"title": "New group", "show_title": true, "powerpack_id":
-      "812f030c-addc-11f0-b259-da7ad0900005", "template_variables": {"controlled_externally":
+      "f8193d86-addf-11f0-9553-da7ad0900005", "template_variables": {"controlled_externally":
       [], "controlled_by_powerpack": []}, "type": "powerpack"}, "layout": {"x": 0,
       "y": 0, "width": 12, "height": 3}}], "reflow_type": "fixed", "restricted_roles":
       []}'
@@ -431,15 +431,15 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "au8-fuf-9bh", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+      string: '{"id": "7zf-pf6-dqp", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
         pm", "description": null, "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/au8-fuf-9bh/michaels-dashboard-mon-oct-28-24547-pm",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/7zf-pf6-dqp/michaels-dashboard-mon-oct-28-24547-pm",
         "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
-        {"title": "New group", "show_title": true, "powerpack_id": "812f030c-addc-11f0-b259-da7ad0900005",
+        {"title": "New group", "show_title": true, "powerpack_id": "f8193d86-addf-11f0-9553-da7ad0900005",
         "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
         []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": null, "created_at": "2025-10-20T17:45:02.213580+00:00",
-        "modified_at": "2025-10-20T17:45:02.213580+00:00", "reflow_type": "fixed",
+        3}}], "notify_list": null, "created_at": "2025-10-20T18:09:50.242708+00:00",
+        "modified_at": "2025-10-20T18:09:50.242708+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -448,19 +448,19 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "restriction_policy", "id": "dashboard:au8-fuf-9bh",
+    body: '{"data": {"type": "restriction_policy", "id": "dashboard:7zf-pf6-dqp",
       "attributes": {"bindings": [{"relation": "editor", "principals": ["org:b9e754c7-857e-11ef-afbd-c64ba5fcf2d1",
-      "team:a091965e-d05c-4d35-a77d-3412f6845845", "team:9ff12486-b3e3-4372-95f9-6a39bba19b65"]}]}}}'
+      "team:1a682e76-d397-422b-8b0c-60078cc36746", "team:5bbbedd3-11f0-4cfa-9011-e524652383f6"]}]}}}'
     headers:
       Content-Type:
       - application/json
     method: POST
-    uri: https://api.us5.datadoghq.com/api/v2/restriction_policy/dashboard:au8-fuf-9bh
+    uri: https://api.us5.datadoghq.com/api/v2/restriction_policy/dashboard:7zf-pf6-dqp
   response:
     body:
-      string: '{"data": {"type": "restriction_policy", "id": "dashboard:au8-fuf-9bh",
+      string: '{"data": {"type": "restriction_policy", "id": "dashboard:7zf-pf6-dqp",
         "attributes": {"bindings": [{"relation": "editor", "principals": ["org:b9e754c7-857e-11ef-afbd-c64ba5fcf2d1",
-        "team:9ff12486-b3e3-4372-95f9-6a39bba19b65", "team:a091965e-d05c-4d35-a77d-3412f6845845"]}]}}}'
+        "team:1a682e76-d397-422b-8b0c-60078cc36746", "team:5bbbedd3-11f0-4cfa-9011-e524652383f6"]}]}}}'
     headers:
       Content-Type:
       - application/json
@@ -7874,7 +7874,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/restriction_policy/dashboard:au8-fuf-9bh
+    uri: https://api.us5.datadoghq.com/api/v2/restriction_policy/dashboard:7zf-pf6-dqp
   response:
     body:
       string: ''
@@ -7890,21 +7890,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/team/a091965e-d05c-4d35-a77d-3412f6845845
-  response:
-    body:
-      string: ''
-    headers: {}
-    status:
-      code: 204
-      message: No Content
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/team/9ff12486-b3e3-4372-95f9-6a39bba19b65
+    uri: https://api.us5.datadoghq.com/api/v2/team/1a682e76-d397-422b-8b0c-60078cc36746
   response:
     body:
       string: ''
@@ -7918,10 +7904,24 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/au8-fuf-9bh
+    uri: https://api.us5.datadoghq.com/api/v2/team/5bbbedd3-11f0-4cfa-9011-e524652383f6
   response:
     body:
-      string: '{"deleted_dashboard_id": "au8-fuf-9bh"}'
+      string: ''
+    headers: {}
+    status:
+      code: 204
+      message: No Content
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/7zf-pf6-dqp
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "7zf-pf6-dqp"}'
     headers:
       Content-Type:
       - application/json
@@ -8617,7 +8617,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "5a5acac3-6f18-11f0-a3f8-ae7d4f23c5d4", "attributes":
         {"name": "Ida Adjivon", "handle": "ida.adjivon@datadoghq.com", "created_at":
-        "2025-08-01T20:44:43.428341+00:00", "modified_at": "2025-10-20T17:32:15.384611+00:00",
+        "2025-08-01T20:44:43.428341+00:00", "modified_at": "2025-10-20T18:02:46.942033+00:00",
         "email": "ida.adjivon@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/d3ff11e3ff125d30050f4dfff3fa614c?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -8642,7 +8642,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "680b4953-923f-11ef-8f6a-0a7168950f69", "attributes":
         {"name": "Justine Lo", "handle": "justine.lo@datadoghq.com", "created_at":
-        "2024-10-24T19:37:29.794003+00:00", "modified_at": "2025-10-20T17:32:15.390887+00:00",
+        "2024-10-24T19:37:29.794003+00:00", "modified_at": "2025-10-20T18:02:46.923191+00:00",
         "email": "justine.lo@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/7d75964971289cf50e6090d76b45e3f6?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -8659,7 +8659,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "4bda4ca7-ef03-11ef-85b0-0e0a6c12bf4a", "attributes":
         {"name": "Michael Richey", "handle": "michael.richey+ddreu1@datadoghq.com",
-        "created_at": "2025-02-19T20:51:30.831306+00:00", "modified_at": "2025-10-20T17:32:15.438265+00:00",
+        "created_at": "2025-02-19T20:51:30.831306+00:00", "modified_at": "2025-10-20T18:02:47.043988+00:00",
         "email": "michael.richey+ddreu1@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/b5b0452adbe01caf57c1e5f6fb97a631?s=48&d=retro",
         "title": "", "verified": false, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Pending",
@@ -8678,7 +8678,7 @@ interactions:
         "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "aa0ca37e-8fda-11ef-90ac-cec07e38d3b8", "attributes":
         {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com", "created_at":
-        "2024-10-21T18:31:19.037245+00:00", "modified_at": "2025-10-20T17:32:15.409305+00:00",
+        "2024-10-21T18:31:19.037245+00:00", "modified_at": "2025-10-20T18:02:47.044545+00:00",
         "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -8707,7 +8707,7 @@ interactions:
         {"data": []}, "org": {"data": {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}},
         {"type": "users", "id": "490663c7-8581-11ef-8ce5-127d9e8aadbb", "attributes":
         {"name": "Ron Hay", "handle": "ron.hay@datadoghq.com", "created_at": "2024-10-08T14:26:19.420588+00:00",
-        "modified_at": "2025-10-20T17:32:15.412397+00:00", "email": "ron.hay@datadoghq.com",
+        "modified_at": "2025-10-20T18:02:47.076807+00:00", "email": "ron.hay@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/1c9c2a5daac55fc5ae86178cd5e7b9c2?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -8718,7 +8718,7 @@ interactions:
         {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}}, {"type":
         "users", "id": "3663729d-9b9e-11ef-9bab-c29722a28a84", "attributes": {"name":
         "Sherzod Karimov", "handle": "sherzod.karimov@datadoghq.com", "created_at":
-        "2024-11-05T17:48:49.140010+00:00", "modified_at": "2025-10-20T17:32:15.412770+00:00",
+        "2024-11-05T17:48:49.140010+00:00", "modified_at": "2025-10-20T18:02:47.056081+00:00",
         "email": "sherzod.karimov@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/993f2cc00ad75833dbc76f2a93bb227d?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
@@ -8729,7 +8729,7 @@ interactions:
         {"type": "orgs", "id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1"}}}}, {"type":
         "users", "id": "49059ee4-8581-11ef-afbd-c64ba5fcf2d1", "attributes": {"name":
         "Tim Alexander", "handle": "tim.alexander@datadoghq.com", "created_at": "2024-10-08T14:26:19.415552+00:00",
-        "modified_at": "2025-10-20T17:32:15.396020+00:00", "email": "tim.alexander@datadoghq.com",
+        "modified_at": "2025-10-20T18:02:47.055504+00:00", "email": "tim.alexander@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/6269dae26686287d4bdd307a26e33f34?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",

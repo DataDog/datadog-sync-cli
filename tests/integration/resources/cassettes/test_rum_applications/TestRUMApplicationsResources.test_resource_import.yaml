@@ -8,16 +8,16 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/rum/applications
   response:
     body:
-      string: '{"data": [{"type": "rum_application", "attributes": {"created_by_handle":
-        "michael.richey@datadoghq.com", "api_key_id": 209917, "short_name": "test_rum_application",
-        "application_id": "16371816-ab2a-41aa-b12a-40ec4d9628e8", "created_at": 1756321641996,
-        "name": "Test RUM Application", "org_id": 1000315894, "type": "browser", "tags":
-        [], "remote_config_id": "0256b730-312e-419a-904f-2ab6d9836eba", "updated_at":
-        1760546256038, "ootb_metrics_installed": true, "product_scales": {"product_analytics_retention_scale":
-        {"last_modified_at": 1756321641996, "state": "NONE"}, "rum_event_processing_scale":
-        {"last_modified_at": 1756321641996, "state": "ALL"}}, "updated_by_handle":
-        "Datadog", "product_analytics_replay_sample_rate": 100, "is_active": true},
-        "id": "16371816-ab2a-41aa-b12a-40ec4d9628e8"}]}'
+      string: '{"data": [{"type": "rum_application", "attributes": {"product_analytics_replay_sample_rate":
+        100, "application_id": "16371816-ab2a-41aa-b12a-40ec4d9628e8", "tags": [],
+        "created_by_handle": "michael.richey@datadoghq.com", "remote_config_id": "0256b730-312e-419a-904f-2ab6d9836eba",
+        "product_scales": {"product_analytics_retention_scale": {"state": "NONE",
+        "last_modified_at": 1756321641996}, "rum_event_processing_scale": {"state":
+        "ALL", "last_modified_at": 1756321641996}}, "ootb_metrics_installed": true,
+        "api_key_id": 209917, "org_id": 1000315894, "type": "browser", "updated_at":
+        1760546256038, "name": "Test RUM Application", "short_name": "test_rum_application",
+        "updated_by_handle": "Datadog", "created_at": 1756321641996, "is_active":
+        true}, "id": "16371816-ab2a-41aa-b12a-40ec4d9628e8"}]}'
     headers:
       Content-Type:
       - application/json
@@ -33,16 +33,16 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/rum/applications/16371816-ab2a-41aa-b12a-40ec4d9628e8
   response:
     body:
-      string: '{"data": {"type": "rum_application", "attributes": {"hash": "pubcfef5fa71c23a0c961cc1f1f69db5a32",
-        "is_active": true, "org_id": 1000315894, "name": "Test RUM Application", "created_at":
-        1756321641996, "created_by_handle": "michael.richey@datadoghq.com", "product_analytics_replay_sample_rate":
-        100, "tags": [], "api_key_id": 209917, "ootb_metrics_installed": true, "updated_by_handle":
-        "Datadog", "updated_at": 1760546256038, "short_name": "test_rum_application",
-        "remote_config_id": "0256b730-312e-419a-904f-2ab6d9836eba", "client_token":
-        "pubcfef5fa71c23a0c961cc1f1f69db5a32", "type": "browser", "application_id":
-        "16371816-ab2a-41aa-b12a-40ec4d9628e8", "product_scales": {"rum_event_processing_scale":
-        {"state": "ALL", "last_modified_at": 1756321641996}, "product_analytics_retention_scale":
-        {"state": "NONE", "last_modified_at": 1756321641996}}}, "id": "16371816-ab2a-41aa-b12a-40ec4d9628e8"}}'
+      string: '{"data": {"type": "rum_application", "attributes": {"updated_at": 1760546256038,
+        "short_name": "test_rum_application", "ootb_metrics_installed": true, "is_active":
+        true, "org_id": 1000315894, "tags": [], "remote_config_id": "0256b730-312e-419a-904f-2ab6d9836eba",
+        "hash": "pubcfef5fa71c23a0c961cc1f1f69db5a32", "updated_by_handle": "Datadog",
+        "type": "browser", "product_analytics_replay_sample_rate": 100, "application_id":
+        "16371816-ab2a-41aa-b12a-40ec4d9628e8", "name": "Test RUM Application", "client_token":
+        "pubcfef5fa71c23a0c961cc1f1f69db5a32", "created_by_handle": "michael.richey@datadoghq.com",
+        "api_key_id": 209917, "product_scales": {"rum_event_processing_scale": {"last_modified_at":
+        1756321641996, "state": "ALL"}, "product_analytics_retention_scale": {"last_modified_at":
+        1756321641996, "state": "NONE"}}, "created_at": 1756321641996}, "id": "16371816-ab2a-41aa-b12a-40ec4d9628e8"}}'
     headers:
       Content-Type:
       - application/json

@@ -8,14 +8,14 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/downtime?page%5Blimit%5D=100&page%5Boffset%5D=0
   response:
     body:
-      string: '{"data": [{"type": "downtime", "attributes": {"modified": "2025-07-18T18:01:55.478390+00:00",
-        "status": "scheduled", "notify_end_states": ["no data", "warn", "alert"],
-        "canceled": null, "schedule": {"end": null, "start": "2027-01-14T05:01:00+00:00"},
-        "created": "2025-03-31T14:02:01.562470+00:00", "notify_end_types": ["expired",
-        "canceled"], "scope": "*", "mute_first_recovery_notification": false, "message":
-        "test2", "display_timezone": "America/New_York", "monitor_identifier": {"monitor_id":
-        20046756}}, "id": "50800db3-0b9c-49ce-bede-c20d6a525b5e"}], "meta": {"page":
-        {"total_filtered_count": 1}}}'
+      string: '{"data": [{"type": "downtime", "attributes": {"scope": "*", "canceled":
+        null, "notify_end_types": ["canceled", "expired"], "status": "scheduled",
+        "display_timezone": "America/New_York", "notify_end_states": ["alert", "warn",
+        "no data"], "message": "test2", "schedule": {"end": null, "start": "2027-01-14T05:01:00+00:00"},
+        "monitor_identifier": {"monitor_id": 20046756}, "mute_first_recovery_notification":
+        false, "created": "2025-03-31T14:02:01.562470+00:00", "modified": "2025-07-18T18:01:55.478390+00:00"},
+        "id": "50800db3-0b9c-49ce-bede-c20d6a525b5e"}], "meta": {"page": {"total_filtered_count":
+        1}}}'
     headers:
       Content-Type:
       - application/json
@@ -60,13 +60,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 16261685, "org_id": 1300336245, "type": "query alert", "name":
+      string: '{"id": 16262543, "org_id": 1300336245, "type": "query alert", "name":
         "test", "message": "test  @pagerduty-hamrddr", "tags": ["managed_by:datadog-sync"],
         "query": "avg(last_5m):avg:system.load.1{*} > 5", "options": {"thresholds":
         {"critical": 5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
         false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1760982067000, "created": "2025-10-20T17:41:07.744048+00:00", "modified":
-        "2025-10-20T17:41:07.744048+00:00", "deleted": null, "priority": null, "restricted_roles":
+        1760983543000, "created": "2025-10-20T18:05:43.408962+00:00", "modified":
+        "2025-10-20T18:05:43.408962+00:00", "deleted": null, "priority": null, "restricted_roles":
         null, "restriction_policy": null, "draft_status": "published", "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Michael S Richey",
         "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com",
@@ -78,11 +78,11 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "downtime", "attributes": {"notify_end_states": ["no
-      data", "warn", "alert"], "schedule": {"end": null, "start": "2027-01-14T05:01:00+00:00"},
-      "notify_end_types": ["expired", "canceled"], "scope": "*", "mute_first_recovery_notification":
-      false, "message": "test2", "display_timezone": "America/New_York", "monitor_identifier":
-      {"monitor_id": 16261685}}}}'
+    body: '{"data": {"type": "downtime", "attributes": {"scope": "*", "notify_end_types":
+      ["canceled", "expired"], "display_timezone": "America/New_York", "notify_end_states":
+      ["alert", "warn", "no data"], "message": "test2", "schedule": {"end": null,
+      "start": "2027-01-14T05:01:00+00:00"}, "monitor_identifier": {"monitor_id":
+      16262543}, "mute_first_recovery_notification": false}}}'
     headers:
       Content-Type:
       - application/json
@@ -90,17 +90,18 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/downtime
   response:
     body:
-      string: '{"data": {"type": "downtime", "attributes": {"message": "test2", "scope":
-        "*", "schedule": {"start": "2027-01-14T05:01:00+00:00", "end": null}, "display_timezone":
-        "America/New_York", "notify_end_states": ["no data", "alert", "warn"], "modified":
-        "2025-10-20T17:41:07.974108+00:00", "monitor_identifier": {"monitor_id": 16261685},
-        "status": "scheduled", "notify_end_types": ["expired", "canceled"], "canceled":
-        null, "created": "2025-10-20T17:41:07.974108+00:00", "mute_first_recovery_notification":
-        false}, "relationships": {"monitor": {"data": {"type": "monitor", "id": "16261685"}},
-        "created_by": {"data": {"type": "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea"}}},
-        "id": "67f47516-eebf-40cd-a92e-65f117c2b938"}, "included": [{"type": "monitor",
-        "attributes": {"name": "test"}, "id": 16261685}, {"type": "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "attributes": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+      string: '{"data": {"type": "downtime", "attributes": {"status": "scheduled",
+        "modified": "2025-10-20T18:05:43.614693+00:00", "schedule": {"end": null,
+        "start": "2027-01-14T05:01:00+00:00"}, "mute_first_recovery_notification":
+        false, "message": "test2", "notify_end_states": ["alert", "no data", "warn"],
+        "display_timezone": "America/New_York", "notify_end_types": ["canceled", "expired"],
+        "created": "2025-10-20T18:05:43.614693+00:00", "canceled": null, "scope":
+        "*", "monitor_identifier": {"monitor_id": 16262543}}, "relationships": {"monitor":
+        {"data": {"type": "monitor", "id": "16262543"}}, "created_by": {"data": {"type":
+        "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea"}}}, "id": "46c959d3-f015-4fa8-880e-11743eff40fe"},
+        "included": [{"type": "monitor", "attributes": {"name": "test"}, "id": 16262543},
+        {"type": "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea", "attributes":
+        {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "created_at": "2025-07-16T20:40:21.833658+00:00", "modified_at": "2025-07-16T20:40:21.833658+00:00",
         "email": "michael.richey@gmail.com", "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?s=48&d=retro",
         "title": null, "verified": true, "service_account": true, "disabled": false,
@@ -112,34 +113,34 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "downtime", "attributes": {"notify_end_states": ["no
-      data", "warn", "alert"], "schedule": {"end": null, "start": "2027-01-14T05:01:00+00:00"},
-      "notify_end_types": ["expired", "canceled"], "scope": "*", "mute_first_recovery_notification":
-      false, "message": "test2updated", "display_timezone": "America/New_York", "monitor_identifier":
-      {"monitor_id": 16261685}}, "id": "67f47516-eebf-40cd-a92e-65f117c2b938"}}'
+    body: '{"data": {"type": "downtime", "attributes": {"scope": "*", "notify_end_types":
+      ["canceled", "expired"], "display_timezone": "America/New_York", "notify_end_states":
+      ["alert", "warn", "no data"], "message": "test2updated", "schedule": {"end":
+      null, "start": "2027-01-14T05:01:00+00:00"}, "monitor_identifier": {"monitor_id":
+      16262543}, "mute_first_recovery_notification": false}, "id": "46c959d3-f015-4fa8-880e-11743eff40fe"}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://api.us5.datadoghq.com/api/v2/downtime/67f47516-eebf-40cd-a92e-65f117c2b938
+    uri: https://api.us5.datadoghq.com/api/v2/downtime/46c959d3-f015-4fa8-880e-11743eff40fe
   response:
     body:
-      string: '{"data": {"type": "downtime", "attributes": {"message": "test2updated",
-        "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00", "end": null},
-        "display_timezone": "America/New_York", "notify_end_states": ["no data", "alert",
-        "warn"], "modified": "2025-10-20T17:41:08.485119+00:00", "monitor_identifier":
-        {"monitor_id": 16261685}, "status": "scheduled", "notify_end_types": ["expired",
-        "canceled"], "canceled": null, "created": "2025-10-20T17:41:07.974108+00:00",
-        "mute_first_recovery_notification": false}, "relationships": {"monitor": {"data":
-        {"type": "monitor", "id": "16261685"}}, "created_by": {"data": {"type": "users",
-        "id": "17d29c8a-6285-11f0-be9b-76de006a05ea"}}}, "id": "67f47516-eebf-40cd-a92e-65f117c2b938"},
-        "included": [{"type": "monitor", "attributes": {"name": "test"}, "id": 16261685},
-        {"type": "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea", "attributes":
+      string: '{"data": {"type": "downtime", "attributes": {"canceled": null, "message":
+        "test2updated", "mute_first_recovery_notification": false, "schedule": {"end":
+        null, "start": "2027-01-14T05:01:00+00:00"}, "notify_end_types": ["canceled",
+        "expired"], "created": "2025-10-20T18:05:43.614693+00:00", "display_timezone":
+        "America/New_York", "scope": "*", "status": "scheduled", "monitor_identifier":
+        {"monitor_id": 16262543}, "notify_end_states": ["no data", "alert", "warn"],
+        "modified": "2025-10-20T18:05:44.085763+00:00"}, "id": "46c959d3-f015-4fa8-880e-11743eff40fe",
+        "relationships": {"created_by": {"data": {"type": "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea"}},
+        "monitor": {"data": {"type": "monitor", "id": "16262543"}}}}, "included":
+        [{"type": "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea", "attributes":
         {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "created_at": "2025-07-16T20:40:21.833658+00:00", "modified_at": "2025-07-16T20:40:21.833658+00:00",
         "email": "michael.richey@gmail.com", "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?s=48&d=retro",
         "title": null, "verified": true, "service_account": true, "disabled": false,
-        "allowed_login_methods": [], "status": "Active", "last_login_time": null}}]}'
+        "allowed_login_methods": [], "status": "Active", "last_login_time": null}},
+        {"type": "monitor", "id": 16262543, "attributes": {"name": "test"}}]}'
     headers:
       Content-Type:
       - application/json
@@ -7553,7 +7554,23 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/downtime/67f47516-eebf-40cd-a92e-65f117c2b938
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/16262543?force=true
+  response:
+    body:
+      string: '{"deleted_monitor_id": 16262543}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v2/downtime/46c959d3-f015-4fa8-880e-11743eff40fe
   response:
     body:
       string: ''
@@ -7563,20 +7580,4 @@ interactions:
     status:
       code: 204
       message: No Content
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/16261685?force=true
-  response:
-    body:
-      string: '{"deleted_monitor_id": 16261685}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
 version: 1

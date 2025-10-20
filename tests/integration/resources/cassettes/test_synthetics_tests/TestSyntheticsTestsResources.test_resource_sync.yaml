@@ -24,41 +24,8 @@ interactions:
         "aws:us-east-1", "aws:us-east-2", "aws:us-west-1", "aws:us-west-2", "azure:eastus",
         "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
         "gcp:us-west1", "gcp:us-west2"], "monitor_id": 20125203, "creator": {"name":
-        "Michael Richey", "handle": "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com"}},
-        {"public_id": "ts9-c3x-x55", "name": "mobile application test", "status":
-        "paused", "type": "mobile", "tags": ["env:test", "team:hamr-test", "team:test"],
-        "created_at": "2025-09-30T19:54:36.538349+00:00", "modified_at": "2025-09-30T19:56:25.187276+00:00",
-        "config": {"configVariables": [], "variables": []}, "message": "{{! Test result
-        details }}\nYour test {{#is_alert}}failed{{else}}recovered{{/is_alert}} after
-        running for {{eval \"synthetics.attributes.result.duration/1000\" }}s on the
-        {{#if synthetics.attributes.location.privateLocation}}Private{{else}}Managed{{/if}}
-        Location {{synthetics.attributes.location.id}}.\n\n{{! Mobile device details
-        }}\n{{#with synthetics.attributes.device}}\nIt ran on {{name}} ({{platform.name}}
-        {{platform.version}} on a {{type}} form factor with a resolution of {{resolution.width}}x{{resolution.height}}).\n{{/with}}\n\n{{!
-        Steps overview }}\n{{#if synthetics.attributes.count.steps}}\nThe test ran
-        {{synthetics.attributes.count.steps.completed}} steps out of {{synthetics.attributes.count.steps.total}}.\n{{/if}}\n\n{{!
-        Display failed step if alert }}\n{{#is_alert}}\n{{#with synthetics.failed_step}}\n#
-        Failed step\nThe step {{description}} failed.\nError: `{{{failure.message}}}`
-        (`{{failure.code}}` ).\n{{/with}}\n{{/is_alert}}\n\n{{! Steps list }}\n# Steps\n{{#each
-        synthetics.attributes.result.steps}}\n* **Step {{@index}}**: {{description}}\nType:
-        `{{type}}`\nDuration: {{duration}}ms\nStatus: {{status}}\n{{#if failure}}\nError:
-        `{{failure.message}}` (`{{failure.code}}`)\n{{/if}}\n{{/each}}\n\n{{! Display
-        config variables if any }}\n{{#if synthetics.attributes.result.variables.config}}\n#
-        Config Variables\nThe test used the following variables:\n{{#each synthetics.attributes.result.variables.config}}\n*
-        **Name:** `{{name}}`\nType: `{{type}}`\nValue: {{#if secure}}*Obfuscated (value
-        hidden)*{{else}}`{{{value}}}`{{/if}}{{/each}}\n{{/if}}\n\n{{! List extracted
-        variables across all successful steps }}\n# Extracted variables\n{{#each synthetics.attributes.result.steps}}\n{{#if
-        extractedValue}}\n* **Name**: `{{extractedValue.name}}`\n**Value:** {{#if
-        extractedValue.secure}}*Obfuscated (value hidden)*{{else}}`{{{extractedValue.value}}}`{{/if}}\n{{/if}}\n{{/each}}",
-        "options": {"min_failure_duration": 0, "monitor_options": {"notification_preset_name":
-        "show_all", "on_missing_data": "show_no_data", "notify_audit": false, "new_host_delay":
-        300, "include_tags": true}, "retry": {"count": 0, "interval": 300}, "tick_every":
-        1800, "device_ids": ["synthetics:mobile:device:google_pixel_9_android_15"],
-        "mobileApplication": {"applicationId": "bd8f1fb2-5565-4132-91c6-fbe638bc0ea9",
-        "referenceId": "bd8f1fb2-5565-4132-91c6-fbe638bc0ea9", "referenceType": "latest"},
-        "disableAutoAcceptAlert": true}, "locations": ["aws:us-west-2"], "monitor_id":
-        90259133, "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com"}}], "total": 2}'
+        "Michael Richey", "handle": "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com"}}],
+        "total": 1}'
     headers:
       Content-Type:
       - application/json
@@ -74,55 +41,21 @@ interactions:
     uri: https://api.datadoghq.eu/api/unstable/synthetics/mobile/applications
   response:
     body:
-      string: '{"applications": [{"id": "bd8f1fb2-5565-4132-91c6-fbe638bc0ea9", "created_at":
-        "2025-09-30T19:49:36.187366+00:00", "description": "test description", "name":
-        "test mobile applicaiton", "platform": "android", "framework": "native", "tags":
-        ["env:test", "team:hamr-test", "team:test"], "versions": [{"created_at": "2025-09-30T19:49:47.813064+00:00",
-        "created_by": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com"}, "id": "b008aafe-3f51-402b-b528-524b0e1b7189",
-        "version_name": "Test application", "file_name": "b52ea3e0-1762-40f4-8429-11be8ac79f4e",
-        "original_file_name": "app-release.apk", "is_latest": true, "tests": [{"public_id":
-        "ts9-c3x-x55", "name": "mobile application test"}], "minimum_os_version":
-        "5.0"}]}, {"id": "00000000-0000-0000-0000-000000000000", "created_at": "2024-01-01T00:00:00+00:00",
-        "description": "Datadog Demo app for Android", "name": "Shopist Android (default)",
-        "platform": "android", "framework": "native", "tags": [], "versions": [{"created_at":
+      string: '{"applications": [{"id": "00000000-0000-0000-0000-000000000000", "created_at":
+        "2024-01-01T00:00:00+00:00", "description": "Datadog Demo app for Android",
+        "name": "Shopist Android (default)", "platform": "android", "framework": "native",
+        "tags": [], "versions": [{"created_at": "2024-01-01T00:00:00+00:00", "created_by":
+        {"name": null, "handle": null, "email": null}, "id": "00000000-0000-0000-0000-000000000001",
+        "version_name": "24.44.4", "file_name": "Shopist_24.44.4.apk", "original_file_name":
+        "Shopist_24.44.4.apk", "is_latest": true, "tests": [], "minimum_os_version":
+        "5.0"}]}, {"id": "00000000-0000-0000-0000-000000000010", "created_at": "2024-01-01T00:00:00+00:00",
+        "description": "Datadog Demo app for iOS", "name": "Shopist iOS (default)",
+        "platform": "ios", "framework": "native", "tags": [], "versions": [{"created_at":
         "2024-01-01T00:00:00+00:00", "created_by": {"name": null, "handle": null,
-        "email": null}, "id": "00000000-0000-0000-0000-000000000001", "version_name":
-        "24.44.4", "file_name": "Shopist_24.44.4.apk", "original_file_name": "Shopist_24.44.4.apk",
-        "is_latest": true, "tests": [], "minimum_os_version": "5.0"}]}, {"id": "00000000-0000-0000-0000-000000000010",
-        "created_at": "2024-01-01T00:00:00+00:00", "description": "Datadog Demo app
-        for iOS", "name": "Shopist iOS (default)", "platform": "ios", "framework":
-        "native", "tags": [], "versions": [{"created_at": "2024-01-01T00:00:00+00:00",
-        "created_by": {"name": null, "handle": null, "email": null}, "id": "00000000-0000-0000-0000-000000000011",
-        "version_name": "24.303.62416", "file_name": "Shopist_24.303.62416.ipa", "original_file_name":
+        "email": null}, "id": "00000000-0000-0000-0000-000000000011", "version_name":
+        "24.303.62416", "file_name": "Shopist_24.303.62416.ipa", "original_file_name":
         "Shopist_24.303.62416.ipa", "is_latest": true, "tests": [], "minimum_os_version":
         "13.0"}]}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/unstable/synthetics/mobile/applications/versions/b008aafe-3f51-402b-b528-524b0e1b7189
-  response:
-    body:
-      string: '{"id": "b008aafe-3f51-402b-b528-524b0e1b7189", "application_id": "bd8f1fb2-5565-4132-91c6-fbe638bc0ea9",
-        "created_at": "2025-09-30T19:49:47.813064+00:00", "file_name": "b52ea3e0-1762-40f4-8429-11be8ac79f4e",
-        "is_latest": true, "original_file_name": "app-release.apk", "version_name":
-        "Test application", "extracted_metadata": {"android": {"package": "com.example.shopistflutter",
-        "permissions": ["android.permission.INTERNET", "android.permission.ACCESS_NETWORK_STATE",
-        "android.permission.WAKE_LOCK", "android.permission.RECEIVE_BOOT_COMPLETED",
-        "android.permission.FOREGROUND_SERVICE", "com.example.shopistflutter.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"],
-        "versionCode": 1, "versionName": "1.0.0", "IsReactNative": false, "minSdkVersion":
-        21, "launchActivity": "com.example.shopist_flutter.MainActivity", "targetSdkVersion":
-        31, "compileSdkVersion": 34, "platformBuildVersionCode": "34", "platformBuildVersionName":
-        "14", "compileSdkVersionCodename": "14"}}}'
     headers:
       Content-Type:
       - application/json
@@ -209,76 +142,6 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/mobile/ts9-c3x-x55
-  response:
-    body:
-      string: '{"public_id": "ts9-c3x-x55", "name": "mobile application test", "status":
-        "paused", "type": "mobile", "tags": ["env:test", "team:hamr-test", "team:test"],
-        "created_at": "2025-09-30T19:54:36.538349+00:00", "modified_at": "2025-09-30T19:56:25.187276+00:00",
-        "config": {"configVariables": [], "variables": []}, "message": "{{! Test result
-        details }}\nYour test {{#is_alert}}failed{{else}}recovered{{/is_alert}} after
-        running for {{eval \"synthetics.attributes.result.duration/1000\" }}s on the
-        {{#if synthetics.attributes.location.privateLocation}}Private{{else}}Managed{{/if}}
-        Location {{synthetics.attributes.location.id}}.\n\n{{! Mobile device details
-        }}\n{{#with synthetics.attributes.device}}\nIt ran on {{name}} ({{platform.name}}
-        {{platform.version}} on a {{type}} form factor with a resolution of {{resolution.width}}x{{resolution.height}}).\n{{/with}}\n\n{{!
-        Steps overview }}\n{{#if synthetics.attributes.count.steps}}\nThe test ran
-        {{synthetics.attributes.count.steps.completed}} steps out of {{synthetics.attributes.count.steps.total}}.\n{{/if}}\n\n{{!
-        Display failed step if alert }}\n{{#is_alert}}\n{{#with synthetics.failed_step}}\n#
-        Failed step\nThe step {{description}} failed.\nError: `{{{failure.message}}}`
-        (`{{failure.code}}` ).\n{{/with}}\n{{/is_alert}}\n\n{{! Steps list }}\n# Steps\n{{#each
-        synthetics.attributes.result.steps}}\n* **Step {{@index}}**: {{description}}\nType:
-        `{{type}}`\nDuration: {{duration}}ms\nStatus: {{status}}\n{{#if failure}}\nError:
-        `{{failure.message}}` (`{{failure.code}}`)\n{{/if}}\n{{/each}}\n\n{{! Display
-        config variables if any }}\n{{#if synthetics.attributes.result.variables.config}}\n#
-        Config Variables\nThe test used the following variables:\n{{#each synthetics.attributes.result.variables.config}}\n*
-        **Name:** `{{name}}`\nType: `{{type}}`\nValue: {{#if secure}}*Obfuscated (value
-        hidden)*{{else}}`{{{value}}}`{{/if}}{{/each}}\n{{/if}}\n\n{{! List extracted
-        variables across all successful steps }}\n# Extracted variables\n{{#each synthetics.attributes.result.steps}}\n{{#if
-        extractedValue}}\n* **Name**: `{{extractedValue.name}}`\n**Value:** {{#if
-        extractedValue.secure}}*Obfuscated (value hidden)*{{else}}`{{{extractedValue.value}}}`{{/if}}\n{{/if}}\n{{/each}}",
-        "options": {"min_failure_duration": 0, "monitor_options": {"notification_preset_name":
-        "show_all", "on_missing_data": "show_no_data", "notify_audit": false, "new_host_delay":
-        300, "include_tags": true}, "retry": {"count": 0, "interval": 300}, "tick_every":
-        1800, "device_ids": ["synthetics:mobile:device:google_pixel_9_android_15"],
-        "mobileApplication": {"applicationId": "bd8f1fb2-5565-4132-91c6-fbe638bc0ea9",
-        "referenceId": "bd8f1fb2-5565-4132-91c6-fbe638bc0ea9", "referenceType": "latest"},
-        "disableAutoAcceptAlert": true}, "locations": ["aws:us-west-2"], "monitor_id":
-        90259133, "creator": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com"}, "steps": [{"name": "Tap on ImageView",
-        "params": {"element": {"context": "NATIVE_APP", "contextType": "native", "elementDescription":
-        "<android.widget.ImageView content-desc=\"chairs\">", "multiLocator": {"ab":
-        "/*[local-name()=\"hierarchy\"][1]/*[local-name()=\"android.widget.FrameLayout\"][1]/*[local-name()=\"android.widget.LinearLayout\"][1]/*[local-name()=\"android.widget.FrameLayout\"][1]/*[local-name()=\"android.widget.FrameLayout\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][2]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.widget.ImageView\"][1]",
-        "co": "", "ro": "//*[@*[local-name()=\"content-desc\"]=\"chairs\"]"}, "relativePosition":
-        {"x": 0.44630368971773343, "y": 0.5759050840540502}, "textContent": "", "viewName":
-        "ImageView"}}, "public_id": "zct-859-bky", "type": "tap", "context": {"id":
-        "NATIVE_APP"}, "isCritical": true}, {"name": "Scroll", "params": {"element":
-        {"context": "NATIVE_APP", "contextType": "native", "elementDescription": "<android.widget.ImageView
-        content-desc=\"IN STOCK\nBlack Shell Chair\n\u20ac320.00\">", "multiLocator":
-        {"ab": "/*[local-name()=\"hierarchy\"][1]/*[local-name()=\"android.widget.FrameLayout\"][1]/*[local-name()=\"android.widget.LinearLayout\"][1]/*[local-name()=\"android.widget.FrameLayout\"][1]/*[local-name()=\"android.widget.FrameLayout\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][2]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.widget.ImageView\"][2]",
-        "co": "", "ro": "//*[@*[local-name()=\"content-desc\"]=\"IN STOCK\nBlack Shell
-        Chair\n\u20ac320.00\"]"}, "relativePosition": {"x": 0.6337364457195899, "y":
-        0.2699930799086148}, "textContent": "", "viewName": "ImageView"}, "x": 0,
-        "y": 0}, "public_id": "sxr-3xz-454", "type": "scroll", "context": {"id": "NATIVE_APP"},
-        "isCritical": true}, {"name": "Scroll", "params": {"element": {"context":
-        "NATIVE_APP", "contextType": "native", "elementDescription": "<android.widget.Button
-        content-desc=\"Back\">", "multiLocator": {"ab": "/*[local-name()=\"hierarchy\"][1]/*[local-name()=\"android.widget.FrameLayout\"][1]/*[local-name()=\"android.widget.LinearLayout\"][1]/*[local-name()=\"android.widget.FrameLayout\"][1]/*[local-name()=\"android.widget.FrameLayout\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.view.View\"][1]/*[local-name()=\"android.widget.Button\"][1]",
-        "co": "", "ro": "//*[@*[local-name()=\"content-desc\"]=\"Back\"]"}, "relativePosition":
-        {"x": 0.5563133099955311, "y": 0.5190778369852814}, "textContent": "", "viewName":
-        "Button"}, "x": -1, "y": 0}, "public_id": "tiu-jjv-9pn", "type": "scroll",
-        "context": {"id": "NATIVE_APP"}, "isCritical": true}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
     body: '{"name": "Test on www.datadoghq.com", "status": "live", "type": "api",
       "subtype": "http", "tags": ["managed_by:datadog-sync"], "config": {"assertions":
       [{"operator": "lessThan", "type": "responseTime", "target": 1000}], "request":
@@ -299,9 +162,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests/api
   response:
     body:
-      string: '{"public_id": "cz8-fkp-g8x", "name": "Test on www.datadoghq.com", "status":
+      string: '{"public_id": "gkv-wjx-xnv", "name": "Test on www.datadoghq.com", "status":
         "live", "type": "api", "subtype": "http", "tags": ["managed_by:datadog-sync"],
-        "created_at": "2025-10-20T17:46:58.064802+00:00", "modified_at": "2025-10-20T17:46:58.064802+00:00",
+        "created_at": "2025-10-20T18:11:41.461355+00:00", "modified_at": "2025-10-20T18:11:41.461355+00:00",
         "config": {"assertions": [{"operator": "lessThan", "type": "responseTime",
         "target": 1000}], "request": {"method": "GET", "url": "https://www.datadoghq.com"}},
         "message": "", "options": {"httpVersion": "any", "min_failure_duration": 0,
@@ -316,7 +179,7 @@ interactions:
         "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
         "gcp:us-west1", "gcp:us-west2"], "created_by": {"name": "Michael S Richey",
         "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com"},
-        "deleted_at": null, "monitor_id": 16261992, "org_id": 1300336245, "modified_by":
+        "deleted_at": null, "monitor_id": 16262711, "org_id": 1300336245, "modified_by":
         {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "email": "michael.richey@gmail.com"}}'
     headers:
@@ -7727,7 +7590,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["cz8-fkp-g8x"]}'
+    body: '{"public_ids": ["gkv-wjx-xnv"]}'
     headers:
       Content-Type:
       - application/json
@@ -7735,7 +7598,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"public_id": "cz8-fkp-g8x", "deleted_at": "2025-10-20T17:46:59.375545+00:00"}]}'
+      string: '{"deleted_tests": [{"public_id": "gkv-wjx-xnv", "deleted_at": "2025-10-20T18:11:42.832713+00:00"}]}'
     headers:
       Content-Type:
       - application/json

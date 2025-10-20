@@ -385,7 +385,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "ZeznOQuESratbSA3oUn3MQ", "type": "pipeline", "name": "test",
+      string: '{"id": "Jn9RdJb2TneZI324GPA87g", "type": "pipeline", "name": "test",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -7801,7 +7801,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/ZeznOQuESratbSA3oUn3MQ
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/Jn9RdJb2TneZI324GPA87g
   response:
     body:
       string: '{}'

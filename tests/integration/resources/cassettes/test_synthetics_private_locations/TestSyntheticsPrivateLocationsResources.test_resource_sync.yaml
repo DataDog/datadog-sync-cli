@@ -64,10 +64,10 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/private-locations
   response:
     body:
-      string: '{"private_location": {"createdAt": "2025-10-20T17:46:33.099151+00:00",
-        "modifiedAt": "2025-10-20T17:46:33.099151+00:00", "description": "test", "tags":
+      string: '{"private_location": {"createdAt": "2025-10-20T18:11:16.739714+00:00",
+        "modifiedAt": "2025-10-20T18:11:16.739714+00:00", "description": "test", "tags":
         ["team:test", "managed_by:datadog-sync"], "name": "test", "metadata": {"restricted_roles":
-        []}, "id": "pl:test-9d193f2a275d879541e64cd2b5848957", "createdBy": "michael.richey@gmail.com",
+        []}, "id": "pl:test-c3ea2c2f7137979754a7f4ffccdd79e3", "createdBy": "michael.richey@gmail.com",
         "config": {"site": "us5.datadoghq.com"}}, "result_encryption": {"id": "sha256$base64$9ucvNmlRWqa2uszeSwV4XKe79OpikCqSlkwIEmqLLJI=",
         "key": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA609V+ZyMCTConr98t2Kr\nx4lXUdsadwRQIzvHwkXLYRu2bqD3f+QsvdimPUoIyvyeBt6xp9rAUBGV8HGWuzVj\nI7buCuejZw/BGqB6+hXtaMy6HhUwfjkpyuUBvbxqlm+eRywicWN0r77EO4weQ/kY\nWkxmLsDBLBi6zXShnrgkkWBgrIUtX+rx0Gkkf2pVqPZTPFRqL7lRJq/pvkI+UbUT\nqdo6ZGdj0zmliYhpWZwQ0E1dLxNJXcREOL3WutqRuxyxo4RZh06eMRFKfdooU+Y+\n6DGboTO9dcMlAv3YVrzdifH9986ocWUsTnEViY64BEiQf2wbldT9zrepnAiz0JZG\nybgyW5trEXdlrUQQt2LVYlTyZAxjT7V6YilnWgH1gX9wtLIPgyo6XMb/2GDfB69S\nOFRq5XO8gryJB7s2R7XFpIUQJofSqbzqvn39tLZNpuh1uI287wcX7tyt5tqTO1Kd\nk5dkhB2YqXiCshsNjedtFpuAWeaqv1pxmwOzAVe/wCeIHliG58or/iRjRoQ/bIIp\nKryrOAStdG+SfcKhxYnvCVE6itnPE6VomuTLT1X6NNKWEVDL0lGt4CYwm3OoSwt4\npOjctcTfCsP0gAjMzgOTLD+ziWNw7YQa32P8X1sOaaGOkAP9cxD3SqFfO01ihV52\nitBNv4mhGH0j3N2zBSoBUekCAwEAAQ==\n-----END
         PUBLIC KEY-----\n"}}'
@@ -7484,7 +7484,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/synthetics/private-locations/pl:test-9d193f2a275d879541e64cd2b5848957
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/private-locations/pl:test-c3ea2c2f7137979754a7f4ffccdd79e3
   response:
     body:
       string: ''

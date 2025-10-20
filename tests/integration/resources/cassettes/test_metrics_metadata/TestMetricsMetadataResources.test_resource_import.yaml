@@ -44,11 +44,12 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/metrics/msr.increment
+    uri: https://api.datadoghq.eu/api/v1/metrics/msr.gauge
   response:
     body:
-      string: '{"description": null, "short_name": null, "type": "rate", "unit": null,
-        "per_unit": null, "statsd_interval": 10, "integration": null}'
+      string: '{"description": "Does this count as a configuration?", "short_name":
+        "", "type": "gauge", "unit": null, "per_unit": null, "statsd_interval": 10,
+        "integration": null}'
     headers:
       Content-Type:
       - application/json
@@ -61,7 +62,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/metrics/test
+    uri: https://api.datadoghq.eu/api/v1/metrics/msr.histogram.max
   response:
     body:
       string: '{"description": null, "short_name": null, "type": "gauge", "unit":
@@ -95,7 +96,41 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/metrics/msr.histogram.median
+    uri: https://api.datadoghq.eu/api/v1/metrics/msr.histogram.avg
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/metrics/msr.histogram.count
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "rate", "unit": null,
+        "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/metrics/test
   response:
     body:
       string: '{"description": null, "short_name": null, "type": "gauge", "unit":
@@ -129,63 +164,28 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/metrics/msr.histogram.avg
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
-        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/metrics/msr.histogram.max
-  response:
-    body:
-      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
-        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/metrics/msr.gauge
-  response:
-    body:
-      string: '{"description": "Does this count as a configuration?", "short_name":
-        "", "type": "gauge", "unit": null, "per_unit": null, "statsd_interval": 10,
-        "integration": null}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/metrics/msr.histogram.count
+    uri: https://api.datadoghq.eu/api/v1/metrics/msr.increment
   response:
     body:
       string: '{"description": null, "short_name": null, "type": "rate", "unit": null,
         "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/metrics/msr.histogram.median
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "gauge", "unit":
+        null, "per_unit": null, "statsd_interval": 10, "integration": null}'
     headers:
       Content-Type:
       - application/json

@@ -2948,10 +2948,10 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/authn_mappings
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "cb1dec04-addb-11f0-9a07-da7ad0900005",
+      string: '{"data": {"type": "authn_mappings", "id": "3882152e-addf-11f0-a881-da7ad0900005",
         "attributes": {"saml_assertion_attribute_id": "3699", "attribute_key": "name",
-        "attribute_value": "michael", "created_at": "2025-10-20T17:39:56.565533+00:00",
-        "modified_at": "2025-10-20T17:39:56.565533+00:00"}, "relationships": {"saml_assertion_attribute":
+        "attribute_value": "michael", "created_at": "2025-10-20T18:04:28.583749+00:00",
+        "modified_at": "2025-10-20T18:04:28.583749+00:00"}, "relationships": {"saml_assertion_attribute":
         {"data": {"type": "saml_assertion_attributes", "id": "3699"}}, "role": {"data":
         {"type": "roles", "id": "512f60fa-1630-11f0-910b-da7ad0900005"}}, "team":
         {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
@@ -10549,7 +10549,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/authn_mappings/cb1dec04-addb-11f0-9a07-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/authn_mappings/3882152e-addf-11f0-a881-da7ad0900005
   response:
     body:
       string: ''

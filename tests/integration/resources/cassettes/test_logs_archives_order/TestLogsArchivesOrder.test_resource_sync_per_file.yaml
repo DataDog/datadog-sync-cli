@@ -91,7 +91,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives
   response:
     body:
-      string: '{"data": {"type": "archives", "id": "KtxIsM8JTlKHAoYakDdprQ", "attributes":
+      string: '{"data": {"type": "archives", "id": "IAmnbLngQJKFavSXD6uE7g", "attributes":
         {"name": "Main Archive", "query": "host:COMP-XKH4K2XWRC", "state": "UNKNOWN",
         "destination": {"bucket": "hamr-logs-archive-for-internal-testing", "encryption":
         {"type": "NO_OVERRIDE"}, "storage_class": "STANDARD", "path": "/logs-archive-testing",
@@ -113,7 +113,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archive-order
   response:
     body:
-      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["KtxIsM8JTlKHAoYakDdprQ"]}}}'
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["IAmnbLngQJKFavSXD6uE7g"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -121,7 +121,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["KtxIsM8JTlKHAoYakDdprQ"]}}}'
+    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["IAmnbLngQJKFavSXD6uE7g"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -129,7 +129,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archive-order
   response:
     body:
-      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["KtxIsM8JTlKHAoYakDdprQ"]}}}'
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["IAmnbLngQJKFavSXD6uE7g"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -7543,7 +7543,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/KtxIsM8JTlKHAoYakDdprQ
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/IAmnbLngQJKFavSXD6uE7g
   response:
     body:
       string: ''

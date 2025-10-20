@@ -22,6 +22,24 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/kKwQ7pmrTV2DhOsoohbzxA
+  response:
+    body:
+      string: '{"id": "kKwQ7pmrTV2DhOsoohbzxA", "type": "pipeline", "name": "test",
+        "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
+        "}, "processors": [], "tags": [], "description": ""}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/_SgMOgxiTnSBiOyMyf8onw
   response:
     body:
@@ -91,6 +109,35 @@ interactions:
         ["level"], "type": "status-remapper"}, {"name": "Define `dd.trace_id` as the
         official trace ID of the log", "is_enabled": true, "sources": ["dd.trace_id"],
         "type": "trace-id-remapper"}]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/AphSktL2TYG7CKh0vhNGTQ
+  response:
+    body:
+      string: '{"id": "AphSktL2TYG7CKh0vhNGTQ", "type": "pipeline", "name": "Supply
+        Chain Firewall", "is_enabled": true, "is_read_only": true, "filter": {"query":
+        "source:scfw"}, "processors": [{"name": "Convert `created` epoch to milliseconds
+        epoch", "is_enabled": true, "expression": "created * 1000", "target": "created",
+        "is_replace_missing": false, "type": "arithmetic-processor"}, {"name": "Define
+        `created` as the official date of the log", "is_enabled": true, "sources":
+        ["created"], "type": "date-remapper"}, {"name": "Map `username` to `usr.name`",
+        "is_enabled": true, "sources": ["username"], "source_type": "attribute", "target":
+        "usr.name", "target_type": "attribute", "preserve_source": false, "override_on_conflict":
+        false, "type": "attribute-remapper"}, {"name": "Map `action` to `evt.outcome`",
+        "is_enabled": true, "sources": ["action"], "source_type": "attribute", "target":
+        "evt.outcome", "target_type": "attribute", "preserve_source": false, "override_on_conflict":
+        false, "type": "attribute-remapper"}, {"name": "Define `msg` as the official
+        message of the log", "is_enabled": true, "sources": ["msg"], "type": "message-remapper"}]}'
     headers:
       Content-Type:
       - application/json
@@ -176,53 +223,6 @@ interactions:
         `record.extra.dd.service` as the official service of the log", "is_enabled":
         true, "sources": ["dd.service", "extra.dd.service", "record.extra.dd.service"],
         "type": "service-remapper"}]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/kKwQ7pmrTV2DhOsoohbzxA
-  response:
-    body:
-      string: '{"id": "kKwQ7pmrTV2DhOsoohbzxA", "type": "pipeline", "name": "test",
-        "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
-        "}, "processors": [], "tags": [], "description": ""}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/logs/config/pipelines/AphSktL2TYG7CKh0vhNGTQ
-  response:
-    body:
-      string: '{"id": "AphSktL2TYG7CKh0vhNGTQ", "type": "pipeline", "name": "Supply
-        Chain Firewall", "is_enabled": true, "is_read_only": true, "filter": {"query":
-        "source:scfw"}, "processors": [{"name": "Convert `created` epoch to milliseconds
-        epoch", "is_enabled": true, "expression": "created * 1000", "target": "created",
-        "is_replace_missing": false, "type": "arithmetic-processor"}, {"name": "Define
-        `created` as the official date of the log", "is_enabled": true, "sources":
-        ["created"], "type": "date-remapper"}, {"name": "Map `username` to `usr.name`",
-        "is_enabled": true, "sources": ["username"], "source_type": "attribute", "target":
-        "usr.name", "target_type": "attribute", "preserve_source": false, "override_on_conflict":
-        false, "type": "attribute-remapper"}, {"name": "Map `action` to `evt.outcome`",
-        "is_enabled": true, "sources": ["action"], "source_type": "attribute", "target":
-        "evt.outcome", "target_type": "attribute", "preserve_source": false, "override_on_conflict":
-        false, "type": "attribute-remapper"}, {"name": "Define `msg` as the official
-        message of the log", "is_enabled": true, "sources": ["msg"], "type": "message-remapper"}]}'
     headers:
       Content-Type:
       - application/json
@@ -482,7 +482,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "Nmwaq0iiT6K3BO2fzdljOw", "type": "pipeline", "name": "test",
+      string: '{"id": "pJLeJFd-R4O_5wmTPMTocA", "type": "pipeline", "name": "test",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -501,7 +501,7 @@ interactions:
   response:
     body:
       string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
-        "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ", "Nmwaq0iiT6K3BO2fzdljOw"]}'
+        "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ", "pJLeJFd-R4O_5wmTPMTocA"]}'
     headers:
       Content-Type:
       - application/json
@@ -509,7 +509,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"pipeline_ids": ["Nmwaq0iiT6K3BO2fzdljOw", "PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
+    body: '{"pipeline_ids": ["pJLeJFd-R4O_5wmTPMTocA", "PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
       "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ"]}'
     headers:
       Content-Type:
@@ -518,7 +518,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipeline-order
   response:
     body:
-      string: '{"pipeline_ids": ["Nmwaq0iiT6K3BO2fzdljOw", "PottxryNTkKfx-bKCuP1TQ",
+      string: '{"pipeline_ids": ["pJLeJFd-R4O_5wmTPMTocA", "PottxryNTkKfx-bKCuP1TQ",
         "06NJ6fGXQXuwbIJTQPaqUA", "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ"]}'
     headers:
       Content-Type:
@@ -7933,7 +7933,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/Nmwaq0iiT6K3BO2fzdljOw
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/pJLeJFd-R4O_5wmTPMTocA
   response:
     body:
       string: '{}'
