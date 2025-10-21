@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
+from datadog_sync.model.synthetics_mobile_applications_versions import SyntheticsMobileApplicationsVersions
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -28,6 +29,7 @@ class SyntheticsTests(BaseResource):
                 "options.mobileApplication.referenceId",
                 "options.mobileApplication.applicationId",
             ],
+            "synthetics_mobile_applications_versions": ["mobileApplicationsVersions"],
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
@@ -39,6 +41,7 @@ class SyntheticsTests(BaseResource):
             "created_at",
             "creator",
             "created_by",
+            "mobileApplicationsVersions",
             "modified_by",
             "overall_state",
             "overall_state_modified",
@@ -65,10 +68,12 @@ class SyntheticsTests(BaseResource):
     browser_test_path: str = "/api/v1/synthetics/tests/browser/{}"
     api_test_path: str = "/api/v1/synthetics/tests/api/{}"
     mobile_test_path: str = "/api/v1/synthetics/tests/mobile/{}"
+    versions: List = []
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
-
+        versions = SyntheticsMobileApplicationsVersions(self.config)
+        self.versions = await versions.get_resources(client)
         return resp["tests"]
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
@@ -90,6 +95,12 @@ class SyntheticsTests(BaseResource):
             resource = await source_client.get(self.api_test_path.format(_id))
         elif resource.get("type") == "mobile":
             resource = await source_client.get(self.mobile_test_path.format(_id))
+            versions = [
+                i["id"]
+                for i in self.versions
+                if i["application_id"] == resource["options"]["mobileApplication"]["applicationId"]
+            ]
+            resource["mobileApplicationsVersions"] = list(set(versions))
 
         resource = cast(dict, resource)
         return f"{resource['public_id']}#{resource['monitor_id']}", resource
@@ -103,17 +114,17 @@ class SyntheticsTests(BaseResource):
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         test_type = resource["type"]
+        resource.pop("mobileApplicationsVersions", None)
         resp = await destination_client.post(self.resource_config.base_path + f"/{test_type}", resource)
-
         return _id, resp
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
+        resource.pop("mobileApplicationsVersions", None)
         resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['public_id']}",
             resource,
         )
-
         return _id, resp
 
     async def delete_resource(self, _id: str) -> None:

@@ -54,6 +54,3 @@ class MetricsMetadata(BaseResource):
 
     async def delete_resource(self, _id: str) -> None:
         pass
-
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass

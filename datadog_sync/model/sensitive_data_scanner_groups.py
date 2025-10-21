@@ -75,6 +75,3 @@ class SensitiveDataScannerGroups(BaseResource):
             self.resource_config.base_path + f"/groups/{self.config.state.destination[self.resource_type][_id]['id']}",
             body=payload,
         )
-
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass

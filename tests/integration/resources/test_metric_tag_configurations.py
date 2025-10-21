@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 import pytest
+from time import sleep
 
 from datadog_sync.models import MetricTagConfigurations
 from tests.integration.helpers import BaseResourcesTestClass
@@ -20,3 +21,7 @@ class TestMetricConfigurationResources(BaseResourcesTestClass):
     @pytest.mark.skip(reason="This test is flakey")
     def test_resource_update_sync_per_file(self):
         pass
+
+    def test_resource_sync_per_file(self, runner, caplog):
+        sleep(10)
+        super(TestMetricConfigurationResources, self).test_resource_sync_per_file(runner, caplog)

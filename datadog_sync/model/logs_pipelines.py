@@ -151,9 +151,6 @@ class LogsPipelines(BaseResource):
                 self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
             )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass
-
     async def get_destination_integration_pipelines(self):
         destination_integration_pipelines_obj = {}
         destination_client = self.config.destination_client

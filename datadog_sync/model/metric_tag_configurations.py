@@ -72,9 +72,6 @@ class MetricTagConfigurations(BaseResource):
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}/tags"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
-        pass
-
     async def get_destination_metric_tag_configuration(self) -> Dict[str, Dict]:
         destination_metric_tag_configurations = {}
         destination_client = self.config.destination_client
