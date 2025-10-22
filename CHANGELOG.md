@@ -2,15 +2,13 @@
 
 ## 2.0.3 / 2025-10-22
 
-### Fixed
-* Michael.richey/fix synthetics test resource by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/389
 ### Changed
-* Michael.richey/hard retry limit by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/379
+* Changed synthetics test resource by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/389
+* Added hard retry limit by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/379
 * Change the retry error condition by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/380
-* Michael.richey/ease migrations by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/384
+* Fixes for migrations of resources by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/384
 * Skip resources that we don't have permissions to by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/395
 * Fix some problems with connected resources by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/396
-### Security
 * Security updates by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/394
 
 ## New Contributors
