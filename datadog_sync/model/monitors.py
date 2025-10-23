@@ -111,13 +111,15 @@ class Monitors(BaseResource):
                 if _id in monitors:
                     found = True
                     new_id = f"{monitors[_id]['id']}"
-                    r_obj[key] = re.sub(_id + r"([^#]|$)", new_id + "# ", r_obj[key])
+                    r_obj[key] = re.sub(_id + r"([^#]|$)", lambda match: f"{new_id}#{match.group(1)}", r_obj[key])
                 else:
                     # Check if it is a synthetics monitor
                     for k, v in synthetics_tests.items():
                         if k.endswith(_id):
                             found = True
-                            r_obj[key] = re.sub(_id + r"([^#]|$)", str(v["monitor_id"]) + "# ", r_obj[key])
+                            r_obj[key] = re.sub(
+                                _id + r"([^#]|$)", lambda match: f"{str(v['monitor_id'])}#{match.group(1)}", r_obj[key]
+                            )
                 if not found:
                     failed_connections.append(_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()
