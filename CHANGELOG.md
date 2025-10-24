@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.4 / 2025-10-24
+
+### Fixed
+* Fix Issue 399, hand edited composite query id replacements by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/400
+
+## New Contributors
+* @dependabot[bot] made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/372
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.0.3...2.0.4
+
 ## 2.0.3 / 2025-10-22
 
 ### Changed
