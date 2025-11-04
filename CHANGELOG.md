@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.5 / 2025-11-04
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.0.4...2.0.5
+
 ## 2.0.4 / 2025-10-24
 
 ### Fixed
