@@ -161,6 +161,7 @@ def config():
         verify_ddr_status=True,
         send_metrics=True,
         backup_before_reset=True,
+        show_progress_bar=True,
     )
 
     resources = init_resources(cfg)
