@@ -58,6 +58,7 @@ class Configuration(object):
     state: State
     verify_ddr_status: bool
     backup_before_reset: bool
+    show_progress_bar: bool
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
 
@@ -162,6 +163,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     validate = kwargs.get("validate")
     verify_ddr_status = kwargs.get("verify_ddr_status")
     backup_before_reset = not kwargs.get("do_not_backup")
+    show_progress_bar = kwargs.get("show_progress_bar")
 
     cleanup = kwargs.get("cleanup")
     if cleanup:
@@ -233,6 +235,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         state=state,
         verify_ddr_status=verify_ddr_status,
         backup_before_reset=backup_before_reset,
+        show_progress_bar=show_progress_bar,
     )
 
     # Initialize resource classes

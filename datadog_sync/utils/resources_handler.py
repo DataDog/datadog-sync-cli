@@ -111,9 +111,12 @@ class ResourcesHandler:
         # initalize topological sorters
         self.sorter = init_topological_sorter(self._dependency_graph)
         await self.worker.init_workers(self._apply_resource_cb, lambda: not self.sorter.is_active(), None)
-        await self.worker.schedule_workers_with_pbar(
-            total=len(self._dependency_graph), additional_coros=[self.run_sorter()]
-        )
+        if self.config.show_progress_bar:
+            await self.worker.schedule_workers_with_pbar(
+                total=len(self._dependency_graph), additional_coros=[self.run_sorter()]
+            )
+        else:
+            await self.worker.schedule_workers(additional_coros=[self.run_sorter()])
         self.config.logger.info(f"finished syncing resource items: {self.worker.counter}.")
 
         self.config.state.dump_state()
@@ -250,7 +253,10 @@ class ResourcesHandler:
         await self.worker.init_workers(self._import_get_resources_cb, None, len(self.config.resources_arg), tmp_storage)
         for resource_type in self.config.resources_arg:
             self.worker.work_queue.put_nowait(resource_type)
-        await self.worker.schedule_workers_with_pbar(total=len(self.config.resources_arg))
+        if self.config.show_progress_bar:
+            await self.worker.schedule_workers_with_pbar(total=len(self.config.resources_arg))
+        else:
+            await self.worker.schedule_workers()
         self.config.logger.info(f"Finished getting resources. {self.worker.counter}")
 
         # Begin importing individual resource items
@@ -261,7 +267,10 @@ class ResourcesHandler:
             total += len(v)
             for resource in v:
                 self.worker.work_queue.put_nowait((k, resource))
-        await self.worker.schedule_workers_with_pbar(total=total)
+        if self.config.show_progress_bar:
+            await self.worker.schedule_workers_with_pbar(total=total)
+        else:
+            await self.worker.schedule_workers()
         self.config.logger.info(f"finished importing individual resource items: {self.worker.counter}.")
 
     async def _import_get_resources_cb(self, resource_type: str, tmp_storage) -> None:
