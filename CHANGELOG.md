@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.7 / 2025-11-11
+
+### Added
+* Add a flag for showing the progress bar by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/407
+* Deal w/ new field in the public API by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/410
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.0.6...2.0.7
+
 ## 2.0.6 / 2025-11-04
 
 
