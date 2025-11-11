@@ -88,6 +88,16 @@ def click_config_file_provider(ctx: Context, opts: CustomOptionClass, value: Non
 
 _common_options = [
     option(
+        "--show-progress-bar",
+        envvar=constants.DD_SHOW_PROGRESS_BAR,
+        required=False,
+        type=bool,
+        default=True,
+        show_default=True,
+        help="Show or hide the progress bar",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--verify-ddr-status",
         envvar=constants.DD_VERIFY_DDR_STATUS,
         required=False,
