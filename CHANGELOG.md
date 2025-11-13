@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.8 / 2025-11-13
+
+### Changed
+* Allow other types of AWS auth by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/412
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.0.7...2.0.8
+
 ## 2.0.7 / 2025-11-11
 
 ### Added
