@@ -190,7 +190,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         for aws_config_property in AWS_CONFIG_PROPERTIES:
             property_value = kwargs.get(aws_config_property, None)
             if not property_value:
-                raise ValueError(f"Missing AWS configuration parameter: {aws_config_property}")
+                logger.warning(f"Missing AWS configuration parameter: {aws_config_property}")
             config[aws_config_property] = property_value
     elif storage_type == LOCAL_STORAGE_TYPE:
         logger.info("Using local filesystem to store state files")

@@ -40,13 +40,19 @@ class AWSS3Bucket(BaseStorage):
         self.resource_per_file = resource_per_file
         if not config:
             raise ValueError("No S3 configuration passed in")
-        self.client = boto3.client(
-            "s3",
-            region_name=config.get("aws_region_name", ""),
-            aws_access_key_id=config.get("aws_access_key_id", ""),
-            aws_secret_access_key=config.get("aws_secret_access_key", ""),
-            aws_session_token=config.get("aws_session_token", ""),
-        )
+        elif config.get("aws_region_name", None):
+            log.info("AWS S3 configured with command line parameters or env vars")
+            self.client = boto3.client(
+                "s3",
+                region_name=config.get("aws_region_name", ""),
+                aws_access_key_id=config.get("aws_access_key_id", ""),
+                aws_secret_access_key=config.get("aws_secret_access_key", ""),
+                aws_session_token=config.get("aws_session_token", ""),
+            )
+        elif config.get("aws_bucket_name", None):
+            log.info("AWS S3 configured without command line parameters")
+            self.client = boto3.client("s3")
+
         self.bucket_name = config.get("aws_bucket_name", "")
 
     def get(self, origin: Origin) -> StorageData:
