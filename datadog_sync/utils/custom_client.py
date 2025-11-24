@@ -96,7 +96,10 @@ class CustomClient:
             ssl_context = ssl.create_default_context(cafile=certifi.where())
             self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context))
         else:
-            log.warning("WARNING: SSL certificate verification is disabled. This is insecure and should only be used in trusted environments.")
+            log.warning(
+                "WARNING: SSL certificate verification is disabled. "
+                "This is insecure and should only be used in trusted environments."
+            )
             self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False))
         self.session.headers.update(build_default_headers(self.auth))
 

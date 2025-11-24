@@ -154,7 +154,14 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         destination_auth["apiKeyAuth"] = k
     if k := kwargs.get("destination_app_key"):
         destination_auth["appKeyAuth"] = k
-    destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout, send_metrics, verify_ssl)
+    destination_client = CustomClient(
+        destination_api_url,
+        destination_auth,
+        retry_timeout,
+        timeout,
+        send_metrics,
+        verify_ssl,
+    )
 
     # Additional settings
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
@@ -206,7 +213,14 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # is just an import, the source of that import is the destination of the reset.
     if cmd == Command.RESET:
         cleanup = TRUE
-        source_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout, send_metrics, verify_ssl)
+        source_client = CustomClient(
+            destination_api_url,
+            destination_auth,
+            retry_timeout,
+            timeout,
+            send_metrics,
+            verify_ssl,
+        )
         source_resources_path = f"{destination_resources_path}/.backup/{str(time.time())}"
 
     resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
