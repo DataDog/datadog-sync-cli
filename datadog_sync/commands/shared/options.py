@@ -98,6 +98,16 @@ _common_options = [
         cls=CustomOptionClass,
     ),
     option(
+        "--verify-ssl-certificates",
+        envvar=constants.DD_VERIFY_SSL_CERTIFICATES,
+        required=False,
+        type=bool,
+        default=True,
+        show_default=True,
+        help="Enable or disable SSL certificate verification. Warning: Disabling SSL verification is insecure.",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--verify-ddr-status",
         envvar=constants.DD_VERIFY_DDR_STATUS,
         required=False,
