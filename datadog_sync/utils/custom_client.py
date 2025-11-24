@@ -80,6 +80,7 @@ class CustomClient:
         retry_timeout: int,
         timeout: int,
         send_metrics: bool,
+        verify_ssl: bool = True,
     ) -> None:
         self.url_object = UrlObject.from_str(host)
         self.timeout = timeout
@@ -88,10 +89,18 @@ class CustomClient:
         self.default_pagination = PaginationConfig()
         self.auth = auth
         self.send_metrics = send_metrics
+        self.verify_ssl = verify_ssl
 
     async def _init_session(self):
-        ssl_context = ssl.create_default_context(cafile=certifi.where())
-        self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context))
+        if self.verify_ssl:
+            ssl_context = ssl.create_default_context(cafile=certifi.where())
+            self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context))
+        else:
+            log.warning(
+                "WARNING: SSL certificate verification is disabled. "
+                "This is insecure and should only be used in trusted environments."
+            )
+            self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False))
         self.session.headers.update(build_default_headers(self.auth))
 
     async def _end_session(self):

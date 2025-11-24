@@ -140,20 +140,28 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     retry_timeout = kwargs.get("http_client_retry_timeout")
     timeout = kwargs.get("http_client_timeout")
     send_metrics = kwargs.get("send_metrics")
+    verify_ssl = kwargs.get("verify_ssl_certificates", True)
 
     source_auth = {}
     if k := kwargs.get("source_api_key"):
         source_auth["apiKeyAuth"] = k
     if k := kwargs.get("source_app_key"):
         source_auth["appKeyAuth"] = k
-    source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout, send_metrics)
+    source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout, send_metrics, verify_ssl)
 
     destination_auth = {}
     if k := kwargs.get("destination_api_key"):
         destination_auth["apiKeyAuth"] = k
     if k := kwargs.get("destination_app_key"):
         destination_auth["appKeyAuth"] = k
-    destination_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout, send_metrics)
+    destination_client = CustomClient(
+        destination_api_url,
+        destination_auth,
+        retry_timeout,
+        timeout,
+        send_metrics,
+        verify_ssl,
+    )
 
     # Additional settings
     force_missing_dependencies = kwargs.get("force_missing_dependencies")
@@ -205,7 +213,14 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # is just an import, the source of that import is the destination of the reset.
     if cmd == Command.RESET:
         cleanup = TRUE
-        source_client = CustomClient(destination_api_url, destination_auth, retry_timeout, timeout, send_metrics)
+        source_client = CustomClient(
+            destination_api_url,
+            destination_auth,
+            retry_timeout,
+            timeout,
+            send_metrics,
+            verify_ssl,
+        )
         source_resources_path = f"{destination_resources_path}/.backup/{str(time.time())}"
 
     resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
