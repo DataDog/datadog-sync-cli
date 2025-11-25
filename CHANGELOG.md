@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.9 / 2025-11-24
+
+### Added
+* First pass at skipping certs by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/416
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.0.8...2.0.9
+
 ## 2.0.8 / 2025-11-13
 
 ### Changed
