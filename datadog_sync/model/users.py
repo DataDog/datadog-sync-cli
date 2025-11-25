@@ -20,6 +20,9 @@ class Users(BaseResource):
         resource_connections={"roles": ["relationships.roles.data.id"]},
         base_path="/api/v2/users",
         non_nullable_attr=["attributes.name"],
+        null_values={
+            "name": [""],
+        },
         excluded_attributes=[
             "id",
             "attributes.created_at",
