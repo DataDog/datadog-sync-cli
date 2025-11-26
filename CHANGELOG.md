@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.10 / 2025-11-26
+
+### Fixed
+* Allow users without names by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/418
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.0.9...2.0.10
+
 ## 2.0.9 / 2025-11-24
 
 ### Added
