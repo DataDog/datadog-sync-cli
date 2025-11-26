@@ -150,22 +150,31 @@ class TeamMemberships(BaseResource):
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        self.destination_team_memberships = await self.get_resources(destination_client)
 
-        # check the destination for a matching resource
+        # Get the state directly without refetching resources to avoid race conditions
+        # during concurrent cleanups where teams might already be deleted
         state = self.config.state.destination[self.resource_type].get(_id, None)
-        existing = self._get_existing_team_membership(state)
 
-        # skip if the membership isn't found at the destination
-        if not existing:
+        # skip if the membership isn't found in state
+        if not state:
             raise SkipResource(_id, self.resource_type, f"resource {_id} not found for deletion")
 
-        # delete the matching resource
-        team_id = existing["relationships"]["team"]["data"]["id"]
-        user_id = existing["relationships"]["user"]["data"]["id"]
-        await destination_client.delete(
-            self.team_memberships_path.format(team_id) + f"/{user_id}",
-        )
+        # Use team_id and user_id directly from state to avoid race conditions
+        team_id = state["relationships"]["team"]["data"]["id"]
+        user_id = state["relationships"]["user"]["data"]["id"]
+
+        try:
+            await destination_client.delete(
+                self.team_memberships_path.format(team_id) + f"/{user_id}",
+            )
+        except Exception as e:
+            # If we get a 404, the membership or team may have already been deleted
+            # This can happen during cleanup when teams are deleted concurrently
+            if "404" in str(e):
+                raise SkipResource(
+                    _id, self.resource_type, f"resource {_id} or its team not found (may have been already deleted)"
+                )
+            raise
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         failed_connections = []
