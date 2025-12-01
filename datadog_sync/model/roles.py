@@ -10,7 +10,7 @@ import re
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -107,6 +107,23 @@ class Roles(BaseResource):
                                 self.config.logger.warning(
                                     f"Trying again without '{invalid_permission}' permission for role '{role_name}'"
                                 )
+
+                                # Check if the modified resource now matches an existing destination role
+                                # This can happen if we already synced the role without this permission before
+                                if role_name in self.destination_roles_mapping:
+                                    matching_destination_role = self.destination_roles_mapping[role_name]
+                                    role_copy = copy.deepcopy(resource)
+                                    role_copy.update(matching_destination_role)
+
+                                    # If there's no diff, the role already exists without this permission
+                                    if not check_diff(self.resource_config, resource, role_copy):
+                                        raise SkipResource(
+                                            _id,
+                                            self.resource_type,
+                                            f"Role '{role_name}' already exists at destination "
+                                            "without '{invalid_permission}' permission",
+                                        )
+
                                 retry_count += 1
                                 continue  # Retry with the updated resource
 
@@ -162,6 +179,21 @@ class Roles(BaseResource):
                             self.config.logger.warning(
                                 f"Trying again without '{invalid_permission}' permission for role '{role_name}'"
                             )
+
+                            # Check if the modified resource now matches the existing destination state
+                            # This can happen if we already synced the role without this permission before
+                            if _id in self.config.state.destination[self.resource_type]:
+                                destination_resource = self.config.state.destination[self.resource_type][_id]
+
+                                # If there's no diff, the role already exists without this permission
+                                if not check_diff(self.resource_config, resource, destination_resource):
+                                    raise SkipResource(
+                                        _id,
+                                        self.resource_type,
+                                        f"Role '{role_name}' already exists at destination "
+                                        "without '{invalid_permission}' permission",
+                                    )
+
                             retry_count += 1
                             continue  # Retry with the updated resource
 
