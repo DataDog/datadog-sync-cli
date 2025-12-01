@@ -5,6 +5,8 @@
 
 from __future__ import annotations
 import copy
+import json
+import re
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -84,9 +86,35 @@ class Roles(BaseResource):
         # role does not exist at the destination, so create it
         if role_name not in self.destination_roles_mapping:
             destination_client = self.config.destination_client
-            payload = {"data": resource}
-            resp = await destination_client.post(self.resource_config.base_path, payload)
-            return _id, resp["data"]
+
+            # Retry loop to handle multiple invalid permissions
+            max_retries = 1 + len(self.config.allow_partial_permissions_roles)
+            retry_count = 0
+
+            while retry_count < max_retries:
+                payload = {"data": resource}
+                try:
+                    resp = await destination_client.post(self.resource_config.base_path, payload)
+                    return _id, resp["data"]
+                except CustomClientHTTPError as e:
+                    if e.status_code == 400 and self.config.allow_partial_permissions_roles:
+                        # Try to parse the invalid permission from the error
+                        invalid_permission = self._parse_invalid_permission_from_error(str(e))
+
+                        if invalid_permission and invalid_permission in self.config.allow_partial_permissions_roles:
+                            # Check if we removed the permission successfully
+                            if self._remove_permission_from_resource(resource, invalid_permission):
+                                self.config.logger.warning(
+                                    f"Trying again without '{invalid_permission}' permission for role '{role_name}'"
+                                )
+                                retry_count += 1
+                                continue  # Retry with the updated resource
+
+                    # If we couldn't handle the error, re-raise it
+                    raise
+
+            # If we exhausted retries, raise an error
+            raise Exception(f"Exceeded maximum retries ({max_retries}) while creating role '{role_name}'")
 
         # role already exists at the destination
         matching_destination_role = self.destination_roles_mapping[role_name]
@@ -108,20 +136,99 @@ class Roles(BaseResource):
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
+        role_name = resource["attributes"]["name"]
         resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
-        payload = {"data": resource}
-        resp = await destination_client.patch(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
-            payload,
-        )
 
-        return _id, resp["data"]
+        # Retry loop to handle multiple invalid permissions
+        max_retries = 1 + len(self.config.allow_partial_permissions_roles)
+        retry_count = 0
+
+        while retry_count < max_retries:
+            payload = {"data": resource}
+            try:
+                resp = await destination_client.patch(
+                    self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+                    payload,
+                )
+                return _id, resp["data"]
+            except CustomClientHTTPError as e:
+                if e.status_code == 400 and self.config.allow_partial_permissions_roles:
+                    # Try to parse the invalid permission from the error
+                    invalid_permission = self._parse_invalid_permission_from_error(str(e))
+
+                    if invalid_permission and invalid_permission in self.config.allow_partial_permissions_roles:
+                        # Check if we removed the permission successfully
+                        if self._remove_permission_from_resource(resource, invalid_permission):
+                            self.config.logger.warning(
+                                f"Trying again without '{invalid_permission}' permission for role '{role_name}'"
+                            )
+                            retry_count += 1
+                            continue  # Retry with the updated resource
+
+                # If we couldn't handle the error, re-raise it
+                raise
+
+        # If we exhausted retries, raise an error
+        raise Exception(f"Exceeded maximum retries ({max_retries}) while updating role '{role_name}'")
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
+
+    def _parse_invalid_permission_from_error(self, error_message: str) -> Optional[str]:
+        """Parse the invalid permission name from a 400 error message.
+
+        Example error: '400 Bad Request - {"title":"Generic Error","detail":"invalid UUID [assistant_access]"}'
+        Returns: "assistant_access"
+        """
+        try:
+            # Try to extract JSON from error message
+            match = re.search(r"\{.*\}", error_message)
+            if not match:
+                return None
+
+            error_json = json.loads(match.group(0))
+
+            # Look for "invalid UUID [permission_name]" pattern
+            detail = error_json.get("detail", "")
+            uuid_match = re.search(r"invalid UUID \[([^\]]+)\]", detail)
+            if uuid_match:
+                return uuid_match.group(1)
+
+            # Also check in errors array if present
+            errors = error_json.get("errors", [])
+            for error in errors:
+                if isinstance(error, str):
+                    uuid_match = re.search(r"invalid UUID \[([^\]]+)\]", error)
+                    if uuid_match:
+                        return uuid_match.group(1)
+                elif isinstance(error, dict):
+                    detail = error.get("detail", "")
+                    uuid_match = re.search(r"invalid UUID \[([^\]]+)\]", detail)
+                    if uuid_match:
+                        return uuid_match.group(1)
+        except (json.JSONDecodeError, KeyError, AttributeError):
+            pass
+
+        return None
+
+    def _remove_permission_from_resource(self, resource: Dict, permission_id: str) -> bool:
+        """Remove a permission from the resource's relationships.
+
+        Returns True if permission was found and removed, False otherwise.
+        """
+        if "relationships" not in resource or "permissions" not in resource["relationships"]:
+            return False
+
+        permissions_data = resource["relationships"]["permissions"].get("data", [])
+        original_length = len(permissions_data)
+
+        # Filter out the permission
+        resource["relationships"]["permissions"]["data"] = [p for p in permissions_data if p.get("id") != permission_id]
+
+        return len(resource["relationships"]["permissions"]["data"]) < original_length
 
     async def remap_permissions(self, resource):
         if not self.destination_permissions:
