@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.0 / 2025-12-01
+
+### Added
+* Michael.richey/allow partial permissions by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/421
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.0.10...2.1.0
+
 ## 2.0.10 / 2025-11-26
 
 ### Fixed
