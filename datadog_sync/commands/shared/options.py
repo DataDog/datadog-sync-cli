@@ -359,6 +359,14 @@ _sync_options = [
         "user determines monitors have enough telemetry to trigger appropriately.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--allow-partial-permissions-roles",
+        required=False,
+        envvar=constants.DD_ALLOW_PARTIAL_PERMISSIONS_ROLES,
+        help="Comma separated list of permissions to allow partial sync for roles. "
+        "If a role has a permission that doesn't exist in the destination, it will be removed and retried.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 

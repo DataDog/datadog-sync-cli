@@ -59,6 +59,7 @@ class Configuration(object):
     verify_ddr_status: bool
     backup_before_reset: bool
     show_progress_bar: bool
+    allow_partial_permissions_roles: List[str] = field(default_factory=list)
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
 
@@ -173,6 +174,11 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     backup_before_reset = not kwargs.get("do_not_backup")
     show_progress_bar = kwargs.get("show_progress_bar")
 
+    # Parse allow_partial_permissions_roles
+    allow_partial_permissions_roles = []
+    if allow_partial_str := kwargs.get("allow_partial_permissions_roles"):
+        allow_partial_permissions_roles = [p.strip() for p in allow_partial_str.split(",")]
+
     cleanup = kwargs.get("cleanup")
     if cleanup:
         cleanup = {
@@ -251,6 +257,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         verify_ddr_status=verify_ddr_status,
         backup_before_reset=backup_before_reset,
         show_progress_bar=show_progress_bar,
+        allow_partial_permissions_roles=allow_partial_permissions_roles,
     )
 
     # Initialize resource classes
