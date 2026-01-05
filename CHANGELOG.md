@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.1 / 2026-01-05
+
+### Fixed
+* Paging for when there's more than 1000 resources by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/426
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.1.0...2.1.1
+
 ## 2.1.0 / 2025-12-01
 
 ### Added
