@@ -16,7 +16,7 @@ class ServiceLevelObjectives(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={"monitors": ["monitor_ids"], "synthetics_tests": []},
         base_path="/api/v1/slo",
-        excluded_attributes=["creator", "id", "created_at", "modified_at"],
+        excluded_attributes=["creator", "id", "created_at", "modified_at", "query"],
         tagging_config=TaggingConfig(path="tags"),
     )
     # Additional ServiceLevelObjectives specific attributes
@@ -41,35 +41,18 @@ class ServiceLevelObjectives(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        # The GET endpoint returns both sli_specification and query for metric SLOs,
-        # but CREATE only accepts one or the other. Prefer sli_specification (newer format).
-        self._remove_conflicting_slo_fields(resource)
         resp = await destination_client.post(self.resource_config.base_path, resource)
 
         return _id, resp["data"][0]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        # The GET endpoint returns both sli_specification and query for metric SLOs,
-        # but UPDATE only accepts one or the other. Prefer sli_specification (newer format).
-        self._remove_conflicting_slo_fields(resource)
         resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
 
         return _id, resp["data"][0]
-
-    @staticmethod
-    def _remove_conflicting_slo_fields(resource: Dict) -> None:
-        """Remove conflicting SLO fields that cannot be sent together to the API.
-
-        For metric SLOs, the GET endpoint returns both 'sli_specification' and 'query',
-        but the CREATE/UPDATE endpoints only accept one or the other.
-        We prefer 'sli_specification' as it is the newer format.
-        """
-        if resource.get("sli_specification") and resource.get("query"):
-            resource.pop("query", None)
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
