@@ -111,7 +111,15 @@ class RestrictionPolicies(BaseResource):
         destination_client = self.config.destination_client
         resource_id = resource["id"]
         payload = {"data": resource}
-        resp = await destination_client.post(self.resource_config.base_path + f"/{resource_id}", payload)
+
+        # Add query parameter if allow_self_lockout is enabled
+        params = {}
+        if self.config.allow_self_lockout:
+            params["allow_self_lockout"] = "true"
+
+        resp = await destination_client.post(
+            self.resource_config.base_path + f"/{resource_id}", payload, params=params if params else None
+        )
 
         return _id, resp["data"]
 
@@ -119,7 +127,15 @@ class RestrictionPolicies(BaseResource):
         destination_client = self.config.destination_client
         resource_id = resource["id"]
         payload = {"data": resource}
-        resp = await destination_client.post(self.resource_config.base_path + f"/{resource_id}", payload)
+
+        # Add query parameter if allow_self_lockout is enabled
+        params = {}
+        if self.config.allow_self_lockout:
+            params["allow_self_lockout"] = "true"
+
+        resp = await destination_client.post(
+            self.resource_config.base_path + f"/{resource_id}", payload, params=params if params else None
+        )
 
         return _id, resp["data"]
 
