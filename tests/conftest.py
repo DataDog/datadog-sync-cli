@@ -162,6 +162,7 @@ def config():
         send_metrics=True,
         backup_before_reset=True,
         show_progress_bar=True,
+        allow_self_lockout=False,
     )
 
     resources = init_resources(cfg)

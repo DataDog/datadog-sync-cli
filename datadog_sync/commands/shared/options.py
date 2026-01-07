@@ -367,6 +367,15 @@ _sync_options = [
         "If a role has a permission that doesn't exist in the destination, it will be removed and retried.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--allow-self-lockout",
+        required=False,
+        type=bool,
+        default=False,
+        show_default=True,
+        help="Allow self-lockout when syncing restriction policies.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 
