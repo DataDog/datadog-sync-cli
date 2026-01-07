@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.2 / 2026-01-07
+
+### Fixed
+* Allow lockout when creating restriction policies by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/432
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.1.1...2.1.2
+
 ## 2.1.1 / 2026-01-05
 
 ### Fixed
