@@ -43,6 +43,13 @@ _source_auth_options = [
         cls=CustomOptionClass,
     ),
     option(
+        "--source-jwt",
+        envvar=constants.DD_SOURCE_JWT,
+        required=False,
+        help="Datadog source organization JWT (takes precedence over API key).",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--source-api-url",
         envvar=constants.DD_SOURCE_API_URL,
         required=False,
@@ -66,6 +73,13 @@ _destination_auth_options = [
         envvar=constants.DD_DESTINATION_APP_KEY,
         required=False,
         help="Datadog destination organization APP key.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--destination-jwt",
+        envvar=constants.DD_DESTINATION_JWT,
+        required=False,
+        help="Datadog destination organization JWT (takes precedence over API key).",
         cls=CustomOptionClass,
     ),
     option(

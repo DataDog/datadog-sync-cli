@@ -291,11 +291,17 @@ class CustomClient:
 
 def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
     headers = {
-        "DD-API-KEY": auth_obj.get("apiKeyAuth", ""),
-        "DD-APPLICATION-KEY": auth_obj.get("appKeyAuth", ""),
         "Content-Type": "application/json",
         "User-Agent": _get_user_agent(),
     }
+
+    # JWT takes precedence over API keys
+    if jwt := auth_obj.get("jwtAuth"):
+        headers["dd-auth-jwt"] = jwt
+    else:
+        headers["DD-API-KEY"] = auth_obj.get("apiKeyAuth", "")
+        headers["DD-APPLICATION-KEY"] = auth_obj.get("appKeyAuth", "")
+
     return headers
 
 

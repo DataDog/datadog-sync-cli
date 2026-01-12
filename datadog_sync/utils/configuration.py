@@ -145,17 +145,23 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     verify_ssl = kwargs.get("verify_ssl_certificates", True)
 
     source_auth = {}
-    if k := kwargs.get("source_api_key"):
+    # JWT takes precedence over API keys
+    if jwt := kwargs.get("source_jwt"):
+        source_auth["jwtAuth"] = jwt
+    elif k := kwargs.get("source_api_key"):
         source_auth["apiKeyAuth"] = k
-    if k := kwargs.get("source_app_key"):
-        source_auth["appKeyAuth"] = k
+        if k := kwargs.get("source_app_key"):
+            source_auth["appKeyAuth"] = k
     source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout, send_metrics, verify_ssl)
 
     destination_auth = {}
-    if k := kwargs.get("destination_api_key"):
+    # JWT takes precedence over API keys
+    if jwt := kwargs.get("destination_jwt"):
+        destination_auth["jwtAuth"] = jwt
+    elif k := kwargs.get("destination_api_key"):
         destination_auth["apiKeyAuth"] = k
-    if k := kwargs.get("destination_app_key"):
-        destination_auth["appKeyAuth"] = k
+        if k := kwargs.get("destination_app_key"):
+            destination_auth["appKeyAuth"] = k
     destination_client = CustomClient(
         destination_api_url,
         destination_auth,
