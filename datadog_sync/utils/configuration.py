@@ -144,6 +144,12 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     send_metrics = kwargs.get("send_metrics")
     verify_ssl = kwargs.get("verify_ssl_certificates", True)
 
+    # JWT takes precedence over API keys, so warn if user provided both
+    if (kwargs.get("source_jwt") and kwargs.get("source_api_key")) or (
+        kwargs.get("destination_jwt") and kwargs.get("destination_api_key")
+    ):
+        logger.warning("Both a JWT and an API key were found.")
+
     source_auth = {}
     # JWT takes precedence over API keys
     if jwt := kwargs.get("source_jwt"):
