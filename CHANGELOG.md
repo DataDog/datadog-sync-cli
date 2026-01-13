@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.3 / 2026-01-13
+
+### Added
+* Use JWTs with sync-cli by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/434
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.1.2...2.1.3
+
 ## 2.1.2 / 2026-01-07
 
 ### Fixed
