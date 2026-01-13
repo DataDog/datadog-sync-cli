@@ -148,7 +148,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     if (kwargs.get("source_jwt") and kwargs.get("source_api_key")) or (
         kwargs.get("destination_jwt") and kwargs.get("destination_api_key")
     ):
-        logger.warning("Both a JWT and an API key were found.")
+        logger.warning("Both a JWT and an API key were found, the JWT will take precedence.")
 
     source_auth = {}
     # JWT takes precedence over API keys
