@@ -256,3 +256,58 @@ def init_topological_sorter(
     sorter = TopologicalSorter(graph)
     sorter.prepare()
     return sorter
+
+
+def detect_circular_dependencies(
+    graph: Dict[Tuple[str, str], Set[Tuple[str, str]]]
+) -> Optional[List[Tuple[str, str]]]:
+    """Detect circular dependencies in a dependency graph.
+
+    Args:
+        graph: Dependency graph to check
+
+    Returns:
+        None if no cycles, or a list showing one cycle path if found
+
+    Example:
+        >>> graph = {("monitors", "A"): {("monitors", "B")}, ("monitors", "B"): {("monitors", "A")}}
+        >>> detect_circular_dependencies(graph)
+        [("monitors", "A"), ("monitors", "B"), ("monitors", "A")]
+    """
+    try:
+        sorter = TopologicalSorter(graph)
+        sorter.prepare()
+        # If prepare() succeeds, no cycles
+        return None
+    except Exception:
+        # Cycle detected - try to find it using DFS
+        visited = set()
+        path = []
+
+        def find_cycle(node):
+            if node in path:
+                # Found cycle!
+                cycle_start = path.index(node)
+                return path[cycle_start:] + [node]
+
+            if node in visited:
+                return None
+
+            visited.add(node)
+            path.append(node)
+
+            for neighbor in graph.get(node, []):
+                cycle = find_cycle(neighbor)
+                if cycle:
+                    return cycle
+
+            path.pop()
+            return None
+
+        for node in graph:
+            if node not in visited:
+                cycle = find_cycle(node)
+                if cycle:
+                    return cycle
+
+        return None
