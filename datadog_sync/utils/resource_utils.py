@@ -258,9 +258,7 @@ def init_topological_sorter(
     return sorter
 
 
-def detect_circular_dependencies(
-    graph: Dict[Tuple[str, str], Set[Tuple[str, str]]]
-) -> Optional[List[Tuple[str, str]]]:
+def detect_circular_dependencies(graph: Dict[Tuple[str, str], Set[Tuple[str, str]]]) -> Optional[List[Tuple[str, str]]]:
     """Detect circular dependencies in a dependency graph.
 
     Args:

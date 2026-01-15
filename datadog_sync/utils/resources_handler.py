@@ -96,9 +96,7 @@ class ResourcesHandler:
                     # Build reverse dependency graph for ordered cleanup
                     try:
                         cleanup_graph = self.get_cleanup_dependency_graph(cleanup_resources)
-                        self.config.logger.info(
-                            f"Built cleanup dependency graph with {len(cleanup_graph)} resources"
-                        )
+                        self.config.logger.info(f"Built cleanup dependency graph with {len(cleanup_graph)} resources")
 
                         # Detect circular dependencies
                         from datadog_sync.utils.resource_utils import detect_circular_dependencies
@@ -107,9 +105,7 @@ class ResourcesHandler:
                         if cycle:
                             # Circular dependency detected!
                             cycle_str = " -> ".join([f"{rt}:{rid}" for rt, rid in cycle])
-                            self.config.logger.error(
-                                f"Circular dependency detected in cleanup graph: {cycle_str}"
-                            )
+                            self.config.logger.error(f"Circular dependency detected in cleanup graph: {cycle_str}")
                             self.config.logger.error(
                                 "Cannot safely delete resources. Please manually break circular references first."
                             )
@@ -136,7 +132,7 @@ class ResourcesHandler:
 
                         self.config.logger.info("finished cleaning up resources")
 
-                    except ValueError as e:
+                    except ValueError:
                         # Circular dependency - already logged, re-raise
                         raise
                     except Exception as e:
@@ -406,7 +402,7 @@ class ResourcesHandler:
             self.config.logger.error(f"error deleting resource {resource_type} with id {_id}: {str(e)}")
         finally:
             # Mark as done in cleanup sorter if it exists
-            if hasattr(self, 'cleanup_sorter') and self.cleanup_sorter:
+            if hasattr(self, "cleanup_sorter") and self.cleanup_sorter:
                 self.cleanup_sorter.done(q_item)
 
             if not r_class.resource_config.concurrent:
@@ -445,9 +441,7 @@ class ResourcesHandler:
                 # Verify resource still exists in destination
                 if _id not in self.config.state.destination[resource_type]:
                     # Already deleted or doesn't exist
-                    self.config.logger.debug(
-                        f"Resource {resource_type}:{_id} already deleted, marking as done"
-                    )
+                    self.config.logger.debug(f"Resource {resource_type}:{_id} already deleted, marking as done")
                     self.cleanup_sorter.done(node)
                     continue
 
@@ -572,9 +566,7 @@ class ResourcesHandler:
                         if dep_key in cleanup_resources:
                             # This says: "dep_key must be deleted AFTER (resource_type, _id)"
                             reverse_graph[dep_key].add((resource_type, _id))
-                            self.config.logger.debug(
-                                f"Dependency edge: {dep_type}:{dep_id} <- {resource_type}:{_id}"
-                            )
+                            self.config.logger.debug(f"Dependency edge: {dep_type}:{dep_id} <- {resource_type}:{_id}")
 
         return dict(reverse_graph)
 
