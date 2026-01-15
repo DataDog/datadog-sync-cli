@@ -607,10 +607,13 @@ class ResourcesHandler:
                         # We're at the target attribute
                         value = obj[current_key]
                         if value:
-                            if isinstance(value, list):
-                                ids.update(str(v) for v in value if v)
-                            else:
-                                ids.add(str(value))
+                            # Handle both lists and single values
+                            values = [value] if not isinstance(value, list) else value
+                            for v in values:
+                                if v:
+                                    # Parse prefixed IDs (e.g., "dashboard:abc-123" → "abc-123")
+                                    parsed_id = self._parse_prefixed_id(str(v), dep_type)
+                                    ids.add(parsed_id)
                     else:
                         # Keep traversing
                         extract_from_obj(obj[current_key], remaining)
@@ -618,6 +621,54 @@ class ResourcesHandler:
         path_parts = attr_path.split(".")
         extract_from_obj(resource, path_parts)
         return ids
+
+    def _parse_prefixed_id(self, value: str, expected_resource_type: str) -> str:
+        """Parse IDs that may have resource type prefixes.
+
+        Restriction policies and some other resources use prefixed IDs like
+        "dashboard:abc-123" or "slo:xyz-789". This method strips the prefix
+        to get the actual resource ID that matches the state keys.
+
+        Examples:
+            "dashboard:abc-123" with expected_resource_type="dashboards" → "abc-123"
+            "slo:xyz-789" with expected_resource_type="service_level_objectives" → "xyz-789"
+            "abc-123" with any type → "abc-123" (passthrough)
+
+        Args:
+            value: The ID value, possibly prefixed
+            expected_resource_type: The resource type we expect (e.g., "dashboards")
+
+        Returns:
+            The parsed ID without prefix
+        """
+        # Check if value contains a colon (indicates prefix)
+        if ":" not in value:
+            return value
+
+        # Split on first colon only
+        prefix, actual_id = value.split(":", 1)
+
+        # Map prefix to resource type
+        prefix_to_resource_type = {
+            "dashboard": "dashboards",
+            "slo": "service_level_objectives",
+            "notebook": "notebooks",
+            "monitor": "monitors",
+            "user": "users",
+            "role": "roles",
+            "team": "teams",
+            "security-rule": "security_monitoring_rules",
+        }
+
+        # If prefix matches expected resource type, return just the ID
+        if prefix_to_resource_type.get(prefix) == expected_resource_type:
+            return actual_id
+
+        # If prefix doesn't match, return original value (might be a false positive)
+        self.config.logger.debug(
+            f"ID '{value}' has prefix '{prefix}' but expected resource type '{expected_resource_type}'"
+        )
+        return value
 
 
 def _cleanup_prompt(
