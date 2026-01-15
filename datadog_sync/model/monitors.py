@@ -27,6 +27,7 @@ class Monitors(BaseResource):
         base_path="/api/v1/monitor",
         excluded_attributes=[
             "id",
+            "assets",
             "matching_downtimes",
             "creator",
             "created",
