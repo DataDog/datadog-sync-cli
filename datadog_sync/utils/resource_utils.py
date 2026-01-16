@@ -7,7 +7,7 @@ from __future__ import annotations
 import re
 import logging
 from copy import deepcopy
-from graphlib import TopologicalSorter
+from graphlib import TopologicalSorter, CycleError
 from dateutil.parser import parse
 
 from deepdiff import DeepDiff
@@ -277,7 +277,7 @@ def detect_circular_dependencies(graph: Dict[Tuple[str, str], Set[Tuple[str, str
         sorter.prepare()
         # If prepare() succeeds, no cycles
         return None
-    except Exception:
+    except CycleError:
         # Cycle detected - try to find it using DFS
         visited = set()
         path = []
