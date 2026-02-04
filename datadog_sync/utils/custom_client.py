@@ -91,6 +91,15 @@ class CustomClient:
         self.send_metrics = send_metrics
         self.verify_ssl = verify_ssl
 
+        # Metrics only work with API keys, not JWT
+        # If JWT is present, metrics are not available
+        self.metrics_available = bool(
+            self.send_metrics
+            and not auth.get("jwtAuth")  # JWT means no metrics
+            and auth.get("apiKeyAuth")
+            and auth.get("appKeyAuth")
+        )
+
     async def _init_session(self):
         if self.verify_ssl:
             ssl_context = ssl.create_default_context(cafile=certifi.where())
@@ -101,7 +110,24 @@ class CustomClient:
                 "This is insecure and should only be used in trusted environments."
             )
             self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False))
-        self.session.headers.update(build_default_headers(self.auth))
+
+        headers = build_default_headers(self.auth)
+        self.session.headers.update(headers)
+
+        # Log authentication configuration
+        auth_method = "JWT" if "dd-auth-jwt" in headers else "API Keys"
+        log.info(f"Initialized HTTP session with {auth_method} authentication for {self.url_object._default}")
+        log.info(f"Session headers configured: {', '.join(headers.keys())}")
+
+        # Log metrics availability
+        if self.send_metrics:
+            if self.metrics_available:
+                log.info("Metrics enabled: Using API keys for /api/v2/series endpoint")
+            else:
+                log.warning(
+                    "Metrics disabled: /api/v2/series endpoint requires DD-API-KEY and DD-APPLICATION-KEY headers. "
+                    "Provide --source-api-key/--source-app-key to enable metrics."
+                )
 
     async def _end_session(self):
         try:
@@ -248,6 +274,15 @@ class CustomClient:
     async def send_metric(self, metric: str, tags: List[str] = None) -> None:
         if not self.send_metrics:
             return None
+
+        # Skip if using JWT (metrics endpoint doesn't support JWT)
+        if not self.metrics_available:
+            log.debug(
+                f"Skipping metric '{metric}': /api/v2/series endpoint requires API key authentication. "
+                "Currently using JWT authentication which is not supported by this endpoint."
+            )
+            return None
+
         path = "/api/v2/series"
         timestamp = int(datetime.now().timestamp())
         full_metric = f"{Metrics.PREFIX.value}.{metric}"
@@ -266,6 +301,7 @@ class CustomClient:
                 }
             ]
         }
+        # Send metric using API key headers from session
         await self.post(path, body)
 
     async def get_ddr_status(self) -> Dict:
@@ -298,9 +334,17 @@ def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
     # JWT takes precedence over API keys
     if jwt := auth_obj.get("jwtAuth"):
         headers["dd-auth-jwt"] = jwt
+        log.info(f"JWT authentication configured - JWT present: {bool(jwt)}, JWT length: {len(jwt) if jwt else 0}")
+        # Log first and last 10 chars for debugging without exposing the full token
+        if jwt and len(jwt) > 20:
+            log.info(f"JWT preview: {jwt[:10]}...{jwt[-10:]}")
+        log.info(f"Headers being set: {list(headers.keys())}")
     else:
         headers["DD-API-KEY"] = auth_obj.get("apiKeyAuth", "")
         headers["DD-APPLICATION-KEY"] = auth_obj.get("appKeyAuth", "")
+        api_key_present = bool(auth_obj.get("apiKeyAuth"))
+        app_key_present = bool(auth_obj.get("appKeyAuth"))
+        log.info(f"API Key authentication configured - API Key present: {api_key_present}, App Key present: {app_key_present}")
 
     return headers
 
