@@ -154,20 +154,30 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # JWT takes precedence over API keys
     if jwt := kwargs.get("source_jwt"):
         source_auth["jwtAuth"] = jwt
+        logger.info(f"Source authentication: Using JWT (length: {len(jwt)})")
     elif k := kwargs.get("source_api_key"):
         source_auth["apiKeyAuth"] = k
         if k := kwargs.get("source_app_key"):
             source_auth["appKeyAuth"] = k
+        logger.info("Source authentication: Using API Key + App Key")
+    else:
+        logger.warning("Source authentication: No credentials provided")
+
     source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout, send_metrics, verify_ssl)
 
     destination_auth = {}
     # JWT takes precedence over API keys
     if jwt := kwargs.get("destination_jwt"):
         destination_auth["jwtAuth"] = jwt
+        logger.info(f"Destination authentication: Using JWT (length: {len(jwt)})")
     elif k := kwargs.get("destination_api_key"):
         destination_auth["apiKeyAuth"] = k
         if k := kwargs.get("destination_app_key"):
             destination_auth["appKeyAuth"] = k
+        logger.info("Destination authentication: Using API Key + App Key")
+    else:
+        logger.warning("Destination authentication: No credentials provided")
+
     destination_client = CustomClient(
         destination_api_url,
         destination_auth,
