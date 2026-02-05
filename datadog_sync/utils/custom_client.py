@@ -335,9 +335,9 @@ def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
     if jwt := auth_obj.get("jwtAuth"):
         headers["dd-auth-jwt"] = jwt
         log.info(f"JWT authentication configured - JWT present: {bool(jwt)}, JWT length: {len(jwt) if jwt else 0}")
-        # Log first and last 10 chars for debugging without exposing the full token
+        # Log first and last 3 chars for debugging without exposing the full token
         if jwt and len(jwt) > 30:
-            log.info(f"JWT preview: {jwt[:10]}...{jwt[-10:]}")
+            log.info(f"JWT preview: {jwt[:3]}...{jwt[-3:]}")
         log.info(f"Headers being set: {list(headers.keys())}")
     else:
         headers["DD-API-KEY"] = auth_obj.get("apiKeyAuth", "")
