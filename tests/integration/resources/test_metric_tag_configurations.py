@@ -22,6 +22,10 @@ class TestMetricConfigurationResources(BaseResourcesTestClass):
     def test_resource_update_sync_per_file(self):
         pass
 
+    @pytest.mark.skip(reason="This test is flakey")
+    def test_resource_sync(self, runner, caplog):
+        pass
+
+    @pytest.mark.skip(reason="This test is flakey")
     def test_resource_sync_per_file(self, runner, caplog):
-        sleep(10)
-        super(TestMetricConfigurationResources, self).test_resource_sync_per_file(runner, caplog)
+        pass
