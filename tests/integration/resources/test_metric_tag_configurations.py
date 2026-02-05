@@ -4,7 +4,6 @@
 # Copyright 2019 Datadog, Inc.
 
 import pytest
-from time import sleep
 
 from datadog_sync.models import MetricTagConfigurations
 from tests.integration.helpers import BaseResourcesTestClass

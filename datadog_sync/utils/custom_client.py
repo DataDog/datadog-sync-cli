@@ -344,9 +344,7 @@ def build_default_headers(auth_obj: Dict[str, str]) -> Dict[str, str]:
         headers["DD-APPLICATION-KEY"] = auth_obj.get("appKeyAuth", "")
         api_key_present = bool(auth_obj.get("apiKeyAuth"))
         app_key_present = bool(auth_obj.get("appKeyAuth"))
-        log.info(
-            f"API Key auth configured - API Key present: {api_key_present}, App Key present: {app_key_present}"
-        )
+        log.info(f"API Key auth configured - API Key present: {api_key_present}, App Key present: {app_key_present}")
 
     return headers
 
