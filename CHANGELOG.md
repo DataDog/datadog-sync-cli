@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.1.4 / 2026-02-05
+
+### Fixed
+* Exclude assets field from monitors by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/438
+* topological order for deletes by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/439
+### Added
+* Add more logging for JWT debugging by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/446
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.1.3...2.1.4
+
 ## 2.1.3 / 2026-01-13
 
 ### Added
