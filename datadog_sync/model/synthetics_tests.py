@@ -33,18 +33,19 @@ class SyntheticsTests(BaseResource):
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
-            "deleted_at",
-            "org_id",
-            "public_id",
-            "monitor_id",
-            "modified_at",
             "created_at",
             "creator",
             "created_by",
+            "deleted_at",
             "mobileApplicationsVersions",
+            "modified_at",
             "modified_by",
+            "monitor_id",
+            "org_id",
+            "public_id",
             "overall_state",
             "overall_state_modified",
+            "status",  # Exclude status to prevent overwriting manual changes during sync
             "stepCount",
             "steps.public_id",
         ],
@@ -115,6 +116,11 @@ class SyntheticsTests(BaseResource):
         destination_client = self.config.destination_client
         test_type = resource["type"]
         resource.pop("mobileApplicationsVersions", None)
+
+        # Force status to "paused" for new tests to prevent immediate execution
+        # on destination during failover scenarios. Status can be manually changed after creation.
+        resource["status"] = "paused"
+
         resp = await destination_client.post(self.resource_config.base_path + f"/{test_type}", resource)
         return _id, resp
 
