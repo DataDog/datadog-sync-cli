@@ -16,7 +16,7 @@ class ServiceLevelObjectives(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={"monitors": ["monitor_ids"], "synthetics_tests": []},
         base_path="/api/v1/slo",
-        excluded_attributes=["creator", "id", "created_at", "modified_at"],
+        excluded_attributes=["creator", "id", "created_at", "modified_at", "query"],
         tagging_config=TaggingConfig(path="tags"),
     )
     # Additional ServiceLevelObjectives specific attributes
