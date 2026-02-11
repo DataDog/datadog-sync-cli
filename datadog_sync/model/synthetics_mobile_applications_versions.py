@@ -52,8 +52,14 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
             total_versions,
         )
 
+        # If import progress bar is active, add sub-steps so the bar advances during fetch
+        add_total = getattr(self.config, "_import_progress_add_total", None)
+        if callable(add_total):
+            add_total(total_versions)
+
         resources = []
         progress_interval = max(1, total_versions // 20)  # log at INFO roughly every 5%
+        progress_update = getattr(self.config, "_import_progress_update", None)
         for app_idx, application in enumerate(applications):
             versions = application.get("versions", [])
             for ver_idx, version in enumerate(versions):
@@ -67,6 +73,8 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
                 )
                 resource = await client.get(self.resource_config.base_path + f"/{_id}")
                 resources.append(resource)
+                if callable(progress_update):
+                    progress_update(1)
                 if current % progress_interval == 0 or current == total_versions:
                     self.config.logger.info(
                         "synthetics_mobile_applications_versions: progress %d/%d",
