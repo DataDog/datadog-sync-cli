@@ -24,7 +24,8 @@ class TestSyntheticsTestsStatusBehavior:
 
     def test_status_in_excluded_attributes(self):
         """Verify that 'status' is in the excluded_attributes list."""
-        assert "status" in SyntheticsTests.resource_config.excluded_attributes, \
+        # build_excluded_attributes transforms "status" to "root['status']"
+        assert "root['status']" in SyntheticsTests.resource_config.excluded_attributes, \
             "Status should be excluded from sync to prevent overwriting manual changes"
 
     @pytest.mark.asyncio
@@ -107,17 +108,16 @@ class TestSyntheticsTestsStatusBehavior:
     def test_excluded_attributes_format(self):
         """Verify excluded_attributes contains properly formatted status entry."""
         excluded = SyntheticsTests.resource_config.excluded_attributes
-        
-        # After build_excluded_attributes, status becomes root['status']
-        # Let's verify the original list contains "status"
-        assert "status" in excluded, \
+
+        # build_excluded_attributes transforms entries to root['...'] format
+        assert "root['status']" in excluded, \
             "Status should be in excluded_attributes list"
-        
+
         # Verify other important exclusions are still there
-        assert "monitor_id" in excluded
-        assert "public_id" in excluded
-        assert "created_at" in excluded
-        assert "modified_at" in excluded
+        assert "root['monitor_id']" in excluded
+        assert "root['public_id']" in excluded
+        assert "root['created_at']" in excluded
+        assert "root['modified_at']" in excluded
 
     @pytest.mark.asyncio
     async def test_create_preserves_other_fields(self):
