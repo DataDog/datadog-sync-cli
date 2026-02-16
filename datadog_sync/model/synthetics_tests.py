@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+from copy import deepcopy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
