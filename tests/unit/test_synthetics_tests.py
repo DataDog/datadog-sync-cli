@@ -13,6 +13,9 @@ These tests verify:
 4. ddr_metadata (source_public_id, source_status) is set on create and update
 """
 
+import asyncio
+import copy
+
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 from datadog_sync.model.synthetics_tests import SyntheticsTests
@@ -28,8 +31,7 @@ class TestSyntheticsTestsStatusBehavior:
         assert "root['status']" in SyntheticsTests.resource_config.excluded_attributes, \
             "Status should be excluded from sync to prevent overwriting manual changes"
 
-    @pytest.mark.asyncio
-    async def test_create_resource_forces_paused_status(self):
+    def test_create_resource_forces_paused_status(self):
         """Verify that create_resource forces status to 'paused'."""
         # Setup
         mock_config = MagicMock(spec=Configuration)
@@ -41,9 +43,9 @@ class TestSyntheticsTestsStatusBehavior:
             "name": "Test"
         })
         mock_config.destination_client = mock_client
-        
+
         synthetics_tests = SyntheticsTests(mock_config)
-        
+
         # Test resource with "live" status from source
         test_resource = {
             "type": "api",
@@ -52,14 +54,16 @@ class TestSyntheticsTestsStatusBehavior:
             "config": {},
             "locations": []
         }
-        
+
         # Execute
-        _id, response = await synthetics_tests.create_resource("test-id", test_resource)
-        
+        _id, response = asyncio.get_event_loop().run_until_complete(
+            synthetics_tests.create_resource("test-id", test_resource)
+        )
+
         # Verify status was changed to "paused"
         assert test_resource["status"] == "paused", \
             "Status should be forced to 'paused' when creating new tests"
-        
+
         # Verify API was called with paused status
         mock_client.post.assert_called_once()
         call_args = mock_client.post.call_args
@@ -67,18 +71,18 @@ class TestSyntheticsTestsStatusBehavior:
         assert sent_resource["status"] == "paused", \
             "API call should include status='paused'"
 
-    @pytest.mark.asyncio
-    async def test_create_resource_with_different_test_types(self):
+    def test_create_resource_with_different_test_types(self):
         """Verify status forcing works for all test types."""
         mock_config = MagicMock(spec=Configuration)
         mock_client = AsyncMock()
         mock_client.post = AsyncMock(return_value={"public_id": "abc-123", "status": "paused"})
         mock_config.destination_client = mock_client
-        
+
         synthetics_tests = SyntheticsTests(mock_config)
-        
+
         test_types = ["api", "browser", "mobile"]
-        
+
+        loop = asyncio.get_event_loop()
         for test_type in test_types:
             mock_client.reset_mock()
             test_resource = {
@@ -88,12 +92,14 @@ class TestSyntheticsTestsStatusBehavior:
                 "config": {},
                 "locations": []
             }
-            
-            await synthetics_tests.create_resource(f"test-{test_type}", test_resource)
-            
+
+            loop.run_until_complete(
+                synthetics_tests.create_resource(f"test-{test_type}", test_resource)
+            )
+
             assert test_resource["status"] == "paused", \
                 f"Status should be paused for {test_type} tests"
-            
+
             # Verify correct endpoint was called
             call_args = mock_client.post.call_args
             assert f"/{test_type}" in call_args[0][0], \
@@ -119,16 +125,15 @@ class TestSyntheticsTestsStatusBehavior:
         assert "root['created_at']" in excluded
         assert "root['modified_at']" in excluded
 
-    @pytest.mark.asyncio
-    async def test_create_preserves_other_fields(self):
+    def test_create_preserves_other_fields(self):
         """Verify that forcing status doesn't affect other fields."""
         mock_config = MagicMock(spec=Configuration)
         mock_client = AsyncMock()
         mock_client.post = AsyncMock(return_value={"public_id": "abc-123"})
         mock_config.destination_client = mock_client
-        
+
         synthetics_tests = SyntheticsTests(mock_config)
-        
+
         original_resource = {
             "type": "api",
             "status": "live",
@@ -139,13 +144,13 @@ class TestSyntheticsTestsStatusBehavior:
             "tags": ["team:synthetics"],
             "options": {"tick_every": 60}
         }
-        
-        # Make a copy to verify other fields aren't changed
-        import copy
+
         resource_copy = copy.deepcopy(original_resource)
-        
-        await synthetics_tests.create_resource("test-id", resource_copy)
-        
+
+        asyncio.get_event_loop().run_until_complete(
+            synthetics_tests.create_resource("test-id", resource_copy)
+        )
+
         # Only status should be different
         assert resource_copy["status"] == "paused"
         assert resource_copy["name"] == original_resource["name"]
