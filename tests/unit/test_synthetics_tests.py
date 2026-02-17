@@ -56,7 +56,7 @@ class TestSyntheticsTestsStatusBehavior:
         }
 
         # Execute
-        _id, response = asyncio.get_event_loop().run_until_complete(
+        _id, response = asyncio.run(
             synthetics_tests.create_resource("test-id", test_resource)
         )
 
@@ -82,7 +82,6 @@ class TestSyntheticsTestsStatusBehavior:
 
         test_types = ["api", "browser", "mobile"]
 
-        loop = asyncio.get_event_loop()
         for test_type in test_types:
             mock_client.reset_mock()
             test_resource = {
@@ -93,7 +92,7 @@ class TestSyntheticsTestsStatusBehavior:
                 "locations": []
             }
 
-            loop.run_until_complete(
+            asyncio.run(
                 synthetics_tests.create_resource(f"test-{test_type}", test_resource)
             )
 
@@ -147,7 +146,7 @@ class TestSyntheticsTestsStatusBehavior:
 
         resource_copy = copy.deepcopy(original_resource)
 
-        asyncio.get_event_loop().run_until_complete(
+        asyncio.run(
             synthetics_tests.create_resource("test-id", resource_copy)
         )
 
