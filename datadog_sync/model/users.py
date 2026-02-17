@@ -37,6 +37,7 @@ class Users(BaseResource):
             "attributes.allowed_login_methods",
             "attributes.last_login_time",
             "relationships.org",
+            "relationships.team_roles",
         ],
     )
     # Additional Users specific attributes
