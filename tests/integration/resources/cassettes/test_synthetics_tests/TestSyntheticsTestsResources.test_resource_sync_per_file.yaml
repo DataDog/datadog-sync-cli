@@ -182,7 +182,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"name": "Test on www.datadoghq.com", "status": "paused", "type": "api",
+    body: '{"name": "Test on www.datadoghq.com", "type": "api",
       "subtype": "http", "tags": ["managed_by:datadog-sync"], "config": {"assertions":
       [{"operator": "lessThan", "type": "responseTime", "target": 1000}], "request":
       {"method": "GET", "url": "https://www.datadoghq.com"}}, "message": "", "options":
@@ -194,7 +194,7 @@ interactions:
       "aws:eu-south-1", "aws:eu-west-1", "aws:eu-west-2", "aws:eu-west-3", "aws:me-south-1",
       "aws:sa-east-1", "aws:us-east-1", "aws:us-east-2", "aws:us-west-1", "aws:us-west-2",
       "azure:eastus", "gcp:asia-northeast1", "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1",
-      "gcp:us-west1", "gcp:us-west2"], "metadata": {"disaster_recovery": {"source_public_id": "njk-avc-mjc", "source_status": "live"}}}'
+      "gcp:us-west1", "gcp:us-west2"], "metadata": {"disaster_recovery": {"source_public_id": "njk-avc-mjc", "source_status": "live"}}, "status": "paused"}'
     headers:
       Content-Type:
       - application/json
