@@ -5,7 +5,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests?include_metadata=true
   response:
     body:
       string: '{"tests": [{"public_id": "njk-avc-mjc", "name": "Test on www.datadoghq.com",
@@ -115,7 +115,7 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/api/njk-avc-mjc
+    uri: https://api.datadoghq.eu/api/v1/synthetics/tests/api/njk-avc-mjc?include_metadata=true
   response:
     body:
       string: '{"public_id": "njk-avc-mjc", "name": "Test on www.datadoghq.com", "status":
