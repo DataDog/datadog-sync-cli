@@ -1,8 +1,13 @@
 name: Run Integrations Tests
 
-permissions: 
+permissions:
   checks: write
   contents: read
+
+# Concurrency control: Only one integration test run at a time (queue mode)
+concurrency:
+  group: integration-tests
+  cancel-in-progress: false
 
 on:
   push:
@@ -33,6 +38,7 @@ env:
 jobs:
   test-integrations:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Prevent hung tests from blocking the queue
     services:
       datadog-agent:
         image: datadog/agent:latest
@@ -49,6 +55,8 @@ jobs:
           python-version: 3.12
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Install datadog-sync for cleanup
+        run: pip install .
       - name: Install tox
         run: pip install tox
       - name: Run integration tests
@@ -61,4 +69,9 @@ jobs:
           DD_TRACE_ANALYTICS_ENABLED: "true"
           RECORD: "none"
           PYTEST_ADDOPTS: "--ddtrace --disable-recording --retries 3 --retry-delay 10"
-          
+      - name: Post-failure cleanup of orphaned resources
+        if: failure()
+        run: |
+          yes | datadog-sync reset \
+            --verify-ddr-status=False \
+            --resources="authn_mappings,dashboard_lists,dashboards,host_tags,logs_archives,logs_archives_order,logs_indexes,logs_indexes_order,logs_metrics,logs_pipelines,logs_pipelines_order,logs_restriction_queries,metric_percentiles,metric_tag_configurations,metrics_metadata,monitors,notebooks,powerpacks,restriction_policies,rum_applications,security_monitoring_rules,sensitive_data_scanner_groups,sensitive_data_scanner_groups_order,sensitive_data_scanner_rules,service_level_objectives,slo_corrections,spans_metrics,synthetics_global_variables,synthetics_mobile_applications,synthetics_mobile_applications_versions,synthetics_private_locations,synthetics_tests,team_memberships,teams"
