@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+from copy import deepcopy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
@@ -33,18 +34,19 @@ class SyntheticsTests(BaseResource):
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
-            "deleted_at",
-            "org_id",
-            "public_id",
-            "monitor_id",
-            "modified_at",
             "created_at",
             "creator",
             "created_by",
+            "deleted_at",
             "mobileApplicationsVersions",
+            "modified_at",
             "modified_by",
+            "monitor_id",
+            "org_id",
+            "public_id",
             "overall_state",
             "overall_state_modified",
+            "status",  # Exclude status to prevent overwriting manual changes during sync
             "stepCount",
             "steps.public_id",
         ],
@@ -68,10 +70,14 @@ class SyntheticsTests(BaseResource):
     browser_test_path: str = "/api/v1/synthetics/tests/browser/{}"
     api_test_path: str = "/api/v1/synthetics/tests/api/{}"
     mobile_test_path: str = "/api/v1/synthetics/tests/mobile/{}"
+    get_params = {"include_metadata": "true"}
     versions: List = []
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = await client.get(self.resource_config.base_path)
+        resp = await client.get(
+            self.resource_config.base_path,
+            params=self.get_params,
+        )
         versions = SyntheticsMobileApplicationsVersions(self.config)
         self.versions = await versions.get_resources(client)
         return resp["tests"]
@@ -80,21 +86,39 @@ class SyntheticsTests(BaseResource):
         source_client = self.config.source_client
         if _id:
             try:
-                resource = await source_client.get(self.browser_test_path.format(_id))
+                resource = await source_client.get(
+                    self.browser_test_path.format(_id),
+                    params=self.get_params,
+                )
             except Exception:
                 try:
-                    resource = await source_client.get(self.api_test_path.format(_id))
+                    resource = await source_client.get(
+                        self.api_test_path.format(_id),
+                        params=self.get_params,
+                    )
                 except Exception:
-                    resource = await source_client.get(self.mobile_test_path.format(_id))
+                    resource = await source_client.get(
+                        self.mobile_test_path.format(_id),
+                        params=self.get_params,
+                    )
 
         resource = cast(dict, resource)
         _id = resource["public_id"]
         if resource.get("type") == "browser":
-            resource = await source_client.get(self.browser_test_path.format(_id))
+            resource = await source_client.get(
+                self.browser_test_path.format(_id),
+                params=self.get_params,
+            )
         elif resource.get("type") == "api":
-            resource = await source_client.get(self.api_test_path.format(_id))
+            resource = await source_client.get(
+                self.api_test_path.format(_id),
+                params=self.get_params,
+            )
         elif resource.get("type") == "mobile":
-            resource = await source_client.get(self.mobile_test_path.format(_id))
+            resource = await source_client.get(
+                self.mobile_test_path.format(_id),
+                params=self.get_params,
+            )
             versions = [
                 i["id"]
                 for i in self.versions
@@ -106,7 +130,15 @@ class SyntheticsTests(BaseResource):
         return f"{resource['public_id']}#{resource['monitor_id']}", resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        pass
+        # Inject metadata.disaster_recovery so diff/sync compares source status with
+        # destination's metadata.disaster_recovery.source_status and triggers update when they differ.
+        source = self.config.state.source[self.resource_type].get(_id, resource)
+        source_public_id = source.get("public_id", "")
+        source_status = (source.get("status") or "live")
+        resource.setdefault("metadata", {})["disaster_recovery"] = {
+            "source_public_id": source_public_id,
+            "source_status": source_status,
+        }
 
     async def pre_apply_hook(self) -> None:
         pass
@@ -115,16 +147,28 @@ class SyntheticsTests(BaseResource):
         destination_client = self.config.destination_client
         test_type = resource["type"]
         resource.pop("mobileApplicationsVersions", None)
+
+        # Force status to "paused" for new tests to prevent immediate execution
+        # on destination during failover scenarios. Status can be manually changed after creation.
+        resource["status"] = "paused"
+
         resp = await destination_client.post(self.resource_config.base_path + f"/{test_type}", resource)
+        # Persist metadata in state so destination JSON has it and diffs compare correctly.
+        if resource.get("metadata"):
+            resp.setdefault("metadata", {}).update(deepcopy(resource["metadata"]))
         return _id, resp
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource.pop("mobileApplicationsVersions", None)
+
         resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['public_id']}",
             resource,
         )
+        # Persist metadata in state so destination JSON has it and diffs compare correctly.
+        if resource.get("metadata"):
+            resp.setdefault("metadata", {}).update(deepcopy(resource["metadata"]))
         return _id, resp
 
     async def delete_resource(self, _id: str) -> None:
