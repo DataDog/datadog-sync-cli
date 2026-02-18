@@ -1,2 +1,2 @@
-pyinstaller==6.5.0
-pygithub==1.58.0
+pyinstaller==6.14.2
+pygithub==1.58.2
