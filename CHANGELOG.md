@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.0.0 / 2026-02-18
+
+### Fixed
+* New field in staging that isn't supported yet by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/451
+### Changed
+* feat(SYNTH-24202): set synthetics tests as paused by default and manage dr metadata during sync by @aletournel in https://github.com/DataDog/datadog-sync-cli/pull/447
+
+## New Contributors
+* @aletournel made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/447
+* @campaigner-prod[bot] made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/449
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/2.1.4...3.0.0
+
 ## 2.1.4 / 2026-02-05
 
 ### Fixed
