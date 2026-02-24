@@ -10,7 +10,6 @@ import base64
 import certifi
 import hashlib
 import ssl
-import sys
 from typing import Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -80,7 +79,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context))
         async with session.get(presigned_download_url) as response:
             blob = await response.read()
-        app_size = sys.getsizeof(blob)
+        app_size = len(blob)
         self.config.logger.debug(f"app_size: {app_size}")
 
         # chunk size, 5 MB is the minimum or googleapis throws errors, 10 MB recommended by synthetics team
@@ -91,7 +90,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
             "appSize": app_size,
             "parts": [],
         }
-        num_of_parts = app_size // chunk_size + 1
+        num_of_parts = max((app_size + chunk_size - 1) // chunk_size, 1)
         self.config.logger.debug(f"num_of_parts: {num_of_parts}")
         for part_number in list(range(0, num_of_parts)):
             start = part_number * chunk_size
