@@ -131,8 +131,12 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
                 start = (part_number - 1) * chunk_size
                 end = part_number * chunk_size
                 chunk = blob[start:end]
-                async with session.put(url=url, data=chunk, headers=headers) as response:
-                    _ = await response.read()
+                async with session.put(url=url, data=chunk, headers=headers, skip_auto_headers=["Content-Type"]) as response:
+                    resp_body = await response.read()
+                    if response.status >= 400:
+                        self.config.logger.error(
+                            f"S3 upload failed for part {part_number}: {response.status} - {resp_body.decode('utf-8', errors='replace')}"
+                        )
                     if "Etag" in response.headers:
                         complete_parts.append(
                             {"PartNumber": int(part_number), "ETag": response.headers["Etag"].replace('"', "")}
