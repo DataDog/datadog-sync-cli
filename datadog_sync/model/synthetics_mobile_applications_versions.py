@@ -10,7 +10,6 @@ import base64
 import certifi
 import hashlib
 import ssl
-import sys
 from typing import Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -80,7 +79,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context))
         async with session.get(presigned_download_url) as response:
             blob = await response.read()
-        app_size = sys.getsizeof(blob)
+        app_size = len(blob)
         self.config.logger.debug(f"app_size: {app_size}")
 
         # chunk size, 5 MB is the minimum or googleapis throws errors, 10 MB recommended by synthetics team
@@ -91,7 +90,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
             "appSize": app_size,
             "parts": [],
         }
-        num_of_parts = app_size // chunk_size + 1
+        num_of_parts = max((app_size + chunk_size - 1) // chunk_size, 1)
         self.config.logger.debug(f"num_of_parts: {num_of_parts}")
         for part_number in list(range(0, num_of_parts)):
             start = part_number * chunk_size
@@ -132,8 +131,12 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
                 start = (part_number - 1) * chunk_size
                 end = part_number * chunk_size
                 chunk = blob[start:end]
-                async with session.put(url=url, data=chunk, headers=headers) as response:
-                    _ = await response.read()
+                async with session.put(url=url, data=chunk, headers=headers, skip_auto_headers=["Content-Type"]) as response:
+                    resp_body = await response.read()
+                    if response.status >= 400:
+                        self.config.logger.error(
+                            f"S3 upload failed for part {part_number}: {response.status} - {resp_body.decode('utf-8', errors='replace')}"
+                        )
                     if "Etag" in response.headers:
                         complete_parts.append(
                             {"PartNumber": int(part_number), "ETag": response.headers["Etag"].replace('"', "")}
