@@ -6,7 +6,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
-from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -27,6 +27,7 @@ class SyntheticsMobileApplications(BaseResource):
         null_values={
             "framework": [""],
         },
+        tagging_config=TaggingConfig(path="tags"),
     )
     # Additional Synthetics Mobile Applications specific attributes
 
