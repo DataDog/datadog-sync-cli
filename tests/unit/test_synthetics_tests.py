@@ -28,20 +28,18 @@ class TestSyntheticsTestsStatusBehavior:
     def test_status_in_excluded_attributes(self):
         """Verify that 'status' is in the excluded_attributes list."""
         # build_excluded_attributes transforms "status" to "root['status']"
-        assert "root['status']" in SyntheticsTests.resource_config.excluded_attributes, \
-            "Status should be excluded from sync to prevent overwriting manual changes"
+        assert (
+            "root['status']" in SyntheticsTests.resource_config.excluded_attributes
+        ), "Status should be excluded from sync to prevent overwriting manual changes"
 
     def test_create_resource_forces_paused_status(self):
         """Verify that create_resource forces status to 'paused'."""
         # Setup
         mock_config = MagicMock(spec=Configuration)
         mock_client = AsyncMock()
-        mock_client.post = AsyncMock(return_value={
-            "public_id": "abc-123",
-            "status": "paused",
-            "type": "api",
-            "name": "Test"
-        })
+        mock_client.post = AsyncMock(
+            return_value={"public_id": "abc-123", "status": "paused", "type": "api", "name": "Test"}
+        )
         mock_config.destination_client = mock_client
 
         synthetics_tests = SyntheticsTests(mock_config)
@@ -52,24 +50,20 @@ class TestSyntheticsTestsStatusBehavior:
             "status": "live",  # This should be overridden
             "name": "Test on www.datadoghq.com",
             "config": {},
-            "locations": []
+            "locations": [],
         }
 
         # Execute
-        _id, response = asyncio.run(
-            synthetics_tests.create_resource("test-id", test_resource)
-        )
+        _id, response = asyncio.run(synthetics_tests.create_resource("test-id", test_resource))
 
         # Verify status was changed to "paused"
-        assert test_resource["status"] == "paused", \
-            "Status should be forced to 'paused' when creating new tests"
+        assert test_resource["status"] == "paused", "Status should be forced to 'paused' when creating new tests"
 
         # Verify API was called with paused status
         mock_client.post.assert_called_once()
         call_args = mock_client.post.call_args
         sent_resource = call_args[0][1]
-        assert sent_resource["status"] == "paused", \
-            "API call should include status='paused'"
+        assert sent_resource["status"] == "paused", "API call should include status='paused'"
 
     def test_create_resource_with_different_test_types(self):
         """Verify status forcing works for all test types."""
@@ -89,34 +83,28 @@ class TestSyntheticsTestsStatusBehavior:
                 "status": "live",
                 "name": f"Test {test_type}",
                 "config": {},
-                "locations": []
+                "locations": [],
             }
 
-            asyncio.run(
-                synthetics_tests.create_resource(f"test-{test_type}", test_resource)
-            )
+            asyncio.run(synthetics_tests.create_resource(f"test-{test_type}", test_resource))
 
-            assert test_resource["status"] == "paused", \
-                f"Status should be paused for {test_type} tests"
+            assert test_resource["status"] == "paused", f"Status should be paused for {test_type} tests"
 
             # Verify correct endpoint was called
             call_args = mock_client.post.call_args
-            assert f"/{test_type}" in call_args[0][0], \
-                f"Should call correct endpoint for {test_type}"
+            assert f"/{test_type}" in call_args[0][0], f"Should call correct endpoint for {test_type}"
 
     def test_status_not_in_nullable_attributes(self):
         """Verify status is not in non_nullable_attr to ensure it's properly handled."""
         non_nullable = SyntheticsTests.resource_config.non_nullable_attr or []
-        assert "status" not in non_nullable, \
-            "Status should not be in non_nullable_attr"
+        assert "status" not in non_nullable, "Status should not be in non_nullable_attr"
 
     def test_excluded_attributes_format(self):
         """Verify excluded_attributes contains properly formatted status entry."""
         excluded = SyntheticsTests.resource_config.excluded_attributes
 
         # build_excluded_attributes transforms entries to root['...'] format
-        assert "root['status']" in excluded, \
-            "Status should be in excluded_attributes list"
+        assert "root['status']" in excluded, "Status should be in excluded_attributes list"
 
         # Verify other important exclusions are still there
         assert "root['monitor_id']" in excluded
@@ -141,14 +129,12 @@ class TestSyntheticsTestsStatusBehavior:
             "config": {"assertions": []},
             "locations": ["aws:us-east-1"],
             "tags": ["team:synthetics"],
-            "options": {"tick_every": 60}
+            "options": {"tick_every": 60},
         }
 
         resource_copy = copy.deepcopy(original_resource)
 
-        asyncio.run(
-            synthetics_tests.create_resource("test-id", resource_copy)
-        )
+        asyncio.run(synthetics_tests.create_resource("test-id", resource_copy))
 
         # Only status should be different
         assert resource_copy["status"] == "paused"
