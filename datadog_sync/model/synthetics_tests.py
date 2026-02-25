@@ -136,7 +136,7 @@ class SyntheticsTests(BaseResource):
         # destination's metadata.disaster_recovery.source_status and triggers update when they differ.
         source = self.config.state.source[self.resource_type].get(_id, resource)
         source_public_id = source.get("public_id", "")
-        source_status = (source.get("status") or "live")
+        source_status = source.get("status") or "live"
         resource.setdefault("metadata", {})["disaster_recovery"] = {
             "source_public_id": source_public_id,
             "source_status": source_status,
