@@ -76,13 +76,17 @@ class SyntheticsTests(BaseResource):
     versions: List = []
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
+        self.config.logger.debug("synthetics_tests: fetching list from %s", self.resource_config.base_path)
         resp = await client.get(
             self.resource_config.base_path,
             params=self.get_params,
         )
+        tests = resp.get("tests", [])
+        self.config.logger.debug("synthetics_tests: got %d tests, fetching mobile application versions...", len(tests))
         versions = SyntheticsMobileApplicationsVersions(self.config)
         self.versions = await versions.get_resources(client)
-        return resp["tests"]
+        self.config.logger.debug("synthetics_tests: got %d mobile app versions", len(self.versions))
+        return tests
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client

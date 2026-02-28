@@ -38,14 +38,51 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         """
         Mobile Application Versions don't have a list endpoint of their own
         """
+        self.config.logger.debug(
+            "synthetics_mobile_applications_versions: fetching applications list from %s",
+            self.applications_path,
+        )
         resp = await client.get(self.applications_path)
+        applications = resp.get("applications", [])
+        total_versions = sum(len(app.get("versions", [])) for app in applications)
+        self.config.logger.info(
+            "synthetics_mobile_applications_versions: %d applications, %d versions to fetch",
+            len(applications),
+            total_versions,
+        )
+
+        # If import progress bar is active, add sub-steps so the bar advances during fetch
+        add_total = getattr(self.config, "_import_progress_add_total", None)
+        if callable(add_total):
+            add_total(total_versions)
 
         resources = []
-        for application in resp["applications"]:
-            for version in application["versions"]:
+        progress_interval = max(1, total_versions // 20)  # log at INFO roughly every 5%
+        progress_update = getattr(self.config, "_import_progress_update", None)
+        for app_idx, application in enumerate(applications):
+            versions = application.get("versions", [])
+            for ver_idx, version in enumerate(versions):
                 _id = version["id"]
+                current = len(resources) + 1
+                self.config.logger.debug(
+                    "synthetics_mobile_applications_versions: fetching version %s (%d/%d)",
+                    _id,
+                    current,
+                    total_versions,
+                )
                 resource = await client.get(self.resource_config.base_path + f"/{_id}")
                 resources.append(resource)
+                if callable(progress_update):
+                    progress_update(1)
+                if current % progress_interval == 0 or current == total_versions:
+                    self.config.logger.info(
+                        "synthetics_mobile_applications_versions: progress %d/%d",
+                        current,
+                        total_versions,
+                    )
+        self.config.logger.info(
+            "synthetics_mobile_applications_versions: finished fetching %d versions", len(resources)
+        )
         return resources
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
