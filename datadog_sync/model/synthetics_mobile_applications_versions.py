@@ -197,4 +197,3 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         await destination_client.delete(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
-
