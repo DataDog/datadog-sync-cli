@@ -33,7 +33,6 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
     )
     # Additional Synthetics Mobile Applications Versions specific attributes
     applications_path = "/api/unstable/synthetics/mobile/applications"
-    destination_versions: Dict[Tuple[str, str], Dict] = dict()
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         """
@@ -61,7 +60,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         pass
 
     async def pre_apply_hook(self) -> None:
-        self.destination_versions = await self._get_destination_versions()
+        pass
 
     async def _create_mobile_version(self, _id: str, resource: Dict) -> Tuple[str, str]:
         """
@@ -167,14 +166,6 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         return file_name, destination_application_id
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        # Check if a version with the same name + app already exists in destination
-        dest_app_id = resource["application_id"]
-        version_name = resource.get("version_name", "")
-        existing = self.destination_versions.get((dest_app_id, version_name))
-        if existing:
-            self.config.state.destination[self.resource_type][_id] = existing
-            return await self.update_resource(_id, resource)
-
         file_name, application_id = await self._create_mobile_version(_id, resource)
 
         self.config.logger.debug(f"got file_name: {file_name} and application_id: {application_id}")
@@ -207,15 +198,3 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
-    async def _get_destination_versions(self) -> Dict[Tuple[str, str], Dict]:
-        """Fetch existing versions from destination, keyed by (application_id, version_name)."""
-        destination_client = self.config.destination_client
-        resp = await destination_client.get(self.applications_path)
-        versions = {}
-        for application in resp["applications"]:
-            for version in application["versions"]:
-                _id = version["id"]
-                full_version = await destination_client.get(self.resource_config.base_path + f"/{_id}")
-                key = (full_version["application_id"], full_version["version_name"])
-                versions[key] = full_version
-        return versions
