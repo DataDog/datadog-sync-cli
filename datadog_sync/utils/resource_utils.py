@@ -235,7 +235,7 @@ def del_null_attr(resource_config, k_list, resources):
 
         if len(k_list) == 1 and k_list[0] in resource and resource[k_list[0]] is None:
             resource.pop(k_list[0], None)
-        elif len(k_list) > 1 and resource[k_list[0]] is not None:
+        elif len(k_list) > 1 and k_list[0] in resource and resource[k_list[0]] is not None:
             del_null_attr(resource_config, k_list[1:], resource[k_list[0]])
 
 
