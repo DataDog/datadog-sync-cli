@@ -203,5 +203,11 @@ class SyntheticsTests(BaseResource):
             if not found:
                 failed_connections.append(r_obj[key])
             return failed_connections
+        elif resource_to_connect == "synthetics_mobile_applications_versions" and key == "referenceId":
+            # When referenceType is "latest", referenceId contains the application ID, not a version ID.
+            # Connect it against synthetics_mobile_applications instead.
+            if r_obj.get("referenceType") == "latest":
+                return super(SyntheticsTests, self).connect_id(key, r_obj, "synthetics_mobile_applications")
+            return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
         else:
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
