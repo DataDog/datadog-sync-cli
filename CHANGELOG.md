@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.2 / 2026-03-04
+
+## New Contributors
+* @melkouri made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/455
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.0.0...3.0.2
+
 ## 3.0.0 / 2026-02-18
 
 ### Fixed
