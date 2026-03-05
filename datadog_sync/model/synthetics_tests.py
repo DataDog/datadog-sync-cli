@@ -51,6 +51,7 @@ class SyntheticsTests(BaseResource):
             "status",  # Exclude status to prevent overwriting manual changes during sync
             "stepCount",
             "steps.public_id",
+            "options.rumSettings.clientTokenId",
         ],
         non_nullable_attr=[
             "options.monitor_options.on_missing_data",
@@ -145,6 +146,22 @@ class SyntheticsTests(BaseResource):
     async def pre_apply_hook(self) -> None:
         pass
 
+    @staticmethod
+    def _replace_variable_public_id(resource: Dict, source_public_id: str, dest_public_id: str) -> None:
+        """Rewrite variable pattern/example to use the destination test's public_id.
+
+        Variables can embed the test's public_id in their pattern and example fields
+        (e.g. email variables use <public_id>.<random>@synthetics.dtdg.co for routing,
+        and other variables may reference {{ public-id }}). When a test is synced, these
+        fields still contain the source public_id and must be updated to match the
+        destination test.
+        """
+        for var in resource.get("config", {}).get("variables", []):
+            if "pattern" in var:
+                var["pattern"] = var["pattern"].replace(source_public_id, dest_public_id)
+            if "example" in var:
+                var["example"] = var["example"].replace(source_public_id, dest_public_id)
+
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         test_type = resource["type"]
@@ -155,6 +172,17 @@ class SyntheticsTests(BaseResource):
         resource["status"] = "paused"
 
         resp = await destination_client.post(self.resource_config.base_path + f"/{test_type}", resource)
+
+        # Now that we have the destination public_id, fix variables that embed the source public_id.
+        source_public_id = _id.split("#")[0]
+        dest_public_id = resp["public_id"]
+        if source_public_id != dest_public_id:
+            self._replace_variable_public_id(resp, source_public_id, dest_public_id)
+            await destination_client.put(
+                self.resource_config.base_path + f"/{dest_public_id}",
+                resp,
+            )
+
         # Persist metadata in state so destination JSON has it and diffs compare correctly.
         if resource.get("metadata"):
             resp.setdefault("metadata", {}).update(deepcopy(resource["metadata"]))
@@ -164,8 +192,12 @@ class SyntheticsTests(BaseResource):
         destination_client = self.config.destination_client
         resource.pop("mobileApplicationsVersions", None)
 
+        source_public_id = _id.split("#")[0]
+        dest_public_id = self.config.state.destination[self.resource_type][_id]["public_id"]
+        self._replace_variable_public_id(resource, source_public_id, dest_public_id)
+
         resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['public_id']}",
+            self.resource_config.base_path + f"/{dest_public_id}",
             resource,
         )
         # Persist metadata in state so destination JSON has it and diffs compare correctly.
