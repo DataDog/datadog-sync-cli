@@ -34,7 +34,7 @@ class TestAzureBlobContainer:
     def test_init_with_connection_string(self, mock_azure_connection_string):
         mock_container_cls, mock_container = mock_azure_connection_string
 
-        container = AzureBlobContainer(
+        AzureBlobContainer(
             config={
                 "azure_container_name": "test-container",
                 "azure_storage_connection_string": "DefaultEndpointsProtocol=https;AccountName=test",
@@ -51,7 +51,7 @@ class TestAzureBlobContainer:
     def test_init_with_account_key(self, mock_azure_account_key):
         mock_bsc_cls, mock_bsc, mock_container = mock_azure_account_key
 
-        container = AzureBlobContainer(
+        AzureBlobContainer(
             config={
                 "azure_container_name": "test-container",
                 "azure_storage_connection_string": None,
@@ -67,8 +67,9 @@ class TestAzureBlobContainer:
         mock_bsc.get_container_client.assert_called_once_with("test-container")
 
     def test_init_with_default_credentials(self):
-        with patch("datadog_sync.utils.storage.azure_blob_container.BlobServiceClient") as mock_bsc_cls, \
-             patch("datadog_sync.utils.storage.azure_blob_container.DefaultAzureCredential") as mock_cred_cls:
+        with patch("datadog_sync.utils.storage.azure_blob_container.BlobServiceClient") as mock_bsc_cls, patch(
+            "datadog_sync.utils.storage.azure_blob_container.DefaultAzureCredential"
+        ) as mock_cred_cls:
             mock_bsc = MagicMock()
             mock_bsc_cls.return_value = mock_bsc
             mock_container = MagicMock()
@@ -76,7 +77,7 @@ class TestAzureBlobContainer:
             mock_cred = MagicMock()
             mock_cred_cls.return_value = mock_cred
 
-            container = AzureBlobContainer(
+            AzureBlobContainer(
                 config={
                     "azure_container_name": "test-container",
                     "azure_storage_connection_string": None,
@@ -93,6 +94,17 @@ class TestAzureBlobContainer:
     def test_init_no_config(self):
         with pytest.raises(ValueError, match="No Azure configuration passed in"):
             AzureBlobContainer(config=None)
+
+    def test_init_missing_container_name(self, mock_azure_connection_string):
+        with pytest.raises(ValueError, match="Azure container name is required"):
+            AzureBlobContainer(
+                config={
+                    "azure_container_name": "",
+                    "azure_storage_connection_string": "connstr",
+                    "azure_storage_account_name": None,
+                    "azure_storage_account_key": None,
+                }
+            )
 
     def test_init_missing_account_info(self):
         with pytest.raises(ValueError, match="Azure storage requires"):

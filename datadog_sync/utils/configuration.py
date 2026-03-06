@@ -257,7 +257,9 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         source_resources_path = kwargs.get("azure_container_key_prefix_source", local_source_resources_path)
 
         local_destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
-        destination_resources_path = kwargs.get("azure_container_key_prefix_destination", local_destination_resources_path)
+        destination_resources_path = kwargs.get(
+            "azure_container_key_prefix_destination", local_destination_resources_path
+        )
 
         for azure_config_property in AZURE_CONFIG_PROPERTIES:
             property_value = kwargs.get(azure_config_property, None)

@@ -356,7 +356,7 @@ _storage_options = [
         "--gcs-service-account-key-file",
         envvar=constants.GCS_SERVICE_ACCOUNT_KEY_FILE,
         required=False,
-        help=f"Path to GCS service account key JSON file, only used if --storage-type is '{constants.GCS_STORAGE_TYPE}'",
+        help=f"Path to GCS service account key file, only used if --storage-type is '{constants.GCS_STORAGE_TYPE}'",
         cls=CustomOptionClass,
     ),
     # Azure options

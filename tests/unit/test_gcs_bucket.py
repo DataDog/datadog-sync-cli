@@ -30,7 +30,7 @@ class TestGCSBucket:
             mock_bucket = MagicMock()
             mock_client.bucket.return_value = mock_bucket
 
-            bucket = GCSBucket(
+            GCSBucket(
                 config={"gcs_bucket_name": "test-bucket", "gcs_service_account_key_file": "/path/to/key.json"}
             )
 
@@ -40,7 +40,7 @@ class TestGCSBucket:
     def test_init_with_default_credentials(self, mock_gcs_client):
         mock_storage, mock_client, mock_bucket = mock_gcs_client
 
-        bucket = GCSBucket(config={"gcs_bucket_name": "test-bucket", "gcs_service_account_key_file": None})
+        GCSBucket(config={"gcs_bucket_name": "test-bucket", "gcs_service_account_key_file": None})
 
         mock_storage.Client.assert_called_once()
         mock_client.bucket.assert_called_once_with("test-bucket")
@@ -48,6 +48,10 @@ class TestGCSBucket:
     def test_init_no_config(self):
         with pytest.raises(ValueError, match="No GCS configuration passed in"):
             GCSBucket(config=None)
+
+    def test_init_missing_bucket_name(self, mock_gcs_client):
+        with pytest.raises(ValueError, match="GCS bucket name is required"):
+            GCSBucket(config={"gcs_bucket_name": "", "gcs_service_account_key_file": None})
 
     def test_get_source(self, mock_gcs_client):
         _, _, mock_bucket = mock_gcs_client

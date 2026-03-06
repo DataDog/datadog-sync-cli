@@ -45,7 +45,10 @@ class GCSBucket(BaseStorage):
             log.info("GCS configured with application default credentials")
             self.client = gcs_storage.Client()
 
-        self.bucket = self.client.bucket(config.get("gcs_bucket_name", ""))
+        bucket_name = config.get("gcs_bucket_name", "")
+        if not bucket_name:
+            raise ValueError("GCS bucket name is required")
+        self.bucket = self.client.bucket(bucket_name)
 
     def get(self, origin: Origin) -> StorageData:
         log.info("GCS get called")
@@ -86,9 +89,7 @@ class GCSBucket(BaseStorage):
                         )
                 else:
                     key = f"{base_key}.json"
-                    self.bucket.blob(key).upload_from_string(
-                        json.dumps(resource_data), content_type="application/json"
-                    )
+                    self.bucket.blob(key).upload_from_string(json.dumps(resource_data), content_type="application/json")
 
         if origin in [Origin.DESTINATION, Origin.ALL]:
             for resource_type, resource_data in data.destination.items():
@@ -101,6 +102,4 @@ class GCSBucket(BaseStorage):
                         )
                 else:
                     key = f"{base_key}.json"
-                    self.bucket.blob(key).upload_from_string(
-                        json.dumps(resource_data), content_type="application/json"
-                    )
+                    self.bucket.blob(key).upload_from_string(json.dumps(resource_data), content_type="application/json")

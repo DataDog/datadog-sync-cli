@@ -39,6 +39,8 @@ class AzureBlobContainer(BaseStorage):
             raise ValueError("No Azure configuration passed in")
 
         container_name = config.get("azure_container_name", "")
+        if not container_name:
+            raise ValueError("Azure container name is required")
         connection_string = config.get("azure_storage_connection_string", None)
         account_name = config.get("azure_storage_account_name", None)
         account_key = config.get("azure_storage_account_key", None)
@@ -96,14 +98,10 @@ class AzureBlobContainer(BaseStorage):
                 if self.resource_per_file:
                     for _id, resource in resource_data.items():
                         key = f"{base_key}.{_id}.json"
-                        self.container_client.upload_blob(
-                            name=key, data=json.dumps({_id: resource}), overwrite=True
-                        )
+                        self.container_client.upload_blob(name=key, data=json.dumps({_id: resource}), overwrite=True)
                 else:
                     key = f"{base_key}.json"
-                    self.container_client.upload_blob(
-                        name=key, data=json.dumps(resource_data), overwrite=True
-                    )
+                    self.container_client.upload_blob(name=key, data=json.dumps(resource_data), overwrite=True)
 
         if origin in [Origin.DESTINATION, Origin.ALL]:
             for resource_type, resource_data in data.destination.items():
@@ -111,11 +109,7 @@ class AzureBlobContainer(BaseStorage):
                 if self.resource_per_file:
                     for _id, resource in resource_data.items():
                         key = f"{base_key}.{_id}.json"
-                        self.container_client.upload_blob(
-                            name=key, data=json.dumps({_id: resource}), overwrite=True
-                        )
+                        self.container_client.upload_blob(name=key, data=json.dumps({_id: resource}), overwrite=True)
                 else:
                     key = f"{base_key}.json"
-                    self.container_client.upload_blob(
-                        name=key, data=json.dumps(resource_data), overwrite=True
-                    )
+                    self.container_client.upload_blob(name=key, data=json.dumps(resource_data), overwrite=True)
