@@ -51,7 +51,6 @@ class SyntheticsTests(BaseResource):
             "status",  # Exclude status to prevent overwriting manual changes during sync
             "stepCount",
             "steps.public_id",
-            "options.rumSettings.clientTokenId",
         ],
         non_nullable_attr=[
             "options.monitor_options.on_missing_data",
@@ -177,10 +176,10 @@ class SyntheticsTests(BaseResource):
         source_public_id = _id.split("#")[0]
         dest_public_id = resp["public_id"]
         if source_public_id != dest_public_id:
-            self._replace_variable_public_id(resp, source_public_id, dest_public_id)
-            await destination_client.put(
+            self._replace_variable_public_id(resource, source_public_id, dest_public_id)
+            resp = await destination_client.put(
                 self.resource_config.base_path + f"/{dest_public_id}",
-                resp,
+                resource,
             )
 
         # Persist metadata in state so destination JSON has it and diffs compare correctly.
