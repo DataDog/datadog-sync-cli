@@ -13,10 +13,14 @@ from typing import Any, Optional, Union, Dict, List
 from datadog_sync.constants import (
     Command,
     AWS_CONFIG_PROPERTIES,
+    AZURE_CONFIG_PROPERTIES,
+    AZURE_STORAGE_TYPE,
     DESTINATION_PATH_DEFAULT,
     DESTINATION_PATH_PARAM,
     FALSE,
     FORCE,
+    GCS_CONFIG_PROPERTIES,
+    GCS_STORAGE_TYPE,
     LOCAL_STORAGE_TYPE,
     LOGGER_NAME,
     RESOURCE_PER_FILE,
@@ -230,6 +234,36 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             if not property_value:
                 logger.warning(f"Missing AWS configuration parameter: {aws_config_property}")
             config[aws_config_property] = property_value
+    elif storage_type == GCS_STORAGE_TYPE:
+        logger.info("Using GCS to store state files")
+        storage_type = StorageType.GCS_BUCKET
+
+        local_source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
+        source_resources_path = kwargs.get("gcs_bucket_key_prefix_source", local_source_resources_path)
+
+        local_destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
+        destination_resources_path = kwargs.get("gcs_bucket_key_prefix_destination", local_destination_resources_path)
+
+        for gcs_config_property in GCS_CONFIG_PROPERTIES:
+            property_value = kwargs.get(gcs_config_property, None)
+            if not property_value:
+                logger.warning(f"Missing GCS configuration parameter: {gcs_config_property}")
+            config[gcs_config_property] = property_value
+    elif storage_type == AZURE_STORAGE_TYPE:
+        logger.info("Using Azure Blob Storage to store state files")
+        storage_type = StorageType.AZURE_BLOB_CONTAINER
+
+        local_source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
+        source_resources_path = kwargs.get("azure_container_key_prefix_source", local_source_resources_path)
+
+        local_destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
+        destination_resources_path = kwargs.get("azure_container_key_prefix_destination", local_destination_resources_path)
+
+        for azure_config_property in AZURE_CONFIG_PROPERTIES:
+            property_value = kwargs.get(azure_config_property, None)
+            if not property_value:
+                logger.warning(f"Missing Azure configuration parameter: {azure_config_property}")
+            config[azure_config_property] = property_value
     elif storage_type == LOCAL_STORAGE_TYPE:
         logger.info("Using local filesystem to store state files")
         storage_type = StorageType.LOCAL_FILE

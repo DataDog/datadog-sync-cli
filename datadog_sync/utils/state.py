@@ -14,6 +14,8 @@ from datadog_sync.constants import (
 )
 from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData
 from datadog_sync.utils.storage.aws_s3_bucket import AWSS3Bucket
+from datadog_sync.utils.storage.azure_blob_container import AzureBlobContainer
+from datadog_sync.utils.storage.gcs_bucket import GCSBucket
 from datadog_sync.utils.storage.local_file import LocalFile
 from datadog_sync.utils.storage.storage_types import StorageType
 
@@ -34,6 +36,26 @@ class State:
             if not config:
                 raise ValueError("AWS configuration not found")
             self._storage: BaseStorage = AWSS3Bucket(
+                source_resources_path=source_resources_path,
+                destination_resources_path=destination_resources_path,
+                config=config,
+                resource_per_file=resource_per_file,
+            )
+        elif type_ == StorageType.GCS_BUCKET:
+            config = kwargs.get("config", {})
+            if not config:
+                raise ValueError("GCS configuration not found")
+            self._storage: BaseStorage = GCSBucket(
+                source_resources_path=source_resources_path,
+                destination_resources_path=destination_resources_path,
+                config=config,
+                resource_per_file=resource_per_file,
+            )
+        elif type_ == StorageType.AZURE_BLOB_CONTAINER:
+            config = kwargs.get("config", {})
+            if not config:
+                raise ValueError("Azure configuration not found")
+            self._storage: BaseStorage = AzureBlobContainer(
                 source_resources_path=source_resources_path,
                 destination_resources_path=destination_resources_path,
                 config=config,
