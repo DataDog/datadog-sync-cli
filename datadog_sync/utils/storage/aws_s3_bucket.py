@@ -54,6 +54,8 @@ class AWSS3Bucket(BaseStorage):
             self.client = boto3.client("s3")
 
         self.bucket_name = config.get("aws_bucket_name", "")
+        if not self.bucket_name:
+            raise ValueError("AWS S3 bucket name is required")
 
     def get(self, origin: Origin) -> StorageData:
         log.info("AWS S3 get called")
