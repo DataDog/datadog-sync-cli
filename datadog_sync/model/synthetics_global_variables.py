@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -64,7 +65,7 @@ class SyntheticsGlobalVariables(BaseResource):
                     self.resource_config.base_path + f"/{_id}/clear"
                 )
                 resource.setdefault("value", {})["value"] = clear["value"]["value"]
-            except Exception:
+            except (CustomClientHTTPError, KeyError):
                 self.config.logger.warning(f"Failed to inject secret value for global variable {_id}")
                 resource.setdefault("value", {})["value"] = "SECRET"
 
