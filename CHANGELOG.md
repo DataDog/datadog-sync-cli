@@ -1,11 +1,21 @@
 # Changelog
 
-## 3.0.2 / 2026-03-04
+## 3.0.2 / 2026-03-09
+
+### Fixed
+* Obfuscated variables with public_id @melkouriin https://github.com/DataDog/datadog-sync-cli/pull/465
+### Added
+* Support for GCS and Azure buckets by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/467
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.0.1...3.0.2
+
+## 3.0.1 / 2026-03-02
 
 ## New Contributors
 * @melkouri made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/455
 
-**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.0.0...3.0.2
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.0.0...3.0.1
 
 ## 3.0.0 / 2026-02-18
 
