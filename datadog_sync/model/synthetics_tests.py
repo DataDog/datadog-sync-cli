@@ -146,7 +146,7 @@ class SyntheticsTests(BaseResource):
         pass
 
     @staticmethod
-    def _replace_variable_public_id(resource: Dict, source_public_id: str, dest_public_id: str) -> None:
+    def _replace_variable_public_id(resource: Dict, source_public_id: str, dest_public_id: str) -> bool:
         """Rewrite variable pattern/example to use the destination test's public_id.
 
         Variables can embed the test's public_id in their pattern and example fields
@@ -154,12 +154,18 @@ class SyntheticsTests(BaseResource):
         and other variables may reference {{ public-id }}). When a test is synced, these
         fields still contain the source public_id and must be updated to match the
         destination test.
+
+        Returns True if any replacements were made.
         """
+        replaced = False
         for var in resource.get("config", {}).get("variables", []):
-            if "pattern" in var:
+            if "pattern" in var and source_public_id in var["pattern"]:
                 var["pattern"] = var["pattern"].replace(source_public_id, dest_public_id)
-            if "example" in var:
+                replaced = True
+            if "example" in var and source_public_id in var["example"]:
                 var["example"] = var["example"].replace(source_public_id, dest_public_id)
+                replaced = True
+        return replaced
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
@@ -175,8 +181,9 @@ class SyntheticsTests(BaseResource):
         # Now that we have the destination public_id, fix variables that embed the source public_id.
         source_public_id = _id.split("#")[0]
         dest_public_id = resp["public_id"]
-        if source_public_id != dest_public_id:
-            self._replace_variable_public_id(resource, source_public_id, dest_public_id)
+        if source_public_id != dest_public_id and self._replace_variable_public_id(
+            resource, source_public_id, dest_public_id
+        ):
             resp = await destination_client.put(
                 self.resource_config.base_path + f"/{dest_public_id}",
                 resource,
