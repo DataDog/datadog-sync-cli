@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -54,6 +55,26 @@ class SyntheticsGlobalVariables(BaseResource):
     async def pre_apply_hook(self) -> None:
         self.destination_global_variables = await self.get_destination_global_variables()
 
+    async def _inject_secret_value(self, _id: str, resource: Dict) -> None:
+        """Fetch the clear (unobfuscated) secret value from the source and inject it
+        into the resource dict. The value is only held in memory and never persisted
+        to state files."""
+        if "value" not in resource.get("value", {}):
+            try:
+                clear = await self.config.source_client.get(
+                    self.resource_config.base_path + f"/{_id}/clear"
+                )
+                resource.setdefault("value", {})["value"] = clear["value"]["value"]
+            except (CustomClientHTTPError, KeyError):
+                self.config.logger.warning(f"Failed to inject secret value for global variable {_id}")
+                resource.setdefault("value", {})["value"] = "SECRET"
+
+    @staticmethod
+    def _strip_secret_value(resp: Dict) -> None:
+        """Remove the secret value from the response so it is not saved to state files."""
+        if resp.get("value", {}).get("secure"):
+            resp["value"].pop("value", None)
+
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if resource["name"] in self.destination_global_variables:
             self.config.state.destination[self.resource_type][_id] = self.destination_global_variables[resource["name"]]
@@ -61,22 +82,26 @@ class SyntheticsGlobalVariables(BaseResource):
 
         destination_client = self.config.destination_client
 
-        if "value" not in resource["value"]:
-            resource["value"]["value"] = "SECRET"
+        await self._inject_secret_value(_id, resource)
 
         if "is_fido" in resource and resource["is_fido"]:
             resource.pop("value")
 
         resp = await destination_client.post(self.resource_config.base_path, resource)
+        self._strip_secret_value(resp)
 
         return _id, resp
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
+
+        await self._inject_secret_value(_id, resource)
+
         resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
+        self._strip_secret_value(resp)
 
         r = self.config.state.destination[self.resource_type][_id]
         r.update(resp)

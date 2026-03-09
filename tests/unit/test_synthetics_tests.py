@@ -54,7 +54,7 @@ class TestSyntheticsTestsStatusBehavior:
         }
 
         # Execute
-        _id, response = asyncio.run(synthetics_tests.create_resource("test-id", test_resource))
+        _id, response = asyncio.run(synthetics_tests.create_resource("src-pub-id#12345", test_resource))
 
         # Verify status was changed to "paused"
         assert test_resource["status"] == "paused", "Status should be forced to 'paused' when creating new tests"
@@ -86,7 +86,7 @@ class TestSyntheticsTestsStatusBehavior:
                 "locations": [],
             }
 
-            asyncio.run(synthetics_tests.create_resource(f"test-{test_type}", test_resource))
+            asyncio.run(synthetics_tests.create_resource(f"src-pub-id#{test_type}", test_resource))
 
             assert test_resource["status"] == "paused", f"Status should be paused for {test_type} tests"
 
@@ -134,7 +134,7 @@ class TestSyntheticsTestsStatusBehavior:
 
         resource_copy = copy.deepcopy(original_resource)
 
-        asyncio.run(synthetics_tests.create_resource("test-id", resource_copy))
+        asyncio.run(synthetics_tests.create_resource("src-pub-id#12345", resource_copy))
 
         # Only status should be different
         assert resource_copy["status"] == "paused"
