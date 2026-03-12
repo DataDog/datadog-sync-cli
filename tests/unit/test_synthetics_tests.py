@@ -69,15 +69,15 @@ class TestSyntheticsTestsStatusBehavior:
         """Verify status forcing works for all test types."""
         mock_config = MagicMock(spec=Configuration)
         mock_client = AsyncMock()
-        mock_client.post = AsyncMock(return_value={"public_id": "abc-123", "status": "paused"})
         mock_config.destination_client = mock_client
 
         synthetics_tests = SyntheticsTests(mock_config)
 
-        test_types = ["api", "browser", "mobile"]
-
-        for test_type in test_types:
+        # v1 test types return flat responses
+        v1_test_types = ["api", "browser", "mobile"]
+        for test_type in v1_test_types:
             mock_client.reset_mock()
+            mock_client.post = AsyncMock(return_value={"public_id": "abc-123", "status": "paused"})
             test_resource = {
                 "type": test_type,
                 "status": "live",
@@ -93,6 +93,30 @@ class TestSyntheticsTestsStatusBehavior:
             # Verify correct endpoint was called
             call_args = mock_client.post.call_args
             assert f"/{test_type}" in call_args[0][0], f"Should call correct endpoint for {test_type}"
+
+        # network test type returns v2 wrapped response
+        mock_client.reset_mock()
+        mock_client.post = AsyncMock(
+            return_value={"data": {"id": "abc-123", "type": "network_test", "attributes": {"status": "paused"}}}
+        )
+        test_resource = {
+            "type": "network",
+            "status": "live",
+            "name": "Test network",
+            "config": {},
+            "locations": [],
+        }
+
+        asyncio.run(synthetics_tests.create_resource("src-pub-id#network", test_resource))
+
+        assert test_resource["status"] == "paused", "Status should be paused for network tests"
+
+        call_args = mock_client.post.call_args
+        assert "/api/v2/synthetics/tests/network" == call_args[0][0], "Should call v2 endpoint for network"
+        # Verify v2 wrapped body
+        sent_body = call_args[0][1]
+        assert "data" in sent_body, "Network test should use v2 wrapped body"
+        assert sent_body["data"]["type"] == "network"
 
     def test_status_not_in_nullable_attributes(self):
         """Verify status is not in non_nullable_attr to ensure it's properly handled."""

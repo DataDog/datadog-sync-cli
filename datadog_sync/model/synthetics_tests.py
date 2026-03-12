@@ -72,8 +72,69 @@ class SyntheticsTests(BaseResource):
     browser_test_path: str = "/api/v1/synthetics/tests/browser/{}"
     api_test_path: str = "/api/v1/synthetics/tests/api/{}"
     mobile_test_path: str = "/api/v1/synthetics/tests/mobile/{}"
+    network_test_path: str = "/api/v2/synthetics/tests/network/{}"
+    network_base_path: str = "/api/v2/synthetics/tests/network"
+    network_delete_path: str = "/api/v2/synthetics/tests/bulk-delete"
     get_params = {"include_metadata": "true"}
     versions: List = []
+
+    @staticmethod
+    def _unwrap_network_response(resp: Dict) -> Dict:
+        """Unwrap a v2 network test response into a flat resource dict."""
+        resource = resp["data"]["attributes"]
+        resource["public_id"] = resp["data"]["id"]
+        resource["type"] = "network"
+        # v2 API does not return monitor_id despite the docs listing it
+        resource.setdefault("monitor_id", None)
+        # v2 API returns monitor_priority as string but the API expects an integer
+        monitor_priority = resource.get("options", {}).get("monitor_priority")
+        if monitor_priority is not None:
+            resource["options"]["monitor_priority"] = int(monitor_priority)
+        return resource
+
+    @staticmethod
+    def _wrap_network_request(resource: Dict) -> Dict:
+        """Wrap a flat resource dict into a v2 network test request body."""
+        resource.pop("public_id", None)
+        return {"data": {"attributes": resource, "type": "network"}}
+
+    async def _get_test(self, client: CustomClient, test_type: str, public_id: str) -> Dict:
+        """Fetch a single test, handling v2 envelope for network tests."""
+        if test_type == "network":
+            resp = await client.get(self.network_test_path.format(public_id), params=self.get_params)
+            return self._unwrap_network_response(resp)
+        path = self.resource_config.base_path + f"/{test_type}/{public_id}"
+        return await client.get(path, params=self.get_params)
+
+    async def _create_test(self, client: CustomClient, test_type: str, resource: Dict) -> Dict:
+        """Create a test, handling v2 envelope for network tests."""
+        if test_type == "network":
+            body = self._wrap_network_request(resource)
+            resp = await client.post(self.network_base_path, body)
+            return self._unwrap_network_response(resp)
+        return await client.post(self.resource_config.base_path + f"/{test_type}", resource)
+
+    async def _update_test(self, client: CustomClient, public_id: str, resource: Dict) -> Dict:
+        """Update a test, handling v2 envelope for network tests."""
+        if resource.get("type") == "network":
+            body = self._wrap_network_request(resource)
+            resp = await client.put(self.network_base_path + f"/{public_id}", body)
+            return self._unwrap_network_response(resp)
+        return await client.put(self.resource_config.base_path + f"/{public_id}", resource)
+
+    async def _delete_test(self, client: CustomClient, test_type: str, public_id: str) -> None:
+        """Delete a test, handling v2 envelope for network tests."""
+        if test_type == "network":
+            body = {
+                "data": {
+                    "type": "delete_tests_request",
+                    "attributes": {"public_ids": [public_id]},
+                }
+            }
+            await client.post(self.network_delete_path, body)
+        else:
+            body = {"public_ids": [public_id]}
+            await client.post(self.resource_config.base_path + "/delete", body)
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(
@@ -99,10 +160,17 @@ class SyntheticsTests(BaseResource):
                         params=self.get_params,
                     )
                 except Exception:
-                    resource = await source_client.get(
-                        self.mobile_test_path.format(_id),
-                        params=self.get_params,
-                    )
+                    try:
+                        resource = await source_client.get(
+                            self.mobile_test_path.format(_id),
+                            params=self.get_params,
+                        )
+                    except Exception:
+                        resp = await source_client.get(
+                            self.network_test_path.format(_id),
+                            params=self.get_params,
+                        )
+                        resource = self._unwrap_network_response(resp)
 
         resource = cast(dict, resource)
         _id = resource["public_id"]
@@ -127,6 +195,12 @@ class SyntheticsTests(BaseResource):
                 if i["application_id"] == resource["options"]["mobileApplication"]["applicationId"]
             ]
             resource["mobileApplicationsVersions"] = list(set(versions))
+        elif resource.get("type") == "network":
+            resp = await source_client.get(
+                self.network_test_path.format(_id),
+                params=self.get_params,
+            )
+            resource = self._unwrap_network_response(resp)
 
         resource = cast(dict, resource)
         return f"{resource['public_id']}#{resource['monitor_id']}", resource
@@ -176,7 +250,7 @@ class SyntheticsTests(BaseResource):
         # on destination during failover scenarios. Status can be manually changed after creation.
         resource["status"] = "paused"
 
-        resp = await destination_client.post(self.resource_config.base_path + f"/{test_type}", resource)
+        resp = await self._create_test(destination_client, test_type, resource)
 
         # Now that we have the destination public_id, fix variables that embed the source public_id.
         source_public_id = _id.split("#")[0]
@@ -184,10 +258,7 @@ class SyntheticsTests(BaseResource):
         if source_public_id != dest_public_id and self._replace_variable_public_id(
             resource, source_public_id, dest_public_id
         ):
-            resp = await destination_client.put(
-                self.resource_config.base_path + f"/{dest_public_id}",
-                resource,
-            )
+            resp = await self._update_test(destination_client, dest_public_id, resource)
 
         # Persist metadata in state so destination JSON has it and diffs compare correctly.
         if resource.get("metadata"):
@@ -202,10 +273,7 @@ class SyntheticsTests(BaseResource):
         dest_public_id = self.config.state.destination[self.resource_type][_id]["public_id"]
         self._replace_variable_public_id(resource, source_public_id, dest_public_id)
 
-        resp = await destination_client.put(
-            self.resource_config.base_path + f"/{dest_public_id}",
-            resource,
-        )
+        resp = await self._update_test(destination_client, dest_public_id, resource)
         # Persist metadata in state so destination JSON has it and diffs compare correctly.
         if resource.get("metadata"):
             resp.setdefault("metadata", {}).update(deepcopy(resource["metadata"]))
@@ -213,8 +281,8 @@ class SyntheticsTests(BaseResource):
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        body = {"public_ids": [self.config.state.destination[self.resource_type][_id]["public_id"]]}
-        await destination_client.post(self.resource_config.base_path + "/delete", body)
+        dest_resource = self.config.state.destination[self.resource_type][_id]
+        await self._delete_test(destination_client, dest_resource.get("type"), dest_resource["public_id"])
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         failed_connections: List[str] = []
