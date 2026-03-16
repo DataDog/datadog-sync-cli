@@ -84,12 +84,6 @@ class SyntheticsTests(BaseResource):
         resource = resp["data"]["attributes"]
         resource["public_id"] = resp["data"]["id"]
         resource["type"] = "network"
-        # v2 API does not return monitor_id despite the docs listing it
-        resource.setdefault("monitor_id", None)
-        # v2 API returns monitor_priority as string but the API expects an integer
-        monitor_priority = resource.get("options", {}).get("monitor_priority")
-        if monitor_priority is not None:
-            resource["options"]["monitor_priority"] = int(monitor_priority)
         return resource
 
     @staticmethod
