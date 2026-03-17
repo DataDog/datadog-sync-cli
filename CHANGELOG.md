@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.0.3 / 2026-03-17
+
+### Fixed
+* Add support for Synthetics Network tests by @melkouri in https://github.com/DataDog/datadog-sync-cli/pull/473
+* The users api endpoint was modified with a uuid by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/475
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.0.2...3.0.3
+
 ## 3.0.2 / 2026-03-09
 
 ### Fixed
