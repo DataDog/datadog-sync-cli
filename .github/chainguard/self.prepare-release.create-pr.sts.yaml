@@ -5,7 +5,6 @@ subject: repo:DataDog/datadog-sync-cli:ref:refs/heads/main
 claim_pattern:
   event_name: workflow_dispatch
   ref: refs/heads/main
-  ref_protected: "true"
   job_workflow_ref: DataDog/datadog-sync-cli/.github/workflows/prepare_release.yml@refs/heads/main
 
 permissions:
