@@ -4,6 +4,10 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+
+import aiohttp
+import certifi
+import ssl
 from copy import deepcopy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
@@ -12,6 +16,8 @@ from datadog_sync.model.synthetics_mobile_applications_versions import Synthetic
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
+
+_FILE_DOWNLOAD_PATH = "/api/v2/synthetics/tests/{}/files/download"
 
 
 class SyntheticsTests(BaseResource):
@@ -51,6 +57,9 @@ class SyntheticsTests(BaseResource):
             "status",  # Exclude status to prevent overwriting manual changes during sync
             "stepCount",
             "steps.public_id",
+            "config.request.files.bucketKey",
+            "steps.params.files.bucketKey",
+            "config.steps.request.files.bucketKey",
         ],
         non_nullable_attr=[
             "options.monitor_options.on_missing_data",
@@ -235,6 +244,44 @@ class SyntheticsTests(BaseResource):
                 replaced = True
         return replaced
 
+    @staticmethod
+    def _get_files_with_bucket_key(resource: Dict) -> List[Tuple[Dict, str]]:
+        """Return (file_dict, bucket_key_prefix) for all files that have a bucketKey.
+
+        Covers:
+        - API test request files: config.request.files[] (prefix: api-upload-file)
+        - Multistep API test step files: config.steps[].request.files[] (prefix: api-upload-file)
+        - Browser test step files: steps[].params.files[] (prefix: browser-upload-file-step)
+        """
+        files = []
+        for f in resource.get("config", {}).get("request", {}).get("files", []):
+            if "bucketKey" in f:
+                files.append((f, "api-upload-file"))
+        for step in resource.get("config", {}).get("steps", []):
+            for f in step.get("request", {}).get("files", []):
+                if "bucketKey" in f:
+                    files.append((f, "api-upload-file"))
+        for step in resource.get("steps", []):
+            for f in step.get("params", {}).get("files", []):
+                if "bucketKey" in f:
+                    files.append((f, "browser-upload-file-step"))
+        return files
+
+    async def _download_file(self, source_public_id: str, bucket_key: str) -> bytes:
+        """Download a file from the source org via the presigned URL endpoint."""
+        source_client = self.config.source_client
+        presigned_url = await source_client.post(
+            _FILE_DOWNLOAD_PATH.format(source_public_id),
+            {"bucketKey": bucket_key},
+        )
+        if isinstance(presigned_url, str):
+            presigned_url = presigned_url.strip('"')
+
+        ssl_context = ssl.create_default_context(cafile=certifi.where())
+        async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
+            async with session.get(presigned_url) as response:
+                return await response.read()
+
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         test_type = resource["type"]
@@ -244,14 +291,29 @@ class SyntheticsTests(BaseResource):
         # on destination during failover scenarios. Status can be manually changed after creation.
         resource["status"] = "paused"
 
+        source_public_id = _id.split("#")[0]
+
+        # Download files from source and inject content inline so the create API
+        # stores the file in R2's S3 and generates a new bucketKey for the destination.
+        for file_dict, _prefix in self._get_files_with_bucket_key(resource):
+            bucket_key = file_dict.get("bucketKey", "")
+            try:
+                content = await self._download_file(source_public_id, bucket_key)
+                file_dict.pop("bucketKey")
+                file_dict["content"] = content.decode("utf-8")
+                file_dict["size"] = len(content)
+            except Exception:
+                self.config.logger.error(f"Failed to download file {bucket_key} from source test {source_public_id}")
+
         resp = await self._create_test(destination_client, test_type, resource)
 
-        # Now that we have the destination public_id, fix variables that embed the source public_id.
-        source_public_id = _id.split("#")[0]
+        # Fix variables that embed the source public_id.
         dest_public_id = resp["public_id"]
-        if source_public_id != dest_public_id and self._replace_variable_public_id(
-            resource, source_public_id, dest_public_id
-        ):
+        needs_update = False
+        if source_public_id != dest_public_id:
+            needs_update = self._replace_variable_public_id(resource, source_public_id, dest_public_id)
+
+        if needs_update:
             resp = await self._update_test(destination_client, dest_public_id, resource)
 
         # Persist metadata in state so destination JSON has it and diffs compare correctly.
