@@ -7,9 +7,11 @@ from __future__ import annotations
 
 import aiohttp
 import certifi
+import json
 import ssl
 from copy import deepcopy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
+from yarl import URL
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
 from datadog_sync.model.synthetics_mobile_applications_versions import SyntheticsMobileApplicationsVersions
@@ -57,10 +59,11 @@ class SyntheticsTests(BaseResource):
             "status",  # Exclude status to prevent overwriting manual changes during sync
             "stepCount",
             "steps.public_id",
-            "config.request.files.bucketKey",
-            "steps.params.files.bucketKey",
-            "config.steps.request.files.bucketKey",
         ],
+        deep_diff_config={
+            "ignore_order": True,
+            "exclude_regex_paths": [r".*\['bucketKey'\]"],
+        },
         non_nullable_attr=[
             "options.monitor_options.on_missing_data",
             "options.monitor_options.notify_audit",
@@ -279,7 +282,7 @@ class SyntheticsTests(BaseResource):
 
         ssl_context = ssl.create_default_context(cafile=certifi.where())
         async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
-            async with session.get(presigned_url) as response:
+            async with session.get(URL(presigned_url, encoded=True)) as response:
                 return await response.read()
 
     async def _replicate_files(self, source_public_id: str, resource: Dict) -> None:
@@ -296,14 +299,15 @@ class SyntheticsTests(BaseResource):
                 if not bucket_key:
                     continue
                 try:
-                    content = await self._download_file(source_public_id, bucket_key)
+                    raw = await self._download_file(source_public_id, bucket_key)
+                    content = json.loads(raw)
                     file_dict.pop("bucketKey")
-                    file_dict["content"] = content.decode("utf-8")
+                    file_dict["content"] = content
                     file_dict["size"] = len(content)
-                except Exception:
+                except Exception as e:
                     self.config.logger.error(
                         f"Failed to download file {bucket_key} from source test {source_public_id}; "
-                        "removing file from payload"
+                        f"removing file from payload. Error: {e}"
                     )
                     to_remove.append(file_dict)
             for f in to_remove:
