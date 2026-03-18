@@ -245,27 +245,27 @@ class SyntheticsTests(BaseResource):
         return replaced
 
     @staticmethod
-    def _get_files_with_bucket_key(resource: Dict) -> List[Tuple[Dict, str]]:
-        """Return (file_dict, bucket_key_prefix) for all files that have a bucketKey.
+    def _get_file_lists_with_bucket_keys(resource: Dict) -> List[Tuple[List, str]]:
+        """Return (files_list, bucket_key_prefix) for all file lists that contain files with a bucketKey.
 
         Covers:
         - API test request files: config.request.files[] (prefix: api-upload-file)
         - Multistep API test step files: config.steps[].request.files[] (prefix: api-upload-file)
         - Browser test step files: steps[].params.files[] (prefix: browser-upload-file-step)
         """
-        files = []
-        for f in resource.get("config", {}).get("request", {}).get("files", []):
-            if "bucketKey" in f:
-                files.append((f, "api-upload-file"))
+        result = []
+        request_files = resource.get("config", {}).get("request", {}).get("files", [])
+        if any("bucketKey" in f for f in request_files):
+            result.append((request_files, "api-upload-file"))
         for step in resource.get("config", {}).get("steps", []):
-            for f in step.get("request", {}).get("files", []):
-                if "bucketKey" in f:
-                    files.append((f, "api-upload-file"))
+            step_files = step.get("request", {}).get("files", [])
+            if any("bucketKey" in f for f in step_files):
+                result.append((step_files, "api-upload-file"))
         for step in resource.get("steps", []):
-            for f in step.get("params", {}).get("files", []):
-                if "bucketKey" in f:
-                    files.append((f, "browser-upload-file-step"))
-        return files
+            step_files = step.get("params", {}).get("files", [])
+            if any("bucketKey" in f for f in step_files):
+                result.append((step_files, "browser-upload-file-step"))
+        return result
 
     async def _download_file(self, source_public_id: str, bucket_key: str) -> bytes:
         """Download a file from the source org via the presigned URL endpoint."""
@@ -282,6 +282,33 @@ class SyntheticsTests(BaseResource):
             async with session.get(presigned_url) as response:
                 return await response.read()
 
+    async def _replicate_files(self, source_public_id: str, resource: Dict) -> None:
+        """Download files from source and inject content inline.
+
+        The create/update API stores the file in R2 and generates a new
+        bucketKey for the destination.  Files whose download fails are
+        removed from the list so the API never receives an invalid entry.
+        """
+        for files_list, _prefix in self._get_file_lists_with_bucket_keys(resource):
+            to_remove = []
+            for file_dict in files_list:
+                bucket_key = file_dict.get("bucketKey", "")
+                if not bucket_key:
+                    continue
+                try:
+                    content = await self._download_file(source_public_id, bucket_key)
+                    file_dict.pop("bucketKey")
+                    file_dict["content"] = content.decode("utf-8")
+                    file_dict["size"] = len(content)
+                except Exception:
+                    self.config.logger.error(
+                        f"Failed to download file {bucket_key} from source test {source_public_id}; "
+                        "removing file from payload"
+                    )
+                    to_remove.append(file_dict)
+            for f in to_remove:
+                files_list.remove(f)
+
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         test_type = resource["type"]
@@ -293,17 +320,7 @@ class SyntheticsTests(BaseResource):
 
         source_public_id = _id.split("#")[0]
 
-        # Download files from source and inject content inline so the create API
-        # stores the file in R2's S3 and generates a new bucketKey for the destination.
-        for file_dict, _prefix in self._get_files_with_bucket_key(resource):
-            bucket_key = file_dict.get("bucketKey", "")
-            try:
-                content = await self._download_file(source_public_id, bucket_key)
-                file_dict.pop("bucketKey")
-                file_dict["content"] = content.decode("utf-8")
-                file_dict["size"] = len(content)
-            except Exception:
-                self.config.logger.error(f"Failed to download file {bucket_key} from source test {source_public_id}")
+        await self._replicate_files(source_public_id, resource)
 
         resp = await self._create_test(destination_client, test_type, resource)
 
@@ -328,6 +345,8 @@ class SyntheticsTests(BaseResource):
         source_public_id = _id.split("#")[0]
         dest_public_id = self.config.state.destination[self.resource_type][_id]["public_id"]
         self._replace_variable_public_id(resource, source_public_id, dest_public_id)
+
+        await self._replicate_files(source_public_id, resource)
 
         resp = await self._update_test(destination_client, dest_public_id, resource)
         # Persist metadata in state so destination JSON has it and diffs compare correctly.
