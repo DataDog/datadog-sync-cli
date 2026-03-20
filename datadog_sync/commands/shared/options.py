@@ -234,7 +234,7 @@ _common_options = [
     option(
         "--json",
         "emit_json",
-        envvar=constants.DD_JSON,
+        envvar=constants.DD_SYNC_JSON,
         required=False,
         is_flag=True,
         default=False,

@@ -10,6 +10,9 @@ import sys
 from dataclasses import dataclass
 
 
+_REASON_MAX_LEN = 1024
+
+
 @dataclass
 class ResourceOutcome:
     """A single resource-level outcome emitted as a JSON line to stdout.
@@ -27,10 +30,15 @@ class ResourceOutcome:
         action_type      action_type:X         import | sync | delete
         status           status:X              success | skipped | failure | filtered
         action_sub_type  action_sub_type:X     create | update | "" (sync only)
-        reason           reason:X              freetext explanation
+        reason           reason:X              freetext explanation (truncated to 1024 chars)
 
     Note: ``filtered`` is a JSON-only status. The CLI metric (``datadog.org-sync.action``)
     is not emitted for filtered resources, so this value has no metric-tag counterpart.
+
+    Diffs-mode semantics: In ``diffs`` mode, outcomes describe *intended* actions, not
+    completed mutations. A ``status:success`` with ``action_type:delete`` means "this
+    resource would be deleted", not "this resource was deleted". Consumers that distinguish
+    dry-run from live should check which CLI command was invoked.
 
     Stdout/stderr contract: JSON outcomes go to stdout; all logging and progress output
     goes to stderr. Machine consumers should pipe stdout only.
@@ -42,6 +50,10 @@ class ResourceOutcome:
     status: str  # "success" | "skipped" | "failure" | "filtered"
     action_sub_type: str  # "create" | "update" | "" (only populated on sync success)
     reason: str  # empty for success, explanation for skip/fail
+
+    def __post_init__(self):
+        if len(self.reason) > _REASON_MAX_LEN:
+            self.reason = self.reason[:_REASON_MAX_LEN] + "...(truncated)"
 
     def to_dict(self) -> dict:
         return {
@@ -55,4 +67,4 @@ class ResourceOutcome:
 
     def emit(self) -> None:
         """Write this outcome as a single JSON line to stdout."""
-        print(json.dumps(self.to_dict()), file=sys.stdout)
+        print(json.dumps(self.to_dict()), file=sys.stdout, flush=True)

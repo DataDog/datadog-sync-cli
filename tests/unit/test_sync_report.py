@@ -7,7 +7,7 @@ import json
 from io import StringIO
 from unittest.mock import patch
 
-from datadog_sync.utils.sync_report import ResourceOutcome
+from datadog_sync.utils.sync_report import ResourceOutcome, _REASON_MAX_LEN
 
 
 class TestResourceOutcome:
@@ -143,4 +143,22 @@ class TestEmit:
         assert json.loads(lines[0])["action_sub_type"] == "create"
         assert json.loads(lines[1])["action_sub_type"] == "update"
         assert json.loads(lines[2])["action_sub_type"] == ""
+
+
+class TestReasonTruncation:
+    def test_short_reason_unchanged(self):
+        outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", "short error")
+        assert outcome.reason == "short error"
+
+    def test_long_reason_truncated(self):
+        long_reason = "x" * 2000
+        outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", long_reason)
+        assert len(outcome.reason) == _REASON_MAX_LEN + len("...(truncated)")
+        assert outcome.reason.endswith("...(truncated)")
+        assert outcome.reason.startswith("x" * _REASON_MAX_LEN)
+
+    def test_exact_limit_not_truncated(self):
+        exact_reason = "y" * _REASON_MAX_LEN
+        outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", exact_reason)
+        assert outcome.reason == exact_reason
 
