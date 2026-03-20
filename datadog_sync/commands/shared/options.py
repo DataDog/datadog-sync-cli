@@ -231,6 +231,17 @@ _common_options = [
         "will create a resource file for each individual resource.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--json",
+        "emit_json",
+        envvar=constants.DD_JSON,
+        required=False,
+        is_flag=True,
+        default=False,
+        show_default=True,
+        help="Emit resource-level outcomes as JSON lines to stdout.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 _storage_options = [
