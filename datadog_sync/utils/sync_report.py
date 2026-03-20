@@ -7,7 +7,8 @@ from __future__ import annotations
 
 import json
 import sys
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from typing import Dict, Literal
 
 
 _REASON_MAX_LEN = 1024
@@ -46,24 +47,17 @@ class ResourceOutcome:
 
     resource_type: str
     id: str
-    action_type: str  # "import" | "sync" | "delete"
-    status: str  # "success" | "skipped" | "failure" | "filtered"
+    action_type: Literal["import", "sync", "delete"]
+    status: Literal["success", "skipped", "failure", "filtered"]
     action_sub_type: str  # "create" | "update" | "" (only populated on sync success)
     reason: str  # empty for success, explanation for skip/fail
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if len(self.reason) > _REASON_MAX_LEN:
             self.reason = self.reason[:_REASON_MAX_LEN] + "...(truncated)"
 
-    def to_dict(self) -> dict:
-        return {
-            "resource_type": self.resource_type,
-            "id": self.id,
-            "action_type": self.action_type,
-            "status": self.status,
-            "action_sub_type": self.action_sub_type,
-            "reason": self.reason,
-        }
+    def to_dict(self) -> Dict[str, str]:
+        return asdict(self)
 
     def emit(self) -> None:
         """Write this outcome as a single JSON line to stdout."""
