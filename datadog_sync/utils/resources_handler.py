@@ -41,7 +41,7 @@ class ResourcesHandler:
         self._dependency_graph = Optional[Dict[Tuple[str, str], List[Tuple[str, str]]]]
 
     def _emit(
-        self, resource_type: str, _id: str, action_type: str, status: str, action_sub_type: str = "", reason: str = ""
+        self, resource_type: str, _id: Optional[str], action_type: str, status: str, action_sub_type: str = "", reason: str = ""
     ) -> None:
         if self.config.emit_json:
             ResourceOutcome(resource_type, str(_id) if _id is not None else "", action_type, status, action_sub_type, reason).emit()
@@ -310,6 +310,8 @@ class ResourcesHandler:
                     self.config.logger.info("diff: \n {}".format(pformat(diff)), resource_type=resource_type, _id=_id)
                     self._emit(resource_type, _id, "sync", "success", "update")
                 else:
+                    # Diffs-mode: resource exists in both orgs with no field differences.
+                    # Emitted as "skipped" (not "success") because no action will be taken.
                     self._emit(resource_type, _id, "sync", "skipped", reason="No differences detected.")
             else:
                 self.config.logger.info(f"to be created: {resource_type} {_id}")
