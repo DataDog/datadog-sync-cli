@@ -2,7 +2,7 @@ import asyncio
 from sys import exit
 
 from datadog_sync.constants import Command
-from datadog_sync.utils.configuration import Configuration, build_config
+from datadog_sync.utils.configuration import build_config
 from datadog_sync.utils.resources_handler import ResourcesHandler
 
 
@@ -26,7 +26,7 @@ def run_cmd(cmd: Command, **kwargs):
         exit(1)
 
 
-async def run_cmd_async(cfg: Configuration, handler: ResourcesHandler, cmd: Command):
+async def run_cmd_async(cfg, handler: ResourcesHandler, cmd: Command):
     try:
         # Initiate async items
         await cfg.init_async(cmd)

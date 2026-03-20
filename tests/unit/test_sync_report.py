@@ -162,3 +162,52 @@ class TestReasonTruncation:
         outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", exact_reason)
         assert outcome.reason == exact_reason
 
+
+class TestEmitGating:
+    def test_emit_noop_when_emit_json_false(self):
+        """_emit should not write to stdout when config.emit_json is False."""
+        from unittest.mock import MagicMock
+
+        handler = MagicMock()
+        handler.config.emit_json = False
+
+        from datadog_sync.utils.resources_handler import ResourcesHandler
+
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            ResourcesHandler._emit(handler, "dashboards", "abc", "sync", "success", "create")
+
+        assert buf.getvalue() == ""
+
+    def test_emit_writes_when_emit_json_true(self):
+        """_emit should write to stdout when config.emit_json is True."""
+        from unittest.mock import MagicMock
+
+        handler = MagicMock()
+        handler.config.emit_json = True
+
+        from datadog_sync.utils.resources_handler import ResourcesHandler
+
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            ResourcesHandler._emit(handler, "dashboards", "abc", "sync", "success", "create")
+
+        parsed = json.loads(buf.getvalue().strip())
+        assert parsed["status"] == "success"
+
+    def test_emit_none_id_becomes_empty_string(self):
+        """When _id is None, the emitted id field should be empty string, not 'None'."""
+        from unittest.mock import MagicMock
+
+        handler = MagicMock()
+        handler.config.emit_json = True
+
+        from datadog_sync.utils.resources_handler import ResourcesHandler
+
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            ResourcesHandler._emit(handler, "dashboards", None, "import", "failure", reason="timeout")
+
+        parsed = json.loads(buf.getvalue().strip())
+        assert parsed["id"] == ""
+        assert parsed["id"] != "None"
