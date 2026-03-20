@@ -79,8 +79,27 @@ def _setup_dest_dashboards(base_dir="resources/destination"):
     return dashboards
 
 
+def _setup_dest_dashboards_with_drift(base_dir="resources/destination"):
+    """Set up dest dashboard with title drift so diffs detects an update."""
+    dashboards = {
+        "abc-123": {
+            "id": "dest-abc-123",
+            "title": "Dashboard A (stale)",
+            "widgets": [],
+            "layout_type": "ordered",
+        },
+    }
+    _write_state(base_dir, "dashboards", dashboards)
+    return dashboards
+
+
 def _parse_outcomes(output):
-    """Parse JSON outcome lines from CLI stdout, skipping non-JSON lines."""
+    """Parse JSON outcome lines from CLI stdout.
+
+    Non-JSON lines (e.g. logging preamble) and JSON objects missing the
+    expected ``resource_type``/``status`` keys are silently skipped so that
+    callers only receive well-formed ResourceOutcome dicts.
+    """
     outcomes = []
     for line in output.strip().split("\n"):
         line = line.strip()
@@ -264,3 +283,99 @@ class TestOutcomeContent:
         skips = [o for o in outcomes if o["status"] == "skipped"]
         for s in skips:
             assert s["action_sub_type"] == "", f"Skip should have empty action_sub_type, got {s['action_sub_type']}"
+
+
+class TestUpdateOutcome:
+    """Test that drifted resources produce update outcomes."""
+
+    def test_drifted_resource_reported_as_update(self, runner):
+        """When dest dashboard has a different title, diffs should emit update."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards_with_drift()
+
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+            ],
+        )
+        outcomes = _parse_outcomes(ret.output)
+        updates = [o for o in outcomes if o["status"] == "success" and o["action_sub_type"] == "update"]
+        assert len(updates) == 1, f"Expected 1 update outcome, got {len(updates)}: {outcomes}"
+        assert updates[0]["id"] == "abc-123"
+
+    def test_update_coexists_with_create(self, runner):
+        """Drift on abc-123 + new def-456/ghi-789 → 1 update + 2 creates."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards_with_drift()
+
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+            ],
+        )
+        outcomes = _parse_outcomes(ret.output)
+        creates = [o for o in outcomes if o["action_sub_type"] == "create"]
+        updates = [o for o in outcomes if o["action_sub_type"] == "update"]
+        assert len(creates) == 2
+        assert len(updates) == 1
+        assert len(outcomes) == 3
+
+
+class TestFilteredOutcome:
+    """Test that --filter excludes resources and emits filtered status."""
+
+    def test_filtered_resources_emitted(self, runner):
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+                "--filter=Type=dashboards;Name=id;Value=^abc-123$",
+            ],
+        )
+        outcomes = _parse_outcomes(ret.output)
+        filtered = [o for o in outcomes if o["status"] == "filtered"]
+        non_filtered = [o for o in outcomes if o["status"] != "filtered"]
+        # def-456 and ghi-789 should be filtered out, only abc-123 passes
+        assert len(non_filtered) <= 1, f"Expected at most 1 non-filtered, got {non_filtered}"
+        assert len(filtered) >= 2, f"Expected at least 2 filtered outcomes, got {filtered}"
+
+
+class TestParseOutcomes:
+    """Test the _parse_outcomes helper itself."""
+
+    def test_skips_non_json_lines(self):
+        output = "some log line\n{\"resource_type\": \"x\", \"status\": \"y\"}\nanother log\n"
+        outcomes = _parse_outcomes(output)
+        assert len(outcomes) == 1
+
+    def test_skips_json_without_required_keys(self):
+        output = '{\"foo\": \"bar\"}\n{\"resource_type\": \"x\", \"status\": \"y\"}\n'
+        outcomes = _parse_outcomes(output)
+        assert len(outcomes) == 1
+
+    def test_empty_output(self):
+        assert _parse_outcomes("") == []
+        assert _parse_outcomes("\n\n") == []
