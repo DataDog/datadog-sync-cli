@@ -299,23 +299,29 @@ class ResourcesHandler:
                 self._emit(resource_type, _id, "sync", "skipped", reason=f"connection_error: {str(e)}")
                 return
 
-            if _id in self.config.state.destination[resource_type]:
-                # We have to compare the prepared versions to deal w/ non-nullable attributes
-                destination_copy = deepcopy(self.config.state.destination[resource_type][_id])
-                resource_copy = deepcopy(resource)
-                prep_resource(r_class.resource_config, destination_copy)
-                prep_resource(r_class.resource_config, resource_copy)
-                diff = check_diff(r_class.resource_config, destination_copy, resource_copy)
-                if diff:
-                    self.config.logger.info("diff: \n {}".format(pformat(diff)), resource_type=resource_type, _id=_id)
-                    self._emit(resource_type, _id, "sync", "success", "update")
+            try:
+                if _id in self.config.state.destination[resource_type]:
+                    # We have to compare the prepared versions to deal w/ non-nullable attributes
+                    destination_copy = deepcopy(self.config.state.destination[resource_type][_id])
+                    resource_copy = deepcopy(resource)
+                    prep_resource(r_class.resource_config, destination_copy)
+                    prep_resource(r_class.resource_config, resource_copy)
+                    diff = check_diff(r_class.resource_config, destination_copy, resource_copy)
+                    if diff:
+                        self.config.logger.info("diff: \n {}".format(pformat(diff)), resource_type=resource_type, _id=_id)
+                        self._emit(resource_type, _id, "sync", "success", "update")
+                    else:
+                        # Diffs-mode: resource exists in both orgs with no field differences.
+                        # Emitted as "skipped" (not "success") because no action will be taken.
+                        self._emit(resource_type, _id, "sync", "skipped", reason="No differences detected.")
                 else:
-                    # Diffs-mode: resource exists in both orgs with no field differences.
-                    # Emitted as "skipped" (not "success") because no action will be taken.
-                    self._emit(resource_type, _id, "sync", "skipped", reason="No differences detected.")
-            else:
-                self.config.logger.info(f"to be created: {resource_type} {_id}")
-                self._emit(resource_type, _id, "sync", "success", "create")
+                    self.config.logger.info(f"to be created: {resource_type} {_id}")
+                    self._emit(resource_type, _id, "sync", "success", "create")
+            except Exception as e:
+                self.config.logger.exception(
+                    f"error computing diff: resource_type:{resource_type} id:{_id}"
+                )
+                self._emit(resource_type, _id, "sync", "failure", reason=str(e))
 
     async def import_resources(self) -> None:
         await self.import_resources_without_saving()
@@ -399,7 +405,15 @@ class ResourcesHandler:
         try:
             _id = await self.config.resources[resource_type]._import_resource(_id=_id)
             self._emit(resource_type, _id, "import", "success")
+        except SkipResource as e:
+            self._emit(resource_type, _id, "import", "skipped", reason=str(e))
+            self.config.logger.info(f"skipping dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            return
         except CustomClientHTTPError as e:
+            self._emit(resource_type, _id, "import", "failure", reason=str(e))
+            self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            return
+        except Exception as e:
             self._emit(resource_type, _id, "import", "failure", reason=str(e))
             self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
@@ -709,6 +723,6 @@ def _cleanup_prompt(
                 _id=_id,
             )
 
-        return confirm(f"Delete above {len(resources_to_cleanup)} resources from destination org?")
+        return confirm(f"Delete above {len(resources_to_cleanup)} resources from destination org?", err=True)
     else:
         return False
