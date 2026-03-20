@@ -379,23 +379,23 @@ class ResourcesHandler:
 
         if not r_class.filter(resource):
             self.worker.counter.increment_filtered()
-            self._emit(resource_type, str(_id), "import", "filtered")
+            self._emit(resource_type, _id, "import", "filtered")
             return
 
         try:
             await r_class._import_resource(resource=resource)
             self.worker.counter.increment_success()
-            self._emit(resource_type, str(_id), "import", "success")
+            self._emit(resource_type, _id, "import", "success")
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SUCCESS.value)
         except SkipResource as e:
             self.worker.counter.increment_skipped()
-            self._emit(resource_type, str(_id), "import", "skipped", reason=str(e))
+            self._emit(resource_type, _id, "import", "skipped", reason=str(e))
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SKIPPED.value)
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.debug(str(e))
         except Exception as e:
             self.worker.counter.increment_failure()
-            self._emit(resource_type, str(_id), "import", "failure", reason=str(e))
+            self._emit(resource_type, _id, "import", "failure", reason=str(e))
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE.value)
             self.config.logger.error(f"error while importing resource: resource_type:{resource_type} id:{_id}")
             self.config.logger.debug(f"error detail: {str(e)}", resource_type=resource_type)
