@@ -39,9 +39,22 @@ class SyntheticsTestSuites(BaseResource):
     search_path = "/api/v2/synthetics/suites/search"
     bulk_delete_path = "/api/v2/synthetics/suites/bulk-delete"
 
+    _SEARCH_PAGE_SIZE = 100
+
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = await client.get(self.search_path)
-        return resp["data"]["attributes"]["suites"]
+        suites: List[Dict] = []
+        start = 0
+        while True:
+            resp = await client.get(
+                self.search_path,
+                params={"start": start, "count": self._SEARCH_PAGE_SIZE},
+            )
+            page = resp["data"]["attributes"]["suites"]
+            suites.extend(page)
+            if len(page) < self._SEARCH_PAGE_SIZE:
+                break
+            start += len(page)
+        return suites
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
