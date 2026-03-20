@@ -136,7 +136,7 @@ class TestSyntheticsTestSuitesCRUD:
 
         call_args = mock_client.post.call_args
         assert call_args[0][0] == "/api/v2/synthetics/suites/bulk-delete"
-        assert call_args[0][1] == {"data": {"attributes": {"public_ids": ["dest-pub-id"]}}}
+        assert call_args[0][1] == {"data": {"type": "delete_suites_request", "attributes": {"public_ids": ["dest-pub-id"]}}}
 
 
 class TestSyntheticsTestSuitesConnectId:

@@ -79,7 +79,7 @@ class SyntheticsTestSuites(BaseResource):
         dest_public_id = self.config.state.destination[self.resource_type][_id]["attributes"]["public_id"]
         await destination_client.post(
             self.bulk_delete_path,
-            {"data": {"attributes": {"public_ids": [dest_public_id]}}},
+            {"data": {"type": "delete_suites_request", "attributes": {"public_ids": [dest_public_id]}}},
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
