@@ -49,7 +49,7 @@ class ResourceOutcome:
     id: str
     action_type: Literal["import", "sync", "delete"]
     status: Literal["success", "skipped", "failure", "filtered"]
-    action_sub_type: str  # "create" | "update" | "" (only populated on sync success)
+    action_sub_type: Literal["create", "update", ""]  # only populated on sync success
     reason: str  # empty for success, explanation for skip/fail
 
     def __post_init__(self) -> None:
