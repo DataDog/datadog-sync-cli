@@ -96,9 +96,8 @@ def _setup_dest_dashboards_with_drift(base_dir="resources/destination"):
 def _parse_outcomes(output):
     """Parse JSON outcome lines from CLI stdout.
 
-    Non-JSON lines (e.g. logging preamble) and JSON objects missing the
-    expected ``resource_type``/``status`` keys are silently skipped so that
-    callers only receive well-formed ResourceOutcome dicts.
+    Only lines that are valid JSON with ``"type": "outcome"`` are returned.
+    This filters out log events and any non-JSON preamble.
     """
     outcomes = []
     for line in output.strip().split("\n"):
@@ -107,7 +106,7 @@ def _parse_outcomes(output):
             continue
         try:
             parsed = json.loads(line)
-            if "resource_type" in parsed and "status" in parsed:
+            if parsed.get("type") == "outcome":
                 outcomes.append(parsed)
         except json.JSONDecodeError:
             continue
@@ -367,12 +366,12 @@ class TestParseOutcomes:
     """Test the _parse_outcomes helper itself."""
 
     def test_skips_non_json_lines(self):
-        output = "some log line\n{\"resource_type\": \"x\", \"status\": \"y\"}\nanother log\n"
+        output = 'some log line\n{"type": "outcome", "resource_type": "x", "status": "y"}\nanother log\n'
         outcomes = _parse_outcomes(output)
         assert len(outcomes) == 1
 
-    def test_skips_json_without_required_keys(self):
-        output = '{\"foo\": \"bar\"}\n{\"resource_type\": \"x\", \"status\": \"y\"}\n'
+    def test_skips_json_without_type_outcome(self):
+        output = '{"foo": "bar"}\n{"type": "log", "level": "info", "message": "hi"}\n{"type": "outcome", "resource_type": "x", "status": "y"}\n'
         outcomes = _parse_outcomes(output)
         assert len(outcomes) == 1
 

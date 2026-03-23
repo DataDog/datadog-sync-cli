@@ -50,6 +50,7 @@ class TestResourceOutcome:
         )
         d = outcome.to_dict()
         assert d == {
+            "type": "outcome",
             "resource_type": "dashboards",
             "id": "abc-123",
             "action_type": "sync",
@@ -57,6 +58,11 @@ class TestResourceOutcome:
             "action_sub_type": "",
             "reason": "500 Internal Server Error",
         }
+
+    def test_to_dict_always_has_type_outcome(self):
+        """Every ResourceOutcome dict must carry type=outcome for discriminated union."""
+        outcome = ResourceOutcome("monitors", "1", "import", "success", "", "")
+        assert outcome.to_dict()["type"] == "outcome"
 
 
 class TestEmit:
@@ -67,6 +73,7 @@ class TestEmit:
             outcome.emit()
 
         parsed = json.loads(buf.getvalue().strip())
+        assert parsed["type"] == "outcome"
         assert parsed["resource_type"] == "dashboards"
         assert parsed["id"] == "abc-123"
         assert parsed["action_type"] == "sync"
@@ -95,6 +102,7 @@ class TestEmit:
         lines = buf.getvalue().strip().split("\n")
         for line in lines:
             parsed = json.loads(line)
+            assert parsed["type"] == "outcome"
             assert "resource_type" in parsed
             assert "status" in parsed
 

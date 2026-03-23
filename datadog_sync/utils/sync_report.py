@@ -41,8 +41,10 @@ class ResourceOutcome:
     resource would be deleted", not "this resource was deleted". Consumers that distinguish
     dry-run from live should check which CLI command was invoked.
 
-    Stdout/stderr contract: JSON outcomes go to stdout; all logging and progress output
-    goes to stderr. Machine consumers should pipe stdout only.
+    Stdout/stderr contract: In ``--json`` mode, stdout carries a single NDJSON event
+    stream where each line is a discriminated union with a ``type`` field.  Outcome
+    events carry ``"type": "outcome"``; log events carry ``"type": "log"``.
+    Machine consumers should pipe stdout and filter by ``type``.
     """
 
     resource_type: str
@@ -57,7 +59,9 @@ class ResourceOutcome:
             self.reason = self.reason[:_REASON_MAX_LEN] + "...(truncated)"
 
     def to_dict(self) -> Dict[str, str]:
-        return asdict(self)
+        d = asdict(self)
+        d["type"] = "outcome"
+        return d
 
     def emit(self) -> None:
         """Write this outcome as a single JSON line to stdout."""
