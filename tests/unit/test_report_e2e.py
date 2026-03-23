@@ -371,7 +371,11 @@ class TestParseOutcomes:
         assert len(outcomes) == 1
 
     def test_skips_json_without_type_outcome(self):
-        output = '{"foo": "bar"}\n{"type": "log", "level": "info", "message": "hi"}\n{"type": "outcome", "resource_type": "x", "status": "y"}\n'
+        output = (
+            '{"foo": "bar"}\n'
+            '{"type": "log", "level": "info", "message": "hi"}\n'
+            '{"type": "outcome", "resource_type": "x", "status": "y"}\n'
+        )
         outcomes = _parse_outcomes(output)
         assert len(outcomes) == 1
 

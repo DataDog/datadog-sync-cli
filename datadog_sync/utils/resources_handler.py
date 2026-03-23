@@ -41,10 +41,17 @@ class ResourcesHandler:
         self._dependency_graph = Optional[Dict[Tuple[str, str], List[Tuple[str, str]]]]
 
     def _emit(
-        self, resource_type: str, _id: Optional[str], action_type: str, status: str, action_sub_type: str = "", reason: str = ""
+        self,
+        resource_type: str,
+        _id: Optional[str],
+        action_type: str,
+        status: str,
+        action_sub_type: str = "",
+        reason: str = "",
     ) -> None:
         if self.config.emit_json:
-            ResourceOutcome(resource_type, str(_id) if _id is not None else "", action_type, status, action_sub_type, reason).emit()
+            _id_str = str(_id) if _id is not None else ""
+            ResourceOutcome(resource_type, _id_str, action_type, status, action_sub_type, reason).emit()
 
     async def init_async(self) -> None:
         self.worker: Workers = Workers(self.config)
@@ -308,7 +315,9 @@ class ResourcesHandler:
                     prep_resource(r_class.resource_config, resource_copy)
                     diff = check_diff(r_class.resource_config, destination_copy, resource_copy)
                     if diff:
-                        self.config.logger.info("diff: \n {}".format(pformat(diff)), resource_type=resource_type, _id=_id)
+                        self.config.logger.info(
+                            "diff: \n {}".format(pformat(diff)), resource_type=resource_type, _id=_id
+                        )
                         self._emit(resource_type, _id, "sync", "success", "update")
                     else:
                         # Diffs-mode: resource exists in both orgs with no field differences.
