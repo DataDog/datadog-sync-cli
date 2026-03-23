@@ -170,5 +170,84 @@ class TestSyntheticsTestsStatusBehavior:
         assert resource_copy["options"] == original_resource["options"]
 
 
+class TestSyntheticsTestsRumConnectionBehavior:
+    """Test suite for RUM application ID and clientTokenId remapping."""
+
+    def _make_synthetics_tests(self):
+        mock_config = MagicMock(spec=Configuration)
+        mock_config.state = MagicMock()
+        mock_config.state.destination = {
+            "rum_applications": {
+                "source-rum-app-id": {
+                    "id": "dest-rum-app-id",
+                    "type": "rum_application",
+                    "attributes": {
+                        "name": "My RUM App",
+                        "api_key_id": 999888,
+                        "client_token": "pubdest1234567890abcdef",
+                    },
+                }
+            }
+        }
+        return SyntheticsTests(mock_config)
+
+    def test_connect_id_remaps_application_id(self):
+        """Verify applicationId is remapped to destination RUM app ID."""
+        synthetics_tests = self._make_synthetics_tests()
+        rum_settings = {
+            "applicationId": "source-rum-app-id",
+            "clientTokenId": 111222,
+            "isEnabled": True,
+        }
+
+        failed = synthetics_tests.connect_id("applicationId", rum_settings, "rum_applications")
+
+        assert failed == []
+        assert rum_settings["applicationId"] == "dest-rum-app-id"
+
+    def test_connect_id_remaps_client_token_id(self):
+        """Verify clientTokenId is remapped to destination RUM app's api_key_id."""
+        synthetics_tests = self._make_synthetics_tests()
+        rum_settings = {
+            "applicationId": "source-rum-app-id",
+            "clientTokenId": 111222,
+            "isEnabled": True,
+        }
+
+        synthetics_tests.connect_id("applicationId", rum_settings, "rum_applications")
+
+        assert rum_settings["clientTokenId"] == 999888
+
+    def test_connect_id_without_client_token_id(self):
+        """Verify connect_id works when clientTokenId is absent from rumSettings."""
+        synthetics_tests = self._make_synthetics_tests()
+        rum_settings = {
+            "applicationId": "source-rum-app-id",
+            "isEnabled": True,
+        }
+
+        failed = synthetics_tests.connect_id("applicationId", rum_settings, "rum_applications")
+
+        assert failed == []
+        assert rum_settings["applicationId"] == "dest-rum-app-id"
+        assert "clientTokenId" not in rum_settings
+
+    def test_connect_id_rum_app_not_found(self):
+        """Verify failed connection is reported when RUM app is missing."""
+        synthetics_tests = self._make_synthetics_tests()
+        rum_settings = {
+            "applicationId": "nonexistent-rum-app-id",
+            "clientTokenId": 111222,
+            "isEnabled": True,
+        }
+
+        failed = synthetics_tests.connect_id("applicationId", rum_settings, "rum_applications")
+
+        assert "nonexistent-rum-app-id" in failed
+        # Original values should be unchanged
+        assert rum_settings["applicationId"] == "nonexistent-rum-app-id"
+        assert rum_settings["clientTokenId"] == 111222
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
