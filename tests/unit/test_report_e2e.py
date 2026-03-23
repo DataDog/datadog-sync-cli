@@ -117,6 +117,20 @@ def _parse_outcomes(output):
     return outcomes
 
 
+def _parse_all_events(output):
+    """Parse ALL JSON lines from stdout, regardless of type."""
+    events = []
+    for line in output.strip().split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    return events
+
+
 def _run_diffs(runner, extra_args=None):
     """Run diffs command with --json and return (exit_code, outcomes, raw_output)."""
     _setup_source_dashboards()
@@ -213,9 +227,10 @@ class TestOutcomeStreaming:
             assert "action_sub_type" in o
             assert "reason" in o
 
-    def test_outcomes_are_valid_json(self, runner):
+    def test_at_least_3_outcomes_emitted(self, runner):
+        """3 source dashboards (2 new, 1 existing) should produce 3 outcomes."""
         _, outcomes, _ = _run_diffs(runner)
-        assert len(outcomes) >= 3
+        assert len(outcomes) == 3
 
 
 class TestNoJsonWithoutFlag:
@@ -362,8 +377,50 @@ class TestFilteredOutcome:
         filtered = [o for o in outcomes if o["status"] == "filtered"]
         non_filtered = [o for o in outcomes if o["status"] != "filtered"]
         # def-456 and ghi-789 should be filtered out, only abc-123 passes
-        assert len(non_filtered) <= 1, f"Expected at most 1 non-filtered, got {non_filtered}"
-        assert len(filtered) >= 2, f"Expected at least 2 filtered outcomes, got {filtered}"
+        assert len(non_filtered) == 1, f"Expected exactly 1 non-filtered, got {non_filtered}"
+        assert len(filtered) == 2, f"Expected exactly 2 filtered outcomes, got {filtered}"
+
+
+class TestDeleteOutcome:
+    """Test that dest-only resources produce delete outcomes in diffs --cleanup."""
+
+    def test_dest_only_resource_reported_as_delete(self, runner):
+        """A resource in dest but not source should emit action_type=delete."""
+        _setup_source_dashboards()
+        # Add an extra dashboard only in destination
+        dest_dashboards = {
+            "abc-123": {
+                "id": "dest-abc-123",
+                "title": "Dashboard A",
+                "widgets": [],
+                "layout_type": "ordered",
+            },
+            "orphan-999": {
+                "id": "dest-orphan-999",
+                "title": "Orphan Dashboard",
+                "widgets": [],
+                "layout_type": "ordered",
+            },
+        }
+        _write_state("resources/destination", "dashboards", dest_dashboards)
+
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--cleanup=Force",
+                "--json",
+            ],
+        )
+        outcomes = _parse_outcomes(ret.output)
+        deletes = [o for o in outcomes if o["action_type"] == "delete"]
+        assert len(deletes) == 1, f"Expected 1 delete outcome, got {deletes}"
+        assert deletes[0]["id"] == "orphan-999"
 
 
 class TestParseOutcomes:
@@ -386,20 +443,6 @@ class TestParseOutcomes:
     def test_empty_output(self):
         assert _parse_outcomes("") == []
         assert _parse_outcomes("\n\n") == []
-
-
-def _parse_all_events(output):
-    """Parse ALL JSON lines from stdout, regardless of type."""
-    events = []
-    for line in output.strip().split("\n"):
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            events.append(json.loads(line))
-        except json.JSONDecodeError:
-            continue
-    return events
 
 
 class TestNdjsonEventStream:
@@ -524,8 +567,8 @@ class TestNdjsonEventStream:
             assert "reason" in o
 
 
-class TestNdjsonStderrSilent:
-    """In --json mode, stderr should be silent."""
+class TestNdjsonStreamSeparation:
+    """Verify stdout/stderr stream separation between JSON and human modes."""
 
     def test_stderr_empty_in_json_mode(self, runner):
         """No output should go to stderr when --json is set."""
