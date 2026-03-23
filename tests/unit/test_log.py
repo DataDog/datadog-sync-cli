@@ -142,21 +142,11 @@ class TestLogJsonMode:
             assert parsed["type"] == "log"
 
     def test_json_mode_silences_stderr(self):
-        """In JSON mode, no output should go to stderr via logging handlers."""
+        """In JSON mode, the logger should have no handlers and propagation off."""
         logger = Log(verbose=False, emit_json=True)
-        # Capture stderr by intercepting the logging handler
-        stderr_buf = StringIO()
-        handler = logging.StreamHandler(stderr_buf)
-        logger.logger.addHandler(handler)
-        try:
-            stdout_buf = StringIO()
-            with patch("sys.stdout", stdout_buf):
-                logger.info("should not appear on stderr")
-            # The logger's handlers should have been configured to not emit
-            # Check that no handlers on the logger write to stderr
-            assert stderr_buf.getvalue() == ""
-        finally:
-            logger.logger.removeHandler(handler)
+        # Verify the logger itself was configured to not emit to stderr
+        assert logger.logger.propagate is False, "propagate should be False in JSON mode"
+        assert len(logger.logger.handlers) == 0, f"Expected no handlers, got {logger.logger.handlers}"
 
     def test_debug_suppressed_when_not_verbose(self):
         """In non-verbose JSON mode, debug messages should be suppressed."""
@@ -175,6 +165,51 @@ class TestLogJsonMode:
         assert buf.getvalue().strip() != ""
         parsed = json.loads(buf.getvalue().strip())
         assert parsed["level"] == "debug"
+
+    def test_partial_context_resource_type_only(self):
+        """resource_type provided without _id should include resource_type but not id."""
+        logger = Log(verbose=False, emit_json=True)
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            logger.info("syncing type", resource_type="dashboards")
+        parsed = json.loads(buf.getvalue().strip())
+        assert parsed["resource_type"] == "dashboards"
+        assert "id" not in parsed
+
+    def test_partial_context_id_only(self):
+        """_id provided without resource_type should include id but not resource_type."""
+        logger = Log(verbose=False, emit_json=True)
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            logger.info("syncing id", _id="abc-123")
+        parsed = json.loads(buf.getvalue().strip())
+        assert parsed["id"] == "abc-123"
+        assert "resource_type" not in parsed
+
+    def test_info_does_not_set_exception_logged(self):
+        logger = Log(verbose=False, emit_json=True)
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            logger.info("just info")
+        assert logger.exception_logged is False
+
+    def test_warning_does_not_set_exception_logged(self):
+        logger = Log(verbose=False, emit_json=True)
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            logger.warning("just warning")
+        assert logger.exception_logged is False
+
+    def test_newline_in_message_produces_single_line(self):
+        """Embedded newlines in message must be JSON-escaped, not split lines."""
+        logger = Log(verbose=False, emit_json=True)
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            logger.info("line1\nline2")
+        lines = [l for l in buf.getvalue().split("\n") if l.strip()]
+        assert len(lines) == 1, f"Expected 1 line, got {len(lines)}: {lines}"
+        parsed = json.loads(lines[0])
+        assert "line1\nline2" in parsed["message"]
 
 
 class TestLogDefaultEmitJson:
