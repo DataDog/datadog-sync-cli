@@ -153,6 +153,34 @@ class TestEmit:
         assert json.loads(lines[2])["action_sub_type"] == ""
 
 
+class TestNdjsonContract:
+    """Verify the one-line-per-event NDJSON contract holds for edge cases."""
+
+    def test_newline_in_reason_produces_single_line(self):
+        """Embedded newlines must be JSON-escaped, not split into multiple lines."""
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            ResourceOutcome("dashboards", "a", "sync", "failure", "", 'error: "bad\nvalue"').emit()
+        lines = [l for l in buf.getvalue().split("\n") if l.strip()]
+        assert len(lines) == 1, f"Expected 1 line, got {len(lines)}: {lines}"
+        parsed = json.loads(lines[0])
+        assert "bad\nvalue" in parsed["reason"]
+
+    def test_unicode_in_reason(self):
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            ResourceOutcome("dashboards", "a", "sync", "failure", "", "error: \u2603 snowman").emit()
+        parsed = json.loads(buf.getvalue().strip())
+        assert "\u2603" in parsed["reason"]
+
+    def test_quotes_in_reason(self):
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            ResourceOutcome("dashboards", "a", "sync", "failure", "", 'key="value"').emit()
+        parsed = json.loads(buf.getvalue().strip())
+        assert parsed["reason"] == 'key="value"'
+
+
 class TestReasonTruncation:
     def test_short_reason_unchanged(self):
         outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", "short error")
@@ -169,6 +197,12 @@ class TestReasonTruncation:
         exact_reason = "y" * _REASON_MAX_LEN
         outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", exact_reason)
         assert outcome.reason == exact_reason
+
+    def test_one_over_limit_truncated(self):
+        reason = "z" * (_REASON_MAX_LEN + 1)
+        outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", reason)
+        assert outcome.reason.endswith("...(truncated)")
+        assert len(outcome.reason) == _REASON_MAX_LEN + len("...(truncated)")
 
 
 class TestEmitGating:
