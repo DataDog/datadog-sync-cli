@@ -4,7 +4,10 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+
+import json
 import logging
+import sys
 
 from datadog_sync.constants import LOGGER_NAME
 
@@ -19,39 +22,73 @@ def _configure_logging(verbose: bool) -> None:
 
 
 class Log:
-    def __init__(self, verbose: bool) -> None:
-        _configure_logging(verbose)
-
+    def __init__(self, verbose: bool, emit_json: bool = False) -> None:
+        self._emit_json = emit_json
+        self._verbose = verbose
         self.exception_logged = False
-        self.logger = logging.getLogger(LOGGER_NAME)
-        self.logger.propagate = True
+
+        if emit_json:
+            # In JSON mode: silence stderr, set level based on verbose
+            self._log_level = logging.DEBUG if verbose else logging.INFO
+            self.logger = logging.getLogger(LOGGER_NAME)
+            self.logger.handlers.clear()
+            self.logger.propagate = False
+            self.logger.setLevel(self._log_level)
+        else:
+            _configure_logging(verbose)
+            self.logger = logging.getLogger(LOGGER_NAME)
+            self.logger.propagate = True
+
+    def _emit_log_json(self, level: str, msg: str, resource_type: str = "", _id: str = "") -> None:
+        """Write a single NDJSON log event to stdout."""
+        event = {"type": "log", "level": level, "message": msg}
+        if resource_type:
+            event["resource_type"] = resource_type
+        if _id:
+            event["id"] = _id
+        print(json.dumps(event), file=sys.stdout, flush=True)
 
     def debug(self, msg, *arg, _id: str = "", resource_type: str = ""):
+        if self._emit_json:
+            if self._log_level <= logging.DEBUG:
+                self._emit_log_json("debug", msg, resource_type=resource_type, _id=_id)
+            return
         if resource_type or _id:
             msg = f"[{resource_type} - {_id}] - {msg}"
-
         self.logger.debug(msg, *arg)
 
     def exception(self, msg, *arg, _id: str = "", resource_type: str = ""):
+        if self._emit_json:
+            self._emit_log_json("error", msg, resource_type=resource_type, _id=_id)
+            self._exception_logged()
+            return
         if resource_type or _id:
             msg = f"[{resource_type} - {_id}] - {msg}"
-
         self.logger.exception(msg, *arg)
         self._exception_logged()
 
     def error(self, msg, *arg, _id: str = "", resource_type: str = ""):
+        if self._emit_json:
+            self._emit_log_json("error", msg, resource_type=resource_type, _id=_id)
+            self._exception_logged()
+            return
         if resource_type or _id:
             msg = f"[{resource_type} - {_id}] - {msg}"
-
         self.logger.error(msg, *arg)
         self._exception_logged()
 
     def info(self, msg: str, *arg, _id: str = "", resource_type: str = "") -> None:
+        if self._emit_json:
+            self._emit_log_json("info", msg, resource_type=resource_type, _id=_id)
+            return
         if resource_type or _id:
             msg = f"[{resource_type} - {_id}] - {msg}"
         self.logger.info(msg, *arg)
 
     def warning(self, msg, *arg, _id: str = "", resource_type: str = ""):
+        if self._emit_json:
+            self._emit_log_json("warning", msg, resource_type=resource_type, _id=_id)
+            return
         if resource_type or _id:
             msg = f"[{resource_type} - {_id}] - {msg}"
         self.logger.warning(msg, *arg)
