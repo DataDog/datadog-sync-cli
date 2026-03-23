@@ -12,7 +12,6 @@ receive no output.
 """
 
 import json
-import logging
 from io import StringIO
 from unittest.mock import patch
 
@@ -135,7 +134,7 @@ class TestLogJsonMode:
             logger.info("first")
             logger.warning("second")
             logger.error("third")
-        lines = [l for l in buf.getvalue().strip().split("\n") if l.strip()]
+        lines = [line for line in buf.getvalue().strip().split("\n") if line.strip()]
         assert len(lines) == 3
         for line in lines:
             parsed = json.loads(line)
@@ -206,7 +205,7 @@ class TestLogJsonMode:
         buf = StringIO()
         with patch("sys.stdout", buf):
             logger.info("line1\nline2")
-        lines = [l for l in buf.getvalue().split("\n") if l.strip()]
+        lines = [line for line in buf.getvalue().split("\n") if line.strip()]
         assert len(lines) == 1, f"Expected 1 line, got {len(lines)}: {lines}"
         parsed = json.loads(lines[0])
         assert "line1\nline2" in parsed["message"]
