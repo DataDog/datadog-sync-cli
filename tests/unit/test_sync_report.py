@@ -161,7 +161,7 @@ class TestNdjsonContract:
         buf = StringIO()
         with patch("sys.stdout", buf):
             ResourceOutcome("dashboards", "a", "sync", "failure", "", 'error: "bad\nvalue"').emit()
-        lines = [l for l in buf.getvalue().split("\n") if l.strip()]
+        lines = [line for line in buf.getvalue().split("\n") if line.strip()]
         assert len(lines) == 1, f"Expected 1 line, got {len(lines)}: {lines}"
         parsed = json.loads(lines[0])
         assert "bad\nvalue" in parsed["reason"]
