@@ -4,11 +4,15 @@
 # Copyright 2019 Datadog, Inc.
 
 """
-E2E tests for --json outcome streaming on stdout.
+E2E tests for --json NDJSON event stream.
 
 These tests invoke the CLI via CliRunner with pre-populated state files
-and validate the JSON lines written to stdout. They don't require VCR
+and validate the NDJSON lines written to stdout. They don't require VCR
 cassettes because diffs only reads local state.
+
+In --json mode, stdout carries a single NDJSON stream where every line
+is a discriminated union: {"type":"outcome",...} or {"type":"log",...}.
+stderr is silent. Human mode (no --json) is unchanged.
 """
 
 import json
@@ -382,3 +386,226 @@ class TestParseOutcomes:
     def test_empty_output(self):
         assert _parse_outcomes("") == []
         assert _parse_outcomes("\n\n") == []
+
+
+def _parse_all_events(output):
+    """Parse ALL JSON lines from stdout, regardless of type."""
+    events = []
+    for line in output.strip().split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    return events
+
+
+class TestNdjsonEventStream:
+    """Test the full NDJSON discriminated union event stream."""
+
+    def test_stdout_is_pure_ndjson(self, runner):
+        """Every line on stdout must be valid JSON when --json is set."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+            ],
+        )
+        assert ret.exit_code == 0
+        for line in ret.output.strip().split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+            parsed = json.loads(line)  # raises if not valid JSON
+            assert "type" in parsed, f"Missing 'type' field in: {line}"
+
+    def test_every_event_has_type_field(self, runner):
+        """Every JSON line must have a 'type' discriminator field."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+            ],
+        )
+        events = _parse_all_events(ret.output)
+        assert len(events) > 0
+        for event in events:
+            assert event["type"] in ("outcome", "log"), f"Unknown type: {event['type']}"
+
+    def test_both_log_and_outcome_events_present(self, runner):
+        """The stream should contain both log and outcome events."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+            ],
+        )
+        events = _parse_all_events(ret.output)
+        types = {e["type"] for e in events}
+        assert "outcome" in types, f"No outcome events found in: {[e['type'] for e in events]}"
+        assert "log" in types, f"No log events found in: {[e['type'] for e in events]}"
+
+    def test_log_events_have_required_fields(self, runner):
+        """Log events must have type, level, and message."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+            ],
+        )
+        events = _parse_all_events(ret.output)
+        log_events = [e for e in events if e["type"] == "log"]
+        assert len(log_events) > 0
+        for log in log_events:
+            assert "level" in log, f"Log missing 'level': {log}"
+            assert "message" in log, f"Log missing 'message': {log}"
+            assert log["level"] in ("debug", "info", "warning", "error"), f"Invalid level: {log['level']}"
+
+    def test_outcome_events_have_required_fields(self, runner):
+        """Outcome events must have all ResourceOutcome fields plus type."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+            ],
+        )
+        events = _parse_all_events(ret.output)
+        outcomes = [e for e in events if e["type"] == "outcome"]
+        assert len(outcomes) > 0
+        for o in outcomes:
+            assert o["type"] == "outcome"
+            assert "resource_type" in o
+            assert "id" in o
+            assert "action_type" in o
+            assert "status" in o
+            assert "action_sub_type" in o
+            assert "reason" in o
+
+
+class TestNdjsonStderrSilent:
+    """In --json mode, stderr should be silent."""
+
+    def test_stderr_empty_in_json_mode(self, runner):
+        """No output should go to stderr when --json is set."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+            ],
+        )
+        stderr = ret.stderr_bytes.decode() if ret.stderr_bytes else ""
+        assert stderr == "", f"Expected empty stderr in --json mode, got: {stderr[:200]}"
+
+    def test_stdout_empty_in_human_mode(self, runner):
+        """In human mode, stdout should be empty (logs go to stderr via logging)."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+            ],
+        )
+        # Human mode: nothing on stdout, logs go through logging framework to stderr
+        assert ret.output.strip() == "", f"Expected empty stdout in human mode, got: {ret.output[:200]}"
+
+
+class TestHumanModeUnchanged:
+    """Human mode (no --json) must not emit JSON to stdout."""
+
+    def test_no_json_on_stdout_in_human_mode(self, runner):
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+            ],
+        )
+        events = _parse_all_events(ret.output)
+        assert len(events) == 0, f"Expected no JSON on stdout in human mode, got {len(events)}"
+
+    def test_no_type_field_leaks_in_human_mode(self, runner):
+        """Even if stdout has some output, it should not contain typed JSON events."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+            ],
+        )
+        for line in ret.output.strip().split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                parsed = json.loads(line)
+                assert "type" not in parsed, f"Typed JSON event leaked to stdout in human mode: {line}"
+            except json.JSONDecodeError:
+                pass  # non-JSON is fine in human mode
