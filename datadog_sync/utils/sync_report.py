@@ -19,7 +19,7 @@ class ResourceOutcome:
     """A single resource-level outcome emitted as a JSON line to stdout.
 
     Field names and values are aligned with the CLI's ``datadog.org-sync.action``
-    metric tags so that downstream consumers (e.g. the managed-sync Go worker) can
+    metric tags so that downstream consumers can
     forward them as statsd tags without translation.
 
     Metric-tag mapping::
