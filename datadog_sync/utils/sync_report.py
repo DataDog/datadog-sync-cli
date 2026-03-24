@@ -59,10 +59,12 @@ class ResourceOutcome:
             self.reason = self.reason[:_REASON_MAX_LEN] + "...(truncated)"
 
     def to_dict(self) -> Dict[str, str]:
-        d = asdict(self)
-        d["type"] = "outcome"
-        return d
+        return {"type": "outcome", **asdict(self)}
 
     def emit(self) -> None:
         """Write this outcome as a single JSON line to stdout."""
-        print(json.dumps(self.to_dict()), file=sys.stdout, flush=True)
+        try:
+            sys.stdout.write(json.dumps(self.to_dict()) + "\n")
+            sys.stdout.flush()
+        except BrokenPipeError:
+            pass
