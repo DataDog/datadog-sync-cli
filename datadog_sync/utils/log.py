@@ -25,11 +25,11 @@ class Log:
     def __init__(self, verbose: bool, emit_json: bool = False) -> None:
         self._emit_json = emit_json
         self._verbose = verbose
+        self._log_level = logging.DEBUG if verbose else logging.INFO
         self.exception_logged = False
 
         if emit_json:
-            # In JSON mode: silence stderr, set level based on verbose
-            self._log_level = logging.DEBUG if verbose else logging.INFO
+            # In JSON mode: silence stderr, emit NDJSON to stdout
             self.logger = logging.getLogger(LOGGER_NAME)
             self.logger.handlers.clear()
             self.logger.propagate = False
@@ -46,7 +46,11 @@ class Log:
             event["resource_type"] = resource_type
         if _id:
             event["id"] = _id
-        print(json.dumps(event), file=sys.stdout, flush=True)
+        try:
+            sys.stdout.write(json.dumps(event) + "\n")
+            sys.stdout.flush()
+        except BrokenPipeError:
+            pass
 
     def debug(self, msg, *arg, _id: str = "", resource_type: str = ""):
         if self._emit_json:
