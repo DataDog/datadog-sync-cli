@@ -586,8 +586,10 @@ class TestNdjsonStreamSeparation:
                 "--json",
             ],
         )
-        stderr = ret.stderr_bytes.decode() if ret.stderr_bytes else ""
-        assert stderr == "", f"Expected empty stderr in --json mode, got: {stderr[:200]}"
+        assert ret.exception is None, f"CLI crashed: {ret.exception}"
+        assert ret.stderr_bytes == b"", (
+            f"Expected empty stderr in --json mode, got: {ret.stderr_bytes[:200]!r}"
+        )
 
     def test_stdout_empty_in_human_mode(self, runner):
         """In human mode, stdout should be empty (logs go to stderr via logging)."""
