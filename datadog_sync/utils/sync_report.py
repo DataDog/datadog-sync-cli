@@ -5,10 +5,10 @@
 
 from __future__ import annotations
 
-import json
-import sys
 from dataclasses import asdict, dataclass
 from typing import Dict, Literal
+
+from datadog_sync.utils.ndjson import write_ndjson_line
 
 
 _REASON_MAX_LEN = 1024
@@ -63,8 +63,4 @@ class ResourceOutcome:
 
     def emit(self) -> None:
         """Write this outcome as a single JSON line to stdout."""
-        try:
-            sys.stdout.write(json.dumps(self.to_dict()) + "\n")
-            sys.stdout.flush()
-        except BrokenPipeError:
-            pass
+        write_ndjson_line(self.to_dict())

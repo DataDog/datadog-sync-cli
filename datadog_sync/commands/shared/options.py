@@ -239,7 +239,7 @@ _common_options = [
         is_flag=True,
         default=False,
         show_default=True,
-        help="Emit resource-level outcomes as JSON lines to stdout.",
+        help="Emit NDJSON event stream to stdout (outcome and log events, discriminated by 'type' field). Disables progress bar.",
         cls=CustomOptionClass,
     ),
 ]
