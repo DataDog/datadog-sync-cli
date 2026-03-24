@@ -21,6 +21,23 @@ def _configure_logging(verbose: bool) -> None:
         logging.basicConfig(format=_format, level=logging.INFO)
 
 
+class _NdjsonHandler(logging.Handler):
+    """Logging handler that formats records as NDJSON log events on stdout.
+
+    Catches messages from modules that use ``logging.getLogger(LOGGER_NAME)``
+    directly (e.g. custom_client.py, storage backends) so they honour the
+    ``--json`` NDJSON contract instead of leaking bare text.
+    """
+
+    def emit(self, record: logging.LogRecord) -> None:
+        event = {"type": "log", "level": record.levelname.lower(), "message": record.getMessage()}
+        try:
+            sys.stdout.write(json.dumps(event) + "\n")
+            sys.stdout.flush()
+        except BrokenPipeError:
+            pass
+
+
 class Log:
     def __init__(self, verbose: bool, emit_json: bool = False) -> None:
         self._emit_json = emit_json
@@ -28,15 +45,18 @@ class Log:
         self._log_level = logging.DEBUG if verbose else logging.INFO
         self.exception_logged = False
 
+        self.logger = logging.getLogger(LOGGER_NAME)
+        self.logger.handlers.clear()
+
         if emit_json:
-            # In JSON mode: silence stderr, emit NDJSON to stdout
-            self.logger = logging.getLogger(LOGGER_NAME)
-            self.logger.handlers.clear()
+            # In JSON mode: silence stderr, emit NDJSON to stdout.
+            # The handler catches stdlib logger calls from modules that
+            # bypass the Log class (e.g. custom_client.py, storage backends).
             self.logger.propagate = False
             self.logger.setLevel(self._log_level)
+            self.logger.addHandler(_NdjsonHandler())
         else:
             _configure_logging(verbose)
-            self.logger = logging.getLogger(LOGGER_NAME)
             self.logger.propagate = True
 
     def _emit_log_json(self, level: str, msg: str, resource_type: str = "", _id: str = "") -> None:

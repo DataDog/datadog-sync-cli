@@ -141,11 +141,13 @@ class TestLogJsonMode:
             assert parsed["type"] == "log"
 
     def test_json_mode_silences_stderr(self):
-        """In JSON mode, the logger should have no handlers and propagation off."""
+        """In JSON mode, propagation is off and only an NDJSON handler is attached."""
         logger = Log(verbose=False, emit_json=True)
-        # Verify the logger itself was configured to not emit to stderr
         assert logger.logger.propagate is False, "propagate should be False in JSON mode"
-        assert len(logger.logger.handlers) == 0, f"Expected no handlers, got {logger.logger.handlers}"
+        assert len(logger.logger.handlers) == 1, f"Expected 1 handler, got {logger.logger.handlers}"
+        from datadog_sync.utils.log import _NdjsonHandler
+
+        assert isinstance(logger.logger.handlers[0], _NdjsonHandler)
 
     def test_debug_suppressed_when_not_verbose(self):
         """In non-verbose JSON mode, debug messages should be suppressed."""
@@ -209,6 +211,79 @@ class TestLogJsonMode:
         assert len(lines) == 1, f"Expected 1 line, got {len(lines)}: {lines}"
         parsed = json.loads(lines[0])
         assert "line1\nline2" in parsed["message"]
+
+
+class TestStdlibLoggerInterop:
+    """Verify that modules using logging.getLogger(LOGGER_NAME) directly
+    (e.g. custom_client.py) produce valid NDJSON in --json mode instead
+    of leaking bare text to stderr."""
+
+    def test_stdlib_warning_produces_ndjson(self):
+        """A stdlib logger.warning() should produce a valid NDJSON line on stdout."""
+        import logging
+
+        from datadog_sync.constants import LOGGER_NAME
+
+        _ = Log(verbose=False, emit_json=True)
+        stdlib_log = logging.getLogger(LOGGER_NAME)
+
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            stdlib_log.warning("429, message='Too Many Requests'. retrying request after 4s")
+
+        line = buf.getvalue().strip()
+        parsed = json.loads(line)
+        assert parsed["type"] == "log"
+        assert parsed["level"] == "warning"
+        assert "429" in parsed["message"]
+        assert "retrying" in parsed["message"]
+
+    def test_stdlib_info_produces_ndjson(self):
+        import logging
+
+        from datadog_sync.constants import LOGGER_NAME
+
+        _ = Log(verbose=False, emit_json=True)
+        stdlib_log = logging.getLogger(LOGGER_NAME)
+
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            stdlib_log.info("Initialized HTTP session")
+
+        line = buf.getvalue().strip()
+        parsed = json.loads(line)
+        assert parsed["type"] == "log"
+        assert parsed["level"] == "info"
+
+    def test_stdlib_debug_suppressed_when_not_verbose(self):
+        import logging
+
+        from datadog_sync.constants import LOGGER_NAME
+
+        _ = Log(verbose=False, emit_json=True)
+        stdlib_log = logging.getLogger(LOGGER_NAME)
+
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            stdlib_log.debug("should not appear")
+
+        assert buf.getvalue() == ""
+
+    def test_stdlib_does_not_write_to_stderr(self):
+        """Stdlib logger calls must not leak to stderr in JSON mode."""
+        import logging
+
+        from datadog_sync.constants import LOGGER_NAME
+
+        _ = Log(verbose=False, emit_json=True)
+        stdlib_log = logging.getLogger(LOGGER_NAME)
+
+        stderr_buf = StringIO()
+        stdout_buf = StringIO()
+        with patch("sys.stderr", stderr_buf), patch("sys.stdout", stdout_buf):
+            stdlib_log.warning("rate limited")
+
+        assert stderr_buf.getvalue() == "", f"Leaked to stderr: {stderr_buf.getvalue()!r}"
 
 
 class TestLogDefaultEmitJson:
