@@ -239,7 +239,9 @@ _common_options = [
         is_flag=True,
         default=False,
         show_default=True,
-        help="Emit NDJSON event stream to stdout (outcome and log events, discriminated by 'type' field). Disables progress bar.",
+        help="Emit NDJSON event stream to stdout "
+        "(outcome and log events, discriminated by 'type' field). "
+        "Disables progress bar.",
         cls=CustomOptionClass,
     ),
 ]
