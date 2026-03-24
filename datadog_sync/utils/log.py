@@ -5,11 +5,10 @@
 
 from __future__ import annotations
 
-import json
 import logging
-import sys
 
 from datadog_sync.constants import LOGGER_NAME
+from datadog_sync.utils.ndjson import write_ndjson_line
 
 
 def _configure_logging(verbose: bool) -> None:
@@ -31,11 +30,7 @@ class _NdjsonHandler(logging.Handler):
 
     def emit(self, record: logging.LogRecord) -> None:
         event = {"type": "log", "level": record.levelname.lower(), "message": record.getMessage()}
-        try:
-            sys.stdout.write(json.dumps(event) + "\n")
-            sys.stdout.flush()
-        except BrokenPipeError:
-            pass
+        write_ndjson_line(event)
 
 
 class Log:
@@ -66,11 +61,7 @@ class Log:
             event["resource_type"] = resource_type
         if _id:
             event["id"] = _id
-        try:
-            sys.stdout.write(json.dumps(event) + "\n")
-            sys.stdout.flush()
-        except BrokenPipeError:
-            pass
+        write_ndjson_line(event)
 
     def debug(self, msg, *arg, _id: str = "", resource_type: str = ""):
         if self._emit_json:
