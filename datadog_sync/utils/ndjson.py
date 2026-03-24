@@ -19,7 +19,8 @@ is a **discriminated union** keyed by ``"type"``:
     See :class:`log.Log` and :class:`log._NdjsonHandler`.
 
 Every event is a single JSON object terminated by ``\\n``.  Consumers should
-filter by ``type`` and ignore unknown values for forward-compatibility.
+filter by ``type`` and ignore unknown type values and unknown fields
+for forward-compatibility.
 """
 
 from __future__ import annotations

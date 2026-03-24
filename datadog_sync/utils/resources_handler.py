@@ -45,13 +45,16 @@ class ResourcesHandler:
         """Return a machine-safe reason string for NDJSON outcome events.
 
         For CustomClientHTTPError the full str(e) includes the HTTP response
-        body which may contain secrets or PII.  We emit only the status code
-        and status text.  The full detail is still logged at debug level by
-        the caller.
+        body which may contain secrets or PII.  We emit only the status code.
+        For ResourceConnectionError the dict repr may leak resource IDs.
+        The generic fallback emits only the exception class name — the full
+        detail is still logged at error/debug level by the caller.
         """
         if isinstance(err, CustomClientHTTPError):
             return f"HTTP {err.status_code}"
-        return f"{type(err).__name__}: {err}"
+        if isinstance(err, ResourceConnectionError):
+            return "connection_error"
+        return type(err).__name__
 
     def _emit(
         self,
@@ -251,7 +254,7 @@ class ResourcesHandler:
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"])
         except ResourceConnectionError as e:
             self.worker.counter.increment_skipped()
-            self._emit(resource_type, _id, "sync", "skipped", reason=f"connection_error: {str(e)}")
+            self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(
                 Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:connection_error"]
             )
@@ -317,7 +320,7 @@ class ResourcesHandler:
                 try:
                     r_class.connect_resources(_id, resource)
                 except ResourceConnectionError as e:
-                    self._emit(resource_type, _id, "sync", "skipped", reason=f"connection_error: {str(e)}")
+                    self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
                     return
 
                 try:
