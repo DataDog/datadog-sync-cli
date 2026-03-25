@@ -24,8 +24,8 @@ from datadog_sync.utils.resource_utils import (
     prep_resource,
     init_topological_sorter,
 )
+from datadog_sync.utils.sync_report import ResourceOutcome
 from datadog_sync.utils.workers import Workers
-
 
 if TYPE_CHECKING:
     from datadog_sync.utils.configuration import Configuration
@@ -39,6 +39,35 @@ class ResourcesHandler:
         self.cleanup_sorter: Optional[TopologicalSorter] = None
         self.worker: Optional[Workers] = None
         self._dependency_graph = Optional[Dict[Tuple[str, str], List[Tuple[str, str]]]]
+
+    @staticmethod
+    def _sanitize_reason(err: Exception) -> str:
+        """Return a machine-safe reason string for NDJSON outcome events.
+
+        For CustomClientHTTPError the full str(e) includes the HTTP response
+        body which may contain secrets or PII.  We emit only the status code.
+        For ResourceConnectionError the dict repr may leak resource IDs.
+        The generic fallback emits only the exception class name — the full
+        detail is still logged at error/debug level by the caller.
+        """
+        if isinstance(err, CustomClientHTTPError):
+            return f"HTTP {err.status_code}"
+        if isinstance(err, ResourceConnectionError):
+            return "connection_error"
+        return type(err).__name__
+
+    def _emit(
+        self,
+        resource_type: str,
+        _id: Optional[str],
+        action_type: str,
+        status: str,
+        action_sub_type: str = "",
+        reason: str = "",
+    ) -> None:
+        if self.config.emit_json:
+            _id_str = str(_id) if _id is not None else ""
+            ResourceOutcome(resource_type, _id_str, action_type, status, action_sub_type, reason).emit()
 
     async def init_async(self) -> None:
         self.worker: Workers = Workers(self.config)
@@ -185,6 +214,7 @@ class ResourcesHandler:
 
             if not r_class.filter(resource):
                 self.worker.counter.increment_filtered()
+                self._emit(resource_type, _id, "sync", "filtered")
                 return
 
             # Run hooks
@@ -205,6 +235,7 @@ class ResourcesHandler:
                     Command.SYNC.value, _id, Status.SUCCESS.value, tags=["action_sub_type:update"]
                 )
                 self.config.logger.debug(f"Finished update for {resource_type} with {_id}")
+                self._emit(resource_type, _id, "sync", "success", "update")
             else:
                 self.config.logger.debug(f"Running create for {resource_type} with id: {_id}")
                 await r_class._create_resource(_id, resource)
@@ -212,20 +243,24 @@ class ResourcesHandler:
                     Command.SYNC.value, _id, Status.SUCCESS.value, tags=["action_sub_type:create"]
                 )
                 self.config.logger.debug(f"finished create for {resource_type} with id: {_id}")
+                self._emit(resource_type, _id, "sync", "success", "create")
 
             self.worker.counter.increment_success()
 
         except SkipResource as e:
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.worker.counter.increment_skipped()
+            self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"])
-        except ResourceConnectionError:
+        except ResourceConnectionError as e:
             self.worker.counter.increment_skipped()
+            self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(
                 Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:connection_error"]
             )
         except Exception as e:
             self.worker.counter.increment_failure()
+            self._emit(resource_type, _id, "sync", "failure", reason=self._sanitize_reason(e))
             self.config.logger.error(str(e), resource_type=resource_type, _id=_id)
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.FAILURE.value)
         finally:
@@ -257,43 +292,68 @@ class ResourcesHandler:
         resource_type, _id, delete = q_item
         r_class = self.config.resources[resource_type]
 
-        if delete:
-            self.config.logger.info(
-                "to be deleted: \n {}".format(
-                    pformat(self.config.state.destination[resource_type][_id]),
-                ),
-                resource_type=resource_type,
-                _id=_id,
-            )
-        else:
-            resource = self.config.state.source[resource_type][_id]
-
-            if not r_class.filter(resource):
-                return
-
-            try:
-                await r_class._pre_resource_action_hook(_id, resource)
-            except SkipResource as e:
-                self.config.logger.warning(f"skipping resource: resource_type:{resource_type} id:{_id}")
-                self.config.logger.debug(str(e))
-                return
-
-            try:
-                r_class.connect_resources(_id, resource)
-            except ResourceConnectionError:
-                return
-
-            if _id in self.config.state.destination[resource_type]:
-                # We have to compare the prepared versions to deal w/ non-nullable attributes
-                destination_copy = deepcopy(self.config.state.destination[resource_type][_id])
-                resource_copy = deepcopy(resource)
-                prep_resource(r_class.resource_config, destination_copy)
-                prep_resource(r_class.resource_config, resource_copy)
-                diff = check_diff(r_class.resource_config, destination_copy, resource_copy)
-                if diff:
-                    self.config.logger.info("diff: \n {}".format(pformat(diff)), resource_type=resource_type, _id=_id)
+        try:
+            if delete:
+                self.config.logger.info(
+                    "to be deleted: \n {}".format(
+                        pformat(self.config.state.destination[resource_type][_id]),
+                    ),
+                    resource_type=resource_type,
+                    _id=_id,
+                )
+                self._emit(resource_type, _id, "delete", "success")
             else:
-                self.config.logger.info(f"to be created: {resource_type} {_id}")
+                resource = self.config.state.source[resource_type][_id]
+
+                if not r_class.filter(resource):
+                    self._emit(resource_type, _id, "sync", "filtered")
+                    return
+
+                try:
+                    await r_class._pre_resource_action_hook(_id, resource)
+                except SkipResource as e:
+                    self.config.logger.warning(f"skipping resource: resource_type:{resource_type} id:{_id}")
+                    self.config.logger.debug(str(e))
+                    self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
+                    return
+
+                try:
+                    r_class.connect_resources(_id, resource)
+                except ResourceConnectionError as e:
+                    self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
+                    return
+
+                try:
+                    if _id in self.config.state.destination[resource_type]:
+                        # We have to compare the prepared versions to deal w/ non-nullable attributes
+                        destination_copy = deepcopy(self.config.state.destination[resource_type][_id])
+                        resource_copy = deepcopy(resource)
+                        prep_resource(r_class.resource_config, destination_copy)
+                        prep_resource(r_class.resource_config, resource_copy)
+                        diff = check_diff(r_class.resource_config, destination_copy, resource_copy)
+                        if diff:
+                            self.config.logger.info(
+                                "diff: \n {}".format(pformat(diff)), resource_type=resource_type, _id=_id
+                            )
+                            self._emit(resource_type, _id, "sync", "success", "update")
+                        else:
+                            # Diffs-mode: resource exists in both orgs with no field differences.
+                            # Emitted as "skipped" (not "success") because no action will be taken.
+                            self._emit(resource_type, _id, "sync", "skipped", reason="No differences detected.")
+                    else:
+                        self.config.logger.info(f"to be created: {resource_type} {_id}")
+                        self._emit(resource_type, _id, "sync", "success", "create")
+                except Exception as e:
+                    self.config.logger.exception(
+                        f"error computing diff: resource_type:{resource_type} id:{_id}"
+                    )
+                    self._emit(resource_type, _id, "sync", "failure", reason=self._sanitize_reason(e))
+        except Exception as e:
+            self.config.logger.exception(
+                f"unexpected error in diffs: resource_type:{resource_type} id:{_id}"
+            )
+            action = "delete" if delete else "sync"
+            self._emit(resource_type, _id, action, "failure", reason=self._sanitize_reason(e))
 
     async def import_resources(self) -> None:
         await self.import_resources_without_saving()
@@ -337,9 +397,11 @@ class ResourcesHandler:
             tmp_storage[resource_type] = get_resp
         except TimeoutError:
             self.worker.counter.increment_failure()
+            self._emit(resource_type, "", "import", "failure", reason="TimeoutError")
             self.config.logger.error(f"TimeoutError while getting resources {resource_type}")
         except Exception as e:
             self.worker.counter.increment_failure()
+            self._emit(resource_type, "", "import", "failure", reason=self._sanitize_reason(e))
             self.config.logger.error(f"Error while getting resources {resource_type}: {str(e)}")
 
     async def _import_resource(self, q_item: List) -> None:
@@ -349,19 +411,23 @@ class ResourcesHandler:
 
         if not r_class.filter(resource):
             self.worker.counter.increment_filtered()
+            self._emit(resource_type, _id, "import", "filtered")
             return
 
         try:
             await r_class._import_resource(resource=resource)
             self.worker.counter.increment_success()
+            self._emit(resource_type, _id, "import", "success")
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SUCCESS.value)
         except SkipResource as e:
             self.worker.counter.increment_skipped()
+            self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SKIPPED.value)
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.debug(str(e))
         except Exception as e:
             self.worker.counter.increment_failure()
+            self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE.value)
             self.config.logger.error(f"error while importing resource: resource_type:{resource_type} id:{_id}")
             self.config.logger.debug(f"error detail: {str(e)}", resource_type=resource_type)
@@ -370,7 +436,17 @@ class ResourcesHandler:
         resource_type, _id = q_item
         try:
             _id = await self.config.resources[resource_type]._import_resource(_id=_id)
+            self._emit(resource_type, _id, "import", "success")
+        except SkipResource as e:
+            self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))
+            self.config.logger.info(f"skipping dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            return
         except CustomClientHTTPError as e:
+            self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
+            self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            return
+        except Exception as e:
+            self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
             self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
 
@@ -390,14 +466,17 @@ class ResourcesHandler:
 
             await r_class._delete_resource(_id)
             self.worker.counter.increment_success()
+            self._emit(resource_type, _id, "delete", "success")
             await r_class._send_action_metrics("delete", _id, Status.SUCCESS.value)
         except SkipResource as e:
             self.worker.counter.increment_skipped()
+            self._emit(resource_type, _id, "delete", "skipped", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics("delete", _id, Status.SKIPPED.value, tags=["reason:unknown"])
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.info(f"skip deleting resource: {str(e)}", resource_type=resource_type, _id=_id)
         except Exception as e:
             self.worker.counter.increment_failure()
+            self._emit(resource_type, _id, "delete", "failure", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics("delete", _id, Status.FAILURE.value)
             self.config.logger.error(f"error deleting resource {resource_type} with id {_id}: {str(e)}")
         finally:
@@ -676,6 +755,6 @@ def _cleanup_prompt(
                 _id=_id,
             )
 
-        return confirm(f"Delete above {len(resources_to_cleanup)} resources from destination org?")
+        return confirm(f"Delete above {len(resources_to_cleanup)} resources from destination org?", err=True)
     else:
         return False
