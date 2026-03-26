@@ -163,6 +163,7 @@ def config():
         backup_before_reset=True,
         show_progress_bar=True,
         allow_self_lockout=False,
+        command="sync",
     )
 
     resources = init_resources(cfg)

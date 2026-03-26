@@ -39,7 +39,9 @@ class ResourceOutcome:
     The ``command`` field reflects the CLI command that was invoked (``import``,
     ``sync``, ``diffs``, ``migrate``, ``reset``).  This lets consumers distinguish
     dry-run from live: a ``diffs`` outcome describes *intended* actions, while a
-    ``sync`` outcome describes *completed* mutations.
+    ``sync`` outcome describes *completed* mutations.  For ``migrate``, which
+    runs import then sync internally, all outcomes carry ``command: "migrate"``
+    — use ``action_type`` to distinguish the import phase from the sync phase.
 
     Stdout/stderr contract: In ``--json`` mode, stdout carries a single NDJSON event
     stream where each line is a discriminated union with a ``type`` field.  Outcome
