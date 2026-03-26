@@ -654,3 +654,97 @@ class TestHumanModeUnchanged:
                 assert "type" not in parsed, f"Typed JSON event leaked to stdout in human mode: {line}"
             except json.JSONDecodeError:
                 pass  # non-JSON is fine in human mode
+
+
+class TestJsonCleanupValidation:
+    """--json + --cleanup=True must be rejected (interactive prompt is incompatible)."""
+
+    def test_json_with_cleanup_true_errors(self, runner):
+        """--json combined with --cleanup=True should fail with a UsageError."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+                "--cleanup=True",
+            ],
+        )
+        assert ret.exit_code != 0, "Expected non-zero exit code for --json + --cleanup=True"
+        combined = (ret.output or "") + (ret.stderr_bytes.decode() if ret.stderr_bytes else "")
+        assert "--cleanup=Force" in combined, (
+            f"Error message should suggest --cleanup=Force, got: {combined[:300]}"
+        )
+
+    def test_json_with_cleanup_force_accepted(self, runner):
+        """--json combined with --cleanup=Force should be accepted (no prompt)."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+                "--cleanup=Force",
+            ],
+        )
+        # Should not fail with a usage error
+        assert ret.exit_code != 2, (
+            f"--json + --cleanup=Force should be accepted, got exit 2: "
+            f"{(ret.output or '') + (ret.stderr_bytes.decode() if ret.stderr_bytes else '')}"
+        )
+
+    def test_json_with_cleanup_false_accepted(self, runner):
+        """--json combined with --cleanup=False (default) should work fine."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+                "--cleanup=False",
+            ],
+        )
+        assert ret.exit_code != 2, (
+            f"--json + --cleanup=False should be accepted, got exit 2: "
+            f"{(ret.output or '') + (ret.stderr_bytes.decode() if ret.stderr_bytes else '')}"
+        )
+
+    def test_no_json_with_cleanup_true_still_works(self, runner):
+        """Without --json, --cleanup=True should still work (interactive prompt is fine)."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--cleanup=True",
+            ],
+            input="n\n",  # answer "no" to the confirm prompt
+        )
+        # Should not fail with a usage error — the prompt is valid in human mode
+        assert ret.exit_code != 2, (
+            f"--cleanup=True without --json should be accepted, got exit 2"
+        )

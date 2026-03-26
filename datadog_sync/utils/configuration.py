@@ -219,6 +219,16 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             "force": FORCE,
         }[cleanup.lower()]
 
+    # --json mode is designed for CI/automation where stdin is not a TTY.
+    # --cleanup=True triggers an interactive confirm() prompt that would hang.
+    if emit_json and cleanup == TRUE:
+        import click
+
+        raise click.UsageError(
+            "--json with --cleanup=True is not supported: interactive confirmation "
+            "is incompatible with JSON mode. Use --cleanup=Force to skip the prompt."
+        )
+
     # determine where the states are stored
     storage_type = kwargs.get("storage_type", "local").lower()
     config = {}
