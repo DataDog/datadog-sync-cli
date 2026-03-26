@@ -390,6 +390,20 @@ class SyntheticsTests(BaseResource):
             if not found:
                 failed_connections.append(r_obj[key])
             return failed_connections
+        elif resource_to_connect == "rum_applications":
+            resources = self.config.state.destination[resource_to_connect]
+            _id = str(r_obj[key])
+            if _id in resources:
+                dest_rum_app = resources[_id]
+                type_attr = type(r_obj[key])
+                r_obj[key] = type_attr(dest_rum_app["id"])
+                if "clientTokenId" in r_obj:
+                    api_key_id = dest_rum_app.get("attributes", {}).get("api_key_id")
+                    if api_key_id is not None:
+                        r_obj["clientTokenId"] = api_key_id
+            else:
+                failed_connections.append(_id)
+            return failed_connections
         elif resource_to_connect == "synthetics_mobile_applications_versions" and key == "referenceId":
             # When referenceType is "latest", referenceId contains the application ID, not a version ID.
             # Connect it against synthetics_mobile_applications instead.

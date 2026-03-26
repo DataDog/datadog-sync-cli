@@ -231,6 +231,19 @@ _common_options = [
         "will create a resource file for each individual resource.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--json",
+        "emit_json",
+        envvar=constants.DD_SYNC_JSON,
+        required=False,
+        is_flag=True,
+        default=False,
+        show_default=True,
+        help="Emit NDJSON event stream to stdout "
+        "(outcome and log events, discriminated by 'type' field). "
+        "Disables progress bar.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 _storage_options = [

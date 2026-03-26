@@ -36,6 +36,7 @@ class Users(BaseResource):
             "attributes.mfa_enabled",
             "attributes.allowed_login_methods",
             "attributes.last_login_time",
+            "attributes.uuid",
             "relationships.org",
             "relationships.team_roles",
         ],
