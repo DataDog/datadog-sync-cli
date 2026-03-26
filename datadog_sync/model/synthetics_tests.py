@@ -273,12 +273,14 @@ class SyntheticsTests(BaseResource):
     async def _download_file(self, source_public_id: str, bucket_key: str) -> bytes:
         """Download a file from the source org via the presigned URL endpoint."""
         source_client = self.config.source_client
-        presigned_url = await source_client.post(
+        resp = await source_client.post(
             _FILE_DOWNLOAD_PATH.format(source_public_id),
             {"bucketKey": bucket_key},
         )
-        if isinstance(presigned_url, str):
-            presigned_url = presigned_url.strip('"')
+        if isinstance(resp, dict):
+            presigned_url = resp["url"]
+        else:
+            presigned_url = resp.strip('"')
 
         ssl_context = ssl.create_default_context(cafile=certifi.where())
         async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
