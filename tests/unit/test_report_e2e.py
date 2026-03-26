@@ -769,5 +769,5 @@ class TestJsonCleanupValidation:
         )
         # Should not fail with a usage error — the prompt is valid in human mode
         assert ret.exit_code != 2, (
-            f"--cleanup=True without --json should be accepted, got exit 2"
+            "--cleanup=True without --json should be accepted, got exit 2"
         )
