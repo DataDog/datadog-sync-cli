@@ -660,7 +660,7 @@ class TestJsonCleanupValidation:
     """--json + --cleanup=True must be rejected (interactive prompt is incompatible)."""
 
     def test_json_with_cleanup_true_errors(self, runner):
-        """--json combined with --cleanup=True should fail with a UsageError."""
+        """--json combined with --cleanup=True should fail with UsageError (exit 2)."""
         _setup_source_dashboards()
         _setup_dest_dashboards()
         ret = runner.invoke(
@@ -676,10 +676,33 @@ class TestJsonCleanupValidation:
                 "--cleanup=True",
             ],
         )
-        assert ret.exit_code != 0, "Expected non-zero exit code for --json + --cleanup=True"
-        combined = (ret.output or "") + (ret.stderr_bytes.decode() if ret.stderr_bytes else "")
+        assert ret.exit_code == 2, (
+            f"Expected exit code 2 (UsageError) for --json + --cleanup=True, got {ret.exit_code}"
+        )
+        combined = (ret.output or "") + (ret.stderr_bytes.decode("utf-8") if ret.stderr_bytes else "")
         assert "--cleanup=Force" in combined, (
             f"Error message should suggest --cleanup=Force, got: {combined[:300]}"
+        )
+
+    def test_sync_json_with_cleanup_true_errors(self, runner):
+        """sync --json --cleanup=True should also be rejected."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+                "--cleanup=True",
+            ],
+        )
+        assert ret.exit_code == 2, (
+            f"Expected exit code 2 (UsageError) for sync --json + --cleanup=True, got {ret.exit_code}"
         )
 
     def test_json_with_cleanup_force_accepted(self, runner):
@@ -699,10 +722,9 @@ class TestJsonCleanupValidation:
                 "--cleanup=Force",
             ],
         )
-        # Should not fail with a usage error
-        assert ret.exit_code != 2, (
-            f"--json + --cleanup=Force should be accepted, got exit 2: "
-            f"{(ret.output or '') + (ret.stderr_bytes.decode() if ret.stderr_bytes else '')}"
+        assert ret.exception is None, f"CLI crashed: {ret.exception}"
+        assert ret.exit_code == 0, (
+            f"--json + --cleanup=Force should succeed, got exit {ret.exit_code}"
         )
 
     def test_json_with_cleanup_false_accepted(self, runner):
@@ -722,15 +744,16 @@ class TestJsonCleanupValidation:
                 "--cleanup=False",
             ],
         )
-        assert ret.exit_code != 2, (
-            f"--json + --cleanup=False should be accepted, got exit 2: "
-            f"{(ret.output or '') + (ret.stderr_bytes.decode() if ret.stderr_bytes else '')}"
+        assert ret.exception is None, f"CLI crashed: {ret.exception}"
+        assert ret.exit_code == 0, (
+            f"--json + --cleanup=False should succeed, got exit {ret.exit_code}"
         )
 
     def test_no_json_with_cleanup_true_still_works(self, runner):
         """Without --json, --cleanup=True should still work (interactive prompt is fine)."""
         _setup_source_dashboards()
         _setup_dest_dashboards()
+        # CliRunner has no TTY, so input="n\n" answers the confirm() prompt
         ret = runner.invoke(
             cli,
             [
@@ -742,7 +765,7 @@ class TestJsonCleanupValidation:
                 "--skip-failed-resource-connections=true",
                 "--cleanup=True",
             ],
-            input="n\n",  # answer "no" to the confirm prompt
+            input="n\n",
         )
         # Should not fail with a usage error — the prompt is valid in human mode
         assert ret.exit_code != 2, (
