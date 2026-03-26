@@ -36,10 +36,10 @@ class ResourceOutcome:
     Note: ``filtered`` is a JSON-only status. The CLI metric (``datadog.org-sync.action``)
     is not emitted for filtered resources, so this value has no metric-tag counterpart.
 
-    Diffs-mode semantics: In ``diffs`` mode, outcomes describe *intended* actions, not
-    completed mutations. A ``status:success`` with ``action_type:delete`` means "this
-    resource would be deleted", not "this resource was deleted". Consumers that distinguish
-    dry-run from live should check which CLI command was invoked.
+    The ``command`` field reflects the CLI command that was invoked (``import``,
+    ``sync``, ``diffs``, ``migrate``, ``reset``).  This lets consumers distinguish
+    dry-run from live: a ``diffs`` outcome describes *intended* actions, while a
+    ``sync`` outcome describes *completed* mutations.
 
     Stdout/stderr contract: In ``--json`` mode, stdout carries a single NDJSON event
     stream where each line is a discriminated union with a ``type`` field.  Outcome
@@ -47,6 +47,7 @@ class ResourceOutcome:
     Machine consumers should pipe stdout and filter by ``type``.
     """
 
+    command: str  # CLI command that produced this outcome (import, sync, diffs, migrate, reset)
     resource_type: str
     id: str
     action_type: Literal["import", "sync", "delete"]

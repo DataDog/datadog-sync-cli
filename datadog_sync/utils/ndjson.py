@@ -10,8 +10,9 @@ is a **discriminated union** keyed by ``"type"``:
 
 ``"type": "outcome"``
     Resource-level result emitted once per resource per command invocation.
-    Fields: ``resource_type``, ``id``, ``action_type``, ``status``,
-    ``action_sub_type``, ``reason``.  See :class:`sync_report.ResourceOutcome`.
+    Fields: ``command``, ``resource_type``, ``id``, ``action_type``,
+    ``status``, ``action_sub_type``, ``reason``.
+    See :class:`sync_report.ResourceOutcome`.
 
 ``"type": "log"``
     Operational log event (info, warning, error, debug).

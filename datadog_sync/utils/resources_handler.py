@@ -67,7 +67,9 @@ class ResourcesHandler:
     ) -> None:
         if self.config.emit_json:
             _id_str = str(_id) if _id is not None else ""
-            ResourceOutcome(resource_type, _id_str, action_type, status, action_sub_type, reason).emit()
+            ResourceOutcome(
+                self.config.command, resource_type, _id_str, action_type, status, action_sub_type, reason
+            ).emit()
 
     async def init_async(self) -> None:
         self.worker: Workers = Workers(self.config)
