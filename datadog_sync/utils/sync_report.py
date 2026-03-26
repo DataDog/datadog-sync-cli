@@ -47,7 +47,7 @@ class ResourceOutcome:
     Machine consumers should pipe stdout and filter by ``type``.
     """
 
-    command: str  # CLI command that produced this outcome (import, sync, diffs, migrate, reset)
+    command: Literal["import", "sync", "diffs", "migrate", "reset"]
     resource_type: str
     id: str
     action_type: Literal["import", "sync", "delete"]

@@ -68,7 +68,13 @@ class ResourcesHandler:
         if self.config.emit_json:
             _id_str = str(_id) if _id is not None else ""
             ResourceOutcome(
-                self.config.command, resource_type, _id_str, action_type, status, action_sub_type, reason
+                command=self.config.command,
+                resource_type=resource_type,
+                id=_id_str,
+                action_type=action_type,
+                status=status,
+                action_sub_type=action_sub_type,
+                reason=reason,
             ).emit()
 
     async def init_async(self) -> None:
