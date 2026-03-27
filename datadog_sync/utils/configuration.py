@@ -10,6 +10,8 @@ import sys
 import time
 from typing import Any, Optional, Union, Dict, List
 
+import click
+
 from datadog_sync.constants import (
     Command,
     AWS_CONFIG_PROPERTIES,
@@ -292,6 +294,15 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             verify_ssl,
         )
         source_resources_path = f"{destination_resources_path}/.backup/{str(time.time())}"
+
+    # --json mode is designed for CI/automation where an interactive
+    # confirm() prompt would hang.  This must be checked *after* the
+    # Command.RESET branch above which unconditionally sets cleanup = TRUE.
+    if emit_json and cleanup == TRUE:
+        raise click.UsageError(
+            "--json with --cleanup=True is not supported: interactive confirmation "
+            "is incompatible with JSON mode. Use --cleanup=Force to skip the prompt."
+        )
 
     resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
     # Initialize state
