@@ -13,6 +13,7 @@ from datadog_sync.utils.sync_report import ResourceOutcome, _REASON_MAX_LEN
 class TestResourceOutcome:
     def test_create_outcome(self):
         outcome = ResourceOutcome(
+            command="sync",
             resource_type="dashboards",
             id="abc-123",
             action_type="sync",
@@ -20,6 +21,7 @@ class TestResourceOutcome:
             action_sub_type="create",
             reason="",
         )
+        assert outcome.command == "sync"
         assert outcome.resource_type == "dashboards"
         assert outcome.id == "abc-123"
         assert outcome.action_type == "sync"
@@ -29,6 +31,7 @@ class TestResourceOutcome:
 
     def test_create_outcome_with_reason(self):
         outcome = ResourceOutcome(
+            command="import",
             resource_type="monitors",
             id="12345",
             action_type="import",
@@ -41,6 +44,7 @@ class TestResourceOutcome:
 
     def test_outcome_to_dict(self):
         outcome = ResourceOutcome(
+            command="sync",
             resource_type="dashboards",
             id="abc-123",
             action_type="sync",
@@ -51,6 +55,7 @@ class TestResourceOutcome:
         d = outcome.to_dict()
         assert d == {
             "type": "outcome",
+            "command": "sync",
             "resource_type": "dashboards",
             "id": "abc-123",
             "action_type": "sync",
@@ -61,19 +66,35 @@ class TestResourceOutcome:
 
     def test_to_dict_always_has_type_outcome(self):
         """Every ResourceOutcome dict must carry type=outcome for discriminated union."""
-        outcome = ResourceOutcome("monitors", "1", "import", "success", "", "")
+        outcome = ResourceOutcome("import", "monitors", "1", "import", "success", "", "")
         assert outcome.to_dict()["type"] == "outcome"
+
+    def test_command_field_in_to_dict(self):
+        """The command field must appear in to_dict() output."""
+        outcome = ResourceOutcome("diffs", "dashboards", "abc", "sync", "success", "create", "")
+        d = outcome.to_dict()
+        assert d["command"] == "diffs"
+
+    def test_command_distinguishes_diffs_from_sync(self):
+        """diffs and sync produce different command values with same action_type."""
+        diffs_outcome = ResourceOutcome("diffs", "dashboards", "a", "sync", "success", "create", "")
+        sync_outcome = ResourceOutcome("sync", "dashboards", "a", "sync", "success", "create", "")
+        assert diffs_outcome.to_dict()["command"] == "diffs"
+        assert sync_outcome.to_dict()["command"] == "sync"
+        # action_type is the same for both
+        assert diffs_outcome.to_dict()["action_type"] == sync_outcome.to_dict()["action_type"]
 
 
 class TestEmit:
     def test_emit_writes_json_line_to_stdout(self):
-        outcome = ResourceOutcome("dashboards", "abc-123", "sync", "success", "create", "")
+        outcome = ResourceOutcome("sync", "dashboards", "abc-123", "sync", "success", "create", "")
         buf = StringIO()
         with patch("sys.stdout", buf):
             outcome.emit()
 
         parsed = json.loads(buf.getvalue().strip())
         assert parsed["type"] == "outcome"
+        assert parsed["command"] == "sync"
         assert parsed["resource_type"] == "dashboards"
         assert parsed["id"] == "abc-123"
         assert parsed["action_type"] == "sync"
@@ -85,8 +106,8 @@ class TestEmit:
         """Each emit() produces exactly one line."""
         buf = StringIO()
         with patch("sys.stdout", buf):
-            ResourceOutcome("dashboards", "a", "sync", "success", "create", "").emit()
-            ResourceOutcome("monitors", "1", "sync", "failure", "", "err").emit()
+            ResourceOutcome("sync", "dashboards", "a", "sync", "success", "create", "").emit()
+            ResourceOutcome("sync", "monitors", "1", "sync", "failure", "", "err").emit()
 
         lines = buf.getvalue().strip().split("\n")
         assert len(lines) == 2
@@ -95,21 +116,22 @@ class TestEmit:
         """Multiple emits produce valid JSONL (each line is independent JSON)."""
         buf = StringIO()
         with patch("sys.stdout", buf):
-            ResourceOutcome("dashboards", "a", "sync", "success", "create", "").emit()
-            ResourceOutcome("monitors", "1", "import", "skipped", "", "synth alert").emit()
-            ResourceOutcome("monitors", "2", "sync", "failure", "", "500").emit()
+            ResourceOutcome("sync", "dashboards", "a", "sync", "success", "create", "").emit()
+            ResourceOutcome("import", "monitors", "1", "import", "skipped", "", "synth alert").emit()
+            ResourceOutcome("sync", "monitors", "2", "sync", "failure", "", "500").emit()
 
         lines = buf.getvalue().strip().split("\n")
         for line in lines:
             parsed = json.loads(line)
             assert parsed["type"] == "outcome"
+            assert "command" in parsed
             assert "resource_type" in parsed
             assert "status" in parsed
 
     def test_emit_includes_reason(self):
         buf = StringIO()
         with patch("sys.stdout", buf):
-            ResourceOutcome("monitors", "123", "sync", "failure", "", "403 Forbidden").emit()
+            ResourceOutcome("sync", "monitors", "123", "sync", "failure", "", "403 Forbidden").emit()
 
         parsed = json.loads(buf.getvalue().strip())
         assert parsed["reason"] == "403 Forbidden"
@@ -120,7 +142,7 @@ class TestEmit:
         buf = StringIO()
         with patch("sys.stdout", buf):
             for status in statuses:
-                ResourceOutcome("dashboards", "x", "sync", status, "", "").emit()
+                ResourceOutcome("sync", "dashboards", "x", "sync", status, "", "").emit()
 
         lines = buf.getvalue().strip().split("\n")
         assert len(lines) == 4
@@ -133,7 +155,7 @@ class TestEmit:
         buf = StringIO()
         with patch("sys.stdout", buf):
             for action_type in action_types:
-                ResourceOutcome("dashboards", "x", action_type, "success", "", "").emit()
+                ResourceOutcome("sync", "dashboards", "x", action_type, "success", "", "").emit()
 
         lines = buf.getvalue().strip().split("\n")
         emitted_action_types = {json.loads(line)["action_type"] for line in lines}
@@ -143,9 +165,9 @@ class TestEmit:
         """action_sub_type values emit correctly."""
         buf = StringIO()
         with patch("sys.stdout", buf):
-            ResourceOutcome("dashboards", "a", "sync", "success", "create", "").emit()
-            ResourceOutcome("dashboards", "b", "sync", "success", "update", "").emit()
-            ResourceOutcome("dashboards", "c", "import", "success", "", "").emit()
+            ResourceOutcome("sync", "dashboards", "a", "sync", "success", "create", "").emit()
+            ResourceOutcome("sync", "dashboards", "b", "sync", "success", "update", "").emit()
+            ResourceOutcome("import", "dashboards", "c", "import", "success", "", "").emit()
 
         lines = buf.getvalue().strip().split("\n")
         assert json.loads(lines[0])["action_sub_type"] == "create"
@@ -160,7 +182,7 @@ class TestNdjsonContract:
         """Embedded newlines must be JSON-escaped, not split into multiple lines."""
         buf = StringIO()
         with patch("sys.stdout", buf):
-            ResourceOutcome("dashboards", "a", "sync", "failure", "", 'error: "bad\nvalue"').emit()
+            ResourceOutcome("sync", "dashboards", "a", "sync", "failure", "", 'error: "bad\nvalue"').emit()
         lines = [line for line in buf.getvalue().split("\n") if line.strip()]
         assert len(lines) == 1, f"Expected 1 line, got {len(lines)}: {lines}"
         parsed = json.loads(lines[0])
@@ -169,38 +191,38 @@ class TestNdjsonContract:
     def test_unicode_in_reason(self):
         buf = StringIO()
         with patch("sys.stdout", buf):
-            ResourceOutcome("dashboards", "a", "sync", "failure", "", "error: \u2603 snowman").emit()
+            ResourceOutcome("sync", "dashboards", "a", "sync", "failure", "", "error: \u2603 snowman").emit()
         parsed = json.loads(buf.getvalue().strip())
         assert "\u2603" in parsed["reason"]
 
     def test_quotes_in_reason(self):
         buf = StringIO()
         with patch("sys.stdout", buf):
-            ResourceOutcome("dashboards", "a", "sync", "failure", "", 'key="value"').emit()
+            ResourceOutcome("sync", "dashboards", "a", "sync", "failure", "", 'key="value"').emit()
         parsed = json.loads(buf.getvalue().strip())
         assert parsed["reason"] == 'key="value"'
 
 
 class TestReasonTruncation:
     def test_short_reason_unchanged(self):
-        outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", "short error")
+        outcome = ResourceOutcome("sync", "dashboards", "a", "sync", "failure", "", "short error")
         assert outcome.reason == "short error"
 
     def test_long_reason_truncated(self):
         long_reason = "x" * 2000
-        outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", long_reason)
+        outcome = ResourceOutcome("sync", "dashboards", "a", "sync", "failure", "", long_reason)
         assert len(outcome.reason) == _REASON_MAX_LEN + len("...(truncated)")
         assert outcome.reason.endswith("...(truncated)")
         assert outcome.reason.startswith("x" * _REASON_MAX_LEN)
 
     def test_exact_limit_not_truncated(self):
         exact_reason = "y" * _REASON_MAX_LEN
-        outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", exact_reason)
+        outcome = ResourceOutcome("sync", "dashboards", "a", "sync", "failure", "", exact_reason)
         assert outcome.reason == exact_reason
 
     def test_one_over_limit_truncated(self):
         reason = "z" * (_REASON_MAX_LEN + 1)
-        outcome = ResourceOutcome("dashboards", "a", "sync", "failure", "", reason)
+        outcome = ResourceOutcome("sync", "dashboards", "a", "sync", "failure", "", reason)
         assert outcome.reason.endswith("...(truncated)")
         assert len(outcome.reason) == _REASON_MAX_LEN + len("...(truncated)")
 
@@ -227,6 +249,7 @@ class TestEmitGating:
 
         handler = MagicMock()
         handler.config.emit_json = True
+        handler.config.command = "sync"
 
         from datadog_sync.utils.resources_handler import ResourcesHandler
 
@@ -236,6 +259,7 @@ class TestEmitGating:
 
         parsed = json.loads(buf.getvalue().strip())
         assert parsed["status"] == "success"
+        assert parsed["command"] == "sync"
 
     def test_emit_none_id_becomes_empty_string(self):
         """When _id is None, the emitted id field should be empty string, not 'None'."""
@@ -243,6 +267,7 @@ class TestEmitGating:
 
         handler = MagicMock()
         handler.config.emit_json = True
+        handler.config.command = "import"
 
         from datadog_sync.utils.resources_handler import ResourcesHandler
 
@@ -253,3 +278,4 @@ class TestEmitGating:
         parsed = json.loads(buf.getvalue().strip())
         assert parsed["id"] == ""
         assert parsed["id"] != "None"
+        assert parsed["command"] == "import"

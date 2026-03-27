@@ -220,6 +220,8 @@ class TestOutcomeStreaming:
     def test_each_outcome_has_required_fields(self, runner):
         _, outcomes, _ = _run_diffs(runner)
         for o in outcomes:
+            assert "command" in o
+            assert o["command"] == "diffs"
             assert "resource_type" in o
             assert "id" in o
             assert "action_type" in o
@@ -559,12 +561,14 @@ class TestNdjsonEventStream:
         assert len(outcomes) > 0
         for o in outcomes:
             assert o["type"] == "outcome"
+            assert "command" in o
             assert "resource_type" in o
             assert "id" in o
             assert "action_type" in o
             assert "status" in o
             assert "action_sub_type" in o
             assert "reason" in o
+            assert o["command"] == "diffs"
 
 
 class TestNdjsonStreamSeparation:

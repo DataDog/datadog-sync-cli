@@ -67,6 +67,7 @@ class Configuration(object):
     show_progress_bar: bool
     allow_self_lockout: bool
     emit_json: bool = False
+    command: str = ""
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
@@ -334,6 +335,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         show_progress_bar=show_progress_bar,
         allow_self_lockout=allow_self_lockout,
         emit_json=emit_json,
+        command=cmd.value,
         allow_partial_permissions_roles=allow_partial_permissions_roles,
     )
 
