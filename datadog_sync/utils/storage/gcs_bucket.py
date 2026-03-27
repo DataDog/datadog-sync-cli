@@ -6,6 +6,7 @@
 import json
 import logging
 
+from google.api_core.exceptions import NotFound
 from google.cloud import storage as gcs_storage
 
 from datadog_sync.constants import (
@@ -59,20 +60,24 @@ class GCSBucket(BaseStorage):
                 if blob.name.endswith(".json"):
                     resource_type = blob.name.split(".")[0].split("/")[-1]
                     try:
-                        content = blob.download_as_text()
+                        content = self.bucket.blob(blob.name).download_as_text()
                         data.source[resource_type].update(json.loads(content))
                     except json.decoder.JSONDecodeError:
                         log.warning(f"invalid json in gcs source resource file: {resource_type}")
+                    except NotFound:
+                        log.warning(f"gcs source resource file not found (may have been deleted): {blob.name}")
 
         if origin in [Origin.DESTINATION, Origin.ALL]:
             for blob in self.bucket.list_blobs(prefix=self.destination_resources_path):
                 if blob.name.endswith(".json"):
                     resource_type = blob.name.split(".")[0].split("/")[-1]
                     try:
-                        content = blob.download_as_text()
+                        content = self.bucket.blob(blob.name).download_as_text()
                         data.destination[resource_type].update(json.loads(content))
                     except json.decoder.JSONDecodeError:
                         log.warning(f"invalid json in gcs destination resource file: {resource_type}")
+                    except NotFound:
+                        log.warning(f"gcs destination resource file not found (may have been deleted): {blob.name}")
 
         return data
 
