@@ -5,6 +5,7 @@
 ### Fixed
 * Support Synthetics Test Suites by @melkouri in https://github.com/DataDog/datadog-sync-cli/pull/478
 * Fix Rum sessions in synthetics browser tests by @melkouri in https://github.com/DataDog/datadog-sync-cli/pull/483
+* fix: handle GCS stale generation and NotFound during state loading by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/499
 ### Added
 * NDJSON stack 1/4: ResourceOutcome model, shared writer, --json flag, and outcome emission by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/484
 * NDJSON stack 2/4: Log class NDJSON mode by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/489
