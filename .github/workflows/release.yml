@@ -23,33 +23,49 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const tagName = `${process.env.RELEASE_BRANCH.split("/")[1]}`;
+            let tagExists = false;
+
             try {
+              await github.rest.git.getRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `tags/${tagName}`,
+              });
+              tagExists = true;
+              core.warning(`Tag ${tagName} already exists — skipping creation`);
+            } catch (e) {
+              if (e.status !== 404) throw e;
+            }
+
+            if (!tagExists) {
               await github.rest.git.createRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 ref: `refs/tags/${tagName}`,
                 sha: context.payload.pull_request.merge_commit_sha,
               });
-            } catch (e) {
-              if (e.status === 422 && e.message.includes('already exists')) {
-                core.warning(`Tag ${tagName} already exists — skipping creation`);
-              } else {
-                throw e;
-              }
             }
+
+            let releaseExists = false;
             try {
+              await github.rest.repos.getReleaseByTag({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag: tagName,
+              });
+              releaseExists = true;
+              core.warning(`Release ${tagName} already exists — skipping creation`);
+            } catch (e) {
+              if (e.status !== 404) throw e;
+            }
+
+            if (!releaseExists) {
               await github.rest.repos.createRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 generate_release_notes: true,
                 tag_name: tagName,
               });
-            } catch (e) {
-              if (e.status === 422 && e.message.includes('already exists')) {
-                core.warning(`Release ${tagName} already exists — skipping creation`);
-              } else {
-                throw e;
-              }
             }
   build_artifacts:
     needs: create_release
