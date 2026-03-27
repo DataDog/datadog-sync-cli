@@ -31,7 +31,7 @@ jobs:
                 sha: context.payload.pull_request.merge_commit_sha,
               });
             } catch (e) {
-              if (e.status === 422) {
+              if (e.status === 422 && e.message.includes('already exists')) {
                 core.warning(`Tag ${tagName} already exists — skipping creation`);
               } else {
                 throw e;
@@ -45,7 +45,7 @@ jobs:
                 tag_name: tagName,
               });
             } catch (e) {
-              if (e.status === 422) {
+              if (e.status === 422 && e.message.includes('already exists')) {
                 core.warning(`Release ${tagName} already exists — skipping creation`);
               } else {
                 throw e;
