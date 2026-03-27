@@ -15,6 +15,21 @@
 
 **Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.0.3...3.1.0
 
+## 3.1.0 / 2026-03-27
+
+### Fixed
+* Support Synthetics Test Suites by @melkouri in https://github.com/DataDog/datadog-sync-cli/pull/478
+* Fix Rum sessions in synthetics browser tests by @melkouri in https://github.com/DataDog/datadog-sync-cli/pull/483
+### Added
+* NDJSON stack 1/4: ResourceOutcome model, shared writer, --json flag, and outcome emission by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/484
+* NDJSON stack 2/4: Log class NDJSON mode by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/489
+* NDJSON stack 3/4: Wire emit_json into Log and disable progress bar by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/486
+
+## New Contributors
+* @moezein0 made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/488
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.0.3...3.1.0
+
 ## 3.0.3 / 2026-03-17
 
 ### Fixed
