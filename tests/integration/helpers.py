@@ -240,7 +240,7 @@ class BaseResourcesTestClass:
         ]
 
         if self.filter:
-            diff_cmd.append(f"--filter={self.filter}")
+            sync_cmd.append(f"--filter={self.filter}")
 
         if self.resource_per_file:
             sync_cmd.append("--resource-per-file")
