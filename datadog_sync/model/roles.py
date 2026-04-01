@@ -273,9 +273,17 @@ class Roles(BaseResource):
                 return
 
         if "permissions" in resource["relationships"]:
+            matched_permissions = []
             for permission in resource["relationships"]["permissions"]["data"]:
                 if permission["id"] in self.destination_permissions:
                     permission["id"] = self.destination_permissions[permission["id"]]
+                    matched_permissions.append(permission)
+                else:
+                    self.config.logger.warning(
+                        "permission '%s' exists in source but not in destination, skipping",
+                        permission["id"],
+                    )
+            resource["relationships"]["permissions"]["data"] = matched_permissions
 
     async def get_destination_roles_mapping(self):
         destination_client = self.config.destination_client
