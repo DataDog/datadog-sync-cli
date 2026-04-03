@@ -88,8 +88,20 @@ class Notebooks(BaseResource):
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
+    # Server-managed AI usage tag keys injected by the Notebooks API on every write.
+    # These reflect per-org interaction history (MCP vs human), not notebook content,
+    # and must be stripped to avoid non-converging diffs during sync.
+    _ai_usage_tag_keys = frozenset({"ai_generated", "ai_edited", "human_edited"})
+
     @staticmethod
     def handle_special_case_attr(resource):
         # Handle template_variables attribute
         if "template_variables" in resource["attributes"] and not resource["attributes"]["template_variables"]:
             resource["attributes"].pop("template_variables")
+
+        # Strip server-managed AI usage tags
+        tags = resource["attributes"].get("tags")
+        if tags:
+            resource["attributes"]["tags"] = [
+                t for t in tags if t.split(":")[0] not in Notebooks._ai_usage_tag_keys
+            ]
