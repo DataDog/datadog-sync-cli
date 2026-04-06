@@ -1,9 +1,12 @@
 issuer: https://token.actions.githubusercontent.com
 
+# For pull_request events, OIDC subject is derived from the PR base branch ref.
+# This policy only works for PRs targeting 'main'.
 subject: repo:DataDog/datadog-sync-cli:ref:refs/heads/main
 
 claim_pattern:
   event_name: pull_request
+  ref: refs/heads/main
   job_workflow_ref: DataDog/datadog-sync-cli/.github/workflows/release.yml@refs/heads/main
 
 permissions:
