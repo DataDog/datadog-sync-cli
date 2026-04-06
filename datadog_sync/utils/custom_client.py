@@ -259,7 +259,11 @@ class CustomClient:
                             page_number = pagination_config.page_number_func(idx, page_size, page_number)
                         remaining = 1  # after this error we need to keep processing
                     else:
-                        log.error(f"Error during paginated request: {err}")
+                        log.error(
+                            f"Error during paginated request for {args[0]} "
+                            f"{pagination_config.page_number_param}: {page_number} "
+                            f"{pagination_config.page_size_param}: {page_size} - {err}"
+                        )
                         break
 
                 # made it through the try/except no increase the page number and idx
