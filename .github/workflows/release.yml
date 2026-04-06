@@ -77,6 +77,8 @@ jobs:
   build_artifacts:
     needs: create_release
     name: Build executables
+    permissions:
+      contents: write
     strategy:
       matrix:
         os: [ubuntu-22.04-arm, ubuntu-22.04, windows-latest, macos-latest]

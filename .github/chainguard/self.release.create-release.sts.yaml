@@ -1,6 +1,6 @@
 issuer: https://token.actions.githubusercontent.com
 
-subject: repo:DataDog/datadog-sync-cli:pull_request
+subject: repo:DataDog/datadog-sync-cli:ref:refs/heads/main
 
 claim_pattern:
   event_name: pull_request
