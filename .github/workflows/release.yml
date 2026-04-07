@@ -1,21 +1,56 @@
 name: Release
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
+
+concurrency:
+  group: release-${{ github.sha }}
+  cancel-in-progress: false
 
 jobs:
   create_release:
     name: Create release
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
+    outputs:
+      is_release: ${{ steps.detect_release.outputs.is_release }}
+      release_branch: ${{ steps.detect_release.outputs.release_branch }}
     permissions:
       contents: read
       id-token: write
+      pull-requests: read
     steps:
+      - name: Detect release
+        id: detect_release
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        with:
+          script: |
+            try {
+              const prs = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                commit_sha: context.sha
+              });
+              const releasePRs = prs.data
+                .filter(pr => pr.merged_at && pr.head.ref.startsWith('release/'))
+                .sort((a, b) => new Date(b.merged_at) - new Date(a.merged_at));
+              const releasePR = releasePRs[0];
+              if (releasePR) {
+                core.setOutput('is_release', 'true');
+                core.setOutput('release_branch', releasePR.head.ref);
+                core.info(`Detected release PR: ${releasePR.head.ref}`);
+              } else {
+                core.setOutput('is_release', 'false');
+                core.setOutput('release_branch', '');
+                core.info('No release PR detected for this push — skipping release steps');
+              }
+            } catch (e) {
+              core.setFailed(`Failed to detect release PR: ${e.message}`);
+            }
+
       - name: Get access token
+        if: steps.detect_release.outputs.is_release == 'true'
         uses: DataDog/dd-octo-sts-action@96a25462dbcb10ebf0bfd6e2ccc917d2ab235b9a # v1.0.4
         id: octo-sts
         with:
@@ -23,9 +58,10 @@ jobs:
           policy: self.release.create-release
 
       - name: Create release
+        if: steps.detect_release.outputs.is_release == 'true'
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         env:
-          RELEASE_BRANCH: ${{ github.head_ref }}
+          RELEASE_BRANCH: ${{ steps.detect_release.outputs.release_branch }}
         with:
           github-token: ${{ steps.octo-sts.outputs.token }}
           script: |
@@ -49,7 +85,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 ref: `refs/tags/${tagName}`,
-                sha: context.payload.pull_request.merge_commit_sha,
+                sha: context.sha,
               });
             }
 
@@ -74,8 +110,10 @@ jobs:
                 tag_name: tagName,
               });
             }
+
   build_artifacts:
     needs: create_release
+    if: needs.create_release.outputs.is_release == 'true'
     name: Build executables
     permissions:
       contents: write
@@ -86,7 +124,7 @@ jobs:
     steps:
       - name: Set tag
         env:
-          RELEASE_BRANCH: ${{ github.head_ref }}
+          RELEASE_BRANCH: ${{ needs.create_release.outputs.release_branch }}
         run: |
           TAG_NAME=$(echo "$RELEASE_BRANCH" | cut -d "/" -f2)
           echo "tag_name=$TAG_NAME" >> "$GITHUB_ENV"
