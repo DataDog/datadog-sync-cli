@@ -1,37 +1,76 @@
 name: Build and publish docker image
 
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: docker-release-${{ github.sha }}
+  cancel-in-progress: false
+
 permissions:
   contents: read
   packages: write
   attestations: write
   id-token: write
-
-on:
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+  pull-requests: read
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   build-and-push-image:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
-
     steps:
+      - name: Detect release
+        id: detect_release
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        with:
+          script: |
+            try {
+              const prs = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                commit_sha: context.sha
+              });
+              const releasePRs = prs.data
+                .filter(pr => pr.merged_at && pr.head.ref.startsWith('release/'))
+                .sort((a, b) => new Date(b.merged_at) - new Date(a.merged_at));
+              if (releasePRs[0]) {
+                core.setOutput('is_release', 'true');
+                core.info(`Detected release PR: ${releasePRs[0].head.ref}`);
+              } else {
+                core.setOutput('is_release', 'false');
+                core.info('No release PR detected for this push — skipping Docker build');
+              }
+            } catch (e) {
+              core.setFailed(`Failed to detect release PR: ${e.message}`);
+            }
+
+      - name: Get access token
+        if: steps.detect_release.outputs.is_release == 'true'
+        uses: DataDog/dd-octo-sts-action@96a25462dbcb10ebf0bfd6e2ccc917d2ab235b9a # v1.0.4
+        id: octo-sts
+        with:
+          scope: DataDog/datadog-sync-cli
+          policy: self.release.publish-docker
+
       - name: Checkout repository
+        if: steps.detect_release.outputs.is_release == 'true'
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Log in to the Container registry
+        if: steps.detect_release.outputs.is_release == 'true'
         uses: docker/login-action@da5b89b92c1be57a07eeed1334a0728b94145654
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: x-access-token
+          password: ${{ steps.octo-sts.outputs.token }}
 
       - name: Extract metadata (tags, labels) for Docker
+        if: steps.detect_release.outputs.is_release == 'true'
         id: meta
         uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf
         with:
@@ -42,12 +81,15 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Set up QEMU
+        if: steps.detect_release.outputs.is_release == 'true'
         uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a
 
       - name: Set up Docker Buildx
+        if: steps.detect_release.outputs.is_release == 'true'
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd
 
       - name: Build and push Docker image
+        if: steps.detect_release.outputs.is_release == 'true'
         id: push
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
@@ -58,6 +100,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
       - name: Generate artifact attestation
+        if: steps.detect_release.outputs.is_release == 'true'
         uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
