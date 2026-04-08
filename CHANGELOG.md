@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.1.5 / 2026-04-08
+
+### Fixed
+* Add logic to replicate file content of Synthetics Tests with file uploads by @melkouri in https://github.com/DataDog/datadog-sync-cli/pull/477
+### Added
+* fix: include endpoint path in paginated request error log by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/506
+### Changed
+* perf: move filter check before deepcopy in _apply_resource_cb by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/518
+
+## New Contributors
+* @hazrac made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/502
+* @gh-worker-campaigns-3e9aa4[bot] made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/505
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.1.0...3.1.5
+
 ## 3.1.4 / 2026-04-07
 
 ### Fixed
