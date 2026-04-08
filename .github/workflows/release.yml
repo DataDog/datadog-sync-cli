@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Commit SHA of the release merge commit (defaults to HEAD of main)"
+        required: false
+        default: ""
 
 concurrency:
   group: release-${{ github.sha }}
@@ -27,15 +33,22 @@ jobs:
         with:
           script: |
             try {
-              const prs = await github.rest.repos.listPullRequestsAssociatedWithCommit({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                commit_sha: context.sha
-              });
-              const releasePRs = prs.data
-                .filter(pr => pr.merged_at && pr.head.ref.startsWith('release/'))
-                .sort((a, b) => new Date(b.merged_at) - new Date(a.merged_at));
-              const releasePR = releasePRs[0];
+              const commitSha = context.payload.inputs?.sha || context.sha;
+              let releasePR = null;
+              for (let attempt = 1; attempt <= 6; attempt++) {
+                const prs = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  commit_sha: commitSha
+                });
+                const releasePRs = prs.data
+                  .filter(pr => pr.merged_at && pr.head.ref.startsWith('release/'))
+                  .sort((a, b) => new Date(b.merged_at) - new Date(a.merged_at));
+                releasePR = releasePRs[0];
+                if (releasePR) break;
+                core.info(`Attempt ${attempt}/6: no release PR found yet, waiting 10s...`);
+                await new Promise(r => setTimeout(r, 10000));
+              }
               if (releasePR) {
                 core.setOutput('is_release', 'true');
                 core.setOutput('release_branch', releasePR.head.ref);
