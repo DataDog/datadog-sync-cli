@@ -212,18 +212,23 @@ class ResourcesHandler:
 
     async def _apply_resource_cb(self, q_item: List) -> None:
         resource_type, _id = q_item
+        lock_acquired = False
 
         try:
             r_class = self.config.resources[resource_type]
+
+            # Filter BEFORE deepcopy to avoid unnecessary memory allocation.
+            # Safe because filter() only reads the resource dict, never mutates it.
+            if not r_class.filter(self.config.state.source[resource_type][_id]):
+                self.worker.counter.increment_filtered()
+                self._emit(resource_type, _id, "sync", "filtered")
+                return
+
             resource = deepcopy(self.config.state.source[resource_type][_id])
 
             if not r_class.resource_config.concurrent:
                 await r_class.resource_config.async_lock.acquire()
-
-            if not r_class.filter(resource):
-                self.worker.counter.increment_filtered()
-                self._emit(resource_type, _id, "sync", "filtered")
-                return
+                lock_acquired = True
 
             # Run hooks
             await r_class._pre_resource_action_hook(_id, resource)
@@ -274,7 +279,7 @@ class ResourcesHandler:
         finally:
             # always place in done queue regardless of exception thrown
             self.sorter.done(q_item)
-            if not r_class.resource_config.concurrent:
+            if lock_acquired:
                 r_class.resource_config.async_lock.release()
 
     async def diffs(self) -> None:
