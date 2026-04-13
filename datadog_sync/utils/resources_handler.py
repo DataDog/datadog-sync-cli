@@ -551,24 +551,25 @@ class ResourcesHandler:
         """
         dependency_graph = {}
         missing_resources = set()
+        filtered_out = set()
 
         for (resource_type, _id), resource in self.config.state.get_all_resources(self.config.resources_arg).items():
             r_class = self.config.resources[resource_type]
             if not r_class.filter(resource):
+                filtered_out.add((resource_type, _id))
                 continue
 
             deps, missing = self._resource_connections(resource_type, _id)
             dependency_graph[(resource_type, _id)] = deps
             missing_resources.update(missing)
 
-        # Remove dependency references to nodes not in the graph.
-        # This prevents phantom nodes in the TopologicalSorter — deps that
-        # reference filtered-out or out-of-scope resources would otherwise
-        # appear as implicit nodes with no predecessors, get yielded by
-        # the sorter, dispatched to workers, and waste processing time.
-        graph_keys = set(dependency_graph.keys())
-        for key in dependency_graph:
-            dependency_graph[key] = dependency_graph[key] & graph_keys
+        # Remove dependency references to filtered-out resources only.
+        # Cross-type deps on resource types outside resources_arg must be
+        # preserved as phantom nodes — TopologicalSorter yields them first,
+        # ensuring dependencies are synced before dependents.
+        if filtered_out:
+            for key in dependency_graph:
+                dependency_graph[key] = dependency_graph[key] - filtered_out
 
         return dependency_graph, missing_resources
 

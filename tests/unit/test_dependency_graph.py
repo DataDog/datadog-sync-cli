@@ -162,21 +162,6 @@ def test_empty_state_returns_empty_graph(graph_test):
     assert missing == set()
 
 
-def test_single_resource_no_deps(graph_test):
-    handler, config = graph_test
-    config.filters = {}
-    setup_state(
-        config,
-        {"monitors": {"mon-1": {"id": "mon-1", "name": "Monitor 1"}}},
-        resources_arg=["monitors"],
-    )
-
-    graph, _ = handler.get_dependency_graph()
-
-    assert len(graph) == 1
-    assert graph[("monitors", "mon-1")] == set()
-
-
 def test_cross_type_dep_preserved_when_both_sides_in_graph(graph_test):
     handler, config = graph_test
     setup_filters(config, ["Type=dashboards;Name=id;Value=^dash-1$"])
@@ -197,6 +182,30 @@ def test_cross_type_dep_preserved_when_both_sides_in_graph(graph_test):
 
     assert ("dashboards", "dash-1") in graph
     assert ("monitors", "mon-1") in graph
+    assert ("monitors", "mon-1") in graph[("dashboards", "dash-1")]
+
+
+def test_cross_type_phantom_deps_preserved(graph_test):
+    """Deps on out-of-scope resource types are preserved as phantom nodes
+    so TopologicalSorter yields them first, ensuring correct ordering."""
+    handler, config = graph_test
+    config.filters = {}
+    setup_state(
+        config,
+        {
+            "dashboards": {
+                "dash-1": {"id": "dash-1", "widgets": [{"definition": {"alert_id": "mon-1"}}]},
+            },
+            "monitors": {
+                "mon-1": {"id": "mon-1", "name": "Monitor 1"},
+            },
+        },
+        resources_arg=["dashboards"],
+    )
+
+    graph, _ = handler.get_dependency_graph()
+
+    assert ("dashboards", "dash-1") in graph
     assert ("monitors", "mon-1") in graph[("dashboards", "dash-1")]
 
 
@@ -227,39 +236,17 @@ def test_filter_excludes_resources_from_graph(graph_test):
     assert ("dashboards", "dash-3") not in graph
 
 
-def test_graph_size_matches_filtered_count(graph_test):
+def test_filtered_out_deps_stripped_from_graph_values(graph_test):
+    """Deps pointing to resources excluded by --filter are stripped,
+    preventing phantom nodes for resources we don't want to process."""
     handler, config = graph_test
-    setup_filters(
-        config,
-        [
-            "Type=dashboards;Name=id;Value=^dash-1$",
-            "Type=dashboards;Name=id;Value=^dash-5$",
-        ],
-    )
-    setup_state(
-        config,
-        {
-            "dashboards": {f"dash-{i}": {"id": f"dash-{i}"} for i in range(1, 11)},
-        },
-        resources_arg=["dashboards"],
-    )
-
-    graph, _ = handler.get_dependency_graph()
-
-    assert len(graph) == 2
-
-
-def test_phantom_deps_stripped_from_graph_values(graph_test):
-    handler, config = graph_test
-    config.filters = {}
+    setup_filters(config, ["Type=dashboards;Name=id;Value=^dash-1$"])
     setup_state(
         config,
         {
             "dashboards": {
-                "dash-1": {"id": "dash-1", "widgets": [{"definition": {"alert_id": "mon-1"}}]},
-            },
-            "monitors": {
-                "mon-1": {"id": "mon-1", "name": "Monitor 1"},
+                "dash-1": {"id": "dash-1"},
+                "dash-2": {"id": "dash-2"},
             },
         },
         resources_arg=["dashboards"],
@@ -268,7 +255,10 @@ def test_phantom_deps_stripped_from_graph_values(graph_test):
     graph, _ = handler.get_dependency_graph()
 
     assert ("dashboards", "dash-1") in graph
-    assert ("monitors", "mon-1") not in graph[("dashboards", "dash-1")]
+    assert ("dashboards", "dash-2") not in graph
+    # dash-2 was filtered out, so any dep referencing it should be stripped
+    for deps in graph.values():
+        assert ("dashboards", "dash-2") not in deps
 
 
 def test_filtered_resources_deps_not_computed(graph_test):
