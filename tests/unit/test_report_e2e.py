@@ -356,9 +356,9 @@ class TestUpdateOutcome:
 
 
 class TestFilteredOutcome:
-    """Test that --filter excludes resources and emits filtered status."""
+    """Test that --filter excludes resources from the dependency graph."""
 
-    def test_filtered_resources_emitted(self, runner):
+    def test_filtered_resources_excluded_from_graph(self, runner):
         _setup_source_dashboards()
         _setup_dest_dashboards()
 
