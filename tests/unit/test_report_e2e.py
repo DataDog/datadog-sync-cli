@@ -378,9 +378,10 @@ class TestFilteredOutcome:
         outcomes = _parse_outcomes(ret.output)
         filtered = [o for o in outcomes if o["status"] == "filtered"]
         non_filtered = [o for o in outcomes if o["status"] != "filtered"]
-        # def-456 and ghi-789 should be filtered out, only abc-123 passes
+        # def-456 and ghi-789 are excluded before graph construction,
+        # so no "filtered" events are emitted. Only abc-123 passes.
         assert len(non_filtered) == 1, f"Expected exactly 1 non-filtered, got {non_filtered}"
-        assert len(filtered) == 2, f"Expected exactly 2 filtered outcomes, got {filtered}"
+        assert len(filtered) == 0, f"Expected 0 filtered outcomes, got {filtered}"
 
 
 class TestDeleteOutcome:

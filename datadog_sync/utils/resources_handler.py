@@ -38,7 +38,7 @@ class ResourcesHandler:
         self.sorter: Optional[TopologicalSorter] = None
         self.cleanup_sorter: Optional[TopologicalSorter] = None
         self.worker: Optional[Workers] = None
-        self._dependency_graph = Optional[Dict[Tuple[str, str], List[Tuple[str, str]]]]
+        self._dependency_graph: Optional[Dict[Tuple[str, str], Set[Tuple[str, str]]]] = None
 
     @staticmethod
     def _sanitize_reason(err: Exception) -> str:
@@ -542,20 +542,33 @@ class ResourcesHandler:
 
             await asyncio.sleep(0)
 
-    def get_dependency_graph(self) -> Tuple[Dict[Tuple[str, str], List[Tuple[str, str]]], Set[Tuple[str, str]]]:
+    def get_dependency_graph(self) -> Tuple[Dict[Tuple[str, str], Set[Tuple[str, str]]], Set[Tuple[str, str]]]:
         """Build the dependency graph for all resources.
 
         Returns:
-            Tuple[Dict[Tuple[str, str], List[Tuple[str, str]]], Set[Tuple[str, str]]]: Returns
+            Tuple[Dict[Tuple[str, str], Set[Tuple[str, str]]], Set[Tuple[str, str]]]: Returns
             a tuple of the dependency graph and missing resources.
         """
         dependency_graph = {}
         missing_resources = set()
 
-        for resource_type, _id in self.config.state.get_all_resources(self.config.resources_arg).keys():
+        for (resource_type, _id), resource in self.config.state.get_all_resources(self.config.resources_arg).items():
+            r_class = self.config.resources[resource_type]
+            if not r_class.filter(resource):
+                continue
+
             deps, missing = self._resource_connections(resource_type, _id)
             dependency_graph[(resource_type, _id)] = deps
             missing_resources.update(missing)
+
+        # Remove dependency references to nodes not in the graph.
+        # This prevents phantom nodes in the TopologicalSorter — deps that
+        # reference filtered-out or out-of-scope resources would otherwise
+        # appear as implicit nodes with no predecessors, get yielded by
+        # the sorter, dispatched to workers, and waste processing time.
+        graph_keys = set(dependency_graph.keys())
+        for key in dependency_graph:
+            dependency_graph[key] = dependency_graph[key] & graph_keys
 
         return dependency_graph, missing_resources
 
