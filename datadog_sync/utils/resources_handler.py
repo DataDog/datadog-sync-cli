@@ -553,6 +553,10 @@ class ResourcesHandler:
             dependency_graph[(resource_type, _id)] = deps
             missing_resources.update(missing)
 
+        # Emit filtered outcomes so --json consumers see which resources were excluded.
+        for resource_type, _id in filtered_out:
+            self._emit(resource_type, _id, "sync", "filtered")
+
         # Remove dependency references to filtered-out resources only.
         # Cross-type deps on resource types outside resources_arg must be
         # preserved as phantom nodes — TopologicalSorter yields them first,

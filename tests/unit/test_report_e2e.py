@@ -356,9 +356,9 @@ class TestUpdateOutcome:
 
 
 class TestFilteredOutcome:
-    """Test that --filter excludes resources from the dependency graph."""
+    """Test that --filter emits filtered outcomes for excluded resources."""
 
-    def test_filtered_resources_excluded_from_graph(self, runner):
+    def test_filtered_resources_emitted(self, runner):
         _setup_source_dashboards()
         _setup_dest_dashboards()
 
@@ -378,10 +378,10 @@ class TestFilteredOutcome:
         outcomes = _parse_outcomes(ret.output)
         filtered = [o for o in outcomes if o["status"] == "filtered"]
         non_filtered = [o for o in outcomes if o["status"] != "filtered"]
-        # def-456 and ghi-789 are excluded before graph construction,
-        # so no "filtered" events are emitted. Only abc-123 passes.
+        # abc-123 passes the filter; def-456 and ghi-789 are filtered out
+        # and emitted as "filtered" outcomes.
         assert len(non_filtered) == 1, f"Expected exactly 1 non-filtered, got {non_filtered}"
-        assert len(filtered) == 0, f"Expected 0 filtered outcomes, got {filtered}"
+        assert len(filtered) == 2, f"Expected 2 filtered outcomes, got {filtered}"
 
 
 class TestDeleteOutcome:
