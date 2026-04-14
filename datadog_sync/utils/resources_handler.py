@@ -38,7 +38,7 @@ class ResourcesHandler:
         self.sorter: Optional[TopologicalSorter] = None
         self.cleanup_sorter: Optional[TopologicalSorter] = None
         self.worker: Optional[Workers] = None
-        self._dependency_graph = Optional[Dict[Tuple[str, str], List[Tuple[str, str]]]]
+        self._dependency_graph: Optional[Dict[Tuple[str, str], Set[Tuple[str, str]]]] = None
 
     @staticmethod
     def _sanitize_reason(err: Exception) -> str:
@@ -109,7 +109,7 @@ class ResourcesHandler:
 
     async def apply_resources(self) -> Tuple[int, int]:
         # Build dependency graph and missing resources
-        self._dependency_graph, missing = self.get_dependency_graph()
+        self._dependency_graph, missing, filtered_count = self.get_dependency_graph()
 
         # Import resources that are missing but needed for resource connections
         if self.config.force_missing_dependencies and missing:
@@ -206,6 +206,7 @@ class ResourcesHandler:
             )
         else:
             await self.worker.schedule_workers(additional_coros=[self.run_sorter()])
+        self.worker.counter.filtered = filtered_count
         self.config.logger.info(f"finished syncing resource items: {self.worker.counter}.")
 
         self.config.state.dump_state()
@@ -216,14 +217,6 @@ class ResourcesHandler:
 
         try:
             r_class = self.config.resources[resource_type]
-
-            # Filter BEFORE deepcopy to avoid unnecessary memory allocation.
-            # Safe because filter() only reads the resource dict, never mutates it.
-            if not r_class.filter(self.config.state.source[resource_type][_id]):
-                self.worker.counter.increment_filtered()
-                self._emit(resource_type, _id, "sync", "filtered")
-                return
-
             resource = deepcopy(self.config.state.source[resource_type][_id])
 
             if not r_class.resource_config.concurrent:
@@ -283,7 +276,7 @@ class ResourcesHandler:
                 r_class.resource_config.async_lock.release()
 
     async def diffs(self) -> None:
-        self._dependency_graph, _ = self.get_dependency_graph()
+        self._dependency_graph, _, _ = self.get_dependency_graph()
 
         # Run pre-apply hooks
         resource_types = set(i[0] for i in self._dependency_graph.keys())
@@ -317,10 +310,6 @@ class ResourcesHandler:
                 self._emit(resource_type, _id, "delete", "success")
             else:
                 resource = self.config.state.source[resource_type][_id]
-
-                if not r_class.filter(resource):
-                    self._emit(resource_type, _id, "sync", "filtered")
-                    return
 
                 try:
                     await r_class._pre_resource_action_hook(_id, resource)
@@ -542,22 +531,41 @@ class ResourcesHandler:
 
             await asyncio.sleep(0)
 
-    def get_dependency_graph(self) -> Tuple[Dict[Tuple[str, str], List[Tuple[str, str]]], Set[Tuple[str, str]]]:
+    def get_dependency_graph(
+        self,
+    ) -> Tuple[Dict[Tuple[str, str], Set[Tuple[str, str]]], Set[Tuple[str, str]], int]:
         """Build the dependency graph for all resources.
 
         Returns:
-            Tuple[Dict[Tuple[str, str], List[Tuple[str, str]]], Set[Tuple[str, str]]]: Returns
-            a tuple of the dependency graph and missing resources.
+            Tuple of (dependency_graph, missing_resources, filtered_count).
         """
         dependency_graph = {}
         missing_resources = set()
+        filtered_out = set()
 
-        for resource_type, _id in self.config.state.get_all_resources(self.config.resources_arg).keys():
+        for (resource_type, _id), resource in self.config.state.get_all_resources(self.config.resources_arg).items():
+            r_class = self.config.resources[resource_type]
+            if not r_class.filter(resource):
+                filtered_out.add((resource_type, _id))
+                continue
+
             deps, missing = self._resource_connections(resource_type, _id)
             dependency_graph[(resource_type, _id)] = deps
             missing_resources.update(missing)
 
-        return dependency_graph, missing_resources
+        # Emit filtered outcomes so --json consumers see which resources were excluded.
+        for resource_type, _id in filtered_out:
+            self._emit(resource_type, _id, "sync", "filtered")
+
+        # Remove dependency references to filtered-out resources only.
+        # Cross-type deps on resource types outside resources_arg must be
+        # preserved as phantom nodes — TopologicalSorter yields them first,
+        # ensuring dependencies are synced before dependents.
+        if filtered_out:
+            for key in dependency_graph:
+                dependency_graph[key] = dependency_graph[key] - filtered_out
+
+        return dependency_graph, missing_resources, len(filtered_out)
 
     def _resource_connections(self, resource_type: str, _id: str) -> Tuple[Set[Tuple[str, str]], Set[Tuple[str, str]]]:
         """Returns the failed connections and missing resources for a given resource.
