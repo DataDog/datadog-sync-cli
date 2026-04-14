@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.2.0 / 2026-04-14
+
+### Changed
+* perf: filter resources before building dependency graph by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/524
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.1.5...3.2.0
+
 ## 3.1.5 / 2026-04-08
 
 ### Fixed
