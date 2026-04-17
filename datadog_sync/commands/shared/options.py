@@ -244,6 +244,13 @@ _common_options = [
         "Disables progress bar.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--datadog-host-override",
+        envvar=constants.DD_DATADOG_HOST_OVERRIDE,
+        required=False,
+        help="Optional CNAME override for the Datadog host used in DDR private location replication.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 _storage_options = [

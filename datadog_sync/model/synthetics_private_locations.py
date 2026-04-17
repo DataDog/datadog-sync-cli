@@ -4,6 +4,8 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import json
+import os
 import re
 
 from typing import TYPE_CHECKING, List, Dict, Optional, Tuple
@@ -13,6 +15,9 @@ from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
+
+# Fields returned by include_pl_info=true that should not be stored in source state
+_PL_INFO_FIELDS = ["pl_id", "org_id", "datacenter", "public_key_test", "public_key_result"]
 
 
 class SyntheticsPrivateLocations(BaseResource):
@@ -28,12 +33,18 @@ class SyntheticsPrivateLocations(BaseResource):
             "secrets",
             "config",
             "result_encryption",
+            "ddr_metadata",
         ],
         tagging_config=TaggingConfig(path="tags"),
     )
     # Additional SyntheticsPrivateLocations specific attributes
     base_locations_path: str = "/api/v1/synthetics/locations"
     pl_id_regex: re.Pattern = re.compile("^pl:.*")
+
+    def __init__(self, config):
+        super().__init__(config)
+        # In-memory store for include_pl_info data, keyed by source PL ID
+        self._pl_info: Dict[str, Dict] = {}
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.base_locations_path)
@@ -47,10 +58,21 @@ class SyntheticsPrivateLocations(BaseResource):
         if not self.pl_id_regex.match(import_id):
             raise SkipResource(import_id, self.resource_type, "Managed location.")
 
-        pl = await source_client.get(self.resource_config.base_path + f"/{import_id}")
-        self.config.state.source[self.resource_type][import_id] = pl
+        resp = await source_client.get(
+            self.resource_config.base_path + f"/{import_id}",
+            params={"include_pl_info": "true"},
+        )
 
-        return import_id, pl
+        # Extract pl_info fields for use during create, keep source state clean
+        pl_info = {}
+        for field in _PL_INFO_FIELDS:
+            if field in resp:
+                pl_info[field] = resp.pop(field)
+        self._pl_info[import_id] = pl_info
+
+        self.config.state.source[self.resource_type][import_id] = resp
+
+        return import_id, resp
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -60,12 +82,32 @@ class SyntheticsPrivateLocations(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
+        pl_info = self._pl_info.get(_id, {})
+
+        resource["ddr_metadata"] = {
+            "disaster_recovery": {
+                "source_pl_id": pl_info["pl_id"],
+                "source_name": _id,
+                "source_dc": pl_info["datacenter"],
+                "source_org_id": pl_info["org_id"],
+            }
+        }
+        resource["test_encryption_public_key"] = pl_info["public_key_test"]
+        resource["result_encryption_public_key"] = pl_info["public_key_result"]
+        if self.config.datadog_host_override:
+            resource["datadog_host_override"] = self.config.datadog_host_override
 
         resp = await destination_client.post(self.resource_config.base_path, resource)
 
+        # DDR response: {"private_location": {...}, "publicKeysByMainDC": {...}}
         pl = resp["private_location"]
-        pl["config"] = resp.get("config")
-        pl["result_encryption"] = resp.get("result_encryption")
+
+        # Save PL config to file for later use running the PL
+        pl_config = {
+            "publicKeysByMainDC": resp.get("publicKeysByMainDC"),
+            "datadogHostOverride": self.config.datadog_host_override,
+        }
+        self._save_pl_config(pl.get("name", _id), pl_config)
 
         return _id, pl
 
@@ -88,3 +130,14 @@ class SyntheticsPrivateLocations(BaseResource):
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(SyntheticsPrivateLocations, self).connect_id(key, r_obj, resource_to_connect)
+
+    def _save_pl_config(self, pl_name: str, config: Dict) -> None:
+        destination_path = self.config.state._storage.destination_resources_path
+        config_dir = os.path.join(destination_path, "synthetics_private_locations_config")
+        os.makedirs(config_dir, exist_ok=True)
+
+        sanitized_name = re.sub(r"[^\w\-]", "_", pl_name)
+        config_file = os.path.join(config_dir, f"{sanitized_name}.json")
+
+        with open(config_file, "w", encoding="utf-8") as f:
+            json.dump(config, f, indent=2)
