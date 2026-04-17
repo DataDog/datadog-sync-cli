@@ -16,10 +16,6 @@ from datadog_sync.utils.resource_utils import SkipResource
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
 
-# Fields returned by include_pl_info=true that should not be stored in source state
-_PL_INFO_FIELDS = ["pl_id", "org_id", "datacenter", "public_key_test", "public_key_result"]
-
-
 class SyntheticsPrivateLocations(BaseResource):
     resource_type = "synthetics_private_locations"
     resource_config = ResourceConfig(
@@ -41,11 +37,6 @@ class SyntheticsPrivateLocations(BaseResource):
     base_locations_path: str = "/api/v1/synthetics/locations"
     pl_id_regex: re.Pattern = re.compile("^pl:.*")
 
-    def __init__(self, config):
-        super().__init__(config)
-        # In-memory store for include_pl_info data, keyed by source PL ID
-        self._pl_info: Dict[str, Dict] = {}
-
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.base_locations_path)
 
@@ -60,15 +51,7 @@ class SyntheticsPrivateLocations(BaseResource):
 
         resp = await source_client.get(
             self.resource_config.base_path + f"/{import_id}",
-            params={"include_pl_info": "true"},
         )
-
-        # Extract pl_info fields for use during create, keep source state clean
-        pl_info = {}
-        for field in _PL_INFO_FIELDS:
-            if field in resp:
-                pl_info[field] = resp.pop(field)
-        self._pl_info[import_id] = pl_info
 
         self.config.state.source[self.resource_type][import_id] = resp
 
@@ -82,7 +65,17 @@ class SyntheticsPrivateLocations(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        pl_info = self._pl_info.get(_id, {})
+        source_client = self.config.source_client
+
+        # Fetch pl_info from source API for DDR metadata
+        pl_info = await source_client.get(
+            self.resource_config.base_path + f"/{_id}",
+            params={"include_pl_info": "true"},
+        )
+
+        # Strip null metadata — DDR endpoint requires it to be an object
+        if resource.get("metadata") is None:
+            resource.pop("metadata", None)
 
         resource["ddr_metadata"] = {
             "disaster_recovery": {
@@ -92,8 +85,14 @@ class SyntheticsPrivateLocations(BaseResource):
                 "source_org_id": pl_info["org_id"],
             }
         }
-        resource["test_encryption_public_key"] = pl_info["public_key_test"]
-        resource["result_encryption_public_key"] = pl_info["public_key_result"]
+        # test_encryption_public_key expects the JSON-stringified public_key_test object
+        resource["test_encryption_public_key"] = json.dumps(pl_info["public_key_test"])
+        # result_encryption_public_key expects {"pem": ..., "fingerprint": ...}
+        pub_key_result = pl_info["public_key_result"]
+        resource["result_encryption_public_key"] = {
+            "pem": pub_key_result["key"],
+            "fingerprint": pub_key_result["id"],
+        }
         if self.config.datadog_host_override:
             resource["datadog_host_override"] = self.config.datadog_host_override
 
@@ -105,8 +104,9 @@ class SyntheticsPrivateLocations(BaseResource):
         # Save PL config to file for later use running the PL
         pl_config = {
             "publicKeysByMainDC": resp.get("publicKeysByMainDC"),
-            "datadogHostOverride": self.config.datadog_host_override,
         }
+        if self.config.datadog_host_override:
+            pl_config["datadogHostOverride"] = self.config.datadog_host_override
         self._save_pl_config(pl.get("name", _id), pl_config)
 
         return _id, pl
