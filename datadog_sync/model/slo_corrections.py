@@ -21,6 +21,7 @@ class SLOCorrections(BaseResource):
         base_path="/api/v1/slo/correction",
         excluded_attributes=["id", "attributes.creator", "attributes.created_at", "attributes.modified_at"],
         non_nullable_attr=["attributes.duration", "attributes.rrule"],
+        skip_resource_mapping=True,
     )
     # Additional SLOCorrections specific attributes
 

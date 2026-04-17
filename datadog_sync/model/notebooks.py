@@ -29,6 +29,7 @@ class Notebooks(BaseResource):
         null_values={
             "schema_version": [0],
         },
+        skip_resource_mapping=True,
     )
     # Additional Notebooks specific attributes
     pagination_config = PaginationConfig(

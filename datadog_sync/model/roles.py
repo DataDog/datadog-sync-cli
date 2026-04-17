@@ -29,6 +29,7 @@ class Roles(BaseResource):
             "attributes.user_count",
             "id",
         ],
+        skip_resource_mapping=True,
     )
     # Additional Roles specific attributes
     source_permissions: Dict = {}

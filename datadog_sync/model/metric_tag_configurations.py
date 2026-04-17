@@ -17,6 +17,7 @@ class MetricTagConfigurations(BaseResource):
     resource_config = ResourceConfig(
         base_path="/api/v2/metrics",
         excluded_attributes=["attributes.created_at", "attributes.modified_at"],
+        skip_resource_mapping=True,
     )
     # Additional MetricTagConfigurations specific attributes
     destination_metric_tag_configurations: Dict[str, Dict] = dict()

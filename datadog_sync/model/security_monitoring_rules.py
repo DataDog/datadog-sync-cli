@@ -52,6 +52,7 @@ class SecurityMonitoringRules(BaseResource):
             "creator": [{"handle": "", "name": ""}],
             "updater": [{"handle": "", "name": ""}],
         },
+        skip_resource_mapping=True,
     )
     # maximum page_size for this endpoint is 100 according to public api doc
     pagination_config = PaginationConfig(

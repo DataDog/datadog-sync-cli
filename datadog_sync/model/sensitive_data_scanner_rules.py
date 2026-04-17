@@ -20,6 +20,7 @@ class SensitiveDataScannerRules(BaseResource):
         ],
         resource_connections={"sensitive_data_scanner_groups": ["relationships.group.data.id"]},
         concurrent=False,
+        skip_resource_mapping=True,
     )
     # Additional SensitiveDataScannerRules specific attributes
     standard_pattern_path = "/api/v2/sensitive-data-scanner/standard-patterns"

@@ -25,6 +25,7 @@ class LogsPipelinesOrder(BaseResource):
             "ignore_order": False,
             "custom_operators": [LogsPipelinesOrderIdsComparator()],
         },
+        skip_resource_mapping=True,
     )
     # Additional LogsPipelinesOrder specific attributes
     destination_pipeline_order: Dict[str, Dict] = dict()

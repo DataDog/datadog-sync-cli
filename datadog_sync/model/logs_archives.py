@@ -17,6 +17,7 @@ class LogsArchives(BaseResource):
     resource_config = ResourceConfig(
         base_path="/api/v2/logs/config/archives",
         excluded_attributes=["id", "attributes.state"],
+        skip_resource_mapping=True,
     )
     # Additional LogsArchives specific attributes
 

@@ -33,6 +33,7 @@ class SyntheticsGlobalVariables(BaseResource):
             "editor",
         ],
         tagging_config=TaggingConfig(path="tags"),
+        skip_resource_mapping=True,
     )
     # Additional SyntheticsGlobalVariables specific attributes
     destination_global_variables: Dict[str, Dict] = dict()

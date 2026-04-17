@@ -41,6 +41,7 @@ class Monitors(BaseResource):
         non_nullable_attr=["restriction_policy", "draft_status"],
         null_values={"draft_status": "published"},
         tagging_config=TaggingConfig(path="tags"),
+        skip_resource_mapping=True,
     )
     # Additional Monitors specific attributes
     pagination_config = PaginationConfig(

@@ -18,6 +18,7 @@ class SpansMetrics(BaseResource):
                 {"path": "resource_hash", "tag_name": "resource"},
             ),
         ],
+        skip_resource_mapping=True,
     )
     # Additional SpansMetrics specific attributes
 

@@ -39,6 +39,7 @@ class Downtimes(BaseResource):
             "active",
             "child_id",
         ],
+        skip_resource_mapping=True,
     )
     # Additional Downtimes specific attributes
 

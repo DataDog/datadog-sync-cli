@@ -79,6 +79,7 @@ class SyntheticsTests(BaseResource):
             "steps": [[]],
         },
         tagging_config=TaggingConfig(path="tags"),
+        skip_resource_mapping=True,
     )
     # Additional SyntheticsTests specific attributes
     browser_test_path: str = "/api/v1/synthetics/tests/browser/{}"

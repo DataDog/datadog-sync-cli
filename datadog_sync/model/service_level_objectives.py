@@ -18,6 +18,7 @@ class ServiceLevelObjectives(BaseResource):
         base_path="/api/v1/slo",
         excluded_attributes=["creator", "id", "created_at", "modified_at"],
         tagging_config=TaggingConfig(path="tags"),
+        skip_resource_mapping=True,
     )
     # Additional ServiceLevelObjectives specific attributes
 

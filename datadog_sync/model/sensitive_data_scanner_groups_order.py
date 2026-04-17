@@ -50,6 +50,7 @@ class SensitiveDataScannerGroupsOrder(BaseResource):
         excluded_attributes=[
             "id",
         ],
+        skip_resource_mapping=True,
     )
     # Additional SensitiveDataScannerGroupsOrder specific attributes
     destination_sensitive_data_scanner_group_order: Dict[str, Dict] = dict()

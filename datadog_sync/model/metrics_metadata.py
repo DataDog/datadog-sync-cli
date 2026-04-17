@@ -14,6 +14,7 @@ class MetricsMetadata(BaseResource):
     resource_config = ResourceConfig(
         base_path="/api/v1/metrics",
         excluded_attributes=["integration"],
+        skip_resource_mapping=True,
     )
     # Additional MetricsMetadata specific attributes
     metrics_get_path = "/api/v2/metrics"

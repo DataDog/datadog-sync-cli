@@ -27,6 +27,7 @@ class LogsPipelines(BaseResource):
             "description",
         ],
         null_values={"tags": [[]], "description": [""]},
+        skip_resource_mapping=True,
     )
     # Additional LogsPipelines specific attributes
     destination_integration_pipelines: Dict[str, Dict] = dict()
