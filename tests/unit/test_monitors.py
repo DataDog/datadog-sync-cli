@@ -86,3 +86,27 @@ class TestMonitorsPreResourceActionHook:
         }
         with pytest.raises(SkipResource):
             asyncio.run(monitors.pre_resource_action_hook("11111", resource))
+
+    def test_service_check_null_groupby_raises_skip(self):
+        """Service check monitor with options.groupby=None should be skipped."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 33333,
+            "type": "service check",
+            "name": "Custom check with null groupby",
+            "options": {"groupby": None},
+        }
+        with pytest.raises(SkipResource):
+            asyncio.run(monitors.pre_resource_action_hook("33333", resource))
+
+    def test_service_check_null_options_raises_skip(self):
+        """Service check monitor with options=None should not crash and should be skipped."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 44444,
+            "type": "service check",
+            "name": "Custom check with null options",
+            "options": None,
+        }
+        with pytest.raises(SkipResource):
+            asyncio.run(monitors.pre_resource_action_hook("44444", resource))
