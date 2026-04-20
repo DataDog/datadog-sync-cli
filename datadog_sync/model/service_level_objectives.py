@@ -37,16 +37,18 @@ class ServiceLevelObjectives(BaseResource):
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if resource.get("type") == "metric":
-            for q in resource.get("queries", []):
-                for field in ("numerator", "denominator"):
-                    query_str = q.get(field, "")
-                    if query_str and ".as_count()" not in query_str:
-                        raise SkipResource(
-                            _id,
-                            self.resource_type,
-                            f"Metric SLO query '{field}' is missing the .as_count() modifier. "
-                            "Update the source SLO query before syncing.",
-                        )
+            query = resource.get("query")
+            if not isinstance(query, dict):
+                return
+            for field in ("numerator", "denominator"):
+                query_str = query.get(field, "")
+                if query_str and ".as_count()" not in query_str:
+                    raise SkipResource(
+                        _id,
+                        self.resource_type,
+                        f"Metric SLO query '{field}' is missing the .as_count() modifier. "
+                        "Update the source SLO query before syncing.",
+                    )
 
     async def pre_apply_hook(self) -> None:
         pass
