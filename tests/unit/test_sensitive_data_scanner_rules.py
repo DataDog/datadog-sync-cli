@@ -84,6 +84,19 @@ class TestSensitiveDataScannerRulesPreResourceActionHook:
         # Should not raise (walrus operator on None.get() is guarded by dict chain)
         asyncio.run(rules.pre_resource_action_hook("nulldata", resource))
 
+    def test_import_resource_standard_pattern_data_none_does_not_crash(self):
+        """import_resource with standard_pattern.data=None should not crash with AttributeError."""
+        rules = self._make_rules()
+        rules.source_standard_pattern_mapping = {"some-id": "Some Pattern"}
+        resource = {
+            "id": "importnulldata",
+            "type": "sensitive_data_scanner_rule",
+            "attributes": {"name": "My Rule"},
+            "relationships": {"standard_pattern": {"data": None}},
+        }
+        _id, result = asyncio.run(rules.import_resource(resource=resource))
+        assert _id == "importnulldata"
+
     def test_multiple_standard_patterns_missing_raises_skip(self):
         """Ensures each rule independently raises SkipResource when its pattern is missing."""
         rules = self._make_rules(destination_mapping={"Present Pattern": "dest-id"})

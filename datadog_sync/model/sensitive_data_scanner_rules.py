@@ -48,7 +48,7 @@ class SensitiveDataScannerRules(BaseResource):
         if _id:
             resource = await source_client.get(self.resource_config.base_path + f"/rules/{_id}")
 
-        if _std_id := resource.get("relationships", {}).get("standard_pattern", {}).get("data", {}).get("id"):
+        if _std_id := (resource.get("relationships", {}).get("standard_pattern", {}).get("data") or {}).get("id"):
             resource["relationships"]["standard_pattern"]["data"]["id"] = self.source_standard_pattern_mapping.get(
                 _std_id, _std_id
             )
