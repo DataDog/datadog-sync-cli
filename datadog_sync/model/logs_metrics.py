@@ -16,6 +16,7 @@ class LogsMetrics(BaseResource):
     resource_type = "logs_metrics"
     resource_config = ResourceConfig(
         base_path="/api/v2/logs/config/metrics",
+        skip_resource_mapping=True,
     )
     # Additional LogsMetrics specific attributes
 

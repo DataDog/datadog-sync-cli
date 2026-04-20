@@ -28,6 +28,7 @@ class TeamMemberships(BaseResource):
             "attributes.provisioned_by",
             "attributes.provisioned_by_id",
         ],
+        skip_resource_mapping=True,
     )
     team_memberships_path = "/api/v2/team/{}/memberships"
     destination_team_memberships: List[Dict] = []

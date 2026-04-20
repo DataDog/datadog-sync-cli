@@ -30,6 +30,7 @@ class SyntheticsPrivateLocations(BaseResource):
             "result_encryption",
         ],
         tagging_config=TaggingConfig(path="tags"),
+        skip_resource_mapping=True,
     )
     # Additional SyntheticsPrivateLocations specific attributes
     base_locations_path: str = "/api/v1/synthetics/locations"

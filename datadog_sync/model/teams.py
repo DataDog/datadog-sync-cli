@@ -31,6 +31,7 @@ class Teams(BaseResource):
             "attributes.hidden_modules",
             "attributes.summary",
         ],
+        skip_resource_mapping=True,
     )
     # Additional Teams specific attributes
     pagination_config = PaginationConfig(remaining_func=lambda *args: 1)

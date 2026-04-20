@@ -25,6 +25,7 @@ class AuthNMappings(BaseResource):
             "role": [{"data": None}],
         },
         resource_connections={"roles": ["relationships.role.data.id"], "teams": ["relationships.team.data.id"]},
+        skip_resource_mapping=True,
     )
     # Additional AuthNMappings specific attributes
 

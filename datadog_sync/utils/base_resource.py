@@ -8,7 +8,7 @@ import abc
 from asyncio import Lock
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, ClassVar, Optional, Dict, List, Tuple
+from typing import TYPE_CHECKING, Callable, ClassVar, Optional, Dict, List, Tuple, Union
 
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
@@ -62,6 +62,8 @@ class ResourceConfig:
     tagging_config: Optional[TaggingConfig] = None
     async_lock: Optional[Lock] = None
     non_nullable_list_vals: Optional[List[Tuple[str, Dict[str, str]]]] = None
+    resource_mapping_key: Optional[Union[str, Callable[[Dict], str]]] = None
+    skip_resource_mapping: bool = False
 
     async def init_async(self) -> None:
         self.async_lock = Lock()
@@ -83,9 +85,57 @@ class BaseResource(abc.ABC):
 
     def __init__(self, config: Configuration) -> None:
         self.config = config
+        self._existing_resources_map: Dict[str, Dict] = {}
+        if not self.resource_config.skip_resource_mapping and self.resource_config.resource_mapping_key is None:
+            raise ValueError(
+                f"Resource {self.resource_type} has skip_resource_mapping=False "
+                f"but resource_mapping_key is not defined"
+            )
 
     async def init_async(self):
         await self.resource_config.init_async()
+
+    def get_resource_mapping_key(self, resource: Dict) -> Optional[str]:
+        """Extract the mapping key from a resource using resource_mapping_key config.
+
+        Supports dot-path strings (e.g. "attributes.email") and callables.
+        Returns None if resource_mapping_key is not configured, if the dot-path
+        traversal encounters a missing key, if the terminal value is None, or if
+        a callable raises an exception.
+        """
+        key_config = self.resource_config.resource_mapping_key
+        if key_config is None:
+            return None
+        if callable(key_config):
+            try:
+                return key_config(resource)
+            except (KeyError, TypeError, AttributeError):
+                return None
+        # Dot-path traversal
+        tmp = resource
+        for part in key_config.split("."):
+            if not isinstance(tmp, dict) or part not in tmp:
+                return None
+            tmp = tmp[part]
+        if tmp is None:
+            return None
+        return str(tmp)
+
+    async def map_existing_resources(self) -> None:
+        """Fetch destination resources and populate _existing_resources_map.
+
+        Default implementation fetches all destination resources via
+        self.get_resources(destination_client) and builds _existing_resources_map
+        keyed by resource_mapping_key.
+
+        Tier 2 resources override this for custom fetch/mapping logic.
+        """
+        dest_resources = await self.get_resources(self.config.destination_client)
+        self._existing_resources_map = {}
+        for resource in dest_resources:
+            key = self.get_resource_mapping_key(resource)
+            if key is not None:
+                self._existing_resources_map[key] = resource
 
     @abc.abstractmethod
     async def get_resources(self, client: CustomClient) -> List[Dict]:

@@ -35,6 +35,7 @@ class RUMApplications(BaseResource):
             "attributes.remote_config_id",
             "attributes.short_name",
         ],
+        skip_resource_mapping=True,
     )
     # Additional RUM Applications specific attributes
 

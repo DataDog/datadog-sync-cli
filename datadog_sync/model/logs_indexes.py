@@ -21,6 +21,7 @@ class LogsIndexes(BaseResource):
             "is_rate_limited",
         ],
         non_nullable_attr=["daily_limit"],
+        skip_resource_mapping=True,
     )
     # Additional LogsIndexes specific attributes
     destination_logs_indexes: Dict[str, Dict] = dict()

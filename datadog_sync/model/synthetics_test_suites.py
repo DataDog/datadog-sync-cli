@@ -35,6 +35,7 @@ class SyntheticsTestSuites(BaseResource):
             "attributes.options.slo_id",
         ],
         tagging_config=TaggingConfig(path="attributes.tags"),
+        skip_resource_mapping=True,
     )
     search_path = "/api/v2/synthetics/suites/search"
     bulk_delete_path = "/api/v2/synthetics/suites/bulk-delete"

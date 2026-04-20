@@ -40,6 +40,7 @@ class Users(BaseResource):
             "relationships.org",
             "relationships.team_roles",
         ],
+        skip_resource_mapping=True,
     )
     # Additional Users specific attributes
     pagination_config = PaginationConfig(

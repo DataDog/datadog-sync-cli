@@ -30,6 +30,7 @@ class RestrictionPolicies(BaseResource):
         },
         base_path="/api/v2/restriction_policy",
         excluded_attributes=[],
+        skip_resource_mapping=True,
     )
     # Additional RestrictionPolicies specific attributes
     orgs_path: str = "/api/v1/org"

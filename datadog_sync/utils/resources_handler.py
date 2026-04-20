@@ -186,8 +186,14 @@ class ResourcesHandler:
                         await self.worker.schedule_workers()
                         self.config.logger.info("finished cleaning up resources (unordered fallback)")
 
-        # Run pre-apply hooks
+        # Run map-existing-resources hooks
         resource_types = set(i[0] for i in self._dependency_graph)
+        await self.worker.init_workers(self._map_existing_resources_cb, None, len(resource_types))
+        for resource_type in resource_types:
+            self.worker.work_queue.put_nowait(resource_type)
+        await self.worker.schedule_workers()
+
+        # Run pre-apply hooks
         await self.worker.init_workers(self._pre_apply_hook_cb, None, len(resource_types))
         for resource_type in resource_types:
             self.worker.work_queue.put_nowait(resource_type)
@@ -278,8 +284,14 @@ class ResourcesHandler:
     async def diffs(self) -> None:
         self._dependency_graph, _, _ = self.get_dependency_graph()
 
-        # Run pre-apply hooks
+        # Run map-existing-resources hooks
         resource_types = set(i[0] for i in self._dependency_graph.keys())
+        await self.worker.init_workers(self._map_existing_resources_cb, None, len(resource_types))
+        for resource_type in resource_types:
+            self.worker.work_queue.put_nowait(resource_type)
+        await self.worker.schedule_workers()
+
+        # Run pre-apply hooks
         await self.worker.init_workers(self._pre_apply_hook_cb, None, len(resource_types))
         for resource_type in resource_types:
             self.worker.work_queue.put_nowait(resource_type)
@@ -346,14 +358,10 @@ class ResourcesHandler:
                         self.config.logger.info(f"to be created: {resource_type} {_id}")
                         self._emit(resource_type, _id, "sync", "success", "create")
                 except Exception as e:
-                    self.config.logger.exception(
-                        f"error computing diff: resource_type:{resource_type} id:{_id}"
-                    )
+                    self.config.logger.exception(f"error computing diff: resource_type:{resource_type} id:{_id}")
                     self._emit(resource_type, _id, "sync", "failure", reason=self._sanitize_reason(e))
         except Exception as e:
-            self.config.logger.exception(
-                f"unexpected error in diffs: resource_type:{resource_type} id:{_id}"
-            )
+            self.config.logger.exception(f"unexpected error in diffs: resource_type:{resource_type} id:{_id}")
             action = "delete" if delete else "sync"
             self._emit(resource_type, _id, action, "failure", reason=self._sanitize_reason(e))
 
@@ -488,6 +496,15 @@ class ResourcesHandler:
 
             if not r_class.resource_config.concurrent:
                 r_class.resource_config.async_lock.release()
+
+    async def _map_existing_resources_cb(self, resource_type: str) -> None:
+        try:
+            r_class = self.config.resources[resource_type]
+            if not r_class.resource_config.skip_resource_mapping:
+                await r_class.map_existing_resources()
+        except Exception as e:
+            self.config.logger.error(f"error while mapping existing resources: {str(e)}", resource_type=resource_type)
+            raise
 
     async def _pre_apply_hook_cb(self, resource_type: str) -> None:
         try:

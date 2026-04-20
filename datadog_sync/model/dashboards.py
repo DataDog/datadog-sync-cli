@@ -33,6 +33,7 @@ class Dashboards(BaseResource):
             "is_read_only",
             "notify_list",
         ],
+        skip_resource_mapping=True,
     )
     # Additional Dashboards specific attributes
 

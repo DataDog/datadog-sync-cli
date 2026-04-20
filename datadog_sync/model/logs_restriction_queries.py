@@ -25,6 +25,7 @@ class LogsRestrictionQueries(BaseResource):
             "data.id",
             "included",
         ],
+        skip_resource_mapping=True,
     )
     # Additional LogsRestrictionQueries specific attributes
     pagination_config = PaginationConfig(
