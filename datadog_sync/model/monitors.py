@@ -74,7 +74,7 @@ class Monitors(BaseResource):
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if resource.get("type") == "service check":
-            groupby = resource.get("options", {}).get("groupby", [])
+            groupby = (resource.get("options") or {}).get("groupby", [])
             if not groupby:
                 raise SkipResource(
                     _id,
