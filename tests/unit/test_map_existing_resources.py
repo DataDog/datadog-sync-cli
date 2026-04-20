@@ -45,9 +45,7 @@ OPT_OUT_RESOURCES = [
     "notebooks",
     "powerpacks",
     "restriction_policies",
-    "roles",
     "rum_applications",
-    "security_monitoring_rules",
     "sensitive_data_scanner_groups",
     "sensitive_data_scanner_groups_order",
     "sensitive_data_scanner_rules",
@@ -59,16 +57,18 @@ OPT_OUT_RESOURCES = [
     "synthetics_private_locations",
     "synthetics_test_suites",
     "synthetics_tests",
-    "team_memberships",
 ]
 
-# The 5 Tier 1 resources that use resource mapping
+# The 8 resources that use resource mapping
 MAPPING_RESOURCES = [
     "users",
     "teams",
     "synthetics_global_variables",
     "logs_indexes",
     "metric_tag_configurations",
+    "roles",
+    "security_monitoring_rules",
+    "team_memberships",
 ]
 
 
