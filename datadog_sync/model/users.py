@@ -40,14 +40,13 @@ class Users(BaseResource):
             "relationships.org",
             "relationships.team_roles",
         ],
-        skip_resource_mapping=True,
+        resource_mapping_key="attributes.email",
     )
     # Additional Users specific attributes
     pagination_config = PaginationConfig(
         page_size=500,
     )
     roles_path: str = "/api/v2/roles/{}/users"
-    remote_destination_users: Dict[str, Dict] = dict()
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.paginated_request(client.get)(
@@ -73,14 +72,12 @@ class Users(BaseResource):
         pass
 
     async def pre_apply_hook(self) -> None:
-        self.remote_destination_users = await self.get_remote_destination_users()
+        pass
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        if resource["attributes"]["email"] in self.remote_destination_users:
-            self.config.state.destination[self.resource_type][_id] = self.remote_destination_users[
-                resource["attributes"]["email"]
-            ]
-
+        key = self.get_resource_mapping_key(resource)
+        if key and key in self._existing_resources_map:
+            self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[key]
             return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
@@ -113,16 +110,6 @@ class Users(BaseResource):
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(Users, self).connect_id(key, r_obj, resource_to_connect)
-
-    async def get_remote_destination_users(self):
-        remote_user_obj = {}
-        destination_client = self.config.destination_client
-        remote_users = await self.get_resources(destination_client)
-
-        for user in remote_users:
-            remote_user_obj[user["attributes"]["email"]] = user
-
-        return remote_user_obj
 
     async def update_user_roles(self, _id, diff):
         for k, v in diff.items():

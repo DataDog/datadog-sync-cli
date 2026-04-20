@@ -23,7 +23,7 @@ from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 # Helpers
 # ---------------------------------------------------------------------------
 
-# The 32 resources that must opt out of resource mapping
+# Resources that opt out of resource mapping (still have skip_resource_mapping=True)
 OPT_OUT_RESOURCES = [
     "authn_mappings",
     "dashboard_lists",
@@ -45,7 +45,9 @@ OPT_OUT_RESOURCES = [
     "notebooks",
     "powerpacks",
     "restriction_policies",
+    "roles",
     "rum_applications",
+    "security_monitoring_rules",
     "sensitive_data_scanner_groups",
     "sensitive_data_scanner_groups_order",
     "sensitive_data_scanner_rules",
@@ -57,6 +59,16 @@ OPT_OUT_RESOURCES = [
     "synthetics_private_locations",
     "synthetics_test_suites",
     "synthetics_tests",
+    "team_memberships",
+]
+
+# The 5 Tier 1 resources that use resource mapping
+MAPPING_RESOURCES = [
+    "users",
+    "teams",
+    "synthetics_global_variables",
+    "logs_indexes",
+    "metric_tag_configurations",
 ]
 
 
@@ -362,7 +374,7 @@ class TestMapExistingResourcesCb:
 
 
 class TestOptOutResources:
-    """Verify all 32 non-mapping resources have skip_resource_mapping=True."""
+    """Verify non-mapping resources have skip_resource_mapping=True."""
 
     @pytest.mark.parametrize("resource_type", OPT_OUT_RESOURCES)
     def test_opt_out_resource_has_skip_flag(self, config, resource_type):
@@ -371,3 +383,23 @@ class TestOptOutResources:
         assert (
             resource.resource_config.skip_resource_mapping is True
         ), f"{resource_type} should have skip_resource_mapping=True"
+
+
+class TestMappingResources:
+    """Verify mapping resources have resource_mapping_key set."""
+
+    @pytest.mark.parametrize("resource_type", MAPPING_RESOURCES)
+    def test_mapping_resource_has_key(self, config, resource_type):
+        """Each mapping resource must have resource_mapping_key configured."""
+        resource = config.resources[resource_type]
+        assert (
+            resource.resource_config.resource_mapping_key is not None
+        ), f"{resource_type} should have resource_mapping_key set"
+
+    @pytest.mark.parametrize("resource_type", MAPPING_RESOURCES)
+    def test_mapping_resource_has_skip_false(self, config, resource_type):
+        """Each mapping resource must have skip_resource_mapping=False."""
+        resource = config.resources[resource_type]
+        assert (
+            resource.resource_config.skip_resource_mapping is False
+        ), f"{resource_type} should have skip_resource_mapping=False"

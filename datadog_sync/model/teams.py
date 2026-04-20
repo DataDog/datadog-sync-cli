@@ -31,11 +31,10 @@ class Teams(BaseResource):
             "attributes.hidden_modules",
             "attributes.summary",
         ],
-        skip_resource_mapping=True,
+        resource_mapping_key=lambda r: f"{r['attributes']['name']}:{r['attributes']['handle']}",
     )
     # Additional Teams specific attributes
     pagination_config = PaginationConfig(remaining_func=lambda *args: 1)
-    destination_teams: Dict[str, Dict] = {}
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.paginated_request(client.get)(
@@ -56,18 +55,14 @@ class Teams(BaseResource):
         pass
 
     async def pre_apply_hook(self) -> None:
-        client = self.config.destination_client
-        resp = await self.get_resources(client)
-        self.destination_teams = {}
-        for r in resp:
-            self.destination_teams[f"{r['attributes']['name']}:{r['attributes']['handle']}"] = r
+        pass
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
 
-        k = f"{resource['attributes']['name']}:{resource['attributes']['handle']}"
-        if k in self.destination_teams:
-            self.config.state.destination[self.resource_type][_id] = self.destination_teams[k]
+        key = self.get_resource_mapping_key(resource)
+        if key and key in self._existing_resources_map:
+            self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[key]
             return await self.update_resource(_id, resource)
 
         payload = {"data": resource}

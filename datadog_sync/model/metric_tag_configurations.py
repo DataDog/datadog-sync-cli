@@ -17,10 +17,9 @@ class MetricTagConfigurations(BaseResource):
     resource_config = ResourceConfig(
         base_path="/api/v2/metrics",
         excluded_attributes=["attributes.created_at", "attributes.modified_at"],
-        skip_resource_mapping=True,
+        resource_mapping_key="id",
     )
     # Additional MetricTagConfigurations specific attributes
-    destination_metric_tag_configurations: Dict[str, Dict] = dict()
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path, params={"filter[configured]": "true"})
@@ -39,11 +38,11 @@ class MetricTagConfigurations(BaseResource):
         pass
 
     async def pre_apply_hook(self) -> None:
-        self.destination_metric_tag_configurations = await self.get_destination_metric_tag_configuration()
+        pass
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        if _id in self.destination_metric_tag_configurations:
-            self.config.state.destination[self.resource_type][_id] = self.destination_metric_tag_configurations[_id]
+        if _id in self._existing_resources_map:
+            self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[_id]
             return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
@@ -72,13 +71,3 @@ class MetricTagConfigurations(BaseResource):
         await destination_client.delete(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}/tags"
         )
-
-    async def get_destination_metric_tag_configuration(self) -> Dict[str, Dict]:
-        destination_metric_tag_configurations = {}
-        destination_client = self.config.destination_client
-
-        resp = await self.get_resources(destination_client)
-        for metric_tag_config in resp:
-            destination_metric_tag_configurations[metric_tag_config["id"]] = metric_tag_config
-
-        return destination_metric_tag_configurations

@@ -21,10 +21,9 @@ class LogsIndexes(BaseResource):
             "is_rate_limited",
         ],
         non_nullable_attr=["daily_limit"],
-        skip_resource_mapping=True,
+        resource_mapping_key="name",
     )
     # Additional LogsIndexes specific attributes
-    destination_logs_indexes: Dict[str, Dict] = dict()
     logs_indexes_order_url: str = "/api/v1/logs/config/index-order"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
@@ -51,11 +50,11 @@ class LogsIndexes(BaseResource):
         pass
 
     async def pre_apply_hook(self) -> None:
-        self.destination_logs_indexes = await self.get_destination_logs_indexes()
+        pass
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        if _id in self.destination_logs_indexes:
-            self.config.state.destination[self.resource_type][_id] = self.destination_logs_indexes[_id]
+        if _id in self._existing_resources_map:
+            self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[_id]
             return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
@@ -92,13 +91,3 @@ class LogsIndexes(BaseResource):
             index_order["index_names"].remove(index_name)
             index_order["index_names"].append(index_name)
             await self.config.destination_client.put(self.logs_indexes_order_url, index_order)
-
-    async def get_destination_logs_indexes(self) -> Dict[str, Dict]:
-        destination_global_variable_obj = {}
-        destination_client = self.config.destination_client
-
-        resp = await self.get_resources(destination_client)
-        for variable in resp:
-            destination_global_variable_obj[variable["name"]] = variable
-
-        return destination_global_variable_obj
