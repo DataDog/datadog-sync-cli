@@ -108,14 +108,6 @@ class TeamMemberships(BaseResource):
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
 
-    async def map_existing_resources(self) -> None:
-        dest_memberships = await self.get_resources(self.config.destination_client)
-        self._existing_resources_map = {}
-        for membership in dest_memberships:
-            key = self.get_resource_mapping_key(membership)
-            if key is not None:
-                self._existing_resources_map[key] = membership
-
     async def pre_apply_hook(self) -> None:
         pass
 
