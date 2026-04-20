@@ -16,7 +16,7 @@ class LogsMetrics(BaseResource):
     resource_type = "logs_metrics"
     resource_config = ResourceConfig(
         base_path="/api/v2/logs/config/metrics",
-        skip_resource_mapping=True,
+        resource_mapping_key="id",
     )
     # Additional LogsMetrics specific attributes
 
@@ -40,6 +40,10 @@ class LogsMetrics(BaseResource):
         pass
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        if _id in self._existing_resources_map:
+            self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[_id]
+            return await self.update_resource(_id, resource)
+
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = await destination_client.post(self.resource_config.base_path, payload)
