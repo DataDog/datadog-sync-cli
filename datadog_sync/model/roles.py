@@ -16,6 +16,17 @@ if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
 
 
+# These role names are reserved and managed by Datadog — they cannot be created,
+# updated, or deleted via the API and must be excluded from all sync operations.
+BUILTIN_ROLE_NAMES = frozenset(
+    {
+        "Datadog Admin Role",
+        "Datadog Read Only Role",
+        "Datadog Standard Role",
+    }
+)
+
+
 class Roles(BaseResource):
     resource_type = "roles"
     resource_config = ResourceConfig(
@@ -36,6 +47,9 @@ class Roles(BaseResource):
     destination_permissions: Dict = {}
     destination_roles_mapping: Optional[Dict] = None
     permissions_base_path: str = "/api/v2/permissions"
+
+    def filter(self, resource: Dict) -> bool:
+        return resource.get("attributes", {}).get("name") not in BUILTIN_ROLE_NAMES
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.paginated_request(client.get)(self.resource_config.base_path)
@@ -205,6 +219,9 @@ class Roles(BaseResource):
         raise Exception(f"Exceeded maximum retries ({max_retries}) while updating role '{role_name}'")
 
     async def delete_resource(self, _id: str) -> None:
+        role_name = self.config.state.destination[self.resource_type][_id].get("attributes", {}).get("name")
+        if role_name in BUILTIN_ROLE_NAMES:
+            raise SkipResource(_id, self.resource_type, f"'{role_name}' is a built-in Datadog role and cannot be deleted")
         destination_client = self.config.destination_client
         await destination_client.delete(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
