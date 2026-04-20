@@ -35,7 +35,6 @@ OPT_OUT_RESOURCES = [
     "logs_archives_order",
     "logs_custom_pipelines",
     "logs_indexes_order",
-    "logs_metrics",
     "logs_pipelines",
     "logs_pipelines_order",
     "logs_restriction_queries",
@@ -59,12 +58,13 @@ OPT_OUT_RESOURCES = [
     "synthetics_tests",
 ]
 
-# The 8 resources that use resource mapping
+# The 9 resources that use resource mapping
 MAPPING_RESOURCES = [
     "users",
     "teams",
     "synthetics_global_variables",
     "logs_indexes",
+    "logs_metrics",
     "metric_tag_configurations",
     "roles",
     "security_monitoring_rules",
