@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.0.0 / 2026-04-20
+
+### Changed
+* feat: add map_existing_resources infrastructure by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/527
+* feat: migrate Tier 1 resources to map_existing_resources by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/528
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.2.0...4.0.0
+
 ## 3.2.0 / 2026-04-14
 
 ### Changed
