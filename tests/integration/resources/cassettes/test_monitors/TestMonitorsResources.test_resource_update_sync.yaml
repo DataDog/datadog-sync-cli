@@ -15,8 +15,8 @@ interactions:
         "silenced": {}}, "multi": false, "created_at": 1729785751000, "created": "2024-10-24T16:02:31.374332+00:00",
         "modified": "2025-10-23T17:11:50.581715+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "draft_status": "published", "overall_state_modified":
-        "2026-04-21T13:46:36+00:00", "overall_state": "Alert", "creator": {"name":
-        "Michael Richey", "email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
+        "2026-04-21T20:37:36+00:00", "overall_state": "OK", "creator": {"name": "Michael
+        Richey", "email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
         "id": 1002072115}, "matching_downtimes": []}, {"id": 20125203, "org_id": 1000315894,
         "type": "synthetics alert", "name": "[Synthetics] Test on www.datadoghq.com",
         "message": "", "tags": ["probe_dc:aws:af-south-1", "probe_dc:aws:ap-east-1",
@@ -34,7 +34,7 @@ interactions:
         300, "include_tags": true, "silenced": {}}, "multi": false, "created_at":
         1730141432000, "created": "2024-10-28T18:50:32.908477+00:00", "modified":
         "2026-04-06T17:14:17.403169+00:00", "deleted": null, "priority": null, "restricted_roles":
-        null, "draft_status": "published", "overall_state_modified": "2026-04-21T13:40:34+00:00",
+        null, "draft_status": "published", "overall_state_modified": "2026-04-21T21:22:03+00:00",
         "overall_state": "OK", "creator": {"name": "Michael Richey", "email": "michael.richey@datadoghq.com",
         "handle": "michael.richey@datadoghq.com", "id": 1002072115}, "matching_downtimes":
         []}, {"id": 20125249, "org_id": 1000315894, "type": "metric alert", "name":
@@ -107,8 +107,8 @@ interactions:
         300, "silenced": {}}, "multi": false, "created_at": 1761229129000, "created":
         "2025-10-23T14:18:49.895273+00:00", "modified": "2025-10-23T18:41:18.116718+00:00",
         "deleted": null, "priority": null, "restricted_roles": null, "draft_status":
-        "published", "overall_state_modified": "2026-04-21T13:47:10+00:00", "overall_state":
-        "Alert", "creator": {"name": "Michael Richey", "email": "michael.richey@datadoghq.com",
+        "published", "overall_state_modified": "2026-04-21T20:38:10+00:00", "overall_state":
+        "OK", "creator": {"name": "Michael Richey", "email": "michael.richey@datadoghq.com",
         "handle": "michael.richey@datadoghq.com", "id": 1002072115}, "matching_downtimes":
         []}, {"id": 92258744, "org_id": 1000315894, "type": "query alert", "name":
         "RaspberryPi disk space is running low", "message": "@michael.richey@datadoghq.com
@@ -144,10 +144,75 @@ interactions:
         "new_group_delay": 60, "silenced": {}}, "multi": true, "created_at": 1770667979000,
         "created": "2026-02-09T20:12:59.331815+00:00", "modified": "2026-02-09T20:14:43.411605+00:00",
         "deleted": null, "priority": null, "restricted_roles": null, "draft_status":
-        "published", "overall_state_modified": "2026-04-21T13:32:58+00:00", "overall_state":
+        "published", "overall_state_modified": "2026-04-21T21:02:57+00:00", "overall_state":
         "OK", "creator": {"name": "Michael Richey", "email": "michael.richey@datadoghq.com",
         "handle": "michael.richey@datadoghq.com", "id": 1002072115}, "matching_downtimes":
         []}]'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "query alert", "name": "test", "message": "test  @pagerduty-hamrddr",
+      "tags": ["managed_by:datadog-sync"], "query": "avg(last_10m):avg:system.load.1{*}
+      > 5", "options": {"thresholds": {"critical": 5.0}, "notify_audit": false, "on_missing_data":
+      "default", "include_tags": false, "new_host_delay": 300, "silenced": {}}, "multi":
+      false, "priority": null, "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v1/monitor
+  response:
+    body:
+      string: '{"id": 19316931, "org_id": 1300336245, "type": "query alert", "name":
+        "test", "message": "test  @pagerduty-hamrddr", "tags": ["managed_by:datadog-sync"],
+        "query": "avg(last_10m):avg:system.load.1{*} > 5", "options": {"thresholds":
+        {"critical": 5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
+        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
+        1776806682000, "created": "2026-04-21T21:24:42.829386+00:00", "modified":
+        "2026-04-21T21:24:42.829386+00:00", "deleted": null, "priority": null, "restricted_roles":
+        null, "restriction_policy": null, "draft_status": "published", "assets": [],
+        "overall_state_modified": null, "overall_state": "No Data", "creator": {"name":
+        "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email":
+        "michael.richey@gmail.com", "id": 4730613}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "query alert", "name": "RaspberryPi disk space is running low",
+      "message": "@michael.richey@datadoghq.com \n\nThe home assistant server is running
+      low on disk space", "tags": ["host:raspberrypi", "managed_by:datadog-sync"],
+      "query": "avg(last_10m):sum:system.disk.free{host:raspberrypi} < 4300000000",
+      "options": {"thresholds": {"critical": 4300000000.0}, "notify_audit": false,
+      "threshold_windows": null, "on_missing_data": "show_no_data", "include_tags":
+      false, "new_host_delay": 300, "silenced": {}}, "multi": false, "priority": null,
+      "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v1/monitor
+  response:
+    body:
+      string: '{"id": 19316933, "org_id": 1300336245, "type": "query alert", "name":
+        "RaspberryPi disk space is running low", "message": "@michael.richey@datadoghq.com
+        \n\nThe home assistant server is running low on disk space", "tags": ["host:raspberrypi",
+        "managed_by:datadog-sync"], "query": "avg(last_10m):sum:system.disk.free{host:raspberrypi}
+        < 4300000000", "options": {"thresholds": {"critical": 4300000000.0}, "notify_audit":
+        false, "threshold_windows": null, "on_missing_data": "show_no_data", "include_tags":
+        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
+        1776806682000, "created": "2026-04-21T21:24:42.864459+00:00", "modified":
+        "2026-04-21T21:24:42.864459+00:00", "deleted": null, "priority": null, "restricted_roles":
+        null, "restriction_policy": null, "draft_status": "published", "assets": [],
+        "overall_state_modified": null, "overall_state": "No Data", "creator": {"name":
+        "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email":
+        "michael.richey@gmail.com", "id": 4730613}}'
     headers:
       Content-Type:
       - application/json
@@ -172,7 +237,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 19307041, "org_id": 1300336245, "type": "metric alert", "name":
+      string: '{"id": 19316934, "org_id": 1300336245, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} uses an outdated image
         version", "message": "Private location {{location_id.name}} is running an
         outdated image version. Learn more about the current version in use on your
@@ -182,8 +247,8 @@ interactions:
         tag.", "tags": ["managed_by:datadog-sync"], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*}
         by {location_id} > 0", "options": {"thresholds": {"critical": 0.0}, "notify_no_data":
         false, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
-        "silenced": {}}, "multi": true, "created_at": 1776779245000, "created": "2026-04-21T13:47:25.699682+00:00",
-        "modified": "2026-04-21T13:47:25.699682+00:00", "deleted": null, "priority":
+        "silenced": {}}, "multi": true, "created_at": 1776806682000, "created": "2026-04-21T21:24:42.876602+00:00",
+        "modified": "2026-04-21T21:24:42.876602+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "restriction_policy": null, "draft_status":
         "published", "assets": [], "overall_state_modified": null, "overall_state":
         "No Data", "creator": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
@@ -195,14 +260,14 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"type": "query alert", "name": "RaspberryPi disk space is running low",
-      "message": "@michael.richey@datadoghq.com \n\nThe home assistant server is running
-      low on disk space", "tags": ["host:raspberrypi", "managed_by:datadog-sync"],
-      "query": "avg(last_10m):sum:system.disk.free{host:raspberrypi} < 4300000000",
-      "options": {"thresholds": {"critical": 4300000000.0}, "notify_audit": false,
-      "threshold_windows": null, "on_missing_data": "show_no_data", "include_tags":
-      false, "new_host_delay": 300, "silenced": {}}, "multi": false, "priority": null,
-      "restricted_roles": null}'
+    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
+      is underprovisioned", "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
+      this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+      "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
+      < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
+      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+      {}}, "multi": true, "priority": null, "restricted_roles": null}'
     headers:
       Content-Type:
       - application/json
@@ -210,19 +275,20 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 19307043, "org_id": 1300336245, "type": "query alert", "name":
-        "RaspberryPi disk space is running low", "message": "@michael.richey@datadoghq.com
-        \n\nThe home assistant server is running low on disk space", "tags": ["host:raspberrypi",
-        "managed_by:datadog-sync"], "query": "avg(last_10m):sum:system.disk.free{host:raspberrypi}
-        < 4300000000", "options": {"thresholds": {"critical": 4300000000.0}, "notify_audit":
-        false, "threshold_windows": null, "on_missing_data": "show_no_data", "include_tags":
-        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1776779245000, "created": "2026-04-21T13:47:25.701137+00:00", "modified":
-        "2026-04-21T13:47:25.701137+00:00", "deleted": null, "priority": null, "restricted_roles":
-        null, "restriction_policy": null, "draft_status": "published", "assets": [],
-        "overall_state_modified": null, "overall_state": "No Data", "creator": {"name":
-        "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email":
-        "michael.richey@gmail.com", "id": 4730613}}'
+      string: '{"id": 19316932, "org_id": 1300336245, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} is underprovisioned",
+        "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
+        this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+        "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
+        < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
+        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+        {}}, "multi": true, "created_at": 1776806682000, "created": "2026-04-21T21:24:42.863728+00:00",
+        "modified": "2026-04-21T21:24:42.863728+00:00", "deleted": null, "priority":
+        null, "restricted_roles": null, "restriction_policy": null, "draft_status":
+        "published", "assets": [], "overall_state_modified": null, "overall_state":
+        "No Data", "creator": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "email": "michael.richey@gmail.com", "id": 4730613}}'
     headers:
       Content-Type:
       - application/json
@@ -243,14 +309,83 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 19307042, "org_id": 1300336245, "type": "metric alert", "name":
+      string: '{"id": 19316935, "org_id": 1300336245, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} stopped reporting", "message":
         "Private location {{location_id.name}} stopped reporting to Datadog.", "tags":
         ["managed_by:datadog-sync"], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
         by {location_id} < 1", "options": {"notify_no_data": true, "thresholds": {"critical":
         1.0}, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
-        "silenced": {}}, "multi": true, "created_at": 1776779245000, "created": "2026-04-21T13:47:25.697179+00:00",
-        "modified": "2026-04-21T13:47:25.697179+00:00", "deleted": null, "priority":
+        "silenced": {}}, "multi": true, "created_at": 1776806682000, "created": "2026-04-21T21:24:42.906588+00:00",
+        "modified": "2026-04-21T21:24:42.906588+00:00", "deleted": null, "priority":
+        null, "restricted_roles": null, "restriction_policy": null, "draft_status":
+        "published", "assets": [], "overall_state_modified": null, "overall_state":
+        "No Data", "creator": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "email": "michael.richey@gmail.com", "id": 4730613}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "query alert", "name": "Raspberrypi CPU Load is high", "message":
+      "@michael.richey@datadoghq.com", "tags": ["host:raspberrypi", "managed_by:datadog-sync"],
+      "query": "avg(last_15m):system.load.1{host:raspberrypi} > 6", "options": {"thresholds":
+      {"critical": 6.0, "warning": 5.0}, "notify_audit": false, "threshold_windows":
+      null, "on_missing_data": "default", "include_tags": false, "new_host_delay":
+      300, "silenced": {}}, "multi": false, "priority": null, "restricted_roles":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v1/monitor
+  response:
+    body:
+      string: '{"id": 19316936, "org_id": 1300336245, "type": "query alert", "name":
+        "Raspberrypi CPU Load is high", "message": "@michael.richey@datadoghq.com",
+        "tags": ["host:raspberrypi", "managed_by:datadog-sync"], "query": "avg(last_15m):system.load.1{host:raspberrypi}
+        > 6", "options": {"thresholds": {"critical": 6.0, "warning": 5.0}, "notify_audit":
+        false, "threshold_windows": null, "on_missing_data": "default", "include_tags":
+        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
+        1776806682000, "created": "2026-04-21T21:24:42.909406+00:00", "modified":
+        "2026-04-21T21:24:42.909406+00:00", "deleted": null, "priority": null, "restricted_roles":
+        null, "restriction_policy": null, "draft_status": "published", "assets": [],
+        "overall_state_modified": null, "overall_state": "No Data", "creator": {"name":
+        "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email":
+        "michael.richey@gmail.com", "id": 4730613}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
+      is taking too long to poll", "message": "Private location {{location_id.name}}
+      is taking too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+      "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id} >
+      30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
+      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+      {}}, "multi": true, "priority": null, "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v1/monitor
+  response:
+    body:
+      string: '{"id": 19316937, "org_id": 1300336245, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} is taking too long to
+        poll", "message": "Private location {{location_id.name}} is taking too long
+        to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+        "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id}
+        > 30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
+        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+        {}}, "multi": true, "created_at": 1776806682000, "created": "2026-04-21T21:24:42.913494+00:00",
+        "modified": "2026-04-21T21:24:42.913494+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "restriction_policy": null, "draft_status":
         "published", "assets": [], "overall_state_modified": null, "overall_state":
         "No Data", "creator": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
@@ -278,7 +413,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 19307045, "org_id": 1300336245, "type": "query alert", "name":
+      string: '{"id": 19316938, "org_id": 1300336245, "type": "query alert", "name":
         "CPU load on {{host.name}} is very high", "message": "@michael.richey@datadoghq.com",
         "tags": ["type:anomaly", "managed_by:datadog-sync"], "query": "avg(last_4h):anomalies(max:system.cpu.user{*}
         by {host}, ''basic'', 2, direction=''above'', interval=60, alert_window=''last_15m'',
@@ -286,118 +421,13 @@ interactions:
         0.9, "critical_recovery": 0.0}, "notify_audit": false, "require_full_window":
         false, "renotify_interval": 0, "threshold_windows": {"trigger_window": "last_15m",
         "recovery_window": "last_15m"}, "include_tags": true, "on_missing_data": "default",
-        "new_group_delay": 60, "silenced": {}}, "multi": true, "created_at": 1776779245000,
-        "created": "2026-04-21T13:47:25.725440+00:00", "modified": "2026-04-21T13:47:25.725440+00:00",
+        "new_group_delay": 60, "silenced": {}}, "multi": true, "created_at": 1776806682000,
+        "created": "2026-04-21T21:24:42.966081+00:00", "modified": "2026-04-21T21:24:42.966081+00:00",
         "deleted": null, "priority": null, "restricted_roles": null, "restriction_policy":
         null, "draft_status": "published", "assets": [], "overall_state_modified":
         null, "overall_state": "No Data", "creator": {"name": "Michael S Richey",
         "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com",
         "id": 4730613}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      is taking too long to poll", "message": "Private location {{location_id.name}}
-      is taking too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-      "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id} >
-      30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
-      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-      {}}, "multi": true, "priority": null, "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v1/monitor
-  response:
-    body:
-      string: '{"id": 19307044, "org_id": 1300336245, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} is taking too long to
-        poll", "message": "Private location {{location_id.name}} is taking too long
-        to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-        "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id}
-        > 30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
-        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-        {}}, "multi": true, "created_at": 1776779245000, "created": "2026-04-21T13:47:25.725866+00:00",
-        "modified": "2026-04-21T13:47:25.725866+00:00", "deleted": null, "priority":
-        null, "restricted_roles": null, "restriction_policy": null, "draft_status":
-        "published", "assets": [], "overall_state_modified": null, "overall_state":
-        "No Data", "creator": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "email": "michael.richey@gmail.com", "id": 4730613}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "query alert", "name": "Raspberrypi CPU Load is high", "message":
-      "@michael.richey@datadoghq.com", "tags": ["host:raspberrypi", "managed_by:datadog-sync"],
-      "query": "avg(last_15m):system.load.1{host:raspberrypi} > 6", "options": {"thresholds":
-      {"critical": 6.0, "warning": 5.0}, "notify_audit": false, "threshold_windows":
-      null, "on_missing_data": "default", "include_tags": false, "new_host_delay":
-      300, "silenced": {}}, "multi": false, "priority": null, "restricted_roles":
-      null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v1/monitor
-  response:
-    body:
-      string: '{"id": 19307047, "org_id": 1300336245, "type": "query alert", "name":
-        "Raspberrypi CPU Load is high", "message": "@michael.richey@datadoghq.com",
-        "tags": ["host:raspberrypi", "managed_by:datadog-sync"], "query": "avg(last_15m):system.load.1{host:raspberrypi}
-        > 6", "options": {"thresholds": {"critical": 6.0, "warning": 5.0}, "notify_audit":
-        false, "threshold_windows": null, "on_missing_data": "default", "include_tags":
-        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1776779245000, "created": "2026-04-21T13:47:25.750112+00:00", "modified":
-        "2026-04-21T13:47:25.750112+00:00", "deleted": null, "priority": null, "restricted_roles":
-        null, "restriction_policy": null, "draft_status": "published", "assets": [],
-        "overall_state_modified": null, "overall_state": "No Data", "creator": {"name":
-        "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email":
-        "michael.richey@gmail.com", "id": 4730613}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      is underprovisioned", "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
-      this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-      "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
-      < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
-      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-      {}}, "multi": true, "priority": null, "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v1/monitor
-  response:
-    body:
-      string: '{"id": 19307046, "org_id": 1300336245, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} is underprovisioned",
-        "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
-        this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-        "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
-        < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
-        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-        {}}, "multi": true, "created_at": 1776779245000, "created": "2026-04-21T13:47:25.742454+00:00",
-        "modified": "2026-04-21T13:47:25.742454+00:00", "deleted": null, "priority":
-        null, "restricted_roles": null, "restriction_policy": null, "draft_status":
-        "published", "assets": [], "overall_state_modified": null, "overall_state":
-        "No Data", "creator": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "email": "michael.richey@gmail.com", "id": 4730613}}'
     headers:
       Content-Type:
       - application/json
@@ -418,14 +448,14 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 19307049, "org_id": 1300336245, "type": "log alert", "name":
+      string: '{"id": 19316939, "org_id": 1300336245, "type": "log alert", "name":
         "Logs test", "message": "Test logs", "tags": ["managed_by:datadog-sync"],
         "query": "logs(\"*\").index(\"*\").rollup(\"count\").last(\"5m\") < 100",
         "options": {"thresholds": {"critical": 100.0}, "enable_logs_sample": false,
         "notify_audit": false, "on_missing_data": "default", "include_tags": false,
         "new_host_delay": 300, "groupby_simple_monitor": false, "silenced": {}}, "multi":
-        false, "created_at": 1776779245000, "created": "2026-04-21T13:47:25.884028+00:00",
-        "modified": "2026-04-21T13:47:25.884028+00:00", "deleted": null, "priority":
+        false, "created_at": 1776806683000, "created": "2026-04-21T21:24:43.239760+00:00",
+        "modified": "2026-04-21T21:24:43.239760+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "restriction_policy": null, "draft_status":
         "published", "assets": [], "overall_state_modified": null, "overall_state":
         "No Data", "creator": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
@@ -437,11 +467,13 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"type": "query alert", "name": "test", "message": "test  @pagerduty-hamrddr",
-      "tags": ["managed_by:datadog-sync"], "query": "avg(last_10m):avg:system.load.1{*}
-      > 5", "options": {"thresholds": {"critical": 5.0}, "notify_audit": false, "on_missing_data":
-      "default", "include_tags": false, "new_host_delay": 300, "silenced": {}}, "multi":
-      false, "priority": null, "restricted_roles": null}'
+    body: '{"type": "composite", "name": "Composite Monitor Test", "message": "Problems
+      with composite monitors:\nhttps://github.com/DataDog/datadog-sync-cli/issues/399",
+      "tags": ["managed_by:datadog-sync"], "query": "( 19316931 && !19316939 ) ||
+      ( !19316931 && 19316939 )", "options": {"notify_audit": false, "notify_no_data":
+      false, "renotify_interval": 0, "thresholds": {"critical": null}, "include_tags":
+      true, "new_host_delay": 300, "silenced": {}}, "multi": false, "priority": null,
+      "restricted_roles": null}'
     headers:
       Content-Type:
       - application/json
@@ -449,13 +481,14 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 19307048, "org_id": 1300336245, "type": "query alert", "name":
-        "test", "message": "test  @pagerduty-hamrddr", "tags": ["managed_by:datadog-sync"],
-        "query": "avg(last_10m):avg:system.load.1{*} > 5", "options": {"thresholds":
-        {"critical": 5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
-        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1776779245000, "created": "2026-04-21T13:47:25.924323+00:00", "modified":
-        "2026-04-21T13:47:25.924323+00:00", "deleted": null, "priority": null, "restricted_roles":
+      string: '{"id": 19316940, "org_id": 1300336245, "type": "composite", "name":
+        "Composite Monitor Test", "message": "Problems with composite monitors:\nhttps://github.com/DataDog/datadog-sync-cli/issues/399",
+        "tags": ["managed_by:datadog-sync"], "query": "( 19316931 && !19316939 ) ||
+        ( !19316931 && 19316939 )", "options": {"notify_audit": false, "notify_no_data":
+        false, "renotify_interval": 0, "thresholds": {"critical": null}, "include_tags":
+        true, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
+        1776806683000, "created": "2026-04-21T21:24:43.830521+00:00", "modified":
+        "2026-04-21T21:24:43.830521+00:00", "deleted": null, "priority": null, "restricted_roles":
         null, "restriction_policy": null, "draft_status": "published", "assets": [],
         "overall_state_modified": null, "overall_state": "No Data", "creator": {"name":
         "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email":
@@ -467,32 +500,227 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"type": "composite", "name": "Composite Monitor Test", "message": "Problems
-      with composite monitors:\nhttps://github.com/DataDog/datadog-sync-cli/issues/399",
-      "tags": ["managed_by:datadog-sync"], "query": "( 19307048 && !19307049 ) ||
-      ( !19307048 && 19307049 )", "options": {"notify_audit": false, "notify_no_data":
+    body: '{"type": "composite", "name": "Composite Monitor Testupdated", "message":
+      "Problems with composite monitors:\nhttps://github.com/DataDog/datadog-sync-cli/issues/399",
+      "tags": ["managed_by:datadog-sync"], "query": "( 19316931 && !19316939 ) ||
+      ( !19316931 && 19316939 )", "options": {"notify_audit": false, "notify_no_data":
       false, "renotify_interval": 0, "thresholds": {"critical": null}, "include_tags":
       true, "new_host_delay": 300, "silenced": {}}, "multi": false, "priority": null,
       "restricted_roles": null}'
     headers:
       Content-Type:
       - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v1/monitor
+    method: PUT
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316940
   response:
     body:
-      string: '{"id": 19307050, "org_id": 1300336245, "type": "composite", "name":
-        "Composite Monitor Test", "message": "Problems with composite monitors:\nhttps://github.com/DataDog/datadog-sync-cli/issues/399",
-        "tags": ["managed_by:datadog-sync"], "query": "( 19307048 && !19307049 ) ||
-        ( !19307048 && 19307049 )", "options": {"notify_audit": false, "notify_no_data":
+      string: '{"id": 19316940, "org_id": 1300336245, "type": "composite", "name":
+        "Composite Monitor Testupdated", "message": "Problems with composite monitors:\nhttps://github.com/DataDog/datadog-sync-cli/issues/399",
+        "tags": ["managed_by:datadog-sync"], "query": "( 19316931 && !19316939 ) ||
+        ( !19316931 && 19316939 )", "options": {"notify_audit": false, "notify_no_data":
         false, "renotify_interval": 0, "thresholds": {"critical": null}, "include_tags":
         true, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1776779246000, "created": "2026-04-21T13:47:26.161524+00:00", "modified":
-        "2026-04-21T13:47:26.161524+00:00", "deleted": null, "priority": null, "restricted_roles":
+        1776806683000, "created": "2026-04-21T21:24:43.830521+00:00", "modified":
+        "2026-04-21T21:24:44.215750+00:00", "deleted": null, "priority": null, "restricted_roles":
         null, "restriction_policy": null, "draft_status": "published", "assets": [],
-        "overall_state_modified": null, "overall_state": "No Data", "creator": {"name":
-        "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email":
-        "michael.richey@gmail.com", "id": 4730613}}'
+        "overall_state_modified": null, "overall_state": "No Data"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "log alert", "name": "Logs testupdated", "message": "Test logs",
+      "tags": ["managed_by:datadog-sync"], "query": "logs(\"*\").index(\"*\").rollup(\"count\").last(\"5m\")
+      < 100", "options": {"thresholds": {"critical": 100.0}, "enable_logs_sample":
+      false, "notify_audit": false, "on_missing_data": "default", "include_tags":
+      false, "new_host_delay": 300, "groupby_simple_monitor": false, "silenced": {}},
+      "multi": false, "priority": null, "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316939
+  response:
+    body:
+      string: '{"id": 19316939, "org_id": 1300336245, "type": "log alert", "name":
+        "Logs testupdated", "message": "Test logs", "tags": ["managed_by:datadog-sync"],
+        "query": "logs(\"*\").index(\"*\").rollup(\"count\").last(\"5m\") < 100",
+        "options": {"thresholds": {"critical": 100.0}, "enable_logs_sample": false,
+        "notify_audit": false, "on_missing_data": "default", "include_tags": false,
+        "new_host_delay": 300, "groupby_simple_monitor": false, "silenced": {}}, "multi":
+        false, "created_at": 1776806683000, "created": "2026-04-21T21:24:43.239760+00:00",
+        "modified": "2026-04-21T21:24:44.253928+00:00", "deleted": null, "priority":
+        null, "restricted_roles": null, "restriction_policy": null, "draft_status":
+        "published", "assets": [], "overall_state_modified": null, "overall_state":
+        "No Data"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
+      uses an outdated image versionupdated", "message": "Private location {{location_id.name}}
+      is running an outdated image version. Learn more about the current version in
+      use on your [Private locations page](https://app.datadoghq.com/synthetics/settings/private-locations?id={{location_id.name}})
+      and upgrade workers to the most recent version of the image by pulling the `gcr.io/datadoghq/synthetics-private-location-worker`
+      image with the `latest` tag.", "tags": ["managed_by:datadog-sync"], "query":
+      "max(last_15m):sum:synthetics.pl.worker.outdated{*} by {location_id} > 0", "options":
+      {"thresholds": {"critical": 0.0}, "notify_no_data": false, "notify_audit": false,
+      "new_host_delay": 300, "include_tags": true, "silenced": {}}, "multi": true,
+      "priority": null, "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316934
+  response:
+    body:
+      string: '{"id": 19316934, "org_id": 1300336245, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} uses an outdated image
+        versionupdated", "message": "Private location {{location_id.name}} is running
+        an outdated image version. Learn more about the current version in use on
+        your [Private locations page](https://app.datadoghq.com/synthetics/settings/private-locations?id={{location_id.name}})
+        and upgrade workers to the most recent version of the image by pulling the
+        `gcr.io/datadoghq/synthetics-private-location-worker` image with the `latest`
+        tag.", "tags": ["managed_by:datadog-sync"], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*}
+        by {location_id} > 0", "options": {"thresholds": {"critical": 0.0}, "notify_no_data":
+        false, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
+        "silenced": {}}, "multi": true, "created_at": 1776806682000, "created": "2026-04-21T21:24:42.876602+00:00",
+        "modified": "2026-04-21T21:24:44.231465+00:00", "deleted": null, "priority":
+        null, "restricted_roles": null, "restriction_policy": null, "draft_status":
+        "published", "assets": [], "overall_state_modified": null, "overall_state":
+        "No Data"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "query alert", "name": "Raspberrypi CPU Load is highupdated",
+      "message": "@michael.richey@datadoghq.com", "tags": ["host:raspberrypi", "managed_by:datadog-sync"],
+      "query": "avg(last_15m):system.load.1{host:raspberrypi} > 6", "options": {"thresholds":
+      {"critical": 6.0, "warning": 5.0}, "notify_audit": false, "threshold_windows":
+      null, "on_missing_data": "default", "include_tags": false, "new_host_delay":
+      300, "silenced": {}}, "multi": false, "priority": null, "restricted_roles":
+      null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316936
+  response:
+    body:
+      string: '{"id": 19316936, "org_id": 1300336245, "type": "query alert", "name":
+        "Raspberrypi CPU Load is highupdated", "message": "@michael.richey@datadoghq.com",
+        "tags": ["host:raspberrypi", "managed_by:datadog-sync"], "query": "avg(last_15m):system.load.1{host:raspberrypi}
+        > 6", "options": {"thresholds": {"critical": 6.0, "warning": 5.0}, "notify_audit":
+        false, "threshold_windows": null, "on_missing_data": "default", "include_tags":
+        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
+        1776806682000, "created": "2026-04-21T21:24:42.909406+00:00", "modified":
+        "2026-04-21T21:24:44.231047+00:00", "deleted": null, "priority": null, "restricted_roles":
+        null, "restriction_policy": null, "draft_status": "published", "assets": [],
+        "overall_state_modified": null, "overall_state": "No Data"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "query alert", "name": "RaspberryPi disk space is running lowupdated",
+      "message": "@michael.richey@datadoghq.com \n\nThe home assistant server is running
+      low on disk space", "tags": ["host:raspberrypi", "managed_by:datadog-sync"],
+      "query": "avg(last_10m):sum:system.disk.free{host:raspberrypi} < 4300000000",
+      "options": {"thresholds": {"critical": 4300000000.0}, "notify_audit": false,
+      "threshold_windows": null, "on_missing_data": "show_no_data", "include_tags":
+      false, "new_host_delay": 300, "silenced": {}}, "multi": false, "priority": null,
+      "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316933
+  response:
+    body:
+      string: '{"id": 19316933, "org_id": 1300336245, "type": "query alert", "name":
+        "RaspberryPi disk space is running lowupdated", "message": "@michael.richey@datadoghq.com
+        \n\nThe home assistant server is running low on disk space", "tags": ["host:raspberrypi",
+        "managed_by:datadog-sync"], "query": "avg(last_10m):sum:system.disk.free{host:raspberrypi}
+        < 4300000000", "options": {"thresholds": {"critical": 4300000000.0}, "notify_audit":
+        false, "threshold_windows": null, "on_missing_data": "show_no_data", "include_tags":
+        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
+        1776806682000, "created": "2026-04-21T21:24:42.864459+00:00", "modified":
+        "2026-04-21T21:24:44.248913+00:00", "deleted": null, "priority": null, "restricted_roles":
+        null, "restriction_policy": null, "draft_status": "published", "assets": [],
+        "overall_state_modified": null, "overall_state": "No Data"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "query alert", "name": "testupdated", "message": "test  @pagerduty-hamrddr",
+      "tags": ["managed_by:datadog-sync"], "query": "avg(last_10m):avg:system.load.1{*}
+      > 5", "options": {"thresholds": {"critical": 5.0}, "notify_audit": false, "on_missing_data":
+      "default", "include_tags": false, "new_host_delay": 300, "silenced": {}}, "multi":
+      false, "priority": null, "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316931
+  response:
+    body:
+      string: '{"id": 19316931, "org_id": 1300336245, "type": "query alert", "name":
+        "testupdated", "message": "test  @pagerduty-hamrddr", "tags": ["managed_by:datadog-sync"],
+        "query": "avg(last_10m):avg:system.load.1{*} > 5", "options": {"thresholds":
+        {"critical": 5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
+        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
+        1776806682000, "created": "2026-04-21T21:24:42.829386+00:00", "modified":
+        "2026-04-21T21:24:44.354542+00:00", "deleted": null, "priority": null, "restricted_roles":
+        null, "restriction_policy": null, "draft_status": "published", "assets": [],
+        "overall_state_modified": null, "overall_state": "No Data"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
+      is underprovisionedupdated", "message": "Private location {{location_id.name}}
+      is underprovisioned.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+      "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
+      < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
+      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+      {}}, "multi": true, "priority": null, "restricted_roles": null}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316932
+  response:
+    body:
+      string: '{"id": 19316932, "org_id": 1300336245, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} is underprovisionedupdated",
+        "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
+        this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
+        "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
+        < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
+        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
+        {}}, "multi": true, "created_at": 1776806682000, "created": "2026-04-21T21:24:42.863728+00:00",
+        "modified": "2026-04-21T21:24:44.270377+00:00", "deleted": null, "priority":
+        null, "restricted_roles": null, "restriction_policy": null, "draft_status":
+        "published", "assets": [], "overall_state_modified": null, "overall_state":
+        "No Data"}'
     headers:
       Content-Type:
       - application/json
@@ -511,52 +739,17 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307042
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316935
   response:
     body:
-      string: '{"id": 19307042, "org_id": 1300336245, "type": "metric alert", "name":
+      string: '{"id": 19316935, "org_id": 1300336245, "type": "metric alert", "name":
         "[Synthetic Private Locations] {{location_id.name}} stopped reportingupdated",
         "message": "Private location {{location_id.name}} stopped reporting to Datadog.",
         "tags": ["managed_by:datadog-sync"], "query": "min(last_5m):avg:synthetics.pl.worker.running{*}
         by {location_id} < 1", "options": {"notify_no_data": true, "thresholds": {"critical":
         1.0}, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
-        "silenced": {}}, "multi": true, "created_at": 1776779245000, "created": "2026-04-21T13:47:25.697179+00:00",
-        "modified": "2026-04-21T13:47:26.517467+00:00", "deleted": null, "priority":
-        null, "restricted_roles": null, "restriction_policy": null, "draft_status":
-        "published", "assets": [], "overall_state_modified": null, "overall_state":
-        "No Data"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      is taking too long to pollupdated", "message": "Private location {{location_id.name}}
-      is taking too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-      to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-      "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id} >
-      30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
-      "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-      {}}, "multi": true, "priority": null, "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307044
-  response:
-    body:
-      string: '{"id": 19307044, "org_id": 1300336245, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} is taking too long to
-        pollupdated", "message": "Private location {{location_id.name}} is taking
-        too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
-        to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-        "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id}
-        > 30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
-        "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-        {}}, "multi": true, "created_at": 1776779245000, "created": "2026-04-21T13:47:25.725866+00:00",
-        "modified": "2026-04-21T13:47:26.547554+00:00", "deleted": null, "priority":
+        "silenced": {}}, "multi": true, "created_at": 1776806682000, "created": "2026-04-21T21:24:42.906588+00:00",
+        "modified": "2026-04-21T21:24:44.353240+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "restriction_policy": null, "draft_status":
         "published", "assets": [], "overall_state_modified": null, "overall_state":
         "No Data"}'
@@ -580,10 +773,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307045
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316938
   response:
     body:
-      string: '{"id": 19307045, "org_id": 1300336245, "type": "query alert", "name":
+      string: '{"id": 19316938, "org_id": 1300336245, "type": "query alert", "name":
         "CPU load on {{host.name}} is very highupdated", "message": "@michael.richey@datadoghq.com",
         "tags": ["type:anomaly", "managed_by:datadog-sync"], "query": "avg(last_4h):anomalies(max:system.cpu.user{*}
         by {host}, ''basic'', 2, direction=''above'', interval=60, alert_window=''last_15m'',
@@ -591,8 +784,8 @@ interactions:
         0.9, "critical_recovery": 0.0}, "notify_audit": false, "require_full_window":
         false, "renotify_interval": 0, "threshold_windows": {"trigger_window": "last_15m",
         "recovery_window": "last_15m"}, "include_tags": true, "on_missing_data": "default",
-        "new_group_delay": 60, "silenced": {}}, "multi": true, "created_at": 1776779245000,
-        "created": "2026-04-21T13:47:25.725440+00:00", "modified": "2026-04-21T13:47:26.555534+00:00",
+        "new_group_delay": 60, "silenced": {}}, "multi": true, "created_at": 1776806682000,
+        "created": "2026-04-21T21:24:42.966081+00:00", "modified": "2026-04-21T21:24:44.416411+00:00",
         "deleted": null, "priority": null, "restricted_roles": null, "restriction_policy":
         null, "draft_status": "published", "assets": [], "overall_state_modified":
         null, "overall_state": "No Data"}'
@@ -603,224 +796,31 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"type": "composite", "name": "Composite Monitor Testupdated", "message":
-      "Problems with composite monitors:\nhttps://github.com/DataDog/datadog-sync-cli/issues/399",
-      "tags": ["managed_by:datadog-sync"], "query": "( 19307048 && !19307049 ) ||
-      ( !19307048 && 19307049 )", "options": {"notify_audit": false, "notify_no_data":
-      false, "renotify_interval": 0, "thresholds": {"critical": null}, "include_tags":
-      true, "new_host_delay": 300, "silenced": {}}, "multi": false, "priority": null,
-      "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307050
-  response:
-    body:
-      string: '{"id": 19307050, "org_id": 1300336245, "type": "composite", "name":
-        "Composite Monitor Testupdated", "message": "Problems with composite monitors:\nhttps://github.com/DataDog/datadog-sync-cli/issues/399",
-        "tags": ["managed_by:datadog-sync"], "query": "( 19307048 && !19307049 ) ||
-        ( !19307048 && 19307049 )", "options": {"notify_audit": false, "notify_no_data":
-        false, "renotify_interval": 0, "thresholds": {"critical": null}, "include_tags":
-        true, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1776779246000, "created": "2026-04-21T13:47:26.161524+00:00", "modified":
-        "2026-04-21T13:47:26.576521+00:00", "deleted": null, "priority": null, "restricted_roles":
-        null, "restriction_policy": null, "draft_status": "published", "assets": [],
-        "overall_state_modified": null, "overall_state": "No Data"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
     body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      uses an outdated image versionupdated", "message": "Private location {{location_id.name}}
-      is running an outdated image version. Learn more about the current version in
-      use on your [Private locations page](https://app.datadoghq.com/synthetics/settings/private-locations?id={{location_id.name}})
-      and upgrade workers to the most recent version of the image by pulling the `gcr.io/datadoghq/synthetics-private-location-worker`
-      image with the `latest` tag.", "tags": ["managed_by:datadog-sync"], "query":
-      "max(last_15m):sum:synthetics.pl.worker.outdated{*} by {location_id} > 0", "options":
-      {"thresholds": {"critical": 0.0}, "notify_no_data": false, "notify_audit": false,
-      "new_host_delay": 300, "include_tags": true, "silenced": {}}, "multi": true,
-      "priority": null, "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307041
-  response:
-    body:
-      string: '{"id": 19307041, "org_id": 1300336245, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} uses an outdated image
-        versionupdated", "message": "Private location {{location_id.name}} is running
-        an outdated image version. Learn more about the current version in use on
-        your [Private locations page](https://app.datadoghq.com/synthetics/settings/private-locations?id={{location_id.name}})
-        and upgrade workers to the most recent version of the image by pulling the
-        `gcr.io/datadoghq/synthetics-private-location-worker` image with the `latest`
-        tag.", "tags": ["managed_by:datadog-sync"], "query": "max(last_15m):sum:synthetics.pl.worker.outdated{*}
-        by {location_id} > 0", "options": {"thresholds": {"critical": 0.0}, "notify_no_data":
-        false, "notify_audit": false, "new_host_delay": 300, "include_tags": true,
-        "silenced": {}}, "multi": true, "created_at": 1776779245000, "created": "2026-04-21T13:47:25.699682+00:00",
-        "modified": "2026-04-21T13:47:26.559229+00:00", "deleted": null, "priority":
-        null, "restricted_roles": null, "restriction_policy": null, "draft_status":
-        "published", "assets": [], "overall_state_modified": null, "overall_state":
-        "No Data"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "query alert", "name": "Raspberrypi CPU Load is highupdated",
-      "message": "@michael.richey@datadoghq.com", "tags": ["host:raspberrypi", "managed_by:datadog-sync"],
-      "query": "avg(last_15m):system.load.1{host:raspberrypi} > 6", "options": {"thresholds":
-      {"critical": 6.0, "warning": 5.0}, "notify_audit": false, "threshold_windows":
-      null, "on_missing_data": "default", "include_tags": false, "new_host_delay":
-      300, "silenced": {}}, "multi": false, "priority": null, "restricted_roles":
-      null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307047
-  response:
-    body:
-      string: '{"id": 19307047, "org_id": 1300336245, "type": "query alert", "name":
-        "Raspberrypi CPU Load is highupdated", "message": "@michael.richey@datadoghq.com",
-        "tags": ["host:raspberrypi", "managed_by:datadog-sync"], "query": "avg(last_15m):system.load.1{host:raspberrypi}
-        > 6", "options": {"thresholds": {"critical": 6.0, "warning": 5.0}, "notify_audit":
-        false, "threshold_windows": null, "on_missing_data": "default", "include_tags":
-        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1776779245000, "created": "2026-04-21T13:47:25.750112+00:00", "modified":
-        "2026-04-21T13:47:26.565581+00:00", "deleted": null, "priority": null, "restricted_roles":
-        null, "restriction_policy": null, "draft_status": "published", "assets": [],
-        "overall_state_modified": null, "overall_state": "No Data"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "metric alert", "name": "[Synthetic Private Locations] {{location_id.name}}
-      is underprovisionedupdated", "message": "Private location {{location_id.name}}
-      is underprovisioned.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+      is taking too long to pollupdated", "message": "Private location {{location_id.name}}
+      is taking too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
       to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-      "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
-      < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
+      "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id} >
+      30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
       "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
       {}}, "multi": true, "priority": null, "restricted_roles": null}'
     headers:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307046
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316937
   response:
     body:
-      string: '{"id": 19307046, "org_id": 1300336245, "type": "metric alert", "name":
-        "[Synthetic Private Locations] {{location_id.name}} is underprovisionedupdated",
-        "message": "Private location {{location_id.name}} is underprovisioned.\nVisit
-        this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
+      string: '{"id": 19316937, "org_id": 1300336245, "type": "metric alert", "name":
+        "[Synthetic Private Locations] {{location_id.name}} is taking too long to
+        pollupdated", "message": "Private location {{location_id.name}} is taking
+        too long to poll.\nVisit this [documentation page](https://docs.datadoghq.com/synthetics/private_locations/?tab=docker#scale-your-private-location)
         to learn how to scale your private location.", "tags": ["managed_by:datadog-sync"],
-        "query": "avg(last_30m):avg:synthetics.pl.worker.remaining_slots{*} by {location_id}
-        < 1.5", "options": {"thresholds": {"critical": 1.5}, "notify_no_data": false,
+        "query": "avg(last_30m):avg:synthetics.pl.time_to_poll{*} by {location_id}
+        > 30", "options": {"thresholds": {"critical": 30.0}, "notify_no_data": false,
         "notify_audit": false, "new_host_delay": 300, "include_tags": true, "silenced":
-        {}}, "multi": true, "created_at": 1776779245000, "created": "2026-04-21T13:47:25.742454+00:00",
-        "modified": "2026-04-21T13:47:26.582943+00:00", "deleted": null, "priority":
-        null, "restricted_roles": null, "restriction_policy": null, "draft_status":
-        "published", "assets": [], "overall_state_modified": null, "overall_state":
-        "No Data"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "query alert", "name": "testupdated", "message": "test  @pagerduty-hamrddr",
-      "tags": ["managed_by:datadog-sync"], "query": "avg(last_10m):avg:system.load.1{*}
-      > 5", "options": {"thresholds": {"critical": 5.0}, "notify_audit": false, "on_missing_data":
-      "default", "include_tags": false, "new_host_delay": 300, "silenced": {}}, "multi":
-      false, "priority": null, "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307048
-  response:
-    body:
-      string: '{"id": 19307048, "org_id": 1300336245, "type": "query alert", "name":
-        "testupdated", "message": "test  @pagerduty-hamrddr", "tags": ["managed_by:datadog-sync"],
-        "query": "avg(last_10m):avg:system.load.1{*} > 5", "options": {"thresholds":
-        {"critical": 5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
-        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1776779245000, "created": "2026-04-21T13:47:25.924323+00:00", "modified":
-        "2026-04-21T13:47:26.585743+00:00", "deleted": null, "priority": null, "restricted_roles":
-        null, "restriction_policy": null, "draft_status": "published", "assets": [],
-        "overall_state_modified": null, "overall_state": "No Data"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "query alert", "name": "RaspberryPi disk space is running lowupdated",
-      "message": "@michael.richey@datadoghq.com \n\nThe home assistant server is running
-      low on disk space", "tags": ["host:raspberrypi", "managed_by:datadog-sync"],
-      "query": "avg(last_10m):sum:system.disk.free{host:raspberrypi} < 4300000000",
-      "options": {"thresholds": {"critical": 4300000000.0}, "notify_audit": false,
-      "threshold_windows": null, "on_missing_data": "show_no_data", "include_tags":
-      false, "new_host_delay": 300, "silenced": {}}, "multi": false, "priority": null,
-      "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307043
-  response:
-    body:
-      string: '{"id": 19307043, "org_id": 1300336245, "type": "query alert", "name":
-        "RaspberryPi disk space is running lowupdated", "message": "@michael.richey@datadoghq.com
-        \n\nThe home assistant server is running low on disk space", "tags": ["host:raspberrypi",
-        "managed_by:datadog-sync"], "query": "avg(last_10m):sum:system.disk.free{host:raspberrypi}
-        < 4300000000", "options": {"thresholds": {"critical": 4300000000.0}, "notify_audit":
-        false, "threshold_windows": null, "on_missing_data": "show_no_data", "include_tags":
-        false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1776779245000, "created": "2026-04-21T13:47:25.701137+00:00", "modified":
-        "2026-04-21T13:47:26.624115+00:00", "deleted": null, "priority": null, "restricted_roles":
-        null, "restriction_policy": null, "draft_status": "published", "assets": [],
-        "overall_state_modified": null, "overall_state": "No Data"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"type": "log alert", "name": "Logs testupdated", "message": "Test logs",
-      "tags": ["managed_by:datadog-sync"], "query": "logs(\"*\").index(\"*\").rollup(\"count\").last(\"5m\")
-      < 100", "options": {"thresholds": {"critical": 100.0}, "enable_logs_sample":
-      false, "notify_audit": false, "on_missing_data": "default", "include_tags":
-      false, "new_host_delay": 300, "groupby_simple_monitor": false, "silenced": {}},
-      "multi": false, "priority": null, "restricted_roles": null}'
-    headers:
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307049
-  response:
-    body:
-      string: '{"id": 19307049, "org_id": 1300336245, "type": "log alert", "name":
-        "Logs testupdated", "message": "Test logs", "tags": ["managed_by:datadog-sync"],
-        "query": "logs(\"*\").index(\"*\").rollup(\"count\").last(\"5m\") < 100",
-        "options": {"thresholds": {"critical": 100.0}, "enable_logs_sample": false,
-        "notify_audit": false, "on_missing_data": "default", "include_tags": false,
-        "new_host_delay": 300, "groupby_simple_monitor": false, "silenced": {}}, "multi":
-        false, "created_at": 1776779245000, "created": "2026-04-21T13:47:25.884028+00:00",
-        "modified": "2026-04-21T13:47:26.725926+00:00", "deleted": null, "priority":
+        {}}, "multi": true, "created_at": 1776806682000, "created": "2026-04-21T21:24:42.913494+00:00",
+        "modified": "2026-04-21T21:24:44.758300+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "restriction_policy": null, "draft_status":
         "published", "assets": [], "overall_state_modified": null, "overall_state":
         "No Data"}'
@@ -10030,10 +10030,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307044?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316937?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307044}'
+      string: '{"deleted_monitor_id": 19316937}'
     headers:
       Content-Type:
       - application/json
@@ -10046,10 +10046,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307042?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316938?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307042}'
+      string: '{"deleted_monitor_id": 19316938}'
     headers:
       Content-Type:
       - application/json
@@ -10062,10 +10062,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307047?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316936?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307047}'
+      string: '{"deleted_monitor_id": 19316936}'
     headers:
       Content-Type:
       - application/json
@@ -10078,10 +10078,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307049?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316939?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307049}'
+      string: '{"deleted_monitor_id": 19316939}'
     headers:
       Content-Type:
       - application/json
@@ -10094,10 +10094,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307045?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316935?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307045}'
+      string: '{"deleted_monitor_id": 19316935}'
     headers:
       Content-Type:
       - application/json
@@ -10110,10 +10110,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307048?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316931?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307048}'
+      string: '{"deleted_monitor_id": 19316931}'
     headers:
       Content-Type:
       - application/json
@@ -10126,10 +10126,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307050?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316934?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307050}'
+      string: '{"deleted_monitor_id": 19316934}'
     headers:
       Content-Type:
       - application/json
@@ -10142,10 +10142,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307041?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316940?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307041}'
+      string: '{"deleted_monitor_id": 19316940}'
     headers:
       Content-Type:
       - application/json
@@ -10158,10 +10158,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307043?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316932?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307043}'
+      string: '{"deleted_monitor_id": 19316932}'
     headers:
       Content-Type:
       - application/json
@@ -10174,10 +10174,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307046?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316933?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307046}'
+      string: '{"deleted_monitor_id": 19316933}'
     headers:
       Content-Type:
       - application/json

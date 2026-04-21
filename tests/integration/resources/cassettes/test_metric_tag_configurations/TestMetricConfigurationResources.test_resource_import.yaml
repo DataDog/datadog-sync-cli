@@ -60,8 +60,8 @@ interactions:
       string: '{"data": [{"type": "metrics", "id": "msr.distribution", "relationships":
         {"metric_volumes": {"data": {"type": "metric_volumes", "id": "msr.distribution"}}}},
         {"type": "manage_tags", "id": "msr.distribution", "attributes": {"tags": ["environment",
-        "host", "updated"], "include_percentiles": true, "created_at": "2025-02-18T18:53:08.713421+00:00",
-        "modified_at": "2026-04-21T13:46:50.205370+00:00", "metric_type": "distribution",
+        "host"], "include_percentiles": true, "created_at": "2025-02-18T18:53:08.713421+00:00",
+        "modified_at": "2026-04-21T21:24:19.471617+00:00", "metric_type": "distribution",
         "exclude_tags_mode": false}}]}'
     headers:
       Content-Type:

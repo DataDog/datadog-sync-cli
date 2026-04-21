@@ -207,21 +207,104 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
+    uri: https://api.datadoghq.eu/api/v1/dashboard/t82-cj3-j7p
   response:
     body:
-      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
-        "template_variables": [], "widgets": [{"id": 4844048744340943, "definition":
-        {"title": "", "title_size": "16", "title_align": "left", "time": {}, "type":
-        "query_table", "requests": [{"queries": [{"data_source": "metrics", "name":
-        "query1", "query": "avg:system.cpu.user{*} by {service}", "aggregator": "avg"}],
-        "response_format": "scalar", "sort": {"count": 500, "order_by": [{"type":
-        "formula", "index": 0, "order": "desc"}]}, "formulas": [{"formula": "query1",
-        "cell_display_mode": "bar"}]}], "has_search_bar": "auto"}, "layout": {"x":
-        0, "y": 0, "width": 4, "height": 4}}], "notify_list": [], "created_at": "2025-07-14T20:22:25.530702+00:00",
-        "modified_at": "2025-08-21T14:12:40.043618+00:00", "reflow_type": "fixed",
+      string: '{"id": "t82-cj3-j7p", "title": "Is It Working?", "description": null,
+        "author_handle": "ron.hay@datadoghq.com", "author_name": "Ron Hay", "layout_type":
+        "ordered", "url": "/dashboard/t82-cj3-j7p/is-it-working", "template_variables":
+        [], "widgets": [{"id": 8014768014333920, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
+        "data_source": "metrics", "query": "avg:datadog.agent.running{*}"}, {"name":
+        "query2", "data_source": "metrics", "query": "sum:datadog.agent.started{*}.as_count()"}],
+        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}, {"id": 2586000650834072, "definition": {"title": "", "title_size": "16",
+        "title_align": "left", "show_legend": true, "legend_layout": "auto", "legend_columns":
+        ["avg", "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"response_format":
+        "timeseries", "queries": [{"name": "query1", "data_source": "metrics", "query":
+        "avg:system.cpu.user{*}"}], "style": {"palette": "dog_classic", "order_by":
+        "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
+        "layout": {"x": 4, "y": 0, "width": 4, "height": 2}}, {"id": 885880749974638,
+        "definition": {"title": "", "title_size": "16", "title_align": "left", "show_legend":
+        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"response_format": "timeseries",
+        "queries": [{"name": "query1", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_read_capacity_units{*}"},
+        {"name": "query2", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_write_capacity_units{*}"}],
+        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
+        2}}], "notify_list": [], "created_at": "2025-06-10T13:34:37.296465+00:00",
+        "modified_at": "2025-06-10T13:34:50.794550+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/vht-439-g8y
+  response:
+    body:
+      string: '{"id": "vht-439-g8y", "title": "raspberrypi (cloned)", "description":
+        "Top host-level metrics for raspberrypi.             Clone this dashboard
+        to add your own metrics.\n\n[Link to infrastructure list](/infrastructure?filter=raspberrypi&hostname=raspberrypi)
+        (cloned)", "author_handle": "michael.richey@datadoghq.com", "author_name":
+        "Michael Richey", "layout_type": "ordered", "url": "/dashboard/vht-439-g8y/raspberrypi-cloned",
+        "template_variables": [], "widgets": [{"id": 0, "definition": {"title": "CPU
+        usage (%)", "show_legend": true, "legend_layout": "auto", "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "system.cpu.idle{host:raspberrypi}"},
+        {"data_source": "metrics", "name": "query2", "query": "system.cpu.system{host:raspberrypi}"},
+        {"data_source": "metrics", "name": "query3", "query": "system.cpu.iowait{host:raspberrypi}"},
+        {"data_source": "metrics", "name": "query4", "query": "system.cpu.user{host:raspberrypi}"},
+        {"data_source": "metrics", "name": "query5", "query": "system.cpu.stolen{host:raspberrypi}"}],
+        "display_type": "area"}]}}, {"id": 1, "definition": {"title": "Processes memory
+        usage", "type": "treemap", "requests": [{"q": "processes{host:raspberrypi}"}],
+        "size_by": "pct_mem", "color_by": "user", "group_by": "family"}}, {"id": 2,
+        "definition": {"title": "Load Averages 1-5-15", "show_legend": true, "legend_layout":
+        "auto", "type": "timeseries", "requests": [{"response_format": "timeseries",
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "system.load.1{host:raspberrypi}"}]},
+        {"response_format": "timeseries", "queries": [{"data_source": "metrics", "name":
+        "query1", "query": "system.load.5{host:raspberrypi}"}]}, {"response_format":
+        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "system.load.15{host:raspberrypi}"}]}]}}, {"id": 3, "definition": {"title":
+        "Memory breakdown", "show_legend": true, "legend_layout": "auto", "type":
+        "timeseries", "requests": [{"response_format": "timeseries", "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:system.mem.usable{host:raspberrypi}"},
+        {"data_source": "metrics", "name": "query2", "query": "sum:system.mem.total{host:raspberrypi}"}],
+        "formulas": [{"formula": "query1"}, {"formula": "query2 - query1"}], "display_type":
+        "area"}]}}, {"id": 4, "definition": {"title": "Available Swap", "show_legend":
+        true, "legend_layout": "auto", "type": "timeseries", "requests": [{"response_format":
+        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "avg:system.swap.free{host:raspberrypi}"}, {"data_source": "metrics", "name":
+        "query2", "query": "avg:system.swap.used{host:raspberrypi}"}]}]}}, {"id":
+        5, "definition": {"title": "Disk usage by device (%)", "show_legend": true,
+        "legend_layout": "auto", "type": "timeseries", "requests": [{"response_format":
+        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "max:system.disk.in_use{host:raspberrypi} by {device}"}], "formulas": [{"formula":
+        "query1 * 100"}], "display_type": "line"}], "markers": [{"label": "full",
+        "value": "y = 100", "display_type": "error dashed"}]}}, {"id": 6, "definition":
+        {"title": "Disk latency (by device)", "show_legend": true, "legend_layout":
+        "auto", "type": "timeseries", "requests": [{"response_format": "timeseries",
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "max:system.io.await{host:raspberrypi}
+        by {device}"}]}]}}, {"id": 7, "definition": {"title": "Network traffic (bytes
+        per sec)", "show_legend": true, "legend_layout": "auto", "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:system.net.bytes_rcvd{host:raspberrypi}"}]},
+        {"response_format": "timeseries", "queries": [{"data_source": "metrics", "name":
+        "query1", "query": "sum:system.net.bytes_sent{host:raspberrypi}"}], "formulas":
+        [{"formula": "0 - query1"}]}]}}], "notify_list": null, "created_at": "2025-12-19T02:15:42.022930+00:00",
+        "modified_at": "2025-12-19T02:15:42.022930+00:00", "reflow_type": "auto",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -301,38 +384,21 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/t82-cj3-j7p
+    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
   response:
     body:
-      string: '{"id": "t82-cj3-j7p", "title": "Is It Working?", "description": null,
-        "author_handle": "ron.hay@datadoghq.com", "author_name": "Ron Hay", "layout_type":
-        "ordered", "url": "/dashboard/t82-cj3-j7p/is-it-working", "template_variables":
-        [], "widgets": [{"id": 8014768014333920, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
-        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
-        "data_source": "metrics", "query": "avg:datadog.agent.running{*}"}, {"name":
-        "query2", "data_source": "metrics", "query": "sum:datadog.agent.started{*}.as_count()"}],
-        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
-        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}, {"id": 2586000650834072, "definition": {"title": "", "title_size": "16",
-        "title_align": "left", "show_legend": true, "legend_layout": "auto", "legend_columns":
-        ["avg", "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"response_format":
-        "timeseries", "queries": [{"name": "query1", "data_source": "metrics", "query":
-        "avg:system.cpu.user{*}"}], "style": {"palette": "dog_classic", "order_by":
-        "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
-        "layout": {"x": 4, "y": 0, "width": 4, "height": 2}}, {"id": 885880749974638,
-        "definition": {"title": "", "title_size": "16", "title_align": "left", "show_legend":
-        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"response_format": "timeseries",
-        "queries": [{"name": "query1", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_read_capacity_units{*}"},
-        {"name": "query2", "data_source": "metrics", "query": "sum:aws.dynamodb.consumed_write_capacity_units{*}"}],
-        "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
-        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-        2}}], "notify_list": [], "created_at": "2025-06-10T13:34:37.296465+00:00",
-        "modified_at": "2025-06-10T13:34:50.794550+00:00", "reflow_type": "fixed",
+      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
+        "template_variables": [], "widgets": [{"id": 4844048744340943, "definition":
+        {"title": "", "title_size": "16", "title_align": "left", "time": {}, "type":
+        "query_table", "requests": [{"queries": [{"data_source": "metrics", "name":
+        "query1", "query": "avg:system.cpu.user{*} by {service}", "aggregator": "avg"}],
+        "response_format": "scalar", "sort": {"count": 500, "order_by": [{"type":
+        "formula", "index": 0, "order": "desc"}]}, "formulas": [{"formula": "query1",
+        "cell_display_mode": "bar"}]}], "has_search_bar": "auto"}, "layout": {"x":
+        0, "y": 0, "width": 4, "height": 4}}], "notify_list": [], "created_at": "2025-07-14T20:22:25.530702+00:00",
+        "modified_at": "2025-08-21T14:12:40.043618+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -562,168 +628,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
-  response:
-    body:
-      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
-        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
-        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
-        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
-        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
-        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/3wx-m6h-ipy
-  response:
-    body:
-      string: '{"id": "3wx-m6h-ipy", "title": "Zubin Colah - Shopist Logs Demo", "description":
-        "datadog_demo_keep:true (cloned) (cloned)", "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "free", "url": "/dashboard/3wx-m6h-ipy/zubin-colah---shopist-logs-demo",
-        "template_variables": [], "widgets": [{"id": 3793011224382482, "layout": {"x":
-        0.9090954344949606, "y": 16, "width": 106, "height": 60}, "definition": {"type":
-        "image", "url": "https://imgix.datadoghq.com/img/blog/announcing-security-monitoring/datadog-security-monitoring-lwl-rev.png",
-        "sizing": "contain", "has_background": true, "has_border": true, "vertical_align":
-        "center", "horizontal_align": "center"}}, {"id": 4864802557613604, "layout":
-        {"x": 65, "y": 92, "width": 63, "height": 79}, "definition": {"title": "Log
-        Stream", "title_size": "16", "title_align": "left", "requests": [{"response_format":
-        "event_list", "query": {"data_source": "logs_stream", "query_string": "env:prod
-        datadog_app:shopist", "indexes": [], "storage": "hot", "sort": {"order": "desc",
-        "column": "timestamp"}}, "columns": [{"field": "status_line", "width": "auto"},
-        {"field": "timestamp", "width": "auto"}, {"field": "host", "width": "auto"},
-        {"field": "service", "width": "auto"}, {"field": "content", "width": "compact"}]}],
-        "type": "list_stream"}}, {"id": 8607400987758440, "layout": {"x": 3, "y":
-        116, "width": 60, "height": 23}, "definition": {"title": "Errors by Service",
-        "title_size": "16", "title_align": "left", "show_legend": false, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "response_format": "timeseries",
-        "on_right_yaxis": false, "queries": [{"search": {"query": "status:error datadog_app:shopist"},
-        "data_source": "logs", "compute": {"aggregation": "count"}, "name": "query1",
-        "indexes": ["*"], "group_by": [{"facet": "service", "sort": {"aggregation":
-        "count", "order": "desc"}, "limit": 100}]}], "style": {"palette": "warm",
-        "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}], "yaxis":
-        {"include_zero": true, "scale": "linear", "label": "", "min": "auto", "max":
-        "auto"}, "markers": []}}, {"id": 3823681685090318, "layout": {"x": 0, "y":
-        91, "width": 63, "height": 24}, "definition": {"title": "Log Web Traffic by
-        IP Address", "title_size": "16", "title_align": "left", "show_legend": false,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "response_format": "timeseries", "on_right_yaxis": false, "queries": [{"search":
-        {"query": ""}, "data_source": "logs", "compute": {"interval": 30000, "aggregation":
-        "count"}, "name": "query1", "indexes": ["*"], "group_by": [{"facet": "@network.client.ip",
-        "sort": {"aggregation": "count", "order": "desc"}, "limit": 100}]}], "style":
-        {"palette": "dog_classic", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}], "yaxis": {"include_zero": false, "scale": "log"},
-        "markers": []}}, {"id": 8368474761314392, "layout": {"x": 4, "y": 85, "width":
-        120, "height": 5}, "definition": {"type": "note", "content": "Logs", "background_color":
-        "green", "font_size": "18", "text_align": "center", "show_tick": true, "tick_pos":
-        "50%", "tick_edge": "bottom"}}, {"id": 5524552780922781, "layout": {"x": 3,
-        "y": 140, "width": 61, "height": 28}, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "show_legend": false, "type": "timeseries", "requests":
-        [{"formulas": [{"formula": "a"}, {"formula": "calendar_shift(b, ''-1w'', ''UTC'')"},
-        {"formula": "calendar_shift(b, ''-1w'', ''UTC'') - a"}], "response_format":
-        "timeseries", "queries": [{"search": {"query": "source:ruby status:error payment"},
-        "data_source": "logs", "compute": {"aggregation": "count"}, "name": "a", "indexes":
-        ["*"], "group_by": [{"facet": "status", "sort": {"aggregation": "count", "order":
-        "desc"}, "limit": 10}, {"facet": "service", "sort": {"aggregation": "count",
-        "order": "desc"}, "limit": 10}]}, {"search": {"query": "source:ruby status:error
-        payment"}, "data_source": "logs", "compute": {"aggregation": "count"}, "name":
-        "b", "indexes": ["*"], "group_by": [{"facet": "status", "sort": {"aggregation":
-        "count", "order": "desc"}, "limit": 10}, {"facet": "service", "sort": {"aggregation":
-        "count", "order": "desc"}, "limit": 10}]}], "style": {"palette": "dog_classic"},
-        "display_type": "line"}]}}], "notify_list": [], "created_at": "2025-12-19T18:59:46.130151+00:00",
-        "modified_at": "2025-12-19T18:59:50.621149+00:00", "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/vht-439-g8y
-  response:
-    body:
-      string: '{"id": "vht-439-g8y", "title": "raspberrypi (cloned)", "description":
-        "Top host-level metrics for raspberrypi.             Clone this dashboard
-        to add your own metrics.\n\n[Link to infrastructure list](/infrastructure?filter=raspberrypi&hostname=raspberrypi)
-        (cloned)", "author_handle": "michael.richey@datadoghq.com", "author_name":
-        "Michael Richey", "layout_type": "ordered", "url": "/dashboard/vht-439-g8y/raspberrypi-cloned",
-        "template_variables": [], "widgets": [{"id": 0, "definition": {"title": "CPU
-        usage (%)", "show_legend": true, "legend_layout": "auto", "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "system.cpu.idle{host:raspberrypi}"},
-        {"data_source": "metrics", "name": "query2", "query": "system.cpu.system{host:raspberrypi}"},
-        {"data_source": "metrics", "name": "query3", "query": "system.cpu.iowait{host:raspberrypi}"},
-        {"data_source": "metrics", "name": "query4", "query": "system.cpu.user{host:raspberrypi}"},
-        {"data_source": "metrics", "name": "query5", "query": "system.cpu.stolen{host:raspberrypi}"}],
-        "display_type": "area"}]}}, {"id": 1, "definition": {"title": "Processes memory
-        usage", "type": "treemap", "requests": [{"q": "processes{host:raspberrypi}"}],
-        "size_by": "pct_mem", "color_by": "user", "group_by": "family"}}, {"id": 2,
-        "definition": {"title": "Load Averages 1-5-15", "show_legend": true, "legend_layout":
-        "auto", "type": "timeseries", "requests": [{"response_format": "timeseries",
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "system.load.1{host:raspberrypi}"}]},
-        {"response_format": "timeseries", "queries": [{"data_source": "metrics", "name":
-        "query1", "query": "system.load.5{host:raspberrypi}"}]}, {"response_format":
-        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "system.load.15{host:raspberrypi}"}]}]}}, {"id": 3, "definition": {"title":
-        "Memory breakdown", "show_legend": true, "legend_layout": "auto", "type":
-        "timeseries", "requests": [{"response_format": "timeseries", "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:system.mem.usable{host:raspberrypi}"},
-        {"data_source": "metrics", "name": "query2", "query": "sum:system.mem.total{host:raspberrypi}"}],
-        "formulas": [{"formula": "query1"}, {"formula": "query2 - query1"}], "display_type":
-        "area"}]}}, {"id": 4, "definition": {"title": "Available Swap", "show_legend":
-        true, "legend_layout": "auto", "type": "timeseries", "requests": [{"response_format":
-        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "avg:system.swap.free{host:raspberrypi}"}, {"data_source": "metrics", "name":
-        "query2", "query": "avg:system.swap.used{host:raspberrypi}"}]}]}}, {"id":
-        5, "definition": {"title": "Disk usage by device (%)", "show_legend": true,
-        "legend_layout": "auto", "type": "timeseries", "requests": [{"response_format":
-        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "max:system.disk.in_use{host:raspberrypi} by {device}"}], "formulas": [{"formula":
-        "query1 * 100"}], "display_type": "line"}], "markers": [{"label": "full",
-        "value": "y = 100", "display_type": "error dashed"}]}}, {"id": 6, "definition":
-        {"title": "Disk latency (by device)", "show_legend": true, "legend_layout":
-        "auto", "type": "timeseries", "requests": [{"response_format": "timeseries",
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "max:system.io.await{host:raspberrypi}
-        by {device}"}]}]}}, {"id": 7, "definition": {"title": "Network traffic (bytes
-        per sec)", "show_legend": true, "legend_layout": "auto", "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:system.net.bytes_rcvd{host:raspberrypi}"}]},
-        {"response_format": "timeseries", "queries": [{"data_source": "metrics", "name":
-        "query1", "query": "sum:system.net.bytes_sent{host:raspberrypi}"}], "formulas":
-        [{"formula": "0 - query1"}]}]}}], "notify_list": null, "created_at": "2025-12-19T02:15:42.022930+00:00",
-        "modified_at": "2025-12-19T02:15:42.022930+00:00", "reflow_type": "auto",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v1/dashboard/2n3-8ye-5ui
   response:
     body:
@@ -929,6 +833,102 @@ interactions:
         0, "y": 0, "width": 4, "height": 2}}], "notify_list": [], "created_at": "2024-10-24T15:14:37.892787+00:00",
         "modified_at": "2024-11-05T14:55:50.821949+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
+  response:
+    body:
+      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
+        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
+        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
+        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
+        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
+        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
+        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/3wx-m6h-ipy
+  response:
+    body:
+      string: '{"id": "3wx-m6h-ipy", "title": "Zubin Colah - Shopist Logs Demo", "description":
+        "datadog_demo_keep:true (cloned) (cloned)", "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "free", "url": "/dashboard/3wx-m6h-ipy/zubin-colah---shopist-logs-demo",
+        "template_variables": [], "widgets": [{"id": 3793011224382482, "layout": {"x":
+        0.9090954344949606, "y": 16, "width": 106, "height": 60}, "definition": {"type":
+        "image", "url": "https://imgix.datadoghq.com/img/blog/announcing-security-monitoring/datadog-security-monitoring-lwl-rev.png",
+        "sizing": "contain", "has_background": true, "has_border": true, "vertical_align":
+        "center", "horizontal_align": "center"}}, {"id": 4864802557613604, "layout":
+        {"x": 65, "y": 92, "width": 63, "height": 79}, "definition": {"title": "Log
+        Stream", "title_size": "16", "title_align": "left", "requests": [{"response_format":
+        "event_list", "query": {"data_source": "logs_stream", "query_string": "env:prod
+        datadog_app:shopist", "indexes": [], "storage": "hot", "sort": {"order": "desc",
+        "column": "timestamp"}}, "columns": [{"field": "status_line", "width": "auto"},
+        {"field": "timestamp", "width": "auto"}, {"field": "host", "width": "auto"},
+        {"field": "service", "width": "auto"}, {"field": "content", "width": "compact"}]}],
+        "type": "list_stream"}}, {"id": 8607400987758440, "layout": {"x": 3, "y":
+        116, "width": 60, "height": 23}, "definition": {"title": "Errors by Service",
+        "title_size": "16", "title_align": "left", "show_legend": false, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "response_format": "timeseries",
+        "on_right_yaxis": false, "queries": [{"search": {"query": "status:error datadog_app:shopist"},
+        "data_source": "logs", "compute": {"aggregation": "count"}, "name": "query1",
+        "indexes": ["*"], "group_by": [{"facet": "service", "sort": {"aggregation":
+        "count", "order": "desc"}, "limit": 100}]}], "style": {"palette": "warm",
+        "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}], "yaxis":
+        {"include_zero": true, "scale": "linear", "label": "", "min": "auto", "max":
+        "auto"}, "markers": []}}, {"id": 3823681685090318, "layout": {"x": 0, "y":
+        91, "width": 63, "height": 24}, "definition": {"title": "Log Web Traffic by
+        IP Address", "title_size": "16", "title_align": "left", "show_legend": false,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "response_format": "timeseries", "on_right_yaxis": false, "queries": [{"search":
+        {"query": ""}, "data_source": "logs", "compute": {"interval": 30000, "aggregation":
+        "count"}, "name": "query1", "indexes": ["*"], "group_by": [{"facet": "@network.client.ip",
+        "sort": {"aggregation": "count", "order": "desc"}, "limit": 100}]}], "style":
+        {"palette": "dog_classic", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}], "yaxis": {"include_zero": false, "scale": "log"},
+        "markers": []}}, {"id": 8368474761314392, "layout": {"x": 4, "y": 85, "width":
+        120, "height": 5}, "definition": {"type": "note", "content": "Logs", "background_color":
+        "green", "font_size": "18", "text_align": "center", "show_tick": true, "tick_pos":
+        "50%", "tick_edge": "bottom"}}, {"id": 5524552780922781, "layout": {"x": 3,
+        "y": 140, "width": 61, "height": 28}, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "show_legend": false, "type": "timeseries", "requests":
+        [{"formulas": [{"formula": "a"}, {"formula": "calendar_shift(b, ''-1w'', ''UTC'')"},
+        {"formula": "calendar_shift(b, ''-1w'', ''UTC'') - a"}], "response_format":
+        "timeseries", "queries": [{"search": {"query": "source:ruby status:error payment"},
+        "data_source": "logs", "compute": {"aggregation": "count"}, "name": "a", "indexes":
+        ["*"], "group_by": [{"facet": "status", "sort": {"aggregation": "count", "order":
+        "desc"}, "limit": 10}, {"facet": "service", "sort": {"aggregation": "count",
+        "order": "desc"}, "limit": 10}]}, {"search": {"query": "source:ruby status:error
+        payment"}, "data_source": "logs", "compute": {"aggregation": "count"}, "name":
+        "b", "indexes": ["*"], "group_by": [{"facet": "status", "sort": {"aggregation":
+        "count", "order": "desc"}, "limit": 10}, {"facet": "service", "sort": {"aggregation":
+        "count", "order": "desc"}, "limit": 10}]}], "style": {"palette": "dog_classic"},
+        "display_type": "line"}]}}], "notify_list": [], "created_at": "2025-12-19T18:59:46.130151+00:00",
+        "modified_at": "2025-12-19T18:59:50.621149+00:00", "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json

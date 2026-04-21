@@ -78,7 +78,7 @@ interactions:
         "silenced": {}}, "multi": false, "created_at": 1729785751000, "created": "2024-10-24T16:02:31.374332+00:00",
         "modified": "2025-10-23T17:11:50.581715+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "draft_status": "published", "overall_state_modified":
-        "2026-04-21T12:46:36+00:00", "overall_state": "OK", "creator": {"name": "Michael
+        "2026-04-21T20:37:36+00:00", "overall_state": "OK", "creator": {"name": "Michael
         Richey", "email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
         "id": 1002072115}}'
     headers:
@@ -100,13 +100,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 19307016, "org_id": 1300336245, "type": "query alert", "name":
+      string: '{"id": 19316857, "org_id": 1300336245, "type": "query alert", "name":
         "test", "message": "test  @pagerduty-hamrddr", "tags": ["managed_by:datadog-sync"],
         "query": "avg(last_10m):avg:system.load.1{*} > 5", "options": {"thresholds":
         {"critical": 5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
         false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1776779046000, "created": "2026-04-21T13:44:06.451061+00:00", "modified":
-        "2026-04-21T13:44:06.451061+00:00", "deleted": null, "priority": null, "restricted_roles":
+        1776806485000, "created": "2026-04-21T21:21:25.148892+00:00", "modified":
+        "2026-04-21T21:21:25.148892+00:00", "deleted": null, "priority": null, "restricted_roles":
         null, "restriction_policy": null, "draft_status": "published", "assets": [],
         "overall_state_modified": null, "overall_state": "No Data", "creator": {"name":
         "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email":
@@ -119,7 +119,7 @@ interactions:
       message: OK
 - request:
     body: '{"data": {"type": "downtime", "attributes": {"message": "test2", "monitor_identifier":
-      {"monitor_id": 19307016}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
+      {"monitor_id": 19316857}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
       "end": null}, "display_timezone": "America/New_York", "mute_first_recovery_notification":
       false, "notify_end_types": ["expired", "canceled"], "notify_end_states": ["alert",
       "warn", "no data"]}}}'
@@ -130,15 +130,15 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/downtime
   response:
     body:
-      string: '{"data": {"type": "downtime", "id": "99f25db4-6dc0-423b-b14b-a71ebf9f466a",
+      string: '{"data": {"type": "downtime", "id": "fa59b69c-c0b8-4858-a745-c0c40db5d8e5",
         "attributes": {"message": "test2", "status": "scheduled", "monitor_identifier":
-        {"monitor_id": 19307016}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
+        {"monitor_id": 19316857}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
         "end": null}, "display_timezone": "America/New_York", "mute_first_recovery_notification":
-        false, "notify_end_types": ["expired", "canceled"], "notify_end_states": ["alert",
-        "warn", "no data"], "created": "2026-04-21T13:44:06.658198+00:00", "modified":
-        "2026-04-21T13:44:06.658198+00:00", "canceled": null}, "relationships": {"created_by":
+        false, "notify_end_types": ["canceled", "expired"], "notify_end_states": ["no
+        data", "warn", "alert"], "created": "2026-04-21T21:21:25.423035+00:00", "modified":
+        "2026-04-21T21:21:25.423035+00:00", "canceled": null}, "relationships": {"created_by":
         {"data": {"type": "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea"}},
-        "monitor": {"data": {"type": "monitor", "id": "19307016"}}}}, "included":
+        "monitor": {"data": {"type": "monitor", "id": "19316857"}}}}, "included":
         [{"type": "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea", "attributes":
         {"uuid": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Michael S Richey",
         "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "created_at": "2025-07-16T20:40:21.833658+00:00",
@@ -146,7 +146,7 @@ interactions:
         "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?s=48&d=retro",
         "title": null, "verified": true, "service_account": true, "disabled": false,
         "allowed_login_methods": [], "status": "Active", "last_login_time": null}},
-        {"type": "monitor", "id": 19307016, "attributes": {"name": "test"}}]}'
+        {"type": "monitor", "id": 19316857, "attributes": {"name": "test"}}]}'
     headers:
       Content-Type:
       - application/json
@@ -9353,10 +9353,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/19307016?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/19316857?force=true
   response:
     body:
-      string: '{"deleted_monitor_id": 19307016}'
+      string: '{"deleted_monitor_id": 19316857}'
     headers:
       Content-Type:
       - application/json
@@ -9369,7 +9369,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/downtime/99f25db4-6dc0-423b-b14b-a71ebf9f466a
+    uri: https://api.us5.datadoghq.com/api/v2/downtime/fa59b69c-c0b8-4858-a745-c0c40db5d8e5
   response:
     body:
       string: ''

@@ -51,7 +51,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives
   response:
     body:
-      string: '{"data": {"type": "archives", "id": "dh2tVp2lRI6WDB5-MIZ14g", "attributes":
+      string: '{"data": {"type": "archives", "id": "22XOCLF5Q2e0Wca5OgxanQ", "attributes":
         {"name": "Main Archive", "query": "host:COMP-XKH4K2XWRC", "state": "UNKNOWN",
         "destination": {"bucket": "hamr-logs-archive-for-internal-testing", "encryption":
         {"type": "NO_OVERRIDE"}, "storage_class": "STANDARD", "path": "/logs-archive-testing",
@@ -73,7 +73,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archive-order
   response:
     body:
-      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["dh2tVp2lRI6WDB5-MIZ14g"]}}}'
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["22XOCLF5Q2e0Wca5OgxanQ"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -81,7 +81,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["dh2tVp2lRI6WDB5-MIZ14g"]}}}'
+    body: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["22XOCLF5Q2e0Wca5OgxanQ"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -89,7 +89,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archive-order
   response:
     body:
-      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["dh2tVp2lRI6WDB5-MIZ14g"]}}}'
+      string: '{"data": {"type": "archive_order", "attributes": {"archive_ids": ["22XOCLF5Q2e0Wca5OgxanQ"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -9296,7 +9296,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/dh2tVp2lRI6WDB5-MIZ14g
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/22XOCLF5Q2e0Wca5OgxanQ
   response:
     body:
       string: ''

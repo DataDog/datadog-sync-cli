@@ -487,7 +487,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "TiV8SKX-S627bySsyNjM_Q", "type": "pipeline", "name": "test",
+      string: '{"id": "x-E67b-ZTAynjFLhomepzg", "type": "pipeline", "name": "test",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -747,7 +747,7 @@ interactions:
         ["dd.version"], "source_type": "attribute", "target": "version", "target_type":
         "tag", "preserve_source": false, "override_on_conflict": true, "type": "attribute-remapper"},
         {"name": "Define `dd.service` as the official service of the log", "is_enabled":
-        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "TiV8SKX-S627bySsyNjM_Q",
+        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "x-E67b-ZTAynjFLhomepzg",
         "type": "pipeline", "name": "test", "is_enabled": true, "is_read_only": false,
         "filter": {"query": "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -987,7 +987,7 @@ interactions:
         ["dd.version"], "source_type": "attribute", "target": "version", "target_type":
         "tag", "preserve_source": false, "override_on_conflict": true, "type": "attribute-remapper"},
         {"name": "Define `dd.service` as the official service of the log", "is_enabled":
-        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "TiV8SKX-S627bySsyNjM_Q",
+        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "x-E67b-ZTAynjFLhomepzg",
         "type": "pipeline", "name": "test", "is_enabled": true, "is_read_only": false,
         "filter": {"query": "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -1003,10 +1003,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/TiV8SKX-S627bySsyNjM_Q
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/x-E67b-ZTAynjFLhomepzg
   response:
     body:
-      string: '{"id": "TiV8SKX-S627bySsyNjM_Q", "type": "pipeline", "name": "testupdated",
+      string: '{"id": "x-E67b-ZTAynjFLhomepzg", "type": "pipeline", "name": "testupdated",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -1266,7 +1266,7 @@ interactions:
         ["dd.version"], "source_type": "attribute", "target": "version", "target_type":
         "tag", "preserve_source": false, "override_on_conflict": true, "type": "attribute-remapper"},
         {"name": "Define `dd.service` as the official service of the log", "is_enabled":
-        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "TiV8SKX-S627bySsyNjM_Q",
+        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "x-E67b-ZTAynjFLhomepzg",
         "type": "pipeline", "name": "testupdated", "is_enabled": true, "is_read_only":
         false, "filter": {"query": "source:appgate_client "}, "processors": [], "tags":
         []}]'
@@ -10476,7 +10476,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/TiV8SKX-S627bySsyNjM_Q
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/x-E67b-ZTAynjFLhomepzg
   response:
     body:
       string: '{}'

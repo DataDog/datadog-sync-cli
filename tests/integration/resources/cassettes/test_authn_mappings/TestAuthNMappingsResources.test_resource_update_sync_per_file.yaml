@@ -2786,10 +2786,10 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/authn_mappings
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "f61f39d0-3d87-11f1-a548-da7ad0900005",
+      string: '{"data": {"type": "authn_mappings", "id": "d9d649fe-3dc7-11f1-853c-da7ad0900005",
         "attributes": {"saml_assertion_attribute_id": "3699", "attribute_key": "name",
-        "attribute_value": "michael", "created_at": "2026-04-21T13:42:38.430357+00:00",
-        "modified_at": "2026-04-21T13:42:38.430357+00:00"}, "relationships": {"saml_assertion_attribute":
+        "attribute_value": "michael", "created_at": "2026-04-21T21:19:58.767058+00:00",
+        "modified_at": "2026-04-21T21:19:58.767058+00:00"}, "relationships": {"saml_assertion_attribute":
         {"data": {"type": "saml_assertion_attributes", "id": "3699"}}, "role": {"data":
         {"type": "roles", "id": "19f3d166-3ce0-11f1-b986-da7ad0900005"}}, "team":
         {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
@@ -3043,18 +3043,18 @@ interactions:
 - request:
     body: '{"data": {"type": "authn_mappings", "attributes": {"attribute_key": "name",
       "attribute_value": "michaelupdated"}, "relationships": {"role": {"data": {"type":
-      "roles", "id": "19f3d166-3ce0-11f1-b986-da7ad0900005"}}}, "id": "f61f39d0-3d87-11f1-a548-da7ad0900005"}}'
+      "roles", "id": "19f3d166-3ce0-11f1-b986-da7ad0900005"}}}, "id": "d9d649fe-3dc7-11f1-853c-da7ad0900005"}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://api.us5.datadoghq.com/api/v2/authn_mappings/f61f39d0-3d87-11f1-a548-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/authn_mappings/d9d649fe-3dc7-11f1-853c-da7ad0900005
   response:
     body:
-      string: '{"data": {"type": "authn_mappings", "id": "f61f39d0-3d87-11f1-a548-da7ad0900005",
+      string: '{"data": {"type": "authn_mappings", "id": "d9d649fe-3dc7-11f1-853c-da7ad0900005",
         "attributes": {"saml_assertion_attribute_id": "3700", "attribute_key": "name",
-        "attribute_value": "michaelupdated", "created_at": "2026-04-21T13:42:38.430357+00:00",
-        "modified_at": "2026-04-21T13:42:39.450053+00:00"}, "relationships": {"saml_assertion_attribute":
+        "attribute_value": "michaelupdated", "created_at": "2026-04-21T21:19:58.767058+00:00",
+        "modified_at": "2026-04-21T21:19:59.830636+00:00"}, "relationships": {"saml_assertion_attribute":
         {"data": {"type": "saml_assertion_attributes", "id": "3700"}}, "role": {"data":
         {"type": "roles", "id": "19f3d166-3ce0-11f1-b986-da7ad0900005"}}, "team":
         {"data": null}}}, "included": [{"type": "saml_assertion_attributes", "id":
@@ -12485,7 +12485,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/authn_mappings/f61f39d0-3d87-11f1-a548-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/authn_mappings/d9d649fe-3dc7-11f1-853c-da7ad0900005
   response:
     body:
       string: ''

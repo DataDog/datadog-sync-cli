@@ -74,12 +74,12 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 277631, "attributes": {"name":
-        "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "id": "l8l0gyo9",
+      string: '{"data": {"type": "notebooks", "id": 277854, "attributes": {"name":
+        "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "id": "six277b2",
         "attributes": {"definition": {"type": "markdown", "text": "test"}}}], "time":
         {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
         false, "is_favorite": false, "type": null}, "template_variables": [], "status":
-        "published", "modified": "2026-04-21T13:47:56.604206+00:00", "created": "2026-04-21T13:47:56.604206+00:00",
+        "published", "modified": "2026-04-21T21:25:13.275059+00:00", "created": "2026-04-21T21:25:13.275059+00:00",
         "deleted": null, "tags": [], "author": {"name": "Michael S Richey", "handle":
         "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com",
         "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?d=retro&s=48",
@@ -129,8 +129,8 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 277632, "attributes": {"name":
-        "Michael Feb 14 2026 21:52", "cells": [{"type": "notebook_cells", "id": "mye0tcmn",
+      string: '{"data": {"type": "notebooks", "id": 277855, "attributes": {"name":
+        "Michael Feb 14 2026 21:52", "cells": [{"type": "notebook_cells", "id": "6edz8lt5",
         "attributes": {"definition": {"type": "timeseries", "title": "CPU usage (%)",
         "yaxis": {"max": "100", "include_zero": true}, "requests": [{"style": {"palette":
         "dog_classic", "line_type": "solid", "line_width": "normal"}, "queries": [{"name":
@@ -148,8 +148,8 @@ interactions:
         "display_type": "area", "response_format": "timeseries"}], "show_legend":
         false, "legend_layout": "vertical", "legend_columns": ["avg", "min", "max",
         "value", "sum"]}, "graph_size": "l", "time": null}}, {"type": "notebook_cells",
-        "id": "f1ybftdj", "attributes": {"definition": {"type": "markdown", "text":
-        ""}}}, {"type": "notebook_cells", "id": "w6dt1oyc", "attributes": {"definition":
+        "id": "w6a11p68", "attributes": {"definition": {"type": "markdown", "text":
+        ""}}}, {"type": "notebook_cells", "id": "wmrmb10s", "attributes": {"definition":
         {"type": "timeseries", "title": "Network traffic (bytes per sec)", "requests":
         [{"style": {"palette": "dog_classic", "line_type": "solid", "line_width":
         "normal"}, "queries": [{"name": "query1", "query": "sum:system.net.bytes_rcvd{host:casaos}
@@ -159,41 +159,13 @@ interactions:
         "query1", "query": "sum:system.net.bytes_sent{host:casaos} by {host}", "data_source":
         "metrics"}], "formulas": [{"alias": "sent", "formula": "0 - default_zero(query1)"}],
         "response_format": "timeseries"}], "show_legend": false}, "time": null}},
-        {"type": "notebook_cells", "id": "z2qlrxbe", "attributes": {"definition":
+        {"type": "notebook_cells", "id": "hd44p5ho", "attributes": {"definition":
         {"type": "markdown", "text": ""}}}], "time": {"live_span": "1h"}, "metadata":
         {"take_snapshots": false, "is_template": false, "is_favorite": false, "type":
-        null}, "template_variables": [], "status": "published", "modified": "2026-04-21T13:47:56.640150+00:00",
-        "created": "2026-04-21T13:47:56.640150+00:00", "deleted": null, "tags": [],
+        null}, "template_variables": [], "status": "published", "modified": "2026-04-21T21:25:13.297590+00:00",
+        "created": "2026-04-21T21:25:13.297590+00:00", "deleted": null, "tags": [],
         "author": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "email": "michael.richey@gmail.com", "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?d=retro&s=48",
-        "title": "", "verified": true, "disabled": false, "status": "Active"}}}}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"data": {"type": "notebooks", "attributes": {"name": "Michael Jun 10 2025
-      10:49updated", "cells": [{"type": "notebook_cells", "attributes": {"definition":
-      {"text": "test", "type": "markdown"}}}], "time": {"live_span": "1h"}, "status":
-      "published", "deleted": null, "tags": []}}}'
-    headers:
-      Content-Type:
-      - application/json
-    method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277631
-  response:
-    body:
-      string: '{"data": {"type": "notebooks", "id": 277631, "attributes": {"name":
-        "Michael Jun 10 2025 10:49updated", "cells": [{"type": "notebook_cells", "id":
-        "9cii7nh7", "attributes": {"definition": {"type": "markdown", "text": "test"}}}],
-        "time": {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
-        false, "is_favorite": false, "type": null}, "template_variables": [], "status":
-        "published", "modified": "2026-04-21T13:47:58.292574+00:00", "created": "2026-04-21T13:47:56.604206+00:00",
-        "deleted": null, "tags": ["human_edited:true"], "author": {"name": "Michael
-        S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com",
-        "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?d=retro&s=48",
         "title": "", "verified": true, "disabled": false, "status": "Active"}}}}'
     headers:
       Content-Type:
@@ -237,12 +209,12 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277632
+    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277855
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 277632, "attributes": {"name":
+      string: '{"data": {"type": "notebooks", "id": 277855, "attributes": {"name":
         "Michael Feb 14 2026 21:52updated", "cells": [{"type": "notebook_cells", "id":
-        "2f8o6zb9", "attributes": {"definition": {"type": "timeseries", "title": "CPU
+        "91v9gbn1", "attributes": {"definition": {"type": "timeseries", "title": "CPU
         usage (%)", "yaxis": {"max": "100", "include_zero": true}, "requests": [{"style":
         {"palette": "dog_classic", "line_type": "solid", "line_width": "normal"},
         "queries": [{"name": "query1", "query": "system.cpu.idle{host:casaos} by {host}",
@@ -259,8 +231,8 @@ interactions:
         "display_type": "area", "response_format": "timeseries"}], "show_legend":
         false, "legend_layout": "vertical", "legend_columns": ["avg", "min", "max",
         "value", "sum"]}, "graph_size": "l", "time": null}}, {"type": "notebook_cells",
-        "id": "y9zun89r", "attributes": {"definition": {"type": "markdown", "text":
-        ""}}}, {"type": "notebook_cells", "id": "t8m7bjdi", "attributes": {"definition":
+        "id": "2wihba7n", "attributes": {"definition": {"type": "markdown", "text":
+        ""}}}, {"type": "notebook_cells", "id": "cyqe2end", "attributes": {"definition":
         {"type": "timeseries", "title": "Network traffic (bytes per sec)", "requests":
         [{"style": {"palette": "dog_classic", "line_type": "solid", "line_width":
         "normal"}, "queries": [{"name": "query1", "query": "sum:system.net.bytes_rcvd{host:casaos}
@@ -270,13 +242,41 @@ interactions:
         "query1", "query": "sum:system.net.bytes_sent{host:casaos} by {host}", "data_source":
         "metrics"}], "formulas": [{"alias": "sent", "formula": "0 - default_zero(query1)"}],
         "response_format": "timeseries"}], "show_legend": false}, "time": null}},
-        {"type": "notebook_cells", "id": "j3zi83hx", "attributes": {"definition":
+        {"type": "notebook_cells", "id": "ef21v4c6", "attributes": {"definition":
         {"type": "markdown", "text": ""}}}], "time": {"live_span": "1h"}, "metadata":
         {"take_snapshots": false, "is_template": false, "is_favorite": false, "type":
-        null}, "template_variables": [], "status": "published", "modified": "2026-04-21T13:47:58.245300+00:00",
-        "created": "2026-04-21T13:47:56.640150+00:00", "deleted": null, "tags": ["human_edited:true"],
+        null}, "template_variables": [], "status": "published", "modified": "2026-04-21T21:25:14.993716+00:00",
+        "created": "2026-04-21T21:25:13.297590+00:00", "deleted": null, "tags": ["human_edited:true"],
         "author": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "email": "michael.richey@gmail.com", "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?d=retro&s=48",
+        "title": "", "verified": true, "disabled": false, "status": "Active"}}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "notebooks", "attributes": {"name": "Michael Jun 10 2025
+      10:49updated", "cells": [{"type": "notebook_cells", "attributes": {"definition":
+      {"text": "test", "type": "markdown"}}}], "time": {"live_span": "1h"}, "status":
+      "published", "deleted": null, "tags": []}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: PUT
+    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277854
+  response:
+    body:
+      string: '{"data": {"type": "notebooks", "id": 277854, "attributes": {"name":
+        "Michael Jun 10 2025 10:49updated", "cells": [{"type": "notebook_cells", "id":
+        "4ujd49ec", "attributes": {"definition": {"type": "markdown", "text": "test"}}}],
+        "time": {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
+        false, "is_favorite": false, "type": null}, "template_variables": [], "status":
+        "published", "modified": "2026-04-21T21:25:15.099417+00:00", "created": "2026-04-21T21:25:13.275059+00:00",
+        "deleted": null, "tags": ["human_edited:true"], "author": {"name": "Michael
+        S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com",
+        "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?d=retro&s=48",
         "title": "", "verified": true, "disabled": false, "status": "Active"}}}}'
     headers:
       Content-Type:
@@ -9484,7 +9484,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277632
+    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277855
   response:
     body:
       string: ''
@@ -9500,7 +9500,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277631
+    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277854
   response:
     body:
       string: ''
