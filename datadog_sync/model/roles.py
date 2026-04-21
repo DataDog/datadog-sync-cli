@@ -219,7 +219,9 @@ class Roles(BaseResource):
     async def delete_resource(self, _id: str) -> None:
         role_name = self.config.state.destination[self.resource_type][_id].get("attributes", {}).get("name")
         if role_name in BUILTIN_ROLE_NAMES:
-            raise SkipResource(_id, self.resource_type, f"'{role_name}' is a built-in Datadog role and cannot be deleted")
+            raise SkipResource(
+                _id, self.resource_type, f"'{role_name}' is a built-in Datadog role and cannot be deleted"
+            )
         destination_client = self.config.destination_client
         await destination_client.delete(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"

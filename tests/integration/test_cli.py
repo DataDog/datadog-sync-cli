@@ -87,7 +87,7 @@ class TestCli:
 
             # Exponential backoff with jitter — only sleep when hitting the live API
             if os.environ.get("RECORD", "false").lower() == "true":
-                delay = (2 ** attempt) * 5 + random.uniform(0, 3)
+                delay = (2**attempt) * 5 + random.uniform(0, 3)
                 time.sleep(delay)
 
         monitors = get_monitors()
