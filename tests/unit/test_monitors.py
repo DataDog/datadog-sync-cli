@@ -232,18 +232,20 @@ class TestMonitorsRestrictionPolicyPrincipals:
     # --- pre_apply_hook tests ---
 
     def test_pre_apply_hook_sets_org_principal_on_success(self):
-        """Successful GET /api/v1/org sets org_principal to 'org:{public_id}'."""
+        """Successful GET /api/v2/current_user sets org_principal to 'org:{org_uuid}'."""
         from unittest.mock import AsyncMock
 
         monitors = self._make_monitors()
         mock_client = AsyncMock()
-        mock_client.get = AsyncMock(return_value={"orgs": [{"public_id": "dest-pub-id"}]})
+        mock_client.get = AsyncMock(
+            return_value={"data": {"relationships": {"org": {"data": {"id": "00000000-0000-beef-0000-000000000000"}}}}}
+        )
         monitors.config.destination_client = mock_client
         asyncio.run(monitors.pre_apply_hook())
-        assert monitors.org_principal == "org:dest-pub-id"
+        assert monitors.org_principal == "org:00000000-0000-beef-0000-000000000000"
 
     def test_pre_apply_hook_leaves_org_principal_none_on_failure(self):
-        """Failed GET /api/v1/org leaves org_principal as None and raises."""
+        """Failed GET /api/v2/current_user leaves org_principal as None and raises."""
         from unittest.mock import AsyncMock
 
         monitors = self._make_monitors()

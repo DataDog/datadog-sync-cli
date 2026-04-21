@@ -52,7 +52,7 @@ class Monitors(BaseResource):
         remaining_func=lambda *args: 1,
         response_list_accessor=None,
     )
-    orgs_path: str = "/api/v1/org"
+    current_user_path: str = "/api/v2/current_user"
     org_principal: Optional[str] = None
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
@@ -98,8 +98,9 @@ class Monitors(BaseResource):
     async def pre_apply_hook(self) -> None:
         destination_client = self.config.destination_client
         try:
-            org = (await destination_client.get(self.orgs_path))["orgs"][0]
-            self.org_principal = f"org:{org['public_id']}"
+            resp = await destination_client.get(self.current_user_path)
+            org_id = resp["data"]["relationships"]["org"]["data"]["id"]
+            self.org_principal = f"org:{org_id}"
         except Exception as e:
             self.config.logger.error(f"Failed to get org details: {e}")
             raise
