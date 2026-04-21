@@ -261,9 +261,7 @@ class TestOutcomeContent:
 
     def test_new_resources_reported_as_create(self, runner):
         _, outcomes, _ = _run_diffs(runner)
-        create_ids = {
-            o["id"] for o in outcomes if o["status"] == "success" and o["action_sub_type"] == "create"
-        }
+        create_ids = {o["id"] for o in outcomes if o["status"] == "success" and o["action_sub_type"] == "create"}
         assert "def-456" in create_ids
         assert "ghi-789" in create_ids
 
@@ -592,9 +590,7 @@ class TestNdjsonStreamSeparation:
             ],
         )
         assert ret.exception is None, f"CLI crashed: {ret.exception}"
-        assert ret.stderr_bytes == b"", (
-            f"Expected empty stderr in --json mode, got: {ret.stderr_bytes[:200]!r}"
-        )
+        assert ret.stderr_bytes == b"", f"Expected empty stderr in --json mode, got: {ret.stderr_bytes[:200]!r}"
 
     def test_stdout_empty_in_human_mode(self, runner):
         """In human mode, stdout should be empty (logs go to stderr via logging)."""
@@ -681,13 +677,9 @@ class TestJsonCleanupValidation:
                 "--cleanup=True",
             ],
         )
-        assert ret.exit_code == 2, (
-            f"Expected exit code 2 (UsageError) for --json + --cleanup=True, got {ret.exit_code}"
-        )
+        assert ret.exit_code == 2, f"Expected exit code 2 (UsageError) for --json + --cleanup=True, got {ret.exit_code}"
         combined = (ret.output or "") + (ret.stderr_bytes.decode("utf-8") if ret.stderr_bytes else "")
-        assert "--cleanup=Force" in combined, (
-            f"Error message should suggest --cleanup=Force, got: {combined[:300]}"
-        )
+        assert "--cleanup=Force" in combined, f"Error message should suggest --cleanup=Force, got: {combined[:300]}"
 
     def test_sync_json_with_cleanup_true_errors(self, runner):
         """sync --json --cleanup=True should also be rejected."""
@@ -706,9 +698,9 @@ class TestJsonCleanupValidation:
                 "--cleanup=True",
             ],
         )
-        assert ret.exit_code == 2, (
-            f"Expected exit code 2 (UsageError) for sync --json + --cleanup=True, got {ret.exit_code}"
-        )
+        assert (
+            ret.exit_code == 2
+        ), f"Expected exit code 2 (UsageError) for sync --json + --cleanup=True, got {ret.exit_code}"
 
     def test_json_with_cleanup_force_accepted(self, runner):
         """--json combined with --cleanup=Force should be accepted (no prompt)."""
@@ -728,9 +720,7 @@ class TestJsonCleanupValidation:
             ],
         )
         assert ret.exception is None, f"CLI crashed: {ret.exception}"
-        assert ret.exit_code == 0, (
-            f"--json + --cleanup=Force should succeed, got exit {ret.exit_code}"
-        )
+        assert ret.exit_code == 0, f"--json + --cleanup=Force should succeed, got exit {ret.exit_code}"
 
     def test_json_with_cleanup_false_accepted(self, runner):
         """--json combined with --cleanup=False (default) should work fine."""
@@ -750,9 +740,7 @@ class TestJsonCleanupValidation:
             ],
         )
         assert ret.exception is None, f"CLI crashed: {ret.exception}"
-        assert ret.exit_code == 0, (
-            f"--json + --cleanup=False should succeed, got exit {ret.exit_code}"
-        )
+        assert ret.exit_code == 0, f"--json + --cleanup=False should succeed, got exit {ret.exit_code}"
 
     def test_no_json_with_cleanup_true_still_works(self, runner):
         """Without --json, --cleanup=True should still work (interactive prompt is fine)."""
@@ -773,6 +761,4 @@ class TestJsonCleanupValidation:
             input="n\n",
         )
         # Should not fail with a usage error — the prompt is valid in human mode
-        assert ret.exit_code != 2, (
-            "--cleanup=True without --json should be accepted, got exit 2"
-        )
+        assert ret.exit_code != 2, "--cleanup=True without --json should be accepted, got exit 2"

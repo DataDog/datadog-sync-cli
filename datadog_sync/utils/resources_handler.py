@@ -186,8 +186,12 @@ class ResourcesHandler:
                         await self.worker.schedule_workers()
                         self.config.logger.info("finished cleaning up resources (unordered fallback)")
 
-        # Run map-existing-resources hooks
-        resource_types = set(i[0] for i in self._dependency_graph)
+        # Run map-existing-resources hooks for all resource types in the graph,
+        # including transitive dependency targets (which appear in value sets but
+        # may not be keys themselves).
+        resource_types = {rt for rt, _ in self._dependency_graph}
+        for deps in self._dependency_graph.values():
+            resource_types.update(rt for rt, _ in deps)
         await self.worker.init_workers(self._map_existing_resources_cb, None, len(resource_types))
         for resource_type in resource_types:
             self.worker.work_queue.put_nowait(resource_type)
@@ -284,8 +288,11 @@ class ResourcesHandler:
     async def diffs(self) -> None:
         self._dependency_graph, _, _ = self.get_dependency_graph()
 
-        # Run map-existing-resources hooks
-        resource_types = set(i[0] for i in self._dependency_graph.keys())
+        # Run map-existing-resources hooks for all resource types in the graph,
+        # including transitive dependency targets.
+        resource_types = {rt for rt, _ in self._dependency_graph}
+        for deps in self._dependency_graph.values():
+            resource_types.update(rt for rt, _ in deps)
         await self.worker.init_workers(self._map_existing_resources_cb, None, len(resource_types))
         for resource_type in resource_types:
             self.worker.work_queue.put_nowait(resource_type)
