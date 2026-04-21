@@ -28,14 +28,10 @@ class ServiceLevelObjectives(BaseResource):
 
         return resp["data"]
 
-    async def import_resource(
-        self, _id: Optional[str] = None, resource: Optional[Dict] = None
-    ) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = (
-                await source_client.get(self.resource_config.base_path + f"/{_id}")
-            )["data"]
+            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
         resource = cast(dict, resource)
         return resource["id"], resource
 
@@ -50,8 +46,8 @@ class ServiceLevelObjectives(BaseResource):
                     raise SkipResource(
                         _id,
                         self.resource_type,
-                        f"Deprecated resource configuration: Metric SLO query '{field}' is missing the .as_count() modifier. "
-                        "Update the source SLO query before syncing.",
+                        f"Deprecated resource configuration: Metric SLO query '{field}' "
+                        "is missing the .as_count() modifier. Update the source SLO query before syncing.",
                     )
 
     async def pre_apply_hook(self) -> None:
@@ -66,8 +62,7 @@ class ServiceLevelObjectives(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resp = await destination_client.put(
-            self.resource_config.base_path
-            + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
 
@@ -76,14 +71,11 @@ class ServiceLevelObjectives(BaseResource):
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path
-            + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             params={"force": "true"},
         )
 
-    def connect_id(
-        self, key: str, r_obj: Dict, resource_to_connect: str
-    ) -> Optional[List[str]]:
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.state.destination["monitors"]
         synthetics_tests = self.config.state.destination["synthetics_tests"]
 
