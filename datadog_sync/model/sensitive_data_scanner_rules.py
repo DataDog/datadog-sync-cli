@@ -19,9 +19,7 @@ class SensitiveDataScannerRules(BaseResource):
         excluded_attributes=[
             "id",
         ],
-        resource_connections={
-            "sensitive_data_scanner_groups": ["relationships.group.data.id"]
-        },
+        resource_connections={"sensitive_data_scanner_groups": ["relationships.group.data.id"]},
         non_nullable_attr=["attributes.included_keywords"],
         concurrent=False,
         skip_resource_mapping=True,
@@ -34,58 +32,38 @@ class SensitiveDataScannerRules(BaseResource):
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
 
-        return [
-            r
-            for r in resp.get("included", [])
-            if r["type"] == "sensitive_data_scanner_rule"
-        ]
+        return [r for r in resp.get("included", []) if r["type"] == "sensitive_data_scanner_rule"]
 
-    async def import_resource(
-        self, _id: Optional[str] = None, resource: Optional[Dict] = None
-    ) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         if not self.source_standard_pattern_mapping:
             # Populate the standard pattern mapping
             try:
-                std_patterns = (
-                    await source_client.get(
-                        self.resource_config.base_path + "/standard-patterns"
-                    )
-                )["data"]
+                std_patterns = (await source_client.get(self.resource_config.base_path + "/standard-patterns"))["data"]
                 for pattern in std_patterns:
-                    self.source_standard_pattern_mapping[pattern["id"]] = pattern[
-                        "attributes"
-                    ]["name"]
+                    self.source_standard_pattern_mapping[pattern["id"]] = pattern["attributes"]["name"]
             except Exception as e:
                 self.config.logger.warning("error retrieving standard patterns: %s", e)
 
         if _id:
-            resource = await source_client.get(
-                self.resource_config.base_path + f"/rules/{_id}"
-            )
+            resource = await source_client.get(self.resource_config.base_path + f"/rules/{_id}")
 
-        if _std_id := (
-            resource.get("relationships", {}).get("standard_pattern", {}).get("data")
-            or {}
-        ).get("id"):
-            resource["relationships"]["standard_pattern"]["data"]["id"] = (
-                self.source_standard_pattern_mapping.get(_std_id, _std_id)
+        if _std_id := (resource.get("relationships", {}).get("standard_pattern", {}).get("data") or {}).get("id"):
+            resource["relationships"]["standard_pattern"]["data"]["id"] = self.source_standard_pattern_mapping.get(
+                _std_id, _std_id
             )
 
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        if name := (
-            resource.get("relationships", {}).get("standard_pattern", {}).get("data")
-            or {}
-        ).get("id"):
+        if name := (resource.get("relationships", {}).get("standard_pattern", {}).get("data") or {}).get("id"):
             dest_id = self.destination_standard_pattern_mapping.get(name)
             if dest_id is None:
                 raise SkipResource(
                     _id,
                     self.resource_type,
-                    f"Deprecated resource configuration: Standard pattern '{name}' does not exist in the destination org. "
-                    "Provision the standard scanner pattern before syncing.",
+                    f"Deprecated resource configuration: Standard pattern '{name}' "
+                    "does not exist in the destination org. Provision the standard scanner pattern before syncing.",
                 )
             resource["relationships"]["standard_pattern"]["data"]["id"] = dest_id
 
@@ -95,11 +73,9 @@ class SensitiveDataScannerRules(BaseResource):
             mapping = {}
             # Populate the standard pattern mapping
             try:
-                std_patterns = (
-                    await destination_client.get(
-                        self.resource_config.base_path + "/standard-patterns"
-                    )
-                )["data"]
+                std_patterns = (await destination_client.get(self.resource_config.base_path + "/standard-patterns"))[
+                    "data"
+                ]
                 for pattern in std_patterns:
                     mapping[pattern["attributes"]["name"]] = pattern["id"]
                 self.destination_standard_pattern_mapping = mapping
@@ -110,9 +86,7 @@ class SensitiveDataScannerRules(BaseResource):
         destination_client = self.config.destination_client
 
         payload = {"data": resource, "meta": {}}
-        resp = await destination_client.post(
-            self.resource_config.base_path + "/rules", payload
-        )
+        resp = await destination_client.post(self.resource_config.base_path + "/rules", payload)
 
         return _id, resp["data"]
 
@@ -121,8 +95,7 @@ class SensitiveDataScannerRules(BaseResource):
         resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
         payload = {"data": resource, "meta": {}}
         await destination_client.patch(
-            self.resource_config.base_path
-            + f"/rules/{self.config.state.destination[self.resource_type][_id]['id']}",
+            self.resource_config.base_path + f"/rules/{self.config.state.destination[self.resource_type][_id]['id']}",
             payload,
         )
 
@@ -132,14 +105,9 @@ class SensitiveDataScannerRules(BaseResource):
         destination_client = self.config.destination_client
         payload = {"meta": {}}
         await destination_client.delete(
-            self.resource_config.base_path
-            + f"/rules/{self.config.state.destination[self.resource_type][_id]['id']}",
+            self.resource_config.base_path + f"/rules/{self.config.state.destination[self.resource_type][_id]['id']}",
             body=payload,
         )
 
-    def connect_id(
-        self, key: str, r_obj: Dict, resource_to_connect: str
-    ) -> Optional[List[str]]:
-        return super(SensitiveDataScannerRules, self).connect_id(
-            key, r_obj, resource_to_connect
-        )
+    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        return super(SensitiveDataScannerRules, self).connect_id(key, r_obj, resource_to_connect)
