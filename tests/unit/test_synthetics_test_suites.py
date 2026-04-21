@@ -72,13 +72,15 @@ class TestSyntheticsTestSuitesCRUD:
     def test_create_resource_wraps_envelope(self):
         """Verify create sends JSON:API data envelope."""
         instance, mock_config, mock_client = self._make_instance()
-        mock_client.post = AsyncMock(return_value={
-            "data": {
-                "type": "suites",
-                "id": "abc-def-ghi",
-                "attributes": {"name": "My Suite", "public_id": "abc-def-ghi"},
+        mock_client.post = AsyncMock(
+            return_value={
+                "data": {
+                    "type": "suites",
+                    "id": "abc-def-ghi",
+                    "attributes": {"name": "My Suite", "public_id": "abc-def-ghi"},
+                }
             }
-        })
+        )
 
         resource = {
             "type": "suites",
@@ -105,13 +107,15 @@ class TestSyntheticsTestSuitesCRUD:
         mock_config.state.destination["synthetics_test_suites"] = {
             "src-id": {"attributes": {"public_id": "dest-pub-id"}}
         }
-        mock_client.put = AsyncMock(return_value={
-            "data": {
-                "type": "suites",
-                "id": "dest-pub-id",
-                "attributes": {"name": "Updated", "public_id": "dest-pub-id"},
+        mock_client.put = AsyncMock(
+            return_value={
+                "data": {
+                    "type": "suites",
+                    "id": "dest-pub-id",
+                    "attributes": {"name": "Updated", "public_id": "dest-pub-id"},
+                }
             }
-        })
+        )
 
         resource = {
             "type": "suites",

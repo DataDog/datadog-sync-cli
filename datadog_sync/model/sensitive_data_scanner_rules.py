@@ -6,6 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -19,6 +20,7 @@ class SensitiveDataScannerRules(BaseResource):
             "id",
         ],
         resource_connections={"sensitive_data_scanner_groups": ["relationships.group.data.id"]},
+        non_nullable_attr=["attributes.included_keywords"],
         concurrent=False,
         skip_resource_mapping=True,
     )
@@ -46,7 +48,7 @@ class SensitiveDataScannerRules(BaseResource):
         if _id:
             resource = await source_client.get(self.resource_config.base_path + f"/rules/{_id}")
 
-        if _std_id := resource.get("relationships", {}).get("standard_pattern", {}).get("data", {}).get("id"):
+        if _std_id := (resource.get("relationships", {}).get("standard_pattern", {}).get("data") or {}).get("id"):
             resource["relationships"]["standard_pattern"]["data"]["id"] = self.source_standard_pattern_mapping.get(
                 _std_id, _std_id
             )
@@ -54,10 +56,16 @@ class SensitiveDataScannerRules(BaseResource):
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        if name := resource.get("relationships", {}).get("standard_pattern", {}).get("data", {}).get("id"):
-            resource["relationships"]["standard_pattern"]["data"]["id"] = self.destination_standard_pattern_mapping.get(
-                name, name
-            )
+        if name := (resource.get("relationships", {}).get("standard_pattern", {}).get("data") or {}).get("id"):
+            dest_id = self.destination_standard_pattern_mapping.get(name)
+            if dest_id is None:
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    f"Deprecated resource configuration: Standard pattern '{name}' "
+                    "does not exist in the destination org. Provision the standard scanner pattern before syncing.",
+                )
+            resource["relationships"]["standard_pattern"]["data"]["id"] = dest_id
 
     async def pre_apply_hook(self) -> None:
         destination_client = self.config.destination_client

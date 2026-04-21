@@ -15,6 +15,10 @@ if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
 
 
+def _team_membership_key(r):
+    return f"{r['relationships']['team']['data']['id']}:{r['relationships']['user']['data']['id']}"
+
+
 class TeamMemberships(BaseResource):
     resource_type = "team_memberships"
     resource_config = ResourceConfig(
@@ -28,10 +32,9 @@ class TeamMemberships(BaseResource):
             "attributes.provisioned_by",
             "attributes.provisioned_by_id",
         ],
-        skip_resource_mapping=True,
+        resource_mapping_key=_team_membership_key,
     )
     team_memberships_path = "/api/v2/team/{}/memberships"
-    destination_team_memberships: List[Dict] = []
     # Additional TeamMemberships specific attributes
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
@@ -106,15 +109,15 @@ class TeamMemberships(BaseResource):
         pass
 
     async def pre_apply_hook(self) -> None:
-        destination_client = self.config.destination_client
-        self.destination_team_memberships = await self.get_resources(destination_client)
+        pass
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource_team_id = resource["relationships"]["team"]["data"]["id"]
         destination_resource = copy.deepcopy(resource)
 
-        existing = self._get_existing_team_membership(destination_resource)
+        key = self.get_resource_mapping_key(destination_resource)
+        existing = self._existing_resources_map.get(key, {}) if key else {}
         if existing:
             raise SkipResource(_id, self.resource_type, "User is already a member of the team")
 
@@ -128,7 +131,8 @@ class TeamMemberships(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         state = self.config.state.destination[self.resource_type].get(_id, None)
-        existing = self._get_existing_team_membership(state)
+        key = self.get_resource_mapping_key(state) if state else None
+        existing = self._existing_resources_map.get(key, {}) if key else {}
 
         # membership doesn't exist, create it instead of updating
         if not existing:
@@ -194,17 +198,3 @@ class TeamMemberships(BaseResource):
             else:
                 failed_connections.append(_id)
         return failed_connections
-
-    def _get_existing_team_membership(self, state):
-        existing = {}
-        if state:
-            state_team_id = state["relationships"]["team"]["data"]["id"]
-            state_user_id = state["relationships"]["user"]["data"]["id"]
-            for destination_team_membership in self.destination_team_memberships:
-                if (
-                    destination_team_membership["relationships"]["team"]["data"]["id"] == state_team_id
-                    and destination_team_membership["relationships"]["user"]["data"]["id"] == state_user_id
-                ):
-                    existing = destination_team_membership
-                    break
-        return existing

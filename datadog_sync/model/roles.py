@@ -16,6 +16,17 @@ if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
 
 
+# These role names are reserved and managed by Datadog — they cannot be created,
+# updated, or deleted via the API and must be excluded from all sync operations.
+BUILTIN_ROLE_NAMES = frozenset(
+    {
+        "Datadog Admin Role",
+        "Datadog Read Only Role",
+        "Datadog Standard Role",
+    }
+)
+
+
 class Roles(BaseResource):
     resource_type = "roles"
     resource_config = ResourceConfig(
@@ -29,12 +40,11 @@ class Roles(BaseResource):
             "attributes.user_count",
             "id",
         ],
-        skip_resource_mapping=True,
+        resource_mapping_key="attributes.name",
     )
     # Additional Roles specific attributes
     source_permissions: Dict = {}
     destination_permissions: Dict = {}
-    destination_roles_mapping: Optional[Dict] = None
     permissions_base_path: str = "/api/v2/permissions"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
@@ -70,11 +80,13 @@ class Roles(BaseResource):
 
         return resource["id"], resource
 
+    async def map_existing_resources(self) -> None:
+        self._existing_resources_map = await self.get_destination_roles_mapping()
+
     async def pre_apply_hook(self) -> None:
-        self.destination_roles_mapping = await self.get_destination_roles_mapping()
+        pass
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        self.destination_roles_mapping = await self.get_destination_roles_mapping()
         await self.remap_permissions(resource)
 
     async def create_resource(self, _id, resource) -> Tuple[str, Dict]:
@@ -85,7 +97,7 @@ class Roles(BaseResource):
         resource["attributes"].pop("managed", None)
 
         # role does not exist at the destination, so create it
-        if role_name not in self.destination_roles_mapping:
+        if role_name not in self._existing_resources_map:
             destination_client = self.config.destination_client
 
             # Retry loop to handle multiple invalid permissions
@@ -111,8 +123,8 @@ class Roles(BaseResource):
 
                                 # Check if the modified resource now matches an existing destination role
                                 # This can happen if we already synced the role without this permission before
-                                if role_name in self.destination_roles_mapping:
-                                    matching_destination_role = self.destination_roles_mapping[role_name]
+                                if role_name in self._existing_resources_map:
+                                    matching_destination_role = self._existing_resources_map[role_name]
                                     role_copy = copy.deepcopy(resource)
                                     role_copy.update(matching_destination_role)
 
@@ -135,7 +147,7 @@ class Roles(BaseResource):
             raise Exception(f"Exceeded maximum retries ({max_retries}) while creating role '{role_name}'")
 
         # role already exists at the destination
-        matching_destination_role = self.destination_roles_mapping[role_name]
+        matching_destination_role = self._existing_resources_map[role_name]
         role_copy = copy.deepcopy(resource)
         role_copy.update(matching_destination_role)
 
@@ -205,6 +217,11 @@ class Roles(BaseResource):
         raise Exception(f"Exceeded maximum retries ({max_retries}) while updating role '{role_name}'")
 
     async def delete_resource(self, _id: str) -> None:
+        role_name = self.config.state.destination[self.resource_type][_id].get("attributes", {}).get("name")
+        if role_name in BUILTIN_ROLE_NAMES:
+            raise SkipResource(
+                _id, self.resource_type, f"'{role_name}' is a built-in Datadog role and cannot be deleted"
+            )
         destination_client = self.config.destination_client
         await destination_client.delete(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
