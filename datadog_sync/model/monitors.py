@@ -79,7 +79,7 @@ class Monitors(BaseResource):
                 raise SkipResource(
                     _id,
                     self.resource_type,
-                    "Custom check monitor requires at least one group-by. "
+                    "Deprecated resource configuration: Custom check monitor requires at least one group-by. "
                     "Update the source monitor's options.groupby before syncing.",
                 )
 
