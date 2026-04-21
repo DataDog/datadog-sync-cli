@@ -26,18 +26,20 @@ class TestRestrictionPoliciesOrgPrincipal:
         return RestrictionPolicies(mock_config)
 
     def test_pre_apply_hook_sets_org_principal_on_success(self):
-        """Successful GET /api/v1/org sets org_principal to 'org:{public_id}'."""
+        """Successful GET /api/v2/current_user sets org_principal to 'org:{org_uuid}'."""
         resource = self._make_resource()
         mock_client = AsyncMock()
-        mock_client.get = AsyncMock(return_value={"orgs": [{"public_id": "dest-pub-id"}]})
+        mock_client.get = AsyncMock(
+            return_value={"data": {"relationships": {"org": {"data": {"id": "00000000-0000-beef-0000-000000000000"}}}}}
+        )
         resource.config.destination_client = mock_client
 
         asyncio.run(resource.pre_apply_hook())
 
-        assert resource.org_principal == "org:dest-pub-id"
+        assert resource.org_principal == "org:00000000-0000-beef-0000-000000000000"
 
     def test_pre_apply_hook_leaves_org_principal_none_on_failure(self):
-        """Failed GET /api/v1/org leaves org_principal as None and raises."""
+        """Failed GET /api/v2/current_user leaves org_principal as None and raises."""
         resource = self._make_resource()
         mock_client = AsyncMock()
         mock_client.get = AsyncMock(side_effect=Exception("403 Forbidden"))
