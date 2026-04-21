@@ -52,7 +52,7 @@ class SecurityMonitoringRules(BaseResource):
             "creator": [{"handle": "", "name": ""}],
             "updater": [{"handle": "", "name": ""}],
         },
-        skip_resource_mapping=True,
+        resource_mapping_key="name",
     )
     # maximum page_size for this endpoint is 100 according to public api doc
     pagination_config = PaginationConfig(
@@ -61,7 +61,6 @@ class SecurityMonitoringRules(BaseResource):
         page_size_param="page[size]",
         remaining_func=lambda *args: 1,
     )
-    destination_rules = {}
     # can't even enable or disable immutable rules
     immutable_rule_names = [
         "Impossible travel event leads to permission enumeration",
@@ -71,7 +70,6 @@ class SecurityMonitoringRules(BaseResource):
     ]
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        self.destination_rules = await self.get_destination_rules()
         resp = await client.paginated_request(client.get)(
             self.resource_config.base_path, pagination_config=self.pagination_config
         )
@@ -88,7 +86,7 @@ class SecurityMonitoringRules(BaseResource):
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        matching_destination_rule = self.destination_rules.get(resource["name"], None)
+        matching_destination_rule = self._existing_resources_map.get(resource["name"], None)
         if resource.get("isDefault", False) and not matching_destination_rule:
             raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
         if resource["name"] in self.immutable_rule_names:
@@ -96,15 +94,18 @@ class SecurityMonitoringRules(BaseResource):
         if matching_destination_rule and matching_destination_rule.get("isDeprecated", False):
             raise SkipResource(_id, self.resource_type, "Cannot update deprecated rules")
 
+    async def map_existing_resources(self) -> None:
+        self._existing_resources_map = await self.get_destination_rules()
+
     async def pre_apply_hook(self) -> None:
-        self.destination_rules = await self.get_destination_rules()
+        pass
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         # this method uses rule name for matching default rules
         rule_name = resource["name"]
 
         # rule does not exist at the destination, so create it
-        if rule_name not in self.destination_rules and not resource["isDefault"]:
+        if rule_name not in self._existing_resources_map and not resource["isDefault"]:
             destination_client = self.config.destination_client
             self.handle_special_case_attr(resource)
             try:
@@ -122,7 +123,7 @@ class SecurityMonitoringRules(BaseResource):
                 raise err
 
         # Skip any default rules that do no exist at the destination
-        matching_destination_rule = self.destination_rules.get(rule_name, None)
+        matching_destination_rule = self._existing_resources_map.get(rule_name, None)
         if not matching_destination_rule:
             raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
 
@@ -138,7 +139,7 @@ class SecurityMonitoringRules(BaseResource):
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         # Skip any default rules that do no exist at the destination
-        matching_destination_rule = self.destination_rules.get(resource["name"], None)
+        matching_destination_rule = self._existing_resources_map.get(resource["name"], None)
         if not matching_destination_rule:
             raise SkipResource(_id, self.resource_type, "Default rule does not exist at destination")
 

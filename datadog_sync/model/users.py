@@ -125,7 +125,9 @@ class Users(BaseResource):
                 for key, value in diff["values_changed"].items():
                     if "roles" in key:
                         # await self.remove_user_from_role(_id, value["old_value"])
-                        await self.add_user_to_role(_id, value["new_value"])
+                        new_val = value["new_value"]
+                        role_id = new_val["id"] if isinstance(new_val, dict) else new_val
+                        await self.add_user_to_role(_id, role_id)
 
     async def add_user_to_role(self, user_id, role_id):
         destination_client = self.config.destination_client

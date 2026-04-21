@@ -103,6 +103,4 @@ class Notebooks(BaseResource):
         # Strip server-managed AI usage tags
         tags = resource["attributes"].get("tags")
         if tags:
-            resource["attributes"]["tags"] = [
-                t for t in tags if t.split(":")[0] not in Notebooks._ai_usage_tag_keys
-            ]
+            resource["attributes"]["tags"] = [t for t in tags if t.split(":")[0] not in Notebooks._ai_usage_tag_keys]
