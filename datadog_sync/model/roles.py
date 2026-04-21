@@ -47,9 +47,6 @@ class Roles(BaseResource):
     destination_permissions: Dict = {}
     permissions_base_path: str = "/api/v2/permissions"
 
-    def filter(self, resource: Dict) -> bool:
-        return resource.get("attributes", {}).get("name") not in BUILTIN_ROLE_NAMES
-
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.paginated_request(client.get)(self.resource_config.base_path)
 
