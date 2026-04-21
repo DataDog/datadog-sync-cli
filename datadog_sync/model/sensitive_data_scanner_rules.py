@@ -62,7 +62,7 @@ class SensitiveDataScannerRules(BaseResource):
                 raise SkipResource(
                     _id,
                     self.resource_type,
-                    f"Standard pattern '{name}' does not exist in the destination org. "
+                    f"Deprecated resource configuration: Standard pattern '{name}' does not exist in the destination org. "
                     "Provision the standard scanner pattern before syncing.",
                 )
             resource["relationships"]["standard_pattern"]["data"]["id"] = dest_id
