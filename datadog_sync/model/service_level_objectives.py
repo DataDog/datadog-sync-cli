@@ -46,7 +46,7 @@ class ServiceLevelObjectives(BaseResource):
                     raise SkipResource(
                         _id,
                         self.resource_type,
-                        f"Metric SLO query '{field}' is missing the .as_count() modifier. "
+                        f"Deprecated resource configuration: Metric SLO query '{field}' is missing the .as_count() modifier. "
                         "Update the source SLO query before syncing.",
                     )
 
