@@ -37,7 +37,11 @@ class TestMonitorsPreResourceActionHook:
         }
         with pytest.raises(SkipResource) as exc_info:
             asyncio.run(monitors.pre_resource_action_hook("20438785", resource))
-        assert "group-by" in str(exc_info.value).lower() or "groupby" in str(exc_info.value).lower() or "group" in str(exc_info.value).lower()
+        assert (
+            "group-by" in str(exc_info.value).lower()
+            or "groupby" in str(exc_info.value).lower()
+            or "group" in str(exc_info.value).lower()
+        )
 
     def test_service_check_empty_groupby_raises_skip(self):
         """Service check monitor with empty options.groupby list should be skipped."""
