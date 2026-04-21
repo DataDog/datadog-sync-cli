@@ -26,9 +26,9 @@ interactions:
     body:
       string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
         "attributes": {"HamrStatus": 2, "IsPrimary": false, "ModifiedAt": "2025-10-20
-        13:14:14.048828", "ModifiedBy": "michael.richey@datadoghq.com", "TargetOrgDatacenter":
-        "eu1.prod.dog", "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid":
-        "30187db5-8582-11ef-969b-8248c7cda362"}}}'
+        13:14:14.048828", "ModifiedBy": "michael.richey@datadoghq.com", "OrgDatacenter":
+        "us5.prod.dog", "TargetOrgDatacenter": "eu1.prod.dog", "TargetOrgName": "DDR
+        Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -62,9 +62,9 @@ interactions:
     body:
       string: '{"data": {"id": "b9e754c7-857e-11ef-afbd-c64ba5fcf2d1", "type": "hamr_org_connections",
         "attributes": {"HamrStatus": 2, "IsPrimary": false, "ModifiedAt": "2025-10-20
-        13:14:14.048828", "ModifiedBy": "michael.richey@datadoghq.com", "TargetOrgDatacenter":
-        "eu1.prod.dog", "TargetOrgName": "DDR Internal Testing eu1", "TargetOrgUuid":
-        "30187db5-8582-11ef-969b-8248c7cda362"}}}'
+        13:14:14.048828", "ModifiedBy": "michael.richey@datadoghq.com", "OrgDatacenter":
+        "us5.prod.dog", "TargetOrgDatacenter": "eu1.prod.dog", "TargetOrgName": "DDR
+        Internal Testing eu1", "TargetOrgUuid": "30187db5-8582-11ef-969b-8248c7cda362"}}}'
     headers:
       Content-Type:
       - application/vnd.api+json
