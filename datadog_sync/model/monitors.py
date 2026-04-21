@@ -20,9 +20,10 @@ class Monitors(BaseResource):
     resource_config = ResourceConfig(
         resource_connections={
             "monitors": ["query"],
-            "roles": ["restricted_roles"],
+            "roles": ["restricted_roles", "restriction_policy.bindings.principals"],
             "service_level_objectives": ["query"],
-            "restriction_policies": ["restriction_policy"],
+            "users": ["restriction_policy.bindings.principals"],
+            "teams": ["restriction_policy.bindings.principals"],
         },
         base_path="/api/v1/monitor",
         excluded_attributes=[
@@ -51,6 +52,8 @@ class Monitors(BaseResource):
         remaining_func=lambda *args: 1,
         response_list_accessor=None,
     )
+    orgs_path: str = "/api/v1/org"
+    org_principal: Optional[str] = None
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.paginated_request(client.get)(
@@ -83,8 +86,23 @@ class Monitors(BaseResource):
                     "Update the source monitor's options.groupby before syncing.",
                 )
 
+        # org: principals are remapped here (before connect_resources runs).
+        # user:/role:/team: principals are remapped by connect_id via resource_connections paths.
+        if self.org_principal and resource.get("restriction_policy"):
+            for binding in resource["restriction_policy"].get("bindings") or []:
+                for i, principal in enumerate(binding.get("principals") or []):
+                    if principal.startswith("org:"):
+                        binding["principals"][i] = self.org_principal
+                        break
+
     async def pre_apply_hook(self) -> None:
-        pass
+        destination_client = self.config.destination_client
+        try:
+            org = (await destination_client.get(self.orgs_path))["orgs"][0]
+            self.org_principal = f"org:{org['public_id']}"
+        except Exception as e:
+            self.config.logger.error(f"Failed to get org details: {e}")
+            raise
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
@@ -145,6 +163,32 @@ class Monitors(BaseResource):
             return failed_connections
         elif key == "query":
             return None
+        elif key == "principals":
+            # Remap user:/role:/team: principals in restriction_policy bindings.
+            # org: principals are handled in pre_resource_action_hook before this runs.
+            # Each resource_to_connect pass handles only its type; other types pass through silently.
+            users = self.config.state.destination["users"]
+            roles = self.config.state.destination["roles"]
+            teams = self.config.state.destination["teams"]
+            failed_connections = []
+            for i, principal in enumerate(r_obj[key]):
+                _type, _id = principal.split(":", 1)
+                if resource_to_connect == "users" and _type == "user":
+                    if _id in users:
+                        r_obj[key][i] = f"user:{users[_id]['id']}"
+                    else:
+                        failed_connections.append(_id)
+                elif resource_to_connect == "roles" and _type == "role":
+                    if _id in roles:
+                        r_obj[key][i] = f"role:{roles[_id]['id']}"
+                    else:
+                        failed_connections.append(_id)
+                elif resource_to_connect == "teams" and _type == "team":
+                    if _id in teams:
+                        r_obj[key][i] = f"team:{teams[_id]['id']}"
+                    else:
+                        failed_connections.append(_id)
+            return failed_connections
         else:
             # Use default connect_id method in base class when not handling special case for `query`
             return super(Monitors, self).connect_id(key, r_obj, resource_to_connect)

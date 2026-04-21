@@ -114,3 +114,142 @@ class TestMonitorsPreResourceActionHook:
         }
         with pytest.raises(SkipResource):
             asyncio.run(monitors.pre_resource_action_hook("44444", resource))
+
+
+class TestMonitorsRestrictionPolicyPrincipals:
+    """Test suite for restriction_policy principal remapping in monitors."""
+
+    def _make_monitors(self, destination_state=None):
+        from collections import defaultdict
+
+        mock_config = MagicMock()
+        mock_config.state = MagicMock()
+        # connect_id always accesses synthetics_tests and service_level_objectives
+        # regardless of which key is being processed, so provide defaults.
+        state = defaultdict(dict)
+        if destination_state:
+            state.update(destination_state)
+        mock_config.state.destination = state
+        monitors = Monitors(mock_config)
+        return monitors
+
+    # --- connect_id tests ---
+
+    def test_connect_id_remaps_user_principal(self):
+        """user: principal is remapped when user exists in destination state."""
+        state = {
+            "users": {"src-user-id": {"id": "dst-user-id"}},
+            "roles": {},
+            "teams": {},
+        }
+        monitors = self._make_monitors(state)
+        binding = {"principals": ["user:src-user-id", "role:src-role-id"], "relation": "editor"}
+        result = monitors.connect_id("principals", binding, "users")
+        assert binding["principals"][0] == "user:dst-user-id"
+        assert binding["principals"][1] == "role:src-role-id"
+        assert result == []
+
+    def test_connect_id_remaps_role_principal(self):
+        """role: principal is remapped when role exists in destination state."""
+        state = {
+            "users": {},
+            "roles": {"src-role-id": {"id": "dst-role-id"}},
+            "teams": {},
+        }
+        monitors = self._make_monitors(state)
+        binding = {"principals": ["role:src-role-id"], "relation": "viewer"}
+        result = monitors.connect_id("principals", binding, "roles")
+        assert binding["principals"][0] == "role:dst-role-id"
+        assert result == []
+
+    def test_connect_id_remaps_team_principal(self):
+        """team: principal is remapped when team exists in destination state."""
+        state = {
+            "users": {},
+            "roles": {},
+            "teams": {"src-team-id": {"id": "dst-team-id"}},
+        }
+        monitors = self._make_monitors(state)
+        binding = {"principals": ["team:src-team-id"], "relation": "editor"}
+        result = monitors.connect_id("principals", binding, "teams")
+        assert binding["principals"][0] == "team:dst-team-id"
+        assert result == []
+
+    def test_connect_id_missing_user_returns_failed(self):
+        """user: principal not in destination state is added to failed_connections."""
+        state = {"users": {}, "roles": {}, "teams": {}}
+        monitors = self._make_monitors(state)
+        binding = {"principals": ["user:missing-user-id"], "relation": "editor"}
+        result = monitors.connect_id("principals", binding, "users")
+        assert binding["principals"][0] == "user:missing-user-id"
+        assert result == ["missing-user-id"]
+
+    def test_connect_id_skips_non_matching_type(self):
+        """user: principal is not modified when resource_to_connect is roles."""
+        state = {"users": {}, "roles": {}, "teams": {}}
+        monitors = self._make_monitors(state)
+        binding = {"principals": ["user:some-user-id"], "relation": "editor"}
+        result = monitors.connect_id("principals", binding, "roles")
+        assert binding["principals"][0] == "user:some-user-id"
+        assert result == []
+
+    def test_connect_id_org_principal_passes_through_silently(self):
+        """org: principal is not modified and not added to failed_connections."""
+        state = {"users": {}, "roles": {}, "teams": {}}
+        monitors = self._make_monitors(state)
+        binding = {"principals": ["org:some-org-id"], "relation": "editor"}
+        result = monitors.connect_id("principals", binding, "users")
+        assert binding["principals"][0] == "org:some-org-id"
+        assert result == []
+
+    # --- pre_resource_action_hook tests ---
+
+    def test_pre_resource_action_hook_replaces_org_principal(self):
+        """org: principal in restriction_policy bindings is replaced when org_principal is set."""
+        monitors = self._make_monitors()
+        monitors.org_principal = "org:dest-pub-id"
+        resource = {
+            "type": "metric alert",
+            "restriction_policy": {
+                "bindings": [{"principals": ["org:src-pub-id", "user:some-user"], "relation": "editor"}]
+            },
+        }
+        asyncio.run(monitors.pre_resource_action_hook("12345", resource))
+        assert resource["restriction_policy"]["bindings"][0]["principals"][0] == "org:dest-pub-id"
+        assert resource["restriction_policy"]["bindings"][0]["principals"][1] == "user:some-user"
+
+    def test_pre_resource_action_hook_skips_org_when_no_org_principal(self):
+        """org: principal is left unchanged when org_principal is None."""
+        monitors = self._make_monitors()
+        assert monitors.org_principal is None
+        resource = {
+            "type": "metric alert",
+            "restriction_policy": {"bindings": [{"principals": ["org:src-pub-id"], "relation": "editor"}]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("12345", resource))
+        assert resource["restriction_policy"]["bindings"][0]["principals"][0] == "org:src-pub-id"
+
+    # --- pre_apply_hook tests ---
+
+    def test_pre_apply_hook_sets_org_principal_on_success(self):
+        """Successful GET /api/v1/org sets org_principal to 'org:{public_id}'."""
+        from unittest.mock import AsyncMock
+
+        monitors = self._make_monitors()
+        mock_client = AsyncMock()
+        mock_client.get = AsyncMock(return_value={"orgs": [{"public_id": "dest-pub-id"}]})
+        monitors.config.destination_client = mock_client
+        asyncio.run(monitors.pre_apply_hook())
+        assert monitors.org_principal == "org:dest-pub-id"
+
+    def test_pre_apply_hook_leaves_org_principal_none_on_failure(self):
+        """Failed GET /api/v1/org leaves org_principal as None and raises."""
+        from unittest.mock import AsyncMock
+
+        monitors = self._make_monitors()
+        mock_client = AsyncMock()
+        mock_client.get = AsyncMock(side_effect=Exception("403 Forbidden"))
+        monitors.config.destination_client = mock_client
+        with pytest.raises(Exception, match="403 Forbidden"):
+            asyncio.run(monitors.pre_apply_hook())
+        assert monitors.org_principal is None
