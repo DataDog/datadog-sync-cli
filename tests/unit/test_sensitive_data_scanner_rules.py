@@ -36,7 +36,9 @@ class TestSensitiveDataScannerRulesPreResourceActionHook:
             "id": "OfoIOTrPSw6Dix6xmeKUaA",
             "type": "sensitive_data_scanner_rule",
             "relationships": {
-                "standard_pattern": {"data": {"id": "Visa Card Scanner (4x4 digits)", "type": "sensitive_data_scanner_standard_pattern"}}
+                "standard_pattern": {
+                    "data": {"id": "Visa Card Scanner (4x4 digits)", "type": "sensitive_data_scanner_standard_pattern"}
+                }
             },
         }
         with pytest.raises(SkipResource) as exc_info:
@@ -45,14 +47,14 @@ class TestSensitiveDataScannerRulesPreResourceActionHook:
 
     def test_standard_pattern_found_in_destination_updates_id(self):
         """Rule with a standard pattern found in destination mapping should have ID replaced."""
-        rules = self._make_rules(
-            destination_mapping={"Visa Card Scanner (4x4 digits)": "dest-uuid-1234"}
-        )
+        rules = self._make_rules(destination_mapping={"Visa Card Scanner (4x4 digits)": "dest-uuid-1234"})
         resource = {
             "id": "OfoIOTrPSw6Dix6xmeKUaA",
             "type": "sensitive_data_scanner_rule",
             "relationships": {
-                "standard_pattern": {"data": {"id": "Visa Card Scanner (4x4 digits)", "type": "sensitive_data_scanner_standard_pattern"}}
+                "standard_pattern": {
+                    "data": {"id": "Visa Card Scanner (4x4 digits)", "type": "sensitive_data_scanner_standard_pattern"}
+                }
             },
         }
         asyncio.run(rules.pre_resource_action_hook("OfoIOTrPSw6Dix6xmeKUaA", resource))
@@ -64,9 +66,7 @@ class TestSensitiveDataScannerRulesPreResourceActionHook:
         resource = {
             "id": "3gZ518MZSUi5Xqb6dANefQ",
             "type": "sensitive_data_scanner_rule",
-            "relationships": {
-                "group": {"data": {"id": "some-group-id", "type": "sensitive_data_scanner_group"}}
-            },
+            "relationships": {"group": {"data": {"id": "some-group-id", "type": "sensitive_data_scanner_group"}}},
         }
         # Should not raise
         asyncio.run(rules.pre_resource_action_hook("3gZ518MZSUi5Xqb6dANefQ", resource))
@@ -77,9 +77,7 @@ class TestSensitiveDataScannerRulesPreResourceActionHook:
         resource = {
             "id": "nulldata",
             "type": "sensitive_data_scanner_rule",
-            "relationships": {
-                "standard_pattern": {"data": None}
-            },
+            "relationships": {"standard_pattern": {"data": None}},
         }
         # Should not raise (walrus operator on None.get() is guarded by dict chain)
         asyncio.run(rules.pre_resource_action_hook("nulldata", resource))
@@ -109,7 +107,9 @@ class TestSensitiveDataScannerRulesPreResourceActionHook:
                 "id": rule_id,
                 "type": "sensitive_data_scanner_rule",
                 "relationships": {
-                    "standard_pattern": {"data": {"id": pattern_name, "type": "sensitive_data_scanner_standard_pattern"}}
+                    "standard_pattern": {
+                        "data": {"id": pattern_name, "type": "sensitive_data_scanner_standard_pattern"}
+                    }
                 },
             }
             with pytest.raises(SkipResource):
