@@ -59,15 +59,21 @@ class Monitors(BaseResource):
 
         return resp
 
-    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(
+        self, _id: Optional[str] = None, resource: Optional[Dict] = None
+    ) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = await source_client.get(self.resource_config.base_path + f"/{_id}")
+            resource = await source_client.get(
+                self.resource_config.base_path + f"/{_id}"
+            )
 
         resource = cast(dict, resource)
         if resource["type"] == "synthetics alert":
             raise SkipResource(
-                str(resource["id"]), self.resource_type, "Synthetics monitors are created by synthetics tests."
+                str(resource["id"]),
+                self.resource_type,
+                "Synthetics monitors are created by synthetics tests.",
             )
 
         return str(resource["id"]), resource
@@ -95,7 +101,8 @@ class Monitors(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+            self.resource_config.base_path
+            + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             resource,
         )
 
@@ -104,16 +111,23 @@ class Monitors(BaseResource):
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+            self.resource_config.base_path
+            + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             params={"force": "true"},
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+    def connect_id(
+        self, key: str, r_obj: Dict, resource_to_connect: str
+    ) -> Optional[List[str]]:
         monitors = self.config.state.destination[resource_to_connect]
         synthetics_tests = self.config.state.destination["synthetics_tests"]
         slos = self.config.state.destination["service_level_objectives"]
 
-        if r_obj.get("type") == "composite" and key == "query" and resource_to_connect != "service_level_objectives":
+        if (
+            r_obj.get("type") == "composite"
+            and key == "query"
+            and resource_to_connect != "service_level_objectives"
+        ):
             failed_connections = []
             ids = re.findall("[0-9]+", r_obj[key])
             for _id in ids:
@@ -121,22 +135,34 @@ class Monitors(BaseResource):
                 if _id in monitors:
                     found = True
                     new_id = f"{monitors[_id]['id']}"
-                    r_obj[key] = re.sub(_id + r"([^#]|$)", lambda match: f"{new_id}#{match.group(1)}", r_obj[key])
+                    r_obj[key] = re.sub(
+                        _id + r"([^#]|$)",
+                        lambda match: f"{new_id}#{match.group(1)}",
+                        r_obj[key],
+                    )
                 else:
                     # Check if it is a synthetics monitor
                     for k, v in synthetics_tests.items():
                         if k.endswith(_id):
                             found = True
                             r_obj[key] = re.sub(
-                                _id + r"([^#]|$)", lambda match: f"{str(v['monitor_id'])}#{match.group(1)}", r_obj[key]
+                                _id + r"([^#]|$)",
+                                lambda match: f"{str(v['monitor_id'])}#{match.group(1)}",
+                                r_obj[key],
                             )
                 if not found:
                     failed_connections.append(_id)
             r_obj[key] = (r_obj[key].replace("#", "")).strip()
             return failed_connections
-        elif resource_to_connect == "service_level_objectives" and r_obj.get("type") == "slo alert" and key == "query":
+        elif (
+            resource_to_connect == "service_level_objectives"
+            and r_obj.get("type") == "slo alert"
+            and key == "query"
+        ):
             failed_connections = []
-            if res := re.search(r"(?:error_budget|burn_rate)\(\"(.*?)\"\)\.", r_obj[key]):
+            if res := re.search(
+                r"(?:error_budget|burn_rate)\(\"(.*?)\"\)\.", r_obj[key]
+            ):
                 _id = res.group(1)
                 if _id in slos:
                     r_obj[key] = re.sub(_id, slos[_id]["id"], r_obj[key])
