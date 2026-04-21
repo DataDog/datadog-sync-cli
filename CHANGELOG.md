@@ -5,6 +5,11 @@
 ### Changed
 * feat: add map_existing_resources infrastructure by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/527
 * feat: migrate Tier 1 resources to map_existing_resources by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/528
+* feat: migrate Tier 2 resources to map_existing_resources by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/538
+### Fixed
+* fix: skip custom check monitors missing options/groupby at sync time by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/539
+* fix: skip metric SLOs missing .as_count() modifier at sync time by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/534
+* fix: skip SDS rules with missing standard patterns; strip null included_keywords by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/535
 
 
 **Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.2.0...4.0.0
