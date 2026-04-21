@@ -73,7 +73,15 @@ class Monitors(BaseResource):
         return str(resource["id"]), resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        pass
+        if resource.get("type") == "service check":
+            groupby = (resource.get("options") or {}).get("groupby", [])
+            if not groupby:
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    "Deprecated resource configuration: Custom check monitor requires at least one group-by. "
+                    "Update the source monitor's options.groupby before syncing.",
+                )
 
     async def pre_apply_hook(self) -> None:
         pass
