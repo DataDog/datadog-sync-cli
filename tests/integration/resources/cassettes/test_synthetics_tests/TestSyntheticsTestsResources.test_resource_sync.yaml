@@ -160,9 +160,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests/api
   response:
     body:
-      string: '{"public_id": "dcd-wnc-7tr", "name": "Test on www.datadoghq.com", "status":
+      string: '{"public_id": "34x-zfg-tnv", "name": "Test on www.datadoghq.com", "status":
         "paused", "type": "api", "subtype": "http", "tags": ["managed_by:datadog-sync"],
-        "created_at": "2026-04-21T21:28:36.519246+00:00", "modified_at": "2026-04-21T21:28:36.519246+00:00",
+        "created_at": "2026-04-22T16:08:09.580063+00:00", "modified_at": "2026-04-22T16:08:09.580063+00:00",
         "config": {"assertions": [{"operator": "lessThan", "type": "responseTime",
         "target": 1000}], "request": {"method": "GET", "url": "https://www.datadoghq.com"}},
         "message": "", "options": {"min_failure_duration": 0, "monitor_options": {"notification_preset_name":
@@ -176,7 +176,7 @@ interactions:
         "aws:us-east-2", "aws:us-west-1", "aws:us-west-2", "azure:eastus", "gcp:asia-northeast1",
         "gcp:europe-west3", "gcp:us-east4", "gcp:us-south1", "gcp:us-west1", "gcp:us-west2"],
         "created_by": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "email": "michael.richey@gmail.com"}, "deleted_at": null, "monitor_id": 19317030,
+        "email": "michael.richey@gmail.com"}, "deleted_at": null, "monitor_id": 19331421,
         "org_id": 1300336245, "modified_by": {"name": "Michael S Richey", "handle":
         "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com"}}'
     headers:
@@ -9380,7 +9380,7 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"public_ids": ["dcd-wnc-7tr"]}'
+    body: '{"public_ids": ["34x-zfg-tnv"]}'
     headers:
       Content-Type:
       - application/json
@@ -9388,7 +9388,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests/delete
   response:
     body:
-      string: '{"deleted_tests": [{"public_id": "dcd-wnc-7tr", "deleted_at": "2026-04-21T21:28:38.384824+00:00"}]}'
+      string: '{"deleted_tests": [{"public_id": "34x-zfg-tnv", "deleted_at": "2026-04-22T16:08:11.518289+00:00"}]}'
     headers:
       Content-Type:
       - application/json

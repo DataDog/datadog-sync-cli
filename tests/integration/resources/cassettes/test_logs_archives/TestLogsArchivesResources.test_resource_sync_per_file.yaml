@@ -75,7 +75,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives
   response:
     body:
-      string: '{"data": {"type": "archives", "id": "MVtd9KOxS8CzwJ2c-oGGYQ", "attributes":
+      string: '{"data": {"type": "archives", "id": "CN9Ym-UFQ42Hnf8NjDuFNg", "attributes":
         {"name": "Main Archive", "query": "host:COMP-XKH4K2XWRC", "state": "UNKNOWN",
         "destination": {"bucket": "hamr-logs-archive-for-internal-testing", "encryption":
         {"type": "NO_OVERRIDE"}, "storage_class": "STANDARD", "path": "/logs-archive-testing",
@@ -9288,7 +9288,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/MVtd9KOxS8CzwJ2c-oGGYQ
+    uri: https://api.us5.datadoghq.com/api/v2/logs/config/archives/CN9Ym-UFQ42Hnf8NjDuFNg
   response:
     body:
       string: ''
