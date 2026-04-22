@@ -82,14 +82,14 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/slo
   response:
     body:
-      string: '{"data": [{"id": "3f1b2c7a28c0590bac8f9b4590f5bd45", "name": "test",
+      string: '{"data": [{"id": "3d1dce03da4e57bcb61d6bddcf2b63f2", "name": "test",
         "tags": ["managed_by:datadog-sync"], "monitor_tags": [], "thresholds": [{"timeframe":
         "7d", "target": 99.9, "target_display": "99.9"}], "type": "metric", "type_id":
         1, "description": "", "timeframe": "7d", "target_threshold": 99.9, "query":
         {"numerator": "sum:datadog.agent.started{*}.as_count()", "denominator": "sum:datadog.agent.started{*}.as_count()"},
         "creator": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "email": "michael.richey@gmail.com"}, "created_at": 1776779420, "modified_at":
-        1776779420, "sli_specification": {"count": {"queries": [{"data_source": "metrics",
+        "email": "michael.richey@gmail.com"}, "created_at": 1776806851, "modified_at":
+        1776806851, "sli_specification": {"count": {"queries": [{"data_source": "metrics",
         "name": "query1", "query": "sum:datadog.agent.started{*}.as_count()"}], "good_events_formula":
         {"formula": "query1"}, "total_events_formula": {"formula": "query1"}}}}],
         "error": null}'
@@ -172,17 +172,17 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/slo/3f1b2c7a28c0590bac8f9b4590f5bd45
+    uri: https://api.us5.datadoghq.com/api/v1/slo/3d1dce03da4e57bcb61d6bddcf2b63f2
   response:
     body:
-      string: '{"data": [{"id": "3f1b2c7a28c0590bac8f9b4590f5bd45", "name": "test",
+      string: '{"data": [{"id": "3d1dce03da4e57bcb61d6bddcf2b63f2", "name": "test",
         "tags": ["managed_by:datadog-sync"], "monitor_tags": [], "thresholds": [{"timeframe":
         "7d", "target": 99.9, "target_display": "99.9"}], "type": "metric", "type_id":
         1, "description": "updated", "timeframe": "7d", "target_threshold": 99.9,
         "query": {"numerator": "sum:datadog.agent.started{*}.as_count()", "denominator":
         "sum:datadog.agent.started{*}.as_count()"}, "creator": {"name": "Michael S
         Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com"},
-        "created_at": 1776779420, "modified_at": 1776779422, "sli_specification":
+        "created_at": 1776806851, "modified_at": 1776806853, "sli_specification":
         {"count": {"queries": [{"data_source": "metrics", "name": "query1", "query":
         "sum:datadog.agent.started{*}.as_count()"}], "good_events_formula": {"formula":
         "query1"}, "total_events_formula": {"formula": "query1"}}}}], "error": null}'
@@ -9432,10 +9432,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/slo/3f1b2c7a28c0590bac8f9b4590f5bd45?force=true
+    uri: https://api.us5.datadoghq.com/api/v1/slo/3d1dce03da4e57bcb61d6bddcf2b63f2?force=true
   response:
     body:
-      string: '{"data": ["3f1b2c7a28c0590bac8f9b4590f5bd45"], "error": null}'
+      string: '{"data": ["3d1dce03da4e57bcb61d6bddcf2b63f2"], "error": null}'
     headers:
       Content-Type:
       - application/json

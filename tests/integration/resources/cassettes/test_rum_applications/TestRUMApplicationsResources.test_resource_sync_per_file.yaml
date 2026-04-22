@@ -103,17 +103,17 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/rum/applications
   response:
     body:
-      string: '{"data": {"type": "rum_application", "id": "3c66f4f6-4f02-4fe7-9a44-27888b47529c",
+      string: '{"data": {"type": "rum_application", "id": "e3bb12c7-38c3-49da-8c31-fd0b4df711ae",
         "attributes": {"org_id": 1300336245, "name": "Test RUM Application", "application_id":
-        "3c66f4f6-4f02-4fe7-9a44-27888b47529c", "created_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "created_at": 1776779390096, "updated_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "updated_at": 1776779390096, "type": "browser", "hash": "pub79d7ae7eaab5ae1667194e30a449423d",
+        "e3bb12c7-38c3-49da-8c31-fd0b4df711ae", "created_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "created_at": 1776806823685, "updated_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "updated_at": 1776806823685, "type": "browser", "hash": "pub6665904ebb53b6861c990402ba4c476f",
         "is_active": false, "tags": [], "product_analytics_replay_sample_rate": 100,
         "apm_rum_flat_sampling_replay_sample_rate": 1.0, "apm_rum_flat_sampling_replay_enabled":
-        true, "short_name": "test_rum_application_3204", "api_key_id": 601189, "ootb_metrics_installed":
+        true, "short_name": "test_rum_application_3285", "api_key_id": 602234, "ootb_metrics_installed":
         false, "product_scales": {"rum_event_processing_scale": {"state": "ALL", "last_modified_at":
-        1776779390096}, "product_analytics_retention_scale": {"state": "NONE", "last_modified_at":
-        1776779390096}}, "client_token": "pub79d7ae7eaab5ae1667194e30a449423d"}}}'
+        1776806823685}, "product_analytics_retention_scale": {"state": "NONE", "last_modified_at":
+        1776806823685}}, "client_token": "pub6665904ebb53b6861c990402ba4c476f"}}}'
     headers:
       Content-Type:
       - application/json
@@ -9320,7 +9320,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/rum/applications/3c66f4f6-4f02-4fe7-9a44-27888b47529c
+    uri: https://api.us5.datadoghq.com/api/v2/rum/applications/e3bb12c7-38c3-49da-8c31-fd0b4df711ae
   response:
     body:
       string: ''

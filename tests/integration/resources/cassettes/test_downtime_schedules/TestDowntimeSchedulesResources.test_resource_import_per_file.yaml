@@ -32,8 +32,8 @@ interactions:
         "attributes": {"message": "test2", "status": "scheduled", "monitor_identifier":
         {"monitor_id": 20046756}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
         "end": null}, "display_timezone": "America/New_York", "mute_first_recovery_notification":
-        false, "notify_end_types": ["expired", "canceled"], "notify_end_states": ["no
-        data", "warn", "alert"], "created": "2025-03-31T14:02:01.562470+00:00", "modified":
+        false, "notify_end_types": ["expired", "canceled"], "notify_end_states": ["alert",
+        "warn", "no data"], "created": "2025-03-31T14:02:01.562470+00:00", "modified":
         "2025-07-18T18:01:55.478390+00:00", "canceled": null}}], "meta": {"page":
         {"total_filtered_count": 1}}}'
     headers:

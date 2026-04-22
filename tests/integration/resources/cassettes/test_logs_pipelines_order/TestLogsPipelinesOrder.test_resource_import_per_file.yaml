@@ -83,23 +83,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipeline-order
-  response:
-    body:
-      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
-        "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ", "_7a0e-UVSYG--_GrMpbICA"]}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
@@ -306,6 +289,23 @@ interactions:
         "tag", "preserve_source": false, "override_on_conflict": true, "type": "attribute-remapper"},
         {"name": "Define `dd.service` as the official service of the log", "is_enabled":
         true, "sources": ["dd.service"], "type": "service-remapper"}]}]'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipeline-order
+  response:
+    body:
+      string: '{"pipeline_ids": ["PottxryNTkKfx-bKCuP1TQ", "06NJ6fGXQXuwbIJTQPaqUA",
+        "uSFmijucS6ijnto601ad2w", "VR7vysL3QG2w2oCLlu0voQ", "_7a0e-UVSYG--_GrMpbICA"]}'
     headers:
       Content-Type:
       - application/json

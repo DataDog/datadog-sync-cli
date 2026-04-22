@@ -114,12 +114,12 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 277634, "attributes": {"name":
-        "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "id": "zkdn7bjy",
+      string: '{"data": {"type": "notebooks", "id": 277857, "attributes": {"name":
+        "Michael Jun 10 2025 10:49", "cells": [{"type": "notebook_cells", "id": "0iuc1b6o",
         "attributes": {"definition": {"type": "markdown", "text": "test"}}}], "time":
         {"live_span": "1h"}, "metadata": {"take_snapshots": false, "is_template":
         false, "is_favorite": false, "type": null}, "template_variables": [], "status":
-        "published", "modified": "2026-04-21T13:48:09.814641+00:00", "created": "2026-04-21T13:48:09.814641+00:00",
+        "published", "modified": "2026-04-21T21:25:26.710029+00:00", "created": "2026-04-21T21:25:26.710029+00:00",
         "deleted": null, "tags": [], "author": {"name": "Michael S Richey", "handle":
         "17d29c8a-6285-11f0-be9b-76de006a05ea", "email": "michael.richey@gmail.com",
         "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?d=retro&s=48",
@@ -169,8 +169,8 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/notebooks
   response:
     body:
-      string: '{"data": {"type": "notebooks", "id": 277633, "attributes": {"name":
-        "Michael Feb 14 2026 21:52", "cells": [{"type": "notebook_cells", "id": "h2tdsonw",
+      string: '{"data": {"type": "notebooks", "id": 277856, "attributes": {"name":
+        "Michael Feb 14 2026 21:52", "cells": [{"type": "notebook_cells", "id": "ioqq8ne9",
         "attributes": {"definition": {"type": "timeseries", "title": "CPU usage (%)",
         "yaxis": {"max": "100", "include_zero": true}, "requests": [{"style": {"palette":
         "dog_classic", "line_type": "solid", "line_width": "normal"}, "queries": [{"name":
@@ -188,8 +188,8 @@ interactions:
         "display_type": "area", "response_format": "timeseries"}], "show_legend":
         false, "legend_layout": "vertical", "legend_columns": ["avg", "min", "max",
         "value", "sum"]}, "graph_size": "l", "time": null}}, {"type": "notebook_cells",
-        "id": "9admb6dg", "attributes": {"definition": {"type": "markdown", "text":
-        ""}}}, {"type": "notebook_cells", "id": "8iljst21", "attributes": {"definition":
+        "id": "xrs8g1ca", "attributes": {"definition": {"type": "markdown", "text":
+        ""}}}, {"type": "notebook_cells", "id": "yhjuohga", "attributes": {"definition":
         {"type": "timeseries", "title": "Network traffic (bytes per sec)", "requests":
         [{"style": {"palette": "dog_classic", "line_type": "solid", "line_width":
         "normal"}, "queries": [{"name": "query1", "query": "sum:system.net.bytes_rcvd{host:casaos}
@@ -199,11 +199,11 @@ interactions:
         "query1", "query": "sum:system.net.bytes_sent{host:casaos} by {host}", "data_source":
         "metrics"}], "formulas": [{"alias": "sent", "formula": "0 - default_zero(query1)"}],
         "response_format": "timeseries"}], "show_legend": false}, "time": null}},
-        {"type": "notebook_cells", "id": "8zrbjmab", "attributes": {"definition":
+        {"type": "notebook_cells", "id": "4ylbi4fe", "attributes": {"definition":
         {"type": "markdown", "text": ""}}}], "time": {"live_span": "1h"}, "metadata":
         {"take_snapshots": false, "is_template": false, "is_favorite": false, "type":
-        null}, "template_variables": [], "status": "published", "modified": "2026-04-21T13:48:09.703970+00:00",
-        "created": "2026-04-21T13:48:09.703970+00:00", "deleted": null, "tags": [],
+        null}, "template_variables": [], "status": "published", "modified": "2026-04-21T21:25:26.649189+00:00",
+        "created": "2026-04-21T21:25:26.649189+00:00", "deleted": null, "tags": [],
         "author": {"name": "Michael S Richey", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "email": "michael.richey@gmail.com", "icon": "https://secure.gravatar.com/avatar/c4b996f7e561c8c79bac0e556714f363?d=retro&s=48",
         "title": "", "verified": true, "disabled": false, "status": "Active"}}}}'
@@ -9413,7 +9413,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277633
+    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277857
   response:
     body:
       string: ''
@@ -9429,7 +9429,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277634
+    uri: https://api.us5.datadoghq.com/api/v1/notebooks/277856
   response:
     body:
       string: ''

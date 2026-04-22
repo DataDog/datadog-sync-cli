@@ -33,8 +33,8 @@ class RestrictionPolicies(BaseResource):
         skip_resource_mapping=True,
     )
     # Additional RestrictionPolicies specific attributes
-    orgs_path: str = "/api/v1/org"
-    org_principal: str = "org:{}"
+    current_user_path: str = "/api/v2/current_user"
+    org_principal: Optional[str] = None
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         policies = []
@@ -93,20 +93,22 @@ class RestrictionPolicies(BaseResource):
         return import_id, resource["data"]
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        for binding in resource["attributes"]["bindings"]:
-            for i, key in enumerate(binding["principals"]):
-                if key.startswith("org:"):
-                    binding["principals"][i] = self.org_principal
-                    break
+        if self.org_principal:
+            for binding in resource["attributes"]["bindings"]:
+                for i, key in enumerate(binding["principals"]):
+                    if key.startswith("org:"):
+                        binding["principals"][i] = self.org_principal
+                        break
 
     async def pre_apply_hook(self) -> None:
         destination_client = self.config.destination_client
         try:
-            org = (await destination_client.get(self.orgs_path))["orgs"][0]
+            resp = await destination_client.get(self.current_user_path)
+            org_id = resp["data"]["relationships"]["org"]["data"]["id"]
+            self.org_principal = f"org:{org_id}"
         except Exception as e:
             self.config.logger.error(f"Failed to get org details: {e}")
-
-        self.org_principal = self.org_principal.format(org["public_id"])
+            raise
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
@@ -156,7 +158,7 @@ class RestrictionPolicies(BaseResource):
 
         failed_connections = []
         if key == "id":
-            _type, _id = r_obj[key].split(":")
+            _type, _id = r_obj[key].split(":", 1)
             if resource_to_connect == "dashboards" and _type == "dashboard":
                 if _id in dashboards:
                     r_obj[key] = f"dashboard:{dashboards[_id]['id']}"
@@ -175,7 +177,7 @@ class RestrictionPolicies(BaseResource):
 
         if key == "principals":
             for i, policy_id in enumerate(r_obj[key]):
-                _type, _id = policy_id.split(":")
+                _type, _id = policy_id.split(":", 1)
 
                 if resource_to_connect == "users" and _type == "user":
                     if _id in users:

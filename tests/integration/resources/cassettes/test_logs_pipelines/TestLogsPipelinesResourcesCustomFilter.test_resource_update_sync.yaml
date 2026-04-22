@@ -447,7 +447,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines
   response:
     body:
-      string: '{"id": "u5x2BGN2RLSFkxxe3r75zA", "type": "pipeline", "name": "test",
+      string: '{"id": "8KC1h27BST64XMiO_jjNVA", "type": "pipeline", "name": "test",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -667,7 +667,7 @@ interactions:
         ["dd.version"], "source_type": "attribute", "target": "version", "target_type":
         "tag", "preserve_source": false, "override_on_conflict": true, "type": "attribute-remapper"},
         {"name": "Define `dd.service` as the official service of the log", "is_enabled":
-        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "u5x2BGN2RLSFkxxe3r75zA",
+        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "8KC1h27BST64XMiO_jjNVA",
         "type": "pipeline", "name": "test", "is_enabled": true, "is_read_only": false,
         "filter": {"query": "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -887,7 +887,7 @@ interactions:
         ["dd.version"], "source_type": "attribute", "target": "version", "target_type":
         "tag", "preserve_source": false, "override_on_conflict": true, "type": "attribute-remapper"},
         {"name": "Define `dd.service` as the official service of the log", "is_enabled":
-        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "u5x2BGN2RLSFkxxe3r75zA",
+        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "8KC1h27BST64XMiO_jjNVA",
         "type": "pipeline", "name": "test", "is_enabled": true, "is_read_only": false,
         "filter": {"query": "source:appgate_client "}, "processors": [], "tags": []}]'
     headers:
@@ -903,10 +903,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/u5x2BGN2RLSFkxxe3r75zA
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/8KC1h27BST64XMiO_jjNVA
   response:
     body:
-      string: '{"id": "u5x2BGN2RLSFkxxe3r75zA", "type": "pipeline", "name": "testupdated",
+      string: '{"id": "8KC1h27BST64XMiO_jjNVA", "type": "pipeline", "name": "testupdated",
         "is_enabled": true, "is_read_only": false, "filter": {"query": "source:appgate_client
         "}, "processors": [], "tags": []}'
     headers:
@@ -1126,7 +1126,7 @@ interactions:
         ["dd.version"], "source_type": "attribute", "target": "version", "target_type":
         "tag", "preserve_source": false, "override_on_conflict": true, "type": "attribute-remapper"},
         {"name": "Define `dd.service` as the official service of the log", "is_enabled":
-        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "u5x2BGN2RLSFkxxe3r75zA",
+        true, "sources": ["dd.service"], "type": "service-remapper"}]}, {"id": "8KC1h27BST64XMiO_jjNVA",
         "type": "pipeline", "name": "testupdated", "is_enabled": true, "is_read_only":
         false, "filter": {"query": "source:appgate_client "}, "processors": [], "tags":
         []}]'
@@ -10336,7 +10336,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/u5x2BGN2RLSFkxxe3r75zA
+    uri: https://api.us5.datadoghq.com/api/v1/logs/config/pipelines/8KC1h27BST64XMiO_jjNVA
   response:
     body:
       string: '{}'

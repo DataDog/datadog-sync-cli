@@ -35,8 +35,8 @@ interactions:
         "silenced": {}}, "multi": false, "created_at": 1729785751000, "created": "2024-10-24T16:02:31.374332+00:00",
         "modified": "2025-10-23T17:11:50.581715+00:00", "deleted": null, "priority":
         null, "restricted_roles": null, "draft_status": "published", "overall_state_modified":
-        "2026-04-21T13:46:36+00:00", "overall_state": "Alert", "creator": {"name":
-        "Michael Richey", "email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
+        "2026-04-21T20:37:36+00:00", "overall_state": "OK", "creator": {"name": "Michael
+        Richey", "email": "michael.richey@datadoghq.com", "handle": "michael.richey@datadoghq.com",
         "id": 1002072115}, "matching_downtimes": []}, {"id": 20125203, "org_id": 1000315894,
         "type": "synthetics alert", "name": "[Synthetics] Test on www.datadoghq.com",
         "message": "", "tags": ["probe_dc:aws:af-south-1", "probe_dc:aws:ap-east-1",
@@ -54,7 +54,7 @@ interactions:
         300, "include_tags": true, "silenced": {}}, "multi": false, "created_at":
         1730141432000, "created": "2024-10-28T18:50:32.908477+00:00", "modified":
         "2026-04-06T17:14:17.403169+00:00", "deleted": null, "priority": null, "restricted_roles":
-        null, "draft_status": "published", "overall_state_modified": "2026-04-21T13:40:34+00:00",
+        null, "draft_status": "published", "overall_state_modified": "2026-04-21T21:22:03+00:00",
         "overall_state": "OK", "creator": {"name": "Michael Richey", "email": "michael.richey@datadoghq.com",
         "handle": "michael.richey@datadoghq.com", "id": 1002072115}, "matching_downtimes":
         []}, {"id": 20125249, "org_id": 1000315894, "type": "metric alert", "name":
@@ -127,8 +127,8 @@ interactions:
         300, "silenced": {}}, "multi": false, "created_at": 1761229129000, "created":
         "2025-10-23T14:18:49.895273+00:00", "modified": "2025-10-23T18:41:18.116718+00:00",
         "deleted": null, "priority": null, "restricted_roles": null, "draft_status":
-        "published", "overall_state_modified": "2026-04-21T13:47:10+00:00", "overall_state":
-        "Alert", "creator": {"name": "Michael Richey", "email": "michael.richey@datadoghq.com",
+        "published", "overall_state_modified": "2026-04-21T20:38:10+00:00", "overall_state":
+        "OK", "creator": {"name": "Michael Richey", "email": "michael.richey@datadoghq.com",
         "handle": "michael.richey@datadoghq.com", "id": 1002072115}, "matching_downtimes":
         []}, {"id": 92258744, "org_id": 1000315894, "type": "query alert", "name":
         "RaspberryPi disk space is running low", "message": "@michael.richey@datadoghq.com
@@ -164,7 +164,7 @@ interactions:
         "new_group_delay": 60, "silenced": {}}, "multi": true, "created_at": 1770667979000,
         "created": "2026-02-09T20:12:59.331815+00:00", "modified": "2026-02-09T20:14:43.411605+00:00",
         "deleted": null, "priority": null, "restricted_roles": null, "draft_status":
-        "published", "overall_state_modified": "2026-04-21T13:32:58+00:00", "overall_state":
+        "published", "overall_state_modified": "2026-04-21T21:02:57+00:00", "overall_state":
         "OK", "creator": {"name": "Michael Richey", "email": "michael.richey@datadoghq.com",
         "handle": "michael.richey@datadoghq.com", "id": 1002072115}, "matching_downtimes":
         []}]'

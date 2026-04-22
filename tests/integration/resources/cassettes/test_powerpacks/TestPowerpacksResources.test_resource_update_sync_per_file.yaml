@@ -92,7 +92,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/powerpacks
   response:
     body:
-      string: '{"data": {"type": "powerpack", "id": "cde5b600-3d88-11f1-bcc2-da7ad0900005",
+      string: '{"data": {"type": "powerpack", "id": "ae3883d8-3dc8-11f1-8fee-da7ad0900005",
         "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
         {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
         "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
@@ -189,10 +189,10 @@ interactions:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://api.us5.datadoghq.com/api/v2/powerpacks/cde5b600-3d88-11f1-bcc2-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/powerpacks/ae3883d8-3dc8-11f1-8fee-da7ad0900005
   response:
     body:
-      string: '{"data": {"type": "powerpack", "id": "cde5b600-3d88-11f1-bcc2-da7ad0900005",
+      string: '{"data": {"type": "powerpack", "id": "ae3883d8-3dc8-11f1-8fee-da7ad0900005",
         "attributes": {"name": "New groupupdated", "description": "", "group_widget":
         {"layout": {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title":
         "New group", "type": "group", "layout_type": "ordered", "widgets": [{"layout":
@@ -9453,7 +9453,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/powerpacks/cde5b600-3d88-11f1-bcc2-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v2/powerpacks/ae3883d8-3dc8-11f1-8fee-da7ad0900005
   response:
     body:
       string: ''
