@@ -50,6 +50,11 @@ interactions:
         null, "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
         "is_read_only": false, "created_at": "2024-10-28T18:45:47.629189+00:00", "modified_at":
         "2024-10-31T20:20:27.062979+00:00", "author_handle": "michael.richey@datadoghq.com",
+        "deleted_at": null}, {"id": "kqs-gqg-6sw", "title": "datadog-sync-cli restriction
+        policy test [DRALLSTSBX-49]", "description": null, "layout_type": "ordered",
+        "url": "/dashboard/kqs-gqg-6sw/datadog-sync-cli-restriction-policy-test-drallstsbx-49",
+        "is_read_only": false, "created_at": "2026-04-22T13:34:46.356343+00:00", "modified_at":
+        "2026-04-22T13:34:46.356343+00:00", "author_handle": "michael.richey@datadoghq.com",
         "deleted_at": null}, {"id": "4ht-3zp-3vj", "title": "sync-cli customer dashboard
         (clone)", "description": "[[suggested_dashboards]]", "layout_type": "ordered",
         "url": "/dashboard/4ht-3zp-3vj/sync-cli-customer-dashboard-clone", "is_read_only":
@@ -227,6 +232,362 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
+  response:
+    body:
+      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
+        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
+        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
+        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
+        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
+        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
+        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/5t9-ue7-wzx
+  response:
+    body:
+      string: '{"id": "5t9-ue7-wzx", "title": "This dashboard has only been created
+        in EU1", "description": "", "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/5t9-ue7-wzx/this-dashboard-has-only-been-created-in-eu1",
+        "template_variables": [], "widgets": [{"id": 7231692516809994, "definition":
+        {"title": "sum:system.disk.free{host:raspberrypi}", "title_size": "16", "title_align":
+        "left", "show_legend": false, "time": {"type": "fixed", "from": 1761336450870,
+        "to": 1761941250870}, "type": "timeseries", "requests": [{"response_format":
+        "timeseries", "queries": [{"name": "query2", "data_source": "metrics", "query":
+        "sum:system.disk.free{host:raspberrypi}"}], "formulas": [{"formula": "query2"}],
+        "style": {"palette": "dog_classic", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}], "notify_list": [], "created_at": "2025-10-31T20:07:45.838380+00:00",
+        "modified_at": "2025-10-31T20:08:07.276954+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/4ht-3zp-3vj
+  response:
+    body:
+      string: '{"id": "4ht-3zp-3vj", "title": "sync-cli customer dashboard (clone)",
+        "description": "[[suggested_dashboards]]", "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/4ht-3zp-3vj/sync-cli-customer-dashboard-clone",
+        "template_variables": [{"name": "resource_type", "prefix": "resource_type",
+        "available_values": ["monitors", "dashboards"], "default": "*"}, {"name":
+        "client_type", "prefix": "client_type", "available_values": ["source", "destination"],
+        "default": "*"}], "widgets": [{"id": 1046236066464840, "definition": {"title":
+        "Summary", "background_color": "vivid_green", "show_title": true, "type":
+        "group", "layout_type": "ordered", "widgets": [{"id": 8276316129338092, "definition":
+        {"title": "Resources exported from R1", "title_size": "16", "title_align":
+        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
+        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import}
+        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
+        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
+        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
+        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
+        {"x": 0, "y": 0, "width": 4, "height": 6}}, {"id": 656499302483792, "definition":
+        {"title": "Resources synchronized to R2", "title_size": "16", "title_align":
+        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
+        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync}
+        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
+        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
+        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
+        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
+        {"x": 4, "y": 0, "width": 4, "height": 6}}, {"id": 7808448221985822, "definition":
+        {"title": "Resources deleted from R2", "title_size": "16", "title_align":
+        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
+        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete}
+        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
+        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
+        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
+        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
+        {"x": 8, "y": 0, "width": 4, "height": 6}}]}, "layout": {"x": 0, "y": 0, "width":
+        12, "height": 7}}, {"id": 3831036670010992, "definition": {"title": "Individual
+        resources: $resource_type.value by ID", "background_color": "vivid_purple",
+        "show_title": true, "type": "group", "layout_type": "ordered", "widgets":
+        [{"id": 6336659242401248, "definition": {"title": "Successful imports to R2",
+        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
+        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}, {"id": 2782516337454596, "definition": {"title": "Successful exports
+        from R1", "title_size": "16", "title_align": "left", "show_legend": true,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
+        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
+        2}}, {"id": 8841761726495074, "definition": {"title": "Successful deletes
+        (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
+        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:success,$resource_type,$client_type} by {id}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 0, "width": 4, "height": 2}}, {"id": 3205723021881762, "definition":
+        {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
+        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
+        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
+        2}}, {"id": 8176170444813128, "definition": {"title": "Failed imports to R2",
+        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
+        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
+        2}}, {"id": 8238537380887594, "definition": {"title": "Failed deletes (cleanups)
+        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:failure,$resource_type,$client_type} by {id}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 2, "width": 4, "height": 2}}, {"id": 1261034610886702, "definition":
+        {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
+        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
+        by {id,reason}"}], "response_format": "timeseries", "style": {"palette": "semantic",
+        "order_by": "values", "line_type": "solid", "line_width": "normal"}, "display_type":
+        "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height": 2}}, {"id": 2516996497540034,
+        "definition": {"title": "Skipped imports to R2", "title_size": "16", "title_align":
+        "left", "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg",
+        "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas":
+        [{"formula": "query1"}], "queries": [{"data_source": "metrics", "name": "query1",
+        "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
+        by {id,resource_type,reason}"}], "response_format": "timeseries", "style":
+        {"palette": "semantic", "order_by": "values", "line_type": "solid", "line_width":
+        "normal"}, "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width":
+        4, "height": 2}}, {"id": 912609472476800, "definition": {"title": "Skipped
+        deletes (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
+        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:skipped,$resource_type,$client_type} by {id}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 7, "width":
+        12, "height": 7}}, {"id": 4629847371004998, "definition": {"title": "Individual
+        resources: $resource_type.value by resource type", "background_color": "vivid_purple",
+        "show_title": true, "type": "group", "layout_type": "ordered", "widgets":
+        [{"id": 2859119271918836, "definition": {"title": "Successful exports from
+        R1", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
+        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}, {"id": 4600968988201958, "definition": {"title": "Successful imports
+        to R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
+        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
+        2}}, {"id": 2976052419838438, "definition": {"title": "Successful deletes
+        (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
+        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:success,$resource_type,$client_type} by {resource_type}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 0, "width": 4, "height": 2}}, {"id": 2048244272493164, "definition":
+        {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
+        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
+        by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
+        2}}, {"id": 8916325611528238, "definition": {"title": "Skipped imports to
+        R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
+        by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
+        2}}, {"id": 2524770734407112, "definition": {"title": "Skipped deletes (cleanups)
+        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:skipped,$resource_type,$client_type} by {resource_type}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 2, "width": 4, "height": 2}}, {"id": 8364678276396392, "definition":
+        {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
+        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
+        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height":
+        2}}, {"id": 7569668903393846, "definition": {"title": "Failed imports to R2",
+        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
+        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width": 4, "height":
+        2}}, {"id": 2181487267078918, "definition": {"title": "Failed deletes (cleanups)
+        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:failure,$resource_type,$client_type} by {resource_type}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 0, "width":
+        12, "height": 7, "is_column_break": true}}, {"id": 4229798387566372, "definition":
+        {"title": "", "title_size": "16", "title_align": "left", "show_legend": true,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"alias": "Import
+        Started", "formula": "query2"}, {"alias": "Sync Started", "formula": "query3"}],
+        "queries": [{"name": "query2", "data_source": "metrics", "query": "sum:datadog.org_sync.import.start{*}"},
+        {"name": "query3", "data_source": "metrics", "query": "sum:datadog.org_sync.sync.start{*}"}],
+        "response_format": "timeseries", "style": {"palette": "dog_classic", "order_by":
+        "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
+        "layout": {"x": 0, "y": 0, "width": 4, "height": 2}}], "notify_list": [],
+        "created_at": "2026-01-06T20:04:43.737461+00:00", "modified_at": "2026-01-06T20:05:06.072362+00:00",
+        "reflow_type": "fixed", "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/kqs-gqg-6sw
+  response:
+    body:
+      string: '{"id": "kqs-gqg-6sw", "title": "datadog-sync-cli restriction policy
+        test [DRALLSTSBX-49]", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/kqs-gqg-6sw/datadog-sync-cli-restriction-policy-test-drallstsbx-49",
+        "template_variables": null, "widgets": [], "notify_list": null, "created_at":
+        "2026-04-22T13:34:46.356343+00:00", "modified_at": "2026-04-22T13:34:46.356343+00:00",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
+  response:
+    body:
+      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
+        "template_variables": [], "widgets": [{"id": 4844048744340943, "definition":
+        {"title": "", "title_size": "16", "title_align": "left", "time": {}, "type":
+        "query_table", "requests": [{"queries": [{"data_source": "metrics", "name":
+        "query1", "query": "avg:system.cpu.user{*} by {service}", "aggregator": "avg"}],
+        "response_format": "scalar", "sort": {"count": 500, "order_by": [{"type":
+        "formula", "index": 0, "order": "desc"}]}, "formulas": [{"formula": "query1",
+        "cell_display_mode": "bar"}]}], "has_search_bar": "auto"}, "layout": {"x":
+        0, "y": 0, "width": 4, "height": 4}}], "notify_list": [], "created_at": "2025-07-14T20:22:25.530702+00:00",
+        "modified_at": "2025-08-21T14:12:40.043618+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/b8p-ibt-8h2
+  response:
+    body:
+      string: '{"id": "b8p-ibt-8h2", "title": "tagging test", "description": "[[suggested_dashboards]]",
+        "author_handle": "michael.richey@datadoghq.com", "author_name": "Michael Richey",
+        "layout_type": "ordered", "url": "/dashboard/b8p-ibt-8h2/tagging-test", "template_variables":
+        [], "widgets": [{"id": 3409574985330321, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
+        "logs", "name": "query1", "search": {"query": ""}, "indexes": ["*"], "compute":
+        {"aggregation": "count"}, "group_by": [], "storage": "hot"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "line"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}, {"id": 1296556742021216, "definition": {"title": "", "title_size": "16",
+        "title_align": "left", "requests": [{"response_format": "scalar", "queries":
+        [{"data_source": "logs", "name": "query1", "search": {"query": ""}, "indexes":
+        ["*"], "compute": {"aggregation": "count"}, "group_by": [{"facet": "service",
+        "limit": 10, "sort": {"order": "desc", "aggregation": "count"}}], "storage":
+        "hot"}], "style": {"palette": "datadog16"}, "formulas": [{"formula": "query1"}],
+        "sort": {"count": 10, "order_by": [{"type": "formula", "index": 0, "order":
+        "desc"}]}}], "type": "sunburst", "legend": {"type": "automatic"}}, "layout":
+        {"x": 4, "y": 0, "width": 4, "height": 4}}], "notify_list": [], "created_at":
+        "2025-10-21T17:12:52.043137+00:00", "modified_at": "2025-10-21T19:33:46.346204+00:00",
+        "reflow_type": "fixed", "tags": ["team:hamr-test"], "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v1/dashboard/t82-cj3-j7p
   response:
     body:
@@ -259,34 +620,6 @@ interactions:
         "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
         2}}], "notify_list": [], "created_at": "2025-06-10T13:34:37.296465+00:00",
         "modified_at": "2025-06-10T13:34:50.794550+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
-  response:
-    body:
-      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
-        "template_variables": [], "widgets": [{"id": 4844048744340943, "definition":
-        {"title": "", "title_size": "16", "title_align": "left", "time": {}, "type":
-        "query_table", "requests": [{"queries": [{"data_source": "metrics", "name":
-        "query1", "query": "avg:system.cpu.user{*} by {service}", "aggregator": "avg"}],
-        "response_format": "scalar", "sort": {"count": 500, "order_by": [{"type":
-        "formula", "index": 0, "order": "desc"}]}, "formulas": [{"formula": "query1",
-        "cell_display_mode": "bar"}]}], "has_search_bar": "auto"}, "layout": {"x":
-        0, "y": 0, "width": 4, "height": 4}}], "notify_list": [], "created_at": "2025-07-14T20:22:25.530702+00:00",
-        "modified_at": "2025-08-21T14:12:40.043618+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -517,284 +850,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/b8p-ibt-8h2
-  response:
-    body:
-      string: '{"id": "b8p-ibt-8h2", "title": "tagging test", "description": "[[suggested_dashboards]]",
-        "author_handle": "michael.richey@datadoghq.com", "author_name": "Michael Richey",
-        "layout_type": "ordered", "url": "/dashboard/b8p-ibt-8h2/tagging-test", "template_variables":
-        [], "widgets": [{"id": 3409574985330321, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
-        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
-        "logs", "name": "query1", "search": {"query": ""}, "indexes": ["*"], "compute":
-        {"aggregation": "count"}, "group_by": [], "storage": "hot"}], "style": {"palette":
-        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "line"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}, {"id": 1296556742021216, "definition": {"title": "", "title_size": "16",
-        "title_align": "left", "requests": [{"response_format": "scalar", "queries":
-        [{"data_source": "logs", "name": "query1", "search": {"query": ""}, "indexes":
-        ["*"], "compute": {"aggregation": "count"}, "group_by": [{"facet": "service",
-        "limit": 10, "sort": {"order": "desc", "aggregation": "count"}}], "storage":
-        "hot"}], "style": {"palette": "datadog16"}, "formulas": [{"formula": "query1"}],
-        "sort": {"count": 10, "order_by": [{"type": "formula", "index": 0, "order":
-        "desc"}]}}], "type": "sunburst", "legend": {"type": "automatic"}}, "layout":
-        {"x": 4, "y": 0, "width": 4, "height": 4}}], "notify_list": [], "created_at":
-        "2025-10-21T17:12:52.043137+00:00", "modified_at": "2025-10-21T19:33:46.346204+00:00",
-        "reflow_type": "fixed", "tags": ["team:hamr-test"], "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
-  response:
-    body:
-      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
-        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
-        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
-        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
-        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
-        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/4ht-3zp-3vj
-  response:
-    body:
-      string: '{"id": "4ht-3zp-3vj", "title": "sync-cli customer dashboard (clone)",
-        "description": "[[suggested_dashboards]]", "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/4ht-3zp-3vj/sync-cli-customer-dashboard-clone",
-        "template_variables": [{"name": "resource_type", "prefix": "resource_type",
-        "available_values": ["monitors", "dashboards"], "default": "*"}, {"name":
-        "client_type", "prefix": "client_type", "available_values": ["source", "destination"],
-        "default": "*"}], "widgets": [{"id": 1046236066464840, "definition": {"title":
-        "Summary", "background_color": "vivid_green", "show_title": true, "type":
-        "group", "layout_type": "ordered", "widgets": [{"id": 8276316129338092, "definition":
-        {"title": "Resources exported from R1", "title_size": "16", "title_align":
-        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
-        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import}
-        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
-        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
-        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
-        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
-        {"x": 0, "y": 0, "width": 4, "height": 6}}, {"id": 656499302483792, "definition":
-        {"title": "Resources synchronized to R2", "title_size": "16", "title_align":
-        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
-        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync}
-        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
-        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
-        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
-        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
-        {"x": 4, "y": 0, "width": 4, "height": 6}}, {"id": 7808448221985822, "definition":
-        {"title": "Resources deleted from R2", "title_size": "16", "title_align":
-        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
-        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete}
-        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
-        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
-        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
-        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
-        {"x": 8, "y": 0, "width": 4, "height": 6}}]}, "layout": {"x": 0, "y": 0, "width":
-        12, "height": 7}}, {"id": 3831036670010992, "definition": {"title": "Individual
-        resources: $resource_type.value by ID", "background_color": "vivid_purple",
-        "show_title": true, "type": "group", "layout_type": "ordered", "widgets":
-        [{"id": 6336659242401248, "definition": {"title": "Successful imports to R2",
-        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
-        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}, {"id": 2782516337454596, "definition": {"title": "Successful exports
-        from R1", "title_size": "16", "title_align": "left", "show_legend": true,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
-        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
-        2}}, {"id": 8841761726495074, "definition": {"title": "Successful deletes
-        (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
-        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:success,$resource_type,$client_type} by {id}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 0, "width": 4, "height": 2}}, {"id": 3205723021881762, "definition":
-        {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
-        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
-        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-        2}}, {"id": 8176170444813128, "definition": {"title": "Failed imports to R2",
-        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
-        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
-        2}}, {"id": 8238537380887594, "definition": {"title": "Failed deletes (cleanups)
-        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:failure,$resource_type,$client_type} by {id}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 2, "width": 4, "height": 2}}, {"id": 1261034610886702, "definition":
-        {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
-        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
-        by {id,reason}"}], "response_format": "timeseries", "style": {"palette": "semantic",
-        "order_by": "values", "line_type": "solid", "line_width": "normal"}, "display_type":
-        "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height": 2}}, {"id": 2516996497540034,
-        "definition": {"title": "Skipped imports to R2", "title_size": "16", "title_align":
-        "left", "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg",
-        "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas":
-        [{"formula": "query1"}], "queries": [{"data_source": "metrics", "name": "query1",
-        "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
-        by {id,resource_type,reason}"}], "response_format": "timeseries", "style":
-        {"palette": "semantic", "order_by": "values", "line_type": "solid", "line_width":
-        "normal"}, "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width":
-        4, "height": 2}}, {"id": 912609472476800, "definition": {"title": "Skipped
-        deletes (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
-        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:skipped,$resource_type,$client_type} by {id}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 7, "width":
-        12, "height": 7}}, {"id": 4629847371004998, "definition": {"title": "Individual
-        resources: $resource_type.value by resource type", "background_color": "vivid_purple",
-        "show_title": true, "type": "group", "layout_type": "ordered", "widgets":
-        [{"id": 2859119271918836, "definition": {"title": "Successful exports from
-        R1", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
-        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}, {"id": 4600968988201958, "definition": {"title": "Successful imports
-        to R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
-        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
-        2}}, {"id": 2976052419838438, "definition": {"title": "Successful deletes
-        (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
-        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:success,$resource_type,$client_type} by {resource_type}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 0, "width": 4, "height": 2}}, {"id": 2048244272493164, "definition":
-        {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
-        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
-        by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-        2}}, {"id": 8916325611528238, "definition": {"title": "Skipped imports to
-        R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
-        by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
-        2}}, {"id": 2524770734407112, "definition": {"title": "Skipped deletes (cleanups)
-        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:skipped,$resource_type,$client_type} by {resource_type}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 2, "width": 4, "height": 2}}, {"id": 8364678276396392, "definition":
-        {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
-        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
-        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height":
-        2}}, {"id": 7569668903393846, "definition": {"title": "Failed imports to R2",
-        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
-        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width": 4, "height":
-        2}}, {"id": 2181487267078918, "definition": {"title": "Failed deletes (cleanups)
-        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:failure,$resource_type,$client_type} by {resource_type}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 0, "width":
-        12, "height": 7, "is_column_break": true}}, {"id": 4229798387566372, "definition":
-        {"title": "", "title_size": "16", "title_align": "left", "show_legend": true,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"alias": "Import
-        Started", "formula": "query2"}, {"alias": "Sync Started", "formula": "query3"}],
-        "queries": [{"name": "query2", "data_source": "metrics", "query": "sum:datadog.org_sync.import.start{*}"},
-        {"name": "query3", "data_source": "metrics", "query": "sum:datadog.org_sync.sync.start{*}"}],
-        "response_format": "timeseries", "style": {"palette": "dog_classic", "order_by":
-        "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
-        "layout": {"x": 0, "y": 0, "width": 4, "height": 2}}], "notify_list": [],
-        "created_at": "2026-01-06T20:04:43.737461+00:00", "modified_at": "2026-01-06T20:05:06.072362+00:00",
-        "reflow_type": "fixed", "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v1/dashboard/vht-439-g8y
   response:
     body:
@@ -848,35 +903,6 @@ interactions:
         "query1", "query": "sum:system.net.bytes_sent{host:raspberrypi}"}], "formulas":
         [{"formula": "0 - query1"}]}]}}], "notify_list": null, "created_at": "2025-12-19T02:15:42.022930+00:00",
         "modified_at": "2025-12-19T02:15:42.022930+00:00", "reflow_type": "auto",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/5t9-ue7-wzx
-  response:
-    body:
-      string: '{"id": "5t9-ue7-wzx", "title": "This dashboard has only been created
-        in EU1", "description": "", "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/5t9-ue7-wzx/this-dashboard-has-only-been-created-in-eu1",
-        "template_variables": [], "widgets": [{"id": 7231692516809994, "definition":
-        {"title": "sum:system.disk.free{host:raspberrypi}", "title_size": "16", "title_align":
-        "left", "show_legend": false, "time": {"type": "fixed", "from": 1761336450870,
-        "to": 1761941250870}, "type": "timeseries", "requests": [{"response_format":
-        "timeseries", "queries": [{"name": "query2", "data_source": "metrics", "query":
-        "sum:system.disk.free{host:raspberrypi}"}], "formulas": [{"formula": "query2"}],
-        "style": {"palette": "dog_classic", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}], "notify_list": [], "created_at": "2025-10-31T20:07:45.838380+00:00",
-        "modified_at": "2025-10-31T20:08:07.276954+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -1006,16 +1032,16 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"title": "This dashboard has only been created in EU1", "description":
-      "", "layout_type": "ordered", "template_variables": [], "widgets": [{"id": 7231692516809994,
-      "definition": {"title": "sum:system.disk.free{host:raspberrypi}", "title_size":
-      "16", "title_align": "left", "show_legend": false, "time": {"type": "fixed",
-      "from": 1761336450870, "to": 1761941250870}, "type": "timeseries", "requests":
-      [{"response_format": "timeseries", "queries": [{"name": "query2", "data_source":
-      "metrics", "query": "sum:system.disk.free{host:raspberrypi}"}], "formulas":
-      [{"formula": "query2"}], "style": {"palette": "dog_classic", "line_type": "solid",
-      "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x": 0, "y":
-      0, "width": 4, "height": 2}}], "reflow_type": "fixed", "restricted_roles": []}'
+    body: '{"title": "Michael''s Dashboard Mon, Jul 14, 4:22:25 pm", "description":
+      null, "layout_type": "ordered", "template_variables": [], "widgets": [{"id":
+      4844048744340943, "definition": {"title": "", "title_size": "16", "title_align":
+      "left", "time": {}, "type": "query_table", "requests": [{"queries": [{"data_source":
+      "metrics", "name": "query1", "query": "avg:system.cpu.user{*} by {service}",
+      "aggregator": "avg"}], "response_format": "scalar", "sort": {"count": 500, "order_by":
+      [{"type": "formula", "index": 0, "order": "desc"}]}, "formulas": [{"formula":
+      "query1", "cell_display_mode": "bar"}]}], "has_search_bar": "auto"}, "layout":
+      {"x": 0, "y": 0, "width": 4, "height": 4}}], "reflow_type": "fixed", "restricted_roles":
+      []}'
     headers:
       Content-Type:
       - application/json
@@ -1023,19 +1049,41 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "vks-szd-97z", "title": "This dashboard has only been created
-        in EU1", "description": "", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/vks-szd-97z/this-dashboard-has-only-been-created-in-eu1",
-        "template_variables": [], "widgets": [{"id": 7231692516809994, "definition":
-        {"title": "sum:system.disk.free{host:raspberrypi}", "title_size": "16", "title_align":
-        "left", "show_legend": false, "time": {"type": "fixed", "from": 1761336450870,
-        "to": 1761941250870}, "type": "timeseries", "requests": [{"response_format":
-        "timeseries", "queries": [{"name": "query2", "data_source": "metrics", "query":
-        "sum:system.disk.free{host:raspberrypi}"}], "formulas": [{"formula": "query2"}],
-        "style": {"palette": "dog_classic", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}], "notify_list": null, "created_at": "2026-04-21T21:20:56.647193+00:00",
-        "modified_at": "2026-04-21T21:20:56.647193+00:00", "reflow_type": "fixed",
+      string: '{"id": "zu2-9pc-htt", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
+        pm", "description": null, "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/zu2-9pc-htt/michaels-dashboard-mon-jul-14-42225-pm",
+        "template_variables": [], "widgets": [{"id": 4844048744340943, "definition":
+        {"title": "", "title_size": "16", "title_align": "left", "time": {}, "type":
+        "query_table", "requests": [{"queries": [{"data_source": "metrics", "name":
+        "query1", "query": "avg:system.cpu.user{*} by {service}", "aggregator": "avg"}],
+        "response_format": "scalar", "sort": {"count": 500, "order_by": [{"type":
+        "formula", "index": 0, "order": "desc"}]}, "formulas": [{"formula": "query1",
+        "cell_display_mode": "bar"}]}], "has_search_bar": "auto"}, "layout": {"x":
+        0, "y": 0, "width": 4, "height": 4}}], "notify_list": null, "created_at":
+        "2026-04-22T15:59:58.007017+00:00", "modified_at": "2026-04-22T15:59:58.007017+00:00",
+        "reflow_type": "fixed", "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"title": "datadog-sync-cli restriction policy test [DRALLSTSBX-49]", "description":
+      null, "layout_type": "ordered", "template_variables": null, "widgets": [], "restricted_roles":
+      []}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard
+  response:
+    body:
+      string: '{"id": "9ww-sqr-rjs", "title": "datadog-sync-cli restriction policy
+        test [DRALLSTSBX-49]", "description": null, "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/9ww-sqr-rjs/datadog-sync-cli-restriction-policy-test-drallstsbx-49",
+        "template_variables": null, "widgets": [], "notify_list": null, "created_at":
+        "2026-04-22T15:59:58.093597+00:00", "modified_at": "2026-04-22T15:59:58.093597+00:00",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -1070,9 +1118,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "65b-cvc-a7z", "title": "tagging test", "description": "[[suggested_dashboards]]",
+      string: '{"id": "fh8-w7k-7yf", "title": "tagging test", "description": "[[suggested_dashboards]]",
         "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "author_name": "Michael
-        S Richey", "layout_type": "ordered", "url": "/dashboard/65b-cvc-a7z/tagging-test",
+        S Richey", "layout_type": "ordered", "url": "/dashboard/fh8-w7k-7yf/tagging-test",
         "template_variables": [], "widgets": [{"id": 3409574985330321, "definition":
         {"title": "", "title_size": "16", "title_align": "left", "show_legend": true,
         "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
@@ -1090,8 +1138,8 @@ interactions:
         "datadog16"}, "formulas": [{"formula": "query1"}], "sort": {"count": 10, "order_by":
         [{"type": "formula", "index": 0, "order": "desc"}]}}], "type": "sunburst",
         "legend": {"type": "automatic"}}, "layout": {"x": 4, "y": 0, "width": 4, "height":
-        4}}], "notify_list": null, "created_at": "2026-04-21T21:20:56.637702+00:00",
-        "modified_at": "2026-04-21T21:20:56.637702+00:00", "reflow_type": "fixed",
+        4}}], "notify_list": null, "created_at": "2026-04-22T15:59:58.098300+00:00",
+        "modified_at": "2026-04-22T15:59:58.098300+00:00", "reflow_type": "fixed",
         "tags": ["team:hamr-test"], "restricted_roles": []}'
     headers:
       Content-Type:
@@ -1133,9 +1181,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "bbz-d3u-f8g", "title": "Is It Working?", "description": null,
+      string: '{"id": "gnu-44s-k57", "title": "Is It Working?", "description": null,
         "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "author_name": "Michael
-        S Richey", "layout_type": "ordered", "url": "/dashboard/bbz-d3u-f8g/is-it-working",
+        S Richey", "layout_type": "ordered", "url": "/dashboard/gnu-44s-k57/is-it-working",
         "template_variables": [], "widgets": [{"id": 8014768014333920, "definition":
         {"title": "", "title_size": "16", "title_align": "left", "show_legend": true,
         "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
@@ -1160,9 +1208,210 @@ interactions:
         "formulas": [{"formula": "query1"}, {"formula": "query2"}], "style": {"palette":
         "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
         "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-        2}}], "notify_list": null, "created_at": "2026-04-21T21:20:56.640188+00:00",
-        "modified_at": "2026-04-21T21:20:56.640188+00:00", "reflow_type": "fixed",
+        2}}], "notify_list": null, "created_at": "2026-04-22T15:59:58.116771+00:00",
+        "modified_at": "2026-04-22T15:59:58.116771+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"title": "This dashboard has only been created in EU1", "description":
+      "", "layout_type": "ordered", "template_variables": [], "widgets": [{"id": 7231692516809994,
+      "definition": {"title": "sum:system.disk.free{host:raspberrypi}", "title_size":
+      "16", "title_align": "left", "show_legend": false, "time": {"type": "fixed",
+      "from": 1761336450870, "to": 1761941250870}, "type": "timeseries", "requests":
+      [{"response_format": "timeseries", "queries": [{"name": "query2", "data_source":
+      "metrics", "query": "sum:system.disk.free{host:raspberrypi}"}], "formulas":
+      [{"formula": "query2"}], "style": {"palette": "dog_classic", "line_type": "solid",
+      "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x": 0, "y":
+      0, "width": 4, "height": 2}}], "reflow_type": "fixed", "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard
+  response:
+    body:
+      string: '{"id": "e24-79r-efq", "title": "This dashboard has only been created
+        in EU1", "description": "", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/e24-79r-efq/this-dashboard-has-only-been-created-in-eu1",
+        "template_variables": [], "widgets": [{"id": 7231692516809994, "definition":
+        {"title": "sum:system.disk.free{host:raspberrypi}", "title_size": "16", "title_align":
+        "left", "show_legend": false, "time": {"type": "fixed", "from": 1761336450870,
+        "to": 1761941250870}, "type": "timeseries", "requests": [{"response_format":
+        "timeseries", "queries": [{"name": "query2", "data_source": "metrics", "query":
+        "sum:system.disk.free{host:raspberrypi}"}], "formulas": [{"formula": "query2"}],
+        "style": {"palette": "dog_classic", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}], "notify_list": null, "created_at": "2026-04-22T15:59:58.128235+00:00",
+        "modified_at": "2026-04-22T15:59:58.128235+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"title": "Zubin Colah - Shopist Logs Demo", "description": "datadog_demo_keep:true
+      (cloned) (cloned)", "layout_type": "free", "template_variables": [], "widgets":
+      [{"id": 3793011224382482, "layout": {"x": 0.9090954344949606, "y": 16, "width":
+      106, "height": 60}, "definition": {"type": "image", "url": "https://imgix.datadoghq.com/img/blog/announcing-security-monitoring/datadog-security-monitoring-lwl-rev.png",
+      "sizing": "contain", "has_background": true, "has_border": true, "vertical_align":
+      "center", "horizontal_align": "center"}}, {"id": 4864802557613604, "layout":
+      {"x": 65, "y": 92, "width": 63, "height": 79}, "definition": {"title": "Log
+      Stream", "title_size": "16", "title_align": "left", "requests": [{"response_format":
+      "event_list", "query": {"data_source": "logs_stream", "query_string": "env:prod
+      datadog_app:shopist", "indexes": [], "storage": "hot", "sort": {"order": "desc",
+      "column": "timestamp"}}, "columns": [{"field": "status_line", "width": "auto"},
+      {"field": "timestamp", "width": "auto"}, {"field": "host", "width": "auto"},
+      {"field": "service", "width": "auto"}, {"field": "content", "width": "compact"}]}],
+      "type": "list_stream"}}, {"id": 8607400987758440, "layout": {"x": 3, "y": 116,
+      "width": 60, "height": 23}, "definition": {"title": "Errors by Service", "title_size":
+      "16", "title_align": "left", "show_legend": false, "legend_layout": "auto",
+      "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "response_format": "timeseries",
+      "on_right_yaxis": false, "queries": [{"search": {"query": "status:error datadog_app:shopist"},
+      "data_source": "logs", "compute": {"aggregation": "count"}, "name": "query1",
+      "indexes": ["*"], "group_by": [{"facet": "service", "sort": {"aggregation":
+      "count", "order": "desc"}, "limit": 100}]}], "style": {"palette": "warm", "line_type":
+      "solid", "line_width": "normal"}, "display_type": "bars"}], "yaxis": {"include_zero":
+      true, "scale": "linear", "label": "", "min": "auto", "max": "auto"}, "markers":
+      []}}, {"id": 3823681685090318, "layout": {"x": 0, "y": 91, "width": 63, "height":
+      24}, "definition": {"title": "Log Web Traffic by IP Address", "title_size":
+      "16", "title_align": "left", "show_legend": false, "legend_layout": "auto",
+      "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "response_format": "timeseries",
+      "on_right_yaxis": false, "queries": [{"search": {"query": ""}, "data_source":
+      "logs", "compute": {"interval": 30000, "aggregation": "count"}, "name": "query1",
+      "indexes": ["*"], "group_by": [{"facet": "@network.client.ip", "sort": {"aggregation":
+      "count", "order": "desc"}, "limit": 100}]}], "style": {"palette": "dog_classic",
+      "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}], "yaxis":
+      {"include_zero": false, "scale": "log"}, "markers": []}}, {"id": 8368474761314392,
+      "layout": {"x": 4, "y": 85, "width": 120, "height": 5}, "definition": {"type":
+      "note", "content": "Logs", "background_color": "green", "font_size": "18", "text_align":
+      "center", "show_tick": true, "tick_pos": "50%", "tick_edge": "bottom"}}, {"id":
+      5524552780922781, "layout": {"x": 3, "y": 140, "width": 61, "height": 28}, "definition":
+      {"title": "", "title_size": "16", "title_align": "left", "show_legend": false,
+      "type": "timeseries", "requests": [{"formulas": [{"formula": "a"}, {"formula":
+      "calendar_shift(b, ''-1w'', ''UTC'')"}, {"formula": "calendar_shift(b, ''-1w'',
+      ''UTC'') - a"}], "response_format": "timeseries", "queries": [{"search": {"query":
+      "source:ruby status:error payment"}, "data_source": "logs", "compute": {"aggregation":
+      "count"}, "name": "a", "indexes": ["*"], "group_by": [{"facet": "status", "sort":
+      {"aggregation": "count", "order": "desc"}, "limit": 10}, {"facet": "service",
+      "sort": {"aggregation": "count", "order": "desc"}, "limit": 10}]}, {"search":
+      {"query": "source:ruby status:error payment"}, "data_source": "logs", "compute":
+      {"aggregation": "count"}, "name": "b", "indexes": ["*"], "group_by": [{"facet":
+      "status", "sort": {"aggregation": "count", "order": "desc"}, "limit": 10}, {"facet":
+      "service", "sort": {"aggregation": "count", "order": "desc"}, "limit": 10}]}],
+      "style": {"palette": "dog_classic"}, "display_type": "line"}]}}], "restricted_roles":
+      []}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard
+  response:
+    body:
+      string: '{"id": "vvn-xyb-kk9", "title": "Zubin Colah - Shopist Logs Demo", "description":
+        "datadog_demo_keep:true (cloned) (cloned)", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "author_name": "Michael S Richey", "layout_type": "free", "url": "/dashboard/vvn-xyb-kk9/zubin-colah---shopist-logs-demo",
+        "template_variables": [], "widgets": [{"id": 3793011224382482, "layout": {"x":
+        0.9090954344949606, "y": 16, "width": 106, "height": 60}, "definition": {"type":
+        "image", "url": "https://imgix.datadoghq.com/img/blog/announcing-security-monitoring/datadog-security-monitoring-lwl-rev.png",
+        "sizing": "contain", "has_background": true, "has_border": true, "vertical_align":
+        "center", "horizontal_align": "center"}}, {"id": 4864802557613604, "layout":
+        {"x": 65, "y": 92, "width": 63, "height": 79}, "definition": {"title": "Log
+        Stream", "title_size": "16", "title_align": "left", "requests": [{"response_format":
+        "event_list", "query": {"data_source": "logs_stream", "query_string": "env:prod
+        datadog_app:shopist", "indexes": [], "storage": "hot", "sort": {"order": "desc",
+        "column": "timestamp"}}, "columns": [{"field": "status_line", "width": "auto"},
+        {"field": "timestamp", "width": "auto"}, {"field": "host", "width": "auto"},
+        {"field": "service", "width": "auto"}, {"field": "content", "width": "compact"}]}],
+        "type": "list_stream"}}, {"id": 8607400987758440, "layout": {"x": 3, "y":
+        116, "width": 60, "height": 23}, "definition": {"title": "Errors by Service",
+        "title_size": "16", "title_align": "left", "show_legend": false, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "response_format": "timeseries",
+        "on_right_yaxis": false, "queries": [{"search": {"query": "status:error datadog_app:shopist"},
+        "data_source": "logs", "compute": {"aggregation": "count"}, "name": "query1",
+        "indexes": ["*"], "group_by": [{"facet": "service", "sort": {"aggregation":
+        "count", "order": "desc"}, "limit": 100}]}], "style": {"palette": "warm",
+        "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}], "yaxis":
+        {"include_zero": true, "scale": "linear", "label": "", "min": "auto", "max":
+        "auto"}, "markers": []}}, {"id": 3823681685090318, "layout": {"x": 0, "y":
+        91, "width": 63, "height": 24}, "definition": {"title": "Log Web Traffic by
+        IP Address", "title_size": "16", "title_align": "left", "show_legend": false,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "response_format": "timeseries", "on_right_yaxis": false, "queries": [{"search":
+        {"query": ""}, "data_source": "logs", "compute": {"interval": 30000, "aggregation":
+        "count"}, "name": "query1", "indexes": ["*"], "group_by": [{"facet": "@network.client.ip",
+        "sort": {"aggregation": "count", "order": "desc"}, "limit": 100}]}], "style":
+        {"palette": "dog_classic", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}], "yaxis": {"include_zero": false, "scale": "log"},
+        "markers": []}}, {"id": 8368474761314392, "layout": {"x": 4, "y": 85, "width":
+        120, "height": 5}, "definition": {"type": "note", "content": "Logs", "background_color":
+        "green", "font_size": "18", "text_align": "center", "show_tick": true, "tick_pos":
+        "50%", "tick_edge": "bottom"}}, {"id": 5524552780922781, "layout": {"x": 3,
+        "y": 140, "width": 61, "height": 28}, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "show_legend": false, "type": "timeseries", "requests":
+        [{"formulas": [{"formula": "a"}, {"formula": "calendar_shift(b, ''-1w'', ''UTC'')"},
+        {"formula": "calendar_shift(b, ''-1w'', ''UTC'') - a"}], "response_format":
+        "timeseries", "queries": [{"search": {"query": "source:ruby status:error payment"},
+        "data_source": "logs", "compute": {"aggregation": "count"}, "name": "a", "indexes":
+        ["*"], "group_by": [{"facet": "status", "sort": {"aggregation": "count", "order":
+        "desc"}, "limit": 10}, {"facet": "service", "sort": {"aggregation": "count",
+        "order": "desc"}, "limit": 10}]}, {"search": {"query": "source:ruby status:error
+        payment"}, "data_source": "logs", "compute": {"aggregation": "count"}, "name":
+        "b", "indexes": ["*"], "group_by": [{"facet": "status", "sort": {"aggregation":
+        "count", "order": "desc"}, "limit": 10}, {"facet": "service", "sort": {"aggregation":
+        "count", "order": "desc"}, "limit": 10}]}], "style": {"palette": "dog_classic"},
+        "display_type": "line"}]}}], "notify_list": null, "created_at": "2026-04-22T15:59:58.144204+00:00",
+        "modified_at": "2026-04-22T15:59:58.144204+00:00", "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"type": "powerpack", "attributes": {"name": "New group", "description":
+      "", "group_widget": {"layout": {"x": 0, "y": 0, "width": 12, "height": 3}, "definition":
+      {"title": "New group", "type": "group", "layout_type": "ordered", "widgets":
+      [{"layout": {"x": 1, "y": 0, "width": 4, "height": 2}, "definition": {"title":
+      "", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
+      "data_source": "metrics", "query": "avg:system.cpu.user{*}"}], "style": {"palette":
+      "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "line"}]}, "id": 7771709005082419}]}}, "template_variables":
+      [], "tags": ["tag:system"]}}}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v2/powerpacks
+  response:
+    body:
+      string: '{"data": {"type": "powerpack", "id": "4fcbc390-3e64-11f1-ab27-da7ad0900005",
+        "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
+        {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
+        "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
+        "y": 0, "width": 4, "height": 2}, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
+        "data_source": "metrics", "query": "avg:system.cpu.user{*}"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "line"}]}, "id": 7771709005082419}]}}, "template_variables":
+        [], "tags": ["tag:system"]}, "relationships": {"author": {"data": {"type":
+        "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea"}}}}, "included": [{"type":
+        "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea", "attributes": {"name":
+        "Michael S Richey", "email": "michael.richey@gmail.com"}}]}'
     headers:
       Content-Type:
       - application/json
@@ -1224,11 +1473,11 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "kh9-jpn-7fj", "title": "raspberrypi (cloned)", "description":
+      string: '{"id": "bze-sim-zwk", "title": "raspberrypi (cloned)", "description":
         "Top host-level metrics for raspberrypi.             Clone this dashboard
         to add your own metrics.\n\n[Link to infrastructure list](/infrastructure?filter=raspberrypi&hostname=raspberrypi)
         (cloned)", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "author_name":
-        "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/kh9-jpn-7fj/raspberrypi-cloned",
+        "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/bze-sim-zwk/raspberrypi-cloned",
         "template_variables": [], "widgets": [{"id": 0, "definition": {"title": "CPU
         usage (%)", "show_legend": true, "legend_layout": "auto", "type": "timeseries",
         "requests": [{"response_format": "timeseries", "queries": [{"data_source":
@@ -1272,49 +1521,9 @@ interactions:
         "metrics", "name": "query1", "query": "sum:system.net.bytes_rcvd{host:raspberrypi}"}]},
         {"response_format": "timeseries", "queries": [{"data_source": "metrics", "name":
         "query1", "query": "sum:system.net.bytes_sent{host:raspberrypi}"}], "formulas":
-        [{"formula": "0 - query1"}]}]}}], "notify_list": null, "created_at": "2026-04-21T21:20:56.680135+00:00",
-        "modified_at": "2026-04-21T21:20:56.680135+00:00", "reflow_type": "auto",
+        [{"formula": "0 - query1"}]}]}}], "notify_list": null, "created_at": "2026-04-22T15:59:58.172894+00:00",
+        "modified_at": "2026-04-22T15:59:58.172894+00:00", "reflow_type": "auto",
         "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"data": {"type": "powerpack", "attributes": {"name": "New group", "description":
-      "", "group_widget": {"layout": {"x": 0, "y": 0, "width": 12, "height": 3}, "definition":
-      {"title": "New group", "type": "group", "layout_type": "ordered", "widgets":
-      [{"layout": {"x": 1, "y": 0, "width": 4, "height": 2}, "definition": {"title":
-      "", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
-      "data_source": "metrics", "query": "avg:system.cpu.user{*}"}], "style": {"palette":
-      "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "line"}]}, "id": 7771709005082419}]}}, "template_variables":
-      [], "tags": ["tag:system"]}}}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v2/powerpacks
-  response:
-    body:
-      string: '{"data": {"type": "powerpack", "id": "fc5b461e-3dc7-11f1-8b70-da7ad0900005",
-        "attributes": {"name": "New group", "description": "", "group_widget": {"layout":
-        {"x": 0, "y": 0, "width": 12, "height": 3}, "definition": {"title": "New group",
-        "type": "group", "layout_type": "ordered", "widgets": [{"layout": {"x": 1,
-        "y": 0, "width": 4, "height": 2}, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
-        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"name": "query1",
-        "data_source": "metrics", "query": "avg:system.cpu.user{*}"}], "style": {"palette":
-        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "line"}]}, "id": 7771709005082419}]}}, "template_variables":
-        [], "tags": ["tag:system"]}, "relationships": {"author": {"data": {"type":
-        "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea"}}}}, "included": [{"type":
-        "users", "id": "17d29c8a-6285-11f0-be9b-76de006a05ea", "attributes": {"name":
-        "Michael S Richey", "email": "michael.richey@gmail.com"}}]}'
     headers:
       Content-Type:
       - application/json
@@ -1448,9 +1657,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "8vy-k93-2jt", "title": "Local Devices Dashboard", "description":
+      string: '{"id": "vjw-jpr-nyf", "title": "Local Devices Dashboard", "description":
         "[[suggested_dashboards]]", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/8vy-k93-2jt/local-devices-dashboard",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/vjw-jpr-nyf/local-devices-dashboard",
         "template_variables": [{"name": "host", "prefix": "host", "available_values":
         [], "default": "*"}], "widgets": [{"id": 2940693452504619, "definition": {"title":
         "CPU usage (%)", "show_legend": true, "legend_layout": "auto", "legend_columns":
@@ -1571,581 +1780,7 @@ interactions:
         "relative", "query": "tag:$host", "sort": "status,asc", "count": 50, "start":
         0, "summary_type": "monitors", "show_priority": false, "show_last_triggered":
         false}, "layout": {"x": 8, "y": 9, "width": 4, "height": 3}}], "notify_list":
-        null, "created_at": "2026-04-21T21:20:56.705115+00:00", "modified_at": "2026-04-21T21:20:56.705115+00:00",
-        "reflow_type": "fixed", "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"title": "Zubin Colah - Shopist Logs Demo", "description": "datadog_demo_keep:true
-      (cloned) (cloned)", "layout_type": "free", "template_variables": [], "widgets":
-      [{"id": 3793011224382482, "layout": {"x": 0.9090954344949606, "y": 16, "width":
-      106, "height": 60}, "definition": {"type": "image", "url": "https://imgix.datadoghq.com/img/blog/announcing-security-monitoring/datadog-security-monitoring-lwl-rev.png",
-      "sizing": "contain", "has_background": true, "has_border": true, "vertical_align":
-      "center", "horizontal_align": "center"}}, {"id": 4864802557613604, "layout":
-      {"x": 65, "y": 92, "width": 63, "height": 79}, "definition": {"title": "Log
-      Stream", "title_size": "16", "title_align": "left", "requests": [{"response_format":
-      "event_list", "query": {"data_source": "logs_stream", "query_string": "env:prod
-      datadog_app:shopist", "indexes": [], "storage": "hot", "sort": {"order": "desc",
-      "column": "timestamp"}}, "columns": [{"field": "status_line", "width": "auto"},
-      {"field": "timestamp", "width": "auto"}, {"field": "host", "width": "auto"},
-      {"field": "service", "width": "auto"}, {"field": "content", "width": "compact"}]}],
-      "type": "list_stream"}}, {"id": 8607400987758440, "layout": {"x": 3, "y": 116,
-      "width": 60, "height": 23}, "definition": {"title": "Errors by Service", "title_size":
-      "16", "title_align": "left", "show_legend": false, "legend_layout": "auto",
-      "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "response_format": "timeseries",
-      "on_right_yaxis": false, "queries": [{"search": {"query": "status:error datadog_app:shopist"},
-      "data_source": "logs", "compute": {"aggregation": "count"}, "name": "query1",
-      "indexes": ["*"], "group_by": [{"facet": "service", "sort": {"aggregation":
-      "count", "order": "desc"}, "limit": 100}]}], "style": {"palette": "warm", "line_type":
-      "solid", "line_width": "normal"}, "display_type": "bars"}], "yaxis": {"include_zero":
-      true, "scale": "linear", "label": "", "min": "auto", "max": "auto"}, "markers":
-      []}}, {"id": 3823681685090318, "layout": {"x": 0, "y": 91, "width": 63, "height":
-      24}, "definition": {"title": "Log Web Traffic by IP Address", "title_size":
-      "16", "title_align": "left", "show_legend": false, "legend_layout": "auto",
-      "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "response_format": "timeseries",
-      "on_right_yaxis": false, "queries": [{"search": {"query": ""}, "data_source":
-      "logs", "compute": {"interval": 30000, "aggregation": "count"}, "name": "query1",
-      "indexes": ["*"], "group_by": [{"facet": "@network.client.ip", "sort": {"aggregation":
-      "count", "order": "desc"}, "limit": 100}]}], "style": {"palette": "dog_classic",
-      "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}], "yaxis":
-      {"include_zero": false, "scale": "log"}, "markers": []}}, {"id": 8368474761314392,
-      "layout": {"x": 4, "y": 85, "width": 120, "height": 5}, "definition": {"type":
-      "note", "content": "Logs", "background_color": "green", "font_size": "18", "text_align":
-      "center", "show_tick": true, "tick_pos": "50%", "tick_edge": "bottom"}}, {"id":
-      5524552780922781, "layout": {"x": 3, "y": 140, "width": 61, "height": 28}, "definition":
-      {"title": "", "title_size": "16", "title_align": "left", "show_legend": false,
-      "type": "timeseries", "requests": [{"formulas": [{"formula": "a"}, {"formula":
-      "calendar_shift(b, ''-1w'', ''UTC'')"}, {"formula": "calendar_shift(b, ''-1w'',
-      ''UTC'') - a"}], "response_format": "timeseries", "queries": [{"search": {"query":
-      "source:ruby status:error payment"}, "data_source": "logs", "compute": {"aggregation":
-      "count"}, "name": "a", "indexes": ["*"], "group_by": [{"facet": "status", "sort":
-      {"aggregation": "count", "order": "desc"}, "limit": 10}, {"facet": "service",
-      "sort": {"aggregation": "count", "order": "desc"}, "limit": 10}]}, {"search":
-      {"query": "source:ruby status:error payment"}, "data_source": "logs", "compute":
-      {"aggregation": "count"}, "name": "b", "indexes": ["*"], "group_by": [{"facet":
-      "status", "sort": {"aggregation": "count", "order": "desc"}, "limit": 10}, {"facet":
-      "service", "sort": {"aggregation": "count", "order": "desc"}, "limit": 10}]}],
-      "style": {"palette": "dog_classic"}, "display_type": "line"}]}}], "restricted_roles":
-      []}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard
-  response:
-    body:
-      string: '{"id": "sni-ziu-ibk", "title": "Zubin Colah - Shopist Logs Demo", "description":
-        "datadog_demo_keep:true (cloned) (cloned)", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "free", "url": "/dashboard/sni-ziu-ibk/zubin-colah---shopist-logs-demo",
-        "template_variables": [], "widgets": [{"id": 3793011224382482, "layout": {"x":
-        0.9090954344949606, "y": 16, "width": 106, "height": 60}, "definition": {"type":
-        "image", "url": "https://imgix.datadoghq.com/img/blog/announcing-security-monitoring/datadog-security-monitoring-lwl-rev.png",
-        "sizing": "contain", "has_background": true, "has_border": true, "vertical_align":
-        "center", "horizontal_align": "center"}}, {"id": 4864802557613604, "layout":
-        {"x": 65, "y": 92, "width": 63, "height": 79}, "definition": {"title": "Log
-        Stream", "title_size": "16", "title_align": "left", "requests": [{"response_format":
-        "event_list", "query": {"data_source": "logs_stream", "query_string": "env:prod
-        datadog_app:shopist", "indexes": [], "storage": "hot", "sort": {"order": "desc",
-        "column": "timestamp"}}, "columns": [{"field": "status_line", "width": "auto"},
-        {"field": "timestamp", "width": "auto"}, {"field": "host", "width": "auto"},
-        {"field": "service", "width": "auto"}, {"field": "content", "width": "compact"}]}],
-        "type": "list_stream"}}, {"id": 8607400987758440, "layout": {"x": 3, "y":
-        116, "width": 60, "height": 23}, "definition": {"title": "Errors by Service",
-        "title_size": "16", "title_align": "left", "show_legend": false, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "response_format": "timeseries",
-        "on_right_yaxis": false, "queries": [{"search": {"query": "status:error datadog_app:shopist"},
-        "data_source": "logs", "compute": {"aggregation": "count"}, "name": "query1",
-        "indexes": ["*"], "group_by": [{"facet": "service", "sort": {"aggregation":
-        "count", "order": "desc"}, "limit": 100}]}], "style": {"palette": "warm",
-        "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}], "yaxis":
-        {"include_zero": true, "scale": "linear", "label": "", "min": "auto", "max":
-        "auto"}, "markers": []}}, {"id": 3823681685090318, "layout": {"x": 0, "y":
-        91, "width": 63, "height": 24}, "definition": {"title": "Log Web Traffic by
-        IP Address", "title_size": "16", "title_align": "left", "show_legend": false,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "response_format": "timeseries", "on_right_yaxis": false, "queries": [{"search":
-        {"query": ""}, "data_source": "logs", "compute": {"interval": 30000, "aggregation":
-        "count"}, "name": "query1", "indexes": ["*"], "group_by": [{"facet": "@network.client.ip",
-        "sort": {"aggregation": "count", "order": "desc"}, "limit": 100}]}], "style":
-        {"palette": "dog_classic", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}], "yaxis": {"include_zero": false, "scale": "log"},
-        "markers": []}}, {"id": 8368474761314392, "layout": {"x": 4, "y": 85, "width":
-        120, "height": 5}, "definition": {"type": "note", "content": "Logs", "background_color":
-        "green", "font_size": "18", "text_align": "center", "show_tick": true, "tick_pos":
-        "50%", "tick_edge": "bottom"}}, {"id": 5524552780922781, "layout": {"x": 3,
-        "y": 140, "width": 61, "height": 28}, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "show_legend": false, "type": "timeseries", "requests":
-        [{"formulas": [{"formula": "a"}, {"formula": "calendar_shift(b, ''-1w'', ''UTC'')"},
-        {"formula": "calendar_shift(b, ''-1w'', ''UTC'') - a"}], "response_format":
-        "timeseries", "queries": [{"search": {"query": "source:ruby status:error payment"},
-        "data_source": "logs", "compute": {"aggregation": "count"}, "name": "a", "indexes":
-        ["*"], "group_by": [{"facet": "status", "sort": {"aggregation": "count", "order":
-        "desc"}, "limit": 10}, {"facet": "service", "sort": {"aggregation": "count",
-        "order": "desc"}, "limit": 10}]}, {"search": {"query": "source:ruby status:error
-        payment"}, "data_source": "logs", "compute": {"aggregation": "count"}, "name":
-        "b", "indexes": ["*"], "group_by": [{"facet": "status", "sort": {"aggregation":
-        "count", "order": "desc"}, "limit": 10}, {"facet": "service", "sort": {"aggregation":
-        "count", "order": "desc"}, "limit": 10}]}], "style": {"palette": "dog_classic"},
-        "display_type": "line"}]}}], "notify_list": null, "created_at": "2026-04-21T21:20:56.722138+00:00",
-        "modified_at": "2026-04-21T21:20:56.722138+00:00", "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"title": "sync-cli customer dashboard", "description": "[[suggested_dashboards]]",
-      "layout_type": "ordered", "template_variables": [{"name": "resource_type", "prefix":
-      "resource_type", "available_values": ["monitors", "dashboards"], "default":
-      "*"}, {"name": "client_type", "prefix": "client_type", "available_values": ["source",
-      "destination"], "default": "*"}], "widgets": [{"id": 1046236066464840, "definition":
-      {"title": "Summary", "background_color": "vivid_green", "show_title": true,
-      "type": "group", "layout_type": "ordered", "widgets": [{"id": 8276316129338092,
-      "definition": {"title": "Resources exported from R1", "title_size": "16", "title_align":
-      "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
-      "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import}
-      by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
-      "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
-      "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
-      {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
-      {"x": 0, "y": 0, "width": 4, "height": 6}}, {"id": 656499302483792, "definition":
-      {"title": "Resources synchronized to R2", "title_size": "16", "title_align":
-      "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
-      "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync} by
-      {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
-      "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
-      "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
-      {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
-      {"x": 4, "y": 0, "width": 4, "height": 6}}, {"id": 7808448221985822, "definition":
-      {"title": "Resources deleted from R2", "title_size": "16", "title_align": "left",
-      "type": "toplist", "requests": [{"queries": [{"data_source": "metrics", "name":
-      "query1", "query": "sum:datadog.org_sync.action{action_type:delete} by {resource_type,status}",
-      "aggregator": "sum"}], "response_format": "scalar", "formulas": [{"formula":
-      "query1"}], "sort": {"order_by": [{"type": "group", "name": "resource_type",
-      "order": "asc"}], "count": 10}}], "style": {"display": {"type": "stacked", "legend":
-      "automatic"}, "palette": "semantic"}}, "layout": {"x": 8, "y": 0, "width": 4,
-      "height": 6}}]}, "layout": {"x": 0, "y": 0, "width": 12, "height": 7}}, {"id":
-      3831036670010992, "definition": {"title": "Individual resources: $resource_type.value
-      by ID", "background_color": "vivid_purple", "show_title": true, "type": "group",
-      "layout_type": "ordered", "widgets": [{"id": 6336659242401248, "definition":
-      {"title": "Successful imports to R2", "title_size": "16", "title_align": "left",
-      "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-      "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-      "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-      "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
-      by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-      2}}, {"id": 2782516337454596, "definition": {"title": "Successful exports from
-      R1", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
-      by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
-      2}}, {"id": 8841761726495074, "definition": {"title": "Successful deletes (cleanups)
-      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-      ,status:success,$resource_type,$client_type} by {id}"}], "response_format":
-      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-      8, "y": 0, "width": 4, "height": 2}}, {"id": 3205723021881762, "definition":
-      {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
-      "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-      "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-      "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-      "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
-      by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-      2}}, {"id": 8176170444813128, "definition": {"title": "Failed imports to R2",
-      "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
-      by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
-      2}}, {"id": 8238537380887594, "definition": {"title": "Failed deletes (cleanups)
-      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-      ,status:failure,$resource_type,$client_type} by {id}"}], "response_format":
-      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-      8, "y": 2, "width": 4, "height": 2}}, {"id": 1261034610886702, "definition":
-      {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
-      "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-      "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-      "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-      "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
-      by {id,reason}"}], "response_format": "timeseries", "style": {"palette": "semantic",
-      "order_by": "values", "line_type": "solid", "line_width": "normal"}, "display_type":
-      "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height": 2}}, {"id": 2516996497540034,
-      "definition": {"title": "Skipped imports to R2", "title_size": "16", "title_align":
-      "left", "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg",
-      "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas":
-      [{"formula": "query1"}], "queries": [{"data_source": "metrics", "name": "query1",
-      "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
-      by {id,resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width": 4, "height":
-      2}}, {"id": 912609472476800, "definition": {"title": "Skipped deletes (cleanups)
-      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-      ,status:skipped,$resource_type,$client_type} by {id}"}], "response_format":
-      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-      8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 7, "width":
-      12, "height": 7}}, {"id": 4629847371004998, "definition": {"title": "Individual
-      resources: $resource_type.value by resource type", "background_color": "vivid_purple",
-      "show_title": true, "type": "group", "layout_type": "ordered", "widgets": [{"id":
-      2859119271918836, "definition": {"title": "Successful exports from R1", "title_size":
-      "16", "title_align": "left", "show_legend": true, "legend_layout": "auto", "legend_columns":
-      ["avg", "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas":
-      [{"formula": "query1"}], "queries": [{"data_source": "metrics", "name": "query1",
-      "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
-      by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-      2}}, {"id": 4600968988201958, "definition": {"title": "Successful imports to
-      R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
-      by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
-      2}}, {"id": 2976052419838438, "definition": {"title": "Successful deletes (cleanups)
-      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-      ,status:success,$resource_type,$client_type} by {resource_type}"}], "response_format":
-      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-      8, "y": 0, "width": 4, "height": 2}}, {"id": 2048244272493164, "definition":
-      {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
-      "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-      "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-      "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-      "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
-      by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-      2}}, {"id": 8916325611528238, "definition": {"title": "Skipped imports to R2",
-      "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
-      by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
-      2}}, {"id": 2524770734407112, "definition": {"title": "Skipped deletes (cleanups)
-      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-      ,status:skipped,$resource_type,$client_type} by {resource_type}"}], "response_format":
-      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-      8, "y": 2, "width": 4, "height": 2}}, {"id": 8364678276396392, "definition":
-      {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
-      "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-      "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-      "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-      "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
-      by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height":
-      2}}, {"id": 7569668903393846, "definition": {"title": "Failed imports to R2",
-      "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
-      by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-      "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width": 4, "height":
-      2}}, {"id": 2181487267078918, "definition": {"title": "Failed deletes (cleanups)
-      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-      ,status:failure,$resource_type,$client_type} by {resource_type}"}], "response_format":
-      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-      8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 0, "width":
-      12, "height": 7, "is_column_break": true}}, {"id": 4229798387566372, "definition":
-      {"title": "", "title_size": "16", "title_align": "left", "show_legend": true,
-      "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value", "sum"],
-      "time": {}, "type": "timeseries", "requests": [{"formulas": [{"alias": "Import
-      Started", "formula": "query2"}, {"alias": "Sync Started", "formula": "query3"}],
-      "queries": [{"name": "query2", "data_source": "metrics", "query": "sum:datadog.org_sync.import.start{*}"},
-      {"name": "query3", "data_source": "metrics", "query": "sum:datadog.org_sync.sync.start{*}"}],
-      "response_format": "timeseries", "style": {"palette": "dog_classic", "order_by":
-      "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
-      "layout": {"x": 0, "y": 0, "width": 4, "height": 2}}], "reflow_type": "fixed",
-      "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard
-  response:
-    body:
-      string: '{"id": "dv6-8m5-d62", "title": "sync-cli customer dashboard", "description":
-        "[[suggested_dashboards]]", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/dv6-8m5-d62/sync-cli-customer-dashboard",
-        "template_variables": [{"name": "resource_type", "prefix": "resource_type",
-        "available_values": ["monitors", "dashboards"], "default": "*"}, {"name":
-        "client_type", "prefix": "client_type", "available_values": ["source", "destination"],
-        "default": "*"}], "widgets": [{"id": 1046236066464840, "definition": {"title":
-        "Summary", "background_color": "vivid_green", "show_title": true, "type":
-        "group", "layout_type": "ordered", "widgets": [{"id": 8276316129338092, "definition":
-        {"title": "Resources exported from R1", "title_size": "16", "title_align":
-        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
-        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import}
-        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
-        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
-        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
-        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
-        {"x": 0, "y": 0, "width": 4, "height": 6}}, {"id": 656499302483792, "definition":
-        {"title": "Resources synchronized to R2", "title_size": "16", "title_align":
-        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
-        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync}
-        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
-        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
-        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
-        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
-        {"x": 4, "y": 0, "width": 4, "height": 6}}, {"id": 7808448221985822, "definition":
-        {"title": "Resources deleted from R2", "title_size": "16", "title_align":
-        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
-        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete}
-        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
-        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
-        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
-        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
-        {"x": 8, "y": 0, "width": 4, "height": 6}}]}, "layout": {"x": 0, "y": 0, "width":
-        12, "height": 7}}, {"id": 3831036670010992, "definition": {"title": "Individual
-        resources: $resource_type.value by ID", "background_color": "vivid_purple",
-        "show_title": true, "type": "group", "layout_type": "ordered", "widgets":
-        [{"id": 6336659242401248, "definition": {"title": "Successful imports to R2",
-        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
-        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}, {"id": 2782516337454596, "definition": {"title": "Successful exports
-        from R1", "title_size": "16", "title_align": "left", "show_legend": true,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
-        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
-        2}}, {"id": 8841761726495074, "definition": {"title": "Successful deletes
-        (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
-        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:success,$resource_type,$client_type} by {id}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 0, "width": 4, "height": 2}}, {"id": 3205723021881762, "definition":
-        {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
-        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
-        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-        2}}, {"id": 8176170444813128, "definition": {"title": "Failed imports to R2",
-        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
-        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
-        2}}, {"id": 8238537380887594, "definition": {"title": "Failed deletes (cleanups)
-        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:failure,$resource_type,$client_type} by {id}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 2, "width": 4, "height": 2}}, {"id": 1261034610886702, "definition":
-        {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
-        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
-        by {id,reason}"}], "response_format": "timeseries", "style": {"palette": "semantic",
-        "order_by": "values", "line_type": "solid", "line_width": "normal"}, "display_type":
-        "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height": 2}}, {"id": 2516996497540034,
-        "definition": {"title": "Skipped imports to R2", "title_size": "16", "title_align":
-        "left", "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg",
-        "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas":
-        [{"formula": "query1"}], "queries": [{"data_source": "metrics", "name": "query1",
-        "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
-        by {id,resource_type,reason}"}], "response_format": "timeseries", "style":
-        {"palette": "semantic", "order_by": "values", "line_type": "solid", "line_width":
-        "normal"}, "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width":
-        4, "height": 2}}, {"id": 912609472476800, "definition": {"title": "Skipped
-        deletes (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
-        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:skipped,$resource_type,$client_type} by {id}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 7, "width":
-        12, "height": 7}}, {"id": 4629847371004998, "definition": {"title": "Individual
-        resources: $resource_type.value by resource type", "background_color": "vivid_purple",
-        "show_title": true, "type": "group", "layout_type": "ordered", "widgets":
-        [{"id": 2859119271918836, "definition": {"title": "Successful exports from
-        R1", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
-        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}, {"id": 4600968988201958, "definition": {"title": "Successful imports
-        to R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
-        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
-        2}}, {"id": 2976052419838438, "definition": {"title": "Successful deletes
-        (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
-        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:success,$resource_type,$client_type} by {resource_type}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 0, "width": 4, "height": 2}}, {"id": 2048244272493164, "definition":
-        {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
-        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
-        by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
-        2}}, {"id": 8916325611528238, "definition": {"title": "Skipped imports to
-        R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
-        by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
-        2}}, {"id": 2524770734407112, "definition": {"title": "Skipped deletes (cleanups)
-        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:skipped,$resource_type,$client_type} by {resource_type}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 2, "width": 4, "height": 2}}, {"id": 8364678276396392, "definition":
-        {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
-        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
-        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
-        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
-        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height":
-        2}}, {"id": 7569668903393846, "definition": {"title": "Failed imports to R2",
-        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
-        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
-        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
-        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width": 4, "height":
-        2}}, {"id": 2181487267078918, "definition": {"title": "Failed deletes (cleanups)
-        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
-        ,status:failure,$resource_type,$client_type} by {resource_type}"}], "response_format":
-        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 0, "width":
-        12, "height": 7, "is_column_break": true}}, {"id": 4229798387566372, "definition":
-        {"title": "", "title_size": "16", "title_align": "left", "show_legend": true,
-        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
-        "sum"], "time": {}, "type": "timeseries", "requests": [{"formulas": [{"alias":
-        "Import Started", "formula": "query2"}, {"alias": "Sync Started", "formula":
-        "query3"}], "queries": [{"name": "query2", "data_source": "metrics", "query":
-        "sum:datadog.org_sync.import.start{*}"}, {"name": "query3", "data_source":
-        "metrics", "query": "sum:datadog.org_sync.sync.start{*}"}], "response_format":
-        "timeseries", "style": {"palette": "dog_classic", "order_by": "values", "line_type":
-        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
-        0, "y": 0, "width": 4, "height": 2}}], "notify_list": null, "created_at":
-        "2026-04-21T21:20:56.755267+00:00", "modified_at": "2026-04-21T21:20:56.755267+00:00",
-        "reflow_type": "fixed", "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"title": "Michael''s Dashboard Mon, Jul 14, 4:22:25 pm", "description":
-      null, "layout_type": "ordered", "template_variables": [], "widgets": [{"id":
-      4844048744340943, "definition": {"title": "", "title_size": "16", "title_align":
-      "left", "time": {}, "type": "query_table", "requests": [{"queries": [{"data_source":
-      "metrics", "name": "query1", "query": "avg:system.cpu.user{*} by {service}",
-      "aggregator": "avg"}], "response_format": "scalar", "sort": {"count": 500, "order_by":
-      [{"type": "formula", "index": 0, "order": "desc"}]}, "formulas": [{"formula":
-      "query1", "cell_display_mode": "bar"}]}], "has_search_bar": "auto"}, "layout":
-      {"x": 0, "y": 0, "width": 4, "height": 4}}], "reflow_type": "fixed", "restricted_roles":
-      []}'
-    headers:
-      Content-Type:
-      - application/json
-    method: POST
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard
-  response:
-    body:
-      string: '{"id": "sib-ejx-cgu", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
-        pm", "description": null, "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/sib-ejx-cgu/michaels-dashboard-mon-jul-14-42225-pm",
-        "template_variables": [], "widgets": [{"id": 4844048744340943, "definition":
-        {"title": "", "title_size": "16", "title_align": "left", "time": {}, "type":
-        "query_table", "requests": [{"queries": [{"data_source": "metrics", "name":
-        "query1", "query": "avg:system.cpu.user{*} by {service}", "aggregator": "avg"}],
-        "response_format": "scalar", "sort": {"count": 500, "order_by": [{"type":
-        "formula", "index": 0, "order": "desc"}]}, "formulas": [{"formula": "query1",
-        "cell_display_mode": "bar"}]}], "has_search_bar": "auto"}, "layout": {"x":
-        0, "y": 0, "width": 4, "height": 4}}], "notify_list": null, "created_at":
-        "2026-04-21T21:20:56.585934+00:00", "modified_at": "2026-04-21T21:20:56.585934+00:00",
+        null, "created_at": "2026-04-22T15:59:58.212122+00:00", "modified_at": "2026-04-22T15:59:58.212122+00:00",
         "reflow_type": "fixed", "restricted_roles": []}'
     headers:
       Content-Type:
@@ -2359,9 +1994,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "23e-f8e-hdm", "title": "sync-cli customer dashboard (clone)",
+      string: '{"id": "djd-k9y-qas", "title": "sync-cli customer dashboard (clone)",
         "description": "[[suggested_dashboards]]", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/23e-f8e-hdm/sync-cli-customer-dashboard-clone",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/djd-k9y-qas/sync-cli-customer-dashboard-clone",
         "template_variables": [{"name": "resource_type", "prefix": "resource_type",
         "available_values": ["monitors", "dashboards"], "default": "*"}, {"name":
         "client_type", "prefix": "client_type", "available_values": ["source", "destination"],
@@ -2558,7 +2193,421 @@ interactions:
         "response_format": "timeseries", "style": {"palette": "dog_classic", "order_by":
         "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
         "layout": {"x": 0, "y": 0, "width": 4, "height": 2}}], "notify_list": null,
-        "created_at": "2026-04-21T21:20:56.803659+00:00", "modified_at": "2026-04-21T21:20:56.803659+00:00",
+        "created_at": "2026-04-22T15:59:58.317843+00:00", "modified_at": "2026-04-22T15:59:58.317843+00:00",
+        "reflow_type": "fixed", "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"title": "sync-cli customer dashboard", "description": "[[suggested_dashboards]]",
+      "layout_type": "ordered", "template_variables": [{"name": "resource_type", "prefix":
+      "resource_type", "available_values": ["monitors", "dashboards"], "default":
+      "*"}, {"name": "client_type", "prefix": "client_type", "available_values": ["source",
+      "destination"], "default": "*"}], "widgets": [{"id": 1046236066464840, "definition":
+      {"title": "Summary", "background_color": "vivid_green", "show_title": true,
+      "type": "group", "layout_type": "ordered", "widgets": [{"id": 8276316129338092,
+      "definition": {"title": "Resources exported from R1", "title_size": "16", "title_align":
+      "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
+      "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import}
+      by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
+      "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
+      "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
+      {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
+      {"x": 0, "y": 0, "width": 4, "height": 6}}, {"id": 656499302483792, "definition":
+      {"title": "Resources synchronized to R2", "title_size": "16", "title_align":
+      "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
+      "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync} by
+      {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
+      "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
+      "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
+      {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
+      {"x": 4, "y": 0, "width": 4, "height": 6}}, {"id": 7808448221985822, "definition":
+      {"title": "Resources deleted from R2", "title_size": "16", "title_align": "left",
+      "type": "toplist", "requests": [{"queries": [{"data_source": "metrics", "name":
+      "query1", "query": "sum:datadog.org_sync.action{action_type:delete} by {resource_type,status}",
+      "aggregator": "sum"}], "response_format": "scalar", "formulas": [{"formula":
+      "query1"}], "sort": {"order_by": [{"type": "group", "name": "resource_type",
+      "order": "asc"}], "count": 10}}], "style": {"display": {"type": "stacked", "legend":
+      "automatic"}, "palette": "semantic"}}, "layout": {"x": 8, "y": 0, "width": 4,
+      "height": 6}}]}, "layout": {"x": 0, "y": 0, "width": 12, "height": 7}}, {"id":
+      3831036670010992, "definition": {"title": "Individual resources: $resource_type.value
+      by ID", "background_color": "vivid_purple", "show_title": true, "type": "group",
+      "layout_type": "ordered", "widgets": [{"id": 6336659242401248, "definition":
+      {"title": "Successful imports to R2", "title_size": "16", "title_align": "left",
+      "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+      "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+      "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+      "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
+      by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+      2}}, {"id": 2782516337454596, "definition": {"title": "Successful exports from
+      R1", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
+      by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
+      2}}, {"id": 8841761726495074, "definition": {"title": "Successful deletes (cleanups)
+      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+      ,status:success,$resource_type,$client_type} by {id}"}], "response_format":
+      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+      8, "y": 0, "width": 4, "height": 2}}, {"id": 3205723021881762, "definition":
+      {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
+      "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+      "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+      "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+      "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
+      by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
+      2}}, {"id": 8176170444813128, "definition": {"title": "Failed imports to R2",
+      "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
+      by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
+      2}}, {"id": 8238537380887594, "definition": {"title": "Failed deletes (cleanups)
+      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+      ,status:failure,$resource_type,$client_type} by {id}"}], "response_format":
+      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+      8, "y": 2, "width": 4, "height": 2}}, {"id": 1261034610886702, "definition":
+      {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
+      "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+      "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+      "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+      "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
+      by {id,reason}"}], "response_format": "timeseries", "style": {"palette": "semantic",
+      "order_by": "values", "line_type": "solid", "line_width": "normal"}, "display_type":
+      "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height": 2}}, {"id": 2516996497540034,
+      "definition": {"title": "Skipped imports to R2", "title_size": "16", "title_align":
+      "left", "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg",
+      "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas":
+      [{"formula": "query1"}], "queries": [{"data_source": "metrics", "name": "query1",
+      "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
+      by {id,resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width": 4, "height":
+      2}}, {"id": 912609472476800, "definition": {"title": "Skipped deletes (cleanups)
+      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+      ,status:skipped,$resource_type,$client_type} by {id}"}], "response_format":
+      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+      8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 7, "width":
+      12, "height": 7}}, {"id": 4629847371004998, "definition": {"title": "Individual
+      resources: $resource_type.value by resource type", "background_color": "vivid_purple",
+      "show_title": true, "type": "group", "layout_type": "ordered", "widgets": [{"id":
+      2859119271918836, "definition": {"title": "Successful exports from R1", "title_size":
+      "16", "title_align": "left", "show_legend": true, "legend_layout": "auto", "legend_columns":
+      ["avg", "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas":
+      [{"formula": "query1"}], "queries": [{"data_source": "metrics", "name": "query1",
+      "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
+      by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+      2}}, {"id": 4600968988201958, "definition": {"title": "Successful imports to
+      R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
+      by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
+      2}}, {"id": 2976052419838438, "definition": {"title": "Successful deletes (cleanups)
+      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+      ,status:success,$resource_type,$client_type} by {resource_type}"}], "response_format":
+      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+      8, "y": 0, "width": 4, "height": 2}}, {"id": 2048244272493164, "definition":
+      {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
+      "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+      "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+      "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+      "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
+      by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
+      2}}, {"id": 8916325611528238, "definition": {"title": "Skipped imports to R2",
+      "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
+      by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
+      2}}, {"id": 2524770734407112, "definition": {"title": "Skipped deletes (cleanups)
+      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+      ,status:skipped,$resource_type,$client_type} by {resource_type}"}], "response_format":
+      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+      8, "y": 2, "width": 4, "height": 2}}, {"id": 8364678276396392, "definition":
+      {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
+      "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+      "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+      "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+      "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
+      by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height":
+      2}}, {"id": 7569668903393846, "definition": {"title": "Failed imports to R2",
+      "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
+      by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+      "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+      "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width": 4, "height":
+      2}}, {"id": 2181487267078918, "definition": {"title": "Failed deletes (cleanups)
+      from R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+      "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+      "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+      "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+      ,status:failure,$resource_type,$client_type} by {resource_type}"}], "response_format":
+      "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+      "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+      8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 0, "width":
+      12, "height": 7, "is_column_break": true}}, {"id": 4229798387566372, "definition":
+      {"title": "", "title_size": "16", "title_align": "left", "show_legend": true,
+      "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value", "sum"],
+      "time": {}, "type": "timeseries", "requests": [{"formulas": [{"alias": "Import
+      Started", "formula": "query2"}, {"alias": "Sync Started", "formula": "query3"}],
+      "queries": [{"name": "query2", "data_source": "metrics", "query": "sum:datadog.org_sync.import.start{*}"},
+      {"name": "query3", "data_source": "metrics", "query": "sum:datadog.org_sync.sync.start{*}"}],
+      "response_format": "timeseries", "style": {"palette": "dog_classic", "order_by":
+      "values", "line_type": "solid", "line_width": "normal"}, "display_type": "bars"}]},
+      "layout": {"x": 0, "y": 0, "width": 4, "height": 2}}], "reflow_type": "fixed",
+      "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    method: POST
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard
+  response:
+    body:
+      string: '{"id": "cxn-6n2-de3", "title": "sync-cli customer dashboard", "description":
+        "[[suggested_dashboards]]", "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/cxn-6n2-de3/sync-cli-customer-dashboard",
+        "template_variables": [{"name": "resource_type", "prefix": "resource_type",
+        "available_values": ["monitors", "dashboards"], "default": "*"}, {"name":
+        "client_type", "prefix": "client_type", "available_values": ["source", "destination"],
+        "default": "*"}], "widgets": [{"id": 1046236066464840, "definition": {"title":
+        "Summary", "background_color": "vivid_green", "show_title": true, "type":
+        "group", "layout_type": "ordered", "widgets": [{"id": 8276316129338092, "definition":
+        {"title": "Resources exported from R1", "title_size": "16", "title_align":
+        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
+        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import}
+        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
+        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
+        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
+        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
+        {"x": 0, "y": 0, "width": 4, "height": 6}}, {"id": 656499302483792, "definition":
+        {"title": "Resources synchronized to R2", "title_size": "16", "title_align":
+        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
+        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync}
+        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
+        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
+        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
+        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
+        {"x": 4, "y": 0, "width": 4, "height": 6}}, {"id": 7808448221985822, "definition":
+        {"title": "Resources deleted from R2", "title_size": "16", "title_align":
+        "left", "type": "toplist", "requests": [{"queries": [{"data_source": "metrics",
+        "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete}
+        by {resource_type,status}", "aggregator": "sum"}], "response_format": "scalar",
+        "formulas": [{"formula": "query1"}], "sort": {"order_by": [{"type": "group",
+        "name": "resource_type", "order": "asc"}], "count": 10}}], "style": {"display":
+        {"type": "stacked", "legend": "automatic"}, "palette": "semantic"}}, "layout":
+        {"x": 8, "y": 0, "width": 4, "height": 6}}]}, "layout": {"x": 0, "y": 0, "width":
+        12, "height": 7}}, {"id": 3831036670010992, "definition": {"title": "Individual
+        resources: $resource_type.value by ID", "background_color": "vivid_purple",
+        "show_title": true, "type": "group", "layout_type": "ordered", "widgets":
+        [{"id": 6336659242401248, "definition": {"title": "Successful imports to R2",
+        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
+        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}, {"id": 2782516337454596, "definition": {"title": "Successful exports
+        from R1", "title_size": "16", "title_align": "left", "show_legend": true,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
+        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
+        2}}, {"id": 8841761726495074, "definition": {"title": "Successful deletes
+        (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
+        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:success,$resource_type,$client_type} by {id}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 0, "width": 4, "height": 2}}, {"id": 3205723021881762, "definition":
+        {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
+        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
+        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
+        2}}, {"id": 8176170444813128, "definition": {"title": "Failed imports to R2",
+        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
+        by {id,resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
+        2}}, {"id": 8238537380887594, "definition": {"title": "Failed deletes (cleanups)
+        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:failure,$resource_type,$client_type} by {id}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 2, "width": 4, "height": 2}}, {"id": 1261034610886702, "definition":
+        {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
+        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
+        by {id,reason}"}], "response_format": "timeseries", "style": {"palette": "semantic",
+        "order_by": "values", "line_type": "solid", "line_width": "normal"}, "display_type":
+        "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height": 2}}, {"id": 2516996497540034,
+        "definition": {"title": "Skipped imports to R2", "title_size": "16", "title_align":
+        "left", "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg",
+        "min", "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas":
+        [{"formula": "query1"}], "queries": [{"data_source": "metrics", "name": "query1",
+        "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
+        by {id,resource_type,reason}"}], "response_format": "timeseries", "style":
+        {"palette": "semantic", "order_by": "values", "line_type": "solid", "line_width":
+        "normal"}, "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width":
+        4, "height": 2}}, {"id": 912609472476800, "definition": {"title": "Skipped
+        deletes (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
+        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:skipped,$resource_type,$client_type} by {id}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 7, "width":
+        12, "height": 7}}, {"id": 4629847371004998, "definition": {"title": "Individual
+        resources: $resource_type.value by resource type", "background_color": "vivid_purple",
+        "show_title": true, "type": "group", "layout_type": "ordered", "widgets":
+        [{"id": 2859119271918836, "definition": {"title": "Successful exports from
+        R1", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:import,status:success,$resource_type,$client_type}
+        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}, {"id": 4600968988201958, "definition": {"title": "Successful imports
+        to R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:success,$resource_type,$client_type}
+        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 4, "y": 0, "width": 4, "height":
+        2}}, {"id": 2976052419838438, "definition": {"title": "Successful deletes
+        (cleanups) from R2", "title_size": "16", "title_align": "left", "show_legend":
+        true, "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:success,$resource_type,$client_type} by {resource_type}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 0, "width": 4, "height": 2}}, {"id": 2048244272493164, "definition":
+        {"title": "Skipped exports from R1", "title_size": "16", "title_align": "left",
+        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "sum:datadog.org_sync.action{action_type:import,status:skipped,$resource_type,$client_type}
+        by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 2, "width": 4, "height":
+        2}}, {"id": 8916325611528238, "definition": {"title": "Skipped imports to
+        R2", "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:skipped,$resource_type,$client_type}
+        by {resource_type,reason}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 4, "y": 2, "width": 4, "height":
+        2}}, {"id": 2524770734407112, "definition": {"title": "Skipped deletes (cleanups)
+        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:skipped,$resource_type,$client_type} by {resource_type}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 2, "width": 4, "height": 2}}, {"id": 8364678276396392, "definition":
+        {"title": "Failed exports from R1", "title_size": "16", "title_align": "left",
+        "show_legend": true, "legend_layout": "auto", "legend_columns": ["avg", "min",
+        "max", "value", "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula":
+        "query1"}], "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "sum:datadog.org_sync.action{action_type:import,status:failure,$resource_type,$client_type}
+        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 0, "y": 4, "width": 4, "height":
+        2}}, {"id": 7569668903393846, "definition": {"title": "Failed imports to R2",
+        "title_size": "16", "title_align": "left", "show_legend": true, "legend_layout":
+        "auto", "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"formulas": [{"formula": "query1"}], "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:sync,status:failure,$resource_type,$client_type}
+        by {resource_type}"}], "response_format": "timeseries", "style": {"palette":
+        "semantic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "bars"}]}, "layout": {"x": 4, "y": 4, "width": 4, "height":
+        2}}, {"id": 2181487267078918, "definition": {"title": "Failed deletes (cleanups)
+        from R2", "title_size": "16", "title_align": "left", "show_legend": true,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "type": "timeseries", "requests": [{"formulas": [{"formula": "query1"}],
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "sum:datadog.org_sync.action{action_type:delete
+        ,status:failure,$resource_type,$client_type} by {resource_type}"}], "response_format":
+        "timeseries", "style": {"palette": "semantic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        8, "y": 4, "width": 4, "height": 2}}]}, "layout": {"x": 0, "y": 0, "width":
+        12, "height": 7, "is_column_break": true}}, {"id": 4229798387566372, "definition":
+        {"title": "", "title_size": "16", "title_align": "left", "show_legend": true,
+        "legend_layout": "auto", "legend_columns": ["avg", "min", "max", "value",
+        "sum"], "time": {}, "type": "timeseries", "requests": [{"formulas": [{"alias":
+        "Import Started", "formula": "query2"}, {"alias": "Sync Started", "formula":
+        "query3"}], "queries": [{"name": "query2", "data_source": "metrics", "query":
+        "sum:datadog.org_sync.import.start{*}"}, {"name": "query3", "data_source":
+        "metrics", "query": "sum:datadog.org_sync.sync.start{*}"}], "response_format":
+        "timeseries", "style": {"palette": "dog_classic", "order_by": "values", "line_type":
+        "solid", "line_width": "normal"}, "display_type": "bars"}]}, "layout": {"x":
+        0, "y": 0, "width": 4, "height": 2}}], "notify_list": null, "created_at":
+        "2026-04-22T15:59:58.280140+00:00", "modified_at": "2026-04-22T15:59:58.280140+00:00",
         "reflow_type": "fixed", "restricted_roles": []}'
     headers:
       Content-Type:
@@ -2570,7 +2619,7 @@ interactions:
     body: '{"title": "Michael''s Dashboard Mon, Oct 28, 2:45:47 pm", "description":
       null, "layout_type": "ordered", "template_variables": [], "widgets": [{"id":
       5949103957093766, "definition": {"title": "New group", "show_title": true, "powerpack_id":
-      "fc5b461e-3dc7-11f1-8b70-da7ad0900005", "template_variables": {"controlled_externally":
+      "4fcbc390-3e64-11f1-ab27-da7ad0900005", "template_variables": {"controlled_externally":
       [], "controlled_by_powerpack": []}, "type": "powerpack"}, "layout": {"x": 0,
       "y": 0, "width": 12, "height": 3}}], "reflow_type": "fixed", "restricted_roles":
       []}'
@@ -2581,15 +2630,15 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/dashboard
   response:
     body:
-      string: '{"id": "mgi-dkf-fpb", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+      string: '{"id": "s5e-rwf-2fn", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
         pm", "description": null, "author_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
-        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/mgi-dkf-fpb/michaels-dashboard-mon-oct-28-24547-pm",
+        "author_name": "Michael S Richey", "layout_type": "ordered", "url": "/dashboard/s5e-rwf-2fn/michaels-dashboard-mon-oct-28-24547-pm",
         "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
-        {"title": "New group", "show_title": true, "powerpack_id": "fc5b461e-3dc7-11f1-8b70-da7ad0900005",
+        {"title": "New group", "show_title": true, "powerpack_id": "4fcbc390-3e64-11f1-ab27-da7ad0900005",
         "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
         []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": null, "created_at": "2026-04-21T21:20:56.906101+00:00",
-        "modified_at": "2026-04-21T21:20:56.906101+00:00", "reflow_type": "fixed",
+        3}}], "notify_list": null, "created_at": "2026-04-22T15:59:58.381265+00:00",
+        "modified_at": "2026-04-22T15:59:58.381265+00:00", "reflow_type": "fixed",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -11797,7 +11846,151 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/powerpacks/fc5b461e-3dc7-11f1-8b70-da7ad0900005
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/vvn-xyb-kk9
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "vvn-xyb-kk9"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/djd-k9y-qas
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "djd-k9y-qas"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/s5e-rwf-2fn
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "s5e-rwf-2fn"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/9ww-sqr-rjs
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "9ww-sqr-rjs"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/zu2-9pc-htt
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "zu2-9pc-htt"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/vjw-jpr-nyf
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "vjw-jpr-nyf"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/bze-sim-zwk
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "bze-sim-zwk"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/cxn-6n2-de3
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "cxn-6n2-de3"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/fh8-w7k-7yf
+  response:
+    body:
+      string: '{"deleted_dashboard_id": "fh8-w7k-7yf"}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v2/powerpacks/4fcbc390-3e64-11f1-ab27-da7ad0900005
   response:
     body:
       string: ''
@@ -11813,10 +12006,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/23e-f8e-hdm
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/e24-79r-efq
   response:
     body:
-      string: '{"deleted_dashboard_id": "23e-f8e-hdm"}'
+      string: '{"deleted_dashboard_id": "e24-79r-efq"}'
     headers:
       Content-Type:
       - application/json
@@ -11829,138 +12022,10 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/bbz-d3u-f8g
+    uri: https://api.us5.datadoghq.com/api/v1/dashboard/gnu-44s-k57
   response:
     body:
-      string: '{"deleted_dashboard_id": "bbz-d3u-f8g"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/dv6-8m5-d62
-  response:
-    body:
-      string: '{"deleted_dashboard_id": "dv6-8m5-d62"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/sib-ejx-cgu
-  response:
-    body:
-      string: '{"deleted_dashboard_id": "sib-ejx-cgu"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/8vy-k93-2jt
-  response:
-    body:
-      string: '{"deleted_dashboard_id": "8vy-k93-2jt"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/kh9-jpn-7fj
-  response:
-    body:
-      string: '{"deleted_dashboard_id": "kh9-jpn-7fj"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/vks-szd-97z
-  response:
-    body:
-      string: '{"deleted_dashboard_id": "vks-szd-97z"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/mgi-dkf-fpb
-  response:
-    body:
-      string: '{"deleted_dashboard_id": "mgi-dkf-fpb"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/sni-ziu-ibk
-  response:
-    body:
-      string: '{"deleted_dashboard_id": "sni-ziu-ibk"}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/dashboard/65b-cvc-a7z
-  response:
-    body:
-      string: '{"deleted_dashboard_id": "65b-cvc-a7z"}'
+      string: '{"deleted_dashboard_id": "gnu-44s-k57"}'
     headers:
       Content-Type:
       - application/json

@@ -61,19 +61,21 @@ interactions:
         {"type": "notebook_cells", "id": "vlqs33ce", "attributes": {"definition":
         {"text": "", "type": "markdown"}}}], "time": {"live_span": "1h"}, "metadata":
         {"take_snapshots": false, "is_template": false, "is_favorite": false, "type":
-        null}, "template_variables": [], "status": "published", "modified": "2026-04-01T15:04:05.851068+00:00",
-        "created": "2026-02-15T02:52:40.462676+00:00", "deleted": null, "tags": ["human_edited:true"],
-        "author": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?d=retro&s=48",
+        null}, "template_variables": [], "dropdown_templates": [], "status": "published",
+        "modified": "2026-04-01T15:04:05.851068+00:00", "created": "2026-02-15T02:52:40.462676+00:00",
+        "deleted": null, "tags": ["human_edited:true"], "author": {"name": "Michael
+        Richey", "handle": "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?d=retro&s=48",
         "title": "", "verified": true, "disabled": false, "status": "Active"}}}, {"type":
         "notebooks", "id": 229667, "attributes": {"name": "Michael Jun 10 2025 10:49",
         "cells": [{"type": "notebook_cells", "id": "eyuh52e5", "attributes": {"definition":
         {"text": "test", "type": "markdown"}}}], "time": {"live_span": "1h"}, "metadata":
         {"take_snapshots": false, "is_template": false, "is_favorite": false, "type":
-        null}, "template_variables": [], "status": "published", "modified": "2026-04-01T15:03:50.341068+00:00",
-        "created": "2025-06-10T14:49:04.514872+00:00", "deleted": null, "tags": ["human_edited:true"],
-        "author": {"name": "Michael Richey", "handle": "michael.richey@datadoghq.com",
-        "email": "michael.richey@datadoghq.com", "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?d=retro&s=48",
+        null}, "template_variables": [], "dropdown_templates": [], "status": "published",
+        "modified": "2026-04-01T15:03:50.341068+00:00", "created": "2025-06-10T14:49:04.514872+00:00",
+        "deleted": null, "tags": ["human_edited:true"], "author": {"name": "Michael
+        Richey", "handle": "michael.richey@datadoghq.com", "email": "michael.richey@datadoghq.com",
+        "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?d=retro&s=48",
         "title": "", "verified": true, "disabled": false, "status": "Active"}}}],
         "meta": {"page": {"total_count": 2, "total_filtered_count": 2}}}'
     headers:
