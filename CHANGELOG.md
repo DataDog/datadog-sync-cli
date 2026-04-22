@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.0.1 / 2026-04-22
+
+### Fixed
+* fix: handle org: principal remapping failure in restriction_policies [DRALLSTSBX-49] by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/540
+* feat: remap restriction_policy principals in monitors connect_id [DRALLSTSBX-49] by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/541
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.0.0...4.0.1
+
 ## 4.0.0 / 2026-04-20
 
 ### Changed
