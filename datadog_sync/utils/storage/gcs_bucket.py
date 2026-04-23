@@ -67,12 +67,9 @@ class GCSBucket(BaseStorage):
     def _list_and_load(self, base_prefix: str, resource_types, label: str):
         """List and load GCS blobs, optionally scoped to resource_types."""
         from collections import defaultdict
+
         result = defaultdict(dict)
-        prefixes = (
-            [f"{base_prefix}/{rt}." for rt in resource_types]
-            if resource_types is not None
-            else [base_prefix]
-        )
+        prefixes = [f"{base_prefix}/{rt}." for rt in resource_types] if resource_types is not None else [base_prefix]
         for prefix in prefixes:
             for blob in self.bucket.list_blobs(prefix=prefix):
                 if not blob.name.endswith(".json"):

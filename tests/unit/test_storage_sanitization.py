@@ -3,7 +3,6 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-import json
 from pathlib import Path
 
 import pytest

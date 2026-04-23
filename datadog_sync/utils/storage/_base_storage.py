@@ -31,7 +31,7 @@ class BaseStorage(ABC):
         The original resource ID is always preserved in JSON file content;
         sanitization only affects the filename/object key used in storage.
         """
-        return resource_id.replace(':', '.')
+        return resource_id.replace(":", ".")
 
     @abstractmethod
     def get(self, origin, resource_types=None) -> StorageData:

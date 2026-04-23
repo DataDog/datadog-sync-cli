@@ -82,11 +82,7 @@ class AWSS3Bucket(BaseStorage):
         result = defaultdict(dict)
         # Scoped: iterate one type at a time using tight prefix "{base}/{type}."
         # Unscoped: single broad listing — existing behavior
-        prefixes = (
-            [f"{base_prefix}/{rt}." for rt in resource_types]
-            if resource_types is not None
-            else [base_prefix]
-        )
+        prefixes = [f"{base_prefix}/{rt}." for rt in resource_types] if resource_types is not None else [base_prefix]
         for prefix in prefixes:
             continuation_token = None
             while True:
