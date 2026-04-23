@@ -95,13 +95,30 @@ class Workers:
     async def schedule_workers_with_pbar(self, total, additional_coros: List = []) -> Future:
         self.pbar = tqdm(total=total)
 
-        self._shutdown_workers = False
-        with logging_redirect_tqdm():
-            additional_coros.append(self._refresh_pbar())
-            await self.schedule_workers(additional_coros)
+        # Allow long-running get_resources (e.g. mobile app versions) to update the bar
+        def _update(n: int = 1) -> None:
+            if self.pbar:
+                self.pbar.update(n)
 
-        self.pbar.close()
-        self.pbar = None
+        def _add_total(n: int) -> None:
+            if self.pbar:
+                self.pbar.total += n
+                self.pbar.refresh()
+
+        setattr(self.config, "_import_progress_update", _update)
+        setattr(self.config, "_import_progress_add_total", _add_total)
+
+        self._shutdown_workers = False
+        try:
+            with logging_redirect_tqdm():
+                additional_coros.append(self._refresh_pbar())
+                await self.schedule_workers(additional_coros)
+        finally:
+            for attr in ("_import_progress_update", "_import_progress_add_total"):
+                if hasattr(self.config, attr):
+                    delattr(self.config, attr)
+            self.pbar.close()
+            self.pbar = None
 
 
 @dataclass

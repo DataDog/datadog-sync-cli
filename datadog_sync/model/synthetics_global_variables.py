@@ -38,8 +38,13 @@ class SyntheticsGlobalVariables(BaseResource):
     # Additional SyntheticsGlobalVariables specific attributes
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
+        self.config.logger.debug(
+            "synthetics_global_variables: fetching from %s", self.resource_config.base_path
+        )
         resp = await client.get(self.resource_config.base_path)
-        return resp["variables"]
+        variables = resp.get("variables", [])
+        self.config.logger.debug("synthetics_global_variables: got %d variables", len(variables))
+        return variables
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
