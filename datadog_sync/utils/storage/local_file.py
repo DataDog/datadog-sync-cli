@@ -6,6 +6,7 @@
 import json
 import logging
 import os
+from typing import Dict, List, Optional, Tuple
 
 from datadog_sync.constants import (
     Origin,
@@ -36,28 +37,34 @@ class LocalFile(BaseStorage):
         self.source_resources_path = source_resources_path
         self.destination_resources_path = destination_resources_path
 
-    def get(self, origin: Origin) -> StorageData:
+    def get(self, origin: Origin, resource_types=None) -> StorageData:
         data = StorageData()
 
         if origin in [Origin.SOURCE, Origin.ALL] and os.path.exists(self.source_resources_path):
             for file in os.listdir(self.source_resources_path):
-                if file.endswith(".json"):
-                    resource_type = file.split(".")[0]
-                    with open(self.source_resources_path + f"/{file}", "r", encoding="utf-8") as input_file:
-                        try:
-                            data.source[resource_type].update(json.load(input_file))
-                        except json.decoder.JSONDecodeError:
-                            log.warning(f"invalid json in source resource file: {file}")
+                if not file.endswith(".json"):
+                    continue
+                resource_type = file.split(".")[0]
+                if resource_types is not None and resource_type not in resource_types:
+                    continue
+                with open(self.source_resources_path + f"/{file}", "r", encoding="utf-8") as input_file:
+                    try:
+                        data.source[resource_type].update(json.load(input_file))
+                    except json.decoder.JSONDecodeError:
+                        log.warning(f"invalid json in source resource file: {file}")
 
         if origin in [Origin.DESTINATION, Origin.ALL] and os.path.exists(self.destination_resources_path):
             for file in os.listdir(self.destination_resources_path):
-                if file.endswith(".json"):
-                    resource_type = file.split(".")[0]
-                    with open(self.destination_resources_path + f"/{file}", "r", encoding="utf-8") as input_file:
-                        try:
-                            data.destination[resource_type].update(json.load(input_file))
-                        except json.decoder.JSONDecodeError:
-                            log.warning(f"invalid json in destination resource file: {file}")
+                if not file.endswith(".json"):
+                    continue
+                resource_type = file.split(".")[0]
+                if resource_types is not None and resource_type not in resource_types:
+                    continue
+                with open(self.destination_resources_path + f"/{file}", "r", encoding="utf-8") as input_file:
+                    try:
+                        data.destination[resource_type].update(json.load(input_file))
+                    except json.decoder.JSONDecodeError:
+                        log.warning(f"invalid json in destination resource file: {file}")
 
         return data
 
@@ -76,7 +83,8 @@ class LocalFile(BaseStorage):
                 base_filename = f"{self.source_resources_path}/{resource_type}"
                 if self.resource_per_file:
                     for _id, resource in value.items():
-                        filename = f"{base_filename}.{_id.replace(':','.')}.json"  # windows can't handle ":"
+                        safe_id = self._sanitize_id_for_filename(_id)
+                        filename = f"{base_filename}.{safe_id}.json"
                         with open(filename, "w+", encoding="utf-8") as out_file:
                             json.dump({_id: resource}, out_file)
                 else:
@@ -89,10 +97,54 @@ class LocalFile(BaseStorage):
                 base_filename = f"{self.destination_resources_path}/{resource_type}"
                 if self.resource_per_file:
                     for _id, resource in value.items():
-                        filename = f"{base_filename}.{_id.replace(':','.')}.json"  # windows can't handle ":"
+                        safe_id = self._sanitize_id_for_filename(_id)
+                        filename = f"{base_filename}.{safe_id}.json"
                         with open(filename, "w+", encoding="utf-8") as out_file:
                             json.dump({_id: resource}, out_file)
                 else:
                     filename = f"{base_filename}.json"
                     with open(filename, "w+", encoding="utf-8") as out_file:
                         json.dump(value, out_file)
+
+    def get_by_ids(self, origin: Origin, exact_ids: Dict[str, List[str]]) -> StorageData:
+        """Load specific resources by ID. Constructs filenames directly without listing."""
+        data = StorageData()
+        for resource_type, ids in exact_ids.items():
+            for resource_id in ids:
+                src, dst = self.get_single(resource_type, resource_id)
+                if origin in [Origin.SOURCE, Origin.ALL] and src is not None:
+                    data.source[resource_type][resource_id] = src
+                if origin in [Origin.DESTINATION, Origin.ALL] and dst is not None:
+                    data.destination[resource_type][resource_id] = dst
+        return data
+
+    def get_single(self, resource_type: str, resource_id: str) -> Tuple[Optional[Dict], Optional[Dict]]:
+        """Load one resource's source and destination state by ID.
+
+        Constructs the filename using the sanitized ID, reads the file, and
+        returns the content keyed by the original (unsanitized) resource_id.
+        Returns (None, None) if the file does not exist.
+        """
+        safe_id = self._sanitize_id_for_filename(resource_id)
+
+        src_data = None
+        src_path = f"{self.source_resources_path}/{resource_type}.{safe_id}.json"
+        if os.path.exists(src_path):
+            try:
+                with open(src_path, "r", encoding="utf-8") as f:
+                    content = json.load(f)
+                    src_data = content.get(resource_id)
+            except (json.decoder.JSONDecodeError, FileNotFoundError):
+                log.warning(f"invalid json or missing source file: {src_path}")
+
+        dst_data = None
+        dst_path = f"{self.destination_resources_path}/{resource_type}.{safe_id}.json"
+        if os.path.exists(dst_path):
+            try:
+                with open(dst_path, "r", encoding="utf-8") as f:
+                    content = json.load(f)
+                    dst_data = content.get(resource_id)
+            except (json.decoder.JSONDecodeError, FileNotFoundError):
+                log.warning(f"invalid json or missing destination file: {dst_path}")
+
+        return src_data, dst_data
