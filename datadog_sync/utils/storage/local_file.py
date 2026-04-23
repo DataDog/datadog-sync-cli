@@ -82,8 +82,10 @@ class LocalFile(BaseStorage):
             for resource_type, value in data.source.items():
                 base_filename = f"{self.source_resources_path}/{resource_type}"
                 if self.resource_per_file:
-                    self._check_id_collisions(value, resource_type)
+                    skip_ids = self._check_id_collisions(value, resource_type)
                     for _id, resource in value.items():
+                        if _id in skip_ids:
+                            continue
                         safe_id = self._sanitize_id_for_filename(_id)
                         filename = f"{base_filename}.{safe_id}.json"
                         with open(filename, "w+", encoding="utf-8") as out_file:
@@ -97,8 +99,10 @@ class LocalFile(BaseStorage):
             for resource_type, value in data.destination.items():
                 base_filename = f"{self.destination_resources_path}/{resource_type}"
                 if self.resource_per_file:
-                    self._check_id_collisions(value, resource_type)
+                    skip_ids = self._check_id_collisions(value, resource_type)
                     for _id, resource in value.items():
+                        if _id in skip_ids:
+                            continue
                         safe_id = self._sanitize_id_for_filename(_id)
                         filename = f"{base_filename}.{safe_id}.json"
                         with open(filename, "w+", encoding="utf-8") as out_file:

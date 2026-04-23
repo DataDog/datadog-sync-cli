@@ -95,8 +95,13 @@ class TestRoundTripColonId:
 
 
 class TestIdCollisionDetection:
-    def test_collision_is_logged_as_error(self, tmp_path, caplog):
-        """Two IDs that differ only by ':' vs '.' collide on the same filename and trigger an error log."""
+    def test_collision_is_logged_and_skipped(self, tmp_path, caplog):
+        """Two IDs that differ only by ':' vs '.' collide on the same filename.
+
+        The first ID wins (is written); the second is skipped and an error is logged.
+        The file on disk must contain the first ID's data, not the second's.
+        """
+        import json
         import logging
 
         src_path = str(tmp_path / "source")
@@ -119,6 +124,15 @@ class TestIdCollisionDetection:
         assert any(
             "foo:bar" in r.message and "foo.bar" in r.message for r in caplog.records
         ), "Expected a collision error mentioning both conflicting IDs"
+
+        # Only one file must exist — the second write must have been skipped
+        files = list(Path(src_path).iterdir())
+        assert len(files) == 1, f"Expected 1 file, got {[f.name for f in files]}"
+
+        # The file must contain the first ID's data (foo:bar wins, foo.bar is skipped)
+        content = json.loads(files[0].read_text())
+        assert "foo:bar" in content, "First ID (foo:bar) must be written"
+        assert "foo.bar" not in content, "Second ID (foo.bar) must be skipped"
 
     def test_no_collision_no_error(self, tmp_path, caplog):
         """IDs that don't collide produce no error logs."""

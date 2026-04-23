@@ -101,8 +101,10 @@ class AzureBlobContainer(BaseStorage):
             for resource_type, resource_data in data.source.items():
                 base_key = f"{self.source_resources_path}/{resource_type}"
                 if self.resource_per_file:
-                    self._check_id_collisions(resource_data, resource_type)
+                    skip_ids = self._check_id_collisions(resource_data, resource_type)
                     for _id, resource in resource_data.items():
+                        if _id in skip_ids:
+                            continue
                         safe_id = self._sanitize_id_for_filename(_id)
                         key = f"{base_key}.{safe_id}.json"
                         self.container_client.upload_blob(name=key, data=json.dumps({_id: resource}), overwrite=True)
@@ -114,8 +116,10 @@ class AzureBlobContainer(BaseStorage):
             for resource_type, resource_data in data.destination.items():
                 base_key = f"{self.destination_resources_path}/{resource_type}"
                 if self.resource_per_file:
-                    self._check_id_collisions(resource_data, resource_type)
+                    skip_ids = self._check_id_collisions(resource_data, resource_type)
                     for _id, resource in resource_data.items():
+                        if _id in skip_ids:
+                            continue
                         safe_id = self._sanitize_id_for_filename(_id)
                         key = f"{base_key}.{safe_id}.json"
                         self.container_client.upload_blob(name=key, data=json.dumps({_id: resource}), overwrite=True)

@@ -40,29 +40,34 @@ class BaseStorage(ABC):
         return resource_id.replace(":", ".")
 
     @staticmethod
-    def _check_id_collisions(resource_data: dict, resource_type: str) -> None:
-        """Log an error for any two IDs that sanitize to the same filename segment.
+    def _check_id_collisions(resource_data: dict, resource_type: str) -> set:
+        """Return the set of IDs that would collide with an earlier ID's sanitized filename.
 
         When resource_per_file=True, each resource ID becomes part of the filename.
         Two distinct IDs that differ only by ':' vs '.' (e.g. 'foo:bar' and 'foo.bar')
-        would map to the same file, causing the second write to silently overwrite the first.
+        would map to the same file. The first ID encountered wins; subsequent colliders
+        are returned in the skip set so callers can omit them from the write loop.
         """
         # Dict iteration is insertion-ordered (Python 3.7+). The first ID
         # encountered wins; subsequent colliders are skipped (only logged).
         seen: dict = {}
+        skip: set = set()
         for _id in resource_data:
             safe = BaseStorage._sanitize_id_for_filename(_id)
             if safe in seen:
                 log.error(
                     "Filename collision for resource type '%s': IDs '%s' and '%s' both "
-                    "sanitize to '%s'. Only one will be written to storage.",
+                    "sanitize to '%s'. Skipping '%s' to prevent overwrite.",
                     resource_type,
                     seen[safe],
                     _id,
                     safe,
+                    _id,
                 )
+                skip.add(_id)
             else:
                 seen[safe] = _id
+        return skip
 
     @abstractmethod
     def get(self, origin, resource_types=None) -> StorageData:
