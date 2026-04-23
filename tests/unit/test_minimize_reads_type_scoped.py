@@ -5,9 +5,8 @@
 
 """Tests for PR 2: type-scoped loading via --minimize-reads flag (type-scoped strategy)."""
 
-import json
 from pathlib import Path
-from unittest.mock import MagicMock, call, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from click.testing import CliRunner
@@ -156,11 +155,17 @@ class TestS3TypeScopedGet:
             mock_client.list_objects_v2.return_value = {"IsTruncated": False}
 
             from datadog_sync.utils.storage.aws_s3_bucket import AWSS3Bucket
+
             backend = AWSS3Bucket(
                 source_resources_path="resources/source",
                 destination_resources_path="resources/destination",
-                config={"aws_bucket_name": "test-bucket", "aws_region_name": "us-east-1",
-                        "aws_access_key_id": "", "aws_secret_access_key": "", "aws_session_token": ""},
+                config={
+                    "aws_bucket_name": "test-bucket",
+                    "aws_region_name": "us-east-1",
+                    "aws_access_key_id": "",
+                    "aws_secret_access_key": "",
+                    "aws_session_token": "",
+                },
             )
 
             backend.get(Origin.SOURCE, resource_types=["roles"])
@@ -178,11 +183,17 @@ class TestS3TypeScopedGet:
             mock_client.list_objects_v2.return_value = {"IsTruncated": False}
 
             from datadog_sync.utils.storage.aws_s3_bucket import AWSS3Bucket
+
             backend = AWSS3Bucket(
                 source_resources_path="resources/source",
                 destination_resources_path="resources/destination",
-                config={"aws_bucket_name": "test-bucket", "aws_region_name": "us-east-1",
-                        "aws_access_key_id": "", "aws_secret_access_key": "", "aws_session_token": ""},
+                config={
+                    "aws_bucket_name": "test-bucket",
+                    "aws_region_name": "us-east-1",
+                    "aws_access_key_id": "",
+                    "aws_secret_access_key": "",
+                    "aws_session_token": "",
+                },
             )
 
             backend.get(Origin.SOURCE, resource_types=None)

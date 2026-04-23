@@ -32,11 +32,11 @@ from datadog_sync.constants import Command
     default=False,
     show_default=True,
     help="Minimize cloud storage reads by loading only needed resources. "
-         "Uses ID-targeted fetching when filters specify exact IDs, "
-         "otherwise falls back to type-scoped loading. "
-         "Requires --resource-per-file and --resources. "
-         "Must not be combined with --cleanup. "
-         "Only available on the sync command.",
+    "Uses ID-targeted fetching when filters specify exact IDs, "
+    "otherwise falls back to type-scoped loading. "
+    "Requires --resource-per-file and --resources. "
+    "Must not be combined with --cleanup. "
+    "Only available on the sync command.",
     cls=CustomOptionClass,
 )
 def sync(**kwargs):
