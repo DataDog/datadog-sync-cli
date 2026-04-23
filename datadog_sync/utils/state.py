@@ -3,7 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 import logging
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 from datadog_sync.constants import (
     Origin,
@@ -14,8 +14,6 @@ from datadog_sync.constants import (
     SOURCE_PATH_DEFAULT,
     SOURCE_PATH_PARAM,
 )
-
-log = logging.getLogger(LOGGER_NAME)
 from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData
 from datadog_sync.utils.storage.aws_s3_bucket import AWSS3Bucket
 from datadog_sync.utils.storage.azure_blob_container import AzureBlobContainer
@@ -23,11 +21,13 @@ from datadog_sync.utils.storage.gcs_bucket import GCSBucket
 from datadog_sync.utils.storage.local_file import LocalFile
 from datadog_sync.utils.storage.storage_types import StorageType
 
+log = logging.getLogger(LOGGER_NAME)
+
 
 class State:
     def __init__(self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: object) -> None:
         self._resource_types = kwargs.get("resource_types", None)  # type-scoped loading
-        self._exact_ids = kwargs.get("exact_ids", None)             # ID-targeted loading
+        self._exact_ids = kwargs.get("exact_ids", None)  # ID-targeted loading
         self._minimize_reads = self._resource_types is not None or self._exact_ids is not None
         resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
         source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)

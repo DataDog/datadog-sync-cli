@@ -363,7 +363,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
     # Determine loading strategy for minimize-reads
     _state_resource_types = None  # type-scoped; None = full load (existing behavior)
-    _state_exact_ids = None       # ID-targeted; None = not using ID-targeted
+    _state_exact_ids = None  # ID-targeted; None = not using ID-targeted
     if minimize_reads and (rs := kwargs.get("resources", None)):
         raw_types = [r.strip().lower() for r in rs.split(",") if r.strip()]
         # Try ID-targeted strategy first (fast path: exact IDs from filters)
@@ -382,7 +382,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         config=config,
         resource_per_file=resource_per_file,
         resource_types=_state_resource_types,  # None = full load or ID-targeted
-        exact_ids=_state_exact_ids,             # None = not using ID-targeted
+        exact_ids=_state_exact_ids,  # None = not using ID-targeted
     )
 
     if _state_exact_ids is not None:
