@@ -306,6 +306,20 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         )
 
     resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
+    minimize_reads = kwargs.get("minimize_reads", False)
+
+    # Validate --minimize-reads constraints
+    if minimize_reads:
+        if not resource_per_file:
+            raise click.UsageError("--minimize-reads requires --resource-per-file")
+        if not kwargs.get("resources", None):
+            raise click.UsageError("--minimize-reads requires --resources")
+
+    # Determine type-scoped loading (ID-targeted loading added in PR 3)
+    _state_resource_types = None  # None = full load (existing behavior)
+    if minimize_reads and (rs := kwargs.get("resources", None)):
+        _state_resource_types = [r.strip().lower() for r in rs.split(",") if r.strip()]
+
     # Initialize state
     state = State(
         type_=storage_type,
@@ -313,7 +327,11 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         destination_resources_path=destination_resources_path,
         config=config,
         resource_per_file=resource_per_file,
+        resource_types=_state_resource_types,  # None = full load
     )
+
+    if _state_resource_types is not None:
+        logger.info(f"minimize-reads: type-scoped loading for {_state_resource_types}")
 
     # Initialize Configuration
     config = Configuration(
