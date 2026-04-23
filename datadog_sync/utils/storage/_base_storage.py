@@ -3,10 +3,16 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+import logging
 from abc import ABC, abstractmethod
+from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
-from collections import defaultdict
+
+from datadog_sync.constants import LOGGER_NAME
+
+
+log = logging.getLogger(LOGGER_NAME)
 
 
 @dataclass
@@ -32,6 +38,29 @@ class BaseStorage(ABC):
         sanitization only affects the filename/object key used in storage.
         """
         return resource_id.replace(":", ".")
+
+    @staticmethod
+    def _check_id_collisions(resource_data: dict, resource_type: str) -> None:
+        """Log an error for any two IDs that sanitize to the same filename segment.
+
+        When resource_per_file=True, each resource ID becomes part of the filename.
+        Two distinct IDs that differ only by ':' vs '.' (e.g. 'foo:bar' and 'foo.bar')
+        would map to the same file, causing the second write to silently overwrite the first.
+        """
+        seen: dict = {}
+        for _id in resource_data:
+            safe = BaseStorage._sanitize_id_for_filename(_id)
+            if safe in seen:
+                log.error(
+                    "Filename collision for resource type '%s': IDs '%s' and '%s' both "
+                    "sanitize to '%s'. Only one will be written to storage.",
+                    resource_type,
+                    seen[safe],
+                    _id,
+                    safe,
+                )
+            else:
+                seen[safe] = _id
 
     @abstractmethod
     def get(self, origin, resource_types=None) -> StorageData:

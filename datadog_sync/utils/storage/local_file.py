@@ -82,6 +82,7 @@ class LocalFile(BaseStorage):
             for resource_type, value in data.source.items():
                 base_filename = f"{self.source_resources_path}/{resource_type}"
                 if self.resource_per_file:
+                    self._check_id_collisions(value, resource_type)
                     for _id, resource in value.items():
                         safe_id = self._sanitize_id_for_filename(_id)
                         filename = f"{base_filename}.{safe_id}.json"
@@ -96,6 +97,7 @@ class LocalFile(BaseStorage):
             for resource_type, value in data.destination.items():
                 base_filename = f"{self.destination_resources_path}/{resource_type}"
                 if self.resource_per_file:
+                    self._check_id_collisions(value, resource_type)
                     for _id, resource in value.items():
                         safe_id = self._sanitize_id_for_filename(_id)
                         filename = f"{base_filename}.{safe_id}.json"
@@ -108,6 +110,11 @@ class LocalFile(BaseStorage):
 
     def get_by_ids(self, origin: Origin, exact_ids: Dict[str, List[str]]) -> StorageData:
         """Load specific resources by ID. Constructs filenames directly without listing."""
+        if not self.resource_per_file:
+            raise ValueError(
+                "get_by_ids() requires --resource-per-file. "
+                "Re-run with --resource-per-file enabled."
+            )
         data = StorageData()
         for resource_type, ids in exact_ids.items():
             for resource_id in ids:

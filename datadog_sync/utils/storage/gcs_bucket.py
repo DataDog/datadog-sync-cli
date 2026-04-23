@@ -5,6 +5,7 @@
 
 import json
 import logging
+from collections import defaultdict
 from typing import Dict, List, Optional, Tuple
 
 from google.api_core.exceptions import NotFound
@@ -66,8 +67,6 @@ class GCSBucket(BaseStorage):
 
     def _list_and_load(self, base_prefix: str, resource_types, label: str):
         """List and load GCS blobs, optionally scoped to resource_types."""
-        from collections import defaultdict
-
         result = defaultdict(dict)
         prefixes = [f"{base_prefix}/{rt}." for rt in resource_types] if resource_types is not None else [base_prefix]
         for prefix in prefixes:
@@ -90,6 +89,7 @@ class GCSBucket(BaseStorage):
             for resource_type, resource_data in data.source.items():
                 base_key = f"{self.source_resources_path}/{resource_type}"
                 if self.resource_per_file:
+                    self._check_id_collisions(resource_data, resource_type)
                     for _id, resource in resource_data.items():
                         safe_id = self._sanitize_id_for_filename(_id)
                         key = f"{base_key}.{safe_id}.json"
@@ -104,6 +104,7 @@ class GCSBucket(BaseStorage):
             for resource_type, resource_data in data.destination.items():
                 base_key = f"{self.destination_resources_path}/{resource_type}"
                 if self.resource_per_file:
+                    self._check_id_collisions(resource_data, resource_type)
                     for _id, resource in resource_data.items():
                         safe_id = self._sanitize_id_for_filename(_id)
                         key = f"{base_key}.{safe_id}.json"
@@ -127,6 +128,11 @@ class GCSBucket(BaseStorage):
 
     def get_by_ids(self, origin: Origin, exact_ids: Dict[str, List[str]]) -> StorageData:
         """Load specific resources by ID without listing. Constructs keys directly."""
+        if not self.resource_per_file:
+            raise ValueError(
+                "get_by_ids() requires --resource-per-file. "
+                "Re-run with --resource-per-file enabled."
+            )
         data = StorageData()
         for resource_type, ids in exact_ids.items():
             for resource_id in ids:

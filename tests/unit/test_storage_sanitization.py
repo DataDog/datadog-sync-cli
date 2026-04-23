@@ -92,3 +92,80 @@ class TestRoundTripColonId:
 
         src, dst = backend.get_single("monitors", "12345")
         assert src == {"id": "12345", "name": "My Monitor"}
+
+
+class TestIdCollisionDetection:
+    def test_collision_is_logged_as_error(self, tmp_path, caplog):
+        """Two IDs that differ only by ':' vs '.' collide on the same filename and trigger an error log."""
+        import logging
+
+        src_path = str(tmp_path / "source")
+        dst_path = str(tmp_path / "dest")
+        Path(src_path).mkdir()
+        Path(dst_path).mkdir()
+
+        backend = LocalFile(
+            source_resources_path=src_path,
+            destination_resources_path=dst_path,
+            resource_per_file=True,
+        )
+        data = StorageData()
+        data.source["monitors"]["foo:bar"] = {"id": "foo:bar"}
+        data.source["monitors"]["foo.bar"] = {"id": "foo.bar"}
+
+        with caplog.at_level(logging.ERROR):
+            backend.put(Origin.SOURCE, data)
+
+        assert any("foo:bar" in r.message and "foo.bar" in r.message for r in caplog.records), (
+            "Expected a collision error mentioning both conflicting IDs"
+        )
+
+    def test_no_collision_no_error(self, tmp_path, caplog):
+        """IDs that don't collide produce no error logs."""
+        import logging
+
+        src_path = str(tmp_path / "source")
+        dst_path = str(tmp_path / "dest")
+        Path(src_path).mkdir()
+        Path(dst_path).mkdir()
+
+        backend = LocalFile(
+            source_resources_path=src_path,
+            destination_resources_path=dst_path,
+            resource_per_file=True,
+        )
+        data = StorageData()
+        data.source["monitors"]["abc-123"] = {"id": "abc-123"}
+        data.source["monitors"]["def-456"] = {"id": "def-456"}
+
+        with caplog.at_level(logging.ERROR):
+            backend.put(Origin.SOURCE, data)
+
+        assert not caplog.records
+
+
+class TestGetByIdsRequiresResourcePerFile:
+    def test_raises_when_resource_per_file_false(self, tmp_path):
+        """get_by_ids() must raise ValueError when resource_per_file=False."""
+        backend = LocalFile(
+            source_resources_path=str(tmp_path / "source"),
+            destination_resources_path=str(tmp_path / "dest"),
+            resource_per_file=False,
+        )
+        with pytest.raises(ValueError, match="--resource-per-file"):
+            backend.get_by_ids(Origin.SOURCE, {"dashboards": ["123"]})
+
+    def test_succeeds_when_resource_per_file_true(self, tmp_path):
+        """get_by_ids() does not raise when resource_per_file=True."""
+        src_path = str(tmp_path / "source")
+        Path(src_path).mkdir()
+        Path(str(tmp_path / "dest")).mkdir()
+
+        backend = LocalFile(
+            source_resources_path=src_path,
+            destination_resources_path=str(tmp_path / "dest"),
+            resource_per_file=True,
+        )
+        # No files exist — should return empty StorageData without raising
+        result = backend.get_by_ids(Origin.SOURCE, {"dashboards": ["123"]})
+        assert result.source == {} or "dashboards" not in result.source or result.source["dashboards"] == {}
