@@ -625,6 +625,13 @@ class ResourcesHandler:
                         # After retrieving all of the failed connections, we check if
                         # the resources are imported. Otherwise append to missing with its type.
                         for f_id in failed:
+                            # With --minimize-reads, dependency types may not be in the
+                            # initial scoped load. Lazily load this specific dependency
+                            # (source+destination) so the source check below is accurate,
+                            # and so connect_resources() in _apply_resource_cb() can
+                            # successfully remap the ID in the destination.
+                            self.config.state.ensure_resource_loaded(resource_to_connect, f_id)
+
                             if f_id not in self.config.state.source[resource_to_connect]:
                                 missing_resources.add((resource_to_connect, f_id))
 
