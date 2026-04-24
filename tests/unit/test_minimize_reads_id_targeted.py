@@ -148,6 +148,7 @@ class TestStateExactIdLoading:
             source_resources_path=src_path,
             destination_resources_path=dst_path,
             exact_ids={"dashboards": ["dash-1"]},
+            resource_per_file=True,
         )
         assert state._minimize_reads is True
 
@@ -171,6 +172,7 @@ class TestStateExactIdLoading:
             source_resources_path=src_path,
             destination_resources_path=dst_path,
             exact_ids={"dashboards": ["dash-1"]},
+            resource_per_file=True,
         )
         assert "dash-1" in state.source["dashboards"]
 
@@ -191,6 +193,7 @@ class TestEnsureResourceLoaded:
             source_resources_path=src_path,
             destination_resources_path=dst_path,
             exact_ids={"dashboards": ["dash-1"]},
+            resource_per_file=True,
         )
 
     def test_ensure_resource_loaded_fetches_both_src_and_dst(self, tmp_path):
@@ -214,6 +217,7 @@ class TestEnsureResourceLoaded:
             source_resources_path=src_path,
             destination_resources_path=dst_path,
             exact_ids={"dashboards": []},
+            resource_per_file=True,
         )
 
         state.ensure_resource_loaded("monitors", "mon-1")
@@ -273,6 +277,7 @@ class TestEnsureResourceLoaded:
             source_resources_path=src_path,
             destination_resources_path=dst_path,
             exact_ids={"dashboards": []},
+            resource_per_file=True,
         )
         state.ensure_resource_loaded("monitors", "mon-1")
         assert "mon-1" in state.source["monitors"]
@@ -292,6 +297,7 @@ class TestEnsureResourceLoaded:
             source_resources_path=src_path,
             destination_resources_path=dst_path,
             exact_ids={"dashboards": []},
+            resource_per_file=True,
         )
         with patch.object(state._storage, "get_single", return_value=(None, None)) as mock:
             state.ensure_resource_loaded("monitors", "never-exists")
@@ -392,6 +398,7 @@ class TestGetByIdsPartialMatch:
                     "aws_secret_access_key": "",
                     "aws_session_token": "",
                 },
+                resource_per_file=True,
             )
 
             result = backend.get_by_ids(Origin.SOURCE, {"dashboards": ["dash-1", "dash-2"]})

@@ -9,12 +9,10 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
 
-from datadog_sync.constants import LOGGER_NAME
+from datadog_sync.constants import LOGGER_NAME, Origin
 
 
 log = logging.getLogger(LOGGER_NAME)
-
-from datadog_sync.constants import Origin
 
 
 @dataclass
@@ -92,6 +90,8 @@ class BaseStorage(ABC):
         Returns StorageData with only the requested resources. Missing resources
         are silently skipped (no exception raised for NotFound).
         """
+        if not getattr(self, "resource_per_file", True):
+            raise ValueError("get_by_ids() requires --resource-per-file. Re-run with --resource-per-file enabled.")
         data = StorageData()
         for resource_type, ids in exact_ids.items():
             for resource_id in ids:

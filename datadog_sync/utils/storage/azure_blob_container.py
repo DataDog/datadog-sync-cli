@@ -5,6 +5,7 @@
 
 import json
 import logging
+from collections import defaultdict
 from typing import Dict, Optional, Tuple
 
 from azure.core.exceptions import ResourceNotFoundError
