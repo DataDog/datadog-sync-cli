@@ -78,7 +78,7 @@ class State:
         return self._data.destination
 
     def load_state(self, origin: Origin = Origin.ALL) -> None:
-        # MODIFIED: resource_types param added. None = full load (existing behavior).
+        # resource_types=None → load all types (default behavior)
         self._data = self._storage.get(origin, resource_types=self._resource_types)
 
     def dump_state(self, origin: Origin = Origin.ALL) -> None:

@@ -143,6 +143,23 @@ class TestMinimizeReadsCLIValidation:
         assert result.exit_code != 0
         assert "no such option" in result.output.lower()
 
+    def test_minimize_reads_cannot_be_combined_with_cleanup(self, runner):
+        """--minimize-reads + --cleanup must be rejected before any I/O."""
+        result = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--minimize-reads",
+                "--resource-per-file",
+                "--resources=roles",
+                "--cleanup=Force",
+                "--source-api-key=x",
+                "--destination-api-key=y",
+            ],
+        )
+        assert result.exit_code != 0
+        assert "cleanup" in (result.output + str(result.exception)).lower()
+
 
 class TestS3TypeScopedGet:
     def test_s3_get_type_scoped_uses_per_type_prefix(self):

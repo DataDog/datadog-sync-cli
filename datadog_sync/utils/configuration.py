@@ -314,8 +314,10 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             raise click.UsageError("--minimize-reads requires --resource-per-file")
         if not kwargs.get("resources", None):
             raise click.UsageError("--minimize-reads requires --resources")
+        if kwargs.get("cleanup") and kwargs["cleanup"].lower() in ("true", "force"):
+            raise click.UsageError("--minimize-reads cannot be combined with --cleanup")
 
-    # Determine type-scoped loading (ID-targeted loading added in PR 3)
+    # Determine loading strategy for minimize-reads
     _state_resource_types = None  # None = full load (existing behavior)
     if minimize_reads and (rs := kwargs.get("resources", None)):
         _state_resource_types = [r.strip().lower() for r in rs.split(",") if r.strip()]
