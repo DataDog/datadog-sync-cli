@@ -114,6 +114,7 @@ class SyntheticsGlobalVariables(BaseResource):
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        self.config.state.ensure_resource_type_loaded(resource_to_connect)
         resources = self.config.state.destination[resource_to_connect]
         failed_connections = []
         found = False

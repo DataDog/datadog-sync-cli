@@ -98,6 +98,7 @@ class SyntheticsTestSuites(BaseResource):
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         if resource_to_connect == "synthetics_tests":
+            self.config.state.ensure_resource_type_loaded("synthetics_tests")
             resources = self.config.state.destination[resource_to_connect]
             failed_connections = []
             source_public_id = str(r_obj[key])
