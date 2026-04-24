@@ -47,6 +47,8 @@ class BaseStorage(ABC):
         Two distinct IDs that differ only by ':' vs '.' (e.g. 'foo:bar' and 'foo.bar')
         would map to the same file, causing the second write to silently overwrite the first.
         """
+        # Dict iteration is insertion-ordered (Python 3.7+). The first ID
+        # encountered wins; subsequent colliders are skipped (only logged).
         seen: dict = {}
         for _id in resource_data:
             safe = BaseStorage._sanitize_id_for_filename(_id)
