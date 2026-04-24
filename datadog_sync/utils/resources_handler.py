@@ -633,6 +633,13 @@ class ResourcesHandler:
                             self.config.state.ensure_resource_loaded(resource_to_connect, f_id)
 
                             if f_id not in self.config.state.source[resource_to_connect]:
+                                if self.config.state._minimize_reads:
+                                    self.config.logger.warning(
+                                        "minimize-reads: dependency %s.%s not found in storage; "
+                                        "ID remapping may be incomplete",
+                                        resource_to_connect,
+                                        f_id,
+                                    )
                                 missing_resources.add((resource_to_connect, f_id))
 
                             failed_connections.add((resource_to_connect, f_id))

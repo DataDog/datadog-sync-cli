@@ -14,6 +14,8 @@ from datadog_sync.constants import LOGGER_NAME
 
 log = logging.getLogger(LOGGER_NAME)
 
+from datadog_sync.constants import Origin
+
 
 @dataclass
 class StorageData:
@@ -80,7 +82,6 @@ class BaseStorage(ABC):
         """
         pass
 
-    @abstractmethod
     def get_by_ids(self, origin, exact_ids: Dict[str, List[str]]) -> StorageData:
         """Load specific resources by ID, constructing keys directly. No listing needed.
 
@@ -91,7 +92,15 @@ class BaseStorage(ABC):
         Returns StorageData with only the requested resources. Missing resources
         are silently skipped (no exception raised for NotFound).
         """
-        pass
+        data = StorageData()
+        for resource_type, ids in exact_ids.items():
+            for resource_id in ids:
+                src, dst = self.get_single(resource_type, resource_id)
+                if origin in [Origin.SOURCE, Origin.ALL] and src is not None:
+                    data.source[resource_type][resource_id] = src
+                if origin in [Origin.DESTINATION, Origin.ALL] and dst is not None:
+                    data.destination[resource_type][resource_id] = dst
+        return data
 
     @abstractmethod
     def get_single(self, resource_type: str, resource_id: str) -> Tuple[Optional[Dict], Optional[Dict]]:

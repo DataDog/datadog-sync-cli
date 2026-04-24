@@ -138,8 +138,8 @@ class Configuration(object):
 def _unwrap_exact_match_pattern(pattern: str) -> str:
     """Extract the raw ID value from an ExactMatch ^...$-wrapped regex pattern.
 
-    Raises ValueError if the pattern is not ^...$-wrapped, so callers can
-    gracefully fall back to type-scoped loading.
+    Defensive check: ExactMatch always produces ^...$, so ValueError should not
+    fire in practice. Raises ValueError so callers can detect unexpected patterns.
     """
     if not (pattern.startswith("^") and pattern.endswith("$")):
         raise ValueError(f"Expected ExactMatch regex ^...$, got: {pattern!r}")
@@ -170,7 +170,9 @@ def extract_exact_id_filters(
         # All filters must be id-field ExactMatch
         if not all(f.attr_name == ["id"] and f.operator == EXACT_MATCH_OPERATOR for f in rt_filters):
             return None
-        # Extract raw IDs from ^...$-wrapped regex patterns
+        # Extract raw IDs from ^...$-wrapped regex patterns.
+        # Defensive: ExactMatch guarantees ^...$, so ValueError should not fire.
+        # Kept as a safety net in case filter construction changes upstream.
         try:
             ids = [_unwrap_exact_match_pattern(f.attr_re.pattern) for f in rt_filters]
         except ValueError:
@@ -372,6 +374,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         _state_exact_ids = extract_exact_id_filters(early_filters, filter_operator, raw_types)
         if _state_exact_ids is None:
             # Fall back to type-scoped loading
+            logger.debug("minimize-reads: ID-targeted not eligible — filters are not all id+ExactMatch+OR")
             _state_resource_types = raw_types
 
     # Initialize state

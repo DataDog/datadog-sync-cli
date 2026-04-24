@@ -95,6 +95,20 @@ class TestExtractExactIdFilters:
         result = extract_exact_id_filters(filters, "OR", ["roles"])
         assert result == {"roles": ["role-1"]}
 
+    def test_end_to_end_through_process_filters(self):
+        """extract_exact_id_filters works end-to-end with process_filters output."""
+        from datadog_sync.utils.configuration import extract_exact_id_filters
+        from datadog_sync.utils.filter import process_filters
+
+        filters = process_filters(
+            [
+                "Type=dashboards;Name=id;Value=dash-1;Operator=ExactMatch",
+                "Type=dashboards;Name=id;Value=dash-2;Operator=ExactMatch",
+            ]
+        )
+        result = extract_exact_id_filters(filters, "or", ["dashboards"])
+        assert result == {"dashboards": ["dash-1", "dash-2"]}
+
 
 # ─── State with exact_ids ───────────────────────────────────────────────────
 
@@ -263,6 +277,27 @@ class TestEnsureResourceLoaded:
         state.ensure_resource_loaded("monitors", "mon-1")
         assert "mon-1" in state.source["monitors"]
         assert "mon-1" not in state.destination["monitors"]
+
+    def test_ensure_resource_loaded_repeated_miss_does_not_refetch(self, tmp_path):
+        """Missing dependency: get_single called only once despite repeated calls."""
+        from datadog_sync.utils.state import State
+
+        src_path = str(tmp_path / "source")
+        dst_path = str(tmp_path / "dest")
+        Path(src_path).mkdir()
+        Path(dst_path).mkdir()
+
+        state = State(
+            type_=StorageType.LOCAL_FILE,
+            source_resources_path=src_path,
+            destination_resources_path=dst_path,
+            exact_ids={"dashboards": []},
+        )
+        with patch.object(state._storage, "get_single", return_value=(None, None)) as mock:
+            state.ensure_resource_loaded("monitors", "never-exists")
+            state.ensure_resource_loaded("monitors", "never-exists")
+            state.ensure_resource_loaded("monitors", "never-exists")
+        assert mock.call_count == 1
 
 
 # ─── get_single NotFound handling ───────────────────────────────────────────

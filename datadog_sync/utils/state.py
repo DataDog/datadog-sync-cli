@@ -29,6 +29,7 @@ class State:
         self._resource_types = kwargs.get("resource_types", None)  # type-scoped loading
         self._exact_ids = kwargs.get("exact_ids", None)  # ID-targeted loading
         self._minimize_reads = self._resource_types is not None or self._exact_ids is not None
+        self._ensure_attempted: set = set()  # tracks IDs attempted by ensure_resource_loaded
         resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
         source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
         destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
@@ -98,8 +99,12 @@ class State:
         (scoped) load. Loads both source and destination state so that
         connect_id() in _apply_resource_cb() can remap IDs correctly.
 
+        Note: requires resource_per_file=True in the storage backend.
+        get_single constructs per-resource filenames; monolithic layout
+        will silently return (None, None) for every dependency.
+
         Contract:
-        - Idempotent: no-op if resource_id already in source state
+        - Idempotent: no-op if (resource_type, resource_id) already attempted
         - No-op when not in minimize-reads mode (_minimize_reads=False)
         - Appends to state: never replaces existing entries
         - Missing file: (None, None) → resource stays absent (correct behavior)
@@ -107,8 +112,10 @@ class State:
         """
         if not self._minimize_reads:
             return
-        if resource_id in self._data.source[resource_type]:
+        key = (resource_type, resource_id)
+        if key in self._ensure_attempted:
             return
+        self._ensure_attempted.add(key)
         log.debug(f"minimize-reads: lazy-loading dep {resource_type}.{resource_id}")
         src, dst = self._storage.get_single(resource_type, resource_id)
         if src is not None:
