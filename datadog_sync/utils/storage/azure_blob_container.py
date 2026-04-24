@@ -137,10 +137,7 @@ class AzureBlobContainer(BaseStorage):
     def get_by_ids(self, origin: Origin, exact_ids: Dict[str, List[str]]) -> StorageData:
         """Load specific resources by ID without listing. Constructs keys directly."""
         if not self.resource_per_file:
-            raise ValueError(
-                "get_by_ids() requires --resource-per-file. "
-                "Re-run with --resource-per-file enabled."
-            )
+            raise ValueError("get_by_ids() requires --resource-per-file. " "Re-run with --resource-per-file enabled.")
         data = StorageData()
         for resource_type, ids in exact_ids.items():
             for resource_id in ids:

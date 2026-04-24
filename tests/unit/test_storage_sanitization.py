@@ -116,9 +116,9 @@ class TestIdCollisionDetection:
         with caplog.at_level(logging.ERROR):
             backend.put(Origin.SOURCE, data)
 
-        assert any("foo:bar" in r.message and "foo.bar" in r.message for r in caplog.records), (
-            "Expected a collision error mentioning both conflicting IDs"
-        )
+        assert any(
+            "foo:bar" in r.message and "foo.bar" in r.message for r in caplog.records
+        ), "Expected a collision error mentioning both conflicting IDs"
 
     def test_no_collision_no_error(self, tmp_path, caplog):
         """IDs that don't collide produce no error logs."""
