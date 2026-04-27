@@ -673,3 +673,146 @@ class TestSyntheticsGlobalVariablesMinimizeReads:
         result = gvars.connect_id("formula", r_obj, "synthetics_tests")
         assert r_obj["formula"] == "dest-pub-abc"
         assert result == []
+
+
+class TestSyntheticsTestsConnectIdRegression:
+    """Existing SyntheticsTests self-referential connect_id behavior unchanged after fix."""
+
+    def _make_synthetics_tests(self, destination_state=None):
+        from collections import defaultdict
+
+        from datadog_sync.model.synthetics_tests import SyntheticsTests
+
+        mock_config = MagicMock()
+        state = defaultdict(dict)
+        if destination_state:
+            state.update(destination_state)
+        mock_config.state.destination = state
+        return SyntheticsTests(mock_config)
+
+    def test_connect_id_remaps_subtest_public_id_in_full_load(self):
+        """connect_id remaps subtestPublicId via startswith scan when all data is loaded."""
+        dst = {"synthetics_tests": {"pub-abc#12345": {"public_id": "dest-pub-abc"}}}
+        st = self._make_synthetics_tests(dst)
+        r_obj = {"subtestPublicId": "pub-abc"}
+        result = st.connect_id("subtestPublicId", r_obj, "synthetics_tests")
+        assert r_obj["subtestPublicId"] == "dest-pub-abc"
+        assert result == []
+
+    def test_connect_id_returns_failed_when_subtest_not_found(self):
+        """connect_id returns failed connection when subtest not in destination state."""
+        dst = {"synthetics_tests": {}}
+        st = self._make_synthetics_tests(dst)
+        r_obj = {"subtestPublicId": "pub-missing"}
+        result = st.connect_id("subtestPublicId", r_obj, "synthetics_tests")
+        assert r_obj["subtestPublicId"] == "pub-missing"  # unchanged
+        assert result == ["pub-missing"]
+
+    def test_connect_id_private_locations_unchanged(self):
+        """Private locations branch is unaffected by the synthetics_tests fix."""
+        dst = {
+            "synthetics_private_locations": {"pl:my-loc": {"id": "pl:dest-loc"}},
+            "synthetics_tests": {},
+        }
+        st = self._make_synthetics_tests(dst)
+        st.config.resources["synthetics_private_locations"].pl_id_regex.match.return_value = True
+        r_obj = {"locations": ["pl:my-loc"]}
+        result = st.connect_id("locations", r_obj, "synthetics_private_locations")
+        assert r_obj["locations"][0] == "pl:dest-loc"
+        assert result == []
+
+
+# ---------------------------------------------------------------------------
+# RED/GREEN Tests — TestSyntheticsTestsSelfRefMinimizeReads fails BEFORE fix
+# ---------------------------------------------------------------------------
+
+
+class TestSyntheticsTestsSelfRefMinimizeReads:
+    """SyntheticsTests self-referential connect_id remaps subtestPublicId in minimize-reads mode."""
+
+    def test_connect_id_remaps_subtest_after_bulk_load(self, tmp_path):
+        """connect_id remaps subtestPublicId after bulk-loading synthetics_tests in minimize-reads mode."""
+        from datadog_sync.model.synthetics_tests import SyntheticsTests
+        from datadog_sync.utils.state import State
+
+        src_path = str(tmp_path / "source")
+        dst_path = str(tmp_path / "dest")
+        Path(src_path).mkdir()
+        Path(dst_path).mkdir()
+        backend = LocalFile(
+            source_resources_path=src_path,
+            destination_resources_path=dst_path,
+            resource_per_file=True,
+        )
+        data = StorageData()
+        data.destination["synthetics_tests"]["pub-abc#12345"] = {"public_id": "dest-pub-abc", "monitor_id": 99999}
+        backend.put(Origin.DESTINATION, data)
+
+        state = State(
+            type_=StorageType.LOCAL_FILE,
+            source_resources_path=src_path,
+            destination_resources_path=dst_path,
+            resource_per_file=True,
+            resource_types=["synthetics_tests"],
+        )
+        # Simulate ID-targeted mode: only a different test was loaded, subtest is absent
+        state._data.destination["synthetics_tests"].clear()
+
+        mock_config = MagicMock()
+        mock_config.state = state
+        st = SyntheticsTests(mock_config)
+
+        r_obj = {"subtestPublicId": "pub-abc"}
+        result = st.connect_id("subtestPublicId", r_obj, "synthetics_tests")
+        assert r_obj["subtestPublicId"] == "dest-pub-abc"
+        assert result == []
+
+    def test_subtest_missing_after_bulk_load_returns_failed(self, tmp_path):
+        """connect_id returns failed connection when subtest is absent even after bulk-load."""
+        from datadog_sync.model.synthetics_tests import SyntheticsTests
+        from datadog_sync.utils.state import State
+
+        src_path = str(tmp_path / "source")
+        dst_path = str(tmp_path / "dest")
+        Path(src_path).mkdir()
+        Path(dst_path).mkdir()
+        # No synthetics_tests data in storage — graceful failure path
+        state = State(
+            type_=StorageType.LOCAL_FILE,
+            source_resources_path=src_path,
+            destination_resources_path=dst_path,
+            resource_per_file=True,
+            resource_types=["synthetics_tests"],
+        )
+        mock_config = MagicMock()
+        mock_config.state = state
+        st = SyntheticsTests(mock_config)
+
+        r_obj = {"subtestPublicId": "pub-missing"}
+        result = st.connect_id("subtestPublicId", r_obj, "synthetics_tests")
+        assert r_obj["subtestPublicId"] == "pub-missing"  # unchanged
+        assert result == ["pub-missing"]
+
+    def test_bulk_load_not_triggered_for_private_locations(self, tmp_path):
+        """Private locations branch does not trigger ensure_resource_type_loaded for synthetics_tests."""
+        from datadog_sync.model.synthetics_tests import SyntheticsTests
+        from datadog_sync.utils.state import State
+
+        src_path = str(tmp_path / "source")
+        dst_path = str(tmp_path / "dest")
+        Path(src_path).mkdir()
+        Path(dst_path).mkdir()
+        state = State(
+            type_=StorageType.LOCAL_FILE,
+            source_resources_path=src_path,
+            destination_resources_path=dst_path,
+            resource_per_file=True,
+            resource_types=["synthetics_tests"],
+        )
+        mock_config = MagicMock()
+        mock_config.state = state
+        st = SyntheticsTests(mock_config)
+
+        r_obj = {"locations": []}  # empty list — for loop never runs
+        st.connect_id("locations", r_obj, "synthetics_private_locations")
+        assert "synthetics_tests" not in state._bulk_loaded_types
