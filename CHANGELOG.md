@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.1.0 / 2026-04-27
+
+### Fixed
+* fix(storage): standardize filename sanitization across all backends by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/543
+* fix(sync): bulk-load synthetics_tests for full-scan lookups in minimize-reads mode by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/547
+### Added
+* feat(sync): add --minimize-reads with type-scoped storage loading by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/544
+### Changed
+* feat(sync): add ID-targeted loading and per-dependency lazy loading by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/545
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.0.1...4.1.0
+
 ## 4.0.1 / 2026-04-22
 
 ### Fixed
