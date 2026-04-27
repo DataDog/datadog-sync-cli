@@ -41,7 +41,7 @@ from datadog_sync.model.downtime_schedules import DowntimeSchedules
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
-from datadog_sync.utils.filter import Filter, process_filters
+from datadog_sync.utils.filter import Filter, process_filters, EXACT_MATCH_OPERATOR
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 from datadog_sync.utils.state import State
 from datadog_sync.utils.storage.storage_types import StorageType
@@ -133,6 +133,52 @@ class Configuration(object):
     async def exit_async(self):
         await self.source_client._end_session()
         await self.destination_client._end_session()
+
+
+def _unwrap_exact_match_pattern(pattern: str) -> str:
+    """Extract the raw ID value from an ExactMatch ^...$-wrapped regex pattern.
+
+    Defensive check: ExactMatch always produces ^...$, so ValueError should not
+    fire in practice. Raises ValueError so callers can detect unexpected patterns.
+    """
+    if not (pattern.startswith("^") and pattern.endswith("$")):
+        raise ValueError(f"Expected ExactMatch regex ^...$, got: {pattern!r}")
+    return pattern[1:-1]
+
+
+def extract_exact_id_filters(
+    filters: Dict[str, list],
+    filter_operator: str,
+    resource_types: list,
+) -> Optional[Dict[str, list]]:
+    """Return {type: [id1, id2, ...]} when all conditions allow ID-targeted loading.
+
+    Conditions (all must be true):
+    - filter_operator is OR (case-insensitive)
+    - Every resource type in resource_types has at least one filter
+    - All filters for each type use Name=id + ExactMatch operator
+
+    Returns None if any condition fails → caller falls back to type-scoped loading.
+    """
+    if filter_operator.lower() != "or":
+        return None
+    result = {}
+    for rt in resource_types:
+        rt_filters = filters.get(rt, [])
+        if not rt_filters:
+            return None  # No filters for this type — can't use ID-targeted
+        # All filters must be id-field ExactMatch
+        if not all(f.attr_name == ["id"] and f.operator == EXACT_MATCH_OPERATOR for f in rt_filters):
+            return None
+        # Extract raw IDs from ^...$-wrapped regex patterns.
+        # Defensive: ExactMatch guarantees ^...$, so ValueError should not fire.
+        # Kept as a safety net in case filter construction changes upstream.
+        try:
+            ids = [_unwrap_exact_match_pattern(f.attr_re.pattern) for f in rt_filters]
+        except ValueError:
+            return None  # Pattern wasn't ^...$-wrapped — fall back gracefully
+        result[rt] = ids
+    return result
 
 
 def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
@@ -318,9 +364,18 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             raise click.UsageError("--minimize-reads cannot be combined with --cleanup")
 
     # Determine loading strategy for minimize-reads
-    _state_resource_types = None  # None = full load (existing behavior)
+    _state_resource_types = None  # type-scoped; None = full load (existing behavior)
+    _state_exact_ids = None  # ID-targeted; None = not using ID-targeted
     if minimize_reads and (rs := kwargs.get("resources", None)):
-        _state_resource_types = [r.strip().lower() for r in rs.split(",") if r.strip()]
+        raw_types = [r.strip().lower() for r in rs.split(",") if r.strip()]
+        # Try ID-targeted strategy first (fast path: exact IDs from filters)
+        early_filters = process_filters(kwargs.get("filter"))
+        filter_operator = kwargs.get("filter_operator", "or")
+        _state_exact_ids = extract_exact_id_filters(early_filters, filter_operator, raw_types)
+        if _state_exact_ids is None:
+            # Fall back to type-scoped loading
+            logger.debug("minimize-reads: ID-targeted not eligible — filters are not all id+ExactMatch+OR")
+            _state_resource_types = raw_types
 
     # Initialize state
     state = State(
@@ -329,10 +384,14 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         destination_resources_path=destination_resources_path,
         config=config,
         resource_per_file=resource_per_file,
-        resource_types=_state_resource_types,  # None = full load
+        resource_types=_state_resource_types,  # None = full load or ID-targeted
+        exact_ids=_state_exact_ids,  # None = not using ID-targeted
     )
 
-    if _state_resource_types is not None:
+    if _state_exact_ids is not None:
+        total = sum(len(v) for v in _state_exact_ids.values())
+        logger.info(f"minimize-reads: ID-targeted loading for {total} resources across {list(_state_exact_ids.keys())}")
+    elif _state_resource_types is not None:
         logger.info(f"minimize-reads: type-scoped loading for {_state_resource_types}")
 
     # Initialize Configuration

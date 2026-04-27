@@ -6,7 +6,7 @@
 import json
 import logging
 import os
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Optional, Tuple
 
 from datadog_sync.constants import (
     Origin,
@@ -111,20 +111,6 @@ class LocalFile(BaseStorage):
                     filename = f"{base_filename}.json"
                     with open(filename, "w+", encoding="utf-8") as out_file:
                         json.dump(value, out_file)
-
-    def get_by_ids(self, origin: Origin, exact_ids: Dict[str, List[str]]) -> StorageData:
-        """Load specific resources by ID. Constructs filenames directly without listing."""
-        if not self.resource_per_file:
-            raise ValueError("get_by_ids() requires --resource-per-file. " "Re-run with --resource-per-file enabled.")
-        data = StorageData()
-        for resource_type, ids in exact_ids.items():
-            for resource_id in ids:
-                src, dst = self.get_single(resource_type, resource_id)
-                if origin in [Origin.SOURCE, Origin.ALL] and src is not None:
-                    data.source[resource_type][resource_id] = src
-                if origin in [Origin.DESTINATION, Origin.ALL] and dst is not None:
-                    data.destination[resource_type][resource_id] = dst
-        return data
 
     def get_single(self, resource_type: str, resource_id: str) -> Tuple[Optional[Dict], Optional[Dict]]:
         """Load one resource's source and destination state by ID.

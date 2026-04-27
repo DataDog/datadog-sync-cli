@@ -2,12 +2,14 @@
 # under the 3-clause BSD style license (see LICENSE).
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
+import logging
 from typing import Any, Dict, List, Tuple
 
 from datadog_sync.constants import (
     Origin,
     DESTINATION_PATH_DEFAULT,
     DESTINATION_PATH_PARAM,
+    LOGGER_NAME,
     RESOURCE_PER_FILE,
     SOURCE_PATH_DEFAULT,
     SOURCE_PATH_PARAM,
@@ -19,11 +21,15 @@ from datadog_sync.utils.storage.gcs_bucket import GCSBucket
 from datadog_sync.utils.storage.local_file import LocalFile
 from datadog_sync.utils.storage.storage_types import StorageType
 
+log = logging.getLogger(LOGGER_NAME)
+
 
 class State:
     def __init__(self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: object) -> None:
-        self._resource_types = kwargs.get("resource_types", None)
-        self._minimize_reads = self._resource_types is not None
+        self._resource_types = kwargs.get("resource_types", None)  # type-scoped loading
+        self._exact_ids = kwargs.get("exact_ids", None)  # ID-targeted loading
+        self._minimize_reads = self._resource_types is not None or self._exact_ids is not None
+        self._ensure_attempted: set = set()  # tracks IDs attempted by ensure_resource_loaded
         resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
         source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
         destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
@@ -78,8 +84,44 @@ class State:
         return self._data.destination
 
     def load_state(self, origin: Origin = Origin.ALL) -> None:
-        # resource_types=None → load all types (default behavior)
-        self._data = self._storage.get(origin, resource_types=self._resource_types)
+        if self._exact_ids is not None:
+            # ID-targeted: fetch only specified resources by constructing keys directly
+            self._data = self._storage.get_by_ids(origin, self._exact_ids)
+        else:
+            # Type-scoped (resource_types set) or full load (resource_types=None)
+            self._data = self._storage.get(origin, resource_types=self._resource_types)
+
+    def ensure_resource_loaded(self, resource_type: str, resource_id: str) -> None:
+        """Lazily load source+destination state for one dependency resource.
+
+        Called from _resource_connections() in resources_handler.py when a
+        cross-type dependency is encountered that may not be in the initial
+        (scoped) load. Loads both source and destination state so that
+        connect_id() in _apply_resource_cb() can remap IDs correctly.
+
+        Note: requires resource_per_file=True in the storage backend.
+        get_single constructs per-resource filenames; monolithic layout
+        will silently return (None, None) for every dependency.
+
+        Contract:
+        - Idempotent: no-op if (resource_type, resource_id) already attempted
+        - No-op when not in minimize-reads mode (_minimize_reads=False)
+        - Appends to state: never replaces existing entries
+        - Missing file: (None, None) → resource stays absent (correct behavior)
+        - asyncio-safe: fully synchronous, no await points
+        """
+        if not self._minimize_reads:
+            return
+        key = (resource_type, resource_id)
+        if key in self._ensure_attempted:
+            return
+        self._ensure_attempted.add(key)
+        log.debug(f"minimize-reads: lazy-loading dep {resource_type}.{resource_id}")
+        src, dst = self._storage.get_single(resource_type, resource_id)
+        if src is not None:
+            self._data.source[resource_type][resource_id] = src
+        if dst is not None:
+            self._data.destination[resource_type][resource_id] = dst
 
     def dump_state(self, origin: Origin = Origin.ALL) -> None:
         self._storage.put(origin, self._data)
