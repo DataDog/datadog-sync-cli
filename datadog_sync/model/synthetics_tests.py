@@ -90,7 +90,10 @@ class SyntheticsTests(BaseResource):
     network_base_path: str = "/api/v2/synthetics/tests/network"
     network_delete_path: str = "/api/v2/synthetics/tests/bulk-delete"
     get_params = {"include_metadata": "true"}
-    versions: List = []
+
+    def __init__(self, config):
+        super().__init__(config)
+        self.versions: Optional[List[Dict]] = None
 
     @staticmethod
     def _unwrap_network_response(resp: Dict) -> Dict:
@@ -144,13 +147,18 @@ class SyntheticsTests(BaseResource):
             body = {"public_ids": [public_id]}
             await client.post(self.resource_config.base_path + "/delete", body)
 
+    async def _ensure_mobile_versions_loaded(self, client: CustomClient) -> List[Dict]:
+        if self.versions is None:
+            versions_resource = SyntheticsMobileApplicationsVersions(self.config)
+            self.versions = await versions_resource.get_resources(client)
+        return self.versions
+
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(
             self.resource_config.base_path,
             params=self.get_params,
         )
-        versions = SyntheticsMobileApplicationsVersions(self.config)
-        self.versions = await versions.get_resources(client)
+        await self._ensure_mobile_versions_loaded(client)
         return resp["tests"]
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
@@ -197,9 +205,10 @@ class SyntheticsTests(BaseResource):
                 self.mobile_test_path.format(_id),
                 params=self.get_params,
             )
+            mobile_versions = await self._ensure_mobile_versions_loaded(source_client)
             versions = [
                 i["id"]
-                for i in self.versions
+                for i in mobile_versions
                 if i["application_id"] == resource["options"]["mobileApplication"]["applicationId"]
             ]
             resource["mobileApplicationsVersions"] = list(set(versions))

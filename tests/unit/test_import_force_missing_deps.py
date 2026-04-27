@@ -1037,3 +1037,63 @@ def test_extract_source_ids_overrides_complete(config):
                 f"{rt_name} has custom connect_id but no extract_source_ids override "
                 f"and is not in the verified-safe allowlist"
             )
+
+
+# ---------------------------------------------------------------------------
+# Cycle J — GREEN/GREEN: mobile versions lazy loading regression tests
+# ---------------------------------------------------------------------------
+
+
+def test_mobile_synthetics_import_loads_versions_lazily(import_test):
+    """Mobile test imported without get_resources() still populates mobileApplicationsVersions.
+
+    Regression: when synthetics_tests is imported as a missing dep via _import_missing_dep_cb,
+    get_resources() is never called, so self.versions was [] and mobileApplicationsVersions
+    was silently empty. _ensure_mobile_versions_loaded fixes this.
+    """
+    from datadog_sync.model.synthetics_mobile_applications_versions import SyntheticsMobileApplicationsVersions
+
+    _, config = import_test
+    r_class = config.resources["synthetics_tests"]
+    r_class.versions = None  # ensure clean state
+
+    mobile_resource = {
+        "public_id": "test-pub-1",
+        "monitor_id": 42,
+        "type": "mobile",
+        "options": {"mobileApplication": {"applicationId": "app-1"}},
+    }
+    config.source_client.get = AsyncMock(return_value=mobile_resource)
+
+    mock_versions = [{"id": "ver-1", "application_id": "app-1"}, {"id": "ver-2", "application_id": "other-app"}]
+    with patch.object(SyntheticsMobileApplicationsVersions, "get_resources", new=AsyncMock(return_value=mock_versions)):
+        _key, result = asyncio.run(r_class.import_resource(resource=mobile_resource))
+
+    assert result["mobileApplicationsVersions"] == ["ver-1"]
+    assert r_class.versions == mock_versions  # lazily populated
+
+
+def test_mobile_versions_not_refetched_when_empty(import_test):
+    """_ensure_mobile_versions_loaded: org with zero versions sets versions=[] and does not refetch.
+
+    Regression for the None-vs-[] sentinel: if we used `not self.versions` instead of
+    `self.versions is None`, an org with zero versions would refetch on every import.
+    """
+    from datadog_sync.model.synthetics_mobile_applications_versions import SyntheticsMobileApplicationsVersions
+
+    _, config = import_test
+    r_class = config.resources["synthetics_tests"]
+    r_class.versions = None  # ensure clean state
+
+    async def run_twice():
+        r1 = await r_class._ensure_mobile_versions_loaded(config.source_client)
+        r2 = await r_class._ensure_mobile_versions_loaded(config.source_client)
+        return r1, r2
+
+    mock_get = AsyncMock(return_value=[])
+    with patch.object(SyntheticsMobileApplicationsVersions, "get_resources", mock_get):
+        result1, result2 = asyncio.run(run_twice())
+
+    assert result1 == []
+    assert result2 == []
+    mock_get.assert_called_once()  # must NOT refetch
