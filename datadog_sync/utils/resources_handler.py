@@ -374,6 +374,19 @@ class ResourcesHandler:
 
     async def import_resources(self) -> None:
         await self.import_resources_without_saving()
+
+        if self.config.force_missing_dependencies:
+            missing = self._discover_missing_dependencies()
+            if missing:
+                self.config.logger.info(f"importing {len(missing)} missing dependencies...")
+                await self.worker.init_workers(self._import_missing_dep_cb, None, len(missing))
+                for item in missing:
+                    self.worker.work_queue.put_nowait(item)
+                await self.worker.schedule_workers()
+                self.config.logger.info("finished importing missing dependencies")
+            else:
+                self.config.logger.info("no missing dependencies found")
+
         self.config.state.dump_state(Origin.SOURCE)
 
     async def import_resources_without_saving(self) -> None:
@@ -449,6 +462,105 @@ class ResourcesHandler:
             self.config.logger.error(f"error while importing resource: resource_type:{resource_type} id:{_id}")
             self.config.logger.debug(f"error detail: {str(e)}", resource_type=resource_type)
 
+    def _discover_missing_dependencies(self) -> Set[Tuple[str, str]]:
+        """Scan imported resources for dependency IDs not yet in source state.
+
+        Reuses _resource_connections() which calls find_attr() -> connect_id()
+        on each resource class — the same code path as the sync-time dependency
+        check. With empty destination state, all deps appear as "failed
+        connections"; we discard those and only use the missing_resources subset
+        (deps not in source state).
+
+        Note: config.resources contains ALL resource types (not just resources_arg),
+        so dependency types outside the user's --resources list are handled correctly.
+        """
+        missing: Set[Tuple[str, str]] = set()
+        for resource_type in self.config.resources_arg:
+            r_class = self.config.resources[resource_type]
+            if not r_class.resource_config.resource_connections:
+                continue
+            for _id in list(self.config.state.source[resource_type].keys()):
+                # failed_connections is discarded: during import, destination state
+                # is empty so all deps appear as "failed connections". Only
+                # missing_resources (deps not in source state) matters here.
+                _, missing_for_resource = self._resource_connections(resource_type, _id)
+                missing.update(missing_for_resource)
+        return missing
+
+    async def _import_missing_dep_cb(self, q_item: Tuple[str, str]) -> None:
+        """Import a single missing dependency by ID, then recursively discover
+        further missing deps and enqueue them.
+
+        Import-time equivalent of _force_missing_dep_import_cb (sync-time).
+        See that method for the sync-time version. Key differences:
+        - Does NOT populate _dependency_graph (import has no sync graph)
+        - Only ensures resources land in source state
+
+        Metrics/counters are intentionally omitted, matching the sync-time
+        callback convention.
+
+        Circular dependency safety: _import_resource stores the resource in
+        config.state.source[resource_type][_id] (base_resource.py) BEFORE
+        this method returns. When _resource_connections discovers transitive deps,
+        the source-state check prevents re-enqueuing already-imported resources.
+
+        Race condition note: The dedup guard below is not atomic with the
+        subsequent _import_resource call. Two workers can pass the guard
+        simultaneously for the same dep. This is benign — _import_resource
+        is idempotent (fetches the same data and overwrites the same key).
+        The check is a best-effort optimization, not a correctness guarantee.
+        Same accepted risk exists in _force_missing_dep_import_cb.
+
+        Cancel callback note: Workers use cancel_cb=None (default: queue.empty).
+        There is a narrow window where the queue empties before a callback
+        enqueues transitive deps, causing premature shutdown. This risk is
+        slightly higher than in _force_missing_dep_import_cb (sync-time)
+        because during import, transitive deps from newly-imported resources
+        are MORE likely (sync-time already did a full scan via
+        get_dependency_graph). In practice this is acceptable because imports
+        are idempotent — a second run resolves any missed deps.
+        """
+        resource_type, _id = q_item
+
+        # Guard: unknown resource type
+        if resource_type not in self.config.resources:
+            self.config.logger.warning(f"skipping unknown dependency type: {resource_type}", _id=_id)
+            return
+
+        # Skip if already imported (best-effort dedup + circular dep safety)
+        if _id in self.config.state.source[resource_type]:
+            return
+
+        try:
+            _id = await self.config.resources[resource_type]._import_resource(_id=_id)
+            self._emit(resource_type, _id, "import", "success")
+        except SkipResource as e:
+            self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))
+            self.config.logger.info(f"skipping dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            return
+        except CustomClientHTTPError as e:
+            self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
+            self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            return
+        except Exception as e:
+            self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
+            self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            return
+
+        # Recursively discover transitive deps from the newly imported resource.
+        try:
+            r_class = self.config.resources[resource_type]
+            if r_class.resource_config.resource_connections:
+                _, transitive_missing = self._resource_connections(resource_type, _id)
+                for dep in transitive_missing:
+                    if dep[1] not in self.config.state.source[dep[0]]:
+                        self.worker.work_queue.put_nowait(dep)
+        except Exception as e:
+            self.config.logger.error(
+                f"error discovering transitive deps: {str(e)}", resource_type=resource_type, _id=_id
+            )
+
+    # See also: _import_missing_dep_cb (import-time equivalent)
     async def _force_missing_dep_import_cb(self, q_item: List):
         resource_type, _id = q_item
         try:
