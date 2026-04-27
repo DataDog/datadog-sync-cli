@@ -9,6 +9,7 @@ from datadog_sync.commands.shared.options import (
     common_options,
     destination_auth_options,
     diffs_options,
+    force_missing_dependencies_options,
     source_auth_options,
     storage_options,
     sync_options,
@@ -22,6 +23,7 @@ from datadog_sync.constants import Command
 @destination_auth_options
 @common_options
 @diffs_options
+@force_missing_dependencies_options
 @sync_options
 @storage_options
 def sync(**kwargs):
