@@ -30,6 +30,7 @@ class State:
         self._exact_ids = kwargs.get("exact_ids", None)  # ID-targeted loading
         self._minimize_reads = self._resource_types is not None or self._exact_ids is not None
         self._ensure_attempted: set = set()  # tracks IDs attempted by ensure_resource_loaded
+        self._bulk_loaded_types: set = set()  # tracks types bulk-loaded by ensure_resource_type_loaded
         resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
         source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
         destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
@@ -90,6 +91,49 @@ class State:
         else:
             # Type-scoped (resource_types set) or full load (resource_types=None)
             self._data = self._storage.get(origin, resource_types=self._resource_types)
+
+    def ensure_resource_type_loaded(self, resource_type: str) -> None:
+        """Bulk-load all resources of a type into state for full-scan lookups.
+
+        Some connect_id overrides scan all entries of a resource type using
+        partial key matching (endswith/startswith on compound keys).
+        In minimize-reads mode these entries may not be loaded — this method
+        fills the gap by loading the entire type from storage.
+
+        Distinct from ensure_resource_loaded() which loads a single resource
+        by exact key. This method loads ALL resources of a type at once.
+
+        No-op when not in minimize-reads mode or when the type is already loaded.
+        The type is added to _bulk_loaded_types BEFORE loading to prevent
+        infinite retry on persistent storage failures.
+
+        Fully synchronous — safe to call from concurrent asyncio workers
+        without locking (Python GIL protects set/dict operations).
+        """
+        if not self._minimize_reads or resource_type in self._bulk_loaded_types:
+            return
+        self._bulk_loaded_types.add(resource_type)
+        log.debug("minimize-reads: bulk-loading %s for full-scan lookups", resource_type)
+        data = self._storage.get(Origin.ALL, resource_types=[resource_type])
+        src_loaded = data.source.get(resource_type, {})
+        dst_loaded = data.destination.get(resource_type, {})
+        if not src_loaded and not dst_loaded:
+            log.debug("minimize-reads: bulk-load for %s returned no data from storage", resource_type)
+            return
+        # Insert-if-absent: never overwrite entries modified during this sync run
+        # or loaded earlier by ensure_resource_loaded.
+        for key, val in src_loaded.items():
+            if key not in self._data.source[resource_type]:
+                self._data.source[resource_type][key] = val
+        for key, val in dst_loaded.items():
+            if key not in self._data.destination[resource_type]:
+                self._data.destination[resource_type][key] = val
+        # Populate _ensure_attempted so subsequent ensure_resource_loaded() calls
+        # for bulk-loaded keys are no-ops (avoids redundant per-resource I/O).
+        for key in src_loaded:
+            self._ensure_attempted.add((resource_type, key))
+        for key in dst_loaded:
+            self._ensure_attempted.add((resource_type, key))
 
     def ensure_resource_loaded(self, resource_type: str, resource_id: str) -> None:
         """Lazily load source+destination state for one dependency resource.

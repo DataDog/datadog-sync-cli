@@ -77,7 +77,6 @@ class ServiceLevelObjectives(BaseResource):
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.state.destination["monitors"]
-        synthetics_tests = self.config.state.destination["synthetics_tests"]
 
         failed_connections = []
         for i, obj in enumerate(r_obj[key]):
@@ -86,7 +85,9 @@ class ServiceLevelObjectives(BaseResource):
             if _id in monitors:
                 r_obj[key][i] = monitors[_id]["id"]
                 continue
-            # Fall back on Synthetics and check
+            # Fall back on Synthetics and check — bulk-load the type first
+            self.config.state.ensure_resource_type_loaded("synthetics_tests")
+            synthetics_tests = self.config.state.destination["synthetics_tests"]
             found = False
             for k, v in synthetics_tests.items():
                 if k.endswith(_id):

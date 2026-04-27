@@ -381,6 +381,7 @@ class SyntheticsTests(BaseResource):
                         failed_connections.append(_id)
             return failed_connections
         elif resource_to_connect == "synthetics_tests":
+            self.config.state.ensure_resource_type_loaded("synthetics_tests")
             resources = self.config.state.destination[resource_to_connect]
             found = False
             for k, v in resources.items():

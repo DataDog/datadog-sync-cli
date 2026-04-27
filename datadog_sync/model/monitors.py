@@ -22,6 +22,7 @@ class Monitors(BaseResource):
             "monitors": ["query"],
             "roles": ["restricted_roles", "restriction_policy.bindings.principals"],
             "service_level_objectives": ["query"],
+            "synthetics_tests": [],  # implicit dep: composite monitors scan all synthetics_tests entries
             "users": ["restriction_policy.bindings.principals"],
             "teams": ["restriction_policy.bindings.principals"],
         },
@@ -129,8 +130,6 @@ class Monitors(BaseResource):
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.state.destination[resource_to_connect]
-        synthetics_tests = self.config.state.destination["synthetics_tests"]
-        slos = self.config.state.destination["service_level_objectives"]
 
         if r_obj.get("type") == "composite" and key == "query" and resource_to_connect != "service_level_objectives":
             failed_connections = []
@@ -142,7 +141,9 @@ class Monitors(BaseResource):
                     new_id = f"{monitors[_id]['id']}"
                     r_obj[key] = re.sub(_id + r"([^#]|$)", lambda match: f"{new_id}#{match.group(1)}", r_obj[key])
                 else:
-                    # Check if it is a synthetics monitor
+                    # Check if it is a synthetics monitor — bulk-load the type first
+                    self.config.state.ensure_resource_type_loaded("synthetics_tests")
+                    synthetics_tests = self.config.state.destination["synthetics_tests"]
                     for k, v in synthetics_tests.items():
                         if k.endswith(_id):
                             found = True
@@ -154,6 +155,7 @@ class Monitors(BaseResource):
             r_obj[key] = (r_obj[key].replace("#", "")).strip()
             return failed_connections
         elif resource_to_connect == "service_level_objectives" and r_obj.get("type") == "slo alert" and key == "query":
+            slos = self.config.state.destination["service_level_objectives"]
             failed_connections = []
             if res := re.search(r"(?:error_budget|burn_rate)\(\"(.*?)\"\)\.", r_obj[key]):
                 _id = res.group(1)

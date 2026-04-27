@@ -124,8 +124,6 @@ class TestMonitorsRestrictionPolicyPrincipals:
 
         mock_config = MagicMock()
         mock_config.state = MagicMock()
-        # connect_id always accesses synthetics_tests and service_level_objectives
-        # regardless of which key is being processed, so provide defaults.
         state = defaultdict(dict)
         if destination_state:
             state.update(destination_state)
