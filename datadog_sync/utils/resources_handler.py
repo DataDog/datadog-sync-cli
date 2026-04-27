@@ -462,29 +462,80 @@ class ResourcesHandler:
             self.config.logger.error(f"error while importing resource: resource_type:{resource_type} id:{_id}")
             self.config.logger.debug(f"error detail: {str(e)}", resource_type=resource_type)
 
+    def _dep_in_source_state(self, dep_type: str, dep_id: str) -> bool:
+        """Check if a dependency exists in source state.
+
+        Handles composite keys: synthetics_tests uses '{public_id}#{monitor_id}'
+        keys in source state, so an exact match on a bare public_id fails.
+        Prefix matching resolves this.
+
+        Note: ServiceLevelObjectives.connect_id uses k.endswith(_id) for its
+        synthetics lookup, but SLO's resource_connections has
+        "synthetics_tests": [] (empty attr list), so find_attr is never called
+        for that path and this method is never invoked for it. Prefix-only
+        matching is therefore safe.
+        """
+        source = self.config.state.source.get(dep_type, {})
+        if dep_id in source:
+            return True
+        if dep_type == "synthetics_tests":
+            return any(k.startswith(dep_id + "#") for k in source)
+        return False
+
+    def _source_dependencies_for_resource(self, resource_type: str, _id: str) -> Set[Tuple[str, str]]:
+        """Return all (dep_type, dep_id) referenced by a source resource.
+
+        Uses extract_source_ids — source-only, does NOT check destination state,
+        does NOT mutate the resource.
+
+        Does NOT call ensure_resource_loaded(). During import with
+        --force-missing-dependencies, resources are fetched from the API and
+        stored directly in source state. ensure_resource_loaded() remains in
+        _resource_connections() for the sync-time path only.
+        """
+        deps: Set[Tuple[str, str]] = set()
+        r_class = self.config.resources[resource_type]
+        if not r_class.resource_config.resource_connections:
+            return deps
+        resource = deepcopy(self.config.state.source[resource_type][_id])
+        for dep_type, paths in r_class.resource_config.resource_connections.items():
+            for path in paths:
+                if not path:
+                    continue  # empty attr path (e.g., SLO's "synthetics_tests": [])
+                ids = find_attr(path, dep_type, resource, r_class.extract_source_ids)
+                for dep_id in ids or []:
+                    deps.add((dep_type, dep_id))
+        return deps
+
     def _discover_missing_dependencies(self) -> Set[Tuple[str, str]]:
-        """Scan imported resources for dependency IDs not yet in source state.
+        """Scan imported resources and all reachable transitive deps for
+        dependency IDs not yet in source state.
 
-        Reuses _resource_connections() which calls find_attr() -> connect_id()
-        on each resource class — the same code path as the sync-time dependency
-        check. With empty destination state, all deps appear as "failed
-        connections"; we discard those and only use the missing_resources subset
-        (deps not in source state).
+        BFS closure walk: seeds from resources_arg nodes, follows edges through
+        already-present source resources so that transitive deps of present
+        resources are also discovered. Uses _dep_in_source_state() for composite
+        key handling (e.g., synthetics_tests '{public_id}#{monitor_id}' keys).
 
-        Note: config.resources contains ALL resource types (not just resources_arg),
-        so dependency types outside the user's --resources list are handled correctly.
+        Uses extract_source_ids (source-only) rather than connect_id (which
+        checks destination state) to avoid stale destination state causing deps
+        to appear resolved when they haven't been fetched into source state.
         """
         missing: Set[Tuple[str, str]] = set()
-        for resource_type in self.config.resources_arg:
-            r_class = self.config.resources[resource_type]
-            if not r_class.resource_config.resource_connections:
+        seen: Set[Tuple[str, str]] = set()
+        queue = [(rt, _id) for rt in self.config.resources_arg for _id in list(self.config.state.source[rt].keys())]
+        while queue:
+            rt, _id = queue.pop()
+            if (rt, _id) in seen:
                 continue
-            for _id in list(self.config.state.source[resource_type].keys()):
-                # failed_connections is discarded: during import, destination state
-                # is empty so all deps appear as "failed connections". Only
-                # missing_resources (deps not in source state) matters here.
-                _, missing_for_resource = self._resource_connections(resource_type, _id)
-                missing.update(missing_for_resource)
+            seen.add((rt, _id))
+            r_class = self.config.resources.get(rt)
+            if not r_class or not r_class.resource_config.resource_connections:
+                continue
+            for dep_type, dep_id in self._source_dependencies_for_resource(rt, _id):
+                if self._dep_in_source_state(dep_type, dep_id):
+                    queue.append((dep_type, dep_id))  # present — scan for ITS deps
+                else:
+                    missing.add((dep_type, dep_id))
         return missing
 
     async def _import_missing_dep_cb(self, q_item: Tuple[str, str]) -> None:
@@ -548,13 +599,15 @@ class ResourcesHandler:
             return
 
         # Recursively discover transitive deps from the newly imported resource.
+        # Uses _source_dependencies_for_resource (source-only) rather than
+        # _resource_connections (destination-state check) to avoid stale
+        # destination state masking missing deps.
         try:
             r_class = self.config.resources[resource_type]
             if r_class.resource_config.resource_connections:
-                _, transitive_missing = self._resource_connections(resource_type, _id)
-                for dep in transitive_missing:
-                    if dep[1] not in self.config.state.source[dep[0]]:
-                        self.worker.work_queue.put_nowait(dep)
+                for dep_type, dep_id in self._source_dependencies_for_resource(resource_type, _id):
+                    if not self._dep_in_source_state(dep_type, dep_id):
+                        self.worker.work_queue.put_nowait((dep_type, dep_id))
         except Exception as e:
             self.config.logger.error(
                 f"error discovering transitive deps: {str(e)}", resource_type=resource_type, _id=_id

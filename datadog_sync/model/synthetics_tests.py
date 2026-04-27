@@ -414,3 +414,20 @@ class SyntheticsTests(BaseResource):
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
         else:
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
+
+    def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        # Mirror of connect_id -- keep in sync when connect_id changes.
+        # Only synthetics_private_locations and mobile application versions need special handling.
+        # rum_applications, synthetics_tests (subtests), synthetics_global_variables, roles, and
+        # synthetics_mobile_applications all use plain IDs at the leaf — base extract_source_ids
+        # handles them. For synthetics_tests subtests, _dep_in_source_state handles composite key
+        # prefix matching ('{public_id}#{monitor_id}' keys).
+        if resource_to_connect == "synthetics_private_locations":
+            pl = self.config.resources["synthetics_private_locations"]
+            return [str(_id) for _id in r_obj[key] if pl.pl_id_regex.match(str(_id))]
+        elif resource_to_connect == "synthetics_mobile_applications_versions" and key == "referenceId":
+            # When referenceType is "latest", referenceId contains the application ID, not a version ID.
+            if r_obj.get("referenceType") == "latest":
+                return super(SyntheticsTests, self).extract_source_ids(key, r_obj, "synthetics_mobile_applications")
+            return super(SyntheticsTests, self).extract_source_ids(key, r_obj, resource_to_connect)
+        return super(SyntheticsTests, self).extract_source_ids(key, r_obj, resource_to_connect)

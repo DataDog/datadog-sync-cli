@@ -233,6 +233,20 @@ class BaseResource(abc.ABC):
 
         return failed_connections
 
+    def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        """Extract dependency IDs referenced at r_obj[key] for resource_to_connect.
+
+        Source-only: does NOT check destination state, does NOT mutate r_obj.
+        Override in subclasses with custom connect_id logic (regex, prefix
+        parsing, type dispatch, etc.).
+        Mirror of connect_id -- keep in sync when connect_id changes.
+        """
+        if not r_obj.get(key):
+            return None
+        if isinstance(r_obj[key], list):
+            return [str(v) for v in r_obj[key]]
+        return [str(r_obj[key])]
+
     def connect_resources(self, _id: str, resource: Dict) -> None:
         if not self.resource_config.resource_connections:
             return
