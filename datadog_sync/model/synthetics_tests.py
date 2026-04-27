@@ -36,6 +36,7 @@ class SyntheticsTests(BaseResource):
             "rum_applications": ["options.rumSettings.applicationId"],
             "synthetics_mobile_applications": [
                 "options.mobileApplication.applicationId",
+                "options.mobileApplication.referenceId",
             ],
             "synthetics_mobile_applications_versions": [
                 "mobileApplicationsVersions",
@@ -406,11 +407,15 @@ class SyntheticsTests(BaseResource):
             else:
                 failed_connections.append(_id)
             return failed_connections
-        elif resource_to_connect == "synthetics_mobile_applications_versions" and key == "referenceId":
-            # When referenceType is "latest", referenceId contains the application ID, not a version ID.
-            # Connect it against synthetics_mobile_applications instead.
+        elif resource_to_connect == "synthetics_mobile_applications" and key == "referenceId":
+            # referenceId is an application ID only when referenceType is "latest".
             if r_obj.get("referenceType") == "latest":
-                return super(SyntheticsTests, self).connect_id(key, r_obj, "synthetics_mobile_applications")
+                return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
+            return []
+        elif resource_to_connect == "synthetics_mobile_applications_versions" and key == "referenceId":
+            # referenceId is a version ID only when referenceType is not "latest".
+            if r_obj.get("referenceType") == "latest":
+                return []
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
         else:
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
@@ -419,15 +424,20 @@ class SyntheticsTests(BaseResource):
         # Mirror of connect_id -- keep in sync when connect_id changes.
         # Only synthetics_private_locations and mobile application versions need special handling.
         # rum_applications, synthetics_tests (subtests), synthetics_global_variables, roles, and
-        # synthetics_mobile_applications all use plain IDs at the leaf — base extract_source_ids
-        # handles them. For synthetics_tests subtests, _dep_in_source_state handles composite key
-        # prefix matching ('{public_id}#{monitor_id}' keys).
+        # synthetics_mobile_applications (applicationId key) all use plain IDs at the leaf —
+        # base extract_source_ids handles them. For synthetics_tests subtests, _dep_in_source_state
+        # handles composite key prefix matching ('{public_id}#{monitor_id}' keys).
         if resource_to_connect == "synthetics_private_locations":
             pl = self.config.resources["synthetics_private_locations"]
             return [str(_id) for _id in r_obj[key] if pl.pl_id_regex.match(str(_id))]
-        elif resource_to_connect == "synthetics_mobile_applications_versions" and key == "referenceId":
-            # When referenceType is "latest", referenceId contains the application ID, not a version ID.
+        elif resource_to_connect == "synthetics_mobile_applications" and key == "referenceId":
+            # referenceId is an application ID only when referenceType is "latest".
             if r_obj.get("referenceType") == "latest":
-                return super(SyntheticsTests, self).extract_source_ids(key, r_obj, "synthetics_mobile_applications")
+                return super(SyntheticsTests, self).extract_source_ids(key, r_obj, resource_to_connect)
+            return []
+        elif resource_to_connect == "synthetics_mobile_applications_versions" and key == "referenceId":
+            # referenceId is a version ID only when referenceType is not "latest".
+            if r_obj.get("referenceType") == "latest":
+                return []
             return super(SyntheticsTests, self).extract_source_ids(key, r_obj, resource_to_connect)
         return super(SyntheticsTests, self).extract_source_ids(key, r_obj, resource_to_connect)

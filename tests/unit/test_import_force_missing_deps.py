@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 import asyncio
+from copy import deepcopy
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -18,7 +19,13 @@ def import_test(config):
     """Provides (handler, config) with full state isolation.
 
     Saves config.filters, config.filter_operator, config.resources_arg,
-    config.logger, and all source state before each test; restores after.
+    config.logger, config.force_missing_dependencies, and all source AND
+    destination state before each test; restores after.
+
+    Uses deepcopy to avoid nested-dict aliasing so that tests mutating
+    destination state (e.g., Bug #1 test) don't leak into later tests.
+    config is module-scoped, so this fixture must fully restore any field
+    that tests may mutate.
 
     Replaces config.logger with a Log instance so that logger calls with
     custom kwargs (resource_type=, _id=) don't raise TypeError — the
@@ -29,9 +36,12 @@ def import_test(config):
     saved_operator = config.filter_operator
     saved_resources_arg = config.resources_arg[:]
     saved_logger = config.logger
+    saved_force = config.force_missing_dependencies
     saved_source = {}
+    saved_destination = {}
     for rt in config.resources:
-        saved_source[rt] = dict(config.state.source[rt])
+        saved_source[rt] = deepcopy(dict(config.state.source[rt]))
+        saved_destination[rt] = deepcopy(dict(config.state.destination[rt]))
 
     config.logger = Log(verbose=False)
     handler = ResourcesHandler(config)
@@ -42,9 +52,12 @@ def import_test(config):
     config.filter_operator = saved_operator
     config.resources_arg = saved_resources_arg
     config.logger = saved_logger
+    config.force_missing_dependencies = saved_force
     for rt in config.resources:
         config.state.source[rt].clear()
         config.state.source[rt].update(saved_source.get(rt, {}))
+        config.state.destination[rt].clear()
+        config.state.destination[rt].update(saved_destination.get(rt, {}))
 
 
 def setup_state(config, source_resources, resources_arg=None):
@@ -771,13 +784,65 @@ def test_synthetics_tests_extract_source_ids_pl_filter(import_test):
 
 
 def test_synthetics_tests_extract_source_ids_mobile_latest(import_test):
-    """SyntheticsTests: referenceType=latest → extract against synthetics_mobile_applications."""
+    """SyntheticsTests: referenceType=latest → dep emitted under synthetics_mobile_applications, not versions."""
     _, config = import_test
     r_class = config.resources["synthetics_tests"]
     r_obj = {"referenceId": "app-uuid-xyz", "referenceType": "latest"}
-    result = r_class.extract_source_ids("referenceId", r_obj, "synthetics_mobile_applications_versions")
-    # For referenceType=latest, should return the ID (delegates to mobile_applications path)
-    assert result == ["app-uuid-xyz"]
+    # mobile_applications path returns the ID
+    assert r_class.extract_source_ids("referenceId", r_obj, "synthetics_mobile_applications") == ["app-uuid-xyz"]
+    # versions path returns empty — prevents wrong dep type
+    assert r_class.extract_source_ids("referenceId", r_obj, "synthetics_mobile_applications_versions") == []
+
+
+def test_synthetics_tests_extract_source_ids_mobile_pinned(import_test):
+    """SyntheticsTests: referenceType=version → dep emitted under synthetics_mobile_applications_versions, not app."""
+    _, config = import_test
+    r_class = config.resources["synthetics_tests"]
+    r_obj = {"referenceId": "ver-uuid-abc", "referenceType": "version"}
+    # versions path returns the ID
+    assert r_class.extract_source_ids("referenceId", r_obj, "synthetics_mobile_applications_versions") == [
+        "ver-uuid-abc"
+    ]
+    # mobile_applications path returns empty — prevents wrong dep type
+    assert r_class.extract_source_ids("referenceId", r_obj, "synthetics_mobile_applications") == []
+
+
+def test_synthetics_tests_connect_id_mobile_latest(import_test):
+    """SyntheticsTests connect_id: referenceType=latest remaps against mobile_applications, skips versions."""
+    _, config = import_test
+    r_class = config.resources["synthetics_tests"]
+    config.state.destination["synthetics_mobile_applications"]["app-src-id"] = {"id": "app-dest-id"}
+
+    r_obj = {"referenceId": "app-src-id", "referenceType": "latest"}
+    # mobile_applications path remaps successfully
+    failed = r_class.connect_id("referenceId", r_obj, "synthetics_mobile_applications")
+    assert failed == []
+    assert r_obj["referenceId"] == "app-dest-id"
+
+    r_obj2 = {"referenceId": "app-src-id", "referenceType": "latest"}
+    # versions path is a no-op
+    failed2 = r_class.connect_id("referenceId", r_obj2, "synthetics_mobile_applications_versions")
+    assert failed2 == []
+    assert r_obj2["referenceId"] == "app-src-id"  # unchanged
+
+
+def test_synthetics_tests_connect_id_mobile_pinned(import_test):
+    """SyntheticsTests connect_id: referenceType=version remaps against versions, skips mobile_applications."""
+    _, config = import_test
+    r_class = config.resources["synthetics_tests"]
+    config.state.destination["synthetics_mobile_applications_versions"]["ver-src-id"] = {"id": "ver-dest-id"}
+
+    r_obj = {"referenceId": "ver-src-id", "referenceType": "version"}
+    # versions path remaps successfully
+    failed = r_class.connect_id("referenceId", r_obj, "synthetics_mobile_applications_versions")
+    assert failed == []
+    assert r_obj["referenceId"] == "ver-dest-id"
+
+    r_obj2 = {"referenceId": "ver-src-id", "referenceType": "version"}
+    # mobile_applications path is a no-op
+    failed2 = r_class.connect_id("referenceId", r_obj2, "synthetics_mobile_applications")
+    assert failed2 == []
+    assert r_obj2["referenceId"] == "ver-src-id"  # unchanged
 
 
 # ---------------------------------------------------------------------------
