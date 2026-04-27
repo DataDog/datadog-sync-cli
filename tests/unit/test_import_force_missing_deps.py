@@ -850,31 +850,86 @@ def test_synthetics_tests_connect_id_mobile_pinned(import_test):
 # ---------------------------------------------------------------------------
 
 
-def test_dep_in_source_state_exact_match(import_test):
-    """_dep_in_source_state: exact key match returns True."""
+def test_source_state_key_exact_match(import_test):
+    """_source_state_key: exact key present → returns that key."""
     handler, config = import_test
     config.state.source["dashboards"]["dash-1"] = {"id": "dash-1"}
-    assert handler._dep_in_source_state("dashboards", "dash-1") is True
+    assert handler._source_state_key("dashboards", "dash-1") == "dash-1"
 
 
-def test_dep_in_source_state_miss(import_test):
-    """_dep_in_source_state: key absent from source → False."""
+def test_source_state_key_miss(import_test):
+    """_source_state_key: key absent from source → None."""
     handler, config = import_test
-    assert handler._dep_in_source_state("dashboards", "nonexistent") is False
+    assert handler._source_state_key("dashboards", "nonexistent") is None
 
 
-def test_dep_in_source_state_synthetics_prefix_match(import_test):
-    """_dep_in_source_state: synthetics_tests composite key matched by prefix."""
+def test_source_state_key_synthetics_prefix_match(import_test):
+    """_source_state_key: bare public_id resolves to composite key."""
     handler, config = import_test
     config.state.source["synthetics_tests"]["abc-public#999"] = {"public_id": "abc-public", "monitor_id": 999}
-    assert handler._dep_in_source_state("synthetics_tests", "abc-public") is True
+    assert handler._source_state_key("synthetics_tests", "abc-public") == "abc-public#999"
 
 
-def test_dep_in_source_state_synthetics_no_false_positive(import_test):
-    """_dep_in_source_state: 'abc' must NOT match 'abcdef#123' — prefix only."""
+def test_source_state_key_synthetics_no_false_positive(import_test):
+    """_source_state_key: 'abc' must NOT match 'abcdef#123' — prefix only."""
     handler, config = import_test
     config.state.source["synthetics_tests"]["abcdef#123"] = {"public_id": "abcdef", "monitor_id": 123}
-    assert handler._dep_in_source_state("synthetics_tests", "abc") is False
+    assert handler._source_state_key("synthetics_tests", "abc") is None
+
+
+def test_discover_synthetics_present_dep_no_keyerror(import_test):
+    """BFS walks through synthetics_tests composite key without KeyError.
+
+    Bug #1 regression: _source_state_key now returns the canonical key
+    ('abc-public#999'), so _source_dependencies_for_resource receives the
+    correct key and the exact dict lookup doesn't raise KeyError.
+    """
+    handler, config = import_test
+    setup_state(
+        config,
+        {
+            "synthetics_global_variables": {
+                "sgv-1": {"id": "sgv-1", "parse_test_public_id": "abc-public"},
+            },
+            "synthetics_tests": {
+                "abc-public#999": {"public_id": "abc-public", "monitor_id": 999, "locations": []},
+            },
+        },
+        resources_arg=["synthetics_global_variables"],
+    )
+
+    # Must not raise KeyError when BFS walks into abc-public#999
+    result = handler._discover_missing_dependencies()
+
+    # The synthetics_test is present — it should NOT be in missing set
+    assert ("synthetics_tests", "abc-public") not in result
+    assert ("synthetics_tests", "abc-public#999") not in result
+
+
+def test_slo_monitor_ids_backed_by_synthetics(import_test):
+    """SLO with monitor_ids backed by a synthetics test must not appear as missing monitor.
+
+    Bug #2 regression: extract_source_ids on SLO now filters out monitor IDs
+    that correspond to existing synthetics_tests composite keys.
+    """
+    handler, config = import_test
+    setup_state(
+        config,
+        {
+            "service_level_objectives": {
+                "slo-1": {"id": "slo-1", "monitor_ids": [999]},
+            },
+            "synthetics_tests": {
+                "abc-public#999": {"public_id": "abc-public", "monitor_id": 999, "locations": []},
+            },
+        },
+        resources_arg=["service_level_objectives"],
+    )
+
+    result = handler._discover_missing_dependencies()
+
+    # Monitor 999 is backed by a synthetics test — must NOT appear as missing monitor
+    assert ("monitors", "999") not in result
 
 
 def test_discover_no_connections_empty_result(import_test):
@@ -972,7 +1027,6 @@ def test_extract_source_ids_overrides_complete(config):
         "logs_indexes_order",  # Custom remapping; base returns correct raw names
         "synthetics_global_variables",  # Composite key handled by _dep_in_source_state
         "synthetics_test_suites",  # Same as synthetics_global_variables
-        "service_level_objectives",  # Empty synthetics_tests paths; base works for monitors
         "logs_pipelines_order",  # Invalid-entry filtering is a sync concern only
     }
     for rt_name, r_class in config.resources.items():

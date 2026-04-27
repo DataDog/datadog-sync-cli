@@ -462,25 +462,23 @@ class ResourcesHandler:
             self.config.logger.error(f"error while importing resource: resource_type:{resource_type} id:{_id}")
             self.config.logger.debug(f"error detail: {str(e)}", resource_type=resource_type)
 
-    def _dep_in_source_state(self, dep_type: str, dep_id: str) -> bool:
-        """Check if a dependency exists in source state.
+    def _source_state_key(self, dep_type: str, dep_id: str) -> Optional[str]:
+        """Resolve a dependency ID to its canonical source-state key.
+
+        Returns the actual key in config.state.source[dep_type], or None if
+        the dependency is not present in source state.
 
         Handles composite keys: synthetics_tests uses '{public_id}#{monitor_id}'
         keys in source state, so an exact match on a bare public_id fails.
-        Prefix matching resolves this.
-
-        Note: ServiceLevelObjectives.connect_id uses k.endswith(_id) for its
-        synthetics lookup, but SLO's resource_connections has
-        "synthetics_tests": [] (empty attr list), so find_attr is never called
-        for that path and this method is never invoked for it. Prefix-only
-        matching is therefore safe.
+        Prefix matching resolves the canonical key and ensures the BFS queues
+        the correct key for subsequent _source_dependencies_for_resource lookups.
         """
         source = self.config.state.source.get(dep_type, {})
         if dep_id in source:
-            return True
+            return dep_id
         if dep_type == "synthetics_tests":
-            return any(k.startswith(dep_id + "#") for k in source)
-        return False
+            return next((k for k in source if k.startswith(dep_id + "#")), None)
+        return None
 
     def _source_dependencies_for_resource(self, resource_type: str, _id: str) -> Set[Tuple[str, str]]:
         """Return all (dep_type, dep_id) referenced by a source resource.
@@ -532,8 +530,9 @@ class ResourcesHandler:
             if not r_class or not r_class.resource_config.resource_connections:
                 continue
             for dep_type, dep_id in self._source_dependencies_for_resource(rt, _id):
-                if self._dep_in_source_state(dep_type, dep_id):
-                    queue.append((dep_type, dep_id))  # present — scan for ITS deps
+                source_key = self._source_state_key(dep_type, dep_id)
+                if source_key is not None:
+                    queue.append((dep_type, source_key))  # canonical key — scan for ITS deps
                 else:
                     missing.add((dep_type, dep_id))
         return missing
@@ -578,8 +577,10 @@ class ResourcesHandler:
             self.config.logger.warning(f"skipping unknown dependency type: {resource_type}", _id=_id)
             return
 
-        # Skip if already imported (best-effort dedup + circular dep safety)
-        if _id in self.config.state.source[resource_type]:
+        # Skip if already imported (best-effort dedup + circular dep safety).
+        # Uses _source_state_key to handle composite keys (e.g., synthetics_tests
+        # '{public_id}#{monitor_id}') so a bare public_id deduplicates correctly.
+        if self._source_state_key(resource_type, _id) is not None:
             return
 
         try:
@@ -606,7 +607,7 @@ class ResourcesHandler:
             r_class = self.config.resources[resource_type]
             if r_class.resource_config.resource_connections:
                 for dep_type, dep_id in self._source_dependencies_for_resource(resource_type, _id):
-                    if not self._dep_in_source_state(dep_type, dep_id):
+                    if self._source_state_key(dep_type, dep_id) is None:
                         self.worker.work_queue.put_nowait((dep_type, dep_id))
         except Exception as e:
             self.config.logger.error(
