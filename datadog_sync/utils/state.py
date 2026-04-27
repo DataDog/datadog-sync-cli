@@ -22,6 +22,8 @@ from datadog_sync.utils.storage.storage_types import StorageType
 
 class State:
     def __init__(self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: object) -> None:
+        self._resource_types = kwargs.get("resource_types", None)
+        self._minimize_reads = self._resource_types is not None
         resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
         source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
         destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
@@ -76,7 +78,8 @@ class State:
         return self._data.destination
 
     def load_state(self, origin: Origin = Origin.ALL) -> None:
-        self._data = self._storage.get(origin)
+        # resource_types=None → load all types (default behavior)
+        self._data = self._storage.get(origin, resource_types=self._resource_types)
 
     def dump_state(self, origin: Origin = Origin.ALL) -> None:
         self._storage.put(origin, self._data)
