@@ -446,7 +446,7 @@ _diffs_options = [
 ]
 
 
-_sync_options = [
+_force_missing_dependencies_options = [
     option(
         "--force-missing-dependencies",
         required=False,
@@ -456,6 +456,9 @@ _sync_options = [
         help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
         cls=CustomOptionClass,
     ),
+]
+
+_sync_options = [
     option(
         "--create-global-downtime",
         required=False,
@@ -504,6 +507,10 @@ def storage_options(func: Callable) -> Callable:
 
 def diffs_options(func: Callable) -> Callable:
     return _build_options_helper(func, _diffs_options)
+
+
+def force_missing_dependencies_options(func: Callable) -> Callable:
+    return _build_options_helper(func, _force_missing_dependencies_options)
 
 
 def sync_options(func: Callable) -> Callable:
