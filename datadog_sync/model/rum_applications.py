@@ -23,6 +23,7 @@ class RUMApplications(BaseResource):
             "attributes.client_token",
             "attributes.created_at",
             "attributes.created_by_handle",
+            "attributes.apm_rum_flat_sampling_replay_sample_rate",
             "attributes.hash",
             "attributes.is_active",
             "attributes.ootb_metrics_installed",
