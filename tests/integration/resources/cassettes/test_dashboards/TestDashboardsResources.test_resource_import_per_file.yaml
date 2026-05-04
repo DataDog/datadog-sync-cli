@@ -232,68 +232,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
-  response:
-    body:
-      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
-        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
-        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
-        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
-        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
-        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
-        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/b8p-ibt-8h2
-  response:
-    body:
-      string: '{"id": "b8p-ibt-8h2", "title": "tagging test", "description": "[[suggested_dashboards]]",
-        "author_handle": "michael.richey@datadoghq.com", "author_name": "Michael Richey",
-        "layout_type": "ordered", "url": "/dashboard/b8p-ibt-8h2/tagging-test", "template_variables":
-        [], "widgets": [{"id": 3409574985330321, "definition": {"title": "", "title_size":
-        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
-        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
-        "logs", "name": "query1", "search": {"query": ""}, "indexes": ["*"], "compute":
-        {"aggregation": "count"}, "group_by": [], "storage": "hot"}], "style": {"palette":
-        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
-        "display_type": "line"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
-        2}}, {"id": 1296556742021216, "definition": {"title": "", "title_size": "16",
-        "title_align": "left", "requests": [{"response_format": "scalar", "queries":
-        [{"data_source": "logs", "name": "query1", "search": {"query": ""}, "indexes":
-        ["*"], "compute": {"aggregation": "count"}, "group_by": [{"facet": "service",
-        "limit": 10, "sort": {"order": "desc", "aggregation": "count"}}], "storage":
-        "hot"}], "style": {"palette": "datadog16"}, "formulas": [{"formula": "query1"}],
-        "sort": {"count": 10, "order_by": [{"type": "formula", "index": 0, "order":
-        "desc"}]}}], "type": "sunburst", "legend": {"type": "automatic"}}, "layout":
-        {"x": 4, "y": 0, "width": 4, "height": 4}}], "notify_list": [], "created_at":
-        "2025-10-21T17:12:52.043137+00:00", "modified_at": "2025-10-21T19:33:46.346204+00:00",
-        "reflow_type": "fixed", "tags": ["team:hamr-test"], "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v1/dashboard/t82-cj3-j7p
   response:
     body:
@@ -360,6 +298,31 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/jh3-vsk-99c
+  response:
+    body:
+      string: '{"id": "jh3-vsk-99c", "title": "Michael''s Dashboard Mon, Oct 28, 2:45:47
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/jh3-vsk-99c/michaels-dashboard-mon-oct-28-24547-pm",
+        "template_variables": [], "widgets": [{"id": 5949103957093766, "definition":
+        {"title": "New group", "show_title": true, "powerpack_id": "e685afa6-955c-11ef-9254-da7ad0900005",
+        "template_variables": {"controlled_externally": [], "controlled_by_powerpack":
+        []}, "type": "powerpack"}, "layout": {"x": 0, "y": 0, "width": 12, "height":
+        3}}], "notify_list": [], "created_at": "2024-10-28T18:45:47.629189+00:00",
+        "modified_at": "2024-10-31T20:20:27.062979+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v1/dashboard/5t9-ue7-wzx
   response:
     body:
@@ -376,6 +339,109 @@ interactions:
         "display_type": "bars"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
         2}}], "notify_list": [], "created_at": "2025-10-31T20:07:45.838380+00:00",
         "modified_at": "2025-10-31T20:08:07.276954+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/b8p-ibt-8h2
+  response:
+    body:
+      string: '{"id": "b8p-ibt-8h2", "title": "tagging test", "description": "[[suggested_dashboards]]",
+        "author_handle": "michael.richey@datadoghq.com", "author_name": "Michael Richey",
+        "layout_type": "ordered", "url": "/dashboard/b8p-ibt-8h2/tagging-test", "template_variables":
+        [], "widgets": [{"id": 3409574985330321, "definition": {"title": "", "title_size":
+        "16", "title_align": "left", "show_legend": true, "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"], "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
+        "logs", "name": "query1", "search": {"query": ""}, "indexes": ["*"], "compute":
+        {"aggregation": "count"}, "group_by": [], "storage": "hot"}], "style": {"palette":
+        "dog_classic", "order_by": "values", "line_type": "solid", "line_width": "normal"},
+        "display_type": "line"}]}, "layout": {"x": 0, "y": 0, "width": 4, "height":
+        2}}, {"id": 1296556742021216, "definition": {"title": "", "title_size": "16",
+        "title_align": "left", "requests": [{"response_format": "scalar", "queries":
+        [{"data_source": "logs", "name": "query1", "search": {"query": ""}, "indexes":
+        ["*"], "compute": {"aggregation": "count"}, "group_by": [{"facet": "service",
+        "limit": 10, "sort": {"order": "desc", "aggregation": "count"}}], "storage":
+        "hot"}], "style": {"palette": "datadog16"}, "formulas": [{"formula": "query1"}],
+        "sort": {"count": 10, "order_by": [{"type": "formula", "index": 0, "order":
+        "desc"}]}}], "type": "sunburst", "legend": {"type": "automatic"}}, "layout":
+        {"x": 4, "y": 0, "width": 4, "height": 4}}], "notify_list": [], "created_at":
+        "2025-10-21T17:12:52.043137+00:00", "modified_at": "2025-10-21T19:33:46.346204+00:00",
+        "reflow_type": "fixed", "tags": ["team:hamr-test"], "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/vht-439-g8y
+  response:
+    body:
+      string: '{"id": "vht-439-g8y", "title": "raspberrypi (cloned)", "description":
+        "Top host-level metrics for raspberrypi.             Clone this dashboard
+        to add your own metrics.\n\n[Link to infrastructure list](/infrastructure?filter=raspberrypi&hostname=raspberrypi)
+        (cloned)", "author_handle": "michael.richey@datadoghq.com", "author_name":
+        "Michael Richey", "layout_type": "ordered", "url": "/dashboard/vht-439-g8y/raspberrypi-cloned",
+        "template_variables": [], "widgets": [{"id": 0, "definition": {"title": "CPU
+        usage (%)", "show_legend": true, "legend_layout": "auto", "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "system.cpu.idle{host:raspberrypi}"},
+        {"data_source": "metrics", "name": "query2", "query": "system.cpu.system{host:raspberrypi}"},
+        {"data_source": "metrics", "name": "query3", "query": "system.cpu.iowait{host:raspberrypi}"},
+        {"data_source": "metrics", "name": "query4", "query": "system.cpu.user{host:raspberrypi}"},
+        {"data_source": "metrics", "name": "query5", "query": "system.cpu.stolen{host:raspberrypi}"}],
+        "display_type": "area"}]}}, {"id": 1, "definition": {"title": "Processes memory
+        usage", "type": "treemap", "requests": [{"q": "processes{host:raspberrypi}"}],
+        "size_by": "pct_mem", "color_by": "user", "group_by": "family"}}, {"id": 2,
+        "definition": {"title": "Load Averages 1-5-15", "show_legend": true, "legend_layout":
+        "auto", "type": "timeseries", "requests": [{"response_format": "timeseries",
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "system.load.1{host:raspberrypi}"}]},
+        {"response_format": "timeseries", "queries": [{"data_source": "metrics", "name":
+        "query1", "query": "system.load.5{host:raspberrypi}"}]}, {"response_format":
+        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "system.load.15{host:raspberrypi}"}]}]}}, {"id": 3, "definition": {"title":
+        "Memory breakdown", "show_legend": true, "legend_layout": "auto", "type":
+        "timeseries", "requests": [{"response_format": "timeseries", "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:system.mem.usable{host:raspberrypi}"},
+        {"data_source": "metrics", "name": "query2", "query": "sum:system.mem.total{host:raspberrypi}"}],
+        "formulas": [{"formula": "query1"}, {"formula": "query2 - query1"}], "display_type":
+        "area"}]}}, {"id": 4, "definition": {"title": "Available Swap", "show_legend":
+        true, "legend_layout": "auto", "type": "timeseries", "requests": [{"response_format":
+        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "avg:system.swap.free{host:raspberrypi}"}, {"data_source": "metrics", "name":
+        "query2", "query": "avg:system.swap.used{host:raspberrypi}"}]}]}}, {"id":
+        5, "definition": {"title": "Disk usage by device (%)", "show_legend": true,
+        "legend_layout": "auto", "type": "timeseries", "requests": [{"response_format":
+        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
+        "max:system.disk.in_use{host:raspberrypi} by {device}"}], "formulas": [{"formula":
+        "query1 * 100"}], "display_type": "line"}], "markers": [{"label": "full",
+        "value": "y = 100", "display_type": "error dashed"}]}}, {"id": 6, "definition":
+        {"title": "Disk latency (by device)", "show_legend": true, "legend_layout":
+        "auto", "type": "timeseries", "requests": [{"response_format": "timeseries",
+        "queries": [{"data_source": "metrics", "name": "query1", "query": "max:system.io.await{host:raspberrypi}
+        by {device}"}]}]}}, {"id": 7, "definition": {"title": "Network traffic (bytes
+        per sec)", "show_legend": true, "legend_layout": "auto", "type": "timeseries",
+        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
+        "metrics", "name": "query1", "query": "sum:system.net.bytes_rcvd{host:raspberrypi}"}]},
+        {"response_format": "timeseries", "queries": [{"data_source": "metrics", "name":
+        "query1", "query": "sum:system.net.bytes_sent{host:raspberrypi}"}], "formulas":
+        [{"formula": "0 - query1"}]}]}}], "notify_list": null, "created_at": "2025-12-19T02:15:42.022930+00:00",
+        "modified_at": "2025-12-19T02:15:42.022930+00:00", "reflow_type": "auto",
         "restricted_roles": []}'
     headers:
       Content-Type:
@@ -606,100 +672,6 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
-  response:
-    body:
-      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
-        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
-        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
-        "template_variables": [], "widgets": [{"id": 4844048744340943, "definition":
-        {"title": "", "title_size": "16", "title_align": "left", "time": {}, "type":
-        "query_table", "requests": [{"queries": [{"data_source": "metrics", "name":
-        "query1", "query": "avg:system.cpu.user{*} by {service}", "aggregator": "avg"}],
-        "response_format": "scalar", "sort": {"count": 500, "order_by": [{"type":
-        "formula", "index": 0, "order": "desc"}]}, "formulas": [{"formula": "query1",
-        "cell_display_mode": "bar"}]}], "has_search_bar": "auto"}, "layout": {"x":
-        0, "y": 0, "width": 4, "height": 4}}], "notify_list": [], "created_at": "2025-07-14T20:22:25.530702+00:00",
-        "modified_at": "2025-08-21T14:12:40.043618+00:00", "reflow_type": "fixed",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
-    uri: https://api.datadoghq.eu/api/v1/dashboard/vht-439-g8y
-  response:
-    body:
-      string: '{"id": "vht-439-g8y", "title": "raspberrypi (cloned)", "description":
-        "Top host-level metrics for raspberrypi.             Clone this dashboard
-        to add your own metrics.\n\n[Link to infrastructure list](/infrastructure?filter=raspberrypi&hostname=raspberrypi)
-        (cloned)", "author_handle": "michael.richey@datadoghq.com", "author_name":
-        "Michael Richey", "layout_type": "ordered", "url": "/dashboard/vht-439-g8y/raspberrypi-cloned",
-        "template_variables": [], "widgets": [{"id": 0, "definition": {"title": "CPU
-        usage (%)", "show_legend": true, "legend_layout": "auto", "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "system.cpu.idle{host:raspberrypi}"},
-        {"data_source": "metrics", "name": "query2", "query": "system.cpu.system{host:raspberrypi}"},
-        {"data_source": "metrics", "name": "query3", "query": "system.cpu.iowait{host:raspberrypi}"},
-        {"data_source": "metrics", "name": "query4", "query": "system.cpu.user{host:raspberrypi}"},
-        {"data_source": "metrics", "name": "query5", "query": "system.cpu.stolen{host:raspberrypi}"}],
-        "display_type": "area"}]}}, {"id": 1, "definition": {"title": "Processes memory
-        usage", "type": "treemap", "requests": [{"q": "processes{host:raspberrypi}"}],
-        "size_by": "pct_mem", "color_by": "user", "group_by": "family"}}, {"id": 2,
-        "definition": {"title": "Load Averages 1-5-15", "show_legend": true, "legend_layout":
-        "auto", "type": "timeseries", "requests": [{"response_format": "timeseries",
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "system.load.1{host:raspberrypi}"}]},
-        {"response_format": "timeseries", "queries": [{"data_source": "metrics", "name":
-        "query1", "query": "system.load.5{host:raspberrypi}"}]}, {"response_format":
-        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "system.load.15{host:raspberrypi}"}]}]}}, {"id": 3, "definition": {"title":
-        "Memory breakdown", "show_legend": true, "legend_layout": "auto", "type":
-        "timeseries", "requests": [{"response_format": "timeseries", "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:system.mem.usable{host:raspberrypi}"},
-        {"data_source": "metrics", "name": "query2", "query": "sum:system.mem.total{host:raspberrypi}"}],
-        "formulas": [{"formula": "query1"}, {"formula": "query2 - query1"}], "display_type":
-        "area"}]}}, {"id": 4, "definition": {"title": "Available Swap", "show_legend":
-        true, "legend_layout": "auto", "type": "timeseries", "requests": [{"response_format":
-        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "avg:system.swap.free{host:raspberrypi}"}, {"data_source": "metrics", "name":
-        "query2", "query": "avg:system.swap.used{host:raspberrypi}"}]}]}}, {"id":
-        5, "definition": {"title": "Disk usage by device (%)", "show_legend": true,
-        "legend_layout": "auto", "type": "timeseries", "requests": [{"response_format":
-        "timeseries", "queries": [{"data_source": "metrics", "name": "query1", "query":
-        "max:system.disk.in_use{host:raspberrypi} by {device}"}], "formulas": [{"formula":
-        "query1 * 100"}], "display_type": "line"}], "markers": [{"label": "full",
-        "value": "y = 100", "display_type": "error dashed"}]}}, {"id": 6, "definition":
-        {"title": "Disk latency (by device)", "show_legend": true, "legend_layout":
-        "auto", "type": "timeseries", "requests": [{"response_format": "timeseries",
-        "queries": [{"data_source": "metrics", "name": "query1", "query": "max:system.io.await{host:raspberrypi}
-        by {device}"}]}]}}, {"id": 7, "definition": {"title": "Network traffic (bytes
-        per sec)", "show_legend": true, "legend_layout": "auto", "type": "timeseries",
-        "requests": [{"response_format": "timeseries", "queries": [{"data_source":
-        "metrics", "name": "query1", "query": "sum:system.net.bytes_rcvd{host:raspberrypi}"}]},
-        {"response_format": "timeseries", "queries": [{"data_source": "metrics", "name":
-        "query1", "query": "sum:system.net.bytes_sent{host:raspberrypi}"}], "formulas":
-        [{"formula": "0 - query1"}]}]}}], "notify_list": null, "created_at": "2025-12-19T02:15:42.022930+00:00",
-        "modified_at": "2025-12-19T02:15:42.022930+00:00", "reflow_type": "auto",
-        "restricted_roles": []}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: GET
     uri: https://api.datadoghq.eu/api/v1/dashboard/3wx-m6h-ipy
   response:
     body:
@@ -759,6 +731,34 @@ interactions:
         "count", "order": "desc"}, "limit": 10}]}], "style": {"palette": "dog_classic"},
         "display_type": "line"}]}}], "notify_list": [], "created_at": "2025-12-19T18:59:46.130151+00:00",
         "modified_at": "2025-12-19T18:59:50.621149+00:00", "restricted_roles": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v1/dashboard/2wg-nu4-dqp
+  response:
+    body:
+      string: '{"id": "2wg-nu4-dqp", "title": "Michael''s Dashboard Mon, Jul 14, 4:22:25
+        pm", "description": null, "author_handle": "michael.richey@datadoghq.com",
+        "author_name": "Michael Richey", "layout_type": "ordered", "url": "/dashboard/2wg-nu4-dqp/michaels-dashboard-mon-jul-14-42225-pm",
+        "template_variables": [], "widgets": [{"id": 4844048744340943, "definition":
+        {"title": "", "title_size": "16", "title_align": "left", "time": {}, "type":
+        "query_table", "requests": [{"queries": [{"data_source": "metrics", "name":
+        "query1", "query": "avg:system.cpu.user{*} by {service}", "aggregator": "avg"}],
+        "response_format": "scalar", "sort": {"count": 500, "order_by": [{"type":
+        "formula", "index": 0, "order": "desc"}]}, "formulas": [{"formula": "query1",
+        "cell_display_mode": "bar"}]}], "has_search_bar": "auto"}, "layout": {"x":
+        0, "y": 0, "width": 4, "height": 4}}], "notify_list": [], "created_at": "2025-07-14T20:22:25.530702+00:00",
+        "modified_at": "2025-08-21T14:12:40.043618+00:00", "reflow_type": "fixed",
+        "restricted_roles": []}'
     headers:
       Content-Type:
       - application/json
@@ -1078,7 +1078,7 @@ interactions:
         "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
-        "mfa_enabled": false, "last_login_time": "2026-03-25T18:09:52.189000+00:00"},
+        "mfa_enabled": false, "last_login_time": "2026-04-29T18:51:18.525000+00:00"},
         "relationships": {"roles": {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
         {"type": "users", "id": "77246a0a-99a8-4fa9-a9c1-28882391bb7a", "attributes":
@@ -2694,16 +2694,16 @@ interactions:
         "2026-04-06T18:12:12.878854+00:00", "group_name": "App Builder & Workflow
         Automation", "display_type": "read", "restricted": false}}, {"type": "permissions",
         "id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "attributes": {"name": "ai_guard_view",
-        "display_name": "AI Guard View", "description": "View AI Guard UI: signals,
-        spans, and read-only settings.", "created": "2026-04-10T17:27:07.711055+00:00",
+        "display_name": "AI Guard View", "description": "View AI Guard signals, spans,
+        and read-only configuration.", "created": "2026-04-10T17:27:07.711055+00:00",
         "group_name": "Application Security", "display_type": "read", "restricted":
         false}}, {"type": "permissions", "id": "7fe6f8bc-3502-11f1-bdc0-da7ad0900005",
         "attributes": {"name": "ai_guard_write", "display_name": "AI Guard Write",
-        "description": "Modify AI Guard configuration: blocking, SDS, tool policies,
-        and thresholds.", "created": "2026-04-10T17:27:07.711055+00:00", "group_name":
-        "Application Security", "display_type": "write", "restricted": false}}, {"type":
-        "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "attributes": {"name":
-        "Datadog Read Only Role", "managed": true, "created_at": "2024-10-08T14:32:47.265744+00:00",
+        "description": "Edit AI Guard configuration, including blocking, Sensitive
+        Data Scanner, tool policies, and thresholds.", "created": "2026-04-10T17:27:07.711055+00:00",
+        "group_name": "Application Security", "display_type": "write", "restricted":
+        false}}, {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "attributes":
+        {"name": "Datadog Read Only Role", "managed": true, "created_at": "2024-10-08T14:32:47.265744+00:00",
         "modified_at": "2024-10-08T14:32:47.266206+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
@@ -3351,10 +3351,10 @@ interactions:
         {"created_at": "2024-10-08T14:32:47.147289Z", "managed": true, "modified_at":
         "2024-10-08T14:32:47.147932Z", "name": "Datadog Admin Role", "team_count":
         0, "user_count": 8}, "relationships": {"permissions": {"data": [{"id": "a3933ab8-294b-11f1-bceb-da7ad0900005",
-        "type": "permissions"}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type":
-        "permissions"}, {"id": "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions"},
-        {"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005", "type": "permissions"}, {"id":
-        "a39331da-294b-11f1-bceb-da7ad0900005", "type": "permissions"}, {"id": "eb7c2d56-012a-11f1-a9fc-da7ad0900005",
+        "type": "permissions"}, {"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005", "type":
+        "permissions"}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions"},
+        {"id": "a39331da-294b-11f1-bceb-da7ad0900005", "type": "permissions"}, {"id":
+        "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions"}, {"id": "eb7c2d56-012a-11f1-a9fc-da7ad0900005",
         "type": "permissions"}, {"id": "1e4e4a04-2ec4-11f1-9812-da7ad0900005", "type":
         "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type": "permissions"},
         {"id": "294580e0-1703-11ec-9b92-da7ad0900005", "type": "permissions"}, {"id":
@@ -3605,8 +3605,8 @@ interactions:
         {"id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "type": "roles", "attributes":
         {"created_at": "2024-10-08T14:32:47.265744Z", "managed": true, "modified_at":
         "2024-10-08T14:32:47.266206Z", "name": "Datadog Read Only Role", "team_count":
-        0, "user_count": 3}, "relationships": {"permissions": {"data": [{"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005",
-        "type": "permissions"}, {"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005", "type":
+        0, "user_count": 3}, "relationships": {"permissions": {"data": [{"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005",
+        "type": "permissions"}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type":
         "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type": "permissions"},
         {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"}, {"id":
         "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type": "permissions"}, {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d",
@@ -3682,8 +3682,8 @@ interactions:
         "type": "roles", "attributes": {"created_at": "2024-10-08T14:32:47.215056Z",
         "managed": true, "modified_at": "2024-10-08T14:32:47.215828Z", "name": "Datadog
         Standard Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
-        {"data": [{"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions"},
-        {"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005", "type": "permissions"}, {"id":
+        {"data": [{"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005", "type": "permissions"},
+        {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions"}, {"id":
         "a39331da-294b-11f1-bceb-da7ad0900005", "type": "permissions"}, {"id": "eb7c2d56-012a-11f1-a9fc-da7ad0900005",
         "type": "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type":
         "permissions"}, {"id": "294580e0-1703-11ec-9b92-da7ad0900005", "type": "permissions"},
@@ -5449,14 +5449,14 @@ interactions:
         Automation", "name": "execution_groups_read", "name_aliases": [], "restricted":
         false}}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions",
         "attributes": {"created": "2026-04-10T17:27:07.711055Z", "description": "View
-        AI Guard UI: signals, spans, and read-only settings.", "display_name": "AI
+        AI Guard signals, spans, and read-only configuration.", "display_name": "AI
         Guard View", "display_type": "read", "group_name": "Application Security",
         "name": "ai_guard_view", "name_aliases": [], "restricted": false}}, {"id":
         "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2026-04-10T17:27:07.711055Z", "description": "Modify AI Guard
-        configuration: blocking, SDS, tool policies, and thresholds.", "display_name":
-        "AI Guard Write", "display_type": "write", "group_name": "Application Security",
-        "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
+        {"created": "2026-04-10T17:27:07.711055Z", "description": "Edit AI Guard configuration,
+        including blocking, Sensitive Data Scanner, tool policies, and thresholds.",
+        "display_name": "AI Guard Write", "display_type": "write", "group_name": "Application
+        Security", "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -7033,14 +7033,14 @@ interactions:
         Automation", "name": "execution_groups_read", "name_aliases": [], "restricted":
         false}}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions",
         "attributes": {"created": "2026-04-10T17:27:07.711055Z", "description": "View
-        AI Guard UI: signals, spans, and read-only settings.", "display_name": "AI
+        AI Guard signals, spans, and read-only configuration.", "display_name": "AI
         Guard View", "display_type": "read", "group_name": "Application Security",
         "name": "ai_guard_view", "name_aliases": [], "restricted": false}}, {"id":
         "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2026-04-10T17:27:07.711055Z", "description": "Modify AI Guard
-        configuration: blocking, SDS, tool policies, and thresholds.", "display_name":
-        "AI Guard Write", "display_type": "write", "group_name": "Application Security",
-        "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
+        {"created": "2026-04-10T17:27:07.711055Z", "description": "Edit AI Guard configuration,
+        including blocking, Sensitive Data Scanner, tool policies, and thresholds.",
+        "display_name": "AI Guard Write", "display_type": "write", "group_name": "Application
+        Security", "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -8617,14 +8617,14 @@ interactions:
         Automation", "name": "execution_groups_read", "name_aliases": [], "restricted":
         false}}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions",
         "attributes": {"created": "2026-04-10T17:27:07.711055Z", "description": "View
-        AI Guard UI: signals, spans, and read-only settings.", "display_name": "AI
+        AI Guard signals, spans, and read-only configuration.", "display_name": "AI
         Guard View", "display_type": "read", "group_name": "Application Security",
         "name": "ai_guard_view", "name_aliases": [], "restricted": false}}, {"id":
         "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2026-04-10T17:27:07.711055Z", "description": "Modify AI Guard
-        configuration: blocking, SDS, tool policies, and thresholds.", "display_name":
-        "AI Guard Write", "display_type": "write", "group_name": "Application Security",
-        "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
+        {"created": "2026-04-10T17:27:07.711055Z", "description": "Edit AI Guard configuration,
+        including blocking, Sensitive Data Scanner, tool policies, and thresholds.",
+        "display_name": "AI Guard Write", "display_type": "write", "group_name": "Application
+        Security", "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -10201,14 +10201,14 @@ interactions:
         Automation", "name": "execution_groups_read", "name_aliases": [], "restricted":
         false}}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions",
         "attributes": {"created": "2026-04-10T17:27:07.711055Z", "description": "View
-        AI Guard UI: signals, spans, and read-only settings.", "display_name": "AI
+        AI Guard signals, spans, and read-only configuration.", "display_name": "AI
         Guard View", "display_type": "read", "group_name": "Application Security",
         "name": "ai_guard_view", "name_aliases": [], "restricted": false}}, {"id":
         "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2026-04-10T17:27:07.711055Z", "description": "Modify AI Guard
-        configuration: blocking, SDS, tool policies, and thresholds.", "display_name":
-        "AI Guard Write", "display_type": "write", "group_name": "Application Security",
-        "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
+        {"created": "2026-04-10T17:27:07.711055Z", "description": "Edit AI Guard configuration,
+        including blocking, Sensitive Data Scanner, tool policies, and thresholds.",
+        "display_name": "AI Guard Write", "display_type": "write", "group_name": "Application
+        Security", "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -10413,8 +10413,8 @@ interactions:
         Admin Role", "team_count": 0, "user_count": 10}, "relationships": {"permissions":
         {"data": [{"id": "04e8331a-0122-11f1-9b83-da7ad0900005", "type": "permissions"},
         {"id": "414c7796-2943-11f1-afa4-da7ad0900005", "type": "permissions"}, {"id":
-        "cacf4540-8f31-11f0-95bd-da7ad0900005", "type": "permissions"}, {"id": "f8a1046c-34f5-11f1-a73e-da7ad0900005",
-        "type": "permissions"}, {"id": "f8a15566-34f5-11f1-a73e-da7ad0900005", "type":
+        "f8a1046c-34f5-11f1-a73e-da7ad0900005", "type": "permissions"}, {"id": "f8a15566-34f5-11f1-a73e-da7ad0900005",
+        "type": "permissions"}, {"id": "cacf4540-8f31-11f0-95bd-da7ad0900005", "type":
         "permissions"}, {"id": "27577b72-31dd-11f1-8752-da7ad0900005", "type": "permissions"},
         {"id": "414c6f8a-2943-11f1-afa4-da7ad0900005", "type": "permissions"}, {"id":
         "6e50bfb6-2eb8-11f1-a091-da7ad0900005", "type": "permissions"}, {"id": "87b00304-dd12-11e8-9e59-cbeb5f71f72f",
@@ -10667,8 +10667,8 @@ interactions:
         "created_by_handle": "michael.richey@datadoghq.com", "modified_at": "2026-04-13T19:58:28.792493Z",
         "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Datadog
         Read Only Role", "team_count": 0, "user_count": 5}, "relationships": {"permissions":
-        {"data": [{"id": "cacf4540-8f31-11f0-95bd-da7ad0900005", "type": "permissions"},
-        {"id": "f8a1046c-34f5-11f1-a73e-da7ad0900005", "type": "permissions"}, {"id":
+        {"data": [{"id": "f8a1046c-34f5-11f1-a73e-da7ad0900005", "type": "permissions"},
+        {"id": "cacf4540-8f31-11f0-95bd-da7ad0900005", "type": "permissions"}, {"id":
         "27577b72-31dd-11f1-8752-da7ad0900005", "type": "permissions"}, {"id": "b382b982-8535-11ea-93de-2bf1bdf20798",
         "type": "permissions"}, {"id": "7314eb20-aa58-11ea-95e2-6fb6e4a451d5", "type":
         "permissions"}, {"id": "4c7de64a-df2f-11ef-8eba-da7ad0900005", "type": "permissions"},
@@ -10745,8 +10745,8 @@ interactions:
         "modified_at": "2026-04-17T20:24:14.437616Z", "modified_by_handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "name": "Datadog Standard Role", "team_count": 0, "user_count": 6}, "relationships":
         {"permissions": {"data": [{"id": "04e8331a-0122-11f1-9b83-da7ad0900005", "type":
-        "permissions"}, {"id": "cacf4540-8f31-11f0-95bd-da7ad0900005", "type": "permissions"},
-        {"id": "f8a1046c-34f5-11f1-a73e-da7ad0900005", "type": "permissions"}, {"id":
+        "permissions"}, {"id": "f8a1046c-34f5-11f1-a73e-da7ad0900005", "type": "permissions"},
+        {"id": "cacf4540-8f31-11f0-95bd-da7ad0900005", "type": "permissions"}, {"id":
         "27577b72-31dd-11f1-8752-da7ad0900005", "type": "permissions"}, {"id": "414c6f8a-2943-11f1-afa4-da7ad0900005",
         "type": "permissions"}, {"id": "84aa3ae4-dd12-11e8-9e58-a373a514ccd0", "type":
         "permissions"}, {"id": "4d87d5f8-d8b1-11e9-a77a-eb9c8350d04f", "type": "permissions"},
