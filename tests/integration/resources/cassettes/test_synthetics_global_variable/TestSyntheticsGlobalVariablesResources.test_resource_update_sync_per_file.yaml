@@ -89,7 +89,7 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"id": "faf9b30f-4452-4c7c-bbb3-9ddcc21f35f6", "name": "TEST", "description":
+      string: '{"id": "317776b5-4e87-494c-b7ed-3b11d4f6a1eb", "name": "TEST", "description":
         "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}}'
@@ -148,9 +148,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "faf9b30f-4452-4c7c-bbb3-9ddcc21f35f6", "name":
+      string: '{"variables": [{"id": "317776b5-4e87-494c-b7ed-3b11d4f6a1eb", "name":
         "TEST", "description": "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
-        "created_at": "2026-04-22T16:07:31.019039+00:00", "modified_at": "2026-04-22T16:07:31.019039+00:00",
+        "created_at": "2026-05-01T21:08:54.273838+00:00", "modified_at": "2026-05-01T21:08:54.273838+00:00",
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}, "creator": {"email": "michael.richey@gmail.com", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "name": "Michael S Richey"}, "editor": {"email": "michael.richey@gmail.com",
@@ -190,9 +190,9 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "faf9b30f-4452-4c7c-bbb3-9ddcc21f35f6", "name":
+      string: '{"variables": [{"id": "317776b5-4e87-494c-b7ed-3b11d4f6a1eb", "name":
         "TEST", "description": "test", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
-        "created_at": "2026-04-22T16:07:31.019039+00:00", "modified_at": "2026-04-22T16:07:31.019039+00:00",
+        "created_at": "2026-05-01T21:08:54.273838+00:00", "modified_at": "2026-05-01T21:08:54.273838+00:00",
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}, "creator": {"email": "michael.richey@gmail.com", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
         "name": "Michael S Richey"}, "editor": {"email": "michael.richey@gmail.com",
@@ -211,10 +211,10 @@ interactions:
       Content-Type:
       - application/json
     method: PUT
-    uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables/faf9b30f-4452-4c7c-bbb3-9ddcc21f35f6
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables/317776b5-4e87-494c-b7ed-3b11d4f6a1eb
   response:
     body:
-      string: '{"id": "faf9b30f-4452-4c7c-bbb3-9ddcc21f35f6", "name": "TEST", "description":
+      string: '{"id": "317776b5-4e87-494c-b7ed-3b11d4f6a1eb", "name": "TEST", "description":
         "testupdated", "type": "variable", "tags": ["team:test", "managed_by:datadog-sync"],
         "last_error": null, "value": {"value": "test", "secure": false, "options":
         {}}}'
@@ -273,10 +273,10 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables
   response:
     body:
-      string: '{"variables": [{"id": "faf9b30f-4452-4c7c-bbb3-9ddcc21f35f6", "name":
+      string: '{"variables": [{"id": "317776b5-4e87-494c-b7ed-3b11d4f6a1eb", "name":
         "TEST", "description": "testupdated", "type": "variable", "tags": ["team:test",
-        "managed_by:datadog-sync"], "created_at": "2026-04-22T16:07:31.019039+00:00",
-        "modified_at": "2026-04-22T16:07:32.316002+00:00", "last_error": null, "value":
+        "managed_by:datadog-sync"], "created_at": "2026-05-01T21:08:54.273838+00:00",
+        "modified_at": "2026-05-01T21:08:55.569356+00:00", "last_error": null, "value":
         {"value": "test", "secure": false, "options": {}}, "creator": {"email": "michael.richey@gmail.com",
         "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea", "name": "Michael S Richey"},
         "editor": {"email": "michael.richey@gmail.com", "handle": "17d29c8a-6285-11f0-be9b-76de006a05ea",
@@ -344,7 +344,7 @@ interactions:
         "icon": "https://secure.gravatar.com/avatar/3ae7b2387f1a71bbb857d6f03993bdf3?s=48&d=retro",
         "title": "", "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": ["google_oidc", "standard"], "status": "Active",
-        "mfa_enabled": false, "last_login_time": "2026-03-25T18:09:52.189000+00:00"},
+        "mfa_enabled": false, "last_login_time": "2026-04-29T18:51:18.525000+00:00"},
         "relationships": {"roles": {"data": [{"type": "roles", "id": "3020f50c-8582-11ef-ad61-da7ad0900005"}]},
         "org": {"data": {"type": "orgs", "id": "30187db5-8582-11ef-969b-8248c7cda362"}}}},
         {"type": "users", "id": "77246a0a-99a8-4fa9-a9c1-28882391bb7a", "attributes":
@@ -1960,16 +1960,16 @@ interactions:
         "2026-04-06T18:12:12.878854+00:00", "group_name": "App Builder & Workflow
         Automation", "display_type": "read", "restricted": false}}, {"type": "permissions",
         "id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "attributes": {"name": "ai_guard_view",
-        "display_name": "AI Guard View", "description": "View AI Guard UI: signals,
-        spans, and read-only settings.", "created": "2026-04-10T17:27:07.711055+00:00",
+        "display_name": "AI Guard View", "description": "View AI Guard signals, spans,
+        and read-only configuration.", "created": "2026-04-10T17:27:07.711055+00:00",
         "group_name": "Application Security", "display_type": "read", "restricted":
         false}}, {"type": "permissions", "id": "7fe6f8bc-3502-11f1-bdc0-da7ad0900005",
         "attributes": {"name": "ai_guard_write", "display_name": "AI Guard Write",
-        "description": "Modify AI Guard configuration: blocking, SDS, tool policies,
-        and thresholds.", "created": "2026-04-10T17:27:07.711055+00:00", "group_name":
-        "Application Security", "display_type": "write", "restricted": false}}, {"type":
-        "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "attributes": {"name":
-        "Datadog Read Only Role", "managed": true, "created_at": "2024-10-08T14:32:47.265744+00:00",
+        "description": "Edit AI Guard configuration, including blocking, Sensitive
+        Data Scanner, tool policies, and thresholds.", "created": "2026-04-10T17:27:07.711055+00:00",
+        "group_name": "Application Security", "display_type": "write", "restricted":
+        false}}, {"type": "roles", "id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "attributes":
+        {"name": "Datadog Read Only Role", "managed": true, "created_at": "2024-10-08T14:32:47.265744+00:00",
         "modified_at": "2024-10-08T14:32:47.266206+00:00"}, "relationships": {"permissions":
         {"data": [{"type": "permissions", "id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7"},
         {"type": "permissions", "id": "4fbeec96-dd15-11e8-9308-d3aac44f93e5"}, {"type":
@@ -2617,10 +2617,10 @@ interactions:
         {"created_at": "2024-10-08T14:32:47.147289Z", "managed": true, "modified_at":
         "2024-10-08T14:32:47.147932Z", "name": "Datadog Admin Role", "team_count":
         0, "user_count": 8}, "relationships": {"permissions": {"data": [{"id": "a3933ab8-294b-11f1-bceb-da7ad0900005",
-        "type": "permissions"}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type":
-        "permissions"}, {"id": "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions"},
-        {"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005", "type": "permissions"}, {"id":
-        "a39331da-294b-11f1-bceb-da7ad0900005", "type": "permissions"}, {"id": "eb7c2d56-012a-11f1-a9fc-da7ad0900005",
+        "type": "permissions"}, {"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005", "type":
+        "permissions"}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions"},
+        {"id": "a39331da-294b-11f1-bceb-da7ad0900005", "type": "permissions"}, {"id":
+        "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions"}, {"id": "eb7c2d56-012a-11f1-a9fc-da7ad0900005",
         "type": "permissions"}, {"id": "1e4e4a04-2ec4-11f1-9812-da7ad0900005", "type":
         "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type": "permissions"},
         {"id": "294580e0-1703-11ec-9b92-da7ad0900005", "type": "permissions"}, {"id":
@@ -2871,8 +2871,8 @@ interactions:
         {"id": "3032ffb8-8582-11ef-8bad-da7ad0900005", "type": "roles", "attributes":
         {"created_at": "2024-10-08T14:32:47.265744Z", "managed": true, "modified_at":
         "2024-10-08T14:32:47.266206Z", "name": "Datadog Read Only Role", "team_count":
-        0, "user_count": 3}, "relationships": {"permissions": {"data": [{"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005",
-        "type": "permissions"}, {"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005", "type":
+        0, "user_count": 3}, "relationships": {"permissions": {"data": [{"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005",
+        "type": "permissions"}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type":
         "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type": "permissions"},
         {"id": "4fbb1652-dd15-11e8-9308-77be61fbb2c7", "type": "permissions"}, {"id":
         "4fbeec96-dd15-11e8-9308-d3aac44f93e5", "type": "permissions"}, {"id": "c898551e-d8b2-11e9-a336-e3a79c23bd8d",
@@ -2948,8 +2948,8 @@ interactions:
         "type": "roles", "attributes": {"created_at": "2024-10-08T14:32:47.215056Z",
         "managed": true, "modified_at": "2024-10-08T14:32:47.215828Z", "name": "Datadog
         Standard Role", "team_count": 0, "user_count": 4}, "relationships": {"permissions":
-        {"data": [{"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions"},
-        {"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005", "type": "permissions"}, {"id":
+        {"data": [{"id": "22a5ec7e-31e4-11f1-9b15-da7ad0900005", "type": "permissions"},
+        {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions"}, {"id":
         "a39331da-294b-11f1-bceb-da7ad0900005", "type": "permissions"}, {"id": "eb7c2d56-012a-11f1-a9fc-da7ad0900005",
         "type": "permissions"}, {"id": "2147a4f0-d3d9-11e9-a614-83d5d3c791ee", "type":
         "permissions"}, {"id": "294580e0-1703-11ec-9b92-da7ad0900005", "type": "permissions"},
@@ -4715,14 +4715,14 @@ interactions:
         Automation", "name": "execution_groups_read", "name_aliases": [], "restricted":
         false}}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions",
         "attributes": {"created": "2026-04-10T17:27:07.711055Z", "description": "View
-        AI Guard UI: signals, spans, and read-only settings.", "display_name": "AI
+        AI Guard signals, spans, and read-only configuration.", "display_name": "AI
         Guard View", "display_type": "read", "group_name": "Application Security",
         "name": "ai_guard_view", "name_aliases": [], "restricted": false}}, {"id":
         "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2026-04-10T17:27:07.711055Z", "description": "Modify AI Guard
-        configuration: blocking, SDS, tool policies, and thresholds.", "display_name":
-        "AI Guard Write", "display_type": "write", "group_name": "Application Security",
-        "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
+        {"created": "2026-04-10T17:27:07.711055Z", "description": "Edit AI Guard configuration,
+        including blocking, Sensitive Data Scanner, tool policies, and thresholds.",
+        "display_name": "AI Guard Write", "display_type": "write", "group_name": "Application
+        Security", "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -6299,14 +6299,14 @@ interactions:
         Automation", "name": "execution_groups_read", "name_aliases": [], "restricted":
         false}}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions",
         "attributes": {"created": "2026-04-10T17:27:07.711055Z", "description": "View
-        AI Guard UI: signals, spans, and read-only settings.", "display_name": "AI
+        AI Guard signals, spans, and read-only configuration.", "display_name": "AI
         Guard View", "display_type": "read", "group_name": "Application Security",
         "name": "ai_guard_view", "name_aliases": [], "restricted": false}}, {"id":
         "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2026-04-10T17:27:07.711055Z", "description": "Modify AI Guard
-        configuration: blocking, SDS, tool policies, and thresholds.", "display_name":
-        "AI Guard Write", "display_type": "write", "group_name": "Application Security",
-        "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
+        {"created": "2026-04-10T17:27:07.711055Z", "description": "Edit AI Guard configuration,
+        including blocking, Sensitive Data Scanner, tool policies, and thresholds.",
+        "display_name": "AI Guard Write", "display_type": "write", "group_name": "Application
+        Security", "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -7883,14 +7883,14 @@ interactions:
         Automation", "name": "execution_groups_read", "name_aliases": [], "restricted":
         false}}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions",
         "attributes": {"created": "2026-04-10T17:27:07.711055Z", "description": "View
-        AI Guard UI: signals, spans, and read-only settings.", "display_name": "AI
+        AI Guard signals, spans, and read-only configuration.", "display_name": "AI
         Guard View", "display_type": "read", "group_name": "Application Security",
         "name": "ai_guard_view", "name_aliases": [], "restricted": false}}, {"id":
         "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2026-04-10T17:27:07.711055Z", "description": "Modify AI Guard
-        configuration: blocking, SDS, tool policies, and thresholds.", "display_name":
-        "AI Guard Write", "display_type": "write", "group_name": "Application Security",
-        "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
+        {"created": "2026-04-10T17:27:07.711055Z", "description": "Edit AI Guard configuration,
+        including blocking, Sensitive Data Scanner, tool policies, and thresholds.",
+        "display_name": "AI Guard Write", "display_type": "write", "group_name": "Application
+        Security", "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -9467,14 +9467,14 @@ interactions:
         Automation", "name": "execution_groups_read", "name_aliases": [], "restricted":
         false}}, {"id": "7fe6aace-3502-11f1-bdc0-da7ad0900005", "type": "permissions",
         "attributes": {"created": "2026-04-10T17:27:07.711055Z", "description": "View
-        AI Guard UI: signals, spans, and read-only settings.", "display_name": "AI
+        AI Guard signals, spans, and read-only configuration.", "display_name": "AI
         Guard View", "display_type": "read", "group_name": "Application Security",
         "name": "ai_guard_view", "name_aliases": [], "restricted": false}}, {"id":
         "7fe6f8bc-3502-11f1-bdc0-da7ad0900005", "type": "permissions", "attributes":
-        {"created": "2026-04-10T17:27:07.711055Z", "description": "Modify AI Guard
-        configuration: blocking, SDS, tool policies, and thresholds.", "display_name":
-        "AI Guard Write", "display_type": "write", "group_name": "Application Security",
-        "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
+        {"created": "2026-04-10T17:27:07.711055Z", "description": "Edit AI Guard configuration,
+        including blocking, Sensitive Data Scanner, tool policies, and thresholds.",
+        "display_name": "AI Guard Write", "display_type": "write", "group_name": "Application
+        Security", "name": "ai_guard_write", "name_aliases": [], "restricted": false}}]}'
     headers:
       Content-Type:
       - application/vnd.api+json
@@ -9487,7 +9487,7 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables/faf9b30f-4452-4c7c-bbb3-9ddcc21f35f6
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/variables/317776b5-4e87-494c-b7ed-3b11d4f6a1eb
   response:
     body:
       string: ''
