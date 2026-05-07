@@ -108,6 +108,7 @@ class Command(Enum):
     DIFFS = "diffs"
     MIGRATE = "migrate"
     RESET = "reset"
+    PRUNE = "prune"
 
 
 # Origin

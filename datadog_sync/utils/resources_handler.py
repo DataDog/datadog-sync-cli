@@ -11,7 +11,7 @@ from copy import deepcopy
 from time import sleep
 from typing import Dict, TYPE_CHECKING, List, Optional, Set, Tuple
 
-from click import confirm
+from click import UsageError, confirm
 from pprint import pformat
 
 from datadog_sync.constants import TRUE, FALSE, FORCE, Command, Origin, Status
@@ -533,6 +533,88 @@ class ResourcesHandler:
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE.value)
             self.config.logger.error(f"error while importing resource: resource_type:{resource_type} id:{_id}")
             self.config.logger.debug(f"error detail: {str(e)}", resource_type=resource_type)
+
+    async def prune(self) -> None:
+        """Delete per-resource state files for source IDs no longer present.
+
+        Refuses to run with --filters set (would over-prune the filtered-out
+        resources) or without --resource-per-file (no per-file stale problem
+        in monolithic mode). Refuses --json mode unless --force or --dry-run
+        is set, since interactive confirmation is incompatible with JSON.
+
+        Snapshot fence: re-lists disk after the import so a file written by
+        a concurrent sync between the import and the prune isn't deleted.
+        Does NOT protect against a sync writing during the prune itself.
+        """
+        # Preconditions — read from Configuration fields. resource_per_file is
+        # set in build_config() from the same kwargs value passed to the State
+        # constructor, so config.resource_per_file is in sync with
+        # state._storage.resource_per_file by construction.
+        if not self.config.resource_per_file:
+            raise UsageError("prune requires --resource-per-file")
+        if self.config.filters:
+            raise UsageError("prune cannot be used with --filters (would over-prune)")
+        # --json forbids interactive prompts. Allowed under --json:
+        #   * --force (skips prompt and deletes)
+        #   * --dry-run (no prompt; nothing deleted)
+        if self.config.emit_json and not (self.config.prune_force or self.config.prune_dry_run):
+            raise UsageError("prune with --json requires --force or --dry-run " "(no interactive prompts in JSON mode)")
+
+        # Ground truth — populates state.source[type] for each requested type.
+        try:
+            await self.import_resources_without_saving()
+        except ValueError as e:
+            raise UsageError(f"prune failed during ground-truth import: {e}")
+
+        # Snapshot fence: re-list disk after the import. compute_stale_files
+        # re-lists internally, so calling it twice gives two listings; we
+        # intersect them so only filenames stale in BOTH passes are deleted.
+        stale = self.config.state.compute_stale_files([Origin.SOURCE, Origin.DESTINATION], self.config.resources_arg)
+        stale_again = self.config.state.compute_stale_files(
+            [Origin.SOURCE, Origin.DESTINATION], self.config.resources_arg
+        )
+        fenced = {k: v & stale_again.get(k, set()) for k, v in stale.items()}
+
+        total = sum(len(v) for v in fenced.values())
+        if total == 0:
+            self.config.logger.info("no stale state files found")
+            return
+
+        self._log_stale_summary(fenced)
+
+        if self.config.prune_dry_run:
+            self.config.logger.info(f"dry-run: {total} files would be deleted")
+            for (origin, rt), filenames in fenced.items():
+                if filenames:
+                    self.config.logger.debug(f"  dry-run would delete {origin.value}/{rt}: {len(filenames)} file(s)")
+            return
+
+        if not self.config.prune_force:
+            if not confirm(f"Delete {total} stale state files?", err=True):
+                self.config.logger.info("prune cancelled by user")
+                return
+
+        counts = self.config.state.delete_stale_files(fenced)
+        # One NDJSON ResourceOutcome per (origin, type) summary. _id=None;
+        # _emit (resources_handler.py:69) accepts None and stringifies to "".
+        for (origin, rt), (ok, fail) in counts.items():
+            self._emit(
+                resource_type=rt,
+                _id=None,
+                action_type="prune",
+                status="success" if fail == 0 else "partial",
+                reason=f"deleted={ok} failed={fail} origin={origin.value}",
+            )
+        self.config.logger.info(f"deleted stale state files: {counts}")
+
+    def _log_stale_summary(self, stale: Dict[Tuple[Origin, str], Set[str]]) -> None:
+        """One INFO line per (origin, type) with count; one DEBUG line per filename."""
+        for (origin, rt), filenames in stale.items():
+            if not filenames:
+                continue
+            self.config.logger.info(f"stale {origin.value}/{rt}: {len(filenames)} file(s)")
+            for fn in sorted(filenames):
+                self.config.logger.debug(f"  stale: {origin.value}/{fn}")
 
     async def _force_missing_dep_import_cb(self, q_item: List):
         resource_type, _id = q_item
