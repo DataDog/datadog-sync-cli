@@ -3,7 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 import logging
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Set, Tuple
 
 from datadog_sync.constants import (
     Origin,
@@ -187,6 +187,80 @@ class State:
                 all_resources[(resource_type, _id)] = r
 
         return all_resources
+
+    def compute_stale_files(
+        self, origins: List[Origin], resource_types: List[str]
+    ) -> Dict[Tuple[Origin, str], Set[str]]:
+        """For each (origin, resource_type), return the set of full filenames on
+        disk that don't correspond to any in-memory source ID. Pure read; no mutation.
+
+        Precondition: state.source[type] for each requested type must reflect the
+        full authoritative source (post-import), with no filter applied — i.e.
+        the dict's keyset must be the complete set of source IDs the caller
+        wants to keep. Calling this with a partial/filtered state.source will
+        mark legitimate files as stale.
+
+        Raises ValueError if a requested type is absent from state.source —
+        never silently no-ops, so missing-import bugs surface loudly rather
+        than as silent over-pruning.
+
+        Destination state files are keyed by source IDs (verified at
+        base_resource.py:184-186 and model/monitors.py:113), so the same
+        authoritative ID set covers both Origin.SOURCE and Origin.DESTINATION.
+        """
+        from datadog_sync.utils.storage._base_storage import BaseStorage
+
+        result: Dict[Tuple[Origin, str], Set[str]] = {}
+        for rt in resource_types:
+            if rt not in self._data.source:
+                raise ValueError(f"authoritative source not loaded for type '{rt}'; refusing to compute stale set")
+            ids_dict = self._data.source[rt]
+            skip = BaseStorage._check_id_collisions(ids_dict, rt)
+            expected = {
+                f"{rt}.{BaseStorage._sanitize_id_for_filename(_id)}.json" for _id in ids_dict if _id not in skip
+            }
+            for origin in origins:
+                on_disk = self._storage.list_filenames(origin, rt)
+                result[(origin, rt)] = on_disk - expected
+        return result
+
+    def delete_stale_files(
+        self, stale: Dict[Tuple[Origin, str], Set[str]]
+    ) -> Dict[Tuple[Origin, str], Tuple[int, int]]:
+        """Delete files via storage.delete_many(). Returns (success, failure)
+        per (origin, resource_type). Per-file failure messages from delete_many
+        are logged at DEBUG level (one log line per failed filename); aggregate
+        counts are returned for the caller to log at INFO level. Never raises
+        — partial failures are normal.
+
+        Iteration order: for each resource_type, Origin.DESTINATION is processed
+        before Origin.SOURCE. Rationale: if interrupted mid-prune, the operator
+        can re-run without first having to recover from a partially-pruned
+        source/ directory.
+        """
+        # Group filenames by resource_type so we can sequence DESTINATION-before-SOURCE per type.
+        by_type: Dict[str, Dict[Origin, Set[str]]] = {}
+        for (origin, rt), filenames in stale.items():
+            by_type.setdefault(rt, {})[origin] = filenames
+
+        counts: Dict[Tuple[Origin, str], Tuple[int, int]] = {}
+        # Within each resource_type: DESTINATION first, then SOURCE. Order across types is unconstrained.
+        for rt, by_origin in by_type.items():
+            for origin in (Origin.DESTINATION, Origin.SOURCE):
+                if origin not in by_origin:
+                    continue
+                filenames = by_origin[origin]
+                if not filenames:
+                    counts[(origin, rt)] = (0, 0)
+                    continue
+                results = self._storage.delete_many(origin, filenames)
+                ok = sum(1 for v in results.values() if v == "ok")
+                fail = len(results) - ok
+                for fn, status in results.items():
+                    if status != "ok":
+                        log.debug("prune: failed to delete %s/%s: %s", origin.value, fn, status)
+                counts[(origin, rt)] = (ok, fail)
+        return counts
 
     def get_resources_to_cleanup(self, resources_types: List[str]) -> Dict[Tuple[str, str], Any]:
         """Returns all resources to cleanup.
