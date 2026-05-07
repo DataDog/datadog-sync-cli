@@ -195,11 +195,10 @@ class TestPruneFlow:
         info_calls = [c for c in handler.config.logger.info.call_args_list]
         assert any("no stale state files" in str(c) for c in info_calls)
 
-    def test_progress_bar_suppressed_during_import_then_restored(self):
-        """Prune is a maintenance command; show_progress_bar must be False
-        while import_resources_without_saving runs (so the user doesn't see
-        an "import" progress bar during what they invoked as 'prune'), then
-        restored to the user's chosen value afterwards."""
+    def test_progress_bar_flag_respected_during_import(self):
+        """The internal import can be slow on large orgs, so prune honors
+        --show-progress-bar. The flag value passed in is what the import sees;
+        prune does not override it."""
         import asyncio
 
         handler = _mock_handler(prune_force=True)
@@ -213,8 +212,25 @@ class TestPruneFlow:
 
         handler.import_resources_without_saving = record_pbar
         asyncio.run(handler.prune())
-        assert seen_during_import["pbar"] is False, "progress bar should be suppressed during prune's internal import"
-        assert handler.config.show_progress_bar is True, "progress bar setting must be restored after import"
+        assert seen_during_import["pbar"] is True, "progress bar flag should reach the internal import unchanged"
+        assert handler.config.show_progress_bar is True, "config must be untouched"
+
+    def test_progress_bar_disabled_passes_through(self):
+        """When the user passes --show-progress-bar=False, the import sees False."""
+        import asyncio
+
+        handler = _mock_handler(prune_force=True)
+        handler.config.show_progress_bar = False
+        handler.config.state = MagicMock()
+        handler.config.state.compute_stale_files = MagicMock(return_value={})
+        seen_during_import = {}
+
+        async def record_pbar(*args, **kwargs):
+            seen_during_import["pbar"] = handler.config.show_progress_bar
+
+        handler.import_resources_without_saving = record_pbar
+        asyncio.run(handler.prune())
+        assert seen_during_import["pbar"] is False
 
     def test_snapshot_fence_intersects_two_listings(self):
         """compute_stale_files is called twice; final delete uses intersection."""

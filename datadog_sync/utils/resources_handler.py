@@ -561,20 +561,13 @@ class ResourcesHandler:
             raise UsageError("prune with --json requires --force or --dry-run " "(no interactive prompts in JSON mode)")
 
         # Ground truth — populates state.source[type] for each requested type.
-        # Suppress the progress bar during the internal import: prune is a
-        # maintenance command and the import step is internal plumbing, not the
-        # operation the user invoked. Showing an "import" progress bar would
-        # mislead the user about what's happening. Restore the original value
-        # after so anything else that observes config.show_progress_bar (e.g.
-        # cleanup in run_cmd) sees the user's chosen setting.
-        saved_pbar = self.config.show_progress_bar
-        self.config.show_progress_bar = False
+        # Honors --show-progress-bar: for orgs with thousands of resources the
+        # ground-truth import phase can take minutes, and a progress bar is
+        # genuinely useful feedback. Pass --show-progress-bar=False to silence.
         try:
             await self.import_resources_without_saving()
         except ValueError as e:
             raise UsageError(f"prune failed during ground-truth import: {e}")
-        finally:
-            self.config.show_progress_bar = saved_pbar
 
         # Snapshot fence: re-list disk after the import. compute_stale_files
         # re-lists internally, so calling it twice gives two listings; we
