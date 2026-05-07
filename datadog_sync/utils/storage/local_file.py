@@ -6,7 +6,7 @@
 import json
 import logging
 import os
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional, Set, Tuple
 
 from datadog_sync.constants import (
     Origin,
@@ -111,6 +111,27 @@ class LocalFile(BaseStorage):
                     filename = f"{base_filename}.json"
                     with open(filename, "w+", encoding="utf-8") as out_file:
                         json.dump(value, out_file)
+
+    def _path_for(self, origin: Origin) -> str:
+        if origin == Origin.SOURCE:
+            return self.source_resources_path
+        if origin == Origin.DESTINATION:
+            return self.destination_resources_path
+        raise ValueError(f"_path_for() requires SOURCE or DESTINATION, got {origin}")
+
+    def list_filenames(self, origin: Origin, resource_type: str) -> Set[str]:
+        base = self._path_for(origin)
+        if not os.path.exists(base):
+            return set()
+        prefix = f"{resource_type}."
+        return {f for f in os.listdir(base) if f.startswith(prefix) and f.endswith(".json")}
+
+    def delete(self, origin: Origin, filename: str) -> None:
+        path = f"{self._path_for(origin)}/{filename}"
+        try:
+            os.remove(path)
+        except FileNotFoundError:
+            pass  # idempotent
 
     def get_single(self, resource_type: str, resource_id: str) -> Tuple[Optional[Dict], Optional[Dict]]:
         """Load one resource's source and destination state by ID.

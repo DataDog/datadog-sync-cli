@@ -7,7 +7,7 @@ import logging
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
 from datadog_sync.constants import LOGGER_NAME, Origin
 
@@ -121,3 +121,27 @@ class BaseStorage(ABC):
     def put(self, origin, data: StorageData) -> None:
         """Write resources into storage"""
         pass
+
+    def list_filenames(self, origin: Origin, resource_type: str) -> Set[str]:
+        """Return full filenames (no path) under <base>/<resource_type>.*.json for the origin.
+
+        Concrete default raises NotImplementedError so out-of-tree backends not yet
+        updated for prune fail loudly rather than appearing to find no stale files.
+        """
+        raise NotImplementedError(f"{type(self).__name__} does not implement list_filenames")
+
+    def delete(self, origin: Origin, filename: str) -> None:
+        """Delete a single per-resource file by its full filename. No-op if absent."""
+        raise NotImplementedError(f"{type(self).__name__} does not implement delete")
+
+    def delete_many(self, origin: Origin, filenames: Iterable[str]) -> Dict[str, str]:
+        """Delete multiple files; returns {filename: "ok" | "error: <type>: <msg>"}.
+        Default loops self.delete(); backends like S3 may override with batched APIs."""
+        results: Dict[str, str] = {}
+        for fn in filenames:
+            try:
+                self.delete(origin, fn)
+                results[fn] = "ok"
+            except Exception as e:
+                results[fn] = f"error: {type(e).__name__}: {e}"
+        return results

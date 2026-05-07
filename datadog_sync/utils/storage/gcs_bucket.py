@@ -6,7 +6,7 @@
 import json
 import logging
 from collections import defaultdict
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional, Set, Tuple
 
 from google.api_core.exceptions import NotFound
 from google.cloud import storage as gcs_storage
@@ -118,6 +118,29 @@ class GCSBucket(BaseStorage):
                 else:
                     key = f"{base_key}.json"
                     self.bucket.blob(key).upload_from_string(json.dumps(resource_data), content_type="application/json")
+
+    def _path_for(self, origin: Origin) -> str:
+        if origin == Origin.SOURCE:
+            return self.source_resources_path
+        if origin == Origin.DESTINATION:
+            return self.destination_resources_path
+        raise ValueError(f"_path_for() requires SOURCE or DESTINATION, got {origin}")
+
+    def list_filenames(self, origin: Origin, resource_type: str) -> Set[str]:
+        prefix = f"{self._path_for(origin)}/{resource_type}."
+        result: Set[str] = set()
+        for blob in self.bucket.list_blobs(prefix=prefix):
+            if not blob.name.endswith(".json"):
+                continue
+            result.add(blob.name.split("/")[-1])
+        return result
+
+    def delete(self, origin: Origin, filename: str) -> None:
+        key = f"{self._path_for(origin)}/{filename}"
+        try:
+            self.bucket.blob(key).delete()
+        except NotFound:
+            pass  # idempotent
 
     def _try_get_blob(self, key: str) -> Optional[Dict]:
         """Fetch and parse one GCS blob. Returns None on NotFound."""

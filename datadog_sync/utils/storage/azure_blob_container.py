@@ -6,7 +6,7 @@
 import json
 import logging
 from collections import defaultdict
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional, Set, Tuple
 
 from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.blob import BlobServiceClient, ContainerClient
@@ -126,6 +126,29 @@ class AzureBlobContainer(BaseStorage):
                 else:
                     key = f"{base_key}.json"
                     self.container_client.upload_blob(name=key, data=json.dumps(resource_data), overwrite=True)
+
+    def _path_for(self, origin: Origin) -> str:
+        if origin == Origin.SOURCE:
+            return self.source_resources_path
+        if origin == Origin.DESTINATION:
+            return self.destination_resources_path
+        raise ValueError(f"_path_for() requires SOURCE or DESTINATION, got {origin}")
+
+    def list_filenames(self, origin: Origin, resource_type: str) -> Set[str]:
+        prefix = f"{self._path_for(origin)}/{resource_type}."
+        result: Set[str] = set()
+        for blob in self.container_client.list_blobs(name_starts_with=prefix):
+            if not blob.name.endswith(".json"):
+                continue
+            result.add(blob.name.split("/")[-1])
+        return result
+
+    def delete(self, origin: Origin, filename: str) -> None:
+        key = f"{self._path_for(origin)}/{filename}"
+        try:
+            self.container_client.delete_blob(key)
+        except ResourceNotFoundError:
+            pass  # idempotent
 
     def _try_get_blob(self, key: str) -> Optional[Dict]:
         """Fetch and parse one Azure blob. Returns None on ResourceNotFoundError."""

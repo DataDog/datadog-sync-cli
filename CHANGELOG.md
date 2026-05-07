@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Added
+* feat(storage): per-resource file enumeration and deletion (`list_filenames`, `delete`, `delete_many`) on all storage backends — internal API supporting an upcoming `prune` command.
+
 ## 4.1.0 / 2026-04-27
 
 ### Fixed

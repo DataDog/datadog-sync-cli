@@ -6,7 +6,7 @@
 import json
 import logging
 from collections import defaultdict
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional, Set, Tuple
 
 import boto3
 from botocore.exceptions import ClientError
@@ -161,6 +161,41 @@ class AWSS3Bucket(BaseStorage):
                         Bucket=self.bucket_name,
                         Key=key,
                     )
+
+    def _path_for(self, origin: Origin) -> str:
+        if origin == Origin.SOURCE:
+            return self.source_resources_path
+        if origin == Origin.DESTINATION:
+            return self.destination_resources_path
+        raise ValueError(f"_path_for() requires SOURCE or DESTINATION, got {origin}")
+
+    def list_filenames(self, origin: Origin, resource_type: str) -> Set[str]:
+        base = self._path_for(origin)
+        prefix = f"{base}/{resource_type}."
+        result: Set[str] = set()
+        continuation_token = None
+        while True:
+            kwargs = {"Bucket": self.bucket_name, "Prefix": prefix}
+            if continuation_token:
+                kwargs["ContinuationToken"] = continuation_token
+            response = self.client.list_objects_v2(**kwargs)
+            for item in response.get("Contents", []):
+                key = item["Key"]
+                if not key.endswith(".json"):
+                    continue
+                result.add(key.split("/")[-1])
+            if response.get("IsTruncated"):
+                continuation_token = response.get("NextContinuationToken")
+            else:
+                break
+        return result
+
+    def delete(self, origin: Origin, filename: str) -> None:
+        # S3 delete_object is idempotent — succeeds even if the key is absent.
+        self.client.delete_object(
+            Bucket=self.bucket_name,
+            Key=f"{self._path_for(origin)}/{filename}",
+        )
 
     def _try_get_object(self, key: str) -> Optional[Dict]:
         """Fetch and parse one S3 object. Returns None on NotFound."""
