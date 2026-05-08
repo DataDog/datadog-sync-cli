@@ -44,6 +44,7 @@ class SyntheticsTests(BaseResource):
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
+            "options.bits_ai_auto_investigate",
             "created_at",
             "creator",
             "created_by",
