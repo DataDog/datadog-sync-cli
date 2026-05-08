@@ -181,9 +181,10 @@ class AWSS3Bucket(BaseStorage):
             response = self.client.list_objects_v2(**kwargs)
             for item in response.get("Contents", []):
                 key = item["Key"]
-                if not key.endswith(".json"):
+                filename = key.split("/")[-1]
+                if not self._is_per_resource_filename(resource_type, filename):
                     continue
-                result.add(key.split("/")[-1])
+                result.add(filename)
             if response.get("IsTruncated"):
                 continuation_token = response.get("NextContinuationToken")
             else:

@@ -123,8 +123,7 @@ class LocalFile(BaseStorage):
         base = self._path_for(origin)
         if not os.path.exists(base):
             return set()
-        prefix = f"{resource_type}."
-        return {f for f in os.listdir(base) if f.startswith(prefix) and f.endswith(".json")}
+        return {f for f in os.listdir(base) if self._is_per_resource_filename(resource_type, f)}
 
     def delete(self, origin: Origin, filename: str) -> None:
         path = f"{self._path_for(origin)}/{filename}"

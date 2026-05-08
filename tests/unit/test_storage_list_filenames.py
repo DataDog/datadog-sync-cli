@@ -49,6 +49,12 @@ class TestLocalFileListFilenames:
         (src / "readme").write_text("nope")
         assert backend.list_filenames(Origin.SOURCE, "monitors") == {"monitors.abc.json"}
 
+    def test_ignores_combined_resource_file(self, tmp_path):
+        backend, src, _ = _make_local(tmp_path)
+        (src / "monitors.json").write_text("{}")
+        (src / "monitors.abc.json").write_text("{}")
+        assert backend.list_filenames(Origin.SOURCE, "monitors") == {"monitors.abc.json"}
+
     def test_ignores_other_resource_types(self, tmp_path):
         backend, src, _ = _make_local(tmp_path)
         (src / "monitors.abc.json").write_text("{}")
@@ -123,6 +129,18 @@ class TestAWSS3ListFilenames:
             "Contents": [
                 {"Key": "resources/source/monitors.abc.json"},
                 {"Key": "resources/source/monitors.txt"},
+            ],
+            "IsTruncated": False,
+        }
+        bucket = _make_s3()
+        assert bucket.list_filenames(Origin.SOURCE, "monitors") == {"monitors.abc.json"}
+
+    def test_ignores_combined_resource_file(self, mock_s3_client):
+        _, mock_client = mock_s3_client
+        mock_client.list_objects_v2.return_value = {
+            "Contents": [
+                {"Key": "resources/source/monitors.json"},
+                {"Key": "resources/source/monitors.abc.json"},
             ],
             "IsTruncated": False,
         }
@@ -206,6 +224,16 @@ class TestGCSListFilenames:
         bucket = _make_gcs()
         assert bucket.list_filenames(Origin.SOURCE, "monitors") == {"monitors.abc.json"}
 
+    def test_ignores_combined_resource_file(self, mock_gcs_client):
+        _, _, mock_bucket = mock_gcs_client
+        b1 = MagicMock()
+        b1.name = "resources/source/monitors.json"
+        b2 = MagicMock()
+        b2.name = "resources/source/monitors.abc.json"
+        mock_bucket.list_blobs.return_value = [b1, b2]
+        bucket = _make_gcs()
+        assert bucket.list_filenames(Origin.SOURCE, "monitors") == {"monitors.abc.json"}
+
 
 @pytest.fixture
 def mock_azure_container():
@@ -252,6 +280,16 @@ class TestAzureListFilenames:
         b1.name = "resources/source/monitors.abc.json"
         b2 = MagicMock()
         b2.name = "resources/source/monitors.txt"
+        mock_container.list_blobs.return_value = [b1, b2]
+        bucket = _make_azure()
+        assert bucket.list_filenames(Origin.SOURCE, "monitors") == {"monitors.abc.json"}
+
+    def test_ignores_combined_resource_file(self, mock_azure_container):
+        _, mock_container = mock_azure_container
+        b1 = MagicMock()
+        b1.name = "resources/source/monitors.json"
+        b2 = MagicMock()
+        b2.name = "resources/source/monitors.abc.json"
         mock_container.list_blobs.return_value = [b1, b2]
         bucket = _make_azure()
         assert bucket.list_filenames(Origin.SOURCE, "monitors") == {"monitors.abc.json"}

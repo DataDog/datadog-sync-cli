@@ -138,9 +138,10 @@ class AzureBlobContainer(BaseStorage):
         prefix = f"{self._path_for(origin)}/{resource_type}."
         result: Set[str] = set()
         for blob in self.container_client.list_blobs(name_starts_with=prefix):
-            if not blob.name.endswith(".json"):
+            filename = blob.name.split("/")[-1]
+            if not self._is_per_resource_filename(resource_type, filename):
                 continue
-            result.add(blob.name.split("/")[-1])
+            result.add(filename)
         return result
 
     def delete(self, origin: Origin, filename: str) -> None:

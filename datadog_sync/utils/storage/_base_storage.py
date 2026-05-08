@@ -69,6 +69,13 @@ class BaseStorage(ABC):
                 seen[safe] = _id
         return skip
 
+    @staticmethod
+    def _is_per_resource_filename(resource_type: str, filename: str) -> bool:
+        """Return True for <resource_type>.<id>.json, excluding <resource_type>.json."""
+        prefix = f"{resource_type}."
+        suffix = ".json"
+        return filename.startswith(prefix) and filename.endswith(suffix) and len(filename) > len(prefix) + len(suffix)
+
     @abstractmethod
     def get(self, origin, resource_types=None) -> StorageData:
         """Get resources state from storage.
