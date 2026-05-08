@@ -5,11 +5,15 @@
 
 """Unit tests for State.compute_stale_files / delete_stale_files (PR 2)."""
 
+import asyncio
 import logging
+from types import SimpleNamespace
+from unittest.mock import MagicMock
 
 import pytest
 
 from datadog_sync.constants import Origin
+from datadog_sync.utils.resources_handler import ResourcesHandler
 from datadog_sync.utils.state import State
 from datadog_sync.utils.storage.storage_types import StorageType
 
@@ -38,11 +42,54 @@ def _seed(directory, *filenames):
         (directory / fn).write_text("{}")
 
 
+def _mark_authoritative(state, *resource_types):
+    state.mark_source_authoritative(list(resource_types))
+
+
+class _ImportResource:
+    resource_type = "monitors"
+
+    def __init__(self, state, fail_import=False):
+        self.state = state
+        self.fail_import = fail_import
+
+    async def _get_resources(self, _client):
+        return [{"id": "kept"}]
+
+    def filter(self, _resource):
+        return True
+
+    async def _import_resource(self, resource=None):
+        if self.fail_import:
+            raise RuntimeError("import failed")
+        self.state.source[self.resource_type][resource["id"]] = resource
+
+    async def _send_action_metrics(self, *_args, **_kwargs):
+        pass
+
+
+async def _run_import_without_saving(state, resource):
+    config = SimpleNamespace(
+        state=state,
+        resources={"monitors": resource},
+        resources_arg=["monitors"],
+        source_client=None,
+        show_progress_bar=False,
+        max_workers=2,
+        logger=MagicMock(),
+        emit_json=False,
+    )
+    handler = ResourcesHandler(config)
+    await handler.init_async()
+    await handler.import_resources_without_saving()
+
+
 class TestComputeStaleFiles:
     def test_empty_disk_with_authoritative_source(self, tmp_path):
         """No on-disk files → empty stale set even if state.source has IDs."""
         state, _, _ = _make_state(tmp_path)
         state.source["monitors"] = {"id1": {"name": "m"}}
+        _mark_authoritative(state, "monitors")
         result = state.compute_stale_files([Origin.SOURCE, Origin.DESTINATION], ["monitors"])
         assert result == {(Origin.SOURCE, "monitors"): set(), (Origin.DESTINATION, "monitors"): set()}
 
@@ -52,6 +99,7 @@ class TestComputeStaleFiles:
         _seed(src, "monitors.id1.json", "monitors.id2.json")
         _seed(dst, "monitors.id1.json", "monitors.id2.json")
         state.source["monitors"] = {"id1": {}, "id2": {}}
+        _mark_authoritative(state, "monitors")
         result = state.compute_stale_files([Origin.SOURCE, Origin.DESTINATION], ["monitors"])
         assert result == {(Origin.SOURCE, "monitors"): set(), (Origin.DESTINATION, "monitors"): set()}
 
@@ -61,6 +109,7 @@ class TestComputeStaleFiles:
         _seed(src, "monitors.kept.json", "monitors.stale1.json", "monitors.stale2.json")
         _seed(dst, "monitors.kept.json", "monitors.stale1.json")
         state.source["monitors"] = {"kept": {}}
+        _mark_authoritative(state, "monitors")
         result = state.compute_stale_files([Origin.SOURCE, Origin.DESTINATION], ["monitors"])
         assert result[(Origin.SOURCE, "monitors")] == {"monitors.stale1.json", "monitors.stale2.json"}
         assert result[(Origin.DESTINATION, "monitors")] == {"monitors.stale1.json"}
@@ -73,12 +122,30 @@ class TestComputeStaleFiles:
         with pytest.raises(ValueError, match="authoritative source not loaded for type 'monitors'"):
             state.compute_stale_files([Origin.SOURCE], ["monitors"])
 
+    def test_empty_source_key_without_authoritative_import_raises(self, tmp_path):
+        """A failed import can create/clear state.source[type]; that empty key must not authorize pruning."""
+        state, src, _ = _make_state(tmp_path)
+        _seed(src, "monitors.kept.json")
+        state.source["monitors"].clear()
+        with pytest.raises(ValueError, match="authoritative source not loaded for type 'monitors'"):
+            state.compute_stale_files([Origin.SOURCE], ["monitors"])
+
+    def test_authoritative_empty_source_marks_all_files_stale(self, tmp_path):
+        """A successful zero-resource import can explicitly authorize pruning all per-resource files."""
+        state, src, _ = _make_state(tmp_path)
+        _seed(src, "monitors.old.json")
+        state.source["monitors"].clear()
+        _mark_authoritative(state, "monitors")
+        result = state.compute_stale_files([Origin.SOURCE], ["monitors"])
+        assert result[(Origin.SOURCE, "monitors")] == {"monitors.old.json"}
+
     def test_id_with_colon_round_trips(self, tmp_path):
         """ID 'foo:bar' on disk as 'monitors.foo.bar.json' must NOT be flagged stale
         when state.source has 'foo:bar'. Sanitization happens in expected-set construction."""
         state, src, _ = _make_state(tmp_path)
         _seed(src, "monitors.foo.bar.json")  # colon-sanitized filename
         state.source["monitors"] = {"foo:bar": {}}
+        _mark_authoritative(state, "monitors")
         result = state.compute_stale_files([Origin.SOURCE], ["monitors"])
         assert result[(Origin.SOURCE, "monitors")] == set()
 
@@ -87,6 +154,7 @@ class TestComputeStaleFiles:
         state, src, _ = _make_state(tmp_path)
         _seed(src, "monitors.abc.def.json")
         state.source["monitors"] = {"abc.def": {}}
+        _mark_authoritative(state, "monitors")
         result = state.compute_stale_files([Origin.SOURCE], ["monitors"])
         assert result[(Origin.SOURCE, "monitors")] == set()
 
@@ -101,10 +169,25 @@ class TestComputeStaleFiles:
         _seed(src, "monitors.foo.bar.json")
         # Two distinct IDs that sanitize to "foo.bar"
         state.source["monitors"] = {"foo:bar": {}, "foo.bar": {}}
+        _mark_authoritative(state, "monitors")
         result = state.compute_stale_files([Origin.SOURCE], ["monitors"])
         # The single on-disk file 'monitors.foo.bar.json' is in the expected set
         # (winner's filename), so it must NOT be stale.
         assert result[(Origin.SOURCE, "monitors")] == set()
+
+    def test_successful_import_marks_source_authoritative(self, tmp_path):
+        state, src, _ = _make_state(tmp_path)
+        _seed(src, "monitors.kept.json")
+        asyncio.run(_run_import_without_saving(state, _ImportResource(state)))
+        result = state.compute_stale_files([Origin.SOURCE], ["monitors"])
+        assert result[(Origin.SOURCE, "monitors")] == set()
+
+    def test_failed_resource_import_does_not_mark_source_authoritative(self, tmp_path):
+        state, src, _ = _make_state(tmp_path)
+        _seed(src, "monitors.kept.json")
+        asyncio.run(_run_import_without_saving(state, _ImportResource(state, fail_import=True)))
+        with pytest.raises(ValueError, match="authoritative source not loaded for type 'monitors'"):
+            state.compute_stale_files([Origin.SOURCE], ["monitors"])
 
 
 class TestDeleteStaleFiles:
@@ -157,6 +240,7 @@ class TestDeleteStaleFiles:
         state, src, _ = _make_state(tmp_path)
         _seed(src, "monitors.kept.json", "monitors.stale.json")
         state.source["monitors"] = {"kept": {}}
+        _mark_authoritative(state, "monitors")
         first = state.compute_stale_files([Origin.SOURCE], ["monitors"])
         state.delete_stale_files(first)
         second = state.compute_stale_files([Origin.SOURCE], ["monitors"])

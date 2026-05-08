@@ -31,6 +31,7 @@ class State:
         self._minimize_reads = self._resource_types is not None or self._exact_ids is not None
         self._ensure_attempted: set = set()  # tracks IDs attempted by ensure_resource_loaded
         self._bulk_loaded_types: set = set()  # tracks types bulk-loaded by ensure_resource_type_loaded
+        self._authoritative_source_types: Set[str] = set()
         resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
         source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
         destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
@@ -84,7 +85,17 @@ class State:
     def destination(self):
         return self._data.destination
 
+    def mark_source_authoritative(self, resource_types: List[str]) -> None:
+        """Mark source resource types as complete enough to drive stale-file pruning."""
+        self._authoritative_source_types.update(resource_types)
+
+    def clear_source_authoritative(self, resource_types: List[str]) -> None:
+        """Clear authoritative-source markers before reloading or re-importing source data."""
+        for resource_type in resource_types:
+            self._authoritative_source_types.discard(resource_type)
+
     def load_state(self, origin: Origin = Origin.ALL) -> None:
+        self._authoritative_source_types.clear()
         if self._exact_ids is not None:
             # ID-targeted: fetch only specified resources by constructing keys directly
             self._data = self._storage.get_by_ids(origin, self._exact_ids)
@@ -212,9 +223,9 @@ class State:
 
         result: Dict[Tuple[Origin, str], Set[str]] = {}
         for rt in resource_types:
-            if rt not in self._data.source:
+            if rt not in self._authoritative_source_types:
                 raise ValueError(f"authoritative source not loaded for type '{rt}'; refusing to compute stale set")
-            ids_dict = self._data.source[rt]
+            ids_dict = self._data.source.get(rt, {})
             skip = BaseStorage._check_id_collisions(ids_dict, rt)
             expected = {
                 f"{rt}.{BaseStorage._sanitize_id_for_filename(_id)}.json" for _id in ids_dict if _id not in skip
