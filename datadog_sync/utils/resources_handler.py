@@ -572,10 +572,15 @@ class ResourcesHandler:
         # Snapshot fence: re-list disk after the import. compute_stale_files
         # re-lists internally, so calling it twice gives two listings; we
         # intersect them so only filenames stale in BOTH passes are deleted.
-        stale = self.config.state.compute_stale_files([Origin.SOURCE, Origin.DESTINATION], self.config.resources_arg)
-        stale_again = self.config.state.compute_stale_files(
-            [Origin.SOURCE, Origin.DESTINATION], self.config.resources_arg
-        )
+        try:
+            stale = self.config.state.compute_stale_files(
+                [Origin.SOURCE, Origin.DESTINATION], self.config.resources_arg
+            )
+            stale_again = self.config.state.compute_stale_files(
+                [Origin.SOURCE, Origin.DESTINATION], self.config.resources_arg
+            )
+        except ValueError as e:
+            raise UsageError(f"prune failed during stale-file computation: {e}")
         fenced = {k: v & stale_again.get(k, set()) for k, v in stale.items()}
 
         total = sum(len(v) for v in fenced.values())

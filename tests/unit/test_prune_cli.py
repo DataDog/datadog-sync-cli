@@ -59,6 +59,21 @@ class TestPruneCliArgparse:
         # the flags parsed and the handler started doing real work.
         assert result.exit_code != 2
 
+    def test_invalid_resource_is_rejected(self, runner):
+        result = runner.invoke(
+            cli,
+            [
+                "prune",
+                "--resources",
+                "not_a_resource",
+                "--validate=false",
+                "--resource-per-file",
+                "--force",
+            ],
+        )
+        assert result.exit_code != 0
+        assert "invalid resources" in (result.output + (result.stderr or "")).lower()
+
 
 def _mock_handler(emit_json=False, prune_force=False, prune_dry_run=False, filters=None, resource_per_file=True):
     """Construct a ResourcesHandler with a mock Configuration that has the
@@ -194,6 +209,22 @@ class TestPruneFlow:
         # "no stale state files found" log line
         info_calls = [c for c in handler.config.logger.info.call_args_list]
         assert any("no stale state files" in str(c) for c in info_calls)
+
+    def test_stale_computation_failure_raises_usage_error(self):
+        import asyncio
+
+        handler = _mock_handler(prune_force=True)
+        handler.config.state = MagicMock()
+        handler.config.state.compute_stale_files = MagicMock(
+            side_effect=ValueError("authoritative source not loaded for type 'monitors'")
+        )
+        handler.config.state.delete_stale_files = MagicMock()
+
+        with pytest.raises(UsageError, match="stale-file computation"):
+            asyncio.run(handler.prune())
+
+        handler.config.state.delete_stale_files.assert_not_called()
+        handler._emit.assert_not_called()
 
     def test_progress_bar_flag_respected_during_import(self):
         """The internal import can be slow on large orgs, so prune honors

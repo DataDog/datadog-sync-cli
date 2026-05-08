@@ -532,9 +532,11 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     resources_arg_str = kwargs.get("resources", None)
     if resources_arg_str:
         resources_arg = resources_arg_str.lower().split(",")
-        unknown_resources = list(set(resources_arg) - set(resources.keys()))
+        unknown_resources = sorted(set(resources_arg) - set(resources.keys()))
 
         if unknown_resources:
+            if cmd == Command.PRUNE:
+                raise click.UsageError(f"prune received invalid resources: {', '.join(unknown_resources)}")
             logger.warning("invalid resources. Discarding: %s", unknown_resources)
         if LogsCustomPipelines.resource_type in resources_arg:
             logger.warning(
