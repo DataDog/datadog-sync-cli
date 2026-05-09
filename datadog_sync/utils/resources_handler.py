@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 import asyncio
+import sys
 from collections import defaultdict
 from copy import deepcopy
 from time import sleep
@@ -388,9 +389,15 @@ class ResourcesHandler:
             await self.worker.schedule_workers()
         self.config.logger.info(f"Finished getting resources. {self.worker.counter}")
 
+        # When --id-file is set, cap second-pass workers to the same
+        # max_concurrent_reads value used for first-pass fetches. This prevents the
+        # second pass from launching --max-workers (default 100) concurrent
+        # _import_resource calls and overwhelming the per-identity rate limit.
+        second_pass_cap = self.config.max_concurrent_reads if self.config.id_payload else None
+
         # Begin importing individual resource items
         self.config.logger.info("importing individual resource items")
-        await self.worker.init_workers(self._import_resource, None, None)
+        await self.worker.init_workers(self._import_resource, None, second_pass_cap)
         total = 0
         for k, v in tmp_storage.items():
             total += len(v)
@@ -402,12 +409,78 @@ class ResourcesHandler:
             await self.worker.schedule_workers()
         self.config.logger.info(f"finished importing individual resource items: {self.worker.counter}.")
 
+        # If a per-type transient-failure budget was breached during the id-file
+        # path, exit non-zero with a rate-limit-shaped log marker so downstream
+        # consumers that scan subprocess output can detect the rate-limit signal.
+        # IMPORTANT: dump partial state BEFORE exit so resources fetched
+        # successfully before the threshold breach are not lost on retry.
+        # sys.exit(1) here would otherwise skip state.dump_state in the parent
+        # caller import_resources(), forcing the next attempt to re-fetch every ID.
+        if self.config.fatal_error:
+            try:
+                self.config.state.dump_state(Origin.SOURCE)
+            except Exception as e:
+                self.config.logger.warning(f"failed to dump_state before fatal exit: {e}")
+            sys.exit(1)
+
     async def _import_get_resources_cb(self, resource_type: str, tmp_storage) -> None:
         self.config.logger.info("getting resources", resource_type=resource_type)
 
         r_class = self.config.resources[resource_type]
         self.config.state.source[resource_type].clear()
 
+        # The --id-file path replaces the unfiltered list call with per-ID GETs
+        # bounded by --max-concurrent-reads. Monitors only in v1.
+        if self.config.id_payload and resource_type in self.config.id_payload:
+            ids = self.config.id_payload[resource_type]
+            mcr = self.config.max_concurrent_reads
+            try:
+                resources, missing, errored = await r_class.get_resources_by_ids(
+                    self.config.source_client, ids, max_concurrent_reads=mcr
+                )
+            except Exception as e:
+                self.worker.counter.increment_failure()
+                self._emit(resource_type, "", "import", "failure", reason=self._sanitize_reason(e))
+                self.config.logger.error(f"Error in get_resources_by_ids for {resource_type}: {str(e)}")
+                return
+
+            transient_count = sum(1 for _, cls, _ in errored if cls == "transient")
+            for mid in missing:
+                self._emit(
+                    resource_type,
+                    mid,
+                    "import",
+                    "skipped",
+                    reason="resource not found in source (deleted between enumeration and fetch)",
+                )
+                self.worker.counter.increment_skipped()
+            for eid, cls, reason in errored:
+                if cls == "skipped":
+                    self._emit(resource_type, eid, "import", "skipped", reason=reason)
+                    self.worker.counter.increment_skipped()
+                else:
+                    self._emit(resource_type, eid, "import", "failure", reason=reason)
+                    self.worker.counter.increment_failure()
+
+            # Threshold check — emit a log line containing the literal "rate limit"
+            # substring so downstream consumers that scan subprocess output for a
+            # rate-limit signal can react.
+            # NOTE: comparison is `>=` so threshold=100 ("100% transient is fatal")
+            # triggers when all IDs fail transiently; using `>` would make
+            # threshold=100 a silent no-op (100.0 > 100 is false).
+            threshold = self.config.transient_failure_threshold_pct
+            if len(ids) > 0 and (transient_count / len(ids)) * 100 >= threshold and transient_count > 0:
+                self.config.logger.error(
+                    f"rate limit exceeded after {transient_count} transient failures "
+                    f"(threshold {threshold}% of {len(ids)} requested IDs)"
+                )
+                self.config.fatal_error = True
+
+            self.worker.counter.increment_success()
+            tmp_storage[resource_type] = resources
+            return
+
+        # Legacy path: list everything
         try:
             get_resp = await r_class._get_resources(self.config.source_client)
             self.worker.counter.increment_success()
