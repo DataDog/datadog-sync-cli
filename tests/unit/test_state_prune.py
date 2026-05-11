@@ -78,6 +78,8 @@ async def _run_import_without_saving(state, resource):
         max_workers=2,
         logger=MagicMock(),
         emit_json=False,
+        id_payload=None,
+        fatal_error=False,
     )
     handler = ResourcesHandler(config)
     await handler.init_async()
