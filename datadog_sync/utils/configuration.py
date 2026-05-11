@@ -66,6 +66,7 @@ class Configuration(object):
     backup_before_reset: bool
     show_progress_bar: bool
     allow_self_lockout: bool
+    datadog_host_override: Optional[str] = None
     emit_json: bool = False
     command: str = ""
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
@@ -309,6 +310,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     if emit_json:
         show_progress_bar = False
     allow_self_lockout = kwargs.get("allow_self_lockout", False)
+    datadog_host_override = kwargs.get("datadog_host_override")
 
     # Parse allow_partial_permissions_roles
     allow_partial_permissions_roles = []
@@ -516,6 +518,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         backup_before_reset=backup_before_reset,
         show_progress_bar=show_progress_bar,
         allow_self_lockout=allow_self_lockout,
+        datadog_host_override=datadog_host_override,
         emit_json=emit_json,
         command=cmd.value,
         allow_partial_permissions_roles=allow_partial_permissions_roles,
