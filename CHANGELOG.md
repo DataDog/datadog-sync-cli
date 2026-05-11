@@ -1,5 +1,20 @@
 # Changelog
 
+## 4.2.0 / 2026-05-11
+
+### Fixed
+* Fixing rum sync by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/552
+### Added
+* feat(import): add --id-file for ID-targeted monitor import by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/557
+### Changed
+* refactor(cli): extract --force-missing-dependencies into its own option group by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/549
+* Exclude new field for now by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/556
+
+## New Contributors
+* @riyazsh made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/557
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.1.0...4.2.0
+
 ## 4.1.0 / 2026-04-27
 
 ### Fixed
