@@ -90,6 +90,9 @@ class BaseResourcesTestClass:
         if self.resource_per_file:
             cmd.append("--resource-per-file")
 
+        if self.force_missing_deps:
+            cmd.append("--force-missing-dependencies")
+
         ret = runner.invoke(cli, cmd)
         assert 0 == ret.exit_code
         return ret

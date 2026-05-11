@@ -36,6 +36,7 @@ class SyntheticsTests(BaseResource):
             "rum_applications": ["options.rumSettings.applicationId"],
             "synthetics_mobile_applications": [
                 "options.mobileApplication.applicationId",
+                "options.mobileApplication.referenceId",
             ],
             "synthetics_mobile_applications_versions": [
                 "mobileApplicationsVersions",
@@ -90,7 +91,10 @@ class SyntheticsTests(BaseResource):
     network_base_path: str = "/api/v2/synthetics/tests/network"
     network_delete_path: str = "/api/v2/synthetics/tests/bulk-delete"
     get_params = {"include_metadata": "true"}
-    versions: List = []
+
+    def __init__(self, config):
+        super().__init__(config)
+        self.versions: Optional[List[Dict]] = None
 
     @staticmethod
     def _unwrap_network_response(resp: Dict) -> Dict:
@@ -144,13 +148,18 @@ class SyntheticsTests(BaseResource):
             body = {"public_ids": [public_id]}
             await client.post(self.resource_config.base_path + "/delete", body)
 
+    async def _ensure_mobile_versions_loaded(self, client: CustomClient) -> List[Dict]:
+        if self.versions is None:
+            versions_resource = SyntheticsMobileApplicationsVersions(self.config)
+            self.versions = await versions_resource.get_resources(client)
+        return self.versions
+
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(
             self.resource_config.base_path,
             params=self.get_params,
         )
-        versions = SyntheticsMobileApplicationsVersions(self.config)
-        self.versions = await versions.get_resources(client)
+        await self._ensure_mobile_versions_loaded(client)
         return resp["tests"]
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
@@ -197,9 +206,10 @@ class SyntheticsTests(BaseResource):
                 self.mobile_test_path.format(_id),
                 params=self.get_params,
             )
+            mobile_versions = await self._ensure_mobile_versions_loaded(source_client)
             versions = [
                 i["id"]
-                for i in self.versions
+                for i in mobile_versions
                 if i["application_id"] == resource["options"]["mobileApplication"]["applicationId"]
             ]
             resource["mobileApplicationsVersions"] = list(set(versions))
@@ -407,11 +417,37 @@ class SyntheticsTests(BaseResource):
             else:
                 failed_connections.append(_id)
             return failed_connections
-        elif resource_to_connect == "synthetics_mobile_applications_versions" and key == "referenceId":
-            # When referenceType is "latest", referenceId contains the application ID, not a version ID.
-            # Connect it against synthetics_mobile_applications instead.
+        elif resource_to_connect == "synthetics_mobile_applications" and key == "referenceId":
+            # referenceId is an application ID only when referenceType is "latest".
             if r_obj.get("referenceType") == "latest":
-                return super(SyntheticsTests, self).connect_id(key, r_obj, "synthetics_mobile_applications")
+                return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
+            return []
+        elif resource_to_connect == "synthetics_mobile_applications_versions" and key == "referenceId":
+            # referenceId is a version ID only when referenceType is not "latest".
+            if r_obj.get("referenceType") == "latest":
+                return []
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
         else:
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
+
+    def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        # Mirror of connect_id -- keep in sync when connect_id changes.
+        # Only synthetics_private_locations and mobile application versions need special handling.
+        # rum_applications, synthetics_tests (subtests), synthetics_global_variables, roles, and
+        # synthetics_mobile_applications (applicationId key) all use plain IDs at the leaf —
+        # base extract_source_ids handles them. For synthetics_tests subtests, _dep_in_source_state
+        # handles composite key prefix matching ('{public_id}#{monitor_id}' keys).
+        if resource_to_connect == "synthetics_private_locations":
+            pl = self.config.resources["synthetics_private_locations"]
+            return [str(_id) for _id in r_obj[key] if pl.pl_id_regex.match(str(_id))]
+        elif resource_to_connect == "synthetics_mobile_applications" and key == "referenceId":
+            # referenceId is an application ID only when referenceType is "latest".
+            if r_obj.get("referenceType") == "latest":
+                return super(SyntheticsTests, self).extract_source_ids(key, r_obj, resource_to_connect)
+            return []
+        elif resource_to_connect == "synthetics_mobile_applications_versions" and key == "referenceId":
+            # referenceId is a version ID only when referenceType is not "latest".
+            if r_obj.get("referenceType") == "latest":
+                return []
+            return super(SyntheticsTests, self).extract_source_ids(key, r_obj, resource_to_connect)
+        return super(SyntheticsTests, self).extract_source_ids(key, r_obj, resource_to_connect)

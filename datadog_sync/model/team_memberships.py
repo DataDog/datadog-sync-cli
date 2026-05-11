@@ -198,3 +198,11 @@ class TeamMemberships(BaseResource):
             else:
                 failed_connections.append(_id)
         return failed_connections
+
+    def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        # Mirror of connect_id -- keep in sync when connect_id changes.
+        _type = r_obj["type"]
+        type_map = {"users": "users", "team": "teams"}
+        if type_map.get(_type) == resource_to_connect:
+            return [r_obj["id"]]
+        return []

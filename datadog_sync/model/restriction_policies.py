@@ -196,3 +196,19 @@ class RestrictionPolicies(BaseResource):
                         failed_connections.append(_id)
 
         return failed_connections
+
+    def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        # Mirror of connect_id -- keep in sync when connect_id changes.
+        if key == "id":
+            _type, _id = r_obj[key].split(":", 1)
+            type_map = {"dashboard": "dashboards", "slo": "service_level_objectives", "notebook": "notebooks"}
+            return [_id] if type_map.get(_type) == resource_to_connect else []
+        elif key == "principals":
+            type_map = {"user": "users", "role": "roles", "team": "teams"}
+            return [
+                _id
+                for p in r_obj[key]
+                for _type, _id in [p.split(":", 1)]
+                if type_map.get(_type) == resource_to_connect
+            ]
+        return super().extract_source_ids(key, r_obj, resource_to_connect)

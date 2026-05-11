@@ -195,3 +195,23 @@ class Monitors(BaseResource):
         else:
             # Use default connect_id method in base class when not handling special case for `query`
             return super(Monitors, self).connect_id(key, r_obj, resource_to_connect)
+
+    def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        # Mirror of connect_id -- keep in sync when connect_id changes.
+        if key == "query" and r_obj.get("type") == "composite" and resource_to_connect != "service_level_objectives":
+            return re.findall("[0-9]+", r_obj[key])
+        elif key == "query" and resource_to_connect == "service_level_objectives" and r_obj.get("type") == "slo alert":
+            if res := re.search(r'(?:error_budget|burn_rate)\("(.*?)"\)\.', r_obj[key]):
+                return [res.group(1)]
+            return []
+        elif key == "query":
+            return []
+        elif key == "principals":
+            type_map = {"user": "users", "role": "roles", "team": "teams"}
+            return [
+                _id
+                for p in r_obj[key]
+                for _type, _id in [p.split(":", 1)]
+                if type_map.get(_type) == resource_to_connect
+            ]
+        return super(Monitors, self).extract_source_ids(key, r_obj, resource_to_connect)
