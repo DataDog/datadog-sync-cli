@@ -6,6 +6,7 @@
 * Fixing rum sync by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/552
 ### Added
 * feat(import): add --id-file for ID-targeted monitor import by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/557
+* feat(state): `compute_stale_files` and `delete_stale_files` helpers on `State` — internal API supporting an upcoming `prune` command.
 ### Changed
 * refactor(cli): extract --force-missing-dependencies into its own option group by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/549
 * Exclude new field for now by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/556

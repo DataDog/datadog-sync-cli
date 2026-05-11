@@ -378,6 +378,8 @@ class ResourcesHandler:
         self.config.state.dump_state(Origin.SOURCE)
 
     async def import_resources_without_saving(self) -> None:
+        self.config.state.clear_source_authoritative(self.config.resources_arg)
+
         # Get all resources for each resource type
         tmp_storage = defaultdict(list)
         await self.worker.init_workers(self._import_get_resources_cb, None, len(self.config.resources_arg), tmp_storage)
@@ -387,6 +389,7 @@ class ResourcesHandler:
             await self.worker.schedule_workers_with_pbar(total=len(self.config.resources_arg))
         else:
             await self.worker.schedule_workers()
+        get_failures = self.worker.counter.failure
         self.config.logger.info(f"Finished getting resources. {self.worker.counter}")
 
         # When --id-file is set, cap second-pass workers to the same
@@ -407,6 +410,15 @@ class ResourcesHandler:
             await self.worker.schedule_workers_with_pbar(total=total)
         else:
             await self.worker.schedule_workers()
+        import_failures = self.worker.counter.failure
+        if get_failures == 0 and import_failures == 0:
+            self.config.state.mark_source_authoritative(self.config.resources_arg)
+        else:
+            self.config.logger.debug(
+                "source state not marked authoritative after import: get_failures=%s import_failures=%s",
+                get_failures,
+                import_failures,
+            )
         self.config.logger.info(f"finished importing individual resource items: {self.worker.counter}.")
 
         # If a per-type transient-failure budget was breached during the id-file
