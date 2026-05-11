@@ -71,6 +71,13 @@ class Configuration(object):
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
+    # --id-file: id-targeted import via stdin or file payload (monitors only in v1).
+    # Other resource types use the legacy list-everything path. Future expansion
+    # (e.g. SLOs) is mechanical via BaseResource.get_resources_by_ids inheritance.
+    id_payload: Optional[Dict[str, List[str]]] = None
+    max_concurrent_reads: int = 30
+    transient_failure_threshold_pct: int = 5
+    fatal_error: bool = False
 
     async def init_async(self, cmd: Command):
         await self.source_client._init_session()
@@ -144,6 +151,54 @@ def _unwrap_exact_match_pattern(pattern: str) -> str:
     if not (pattern.startswith("^") and pattern.endswith("$")):
         raise ValueError(f"Expected ExactMatch regex ^...$, got: {pattern!r}")
     return pattern[1:-1]
+
+
+_ID_FILE_SUPPORTED_TYPES = frozenset({"monitors"})
+"""Resource types eligible for the --id-file partition path. Monitors only in v1.
+Future expansion (e.g. SLOs) requires per-model verification and adding the
+type here. Do NOT widen by config — code-level allowlist forces explicit review."""
+
+
+def _parse_id_file(id_file_arg: Optional[str], logger) -> Optional[Dict[str, List[str]]]:
+    """Parse --id-file. Accepts a path or `-` for stdin.
+
+    Returns a dict {resource_type: [id1, id2, ...]} or None if --id-file unset.
+    Errors at config-build on malformed input or unsupported types.
+    """
+    if not id_file_arg:
+        return None
+    import json
+
+    if id_file_arg == "-":
+        raw = sys.stdin.read()
+    else:
+        with open(id_file_arg, "r") as f:
+            raw = f.read()
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as e:
+        logger.error(f"--id-file: malformed JSON: {e}")
+        sys.exit(1)
+    if not isinstance(data, dict):
+        logger.error("--id-file: expected JSON object {type: [ids]}")
+        sys.exit(1)
+    for k, v in data.items():
+        if not isinstance(k, str):
+            logger.error(f"--id-file: key must be string, got {type(k).__name__}")
+            sys.exit(1)
+        if k not in _ID_FILE_SUPPORTED_TYPES:
+            logger.error(
+                f"--id-file: type {k!r} is not supported in PR4 v1. "
+                f"Supported types: {sorted(_ID_FILE_SUPPORTED_TYPES)}"
+            )
+            sys.exit(1)
+        if not isinstance(v, list) or not v:
+            logger.error(f"--id-file: value for {k!r} must be non-empty list")
+            sys.exit(1)
+        if not all(isinstance(x, str) for x in v):
+            logger.error(f"--id-file: all IDs for {k!r} must be strings")
+            sys.exit(1)
+    return data
 
 
 def extract_exact_id_filters(
@@ -394,6 +449,54 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     elif _state_resource_types is not None:
         logger.info(f"minimize-reads: type-scoped loading for {_state_resource_types}")
 
+    # Parse --id-file (stdin or path) and validate concurrency knobs.
+    id_payload = _parse_id_file(kwargs.get("id_file"), logger)
+    # NOTE: use explicit None check (not `or 30`) — `0 or 30` evaluates to 30,
+    # which would silently swallow the very value we want to reject.
+    raw_mcr = kwargs.get("max_concurrent_reads")
+    if raw_mcr is None:
+        max_concurrent_reads = 30
+    else:
+        try:
+            max_concurrent_reads = int(raw_mcr)
+        except (TypeError, ValueError):
+            logger.error(f"--max-concurrent-reads must be an integer, got {raw_mcr!r}")
+            sys.exit(1)
+    if max_concurrent_reads <= 0:
+        # asyncio.Semaphore(0) blocks all acquires forever; negative raises ValueError.
+        # Either way, validate at config-build with a clear message rather than a hang.
+        logger.error(f"--max-concurrent-reads must be a positive integer, got {max_concurrent_reads}")
+        sys.exit(1)
+    # Upper sanity bound: aiohttp's TCPConnector defaults `limit=100`, so values
+    # well above that don't actually buy more concurrency — they just inflate the
+    # number of pending coroutines waiting for connector slots, which obscures
+    # the contract. Hard cap at 200; warn at >100.
+    if max_concurrent_reads > 200:
+        logger.error(
+            f"--max-concurrent-reads={max_concurrent_reads} exceeds the safety cap of 200. "
+            f"aiohttp's connector limit (default 100) is the real ceiling."
+        )
+        sys.exit(1)
+    if max_concurrent_reads > 100:
+        logger.warning(
+            f"--max-concurrent-reads={max_concurrent_reads} is above aiohttp's default "
+            f"TCPConnector limit (100). Effective concurrency may be lower than requested."
+        )
+    raw_threshold = kwargs.get("transient_failure_threshold_pct")
+    if raw_threshold is None:
+        transient_failure_threshold_pct = 5
+    else:
+        try:
+            transient_failure_threshold_pct = int(raw_threshold)
+        except (TypeError, ValueError):
+            logger.error(f"--transient-failure-threshold-pct must be an integer, got {raw_threshold!r}")
+            sys.exit(1)
+    if not (0 <= transient_failure_threshold_pct <= 100):
+        logger.error(
+            f"--transient-failure-threshold-pct must be in range [0, 100], got {transient_failure_threshold_pct}"
+        )
+        sys.exit(1)
+
     # Initialize Configuration
     config = Configuration(
         logger=logger,
@@ -416,6 +519,9 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         emit_json=emit_json,
         command=cmd.value,
         allow_partial_permissions_roles=allow_partial_permissions_roles,
+        id_payload=id_payload,
+        max_concurrent_reads=max_concurrent_reads,
+        transient_failure_threshold_pct=transient_failure_threshold_pct,
     )
 
     # Initialize resource classes
@@ -445,6 +551,29 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         resources_arg = list(set(resources_arg) & set(resources.keys()))
     else:
         resources_arg = list(resources.keys())
+
+    # --id-file × --resources interaction validation.
+    # If --id-file is set, --resources MUST be explicitly set AND must include every
+    # type listed in the id-payload. Without this guard, a caller running
+    # `import --id-file=- < {"monitors": [...]}` with no --resources would import
+    # every type EXCEPT monitors via the legacy full-list path — defeating the
+    # wall-clock bound this feature provides.
+    if id_payload is not None:
+        if not resources_arg_str:
+            logger.error(
+                "--id-file requires --resources to be set explicitly. "
+                f"Pass --resources={','.join(sorted(id_payload.keys()))} "
+                "(plus any dependency types like users,roles if applicable)."
+            )
+            sys.exit(1)
+        missing_from_resources = set(id_payload.keys()) - set(resources_arg)
+        if missing_from_resources:
+            logger.error(
+                f"--id-file types {sorted(missing_from_resources)!r} are not "
+                f"present in --resources={resources_arg_str!r}. Either add them to "
+                f"--resources or remove from the id-payload."
+            )
+            sys.exit(1)
 
     config.resources = resources
     config.resources_arg = resources_arg

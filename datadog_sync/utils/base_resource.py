@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 import abc
+import asyncio
 from asyncio import Lock
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -14,6 +15,7 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
     DEFAULT_TAGS,
     CustomClientHTTPError,
+    SkipResource,
     find_attr,
     ResourceConnectionError,
 )
@@ -144,6 +146,88 @@ class BaseResource(abc.ABC):
     async def _get_resources(self, client: CustomClient) -> List[Dict]:
         r = self.get_resources(client)
         return await r
+
+    async def get_resources_by_ids(
+        self,
+        client: CustomClient,
+        ids: List[str],
+        max_concurrent_reads: int = 10,
+    ) -> Tuple[List[Dict], List[str], List[Tuple[str, str, str]]]:
+        """Fetch specific resources by ID instead of listing all.
+
+        Returns: (resources, missing_ids, errored_ids)
+          - resources: successfully-fetched resource dicts
+          - missing_ids: IDs returning HTTP 404 (resource deleted between enum and fetch)
+          - errored_ids: list of (id, class, reason) where class in {"transient","permanent","skipped"}
+
+        Reuses the model's existing import_resource(_id=...) primitive, which inherits
+        per-model semantics (envelope unwrap, SkipResource, etc.). Concurrency bounded by
+        asyncio.Semaphore(max_concurrent_reads), separate from --max-workers.
+
+        Models whose import_resource has the `if _id:` guard pattern (monitors, SLOs,
+        notebooks, downtimes, synthetics) work with this default impl. Dashboards is an
+        exception: its import_resource always GETs to fetch widget bodies that the list
+        endpoint omits. For dashboards, this default still WORKS (each call fetches once);
+        it just doesn't realize the simplification benefit.
+        """
+        sem = asyncio.Semaphore(max_concurrent_reads)
+        resources: List[Dict] = []
+        missing: List[str] = []
+        errored: List[Tuple[str, str, str]] = []
+
+        # Lazy import: aiohttp is already a sync-cli dependency (custom_client.py)
+        # but importing at module load creates a heavier import graph for tests.
+        import aiohttp
+
+        async def fetch_one(id_: str):
+            async with sem:
+                try:
+                    _, resource = await self.import_resource(_id=id_)
+                    return ("ok", resource)
+                except SkipResource as e:
+                    return ("skipped", id_, str(e))
+                except CustomClientHTTPError as e:
+                    if e.status_code == 404:
+                        return ("missing", id_)
+                    if e.status_code == 429 or e.status_code >= 500:
+                        return ("transient", id_, f"HTTP {e.status_code}")
+                    return ("permanent", id_, f"HTTP {e.status_code}")
+                except (asyncio.TimeoutError,):
+                    return ("transient", id_, "timeout")
+                except aiohttp.ClientError as e:
+                    # Includes ClientConnectionError (DNS, connection refused, TCP reset),
+                    # ServerDisconnectedError, etc. These are transport-shaped failures
+                    # that downstream consumers should treat the same as 5xx/429.
+                    return ("transient", id_, f"connection error: {type(e).__name__}")
+                except Exception as e:
+                    # request_with_retry() in custom_client.py raises a plain Exception
+                    # with the literal prefix "retry limit exceeded" when its retry budget
+                    # is exhausted without an inner ClientResponseError firing first.
+                    # Treat that case as transient so sustained-throttling surfaces as
+                    # rate-limit-shaped exit, not silent partial success.
+                    # NOTE: substring match couples to a log-message format. The companion
+                    # test test_request_with_retry_message_contract pins the message shape
+                    # so a refactor in custom_client.py will fail the test rather than
+                    # silently demote retry-budget exhaustion back to permanent.
+                    msg = str(e)
+                    if "retry limit exceeded" in msg:
+                        return ("transient", id_, msg[:200])
+                    return ("permanent", id_, msg[:200])
+
+        results = await asyncio.gather(*(fetch_one(i) for i in ids))
+        for r in results:
+            tag = r[0]
+            if tag == "ok":
+                resources.append(r[1])
+            elif tag == "missing":
+                missing.append(r[1])
+            elif tag == "skipped":
+                errored.append((r[1], "skipped", r[2]))
+            elif tag == "transient":
+                errored.append((r[1], "transient", r[2]))
+            else:
+                errored.append((r[1], "permanent", r[2]))
+        return resources, missing, errored
 
     @abc.abstractmethod
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
