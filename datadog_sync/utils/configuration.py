@@ -78,6 +78,9 @@ class Configuration(object):
     max_concurrent_reads: int = 30
     transient_failure_threshold_pct: int = 5
     fatal_error: bool = False
+    resource_per_file: bool = False
+    prune_force: bool = False
+    prune_dry_run: bool = False
 
     async def init_async(self, cmd: Command):
         await self.source_client._init_session()
@@ -92,7 +95,7 @@ class Configuration(object):
                     await _validate_client(self.destination_client)
                 except Exception:
                     sys.exit(1)
-            if cmd in [Command.IMPORT, Command.MIGRATE, Command.RESET]:
+            if cmd in [Command.IMPORT, Command.MIGRATE, Command.RESET, Command.PRUNE]:
                 try:
                     await _validate_client(self.source_client)
                 except Exception:
@@ -109,7 +112,7 @@ class Configuration(object):
                         f"The destination DDR verification failed. {err} Use the --verify-ddr-status flag to override."
                     )
                     sys.exit(1)
-            if cmd in [Command.IMPORT, Command.DIFFS, Command.MIGRATE]:
+            if cmd in [Command.IMPORT, Command.DIFFS, Command.MIGRATE, Command.PRUNE]:
                 try:
                     await _verify_ddr_status(self.source_client)
                 except Exception as err:
@@ -529,9 +532,11 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     resources_arg_str = kwargs.get("resources", None)
     if resources_arg_str:
         resources_arg = resources_arg_str.lower().split(",")
-        unknown_resources = list(set(resources_arg) - set(resources.keys()))
+        unknown_resources = sorted(set(resources_arg) - set(resources.keys()))
 
         if unknown_resources:
+            if cmd == Command.PRUNE:
+                raise click.UsageError(f"prune received invalid resources: {', '.join(unknown_resources)}")
             logger.warning("invalid resources. Discarding: %s", unknown_resources)
         if LogsCustomPipelines.resource_type in resources_arg:
             logger.warning(
@@ -577,8 +582,13 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
     config.resources = resources
     config.resources_arg = resources_arg
+    config.resource_per_file = resource_per_file
+    if cmd == Command.PRUNE:
+        config.prune_force = kwargs.get("force", False)
+        config.prune_dry_run = kwargs.get("dry_run", False)
 
-    _handle_deprecated(config, resources_arg_str is not None)
+    if cmd != Command.PRUNE:
+        _handle_deprecated(config, resources_arg_str is not None)
 
     return config
 

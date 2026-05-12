@@ -35,6 +35,8 @@ The `migrate` command will run an `import` followed immediately by a `sync`.
 
 The `reset` command will delete resources at the destination; however, by default it backs up those resources first and fails if it cannot. You can (but probably shouldn't) skip the backup by using the `--do-not-backup` flag.
 
+The `prune` command deletes per-resource state files (in `resources/source/` and `resources/destination/`) for resources that are no longer present in the source organization. It is intended for use with `--resource-per-file` mode, where deleted upstream resources otherwise leave orphaned files on disk indefinitely. `prune` requires explicit `--resources` and refuses to run with `--filters` set. Supports `--dry-run` to preview deletions and `--force` to skip the interactive confirmation.
+
 *Note*: The tool uses the `resources` directory as the source of truth for determining what resources need to be created and modified. Hence, this directory should not be removed or corrupted.
 
 **Example Usage**
