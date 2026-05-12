@@ -134,14 +134,66 @@ class TestMinimizeReadsCLIValidation:
         assert result.exit_code != 0
         assert "no such option" in result.output.lower()
 
-    def test_minimize_reads_not_available_on_import_command(self, runner):
-        """--minimize-reads must not be accepted by the import command."""
+    def test_minimize_reads_accepted_on_import_command(self, runner):
+        """--minimize-reads must be accepted by the import command and listed in --help."""
+        result = runner.invoke(cli, ["import", "--help"])
+        assert result.exit_code == 0
+        assert "--minimize-reads" in result.output
+
+    def test_import_minimize_reads_requires_resource_per_file(self, runner):
+        """--minimize-reads on import without --resource-per-file must fail with error."""
         result = runner.invoke(
             cli,
-            ["import", "--minimize-reads", "--source-api-key=x"],
+            [
+                "import",
+                "--minimize-reads",
+                "--resources=roles",
+                "--source-api-key=x",
+                "--source-app-key=y",
+            ],
         )
         assert result.exit_code != 0
-        assert "no such option" in result.output.lower()
+        assert "resource-per-file" in (result.output + str(result.exception)).lower()
+
+    def test_import_minimize_reads_requires_resources_flag(self, runner):
+        """--minimize-reads on import without --resources must fail with error."""
+        result = runner.invoke(
+            cli,
+            [
+                "import",
+                "--minimize-reads",
+                "--resource-per-file",
+                "--source-api-key=x",
+                "--source-app-key=y",
+            ],
+        )
+        assert result.exit_code != 0
+        assert "resources" in (result.output + str(result.exception)).lower()
+
+    def test_import_does_not_accept_cleanup_option(self, runner):
+        """Pin: import does not register --cleanup, so click rejects it at parse time
+        and the --minimize-reads + --cleanup combination is unreachable via the import CLI."""
+        result = runner.invoke(
+            cli,
+            [
+                "import",
+                "--minimize-reads",
+                "--resource-per-file",
+                "--resources=roles",
+                "--cleanup=Force",
+                "--source-api-key=x",
+                "--source-app-key=y",
+            ],
+        )
+        assert result.exit_code != 0
+        # Assert on the Error: line only, so a future click message change that drops
+        # "no such option" or "cleanup" is loud, and a regression that ACCEPTS --cleanup
+        # on import (no Error: line at all) is loud too.
+        error_lines = [line for line in result.output.splitlines() if line.lower().startswith("error:")]
+        assert error_lines, "expected click to emit an Error: line for unknown option"
+        joined_error = " ".join(error_lines).lower()
+        assert "no such option" in joined_error
+        assert "cleanup" in joined_error
 
     def test_minimize_reads_cannot_be_combined_with_cleanup(self, runner):
         """--minimize-reads + --cleanup must be rejected before any I/O."""

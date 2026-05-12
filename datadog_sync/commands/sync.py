@@ -37,8 +37,7 @@ from datadog_sync.constants import Command
     "Uses ID-targeted fetching when filters specify exact IDs, "
     "otherwise falls back to type-scoped loading. "
     "Requires --resource-per-file and --resources. "
-    "Must not be combined with --cleanup. "
-    "Only available on the sync command.",
+    "Must not be combined with --cleanup.",
     cls=CustomOptionClass,
 )
 def sync(**kwargs):
