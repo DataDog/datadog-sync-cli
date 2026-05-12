@@ -5,7 +5,9 @@
 
 from __future__ import annotations
 import asyncio
+import logging
 import sys
+import time
 from collections import defaultdict
 from copy import deepcopy
 from time import sleep
@@ -14,7 +16,7 @@ from typing import Dict, TYPE_CHECKING, List, Optional, Set, Tuple
 from click import UsageError, confirm
 from pprint import pformat
 
-from datadog_sync.constants import TRUE, FALSE, FORCE, Command, Origin, Status
+from datadog_sync.constants import LOGGER_NAME, TRUE, FALSE, FORCE, Command, Origin, Status
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
     ResourceConnectionError,
@@ -31,6 +33,9 @@ from datadog_sync.utils.workers import Workers
 if TYPE_CHECKING:
     from datadog_sync.utils.configuration import Configuration
     from graphlib import TopologicalSorter
+
+
+_timing_log = logging.getLogger(LOGGER_NAME)
 
 
 class ResourcesHandler:
@@ -382,6 +387,7 @@ class ResourcesHandler:
 
         # Get all resources for each resource type
         tmp_storage = defaultdict(list)
+        api_discovery_start_ns = time.perf_counter_ns()
         await self.worker.init_workers(self._import_get_resources_cb, None, len(self.config.resources_arg), tmp_storage)
         for resource_type in self.config.resources_arg:
             self.worker.work_queue.put_nowait(resource_type)
@@ -391,6 +397,13 @@ class ResourcesHandler:
             await self.worker.schedule_workers()
         get_failures = self.worker.counter.failure
         self.config.logger.info(f"Finished getting resources. {self.worker.counter}")
+        _timing_log.info(
+            "sync-cli-timing phase=api_discovery resource_types=%d successes=%d " "failures=%d wall_ms=%d",
+            len(self.config.resources_arg),
+            self.worker.counter.successes,
+            get_failures,
+            (time.perf_counter_ns() - api_discovery_start_ns) // 1_000_000,
+        )
 
         # When --id-file is set, cap second-pass workers to the same
         # max_concurrent_reads value used for first-pass fetches. This prevents the
@@ -400,6 +413,7 @@ class ResourcesHandler:
 
         # Begin importing individual resource items
         self.config.logger.info("importing individual resource items")
+        per_resource_start_ns = time.perf_counter_ns()
         await self.worker.init_workers(self._import_resource, None, second_pass_cap)
         total = 0
         for k, v in tmp_storage.items():
@@ -420,6 +434,11 @@ class ResourcesHandler:
                 import_failures,
             )
         self.config.logger.info(f"finished importing individual resource items: {self.worker.counter}.")
+        _timing_log.info(
+            "sync-cli-timing phase=import_per_resource total_records=%d wall_ms=%d",
+            total,
+            (time.perf_counter_ns() - per_resource_start_ns) // 1_000_000,
+        )
 
         # If a per-type transient-failure budget was breached during the id-file
         # path, exit non-zero with a rate-limit-shaped log marker so downstream
@@ -439,7 +458,9 @@ class ResourcesHandler:
         self.config.logger.info("getting resources", resource_type=resource_type)
 
         r_class = self.config.resources[resource_type]
-        self.config.state.source[resource_type].clear()
+        # Use SourceStateWriter protocol method; works on both State and
+        # ImportState (the latter has no .source accessor).
+        self.config.state.clear_source_type(resource_type)
 
         # The --id-file path replaces the unfiltered list call with per-ID GETs
         # bounded by --max-concurrent-reads. Monitors only in v1.

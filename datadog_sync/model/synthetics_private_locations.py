@@ -49,7 +49,7 @@ class SyntheticsPrivateLocations(BaseResource):
             raise SkipResource(import_id, self.resource_type, "Managed location.")
 
         pl = await source_client.get(self.resource_config.base_path + f"/{import_id}")
-        self.config.state.source[self.resource_type][import_id] = pl
+        self.config.state.set_source(self.resource_type, import_id, pl)
 
         return import_id, pl
 

@@ -244,7 +244,12 @@ class BaseResource(abc.ABC):
                     f"Error while adding default tags to resource {self.resource_type}. {str(e)}"
                 )
 
-        self.config.state.source[self.resource_type][str(_id)] = r
+        # Use the SourceStateWriter protocol method so this works against both
+        # State (which loaded prior data on construction) and ImportState
+        # (write-only; constructed via --skip-state-load). Direct
+        # `state.source[type][id] = r` would only work on State and would
+        # AttributeError on ImportState, which has no .source accessor.
+        self.config.state.set_source(self.resource_type, str(_id), r)
         return str(_id)
 
     @abc.abstractmethod
