@@ -93,6 +93,11 @@ class Roles(BaseResource):
         # this method uses role name from matching
         role_name = resource["attributes"]["name"]
 
+        if role_name in BUILTIN_ROLE_NAMES:
+            raise SkipResource(
+                _id, self.resource_type, f"'{role_name}' is a built-in Datadog role and cannot be created"
+            )
+
         # remove the 'managed' attribute since it can not be passed into creation
         resource["attributes"].pop("managed", None)
 
@@ -167,6 +172,12 @@ class Roles(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         role_name = resource["attributes"]["name"]
+
+        if role_name in BUILTIN_ROLE_NAMES:
+            raise SkipResource(
+                _id, self.resource_type, f"'{role_name}' is a built-in Datadog role and cannot be updated"
+            )
+
         resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
 
         # Retry loop to handle multiple invalid permissions
