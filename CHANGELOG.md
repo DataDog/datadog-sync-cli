@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.3.0 / 2026-05-13
+
+### Added
+* feat(storage): add list_filenames, delete, delete_many primitives by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/553
+* feat(state): add compute_stale_files and delete_stale_files helpers by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/554
+* feat(cli): add prune command for orphaned state-file cleanup by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/555
+* feat(import): add ImportState + --skip-state-load flag for write-only import by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/560
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.2.0...4.3.0
+
 ## 4.2.0 / 2026-05-11
 
 ### Fixed
