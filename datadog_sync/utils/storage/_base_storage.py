@@ -9,10 +9,75 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
-from datadog_sync.constants import LOGGER_NAME, Origin
+from datadog_sync.constants import (
+    DESTINATION_PATH_DEFAULT,
+    DESTINATION_PATH_PARAM,
+    LOGGER_NAME,
+    Origin,
+    RESOURCE_PER_FILE,
+    SOURCE_PATH_DEFAULT,
+    SOURCE_PATH_PARAM,
+)
 
 
 log = logging.getLogger(LOGGER_NAME)
+
+
+def build_storage_backend(type_, **kwargs) -> "BaseStorage":
+    """Construct the concrete BaseStorage subclass for a given StorageType.
+
+    Shared by State and ImportState so the per-backend init logic does not
+    drift across the two state classes. Imports the backend modules lazily
+    so this module stays importable in environments that lack one cloud SDK.
+    """
+    # Lazy imports avoid a hard dependency on every cloud SDK at module-load
+    # time; users who only need LocalFile shouldn't need boto3 / google-cloud
+    # / azure-storage-blob installed.
+    from datadog_sync.utils.storage.aws_s3_bucket import AWSS3Bucket
+    from datadog_sync.utils.storage.azure_blob_container import AzureBlobContainer
+    from datadog_sync.utils.storage.gcs_bucket import GCSBucket
+    from datadog_sync.utils.storage.local_file import LocalFile
+    from datadog_sync.utils.storage.storage_types import StorageType
+
+    resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
+    source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
+    destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
+
+    if type_ == StorageType.LOCAL_FILE:
+        return LocalFile(
+            source_resources_path=source_resources_path,
+            destination_resources_path=destination_resources_path,
+            resource_per_file=resource_per_file,
+        )
+    config = kwargs.get("config", {})
+    if type_ == StorageType.AWS_S3_BUCKET:
+        if not config:
+            raise ValueError("AWS configuration not found")
+        return AWSS3Bucket(
+            source_resources_path=source_resources_path,
+            destination_resources_path=destination_resources_path,
+            config=config,
+            resource_per_file=resource_per_file,
+        )
+    if type_ == StorageType.GCS_BUCKET:
+        if not config:
+            raise ValueError("GCS configuration not found")
+        return GCSBucket(
+            source_resources_path=source_resources_path,
+            destination_resources_path=destination_resources_path,
+            config=config,
+            resource_per_file=resource_per_file,
+        )
+    if type_ == StorageType.AZURE_BLOB_CONTAINER:
+        if not config:
+            raise ValueError("Azure configuration not found")
+        return AzureBlobContainer(
+            source_resources_path=source_resources_path,
+            destination_resources_path=destination_resources_path,
+            config=config,
+            resource_per_file=resource_per_file,
+        )
+    raise NotImplementedError(f"Storage type {type_} not implemented")
 
 
 @dataclass
