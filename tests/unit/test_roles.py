@@ -7,8 +7,9 @@
 Unit tests for roles resource handling.
 
 These tests verify that the 3 built-in Datadog roles (Admin, Read Only,
-Standard) are skipped at create, update, and delete — they cannot be
-mutated via the API and must short-circuit cleanly with SkipResource.
+Standard) are skipped at create, update, and delete when they would be
+mutated via the API. Existing destination built-ins still need to map
+source IDs to destination IDs so dependent resources can be assigned.
 """
 
 import asyncio
@@ -35,6 +36,30 @@ class TestRolesBuiltinGuardCreate:
             asyncio.run(roles.create_resource("source-id", resource))
         assert role_name in str(exc_info.value)
         assert "cannot be created" in str(exc_info.value)
+
+    def test_create_maps_existing_builtin_role_without_api_call(self):
+        roles = _make_roles()
+        destination_role = {
+            "id": "destination-role-id",
+            "attributes": {"name": "Datadog Admin Role", "managed": True},
+            "relationships": {"permissions": {"data": []}},
+        }
+        roles._existing_resources_map = {"Datadog Admin Role": destination_role}
+        roles.config.state.destination = {"roles": {}}
+        roles.config.destination_client.post = AsyncMock()
+        roles.config.destination_client.patch = AsyncMock()
+
+        resource = {
+            "id": "source-role-id",
+            "attributes": {"name": "Datadog Admin Role", "managed": True},
+            "relationships": {"permissions": {"data": []}},
+        }
+
+        asyncio.run(roles._create_resource("source-role-id", resource))
+
+        assert roles.config.state.destination["roles"]["source-role-id"] == destination_role
+        roles.config.destination_client.post.assert_not_awaited()
+        roles.config.destination_client.patch.assert_not_awaited()
 
     def test_create_does_not_skip_non_builtin_role(self):
         roles = _make_roles()

@@ -93,7 +93,7 @@ class Roles(BaseResource):
         # this method uses role name from matching
         role_name = resource["attributes"]["name"]
 
-        if role_name in BUILTIN_ROLE_NAMES:
+        if role_name in BUILTIN_ROLE_NAMES and role_name not in self._existing_resources_map:
             raise SkipResource(
                 _id, self.resource_type, f"'{role_name}' is a built-in Datadog role and cannot be created"
             )
@@ -155,6 +155,9 @@ class Roles(BaseResource):
         matching_destination_role = self._existing_resources_map[role_name]
         role_copy = copy.deepcopy(resource)
         role_copy.update(matching_destination_role)
+
+        if role_name in BUILTIN_ROLE_NAMES:
+            return _id, role_copy
 
         # role is managed at the destination, do nothing
         if "managed" in matching_destination_role["attributes"] and matching_destination_role["attributes"]["managed"]:
