@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.4.0 / 2026-05-15
+
+### Fixed
+* fix(roles): guard built-in Datadog roles from create and update by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/562
+* fix(synthetics_global_variables): key on (name, type) to resolve 409 conflict by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/564
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.3.0...4.4.0
+
 ## 4.3.0 / 2026-05-13
 
 ### Added
