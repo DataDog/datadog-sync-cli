@@ -275,6 +275,11 @@ class ResourcesHandler:
             self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"])
         except ResourceConnectionError as e:
+            self.config.logger.error(
+                f"missing connections: {str(e)}",
+                resource_type=resource_type,
+                _id=_id,
+            )
             self.worker.counter.increment_skipped()
             self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(
