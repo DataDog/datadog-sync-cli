@@ -71,6 +71,7 @@ jobs:
           PYTEST_ADDOPTS: "--ddtrace --disable-recording --retries 3 --retry-delay 10"
       - name: Post-run cleanup of orphaned resources
         if: always()
+        continue-on-error: true
         run: |
           yes | datadog-sync reset \
             --verify-ddr-status=False \
