@@ -34,6 +34,15 @@ class Dashboards(BaseResource):
             "notify_list",
         ],
         skip_resource_mapping=True,
+        # The LIST endpoint omits widgets. Filters that reference widgets.*
+        # are list-unsafe and are deferred to the post-GET pass in
+        # base_resource._import_resource (which evaluates --filter against
+        # the full body, raising FilteredResource on rejection). Metadata
+        # filters like --filter Type=dashboards;Name=title continue to
+        # short-circuit at LIST-time on the cheap LIST response. Without
+        # this, a positive filter on widgets.* would silently no-op against
+        # the widget-less LIST item.
+        list_omitted_attr_prefixes=["widgets"],
     )
     # Additional Dashboards specific attributes
 
@@ -45,6 +54,19 @@ class Dashboards(BaseResource):
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         import_id = _id or resource["id"]
+
+        # Short-circuit when the caller already supplied a full body (widgets
+        # present). The --id-file path uses get_resources_by_ids which calls
+        # import_resource(_id=...) and stores the result in tmp_storage; the
+        # queue handler then calls _import_resource(resource=full_body) which
+        # would re-GET each dashboard without this guard. Detection is by
+        # widgets presence — the LIST endpoint returns dashboard metadata
+        # without widgets, so a resource carrying widgets came from a per-id
+        # GET. Pre-existing latent issue in this model; addressed alongside
+        # the notebooks lightweight-LIST change.
+        if resource is not None and "widgets" in resource:
+            resource = cast(dict, resource)
+            return import_id, resource
 
         try:
             resource = await source_client.get(self.resource_config.base_path + f"/{import_id}")

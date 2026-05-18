@@ -15,6 +15,7 @@ from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
     DEFAULT_TAGS,
     CustomClientHTTPError,
+    FilteredResource,
     SkipResource,
     find_attr,
     ResourceConnectionError,
@@ -66,6 +67,27 @@ class ResourceConfig:
     non_nullable_list_vals: Optional[List[Tuple[str, Dict[str, str]]]] = None
     resource_mapping_key: Optional[Union[str, Callable[[Dict], str]]] = None
     skip_resource_mapping: bool = False
+    # Attr-name prefixes that the LIST endpoint omits from response items.
+    # When non-empty, two changes to --filter semantics:
+    #   1) resources_handler._import_resource partitions the user's --filter
+    #      list at LIST-time. Filters whose attr_name starts with any of
+    #      these prefixes are "list-unsafe" — the LIST item cannot decide
+    #      them — and are DEFERRED to the post-GET pass. Filters that don't
+    #      reference these prefixes ("list-safe") still run at LIST-time and
+    #      short-circuit normally, preserving the per-page rejection
+    #      optimization for the common case (filter by name, tags, status).
+    #   2) base_resource._import_resource evaluates the full --filter set
+    #      against the per-id GET payload and raises FilteredResource on
+    #      rejection. The handler buckets FilteredResource as `filtered`
+    #      (matching the LIST-time pre-filter accounting).
+    # Example: notebooks set this to ["attributes.cells"] — the LIST drops
+    # include_cells, so a filter on attributes.cells.X cannot be decided at
+    # LIST-time. A filter on attributes.name still short-circuits at
+    # LIST-time without forcing a per-id GET for every rejected notebook.
+    # The previous boolean form (skip LIST-time filter entirely when set)
+    # made metadata-only filters force a per-id GET per item, a wall-clock
+    # / rate-limit regression for the common filter-by-name use case.
+    list_omitted_attr_prefixes: List[str] = field(default_factory=list)
 
     async def init_async(self) -> None:
         self.async_lock = Lock()
@@ -78,7 +100,9 @@ class ResourceConfig:
     def build_excluded_attributes(self) -> None:
         if self.excluded_attributes:
             for i, attr in enumerate(self.excluded_attributes):
-                self.excluded_attributes[i] = "root" + "".join(["['{}']".format(v) for v in attr.split(".")])
+                self.excluded_attributes[i] = "root" + "".join(
+                    ["['{}']".format(v) for v in attr.split(".")]
+                )
 
 
 class BaseResource(abc.ABC):
@@ -88,7 +112,10 @@ class BaseResource(abc.ABC):
     def __init__(self, config: Configuration) -> None:
         self.config = config
         self._existing_resources_map: Dict[str, Dict] = {}
-        if not self.resource_config.skip_resource_mapping and self.resource_config.resource_mapping_key is None:
+        if (
+            not self.resource_config.skip_resource_mapping
+            and self.resource_config.resource_mapping_key is None
+        ):
             raise ValueError(
                 f"Resource {self.resource_type} has skip_resource_mapping=False "
                 f"but resource_mapping_key is not defined"
@@ -165,10 +192,13 @@ class BaseResource(abc.ABC):
         asyncio.Semaphore(max_concurrent_reads), separate from --max-workers.
 
         Models whose import_resource has the `if _id:` guard pattern (monitors, SLOs,
-        notebooks, downtimes, synthetics) work with this default impl. Dashboards is an
-        exception: its import_resource always GETs to fetch widget bodies that the list
-        endpoint omits. For dashboards, this default still WORKS (each call fetches once);
-        it just doesn't realize the simplification benefit.
+        downtimes, synthetics) work with this default impl. Dashboards and notebooks
+        always GET to fetch per-item bodies (widgets / cells) that the LIST endpoint
+        omits — their import_resource also short-circuits when the caller already
+        supplied a full body (detected by widgets/cells presence), so the --id-file
+        path here does exactly one GET per ID: the get_resources_by_ids call below
+        fetches each body, the queue handler later passes the same body back into
+        import_resource which returns it as-is rather than re-fetching.
         """
         sem = asyncio.Semaphore(max_concurrent_reads)
         resources: List[Dict] = []
@@ -230,11 +260,36 @@ class BaseResource(abc.ABC):
         return resources, missing, errored
 
     @abc.abstractmethod
-    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(
+        self, _id: Optional[str] = None, resource: Optional[Dict] = None
+    ) -> Tuple[str, Dict]:
         pass
 
-    async def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> str:
+    async def _import_resource(
+        self,
+        _id: Optional[str] = None,
+        resource: Optional[Dict] = None,
+        skip_filter: bool = False,
+    ) -> str:
         _id, r = await self.import_resource(_id, resource)
+
+        # Post-GET filter re-evaluation for models whose LIST omits fields that
+        # filters may reference (notebooks' cells, dashboards' widgets). The
+        # LIST-time filter in resources_handler defers list-unsafe filters
+        # (those referencing list_omitted_attr_prefixes) to this pass; the
+        # post-GET payload has the full body so all filters can be evaluated
+        # authoritatively here. Resources rejected here raise FilteredResource
+        # — the handler buckets them as `filtered`, not `skipped`. State is
+        # not written. skip_filter=True bypasses this check for the
+        # --force-missing-dependencies path: a filtered-out dep that another
+        # kept resource depends on must be imported anyway, or downstream
+        # ID remapping in run_sorter() will fail with unresolved references.
+        if (
+            not skip_filter
+            and self.resource_config.list_omitted_attr_prefixes
+            and not self.filter(r)
+        ):
+            raise FilteredResource(str(_id), self.resource_type)
 
         if self.resource_config.tagging_config is not None:
             try:
@@ -298,7 +353,9 @@ class BaseResource(abc.ABC):
 
         self.config.state.destination[self.resource_type].pop(_id, None)
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+    def connect_id(
+        self, key: str, r_obj: Dict, resource_to_connect: str
+    ) -> Optional[List[str]]:
         resources = self.config.state.destination[resource_to_connect]
 
         failed_connections = []
@@ -329,18 +386,28 @@ class BaseResource(abc.ABC):
         failed_connections_dict = defaultdict(list)
         for resource_to_connect, v in self.resource_config.resource_connections.items():
             for attr_connection in v:
-                c = find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                c = find_attr(
+                    attr_connection, resource_to_connect, resource, self.connect_id
+                )
                 if c:
                     failed_connections_dict[resource_to_connect].extend(c)
 
         if failed_connections_dict:
             e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
             if not self.config.skip_failed_resource_connections:
-                e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
-                self.config.logger.info(f"skipping resource: {str(e)}", _id=_id, resource_type=self.resource_type)
+                e = ResourceConnectionError(
+                    failed_connections_dict=failed_connections_dict
+                )
+                self.config.logger.info(
+                    f"skipping resource: {str(e)}",
+                    _id=_id,
+                    resource_type=self.resource_type,
+                )
                 raise e
             else:
-                self.config.logger.debug(f"{str(e)}", _id=_id, resource_type=self.resource_type)
+                self.config.logger.debug(
+                    f"{str(e)}", _id=_id, resource_type=self.resource_type
+                )
 
     def filter(self, resource: Dict) -> bool:
         if not self.config.filters or self.resource_type not in self.config.filters:
@@ -360,7 +427,9 @@ class BaseResource(abc.ABC):
             # Filter was specified for resource type but resource did not match any
             return False
 
-    async def _send_action_metrics(self, action: str, _id: str, status: str, tags: Optional[List[str]] = None) -> None:
+    async def _send_action_metrics(
+        self, action: str, _id: str, status: str, tags: Optional[List[str]] = None
+    ) -> None:
         if not tags:
             tags = []
         if _id:
@@ -369,13 +438,23 @@ class BaseResource(abc.ABC):
         tags.append(f"status:{status}")
         tags.append(f"resource_type:{self.resource_type}")
         try:
-            await self.config.destination_client.send_metric(Metrics.ACTION.value, tags + ["client_type:destination"])
-            self.config.logger.debug(f"Sent metrics to destination for {self.resource_type}")
+            await self.config.destination_client.send_metric(
+                Metrics.ACTION.value, tags + ["client_type:destination"]
+            )
+            self.config.logger.debug(
+                f"Sent metrics to destination for {self.resource_type}"
+            )
         except Exception as e:
-            self.config.logger.debug(f"Failed to send metrics to destination for {self.resource_type}: {str(e)}")
+            self.config.logger.debug(
+                f"Failed to send metrics to destination for {self.resource_type}: {str(e)}"
+            )
 
         try:
-            await self.config.source_client.send_metric(Metrics.ACTION.value, tags + ["client_type:source"])
+            await self.config.source_client.send_metric(
+                Metrics.ACTION.value, tags + ["client_type:source"]
+            )
             self.config.logger.debug(f"Sent metrics to source for {self.resource_type}")
         except Exception as e:
-            self.config.logger.debug(f"Failed to send metrics to source for {self.resource_type}: {str(e)}")
+            self.config.logger.debug(
+                f"Failed to send metrics to source for {self.resource_type}: {str(e)}"
+            )
