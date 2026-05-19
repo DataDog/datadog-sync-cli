@@ -70,13 +70,11 @@ def test_get_resources_does_not_request_cells(notebooks):
     inner.assert_awaited_once()
     call_args = inner.await_args.args
     call_kwargs = inner.await_args.kwargs
-    assert call_args == ("/api/v1/notebooks",), (
-        "LIST must call the notebooks base_path positionally; got %r" % (call_args,)
+    assert call_args == ("/api/v1/notebooks",), "LIST must call the notebooks base_path positionally; got %r" % (
+        call_args,
     )
     params = call_kwargs.get("params", {})
-    assert "include_cells" not in params, (
-        "LIST must not request include_cells; got params=%r" % params
-    )
+    assert "include_cells" not in params, "LIST must not request include_cells; got params=%r" % params
     assert call_kwargs.get("pagination_config") is notebooks.pagination_config, (
         "LIST must forward the class-level pagination_config so meta.page.total_count "
         "drives termination; got kwargs=%r" % call_kwargs
@@ -93,9 +91,7 @@ def test_import_resource_with_id_issues_get(notebooks):
     # kwargs (params=, domain=, **kwargs) so an exact-kwargs assertion would
     # break on benign future refactors.
     notebooks.config.source_client.get.assert_awaited_once()
-    assert (
-        notebooks.config.source_client.get.await_args.args[0] == "/api/v1/notebooks/42"
-    )
+    assert notebooks.config.source_client.get.await_args.args[0] == "/api/v1/notebooks/42"
     # State writes round-trip through str(_id) upstream; pin the string contract
     # here so logs and the resources_handler emit consistent types.
     assert _id == "42"
@@ -142,25 +138,19 @@ def test_import_resource_with_list_item_still_issues_get(notebooks):
     """
     list_item = {"id": 99, "type": "notebooks", "attributes": {"name": "from-list"}}
     notebooks.config.source_client.get = AsyncMock(
-        return_value=_detail_payload(
-            99, name="from-detail", cells=[{"type": "notebook_cells"}]
-        )
+        return_value=_detail_payload(99, name="from-detail", cells=[{"type": "notebook_cells"}])
     )
 
     _id, resource = asyncio.run(notebooks.import_resource(resource=list_item))
 
     notebooks.config.source_client.get.assert_awaited_once()
-    assert (
-        notebooks.config.source_client.get.await_args.args[0] == "/api/v1/notebooks/99"
-    )
+    assert notebooks.config.source_client.get.await_args.args[0] == "/api/v1/notebooks/99"
     assert _id == "99"
     assert isinstance(_id, str)
-    assert resource["attributes"]["name"] == "from-detail", (
-        "import_resource must return the GET payload, not the LIST item"
-    )
-    assert resource["attributes"]["cells"], (
-        "the GET-returned cells must be preserved on the imported resource"
-    )
+    assert (
+        resource["attributes"]["name"] == "from-detail"
+    ), "import_resource must return the GET payload, not the LIST item"
+    assert resource["attributes"]["cells"], "the GET-returned cells must be preserved on the imported resource"
 
 
 def test_import_resource_strips_ai_usage_tags(notebooks):
@@ -284,9 +274,7 @@ def test_post_get_refilter_raises_filtered_resource_when_rejected(notebooks):
     # Mock a filter that rejects the GET payload (looks at a cells-derived field).
     filter_mock = MagicMock(return_value=False)
     notebooks.filter = filter_mock
-    notebooks.config.source_client.get = AsyncMock(
-        return_value=_detail_payload(7, cells=[{"type": "notebook_cells"}])
-    )
+    notebooks.config.source_client.get = AsyncMock(return_value=_detail_payload(7, cells=[{"type": "notebook_cells"}]))
 
     with pytest.raises(FilteredResource):
         asyncio.run(notebooks._import_resource(_id="7"))
@@ -295,9 +283,7 @@ def test_post_get_refilter_raises_filtered_resource_when_rejected(notebooks):
     # LIST item the caller passed in. Confirm by checking the filter call.
     filter_mock.assert_called_once()
     filtered_arg = filter_mock.call_args.args[0]
-    assert filtered_arg["attributes"]["cells"], (
-        "post-GET filter must see the full body (with cells), not the LIST item"
-    )
+    assert filtered_arg["attributes"]["cells"], "post-GET filter must see the full body (with cells), not the LIST item"
     # State write was skipped.
     notebooks.config.state.set_source.assert_not_called()
 
@@ -406,9 +392,7 @@ def test_handler_metadata_filter_short_circuits_at_list_time(notebooks):
     """
     handler = _make_handler()
     handler.config.resources = {"notebooks": notebooks}
-    handler.config.filters = {
-        "notebooks": [_make_filter("notebooks", "attributes.name", "keep-this")]
-    }
+    handler.config.filters = {"notebooks": [_make_filter("notebooks", "attributes.name", "keep-this")]}
     handler.config.filter_operator = "and"
     notebooks.config.filters = handler.config.filters
     notebooks.config.filter_operator = "and"
@@ -430,15 +414,11 @@ def test_handler_metadata_filter_accept_proceeds_to_get(notebooks):
     """
     handler = _make_handler()
     handler.config.resources = {"notebooks": notebooks}
-    handler.config.filters = {
-        "notebooks": [_make_filter("notebooks", "attributes.name", "keep-this")]
-    }
+    handler.config.filters = {"notebooks": [_make_filter("notebooks", "attributes.name", "keep-this")]}
     handler.config.filter_operator = "and"
     notebooks.config.filters = handler.config.filters
     notebooks.config.filter_operator = "and"
-    notebooks.config.source_client.get = AsyncMock(
-        return_value=_detail_payload(78, name="keep-this")
-    )
+    notebooks.config.source_client.get = AsyncMock(return_value=_detail_payload(78, name="keep-this"))
 
     list_item = {"id": 78, "type": "notebooks", "attributes": {"name": "keep-this"}}
     asyncio.run(handler._import_resource(["notebooks", list_item]))
@@ -459,18 +439,12 @@ def test_handler_defers_list_unsafe_filter_to_post_get(notebooks):
     handler.config.resources = {"notebooks": notebooks}
     # A positive filter that the LIST item cannot satisfy (no cells in LIST).
     handler.config.filters = {
-        "notebooks": [
-            _make_filter(
-                "notebooks", "attributes.cells.attributes.definition.type", "markdown"
-            )
-        ]
+        "notebooks": [_make_filter("notebooks", "attributes.cells.attributes.definition.type", "markdown")]
     }
     handler.config.filter_operator = "and"
     notebooks.config.filters = handler.config.filters
     notebooks.config.filter_operator = "and"
-    notebooks.config.source_client.get = AsyncMock(
-        return_value=_detail_payload(55, cells=[_cell("markdown")])
-    )
+    notebooks.config.source_client.get = AsyncMock(return_value=_detail_payload(55, cells=[_cell("markdown")]))
 
     list_item = {"id": 55, "type": "notebooks", "attributes": {"name": "n"}}
     asyncio.run(handler._import_resource(["notebooks", list_item]))
@@ -491,11 +465,7 @@ def test_handler_post_get_filter_rejects_when_cells_do_not_match(notebooks):
     handler = _make_handler()
     handler.config.resources = {"notebooks": notebooks}
     handler.config.filters = {
-        "notebooks": [
-            _make_filter(
-                "notebooks", "attributes.cells.attributes.definition.type", "markdown"
-            )
-        ]
+        "notebooks": [_make_filter("notebooks", "attributes.cells.attributes.definition.type", "markdown")]
     }
     handler.config.filter_operator = "and"
     notebooks.config.filters = handler.config.filters
@@ -533,9 +503,7 @@ def test_handler_mixed_or_filter_defers_when_list_safe_misses(notebooks):
     handler.config.filters = {
         "notebooks": [
             _make_filter("notebooks", "attributes.name", "foo"),
-            _make_filter(
-                "notebooks", "attributes.cells.attributes.definition.type", "markdown"
-            ),
+            _make_filter("notebooks", "attributes.cells.attributes.definition.type", "markdown"),
         ]
     }
     handler.config.filter_operator = "or"
@@ -570,9 +538,7 @@ def test_handler_mixed_or_filter_short_circuits_when_list_safe_hits(notebooks):
     handler.config.filters = {
         "notebooks": [
             _make_filter("notebooks", "attributes.name", "match-me"),
-            _make_filter(
-                "notebooks", "attributes.cells.attributes.definition.type", "timeseries"
-            ),
+            _make_filter("notebooks", "attributes.cells.attributes.definition.type", "timeseries"),
         ]
     }
     handler.config.filter_operator = "or"
@@ -631,9 +597,7 @@ def test_handler_and_filter_list_safe_miss_decisive_reject(notebooks):
     handler.config.filters = {
         "notebooks": [
             _make_filter("notebooks", "attributes.name", "must-match"),
-            _make_filter(
-                "notebooks", "attributes.cells.attributes.definition.type", "markdown"
-            ),
+            _make_filter("notebooks", "attributes.cells.attributes.definition.type", "markdown"),
         ]
     }
     handler.config.filter_operator = "and"
@@ -671,11 +635,7 @@ def test_force_missing_dep_bypasses_user_filter(notebooks):
     handler.config.resources = {"notebooks": notebooks}
     # User filter would reject this notebook's cells (timeseries, not markdown).
     handler.config.filters = {
-        "notebooks": [
-            _make_filter(
-                "notebooks", "attributes.cells.attributes.definition.type", "markdown"
-            )
-        ]
+        "notebooks": [_make_filter("notebooks", "attributes.cells.attributes.definition.type", "markdown")]
     }
     handler.config.filter_operator = "and"
     notebooks.config.filters = handler.config.filters
@@ -706,11 +666,8 @@ def test_force_missing_dep_bypasses_user_filter(notebooks):
     emit_calls = handler._emit.call_args_list
     statuses = [c.args[3] for c in emit_calls]
     assert "success" in statuses, (
-        f"force-missing-dep must succeed even when --filter would reject; "
-        f"emit calls: {emit_calls}"
+        f"force-missing-dep must succeed even when --filter would reject; " f"emit calls: {emit_calls}"
     )
-    assert "filtered" not in statuses, (
-        f"force-missing-dep must NOT bucket as 'filtered'; emit calls: {emit_calls}"
-    )
+    assert "filtered" not in statuses, f"force-missing-dep must NOT bucket as 'filtered'; emit calls: {emit_calls}"
     # State was written (the dep is now available for ID remapping downstream).
     notebooks.config.state.set_source.assert_called_once()
