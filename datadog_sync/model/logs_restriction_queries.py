@@ -136,16 +136,29 @@ class LogsRestrictionQueries(BaseResource):
         return successfully_added, successfully_removed
 
     async def _reassign_role(self, target_query_id: str, role_id: str) -> None:
-        """Detach a role from its current restriction query and attach it to target_query_id."""
         destination_client = self.config.destination_client
-        try:
-            resp = await destination_client.get(f"/api/v2/roles/{role_id}/logs/restriction_query")
-            existing_query_id = resp["data"]["id"]
-            if existing_query_id != target_query_id:
-                await self.remove_log_restriction_query_role(existing_query_id, role_id)
-        except CustomClientHTTPError:
-            pass
-        await self.add_log_restriction_query_role(target_query_id, role_id)
+        all_queries_resp = await destination_client.get(self.resource_config.base_path)
+        role_already_on_target = False
+        for query in all_queries_resp.get("data", []):
+            qid = query.get("id")
+            try:
+                roles_resp = await destination_client.get(self.logs_restriction_query_roles_path.format(qid))
+            except CustomClientHTTPError:
+                continue
+            for role in roles_resp.get("data", []):
+                if role["id"] == role_id:
+                    if qid == target_query_id:
+                        role_already_on_target = True
+                    else:
+                        try:
+                            await self.remove_log_restriction_query_role(qid, role_id)
+                        except CustomClientHTTPError:
+                            pass
+                    break
+            if role_already_on_target:
+                break
+        if not role_already_on_target:
+            await self.add_log_restriction_query_role(target_query_id, role_id)
 
     async def add_log_restriction_query_role(self, _id: str, role_id: str) -> None:
         destination_client = self.config.destination_client
