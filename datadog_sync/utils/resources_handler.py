@@ -83,10 +83,7 @@ def _list_time_filter_passes(r_class, config, resource) -> bool:
     # Partition: list-safe filters run now; list-unsafe (those referencing
     # any omitted prefix) defer to base_resource._import_resource post-GET.
     all_filters = config.filters[r_class.resource_type]
-    list_safe = [
-        f for f in all_filters
-        if not any(".".join(f.attr_name).startswith(p) for p in omitted_prefixes)
-    ]
+    list_safe = [f for f in all_filters if not any(".".join(f.attr_name).startswith(p) for p in omitted_prefixes)]
     has_deferred = len(list_safe) < len(all_filters)
     if not list_safe:
         return True  # All filters defer; nothing decisive at LIST-time.
@@ -740,9 +737,7 @@ class ResourcesHandler:
             # run_sorter() would fail with unresolved references on the
             # dependent resource. Operator intent on --filter applies to the
             # top-level selection, not transitively to force-imported deps.
-            _id = await self.config.resources[resource_type]._import_resource(
-                _id=_id, skip_filter=True
-            )
+            _id = await self.config.resources[resource_type]._import_resource(_id=_id, skip_filter=True)
             self._emit(resource_type, _id, "import", "success")
         except SkipResource as e:
             self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))

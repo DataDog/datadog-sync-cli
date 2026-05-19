@@ -47,9 +47,7 @@ class Notebooks(BaseResource):
         page_size=100,
         page_size_param="count",
         page_number_param="start",
-        remaining_func=lambda idx, resp, page_size, page_number: (
-            resp["meta"]["page"]["total_count"]
-        )
+        remaining_func=lambda idx, resp, page_size, page_number: (resp["meta"]["page"]["total_count"])
         - (page_size * (idx + 1)),
         page_number_func=lambda idx, page_size, page_number: page_size * (idx + 1),
     )
@@ -67,9 +65,7 @@ class Notebooks(BaseResource):
 
         return resp
 
-    async def import_resource(
-        self, _id: Optional[str] = None, resource: Optional[Dict] = None
-    ) -> Tuple[str, Dict]:
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
         import_id = _id if _id is not None else (resource or {}).get("id")
         if import_id is None:
@@ -83,21 +79,13 @@ class Notebooks(BaseResource):
         # time, doubling rate-limit pressure on id-file runs. Detection is by
         # cells presence — the lightweight LIST never has cells, so a
         # resource with attributes.cells came from a per-id GET.
-        if (
-            resource is not None
-            and isinstance(resource.get("attributes"), dict)
-            and "cells" in resource["attributes"]
-        ):
+        if resource is not None and isinstance(resource.get("attributes"), dict) and "cells" in resource["attributes"]:
             resource = cast(dict, resource)
             self.handle_special_case_attr(resource)
             return str(resource["id"]), resource
 
         try:
-            resource = (
-                await source_client.get(
-                    self.resource_config.base_path + f"/{import_id}"
-                )
-            )["data"]
+            resource = (await source_client.get(self.resource_config.base_path + f"/{import_id}"))["data"]
         except CustomClientHTTPError as err:
             # 403: notebook is in the LIST but restricted from per-id reads. Skip
             # rather than hard-fail so a single ACL'd notebook does not poison the
@@ -105,9 +93,7 @@ class Notebooks(BaseResource):
             # 404: notebook was deleted between LIST enumeration and the per-id GET.
             # Skip — there is nothing to import.
             if err.status_code == 403:
-                raise SkipResource(
-                    import_id, self.resource_type, "No access to restricted notebook"
-                )
+                raise SkipResource(import_id, self.resource_type, "No access to restricted notebook")
             if err.status_code == 404:
                 raise SkipResource(
                     import_id,
@@ -142,8 +128,7 @@ class Notebooks(BaseResource):
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = await destination_client.put(
-            self.resource_config.base_path
-            + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             payload,
         )
         self.handle_special_case_attr(resp["data"])
@@ -153,8 +138,7 @@ class Notebooks(BaseResource):
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path
-            + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
+            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
     # Server-managed AI usage tag keys injected by the Notebooks API on every write.
@@ -165,15 +149,10 @@ class Notebooks(BaseResource):
     @staticmethod
     def handle_special_case_attr(resource):
         # Handle template_variables attribute
-        if (
-            "template_variables" in resource["attributes"]
-            and not resource["attributes"]["template_variables"]
-        ):
+        if "template_variables" in resource["attributes"] and not resource["attributes"]["template_variables"]:
             resource["attributes"].pop("template_variables")
 
         # Strip server-managed AI usage tags
         tags = resource["attributes"].get("tags")
         if tags:
-            resource["attributes"]["tags"] = [
-                t for t in tags if t.split(":")[0] not in Notebooks._ai_usage_tag_keys
-            ]
+            resource["attributes"]["tags"] = [t for t in tags if t.split(":")[0] not in Notebooks._ai_usage_tag_keys]
