@@ -68,6 +68,7 @@ jobs:
         run: |
           yes | datadog-sync reset \
             --verify-ddr-status=False \
+            --do-not-backup \
             --resources="authn_mappings,dashboard_lists,dashboards,host_tags,logs_archives,logs_archives_order,logs_indexes,logs_indexes_order,logs_metrics,logs_pipelines,logs_pipelines_order,logs_restriction_queries,metric_percentiles,metric_tag_configurations,metrics_metadata,monitors,notebooks,powerpacks,restriction_policies,rum_applications,security_monitoring_rules,sensitive_data_scanner_groups,sensitive_data_scanner_groups_order,sensitive_data_scanner_rules,service_level_objectives,slo_corrections,spans_metrics,synthetics_global_variables,synthetics_mobile_applications,synthetics_mobile_applications_versions,synthetics_private_locations,synthetics_tests,team_memberships,teams"
       - name: Run integration tests
         run: tox -e integration
