@@ -31,6 +31,26 @@ class SkipResource(Exception):
         super(SkipResource, self).__init__(f"Skipping {_type} with id: {_id}. {msg}")
 
 
+class FilteredResource(Exception):
+    """Raised by base_resource._import_resource when ResourceConfig.list_omitted_attr_prefixes
+    is non-empty and --filter rejected the resource after the per-id GET.
+
+    For models that declare list_omitted_attr_prefixes (notebooks, dashboards),
+    the resources_handler defers list-unsafe filters (those whose attr_name
+    references an omitted prefix) to the post-GET pass; this exception is
+    raised when that pass rejects the resource.
+
+    Distinct from SkipResource so the resources_handler counter accounting can
+    bucket it as `filtered` (matching the LIST-time pre-filter path) rather
+    than `skipped`. State is not written for filtered resources.
+    """
+
+    def __init__(self, _id: str, _type: str):
+        super(FilteredResource, self).__init__(
+            f"Filtered {_type} with id: {_id} after detail fetch (LIST-omitted fields)"
+        )
+
+
 class ResourceConnectionError(Exception):
     def __init__(self, failed_connections_dict):
         super(ResourceConnectionError, self).__init__(f"Failed to connect resource. {dict(failed_connections_dict)}")

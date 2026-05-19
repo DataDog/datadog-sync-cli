@@ -48,6 +48,12 @@ def _mark_authoritative(state, *resource_types):
 
 class _ImportResource:
     resource_type = "monitors"
+    # resource_config is consulted by resources_handler._import_resource to
+    # decide which filters to defer (for models with list_omitted_attr_prefixes
+    # set). The handler reads r_class.resource_config.list_omitted_attr_prefixes
+    # — provide a SimpleNamespace stub here so the attribute exists and
+    # resolves to an empty list for this fake monitors-shaped resource.
+    resource_config = SimpleNamespace(list_omitted_attr_prefixes=[])
 
     def __init__(self, state, fail_import=False):
         self.state = state

@@ -19,6 +19,7 @@ from pprint import pformat
 from datadog_sync.constants import LOGGER_NAME, TRUE, FALSE, FORCE, Command, Origin, Status
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
+    FilteredResource,
     ResourceConnectionError,
     SkipResource,
     check_diff,
@@ -36,6 +37,67 @@ if TYPE_CHECKING:
 
 
 _timing_log = logging.getLogger(LOGGER_NAME)
+
+
+def _list_time_filter_passes(r_class, config, resource) -> bool:
+    """Run the user's --filter at LIST-time, deferring list-unsafe filters.
+
+    For models with ResourceConfig.list_omitted_attr_prefixes set
+    (notebooks/dashboards), filters whose attr_name starts with any omitted
+    prefix cannot be decided on the LIST item — they're deferred to the
+    post-GET pass in base_resource._import_resource. List-safe filters
+    (e.g. attributes.name) still run here so metadata filtering short-
+    circuits per-page on the cheap LIST response.
+
+    For models without omitted prefixes, this reduces to r_class.filter()
+    — the previous LIST-time behavior is unchanged for them.
+
+    Returns True if the LIST item should proceed to the per-id GET (either
+    accepted or undecided), False only if the LIST item is DECISIVELY
+    rejected by the list-safe portion of the filter alone.
+
+    Mirrors base_resource.BaseResource.filter() AND/OR semantics over the
+    partition without mutating config.filters (this function runs from
+    concurrent asyncio workers, so swap-and-restore on shared state would
+    race).
+
+    Decisiveness rules (codex P1):
+      AND-False : decisive reject — one clause failing breaks the whole AND.
+      AND-True  : decisive only if no list-unsafe filters were deferred;
+                  otherwise defer (the AND still has unevaluated clauses).
+      OR-True   : decisive accept — one clause matching satisfies OR.
+      OR-False  : decisive only if no list-unsafe filters were deferred;
+                  otherwise defer (a deferred clause might still match).
+    Without this rule, a mixed-OR like
+      `Name=attributes.name;Value=foo OR Name=attributes.cells.X;Value=bar`
+    on a LIST item with no name match would be silently dropped before the
+    cells filter ever got to run.
+    """
+    omitted_prefixes = r_class.resource_config.list_omitted_attr_prefixes
+    if not omitted_prefixes:
+        # No omitted prefixes — every filter is list-safe; full filter runs.
+        return r_class.filter(resource)
+    if not config.filters or r_class.resource_type not in config.filters:
+        # No user filter configured for this type — nothing to evaluate.
+        return True
+    # Partition: list-safe filters run now; list-unsafe (those referencing
+    # any omitted prefix) defer to base_resource._import_resource post-GET.
+    all_filters = config.filters[r_class.resource_type]
+    list_safe = [f for f in all_filters if not any(".".join(f.attr_name).startswith(p) for p in omitted_prefixes)]
+    has_deferred = len(list_safe) < len(all_filters)
+    if not list_safe:
+        return True  # All filters defer; nothing decisive at LIST-time.
+    if config.filter_operator.lower() == "and":
+        # AND: any miss is decisive reject. An all-match either accepts (no
+        # deferred clauses) or defers (deferred clauses still to evaluate)
+        # — both mean "proceed to GET".
+        return all(f.is_match(resource) for f in list_safe)
+    # OR: any match is decisive accept. An all-miss either rejects (no
+    # deferred clauses) or defers (a deferred clause might match) — defer
+    # by proceeding to GET so the post-GET pass sees the full filter set.
+    if any(f.is_match(resource) for f in list_safe):
+        return True
+    return has_deferred  # all-miss + deferred → proceed; otherwise reject
 
 
 class ResourcesHandler:
@@ -537,7 +599,18 @@ class ResourcesHandler:
         _id = resource.get("id")
         r_class = self.config.resources[resource_type]
 
-        if not r_class.filter(resource):
+        # LIST-time pre-filter. For models that declare
+        # list_omitted_attr_prefixes (notebooks/dashboards), filters whose
+        # attr_name starts with any omitted prefix cannot be decided on the
+        # LIST item — running them would discard positive filters like
+        # Type=notebooks;Name=attributes.cells.X (missing path → False at
+        # filter.py:_is_match_helper). We partition the user's filters and
+        # run only the "list-safe" ones here; the post-GET pass in
+        # base_resource._import_resource evaluates the full set against the
+        # GET payload. For models without list_omitted_attr_prefixes (the
+        # vast majority), behavior is unchanged: full filter at LIST-time,
+        # no post-GET pass.
+        if not _list_time_filter_passes(r_class, self.config, resource):
             self.worker.counter.increment_filtered()
             self._emit(resource_type, _id, "import", "filtered")
             return
@@ -547,6 +620,15 @@ class ResourcesHandler:
             self.worker.counter.increment_success()
             self._emit(resource_type, _id, "import", "success")
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SUCCESS.value)
+        except FilteredResource as e:
+            # Raised by base _import_resource when ResourceConfig.list_omitted_attr_prefixes
+            # is set and a list-unsafe --filter clause (one whose attr_name
+            # references an omitted prefix) rejected the resource after the
+            # per-id GET. Counted as filtered (not skipped) — same user intent
+            # as the LIST-time filter, just deferred because the relevant
+            # fields only exist in the GET payload.
+            self.worker.counter.increment_filtered()
+            self._emit(resource_type, _id, "import", "filtered", reason=self._sanitize_reason(e))
         except SkipResource as e:
             self.worker.counter.increment_skipped()
             self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))
@@ -653,7 +735,14 @@ class ResourcesHandler:
     async def _force_missing_dep_import_cb(self, q_item: List):
         resource_type, _id = q_item
         try:
-            _id = await self.config.resources[resource_type]._import_resource(_id=_id)
+            # skip_filter=True: --force-missing-dependencies must import a dep
+            # even if --filter would otherwise reject it. The dep was pulled in
+            # because a kept resource references it; rejecting it here would
+            # leave the dep absent from source state and downstream
+            # run_sorter() would fail with unresolved references on the
+            # dependent resource. Operator intent on --filter applies to the
+            # top-level selection, not transitively to force-imported deps.
+            _id = await self.config.resources[resource_type]._import_resource(_id=_id, skip_filter=True)
             self._emit(resource_type, _id, "import", "success")
         except SkipResource as e:
             self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))
