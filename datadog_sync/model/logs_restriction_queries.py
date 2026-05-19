@@ -114,8 +114,17 @@ class LogsRestrictionQueries(BaseResource):
             try:
                 await self.add_log_restriction_query_role(_id, role_id)
             except CustomClientHTTPError as e:
-                self.config.logger.error("error adding role %s to log restriction query %s: %s", role_id, _id, e)
-                continue
+                if e.status_code == 400 and "already has an attached restriction query" in str(e):
+                    try:
+                        await self._reassign_role(_id, role_id)
+                    except CustomClientHTTPError as e2:
+                        self.config.logger.error(
+                            "error adding role %s to log restriction query %s: %s", role_id, _id, e2
+                        )
+                        continue
+                else:
+                    self.config.logger.error("error adding role %s to log restriction query %s: %s", role_id, _id, e)
+                    continue
             successfully_added.append(role_id)
         for role_id in removed_roles:
             try:
@@ -125,6 +134,18 @@ class LogsRestrictionQueries(BaseResource):
                 continue
             successfully_removed.append(role_id)
         return successfully_added, successfully_removed
+
+    async def _reassign_role(self, target_query_id: str, role_id: str) -> None:
+        """Detach a role from its current restriction query and attach it to target_query_id."""
+        destination_client = self.config.destination_client
+        try:
+            resp = await destination_client.get(f"/api/v2/roles/{role_id}/logs/restriction_query")
+            existing_query_id = resp["data"]["id"]
+            if existing_query_id != target_query_id:
+                await self.remove_log_restriction_query_role(existing_query_id, role_id)
+        except CustomClientHTTPError:
+            pass
+        await self.add_log_restriction_query_role(target_query_id, role_id)
 
     async def add_log_restriction_query_role(self, _id: str, role_id: str) -> None:
         destination_client = self.config.destination_client

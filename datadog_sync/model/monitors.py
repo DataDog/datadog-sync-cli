@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
 from datadog_sync.utils.custom_client import PaginationConfig
-from datadog_sync.utils.resource_utils import SkipResource
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -108,8 +108,16 @@ class Monitors(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        resp = await destination_client.post(self.resource_config.base_path, resource)
-
+        try:
+            resp = await destination_client.post(self.resource_config.base_path, resource)
+        except CustomClientHTTPError as e:
+            if e.status_code == 400:
+                match = re.search(r"Duplicate of an existing monitor_id:(\d+)", str(e))
+                if match:
+                    existing_id = match.group(1)
+                    existing = await destination_client.get(f"{self.resource_config.base_path}/{existing_id}")
+                    return _id, existing
+            raise
         return _id, resp
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
