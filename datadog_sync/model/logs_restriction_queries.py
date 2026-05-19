@@ -168,4 +168,4 @@ class LogsRestrictionQueries(BaseResource):
     async def remove_log_restriction_query_role(self, _id: str, role_id: str) -> None:
         destination_client = self.config.destination_client
         payload = {"data": {"id": role_id, "type": "roles"}}
-        await destination_client.delete(self.logs_restriction_query_roles_path.format(_id), payload)
+        await destination_client.delete(self.logs_restriction_query_roles_path.format(_id), body=payload)
