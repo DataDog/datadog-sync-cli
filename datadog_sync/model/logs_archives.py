@@ -53,7 +53,8 @@ class LogsArchives(BaseResource):
                 name = resource.get("attributes", {}).get("name")
                 for archive in existing.get("data", []):
                     if archive.get("attributes", {}).get("name") == name:
-                        return _id, archive
+                        self.config.state.destination[self.resource_type][_id] = archive
+                        return await self.update_resource(_id, resource)
             raise
         return _id, resp["data"]
 

@@ -137,9 +137,9 @@ class LogsRestrictionQueries(BaseResource):
 
     async def _reassign_role(self, target_query_id: str, role_id: str) -> None:
         destination_client = self.config.destination_client
-        all_queries_resp = await destination_client.get(self.resource_config.base_path)
+        all_queries = await self.get_resources(destination_client)
         role_already_on_target = False
-        for query in all_queries_resp.get("data", []):
+        for query in all_queries:
             qid = query.get("id")
             try:
                 roles_resp = await destination_client.get(self.logs_restriction_query_roles_path.format(qid))
