@@ -66,12 +66,9 @@ class Users(BaseResource):
         if resource["attributes"]["disabled"]:
             raise SkipResource(resource["id"], self.resource_type, "User is disabled.")
 
+        # .get(): older user shapes may not carry the service_account field.
         if resource["attributes"].get("service_account"):
-            raise SkipResource(
-                resource["id"],
-                self.resource_type,
-                "User is a service account (environment-specific credentials; not mirrored cross-region).",
-            )
+            raise SkipResource(resource["id"], self.resource_type, "User is a service account.")
 
         return resource["id"], resource
 

@@ -3,13 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-"""
-Unit tests for users resource import handling.
-
-These tests verify the skip behaviour applied in ``Users.import_resource``:
-disabled users and service-account users are not propagated to the
-destination. Regular users pass through unchanged.
-"""
+"""Unit tests for ``Users.import_resource`` skip behavior."""
 
 import asyncio
 from unittest.mock import MagicMock
@@ -33,10 +27,8 @@ class TestUsersImportResource:
             "id": "user-id",
             "attributes": {"disabled": True, "service_account": False, "email": "x@example.com"},
         }
-        with pytest.raises(SkipResource) as exc_info:
+        with pytest.raises(SkipResource, match=r"user-id.*User is disabled"):
             asyncio.run(users.import_resource(resource=resource))
-        assert "User is disabled" in str(exc_info.value)
-        assert "user-id" in str(exc_info.value)
 
     def test_import_resource_skips_service_account(self):
         users = _make_users()
@@ -44,22 +36,18 @@ class TestUsersImportResource:
             "id": "sa-id",
             "attributes": {"disabled": False, "service_account": True, "email": "sa@example.com"},
         }
-        with pytest.raises(SkipResource) as exc_info:
+        with pytest.raises(SkipResource, match=r"sa-id.*service account"):
             asyncio.run(users.import_resource(resource=resource))
-        assert "service account" in str(exc_info.value)
-        assert "sa-id" in str(exc_info.value)
 
-    def test_import_resource_disabled_service_account_uses_disabled_reason(self):
-        """A disabled service account hits the disabled check first; the more specific
-        reason wins in logs. This guards the ordering of the two skip checks."""
+    def test_import_resource_disabled_takes_precedence_over_service_account(self):
+        # Disabled is checked first; the more specific reason wins in logs.
         users = _make_users()
         resource = {
             "id": "sa-disabled-id",
             "attributes": {"disabled": True, "service_account": True, "email": "sa@example.com"},
         }
-        with pytest.raises(SkipResource) as exc_info:
+        with pytest.raises(SkipResource, match=r"User is disabled"):
             asyncio.run(users.import_resource(resource=resource))
-        assert "User is disabled" in str(exc_info.value)
 
     def test_import_resource_processes_regular_user(self):
         users = _make_users()
@@ -72,9 +60,7 @@ class TestUsersImportResource:
         assert result is resource
 
     def test_import_resource_missing_service_account_field(self):
-        """Defensive: older user shapes may not carry ``service_account`` at all.
-        Using ``.get()`` means the absent field is treated as falsy and the user
-        is imported normally."""
+        # Older user shapes may omit service_account; .get() treats absent as falsy.
         users = _make_users()
         resource = {
             "id": "user-id",
