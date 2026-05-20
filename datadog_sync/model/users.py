@@ -66,6 +66,13 @@ class Users(BaseResource):
         if resource["attributes"]["disabled"]:
             raise SkipResource(resource["id"], self.resource_type, "User is disabled.")
 
+        if resource["attributes"].get("service_account"):
+            raise SkipResource(
+                resource["id"],
+                self.resource_type,
+                "User is a service account (environment-specific credentials; not mirrored cross-region).",
+            )
+
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
