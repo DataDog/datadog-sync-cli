@@ -59,6 +59,17 @@ jobs:
         run: pip install .
       - name: Install tox
         run: pip install tox
+      - name: Pre-test cleanup of stale destination resources
+        continue-on-error: true
+        env:
+          DD_SOURCE_API_KEY: ${{ secrets.DD_DESTINATION_API_KEY }}
+          DD_SOURCE_APP_KEY: ${{ secrets.DD_DESTINATION_APP_KEY }}
+          DD_SOURCE_API_URL: ${{ secrets.DD_DESTINATION_API_URL }}
+        run: |
+          yes | datadog-sync reset \
+            --verify-ddr-status=False \
+            --do-not-backup \
+            --resources="authn_mappings,dashboard_lists,dashboards,host_tags,logs_archives,logs_archives_order,logs_indexes,logs_indexes_order,logs_metrics,logs_pipelines,logs_pipelines_order,logs_restriction_queries,metric_percentiles,metric_tag_configurations,metrics_metadata,monitors,notebooks,powerpacks,restriction_policies,rum_applications,security_monitoring_rules,sensitive_data_scanner_groups,sensitive_data_scanner_groups_order,sensitive_data_scanner_rules,service_level_objectives,slo_corrections,spans_metrics,synthetics_global_variables,synthetics_mobile_applications,synthetics_mobile_applications_versions,synthetics_private_locations,synthetics_tests,team_memberships,teams"
       - name: Run integration tests
         run: tox -e integration
         env:
@@ -69,8 +80,9 @@ jobs:
           DD_TRACE_ANALYTICS_ENABLED: "true"
           RECORD: "none"
           PYTEST_ADDOPTS: "--ddtrace --disable-recording --retries 3 --retry-delay 10"
-      - name: Post-failure cleanup of orphaned resources
-        if: failure()
+      - name: Post-run cleanup of orphaned resources
+        if: always()
+        continue-on-error: true
         run: |
           yes | datadog-sync reset \
             --verify-ddr-status=False \
