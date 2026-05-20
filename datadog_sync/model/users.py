@@ -73,7 +73,11 @@ class Users(BaseResource):
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        pass
+        # Apply-time skip mirrors the import-time skip in import_resource so that
+        # an SA user already present in state (e.g. imported before this guard
+        # existed) is also bypassed during sync.
+        if resource.get("attributes", {}).get("service_account"):
+            raise SkipResource(_id, self.resource_type, "User is a service account.")
 
     async def pre_apply_hook(self) -> None:
         pass

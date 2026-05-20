@@ -69,3 +69,33 @@ class TestUsersImportResource:
         result_id, result = asyncio.run(users.import_resource(resource=resource))
         assert result_id == "user-id"
         assert result is resource
+
+
+class TestUsersPreResourceActionHook:
+    # Apply-time skip catches SA users already in state from earlier runs,
+    # before the import-time skip existed.
+
+    def test_pre_resource_action_hook_skips_service_account(self):
+        users = _make_users()
+        resource = {
+            "id": "sa-id",
+            "attributes": {"disabled": False, "service_account": True, "email": "sa@example.com"},
+        }
+        with pytest.raises(SkipResource, match=r"sa-id.*service account"):
+            asyncio.run(users.pre_resource_action_hook("sa-id", resource))
+
+    def test_pre_resource_action_hook_allows_regular_user(self):
+        users = _make_users()
+        resource = {
+            "id": "user-id",
+            "attributes": {"disabled": False, "service_account": False, "email": "x@example.com"},
+        }
+        assert asyncio.run(users.pre_resource_action_hook("user-id", resource)) is None
+
+    def test_pre_resource_action_hook_allows_user_without_service_account_field(self):
+        users = _make_users()
+        resource = {
+            "id": "user-id",
+            "attributes": {"disabled": False, "email": "x@example.com"},
+        }
+        assert asyncio.run(users.pre_resource_action_hook("user-id", resource)) is None
