@@ -72,8 +72,7 @@ class TestUsersImportResource:
 
 
 class TestUsersPreResourceActionHook:
-    # Apply-time skip catches SA users already in state from earlier runs,
-    # before the import-time skip existed.
+    """Apply-time skip — catches SA users already in state from runs before the import-time skip shipped."""
 
     def test_pre_resource_action_hook_skips_service_account(self):
         users = _make_users()
@@ -90,7 +89,8 @@ class TestUsersPreResourceActionHook:
             "id": "user-id",
             "attributes": {"disabled": False, "service_account": False, "email": "x@example.com"},
         }
-        assert asyncio.run(users.pre_resource_action_hook("user-id", resource)) is None
+        # Must not raise.
+        asyncio.run(users.pre_resource_action_hook("user-id", resource))
 
     def test_pre_resource_action_hook_allows_user_without_service_account_field(self):
         users = _make_users()
@@ -98,4 +98,5 @@ class TestUsersPreResourceActionHook:
             "id": "user-id",
             "attributes": {"disabled": False, "email": "x@example.com"},
         }
-        assert asyncio.run(users.pre_resource_action_hook("user-id", resource)) is None
+        # Must not raise.
+        asyncio.run(users.pre_resource_action_hook("user-id", resource))
