@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.5.0 / 2026-05-21
+
+### Added
+* fix(sync): log ResourceConnectionError at ERROR with missing-connections detail by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/565
+### Changed
+* feat(notebooks): lightweight LIST + per-id GET by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/567
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.4.0...4.5.0
+
 ## 4.4.0 / 2026-05-15
 
 ### Fixed
