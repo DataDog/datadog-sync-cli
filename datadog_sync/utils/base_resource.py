@@ -44,10 +44,14 @@ class TaggingConfig:
             val = tmp.get(p, None)
             if p == self.path_list[-1]:
                 if val is None:
-                    tmp[p] = self.default_tags
+                    # Copy so callers don't share the class-level default_tags list.
+                    tmp[p] = list(self.default_tags)
                     return
                 else:
-                    tmp[p].extend(self.default_tags)
+                    # Idempotent append: only add tags not already present, preserving order.
+                    for t in self.default_tags:
+                        if t not in tmp[p]:
+                            tmp[p].append(t)
                     return
             else:
                 tmp = val
