@@ -88,6 +88,7 @@ class Roles(BaseResource):
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         await self.remap_permissions(resource)
+        self._reconcile_builtin_role_permissions(_id, resource)
 
     async def create_resource(self, _id, resource) -> Tuple[str, Dict]:
         # this method uses role name from matching
@@ -318,6 +319,100 @@ class Roles(BaseResource):
                         permission["id"],
                     )
             resource["relationships"]["permissions"]["data"] = matched_permissions
+
+    def _reconcile_builtin_role_permissions(self, _id: str, resource: Dict) -> None:
+        """Trim a built-in role's permissions to match what the destination org actually grants.
+
+        Built-in roles (Datadog Admin/Standard/Read Only) cannot be created, updated, or deleted
+        via the API. Their permission set is owned by the destination org and can legitimately
+        differ from the source org (feature flags, sub-org policies, product entitlements).
+
+        After `remap_permissions` runs the working copy's permissions are destination UUIDs.
+        The destination role from `_existing_resources_map` also exposes the destination's
+        actual permission UUIDs. For built-in roles we intersect the two and write the result
+        back to the working copy AND to `state.source` so that:
+
+          - The in-process diff check (sync path) sees no divergence and skips the API call
+            that would otherwise be rejected as "built-in role".
+          - The on-disk source state (written by `dump_state` at the end of sync) reflects
+            the reconciled permission set, so the follow-up `diffs` invocation reads matching
+            source/destination state and produces no diff.
+
+        This runs in `pre_resource_action_hook`, which fires for both sync and diffs flows.
+        In the sync flow `resource` is a deep copy of `state.source`, so we explicitly update
+        the source dict in addition to the working copy. In the diffs flow `resource` IS the
+        same reference as `state.source[type][_id]`, so the working-copy update covers both.
+        Non-built-in roles are unchanged — those are handled by `_reconcile_persisted_permissions`
+        on the API response path.
+        """
+        try:
+            role_name = resource.get("attributes", {}).get("name")
+        except AttributeError:
+            return
+
+        if role_name not in BUILTIN_ROLE_NAMES:
+            return
+
+        existing = self._existing_resources_map.get(role_name) if self._existing_resources_map else None
+        if not existing:
+            return
+
+        try:
+            destination_perms = existing.get("relationships", {}).get("permissions", {}).get("data", [])
+            working_perms = resource.get("relationships", {}).get("permissions", {}).get("data", [])
+        except AttributeError:
+            return
+
+        if not working_perms:
+            return
+
+        destination_ids = {p.get("id") for p in destination_perms if isinstance(p, dict)}
+        trimmed = [p for p in working_perms if isinstance(p, dict) and p.get("id") in destination_ids]
+
+        if len(trimmed) == len(working_perms):
+            return
+
+        dropped_count = len(working_perms) - len(trimmed)
+        self.config.logger.debug(
+            "trimming %d permission(s) from built-in role '%s' to match destination",
+            dropped_count,
+            role_name,
+        )
+
+        resource["relationships"]["permissions"]["data"] = trimmed
+
+        # In the sync path `resource` is a deepcopy from `state.source`, so also trim the
+        # source dict so dump_state persists the reconciled set to disk for the follow-up
+        # diffs invocation. The source dict's permission entries are destination UUIDs at
+        # this point (remap_permissions has already run on it in the diffs path; in the
+        # sync path the source dict still holds permission *names*, so reverse-map UUID
+        # back to name via destination_permissions when needed).
+        source_state = self.config.state.source.get(self.resource_type, {}).get(_id)
+        if not source_state:
+            return
+        source_perms_container = source_state.get("relationships", {}).get("permissions", {})
+        source_perms = source_perms_container.get("data", [])
+        if not source_perms:
+            return
+
+        # Reverse map: destination UUID -> permission name (for sync path where source
+        # state still holds permission names after import_resource's name rewrite).
+        uuid_to_name = (
+            {uuid: name for name, uuid in self.destination_permissions.items()}
+            if self.destination_permissions
+            else {}
+        )
+        # A permission entry in source_perms may carry either a name (sync path, pre-remap)
+        # or a destination UUID (diffs path, where pre_resource_action_hook just ran on the
+        # same reference). Keep an entry if its id matches a kept destination UUID, OR if
+        # its id is the name corresponding to a kept destination UUID.
+        kept_names = {uuid_to_name.get(uuid) for uuid in destination_ids if uuid in uuid_to_name}
+        kept_names.discard(None)
+        source_perms_container["data"] = [
+            p
+            for p in source_perms
+            if isinstance(p, dict) and (p.get("id") in destination_ids or p.get("id") in kept_names)
+        ]
 
     def _reconcile_persisted_permissions(self, _id: str, requested: Dict, persisted: Dict) -> None:
         """Reconcile the source state with the permissions the destination actually persisted.
