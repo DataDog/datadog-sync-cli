@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.6.0 / 2026-05-22
+
+### Fixed
+* fix(roles): reconcile source state when destination silently drops permissions by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/572
+* Make TaggingConfig.add_default_tags idempotent by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/571
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.5.0...4.6.0
+
 ## 4.5.0 / 2026-05-21
 
 ### Added
