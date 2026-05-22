@@ -113,6 +113,7 @@ class Roles(BaseResource):
                 payload = {"data": resource}
                 try:
                     resp = await destination_client.post(self.resource_config.base_path, payload)
+                    self._reconcile_persisted_permissions(_id, resource, resp["data"])
                     return _id, resp["data"]
                 except CustomClientHTTPError as e:
                     if e.status_code == 400 and self.config.allow_partial_permissions_roles:
@@ -194,6 +195,7 @@ class Roles(BaseResource):
                     self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
                     payload,
                 )
+                self._reconcile_persisted_permissions(_id, resource, resp["data"])
                 return _id, resp["data"]
             except CustomClientHTTPError as e:
                 if e.status_code == 400 and self.config.allow_partial_permissions_roles:
@@ -316,6 +318,67 @@ class Roles(BaseResource):
                         permission["id"],
                     )
             resource["relationships"]["permissions"]["data"] = matched_permissions
+
+    def _reconcile_persisted_permissions(self, _id: str, requested: Dict, persisted: Dict) -> None:
+        """Reconcile the source state with the permissions the destination actually persisted.
+
+        The Datadog roles API silently drops some permission IDs on create/update — e.g. permissions
+        that imply each other, are gated by feature flags, or are not grantable to a given role —
+        without returning a 400. After a successful create/update, the response's permission list is
+        authoritative. If it is a strict subset of what we requested, we trim the source state in
+        memory to match, so subsequent `diffs` invocations (which re-load source state from disk via
+        importing) and in-process diff checks do not flag the dropped permissions as divergence.
+
+        The on-disk source state files (written by `import`) are intentionally NOT mutated — those
+        reflect the source org. We only adjust the in-memory representation used for diff
+        comparisons within this run.
+        """
+        try:
+            requested_perms = requested.get("relationships", {}).get("permissions", {}).get("data", [])
+            persisted_perms = persisted.get("relationships", {}).get("permissions", {}).get("data", [])
+        except AttributeError:
+            return
+
+        if not requested_perms:
+            return
+
+        persisted_ids = {p.get("id") for p in persisted_perms if isinstance(p, dict)}
+        dropped = [p for p in requested_perms if isinstance(p, dict) and p.get("id") not in persisted_ids]
+
+        if not dropped:
+            return
+
+        role_name = requested.get("attributes", {}).get("name", _id)
+        dropped_ids = [p.get("id") for p in dropped]
+        self.config.logger.warning(
+            "destination silently dropped %d permission(s) for role '%s': %s. "
+            "Trimming source state for this run to converge diffs.",
+            len(dropped_ids),
+            role_name,
+            dropped_ids,
+        )
+
+        # Trim the in-memory source state so subsequent diff comparisons in this run see the same
+        # permission set on both sides. `import_resource` rewrites source-state permission entries
+        # so their `id` field holds the permission *name* (not the source UUID); `remap_permissions`
+        # then maps name -> destination UUID on the per-resource working copy. So we reverse-look up
+        # the dropped destination UUIDs back to their permission names and trim source state by name.
+        if not self.destination_permissions:
+            return
+        uuid_to_name = {uuid: name for name, uuid in self.destination_permissions.items()}
+        dropped_names = {uuid_to_name[uuid] for uuid in dropped_ids if uuid in uuid_to_name}
+        if not dropped_names:
+            return
+        source_state = self.config.state.source.get(self.resource_type, {}).get(_id)
+        if not source_state:
+            return
+        source_perms_container = source_state.get("relationships", {}).get("permissions", {})
+        source_perms = source_perms_container.get("data", [])
+        if not source_perms:
+            return
+        source_perms_container["data"] = [
+            p for p in source_perms if isinstance(p, dict) and p.get("id") not in dropped_names
+        ]
 
     async def get_destination_roles_mapping(self):
         destination_client = self.config.destination_client
