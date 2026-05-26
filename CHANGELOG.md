@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.7.0 / 2026-05-26
+
+### Added
+* feat: add --destination-logs-intake-url flag by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/579
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.6.0...4.7.0
+
 ## 4.6.0 / 2026-05-22
 
 ### Fixed
