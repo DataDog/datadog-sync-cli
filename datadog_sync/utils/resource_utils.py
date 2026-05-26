@@ -4,12 +4,14 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import asyncio
 import re
 import logging
 from copy import deepcopy
 from graphlib import TopologicalSorter, CycleError
 from dateutil.parser import parse
 
+import aiohttp
 from deepdiff import DeepDiff
 from deepdiff.operator import BaseOperator
 
@@ -24,6 +26,30 @@ log = logging.getLogger(LOGGER_NAME)
 
 
 DEFAULT_TAGS = ["managed_by:datadog-sync"]
+
+
+# aiohttp timeout family — both have empty ``str()``.
+_TIMEOUT_EXC_TYPES = (asyncio.TimeoutError, aiohttp.ServerTimeoutError)
+
+
+def format_exc_for_log(exc: BaseException) -> str:
+    """Render an exception for ERROR-level logging without producing an empty body.
+
+    Bare ``str(exc)`` is empty for ``aiohttp.ServerTimeoutError()`` /
+    ``asyncio.TimeoutError()`` / ``aiohttp.ClientOSError()`` with no args,
+    producing log lines ending in ``-`` with no diagnostic.
+
+    Rules: timeout family → ``timeout: <ClassName>[: <msg>]`` (greppable token);
+    non-empty ``str(exc)`` → verbatim; empty ``str(exc)`` → class name fallback.
+    """
+    if isinstance(exc, _TIMEOUT_EXC_TYPES):
+        msg = str(exc)
+        cls = type(exc).__name__
+        return f"timeout: {cls}: {msg}" if msg else f"timeout: {cls}"
+    msg = str(exc)
+    if msg:
+        return msg
+    return type(exc).__name__
 
 
 class SkipResource(Exception):
