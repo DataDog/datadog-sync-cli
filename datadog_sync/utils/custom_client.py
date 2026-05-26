@@ -160,6 +160,18 @@ class CustomClient:
         url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
         return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
 
+    @request_with_retry
+    async def _post_raw(self, session: aiohttp.ClientSession, url: str, body: dict):
+        return session.post(url, json=body, timeout=self.timeout)
+
+    async def post_unauthenticated(self, url: str, payload: dict) -> None:
+        ssl_ctx = ssl.create_default_context(cafile=certifi.where()) if self.verify_ssl else False
+        async with aiohttp.ClientSession(
+            connector=aiohttp.TCPConnector(ssl=ssl_ctx),
+            headers={"Content-Type": "application/json", "User-Agent": _get_user_agent()},
+        ) as session:
+            await self._post_raw(session, url, payload)
+
     def paginated_request(self, func: Awaitable) -> Awaitable:
         async def wrapper(*args, **kwargs):
             pagination_config = kwargs.pop("pagination_config", self.default_pagination)
