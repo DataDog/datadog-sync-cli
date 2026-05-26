@@ -90,6 +90,7 @@ class Configuration(object):
     resource_per_file: bool = False
     prune_force: bool = False
     prune_dry_run: bool = False
+    destination_logs_intake_url: Optional[str] = None
 
     async def init_async(self, cmd: Command):
         await self.source_client._init_session()
@@ -259,6 +260,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
+    destination_logs_intake_url = kwargs.get("destination_logs_intake_url")
 
     # Initialize the datadog API Clients based on cmd
     retry_timeout = kwargs.get("http_client_retry_timeout")
@@ -568,6 +570,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         id_payload=id_payload,
         max_concurrent_reads=max_concurrent_reads,
         transient_failure_threshold_pct=transient_failure_threshold_pct,
+        destination_logs_intake_url=destination_logs_intake_url,
     )
 
     # Initialize resource classes
