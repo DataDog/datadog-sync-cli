@@ -5,15 +5,18 @@
 
 from __future__ import annotations
 import abc
+import asyncio
 from asyncio import Lock
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, ClassVar, Optional, Dict, List, Tuple
+from typing import TYPE_CHECKING, Callable, ClassVar, Optional, Dict, List, Tuple, Union
 
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.resource_utils import (
     DEFAULT_TAGS,
     CustomClientHTTPError,
+    FilteredResource,
+    SkipResource,
     find_attr,
     ResourceConnectionError,
 )
@@ -41,10 +44,14 @@ class TaggingConfig:
             val = tmp.get(p, None)
             if p == self.path_list[-1]:
                 if val is None:
-                    tmp[p] = self.default_tags
+                    # Copy so callers don't share the class-level default_tags list.
+                    tmp[p] = list(self.default_tags)
                     return
                 else:
-                    tmp[p].extend(self.default_tags)
+                    # Idempotent append: only add tags not already present, preserving order.
+                    for t in self.default_tags:
+                        if t not in tmp[p]:
+                            tmp[p].append(t)
                     return
             else:
                 tmp = val
@@ -62,6 +69,29 @@ class ResourceConfig:
     tagging_config: Optional[TaggingConfig] = None
     async_lock: Optional[Lock] = None
     non_nullable_list_vals: Optional[List[Tuple[str, Dict[str, str]]]] = None
+    resource_mapping_key: Optional[Union[str, Callable[[Dict], str]]] = None
+    skip_resource_mapping: bool = False
+    # Attr-name prefixes that the LIST endpoint omits from response items.
+    # When non-empty, two changes to --filter semantics:
+    #   1) resources_handler._import_resource partitions the user's --filter
+    #      list at LIST-time. Filters whose attr_name starts with any of
+    #      these prefixes are "list-unsafe" — the LIST item cannot decide
+    #      them — and are DEFERRED to the post-GET pass. Filters that don't
+    #      reference these prefixes ("list-safe") still run at LIST-time and
+    #      short-circuit normally, preserving the per-page rejection
+    #      optimization for the common case (filter by name, tags, status).
+    #   2) base_resource._import_resource evaluates the full --filter set
+    #      against the per-id GET payload and raises FilteredResource on
+    #      rejection. The handler buckets FilteredResource as `filtered`
+    #      (matching the LIST-time pre-filter accounting).
+    # Example: notebooks set this to ["attributes.cells"] — the LIST drops
+    # include_cells, so a filter on attributes.cells.X cannot be decided at
+    # LIST-time. A filter on attributes.name still short-circuits at
+    # LIST-time without forcing a per-id GET for every rejected notebook.
+    # The previous boolean form (skip LIST-time filter entirely when set)
+    # made metadata-only filters force a per-id GET per item, a wall-clock
+    # / rate-limit regression for the common filter-by-name use case.
+    list_omitted_attr_prefixes: List[str] = field(default_factory=list)
 
     async def init_async(self) -> None:
         self.async_lock = Lock()
@@ -83,9 +113,57 @@ class BaseResource(abc.ABC):
 
     def __init__(self, config: Configuration) -> None:
         self.config = config
+        self._existing_resources_map: Dict[str, Dict] = {}
+        if not self.resource_config.skip_resource_mapping and self.resource_config.resource_mapping_key is None:
+            raise ValueError(
+                f"Resource {self.resource_type} has skip_resource_mapping=False "
+                f"but resource_mapping_key is not defined"
+            )
 
     async def init_async(self):
         await self.resource_config.init_async()
+
+    def get_resource_mapping_key(self, resource: Dict) -> Optional[str]:
+        """Extract the mapping key from a resource using resource_mapping_key config.
+
+        Supports dot-path strings (e.g. "attributes.email") and callables.
+        Returns None if resource_mapping_key is not configured, if the dot-path
+        traversal encounters a missing key, if the terminal value is None, or if
+        a callable raises an exception.
+        """
+        key_config = self.resource_config.resource_mapping_key
+        if key_config is None:
+            return None
+        if callable(key_config):
+            try:
+                return key_config(resource)
+            except (KeyError, TypeError, AttributeError):
+                return None
+        # Dot-path traversal
+        tmp = resource
+        for part in key_config.split("."):
+            if not isinstance(tmp, dict) or part not in tmp:
+                return None
+            tmp = tmp[part]
+        if tmp is None:
+            return None
+        return str(tmp)
+
+    async def map_existing_resources(self) -> None:
+        """Fetch destination resources and populate _existing_resources_map.
+
+        Default implementation fetches all destination resources via
+        self.get_resources(destination_client) and builds _existing_resources_map
+        keyed by resource_mapping_key.
+
+        Tier 2 resources override this for custom fetch/mapping logic.
+        """
+        dest_resources = await self.get_resources(self.config.destination_client)
+        self._existing_resources_map = {}
+        for resource in dest_resources:
+            key = self.get_resource_mapping_key(resource)
+            if key is not None:
+                self._existing_resources_map[key] = resource
 
     @abc.abstractmethod
     async def get_resources(self, client: CustomClient) -> List[Dict]:
@@ -95,12 +173,116 @@ class BaseResource(abc.ABC):
         r = self.get_resources(client)
         return await r
 
+    async def get_resources_by_ids(
+        self,
+        client: CustomClient,
+        ids: List[str],
+        max_concurrent_reads: int = 10,
+    ) -> Tuple[List[Dict], List[str], List[Tuple[str, str, str]]]:
+        """Fetch specific resources by ID instead of listing all.
+
+        Returns: (resources, missing_ids, errored_ids)
+          - resources: successfully-fetched resource dicts
+          - missing_ids: IDs returning HTTP 404 (resource deleted between enum and fetch)
+          - errored_ids: list of (id, class, reason) where class in {"transient","permanent","skipped"}
+
+        Reuses the model's existing import_resource(_id=...) primitive, which inherits
+        per-model semantics (envelope unwrap, SkipResource, etc.). Concurrency bounded by
+        asyncio.Semaphore(max_concurrent_reads), separate from --max-workers.
+
+        Models whose import_resource has the `if _id:` guard pattern (monitors, SLOs,
+        downtimes, synthetics) work with this default impl. Dashboards and notebooks
+        always GET to fetch per-item bodies (widgets / cells) that the LIST endpoint
+        omits — their import_resource also short-circuits when the caller already
+        supplied a full body (detected by widgets/cells presence), so the --id-file
+        path here does exactly one GET per ID: the get_resources_by_ids call below
+        fetches each body, the queue handler later passes the same body back into
+        import_resource which returns it as-is rather than re-fetching.
+        """
+        sem = asyncio.Semaphore(max_concurrent_reads)
+        resources: List[Dict] = []
+        missing: List[str] = []
+        errored: List[Tuple[str, str, str]] = []
+
+        # Lazy import: aiohttp is already a sync-cli dependency (custom_client.py)
+        # but importing at module load creates a heavier import graph for tests.
+        import aiohttp
+
+        async def fetch_one(id_: str):
+            async with sem:
+                try:
+                    _, resource = await self.import_resource(_id=id_)
+                    return ("ok", resource)
+                except SkipResource as e:
+                    return ("skipped", id_, str(e))
+                except CustomClientHTTPError as e:
+                    if e.status_code == 404:
+                        return ("missing", id_)
+                    if e.status_code == 429 or e.status_code >= 500:
+                        return ("transient", id_, f"HTTP {e.status_code}")
+                    return ("permanent", id_, f"HTTP {e.status_code}")
+                except (asyncio.TimeoutError,):
+                    return ("transient", id_, "timeout")
+                except aiohttp.ClientError as e:
+                    # Includes ClientConnectionError (DNS, connection refused, TCP reset),
+                    # ServerDisconnectedError, etc. These are transport-shaped failures
+                    # that downstream consumers should treat the same as 5xx/429.
+                    return ("transient", id_, f"connection error: {type(e).__name__}")
+                except Exception as e:
+                    # request_with_retry() in custom_client.py raises a plain Exception
+                    # with the literal prefix "retry limit exceeded" when its retry budget
+                    # is exhausted without an inner ClientResponseError firing first.
+                    # Treat that case as transient so sustained-throttling surfaces as
+                    # rate-limit-shaped exit, not silent partial success.
+                    # NOTE: substring match couples to a log-message format. The companion
+                    # test test_request_with_retry_message_contract pins the message shape
+                    # so a refactor in custom_client.py will fail the test rather than
+                    # silently demote retry-budget exhaustion back to permanent.
+                    msg = str(e)
+                    if "retry limit exceeded" in msg:
+                        return ("transient", id_, msg[:200])
+                    return ("permanent", id_, msg[:200])
+
+        results = await asyncio.gather(*(fetch_one(i) for i in ids))
+        for r in results:
+            tag = r[0]
+            if tag == "ok":
+                resources.append(r[1])
+            elif tag == "missing":
+                missing.append(r[1])
+            elif tag == "skipped":
+                errored.append((r[1], "skipped", r[2]))
+            elif tag == "transient":
+                errored.append((r[1], "transient", r[2]))
+            else:
+                errored.append((r[1], "permanent", r[2]))
+        return resources, missing, errored
+
     @abc.abstractmethod
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         pass
 
-    async def _import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> str:
+    async def _import_resource(
+        self,
+        _id: Optional[str] = None,
+        resource: Optional[Dict] = None,
+        skip_filter: bool = False,
+    ) -> str:
         _id, r = await self.import_resource(_id, resource)
+
+        # Post-GET filter re-evaluation for models whose LIST omits fields that
+        # filters may reference (notebooks' cells, dashboards' widgets). The
+        # LIST-time filter in resources_handler defers list-unsafe filters
+        # (those referencing list_omitted_attr_prefixes) to this pass; the
+        # post-GET payload has the full body so all filters can be evaluated
+        # authoritatively here. Resources rejected here raise FilteredResource
+        # — the handler buckets them as `filtered`, not `skipped`. State is
+        # not written. skip_filter=True bypasses this check for the
+        # --force-missing-dependencies path: a filtered-out dep that another
+        # kept resource depends on must be imported anyway, or downstream
+        # ID remapping in run_sorter() will fail with unresolved references.
+        if not skip_filter and self.resource_config.list_omitted_attr_prefixes and not self.filter(r):
+            raise FilteredResource(str(_id), self.resource_type)
 
         if self.resource_config.tagging_config is not None:
             try:
@@ -110,7 +292,12 @@ class BaseResource(abc.ABC):
                     f"Error while adding default tags to resource {self.resource_type}. {str(e)}"
                 )
 
-        self.config.state.source[self.resource_type][str(_id)] = r
+        # Use the SourceStateWriter protocol method so this works against both
+        # State (which loaded prior data on construction) and ImportState
+        # (write-only; constructed via --skip-state-load). Direct
+        # `state.source[type][id] = r` would only work on State and would
+        # AttributeError on ImportState, which has no .source accessor.
+        self.config.state.set_source(self.resource_type, str(_id), r)
         return str(_id)
 
     @abc.abstractmethod
@@ -198,7 +385,11 @@ class BaseResource(abc.ABC):
             e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
             if not self.config.skip_failed_resource_connections:
                 e = ResourceConnectionError(failed_connections_dict=failed_connections_dict)
-                self.config.logger.info(f"skipping resource: {str(e)}", _id=_id, resource_type=self.resource_type)
+                self.config.logger.info(
+                    f"skipping resource: {str(e)}",
+                    _id=_id,
+                    resource_type=self.resource_type,
+                )
                 raise e
             else:
                 self.config.logger.debug(f"{str(e)}", _id=_id, resource_type=self.resource_type)

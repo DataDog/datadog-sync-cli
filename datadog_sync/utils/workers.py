@@ -117,7 +117,7 @@ class Counter:
         )
 
     def reset_counter(self) -> None:
-        self.successes = self.failure = self.skipped = 0
+        self.successes = self.failure = self.skipped = self.filtered = 0
 
     def increment_success(self) -> None:
         self.successes += 1

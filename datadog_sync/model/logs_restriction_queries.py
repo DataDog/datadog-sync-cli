@@ -25,6 +25,7 @@ class LogsRestrictionQueries(BaseResource):
             "data.id",
             "included",
         ],
+        skip_resource_mapping=True,
     )
     # Additional LogsRestrictionQueries specific attributes
     pagination_config = PaginationConfig(
@@ -113,8 +114,17 @@ class LogsRestrictionQueries(BaseResource):
             try:
                 await self.add_log_restriction_query_role(_id, role_id)
             except CustomClientHTTPError as e:
-                self.config.logger.error("error adding role %s to log restriction query %s: %s", role_id, _id, e)
-                continue
+                if e.status_code == 400 and "already has an attached restriction query" in str(e):
+                    try:
+                        await self._reassign_role(_id, role_id)
+                    except CustomClientHTTPError as e2:
+                        self.config.logger.error(
+                            "error adding role %s to log restriction query %s: %s", role_id, _id, e2
+                        )
+                        continue
+                else:
+                    self.config.logger.error("error adding role %s to log restriction query %s: %s", role_id, _id, e)
+                    continue
             successfully_added.append(role_id)
         for role_id in removed_roles:
             try:
@@ -125,6 +135,31 @@ class LogsRestrictionQueries(BaseResource):
             successfully_removed.append(role_id)
         return successfully_added, successfully_removed
 
+    async def _reassign_role(self, target_query_id: str, role_id: str) -> None:
+        destination_client = self.config.destination_client
+        all_queries = await self.get_resources(destination_client)
+        role_already_on_target = False
+        for query in all_queries:
+            qid = query.get("id")
+            try:
+                roles_resp = await destination_client.get(self.logs_restriction_query_roles_path.format(qid))
+            except CustomClientHTTPError:
+                continue
+            for role in roles_resp.get("data", []):
+                if role["id"] == role_id:
+                    if qid == target_query_id:
+                        role_already_on_target = True
+                    else:
+                        try:
+                            await self.remove_log_restriction_query_role(qid, role_id)
+                        except CustomClientHTTPError:
+                            pass
+                    break
+            if role_already_on_target:
+                break
+        if not role_already_on_target:
+            await self.add_log_restriction_query_role(target_query_id, role_id)
+
     async def add_log_restriction_query_role(self, _id: str, role_id: str) -> None:
         destination_client = self.config.destination_client
         payload = {"data": {"id": role_id, "type": "roles"}}
@@ -133,4 +168,4 @@ class LogsRestrictionQueries(BaseResource):
     async def remove_log_restriction_query_role(self, _id: str, role_id: str) -> None:
         destination_client = self.config.destination_client
         payload = {"data": {"id": role_id, "type": "roles"}}
-        await destination_client.delete(self.logs_restriction_query_roles_path.format(_id), payload)
+        await destination_client.delete(self.logs_restriction_query_roles_path.format(_id), body=payload)

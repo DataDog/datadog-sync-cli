@@ -31,9 +31,7 @@ class TestGCSBucket:
             mock_bucket = MagicMock()
             mock_client.bucket.return_value = mock_bucket
 
-            GCSBucket(
-                config={"gcs_bucket_name": "test-bucket", "gcs_service_account_key_file": "/path/to/key.json"}
-            )
+            GCSBucket(config={"gcs_bucket_name": "test-bucket", "gcs_service_account_key_file": "/path/to/key.json"})
 
             mock_storage.Client.from_service_account_json.assert_called_once_with("/path/to/key.json")
             mock_client.bucket.assert_called_once_with("test-bucket")
@@ -256,12 +254,15 @@ class TestGCSBucket:
             MagicMock(name="resources/source/roles.good2.json"),
         ]
         # MagicMock(name=...) sets the mock's internal name, not .name attribute
-        for blob, n in zip(blobs, [
-            "resources/source/roles.good1.json",
-            "resources/source/roles.deleted.json",
-            "resources/source/roles.badjson.json",
-            "resources/source/roles.good2.json",
-        ]):
+        for blob, n in zip(
+            blobs,
+            [
+                "resources/source/roles.good1.json",
+                "resources/source/roles.deleted.json",
+                "resources/source/roles.badjson.json",
+                "resources/source/roles.good2.json",
+            ],
+        ):
             blob.name = n
 
         non_json = MagicMock()

@@ -13,6 +13,7 @@ class MetricPercentiles(BaseResource):
     resource_config = ResourceConfig(
         base_path="/metric/distribution/summary_aggr",
         excluded_attributes=["key"],
+        skip_resource_mapping=True,
     )
     # Additional MetricPercentiles specific attributes
     metrics_summaries_get_path = "/metric/distribution/list_summaries"

@@ -6,6 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
+from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -18,6 +19,7 @@ class ServiceLevelObjectives(BaseResource):
         base_path="/api/v1/slo",
         excluded_attributes=["creator", "id", "created_at", "modified_at"],
         tagging_config=TaggingConfig(path="tags"),
+        skip_resource_mapping=True,
     )
     # Additional ServiceLevelObjectives specific attributes
 
@@ -34,7 +36,19 @@ class ServiceLevelObjectives(BaseResource):
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        pass
+        if resource.get("type") == "metric":
+            query = resource.get("query")
+            if not isinstance(query, dict):
+                return
+            for field in ("numerator", "denominator"):
+                query_str = query.get(field, "")
+                if query_str and ".as_count()" not in query_str:
+                    raise SkipResource(
+                        _id,
+                        self.resource_type,
+                        f"Deprecated resource configuration: Metric SLO query '{field}' "
+                        "is missing the .as_count() modifier. Update the source SLO query before syncing.",
+                    )
 
     async def pre_apply_hook(self) -> None:
         pass
@@ -63,7 +77,6 @@ class ServiceLevelObjectives(BaseResource):
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.state.destination["monitors"]
-        synthetics_tests = self.config.state.destination["synthetics_tests"]
 
         failed_connections = []
         for i, obj in enumerate(r_obj[key]):
@@ -72,7 +85,9 @@ class ServiceLevelObjectives(BaseResource):
             if _id in monitors:
                 r_obj[key][i] = monitors[_id]["id"]
                 continue
-            # Fall back on Synthetics and check
+            # Fall back on Synthetics and check — bulk-load the type first
+            self.config.state.ensure_resource_type_loaded("synthetics_tests")
+            synthetics_tests = self.config.state.destination["synthetics_tests"]
             found = False
             for k, v in synthetics_tests.items():
                 if k.endswith(_id):

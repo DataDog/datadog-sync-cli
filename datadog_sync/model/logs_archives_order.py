@@ -46,6 +46,7 @@ class LogsArchivesOrder(BaseResource):
             "ignore_order": False,
             "custom_operators": [LogsArchivesOrderIdsComparator()],
         },
+        skip_resource_mapping=True,
     )
     # Additional LogsArchivesOrder specific attributes
     destination_archives_order: Dict[str, Dict] = dict()

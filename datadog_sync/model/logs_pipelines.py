@@ -27,6 +27,7 @@ class LogsPipelines(BaseResource):
             "description",
         ],
         null_values={"tags": [[]], "description": [""]},
+        skip_resource_mapping=True,
     )
     # Additional LogsPipelines specific attributes
     destination_integration_pipelines: Dict[str, Dict] = dict()
@@ -85,13 +86,16 @@ class LogsPipelines(BaseResource):
             }
 
             # Submit a log to the logs intake API to trigger the creation of the integration pipeline
-            subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain}"
-            if destination_client.url_object.subdomain == "api":
-                subdomain = self.logs_intake_subdomain
-            elif destination_client.url_object.subdomain.startswith("api."):
-                subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain[4:]}"
-
-            await destination_client.post(self.logs_intake_path, payload, subdomain=subdomain)
+            override_url = self.config.destination_logs_intake_url
+            if override_url:
+                await destination_client.post_unauthenticated(override_url, payload)
+            else:
+                subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain}"
+                if destination_client.url_object.subdomain == "api":
+                    subdomain = self.logs_intake_subdomain
+                elif destination_client.url_object.subdomain.startswith("api."):
+                    subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain[4:]}"
+                await destination_client.post(self.logs_intake_path, payload, subdomain=subdomain)
 
             created = False
             for _ in range(12):

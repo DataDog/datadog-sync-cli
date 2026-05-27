@@ -34,6 +34,7 @@ class DowntimeSchedules(BaseResource):
             "ignore_order": True,
             "custom_operators": [DowntimeSchedulesDateOperator()],
         },
+        skip_resource_mapping=True,
     )
     pagination_config = PaginationConfig(
         page_size=100,

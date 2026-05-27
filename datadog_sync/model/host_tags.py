@@ -17,6 +17,7 @@ class HostTags(BaseResource):
     resource_type = "host_tags"
     resource_config = ResourceConfig(
         base_path="/api/v1/tags/hosts",
+        skip_resource_mapping=True,
     )
     # Additional HostTags specific attributes
 

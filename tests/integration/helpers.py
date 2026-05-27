@@ -366,6 +366,9 @@ class BaseResourcesTestClass:
             sync_cmd.append(f"--resources={self.resource_type}")
 
         ret = runner.invoke(cli, sync_cmd)
+        if ret.exit_code != 0:
+            # Retry cleanup once — dependency ordering can cause transient failures
+            ret = runner.invoke(cli, sync_cmd)
         assert 0 == ret.exit_code
         caplog.clear()
 

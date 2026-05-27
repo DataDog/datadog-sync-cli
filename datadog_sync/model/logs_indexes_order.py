@@ -25,6 +25,7 @@ class LogsIndexesOrder(BaseResource):
             "ignore_order": False,
             "custom_operators": [LogsIndexesOrderNameComparator()],
         },
+        skip_resource_mapping=True,
     )
     # Additional LogsIndexesOrder specific attributes
     destination_indexes_order: Dict[str, Dict] = dict()

@@ -28,6 +28,7 @@ class SyntheticsMobileApplications(BaseResource):
             "framework": [""],
         },
         tagging_config=TaggingConfig(path="tags"),
+        skip_resource_mapping=True,
     )
     # Additional Synthetics Mobile Applications specific attributes
 

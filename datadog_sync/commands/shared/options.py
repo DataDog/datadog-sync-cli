@@ -91,6 +91,13 @@ _destination_auth_options = [
         help="Datadog destination organization API url.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--destination-logs-intake-url",
+        envvar=constants.DD_DESTINATION_LOGS_INTAKE_URL,
+        default=None,
+        help="Override the destination logs intake URL for integration pipeline creation.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 
@@ -175,6 +182,35 @@ _common_options = [
         required=False,
         type=int,
         help="Max number of workers when running operations in multi-threads.",
+        cls=CustomOptionClass,
+    ),
+    # ID-targeted import flags (monitors only in v1)
+    option(
+        "--id-file",
+        required=False,
+        default=None,
+        help="Path to JSON file mapping resource types to ID lists, or `-` for stdin. "
+        "When set, import command fetches only the specified IDs instead of "
+        "listing all resources. v1 supports monitors only.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--max-concurrent-reads",
+        required=False,
+        default=30,
+        type=int,
+        help="Concurrency cap for --id-file per-ID GETs. Separate from --max-workers. "
+        "Default 30. Capped at 200; values above 100 may not yield more concurrency "
+        "due to aiohttp's default TCPConnector limit.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--transient-failure-threshold-pct",
+        required=False,
+        default=5,
+        type=int,
+        help="Percentage of transient (5xx/429/timeout) failures within an --id-file "
+        "fetch that triggers a rate-limit-shaped exit. Default 5.",
         cls=CustomOptionClass,
     ),
     option(
@@ -453,7 +489,7 @@ _diffs_options = [
 ]
 
 
-_sync_options = [
+_force_missing_dependencies_options = [
     option(
         "--force-missing-dependencies",
         required=False,
@@ -463,6 +499,9 @@ _sync_options = [
         help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
         cls=CustomOptionClass,
     ),
+]
+
+_sync_options = [
     option(
         "--create-global-downtime",
         required=False,
@@ -511,6 +550,10 @@ def storage_options(func: Callable) -> Callable:
 
 def diffs_options(func: Callable) -> Callable:
     return _build_options_helper(func, _diffs_options)
+
+
+def force_missing_dependencies_options(func: Callable) -> Callable:
+    return _build_options_helper(func, _force_missing_dependencies_options)
 
 
 def sync_options(func: Callable) -> Callable:

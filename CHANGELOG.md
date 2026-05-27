@@ -1,5 +1,113 @@
 # Changelog
 
+## 4.7.0 / 2026-05-26
+
+### Added
+* feat: add --destination-logs-intake-url flag by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/579
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.6.0...4.7.0
+
+## 4.6.0 / 2026-05-22
+
+### Fixed
+* fix(roles): reconcile source state when destination silently drops permissions by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/572
+* Make TaggingConfig.add_default_tags idempotent by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/571
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.5.0...4.6.0
+
+## 4.5.0 / 2026-05-21
+
+### Added
+* fix(sync): log ResourceConnectionError at ERROR with missing-connections detail by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/565
+### Changed
+* feat(notebooks): lightweight LIST + per-id GET by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/567
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.4.0...4.5.0
+
+## 4.4.0 / 2026-05-15
+
+### Fixed
+* fix(roles): guard built-in Datadog roles from create and update by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/562
+* fix(synthetics_global_variables): key on (name, type) to resolve 409 conflict by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/564
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.3.0...4.4.0
+
+## 4.3.0 / 2026-05-13
+
+### Added
+* feat(storage): add list_filenames, delete, delete_many primitives by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/553
+* feat(state): add compute_stale_files and delete_stale_files helpers by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/554
+* feat(cli): add prune command for orphaned state-file cleanup by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/555
+* feat(import): add ImportState + --skip-state-load flag for write-only import by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/560
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.2.0...4.3.0
+
+## 4.2.0 / 2026-05-11
+
+### Fixed
+* Fixing rum sync by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/552
+### Added
+* feat(import): add --id-file for ID-targeted monitor import by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/557
+* feat(state): `compute_stale_files` and `delete_stale_files` helpers on `State` — internal API supporting an upcoming `prune` command.
+* feat(cli): new `prune` command for deleting orphaned per-resource state files when source resources are removed upstream. Requires `--resource-per-file` and explicit `--resources`. Supports `--dry-run`, `--force`, and `--json` modes.
+### Changed
+* refactor(cli): extract --force-missing-dependencies into its own option group by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/549
+* Exclude new field for now by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/556
+
+## New Contributors
+* @riyazsh made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/557
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.1.0...4.2.0
+
+## 4.1.0 / 2026-04-27
+
+### Fixed
+* fix(storage): standardize filename sanitization across all backends by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/543
+* fix(sync): bulk-load synthetics_tests for full-scan lookups in minimize-reads mode by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/547
+### Added
+* feat(sync): add --minimize-reads with type-scoped storage loading by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/544
+### Changed
+* feat(sync): add ID-targeted loading and per-dependency lazy loading by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/545
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.0.1...4.1.0
+
+## 4.0.1 / 2026-04-22
+
+### Fixed
+* fix: handle org: principal remapping failure in restriction_policies [DRALLSTSBX-49] by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/540
+* feat: remap restriction_policy principals in monitors connect_id [DRALLSTSBX-49] by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/541
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.0.0...4.0.1
+
+## 4.0.0 / 2026-04-20
+
+### Changed
+* feat: add map_existing_resources infrastructure by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/527
+* feat: migrate logs_indexes, metric_tag_configurations, synthetics_global_variables, teams, users to map_existing_resources by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/528
+* feat: migrate logs_metrics, roles, security_monitoring_rules, team_memberships to map_existing_resources by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/538
+### Fixed
+* fix: skip custom check monitors missing options/groupby at sync time by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/539
+* fix: skip metric SLOs missing .as_count() modifier at sync time by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/534
+* fix: skip SDS rules with missing standard patterns; strip null included_keywords by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/535
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.2.0...4.0.0
+
+## 3.2.0 / 2026-04-14
+
+### Changed
+* perf: filter resources before building dependency graph by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/524
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/3.1.5...3.2.0
+
 ## 3.1.5 / 2026-04-08
 
 ### Fixed

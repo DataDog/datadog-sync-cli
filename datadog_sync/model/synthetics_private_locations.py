@@ -32,6 +32,7 @@ class SyntheticsPrivateLocations(BaseResource):
             "public_key_test",
         ],
         tagging_config=TaggingConfig(path="tags"),
+        skip_resource_mapping=True,
     )
     # Additional SyntheticsPrivateLocations specific attributes
     base_locations_path: str = "/api/v1/synthetics/locations"
@@ -49,14 +50,13 @@ class SyntheticsPrivateLocations(BaseResource):
         if not self.pl_id_regex.match(import_id):
             raise SkipResource(import_id, self.resource_type, "Managed location.")
 
-        resp = await source_client.get(
+        pl = await source_client.get(
             self.resource_config.base_path + f"/{import_id}",
             params={"include_pl_info": "true"},
         )
+        self.config.state.set_source(self.resource_type, import_id, pl)
 
-        self.config.state.source[self.resource_type][import_id] = resp
-
-        return import_id, resp
+        return import_id, pl
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass

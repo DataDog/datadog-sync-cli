@@ -30,6 +30,7 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
             "extracted_metadata",
             "file_name",
         ],
+        skip_resource_mapping=True,
     )
     # Additional Synthetics Mobile Applications Versions specific attributes
     applications_path = "/api/unstable/synthetics/mobile/applications"

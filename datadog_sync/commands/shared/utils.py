@@ -46,6 +46,8 @@ async def run_cmd_async(cfg: Configuration, handler: ResourcesHandler, cmd: Comm
             await handler.apply_resources()
         elif cmd == Command.RESET:
             await handler.reset()
+        elif cmd == Command.PRUNE:
+            await handler.prune()
         else:
             cfg.logger.error(f"Command {cmd.value} not found")
             return

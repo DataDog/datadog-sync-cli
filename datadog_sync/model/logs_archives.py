@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -17,6 +18,7 @@ class LogsArchives(BaseResource):
     resource_config = ResourceConfig(
         base_path="/api/v2/logs/config/archives",
         excluded_attributes=["id", "attributes.state"],
+        skip_resource_mapping=True,
     )
     # Additional LogsArchives specific attributes
 
@@ -42,8 +44,18 @@ class LogsArchives(BaseResource):
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         payload = {"data": resource}
-        resp = await destination_client.post(self.resource_config.base_path, payload)
-
+        try:
+            resp = await destination_client.post(self.resource_config.base_path, payload)
+        except CustomClientHTTPError as e:
+            if e.status_code == 400 and "already exists" in str(e):
+                # Archive with this name already exists in destination; find it by name and adopt it.
+                existing = await destination_client.get(self.resource_config.base_path)
+                name = resource.get("attributes", {}).get("name")
+                for archive in existing.get("data", []):
+                    if archive.get("attributes", {}).get("name") == name:
+                        self.config.state.destination[self.resource_type][_id] = archive
+                        return await self.update_resource(_id, resource)
+            raise
         return _id, resp["data"]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:

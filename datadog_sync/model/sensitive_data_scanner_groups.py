@@ -21,6 +21,7 @@ class SensitiveDataScannerGroups(BaseResource):
             "relationships",
         ],
         concurrent=False,
+        skip_resource_mapping=True,
     )
     # Additional SensitiveDataScannerGroups specific attributes
 

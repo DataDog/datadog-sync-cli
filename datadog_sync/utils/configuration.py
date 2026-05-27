@@ -41,8 +41,9 @@ from datadog_sync.model.downtime_schedules import DowntimeSchedules
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
-from datadog_sync.utils.filter import Filter, process_filters
+from datadog_sync.utils.filter import Filter, process_filters, EXACT_MATCH_OPERATOR
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
+from datadog_sync.utils.import_state import ImportState
 from datadog_sync.utils.state import State
 from datadog_sync.utils.storage.storage_types import StorageType
 
@@ -61,7 +62,15 @@ class Configuration(object):
     create_global_downtime: bool
     validate: bool
     send_metrics: bool
-    state: State
+    # Typed as Union so the field accepts both State (the common case — all
+    # commands except --skip-state-load-on-import use this) and ImportState
+    # (a write-only specialization for the import command with --skip-state-load).
+    # State has the full read+write surface; ImportState exposes only the write
+    # methods declared by the SourceStateWriter protocol. Sync/diffs/migrate/
+    # reset/prune code paths assume State; that's enforced at runtime by the
+    # Click decorator (which only registers --skip-state-load on import) plus a
+    # defensive isinstance check in _handle_deprecated.
+    state: Union[State, ImportState]
     verify_ddr_status: bool
     backup_before_reset: bool
     show_progress_bar: bool
@@ -72,6 +81,17 @@ class Configuration(object):
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
+    # --id-file: id-targeted import via stdin or file payload (monitors only in v1).
+    # Other resource types use the legacy list-everything path. Future expansion
+    # (e.g. SLOs) is mechanical via BaseResource.get_resources_by_ids inheritance.
+    id_payload: Optional[Dict[str, List[str]]] = None
+    max_concurrent_reads: int = 30
+    transient_failure_threshold_pct: int = 5
+    fatal_error: bool = False
+    resource_per_file: bool = False
+    prune_force: bool = False
+    prune_dry_run: bool = False
+    destination_logs_intake_url: Optional[str] = None
 
     async def init_async(self, cmd: Command):
         await self.source_client._init_session()
@@ -86,7 +106,7 @@ class Configuration(object):
                     await _validate_client(self.destination_client)
                 except Exception:
                     sys.exit(1)
-            if cmd in [Command.IMPORT, Command.MIGRATE, Command.RESET]:
+            if cmd in [Command.IMPORT, Command.MIGRATE, Command.RESET, Command.PRUNE]:
                 try:
                     await _validate_client(self.source_client)
                 except Exception:
@@ -103,7 +123,7 @@ class Configuration(object):
                         f"The destination DDR verification failed. {err} Use the --verify-ddr-status flag to override."
                     )
                     sys.exit(1)
-            if cmd in [Command.IMPORT, Command.DIFFS, Command.MIGRATE]:
+            if cmd in [Command.IMPORT, Command.DIFFS, Command.MIGRATE, Command.PRUNE]:
                 try:
                     await _verify_ddr_status(self.source_client)
                 except Exception as err:
@@ -136,6 +156,100 @@ class Configuration(object):
         await self.destination_client._end_session()
 
 
+def _unwrap_exact_match_pattern(pattern: str) -> str:
+    """Extract the raw ID value from an ExactMatch ^...$-wrapped regex pattern.
+
+    Defensive check: ExactMatch always produces ^...$, so ValueError should not
+    fire in practice. Raises ValueError so callers can detect unexpected patterns.
+    """
+    if not (pattern.startswith("^") and pattern.endswith("$")):
+        raise ValueError(f"Expected ExactMatch regex ^...$, got: {pattern!r}")
+    return pattern[1:-1]
+
+
+_ID_FILE_SUPPORTED_TYPES = frozenset({"monitors"})
+"""Resource types eligible for the --id-file partition path. Monitors only in v1.
+Future expansion (e.g. SLOs) requires per-model verification and adding the
+type here. Do NOT widen by config — code-level allowlist forces explicit review."""
+
+
+def _parse_id_file(id_file_arg: Optional[str], logger) -> Optional[Dict[str, List[str]]]:
+    """Parse --id-file. Accepts a path or `-` for stdin.
+
+    Returns a dict {resource_type: [id1, id2, ...]} or None if --id-file unset.
+    Errors at config-build on malformed input or unsupported types.
+    """
+    if not id_file_arg:
+        return None
+    import json
+
+    if id_file_arg == "-":
+        raw = sys.stdin.read()
+    else:
+        with open(id_file_arg, "r") as f:
+            raw = f.read()
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as e:
+        logger.error(f"--id-file: malformed JSON: {e}")
+        sys.exit(1)
+    if not isinstance(data, dict):
+        logger.error("--id-file: expected JSON object {type: [ids]}")
+        sys.exit(1)
+    for k, v in data.items():
+        if not isinstance(k, str):
+            logger.error(f"--id-file: key must be string, got {type(k).__name__}")
+            sys.exit(1)
+        if k not in _ID_FILE_SUPPORTED_TYPES:
+            logger.error(
+                f"--id-file: type {k!r} is not supported in PR4 v1. "
+                f"Supported types: {sorted(_ID_FILE_SUPPORTED_TYPES)}"
+            )
+            sys.exit(1)
+        if not isinstance(v, list) or not v:
+            logger.error(f"--id-file: value for {k!r} must be non-empty list")
+            sys.exit(1)
+        if not all(isinstance(x, str) for x in v):
+            logger.error(f"--id-file: all IDs for {k!r} must be strings")
+            sys.exit(1)
+    return data
+
+
+def extract_exact_id_filters(
+    filters: Dict[str, list],
+    filter_operator: str,
+    resource_types: list,
+) -> Optional[Dict[str, list]]:
+    """Return {type: [id1, id2, ...]} when all conditions allow ID-targeted loading.
+
+    Conditions (all must be true):
+    - filter_operator is OR (case-insensitive)
+    - Every resource type in resource_types has at least one filter
+    - All filters for each type use Name=id + ExactMatch operator
+
+    Returns None if any condition fails → caller falls back to type-scoped loading.
+    """
+    if filter_operator.lower() != "or":
+        return None
+    result = {}
+    for rt in resource_types:
+        rt_filters = filters.get(rt, [])
+        if not rt_filters:
+            return None  # No filters for this type — can't use ID-targeted
+        # All filters must be id-field ExactMatch
+        if not all(f.attr_name == ["id"] and f.operator == EXACT_MATCH_OPERATOR for f in rt_filters):
+            return None
+        # Extract raw IDs from ^...$-wrapped regex patterns.
+        # Defensive: ExactMatch guarantees ^...$, so ValueError should not fire.
+        # Kept as a safety net in case filter construction changes upstream.
+        try:
+            ids = [_unwrap_exact_match_pattern(f.attr_re.pattern) for f in rt_filters]
+        except ValueError:
+            return None  # Pattern wasn't ^...$-wrapped — fall back gracefully
+        result[rt] = ids
+    return result
+
+
 def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # configure logger — in JSON mode, Log writes NDJSON to stdout and silences stderr
     emit_json = kwargs.get("emit_json", False)
@@ -147,6 +261,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
+    destination_logs_intake_url = kwargs.get("destination_logs_intake_url")
 
     # Initialize the datadog API Clients based on cmd
     retry_timeout = kwargs.get("http_client_retry_timeout")
@@ -198,7 +313,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     )
 
     # Additional settings
-    force_missing_dependencies = kwargs.get("force_missing_dependencies")
+    force_missing_dependencies = kwargs.get("force_missing_dependencies") or False
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
     max_workers = kwargs.get("max_workers")
     create_global_downtime = kwargs.get("create_global_downtime")
@@ -308,14 +423,129 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         )
 
     resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
-    # Initialize state
-    state = State(
-        type_=storage_type,
-        source_resources_path=source_resources_path,
-        destination_resources_path=destination_resources_path,
-        config=config,
-        resource_per_file=resource_per_file,
-    )
+    minimize_reads = kwargs.get("minimize_reads", False)
+    skip_state_load = kwargs.get("skip_state_load", False)
+
+    # Validate --minimize-reads constraints
+    if minimize_reads:
+        if not resource_per_file:
+            raise click.UsageError("--minimize-reads requires --resource-per-file")
+        if not kwargs.get("resources", None):
+            raise click.UsageError("--minimize-reads requires --resources")
+        if kwargs.get("cleanup") and kwargs["cleanup"].lower() in ("true", "force"):
+            raise click.UsageError("--minimize-reads cannot be combined with --cleanup")
+
+    # Validate --skip-state-load constraints.
+    # The Click decorator lives on `_import.py` only, so the flag is never
+    # parsed for other commands; this defensive check guards against future
+    # refactors that might re-add it elsewhere.
+    if skip_state_load:
+        if cmd != Command.IMPORT:
+            raise click.UsageError("--skip-state-load is only valid on the import command")
+        if not resource_per_file:
+            raise click.UsageError("--skip-state-load requires --resource-per-file")
+        if not kwargs.get("resources", None):
+            raise click.UsageError("--skip-state-load requires --resources")
+        if minimize_reads:
+            # Both flags target the same cost (preload from storage). --skip-state-load
+            # is strictly cheaper for import (no load at all) so combining them is
+            # almost certainly a misconfiguration; reject rather than silently let
+            # one shadow the other.
+            raise click.UsageError(
+                "--skip-state-load and --minimize-reads cannot be combined; "
+                "--skip-state-load skips the load entirely (recommended for import)"
+            )
+
+    # Determine loading strategy for minimize-reads
+    _state_resource_types = None  # type-scoped; None = full load (existing behavior)
+    _state_exact_ids = None  # ID-targeted; None = not using ID-targeted
+    if minimize_reads and (rs := kwargs.get("resources", None)):
+        raw_types = [r.strip().lower() for r in rs.split(",") if r.strip()]
+        # Try ID-targeted strategy first (fast path: exact IDs from filters)
+        early_filters = process_filters(kwargs.get("filter"))
+        filter_operator = kwargs.get("filter_operator", "or")
+        _state_exact_ids = extract_exact_id_filters(early_filters, filter_operator, raw_types)
+        if _state_exact_ids is None:
+            # Fall back to type-scoped loading
+            logger.debug("minimize-reads: ID-targeted not eligible — filters are not all id+ExactMatch+OR")
+            _state_resource_types = raw_types
+
+    # Initialize state. --skip-state-load constructs an ImportState (write-only,
+    # no source/destination accessors, no boot-time load); otherwise the regular
+    # State class loads from storage on construction.
+    if skip_state_load:
+        state = ImportState(
+            type_=storage_type,
+            source_resources_path=source_resources_path,
+            destination_resources_path=destination_resources_path,
+            config=config,
+            resource_per_file=resource_per_file,
+        )
+        logger.info("skip-state-load: ImportState constructed (no preload)")
+    else:
+        state = State(
+            type_=storage_type,
+            source_resources_path=source_resources_path,
+            destination_resources_path=destination_resources_path,
+            config=config,
+            resource_per_file=resource_per_file,
+            resource_types=_state_resource_types,  # None = full load or ID-targeted
+            exact_ids=_state_exact_ids,  # None = not using ID-targeted
+        )
+
+    if _state_exact_ids is not None:
+        total = sum(len(v) for v in _state_exact_ids.values())
+        logger.info(f"minimize-reads: ID-targeted loading for {total} resources across {list(_state_exact_ids.keys())}")
+    elif _state_resource_types is not None:
+        logger.info(f"minimize-reads: type-scoped loading for {_state_resource_types}")
+
+    # Parse --id-file (stdin or path) and validate concurrency knobs.
+    id_payload = _parse_id_file(kwargs.get("id_file"), logger)
+    # NOTE: use explicit None check (not `or 30`) — `0 or 30` evaluates to 30,
+    # which would silently swallow the very value we want to reject.
+    raw_mcr = kwargs.get("max_concurrent_reads")
+    if raw_mcr is None:
+        max_concurrent_reads = 30
+    else:
+        try:
+            max_concurrent_reads = int(raw_mcr)
+        except (TypeError, ValueError):
+            logger.error(f"--max-concurrent-reads must be an integer, got {raw_mcr!r}")
+            sys.exit(1)
+    if max_concurrent_reads <= 0:
+        # asyncio.Semaphore(0) blocks all acquires forever; negative raises ValueError.
+        # Either way, validate at config-build with a clear message rather than a hang.
+        logger.error(f"--max-concurrent-reads must be a positive integer, got {max_concurrent_reads}")
+        sys.exit(1)
+    # Upper sanity bound: aiohttp's TCPConnector defaults `limit=100`, so values
+    # well above that don't actually buy more concurrency — they just inflate the
+    # number of pending coroutines waiting for connector slots, which obscures
+    # the contract. Hard cap at 200; warn at >100.
+    if max_concurrent_reads > 200:
+        logger.error(
+            f"--max-concurrent-reads={max_concurrent_reads} exceeds the safety cap of 200. "
+            f"aiohttp's connector limit (default 100) is the real ceiling."
+        )
+        sys.exit(1)
+    if max_concurrent_reads > 100:
+        logger.warning(
+            f"--max-concurrent-reads={max_concurrent_reads} is above aiohttp's default "
+            f"TCPConnector limit (100). Effective concurrency may be lower than requested."
+        )
+    raw_threshold = kwargs.get("transient_failure_threshold_pct")
+    if raw_threshold is None:
+        transient_failure_threshold_pct = 5
+    else:
+        try:
+            transient_failure_threshold_pct = int(raw_threshold)
+        except (TypeError, ValueError):
+            logger.error(f"--transient-failure-threshold-pct must be an integer, got {raw_threshold!r}")
+            sys.exit(1)
+    if not (0 <= transient_failure_threshold_pct <= 100):
+        logger.error(
+            f"--transient-failure-threshold-pct must be in range [0, 100], got {transient_failure_threshold_pct}"
+        )
+        sys.exit(1)
 
     # Initialize Configuration
     config = Configuration(
@@ -340,6 +570,10 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         emit_json=emit_json,
         command=cmd.value,
         allow_partial_permissions_roles=allow_partial_permissions_roles,
+        id_payload=id_payload,
+        max_concurrent_reads=max_concurrent_reads,
+        transient_failure_threshold_pct=transient_failure_threshold_pct,
+        destination_logs_intake_url=destination_logs_intake_url,
     )
 
     # Initialize resource classes
@@ -347,9 +581,11 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     resources_arg_str = kwargs.get("resources", None)
     if resources_arg_str:
         resources_arg = resources_arg_str.lower().split(",")
-        unknown_resources = list(set(resources_arg) - set(resources.keys()))
+        unknown_resources = sorted(set(resources_arg) - set(resources.keys()))
 
         if unknown_resources:
+            if cmd == Command.PRUNE:
+                raise click.UsageError(f"prune received invalid resources: {', '.join(unknown_resources)}")
             logger.warning("invalid resources. Discarding: %s", unknown_resources)
         if LogsCustomPipelines.resource_type in resources_arg:
             logger.warning(
@@ -370,10 +606,38 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     else:
         resources_arg = list(resources.keys())
 
+    # --id-file × --resources interaction validation.
+    # If --id-file is set, --resources MUST be explicitly set AND must include every
+    # type listed in the id-payload. Without this guard, a caller running
+    # `import --id-file=- < {"monitors": [...]}` with no --resources would import
+    # every type EXCEPT monitors via the legacy full-list path — defeating the
+    # wall-clock bound this feature provides.
+    if id_payload is not None:
+        if not resources_arg_str:
+            logger.error(
+                "--id-file requires --resources to be set explicitly. "
+                f"Pass --resources={','.join(sorted(id_payload.keys()))} "
+                "(plus any dependency types like users,roles if applicable)."
+            )
+            sys.exit(1)
+        missing_from_resources = set(id_payload.keys()) - set(resources_arg)
+        if missing_from_resources:
+            logger.error(
+                f"--id-file types {sorted(missing_from_resources)!r} are not "
+                f"present in --resources={resources_arg_str!r}. Either add them to "
+                f"--resources or remove from the id-payload."
+            )
+            sys.exit(1)
+
     config.resources = resources
     config.resources_arg = resources_arg
+    config.resource_per_file = resource_per_file
+    if cmd == Command.PRUNE:
+        config.prune_force = kwargs.get("force", False)
+        config.prune_dry_run = kwargs.get("dry_run", False)
 
-    _handle_deprecated(config, resources_arg_str is not None)
+    if cmd != Command.PRUNE:
+        _handle_deprecated(config, resources_arg_str is not None)
 
     return config
 
@@ -440,6 +704,21 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
             sys.exit(1)
 
     else:
+        # The else-branch below reads config.state.source / destination to fall
+        # back on legacy resource state files when --resources is not set.
+        # ImportState has no .source / .destination accessors and would
+        # AttributeError here. In practice this branch is unreachable when
+        # --skip-state-load is set because --skip-state-load requires
+        # --resources (validated in build_config), which forces
+        # resources_arg_passed=True and selects the if-branch above. The
+        # explicit isinstance guard makes that invariant a local property of
+        # this function instead of an implicit cross-function contract, so
+        # future relaxation of the --resources requirement cannot silently
+        # introduce a crash here. The conflict checks in the if-branch (above)
+        # do NOT read state, so they continue to apply to ImportState callers.
+        if isinstance(config.state, ImportState):
+            return
+
         # Use logs_custom_pipeline resource if its state files exist.
         # Otherwise fall back on logs_pipelines
         if (

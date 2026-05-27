@@ -33,9 +33,13 @@ class SyntheticsGlobalVariables(BaseResource):
             "editor",
         ],
         tagging_config=TaggingConfig(path="tags"),
+        # Datadog enforces uniqueness on (name, type) — two variables can share
+        # a name only when their types differ (e.g. "variable" vs "secret_token").
+        # Keying by name alone collapses same-name/different-type entries in
+        # _existing_resources_map and triggers a 409 on the unmapped source.
+        resource_mapping_key=lambda r: f"{r['name']}:{r['type']}",
     )
     # Additional SyntheticsGlobalVariables specific attributes
-    destination_global_variables: Dict[str, Dict] = dict()
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
@@ -53,7 +57,7 @@ class SyntheticsGlobalVariables(BaseResource):
         pass
 
     async def pre_apply_hook(self) -> None:
-        self.destination_global_variables = await self.get_destination_global_variables()
+        pass
 
     async def _inject_secret_value(self, _id: str, resource: Dict) -> None:
         """Fetch the clear (unobfuscated) secret value from the source and inject it
@@ -61,9 +65,7 @@ class SyntheticsGlobalVariables(BaseResource):
         to state files."""
         if "value" not in resource.get("value", {}):
             try:
-                clear = await self.config.source_client.get(
-                    self.resource_config.base_path + f"/{_id}/clear"
-                )
+                clear = await self.config.source_client.get(self.resource_config.base_path + f"/{_id}/clear")
                 resource.setdefault("value", {})["value"] = clear["value"]["value"]
             except (CustomClientHTTPError, KeyError):
                 self.config.logger.warning(f"Failed to inject secret value for global variable {_id}")
@@ -76,8 +78,9 @@ class SyntheticsGlobalVariables(BaseResource):
             resp["value"].pop("value", None)
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
-        if resource["name"] in self.destination_global_variables:
-            self.config.state.destination[self.resource_type][_id] = self.destination_global_variables[resource["name"]]
+        key = self.get_resource_mapping_key(resource)
+        if key and key in self._existing_resources_map:
+            self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[key]
             return await self.update_resource(_id, resource)
 
         destination_client = self.config.destination_client
@@ -115,6 +118,7 @@ class SyntheticsGlobalVariables(BaseResource):
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        self.config.state.ensure_resource_type_loaded(resource_to_connect)
         resources = self.config.state.destination[resource_to_connect]
         failed_connections = []
         found = False
@@ -126,13 +130,3 @@ class SyntheticsGlobalVariables(BaseResource):
         if not found:
             failed_connections.append(r_obj[key])
         return failed_connections
-
-    async def get_destination_global_variables(self) -> Dict[str, Dict]:
-        destination_global_variable_obj = {}
-        destination_client = self.config.destination_client
-
-        resp = await self.get_resources(destination_client)
-        for variable in resp:
-            destination_global_variable_obj[variable["name"]] = variable
-
-        return destination_global_variable_obj

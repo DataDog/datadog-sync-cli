@@ -44,6 +44,7 @@ class SyntheticsTests(BaseResource):
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
+            "options.bits_ai_auto_investigate",
             "created_at",
             "creator",
             "created_by",
@@ -79,6 +80,7 @@ class SyntheticsTests(BaseResource):
             "steps": [[]],
         },
         tagging_config=TaggingConfig(path="tags"),
+        skip_resource_mapping=True,
     )
     # Additional SyntheticsTests specific attributes
     browser_test_path: str = "/api/v1/synthetics/tests/browser/{}"
@@ -380,6 +382,7 @@ class SyntheticsTests(BaseResource):
                         failed_connections.append(_id)
             return failed_connections
         elif resource_to_connect == "synthetics_tests":
+            self.config.state.ensure_resource_type_loaded("synthetics_tests")
             resources = self.config.state.destination[resource_to_connect]
             found = False
             for k, v in resources.items():

@@ -17,6 +17,7 @@ class Powerpacks(BaseResource):
             "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
             "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
         },
+        skip_resource_mapping=True,
     )
     # Additional Powerpacks specific attributes
     pagination_config = PaginationConfig(
