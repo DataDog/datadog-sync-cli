@@ -5,7 +5,6 @@
 
 from __future__ import annotations
 import json
-import os
 import re
 
 from typing import TYPE_CHECKING, List, Dict, Optional, Tuple
@@ -28,8 +27,9 @@ class SyntheticsPrivateLocations(BaseResource):
             "createdBy",
             "secrets",
             "config",
-            "result_encryption",
             "ddr_metadata",
+            "pl_id",
+            "public_key_test",
         ],
         tagging_config=TaggingConfig(path="tags"),
     )
@@ -51,6 +51,7 @@ class SyntheticsPrivateLocations(BaseResource):
 
         resp = await source_client.get(
             self.resource_config.base_path + f"/{import_id}",
+            params={"include_pl_info": "true"},
         )
 
         self.config.state.source[self.resource_type][import_id] = resp
@@ -65,51 +66,23 @@ class SyntheticsPrivateLocations(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        source_client = self.config.source_client
+        source_pl = self.config.state.source[self.resource_type][_id]
 
-        # Fetch pl_info from source API for DDR metadata
-        pl_info = await source_client.get(
-            self.resource_config.base_path + f"/{_id}",
-            params={"include_pl_info": "true"},
-        )
-
-        # Strip null metadata — DDR endpoint requires it to be an object
         if resource.get("metadata") is None:
             resource.pop("metadata", None)
 
         resource["ddr_metadata"] = {
             "disaster_recovery": {
-                "source_pl_id": pl_info["pl_id"],
+                "source_pl_id": source_pl["pl_id"],
                 "source_name": _id,
-                "source_dc": pl_info["datacenter"],
-                "source_org_id": pl_info["org_id"],
             }
         }
-        # test_encryption_public_key expects the JSON-stringified public_key_test object
-        resource["test_encryption_public_key"] = json.dumps(pl_info["public_key_test"])
-        # result_encryption_public_key expects {"pem": ..., "fingerprint": ...}
-        pub_key_result = pl_info["public_key_result"]
-        resource["result_encryption_public_key"] = {
-            "pem": pub_key_result["key"],
-            "fingerprint": pub_key_result["id"],
-        }
+        resource["test_encryption_public_key"] = json.dumps(source_pl["public_key_test"])
         if self.config.datadog_host_override:
             resource["datadog_host_override"] = self.config.datadog_host_override
 
         resp = await destination_client.post(self.resource_config.base_path, resource)
-
-        # DDR response: {"private_location": {...}, "publicKeysByMainDC": {...}}
-        pl = resp["private_location"]
-
-        # Save PL config to file for later use running the PL
-        pl_config = {
-            "publicKeysByMainDC": resp.get("publicKeysByMainDC"),
-        }
-        if self.config.datadog_host_override:
-            pl_config["datadogHostOverride"] = self.config.datadog_host_override
-        self._save_pl_config(pl.get("name", _id), pl_config)
-
-        return _id, pl
+        return _id, resp["private_location"]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
@@ -130,14 +103,3 @@ class SyntheticsPrivateLocations(BaseResource):
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(SyntheticsPrivateLocations, self).connect_id(key, r_obj, resource_to_connect)
-
-    def _save_pl_config(self, pl_name: str, config: Dict) -> None:
-        destination_path = self.config.state._storage.destination_resources_path
-        config_dir = os.path.join(destination_path, "synthetics_private_locations_config")
-        os.makedirs(config_dir, exist_ok=True)
-
-        sanitized_name = re.sub(r"[^\w\-]", "_", pl_name)
-        config_file = os.path.join(config_dir, f"{sanitized_name}.json")
-
-        with open(config_file, "w", encoding="utf-8") as f:
-            json.dump(config, f, indent=2)
