@@ -47,7 +47,7 @@ class BaseResourcesTestClass:
         os.chdir(my_tmpdir)
 
     @pytest.fixture(autouse=True, scope="function")
-    def setup_and_teardown(self, request, caplog: pytest.LogCaptureFixture):
+    def setup_and_teardown(self, request, caplog: pytest.LogCaptureFixture, vcr):
         """Set up before each test and clean up after each test."""
         # Clean up resources from any previous tests
         self.clean_resource_files()
@@ -55,7 +55,7 @@ class BaseResourcesTestClass:
         # Run the test
         yield
 
-        # Clean up resources respecting the resources_to_preserve_filter
+        # vcr dependency keeps the cassette open so teardown HTTP calls are served from the recording.
         runner = CliRunner()
         self.test_resource_cleanup(runner, caplog)
 
