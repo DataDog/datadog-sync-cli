@@ -5,23 +5,27 @@
 
 from __future__ import annotations
 import asyncio
+import logging
 import sys
+import time
 from collections import defaultdict
 from copy import deepcopy
 from time import sleep
 from typing import Dict, TYPE_CHECKING, List, Optional, Set, Tuple
 
-from click import confirm
+from click import UsageError, confirm
 from pprint import pformat
 
-from datadog_sync.constants import TRUE, FALSE, FORCE, Command, Origin, Status
+from datadog_sync.constants import LOGGER_NAME, TRUE, FALSE, FORCE, Command, Origin, Status
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
+    FilteredResource,
     ResourceConnectionError,
     SkipResource,
     check_diff,
     create_global_downtime,
     find_attr,
+    format_exc_for_log,
     prep_resource,
     init_topological_sorter,
 )
@@ -31,6 +35,70 @@ from datadog_sync.utils.workers import Workers
 if TYPE_CHECKING:
     from datadog_sync.utils.configuration import Configuration
     from graphlib import TopologicalSorter
+
+
+_timing_log = logging.getLogger(LOGGER_NAME)
+
+
+def _list_time_filter_passes(r_class, config, resource) -> bool:
+    """Run the user's --filter at LIST-time, deferring list-unsafe filters.
+
+    For models with ResourceConfig.list_omitted_attr_prefixes set
+    (notebooks/dashboards), filters whose attr_name starts with any omitted
+    prefix cannot be decided on the LIST item — they're deferred to the
+    post-GET pass in base_resource._import_resource. List-safe filters
+    (e.g. attributes.name) still run here so metadata filtering short-
+    circuits per-page on the cheap LIST response.
+
+    For models without omitted prefixes, this reduces to r_class.filter()
+    — the previous LIST-time behavior is unchanged for them.
+
+    Returns True if the LIST item should proceed to the per-id GET (either
+    accepted or undecided), False only if the LIST item is DECISIVELY
+    rejected by the list-safe portion of the filter alone.
+
+    Mirrors base_resource.BaseResource.filter() AND/OR semantics over the
+    partition without mutating config.filters (this function runs from
+    concurrent asyncio workers, so swap-and-restore on shared state would
+    race).
+
+    Decisiveness rules (codex P1):
+      AND-False : decisive reject — one clause failing breaks the whole AND.
+      AND-True  : decisive only if no list-unsafe filters were deferred;
+                  otherwise defer (the AND still has unevaluated clauses).
+      OR-True   : decisive accept — one clause matching satisfies OR.
+      OR-False  : decisive only if no list-unsafe filters were deferred;
+                  otherwise defer (a deferred clause might still match).
+    Without this rule, a mixed-OR like
+      `Name=attributes.name;Value=foo OR Name=attributes.cells.X;Value=bar`
+    on a LIST item with no name match would be silently dropped before the
+    cells filter ever got to run.
+    """
+    omitted_prefixes = r_class.resource_config.list_omitted_attr_prefixes
+    if not omitted_prefixes:
+        # No omitted prefixes — every filter is list-safe; full filter runs.
+        return r_class.filter(resource)
+    if not config.filters or r_class.resource_type not in config.filters:
+        # No user filter configured for this type — nothing to evaluate.
+        return True
+    # Partition: list-safe filters run now; list-unsafe (those referencing
+    # any omitted prefix) defer to base_resource._import_resource post-GET.
+    all_filters = config.filters[r_class.resource_type]
+    list_safe = [f for f in all_filters if not any(".".join(f.attr_name).startswith(p) for p in omitted_prefixes)]
+    has_deferred = len(list_safe) < len(all_filters)
+    if not list_safe:
+        return True  # All filters defer; nothing decisive at LIST-time.
+    if config.filter_operator.lower() == "and":
+        # AND: any miss is decisive reject. An all-match either accepts (no
+        # deferred clauses) or defers (deferred clauses still to evaluate)
+        # — both mean "proceed to GET".
+        return all(f.is_match(resource) for f in list_safe)
+    # OR: any match is decisive accept. An all-miss either rejects (no
+    # deferred clauses) or defers (a deferred clause might match) — defer
+    # by proceeding to GET so the post-GET pass sees the full filter set.
+    if any(f.is_match(resource) for f in list_safe):
+        return True
+    return has_deferred  # all-miss + deferred → proceed; otherwise reject
 
 
 class ResourcesHandler:
@@ -270,6 +338,11 @@ class ResourcesHandler:
             self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"])
         except ResourceConnectionError as e:
+            self.config.logger.error(
+                f"missing connections: {str(e)}",
+                resource_type=resource_type,
+                _id=_id,
+            )
             self.worker.counter.increment_skipped()
             self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(
@@ -278,7 +351,8 @@ class ResourcesHandler:
         except Exception as e:
             self.worker.counter.increment_failure()
             self._emit(resource_type, _id, "sync", "failure", reason=self._sanitize_reason(e))
-            self.config.logger.error(str(e), resource_type=resource_type, _id=_id)
+            # format_exc_for_log guards against empty-str() exceptions producing blank log bodies.
+            self.config.logger.error(format_exc_for_log(e), resource_type=resource_type, _id=_id)
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.FAILURE.value)
         finally:
             # always place in done queue regardless of exception thrown
@@ -395,6 +469,7 @@ class ResourcesHandler:
 
         # Get all resources for each resource type
         tmp_storage = defaultdict(list)
+        api_discovery_start_ns = time.perf_counter_ns()
         await self.worker.init_workers(self._import_get_resources_cb, None, len(self.config.resources_arg), tmp_storage)
         for resource_type in self.config.resources_arg:
             self.worker.work_queue.put_nowait(resource_type)
@@ -404,6 +479,13 @@ class ResourcesHandler:
             await self.worker.schedule_workers()
         get_failures = self.worker.counter.failure
         self.config.logger.info(f"Finished getting resources. {self.worker.counter}")
+        _timing_log.info(
+            "sync-cli-timing phase=api_discovery resource_types=%d successes=%d " "failures=%d wall_ms=%d",
+            len(self.config.resources_arg),
+            self.worker.counter.successes,
+            get_failures,
+            (time.perf_counter_ns() - api_discovery_start_ns) // 1_000_000,
+        )
 
         # When --id-file is set, cap second-pass workers to the same
         # max_concurrent_reads value used for first-pass fetches. This prevents the
@@ -413,6 +495,7 @@ class ResourcesHandler:
 
         # Begin importing individual resource items
         self.config.logger.info("importing individual resource items")
+        per_resource_start_ns = time.perf_counter_ns()
         await self.worker.init_workers(self._import_resource, None, second_pass_cap)
         total = 0
         for k, v in tmp_storage.items():
@@ -433,6 +516,11 @@ class ResourcesHandler:
                 import_failures,
             )
         self.config.logger.info(f"finished importing individual resource items: {self.worker.counter}.")
+        _timing_log.info(
+            "sync-cli-timing phase=import_per_resource total_records=%d wall_ms=%d",
+            total,
+            (time.perf_counter_ns() - per_resource_start_ns) // 1_000_000,
+        )
 
         # If a per-type transient-failure budget was breached during the id-file
         # path, exit non-zero with a rate-limit-shaped log marker so downstream
@@ -452,7 +540,9 @@ class ResourcesHandler:
         self.config.logger.info("getting resources", resource_type=resource_type)
 
         r_class = self.config.resources[resource_type]
-        self.config.state.source[resource_type].clear()
+        # Use SourceStateWriter protocol method; works on both State and
+        # ImportState (the latter has no .source accessor).
+        self.config.state.clear_source_type(resource_type)
 
         # The --id-file path replaces the unfiltered list call with per-ID GETs
         # bounded by --max-concurrent-reads. Monitors only in v1.
@@ -524,7 +614,18 @@ class ResourcesHandler:
         _id = resource.get("id")
         r_class = self.config.resources[resource_type]
 
-        if not r_class.filter(resource):
+        # LIST-time pre-filter. For models that declare
+        # list_omitted_attr_prefixes (notebooks/dashboards), filters whose
+        # attr_name starts with any omitted prefix cannot be decided on the
+        # LIST item — running them would discard positive filters like
+        # Type=notebooks;Name=attributes.cells.X (missing path → False at
+        # filter.py:_is_match_helper). We partition the user's filters and
+        # run only the "list-safe" ones here; the post-GET pass in
+        # base_resource._import_resource evaluates the full set against the
+        # GET payload. For models without list_omitted_attr_prefixes (the
+        # vast majority), behavior is unchanged: full filter at LIST-time,
+        # no post-GET pass.
+        if not _list_time_filter_passes(r_class, self.config, resource):
             self.worker.counter.increment_filtered()
             self._emit(resource_type, _id, "import", "filtered")
             return
@@ -534,6 +635,15 @@ class ResourcesHandler:
             self.worker.counter.increment_success()
             self._emit(resource_type, _id, "import", "success")
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SUCCESS.value)
+        except FilteredResource as e:
+            # Raised by base _import_resource when ResourceConfig.list_omitted_attr_prefixes
+            # is set and a list-unsafe --filter clause (one whose attr_name
+            # references an omitted prefix) rejected the resource after the
+            # per-id GET. Counted as filtered (not skipped) — same user intent
+            # as the LIST-time filter, just deferred because the relevant
+            # fields only exist in the GET payload.
+            self.worker.counter.increment_filtered()
+            self._emit(resource_type, _id, "import", "filtered", reason=self._sanitize_reason(e))
         except SkipResource as e:
             self.worker.counter.increment_skipped()
             self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))
@@ -544,8 +654,102 @@ class ResourcesHandler:
             self.worker.counter.increment_failure()
             self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE.value)
-            self.config.logger.error(f"error while importing resource: resource_type:{resource_type} id:{_id}")
-            self.config.logger.debug(f"error detail: {str(e)}", resource_type=resource_type)
+            # Attach exception detail at ERROR level (previously DEBUG-only, invisible at default verbosity).
+            self.config.logger.error(
+                f"error while importing resource: {format_exc_for_log(e)}",
+                resource_type=resource_type,
+                _id=_id,
+            )
+
+    async def prune(self) -> None:
+        """Delete per-resource state files for source IDs no longer present.
+
+        Refuses to run with --filters set (would over-prune the filtered-out
+        resources) or without --resource-per-file (no per-file stale problem
+        in monolithic mode). Refuses --json mode unless --force or --dry-run
+        is set, since interactive confirmation is incompatible with JSON.
+
+        Snapshot fence: re-lists disk after the import so a file written by
+        a concurrent sync between the import and the prune isn't deleted.
+        Does NOT protect against a sync writing during the prune itself.
+        """
+        # Preconditions — read from Configuration fields. resource_per_file is
+        # set in build_config() from the same kwargs value passed to the State
+        # constructor, so config.resource_per_file is in sync with
+        # state._storage.resource_per_file by construction.
+        if not self.config.resource_per_file:
+            raise UsageError("prune requires --resource-per-file")
+        if self.config.filters:
+            raise UsageError("prune cannot be used with --filters (would over-prune)")
+        # --json forbids interactive prompts. Allowed under --json:
+        #   * --force (skips prompt and deletes)
+        #   * --dry-run (no prompt; nothing deleted)
+        if self.config.emit_json and not (self.config.prune_force or self.config.prune_dry_run):
+            raise UsageError("prune with --json requires --force or --dry-run " "(no interactive prompts in JSON mode)")
+
+        # Ground truth — populates state.source[type] for each requested type.
+        # Honors --show-progress-bar: for orgs with thousands of resources the
+        # ground-truth import phase can take minutes, and a progress bar is
+        # genuinely useful feedback. Pass --show-progress-bar=False to silence.
+        try:
+            await self.import_resources_without_saving()
+        except ValueError as e:
+            raise UsageError(f"prune failed during ground-truth import: {e}")
+
+        # Snapshot fence: re-list disk after the import. compute_stale_files
+        # re-lists internally, so calling it twice gives two listings; we
+        # intersect them so only filenames stale in BOTH passes are deleted.
+        try:
+            stale = self.config.state.compute_stale_files(
+                [Origin.SOURCE, Origin.DESTINATION], self.config.resources_arg
+            )
+            stale_again = self.config.state.compute_stale_files(
+                [Origin.SOURCE, Origin.DESTINATION], self.config.resources_arg
+            )
+        except ValueError as e:
+            raise UsageError(f"prune failed during stale-file computation: {e}")
+        fenced = {k: v & stale_again.get(k, set()) for k, v in stale.items()}
+
+        total = sum(len(v) for v in fenced.values())
+        if total == 0:
+            self.config.logger.info("no stale state files found")
+            return
+
+        self._log_stale_summary(fenced)
+
+        if self.config.prune_dry_run:
+            self.config.logger.info(f"dry-run: {total} files would be deleted")
+            for (origin, rt), filenames in fenced.items():
+                if filenames:
+                    self.config.logger.debug(f"  dry-run would delete {origin.value}/{rt}: {len(filenames)} file(s)")
+            return
+
+        if not self.config.prune_force:
+            if not confirm(f"Delete {total} stale state files?", err=True):
+                self.config.logger.info("prune cancelled by user")
+                return
+
+        counts = self.config.state.delete_stale_files(fenced)
+        # One NDJSON ResourceOutcome per (origin, type) summary. _id=None;
+        # _emit (resources_handler.py:69) accepts None and stringifies to "".
+        for (origin, rt), (ok, fail) in counts.items():
+            self._emit(
+                resource_type=rt,
+                _id=None,
+                action_type="prune",
+                status="success" if fail == 0 else "partial",
+                reason=f"deleted={ok} failed={fail} origin={origin.value}",
+            )
+        self.config.logger.info(f"deleted stale state files: {counts}")
+
+    def _log_stale_summary(self, stale: Dict[Tuple[Origin, str], Set[str]]) -> None:
+        """One INFO line per (origin, type) with count; one DEBUG line per filename."""
+        for (origin, rt), filenames in stale.items():
+            if not filenames:
+                continue
+            self.config.logger.info(f"stale {origin.value}/{rt}: {len(filenames)} file(s)")
+            for fn in sorted(filenames):
+                self.config.logger.debug(f"  stale: {origin.value}/{fn}")
 
     def _source_state_key(self, dep_type: str, dep_id: str) -> Optional[str]:
         """Resolve a dependency ID to its canonical source-state key.
@@ -703,7 +907,14 @@ class ResourcesHandler:
     async def _force_missing_dep_import_cb(self, q_item: List):
         resource_type, _id = q_item
         try:
-            _id = await self.config.resources[resource_type]._import_resource(_id=_id)
+            # skip_filter=True: --force-missing-dependencies must import a dep
+            # even if --filter would otherwise reject it. The dep was pulled in
+            # because a kept resource references it; rejecting it here would
+            # leave the dep absent from source state and downstream
+            # run_sorter() would fail with unresolved references on the
+            # dependent resource. Operator intent on --filter applies to the
+            # top-level selection, not transitively to force-imported deps.
+            _id = await self.config.resources[resource_type]._import_resource(_id=_id, skip_filter=True)
             self._emit(resource_type, _id, "import", "success")
         except SkipResource as e:
             self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))
@@ -711,11 +922,19 @@ class ResourcesHandler:
             return
         except CustomClientHTTPError as e:
             self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
-            self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            self.config.logger.error(
+                f"error importing dependency: {format_exc_for_log(e)}",
+                resource_type=resource_type,
+                _id=_id,
+            )
             return
         except Exception as e:
             self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
-            self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            self.config.logger.error(
+                f"error importing dependency: {format_exc_for_log(e)}",
+                resource_type=resource_type,
+                _id=_id,
+            )
             return
 
         failed_connections, missing_deps = self._resource_connections(resource_type, _id)
@@ -746,7 +965,7 @@ class ResourcesHandler:
             self.worker.counter.increment_failure()
             self._emit(resource_type, _id, "delete", "failure", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics("delete", _id, Status.FAILURE.value)
-            self.config.logger.error(f"error deleting resource {resource_type} with id {_id}: {str(e)}")
+            self.config.logger.error(f"error deleting resource {resource_type} with id {_id}: {format_exc_for_log(e)}")
         finally:
             # Mark as done in cleanup sorter if it exists
             if hasattr(self, "cleanup_sorter") and self.cleanup_sorter:

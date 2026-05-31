@@ -43,6 +43,7 @@ from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
 from datadog_sync.utils.filter import Filter, process_filters, EXACT_MATCH_OPERATOR
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
+from datadog_sync.utils.import_state import ImportState
 from datadog_sync.utils.state import State
 from datadog_sync.utils.storage.storage_types import StorageType
 
@@ -61,7 +62,15 @@ class Configuration(object):
     create_global_downtime: bool
     validate: bool
     send_metrics: bool
-    state: State
+    # Typed as Union so the field accepts both State (the common case — all
+    # commands except --skip-state-load-on-import use this) and ImportState
+    # (a write-only specialization for the import command with --skip-state-load).
+    # State has the full read+write surface; ImportState exposes only the write
+    # methods declared by the SourceStateWriter protocol. Sync/diffs/migrate/
+    # reset/prune code paths assume State; that's enforced at runtime by the
+    # Click decorator (which only registers --skip-state-load on import) plus a
+    # defensive isinstance check in _handle_deprecated.
+    state: Union[State, ImportState]
     verify_ddr_status: bool
     backup_before_reset: bool
     show_progress_bar: bool
@@ -78,6 +87,10 @@ class Configuration(object):
     max_concurrent_reads: int = 30
     transient_failure_threshold_pct: int = 5
     fatal_error: bool = False
+    resource_per_file: bool = False
+    prune_force: bool = False
+    prune_dry_run: bool = False
+    destination_logs_intake_url: Optional[str] = None
 
     async def init_async(self, cmd: Command):
         await self.source_client._init_session()
@@ -92,7 +105,7 @@ class Configuration(object):
                     await _validate_client(self.destination_client)
                 except Exception:
                     sys.exit(1)
-            if cmd in [Command.IMPORT, Command.MIGRATE, Command.RESET]:
+            if cmd in [Command.IMPORT, Command.MIGRATE, Command.RESET, Command.PRUNE]:
                 try:
                     await _validate_client(self.source_client)
                 except Exception:
@@ -109,7 +122,7 @@ class Configuration(object):
                         f"The destination DDR verification failed. {err} Use the --verify-ddr-status flag to override."
                     )
                     sys.exit(1)
-            if cmd in [Command.IMPORT, Command.DIFFS, Command.MIGRATE]:
+            if cmd in [Command.IMPORT, Command.DIFFS, Command.MIGRATE, Command.PRUNE]:
                 try:
                     await _verify_ddr_status(self.source_client)
                 except Exception as err:
@@ -247,6 +260,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
     source_api_url = kwargs.get("source_api_url")
     destination_api_url = kwargs.get("destination_api_url")
+    destination_logs_intake_url = kwargs.get("destination_logs_intake_url")
 
     # Initialize the datadog API Clients based on cmd
     retry_timeout = kwargs.get("http_client_retry_timeout")
@@ -408,6 +422,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
     resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
     minimize_reads = kwargs.get("minimize_reads", False)
+    skip_state_load = kwargs.get("skip_state_load", False)
 
     # Validate --minimize-reads constraints
     if minimize_reads:
@@ -417,6 +432,27 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             raise click.UsageError("--minimize-reads requires --resources")
         if kwargs.get("cleanup") and kwargs["cleanup"].lower() in ("true", "force"):
             raise click.UsageError("--minimize-reads cannot be combined with --cleanup")
+
+    # Validate --skip-state-load constraints.
+    # The Click decorator lives on `_import.py` only, so the flag is never
+    # parsed for other commands; this defensive check guards against future
+    # refactors that might re-add it elsewhere.
+    if skip_state_load:
+        if cmd != Command.IMPORT:
+            raise click.UsageError("--skip-state-load is only valid on the import command")
+        if not resource_per_file:
+            raise click.UsageError("--skip-state-load requires --resource-per-file")
+        if not kwargs.get("resources", None):
+            raise click.UsageError("--skip-state-load requires --resources")
+        if minimize_reads:
+            # Both flags target the same cost (preload from storage). --skip-state-load
+            # is strictly cheaper for import (no load at all) so combining them is
+            # almost certainly a misconfiguration; reject rather than silently let
+            # one shadow the other.
+            raise click.UsageError(
+                "--skip-state-load and --minimize-reads cannot be combined; "
+                "--skip-state-load skips the load entirely (recommended for import)"
+            )
 
     # Determine loading strategy for minimize-reads
     _state_resource_types = None  # type-scoped; None = full load (existing behavior)
@@ -432,16 +468,28 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             logger.debug("minimize-reads: ID-targeted not eligible — filters are not all id+ExactMatch+OR")
             _state_resource_types = raw_types
 
-    # Initialize state
-    state = State(
-        type_=storage_type,
-        source_resources_path=source_resources_path,
-        destination_resources_path=destination_resources_path,
-        config=config,
-        resource_per_file=resource_per_file,
-        resource_types=_state_resource_types,  # None = full load or ID-targeted
-        exact_ids=_state_exact_ids,  # None = not using ID-targeted
-    )
+    # Initialize state. --skip-state-load constructs an ImportState (write-only,
+    # no source/destination accessors, no boot-time load); otherwise the regular
+    # State class loads from storage on construction.
+    if skip_state_load:
+        state = ImportState(
+            type_=storage_type,
+            source_resources_path=source_resources_path,
+            destination_resources_path=destination_resources_path,
+            config=config,
+            resource_per_file=resource_per_file,
+        )
+        logger.info("skip-state-load: ImportState constructed (no preload)")
+    else:
+        state = State(
+            type_=storage_type,
+            source_resources_path=source_resources_path,
+            destination_resources_path=destination_resources_path,
+            config=config,
+            resource_per_file=resource_per_file,
+            resource_types=_state_resource_types,  # None = full load or ID-targeted
+            exact_ids=_state_exact_ids,  # None = not using ID-targeted
+        )
 
     if _state_exact_ids is not None:
         total = sum(len(v) for v in _state_exact_ids.values())
@@ -522,6 +570,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         id_payload=id_payload,
         max_concurrent_reads=max_concurrent_reads,
         transient_failure_threshold_pct=transient_failure_threshold_pct,
+        destination_logs_intake_url=destination_logs_intake_url,
     )
 
     # Initialize resource classes
@@ -529,9 +578,11 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     resources_arg_str = kwargs.get("resources", None)
     if resources_arg_str:
         resources_arg = resources_arg_str.lower().split(",")
-        unknown_resources = list(set(resources_arg) - set(resources.keys()))
+        unknown_resources = sorted(set(resources_arg) - set(resources.keys()))
 
         if unknown_resources:
+            if cmd == Command.PRUNE:
+                raise click.UsageError(f"prune received invalid resources: {', '.join(unknown_resources)}")
             logger.warning("invalid resources. Discarding: %s", unknown_resources)
         if LogsCustomPipelines.resource_type in resources_arg:
             logger.warning(
@@ -577,8 +628,13 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
     config.resources = resources
     config.resources_arg = resources_arg
+    config.resource_per_file = resource_per_file
+    if cmd == Command.PRUNE:
+        config.prune_force = kwargs.get("force", False)
+        config.prune_dry_run = kwargs.get("dry_run", False)
 
-    _handle_deprecated(config, resources_arg_str is not None)
+    if cmd != Command.PRUNE:
+        _handle_deprecated(config, resources_arg_str is not None)
 
     return config
 
@@ -645,6 +701,21 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
             sys.exit(1)
 
     else:
+        # The else-branch below reads config.state.source / destination to fall
+        # back on legacy resource state files when --resources is not set.
+        # ImportState has no .source / .destination accessors and would
+        # AttributeError here. In practice this branch is unreachable when
+        # --skip-state-load is set because --skip-state-load requires
+        # --resources (validated in build_config), which forces
+        # resources_arg_passed=True and selects the if-branch above. The
+        # explicit isinstance guard makes that invariant a local property of
+        # this function instead of an implicit cross-function contract, so
+        # future relaxation of the --resources requirement cannot silently
+        # introduce a crash here. The conflict checks in the if-branch (above)
+        # do NOT read state, so they continue to apply to ImportState callers.
+        if isinstance(config.state, ImportState):
+            return
+
         # Use logs_custom_pipeline resource if its state files exist.
         # Otherwise fall back on logs_pipelines
         if (

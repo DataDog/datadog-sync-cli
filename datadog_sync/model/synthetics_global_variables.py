@@ -33,7 +33,11 @@ class SyntheticsGlobalVariables(BaseResource):
             "editor",
         ],
         tagging_config=TaggingConfig(path="tags"),
-        resource_mapping_key="name",
+        # Datadog enforces uniqueness on (name, type) — two variables can share
+        # a name only when their types differ (e.g. "variable" vs "secret_token").
+        # Keying by name alone collapses same-name/different-type entries in
+        # _existing_resources_map and triggers a 409 on the unmapped source.
+        resource_mapping_key=lambda r: f"{r['name']}:{r['type']}",
     )
     # Additional SyntheticsGlobalVariables specific attributes
 

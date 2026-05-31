@@ -3,22 +3,11 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 import logging
+import time
 from typing import Any, Dict, List, Set, Tuple
 
-from datadog_sync.constants import (
-    Origin,
-    DESTINATION_PATH_DEFAULT,
-    DESTINATION_PATH_PARAM,
-    LOGGER_NAME,
-    RESOURCE_PER_FILE,
-    SOURCE_PATH_DEFAULT,
-    SOURCE_PATH_PARAM,
-)
-from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData
-from datadog_sync.utils.storage.aws_s3_bucket import AWSS3Bucket
-from datadog_sync.utils.storage.azure_blob_container import AzureBlobContainer
-from datadog_sync.utils.storage.gcs_bucket import GCSBucket
-from datadog_sync.utils.storage.local_file import LocalFile
+from datadog_sync.constants import LOGGER_NAME, Origin, RESOURCE_PER_FILE
+from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData, build_storage_backend
 from datadog_sync.utils.storage.storage_types import StorageType
 
 log = logging.getLogger(LOGGER_NAME)
@@ -26,6 +15,7 @@ log = logging.getLogger(LOGGER_NAME)
 
 class State:
     def __init__(self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: object) -> None:
+        init_start = time.perf_counter()
         self._resource_types = kwargs.get("resource_types", None)  # type-scoped loading
         self._exact_ids = kwargs.get("exact_ids", None)  # ID-targeted loading
         self._minimize_reads = self._resource_types is not None or self._exact_ids is not None
@@ -33,49 +23,16 @@ class State:
         self._bulk_loaded_types: set = set()  # tracks types bulk-loaded by ensure_resource_type_loaded
         self._authoritative_source_types: Set[str] = set()
         resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
-        source_resources_path = kwargs.get(SOURCE_PATH_PARAM, SOURCE_PATH_DEFAULT)
-        destination_resources_path = kwargs.get(DESTINATION_PATH_PARAM, DESTINATION_PATH_DEFAULT)
-        if type_ == StorageType.LOCAL_FILE:
-            self._storage: BaseStorage = LocalFile(
-                source_resources_path=source_resources_path,
-                destination_resources_path=destination_resources_path,
-                resource_per_file=resource_per_file,
-            )
-        elif type_ == StorageType.AWS_S3_BUCKET:
-            config = kwargs.get("config", {})
-            if not config:
-                raise ValueError("AWS configuration not found")
-            self._storage: BaseStorage = AWSS3Bucket(
-                source_resources_path=source_resources_path,
-                destination_resources_path=destination_resources_path,
-                config=config,
-                resource_per_file=resource_per_file,
-            )
-        elif type_ == StorageType.GCS_BUCKET:
-            config = kwargs.get("config", {})
-            if not config:
-                raise ValueError("GCS configuration not found")
-            self._storage: BaseStorage = GCSBucket(
-                source_resources_path=source_resources_path,
-                destination_resources_path=destination_resources_path,
-                config=config,
-                resource_per_file=resource_per_file,
-            )
-        elif type_ == StorageType.AZURE_BLOB_CONTAINER:
-            config = kwargs.get("config", {})
-            if not config:
-                raise ValueError("Azure configuration not found")
-            self._storage: BaseStorage = AzureBlobContainer(
-                source_resources_path=source_resources_path,
-                destination_resources_path=destination_resources_path,
-                config=config,
-                resource_per_file=resource_per_file,
-            )
-        else:
-            raise NotImplementedError(f"Storage type {type_} not implemented")
-
+        self._storage: BaseStorage = build_storage_backend(type_, **kwargs)
         self._data: StorageData = StorageData()
         self.load_state()
+        log.info(
+            "sync-cli-timing phase=state_init storage_type=%s resource_per_file=%s minimize_reads=%s wall_ms=%d",
+            type_.name,
+            resource_per_file,
+            self._minimize_reads,
+            int((time.perf_counter() - init_start) * 1000),
+        )
 
     @property
     def source(self):
@@ -95,13 +52,46 @@ class State:
             self._authoritative_source_types.discard(resource_type)
 
     def load_state(self, origin: Origin = Origin.ALL) -> None:
+        load_start = time.perf_counter()
         self._authoritative_source_types.clear()
         if self._exact_ids is not None:
             # ID-targeted: fetch only specified resources by constructing keys directly
+            strategy = "id_targeted"
             self._data = self._storage.get_by_ids(origin, self._exact_ids)
         else:
             # Type-scoped (resource_types set) or full load (resource_types=None)
+            strategy = "type_scoped" if self._resource_types is not None else "full"
             self._data = self._storage.get(origin, resource_types=self._resource_types)
+        log.info(
+            "sync-cli-timing phase=load_state origin=%s strategy=%s wall_ms=%d",
+            origin.value,
+            strategy,
+            int((time.perf_counter() - load_start) * 1000),
+        )
+
+    def set_source(self, resource_type: str, _id: str, resource: Dict[str, Any]) -> None:
+        """Append/overwrite one resource in the in-memory source state.
+
+        Provided to satisfy the SourceStateWriter protocol so import-path code
+        can be written against the protocol and work with either State or
+        ImportState. State's implementation mutates the underlying dict;
+        ImportState's implementation does the same on an unloaded data store.
+
+        Intended for the import command path only. Sync/diffs/migrate code
+        continues to read and write `self.source[type][_id]` directly via the
+        property accessors. This method is not a sync-path API and adding new
+        sync-path callers is discouraged; the existing direct dict access is
+        the established pattern for those code paths.
+        """
+        self._data.source[resource_type][_id] = resource
+
+    def clear_source_type(self, resource_type: str) -> None:
+        """Clear the in-memory source dict for one resource type.
+
+        Provided to satisfy the SourceStateWriter protocol; see set_source for
+        intent. Intended for the import command path only.
+        """
+        self._data.source[resource_type].clear()
 
     def ensure_resource_type_loaded(self, resource_type: str) -> None:
         """Bulk-load all resources of a type into state for full-scan lookups.
@@ -179,7 +169,13 @@ class State:
             self._data.destination[resource_type][resource_id] = dst
 
     def dump_state(self, origin: Origin = Origin.ALL) -> None:
+        dump_start = time.perf_counter()
         self._storage.put(origin, self._data)
+        log.info(
+            "sync-cli-timing phase=dump_state origin=%s wall_ms=%d",
+            origin.value,
+            int((time.perf_counter() - dump_start) * 1000),
+        )
 
     def get_all_resources(self, resources_types: List[str]) -> Dict[Tuple[str, str], Any]:
         """Returns all resources of the given types.

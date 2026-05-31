@@ -4,12 +4,14 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import asyncio
 import re
 import logging
 from copy import deepcopy
 from graphlib import TopologicalSorter, CycleError
 from dateutil.parser import parse
 
+import aiohttp
 from deepdiff import DeepDiff
 from deepdiff.operator import BaseOperator
 
@@ -26,9 +28,53 @@ log = logging.getLogger(LOGGER_NAME)
 DEFAULT_TAGS = ["managed_by:datadog-sync"]
 
 
+# aiohttp timeout family — both have empty ``str()``.
+_TIMEOUT_EXC_TYPES = (asyncio.TimeoutError, aiohttp.ServerTimeoutError)
+
+
+def format_exc_for_log(exc: BaseException) -> str:
+    """Render an exception for ERROR-level logging without producing an empty body.
+
+    Bare ``str(exc)`` is empty for ``aiohttp.ServerTimeoutError()`` /
+    ``asyncio.TimeoutError()`` / ``aiohttp.ClientOSError()`` with no args,
+    producing log lines ending in ``-`` with no diagnostic.
+
+    Rules: timeout family → ``timeout: <ClassName>[: <msg>]`` (greppable token);
+    non-empty ``str(exc)`` → verbatim; empty ``str(exc)`` → class name fallback.
+    """
+    if isinstance(exc, _TIMEOUT_EXC_TYPES):
+        msg = str(exc)
+        cls = type(exc).__name__
+        return f"timeout: {cls}: {msg}" if msg else f"timeout: {cls}"
+    msg = str(exc)
+    if msg:
+        return msg
+    return type(exc).__name__
+
+
 class SkipResource(Exception):
     def __init__(self, _id: str, _type: str, msg: str):
         super(SkipResource, self).__init__(f"Skipping {_type} with id: {_id}. {msg}")
+
+
+class FilteredResource(Exception):
+    """Raised by base_resource._import_resource when ResourceConfig.list_omitted_attr_prefixes
+    is non-empty and --filter rejected the resource after the per-id GET.
+
+    For models that declare list_omitted_attr_prefixes (notebooks, dashboards),
+    the resources_handler defers list-unsafe filters (those whose attr_name
+    references an omitted prefix) to the post-GET pass; this exception is
+    raised when that pass rejects the resource.
+
+    Distinct from SkipResource so the resources_handler counter accounting can
+    bucket it as `filtered` (matching the LIST-time pre-filter path) rather
+    than `skipped`. State is not written for filtered resources.
+    """
+
+    def __init__(self, _id: str, _type: str):
+        super(FilteredResource, self).__init__(
+            f"Filtered {_type} with id: {_id} after detail fetch (LIST-omitted fields)"
+        )
 
 
 class ResourceConnectionError(Exception):

@@ -5,6 +5,7 @@
 
 import json
 import logging
+import time
 from collections import defaultdict
 from typing import Dict, Optional, Set, Tuple
 
@@ -25,7 +26,6 @@ log = logging.getLogger(LOGGER_NAME)
 
 
 class AzureBlobContainer(BaseStorage):
-
     def __init__(
         self,
         source_resources_path=SOURCE_PATH_DEFAULT,
@@ -80,52 +80,161 @@ class AzureBlobContainer(BaseStorage):
         return data
 
     def _list_and_load(self, base_prefix: str, resource_types, label: str):
-        """List and load Azure blobs, optionally scoped to resource_types."""
+        """List and load Azure blobs, optionally scoped to resource_types.
+
+        Emits a `sync-cli-timing phase=list_and_load` log line per call (from
+        a finally block, so the line fires even when list_blobs or
+        download_blob raises). aborted=1 indicates the call exited via an
+        uncaught exception. SDK-internal retries below this layer are not
+        visible; only outer-loop exceptions caught here are counted in
+        transient_errors.
+
+        Uses ItemPaged.by_page() introspection when the real Azure SDK iterator
+        is in use; falls back to single-page counting against mocks that return
+        a flat list.
+        """
+        call_start_ns = time.perf_counter_ns()
         result = defaultdict(dict)
-        prefixes = [f"{base_prefix}/{rt}." for rt in resource_types] if resource_types is not None else [base_prefix]
-        for prefix in prefixes:
-            for blob in self.container_client.list_blobs(name_starts_with=prefix):
-                if not blob.name.endswith(".json"):
-                    continue
-                resource_type = blob.name.split(".")[0].split("/")[-1]
-                try:
-                    content = self.container_client.download_blob(blob.name).readall().decode("utf-8")
-                    result[resource_type].update(json.loads(content))
-                except json.decoder.JSONDecodeError:
-                    log.warning(f"invalid json in azure {label} resource file: {resource_type}")
+        list_ns = 0
+        download_ns = 0
+        pages_listed = 0
+        blobs_listed = 0
+        blobs_downloaded = 0
+        transient_errors = 0
+        aborted = 1
+        try:
+            prefixes = (
+                [f"{base_prefix}/{rt}." for rt in resource_types] if resource_types is not None else [base_prefix]
+            )
+            for prefix in prefixes:
+                iterator = self.container_client.list_blobs(name_starts_with=prefix)
+                by_page = getattr(iterator, "by_page", None)
+                if by_page is not None:
+                    list_resume_ns = time.perf_counter_ns()
+                    for page in by_page():
+                        pages_listed += 1
+                        list_ns += time.perf_counter_ns() - list_resume_ns
+                        for blob in page:
+                            blobs_listed += 1
+                            if not blob.name.endswith(".json"):
+                                continue
+                            resource_type = blob.name.split(".")[0].split("/")[-1]
+                            dl_start_ns = time.perf_counter_ns()
+                            try:
+                                content = self.container_client.download_blob(blob.name).readall().decode("utf-8")
+                                result[resource_type].update(json.loads(content))
+                                blobs_downloaded += 1
+                            except json.decoder.JSONDecodeError:
+                                log.warning(f"invalid json in azure {label} resource file: {resource_type}")
+                                transient_errors += 1
+                            except ResourceNotFoundError:
+                                # Race-delete between list_blobs and download_blob.
+                                # Matches GCS NotFound / AWS NoSuchKey handling.
+                                log.warning(
+                                    f"azure {label} resource file not found (may have been deleted): {blob.name}"
+                                )
+                                transient_errors += 1
+                            download_ns += time.perf_counter_ns() - dl_start_ns
+                        list_resume_ns = time.perf_counter_ns()
+                else:
+                    # Test-mock fallback: flat-list iterator with no by_page accessor.
+                    pages_listed += 1
+                    list_resume_ns = time.perf_counter_ns()
+                    for blob in iterator:
+                        list_ns += time.perf_counter_ns() - list_resume_ns
+                        blobs_listed += 1
+                        if not blob.name.endswith(".json"):
+                            list_resume_ns = time.perf_counter_ns()
+                            continue
+                        resource_type = blob.name.split(".")[0].split("/")[-1]
+                        dl_start_ns = time.perf_counter_ns()
+                        try:
+                            content = self.container_client.download_blob(blob.name).readall().decode("utf-8")
+                            result[resource_type].update(json.loads(content))
+                            blobs_downloaded += 1
+                        except json.decoder.JSONDecodeError:
+                            log.warning(f"invalid json in azure {label} resource file: {resource_type}")
+                            transient_errors += 1
+                        except ResourceNotFoundError:
+                            # Race-delete between list_blobs and download_blob.
+                            # Matches GCS NotFound / AWS NoSuchKey handling.
+                            log.warning(f"azure {label} resource file not found (may have been deleted): {blob.name}")
+                            transient_errors += 1
+                        download_ns += time.perf_counter_ns() - dl_start_ns
+                        list_resume_ns = time.perf_counter_ns()
+            aborted = 0
+        finally:
+            log.info(
+                "sync-cli-timing phase=list_and_load backend=azure_blob label=%s pages_listed=%d "
+                "blobs_listed=%d blobs_downloaded=%d transient_errors=%d aborted=%d "
+                "list_ms=%d download_ms=%d wall_ms=%d",
+                label,
+                pages_listed,
+                blobs_listed,
+                blobs_downloaded,
+                transient_errors,
+                aborted,
+                list_ns // 1_000_000,
+                download_ns // 1_000_000,
+                (time.perf_counter_ns() - call_start_ns) // 1_000_000,
+            )
         return result
 
     def put(self, origin: Origin, data: StorageData) -> None:
         log.info("Azure Blob Storage put called")
-        if origin in [Origin.SOURCE, Origin.ALL]:
-            for resource_type, resource_data in data.source.items():
-                base_key = f"{self.source_resources_path}/{resource_type}"
-                if self.resource_per_file:
-                    skip_ids = self._check_id_collisions(resource_data, resource_type)
-                    for _id, resource in resource_data.items():
-                        if _id in skip_ids:
-                            continue
-                        safe_id = self._sanitize_id_for_filename(_id)
-                        key = f"{base_key}.{safe_id}.json"
-                        self.container_client.upload_blob(name=key, data=json.dumps({_id: resource}), overwrite=True)
-                else:
-                    key = f"{base_key}.json"
-                    self.container_client.upload_blob(name=key, data=json.dumps(resource_data), overwrite=True)
+        call_start_ns = time.perf_counter_ns()
+        blobs_written_source = 0
+        blobs_written_destination = 0
+        aborted = 1
+        try:
+            if origin in [Origin.SOURCE, Origin.ALL]:
+                for resource_type, resource_data in data.source.items():
+                    base_key = f"{self.source_resources_path}/{resource_type}"
+                    if self.resource_per_file:
+                        skip_ids = self._check_id_collisions(resource_data, resource_type)
+                        for _id, resource in resource_data.items():
+                            if _id in skip_ids:
+                                continue
+                            safe_id = self._sanitize_id_for_filename(_id)
+                            key = f"{base_key}.{safe_id}.json"
+                            self.container_client.upload_blob(
+                                name=key, data=json.dumps({_id: resource}), overwrite=True
+                            )
+                            blobs_written_source += 1
+                    else:
+                        key = f"{base_key}.json"
+                        self.container_client.upload_blob(name=key, data=json.dumps(resource_data), overwrite=True)
+                        blobs_written_source += 1
 
-        if origin in [Origin.DESTINATION, Origin.ALL]:
-            for resource_type, resource_data in data.destination.items():
-                base_key = f"{self.destination_resources_path}/{resource_type}"
-                if self.resource_per_file:
-                    skip_ids = self._check_id_collisions(resource_data, resource_type)
-                    for _id, resource in resource_data.items():
-                        if _id in skip_ids:
-                            continue
-                        safe_id = self._sanitize_id_for_filename(_id)
-                        key = f"{base_key}.{safe_id}.json"
-                        self.container_client.upload_blob(name=key, data=json.dumps({_id: resource}), overwrite=True)
-                else:
-                    key = f"{base_key}.json"
-                    self.container_client.upload_blob(name=key, data=json.dumps(resource_data), overwrite=True)
+            if origin in [Origin.DESTINATION, Origin.ALL]:
+                for resource_type, resource_data in data.destination.items():
+                    base_key = f"{self.destination_resources_path}/{resource_type}"
+                    if self.resource_per_file:
+                        skip_ids = self._check_id_collisions(resource_data, resource_type)
+                        for _id, resource in resource_data.items():
+                            if _id in skip_ids:
+                                continue
+                            safe_id = self._sanitize_id_for_filename(_id)
+                            key = f"{base_key}.{safe_id}.json"
+                            self.container_client.upload_blob(
+                                name=key, data=json.dumps({_id: resource}), overwrite=True
+                            )
+                            blobs_written_destination += 1
+                    else:
+                        key = f"{base_key}.json"
+                        self.container_client.upload_blob(name=key, data=json.dumps(resource_data), overwrite=True)
+                        blobs_written_destination += 1
+            aborted = 0
+        finally:
+            log.info(
+                "sync-cli-timing phase=put backend=azure_blob origin=%s "
+                "blobs_written_source=%d blobs_written_destination=%d aborted=%d wall_ms=%d",
+                origin.value,
+                blobs_written_source,
+                blobs_written_destination,
+                aborted,
+                (time.perf_counter_ns() - call_start_ns) // 1_000_000,
+            )
 
     def _path_for(self, origin: Origin) -> str:
         if origin == Origin.SOURCE:

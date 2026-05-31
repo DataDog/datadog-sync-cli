@@ -91,6 +91,13 @@ _destination_auth_options = [
         help="Datadog destination organization API url.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--destination-logs-intake-url",
+        envvar=constants.DD_DESTINATION_LOGS_INTAKE_URL,
+        default=None,
+        help="Override the destination logs intake URL for integration pipeline creation.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 

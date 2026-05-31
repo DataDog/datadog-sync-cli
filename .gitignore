@@ -151,5 +151,5 @@ cython_debug/
 /resources/
 
 # claude
-./claude
+.claude
 .python-version

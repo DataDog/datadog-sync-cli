@@ -44,7 +44,11 @@ HEADERS_TO_PERSISTS = ("Accept-Encoding", "Content-Type")
 def runner(freezed_time):
     from click.testing import CliRunner
 
-    return CliRunner(mix_stderr=False)
+    # Suppress the progress bar in tests by default — it pollutes captured output
+    # and tqdm's terminal escape sequences confuse pytest's output handling.
+    # Tests that need to verify progress-bar behavior can override DD_SHOW_PROGRESS_BAR
+    # in their own runner.invoke env= argument.
+    return CliRunner(mix_stderr=False, env={"DD_SHOW_PROGRESS_BAR": "false"})
 
 
 def filter_private_location_data(response):

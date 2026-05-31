@@ -5,6 +5,7 @@
 
 import json
 import logging
+import time
 from collections import defaultdict
 from typing import Dict, Optional, Set, Tuple
 
@@ -24,7 +25,6 @@ log = logging.getLogger(LOGGER_NAME)
 
 
 class AWSS3Bucket(BaseStorage):
-
     def __init__(
         self,
         source_resources_path=SOURCE_PATH_DEFAULT,
@@ -78,89 +78,161 @@ class AWSS3Bucket(BaseStorage):
         When resource_types is None: single broad listing (existing behavior).
         When resource_types is set: one listing per type using type-specific prefix,
         reducing both list and get_object calls from O(all_resources) to O(requested_resources).
+
+        Emits a `sync-cli-timing phase=list_and_load` log line per call (from
+        a finally block, so the line fires even when a list_objects_v2 or
+        get_object call raises). aborted=1 indicates the call exited via an
+        uncaught exception; aborted=0 indicates normal return. SDK-internal
+        retries below this layer are not visible; only outer-loop exceptions
+        caught here are counted in transient_errors.
         """
+        call_start_ns = time.perf_counter_ns()
         result = defaultdict(dict)
-        # Scoped: iterate one type at a time using tight prefix "{base}/{type}."
-        # Unscoped: single broad listing — existing behavior
-        prefixes = [f"{base_prefix}/{rt}." for rt in resource_types] if resource_types is not None else [base_prefix]
-        for prefix in prefixes:
-            continuation_token = None
-            while True:
-                list_kwargs = {"Bucket": self.bucket_name, "Prefix": prefix}
-                if continuation_token:
-                    list_kwargs["ContinuationToken"] = continuation_token
+        list_ns = 0
+        download_ns = 0
+        pages_listed = 0
+        objects_listed = 0
+        objects_downloaded = 0
+        transient_errors = 0
+        aborted = 1
+        try:
+            # Scoped: iterate one type at a time using tight prefix "{base}/{type}."
+            # Unscoped: single broad listing — existing behavior
+            prefixes = (
+                [f"{base_prefix}/{rt}." for rt in resource_types] if resource_types is not None else [base_prefix]
+            )
+            for prefix in prefixes:
+                continuation_token = None
+                while True:
+                    list_kwargs = {"Bucket": self.bucket_name, "Prefix": prefix}
+                    if continuation_token:
+                        list_kwargs["ContinuationToken"] = continuation_token
 
-                response = self.client.list_objects_v2(**list_kwargs)
+                    list_start_ns = time.perf_counter_ns()
+                    response = self.client.list_objects_v2(**list_kwargs)
+                    list_ns += time.perf_counter_ns() - list_start_ns
+                    pages_listed += 1
 
-                if "Contents" in response:
-                    for item in response["Contents"]:
-                        key = item["Key"]
-                        if not key.endswith(".json"):
-                            continue
-                        resource_type = key.split(".")[0].split("/")[-1]
-                        obj = self.client.get_object(Bucket=self.bucket_name, Key=key)
-                        try:
-                            result[resource_type].update(json.load(obj["Body"]))
-                        except json.decoder.JSONDecodeError:
-                            log.warning(f"invalid json in aws {label} resource file: {resource_type}")
+                    if "Contents" in response:
+                        for item in response["Contents"]:
+                            key = item["Key"]
+                            objects_listed += 1
+                            if not key.endswith(".json"):
+                                continue
+                            resource_type = key.split(".")[0].split("/")[-1]
+                            dl_start_ns = time.perf_counter_ns()
+                            try:
+                                obj = self.client.get_object(Bucket=self.bucket_name, Key=key)
+                                result[resource_type].update(json.load(obj["Body"]))
+                                objects_downloaded += 1
+                            except json.decoder.JSONDecodeError:
+                                log.warning(f"invalid json in aws {label} resource file: {resource_type}")
+                                transient_errors += 1
+                            except ClientError as e:
+                                # NoSuchKey: race-delete between list and get. Count
+                                # alongside the GCS/Azure equivalent, warn, continue.
+                                # Other ClientErrors (auth, throttling) escape to the
+                                # outer try/finally and are logged as aborted=1.
+                                if e.response.get("Error", {}).get("Code") == "NoSuchKey":
+                                    log.warning(f"aws {label} resource file not found (may have been deleted): {key}")
+                                    transient_errors += 1
+                                else:
+                                    raise
+                            download_ns += time.perf_counter_ns() - dl_start_ns
 
-                if response.get("IsTruncated"):
-                    continuation_token = response.get("NextContinuationToken")
-                else:
-                    break
+                    if response.get("IsTruncated"):
+                        continuation_token = response.get("NextContinuationToken")
+                    else:
+                        break
+            aborted = 0
+        finally:
+            log.info(
+                "sync-cli-timing phase=list_and_load backend=aws_s3 label=%s pages_listed=%d "
+                "blobs_listed=%d blobs_downloaded=%d transient_errors=%d aborted=%d "
+                "list_ms=%d download_ms=%d wall_ms=%d",
+                label,
+                pages_listed,
+                objects_listed,
+                objects_downloaded,
+                transient_errors,
+                aborted,
+                list_ns // 1_000_000,
+                download_ns // 1_000_000,
+                (time.perf_counter_ns() - call_start_ns) // 1_000_000,
+            )
         return result
 
     def put(self, origin: Origin, data: StorageData) -> None:
         log.info("AWS S3 put called")
-        if origin in [Origin.SOURCE, Origin.ALL]:
-            for resource_type, resource_data in data.source.items():
-                base_key = f"{self.source_resources_path}/{resource_type}"
-                if self.resource_per_file:
-                    skip_ids = self._check_id_collisions(resource_data, resource_type)
-                    for _id, resource in resource_data.items():
-                        if _id in skip_ids:
-                            continue
-                        safe_id = self._sanitize_id_for_filename(_id)
-                        key = f"{base_key}.{safe_id}.json"
-                        binary_data = bytes(json.dumps({_id: resource}), "UTF-8")
+        call_start_ns = time.perf_counter_ns()
+        blobs_written_source = 0
+        blobs_written_destination = 0
+        aborted = 1
+        try:
+            if origin in [Origin.SOURCE, Origin.ALL]:
+                for resource_type, resource_data in data.source.items():
+                    base_key = f"{self.source_resources_path}/{resource_type}"
+                    if self.resource_per_file:
+                        skip_ids = self._check_id_collisions(resource_data, resource_type)
+                        for _id, resource in resource_data.items():
+                            if _id in skip_ids:
+                                continue
+                            safe_id = self._sanitize_id_for_filename(_id)
+                            key = f"{base_key}.{safe_id}.json"
+                            binary_data = bytes(json.dumps({_id: resource}), "UTF-8")
+                            self.client.put_object(
+                                Body=binary_data,
+                                Bucket=self.bucket_name,
+                                Key=key,
+                            )
+                            blobs_written_source += 1
+                    else:
+                        key = f"{base_key}.json"
+                        binary_data = bytes(json.dumps(resource_data), "UTF-8")
                         self.client.put_object(
                             Body=binary_data,
                             Bucket=self.bucket_name,
                             Key=key,
                         )
-                else:
-                    key = f"{base_key}.json"
-                    binary_data = bytes(json.dumps(resource_data), "UTF-8")
-                    self.client.put_object(
-                        Body=binary_data,
-                        Bucket=self.bucket_name,
-                        Key=key,
-                    )
+                        blobs_written_source += 1
 
-        if origin in [Origin.DESTINATION, Origin.ALL]:
-            for resource_type, resource_data in data.destination.items():
-                base_key = f"{self.destination_resources_path}/{resource_type}"
-                if self.resource_per_file:
-                    skip_ids = self._check_id_collisions(resource_data, resource_type)
-                    for _id, resource in resource_data.items():
-                        if _id in skip_ids:
-                            continue
-                        safe_id = self._sanitize_id_for_filename(_id)
-                        key = f"{base_key}.{safe_id}.json"
-                        binary_data = bytes(json.dumps({_id: resource}), "UTF-8")
+            if origin in [Origin.DESTINATION, Origin.ALL]:
+                for resource_type, resource_data in data.destination.items():
+                    base_key = f"{self.destination_resources_path}/{resource_type}"
+                    if self.resource_per_file:
+                        skip_ids = self._check_id_collisions(resource_data, resource_type)
+                        for _id, resource in resource_data.items():
+                            if _id in skip_ids:
+                                continue
+                            safe_id = self._sanitize_id_for_filename(_id)
+                            key = f"{base_key}.{safe_id}.json"
+                            binary_data = bytes(json.dumps({_id: resource}), "UTF-8")
+                            self.client.put_object(
+                                Body=binary_data,
+                                Bucket=self.bucket_name,
+                                Key=key,
+                            )
+                            blobs_written_destination += 1
+                    else:
+                        key = f"{base_key}.json"
+                        binary_data = bytes(json.dumps(resource_data), "UTF-8")
                         self.client.put_object(
                             Body=binary_data,
                             Bucket=self.bucket_name,
                             Key=key,
                         )
-                else:
-                    key = f"{base_key}.json"
-                    binary_data = bytes(json.dumps(resource_data), "UTF-8")
-                    self.client.put_object(
-                        Body=binary_data,
-                        Bucket=self.bucket_name,
-                        Key=key,
-                    )
+                        blobs_written_destination += 1
+            aborted = 0
+        finally:
+            log.info(
+                "sync-cli-timing phase=put backend=aws_s3 origin=%s "
+                "blobs_written_source=%d blobs_written_destination=%d aborted=%d wall_ms=%d",
+                origin.value,
+                blobs_written_source,
+                blobs_written_destination,
+                aborted,
+                (time.perf_counter_ns() - call_start_ns) // 1_000_000,
+            )
 
     def _path_for(self, origin: Origin) -> str:
         if origin == Origin.SOURCE:
