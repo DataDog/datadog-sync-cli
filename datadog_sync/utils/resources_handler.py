@@ -25,6 +25,7 @@ from datadog_sync.utils.resource_utils import (
     check_diff,
     create_global_downtime,
     find_attr,
+    format_exc_for_log,
     prep_resource,
     init_topological_sorter,
 )
@@ -350,7 +351,8 @@ class ResourcesHandler:
         except Exception as e:
             self.worker.counter.increment_failure()
             self._emit(resource_type, _id, "sync", "failure", reason=self._sanitize_reason(e))
-            self.config.logger.error(str(e), resource_type=resource_type, _id=_id)
+            # format_exc_for_log guards against empty-str() exceptions producing blank log bodies.
+            self.config.logger.error(format_exc_for_log(e), resource_type=resource_type, _id=_id)
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.FAILURE.value)
         finally:
             # always place in done queue regardless of exception thrown
@@ -639,8 +641,12 @@ class ResourcesHandler:
             self.worker.counter.increment_failure()
             self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE.value)
-            self.config.logger.error(f"error while importing resource: resource_type:{resource_type} id:{_id}")
-            self.config.logger.debug(f"error detail: {str(e)}", resource_type=resource_type)
+            # Attach exception detail at ERROR level (previously DEBUG-only, invisible at default verbosity).
+            self.config.logger.error(
+                f"error while importing resource: {format_exc_for_log(e)}",
+                resource_type=resource_type,
+                _id=_id,
+            )
 
     async def prune(self) -> None:
         """Delete per-resource state files for source IDs no longer present.
@@ -750,11 +756,19 @@ class ResourcesHandler:
             return
         except CustomClientHTTPError as e:
             self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
-            self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            self.config.logger.error(
+                f"error importing dependency: {format_exc_for_log(e)}",
+                resource_type=resource_type,
+                _id=_id,
+            )
             return
         except Exception as e:
             self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
-            self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
+            self.config.logger.error(
+                f"error importing dependency: {format_exc_for_log(e)}",
+                resource_type=resource_type,
+                _id=_id,
+            )
             return
 
         failed_connections, missing_deps = self._resource_connections(resource_type, _id)
@@ -785,7 +799,7 @@ class ResourcesHandler:
             self.worker.counter.increment_failure()
             self._emit(resource_type, _id, "delete", "failure", reason=self._sanitize_reason(e))
             await r_class._send_action_metrics("delete", _id, Status.FAILURE.value)
-            self.config.logger.error(f"error deleting resource {resource_type} with id {_id}: {str(e)}")
+            self.config.logger.error(f"error deleting resource {resource_type} with id {_id}: {format_exc_for_log(e)}")
         finally:
             # Mark as done in cleanup sorter if it exists
             if hasattr(self, "cleanup_sorter") and self.cleanup_sorter:
