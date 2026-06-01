@@ -4,13 +4,18 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import logging
 from collections import defaultdict
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
+from datadog_sync.constants import LOGGER_NAME
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
+
+log = logging.getLogger(LOGGER_NAME)
 
 
 class HostTags(BaseResource):
@@ -52,7 +57,22 @@ class HostTags(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         body = {"tags": resource}
-        resp = await destination_client.put(self.resource_config.base_path + f"/{_id}", body)
+        try:
+            resp = await destination_client.put(self.resource_config.base_path + f"/{_id}", body)
+        except CustomClientHTTPError as e:
+            if e.status_code == 404:
+                # Source orgs frequently carry ephemeral hosts (GKE node pools,
+                # autoscaled VMs) that no longer exist on destination. 404 here
+                # means "host gone — nothing to tag" and is the correct skip
+                # signal, not a sync failure. Other status codes (4xx/5xx) still
+                # propagate so the retry layer and failure accounting engage.
+                log.info(f"[host_tags - {_id}] skipping: host no longer exists on destination")
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    f"host no longer exists on destination ({_id})",
+                ) from None
+            raise
 
         return _id, resp["tags"]
 
