@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.8.0 / 2026-06-02
+
+### Fixed
+* fix(notebooks): surface exception type on empty-message failures by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/581
+* fix(host_tags): skip 404 "Host doesn't exist" instead of failing the resource by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/582
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.7.0...4.8.0
+
 ## 4.7.0 / 2026-05-26
 
 ### Added
