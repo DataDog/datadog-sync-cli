@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from typing import Dict, Literal
 
 from datadog_sync.utils.ndjson import write_ndjson_line
@@ -56,13 +56,32 @@ class ResourceOutcome:
     status: Literal["success", "skipped", "failure", "filtered"]
     action_sub_type: Literal["create", "update", ""]  # only populated on sync success
     reason: str  # empty for success, explanation for skip/fail
+    # Optional structured failure category that consumers can branch on without
+    # pattern-matching the reason string.  Omitted from the serialised NDJSON
+    # record when empty so consumers that don't know the field see no schema
+    # change.
+    failure_class: str = ""
 
     def __post_init__(self) -> None:
         if len(self.reason) > _REASON_MAX_LEN:
             self.reason = self.reason[:_REASON_MAX_LEN] + "...(truncated)"
 
     def to_dict(self) -> Dict[str, str]:
-        return {"type": "outcome", **asdict(self)}
+        d = {
+            "type": "outcome",
+            "command": self.command,
+            "resource_type": self.resource_type,
+            "id": self.id,
+            "action_type": self.action_type,
+            "status": self.status,
+            "action_sub_type": self.action_sub_type,
+            "reason": self.reason,
+        }
+        # omitempty: only include failure_class when set, preserving NDJSON
+        # backward compatibility for downstream consumers that don't know this field.
+        if self.failure_class:
+            d["failure_class"] = self.failure_class
+        return d
 
     def emit(self) -> None:
         """Write this outcome as a single JSON line to stdout."""
