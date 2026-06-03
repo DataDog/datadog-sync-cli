@@ -110,20 +110,46 @@ class ResourcesHandler:
         self._dependency_graph: Optional[Dict[Tuple[str, str], Set[Tuple[str, str]]]] = None
 
     @staticmethod
-    def _sanitize_reason(err: Exception) -> str:
-        """Return a machine-safe reason string for NDJSON outcome events.
+    def _sanitize_reason(err: Exception) -> Tuple[str, str]:
+        """Return a (reason, failure_class) tuple for NDJSON outcome events.
+
+        ``reason`` is a machine-safe freetext string preserved for backward
+        compatibility with existing consumers.  ``failure_class`` is a
+        structured taxonomy value that consumers can branch on without
+        pattern-matching the reason string.  Field is optional in the NDJSON
+        schema (omitempty); see ResourceOutcome.
 
         For CustomClientHTTPError the full str(e) includes the HTTP response
         body which may contain secrets or PII.  We emit only the status code.
         For ResourceConnectionError the dict repr may leak resource IDs.
         The generic fallback emits only the exception class name — the full
         detail is still logged at error/debug level by the caller.
+
+        Canonical failure_class values:
+            http_4xx_403  http_4xx_404  http_4xx_429  http_4xx_other
+            http_5xx  http_timeout  http_connection  unknown
         """
         if isinstance(err, CustomClientHTTPError):
-            return f"HTTP {err.status_code}"
+            code = err.status_code
+            reason = f"HTTP {code}"
+            if code == 403:
+                return reason, "http_4xx_403"
+            if code == 404:
+                return reason, "http_4xx_404"
+            if code == 429:
+                return reason, "http_4xx_429"
+            if 400 <= code <= 499:
+                return reason, "http_4xx_other"
+            if 500 <= code <= 599:
+                return reason, "http_5xx"
+            # Defensive: non-4xx/5xx (1xx/2xx/3xx) shouldn't reach here,
+            # but guard rather than crash.
+            return reason, "unknown"
+        if isinstance(err, TimeoutError):
+            return "TimeoutError", "http_timeout"
         if isinstance(err, ResourceConnectionError):
-            return "connection_error"
-        return type(err).__name__
+            return "connection_error", "http_connection"
+        return type(err).__name__, "unknown"
 
     def _emit(
         self,
@@ -133,6 +159,7 @@ class ResourcesHandler:
         status: str,
         action_sub_type: str = "",
         reason: str = "",
+        failure_class: str = "",
     ) -> None:
         if self.config.emit_json:
             _id_str = str(_id) if _id is not None else ""
@@ -144,6 +171,7 @@ class ResourcesHandler:
                 status=status,
                 action_sub_type=action_sub_type,
                 reason=reason,
+                failure_class=failure_class,
             ).emit()
 
     async def init_async(self) -> None:
@@ -335,7 +363,8 @@ class ResourcesHandler:
         except SkipResource as e:
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.worker.counter.increment_skipped()
-            self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "sync", "skipped", reason=_reason, failure_class=_fc)
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"])
         except ResourceConnectionError as e:
             self.config.logger.error(
@@ -344,13 +373,15 @@ class ResourcesHandler:
                 _id=_id,
             )
             self.worker.counter.increment_skipped()
-            self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "sync", "skipped", reason=_reason, failure_class=_fc)
             await r_class._send_action_metrics(
                 Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:connection_error"]
             )
         except Exception as e:
             self.worker.counter.increment_failure()
-            self._emit(resource_type, _id, "sync", "failure", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "sync", "failure", reason=_reason, failure_class=_fc)
             # format_exc_for_log guards against empty-str() exceptions producing blank log bodies.
             self.config.logger.error(format_exc_for_log(e), resource_type=resource_type, _id=_id)
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.FAILURE.value)
@@ -410,13 +441,15 @@ class ResourcesHandler:
                 except SkipResource as e:
                     self.config.logger.warning(f"skipping resource: resource_type:{resource_type} id:{_id}")
                     self.config.logger.debug(str(e))
-                    self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
+                    _reason, _fc = self._sanitize_reason(e)
+                    self._emit(resource_type, _id, "sync", "skipped", reason=_reason, failure_class=_fc)
                     return
 
                 try:
                     r_class.connect_resources(_id, resource)
                 except ResourceConnectionError as e:
-                    self._emit(resource_type, _id, "sync", "skipped", reason=self._sanitize_reason(e))
+                    _reason, _fc = self._sanitize_reason(e)
+                    self._emit(resource_type, _id, "sync", "skipped", reason=_reason, failure_class=_fc)
                     return
 
                 try:
@@ -441,11 +474,13 @@ class ResourcesHandler:
                         self._emit(resource_type, _id, "sync", "success", "create")
                 except Exception as e:
                     self.config.logger.exception(f"error computing diff: resource_type:{resource_type} id:{_id}")
-                    self._emit(resource_type, _id, "sync", "failure", reason=self._sanitize_reason(e))
+                    _reason, _fc = self._sanitize_reason(e)
+                    self._emit(resource_type, _id, "sync", "failure", reason=_reason, failure_class=_fc)
         except Exception as e:
             self.config.logger.exception(f"unexpected error in diffs: resource_type:{resource_type} id:{_id}")
             action = "delete" if delete else "sync"
-            self._emit(resource_type, _id, action, "failure", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, action, "failure", reason=_reason, failure_class=_fc)
 
     async def import_resources(self) -> None:
         await self.import_resources_without_saving()
@@ -542,7 +577,8 @@ class ResourcesHandler:
                 )
             except Exception as e:
                 self.worker.counter.increment_failure()
-                self._emit(resource_type, "", "import", "failure", reason=self._sanitize_reason(e))
+                _reason, _fc = self._sanitize_reason(e)
+                self._emit(resource_type, "", "import", "failure", reason=_reason, failure_class=_fc)
                 self.config.logger.error(f"Error in get_resources_by_ids for {resource_type}: {str(e)}")
                 return
 
@@ -589,11 +625,12 @@ class ResourcesHandler:
             tmp_storage[resource_type] = get_resp
         except TimeoutError:
             self.worker.counter.increment_failure()
-            self._emit(resource_type, "", "import", "failure", reason="TimeoutError")
+            self._emit(resource_type, "", "import", "failure", reason="TimeoutError", failure_class="http_timeout")
             self.config.logger.error(f"TimeoutError while getting resources {resource_type}")
         except Exception as e:
             self.worker.counter.increment_failure()
-            self._emit(resource_type, "", "import", "failure", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, "", "import", "failure", reason=_reason, failure_class=_fc)
             self.config.logger.error(f"Error while getting resources {resource_type}: {str(e)}")
 
     async def _import_resource(self, q_item: List) -> None:
@@ -630,16 +667,19 @@ class ResourcesHandler:
             # as the LIST-time filter, just deferred because the relevant
             # fields only exist in the GET payload.
             self.worker.counter.increment_filtered()
-            self._emit(resource_type, _id, "import", "filtered", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "import", "filtered", reason=_reason, failure_class=_fc)
         except SkipResource as e:
             self.worker.counter.increment_skipped()
-            self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "import", "skipped", reason=_reason, failure_class=_fc)
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SKIPPED.value)
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.debug(str(e))
         except Exception as e:
             self.worker.counter.increment_failure()
-            self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "import", "failure", reason=_reason, failure_class=_fc)
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE.value)
             # Attach exception detail at ERROR level (previously DEBUG-only, invisible at default verbosity).
             self.config.logger.error(
@@ -751,11 +791,13 @@ class ResourcesHandler:
             _id = await self.config.resources[resource_type]._import_resource(_id=_id, skip_filter=True)
             self._emit(resource_type, _id, "import", "success")
         except SkipResource as e:
-            self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "import", "skipped", reason=_reason, failure_class=_fc)
             self.config.logger.info(f"skipping dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
         except CustomClientHTTPError as e:
-            self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "import", "failure", reason=_reason, failure_class=_fc)
             self.config.logger.error(
                 f"error importing dependency: {format_exc_for_log(e)}",
                 resource_type=resource_type,
@@ -763,7 +805,8 @@ class ResourcesHandler:
             )
             return
         except Exception as e:
-            self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "import", "failure", reason=_reason, failure_class=_fc)
             self.config.logger.error(
                 f"error importing dependency: {format_exc_for_log(e)}",
                 resource_type=resource_type,
@@ -791,13 +834,15 @@ class ResourcesHandler:
             await r_class._send_action_metrics("delete", _id, Status.SUCCESS.value)
         except SkipResource as e:
             self.worker.counter.increment_skipped()
-            self._emit(resource_type, _id, "delete", "skipped", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "delete", "skipped", reason=_reason, failure_class=_fc)
             await r_class._send_action_metrics("delete", _id, Status.SKIPPED.value, tags=["reason:unknown"])
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.info(f"skip deleting resource: {str(e)}", resource_type=resource_type, _id=_id)
         except Exception as e:
             self.worker.counter.increment_failure()
-            self._emit(resource_type, _id, "delete", "failure", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "delete", "failure", reason=_reason, failure_class=_fc)
             await r_class._send_action_metrics("delete", _id, Status.FAILURE.value)
             self.config.logger.error(f"error deleting resource {resource_type} with id {_id}: {format_exc_for_log(e)}")
         finally:
