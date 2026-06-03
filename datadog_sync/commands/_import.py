@@ -36,6 +36,24 @@ from datadog_sync.constants import Command
     "commands.",
     cls=CustomOptionClass,
 )
+@option(
+    "--restriction-policies-bulk-source",
+    required=False,
+    type=str,
+    default=None,
+    help="Path to a JSON file containing prefetched restriction_policy bodies. "
+    "When set, restriction_policies import reads bodies from this file instead "
+    "of issuing per-ID GET /api/v2/restriction_policy/<id>. Intended for callers "
+    "that have already fetched policies in bulk and want to skip the per-ID GET "
+    "pass. Default unset preserves existing per-ID GET behavior. File shape: a "
+    "JSON array of unwrapped per-ID GET response bodies (each entry must have "
+    '"id" (non-empty string of the form "<type>:<resource-id>" with type one '
+    'of dashboard, notebook, or slo — matching the target types supported by '
+    'the live per-ID GET path), '
+    '"type" ("restriction_policy"), '
+    'and "attributes.bindings" (array, may be empty)).',
+    cls=CustomOptionClass,
+)
 def _import(**kwargs):
     """Import Datadog resources."""
     run_cmd(Command.IMPORT, **kwargs)

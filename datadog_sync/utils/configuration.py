@@ -112,6 +112,11 @@ class Configuration(object):
     prune_force: bool = False
     prune_dry_run: bool = False
     destination_logs_intake_url: Optional[str] = None
+    # Path to a JSON file containing prefetched restriction_policy bodies. Set via
+    # --restriction-policies-bulk-source on `import`. When set, the restriction_policies
+    # model reads bodies from disk instead of issuing per-ID GETs. Default None preserves
+    # existing per-ID GET behavior.
+    restriction_policies_bulk_source: Optional[str] = None
 
     async def init_async(self, cmd: Command):
         await self.source_client._init_session()
@@ -428,6 +433,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         show_progress_bar = False
     allow_self_lockout = kwargs.get("allow_self_lockout", False)
     datadog_host_override = kwargs.get("datadog_host_override")
+    restriction_policies_bulk_source = kwargs.get("restriction_policies_bulk_source")
 
     # Parse allow_partial_permissions_roles
     allow_partial_permissions_roles = []
@@ -673,6 +679,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         show_progress_bar=show_progress_bar,
         allow_self_lockout=allow_self_lockout,
         datadog_host_override=datadog_host_override,
+        restriction_policies_bulk_source=restriction_policies_bulk_source,
         emit_json=emit_json,
         command=cmd.value,
         allow_partial_permissions_roles=allow_partial_permissions_roles,
