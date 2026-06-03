@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.8.1 / 2026-06-03
+
+### Added
+* feat(sync_report): emit failure_class on ResourceOutcome for HTTP errors by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/587
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.8.0...4.8.1
+
 ## 4.8.0 / 2026-06-02
 
 ### Fixed
