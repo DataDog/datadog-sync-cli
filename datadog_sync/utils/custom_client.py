@@ -135,34 +135,47 @@ class CustomClient:
         except Exception:
             pass
 
+    def _client_timeout(self) -> aiohttp.ClientTimeout:
+        """Return a ClientTimeout with no hard total cap but a per-read socket deadline.
+
+        ``total=None`` preserves the existing behaviour for slow-streaming responses
+        where the body arrives progressively over a long period — those reads are
+        unaffected because each individual socket read completes within the deadline.
+
+        ``sock_read=self.timeout`` adds a per-chunk gap detector: if the server
+        stops sending data mid-body for ``self.timeout`` seconds, an
+        ``asyncio.TimeoutError`` is raised instead of blocking indefinitely.
+        """
+        return aiohttp.ClientTimeout(total=None, sock_read=self.timeout)
+
     @request_with_retry
     async def get(self, path, domain=None, subdomain=None, **kwargs):
         url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
-        return self.session.get(url, timeout=self.timeout, **kwargs)
+        return self.session.get(url, timeout=self._client_timeout(), **kwargs)
 
     @request_with_retry
     async def post(self, path, body, domain=None, subdomain=None, **kwargs):
         url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
-        return self.session.post(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.post(url, json=body, timeout=self._client_timeout(), **kwargs)
 
     @request_with_retry
     async def put(self, path, body, domain=None, subdomain=None, **kwargs):
         url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
-        return self.session.put(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.put(url, json=body, timeout=self._client_timeout(), **kwargs)
 
     @request_with_retry
     async def patch(self, path, body, domain=None, subdomain=None, **kwargs):
         url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
-        return self.session.patch(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.patch(url, json=body, timeout=self._client_timeout(), **kwargs)
 
     @request_with_retry
     async def delete(self, path, domain=None, subdomain=None, body=None, **kwargs):
         url = self.url_object.build_url(path, domain=domain, subdomain=subdomain)
-        return self.session.delete(url, json=body, timeout=self.timeout, **kwargs)
+        return self.session.delete(url, json=body, timeout=self._client_timeout(), **kwargs)
 
     @request_with_retry
     async def _post_raw(self, session: aiohttp.ClientSession, url: str, body: dict):
-        return session.post(url, json=body, timeout=self.timeout)
+        return session.post(url, json=body, timeout=self._client_timeout())
 
     async def post_unauthenticated(self, url: str, payload: dict) -> None:
         ssl_ctx = ssl.create_default_context(cafile=certifi.where()) if self.verify_ssl else False
