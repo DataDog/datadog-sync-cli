@@ -102,6 +102,14 @@ class TestSanitizeReasonFailureClass:
         assert reason == "TimeoutError"
         assert fc == "http_timeout"
 
+    def test_asyncio_timeout_error(self):
+        """asyncio.TimeoutError (raised by aiohttp sock_read) must be classified as http_timeout."""
+        import asyncio
+
+        reason, fc = ResourcesHandler._sanitize_reason(asyncio.TimeoutError())
+        assert reason == "TimeoutError"
+        assert fc == "http_timeout"
+
     def test_resource_connection_error(self):
         err = ResourceConnectionError({"monitors": ["missing-id"]})
         reason, fc = ResourcesHandler._sanitize_reason(err)
