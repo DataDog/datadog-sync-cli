@@ -2,6 +2,166 @@ interactions:
 - request:
     body: null
     headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests?include_metadata=true
+  response:
+    body:
+      string: '{"tests": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests?include_metadata=true
+  response:
+    body:
+      string: '{"tests": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests?include_metadata=true
+  response:
+    body:
+      string: '{"tests": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests?include_metadata=true
+  response:
+    body:
+      string: '{"tests": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests?include_metadata=true
+  response:
+    body:
+      string: '{"tests": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests?include_metadata=true
+  response:
+    body:
+      string: '{"tests": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests?include_metadata=true
+  response:
+    body:
+      string: '{"tests": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests?include_metadata=true
+  response:
+    body:
+      string: '{"tests": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests?include_metadata=true
+  response:
+    body:
+      string: '{"tests": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/synthetics/tests?include_metadata=true
+  response:
+    body:
+      string: '{"tests": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
       Host:
       - api.us5.datadoghq.com
     method: GET
@@ -7582,7 +7742,9 @@ interactions:
       message: Accepted
 - request:
     body: '{"description": "test", "tags": ["team:test", "managed_by:datadog-sync"],
-      "name": "test", "metadata": {"restricted_roles": []}}'
+      "name": "test", "metadata": {"restricted_roles": []}, "ddr_metadata": {"disaster_recovery":
+      {"source_pl_id": 12345, "source_name": "pl:test-ddd684741691962f1bfdebeef3963a42"}},
+      "test_encryption_public_key": "{\"pem\": \"-----BEGIN PUBLIC KEY-----\\nfake\\n-----END PUBLIC KEY-----\", \"fingerprint\": \"sha256$base64$fakefingerprint=\", \"id\": \"test-key-id\"}"}'
     headers:
       Content-Type:
       - application/json
