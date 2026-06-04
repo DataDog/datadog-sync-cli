@@ -149,9 +149,6 @@ class ResourcesHandler:
         self.worker: Workers = Workers(self.config)
 
     async def reset(self) -> None:
-        # Save existing destination state — only contains resources managed by sync-cli
-        managed_destination = self.config.state._data.destination
-
         if self.config.backup_before_reset:
             await self.import_resources()
         else:
@@ -160,9 +157,8 @@ class ResourcesHandler:
             sleep(5)
             await self.import_resources_without_saving()
 
-        # Restore the original destination state so only managed resources are deleted,
-        # not all resources fetched from the destination API during backup.
-        self.config.state._data.destination = managed_destination
+        # move the import data from source to destination
+        self.config.state._data.destination = self.config.state._data.source
 
         for resource_type in self.config.resources_arg:
             resources = {}
