@@ -145,7 +145,7 @@ class ResourcesHandler:
             # Defensive: non-4xx/5xx (1xx/2xx/3xx) shouldn't reach here,
             # but guard rather than crash.
             return reason, "unknown"
-        if isinstance(err, TimeoutError):
+        if isinstance(err, (asyncio.TimeoutError, TimeoutError)):
             return "TimeoutError", "http_timeout"
         if isinstance(err, ResourceConnectionError):
             return "connection_error", "http_connection"
@@ -636,7 +636,7 @@ class ResourcesHandler:
             get_resp = await r_class._get_resources(self.config.source_client)
             self.worker.counter.increment_success()
             tmp_storage[resource_type] = get_resp
-        except TimeoutError:
+        except (asyncio.TimeoutError, TimeoutError):
             self.worker.counter.increment_failure()
             self._emit(resource_type, "", "import", "failure", reason="TimeoutError", failure_class="http_timeout")
             self.config.logger.error(f"TimeoutError while getting resources {resource_type}")
