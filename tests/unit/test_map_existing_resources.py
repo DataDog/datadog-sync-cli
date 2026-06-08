@@ -55,14 +55,14 @@ OPT_OUT_RESOURCES = [
     "synthetics_mobile_applications_versions",
     "synthetics_private_locations",
     "synthetics_test_suites",
-    "synthetics_tests",
 ]
 
-# The 9 resources that use resource mapping
+# The 10 resources that use resource mapping
 MAPPING_RESOURCES = [
     "users",
     "teams",
     "synthetics_global_variables",
+    "synthetics_tests",
     "logs_indexes",
     "logs_metrics",
     "metric_tag_configurations",
