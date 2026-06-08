@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import json
 import re
 
 from typing import TYPE_CHECKING, List, Dict, Optional, Tuple
@@ -13,7 +14,6 @@ from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
-
 
 class SyntheticsPrivateLocations(BaseResource):
     resource_type = "synthetics_private_locations"
@@ -27,7 +27,9 @@ class SyntheticsPrivateLocations(BaseResource):
             "createdBy",
             "secrets",
             "config",
-            "result_encryption",
+            "ddr_metadata",
+            "pl_id",
+            "public_key_test",
         ],
         tagging_config=TaggingConfig(path="tags"),
         skip_resource_mapping=True,
@@ -48,7 +50,10 @@ class SyntheticsPrivateLocations(BaseResource):
         if not self.pl_id_regex.match(import_id):
             raise SkipResource(import_id, self.resource_type, "Managed location.")
 
-        pl = await source_client.get(self.resource_config.base_path + f"/{import_id}")
+        pl = await source_client.get(
+            self.resource_config.base_path + f"/{import_id}",
+            params={"include_pl_info": "true"},
+        )
         self.config.state.set_source(self.resource_type, import_id, pl)
 
         return import_id, pl
@@ -61,14 +66,23 @@ class SyntheticsPrivateLocations(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
+        source_pl = self.config.state.source[self.resource_type][_id]
+
+        if resource.get("metadata") is None:
+            resource.pop("metadata", None)
+
+        resource["ddr_metadata"] = {
+            "disaster_recovery": {
+                "source_pl_id": source_pl["pl_id"],
+                "source_name": _id,
+            }
+        }
+        resource["test_encryption_public_key"] = json.dumps(source_pl["public_key_test"])
+        if self.config.datadog_host_override:
+            resource["datadog_host_override"] = self.config.datadog_host_override
 
         resp = await destination_client.post(self.resource_config.base_path, resource)
-
-        pl = resp["private_location"]
-        pl["config"] = resp.get("config")
-        pl["result_encryption"] = resp.get("result_encryption")
-
-        return _id, pl
+        return _id, resp["private_location"]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client

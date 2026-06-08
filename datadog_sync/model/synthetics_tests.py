@@ -81,7 +81,7 @@ class SyntheticsTests(BaseResource):
             "steps": [[]],
         },
         tagging_config=TaggingConfig(path="tags"),
-        skip_resource_mapping=True,
+        resource_mapping_key="metadata.disaster_recovery.source_public_id",
     )
     # Additional SyntheticsTests specific attributes
     browser_test_path: str = "/api/v1/synthetics/tests/browser/{}"
@@ -161,6 +161,17 @@ class SyntheticsTests(BaseResource):
         )
         await self._ensure_mobile_versions_loaded(client)
         return resp["tests"]
+
+    async def map_existing_resources(self) -> None:
+        resp = await self.config.destination_client.get(
+            self.resource_config.base_path,
+            params=self.get_params,
+        )
+        self._existing_resources_map = {}
+        for resource in resp["tests"]:
+            key = self.get_resource_mapping_key(resource)
+            if key is not None:
+                self._existing_resources_map[key] = resource
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         source_client = self.config.source_client
@@ -331,6 +342,14 @@ class SyntheticsTests(BaseResource):
         destination_client = self.config.destination_client
         test_type = resource["type"]
         resource.pop("mobileApplicationsVersions", None)
+
+        # If a destination test already carries this source_public_id, adopt it into
+        # state and update, this prevents duplicate orphans when a prior sync's POST succeeded
+        # server-side but the client saw a 5xx and never persisted the destination id.
+        existing_key = self.get_resource_mapping_key(resource)
+        if existing_key and existing_key in self._existing_resources_map:
+            self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[existing_key]
+            return await self.update_resource(_id, resource)
 
         # Force status to "paused" for new tests to prevent immediate execution
         # on destination during failover scenarios. Status can be manually changed after creation.
