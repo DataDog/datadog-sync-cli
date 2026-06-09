@@ -5,6 +5,7 @@
 
 """Tests for adding authn_mappings to _ID_FILE_SUPPORTED_TYPES (PR 6)."""
 
+import asyncio
 from unittest.mock import AsyncMock, MagicMock
 
 from datadog_sync.utils.configuration import _ID_FILE_SUPPORTED_TYPES
@@ -44,8 +45,7 @@ class TestAuthnMappingsIDFileSupport:
         for mapping in [role_mapping, team_mapping]:
             mock_client.get.return_value = {"data": mapping}
             authn = AuthNMappings(config=mock_config)
-            import asyncio
-            _id, result = asyncio.get_event_loop().run_until_complete(
+            _id, result = asyncio.run(
                 authn.import_resource(_id=mapping["id"])
             )
             assert _id == mapping["id"], (
@@ -66,8 +66,7 @@ class TestAuthnMappingsIDFileSupport:
         mock_config.source_client = AsyncMock()
         mock_config.source_client.get.return_value = {"data": mapping}
         authn = AuthNMappings(config=mock_config)
-        import asyncio
-        _id, result = asyncio.get_event_loop().run_until_complete(
+        _id, _ = asyncio.run(
             authn.import_resource(_id=mapping["id"])
         )
         assert _id == mapping["id"]
@@ -86,8 +85,7 @@ class TestAuthnMappingsIDFileSupport:
         mock_client.get.return_value = {"data": mapping}
         mock_config.source_client = mock_client
         authn = AuthNMappings(config=mock_config)
-        import asyncio
-        _id, result = asyncio.get_event_loop().run_until_complete(
+        _id, result = asyncio.run(
             authn.import_resource(_id=mapping_id)
         )
         assert _id == mapping_id
