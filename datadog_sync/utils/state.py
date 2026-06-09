@@ -85,6 +85,19 @@ class State:
         """
         self._data.source[resource_type][_id] = resource
 
+
+    def delete_source(self, resource_type: str, _id: str) -> None:
+        """Remove one resource key from the in-memory source state.
+
+        A no-op if the key does not exist. Used by team_memberships fan-out
+        to clear stale membership rows before writing a refreshed set.
+        """
+        self._data.source[resource_type].pop(_id, None)
+
+    def get_source_keys(self, resource_type: str) -> list:
+        """Return all source state keys for a resource type."""
+        return list(self._data.source[resource_type].keys())
+
     def clear_source_type(self, resource_type: str) -> None:
         """Clear the in-memory source dict for one resource type.
 

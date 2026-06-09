@@ -78,22 +78,13 @@ class TeamMemberships(BaseResource):
         return all_team_memberships
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
-        source_client = self.config.source_client
-        pagination_config = PaginationConfig(
-            page_size=100,
-            page_number_param="page[number]",
-            page_size_param="page[size]",
-            remaining_func=lambda idx, resp, page_size, page_number: max(
-                0,
-                resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
-            ),
-        )
-
-        if _id:
-            resource = await source_client.paginated_request(source_client.get)(
-                self.team_memberships_path.format(_id),
-                pagination_config=pagination_config,
-            )
+        if _id is not None and resource is None:
+            if ":" not in _id:
+                # _id is a bare team UUID from --id-file; fan out to N membership rows.
+                # Dispatch condition: ":" not in _id distinguishes bare team UUID
+                # (from --id-file) from composite team_id:user_id (from 2-arg path).
+                return await self._import_team_memberships_by_team_id(_id)
+            # composite team_id:user_id from get_resources() falls through to existing code
 
         resource = cast(dict, resource)
         if not resource:
@@ -104,6 +95,61 @@ class TeamMemberships(BaseResource):
             raise ValueError("Error creating team membership resource, no id")
 
         return _id, resource
+
+    async def _import_team_memberships_by_team_id(self, team_id: str) -> Tuple[str, Dict]:
+        """Fan-out: fetch all memberships for team_id and write N composite rows to state.
+
+        Delete-before-write ensures stale membership rows for removed users are
+        not retained. Uses ImportState.delete_source (new public method in PR 7)
+        rather than direct dict mutation to preserve ImportState encapsulation.
+
+        Returns the last composite key + resource so the outer _import_resource
+        can call set_source (harmless overwrite for N>0). For N==0 returns the
+        bare team_id + empty dict.
+        """
+        source_client = self.config.source_client
+        pagination_config = PaginationConfig(
+            page_size=100,
+            page_number_param="page[number]",
+            page_size_param="page[size]",
+            remaining_func=lambda idx, resp, page_size, page_number: max(
+                0,
+                resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
+            ),
+        )
+        new_members = await source_client.paginated_request(source_client.get)(
+            self.team_memberships_path.format(team_id),
+            pagination_config=pagination_config,
+        )
+
+        # Delete-before-write: remove all existing state rows for this team — both
+        # composite team_id:user_id rows (stale membership rows for removed users)
+        # and the bare team_id key that prior runs may have written for empty teams.
+        existing_keys = [k for k in self.config.state.get_source_keys(self.resource_type)
+                         if k == team_id or k.startswith(f"{team_id}:")]
+        for k in existing_keys:
+            self.config.state.delete_source(self.resource_type, k)
+
+        # Write the refreshed membership rows
+        last_id: Optional[str] = None
+        last_resource: Optional[Dict] = None
+        for member in new_members:
+            member["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
+            user_id = member["relationships"]["user"]["data"]["id"]
+            composite_id = f"{team_id}:{user_id}"
+            self.config.state.set_source(self.resource_type, composite_id, member)
+            last_id, last_resource = composite_id, member
+
+        if last_id is not None:
+            # Return last composite key; outer _import_resource will overwrite it (harmless).
+            return last_id, last_resource
+
+        # Empty team: raise SkipResource so the outer _import_resource does not call
+        # set_source at all. A bare team_id key with no colon is not a valid membership
+        # row and would linger in state across fan-out cycles (the delete-before-write
+        # prefix match `team_id:` would not catch it). SkipResource is caught by the
+        # batch import path (fetch_one) and treated as a non-error skip.
+        raise SkipResource(team_id, self.resource_type, "team has no members")
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
