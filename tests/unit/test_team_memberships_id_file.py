@@ -3,7 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-"""PR 7 TDD tests: team_memberships fan-out + _ID_FILE_SUPPORTED_TYPES."""
+"""Tests for team_memberships fan-out + _ID_FILE_SUPPORTED_TYPES."""
 
 import asyncio
 import pytest
@@ -103,7 +103,7 @@ class TestTeamMembershipsIDFileSupport:
         """get_resources() is not called by import_resource; verify it still exists."""
         config = MagicMock()
         tm = TeamMemberships(config=config)
-        assert hasattr(tm, "get_resources"), "get_resources() must still exist after PR 7"
+        assert hasattr(tm, "get_resources"), "get_resources() must still exist"
 
     def test_import_resource_id_api_error_propagates(self):
         config = MagicMock()

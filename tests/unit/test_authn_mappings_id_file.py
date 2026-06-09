@@ -3,7 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-"""Tests for adding authn_mappings to _ID_FILE_SUPPORTED_TYPES (PR 6)."""
+"""Tests for authn_mappings support in _ID_FILE_SUPPORTED_TYPES."""
 
 import asyncio
 from unittest.mock import AsyncMock, MagicMock
@@ -13,13 +13,13 @@ from datadog_sync.model.authn_mappings import AuthNMappings
 
 
 class TestAuthnMappingsIDFileSupport:
-    """Tests for adding authn_mappings to _ID_FILE_SUPPORTED_TYPES (PR 6)."""
+    """Tests for authn_mappings support in _ID_FILE_SUPPORTED_TYPES."""
 
     def test_authn_mappings_in_id_file_supported_types(self):
-        """After PR 6: 'authn_mappings' must be present in _ID_FILE_SUPPORTED_TYPES."""
+        """'authn_mappings' must be present in _ID_FILE_SUPPORTED_TYPES."""
         assert "authn_mappings" in _ID_FILE_SUPPORTED_TYPES, (
-            "authn_mappings must be in _ID_FILE_SUPPORTED_TYPES after PR 6. "
-            "If this fails, the PR 6 code change has not been applied."
+            "authn_mappings must be in _ID_FILE_SUPPORTED_TYPES. "
+            "If this fails, id-file type support for authn_mappings is missing."
         )
 
     def test_import_resource_id_uuid_lookup_independent_of_resource_type(self):

@@ -202,7 +202,7 @@ def _parse_id_file(id_file_arg: Optional[str], logger) -> Optional[Dict[str, Lis
             sys.exit(1)
         if k not in _ID_FILE_SUPPORTED_TYPES:
             logger.error(
-                f"--id-file: type {k!r} is not supported in PR4 v1. "
+                f"--id-file: type {k!r} is not supported by this build. "
                 f"Supported types: {sorted(_ID_FILE_SUPPORTED_TYPES)}"
             )
             sys.exit(1)

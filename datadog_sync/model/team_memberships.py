@@ -100,7 +100,7 @@ class TeamMemberships(BaseResource):
         """Fan-out: fetch all memberships for team_id and write N composite rows to state.
 
         Delete-before-write ensures stale membership rows for removed users are
-        not retained. Uses ImportState.delete_source (new public method in PR 7)
+        not retained. Uses ImportState.delete_source
         rather than direct dict mutation to preserve ImportState encapsulation.
 
         Returns the last composite key + resource so the outer _import_resource
