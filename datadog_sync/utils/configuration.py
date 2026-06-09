@@ -165,7 +165,7 @@ def _unwrap_exact_match_pattern(pattern: str) -> str:
     return pattern[1:-1]
 
 
-_ID_FILE_SUPPORTED_TYPES = frozenset({"monitors"})
+_ID_FILE_SUPPORTED_TYPES = frozenset({"monitors", "authn_mappings"})
 """Resource types eligible for the --id-file partition path. Monitors only in v1.
 Future expansion (e.g. SLOs) requires per-model verification and adding the
 type here. Do NOT widen by config — code-level allowlist forces explicit review."""
