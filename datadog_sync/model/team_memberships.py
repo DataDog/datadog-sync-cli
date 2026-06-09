@@ -122,10 +122,11 @@ class TeamMemberships(BaseResource):
             pagination_config=pagination_config,
         )
 
-        # Delete-before-write: remove all existing state rows matching the team UUID prefix
-        # so stale membership rows (users who left the team) are not retained.
+        # Delete-before-write: remove all existing state rows for this team — both
+        # composite team_id:user_id rows (stale membership rows for removed users)
+        # and the bare team_id key that prior runs may have written for empty teams.
         existing_keys = [k for k in self.config.state.get_source_keys(self.resource_type)
-                         if k.startswith(f"{team_id}:")]
+                         if k == team_id or k.startswith(f"{team_id}:")]
         for k in existing_keys:
             self.config.state.delete_source(self.resource_type, k)
 
@@ -143,10 +144,12 @@ class TeamMemberships(BaseResource):
             # Return last composite key; outer _import_resource will overwrite it (harmless).
             return last_id, last_resource
 
-        # Empty team: return the bare team_id with empty resource.
-        # The outer _import_resource will write {team_id: {}}, which is a no-op during sync
-        # (no user data → skipped) and will be cleaned up on the next fan-out call.
-        return team_id, {}
+        # Empty team: raise SkipResource so the outer _import_resource does not call
+        # set_source at all. A bare team_id key with no colon is not a valid membership
+        # row and would linger in state across fan-out cycles (the delete-before-write
+        # prefix match `team_id:` would not catch it). SkipResource is caught by the
+        # batch import path (fetch_one) and treated as a non-error skip.
+        raise SkipResource(team_id, self.resource_type, "team has no members")
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass

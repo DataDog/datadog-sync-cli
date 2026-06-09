@@ -8,11 +8,12 @@
 import asyncio
 import copy
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 from collections import defaultdict
 
 from datadog_sync.utils.configuration import _ID_FILE_SUPPORTED_TYPES
 from datadog_sync.model.team_memberships import TeamMemberships
+from datadog_sync.utils.resource_utils import SkipResource
 
 
 class _MockState:
@@ -79,13 +80,12 @@ class TestTeamMembershipsIDFileSupport:
 
     def test_import_resource_id_empty_team_writes_nothing(self):
         tm, config, _ = _make_team_memberships("team-empty", [])
-        asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-empty"))
-        # Only composite keys should be written; bare team UUID is acceptable as empty marker
-        composite_keys = [k for k in config.state.source["team_memberships"].keys()
-                          if k.startswith("team-empty:") and not k.endswith(":")]
-        assert len(composite_keys) == 0, (
-            "empty team must produce 0 composite membership keys; "
-            f"got: {list(config.state.source['team_memberships'].keys())}"
+        with pytest.raises(SkipResource):
+            asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-empty"))
+        all_keys = list(config.state.source["team_memberships"].keys())
+        assert len(all_keys) == 0, (
+            "empty team must write no state rows at all (no bare team_id key, "
+            f"no composite keys); got: {all_keys}"
         )
 
     def test_import_resource_resource_arg_path_unaffected(self):
