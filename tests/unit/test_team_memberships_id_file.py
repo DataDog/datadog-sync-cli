@@ -6,7 +6,6 @@
 """PR 7 TDD tests: team_memberships fan-out + _ID_FILE_SUPPORTED_TYPES."""
 
 import asyncio
-import copy
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 from collections import defaultdict
@@ -64,14 +63,14 @@ class TestTeamMembershipsIDFileSupport:
 
     def test_import_resource_id_fan_out_produces_n_rows(self):
         tm, config, _ = _make_team_memberships("team-abc", ["user-1", "user-2", "user-3"])
-        asyncio.get_event_loop().run_until_complete(
+        asyncio.run(
             tm.import_resource(_id="team-abc")
         )
         assert len(config.state.source["team_memberships"]) == 3
 
     def test_import_resource_id_composite_key_format(self):
         tm, config, _ = _make_team_memberships("team-abc", ["user-1", "user-2"])
-        asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-abc"))
+        asyncio.run(tm.import_resource(_id="team-abc"))
         keys = set(config.state.source["team_memberships"].keys())
         assert "team-abc:user-1" in keys
         assert "team-abc:user-2" in keys
@@ -81,7 +80,7 @@ class TestTeamMembershipsIDFileSupport:
     def test_import_resource_id_empty_team_writes_nothing(self):
         tm, config, _ = _make_team_memberships("team-empty", [])
         with pytest.raises(SkipResource):
-            asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-empty"))
+            asyncio.run(tm.import_resource(_id="team-empty"))
         all_keys = list(config.state.source["team_memberships"].keys())
         assert len(all_keys) == 0, (
             "empty team must write no state rows at all (no bare team_id key, "
@@ -94,7 +93,7 @@ class TestTeamMembershipsIDFileSupport:
         config.state = _MockState()
         tm = TeamMemberships(config=config)
         existing_resource = _make_member("team-x", "user-y")
-        _id, result = asyncio.get_event_loop().run_until_complete(
+        _id, result = asyncio.run(
             tm.import_resource(_id="team-x:user-y", resource=existing_resource)
         )
         assert _id == "team-x:user-y"
@@ -116,13 +115,13 @@ class TestTeamMembershipsIDFileSupport:
         config.source_client.get = MagicMock()
         tm = TeamMemberships(config=config)
         with pytest.raises(Exception, match="membership API 500"):
-            asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-xyz"))
+            asyncio.run(tm.import_resource(_id="team-xyz"))
         assert len(config.state.source["team_memberships"]) == 0
 
     def test_import_resource_id_idempotent(self):
         tm, config, _ = _make_team_memberships("team-abc", ["user-1", "user-2"])
-        asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-abc"))
-        asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-abc"))
+        asyncio.run(tm.import_resource(_id="team-abc"))
+        asyncio.run(tm.import_resource(_id="team-abc"))
         keys = [k for k in config.state.source["team_memberships"].keys()
                 if k.startswith("team-abc:user-")]
         assert len(keys) == 2, "two calls with same members must yield exactly 2 unique rows"
@@ -143,8 +142,8 @@ class TestTeamMembershipsIDFileSupport:
         )
         config.source_client.get = MagicMock()
         tm = TeamMemberships(config=config)
-        asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-A"))
-        asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-B"))
+        asyncio.run(tm.import_resource(_id="team-A"))
+        asyncio.run(tm.import_resource(_id="team-B"))
 
         keys = set(config.state.source["team_memberships"].keys())
         assert "team-A:shared-user" in keys
@@ -155,10 +154,10 @@ class TestTeamMembershipsIDFileSupport:
         config = MagicMock()
         config.state = _MockState()
         config.source_client = AsyncMock()
-        
+
         first_members = [_make_member("team-x", "user-1"), _make_member("team-x", "user-2")]
         second_members = [_make_member("team-x", "user-1")]  # user-2 removed
-        
+
         config.source_client.paginated_request = MagicMock(
             side_effect=[
                 AsyncMock(return_value=first_members),
@@ -167,8 +166,8 @@ class TestTeamMembershipsIDFileSupport:
         )
         config.source_client.get = MagicMock()
         tm = TeamMemberships(config=config)
-        asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-x"))
-        asyncio.get_event_loop().run_until_complete(tm.import_resource(_id="team-x"))
+        asyncio.run(tm.import_resource(_id="team-x"))
+        asyncio.run(tm.import_resource(_id="team-x"))
 
         composite_keys = [k for k in config.state.source["team_memberships"].keys()
                           if k.startswith("team-x:user-")]
@@ -195,8 +194,8 @@ class TestTeamMembershipsIDFileSupport:
         )
         config.source_client.get = MagicMock()
         tm = TeamMemberships(config=config)
-        asyncio.get_event_loop().run_until_complete(tm._import_team_memberships_by_team_id("team-A"))
-        asyncio.get_event_loop().run_until_complete(tm._import_team_memberships_by_team_id("team-A"))
+        asyncio.run(tm._import_team_memberships_by_team_id("team-A"))
+        asyncio.run(tm._import_team_memberships_by_team_id("team-A"))
 
         composite_keys = {k for k in config.state.source["team_memberships"].keys()
                           if k.startswith("team-A:user-")}
