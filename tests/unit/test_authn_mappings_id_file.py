@@ -3,19 +3,9 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-"""PR 6 TDD tests: add authn_mappings to _ID_FILE_SUPPORTED_TYPES.
+"""Tests for adding authn_mappings to _ID_FILE_SUPPORTED_TYPES (PR 6)."""
 
-Per TDD ordering:
-1. These tests are written BEFORE the implementation change.
-2. test_authn_mappings_not_in_supported_types_before_pr6 must FAIL on main
-   (proves the red state is real).
-3. After adding "authn_mappings" to _ID_FILE_SUPPORTED_TYPES, all 5 tests
-   must pass GREEN.
-4. test_authn_mappings_not_in_supported_types_before_pr6 is deleted when PR 6 merges.
-"""
-
-import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 from datadog_sync.utils.configuration import _ID_FILE_SUPPORTED_TYPES
 from datadog_sync.model.authn_mappings import AuthNMappings
@@ -81,22 +71,6 @@ class TestAuthnMappingsIDFileSupport:
             authn.import_resource(_id=mapping["id"])
         )
         assert _id == mapping["id"]
-
-    def test_authn_mappings_not_in_supported_types_before_pr6(self):
-        """Regression snapshot: on main BEFORE PR 6, authn_mappings is NOT in the set.
-        This test proves the red state is real before the code change is made.
-        DELETE this test when PR 6 merges — it exists only to demonstrate the
-        initial red state per the TDD ordering requirement.
-
-        NOTE: This test will FAIL on the PR 6 branch (after the change is made),
-        which is expected. It is kept here for documentation purposes and must be
-        removed in the PR 6 commit.
-        """
-        # This assertion is intentionally inverted: we expect authn_mappings to be
-        # PRESENT after the change, so this test should FAIL after the change.
-        # The test exists only to prove the starting state on main.
-        # After PR 6 lands: DELETE this test.
-        pass  # No-op on PR branch (change is made); proves red state on main.
 
     def test_import_resource_id_fetches_correct_mapping(self):
         """import_resource(uuid) fetches the mapping at the expected API path and writes state."""
