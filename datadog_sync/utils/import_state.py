@@ -29,7 +29,11 @@ import time
 from typing import Any, Dict, List, Set
 
 from datadog_sync.constants import LOGGER_NAME, Origin, RESOURCE_PER_FILE
-from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData, build_storage_backend
+from datadog_sync.utils.storage._base_storage import (
+    BaseStorage,
+    StorageData,
+    build_storage_backend,
+)
 from datadog_sync.utils.storage.storage_types import StorageType
 
 
@@ -45,7 +49,9 @@ class ImportState:
     `dump_state(Origin.SOURCE)` flushes in-memory writes to storage.
     """
 
-    def __init__(self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: object) -> None:
+    def __init__(
+        self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: object
+    ) -> None:
         init_start = time.perf_counter()
         resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
         self._storage: BaseStorage = build_storage_backend(type_, **kwargs)
@@ -58,7 +64,9 @@ class ImportState:
             int((time.perf_counter() - init_start) * 1000),
         )
 
-    def set_source(self, resource_type: str, _id: str, resource: Dict[str, Any]) -> None:
+    def set_source(
+        self, resource_type: str, _id: str, resource: Dict[str, Any]
+    ) -> None:
         """Append/overwrite one resource in the in-memory source state."""
         self._data.source[resource_type][_id] = resource
 
@@ -73,24 +81,6 @@ class ImportState:
         for resource_type in resource_types:
             self._authoritative_source_types.discard(resource_type)
 
-
-    def delete_source(self, resource_type: str, _id: str) -> None:
-        """Remove one resource key from the in-memory source state.
-
-        A no-op if the key does not exist. Used by team_memberships fan-out
-        to clear stale membership rows before writing a refreshed set.
-        """
-        self._data.source[resource_type].pop(_id, None)
-
-    def get_source_keys(self, resource_type: str) -> list:
-        """Return all source state keys for a resource type.
-
-        Returns the keys present in the in-memory source dict. For
-        ImportState (write-only, no prior state loaded), this reflects
-        only what was written in the current session.
-        """
-        return list(self._data.source[resource_type].keys())
-
     def dump_state(self, origin: Origin = Origin.SOURCE) -> None:
         """Flush in-memory writes to storage. Defaults to SOURCE-only.
 
@@ -99,7 +89,9 @@ class ImportState:
         could be misinterpreted by readers as "no destination data".
         """
         if origin != Origin.SOURCE:
-            raise ValueError(f"ImportState.dump_state only supports Origin.SOURCE; got {origin}")
+            raise ValueError(
+                f"ImportState.dump_state only supports Origin.SOURCE; got {origin}"
+            )
         dump_start = time.perf_counter()
         self._storage.put(origin, self._data)
         log.info(

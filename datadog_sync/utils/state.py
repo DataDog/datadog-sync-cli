@@ -7,20 +7,32 @@ import time
 from typing import Any, Dict, List, Set, Tuple
 
 from datadog_sync.constants import LOGGER_NAME, Origin, RESOURCE_PER_FILE
-from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData, build_storage_backend
+from datadog_sync.utils.storage._base_storage import (
+    BaseStorage,
+    StorageData,
+    build_storage_backend,
+)
 from datadog_sync.utils.storage.storage_types import StorageType
 
 log = logging.getLogger(LOGGER_NAME)
 
 
 class State:
-    def __init__(self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: object) -> None:
+    def __init__(
+        self, type_: StorageType = StorageType.LOCAL_FILE, **kwargs: object
+    ) -> None:
         init_start = time.perf_counter()
         self._resource_types = kwargs.get("resource_types", None)  # type-scoped loading
         self._exact_ids = kwargs.get("exact_ids", None)  # ID-targeted loading
-        self._minimize_reads = self._resource_types is not None or self._exact_ids is not None
-        self._ensure_attempted: set = set()  # tracks IDs attempted by ensure_resource_loaded
-        self._bulk_loaded_types: set = set()  # tracks types bulk-loaded by ensure_resource_type_loaded
+        self._minimize_reads = (
+            self._resource_types is not None or self._exact_ids is not None
+        )
+        self._ensure_attempted: set = (
+            set()
+        )  # tracks IDs attempted by ensure_resource_loaded
+        self._bulk_loaded_types: set = (
+            set()
+        )  # tracks types bulk-loaded by ensure_resource_type_loaded
         self._authoritative_source_types: Set[str] = set()
         resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
         self._storage: BaseStorage = build_storage_backend(type_, **kwargs)
@@ -69,7 +81,9 @@ class State:
             int((time.perf_counter() - load_start) * 1000),
         )
 
-    def set_source(self, resource_type: str, _id: str, resource: Dict[str, Any]) -> None:
+    def set_source(
+        self, resource_type: str, _id: str, resource: Dict[str, Any]
+    ) -> None:
         """Append/overwrite one resource in the in-memory source state.
 
         Provided to satisfy the SourceStateWriter protocol so import-path code
@@ -84,19 +98,6 @@ class State:
         the established pattern for those code paths.
         """
         self._data.source[resource_type][_id] = resource
-
-
-    def delete_source(self, resource_type: str, _id: str) -> None:
-        """Remove one resource key from the in-memory source state.
-
-        A no-op if the key does not exist. Used by team_memberships fan-out
-        to clear stale membership rows before writing a refreshed set.
-        """
-        self._data.source[resource_type].pop(_id, None)
-
-    def get_source_keys(self, resource_type: str) -> list:
-        """Return all source state keys for a resource type."""
-        return list(self._data.source[resource_type].keys())
 
     def clear_source_type(self, resource_type: str) -> None:
         """Clear the in-memory source dict for one resource type.
@@ -127,12 +128,17 @@ class State:
         if not self._minimize_reads or resource_type in self._bulk_loaded_types:
             return
         self._bulk_loaded_types.add(resource_type)
-        log.debug("minimize-reads: bulk-loading %s for full-scan lookups", resource_type)
+        log.debug(
+            "minimize-reads: bulk-loading %s for full-scan lookups", resource_type
+        )
         data = self._storage.get(Origin.ALL, resource_types=[resource_type])
         src_loaded = data.source.get(resource_type, {})
         dst_loaded = data.destination.get(resource_type, {})
         if not src_loaded and not dst_loaded:
-            log.debug("minimize-reads: bulk-load for %s returned no data from storage", resource_type)
+            log.debug(
+                "minimize-reads: bulk-load for %s returned no data from storage",
+                resource_type,
+            )
             return
         # Insert-if-absent: never overwrite entries modified during this sync run
         # or loaded earlier by ensure_resource_loaded.
@@ -190,7 +196,9 @@ class State:
             int((time.perf_counter() - dump_start) * 1000),
         )
 
-    def get_all_resources(self, resources_types: List[str]) -> Dict[Tuple[str, str], Any]:
+    def get_all_resources(
+        self, resources_types: List[str]
+    ) -> Dict[Tuple[str, str], Any]:
         """Returns all resources of the given types.
 
         Args:
@@ -233,11 +241,15 @@ class State:
         result: Dict[Tuple[Origin, str], Set[str]] = {}
         for rt in resource_types:
             if rt not in self._authoritative_source_types:
-                raise ValueError(f"authoritative source not loaded for type '{rt}'; refusing to compute stale set")
+                raise ValueError(
+                    f"authoritative source not loaded for type '{rt}'; refusing to compute stale set"
+                )
             ids_dict = self._data.source.get(rt, {})
             skip = BaseStorage._check_id_collisions(ids_dict, rt)
             expected = {
-                f"{rt}.{BaseStorage._sanitize_id_for_filename(_id)}.json" for _id in ids_dict if _id not in skip
+                f"{rt}.{BaseStorage._sanitize_id_for_filename(_id)}.json"
+                for _id in ids_dict
+                if _id not in skip
             }
             for origin in origins:
                 on_disk = self._storage.list_filenames(origin, rt)
@@ -278,11 +290,18 @@ class State:
                 fail = len(results) - ok
                 for fn, status in results.items():
                     if status != "ok":
-                        log.debug("prune: failed to delete %s/%s: %s", origin.value, fn, status)
+                        log.debug(
+                            "prune: failed to delete %s/%s: %s",
+                            origin.value,
+                            fn,
+                            status,
+                        )
                 counts[(origin, rt)] = (ok, fail)
         return counts
 
-    def get_resources_to_cleanup(self, resources_types: List[str]) -> Dict[Tuple[str, str], Any]:
+    def get_resources_to_cleanup(
+        self, resources_types: List[str]
+    ) -> Dict[Tuple[str, str], Any]:
         """Returns all resources to cleanup.
 
         Args:

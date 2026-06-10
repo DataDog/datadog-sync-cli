@@ -4,12 +4,17 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import asyncio
 import copy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
-from datadog_sync.utils.resource_utils import check_diff, SkipResource
+from datadog_sync.utils.resource_utils import (
+    check_diff,
+    CustomClientHTTPError,
+    SkipResource,
+)
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -37,9 +42,9 @@ class TeamMemberships(BaseResource):
     team_memberships_path = "/api/v2/team/{}/memberships"
     # Additional TeamMemberships specific attributes
 
-    async def get_resources(self, client: CustomClient) -> List[Dict]:
-        # get all the teams
-        teams_pagination_config = PaginationConfig(
+    @staticmethod
+    def _memberships_pagination_config() -> PaginationConfig:
+        return PaginationConfig(
             page_size=100,
             page_number_param="page[number]",
             page_size_param="page[size]",
@@ -48,6 +53,21 @@ class TeamMemberships(BaseResource):
                 resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
             ),
         )
+
+    async def _get_memberships_for_team(
+        self, client: CustomClient, team_id: str
+    ) -> List[Dict]:
+        members_of_team = await client.paginated_request(client.get)(
+            self.team_memberships_path.format(team_id),
+            pagination_config=self._memberships_pagination_config(),
+        )
+        for member in members_of_team:
+            member["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
+        return members_of_team
+
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        # get all the teams
+        teams_pagination_config = self._memberships_pagination_config()
         teams = await client.paginated_request(client.get)(
             self.resource_config.base_path,
             pagination_config=teams_pagination_config,
@@ -56,35 +76,81 @@ class TeamMemberships(BaseResource):
         # iterate over the teams and create a list of all members of all teams
         all_team_memberships = []
         for team in teams:
-            members_pagination_config = PaginationConfig(
-                page_size=100,
-                page_number_param="page[number]",
-                page_size_param="page[size]",
-                remaining_func=lambda idx, resp, page_size, page_number: max(
-                    0,
-                    resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
-                ),
-            )
-            members_of_team = await client.paginated_request(client.get)(
-                self.team_memberships_path.format(team["id"]),
-                pagination_config=members_pagination_config,
-            )
-
-            # add the team relationship
-            for member in members_of_team:
-                member["relationships"]["team"] = {"data": {"type": "team", "id": team["id"]}}
+            members_of_team = await self._get_memberships_for_team(client, team["id"])
             all_team_memberships += members_of_team
 
         return all_team_memberships
 
-    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def get_resources_by_ids(
+        self,
+        client: CustomClient,
+        ids: List[str],
+        max_concurrent_reads: int = 10,
+    ) -> Tuple[List[Dict], List[str], List[Tuple[str, str, str]]]:
+        """Fan out team IDs into team_memberships resources without mutating state.
+
+        For ``team_memberships``, the id-file payload contains team IDs. Each
+        team ID fans out to zero or more membership resources from
+        ``/api/v2/team/{team_id}/memberships``. This fetch phase must remain
+        side-effect free so second-pass import/filter semantics stay intact.
+        """
+        sem = asyncio.Semaphore(max_concurrent_reads)
+        resources: List[Dict] = []
+        missing: List[str] = []
+        errored: List[Tuple[str, str, str]] = []
+
+        import aiohttp
+
+        async def fetch_one(team_id: str):
+            async with sem:
+                try:
+                    members = await self._get_memberships_for_team(client, team_id)
+                    if not members:
+                        return ("skipped", team_id, "team has no members")
+                    return ("ok", members)
+                except CustomClientHTTPError as e:
+                    if e.status_code == 404:
+                        return ("missing", team_id)
+                    if e.status_code == 429 or e.status_code >= 500:
+                        return ("transient", team_id, f"HTTP {e.status_code}")
+                    return ("permanent", team_id, f"HTTP {e.status_code}")
+                except (asyncio.TimeoutError,):
+                    return ("transient", team_id, "timeout")
+                except aiohttp.ClientError as e:
+                    return (
+                        "transient",
+                        team_id,
+                        f"connection error: {type(e).__name__}",
+                    )
+                except Exception as e:
+                    msg = str(e)
+                    if "retry limit exceeded" in msg:
+                        return ("transient", team_id, msg[:200])
+                    return ("permanent", team_id, msg[:200])
+
+        results = await asyncio.gather(*(fetch_one(i) for i in ids))
+        for result in results:
+            tag = result[0]
+            if tag == "ok":
+                resources.extend(result[1])
+            elif tag == "missing":
+                missing.append(result[1])
+            elif tag == "skipped":
+                errored.append((result[1], "skipped", result[2]))
+            elif tag == "transient":
+                errored.append((result[1], "transient", result[2]))
+            else:
+                errored.append((result[1], "permanent", result[2]))
+        return resources, missing, errored
+
+    async def import_resource(
+        self, _id: Optional[str] = None, resource: Optional[Dict] = None
+    ) -> Tuple[str, Dict]:
         if _id is not None and resource is None:
-            if ":" not in _id:
-                # _id is a bare team UUID from --id-file; fan out to N membership rows.
-                # Dispatch condition: ":" not in _id distinguishes bare team UUID
-                # (from --id-file) from composite team_id:user_id (from 2-arg path).
-                return await self._import_team_memberships_by_team_id(_id)
-            # composite team_id:user_id from get_resources() falls through to existing code
+            raise ValueError(
+                "Error creating team membership resource: direct ID import is not supported. "
+                "Use get_resources_by_ids() with team IDs."
+            )
 
         resource = cast(dict, resource)
         if not resource:
@@ -95,61 +161,6 @@ class TeamMemberships(BaseResource):
             raise ValueError("Error creating team membership resource, no id")
 
         return _id, resource
-
-    async def _import_team_memberships_by_team_id(self, team_id: str) -> Tuple[str, Dict]:
-        """Fan-out: fetch all memberships for team_id and write N composite rows to state.
-
-        Delete-before-write ensures stale membership rows for removed users are
-        not retained. Uses ImportState.delete_source
-        rather than direct dict mutation to preserve ImportState encapsulation.
-
-        Returns the last composite key + resource so the outer _import_resource
-        can call set_source (harmless overwrite for N>0). For N==0 returns the
-        bare team_id + empty dict.
-        """
-        source_client = self.config.source_client
-        pagination_config = PaginationConfig(
-            page_size=100,
-            page_number_param="page[number]",
-            page_size_param="page[size]",
-            remaining_func=lambda idx, resp, page_size, page_number: max(
-                0,
-                resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
-            ),
-        )
-        new_members = await source_client.paginated_request(source_client.get)(
-            self.team_memberships_path.format(team_id),
-            pagination_config=pagination_config,
-        )
-
-        # Delete-before-write: remove all existing state rows for this team — both
-        # composite team_id:user_id rows (stale membership rows for removed users)
-        # and the bare team_id key that prior runs may have written for empty teams.
-        existing_keys = [k for k in self.config.state.get_source_keys(self.resource_type)
-                         if k == team_id or k.startswith(f"{team_id}:")]
-        for k in existing_keys:
-            self.config.state.delete_source(self.resource_type, k)
-
-        # Write the refreshed membership rows
-        last_id: Optional[str] = None
-        last_resource: Optional[Dict] = None
-        for member in new_members:
-            member["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
-            user_id = member["relationships"]["user"]["data"]["id"]
-            composite_id = f"{team_id}:{user_id}"
-            self.config.state.set_source(self.resource_type, composite_id, member)
-            last_id, last_resource = composite_id, member
-
-        if last_id is not None:
-            # Return last composite key; outer _import_resource will overwrite it (harmless).
-            return last_id, last_resource
-
-        # Empty team: raise SkipResource so the outer _import_resource does not call
-        # set_source at all. A bare team_id key with no colon is not a valid membership
-        # row and would linger in state across fan-out cycles (the delete-before-write
-        # prefix match `team_id:` would not catch it). SkipResource is caught by the
-        # batch import path (fetch_one) and treated as a non-error skip.
-        raise SkipResource(team_id, self.resource_type, "team has no members")
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -165,13 +176,17 @@ class TeamMemberships(BaseResource):
         key = self.get_resource_mapping_key(destination_resource)
         existing = self._existing_resources_map.get(key, {}) if key else {}
         if existing:
-            raise SkipResource(_id, self.resource_type, "User is already a member of the team")
+            raise SkipResource(
+                _id, self.resource_type, "User is already a member of the team"
+            )
 
         resp = await destination_client.post(
             self.team_memberships_path.format(resource_team_id),
             {"data": destination_resource},
         )
-        resp["data"]["relationships"]["team"] = {"data": {"type": "team", "id": resource_team_id}}
+        resp["data"]["relationships"]["team"] = {
+            "data": {"type": "team", "id": resource_team_id}
+        }
         return _id, resp["data"]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
@@ -187,7 +202,9 @@ class TeamMemberships(BaseResource):
         # skip if there are no differences
         diff = check_diff(self.resource_config, state, existing)
         if not diff:
-            raise SkipResource(resource["id"], self.resource_type, "No differences detected")
+            raise SkipResource(
+                resource["id"], self.resource_type, "No differences detected"
+            )
 
         # update the existing resource
         team_id = existing["relationships"]["team"]["data"]["id"]
@@ -196,7 +213,9 @@ class TeamMemberships(BaseResource):
             self.team_memberships_path.format(team_id) + f"/{user_id}",
             {"data": resource},
         )
-        resp["data"]["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
+        resp["data"]["relationships"]["team"] = {
+            "data": {"type": "team", "id": team_id}
+        }
         return _id, resp["data"]
 
     async def delete_resource(self, _id: str) -> None:
@@ -208,7 +227,9 @@ class TeamMemberships(BaseResource):
 
         # skip if the membership isn't found in state
         if not state:
-            raise SkipResource(_id, self.resource_type, f"resource {_id} not found for deletion")
+            raise SkipResource(
+                _id, self.resource_type, f"resource {_id} not found for deletion"
+            )
 
         # Use team_id and user_id directly from state to avoid race conditions
         team_id = state["relationships"]["team"]["data"]["id"]
@@ -223,11 +244,15 @@ class TeamMemberships(BaseResource):
             # This can happen during cleanup when teams are deleted concurrently
             if "404" in str(e):
                 raise SkipResource(
-                    _id, self.resource_type, f"resource {_id} or its team not found (may have been already deleted)"
+                    _id,
+                    self.resource_type,
+                    f"resource {_id} or its team not found (may have been already deleted)",
                 )
             raise
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+    def connect_id(
+        self, key: str, r_obj: Dict, resource_to_connect: str
+    ) -> Optional[List[str]]:
         failed_connections = []
         _id = r_obj["id"]
         _type = r_obj["type"]
