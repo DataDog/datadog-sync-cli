@@ -309,18 +309,18 @@ def test_cross_language_marker_uppercase_still_matches():
     assert _is_rate_limit_output_python_replica(log_line)
 
 
-# --- Test 14: --id-file allowlist rejects non-monitors types in v1 ---
+# --- Test 14: --id-file allowlist rejects unsupported types ---
 
 
-def test_id_file_allowlist_rejects_non_monitors_v1(tmp_path, monkeypatch):
-    """PR4 v1 supports monitors only. Other types in --id-file must error at config-build.
-    Future expansion (SLOs, etc.) requires explicit code-level allowlist update — NOT
-    a config-time widening — to force per-model verification."""
+def test_id_file_allowlist_rejects_unsupported_type(tmp_path, monkeypatch):
+    """Unsupported types in --id-file must error at config-build.
+    Future expansion (SLOs, etc.) requires explicit code-level allowlist update
+    rather than config-time widening to force per-model verification."""
     import json
     from datadog_sync.utils.configuration import _parse_id_file
     from unittest.mock import MagicMock
 
-    # Write a payload with a non-monitors type
+    # Write a payload with an unsupported type
     payload_path = tmp_path / "ids.json"
     payload_path.write_text(json.dumps({"dashboards": ["abc-def-ghi"]}))
 
@@ -335,7 +335,7 @@ def test_id_file_allowlist_rejects_non_monitors_v1(tmp_path, monkeypatch):
 
 
 def test_id_file_allowlist_accepts_monitors(tmp_path):
-    """Monitors are in the v1 allowlist."""
+    """Monitors are in the current allowlist."""
     import json
     from datadog_sync.utils.configuration import _parse_id_file
     from unittest.mock import MagicMock
@@ -428,7 +428,7 @@ def test_max_concurrent_reads_zero_rejected(tmp_path, monkeypatch):
 
 
 def test_id_file_without_resources_rejected(tmp_path):
-    """--id-file with no --resources means every non-monitors type goes via legacy
+    """--id-file with no --resources means every supported id-file type goes via legacy
     full-list path, defeating the wall-clock bound. Must error at config-build.
     """
     # Coverage in subprocess integration test (test_id_file_subprocess_experiment.py).

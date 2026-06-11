@@ -387,7 +387,7 @@ def test_subprocess_stdin_payload_parsed(tmp_path):
 
 @pytest.mark.experiment_subprocess
 def test_subprocess_unsupported_type_in_id_file(tmp_path):
-    """--id-file with non-monitors type errors at config-build. PR4 v1 monitors-only."""
+    """--id-file with unsupported type errors at config-build."""
     payload = json.dumps({"dashboards": ["abc-def-ghi"]})
     source_dir = tmp_path / "source"
     # Use any URL — the subprocess shouldn't even reach the network.
@@ -409,7 +409,7 @@ def test_subprocess_unsupported_type_in_id_file(tmp_path):
 
 @pytest.mark.experiment_subprocess
 def test_subprocess_id_file_without_resources_errors(tmp_path):
-    """--id-file with no --resources would import every non-monitors type
+    """--id-file with no --resources would import every supported id-file type
     via legacy full-list path. Must error at config-build."""
     payload = json.dumps({"monitors": ["100"]})
     source_dir = tmp_path / "source"

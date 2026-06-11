@@ -184,14 +184,14 @@ _common_options = [
         help="Max number of workers when running operations in multi-threads.",
         cls=CustomOptionClass,
     ),
-    # ID-targeted import flags (monitors only in v1)
+    # ID-targeted import flags (supported allowlisted types only)
     option(
         "--id-file",
         required=False,
         default=None,
         help="Path to JSON file mapping resource types to ID lists, or `-` for stdin. "
         "When set, import command fetches only the specified IDs instead of "
-        "listing all resources. v1 supports monitors only.",
+        "listing all resources. Supported types are enforced by a code-level allowlist.",
         cls=CustomOptionClass,
     ),
     option(

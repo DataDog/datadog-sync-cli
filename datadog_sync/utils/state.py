@@ -7,7 +7,11 @@ import time
 from typing import Any, Dict, List, Set, Tuple
 
 from datadog_sync.constants import LOGGER_NAME, Origin, RESOURCE_PER_FILE
-from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData, build_storage_backend
+from datadog_sync.utils.storage._base_storage import (
+    BaseStorage,
+    StorageData,
+    build_storage_backend,
+)
 from datadog_sync.utils.storage.storage_types import StorageType
 
 log = logging.getLogger(LOGGER_NAME)
@@ -119,7 +123,10 @@ class State:
         src_loaded = data.source.get(resource_type, {})
         dst_loaded = data.destination.get(resource_type, {})
         if not src_loaded and not dst_loaded:
-            log.debug("minimize-reads: bulk-load for %s returned no data from storage", resource_type)
+            log.debug(
+                "minimize-reads: bulk-load for %s returned no data from storage",
+                resource_type,
+            )
             return
         # Insert-if-absent: never overwrite entries modified during this sync run
         # or loaded earlier by ensure_resource_loaded.
@@ -265,7 +272,12 @@ class State:
                 fail = len(results) - ok
                 for fn, status in results.items():
                     if status != "ok":
-                        log.debug("prune: failed to delete %s/%s: %s", origin.value, fn, status)
+                        log.debug(
+                            "prune: failed to delete %s/%s: %s",
+                            origin.value,
+                            fn,
+                            status,
+                        )
                 counts[(origin, rt)] = (ok, fail)
         return counts
 

@@ -82,10 +82,7 @@ def test_subdomain_path_used_when_no_override(mock_config):
         asyncio.run(lp.create_resource("src-nginx", resource))
 
     mock_config.destination_client.post_unauthenticated.assert_not_awaited()
-    intake_calls = [
-        c for c in mock_config.destination_client.post.call_args_list
-        if c[0][0] == lp.logs_intake_path
-    ]
+    intake_calls = [c for c in mock_config.destination_client.post.call_args_list if c[0][0] == lp.logs_intake_path]
     assert len(intake_calls) == 1
     assert intake_calls[0][1]["subdomain"] == "http-intake.logs"
 
@@ -110,9 +107,7 @@ def test_custom_pipeline_uses_base_post_regardless_of_override(mock_config):
     asyncio.run(lp.create_resource("src-custom", custom_resource))
 
     mock_config.destination_client.post_unauthenticated.assert_not_awaited()
-    mock_config.destination_client.post.assert_awaited_once_with(
-        lp.resource_config.base_path, custom_resource
-    )
+    mock_config.destination_client.post.assert_awaited_once_with(lp.resource_config.base_path, custom_resource)
 
 
 # ── G/G 1: pipeline already exists → no intake POST ──────────────────────────
@@ -176,10 +171,7 @@ def test_subdomain_construction_api_root(mock_config):
     with patch("datadog_sync.model.logs_pipelines.sleep", new_callable=AsyncMock):
         asyncio.run(lp.create_resource("src-nginx", _make_integration_resource()))
 
-    intake_call = next(
-        c for c in mock_config.destination_client.post.call_args_list
-        if c[0][0] == lp.logs_intake_path
-    )
+    intake_call = next(c for c in mock_config.destination_client.post.call_args_list if c[0][0] == lp.logs_intake_path)
     assert intake_call[1]["subdomain"] == "http-intake.logs"
 
 
@@ -199,8 +191,5 @@ def test_subdomain_construction_api_dot_prefix(mock_config):
     with patch("datadog_sync.model.logs_pipelines.sleep", new_callable=AsyncMock):
         asyncio.run(lp.create_resource("src-nginx", _make_integration_resource()))
 
-    intake_call = next(
-        c for c in mock_config.destination_client.post.call_args_list
-        if c[0][0] == lp.logs_intake_path
-    )
+    intake_call = next(c for c in mock_config.destination_client.post.call_args_list if c[0][0] == lp.logs_intake_path)
     assert intake_call[1]["subdomain"] == "http-intake.logs.datadoghq.com"

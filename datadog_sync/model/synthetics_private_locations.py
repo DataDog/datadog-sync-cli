@@ -15,6 +15,7 @@ from datadog_sync.utils.resource_utils import SkipResource
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
 
+
 class SyntheticsPrivateLocations(BaseResource):
     resource_type = "synthetics_private_locations"
     resource_config = ResourceConfig(
