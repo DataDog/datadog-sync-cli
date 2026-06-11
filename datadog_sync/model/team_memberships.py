@@ -68,8 +68,8 @@ class TeamMemberships(BaseResource):
 
         The id-targeted path must classify HTTP failures accurately. Using
         client.paginated_request(...) can swallow non-5xx errors and return a
-        partial or empty list, which would incorrectly look like a skipped
-        "team has no members" outcome. This method keeps failures loud.
+        partial or empty list, which would incorrectly look like a successful
+        empty-team no-op. This method keeps failures loud.
         """
         pagination = self._memberships_pagination_config()
         page_size = pagination.page_size or 100
@@ -101,6 +101,17 @@ class TeamMemberships(BaseResource):
 
             if len(members_of_team) < page_size:
                 break
+
+            # For exact page boundaries (e.g., total=100 and page_size=100),
+            # stop without probing the next page by honoring meta.pagination.total.
+            # Fall back to short-page stopping if the metadata is missing.
+            if isinstance(resp, dict) and pagination.remaining_func is not None:
+                try:
+                    remaining = pagination.remaining_func(idx, resp, page_size, page_number)
+                    if remaining <= 0:
+                        break
+                except (KeyError, TypeError):
+                    pass
 
             page_number = pagination.page_number_func(idx, page_size, page_number)
             idx += 1
@@ -147,8 +158,6 @@ class TeamMemberships(BaseResource):
             async with sem:
                 try:
                     members = await self._get_memberships_for_team_id_targeted(client, team_id)
-                    if not members:
-                        return ("skipped", team_id, "team has no members")
                     return ("ok", members)
                 except CustomClientHTTPError as e:
                     if e.status_code == 404:

@@ -75,17 +75,45 @@ class TestTeamMembershipsIDFileSupport:
         asyncio.run(tm.get_resources_by_ids(config.source_client, ["team-abc"], max_concurrent_reads=10))
         assert config.state.source["team_memberships"] == {}
 
-    def test_get_resources_by_ids_empty_team_is_reported_as_skipped(self):
+    def test_get_resources_by_ids_empty_team_is_successful_noop(self):
         tm, config, _ = _make_team_memberships("team-empty", [])
         resources, missing, errored = asyncio.run(
             tm.get_resources_by_ids(config.source_client, ["team-empty"], max_concurrent_reads=10)
         )
         assert resources == []
         assert missing == []
-        assert len(errored) == 1
-        assert errored[0][0] == "team-empty"
-        assert errored[0][1] == "skipped"
-        assert "no members" in errored[0][2]
+        assert errored == []
+
+    def test_get_resources_by_ids_exact_page_size_total_does_not_call_next_page(self):
+        config = MagicMock()
+        config.source_client = MagicMock()
+        config.state = _MockState()
+
+        team_id = "team-exact-100"
+        first_page_members = [_make_member(team_id, f"user-{i}") for i in range(100)]
+
+        async def _get(path, **kwargs):
+            page_number = kwargs.get("params", {}).get("page[number]", 0)
+            if page_number == 0:
+                return {
+                    "data": first_page_members,
+                    "meta": {"pagination": {"total": 100}},
+                }
+            raise CustomClientHTTPError(
+                _FakeHTTPResponse(status=429, message="Too Many Requests"),
+                message="rate limited",
+            )
+
+        config.source_client.get = AsyncMock(side_effect=_get)
+        tm = TeamMemberships(config=config)
+        resources, missing, errored = asyncio.run(
+            tm.get_resources_by_ids(config.source_client, [team_id], max_concurrent_reads=10)
+        )
+
+        assert len(resources) == 100
+        assert missing == []
+        assert errored == []
+        assert config.source_client.get.await_count == 1
 
     def test_get_resources_by_ids_cross_team_memberships_keep_both_rows(self):
         config = MagicMock()
