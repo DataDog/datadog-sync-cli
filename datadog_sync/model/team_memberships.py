@@ -152,6 +152,8 @@ class TeamMemberships(BaseResource):
         missing: List[str] = []
         errored: List[Tuple[str, str, str]] = []
 
+        # Lazy import: aiohttp is already a sync-cli dependency (custom_client.py)
+        # but importing at module load creates a heavier import graph for tests.
         import aiohttp
 
         async def fetch_one(team_id: str):
@@ -165,7 +167,7 @@ class TeamMemberships(BaseResource):
                     if e.status_code == 429 or e.status_code >= 500:
                         return ("transient", team_id, f"HTTP {e.status_code}")
                     return ("permanent", team_id, f"HTTP {e.status_code}")
-                except (asyncio.TimeoutError,):
+                except asyncio.TimeoutError:
                     return ("transient", team_id, "timeout")
                 except aiohttp.ClientError as e:
                     return (
@@ -186,12 +188,12 @@ class TeamMemberships(BaseResource):
                 resources.extend(result[1])
             elif tag == "missing":
                 missing.append(result[1])
-            elif tag == "skipped":
-                errored.append((result[1], "skipped", result[2]))
             elif tag == "transient":
                 errored.append((result[1], "transient", result[2]))
-            else:
+            elif tag == "permanent":
                 errored.append((result[1], "permanent", result[2]))
+            else:
+                raise ValueError(f"unexpected team_memberships fetch result tag: {tag}")
         return resources, missing, errored
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
