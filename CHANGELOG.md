@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.9.0 / 2026-06-11
+
+### Fixed
+* fix(http): apply per-read socket timeout to bound body-stall hangs by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/590
+* Add support for Synthetics Private Locations for DDR in dd-sync-cli by @melkouri in https://github.com/DataDog/datadog-sync-cli/pull/526
+### Added
+* feat(id-file): enable authn_mappings + team_memberships by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/594
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.8.1...4.9.0
+
 ## 4.8.1 / 2026-06-03
 
 ### Added
