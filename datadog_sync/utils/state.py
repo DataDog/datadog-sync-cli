@@ -7,7 +7,11 @@ import time
 from typing import Any, Dict, List, Set, Tuple
 
 from datadog_sync.constants import LOGGER_NAME, Origin, RESOURCE_PER_FILE
-from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData, build_storage_backend
+from datadog_sync.utils.storage._base_storage import (
+    BaseStorage,
+    StorageData,
+    build_storage_backend,
+)
 from datadog_sync.utils.storage.storage_types import StorageType
 
 log = logging.getLogger(LOGGER_NAME)
@@ -85,18 +89,6 @@ class State:
         """
         self._data.source[resource_type][_id] = resource
 
-    def delete_source(self, resource_type: str, _id: str) -> None:
-        """Remove one resource key from the in-memory source state.
-
-        A no-op if the key does not exist. Used by team_memberships fan-out
-        to clear stale membership rows before writing a refreshed set.
-        """
-        self._data.source[resource_type].pop(_id, None)
-
-    def get_source_keys(self, resource_type: str) -> list:
-        """Return all source state keys for a resource type."""
-        return list(self._data.source[resource_type].keys())
-
     def clear_source_type(self, resource_type: str) -> None:
         """Clear the in-memory source dict for one resource type.
 
@@ -131,7 +123,10 @@ class State:
         src_loaded = data.source.get(resource_type, {})
         dst_loaded = data.destination.get(resource_type, {})
         if not src_loaded and not dst_loaded:
-            log.debug("minimize-reads: bulk-load for %s returned no data from storage", resource_type)
+            log.debug(
+                "minimize-reads: bulk-load for %s returned no data from storage",
+                resource_type,
+            )
             return
         # Insert-if-absent: never overwrite entries modified during this sync run
         # or loaded earlier by ensure_resource_loaded.
@@ -277,7 +272,12 @@ class State:
                 fail = len(results) - ok
                 for fn, status in results.items():
                     if status != "ok":
-                        log.debug("prune: failed to delete %s/%s: %s", origin.value, fn, status)
+                        log.debug(
+                            "prune: failed to delete %s/%s: %s",
+                            origin.value,
+                            fn,
+                            status,
+                        )
                 counts[(origin, rt)] = (ok, fail)
         return counts
 
