@@ -29,7 +29,11 @@ import time
 from typing import Any, Dict, List, Set
 
 from datadog_sync.constants import LOGGER_NAME, Origin, RESOURCE_PER_FILE
-from datadog_sync.utils.storage._base_storage import BaseStorage, StorageData, build_storage_backend
+from datadog_sync.utils.storage._base_storage import (
+    BaseStorage,
+    StorageData,
+    build_storage_backend,
+)
 from datadog_sync.utils.storage.storage_types import StorageType
 
 

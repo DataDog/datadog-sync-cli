@@ -81,9 +81,12 @@ class Configuration(object):
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
-    # --id-file: id-targeted import via stdin or file payload (monitors only in v1).
-    # Other resource types use the legacy list-everything path. Future expansion
-    # (e.g. SLOs) is mechanical via BaseResource.get_resources_by_ids inheritance.
+    # --id-file: id-targeted import via stdin or file payload.
+    # Supported resource types are explicitly allowlisted in
+    # _ID_FILE_SUPPORTED_TYPES (currently monitors, authn_mappings,
+    # team_memberships). Other types use the legacy list-everything path.
+    # Future expansion (e.g. SLOs) is mechanical via
+    # BaseResource.get_resources_by_ids inheritance.
     id_payload: Optional[Dict[str, List[str]]] = None
     max_concurrent_reads: int = 30
     transient_failure_threshold_pct: int = 5
@@ -167,10 +170,13 @@ def _unwrap_exact_match_pattern(pattern: str) -> str:
     return pattern[1:-1]
 
 
-_ID_FILE_SUPPORTED_TYPES = frozenset({"monitors"})
-"""Resource types eligible for the --id-file partition path. Monitors only in v1.
+_ID_FILE_SUPPORTED_TYPES = frozenset({"monitors", "authn_mappings", "team_memberships"})
+"""Resource types eligible for the --id-file partition path.
+
+Currently supported: monitors, authn_mappings, team_memberships.
 Future expansion (e.g. SLOs) requires per-model verification and adding the
-type here. Do NOT widen by config — code-level allowlist forces explicit review."""
+type here. Do NOT widen by config — code-level allowlist forces explicit review.
+"""
 
 
 def _parse_id_file(id_file_arg: Optional[str], logger) -> Optional[Dict[str, List[str]]]:
@@ -202,7 +208,7 @@ def _parse_id_file(id_file_arg: Optional[str], logger) -> Optional[Dict[str, Lis
             sys.exit(1)
         if k not in _ID_FILE_SUPPORTED_TYPES:
             logger.error(
-                f"--id-file: type {k!r} is not supported in PR4 v1. "
+                f"--id-file: type {k!r} is not supported by this build. "
                 f"Supported types: {sorted(_ID_FILE_SUPPORTED_TYPES)}"
             )
             sys.exit(1)

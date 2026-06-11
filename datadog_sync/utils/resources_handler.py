@@ -580,7 +580,7 @@ class ResourcesHandler:
         self.config.state.clear_source_type(resource_type)
 
         # The --id-file path replaces the unfiltered list call with per-ID GETs
-        # bounded by --max-concurrent-reads. Monitors only in v1.
+        # bounded by --max-concurrent-reads for supported allowlisted types.
         if self.config.id_payload and resource_type in self.config.id_payload:
             ids = self.config.id_payload[resource_type]
             mcr = self.config.max_concurrent_reads

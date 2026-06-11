@@ -229,9 +229,7 @@ class TestRolesReconcilePersistedPermissions:
         roles.config.state.source = {"roles": {}}
         requested = {
             "attributes": {"name": "Custom Engineering Role"},
-            "relationships": {
-                "permissions": {"data": [{"id": "dest-uuid-read-logs", "type": "permissions"}]}
-            },
+            "relationships": {"permissions": {"data": [{"id": "dest-uuid-read-logs", "type": "permissions"}]}},
         }
         persisted = {
             "attributes": {"name": "Custom Engineering Role"},
@@ -323,9 +321,7 @@ class TestRolesReconcileBuiltinRolePermissions:
                 "id-1": {
                     "id": "id-1",
                     "attributes": {"name": "Custom Engineering Role"},
-                    "relationships": {
-                        "permissions": {"data": [{"id": "read_logs", "type": "permissions"}]}
-                    },
+                    "relationships": {"permissions": {"data": [{"id": "read_logs", "type": "permissions"}]}},
                 }
             }
         }
@@ -340,8 +336,7 @@ class TestRolesReconcileBuiltinRolePermissions:
         # Both unchanged
         assert [p["id"] for p in working["relationships"]["permissions"]["data"]] == ["dest-uuid-read-logs"]
         assert [
-            p["id"]
-            for p in roles.config.state.source["roles"]["id-1"]["relationships"]["permissions"]["data"]
+            p["id"] for p in roles.config.state.source["roles"]["id-1"]["relationships"]["permissions"]["data"]
         ] == ["read_logs"]
 
     def test_noop_when_destination_grants_everything(self):
@@ -380,9 +375,7 @@ class TestRolesReconcileBuiltinRolePermissions:
                 "id-1": {
                     "id": "id-1",
                     "attributes": {"name": "Datadog Admin Role"},
-                    "relationships": {
-                        "permissions": {"data": [{"id": "read_logs", "type": "permissions"}]}
-                    },
+                    "relationships": {"permissions": {"data": [{"id": "read_logs", "type": "permissions"}]}},
                 }
             }
         }

@@ -398,9 +398,7 @@ class Roles(BaseResource):
         # Reverse map: destination UUID -> permission name (for sync path where source
         # state still holds permission names after import_resource's name rewrite).
         uuid_to_name = (
-            {uuid: name for name, uuid in self.destination_permissions.items()}
-            if self.destination_permissions
-            else {}
+            {uuid: name for name, uuid in self.destination_permissions.items()} if self.destination_permissions else {}
         )
         # A permission entry in source_perms may carry either a name (sync path, pre-remap)
         # or a destination UUID (diffs path, where pre_resource_action_hook just ran on the

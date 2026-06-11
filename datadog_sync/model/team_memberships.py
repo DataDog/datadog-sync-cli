@@ -4,12 +4,18 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import asyncio
 import copy
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
-from datadog_sync.utils.resource_utils import check_diff, SkipResource
+from datadog_sync.utils.resource_utils import (
+    check_diff,
+    CustomClientHTTPError,
+    SkipResource,
+)
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -17,6 +23,18 @@ if TYPE_CHECKING:
 
 def _team_membership_key(r):
     return f"{r['relationships']['team']['data']['id']}:{r['relationships']['user']['data']['id']}"
+
+
+@dataclass
+class _MembershipFetchError:
+    classification: str
+    reason: str
+
+
+@dataclass
+class _MembershipFetchResult:
+    members: List[Dict]
+    errors: List[_MembershipFetchError]
 
 
 class TeamMemberships(BaseResource):
@@ -37,9 +55,9 @@ class TeamMemberships(BaseResource):
     team_memberships_path = "/api/v2/team/{}/memberships"
     # Additional TeamMemberships specific attributes
 
-    async def get_resources(self, client: CustomClient) -> List[Dict]:
-        # get all the teams
-        teams_pagination_config = PaginationConfig(
+    @staticmethod
+    def _memberships_pagination_config() -> PaginationConfig:
+        return PaginationConfig(
             page_size=100,
             page_number_param="page[number]",
             page_size_param="page[size]",
@@ -48,6 +66,120 @@ class TeamMemberships(BaseResource):
                 resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
             ),
         )
+
+    @staticmethod
+    def _classify_membership_fetch_status(status_code: int) -> str:
+        if status_code == 404:
+            return "missing"
+        if status_code == 429 or status_code >= 500:
+            return "transient"
+        return "permanent"
+
+    async def _fetch_memberships_for_team_paginated(self, client: CustomClient, team_id: str) -> _MembershipFetchResult:
+        """Fetch memberships for a single team with explicit partial+error reporting.
+
+        Returns all successfully fetched rows plus any classified terminal fetch
+        errors. Callers decide whether partial rows are acceptable.
+        """
+        pagination = self._memberships_pagination_config()
+        page_size = pagination.page_size or 100
+        page_number = pagination.page_number or 0
+        list_accessor = pagination.response_list_accessor or "data"
+        idx = 0
+        all_members: List[Dict] = []
+
+        # Lazy import: aiohttp is already a sync-cli dependency (custom_client.py)
+        # but importing at module load creates a heavier import graph for tests.
+        import aiohttp
+
+        while True:
+            try:
+                resp = await client.get(
+                    self.team_memberships_path.format(team_id),
+                    params={
+                        pagination.page_size_param: page_size,
+                        pagination.page_number_param: page_number,
+                    },
+                )
+            except CustomClientHTTPError as e:
+                return _MembershipFetchResult(
+                    members=all_members,
+                    errors=[
+                        _MembershipFetchError(
+                            classification=self._classify_membership_fetch_status(e.status_code),
+                            reason=f"HTTP {e.status_code}",
+                        )
+                    ],
+                )
+            except asyncio.TimeoutError:
+                return _MembershipFetchResult(
+                    members=all_members,
+                    errors=[_MembershipFetchError(classification="transient", reason="timeout")],
+                )
+            except aiohttp.ClientError as e:
+                return _MembershipFetchResult(
+                    members=all_members,
+                    errors=[
+                        _MembershipFetchError(
+                            classification="transient",
+                            reason=f"connection error: {type(e).__name__}",
+                        )
+                    ],
+                )
+            except Exception as e:
+                msg = str(e)
+                if "retry limit exceeded" in msg:
+                    return _MembershipFetchResult(
+                        members=all_members,
+                        errors=[_MembershipFetchError(classification="transient", reason=msg[:200])],
+                    )
+                return _MembershipFetchResult(
+                    members=all_members,
+                    errors=[_MembershipFetchError(classification="permanent", reason=msg[:200])],
+                )
+
+            if isinstance(resp, dict):
+                members_of_team = resp.get(list_accessor, [])
+            else:
+                members_of_team = resp
+
+            if not isinstance(members_of_team, list):
+                return _MembershipFetchResult(
+                    members=all_members,
+                    errors=[
+                        _MembershipFetchError(
+                            classification="permanent",
+                            reason="unexpected response shape while listing team memberships",
+                        )
+                    ],
+                )
+
+            for member in members_of_team:
+                member["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
+            all_members.extend(members_of_team)
+
+            if len(members_of_team) < page_size:
+                break
+
+            # For exact page boundaries (e.g., total=100 and page_size=100),
+            # stop without probing the next page by honoring meta.pagination.total.
+            # Fall back to short-page stopping if the metadata is missing.
+            if isinstance(resp, dict) and pagination.remaining_func is not None:
+                try:
+                    remaining = pagination.remaining_func(idx, resp, page_size, page_number)
+                    if remaining <= 0:
+                        break
+                except (KeyError, TypeError):
+                    pass
+
+            page_number = pagination.page_number_func(idx, page_size, page_number)
+            idx += 1
+
+        return _MembershipFetchResult(members=all_members, errors=[])
+
+    async def get_resources(self, client: CustomClient) -> List[Dict]:
+        # get all the teams
+        teams_pagination_config = self._memberships_pagination_config()
         teams = await client.paginated_request(client.get)(
             self.resource_config.base_path,
             pagination_config=teams_pagination_config,
@@ -56,43 +188,62 @@ class TeamMemberships(BaseResource):
         # iterate over the teams and create a list of all members of all teams
         all_team_memberships = []
         for team in teams:
-            members_pagination_config = PaginationConfig(
-                page_size=100,
-                page_number_param="page[number]",
-                page_size_param="page[size]",
-                remaining_func=lambda idx, resp, page_size, page_number: max(
-                    0,
-                    resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
-                ),
-            )
-            members_of_team = await client.paginated_request(client.get)(
-                self.team_memberships_path.format(team["id"]),
-                pagination_config=members_pagination_config,
-            )
-
-            # add the team relationship
-            for member in members_of_team:
-                member["relationships"]["team"] = {"data": {"type": "team", "id": team["id"]}}
-            all_team_memberships += members_of_team
+            fetch_result = await self._fetch_memberships_for_team_paginated(client, team["id"])
+            for err in fetch_result.errors:
+                self.config.logger.warning(
+                    "team_memberships get_resources: partial data for team %s due to %s error: %s"
+                    % (team["id"], err.classification, err.reason)
+                )
+            all_team_memberships += fetch_result.members
 
         return all_team_memberships
 
-    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
-        source_client = self.config.source_client
-        pagination_config = PaginationConfig(
-            page_size=100,
-            page_number_param="page[number]",
-            page_size_param="page[size]",
-            remaining_func=lambda idx, resp, page_size, page_number: max(
-                0,
-                resp["meta"]["pagination"]["total"] - (page_size * (idx + 1)),
-            ),
-        )
+    async def get_resources_by_ids(
+        self,
+        client: CustomClient,
+        ids: List[str],
+        max_concurrent_reads: int = 10,
+    ) -> Tuple[List[Dict], List[str], List[Tuple[str, str, str]]]:
+        """Fan out team IDs into team_memberships resources without mutating state.
 
-        if _id:
-            resource = await source_client.paginated_request(source_client.get)(
-                self.team_memberships_path.format(_id),
-                pagination_config=pagination_config,
+        For ``team_memberships``, the id-file payload contains team IDs. Each
+        team ID fans out to zero or more membership resources from
+        ``/api/v2/team/{team_id}/memberships``. This fetch phase must remain
+        side-effect free so second-pass import/filter semantics stay intact.
+        """
+        sem = asyncio.Semaphore(max_concurrent_reads)
+        resources: List[Dict] = []
+        missing: List[str] = []
+        errored: List[Tuple[str, str, str]] = []
+
+        async def fetch_one(team_id: str):
+            async with sem:
+                fetch_result = await self._fetch_memberships_for_team_paginated(client, team_id)
+                if fetch_result.errors:
+                    first_err = fetch_result.errors[0]
+                    return (first_err.classification, team_id, first_err.reason)
+                return ("ok", fetch_result.members)
+
+        results = await asyncio.gather(*(fetch_one(i) for i in ids))
+        for result in results:
+            tag = result[0]
+            if tag == "ok":
+                resources.extend(result[1])
+            elif tag == "missing":
+                missing.append(result[1])
+            elif tag == "transient":
+                errored.append((result[1], "transient", result[2]))
+            elif tag == "permanent":
+                errored.append((result[1], "permanent", result[2]))
+            else:
+                raise ValueError(f"unexpected team_memberships fetch result tag: {tag}")
+        return resources, missing, errored
+
+    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+        if _id is not None and resource is None:
+            raise ValueError(
+                "Error creating team membership resource: direct ID import is not supported. "
+                "Use get_resources_by_ids() with team IDs."
             )
 
         resource = cast(dict, resource)
@@ -177,7 +328,9 @@ class TeamMemberships(BaseResource):
             # This can happen during cleanup when teams are deleted concurrently
             if "404" in str(e):
                 raise SkipResource(
-                    _id, self.resource_type, f"resource {_id} or its team not found (may have been already deleted)"
+                    _id,
+                    self.resource_type,
+                    f"resource {_id} or its team not found (may have been already deleted)",
                 )
             raise
 

@@ -163,8 +163,7 @@ class TestVerbsUseClientTimeout:
             _, kw = verb_mock.call_args
             timeout = kw.get("timeout")
             assert not isinstance(timeout, int), (
-                f"{verb_mock} passed a bare int timeout={timeout!r}; "
-                "must use aiohttp.ClientTimeout"
+                f"{verb_mock} passed a bare int timeout={timeout!r}; " "must use aiohttp.ClientTimeout"
             )
 
 
@@ -204,9 +203,7 @@ class TestTimeoutPropagation:
         """Built-in TimeoutError must also propagate (covers Python 3.11 alias)."""
         client = _make_client(timeout=120)
         client.session = MagicMock()
-        client.session.get = MagicMock(
-            return_value=self._resp_that_raises_on_text(TimeoutError("timeout"))
-        )
+        client.session.get = MagicMock(return_value=self._resp_that_raises_on_text(TimeoutError("timeout")))
 
         with pytest.raises((asyncio.TimeoutError, TimeoutError)):
             asyncio.run(client.get("/api/v1/dashboards"))

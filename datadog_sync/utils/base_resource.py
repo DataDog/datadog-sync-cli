@@ -221,7 +221,7 @@ class BaseResource(abc.ABC):
                     if e.status_code == 429 or e.status_code >= 500:
                         return ("transient", id_, f"HTTP {e.status_code}")
                     return ("permanent", id_, f"HTTP {e.status_code}")
-                except (asyncio.TimeoutError,):
+                except asyncio.TimeoutError:
                     return ("transient", id_, "timeout")
                 except aiohttp.ClientError as e:
                     # Includes ClientConnectionError (DNS, connection refused, TCP reset),
