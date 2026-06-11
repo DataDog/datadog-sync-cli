@@ -17,6 +17,7 @@ from datadog_sync.utils.resource_utils import SkipResource
 
 class _MockState:
     """Minimal state mock that supports set_source, get_source_keys, delete_source."""
+
     def __init__(self):
         self.source = defaultdict(dict)
 
@@ -63,9 +64,7 @@ class TestTeamMembershipsIDFileSupport:
 
     def test_import_resource_id_fan_out_produces_n_rows(self):
         tm, config, _ = _make_team_memberships("team-abc", ["user-1", "user-2", "user-3"])
-        asyncio.run(
-            tm.import_resource(_id="team-abc")
-        )
+        asyncio.run(tm.import_resource(_id="team-abc"))
         assert len(config.state.source["team_memberships"]) == 3
 
     def test_import_resource_id_composite_key_format(self):
@@ -83,8 +82,7 @@ class TestTeamMembershipsIDFileSupport:
             asyncio.run(tm.import_resource(_id="team-empty"))
         all_keys = list(config.state.source["team_memberships"].keys())
         assert len(all_keys) == 0, (
-            "empty team must write no state rows at all (no bare team_id key, "
-            f"no composite keys); got: {all_keys}"
+            "empty team must write no state rows at all (no bare team_id key, " f"no composite keys); got: {all_keys}"
         )
 
     def test_import_resource_resource_arg_path_unaffected(self):
@@ -93,9 +91,7 @@ class TestTeamMembershipsIDFileSupport:
         config.state = _MockState()
         tm = TeamMemberships(config=config)
         existing_resource = _make_member("team-x", "user-y")
-        _id, result = asyncio.run(
-            tm.import_resource(_id="team-x:user-y", resource=existing_resource)
-        )
+        _id, result = asyncio.run(tm.import_resource(_id="team-x:user-y", resource=existing_resource))
         assert _id == "team-x:user-y"
         assert result == existing_resource
 
@@ -122,8 +118,7 @@ class TestTeamMembershipsIDFileSupport:
         tm, config, _ = _make_team_memberships("team-abc", ["user-1", "user-2"])
         asyncio.run(tm.import_resource(_id="team-abc"))
         asyncio.run(tm.import_resource(_id="team-abc"))
-        keys = [k for k in config.state.source["team_memberships"].keys()
-                if k.startswith("team-abc:user-")]
+        keys = [k for k in config.state.source["team_memberships"].keys() if k.startswith("team-abc:user-")]
         assert len(keys) == 2, "two calls with same members must yield exactly 2 unique rows"
 
     def test_import_resource_id_cross_team_user_both_rows_written(self):
@@ -169,12 +164,9 @@ class TestTeamMembershipsIDFileSupport:
         asyncio.run(tm.import_resource(_id="team-x"))
         asyncio.run(tm.import_resource(_id="team-x"))
 
-        composite_keys = [k for k in config.state.source["team_memberships"].keys()
-                          if k.startswith("team-x:user-")]
+        composite_keys = [k for k in config.state.source["team_memberships"].keys() if k.startswith("team-x:user-")]
         assert "team-x:user-1" in composite_keys
-        assert "team-x:user-2" not in composite_keys, (
-            "user-2 was removed between imports; stale row must be deleted"
-        )
+        assert "team-x:user-2" not in composite_keys, "user-2 was removed between imports; stale row must be deleted"
 
     def test_state_writer_overwrites_not_appends_for_team(self):
         """Calling _import_team_memberships_by_team_id twice with different member sets
@@ -197,8 +189,7 @@ class TestTeamMembershipsIDFileSupport:
         asyncio.run(tm._import_team_memberships_by_team_id("team-A"))
         asyncio.run(tm._import_team_memberships_by_team_id("team-A"))
 
-        composite_keys = {k for k in config.state.source["team_memberships"].keys()
-                          if k.startswith("team-A:user-")}
+        composite_keys = {k for k in config.state.source["team_memberships"].keys() if k.startswith("team-A:user-")}
         # Must contain ONLY second call's rows
         assert composite_keys == {"team-A:user-1", "team-A:user-3"}, (
             f"After second call, state must contain ONLY second call's rows. "

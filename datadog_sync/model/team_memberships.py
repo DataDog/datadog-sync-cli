@@ -82,9 +82,17 @@ class TeamMemberships(BaseResource):
             if ":" not in _id:
                 # _id is a bare team UUID from --id-file; fan out to N membership rows.
                 # Dispatch condition: ":" not in _id distinguishes bare team UUID
-                # (from --id-file) from composite team_id:user_id (from 2-arg path).
+                # (from --id-file) from composite team_id:user_id.
                 return await self._import_team_memberships_by_team_id(_id)
-            # composite team_id:user_id from get_resources() falls through to existing code
+            # _id is a composite team_id:user_id with no resource — not a valid call path.
+            # Individual memberships cannot be looked up by composite key; either pass
+            # a bare team_id to fan out all memberships, or provide resource= for a
+            # specific membership row (as get_resources() does).
+            raise ValueError(
+                f"import_resource(_id={_id!r}) without resource= is not supported for team_memberships. "
+                "Use a bare team_id to fan out all memberships via --id-file, "
+                "or provide resource= for a specific membership row."
+            )
 
         resource = cast(dict, resource)
         if not resource:
@@ -125,8 +133,11 @@ class TeamMemberships(BaseResource):
         # Delete-before-write: remove all existing state rows for this team — both
         # composite team_id:user_id rows (stale membership rows for removed users)
         # and the bare team_id key that prior runs may have written for empty teams.
-        existing_keys = [k for k in self.config.state.get_source_keys(self.resource_type)
-                         if k == team_id or k.startswith(f"{team_id}:")]
+        existing_keys = [
+            k
+            for k in self.config.state.get_source_keys(self.resource_type)
+            if k == team_id or k.startswith(f"{team_id}:")
+        ]
         for k in existing_keys:
             self.config.state.delete_source(self.resource_type, k)
 
@@ -142,6 +153,7 @@ class TeamMemberships(BaseResource):
 
         if last_id is not None:
             # Return last composite key; outer _import_resource will overwrite it (harmless).
+            assert last_resource is not None  # last_resource is always set when last_id is set
             return last_id, last_resource
 
         # Empty team: raise SkipResource so the outer _import_resource does not call

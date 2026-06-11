@@ -85,7 +85,6 @@ class State:
         """
         self._data.source[resource_type][_id] = resource
 
-
     def delete_source(self, resource_type: str, _id: str) -> None:
         """Remove one resource key from the in-memory source state.
 

@@ -73,7 +73,6 @@ class ImportState:
         for resource_type in resource_types:
             self._authoritative_source_types.discard(resource_type)
 
-
     def delete_source(self, resource_type: str, _id: str) -> None:
         """Remove one resource key from the in-memory source state.
 

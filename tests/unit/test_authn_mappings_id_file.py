@@ -6,6 +6,7 @@
 """Tests for authn_mappings support in _ID_FILE_SUPPORTED_TYPES."""
 
 import asyncio
+import pytest
 from unittest.mock import AsyncMock, MagicMock
 
 from datadog_sync.utils.configuration import _ID_FILE_SUPPORTED_TYPES
@@ -45,9 +46,7 @@ class TestAuthnMappingsIDFileSupport:
         for mapping in [role_mapping, team_mapping]:
             mock_client.get.return_value = {"data": mapping}
             authn = AuthNMappings(config=mock_config)
-            _id, result = asyncio.run(
-                authn.import_resource(_id=mapping["id"])
-            )
+            _id, result = asyncio.run(authn.import_resource(_id=mapping["id"]))
             assert _id == mapping["id"], (
                 f"import_resource({mapping['id']!r}) must return the UUID as _id, "
                 f"regardless of resource_type in the mapping"
@@ -66,9 +65,7 @@ class TestAuthnMappingsIDFileSupport:
         mock_config.source_client = AsyncMock()
         mock_config.source_client.get.return_value = {"data": mapping}
         authn = AuthNMappings(config=mock_config)
-        _id, _ = asyncio.run(
-            authn.import_resource(_id=mapping["id"])
-        )
+        _id, _ = asyncio.run(authn.import_resource(_id=mapping["id"]))
         assert _id == mapping["id"]
 
     def test_import_resource_id_fetches_correct_mapping(self):
@@ -85,14 +82,20 @@ class TestAuthnMappingsIDFileSupport:
         mock_client.get.return_value = {"data": mapping}
         mock_config.source_client = mock_client
         authn = AuthNMappings(config=mock_config)
-        _id, result = asyncio.run(
-            authn.import_resource(_id=mapping_id)
-        )
+        _id, result = asyncio.run(authn.import_resource(_id=mapping_id))
         assert _id == mapping_id
         assert result == mapping
         mock_client.get.assert_called_once()
         call_path = mock_client.get.call_args[0][0]
         assert mapping_id in call_path, (
-            f"import_resource must fetch from a path containing the UUID; "
-            f"got path: {call_path!r}"
+            f"import_resource must fetch from a path containing the UUID; " f"got path: {call_path!r}"
         )
+
+    def test_import_resource_id_api_error_propagates(self):
+        """import_resource(uuid) propagates HTTP errors from the upstream GET."""
+        mock_config = MagicMock()
+        mock_config.source_client = AsyncMock()
+        mock_config.source_client.get.side_effect = Exception("HTTP 404")
+        authn = AuthNMappings(config=mock_config)
+        with pytest.raises(Exception, match="404"):
+            asyncio.run(authn.import_resource(_id="nonexistent-uuid"))
