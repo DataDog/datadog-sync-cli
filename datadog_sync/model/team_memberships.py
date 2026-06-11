@@ -63,6 +63,50 @@ class TeamMemberships(BaseResource):
             member["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
         return members_of_team
 
+    async def _get_memberships_for_team_id_targeted(self, client: CustomClient, team_id: str) -> List[Dict]:
+        """Fetch memberships for a single team via direct GET pagination.
+
+        The id-targeted path must classify HTTP failures accurately. Using
+        client.paginated_request(...) can swallow non-5xx errors and return a
+        partial or empty list, which would incorrectly look like a skipped
+        "team has no members" outcome. This method keeps failures loud.
+        """
+        pagination = self._memberships_pagination_config()
+        page_size = pagination.page_size or 100
+        page_number = pagination.page_number or 0
+        list_accessor = pagination.response_list_accessor or "data"
+        idx = 0
+        all_members: List[Dict] = []
+
+        while True:
+            resp = await client.get(
+                self.team_memberships_path.format(team_id),
+                params={
+                    pagination.page_size_param: page_size,
+                    pagination.page_number_param: page_number,
+                },
+            )
+
+            if isinstance(resp, dict):
+                members_of_team = resp.get(list_accessor, [])
+            else:
+                members_of_team = resp
+
+            if not isinstance(members_of_team, list):
+                raise ValueError("unexpected response shape while listing team memberships")
+
+            for member in members_of_team:
+                member["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
+            all_members.extend(members_of_team)
+
+            if len(members_of_team) < page_size:
+                break
+
+            page_number = pagination.page_number_func(idx, page_size, page_number)
+            idx += 1
+
+        return all_members
+
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         # get all the teams
         teams_pagination_config = self._memberships_pagination_config()
@@ -102,7 +146,7 @@ class TeamMemberships(BaseResource):
         async def fetch_one(team_id: str):
             async with sem:
                 try:
-                    members = await self._get_memberships_for_team(client, team_id)
+                    members = await self._get_memberships_for_team_id_targeted(client, team_id)
                     if not members:
                         return ("skipped", team_id, "team has no members")
                     return ("ok", members)

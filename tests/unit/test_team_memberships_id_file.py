@@ -13,6 +13,7 @@ import pytest
 
 from datadog_sync.model.team_memberships import TeamMemberships
 from datadog_sync.utils.configuration import _ID_FILE_SUPPORTED_TYPES
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 
 class _MockState:
@@ -23,6 +24,12 @@ class _MockState:
 
     def set_source(self, resource_type, _id, resource):
         self.source[resource_type][_id] = resource
+
+
+class _FakeHTTPResponse:
+    def __init__(self, status, message="error"):
+        self.status = status
+        self.message = message
 
 
 def _make_member(team_id, user_id):
@@ -43,8 +50,7 @@ def _make_team_memberships(team_id, user_ids):
     config.state = _MockState()
 
     members = [_make_member(team_id, uid) for uid in user_ids]
-    config.source_client.paginated_request = MagicMock(return_value=AsyncMock(return_value=members))
-    config.source_client.get = MagicMock()
+    config.source_client.get = AsyncMock(return_value={"data": members})
 
     tm = TeamMemberships(config=config)
     return tm, config, members
@@ -84,14 +90,16 @@ class TestTeamMembershipsIDFileSupport:
     def test_get_resources_by_ids_cross_team_memberships_keep_both_rows(self):
         config = MagicMock()
         config.state = _MockState()
-        config.source_client = AsyncMock()
-        config.source_client.paginated_request = MagicMock(
-            side_effect=[
-                AsyncMock(return_value=[_make_member("team-A", "shared-user")]),
-                AsyncMock(return_value=[_make_member("team-B", "shared-user")]),
-            ]
-        )
-        config.source_client.get = MagicMock()
+
+        async def _get(path, **kwargs):
+            if "/team/team-A/memberships" in path:
+                return {"data": [_make_member("team-A", "shared-user")]}
+            if "/team/team-B/memberships" in path:
+                return {"data": [_make_member("team-B", "shared-user")]}
+            return {"data": []}
+
+        config.source_client = MagicMock()
+        config.source_client.get = AsyncMock(side_effect=_get)
 
         tm = TeamMemberships(config=config)
         resources, missing, errored = asyncio.run(
@@ -109,14 +117,16 @@ class TestTeamMembershipsIDFileSupport:
         }
         assert keys == {("team-A", "shared-user"), ("team-B", "shared-user")}
 
-    def test_get_resources_by_ids_api_error_is_classified_as_permanent(self):
+    def test_get_resources_by_ids_http_429_is_classified_as_transient(self):
         config = MagicMock()
-        config.source_client = AsyncMock()
+        config.source_client = MagicMock()
         config.state = _MockState()
-        config.source_client.paginated_request = MagicMock(
-            return_value=AsyncMock(side_effect=Exception("membership API 500"))
+        config.source_client.get = AsyncMock(
+            side_effect=CustomClientHTTPError(
+                _FakeHTTPResponse(status=429, message="Too Many Requests"),
+                message="rate limited",
+            )
         )
-        config.source_client.get = MagicMock()
 
         tm = TeamMemberships(config=config)
         resources, missing, errored = asyncio.run(
@@ -127,8 +137,28 @@ class TestTeamMembershipsIDFileSupport:
         assert missing == []
         assert len(errored) == 1
         assert errored[0][0] == "team-xyz"
-        assert errored[0][1] == "permanent"
-        assert "membership API 500" in errored[0][2]
+        assert errored[0][1] == "transient"
+        assert errored[0][2] == "HTTP 429"
+
+    def test_get_resources_by_ids_http_404_is_classified_as_missing(self):
+        config = MagicMock()
+        config.source_client = MagicMock()
+        config.state = _MockState()
+        config.source_client.get = AsyncMock(
+            side_effect=CustomClientHTTPError(
+                _FakeHTTPResponse(status=404, message="Not Found"),
+                message="team not found",
+            )
+        )
+
+        tm = TeamMemberships(config=config)
+        resources, missing, errored = asyncio.run(
+            tm.get_resources_by_ids(config.source_client, ["team-xyz"], max_concurrent_reads=10)
+        )
+
+        assert resources == []
+        assert missing == ["team-xyz"]
+        assert errored == []
 
     def test_import_resource_resource_arg_path_unaffected(self):
         config = MagicMock()
