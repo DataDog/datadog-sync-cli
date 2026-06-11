@@ -115,6 +115,74 @@ class TestTeamMembershipsIDFileSupport:
         assert errored == []
         assert config.source_client.get.await_count == 1
 
+    def test_get_resources_by_ids_partial_page_then_429_discards_partial_members(self):
+        config = MagicMock()
+        config.source_client = MagicMock()
+        config.state = _MockState()
+
+        team_id = "team-partial"
+        first_page_members = [_make_member(team_id, f"user-{i}") for i in range(100)]
+
+        async def _get(path, **kwargs):
+            page_number = kwargs.get("params", {}).get("page[number]", 0)
+            if page_number == 0:
+                return {
+                    "data": first_page_members,
+                    "meta": {"pagination": {"total": 200}},
+                }
+            raise CustomClientHTTPError(
+                _FakeHTTPResponse(status=429, message="Too Many Requests"),
+                message="rate limited",
+            )
+
+        config.source_client.get = AsyncMock(side_effect=_get)
+        tm = TeamMemberships(config=config)
+        resources, missing, errored = asyncio.run(
+            tm.get_resources_by_ids(config.source_client, [team_id], max_concurrent_reads=10)
+        )
+
+        assert resources == []
+        assert missing == []
+        assert len(errored) == 1
+        assert errored[0][0] == team_id
+        assert errored[0][1] == "transient"
+        assert errored[0][2] == "HTTP 429"
+
+    def test_get_resources_partial_page_then_429_logs_warning_and_keeps_partial(self):
+        config = MagicMock()
+        config.source_client = MagicMock()
+        config.state = _MockState()
+        config.logger = MagicMock()
+
+        team_id = "team-partial"
+        first_page_members = [_make_member(team_id, f"user-{i}") for i in range(100)]
+
+        config.source_client.paginated_request = MagicMock(return_value=AsyncMock(return_value=[{"id": team_id}]))
+
+        async def _get(path, **kwargs):
+            page_number = kwargs.get("params", {}).get("page[number]", 0)
+            if page_number == 0:
+                return {
+                    "data": first_page_members,
+                    "meta": {"pagination": {"total": 200}},
+                }
+            raise CustomClientHTTPError(
+                _FakeHTTPResponse(status=429, message="Too Many Requests"),
+                message="rate limited",
+            )
+
+        config.source_client.get = AsyncMock(side_effect=_get)
+        tm = TeamMemberships(config=config)
+        resources = asyncio.run(tm.get_resources(config.source_client))
+
+        assert len(resources) == 100
+        assert {r["id"] for r in resources} == {m["id"] for m in first_page_members}
+        config.logger.warning.assert_called_once()
+        warning_msg = config.logger.warning.call_args[0][0]
+        assert team_id in warning_msg
+        assert "transient" in warning_msg
+        assert "HTTP 429" in warning_msg
+
     def test_get_resources_by_ids_cross_team_memberships_keep_both_rows(self):
         config = MagicMock()
         config.state = _MockState()

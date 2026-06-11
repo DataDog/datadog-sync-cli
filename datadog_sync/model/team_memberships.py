@@ -6,6 +6,7 @@
 from __future__ import annotations
 import asyncio
 import copy
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -22,6 +23,18 @@ if TYPE_CHECKING:
 
 def _team_membership_key(r):
     return f"{r['relationships']['team']['data']['id']}:{r['relationships']['user']['data']['id']}"
+
+
+@dataclass
+class _MembershipFetchError:
+    classification: str
+    reason: str
+
+
+@dataclass
+class _MembershipFetchResult:
+    members: List[Dict]
+    errors: List[_MembershipFetchError]
 
 
 class TeamMemberships(BaseResource):
@@ -54,22 +67,19 @@ class TeamMemberships(BaseResource):
             ),
         )
 
-    async def _get_memberships_for_team(self, client: CustomClient, team_id: str) -> List[Dict]:
-        members_of_team = await client.paginated_request(client.get)(
-            self.team_memberships_path.format(team_id),
-            pagination_config=self._memberships_pagination_config(),
-        )
-        for member in members_of_team:
-            member["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
-        return members_of_team
+    @staticmethod
+    def _classify_membership_fetch_status(status_code: int) -> str:
+        if status_code == 404:
+            return "missing"
+        if status_code == 429 or status_code >= 500:
+            return "transient"
+        return "permanent"
 
-    async def _get_memberships_for_team_id_targeted(self, client: CustomClient, team_id: str) -> List[Dict]:
-        """Fetch memberships for a single team via direct GET pagination.
+    async def _fetch_memberships_for_team_paginated(self, client: CustomClient, team_id: str) -> _MembershipFetchResult:
+        """Fetch memberships for a single team with explicit partial+error reporting.
 
-        The id-targeted path must classify HTTP failures accurately. Using
-        client.paginated_request(...) can swallow non-5xx errors and return a
-        partial or empty list, which would incorrectly look like a successful
-        empty-team no-op. This method keeps failures loud.
+        Returns all successfully fetched rows plus any classified terminal fetch
+        errors. Callers decide whether partial rows are acceptable.
         """
         pagination = self._memberships_pagination_config()
         page_size = pagination.page_size or 100
@@ -78,14 +88,55 @@ class TeamMemberships(BaseResource):
         idx = 0
         all_members: List[Dict] = []
 
+        # Lazy import: aiohttp is already a sync-cli dependency (custom_client.py)
+        # but importing at module load creates a heavier import graph for tests.
+        import aiohttp
+
         while True:
-            resp = await client.get(
-                self.team_memberships_path.format(team_id),
-                params={
-                    pagination.page_size_param: page_size,
-                    pagination.page_number_param: page_number,
-                },
-            )
+            try:
+                resp = await client.get(
+                    self.team_memberships_path.format(team_id),
+                    params={
+                        pagination.page_size_param: page_size,
+                        pagination.page_number_param: page_number,
+                    },
+                )
+            except CustomClientHTTPError as e:
+                return _MembershipFetchResult(
+                    members=all_members,
+                    errors=[
+                        _MembershipFetchError(
+                            classification=self._classify_membership_fetch_status(e.status_code),
+                            reason=f"HTTP {e.status_code}",
+                        )
+                    ],
+                )
+            except asyncio.TimeoutError:
+                return _MembershipFetchResult(
+                    members=all_members,
+                    errors=[_MembershipFetchError(classification="transient", reason="timeout")],
+                )
+            except aiohttp.ClientError as e:
+                return _MembershipFetchResult(
+                    members=all_members,
+                    errors=[
+                        _MembershipFetchError(
+                            classification="transient",
+                            reason=f"connection error: {type(e).__name__}",
+                        )
+                    ],
+                )
+            except Exception as e:
+                msg = str(e)
+                if "retry limit exceeded" in msg:
+                    return _MembershipFetchResult(
+                        members=all_members,
+                        errors=[_MembershipFetchError(classification="transient", reason=msg[:200])],
+                    )
+                return _MembershipFetchResult(
+                    members=all_members,
+                    errors=[_MembershipFetchError(classification="permanent", reason=msg[:200])],
+                )
 
             if isinstance(resp, dict):
                 members_of_team = resp.get(list_accessor, [])
@@ -93,7 +144,15 @@ class TeamMemberships(BaseResource):
                 members_of_team = resp
 
             if not isinstance(members_of_team, list):
-                raise ValueError("unexpected response shape while listing team memberships")
+                return _MembershipFetchResult(
+                    members=all_members,
+                    errors=[
+                        _MembershipFetchError(
+                            classification="permanent",
+                            reason="unexpected response shape while listing team memberships",
+                        )
+                    ],
+                )
 
             for member in members_of_team:
                 member["relationships"]["team"] = {"data": {"type": "team", "id": team_id}}
@@ -116,7 +175,7 @@ class TeamMemberships(BaseResource):
             page_number = pagination.page_number_func(idx, page_size, page_number)
             idx += 1
 
-        return all_members
+        return _MembershipFetchResult(members=all_members, errors=[])
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         # get all the teams
@@ -129,8 +188,13 @@ class TeamMemberships(BaseResource):
         # iterate over the teams and create a list of all members of all teams
         all_team_memberships = []
         for team in teams:
-            members_of_team = await self._get_memberships_for_team(client, team["id"])
-            all_team_memberships += members_of_team
+            fetch_result = await self._fetch_memberships_for_team_paginated(client, team["id"])
+            for err in fetch_result.errors:
+                self.config.logger.warning(
+                    "team_memberships get_resources: partial data for team %s due to %s error: %s"
+                    % (team["id"], err.classification, err.reason)
+                )
+            all_team_memberships += fetch_result.members
 
         return all_team_memberships
 
@@ -152,34 +216,13 @@ class TeamMemberships(BaseResource):
         missing: List[str] = []
         errored: List[Tuple[str, str, str]] = []
 
-        # Lazy import: aiohttp is already a sync-cli dependency (custom_client.py)
-        # but importing at module load creates a heavier import graph for tests.
-        import aiohttp
-
         async def fetch_one(team_id: str):
             async with sem:
-                try:
-                    members = await self._get_memberships_for_team_id_targeted(client, team_id)
-                    return ("ok", members)
-                except CustomClientHTTPError as e:
-                    if e.status_code == 404:
-                        return ("missing", team_id)
-                    if e.status_code == 429 or e.status_code >= 500:
-                        return ("transient", team_id, f"HTTP {e.status_code}")
-                    return ("permanent", team_id, f"HTTP {e.status_code}")
-                except asyncio.TimeoutError:
-                    return ("transient", team_id, "timeout")
-                except aiohttp.ClientError as e:
-                    return (
-                        "transient",
-                        team_id,
-                        f"connection error: {type(e).__name__}",
-                    )
-                except Exception as e:
-                    msg = str(e)
-                    if "retry limit exceeded" in msg:
-                        return ("transient", team_id, msg[:200])
-                    return ("permanent", team_id, msg[:200])
+                fetch_result = await self._fetch_memberships_for_team_paginated(client, team_id)
+                if fetch_result.errors:
+                    first_err = fetch_result.errors[0]
+                    return (first_err.classification, team_id, first_err.reason)
+                return ("ok", fetch_result.members)
 
         results = await asyncio.gather(*(fetch_one(i) for i in ids))
         for result in results:
