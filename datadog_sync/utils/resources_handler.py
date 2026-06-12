@@ -916,15 +916,18 @@ class ResourcesHandler:
             _id = await self.config.resources[resource_type]._import_resource(_id=_id)
             self._emit(resource_type, _id, "import", "success")
         except SkipResource as e:
-            self._emit(resource_type, _id, "import", "skipped", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "import", "skipped", reason=_reason, failure_class=_fc)
             self.config.logger.info(f"skipping dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
         except CustomClientHTTPError as e:
-            self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "import", "failure", reason=_reason, failure_class=_fc)
             self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
         except Exception as e:
-            self._emit(resource_type, _id, "import", "failure", reason=self._sanitize_reason(e))
+            _reason, _fc = self._sanitize_reason(e)
+            self._emit(resource_type, _id, "import", "failure", reason=_reason, failure_class=_fc)
             self.config.logger.error(f"error importing dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
 
