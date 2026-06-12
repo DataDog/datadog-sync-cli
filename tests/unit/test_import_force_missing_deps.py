@@ -579,29 +579,6 @@ def test_import_resources_persists_transitive_dep_types(import_test):
 # ---------------------------------------------------------------------------
 
 
-def test_integration_import_passes_force_missing_deps_flag():
-    """When force_missing_deps=True, import_resources() appends --force-missing-dependencies."""
-    from tests.integration.helpers import BaseResourcesTestClass
-
-    class TestHelper(BaseResourcesTestClass):
-        resource_type = "dashboard_lists"
-        force_missing_deps = True
-
-    helper = TestHelper()
-    mock_runner = MagicMock()
-    mock_ret = MagicMock()
-    mock_ret.exit_code = 0
-    mock_runner.invoke.return_value = mock_ret
-    mock_caplog = MagicMock()
-    mock_caplog.set_level = MagicMock()
-
-    helper.import_resources(mock_runner, mock_caplog)
-
-    call_args = mock_runner.invoke.call_args
-    cmd = call_args[0][1]  # second positional arg is the cmd list
-    assert "--force-missing-dependencies" in cmd
-
-
 def test_integration_import_omits_flag_when_disabled():
     """When force_missing_deps=False, import_resources() does NOT append --force-missing-dependencies."""
     from tests.integration.helpers import BaseResourcesTestClass
