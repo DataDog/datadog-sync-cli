@@ -304,7 +304,9 @@ def test_import_missing_dep_cb_skip_resource(import_test):
             with patch.object(handler, "_emit") as mock_emit:
                 asyncio.run(handler._import_missing_dep_cb(("dashboards", "dash-1")))
 
-    mock_emit.assert_called_once_with("dashboards", "dash-1", "import", "skipped", reason="SkipResource", failure_class="unknown")
+    mock_emit.assert_called_once_with(
+        "dashboards", "dash-1", "import", "skipped", reason="SkipResource", failure_class="unknown"
+    )
     mock_sdpr.assert_not_called()
 
 
@@ -323,7 +325,9 @@ def test_import_missing_dep_cb_http_error(import_test):
         with patch.object(handler, "_emit") as mock_emit:
             asyncio.run(handler._import_missing_dep_cb(("dashboards", "dash-1")))
 
-    mock_emit.assert_called_once_with("dashboards", "dash-1", "import", "failure", reason="HTTP 404", failure_class="http_4xx_404")
+    mock_emit.assert_called_once_with(
+        "dashboards", "dash-1", "import", "failure", reason="HTTP 404", failure_class="http_4xx_404"
+    )
 
 
 def test_import_missing_dep_cb_generic_error(import_test):
@@ -339,7 +343,9 @@ def test_import_missing_dep_cb_generic_error(import_test):
         with patch.object(handler, "_emit") as mock_emit:
             asyncio.run(handler._import_missing_dep_cb(("dashboards", "dash-1")))
 
-    mock_emit.assert_called_once_with("dashboards", "dash-1", "import", "failure", reason="RuntimeError", failure_class="unknown")
+    mock_emit.assert_called_once_with(
+        "dashboards", "dash-1", "import", "failure", reason="RuntimeError", failure_class="unknown"
+    )
 
 
 def test_import_missing_dep_cb_unknown_resource_type(import_test):
