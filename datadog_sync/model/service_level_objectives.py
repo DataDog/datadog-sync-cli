@@ -97,3 +97,17 @@ class ServiceLevelObjectives(BaseResource):
             if not found:
                 failed_connections.append(_id)
         return failed_connections
+
+    def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        # Mirror of connect_id -- keep in sync when connect_id changes.
+        # connect_id checks each monitor_id against monitors destination state first,
+        # then falls back to synthetics_tests using suffix match on composite keys
+        # ('{public_id}#{monitor_id}'). For source discovery, exclude IDs that are
+        # synthetics monitor IDs to prevent false ("monitors", id) misses.
+        if key != "monitor_ids":
+            return super().extract_source_ids(key, r_obj, resource_to_connect)
+        ids = [str(obj) for obj in r_obj[key]]
+        if resource_to_connect == "monitors":
+            synthetics = self.config.state.source["synthetics_tests"]
+            return [_id for _id in ids if not any(k.endswith("#" + _id) for k in synthetics)]
+        return super().extract_source_ids(key, r_obj, resource_to_connect)
