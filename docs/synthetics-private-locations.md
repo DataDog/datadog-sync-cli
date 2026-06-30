@@ -9,7 +9,6 @@ that test traffic continues flowing when the destination region takes over (fail
 - [Overview](#overview)
 - [Replicating PLs with `datadog-sync-cli`](#replicating-pls-with-datadog-sync-cli)
   - [What gets synced](#what-gets-synced)
-  - [The `--datadog-host-override` flag](#the---datadog-host-override-flag)
 - [How replicated PLs work after sync](#how-replicated-pls-work-after-sync)
 - [Configuring `datadogHostOverride` on your PL workers](#configuring-datadoghostoverride-on-your-pl-workers)
   - [Option A: env var (Kubernetes / Helm chart)](#option-a-env-var-kubernetes--helm-chart)
@@ -63,54 +62,31 @@ datadog-sync-cli import \
 
 # Replicate them into the destination org
 datadog-sync-cli sync \
-  --resources synthetics_private_locations \
-  --datadog-host-override <your-failover-cname>.synthetics.datadoghq.com
+  --resources synthetics_private_locations
 ```
-
-### The `--datadog-host-override` flag
-
-When you replicate a PL into the destination org, the tool needs to know which intake
-hostname the destination-side PL should report to. You pass this via the
-`--datadog-host-override` flag (or `DD_DATADOG_HOST_OVERRIDE` env var).
-
-The value should be the **CNAME** that your DNS controls — the one whose target you flip
-when failing over from one region to another. Example:
-
-```bash
---datadog-host-override <your-failover-cname>.synthetics.datadoghq.com
-```
-
-That CNAME gets stored as `datadogHostOverride` in the destination PL's config, which the
-worker then picks up.
-
-If you don't pass the flag, the destination PL gets created without a `datadogHostOverride`,
-which means the worker will fall back to the standard region intake for the secondary org.
-That's usually **not** what you want for a failover setup — pass the flag.
 
 ## How replicated PLs work after sync
 
-After replication:
-
-- Both orgs have a PL with the same internal identifier (the same `pl:<slug>` name).
-- Both orgs share encryption keys, so tests scheduled in either region can be decrypted
-  and executed by the same worker.
-- Tests in each org can reference the PL by name. When the failover happens, the worker
-  starts polling the secondary region and continues running tests with no test-config
-  changes.
+After replication, both orgs have a PL with the same internal identifier (the same
+`pl:<slug>` name) and shared encryption keys. However, the PL worker can only report to
+**one datacenter at a time** — whichever datacenter the `datadogHostOverride` CNAME
+currently resolves to. Only that datacenter's org will show the PL as healthy and receive
+test results.
 
 The customer-side work to enable this is:
 
 1. **Run `datadog-sync-cli` to replicate the PL.** (Covered above.)
-2. **Set `datadogHostOverride` on your PL worker(s)** to the same CNAME you passed to the
-   sync tool. The next section explains the three ways to do this.
+2. **Set `datadogHostOverride` on your PL worker(s)** to a CNAME whose DNS target you
+   control. The next section explains the three ways to do this.
 3. **Control the CNAME's DNS target** so it points to your primary region in steady state
    and gets flipped to the secondary region during failover. The flip is transparent to
-   the worker — the next polling cycle picks up the new target automatically.
+   the worker — the next polling cycle picks up the new target automatically, and from
+   that point on tests are pulled from and results pushed to the secondary region only.
 
 ## Configuring `datadogHostOverride` on your PL workers
 
 `datadogHostOverride` tells the PL worker which intake hostname to send results and poll
-for tests. It must match the CNAME you configured at replication time.
+for tests.
 
 There are three equivalent ways to set it. Pick whichever fits your deployment.
 
@@ -190,9 +166,10 @@ After running the sync and starting your worker with `datadogHostOverride` set:
 
 1. **Confirm the PL appears in both orgs.** Check the Synthetics → Settings → Private
    Locations page in each org. The PL should be listed with the same name in both.
-2. **Confirm the worker reports.** The PL should show as healthy in both orgs once the
-   worker starts polling. If it only reports in one, double-check that the CNAME's current
-   DNS target is the region you expect.
-3. **Run a test.** Create a test in either org targeting the replicated PL, unpause it,
-   and confirm results appear. During steady state, results land in your primary region;
-   during failover, they land in the secondary region — without any test-config changes.
+2. **Confirm the worker reports to the active region.** Only the org whose datacenter the
+   `datadogHostOverride` CNAME currently resolves to will show the PL as healthy. The
+   other org's PL will appear offline until you flip the CNAME to point to it.
+3. **Run a test.** Create a test in the active org targeting the replicated PL, unpause
+   it, and confirm results appear. Results are pulled from and pushed to only the
+   datacenter the CNAME resolves to — flipping the CNAME switches where tests run and
+   results land, without any test-config changes.
