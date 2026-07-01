@@ -76,12 +76,8 @@ test results.
 The customer-side work to enable this is:
 
 1. **Run `datadog-sync-cli` to replicate the PL.** (Covered above.)
-2. **Set `datadogHostOverride` on your PL worker(s)** to a CNAME whose DNS target you
-   control. The next section explains the three ways to do this.
-3. **Control the CNAME's DNS target** so it points to your primary region in steady state
-   and gets flipped to the secondary region during failover. The flip is transparent to
-   the worker — the next polling cycle picks up the new target automatically, and from
-   that point on tests are pulled from and results pushed to the secondary region only.
+2. **Set `datadogHostOverride` on your PL worker(s)** to the failover CNAME. The next
+   section explains the three ways to do this.
 
 ## Configuring `datadogHostOverride` on your PL workers
 
