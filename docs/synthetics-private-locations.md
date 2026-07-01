@@ -67,8 +67,8 @@ datadog-sync-cli sync \
 
 ## How replicated PLs work after sync
 
-After replication, both orgs have a PL with the same internal identifier (the same
-`pl:<slug>` name) and shared encryption keys. However, the PL worker can only report to
+After replication, both orgs have a PL with the same display name, tags, and shared
+encryption keys (but different internal identifiers). However, the PL worker can only report to
 **one datacenter at a time** — whichever datacenter the `datadogHostOverride` CNAME
 currently resolves to. Only that datacenter's org will show the PL as healthy and receive
 test results.
