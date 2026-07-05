@@ -15,10 +15,39 @@ from urllib.parse import urlparse
 import aiohttp
 import certifi
 
+from collections import Counter as _StdCounter
 from datadog_sync.constants import DDR_Status, LOGGER_NAME, Metrics
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 log = logging.getLogger(LOGGER_NAME)
+
+
+# HTTP statuses that signal upstream/edge overload rather than app-level failure.
+# For these, hammering with tight-cycle retries makes the situation worse (the
+# same request queue is still full). Use a longer, jittered exponential backoff
+# that respects the Retry-After header when present.
+_OVERLOAD_STATUSES = frozenset({502, 503, 504, 512})
+# Jittered exponential backoff schedule for _OVERLOAD_STATUSES, in seconds.
+# Index by retry_count. Falls off the end -> caller gives up. Matches the
+# observed proxy queue drain time on the destination monitor API during the
+# HAMR-392 storm (see PR body).
+_OVERLOAD_BACKOFF_SCHEDULE = (30, 60, 120)
+
+
+def _overload_sleep_duration(retry_count: int, retry_after_hdr: Optional[str]) -> int:
+    """Return the number of seconds to wait before retrying an _OVERLOAD_STATUSES
+    response. Honors Retry-After if present; otherwise falls back to
+    _OVERLOAD_BACKOFF_SCHEDULE indexed by retry_count.
+    """
+    if retry_after_hdr:
+        try:
+            # Retry-After per RFC 7231 can be seconds or an HTTP-date. We accept
+            # the seconds form only; treat non-integer values as unset.
+            return max(0, int(retry_after_hdr))
+        except (TypeError, ValueError):
+            pass
+    idx = min(retry_count, len(_OVERLOAD_BACKOFF_SCHEDULE) - 1)
+    return _OVERLOAD_BACKOFF_SCHEDULE[idx]
 
 
 def request_with_retry(func: Awaitable) -> Awaitable:
@@ -49,6 +78,34 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                             log.warning(f"{e}. retry timeout has or will exceed timeout duration")
                             raise CustomClientHTTPError(e, message=err_text)
                         log.warning(f"{e}. retrying request after {sleep_duration}s")
+                        await asyncio.sleep(sleep_duration)
+                        retry_count += 1
+                        log.debug(f"retry count: {retry_count}")
+                        continue
+                    elif e.status in _OVERLOAD_STATUSES:
+                        # Edge/proxy timeouts and gateway overload: back off
+                        # substantially longer than the 5s * retry_count
+                        # baseline used for other 5xx. Honor Retry-After if the
+                        # server sent one; otherwise use the fixed schedule.
+                        # Increment the per-status counter so operators can
+                        # dashboard "is the fix working?" long-term via
+                        # client.overload_status_counter, rather than
+                        # log-grep.
+                        try:
+                            args[0].overload_status_counter[e.status] += 1
+                        except AttributeError:
+                            # Older CustomClient instances or test doubles.
+                            pass
+                        sleep_duration = _overload_sleep_duration(retry_count, e.headers.get("Retry-After"))
+                        if (sleep_duration + time.time()) > timeout:
+                            log.warning(
+                                f"{e}. overload backoff ({sleep_duration}s) exceeds retry timeout budget; giving up"
+                            )
+                            raise CustomClientHTTPError(e, message=err_text)
+                        if retry_count + 1 >= max_retries:
+                            log.warning("retry count has or will exceed retry maximum")
+                            raise CustomClientHTTPError(e, message=err_text)
+                        log.warning(f"{e}. upstream overloaded; backing off {sleep_duration}s before retry")
                         await asyncio.sleep(sleep_duration)
                         retry_count += 1
                         log.debug(f"retry count: {retry_count}")
@@ -90,6 +147,12 @@ class CustomClient:
         self.auth = auth
         self.send_metrics = send_metrics
         self.verify_ssl = verify_ssl
+        # Per-status counter of upstream-overload retries (see _OVERLOAD_STATUSES).
+        # Exposed so callers (or a follow-up drainer coroutine) can emit a
+        # metric like sync_cli.overload_status_encountered{status=512}. Kept as
+        # an in-memory counter rather than emitting a metric inline to avoid
+        # recursive-request risk during a proxy overload storm.
+        self.overload_status_counter: _StdCounter = _StdCounter()
 
         # Metrics only work with API keys, not JWT
         # If JWT is present, metrics are not available

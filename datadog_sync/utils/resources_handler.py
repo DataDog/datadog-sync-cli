@@ -8,6 +8,7 @@ import asyncio
 import logging
 import sys
 import time
+from asyncio import Semaphore
 from collections import defaultdict
 from copy import deepcopy
 from time import sleep
@@ -321,6 +322,7 @@ class ResourcesHandler:
     async def _apply_resource_cb(self, q_item: List) -> None:
         resource_type, _id = q_item
         lock_acquired = False
+        sem = None
 
         try:
             r_class = self.config.resources[resource_type]
@@ -329,6 +331,14 @@ class ResourcesHandler:
             if not r_class.resource_config.concurrent:
                 await r_class.resource_config.async_lock.acquire()
                 lock_acquired = True
+            elif isinstance(getattr(r_class.resource_config, "async_semaphore", None), Semaphore):
+                # Per-resource-type concurrency cap (see ResourceConfig.max_concurrent).
+                # Acquire the semaphore only for concurrent-safe types — if
+                # concurrent=False we already hold the full lock above. Using
+                # isinstance rather than a truthy None-check so MagicMock
+                # attributes in unit tests don't get treated as real semaphores.
+                sem = r_class.resource_config.async_semaphore
+                await sem.acquire()
 
             # Run hooks
             await r_class._pre_resource_action_hook(_id, resource)
@@ -390,6 +400,8 @@ class ResourcesHandler:
             self.sorter.done(q_item)
             if lock_acquired:
                 r_class.resource_config.async_lock.release()
+            if sem is not None:
+                sem.release()
 
     async def diffs(self) -> None:
         self._dependency_graph, _, _ = self.get_dependency_graph()

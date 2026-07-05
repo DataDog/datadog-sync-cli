@@ -4,12 +4,16 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import logging
 import re
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
+from datadog_sync.constants import LOGGER_NAME
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
 from datadog_sync.utils.custom_client import PaginationConfig
 from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+
+_log = logging.getLogger(LOGGER_NAME)
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -44,6 +48,19 @@ class Monitors(BaseResource):
         null_values={"draft_status": "published"},
         tagging_config=TaggingConfig(path="tags"),
         skip_resource_mapping=True,
+        # max_concurrent is left unset by default so wrappers (e.g. dd-source
+        # managed-sync) can plumb it through per-org via Vault config without
+        # requiring a sync-cli release cycle.
+        #
+        # Motivating case (HAMR-392): destination monitor-create edge/proxy
+        # timeout storms (HTTP 512 "Timeout") on Allstate scale when the
+        # global 32-way worker pool queues too many concurrent
+        # POST/PUT /api/v1/monitor requests. Server-side monitor-app returned
+        # 200/400 normally throughout -- 512 was emitted by the edge proxy on
+        # request-queue overflow, not by the monitor-app itself. Recommended
+        # starting value for that org: 8 (each monitor sync issues a
+        # GET-check-existence + POST/PUT, so 8 workers -> ~16 in-flight
+        # destination requests, a ~4x drop from the ~64 at --max-workers=32).
     )
     # Additional Monitors specific attributes
     pagination_config = PaginationConfig(
@@ -117,15 +134,20 @@ class Monitors(BaseResource):
                     existing_id = match.group(1)
                     existing = await destination_client.get(f"{self.resource_config.base_path}/{existing_id}")
                     return _id, existing
+            _log_monitor_http_error(_id, "create", resource, e)
             raise
         return _id, resp
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        resp = await destination_client.put(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
-            resource,
-        )
+        try:
+            resp = await destination_client.put(
+                self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+                resource,
+            )
+        except CustomClientHTTPError as e:
+            _log_monitor_http_error(_id, "update", resource, e)
+            raise
 
         return _id, resp
 
@@ -223,3 +245,68 @@ class Monitors(BaseResource):
                 if type_map.get(_type) == resource_to_connect
             ]
         return super(Monitors, self).extract_source_ids(key, r_obj, resource_to_connect)
+
+
+_MONITOR_LOG_QUERY_MAX_CHARS = 2000
+_MONITOR_APPLICATION_ID_RE = re.compile(r"@application\.id:[A-Za-z0-9\-]+")
+
+
+def _summarize_query_for_log(query: Optional[str]) -> Optional[str]:
+    """Truncate a monitor query for logging while preserving any
+    ``@application.id:<uuid>`` fragment.
+
+    The @application.id token is the load-bearing identifier for RUM alert
+    monitors (HAMR-392 T4): it maps the failure to a specific RUM app that
+    may or may not exist in the destination. A naive length-based truncation
+    can drop the token when the query has a long leading filter chain. When
+    present, the token is preserved inline and the rest of the query is
+    truncated around it.
+    """
+    if query is None:
+        return None
+    q = str(query)
+    if len(q) <= _MONITOR_LOG_QUERY_MAX_CHARS:
+        return q
+    match = _MONITOR_APPLICATION_ID_RE.search(q)
+    if match is None:
+        return q[: _MONITOR_LOG_QUERY_MAX_CHARS - 3] + "..."
+    # Preserve the @application.id token by keeping a window around it. The
+    # window is anchored on the token; leading and trailing halves are
+    # ellipsized so the token is always visible.
+    token = match.group(0)
+    keep = _MONITOR_LOG_QUERY_MAX_CHARS - len(token) - len("...") - len("...")
+    if keep < 0:
+        return "..." + token + "..."
+    half = keep // 2
+    start = max(0, match.start() - half)
+    end = min(len(q), match.end() + (keep - (match.start() - start)))
+    prefix = "..." if start > 0 else ""
+    suffix = "..." if end < len(q) else ""
+    return prefix + q[start:end] + suffix
+
+
+def _log_monitor_http_error(_id: str, action: str, resource: Dict, err: CustomClientHTTPError) -> None:
+    """Emit the outbound monitor's identifying fields on any HTTP error so the
+    cause is diagnosable from logs alone.
+
+    Prior behaviour logged only the destination's response body (e.g. HAMR-392
+    "Invalid query: Check for invalid tags or facets in your query"), forcing
+    operators to reach into cloud-storage state to see which monitor query the
+    validator rejected. The status_code gate keeps error-log volume bounded to
+    the classes where the outbound payload is actually informative:
+      * 4xx (validation failures): the query is the direct cause.
+      * 512 / 502-504 (upstream/edge overload): the type + query length help
+        classify whether an expensive-validation class dominates the batch.
+    """
+    if err.status_code < 400:
+        return
+    query = resource.get("query")
+    m_type = resource.get("type")
+    _log.warning(
+        "monitor %s failed status=%s id=%s type=%r query=%r",
+        action,
+        err.status_code,
+        _id,
+        m_type,
+        _summarize_query_for_log(query),
+    )
