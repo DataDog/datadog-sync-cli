@@ -65,9 +65,29 @@ def test_sleep_duration_honors_retry_after_seconds():
     assert _overload_sleep_duration(0, "45") == 45
 
 
-def test_sleep_duration_ignores_non_integer_retry_after():
-    """Retry-After HTTP-date form is not supported; we fall back to schedule."""
-    assert _overload_sleep_duration(0, "Wed, 21 Oct 2015 07:28:00 GMT") == _OVERLOAD_BACKOFF_SCHEDULE[0]
+def test_sleep_duration_honors_http_date_retry_after_future():
+    """Retry-After can also be an HTTP-date (RFC 7231). Verify a future date
+    is interpreted as seconds-until-then, not silently ignored."""
+    from datetime import datetime, timedelta, timezone
+    from email.utils import format_datetime
+
+    future = datetime.now(timezone.utc) + timedelta(seconds=45)
+    http_date = format_datetime(future, usegmt=True)
+    # Allow +/- a few seconds of scheduling slack.
+    got = _overload_sleep_duration(0, http_date)
+    assert 40 <= got <= 50, f"expected ~45s, got {got}s from {http_date!r}"
+
+
+def test_sleep_duration_http_date_in_past_clamped_to_zero():
+    """A past HTTP-date is nonsensical (the retry window has already elapsed);
+    clamp to 0 rather than falling back to the schedule or returning negative."""
+    assert _overload_sleep_duration(0, "Wed, 21 Oct 2015 07:28:00 GMT") == 0
+
+
+def test_sleep_duration_ignores_malformed_retry_after():
+    """Malformed values (not numeric and not a parseable date) fall back to
+    the fixed schedule."""
+    assert _overload_sleep_duration(0, "not-a-real-value") == _OVERLOAD_BACKOFF_SCHEDULE[0]
 
 
 def test_sleep_duration_ignores_negative_retry_after():

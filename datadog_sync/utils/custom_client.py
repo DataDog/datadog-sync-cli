@@ -3,7 +3,8 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 import ssl
 import time
 import logging
@@ -40,12 +41,23 @@ def _overload_sleep_duration(retry_count: int, retry_after_hdr: Optional[str]) -
     _OVERLOAD_BACKOFF_SCHEDULE indexed by retry_count.
     """
     if retry_after_hdr:
+        # Retry-After per RFC 7231 can be either a delta-seconds integer or an
+        # HTTP-date. Try numeric first (covers integer and fractional forms
+        # some servers send), then fall back to HTTP-date parsing.
         try:
-            # Retry-After per RFC 7231 can be seconds or an HTTP-date. We accept
-            # the seconds form only (integer or fractional); treat HTTP-date and
-            # other non-numeric values as unset. float() also handles integer
-            # strings, so this covers both common forms.
             return max(0, int(float(retry_after_hdr)))
+        except (TypeError, ValueError):
+            pass
+        try:
+            when = parsedate_to_datetime(retry_after_hdr)
+            if when is not None:
+                # parsedate_to_datetime returns naive on ambiguous input; treat
+                # naive as UTC per RFC 7231. Compute seconds-until-when,
+                # clamped to 0 (past dates -> no wait).
+                if when.tzinfo is None:
+                    when = when.replace(tzinfo=timezone.utc)
+                delta = (when - datetime.now(timezone.utc)).total_seconds()
+                return max(0, int(delta))
         except (TypeError, ValueError):
             pass
     idx = min(retry_count, len(_OVERLOAD_BACKOFF_SCHEDULE) - 1)

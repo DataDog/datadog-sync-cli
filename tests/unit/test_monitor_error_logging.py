@@ -70,6 +70,23 @@ def test_summarize_long_query_appid_at_start_preserved():
     assert "@application.id:xyz-1" in out
 
 
+def test_log_monitor_http_error_falls_back_to_queries_field(caplog):
+    """Formula / multi-query monitors populate `queries: [...]` instead of a
+    single `query` string. The error-logging path must fall back so the
+    outbound payload is still visible for diagnosis."""
+    caplog.set_level("WARNING", logger="datadog_sync_cli")
+    resource = {
+        "type": "query alert",
+        "queries": ['rum("@application.id:abc-def env:prod").last("5m") > 5'],
+    }
+    _log_monitor_http_error("m-multi", "create", resource, _make_err(400))
+    assert "monitor create failed" in caplog.text
+    # The @application.id token from within the queries list survives.
+    assert "@application.id:abc-def" in caplog.text
+    # Not the literal string "None" (would signal the fallback didn't fire).
+    assert "query=None" not in caplog.text
+
+
 def test_summarize_pathological_appid_token_still_bounded():
     """If the @application.id: value itself is unreasonably long (attacker,
     malformed, or a future field-shape change), the summarizer must still

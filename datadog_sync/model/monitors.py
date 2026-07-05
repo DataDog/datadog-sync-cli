@@ -315,7 +315,11 @@ def _log_monitor_http_error(_id: str, action: str, resource: Dict, err: CustomCl
     """
     if err.status_code < 400:
         return
+    # Formula / multi-query monitors carry `queries: [...]` instead of a single
+    # `query` string. Fall back so those types still log a meaningful payload.
     query = resource.get("query")
+    if query is None:
+        query = resource.get("queries")
     m_type = resource.get("type")
     _log.warning(
         "monitor %s failed status=%s id=%s type=%r query=%r",
