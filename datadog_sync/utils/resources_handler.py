@@ -323,6 +323,7 @@ class ResourcesHandler:
         resource_type, _id = q_item
         lock_acquired = False
         sem = None
+        sem_acquired = False
 
         try:
             r_class = self.config.resources[resource_type]
@@ -337,8 +338,13 @@ class ResourcesHandler:
                 # concurrent=False we already hold the full lock above. Using
                 # isinstance rather than a truthy None-check so MagicMock
                 # attributes in unit tests don't get treated as real semaphores.
+                # sem_acquired is set only after acquire returns, so a
+                # cancellation mid-await doesn't cause the finally to release
+                # a slot the caller never held (which would permanently
+                # inflate the effective concurrency limit).
                 sem = r_class.resource_config.async_semaphore
                 await sem.acquire()
+                sem_acquired = True
 
             # Run hooks
             await r_class._pre_resource_action_hook(_id, resource)
@@ -400,7 +406,9 @@ class ResourcesHandler:
             self.sorter.done(q_item)
             if lock_acquired:
                 r_class.resource_config.async_lock.release()
-            if sem is not None:
+            if sem_acquired:
+                # Only release if acquire() actually returned; guards against
+                # cancellation mid-await inflating the semaphore's slot count.
                 sem.release()
 
     async def diffs(self) -> None:

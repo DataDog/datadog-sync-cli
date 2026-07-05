@@ -42,8 +42,10 @@ def _overload_sleep_duration(retry_count: int, retry_after_hdr: Optional[str]) -
     if retry_after_hdr:
         try:
             # Retry-After per RFC 7231 can be seconds or an HTTP-date. We accept
-            # the seconds form only; treat non-integer values as unset.
-            return max(0, int(retry_after_hdr))
+            # the seconds form only (integer or fractional); treat HTTP-date and
+            # other non-numeric values as unset. float() also handles integer
+            # strings, so this covers both common forms.
+            return max(0, int(float(retry_after_hdr)))
         except (TypeError, ValueError):
             pass
     idx = min(retry_count, len(_OVERLOAD_BACKOFF_SCHEDULE) - 1)
@@ -96,14 +98,20 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                         except AttributeError:
                             # Older CustomClient instances or test doubles.
                             pass
+                        # Cap at the schedule length rather than max_retries.
+                        # This keeps every bucket in _OVERLOAD_BACKOFF_SCHEDULE
+                        # reachable: with a 3-element schedule and retry_count
+                        # starting at 0, we sleep schedule[0], schedule[1],
+                        # schedule[2] on successive retries before giving up
+                        # (subject to the retry_timeout total budget).
+                        if retry_count >= len(_OVERLOAD_BACKOFF_SCHEDULE):
+                            log.warning("retry count has exceeded overload backoff schedule length")
+                            raise CustomClientHTTPError(e, message=err_text)
                         sleep_duration = _overload_sleep_duration(retry_count, e.headers.get("Retry-After"))
                         if (sleep_duration + time.time()) > timeout:
                             log.warning(
                                 f"{e}. overload backoff ({sleep_duration}s) exceeds retry timeout budget; giving up"
                             )
-                            raise CustomClientHTTPError(e, message=err_text)
-                        if retry_count + 1 >= max_retries:
-                            log.warning("retry count has or will exceed retry maximum")
                             raise CustomClientHTTPError(e, message=err_text)
                         log.warning(f"{e}. upstream overloaded; backing off {sleep_duration}s before retry")
                         await asyncio.sleep(sleep_duration)

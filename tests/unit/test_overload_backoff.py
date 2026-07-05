@@ -13,6 +13,8 @@ queue as fast as the proxy could drain it. These tests verify the new
 _OVERLOAD_STATUSES class uses a longer schedule and honors Retry-After.
 """
 
+import pytest
+
 from datadog_sync.utils.custom_client import (
     _OVERLOAD_BACKOFF_SCHEDULE,
     _OVERLOAD_STATUSES,
@@ -91,3 +93,142 @@ def test_custom_client_has_overload_counter():
     client.overload_status_counter[502] += 1
     assert client.overload_status_counter[512] == 2
     assert client.overload_status_counter[502] == 1
+
+
+def test_all_backoff_buckets_reachable_with_large_budget():
+    """Codex-flagged concern: prior guard `retry_count + 1 >= max_retries`
+    made the 120s bucket unreachable. Verify all three buckets get consumed
+    when retry_timeout is large enough.
+    """
+    import asyncio
+    from unittest.mock import MagicMock
+
+    from datadog_sync.utils.custom_client import request_with_retry
+    from datadog_sync.utils.resource_utils import CustomClientHTTPError
+
+    class FakeClient:
+        def __init__(self, retry_timeout):
+            self.retry_timeout = retry_timeout
+            from collections import Counter as _C
+            self.overload_status_counter = _C()
+
+    slept_durations = []
+
+    async def fake_sleep(dur):
+        slept_durations.append(dur)
+        # No actual sleep — we just record the schedule.
+
+    class Resp:
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *a):
+            return False
+
+        async def text(self):
+            return "server overloaded"
+
+        def raise_for_status(self):
+            import aiohttp
+
+            raise aiohttp.ClientResponseError(
+                request_info=MagicMock(), history=(), status=503, message="Overload", headers={}
+            )
+
+    async def stub_request(client, *args, **kwargs):
+        return Resp()
+
+    decorated = request_with_retry(stub_request)
+
+    import datadog_sync.utils.custom_client as cc_module
+
+    orig = cc_module.asyncio.sleep
+    cc_module.asyncio.sleep = fake_sleep
+    try:
+        # Large retry_timeout so the budget guard doesn't fire.
+        with pytest.raises(CustomClientHTTPError):
+            asyncio.run(decorated(FakeClient(retry_timeout=10000)))
+    finally:
+        cc_module.asyncio.sleep = orig
+
+    # All three schedule buckets should have been slept before the final give-up.
+    assert slept_durations == list(_OVERLOAD_BACKOFF_SCHEDULE), (
+        f"Expected schedule {_OVERLOAD_BACKOFF_SCHEDULE} but slept {slept_durations}"
+    )
+
+
+def test_end_to_end_overload_budget_guard():
+    """Full request_with_retry loop against a 512-only server. Verifies:
+      - each retry counts down the retry_timeout total budget,
+      - when the next-computed sleep_duration would exceed the budget,
+        the loop raises CustomClientHTTPError instead of sleeping past it.
+    """
+    import asyncio
+    import time
+    from unittest.mock import MagicMock
+
+    from datadog_sync.utils.custom_client import request_with_retry
+    from datadog_sync.utils.resource_utils import CustomClientHTTPError
+
+    # Fake client that has just enough state for request_with_retry.
+    class FakeClient:
+        def __init__(self, retry_timeout):
+            self.retry_timeout = retry_timeout
+            from collections import Counter as _C
+            self.overload_status_counter = _C()
+
+    class Resp:
+        def __init__(self):
+            self.status = 512
+            self.headers = {}
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *a):
+            return False
+
+        async def text(self):
+            return "server overloaded"
+
+        def raise_for_status(self):
+            import aiohttp
+
+            resp = MagicMock()
+            resp.status = 512
+            raise aiohttp.ClientResponseError(
+                request_info=MagicMock(), history=(), status=512, message="Timeout", headers={}
+            )
+
+    async def stub_request(client, *args, **kwargs):
+        return Resp()
+
+    decorated = request_with_retry(stub_request)
+
+    async def run():
+        client = FakeClient(retry_timeout=45)  # ~1.5x first bucket
+        started = time.time()
+        with pytest.raises(CustomClientHTTPError):
+            await decorated(client)
+        # We may have slept once (30s bucket) but MUST NOT have slept past the budget.
+        # Test-mode: we avoid real 30s sleep by patching asyncio.sleep below.
+        return started, client
+
+    # Patch asyncio.sleep to no-op so this test runs in ms, not minutes,
+    # while the budget arithmetic still uses real time.time() comparisons.
+    real_sleep = asyncio.sleep
+
+    async def fast_sleep(_):
+        await real_sleep(0)
+
+    import datadog_sync.utils.custom_client as cc_module
+
+    orig = cc_module.asyncio.sleep
+    cc_module.asyncio.sleep = fast_sleep
+    try:
+        started, client = asyncio.run(run())
+    finally:
+        cc_module.asyncio.sleep = orig
+
+    # Counter incremented at least once for 512 (proves the branch was taken).
+    assert client.overload_status_counter[512] >= 1

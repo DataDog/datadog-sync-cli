@@ -251,38 +251,53 @@ _MONITOR_LOG_QUERY_MAX_CHARS = 2000
 _MONITOR_APPLICATION_ID_RE = re.compile(r"@application\.id:[A-Za-z0-9\-]+")
 
 
-def _summarize_query_for_log(query: Optional[str]) -> Optional[str]:
+def _summarize_query_for_log(query) -> Optional[str]:
     """Truncate a monitor query for logging while preserving any
     ``@application.id:<uuid>`` fragment.
 
     The @application.id token is the load-bearing identifier for RUM alert
-    monitors (HAMR-392 T4): it maps the failure to a specific RUM app that
-    may or may not exist in the destination. A naive length-based truncation
-    can drop the token when the query has a long leading filter chain. When
-    present, the token is preserved inline and the rest of the query is
-    truncated around it.
+    monitors: it maps the failure to a specific RUM app that may or may not
+    exist in the destination. A naive length-based truncation can drop the
+    token when the query has a long leading filter chain. When present, the
+    token is preserved inline and the rest of the query is truncated around
+    it.
+
+    Accepts non-string inputs (formula/multi-query alerts can populate
+    ``queries: [...]`` instead of ``query``) and stringifies them before
+    truncation.
     """
     if query is None:
         return None
-    q = str(query)
+    q = query if isinstance(query, str) else repr(query)
     if len(q) <= _MONITOR_LOG_QUERY_MAX_CHARS:
         return q
     match = _MONITOR_APPLICATION_ID_RE.search(q)
     if match is None:
         return q[: _MONITOR_LOG_QUERY_MAX_CHARS - 3] + "..."
-    # Preserve the @application.id token by keeping a window around it. The
-    # window is anchored on the token; leading and trailing halves are
-    # ellipsized so the token is always visible.
-    token = match.group(0)
-    keep = _MONITOR_LOG_QUERY_MAX_CHARS - len(token) - len("...") - len("...")
+    # Preserve the @application.id token by keeping a window around it. Cap
+    # the token first so a maliciously-long or malformed value can't bypass
+    # the overall length bound (real Datadog app IDs are UUIDs, ~52 chars
+    # including the "@application.id:" prefix). Then build a fixed-length
+    # window from the ORIGINAL string on either side of the (capped) token
+    # position, so the total output length is bounded by
+    # _MONITOR_LOG_QUERY_MAX_CHARS + a small constant for ellipses.
+    _MAX_TOKEN = 96
+    raw_token = match.group(0)
+    capped_token = raw_token if len(raw_token) <= _MAX_TOKEN else raw_token[: _MAX_TOKEN - 3] + "..."
+    keep = _MONITOR_LOG_QUERY_MAX_CHARS - len(capped_token) - len("...") - len("...")
     if keep < 0:
-        return "..." + token + "..."
+        # Token alone (post-cap) is already at/above the bound. Return just
+        # the token bracketed — bounded because token is bounded above.
+        return "..." + capped_token + "..."
     half = keep // 2
-    start = max(0, match.start() - half)
-    end = min(len(q), match.end() + (keep - (match.start() - start)))
-    prefix = "..." if start > 0 else ""
-    suffix = "..." if end < len(q) else ""
-    return prefix + q[start:end] + suffix
+    before_start = max(0, match.start() - half)
+    before_slice = q[before_start : match.start()]
+    remaining = keep - len(before_slice)
+    after_end = min(len(q), match.end() + remaining)
+    after_slice = q[match.end() : after_end]
+    prefix = "..." if before_start > 0 else ""
+    suffix = "..." if after_end < len(q) else ""
+    return prefix + before_slice + capped_token + after_slice + suffix
 
 
 def _log_monitor_http_error(_id: str, action: str, resource: Dict, err: CustomClientHTTPError) -> None:

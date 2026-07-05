@@ -54,7 +54,10 @@ def test_semaphore_limits_concurrent_acquisitions():
         # A third acquire must not resolve until we release.
         third = asyncio.create_task(sem.acquire())
         try:
-            await asyncio.wait_for(asyncio.shield(third), timeout=0.05)
+            # 0.5s is well above any realistic scheduling delay on CI runners
+            # while still bounding test wall-clock. The saturated case would
+            # block forever without a timeout.
+            await asyncio.wait_for(asyncio.shield(third), timeout=0.5)
         except asyncio.TimeoutError:
             pass  # Expected: the semaphore is saturated.
         else:
@@ -64,6 +67,31 @@ def test_semaphore_limits_concurrent_acquisitions():
         await asyncio.wait_for(third, timeout=0.5)
         sem.release()
         sem.release()
+
+    asyncio.run(scenario())
+
+
+def test_init_async_clears_stale_semaphore_when_disabled():
+    """Re-init after disabling max_concurrent must clear the previously-installed
+    semaphore. Long-lived wrappers reuse Configuration across orgs; a stale
+    semaphore from a prior org would silently keep throttling the next one.
+    """
+
+    async def scenario():
+        cfg = ResourceConfig(base_path="/x", max_concurrent=4)
+        await cfg.init_async()
+        assert isinstance(cfg.async_semaphore, asyncio.Semaphore)
+        # Now flip max_concurrent off and re-init.
+        cfg.max_concurrent = None
+        await cfg.init_async()
+        assert cfg.async_semaphore is None
+        # Same with 0.
+        cfg.max_concurrent = 4
+        await cfg.init_async()
+        assert isinstance(cfg.async_semaphore, asyncio.Semaphore)
+        cfg.max_concurrent = 0
+        await cfg.init_async()
+        assert cfg.async_semaphore is None
 
     asyncio.run(scenario())
 

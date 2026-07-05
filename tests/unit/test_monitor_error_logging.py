@@ -3,7 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-"""Tests for the HAMR-392 monitor error logging + query summarization.
+"""Tests for the monitor error logging + query summarization.
 
 Motivation: when the destination monitor API rejects a create/update, the
 previous behavior logged only the response body (e.g. ``400 Bad Request -
@@ -14,9 +14,13 @@ on 4xx/5xx, that @application.id is preserved through truncation, and that
 successful (2xx) monitors don't emit spurious warnings.
 """
 
-from unittest.mock import MagicMock
+import asyncio
+from unittest.mock import AsyncMock, MagicMock
+
+import pytest
 
 from datadog_sync.model.monitors import _summarize_query_for_log, _log_monitor_http_error
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 
 def _make_err(status_code):
@@ -66,9 +70,25 @@ def test_summarize_long_query_appid_at_start_preserved():
     assert "@application.id:xyz-1" in out
 
 
+def test_summarize_pathological_appid_token_still_bounded():
+    """If the @application.id: value itself is unreasonably long (attacker,
+    malformed, or a future field-shape change), the summarizer must still
+    produce output bounded by the overall cap."""
+    huge_token = "@application.id:" + ("Z" * 5000)
+    q = "prefix " + huge_token + " suffix"
+    out = _summarize_query_for_log(q)
+    # The overall output must be bounded; the exact upper bound is the
+    # length cap plus a small constant for ellipses.
+    assert len(out) <= 2100  # 2000 cap + a few ellipses worth of slack
+    # The token prefix is still visible so operators know what happened.
+    assert "@application.id:" in out
+
+
 def test_log_monitor_http_error_skipped_on_2xx(caplog):
+    caplog.set_level("WARNING", logger="datadog_sync_cli")
     _log_monitor_http_error("42", "create", {"query": "q", "type": "metric alert"}, _make_err(200))
-    assert "monitor create failed" not in caplog.text
+    # Empty caplog.records is the stronger assertion — no warning emitted at all.
+    assert [r for r in caplog.records if r.levelname == "WARNING"] == []
 
 
 def test_log_monitor_http_error_emitted_on_4xx(caplog):
@@ -96,3 +116,57 @@ def test_log_monitor_http_error_emitted_on_5xx(caplog):
     assert "status=512" in caplog.text
     assert "id=85192266" in caplog.text
     assert "'query alert'" in caplog.text
+
+
+def test_summarize_handles_non_string_query_repr():
+    """Formula / multi-query monitors sometimes populate `queries: [...]`
+    instead of a single `query` string. Ensure the summarizer stringifies
+    without exploding.
+    """
+    q = ["query1", "query2 with @application.id:abc-1"]
+    out = _summarize_query_for_log(q)
+    assert out is not None
+    # repr(list) preserves the app.id token as a substring, so the truncation
+    # path can still preserve it (short input here — no truncation triggered).
+    assert "@application.id:abc-1" in out
+
+
+def test_summarize_handles_non_string_query_beyond_cap():
+    """Non-string query that exceeds the cap still gets truncated safely."""
+    q = ["x" * 3000]
+    out = _summarize_query_for_log(q)
+    assert out is not None
+    assert len(out) <= 2000
+
+
+def test_end_to_end_create_error_logs_query(caplog):
+    """Drive create_resource -> destination raise -> _log_monitor_http_error,
+    proving the WARN fires from the real error path, not just from a direct
+    call to the helper."""
+    from datadog_sync.model.monitors import Monitors
+
+    caplog.set_level("WARNING", logger="datadog_sync_cli")
+
+    # Assemble a Monitors instance with a mocked destination client.
+    config = MagicMock()
+    resource = {"query": "rum(\"@application.id:c123c907-abc\").last(\"5m\") > 5", "type": "rum alert"}
+
+    class FakeErrorResp:
+        status = 400
+        message = "Bad Request"
+        headers = {}
+
+    err = CustomClientHTTPError(FakeErrorResp(), message='{"errors":["Invalid query"]}')
+
+    dest_client = MagicMock()
+    dest_client.post = AsyncMock(side_effect=err)
+    config.destination_client = dest_client
+
+    m = Monitors(config)
+
+    with pytest.raises(CustomClientHTTPError):
+        asyncio.run(m.create_resource("mon-1", resource))
+
+    warns = [r for r in caplog.records if r.levelname == "WARNING"]
+    assert any("monitor create failed" in r.getMessage() for r in warns)
+    assert any("@application.id:c123c907-abc" in r.getMessage() for r in warns)

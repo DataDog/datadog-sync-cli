@@ -115,6 +115,12 @@ class ResourceConfig:
         # fresh loop each time). Always construct inside init_async() which
         # runs under the loop we're going to use.
         self.async_lock = Lock()
+        # Always clear async_semaphore first so a re-init with
+        # max_concurrent=None/0 disables the cap. Long-lived wrappers that
+        # reuse the same Configuration across orgs (setting a cap for one org
+        # then unsetting it for the next) would otherwise keep honoring a
+        # stale semaphore from the previous org.
+        self.async_semaphore = None
         if self.max_concurrent and self.max_concurrent > 0:
             self.async_semaphore = Semaphore(self.max_concurrent)
 
