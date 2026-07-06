@@ -23,9 +23,11 @@ from datadog_sync.model.monitors import _summarize_query_for_log, _log_monitor_h
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 
-def _make_err(status_code):
+def _make_err(status_code, str_value=None):
     err = MagicMock()
     err.status_code = status_code
+    if str_value is not None:
+        err.__str__.return_value = str_value
     return err
 
 
@@ -121,6 +123,7 @@ def test_log_monitor_http_error_emitted_on_4xx(caplog):
     assert "id=142464149" in caplog.text
     assert "'rum alert'" in caplog.text
     assert "@application.id:c123c907-..." in caplog.text
+    assert "reason=" in caplog.text
 
 
 def test_log_monitor_http_error_emitted_on_5xx(caplog):
@@ -133,6 +136,31 @@ def test_log_monitor_http_error_emitted_on_5xx(caplog):
     assert "status=512" in caplog.text
     assert "id=85192266" in caplog.text
     assert "'query alert'" in caplog.text
+    assert "reason=" in caplog.text
+
+
+def test_reason_is_truncated(caplog):
+    """The server's failure reason must be truncated so a huge/pathological
+    response body can't bloat the log line."""
+    caplog.set_level("WARNING", logger="datadog_sync_cli")
+    huge_reason = "x" * 5000
+    resource = {"query": "avg(last_1h):anomalies(...)", "type": "query alert"}
+    _log_monitor_http_error("99", "create", resource, _make_err(400, str_value=huge_reason))
+    assert "monitor create failed" in caplog.text
+    # The far tail of the huge reason must not appear — proves truncation happened.
+    assert huge_reason not in caplog.text
+    assert ("x" * 200) in caplog.text
+    assert ("x" * 201) not in caplog.text
+
+
+def test_empty_or_none_body_does_not_crash(caplog):
+    """An error whose str() is empty must not crash the logging path and the
+    warning must still be emitted."""
+    caplog.set_level("WARNING", logger="datadog_sync_cli")
+    resource = {"query": "avg(last_1h):anomalies(...)", "type": "query alert"}
+    _log_monitor_http_error("100", "create", resource, _make_err(400, str_value=""))
+    assert "monitor create failed" in caplog.text
+    assert "reason=" in caplog.text
 
 
 def test_summarize_handles_non_string_query_repr():

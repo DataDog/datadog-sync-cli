@@ -248,6 +248,7 @@ class Monitors(BaseResource):
 
 
 _MONITOR_LOG_QUERY_MAX_CHARS = 2000
+_MONITOR_LOG_REASON_MAX_CHARS = 200
 _MONITOR_APPLICATION_ID_RE = re.compile(r"@application\.id:[A-Za-z0-9\-]+")
 
 
@@ -307,11 +308,11 @@ def _log_monitor_http_error(_id: str, action: str, resource: Dict, err: CustomCl
     Prior behaviour logged only the destination's response body (e.g. HAMR-392
     "Invalid query: Check for invalid tags or facets in your query"), forcing
     operators to reach into cloud-storage state to see which monitor query the
-    validator rejected. The status_code gate keeps error-log volume bounded to
-    the classes where the outbound payload is actually informative:
-      * 4xx (validation failures): the query is the direct cause.
-      * 512 / 502-504 (upstream/edge overload): the type + query length help
-        classify whether an expensive-validation class dominates the batch.
+    validator rejected. The gate fires on any status_code >= 400 (both 4xx and
+    5xx): 4xx validation failures where the query is the direct cause, and 5xx
+    upstream/edge overload where the type + query help classify the batch. The
+    server's failure reason (from the exception message) is included, truncated
+    so a large/HTML/empty response body can neither bloat nor break the log.
     """
     if err.status_code < 400:
         return
@@ -321,11 +322,17 @@ def _log_monitor_http_error(_id: str, action: str, resource: Dict, err: CustomCl
     if query is None:
         query = resource.get("queries")
     m_type = resource.get("type")
+    try:
+        reason_text = str(err)
+    except Exception:  # never let logging diagnostics crash the sync path
+        reason_text = ""
+    reason = (reason_text or "")[:_MONITOR_LOG_REASON_MAX_CHARS]
     _log.warning(
-        "monitor %s failed status=%s id=%s type=%r query=%r",
+        "monitor %s failed status=%s id=%s type=%r query=%r reason=%r",
         action,
         err.status_code,
         _id,
         m_type,
         _summarize_query_for_log(query),
+        reason,
     )
