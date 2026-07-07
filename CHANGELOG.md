@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.10.0 / 2026-07-07
+
+### Fixed
+* fix(logs_pipelines): skip update on read-only integration pipelines by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/604
+* fix(metric_percentiles): use PATCH percentiles/{enable,disable} endpoints by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/602
+* fix(sorter): skip transitive dep-only nodes not in --resources by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/610
+### Added
+* [HAMR-392] feat(monitors): per-type concurrency cap, overload backoff, error logging by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/603
+### Changed
+* feat(sync): add --force-missing-dependencies to import command by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/550
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.9.0...4.10.0
+
 ## 4.9.0 / 2026-06-11
 
 ### Fixed
