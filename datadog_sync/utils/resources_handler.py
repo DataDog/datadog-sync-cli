@@ -1066,6 +1066,54 @@ class ResourcesHandler:
                     # so mark the node as complete and continue
                     self.sorter.done(node)
                     continue
+                if (
+                    self.config.state._minimize_reads
+                    and node[0] not in self.config.resources_arg
+                    and node[1] in self.config.state.destination[node[0]]
+                ):
+                    # --minimize-reads + out-of-scope dep whose destination
+                    # is already resolved: safe to skip, and unsafe NOT to.
+                    #
+                    # In minimize-reads mode, only resources_arg types are
+                    # fully loaded up-front. Cross-type dependencies (e.g.
+                    # a dashboard's monitor references) get their
+                    # destination state populated one-at-a-time via
+                    # state.ensure_resource_loaded inside
+                    # _resource_connections. That call loads the dep
+                    # itself but is NOT recursive — the dep's OWN
+                    # references (e.g. a monitor's restricted_roles →
+                    # roles) are not lazy-loaded.
+                    #
+                    # If we dispatched such a dep to _apply_resource_cb,
+                    # its connect_resources() would look up its own
+                    # references in an empty state.destination and raise
+                    # "missing connections" — a spurious error, since the
+                    # parent that needs this dep only needs the dep's
+                    # destination-side mapping (a lookup), not a
+                    # re-application. Skipping keeps the parent's remap
+                    # working while avoiding the spurious error.
+                    #
+                    # We deliberately DO NOT skip:
+                    #   * when _minimize_reads is False — the full load
+                    #     populated every type's state, so the dep's
+                    #     connect_resources() would succeed; skipping
+                    #     would regress full-load runs whose tests /
+                    #     users expect transitive nodes to be applied.
+                    #   * when destination[node[0]][node[1]] is absent —
+                    #     that is the --force-missing-dependencies flow,
+                    #     where _force_missing_dep_import_cb added the
+                    #     dep to the graph precisely so run_sorter would
+                    #     create it before its parents. Skipping there
+                    #     would leave the parent's connect_resources()
+                    #     to fail.
+                    self.config.logger.debug(
+                        "run_sorter: skipping dep-only node %s:%s "
+                        "(minimize-reads; type not in resources_arg; destination already resolved)",
+                        node[0],
+                        node[1],
+                    )
+                    self.sorter.done(node)
+                    continue
                 await self.worker.work_queue.put(node)
             await asyncio.sleep(0)
 
@@ -1074,6 +1122,11 @@ class ResourcesHandler:
 
         Continuously feeds deletion-ready resources to workers in proper order.
         Resources are only deleted after all their dependents are deleted.
+
+        No resources_arg guard needed here (unlike run_sorter): the cleanup
+        graph is built from cleanup_resources, which is already scoped to
+        resources_arg upstream via state.get_resources_to_cleanup(). Every
+        node in this sorter has a type in resources_arg by construction.
         """
         loop = asyncio.get_event_loop()
 
