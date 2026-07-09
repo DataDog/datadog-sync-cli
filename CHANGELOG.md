@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.11.0 / 2026-07-09
+
+### Added
+* feat(http): support HTTP proxy via --http-client-trust-env (HAMR-393) by @nathantournant in https://github.com/DataDog/datadog-sync-cli/pull/615
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.10.0...4.11.0
+
 ## 4.10.0 / 2026-07-07
 
 ### Fixed

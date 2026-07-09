@@ -40,6 +40,45 @@ if TYPE_CHECKING:
 
 _timing_log = logging.getLogger(LOGGER_NAME)
 
+# Cap ids per summary log line so downstream log shippers (syslog: 8KB,
+# journald default: 48KB, Datadog agent: 256KB) don't silently truncate.
+# 50 UUIDs * ~40 chars = ~2KB, well under every common cap.
+_SUMMARY_ID_CHUNK = 50
+
+
+def _emit_apply_summary(logger, counter) -> None:
+    """Emit per-resource-type summary of failed / missing-deps source ids.
+
+    Chunks ids into groups of _SUMMARY_ID_CHUNK per WARN line so no single
+    line exceeds common log-shipper truncation thresholds. Preserves list-
+    insertion order (chronological failure order) rather than sorting —
+    operators debugging a cascade usually want to see WHICH failure happened
+    first, not lexicographic order.
+    """
+    def _chunked_emit(rt: str, action_desc: str, ids: List[str]) -> None:
+        total = len(ids)
+        for start in range(0, total, _SUMMARY_ID_CHUNK):
+            chunk = ids[start:start + _SUMMARY_ID_CHUNK]
+            end = min(start + _SUMMARY_ID_CHUNK, total)
+            logger.warning(
+                "sync summary: %s %s [%d-%d of %d]: %s",
+                rt,
+                action_desc,
+                start + 1,
+                end,
+                total,
+                ", ".join(chunk),
+            )
+
+    for rt in sorted(counter.failed_ids_by_type.keys()):
+        ids = counter.failed_ids_by_type[rt]
+        if ids:
+            _chunked_emit(rt, "failed source ids", ids)
+    for rt in sorted(counter.skipped_missing_deps_by_type.keys()):
+        ids = counter.skipped_missing_deps_by_type[rt]
+        if ids:
+            _chunked_emit(rt, "skipped for missing dependencies", ids)
+
 
 def _list_time_filter_passes(r_class, config, resource) -> bool:
     """Run the user's --filter at LIST-time, deferring list-unsafe filters.
@@ -319,7 +358,27 @@ class ResourcesHandler:
         self.worker.counter.filtered = filtered_count
         self.config.logger.info(f"finished syncing resource items: {self.worker.counter}.")
 
+        # Persist state BEFORE emitting the summary logs. If the logger backend
+        # rejects a large payload (e.g. syslog handler with an ~8KB line cap
+        # truncating a batch of 600 UUIDs) or any handler in the chain raises,
+        # we must not lose the on-disk state that downstream sync-cli
+        # invocations depend on. Any exception from the summary loops is
+        # caught below so state persistence stays unconditional.
         self.config.state.dump_state()
+
+        # Per-resource-type summary of failed / missing-deps ids. Emitted so
+        # subsequent sync-cli invocations (a separate process per resource
+        # type in the managed-sync wrapper) can correlate cascade failures
+        # back to specific source ids. Ids are chunked at
+        # _SUMMARY_ID_CHUNK per log line to keep individual lines well below
+        # common log-shipper truncation thresholds (~8-16KB) while remaining
+        # greppable via "sync summary:" plus an id substring.
+        try:
+            _emit_apply_summary(self.config.logger, self.worker.counter)
+        except Exception as e:
+            self.config.logger.warning(
+                "sync summary emission failed: %s. State was already persisted.", e
+            )
 
     def _maybe_refresh_destination_state(self, resource_types) -> None:
         """Optional refresh of state.destination before workers dispatch.
@@ -432,14 +491,25 @@ class ResourcesHandler:
                 resource_type=resource_type,
                 _id=_id,
             )
-            self.worker.counter.increment_skipped()
+            # Track this source id in the counter's missing-deps bucket so
+            # apply_resources can emit a targeted per-type summary. Downstream
+            # sync-cli invocations for other resource types (each is a
+            # separate process reading state from disk) can correlate the
+            # cascade by matching failed source ids against the previous
+            # process's summary log.
+            self.worker.counter.increment_skipped(
+                resource_type=resource_type, _id=_id, missing_deps=True
+            )
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, _id, "sync", "skipped", reason=_reason, failure_class=_fc)
             await r_class._send_action_metrics(
                 Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:connection_error"]
             )
         except Exception as e:
-            self.worker.counter.increment_failure()
+            # Track the source id in the counter's failed-ids bucket so
+            # apply_resources can emit a targeted per-type summary at the
+            # end of the run.
+            self.worker.counter.increment_failure(resource_type=resource_type, _id=_id)
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, _id, "sync", "failure", reason=_reason, failure_class=_fc)
             # format_exc_for_log guards against empty-str() exceptions producing blank log bodies.
@@ -653,6 +723,12 @@ class ResourcesHandler:
                     self.config.source_client, ids, max_concurrent_reads=mcr
                 )
             except Exception as e:
+                # Whole-type discovery failure (get_resources_by_ids raised
+                # before yielding per-id results). No specific source id in
+                # scope, so this can't populate failed_ids_by_type — the
+                # aggregate `failure` count still ticks. Downstream cascade
+                # analysis for this class needs the top-of-log error line
+                # emitted below.
                 self.worker.counter.increment_failure()
                 _reason, _fc = self._sanitize_reason(e)
                 self._emit(resource_type, "", "import", "failure", reason=_reason, failure_class=_fc)
@@ -668,14 +744,24 @@ class ResourcesHandler:
                     "skipped",
                     reason="resource not found in source (deleted between enumeration and fetch)",
                 )
-                self.worker.counter.increment_skipped()
+                # Missing-in-source ids are exactly the class of skipped
+                # resource whose id downstream sync-cli invocations need to
+                # correlate — a monitor that references this id will later
+                # fail its connect_resources.
+                self.worker.counter.increment_skipped(
+                    resource_type=resource_type, _id=mid, missing_deps=True
+                )
             for eid, cls, reason in errored:
                 if cls == "skipped":
                     self._emit(resource_type, eid, "import", "skipped", reason=reason)
-                    self.worker.counter.increment_skipped()
+                    self.worker.counter.increment_skipped(
+                        resource_type=resource_type, _id=eid, missing_deps=True
+                    )
                 else:
                     self._emit(resource_type, eid, "import", "failure", reason=reason)
-                    self.worker.counter.increment_failure()
+                    self.worker.counter.increment_failure(
+                        resource_type=resource_type, _id=eid
+                    )
 
             # Threshold check — emit a log line containing the literal "rate limit"
             # substring so downstream consumers that scan subprocess output for a
@@ -701,10 +787,14 @@ class ResourcesHandler:
             self.worker.counter.increment_success()
             tmp_storage[resource_type] = get_resp
         except (asyncio.TimeoutError, TimeoutError):
+            # Whole-type list failure (legacy path). No per-id available;
+            # aggregate `failure` count ticks. Cascade analysis: search
+            # "TimeoutError while getting resources" for the type.
             self.worker.counter.increment_failure()
             self._emit(resource_type, "", "import", "failure", reason="TimeoutError", failure_class="http_timeout")
             self.config.logger.error(f"TimeoutError while getting resources {resource_type}")
         except Exception as e:
+            # Whole-type list failure (legacy path). Same reasoning as above.
             self.worker.counter.increment_failure()
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, "", "import", "failure", reason=_reason, failure_class=_fc)
@@ -747,6 +837,9 @@ class ResourcesHandler:
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, _id, "import", "filtered", reason=_reason, failure_class=_fc)
         except SkipResource as e:
+            # User-intent skip (filter/status/etc.) — NOT a missing-dependency
+            # class. Deliberately not tracked in skipped_missing_deps_by_type;
+            # a downstream cascade would not want to grep these ids.
             self.worker.counter.increment_skipped()
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, _id, "import", "skipped", reason=_reason, failure_class=_fc)
@@ -754,7 +847,7 @@ class ResourcesHandler:
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.debug(str(e))
         except Exception as e:
-            self.worker.counter.increment_failure()
+            self.worker.counter.increment_failure(resource_type=resource_type, _id=_id)
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, _id, "import", "failure", reason=_reason, failure_class=_fc)
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE.value)
@@ -1066,6 +1159,8 @@ class ResourcesHandler:
             self._emit(resource_type, _id, "delete", "success")
             await r_class._send_action_metrics("delete", _id, Status.SUCCESS.value)
         except SkipResource as e:
+            # Deliberate skip (built-in role, invalid pipeline, etc.) — not a
+            # cascade signal. Numeric-only accounting.
             self.worker.counter.increment_skipped()
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, _id, "delete", "skipped", reason=_reason, failure_class=_fc)
@@ -1073,7 +1168,7 @@ class ResourcesHandler:
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.info(f"skip deleting resource: {str(e)}", resource_type=resource_type, _id=_id)
         except Exception as e:
-            self.worker.counter.increment_failure()
+            self.worker.counter.increment_failure(resource_type=resource_type, _id=_id)
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, _id, "delete", "failure", reason=_reason, failure_class=_fc)
             await r_class._send_action_metrics("delete", _id, Status.FAILURE.value)

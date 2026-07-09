@@ -283,6 +283,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     timeout = kwargs.get("http_client_timeout")
     send_metrics = kwargs.get("send_metrics")
     verify_ssl = kwargs.get("verify_ssl_certificates", True)
+    trust_env = kwargs.get("http_client_trust_env", False)
 
     # JWT takes precedence over API keys, so warn if user provided both
     if (kwargs.get("source_jwt") and kwargs.get("source_api_key")) or (
@@ -303,7 +304,15 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     else:
         logger.warning("Source authentication: No credentials provided")
 
-    source_client = CustomClient(source_api_url, source_auth, retry_timeout, timeout, send_metrics, verify_ssl)
+    source_client = CustomClient(
+        source_api_url,
+        source_auth,
+        retry_timeout,
+        timeout,
+        send_metrics,
+        verify_ssl=verify_ssl,
+        trust_env=trust_env,
+    )
 
     destination_auth = {}
     # JWT takes precedence over API keys
@@ -324,7 +333,8 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         retry_timeout,
         timeout,
         send_metrics,
-        verify_ssl,
+        verify_ssl=verify_ssl,
+        trust_env=trust_env,
     )
 
     # Additional settings
@@ -425,7 +435,8 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             retry_timeout,
             timeout,
             send_metrics,
-            verify_ssl,
+            verify_ssl=verify_ssl,
+            trust_env=trust_env,
         )
         source_resources_path = f"{destination_resources_path}/.backup/{str(time.time())}"
 
