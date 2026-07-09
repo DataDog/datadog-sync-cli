@@ -32,7 +32,10 @@ class SyntheticsTests(BaseResource):
                 "config.configVariables.id",
                 "config.variables.id",
             ],
-            "roles": ["options.restricted_roles"],
+            "roles": [
+                "options.restricted_roles",
+                "restriction_policy.bindings.principals",
+            ],
             "rum_applications": ["options.rumSettings.applicationId"],
             "synthetics_mobile_applications": [
                 "options.mobileApplication.applicationId",
@@ -42,6 +45,8 @@ class SyntheticsTests(BaseResource):
                 "mobileApplicationsVersions",
                 "options.mobileApplication.referenceId",
             ],
+            "users": ["restriction_policy.bindings.principals"],
+            "teams": ["restriction_policy.bindings.principals"],
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
@@ -90,6 +95,8 @@ class SyntheticsTests(BaseResource):
     network_test_path: str = "/api/v2/synthetics/tests/network/{}"
     network_base_path: str = "/api/v2/synthetics/tests/network"
     network_delete_path: str = "/api/v2/synthetics/tests/bulk-delete"
+    current_user_path: str = "/api/v2/current_user"
+    org_principal: Optional[str] = None
     get_params = {"include_metadata": "true"}
 
     def __init__(self, config):
@@ -245,8 +252,26 @@ class SyntheticsTests(BaseResource):
             "source_status": source_status,
         }
 
+        # org: principals in restriction_policy bindings must be remapped from the
+        # source org UUID to the destination org UUID; otherwise the destination API
+        # rejects the update with "cross-org principals are not supported".
+        # Mirrors the pattern in monitors.py.
+        if self.org_principal and resource.get("restriction_policy"):
+            for binding in resource["restriction_policy"].get("bindings") or []:
+                for i, principal in enumerate(binding.get("principals") or []):
+                    if principal.startswith("org:"):
+                        binding["principals"][i] = self.org_principal
+                        break
+
     async def pre_apply_hook(self) -> None:
-        pass
+        destination_client = self.config.destination_client
+        try:
+            resp = await destination_client.get(self.current_user_path)
+            org_id = resp["data"]["relationships"]["org"]["data"]["id"]
+            self.org_principal = f"org:{org_id}"
+        except Exception as e:
+            self.config.logger.error(f"Failed to get org details: {e}")
+            raise
 
     @staticmethod
     def _replace_variable_public_id(resource: Dict, source_public_id: str, dest_public_id: str) -> bool:
@@ -446,6 +471,33 @@ class SyntheticsTests(BaseResource):
             if r_obj.get("referenceType") == "latest":
                 return []
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
+        elif key == "principals":
+            # Remap user:/role:/team: principals in restriction_policy bindings.
+            # org: principals are handled in pre_resource_action_hook before this runs.
+            # Each resource_to_connect pass handles only its type; other types pass through silently.
+            # Mirrors the pattern in monitors.py.
+            users = self.config.state.destination["users"]
+            roles = self.config.state.destination["roles"]
+            teams = self.config.state.destination["teams"]
+            failed_connections = []
+            for i, principal in enumerate(r_obj[key]):
+                _type, _id = principal.split(":", 1)
+                if resource_to_connect == "users" and _type == "user":
+                    if _id in users:
+                        r_obj[key][i] = f"user:{users[_id]['id']}"
+                    else:
+                        failed_connections.append(_id)
+                elif resource_to_connect == "roles" and _type == "role":
+                    if _id in roles:
+                        r_obj[key][i] = f"role:{roles[_id]['id']}"
+                    else:
+                        failed_connections.append(_id)
+                elif resource_to_connect == "teams" and _type == "team":
+                    if _id in teams:
+                        r_obj[key][i] = f"team:{teams[_id]['id']}"
+                    else:
+                        failed_connections.append(_id)
+            return failed_connections
         else:
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
 
@@ -469,4 +521,14 @@ class SyntheticsTests(BaseResource):
             if r_obj.get("referenceType") == "latest":
                 return []
             return super(SyntheticsTests, self).extract_source_ids(key, r_obj, resource_to_connect)
+        elif key == "principals":
+            # Mirror of connect_id principals branch — extract only source IDs whose
+            # prefix maps to the requested resource_to_connect type.
+            type_map = {"user": "users", "role": "roles", "team": "teams"}
+            return [
+                _id
+                for p in r_obj[key]
+                for _type, _id in [p.split(":", 1)]
+                if type_map.get(_type) == resource_to_connect
+            ]
         return super(SyntheticsTests, self).extract_source_ids(key, r_obj, resource_to_connect)
