@@ -210,6 +210,11 @@ For example, `ResourceA` and `ResourceB` are imported and synced, followed by de
 By default all commands check the Datadog Disaster Recovery (DDR) status of both the source and destination organizations before running. This behavior is controlled by the boolean flag `--verify-ddr-status` or the environment variable `DD_VERIFY_DDR_STATUS`. 
 
 
+#### Running behind an HTTP proxy
+
+By default the tool's HTTP client ignores the environment and talks to Datadog directly. To run it behind a proxy, set `--http-client-trust-env true` (or the environment variable `DD_HTTP_CLIENT_TRUST_ENV=true`). When enabled, the underlying HTTP client honors the standard `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` environment variables, as well as credentials from `.netrc`. This option is off by default. Note that when enabled, the configured proxy can observe all Datadog API traffic — including the `DD-API-KEY`, `DD-APPLICATION-KEY`, or JWT headers if it terminates TLS — and `.netrc` credentials may be automatically attached for matching hosts, so only enable this for a proxy you trust.
+
+
 #### State files
 
 By default, a `resources` directory is generated in the current working directory of the user. This directory contains `json` mapping of resources between the source and destination organization. To avoid duplication and loss of mapping, this directory should be retained between tool usage. To override these directories use the `--source-resources-path` and `--destination-resource-path`.

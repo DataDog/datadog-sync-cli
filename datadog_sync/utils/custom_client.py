@@ -157,7 +157,9 @@ class CustomClient:
         retry_timeout: int,
         timeout: int,
         send_metrics: bool,
+        *,
         verify_ssl: bool = True,
+        trust_env: bool = False,
     ) -> None:
         self.url_object = UrlObject.from_str(host)
         self.timeout = timeout
@@ -167,6 +169,7 @@ class CustomClient:
         self.auth = auth
         self.send_metrics = send_metrics
         self.verify_ssl = verify_ssl
+        self.trust_env = trust_env
         # Per-status counter of upstream-overload retries (see _OVERLOAD_STATUSES).
         # Exposed so callers (or a follow-up drainer coroutine) can emit a
         # metric like sync_cli.overload_status_encountered{status=512}. Kept as
@@ -186,13 +189,15 @@ class CustomClient:
     async def _init_session(self):
         if self.verify_ssl:
             ssl_context = ssl.create_default_context(cafile=certifi.where())
-            self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context))
+            self.session = aiohttp.ClientSession(
+                connector=aiohttp.TCPConnector(ssl=ssl_context), trust_env=self.trust_env
+            )
         else:
             log.warning(
                 "WARNING: SSL certificate verification is disabled. "
                 "This is insecure and should only be used in trusted environments."
             )
-            self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False))
+            self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False), trust_env=self.trust_env)
 
         headers = build_default_headers(self.auth)
         self.session.headers.update(headers)
@@ -265,6 +270,7 @@ class CustomClient:
         async with aiohttp.ClientSession(
             connector=aiohttp.TCPConnector(ssl=ssl_ctx),
             headers={"Content-Type": "application/json", "User-Agent": _get_user_agent()},
+            trust_env=self.trust_env,
         ) as session:
             await self._post_raw(session, url, payload)
 

@@ -129,6 +129,19 @@ _common_options = [
         cls=CustomOptionClass,
     ),
     option(
+        "--http-client-trust-env",
+        envvar=constants.DD_HTTP_CLIENT_TRUST_ENV,
+        required=False,
+        type=bool,
+        default=False,
+        show_default=True,
+        help="Trust environment for HTTP proxy configuration. When enabled, the HTTP client reads "
+        "proxy settings (HTTP_PROXY, HTTPS_PROXY, NO_PROXY) and .netrc from the environment. "
+        "The configured proxy will see all request traffic, including auth headers, so only "
+        "enable this for a trusted proxy.",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--verify-ddr-status",
         envvar=constants.DD_VERIFY_DDR_STATUS,
         required=False,
