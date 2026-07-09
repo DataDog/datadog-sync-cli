@@ -373,10 +373,22 @@ class CustomClient:
                             page_number = pagination_config.page_number_func(idx, page_size, page_number)
                         remaining = 1  # after this error we need to keep processing
                     else:
+                        # Non-5xx failure mid-pagination (e.g. 403 Forbidden
+                        # on a specific page). The `break` silently truncates
+                        # the resource list to what we've collected so far;
+                        # downstream sync workers cannot tell the difference
+                        # between "source has N resources" and "source has
+                        # N+K resources but we couldn't read K". Elevate the
+                        # log to make the truncation explicit so operators
+                        # can correlate downstream cascade failures with a
+                        # specific partial-list event.
                         log.error(
-                            f"Error during paginated request for {args[0]} "
-                            f"{pagination_config.page_number_param}: {page_number} "
-                            f"{pagination_config.page_size_param}: {page_size} - {err}"
+                            f"Paginated request TRUNCATED for {args[0]} at "
+                            f"{pagination_config.page_number_param}={page_number} "
+                            f"{pagination_config.page_size_param}={page_size} "
+                            f"after collecting {len(resources)} resource(s). "
+                            f"Downstream syncs may show missing-dependency cascades. "
+                            f"Error: {err}"
                         )
                         break
 

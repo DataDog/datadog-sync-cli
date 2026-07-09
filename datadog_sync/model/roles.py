@@ -147,10 +147,28 @@ class Roles(BaseResource):
                                 retry_count += 1
                                 continue  # Retry with the updated resource
 
-                    # If we couldn't handle the error, re-raise it
+                    # If we couldn't handle the error, log the specific
+                    # source id + name so downstream resource types can
+                    # correlate cascade failures via the apply-summary,
+                    # then re-raise.
+                    self.config.logger.error(
+                        "role sync failed for source id=%s name=%r status=%s: %s",
+                        _id,
+                        role_name,
+                        getattr(e, "status_code", "?"),
+                        e,
+                    )
                     raise
 
-            # If we exhausted retries, raise an error
+            # If we exhausted the permission-retry budget, raise an error.
+            # max_retries is a cap on distinct permission-removals (1 + len
+            # of allow_partial_permissions_roles), not an attempt count.
+            self.config.logger.error(
+                "role sync exhausted permission-retry budget (%d) for source id=%s name=%r",
+                max_retries,
+                _id,
+                role_name,
+            )
             raise Exception(f"Exceeded maximum retries ({max_retries}) while creating role '{role_name}'")
 
         # role already exists at the destination
@@ -227,10 +245,26 @@ class Roles(BaseResource):
                             retry_count += 1
                             continue  # Retry with the updated resource
 
-                # If we couldn't handle the error, re-raise it
+                # If we couldn't handle the error, log the specific source
+                # id + name so downstream cascade tracking is possible, then
+                # re-raise.
+                self.config.logger.error(
+                    "role update failed for source id=%s name=%r status=%s: %s",
+                    _id,
+                    role_name,
+                    getattr(e, "status_code", "?"),
+                    e,
+                )
                 raise
 
-        # If we exhausted retries, raise an error
+        # If we exhausted the permission-retry budget, raise an error.
+        # max_retries is a cap on distinct permission-removals, not attempts.
+        self.config.logger.error(
+            "role update exhausted permission-retry budget (%d) for source id=%s name=%r",
+            max_retries,
+            _id,
+            role_name,
+        )
         raise Exception(f"Exceeded maximum retries ({max_retries}) while updating role '{role_name}'")
 
     async def delete_resource(self, _id: str) -> None:
