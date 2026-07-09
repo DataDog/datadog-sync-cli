@@ -305,6 +305,8 @@ class ResourcesHandler:
         if self.config.create_global_downtime:
             await create_global_downtime(self.config)
 
+        self._maybe_refresh_destination_state(resource_types)
+
         # initalize topological sorters
         self.sorter = init_topological_sorter(self._dependency_graph)
         await self.worker.init_workers(self._apply_resource_cb, lambda: not self.sorter.is_active(), None)
@@ -318,6 +320,48 @@ class ResourcesHandler:
         self.config.logger.info(f"finished syncing resource items: {self.worker.counter}.")
 
         self.config.state.dump_state()
+
+    def _maybe_refresh_destination_state(self, resource_types) -> None:
+        """Optional refresh of state.destination before workers dispatch.
+
+        Guarded by ``--refresh-destination-state-before-apply``. Motivating
+        case: an external wrapper that runs sync-cli once per resource type
+        against a shared storage backend can produce a race where an earlier
+        process writes destination blobs AFTER a later process loaded state
+        at startup — the later process's dependency lookups (connect_resources)
+        then miss ids that are on disk but not in memory. This refresh picks
+        up those late-arriving blobs. See State.reload_destination for
+        insert-if-absent semantics. Never fails apply — logs and proceeds
+        with the pre-refresh state on error.
+        """
+        if not self.config.refresh_destination_state_before_apply:
+            return
+        refresh_start = time.perf_counter()
+        try:
+            added = self.config.state.reload_destination(sorted(resource_types))
+            total_new = sum(added.values())
+            self.config.logger.info(
+                "sync-cli-timing phase=reload_destination types=%d new_entries=%d wall_ms=%d",
+                len(resource_types),
+                total_new,
+                int((time.perf_counter() - refresh_start) * 1000),
+            )
+            if total_new > 0:
+                for rt, n_new in sorted(added.items()):
+                    if n_new > 0:
+                        self.config.logger.debug(
+                            "reload_destination: %s picked up %d new entr%s",
+                            rt,
+                            n_new,
+                            "y" if n_new == 1 else "ies",
+                        )
+        except Exception as e:
+            self.config.logger.warning(
+                "refresh_destination_state_before_apply failed: %s. "
+                "Proceeding with pre-refresh state (may be stale).",
+                e,
+                exc_info=True,
+            )
 
     async def _apply_resource_cb(self, q_item: List) -> None:
         resource_type, _id = q_item

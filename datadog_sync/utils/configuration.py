@@ -77,6 +77,15 @@ class Configuration(object):
     allow_self_lockout: bool
     datadog_host_override: Optional[str] = None
     emit_json: bool = False
+    # Opt-in refresh of state.destination from storage before apply_resources
+    # dispatches workers. Motivating case: an external orchestrator runs
+    # sync-cli once per resource type as separate processes reading a shared
+    # storage backend. An earlier process may write destination blobs AFTER
+    # a later process loaded state at startup, so the later process sees a
+    # stale view. When True, this flag triggers a dest-side reload for the
+    # relevant resource types just before workers run. Default False so
+    # single-process users don't pay the refresh cost.
+    refresh_destination_state_before_apply: bool = False
     command: str = ""
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
     resources: Dict[str, BaseResource] = field(default_factory=dict)
@@ -321,6 +330,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # Additional settings
     force_missing_dependencies = kwargs.get("force_missing_dependencies") or False
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
+    refresh_destination_state_before_apply = kwargs.get("refresh_destination_state_before_apply") or False
     max_workers = kwargs.get("max_workers")
     create_global_downtime = kwargs.get("create_global_downtime")
     validate = kwargs.get("validate")
@@ -562,6 +572,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         filter_operator=filter_operator,
         force_missing_dependencies=force_missing_dependencies,
         skip_failed_resource_connections=skip_failed_resource_connections,
+        refresh_destination_state_before_apply=refresh_destination_state_before_apply,
         max_workers=max_workers,
         cleanup=cleanup,
         create_global_downtime=create_global_downtime,

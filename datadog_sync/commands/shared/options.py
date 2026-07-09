@@ -501,6 +501,28 @@ _force_missing_dependencies_options = [
     ),
 ]
 
+_refresh_destination_state_options = [
+    option(
+        "--refresh-destination-state-before-apply",
+        required=False,
+        is_flag=True,
+        default=False,
+        show_default=True,
+        help=(
+            "Re-read destination-side blobs from the state storage backend "
+            "for the requested resource types just before workers dispatch. "
+            "Intended for orchestrators (e.g. an external wrapper) that run "
+            "sync-cli once per resource type against a shared storage "
+            "backend: an earlier process may write destination blobs AFTER "
+            "a later process loaded state at startup, so the later process "
+            "sees a stale view. Insert-if-absent semantics; never overwrites "
+            "in-flight writes from this run. Off by default because "
+            "single-process users do not have this race."
+        ),
+        cls=CustomOptionClass,
+    ),
+]
+
 _sync_options = [
     option(
         "--create-global-downtime",
@@ -554,6 +576,10 @@ def diffs_options(func: Callable) -> Callable:
 
 def force_missing_dependencies_options(func: Callable) -> Callable:
     return _build_options_helper(func, _force_missing_dependencies_options)
+
+
+def refresh_destination_state_options(func: Callable) -> Callable:
+    return _build_options_helper(func, _refresh_destination_state_options)
 
 
 def sync_options(func: Callable) -> Callable:
