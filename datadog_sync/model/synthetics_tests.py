@@ -306,7 +306,9 @@ class SyntheticsTests(BaseResource):
             presigned_url = resp.strip('"')
 
         ssl_context = ssl.create_default_context(cafile=certifi.where())
-        async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
+        async with aiohttp.ClientSession(
+            connector=aiohttp.TCPConnector(ssl=ssl_context), trust_env=source_client.trust_env
+        ) as session:
             async with session.get(URL(presigned_url, encoded=True)) as response:
                 return await response.read()
 
