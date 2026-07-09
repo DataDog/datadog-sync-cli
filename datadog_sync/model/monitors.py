@@ -104,6 +104,36 @@ class Monitors(BaseResource):
                     "Update the source monitor's options.groupby before syncing.",
                 )
 
+        # Schema migrations for source/destination API drift. Older source payloads
+        # may omit fields the destination API now requires, or carry orphan fields
+        # the destination rejects. Fix the payload before push.
+        options = resource.get("options")
+        if isinstance(options, dict):
+            # custom_schedule now requires on_missing_data. Inject the API's documented
+            # default so the payload is accepted and semantics match the pre-migration
+            # behavior on the source side.
+            scheduling_options = options.get("scheduling_options")
+            if (
+                isinstance(scheduling_options, dict)
+                and scheduling_options.get("custom_schedule")
+                and options.get("on_missing_data") is None
+            ):
+                options["on_missing_data"] = "default"
+                self.config.logger.info(f"monitor {_id}: injected options.on_missing_data=default for custom_schedule")
+
+            # warning_recovery without warning is semantically meaningless: there is
+            # no warning threshold to recover from. Destination rejects; drop the orphan.
+            # Treat an explicit None as absent (older payloads sometimes emit
+            # {"warning": None, "warning_recovery": N}), but keep 0 as a valid threshold.
+            thresholds = options.get("thresholds")
+            if (
+                isinstance(thresholds, dict)
+                and thresholds.get("warning_recovery") is not None
+                and thresholds.get("warning") is None
+            ):
+                thresholds.pop("warning_recovery")
+                self.config.logger.info(f"monitor {_id}: dropped orphan options.thresholds.warning_recovery")
+
         # org: principals are remapped here (before connect_resources runs).
         # user:/role:/team: principals are remapped by connect_id via resource_connections paths.
         if self.org_principal and resource.get("restriction_policy"):
