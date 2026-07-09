@@ -101,14 +101,13 @@ class RestrictionPolicies(BaseResource):
                         break
 
     async def pre_apply_hook(self) -> None:
-        destination_client = self.config.destination_client
-        try:
-            resp = await destination_client.get(self.current_user_path)
-            org_id = resp["data"]["relationships"]["org"]["data"]["id"]
-            self.org_principal = f"org:{org_id}"
-        except Exception as e:
-            self.config.logger.error(f"Failed to get org details: {e}")
-            raise
+        # This resource IS a restriction_policy; every source-side entry has
+        # bindings by construction. Only fetch org UUID if there is at least
+        # one policy to sync. Empty source state skips the API call.
+        self.org_principal = await self._fetch_destination_org_principal(
+            has_policy=lambda r: True,
+            current_user_path=self.current_user_path,
+        )
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client

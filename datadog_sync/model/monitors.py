@@ -144,14 +144,13 @@ class Monitors(BaseResource):
                         break
 
     async def pre_apply_hook(self) -> None:
-        destination_client = self.config.destination_client
-        try:
-            resp = await destination_client.get(self.current_user_path)
-            org_id = resp["data"]["relationships"]["org"]["data"]["id"]
-            self.org_principal = f"org:{org_id}"
-        except Exception as e:
-            self.config.logger.error(f"Failed to get org details: {e}")
-            raise
+        # Only fetch destination org UUID when at least one source monitor
+        # carries a restriction_policy. Policy-free syncs skip the API call
+        # and don't inherit a failure dependency on /api/v2/current_user.
+        self.org_principal = await self._fetch_destination_org_principal(
+            has_policy=lambda r: bool(r.get("restriction_policy")),
+            current_user_path=self.current_user_path,
+        )
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client

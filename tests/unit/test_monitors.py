@@ -387,11 +387,22 @@ class TestMonitorsRestrictionPolicyPrincipals:
 
     # --- pre_apply_hook tests ---
 
+    def _seed_source_with_policy(self, monitors):
+        """Populate source state with one monitor that carries a restriction_policy."""
+        monitors.config.state.source = {
+            "monitors": {"1": {"id": 1, "restriction_policy": {"bindings": [{"principals": ["org:src"]}]}}}
+        }
+
+    def _seed_source_without_policy(self, monitors):
+        """Populate source state with one monitor lacking a restriction_policy."""
+        monitors.config.state.source = {"monitors": {"1": {"id": 1}}}
+
     def test_pre_apply_hook_sets_org_principal_on_success(self):
-        """Successful GET /api/v2/current_user sets org_principal to 'org:{org_uuid}'."""
+        """Source carries a restriction_policy → GET fires → org_principal set."""
         from unittest.mock import AsyncMock
 
         monitors = self._make_monitors()
+        self._seed_source_with_policy(monitors)
         mock_client = AsyncMock()
         mock_client.get = AsyncMock(
             return_value={"data": {"relationships": {"org": {"data": {"id": "00000000-0000-beef-0000-000000000000"}}}}}
@@ -399,15 +410,43 @@ class TestMonitorsRestrictionPolicyPrincipals:
         monitors.config.destination_client = mock_client
         asyncio.run(monitors.pre_apply_hook())
         assert monitors.org_principal == "org:00000000-0000-beef-0000-000000000000"
+        mock_client.get.assert_awaited_once()
 
     def test_pre_apply_hook_leaves_org_principal_none_on_failure(self):
-        """Failed GET /api/v2/current_user leaves org_principal as None and raises."""
+        """Source carries a policy but GET fails → org_principal stays None and error re-raised."""
         from unittest.mock import AsyncMock
 
         monitors = self._make_monitors()
+        self._seed_source_with_policy(monitors)
         mock_client = AsyncMock()
         mock_client.get = AsyncMock(side_effect=Exception("403 Forbidden"))
         monitors.config.destination_client = mock_client
         with pytest.raises(Exception, match="403 Forbidden"):
             asyncio.run(monitors.pre_apply_hook())
         assert monitors.org_principal is None
+
+    def test_pre_apply_hook_skips_current_user_when_no_policy(self):
+        """No source monitor carries a restriction_policy → GET is not called; org_principal stays None."""
+        from unittest.mock import AsyncMock
+
+        monitors = self._make_monitors()
+        self._seed_source_without_policy(monitors)
+        mock_client = AsyncMock()
+        mock_client.get = AsyncMock()  # would raise AssertionError if awaited unexpectedly
+        monitors.config.destination_client = mock_client
+        asyncio.run(monitors.pre_apply_hook())
+        assert monitors.org_principal is None
+        mock_client.get.assert_not_awaited()
+
+    def test_pre_apply_hook_skips_current_user_when_source_empty(self):
+        """Empty source state → GET is not called; org_principal stays None."""
+        from unittest.mock import AsyncMock
+
+        monitors = self._make_monitors()
+        monitors.config.state.source = {"monitors": {}}
+        mock_client = AsyncMock()
+        mock_client.get = AsyncMock()
+        monitors.config.destination_client = mock_client
+        asyncio.run(monitors.pre_apply_hook())
+        assert monitors.org_principal is None
+        mock_client.get.assert_not_awaited()

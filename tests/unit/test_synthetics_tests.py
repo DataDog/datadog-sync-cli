@@ -299,9 +299,22 @@ class TestSyntheticsTestsOrgPrincipalRemap:
         # DR metadata is still injected by the existing hook path.
         assert resource["metadata"]["disaster_recovery"]["source_public_id"] == "abc-123"
 
+    def _seed_source_with_policy(self, synthetics_tests):
+        """Populate source state with one test that carries a restriction_policy."""
+        synthetics_tests.config.state.source = {
+            "synthetics_tests": {
+                "abc-123#1": {"public_id": "abc-123", "restriction_policy": {"bindings": [{"principals": ["org:src"]}]}}
+            }
+        }
+
+    def _seed_source_without_policy(self, synthetics_tests):
+        """Populate source state with one test lacking a restriction_policy."""
+        synthetics_tests.config.state.source = {"synthetics_tests": {"abc-123#1": {"public_id": "abc-123"}}}
+
     def test_pre_apply_hook_sets_org_principal_on_success(self):
-        """Successful GET /api/v2/current_user sets org_principal to 'org:{org_uuid}'."""
+        """Source carries a restriction_policy → GET fires → org_principal set."""
         synthetics_tests = self._make_synthetics_tests()
+        self._seed_source_with_policy(synthetics_tests)
         mock_client = AsyncMock()
         mock_client.get = AsyncMock(
             return_value={"data": {"relationships": {"org": {"data": {"id": "00000000-0000-beef-0000-000000000000"}}}}}
@@ -309,16 +322,40 @@ class TestSyntheticsTestsOrgPrincipalRemap:
         synthetics_tests.config.destination_client = mock_client
         asyncio.run(synthetics_tests.pre_apply_hook())
         assert synthetics_tests.org_principal == "org:00000000-0000-beef-0000-000000000000"
+        mock_client.get.assert_awaited_once()
 
     def test_pre_apply_hook_leaves_org_principal_none_on_failure(self):
-        """Failed GET /api/v2/current_user leaves org_principal as None and raises."""
+        """Source carries a policy but GET fails → org_principal stays None and error re-raised."""
         synthetics_tests = self._make_synthetics_tests()
+        self._seed_source_with_policy(synthetics_tests)
         mock_client = AsyncMock()
         mock_client.get = AsyncMock(side_effect=Exception("403 Forbidden"))
         synthetics_tests.config.destination_client = mock_client
         with pytest.raises(Exception, match="403 Forbidden"):
             asyncio.run(synthetics_tests.pre_apply_hook())
         assert synthetics_tests.org_principal is None
+
+    def test_pre_apply_hook_skips_current_user_when_no_policy(self):
+        """No source test carries a restriction_policy → GET is not called; org_principal stays None."""
+        synthetics_tests = self._make_synthetics_tests()
+        self._seed_source_without_policy(synthetics_tests)
+        mock_client = AsyncMock()
+        mock_client.get = AsyncMock()
+        synthetics_tests.config.destination_client = mock_client
+        asyncio.run(synthetics_tests.pre_apply_hook())
+        assert synthetics_tests.org_principal is None
+        mock_client.get.assert_not_awaited()
+
+    def test_pre_apply_hook_skips_current_user_when_source_empty(self):
+        """Empty source state → GET is not called; org_principal stays None."""
+        synthetics_tests = self._make_synthetics_tests()
+        synthetics_tests.config.state.source = {"synthetics_tests": {}}
+        mock_client = AsyncMock()
+        mock_client.get = AsyncMock()
+        synthetics_tests.config.destination_client = mock_client
+        asyncio.run(synthetics_tests.pre_apply_hook())
+        assert synthetics_tests.org_principal is None
+        mock_client.get.assert_not_awaited()
 
 
 class TestSyntheticsTestsRestrictionPolicyPrincipals:
