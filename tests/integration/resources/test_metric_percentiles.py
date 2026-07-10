@@ -8,4 +8,4 @@ from datadog_sync.models import MetricPercentiles
 
 class TestMetricPercentilesResources(BaseResourcesTestClass):
     resource_type = MetricPercentiles.resource_type
-    field_to_update = "group_by"
+    field_to_update = "include_percentiles"

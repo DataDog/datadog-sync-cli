@@ -116,6 +116,164 @@ class TestMonitorsPreResourceActionHook:
             asyncio.run(monitors.pre_resource_action_hook("44444", resource))
 
 
+class TestMonitorsSchemaMigrations:
+    """Schema migrations that adapt us1-accepted payloads to us3-required shapes."""
+
+    def _make_monitors(self):
+        mock_config = MagicMock()
+        mock_config.state = MagicMock()
+        return Monitors(mock_config)
+
+    def test_custom_schedule_injects_on_missing_data(self):
+        """custom_schedule present, on_missing_data absent -> on_missing_data injected as 'default'."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 140860375,
+            "type": "query alert",
+            "options": {
+                "scheduling_options": {
+                    "custom_schedule": {
+                        "recurrences": [
+                            {
+                                "rrule": "FREQ=WEEKLY;INTERVAL=1",
+                                "timezone": "Europe/London",
+                                "start": "2024-03-06T12:45:00",
+                            }
+                        ]
+                    }
+                }
+            },
+        }
+        asyncio.run(monitors.pre_resource_action_hook("140860375", resource))
+        assert resource["options"]["on_missing_data"] == "default"
+
+    def test_custom_schedule_preserves_existing_on_missing_data(self):
+        """Explicit on_missing_data on source is not overwritten by the injection."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 140860375,
+            "type": "query alert",
+            "options": {
+                "scheduling_options": {"custom_schedule": {"recurrences": []}},
+                "on_missing_data": "show_no_data",
+            },
+        }
+        asyncio.run(monitors.pre_resource_action_hook("140860375", resource))
+        assert resource["options"]["on_missing_data"] == "show_no_data"
+
+    def test_custom_schedule_null_on_missing_data_treated_as_absent(self):
+        """options.on_missing_data=None should be treated as absent and injected with 'default'."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 140860376,
+            "type": "query alert",
+            "options": {
+                "scheduling_options": {"custom_schedule": {"recurrences": []}},
+                "on_missing_data": None,
+            },
+        }
+        asyncio.run(monitors.pre_resource_action_hook("140860376", resource))
+        assert resource["options"]["on_missing_data"] == "default"
+
+    def test_warning_recovery_dropped_when_warning_is_null(self):
+        """warning=None is treated as absent; orphan warning_recovery is dropped."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 64697029,
+            "type": "query alert",
+            "options": {"thresholds": {"warning": None, "warning_recovery": 80}},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("64697029", resource))
+        assert "warning_recovery" not in resource["options"]["thresholds"]
+
+    def test_warning_recovery_preserved_when_warning_is_zero(self):
+        """warning=0 is a valid threshold; warning_recovery must be preserved (even if 0/negative)."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 64697030,
+            "type": "query alert",
+            "options": {"thresholds": {"warning": 0, "warning_recovery": -1}},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("64697030", resource))
+        assert resource["options"]["thresholds"]["warning_recovery"] == -1
+        assert resource["options"]["thresholds"]["warning"] == 0
+
+    def test_no_custom_schedule_no_on_missing_data_injection(self):
+        """Monitors without custom_schedule should not have on_missing_data added."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 1,
+            "type": "query alert",
+            "options": {"thresholds": {"critical": 90}},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("1", resource))
+        assert "on_missing_data" not in resource["options"]
+
+    def test_custom_schedule_empty_dict_does_not_trigger_injection(self):
+        """scheduling_options.custom_schedule falsy (missing or empty) -> no injection."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 2,
+            "type": "query alert",
+            "options": {"scheduling_options": {"custom_schedule": None}},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("2", resource))
+        assert "on_missing_data" not in resource["options"]
+
+    def test_warning_recovery_dropped_when_warning_absent(self):
+        """warning_recovery is stripped when there is no warning threshold to recover from."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 64697028,
+            "type": "query alert",
+            "options": {"thresholds": {"critical": 90, "warning_recovery": 80}},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("64697028", resource))
+        assert "warning_recovery" not in resource["options"]["thresholds"]
+        # unrelated fields untouched
+        assert resource["options"]["thresholds"]["critical"] == 90
+
+    def test_warning_recovery_preserved_when_warning_set(self):
+        """warning_recovery is kept when warning threshold is set — that's the valid shape."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 3,
+            "type": "query alert",
+            "options": {"thresholds": {"critical": 90, "warning": 70, "warning_recovery": 65}},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("3", resource))
+        assert resource["options"]["thresholds"]["warning_recovery"] == 65
+        assert resource["options"]["thresholds"]["warning"] == 70
+
+    def test_schema_migrations_tolerate_missing_options(self):
+        """Monitors without an options dict should pass through unchanged."""
+        monitors = self._make_monitors()
+        resource = {"id": 4, "type": "query alert"}
+        asyncio.run(monitors.pre_resource_action_hook("4", resource))
+        assert "options" not in resource
+
+    def test_schema_migrations_tolerate_null_options(self):
+        """options=None must not crash — matches existing null-safety in the hook."""
+        monitors = self._make_monitors()
+        resource = {"id": 5, "type": "query alert", "options": None}
+        asyncio.run(monitors.pre_resource_action_hook("5", resource))
+        assert resource["options"] is None
+
+    def test_schema_migrations_tolerate_null_scheduling_options(self):
+        """options.scheduling_options=None must not crash the custom_schedule check."""
+        monitors = self._make_monitors()
+        resource = {"id": 6, "type": "query alert", "options": {"scheduling_options": None}}
+        asyncio.run(monitors.pre_resource_action_hook("6", resource))
+        assert "on_missing_data" not in resource["options"]
+
+    def test_schema_migrations_tolerate_null_thresholds(self):
+        """options.thresholds=None must not crash the warning_recovery drop."""
+        monitors = self._make_monitors()
+        resource = {"id": 7, "type": "query alert", "options": {"thresholds": None}}
+        asyncio.run(monitors.pre_resource_action_hook("7", resource))
+        assert resource["options"]["thresholds"] is None
+
+
 class TestMonitorsRestrictionPolicyPrincipals:
     """Test suite for restriction_policy principal remapping in monitors."""
 
