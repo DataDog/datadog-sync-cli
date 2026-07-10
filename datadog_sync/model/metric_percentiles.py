@@ -17,6 +17,8 @@ class MetricPercentiles(BaseResource):
     )
     # Additional MetricPercentiles specific attributes
     metrics_summaries_get_path = "/metric/distribution/list_summaries"
+    enable_percentiles_path = "/metric/distribution/summary_aggr/percentiles/enable"
+    disable_percentiles_path = "/metric/distribution/summary_aggr/percentiles/disable"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         params = {
@@ -27,14 +29,14 @@ class MetricPercentiles(BaseResource):
         return resp
 
     async def import_resource(self, _: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
-        # This resource is not a dependency of any other resource. Hence it is
-        # safe to ignore the _id parameter and rely solely on resource.
-
-        # metric_name => metric
-        metric_name = resource.pop("metric_name")
-        resource["metric"] = metric_name
-
-        return metric_name, resource
+        # The bulk-toggle endpoints only accept metric_names; group_by, aggr_mode,
+        # summary_type, groups_negated, and source cannot be applied via this resource.
+        # Narrow the stored shape so diffs only reflect what we can actually sync.
+        metric_name = resource["metric_name"]
+        return metric_name, {
+            "metric": metric_name,
+            "include_percentiles": bool(resource.get("include_percentiles")),
+        }
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
@@ -46,8 +48,15 @@ class MetricPercentiles(BaseResource):
         return await self.update_resource(_id, resource)
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        # The destination write goes through one of the two bulk-toggle endpoints:
+        #   PATCH /metric/distribution/summary_aggr/percentiles/enable
+        #   PATCH /metric/distribution/summary_aggr/percentiles/disable
+        # Both take {"metric_names": [...]}. Legacy sync-cli POSTed to
+        # /metric/distribution/summary_aggr, which is not a registered route and
+        # returns 403 empty-body at the OBO auth layer.
         destination_client = self.config.destination_client
-        await destination_client.post(self.resource_config.base_path, resource)
+        path = self.enable_percentiles_path if resource.get("include_percentiles") else self.disable_percentiles_path
+        await destination_client.patch(path, {"metric_names": [_id]})
 
         return _id, resource
 

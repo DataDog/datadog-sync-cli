@@ -265,6 +265,7 @@ def test_subprocess_threshold_breach_preserves_partial_state(tmp_path):
             str(source_dir),
             max_concurrent_reads=10,
             threshold=5,
+            extra_flags=["--http-client-retry-timeout=1"],
         )
         # Expect exit 1 due to threshold breach (6% > 5%)
         assert rc == 1, (
@@ -338,6 +339,7 @@ def test_subprocess_below_threshold_failures_exit_zero(tmp_path):
             str(source_dir),
             max_concurrent_reads=10,
             threshold=5,
+            extra_flags=["--http-client-retry-timeout=1"],
         )
         assert rc == 0, (
             f"expected exit 0 (3% < 5% threshold), got {rc}\n" f"STDERR:\n{stderr.decode(errors='replace')[:2000]}"
