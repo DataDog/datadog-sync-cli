@@ -4,16 +4,42 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import logging
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 from asyncio import sleep
 
 from re import match
 
+from datadog_sync.constants import LOGGER_NAME, Metrics
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import DEFAULT_TAGS, check_diff
+from datadog_sync.utils.resource_utils import DEFAULT_TAGS, SkipResource, check_diff
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
+
+_log = logging.getLogger(LOGGER_NAME)
+
+
+def _summarize_diff_keys(diff) -> List[str]:
+    """Extract high-level change locations from a DeepDiff object.
+
+    Returns a de-duplicated list of top-level field names that changed
+    (e.g. ["is_enabled", "filter"]). Used to log which fields would have
+    been written when we're skipping an unsupported update.
+    """
+    if not diff:
+        return []
+    keys = set()
+    for change_type in ("values_changed", "type_changes", "iterable_item_added",
+                        "iterable_item_removed", "dictionary_item_added",
+                        "dictionary_item_removed"):
+        for path in diff.get(change_type, {}) or {}:
+            # DeepDiff paths look like "root['is_enabled']" or "root['filter']['query']"
+            # Extract the first bracketed segment.
+            m = match(r"root\['([^']+)'\]", str(path))
+            if m:
+                keys.add(m.group(1))
+    return sorted(keys)
 
 
 class LogsPipelines(BaseResource):
@@ -119,9 +145,14 @@ class LogsPipelines(BaseResource):
 
         diff = check_diff(self.resource_config, self.destination_integration_pipelines[resource["name"]], resource)
         if diff:
-            # We run an update call if there is a diff between source and destination org resource to ensure that
-            # the integration pipeline is in the correct state (enabled/disabled).
-            return await self.update_resource(_id, resource)
+            # See _handle_read_only_diff for why we do not PUT here.
+            # In create_resource, we return the destination's state instead of
+            # raising so first-sync callers still get a resource dict back and
+            # the ResourcesHandler accounts this as a success (the pipeline is
+            # now in the state map). Subsequent syncs that re-check the diff
+            # go through update_resource, which raises SkipResource so the
+            # handler buckets it correctly.
+            await self._handle_read_only_diff(_id, resource, diff)
 
         return _id, self.config.state.destination[self.resource_type][_id]
 
@@ -134,6 +165,23 @@ class LogsPipelines(BaseResource):
             current_destination_resource["__datadog_sync_invalid"] = True
             return _id, current_destination_resource
 
+        # Integration pipelines (is_read_only=True on the destination) cannot be
+        # updated via the public API -- PUT /api/v1/logs/config/pipelines/<id>
+        # does not route integration-pipeline IDs and returns a 404 that falls
+        # through to the edge web tier as HTML. Raise SkipResource so the
+        # ResourcesHandler counts this as a legitimate skip rather than a
+        # success with a silently-failed PUT, or a failure that retries on the
+        # next dispatch. Fires the same WARN + metric as create_resource.
+        if current_destination_resource.get("is_read_only") or resource.get("is_read_only"):
+            diff = check_diff(self.resource_config, current_destination_resource, resource)
+            if diff:
+                await self._handle_read_only_diff(_id, resource, diff)
+            raise SkipResource(
+                _id,
+                self.resource_type,
+                "Integration pipeline is auto-managed by Datadog and cannot be modified via the public API.",
+            )
+
         destination_client = self.config.destination_client
         resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
@@ -145,6 +193,50 @@ class LogsPipelines(BaseResource):
             resource["name"] = resource["name"].lower()
 
         return _id, resp
+
+    async def _handle_read_only_diff(self, _id: str, resource: Dict, diff) -> None:
+        """Log + metric for the "integration pipeline diverges but cannot be
+        updated via the public API" class.
+
+        Integration pipelines are auto-managed by Datadog
+        (https://docs.datadoghq.com/logs/log_configuration/pipelines/#integration-pipelines).
+        The PUT /api/v1/logs/config/pipelines/<id> endpoint only routes IDs in
+        the custom-pipelines namespace, so any PUT against an integration
+        pipeline returns 404 -- and the 404 falls through to the edge web
+        tier producing an HTML body rather than JSON. We accept the
+        destination's state as authoritative, log a WARNING with a diff
+        summary so the divergence stays visible, and emit a distinct
+        action-metric so operators can dashboard the class.
+
+        Called from both create_resource (first-sync path) and update_resource
+        (subsequent-sync path) so all writes to read-only pipelines are
+        handled consistently.
+        """
+        diff_keys = _summarize_diff_keys(diff)
+        _log.warning(
+            "logs_pipelines: integration pipeline %r (source id=%s) diverges from destination; "
+            "skipping update -- integration pipelines are auto-managed by Datadog and cannot be "
+            "modified via the public API. Diff keys: %s",
+            resource.get("name"),
+            _id,
+            diff_keys or "[unknown]",
+        )
+        try:
+            await self.config.destination_client.send_metric(
+                Metrics.ACTION.value,
+                tags=[
+                    f"resource_type:{self.resource_type}",
+                    "action_type:sync",
+                    "status:skipped",
+                    "action_sub_type:integration_diff_skipped",
+                    f"pipeline_name:{resource.get('name', 'unknown')}",
+                ],
+            )
+        except Exception as e:
+            # Never let metric emission block the return path.
+            self.config.logger.debug(
+                f"logs_pipelines: failed to emit integration_diff_skipped metric: {e}"
+            )
 
     async def delete_resource(self, _id: str) -> None:
         if self.config.state.destination[self.resource_type][_id]["is_read_only"]:
