@@ -6,9 +6,10 @@
 from __future__ import annotations
 from asyncio import AbstractEventLoop, Future, Queue, QueueEmpty, Task, gather, get_event_loop, sleep
 
-from dataclasses import dataclass
+from collections import defaultdict
+from dataclasses import dataclass, field
 from traceback import format_exc
-from typing import Awaitable, Callable, List, Optional
+from typing import Awaitable, Callable, Dict, List, Optional
 
 from tqdm.asyncio import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
@@ -110,6 +111,14 @@ class Counter:
     failure: int = 0
     skipped: int = 0
     filtered: int = 0
+    # Per-resource-type source IDs that failed or were skipped. Populated by
+    # _apply_resource_cb. Used to emit a targeted end-of-apply summary so
+    # subsequent sync-cli invocations (a separate process for a different
+    # resource type) can correlate cascade failures back to specific source
+    # IDs — e.g. "monitors sync couldn't remap roles X, Y, Z" is only
+    # actionable if the roles-sync run logged that X, Y, Z failed.
+    failed_ids_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
+    skipped_missing_deps_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
 
     def __str__(self):
         return (
@@ -118,15 +127,25 @@ class Counter:
 
     def reset_counter(self) -> None:
         self.successes = self.failure = self.skipped = self.filtered = 0
+        self.failed_ids_by_type = defaultdict(list)
+        self.skipped_missing_deps_by_type = defaultdict(list)
 
     def increment_success(self) -> None:
         self.successes += 1
 
-    def increment_failure(self) -> None:
+    def increment_failure(self, resource_type: Optional[str] = None, _id: Optional[str] = None) -> None:
         self.failure += 1
+        # Explicit `is not None` (not truthy) so numeric-0 ids and empty-string
+        # ids still get tracked — future resource types may use them, and
+        # dropping them silently would under-report the summary.
+        if resource_type is not None and _id is not None:
+            self.failed_ids_by_type[resource_type].append(str(_id))
 
-    def increment_skipped(self) -> None:
+    def increment_skipped(self, resource_type: Optional[str] = None, _id: Optional[str] = None,
+                          missing_deps: bool = False) -> None:
         self.skipped += 1
+        if missing_deps and resource_type is not None and _id is not None:
+            self.skipped_missing_deps_by_type[resource_type].append(str(_id))
 
     def increment_filtered(self) -> None:
         self.filtered += 1
