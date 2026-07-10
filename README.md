@@ -210,6 +210,11 @@ For example, `ResourceA` and `ResourceB` are imported and synced, followed by de
 By default all commands check the Datadog Disaster Recovery (DDR) status of both the source and destination organizations before running. This behavior is controlled by the boolean flag `--verify-ddr-status` or the environment variable `DD_VERIFY_DDR_STATUS`. 
 
 
+#### Running behind an HTTP proxy
+
+By default the tool's HTTP client ignores the environment and talks to Datadog directly. To run it behind a proxy, set `--http-client-trust-env true` (or the environment variable `DD_HTTP_CLIENT_TRUST_ENV=true`). When enabled, the underlying HTTP client honors the standard `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` environment variables, as well as credentials from `.netrc`. This option is off by default. Note that when enabled, the configured proxy can observe all Datadog API traffic — including the `DD-API-KEY`, `DD-APPLICATION-KEY`, or JWT headers if it terminates TLS — and `.netrc` credentials may be automatically attached for matching hosts, so only enable this for a proxy you trust.
+
+
 #### State files
 
 By default, a `resources` directory is generated in the current working directory of the user. This directory contains `json` mapping of resources between the source and destination organization. To avoid duplication and loss of mapping, this directory should be retained between tool usage. To override these directories use the `--source-resources-path` and `--destination-resource-path`.
@@ -250,6 +255,7 @@ When running againts multiple destination organizations, a seperate working dire
 | slo_corrections                        | Sync Datadog SLO corrections.                                        |
 | spans_metrics                          | Sync Datadog spans metrics.                                          |
 | synthetics_global_variables            | Sync Datadog synthetic global variables.                             |
+| synthetics_private_locations           | Sync Datadog Synthetics Private Locations. See [DDR guide](docs/synthetics-private-locations.md). |
 | synthetics_tests                       | Sync Datadog synthetic tests.                                        |
 | teams                                  | Sync Datadog teams (excluding permissions).                          |
 | team_memberships                       | Sync Datadog team memberships.                                       |
@@ -297,6 +303,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | slo_corrections                        | service_level_objectives                                         |
 | spans_metrics                          | -                                                                |
 | synthetics_global_variables            | synthetics_tests                                                 |
+| synthetics_private_locations           | -                                                                |
 | synthetics_tests                       | synthetics_global_variables, roles                               |
 | teams                                  | -                                                                |
 | team_memberships                       | teams, users                                                     |

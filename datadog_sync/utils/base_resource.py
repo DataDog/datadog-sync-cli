@@ -6,7 +6,7 @@
 from __future__ import annotations
 import abc
 import asyncio
-from asyncio import Lock
+from asyncio import Lock, Semaphore
 from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Callable, ClassVar, Optional, Dict, List, Tuple, Union
@@ -92,12 +92,46 @@ class ResourceConfig:
     # made metadata-only filters force a per-id GET per item, a wall-clock
     # / rate-limit regression for the common filter-by-name use case.
     list_omitted_attr_prefixes: List[str] = field(default_factory=list)
+    # Optional per-resource-type concurrency cap. When set to a positive int N,
+    # limits _create_resource / _update_resource to at most N in-flight for this
+    # resource type, regardless of the global --max-workers value. Motivating
+    # case: the destination monitors API's edge/proxy layer times out
+    # (HTTP 512) when sync-cli's 32-way worker pool queues too many concurrent
+    # POST/PUT /api/v1/monitor requests. Setting max_concurrent=8 on the
+    # Monitors resource caps the pressure on that specific endpoint without
+    # slowing the other resource types.
+    #
+    # `concurrent=False` continues to serialize a resource type completely (via
+    # `async_lock`). `max_concurrent` is the semaphore-based, N>1 middle ground.
+    # When both are set, `concurrent=False` wins (serial behavior).
+    max_concurrent: Optional[int] = None
+    async_semaphore: Optional[Semaphore] = None
 
     async def init_async(self) -> None:
+        # Both Lock and Semaphore bind to the current running event loop on
+        # construction (Python 3.9). Instantiating them at dataclass
+        # __post_init__ time can pin them to a loop that's about to be
+        # replaced (e.g. tests that call asyncio.run per test-case get a
+        # fresh loop each time). Always construct inside init_async() which
+        # runs under the loop we're going to use.
         self.async_lock = Lock()
+        # Always clear async_semaphore first so a re-init with
+        # max_concurrent=None/0 disables the cap. Long-lived wrappers that
+        # reuse the same Configuration across orgs (setting a cap for one org
+        # then unsetting it for the next) would otherwise keep honoring a
+        # stale semaphore from the previous org.
+        self.async_semaphore = None
+        if self.max_concurrent and self.max_concurrent > 0:
+            self.async_semaphore = Semaphore(self.max_concurrent)
 
     def __post_init__(self) -> None:
         self.build_excluded_attributes()
+        # Note: async primitives (async_lock, async_semaphore) are constructed
+        # by init_async() so they bind to the correct running loop. Prior
+        # code constructed async_lock here when concurrent=False; keep that
+        # for backward compatibility with callers that acquire the lock
+        # without first calling init_async(). Semaphore has no such legacy
+        # path, so it's created only in init_async().
         if not self.concurrent:
             self.async_lock = Lock()
 

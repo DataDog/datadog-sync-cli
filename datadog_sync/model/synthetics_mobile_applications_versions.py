@@ -77,9 +77,11 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
 
         # download the blob the blob
         ssl_context = ssl.create_default_context(cafile=certifi.where())
-        session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context))
-        async with session.get(presigned_download_url) as response:
-            blob = await response.read()
+        async with aiohttp.ClientSession(
+            connector=aiohttp.TCPConnector(ssl=ssl_context), trust_env=source_client.trust_env
+        ) as download_session:
+            async with download_session.get(presigned_download_url) as response:
+                blob = await response.read()
         app_size = len(blob)
         self.config.logger.debug(f"app_size: {app_size}")
 
@@ -121,6 +123,9 @@ class SyntheticsMobileApplicationsVersions(BaseResource):
         self.config.logger.debug(f"file_name: {file_name}")
 
         # post to multipart presigned urls
+        session = aiohttp.ClientSession(
+            connector=aiohttp.TCPConnector(ssl=ssl_context), trust_env=source_client.trust_env
+        )
         try:
             complete_parts = []
             for part in parts["parts"]:

@@ -249,5 +249,193 @@ class TestSyntheticsTestsRumConnectionBehavior:
         assert rum_settings["clientTokenId"] == 111222
 
 
+class TestSyntheticsTestsOrgPrincipalRemap:
+    """Test suite for restriction_policy org: principal remapping in synthetics_tests.
+
+    Mirrors the tests in test_monitors.py for the same feature. See HAMR-392 Jul8-T15.
+    """
+
+    def _make_synthetics_tests(self):
+        mock_config = MagicMock()
+        mock_config.state = MagicMock()
+        mock_config.state.source = {"synthetics_tests": {}}
+        return SyntheticsTests(mock_config)
+
+    def test_pre_resource_action_hook_replaces_org_principal(self):
+        """org: principal in restriction_policy bindings is replaced when org_principal is set."""
+        synthetics_tests = self._make_synthetics_tests()
+        synthetics_tests.org_principal = "org:dest-pub-id"
+        resource = {
+            "type": "api",
+            "public_id": "abc-123",
+            "status": "live",
+            "restriction_policy": {
+                "bindings": [{"principals": ["org:src-pub-id", "user:some-user"], "relation": "editor"}]
+            },
+        }
+        asyncio.run(synthetics_tests.pre_resource_action_hook("abc-123#12345", resource))
+        assert resource["restriction_policy"]["bindings"][0]["principals"][0] == "org:dest-pub-id"
+        assert resource["restriction_policy"]["bindings"][0]["principals"][1] == "user:some-user"
+
+    def test_pre_resource_action_hook_skips_org_when_no_org_principal(self):
+        """org: principal is left unchanged when org_principal is None."""
+        synthetics_tests = self._make_synthetics_tests()
+        assert synthetics_tests.org_principal is None
+        resource = {
+            "type": "api",
+            "public_id": "abc-123",
+            "status": "live",
+            "restriction_policy": {"bindings": [{"principals": ["org:src-pub-id"], "relation": "editor"}]},
+        }
+        asyncio.run(synthetics_tests.pre_resource_action_hook("abc-123#12345", resource))
+        assert resource["restriction_policy"]["bindings"][0]["principals"][0] == "org:src-pub-id"
+
+    def test_pre_resource_action_hook_no_restriction_policy_is_noop(self):
+        """Resources without restriction_policy are unaffected by the remap step."""
+        synthetics_tests = self._make_synthetics_tests()
+        synthetics_tests.org_principal = "org:dest-pub-id"
+        resource = {"type": "api", "public_id": "abc-123", "status": "live"}
+        asyncio.run(synthetics_tests.pre_resource_action_hook("abc-123#12345", resource))
+        # DR metadata is still injected by the existing hook path.
+        assert resource["metadata"]["disaster_recovery"]["source_public_id"] == "abc-123"
+
+    def test_pre_apply_hook_sets_org_principal_on_success(self):
+        """Successful GET /api/v2/current_user sets org_principal to 'org:{org_uuid}'."""
+        synthetics_tests = self._make_synthetics_tests()
+        mock_client = AsyncMock()
+        mock_client.get = AsyncMock(
+            return_value={"data": {"relationships": {"org": {"data": {"id": "00000000-0000-beef-0000-000000000000"}}}}}
+        )
+        synthetics_tests.config.destination_client = mock_client
+        asyncio.run(synthetics_tests.pre_apply_hook())
+        assert synthetics_tests.org_principal == "org:00000000-0000-beef-0000-000000000000"
+
+    def test_pre_apply_hook_leaves_org_principal_none_on_failure(self):
+        """Failed GET /api/v2/current_user leaves org_principal as None and raises."""
+        synthetics_tests = self._make_synthetics_tests()
+        mock_client = AsyncMock()
+        mock_client.get = AsyncMock(side_effect=Exception("403 Forbidden"))
+        synthetics_tests.config.destination_client = mock_client
+        with pytest.raises(Exception, match="403 Forbidden"):
+            asyncio.run(synthetics_tests.pre_apply_hook())
+        assert synthetics_tests.org_principal is None
+
+
+class TestSyntheticsTestsRestrictionPolicyPrincipals:
+    """Test suite for restriction_policy user:/role:/team: principal remapping.
+
+    Mirrors TestMonitorsRestrictionPolicyPrincipals — synthetics_tests must
+    remap prefixed principals via connect_id when resource_connections routes
+    them here per resource type.
+    """
+
+    def _make_synthetics_tests(self, destination_state=None):
+        from collections import defaultdict
+
+        mock_config = MagicMock()
+        mock_config.state = MagicMock()
+        state = defaultdict(dict)
+        if destination_state:
+            state.update(destination_state)
+        mock_config.state.destination = state
+        return SyntheticsTests(mock_config)
+
+    def test_connect_id_remaps_user_principal(self):
+        """user: principal is remapped when user exists in destination state."""
+        state = {
+            "users": {"src-user-id": {"id": "dst-user-id"}},
+            "roles": {},
+            "teams": {},
+        }
+        synthetics_tests = self._make_synthetics_tests(state)
+        binding = {"principals": ["user:src-user-id", "role:src-role-id"], "relation": "editor"}
+        result = synthetics_tests.connect_id("principals", binding, "users")
+        assert binding["principals"][0] == "user:dst-user-id"
+        assert binding["principals"][1] == "role:src-role-id"
+        assert result == []
+
+    def test_connect_id_remaps_role_principal(self):
+        """role: principal is remapped when role exists in destination state."""
+        state = {
+            "users": {},
+            "roles": {"src-role-id": {"id": "dst-role-id"}},
+            "teams": {},
+        }
+        synthetics_tests = self._make_synthetics_tests(state)
+        binding = {"principals": ["role:src-role-id"], "relation": "viewer"}
+        result = synthetics_tests.connect_id("principals", binding, "roles")
+        assert binding["principals"][0] == "role:dst-role-id"
+        assert result == []
+
+    def test_connect_id_remaps_team_principal(self):
+        """team: principal is remapped when team exists in destination state."""
+        state = {
+            "users": {},
+            "roles": {},
+            "teams": {"src-team-id": {"id": "dst-team-id"}},
+        }
+        synthetics_tests = self._make_synthetics_tests(state)
+        binding = {"principals": ["team:src-team-id"], "relation": "editor"}
+        result = synthetics_tests.connect_id("principals", binding, "teams")
+        assert binding["principals"][0] == "team:dst-team-id"
+        assert result == []
+
+    def test_connect_id_missing_user_returns_failed(self):
+        """user: principal not in destination state is added to failed_connections."""
+        state = {"users": {}, "roles": {}, "teams": {}}
+        synthetics_tests = self._make_synthetics_tests(state)
+        binding = {"principals": ["user:missing-user-id"], "relation": "editor"}
+        result = synthetics_tests.connect_id("principals", binding, "users")
+        assert binding["principals"][0] == "user:missing-user-id"
+        assert result == ["missing-user-id"]
+
+    def test_connect_id_skips_non_matching_type(self):
+        """user: principal is not modified when resource_to_connect is roles."""
+        state = {"users": {}, "roles": {}, "teams": {}}
+        synthetics_tests = self._make_synthetics_tests(state)
+        binding = {"principals": ["user:some-user-id"], "relation": "editor"}
+        result = synthetics_tests.connect_id("principals", binding, "roles")
+        assert binding["principals"][0] == "user:some-user-id"
+        assert result == []
+
+    def test_connect_id_org_principal_passes_through_silently(self):
+        """org: principal is not modified by connect_id and not added to failed_connections."""
+        state = {"users": {}, "roles": {}, "teams": {}}
+        synthetics_tests = self._make_synthetics_tests(state)
+        binding = {"principals": ["org:some-org-id"], "relation": "editor"}
+        result = synthetics_tests.connect_id("principals", binding, "users")
+        assert binding["principals"][0] == "org:some-org-id"
+        assert result == []
+
+    def test_extract_source_ids_users(self):
+        """extract_source_ids returns only user: IDs when resource_to_connect is users."""
+        synthetics_tests = self._make_synthetics_tests()
+        binding = {"principals": ["user:u1", "role:r1", "team:t1", "org:o1"], "relation": "editor"}
+        ids = synthetics_tests.extract_source_ids("principals", binding, "users")
+        assert ids == ["u1"]
+
+    def test_extract_source_ids_roles(self):
+        """extract_source_ids returns only role: IDs when resource_to_connect is roles."""
+        synthetics_tests = self._make_synthetics_tests()
+        binding = {"principals": ["user:u1", "role:r1", "role:r2", "team:t1"], "relation": "editor"}
+        ids = synthetics_tests.extract_source_ids("principals", binding, "roles")
+        assert ids == ["r1", "r2"]
+
+    def test_extract_source_ids_teams(self):
+        """extract_source_ids returns only team: IDs when resource_to_connect is teams."""
+        synthetics_tests = self._make_synthetics_tests()
+        binding = {"principals": ["user:u1", "team:t1"], "relation": "editor"}
+        ids = synthetics_tests.extract_source_ids("principals", binding, "teams")
+        assert ids == ["t1"]
+
+    def test_extract_source_ids_org_excluded(self):
+        """extract_source_ids never returns org: IDs — they're handled by pre_resource_action_hook."""
+        synthetics_tests = self._make_synthetics_tests()
+        binding = {"principals": ["org:src-org", "user:u1"], "relation": "editor"}
+        assert synthetics_tests.extract_source_ids("principals", binding, "users") == ["u1"]
+        assert synthetics_tests.extract_source_ids("principals", binding, "roles") == []
+        assert synthetics_tests.extract_source_ids("principals", binding, "teams") == []
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
