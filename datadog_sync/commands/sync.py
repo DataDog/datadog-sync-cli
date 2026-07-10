@@ -11,6 +11,7 @@ from datadog_sync.commands.shared.options import (
     destination_auth_options,
     diffs_options,
     force_missing_dependencies_options,
+    refresh_destination_state_options,
     source_auth_options,
     storage_options,
     sync_options,
@@ -25,6 +26,7 @@ from datadog_sync.constants import Command
 @common_options
 @diffs_options
 @force_missing_dependencies_options
+@refresh_destination_state_options
 @sync_options
 @storage_options
 @option(

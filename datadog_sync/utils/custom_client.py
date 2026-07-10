@@ -3,7 +3,8 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 import ssl
 import time
 import logging
@@ -15,10 +16,52 @@ from urllib.parse import urlparse
 import aiohttp
 import certifi
 
+from collections import Counter as _StdCounter
 from datadog_sync.constants import DDR_Status, LOGGER_NAME, Metrics
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 log = logging.getLogger(LOGGER_NAME)
+
+
+# HTTP statuses that signal upstream/edge overload rather than app-level failure.
+# For these, hammering with tight-cycle retries makes the situation worse (the
+# same request queue is still full). Use a longer, jittered exponential backoff
+# that respects the Retry-After header when present.
+_OVERLOAD_STATUSES = frozenset({502, 503, 504, 512})
+# Jittered exponential backoff schedule for _OVERLOAD_STATUSES, in seconds.
+# Index by retry_count. Falls off the end -> caller gives up. Matches the
+# observed proxy queue drain time on the destination monitor API during the
+# HAMR-392 storm (see PR body).
+_OVERLOAD_BACKOFF_SCHEDULE = (30, 60, 120)
+
+
+def _overload_sleep_duration(retry_count: int, retry_after_hdr: Optional[str]) -> int:
+    """Return the number of seconds to wait before retrying an _OVERLOAD_STATUSES
+    response. Honors Retry-After if present; otherwise falls back to
+    _OVERLOAD_BACKOFF_SCHEDULE indexed by retry_count.
+    """
+    if retry_after_hdr:
+        # Retry-After per RFC 7231 can be either a delta-seconds integer or an
+        # HTTP-date. Try numeric first (covers integer and fractional forms
+        # some servers send), then fall back to HTTP-date parsing.
+        try:
+            return max(0, int(float(retry_after_hdr)))
+        except (TypeError, ValueError):
+            pass
+        try:
+            when = parsedate_to_datetime(retry_after_hdr)
+            if when is not None:
+                # parsedate_to_datetime returns naive on ambiguous input; treat
+                # naive as UTC per RFC 7231. Compute seconds-until-when,
+                # clamped to 0 (past dates -> no wait).
+                if when.tzinfo is None:
+                    when = when.replace(tzinfo=timezone.utc)
+                delta = (when - datetime.now(timezone.utc)).total_seconds()
+                return max(0, int(delta))
+        except (TypeError, ValueError):
+            pass
+    idx = min(retry_count, len(_OVERLOAD_BACKOFF_SCHEDULE) - 1)
+    return _OVERLOAD_BACKOFF_SCHEDULE[idx]
 
 
 def request_with_retry(func: Awaitable) -> Awaitable:
@@ -53,6 +96,40 @@ def request_with_retry(func: Awaitable) -> Awaitable:
                         retry_count += 1
                         log.debug(f"retry count: {retry_count}")
                         continue
+                    elif e.status in _OVERLOAD_STATUSES:
+                        # Edge/proxy timeouts and gateway overload: back off
+                        # substantially longer than the 5s * retry_count
+                        # baseline used for other 5xx. Honor Retry-After if the
+                        # server sent one; otherwise use the fixed schedule.
+                        # Increment the per-status counter so operators can
+                        # dashboard "is the fix working?" long-term via
+                        # client.overload_status_counter, rather than
+                        # log-grep.
+                        try:
+                            args[0].overload_status_counter[e.status] += 1
+                        except AttributeError:
+                            # Older CustomClient instances or test doubles.
+                            pass
+                        # Cap at the schedule length rather than max_retries.
+                        # This keeps every bucket in _OVERLOAD_BACKOFF_SCHEDULE
+                        # reachable: with a 3-element schedule and retry_count
+                        # starting at 0, we sleep schedule[0], schedule[1],
+                        # schedule[2] on successive retries before giving up
+                        # (subject to the retry_timeout total budget).
+                        if retry_count >= len(_OVERLOAD_BACKOFF_SCHEDULE):
+                            log.warning("retry count has exceeded overload backoff schedule length")
+                            raise CustomClientHTTPError(e, message=err_text)
+                        sleep_duration = _overload_sleep_duration(retry_count, e.headers.get("Retry-After"))
+                        if (sleep_duration + time.time()) > timeout:
+                            log.warning(
+                                f"{e}. overload backoff ({sleep_duration}s) exceeds retry timeout budget; giving up"
+                            )
+                            raise CustomClientHTTPError(e, message=err_text)
+                        log.warning(f"{e}. upstream overloaded; backing off {sleep_duration}s before retry")
+                        await asyncio.sleep(sleep_duration)
+                        retry_count += 1
+                        log.debug(f"retry count: {retry_count}")
+                        continue
                     elif e.status >= 500 or e.status == 429:
                         sleep_duration = retry_count * default_backoff
                         if (sleep_duration + time.time()) > timeout:
@@ -80,7 +157,9 @@ class CustomClient:
         retry_timeout: int,
         timeout: int,
         send_metrics: bool,
+        *,
         verify_ssl: bool = True,
+        trust_env: bool = False,
     ) -> None:
         self.url_object = UrlObject.from_str(host)
         self.timeout = timeout
@@ -90,6 +169,13 @@ class CustomClient:
         self.auth = auth
         self.send_metrics = send_metrics
         self.verify_ssl = verify_ssl
+        self.trust_env = trust_env
+        # Per-status counter of upstream-overload retries (see _OVERLOAD_STATUSES).
+        # Exposed so callers (or a follow-up drainer coroutine) can emit a
+        # metric like sync_cli.overload_status_encountered{status=512}. Kept as
+        # an in-memory counter rather than emitting a metric inline to avoid
+        # recursive-request risk during a proxy overload storm.
+        self.overload_status_counter: _StdCounter = _StdCounter()
 
         # Metrics only work with API keys, not JWT
         # If JWT is present, metrics are not available
@@ -103,13 +189,15 @@ class CustomClient:
     async def _init_session(self):
         if self.verify_ssl:
             ssl_context = ssl.create_default_context(cafile=certifi.where())
-            self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context))
+            self.session = aiohttp.ClientSession(
+                connector=aiohttp.TCPConnector(ssl=ssl_context), trust_env=self.trust_env
+            )
         else:
             log.warning(
                 "WARNING: SSL certificate verification is disabled. "
                 "This is insecure and should only be used in trusted environments."
             )
-            self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False))
+            self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False), trust_env=self.trust_env)
 
         headers = build_default_headers(self.auth)
         self.session.headers.update(headers)
@@ -182,6 +270,7 @@ class CustomClient:
         async with aiohttp.ClientSession(
             connector=aiohttp.TCPConnector(ssl=ssl_ctx),
             headers={"Content-Type": "application/json", "User-Agent": _get_user_agent()},
+            trust_env=self.trust_env,
         ) as session:
             await self._post_raw(session, url, payload)
 
@@ -284,10 +373,22 @@ class CustomClient:
                             page_number = pagination_config.page_number_func(idx, page_size, page_number)
                         remaining = 1  # after this error we need to keep processing
                     else:
+                        # Non-5xx failure mid-pagination (e.g. 403 Forbidden
+                        # on a specific page). The `break` silently truncates
+                        # the resource list to what we've collected so far;
+                        # downstream sync workers cannot tell the difference
+                        # between "source has N resources" and "source has
+                        # N+K resources but we couldn't read K". Elevate the
+                        # log to make the truncation explicit so operators
+                        # can correlate downstream cascade failures with a
+                        # specific partial-list event.
                         log.error(
-                            f"Error during paginated request for {args[0]} "
-                            f"{pagination_config.page_number_param}: {page_number} "
-                            f"{pagination_config.page_size_param}: {page_size} - {err}"
+                            f"Paginated request TRUNCATED for {args[0]} at "
+                            f"{pagination_config.page_number_param}={page_number} "
+                            f"{pagination_config.page_size_param}={page_size} "
+                            f"after collecting {len(resources)} resource(s). "
+                            f"Downstream syncs may show missing-dependency cascades. "
+                            f"Error: {err}"
                         )
                         break
 
