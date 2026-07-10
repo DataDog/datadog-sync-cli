@@ -197,6 +197,18 @@ _common_options = [
         help="Max number of workers when running operations in multi-threads.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--max-workers-per-type",
+        envvar=constants.MAX_WORKERS_PER_TYPE,
+        required=False,
+        default=None,
+        help="Per-resource-type concurrency cap. Comma-separated 'type=int' pairs, "
+        "e.g. 'monitors=20,dashboards=25'. Caps concurrency BELOW --max-workers "
+        "for the listed types (does not raise the ceiling above the global worker "
+        "pool). Unlisted types run at the global --max-workers value. Unknown "
+        "resource types or non-positive values fail-fast at parse time.",
+        cls=CustomOptionClass,
+    ),
     # ID-targeted import flags (supported allowlisted types only)
     option(
         "--id-file",

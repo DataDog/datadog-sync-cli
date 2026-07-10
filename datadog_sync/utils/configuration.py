@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 import logging
 import sys
 import time
@@ -86,6 +86,14 @@ class Configuration(object):
     # relevant resource types just before workers run. Default False so
     # single-process users don't pay the refresh cost.
     refresh_destination_state_before_apply: bool = False
+    # Per-resource-type concurrency cap. Populated from --max-workers-per-type
+    # after CLI parse. Empty dict = pure global --max-workers behavior. Applied
+    # at init_resources time by overriding each matched resource's
+    # ResourceConfig.max_concurrent (see base_resource.py), which is picked up
+    # by init_async() as an asyncio.Semaphore around _apply_resource_cb. CLI
+    # wins unconditionally over any hard-coded model default so operators
+    # retain a page-time escape hatch.
+    max_workers_per_type: Dict[str, int] = field(default_factory=dict)
     command: str = ""
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
     resources: Dict[str, BaseResource] = field(default_factory=dict)
@@ -265,6 +273,65 @@ def extract_exact_id_filters(
     return result
 
 
+def _parse_max_workers_per_type(raw: Optional[str], known_types: List[str]) -> Dict[str, int]:
+    """Parse --max-workers-per-type. Comma-separated 'type=int' pairs.
+
+    Returns {} when raw is None/empty (pure global --max-workers behavior).
+    Raises click.UsageError with a specific message on any of:
+    - malformed pair (missing '=', more than one '=')
+    - unknown resource type (must match a real sync-cli resource type from
+      the model registry)
+    - non-integer value
+    - value <= 0 (zero workers = permanent stall; negative is nonsense)
+    - duplicate type (same key twice with different values is ambiguous)
+
+    known_types is the list of registered resource_type strings from
+    init_resources / models.__dict__, passed in so the validator does not
+    need to import models at parse time (avoiding import cycles at unit-test
+    setup time).
+    """
+    if not raw:
+        return {}
+    result: Dict[str, int] = {}
+    known = frozenset(known_types)
+    for pair in raw.split(","):
+        pair = pair.strip()
+        if not pair:
+            continue
+        if pair.count("=") != 1:
+            raise click.UsageError(
+                f"--max-workers-per-type: malformed pair {pair!r}, expected 'type=int'"
+            )
+        rt, val = pair.split("=", 1)
+        rt = rt.strip()
+        val = val.strip()
+        if not rt:
+            raise click.UsageError(
+                f"--max-workers-per-type: empty resource type in pair {pair!r}"
+            )
+        if rt not in known:
+            raise click.UsageError(
+                f"--max-workers-per-type: unknown resource type {rt!r}. "
+                f"Known types: {', '.join(sorted(known))}"
+            )
+        if rt in result:
+            raise click.UsageError(
+                f"--max-workers-per-type: duplicate resource type {rt!r}"
+            )
+        try:
+            n = int(val)
+        except ValueError:
+            raise click.UsageError(
+                f"--max-workers-per-type: non-integer value {val!r} for type {rt!r}"
+            )
+        if n <= 0:
+            raise click.UsageError(
+                f"--max-workers-per-type: value must be positive, got {n} for type {rt!r}"
+            )
+        result[rt] = n
+    return result
+
+
 def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # configure logger — in JSON mode, Log writes NDJSON to stdout and silences stderr
     emit_json = kwargs.get("emit_json", False)
@@ -342,6 +409,16 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
     refresh_destination_state_before_apply = kwargs.get("refresh_destination_state_before_apply") or False
     max_workers = kwargs.get("max_workers")
+    max_workers_per_type_raw = kwargs.get("max_workers_per_type")
+    # Parse --max-workers-per-type early so malformed input fails BEFORE any
+    # storage read or client init. Uses the same model-registry predicate as
+    # init_resources (below) so unknown-type errors don't drift.
+    known_resource_types = [
+        cls.resource_type
+        for cls in models.__dict__.values()
+        if isinstance(cls, type) and issubclass(cls, BaseResource)
+    ]
+    max_workers_per_type = _parse_max_workers_per_type(max_workers_per_type_raw, known_resource_types)
     create_global_downtime = kwargs.get("create_global_downtime")
     validate = kwargs.get("validate")
     verify_ddr_status = kwargs.get("verify_ddr_status")
@@ -585,6 +662,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         skip_failed_resource_connections=skip_failed_resource_connections,
         refresh_destination_state_before_apply=refresh_destination_state_before_apply,
         max_workers=max_workers,
+        max_workers_per_type=max_workers_per_type,
         cleanup=cleanup,
         create_global_downtime=create_global_downtime,
         validate=validate,
@@ -606,6 +684,38 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
     # Initialize resource classes
     resources = init_resources(config)
+
+    # Apply --max-workers-per-type overrides to the resource_config semaphores.
+    # CLI wins unconditionally over any hard-coded max_concurrent in the
+    # model file. The actual asyncio.Semaphore is constructed by
+    # ResourceConfig.init_async() from the max_concurrent value, so setting
+    # the field here is enough — no worker-pool re-plumbing needed. The
+    # parser has already verified every key is a known resource type.
+    #
+    # `resource_config` is a class-level attribute on each BaseResource
+    # subclass (see datadog_sync/model/monitors.py). Mutating it directly
+    # would leak the override into every subsequent build_config() call in
+    # the same process (test isolation, long-lived wrapper libraries). Use
+    # dataclasses.replace() to give this Configuration's resource instance
+    # its own copy — the class-level default stays intact.
+    for rt, n in max_workers_per_type.items():
+        prior = resources[rt].resource_config.max_concurrent
+        resources[rt].resource_config = replace(
+            resources[rt].resource_config, max_concurrent=n
+        )
+        if prior is not None and prior != n:
+            # A model file hard-coded max_concurrent for this type (e.g. as
+            # an HTTP-storm mitigation) and the operator is overriding it.
+            # WARN so the deviation shows up above INFO log filters.
+            logger.warning(
+                "max_workers_per_type: overriding %s max_concurrent %d -> %d (CLI override)",
+                rt, prior, n,
+            )
+        else:
+            logger.info(
+                "max_workers_per_type: applying %s max_concurrent=%d (CLI override)",
+                rt, n,
+            )
     resources_arg_str = kwargs.get("resources", None)
     if resources_arg_str:
         resources_arg = resources_arg_str.lower().split(",")
