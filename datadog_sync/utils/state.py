@@ -175,6 +175,60 @@ class State:
         if dst is not None:
             self._data.destination[resource_type][resource_id] = dst
 
+    def reload_destination(self, resource_types: List[str]) -> Dict[str, int]:
+        """Re-read destination-side blobs from storage for the given types.
+
+        Motivating case: managed-sync (the wrapper that invokes sync-cli
+        once per resource type as separate processes) can produce a race
+        where an earlier process writes destination blobs to storage AFTER
+        a later process already loaded ``state.destination`` at startup.
+        The later process's in-memory view is stale and its
+        ``connect_resources`` fails on dependency ids that ARE on disk but
+        not in memory.
+
+        This method refreshes the in-memory ``state.destination`` for the
+        given types by re-reading from storage. Insert-if-absent semantics:
+        entries already in memory (including writes from this run) are
+        never overwritten — only newly-appeared blobs are picked up. This
+        is intentional and not mtime-aware: a storage entry with a newer
+        mtime than an in-memory entry is discarded, not merged. Safe to
+        call from concurrent workers because the append pattern matches
+        ``ensure_resource_type_loaded``.
+
+        Populates ``_ensure_attempted`` for newly-loaded keys so downstream
+        ``ensure_resource_loaded`` calls no-op instead of re-fetching, matching
+        the invariant maintained by ``ensure_resource_type_loaded``.
+
+        Returns a dict mapping resource_type -> count of NEWLY loaded
+        destination entries, so callers can log the refresh outcome.
+
+        Callers should gate this on an explicit opt-in flag (the refresh
+        cost is proportional to blob count for those types, and running it
+        on every apply is wasteful when there is no wrapper-orchestration
+        race to worry about).
+        """
+        added: Dict[str, int] = {}
+        if not resource_types:
+            return added
+        # Dedup while preserving order: duplicate types would otherwise
+        # produce a second pass finding every key already present, overwriting
+        # added[rt] with 0.
+        unique_types = list(dict.fromkeys(resource_types))
+        refreshed = self._storage.get(Origin.DESTINATION, resource_types=unique_types)
+        for rt in unique_types:
+            dst_loaded = refreshed.destination.get(rt, {})
+            n_new = 0
+            for key, val in dst_loaded.items():
+                if key not in self._data.destination[rt]:
+                    self._data.destination[rt][key] = val
+                    n_new += 1
+                # Populate _ensure_attempted for every dst key (new or pre-existing)
+                # so a later ensure_resource_loaded(rt, key) is a no-op instead of
+                # re-fetching via storage.get_single. Mirrors ensure_resource_type_loaded.
+                self._ensure_attempted.add((rt, key))
+            added[rt] = n_new
+        return added
+
     def dump_state(self, origin: Origin = Origin.ALL) -> None:
         dump_start = time.perf_counter()
         self._storage.put(origin, self._data)
