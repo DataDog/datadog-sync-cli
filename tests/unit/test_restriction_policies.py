@@ -25,9 +25,18 @@ class TestRestrictionPoliciesOrgPrincipal:
         mock_config.state = MagicMock()
         return RestrictionPolicies(mock_config)
 
+    def _seed_source_with_policy(self, resource):
+        """Populate source state with one restriction policy resource."""
+        resource.config.state.source = {"restriction_policies": {"some-id": {"attributes": {"bindings": []}}}}
+
+    def _seed_source_without_policy(self, resource):
+        """Populate source state with no restriction policy resources."""
+        resource.config.state.source = {"restriction_policies": {}}
+
     def test_pre_apply_hook_sets_org_principal_on_success(self):
         """Successful GET /api/v2/current_user sets org_principal to 'org:{org_uuid}'."""
         resource = self._make_resource()
+        self._seed_source_with_policy(resource)
         mock_client = AsyncMock()
         mock_client.get = AsyncMock(
             return_value={"data": {"relationships": {"org": {"data": {"id": "00000000-0000-beef-0000-000000000000"}}}}}
@@ -37,10 +46,12 @@ class TestRestrictionPoliciesOrgPrincipal:
         asyncio.run(resource.pre_apply_hook())
 
         assert resource.org_principal == "org:00000000-0000-beef-0000-000000000000"
+        mock_client.get.assert_awaited_once()
 
     def test_pre_apply_hook_leaves_org_principal_none_on_failure(self):
         """Failed GET /api/v2/current_user leaves org_principal as None and raises."""
         resource = self._make_resource()
+        self._seed_source_with_policy(resource)
         mock_client = AsyncMock()
         mock_client.get = AsyncMock(side_effect=Exception("403 Forbidden"))
         resource.config.destination_client = mock_client
@@ -49,6 +60,19 @@ class TestRestrictionPoliciesOrgPrincipal:
             asyncio.run(resource.pre_apply_hook())
 
         assert resource.org_principal is None
+
+    def test_pre_apply_hook_skips_current_user_when_source_empty(self):
+        """Empty source state → GET is not called; org_principal stays None."""
+        resource = self._make_resource()
+        self._seed_source_without_policy(resource)
+        mock_client = AsyncMock()
+        mock_client.get = AsyncMock()
+        resource.config.destination_client = mock_client
+
+        asyncio.run(resource.pre_apply_hook())
+
+        assert resource.org_principal is None
+        mock_client.get.assert_not_awaited()
 
     def test_pre_resource_action_hook_replaces_org_when_principal_set(self):
         """When org_principal is set, org: entries in bindings are replaced."""

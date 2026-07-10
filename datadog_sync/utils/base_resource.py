@@ -348,6 +348,39 @@ class BaseResource(abc.ABC):
     async def _pre_apply_hook(self) -> None:
         return await self.pre_apply_hook()
 
+    async def _fetch_destination_org_principal(
+        self,
+        has_policy: Callable[[Dict], bool],
+        current_user_path: str = "/api/v2/current_user",
+    ) -> Optional[str]:
+        """Fetch the destination org UUID as `org:{uuid}` — but only if at least
+        one source-side resource passes `has_policy(resource)`.
+
+        Used by resources that remap `org:` principals in restriction_policy
+        bindings (monitors, synthetics_tests, restriction_policies). Skipping
+        the /api/v2/current_user call for policy-free syncs removes an
+        unnecessary API call and a failure dependency for callers whose
+        credentials lack current_user access.
+
+        Returns None when no source resource carries a policy (nothing to
+        remap). Otherwise returns "org:{destination_org_uuid}". Callers
+        should assign the return value to self.org_principal.
+
+        Re-raises exceptions from the current_user GET after logging, so the
+        caller matches the surrounding framework's warn-and-continue behavior.
+        """
+        source_state = self.config.state.source.get(self.resource_type, {})
+        if not any(has_policy(r) for r in source_state.values()):
+            return None
+        destination_client = self.config.destination_client
+        try:
+            resp = await destination_client.get(current_user_path)
+            org_id = resp["data"]["relationships"]["org"]["data"]["id"]
+            return f"org:{org_id}"
+        except Exception as e:
+            self.config.logger.error(f"Failed to get org details: {e}")
+            raise
+
     @abc.abstractmethod
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         pass
