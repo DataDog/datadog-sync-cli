@@ -1,5 +1,22 @@
 # Changelog
 
+## 4.12.0 / 2026-07-13
+
+### Fixed
+* fix(roles): surface source ids on sync failure + paginated-list truncation by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/614
+* Port restriction_policy remap to synthetics_tests by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/616
+* Filter metrics_metadata by destination-existence by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/617
+* fix(monitors): apply schema migrations for custom_schedule and warning_recovery by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/619
+* fix(dashboards): clone on read-only PUT conflict; skip unmodified suggested presets by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/621
+### Added
+* feat(sync): --refresh-destination-state-before-apply flag by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/618
+* feat(sync): per-resource-type worker cap via --max-workers-per-type by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/623
+### Changed
+* Scope current_user lookup to policy-carrying resources by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/622
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.11.0...4.12.0
+
 ## 4.11.0 / 2026-07-09
 
 ### Added
