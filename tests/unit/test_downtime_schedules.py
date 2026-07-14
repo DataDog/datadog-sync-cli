@@ -47,8 +47,11 @@ def _make_resource(schedule):
 
 def test_past_start_bumped_forward(mock_config):
     """Baseline invariant preserved: past schedule.start on create is
-    rewritten to ~now. Regression guard so the refactor didn't change the
-    pre-existing contract for schedule.start."""
+    rewritten to ~now+60s. Regression guard so the refactor didn't change
+    the pre-existing contract for schedule.start.
+
+    Upper bound guards against a bug where the rewrite jumps far into the
+    future (e.g. a units-of-hours instead of seconds mistake)."""
     downtime = DowntimeSchedules(mock_config)
     past = _past_iso(3600)
     resource = _make_resource({"start": past})
@@ -56,28 +59,43 @@ def test_past_start_bumped_forward(mock_config):
     _run(downtime.pre_resource_action_hook("new-id", resource))
 
     rewritten = resource["attributes"]["schedule"]["start"]
+    now_ts = _now_ts()
     assert rewritten != past
-    assert parse(rewritten).timestamp() > _now_ts() - 5
+    assert now_ts - 5 < parse(rewritten).timestamp() < now_ts + 120, (
+        "rewritten start must land in a narrow window around now+60s"
+    )
 
 
 def test_past_end_bumped_forward(mock_config):
     """New coverage: past schedule.end on create must also be rewritten.
     Without this, one-off downtimes whose `end` predates now still 400 with
     'Downtime cannot be scheduled in the past' — the destination API
-    validates the full schedule window, not just start."""
+    validates the full schedule window, not just start.
+
+    Both `start` and `end` past: original duration is preserved so a
+    2-hour maintenance stays a 2-hour maintenance on the destination
+    rather than collapsing to 60s."""
     downtime = DowntimeSchedules(mock_config)
-    past_start = _past_iso(7200)
-    past_end = _past_iso(3600)
+    past_start = _past_iso(7200)  # 2h ago
+    past_end = _past_iso(3600)    # 1h ago → source duration = 1h
     resource = _make_resource({"start": past_start, "end": past_end})
 
     _run(downtime.pre_resource_action_hook("new-id", resource))
 
     schedule = resource["attributes"]["schedule"]
     assert schedule["end"] != past_end
-    assert parse(schedule["end"]).timestamp() > _now_ts() - 5
+    now_ts = _now_ts()
+    assert parse(schedule["end"]).timestamp() > now_ts - 5
     # `end > start` invariant must hold after bumping — the destination API
     # rejects windows where end precedes start with a separate 400.
-    assert parse(schedule["end"]).timestamp() > parse(schedule["start"]).timestamp()
+    start_ts = parse(schedule["start"]).timestamp()
+    end_ts = parse(schedule["end"]).timestamp()
+    assert end_ts > start_ts
+    # Duration preserved: source was 3600s wide, destination should also be ~3600s
+    # (allow small slack for the 60s floor rewrite of start).
+    assert 3500 < (end_ts - start_ts) < 3700, (
+        f"source window was 3600s; destination window is {end_ts - start_ts}s"
+    )
 
 
 def test_past_end_with_future_start_preserves_ordering(mock_config):
@@ -117,24 +135,27 @@ def test_future_fields_untouched(mock_config):
 
 def test_missing_fields_no_op(mock_config):
     """Edge case: schedule may omit start or end. The hook must tolerate
-    absent keys without raising."""
+    absent keys without raising, AND must actually rewrite the fields
+    that are present."""
     downtime = DowntimeSchedules(mock_config)
 
-    # start-only
-    r1 = _make_resource({"start": _past_iso()})
+    # start-only: past start rewritten; end key stays absent
+    past_start = _past_iso()
+    r1 = _make_resource({"start": past_start})
     _run(downtime.pre_resource_action_hook("id-1", r1))
     assert "end" not in r1["attributes"]["schedule"]
-
-    # end-only
-    r2 = _make_resource({"end": _past_iso()})
-    _run(downtime.pre_resource_action_hook("id-2", r2))
-    assert "start" not in r2["attributes"]["schedule"]
-    assert parse(r2["attributes"]["schedule"]["end"]).timestamp() > _now_ts() - 5
+    assert r1["attributes"]["schedule"]["start"] != past_start
+    assert parse(r1["attributes"]["schedule"]["start"]).timestamp() > _now_ts() - 5
 
     # empty schedule
-    r3 = _make_resource({})
+    r2 = _make_resource({})
+    _run(downtime.pre_resource_action_hook("id-2", r2))
+    assert r2["attributes"]["schedule"] == {}
+
+    # schedule is None (falsy) — early-return branch
+    r3 = {"attributes": {"schedule": None}}
     _run(downtime.pre_resource_action_hook("id-3", r3))
-    assert r3["attributes"]["schedule"] == {}
+    assert r3["attributes"]["schedule"] is None
 
 
 def test_update_path_untouched_by_this_fix(mock_config):

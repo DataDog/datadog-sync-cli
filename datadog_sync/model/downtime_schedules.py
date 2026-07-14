@@ -84,26 +84,38 @@ class DowntimeSchedules(BaseResource):
             now = datetime.now(timezone.utc)
             floor = now + timedelta(seconds=60)
 
-            # Rewrite past `start` forward. Existing behavior; parse/format hardened
-            # to UTC-aware so `.timestamp()` is correct on non-UTC hosts.
+            # Rewrite past `start` forward. Existing behavior; parse/format
+            # hardened to UTC-aware so `.timestamp()` is correct on non-UTC hosts.
             start_raw = schedule.get("start")
-            start_dt = None
-            if start_raw:
-                start_dt = self._parse_utc(start_raw)
-                if start_dt <= now:
-                    start_dt = floor
-                    schedule["start"] = self._iso_utc(start_dt)
-
-            # Rewrite past `end` forward while preserving `end > start`. Prior
-            # code did not touch `end`, so one-off downtimes with both `start`
-            # and `end` in the past 400'd at POST with "Downtime cannot be
-            # scheduled in the past".
             end_raw = schedule.get("end")
-            if end_raw:
-                end_dt = self._parse_utc(end_raw)
-                if end_dt <= now:
-                    end_min = floor if start_dt is None else max(floor, start_dt + timedelta(seconds=60))
-                    schedule["end"] = self._iso_utc(end_min)
+            start_dt_source = self._parse_utc(start_raw) if start_raw else None
+            end_dt_source = self._parse_utc(end_raw) if end_raw else None
+
+            start_dt = start_dt_source
+            if start_dt_source is not None and start_dt_source <= now:
+                start_dt = floor
+                schedule["start"] = self._iso_utc(start_dt)
+
+            # Rewrite past `end` forward while preserving both invariants:
+            #   1. `end > start` — API 400s on inverted windows.
+            #   2. Original `end - start` duration when the source window is
+            #      entirely in the past — customer scheduled a 2h maintenance;
+            #      shrinking to 60s on destination would be a semantic surprise.
+            # Prior code did not touch `end`, so one-off downtimes with both
+            # `start` and `end` in the past 400'd at POST.
+            if end_dt_source is not None and end_dt_source <= now:
+                if start_dt is not None:
+                    if start_dt_source is not None:
+                        duration = end_dt_source - start_dt_source
+                        if duration <= timedelta(0):
+                            duration = timedelta(seconds=60)
+                        end_dt = start_dt + duration
+                    else:
+                        end_dt = start_dt + timedelta(seconds=60)
+                    end_dt = max(end_dt, floor)
+                else:
+                    end_dt = floor
+                schedule["end"] = self._iso_utc(end_dt)
         else:
             # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
             # this is to avoid unnecessary diff outputs
