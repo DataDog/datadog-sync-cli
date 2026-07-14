@@ -4,6 +4,8 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import asyncio
+import json
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -11,6 +13,13 @@ from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResourc
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
+
+
+# Supported id prefixes for bulk-source entries. Must match the target types
+# enumerated in get_resources and remapped in connect_id; an entry outside this
+# set would import cleanly but never get its source id remapped to the destination
+# id at apply time, producing a silent miscompare.
+_SUPPORTED_BULK_ID_PREFIXES = frozenset({"dashboard", "notebook", "slo"})
 
 
 class RestrictionPolicies(BaseResource):
@@ -37,6 +46,16 @@ class RestrictionPolicies(BaseResource):
     org_principal: Optional[str] = None
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
+        # Bulk-source short-circuit: when --restriction-policies-bulk-source is set,
+        # read prefetched bodies from disk and skip enumeration of dashboards/notebooks/SLOs.
+        # Each body is a full per-ID GET response shape ({"id","type","attributes"}),
+        # detected downstream in import_resource by attributes.bindings being a list.
+        # File I/O is dispatched to a worker thread so the asyncio loop is not blocked
+        # while the producer-supplied JSON is parsed (size is bounded only by the producer).
+        bulk_source = self.config.restriction_policies_bulk_source
+        if bulk_source:
+            return await asyncio.to_thread(self._load_bulk_source, bulk_source)
+
         policies = []
 
         dashboards = await self.config.resources["dashboards"].get_resources(client)
@@ -76,6 +95,25 @@ class RestrictionPolicies(BaseResource):
         return policies
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+        # Bulk-source short-circuit: if get_resources already supplied a full body
+        # (detected by attributes.bindings being a list — guaranteed by _validate_bulk_body
+        # for bulk entries and absent from the legacy LIST stub which is just {"id": "..."}),
+        # return it without issuing a per-ID GET. The stronger discriminator (bindings is a
+        # list, not just attributes is a dict) is intentional: it pins the short-circuit to
+        # the exact shape the validator produces and prevents accidental engagement if a
+        # future change ever populates `attributes` on the legacy LIST stub.
+        # SkipResource on empty-bindings is applied identically to the GET path so the
+        # prefetched and live paths produce the same observable behavior.
+        if (
+            resource is not None
+            and isinstance(resource.get("attributes"), dict)
+            and isinstance(resource["attributes"].get("bindings"), list)
+        ):
+            import_id = resource["id"]
+            if not resource["attributes"]["bindings"]:
+                raise SkipResource(import_id, self.resource_type, "Resource does not have any bindings.")
+            return import_id, resource
+
         source_client = self.config.source_client
         import_id = _id or resource["id"]
 
@@ -211,3 +249,87 @@ class RestrictionPolicies(BaseResource):
                 if type_map.get(_type) == resource_to_connect
             ]
         return super().extract_source_ids(key, r_obj, resource_to_connect)
+
+    def _load_bulk_source(self, path: str) -> List[Dict]:
+        """Load prefetched restriction_policy bodies from a JSON file.
+
+        Returns the list as-is for downstream consumption by import_resource.
+        Raises RuntimeError on missing file, invalid JSON, wrong top-level shape, or
+        per-entry shape violations. The file is producer-supplied and the per-entry
+        shape must match the per-ID GET response body — any deviation indicates a
+        producer bug and is rejected at load time so a malformed body cannot reach
+        import_resource and surface as a non-actionable error downstream.
+
+        Validated shape per entry:
+          id:         non-empty str of the form "<type>:<resource-id>", with
+                       type one of {"dashboard","notebook","slo"} (the set
+                       enumerated by get_resources and remapped by connect_id)
+          type:       literal "restriction_policy"
+          attributes: dict
+          attributes.bindings: list (empty list is valid — SkipResource is applied
+                       in import_resource, matching the live per-ID GET path)
+        """
+        try:
+            with open(path, "r") as f:
+                bodies = json.load(f)
+        except (OSError, json.JSONDecodeError) as e:
+            raise RuntimeError(
+                f"--restriction-policies-bulk-source: failed to load {path!r}: {e}"
+            ) from e
+        if not isinstance(bodies, list):
+            raise RuntimeError(
+                f"--restriction-policies-bulk-source: expected JSON array at {path!r}, "
+                f"got {type(bodies).__name__}"
+            )
+        seen: Dict[str, int] = {}
+        for i, body in enumerate(bodies):
+            self._validate_bulk_body(body, i, path)
+            body_id = body["id"]
+            if body_id in seen:
+                raise RuntimeError(
+                    f"--restriction-policies-bulk-source: duplicate \"id\" {body_id!r} at "
+                    f"entries {seen[body_id]} and {i} in {path!r} — each policy id must "
+                    f"appear at most once (state writes are last-wins and would silently "
+                    f"drop earlier entries)"
+                )
+            seen[body_id] = i
+        return bodies
+
+    @staticmethod
+    def _validate_bulk_body(body, index: int, path: str) -> None:
+        prefix = f"--restriction-policies-bulk-source: entry {index} at {path!r}"
+        if not isinstance(body, dict):
+            raise RuntimeError(f"{prefix} must be a JSON object, got {type(body).__name__}")
+        body_id = body.get("id")
+        if not isinstance(body_id, str) or not body_id:
+            raise RuntimeError(f'{prefix} must have a non-empty string "id"')
+        type_prefix, sep, resource_id_part = body_id.partition(":")
+        if not sep or not type_prefix or not resource_id_part:
+            raise RuntimeError(
+                f'{prefix} has malformed "id" {body_id!r}: '
+                'expected "<type>:<resource-id>" with both sides non-empty '
+                '(e.g. "dashboard:abc-123")'
+            )
+        if type_prefix not in _SUPPORTED_BULK_ID_PREFIXES:
+            raise RuntimeError(
+                f'{prefix} has unsupported "id" prefix {type_prefix!r}: '
+                f"supported prefixes are {sorted(_SUPPORTED_BULK_ID_PREFIXES)}"
+            )
+        body_type = body.get("type")
+        if body_type != "restriction_policy":
+            raise RuntimeError(
+                f'{prefix} must have "type" == "restriction_policy", got {body_type!r}'
+            )
+        attributes = body.get("attributes")
+        if not isinstance(attributes, dict):
+            raise RuntimeError(
+                f'{prefix} must have "attributes" as an object, '
+                f"got {type(attributes).__name__}"
+            )
+        bindings = attributes.get("bindings")
+        if not isinstance(bindings, list):
+            raise RuntimeError(
+                f'{prefix} must have "attributes.bindings" as an array '
+                "(empty array is valid), "
+                f"got {type(bindings).__name__}"
+            )
