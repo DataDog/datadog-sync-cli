@@ -82,11 +82,11 @@ def test_import_resource_by_id_passes_include_created_by(mock_config):
 
 def test_import_resource_by_id_unwraps_jsonapi_envelope(mock_config):
     """Per-id GET returns the JSON:API envelope `{"data": {...}, "included": [...]}`.
-    The LIST path is unwrapped by `paginated_request` via `response_list_accessor`,
-    but the per-id path was raw before this change. Unwrap `data` here so the
-    rest of the method (which reads `resource["attributes"]`) sees a bare
-    resource object either way — and so the added top-level `included` block
-    doesn't leak into downstream state."""
+    Unwrap `data` here so the rest of the method (which reads
+    `resource["attributes"]`) sees a bare resource object, and so the
+    top-level `included` block doesn't leak into downstream state. Matches
+    the sibling-resource convention (`users.py`, `notebooks.py`,
+    `service_level_objectives.py`)."""
     downtime = DowntimeSchedules(mock_config)
     source_client = AsyncMock()
     envelope = {

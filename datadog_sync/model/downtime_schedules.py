@@ -62,14 +62,12 @@ class DowntimeSchedules(BaseResource):
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            envelope = await source_client.get(
-                self.resource_config.base_path + f"/{_id}",
-                params={"include": "created_by"},
-            )
-            # Per-id GET returns the JSON:API envelope; the LIST path is unwrapped
-            # by `paginated_request` via `response_list_accessor="data"`. Match that
-            # here so the rest of this method sees a bare resource object either way.
-            resource = envelope.get("data", envelope) if isinstance(envelope, dict) else envelope
+            resource = (
+                await source_client.get(
+                    self.resource_config.base_path + f"/{_id}",
+                    params={"include": "created_by"},
+                )
+            )["data"]
 
         if resource["attributes"].get("canceled"):
             raise SkipResource(resource["id"], self.resource_type, "Downtime is canceled.")
