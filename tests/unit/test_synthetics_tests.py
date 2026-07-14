@@ -15,11 +15,14 @@ These tests verify:
 
 import asyncio
 import copy
+from collections import defaultdict
 
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 from datadog_sync.model.synthetics_tests import SyntheticsTests
 from datadog_sync.utils.configuration import Configuration
+from datadog_sync.utils.resource_utils import ResourceConnectionError
+from datadog_sync.utils.workers import Counter
 
 
 class TestSyntheticsTestsStatusBehavior:
@@ -474,5 +477,89 @@ class TestSyntheticsTestsRestrictionPolicyPrincipals:
         assert synthetics_tests.extract_source_ids("principals", binding, "teams") == []
 
 
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+class TestSyntheticsTestsConnectResourcesDrop:
+    """connect_resources drop/keep/hard-fail for synthetics_tests' access-control shapes:
+    flat `options.restricted_roles` and `restriction_policy.bindings.principals` composites.
+    """
+
+    def _make_test(self, drop=False, skip_failed=False):
+        config = MagicMock()
+        config.state = MagicMock()
+        config.state.source = defaultdict(dict)
+        config.state.destination = defaultdict(dict)
+        config.state.ensure_resource_loaded = MagicMock()
+        config.drop_unresolvable_principals = drop
+        config.skip_failed_resource_connections = skip_failed
+        config.counter = Counter()
+        config.logger = MagicMock()
+        return SyntheticsTests(config)
+
+    def _seed_valid_role(self, t, src="role-good", dst="role-good-dst"):
+        t.config.state.destination["roles"][src] = {"id": dst}
+
+    def test_restriction_policy_flag_on_drops_stale(self):
+        t = self._make_test(drop=True)
+        self._seed_valid_role(t)
+        resource = {
+            "public_id": "abc-def-ghi",
+            "restriction_policy": {
+                "bindings": [{"principals": ["role:role-good", "role:role-gone"], "relation": "editor"}]
+            },
+        }
+        t.connect_resources("abc-def-ghi", resource)  # no raise
+        assert resource["restriction_policy"]["bindings"][0]["principals"] == ["role:role-good-dst"]
+        assert t.config.counter.stale_principals_dropped_by_type["synthetics_tests"] == ["abc-def-ghi"]
+
+    def test_restriction_policy_flag_off_stale_hard_fails(self):
+        t = self._make_test(drop=False)
+        resource = {
+            "public_id": "abc-def-ghi",
+            "restriction_policy": {"bindings": [{"principals": ["role:role-gone"], "relation": "editor"}]},
+        }
+        with pytest.raises(ResourceConnectionError):
+            t.connect_resources("abc-def-ghi", resource)
+
+    def test_restriction_policy_empty_binding_raises_risk(self):
+        t = self._make_test(drop=True)
+        resource = {
+            "public_id": "abc-def-ghi",
+            "restriction_policy": {"bindings": [{"principals": ["role:role-gone"], "relation": "editor"}]},
+        }
+        with pytest.raises(ResourceConnectionError) as exc_info:
+            t.connect_resources("abc-def-ghi", resource)
+        assert exc_info.value.empty_binding_risk is True
+
+    def test_options_restricted_roles_flat_drops_stale(self):
+        t = self._make_test(drop=True)
+        self._seed_valid_role(t, src="role-good", dst="role-good-dst")
+        resource = {"public_id": "abc", "options": {"restricted_roles": ["role-good", "role-gone"]}}
+        t.connect_resources("abc", resource)  # no raise
+        assert resource["options"]["restricted_roles"] == ["role-good-dst"]
+
+    def test_options_restricted_roles_all_stale_empty_risk(self):
+        t = self._make_test(drop=True)
+        resource = {"public_id": "abc", "options": {"restricted_roles": ["role-gone"]}}
+        with pytest.raises(ResourceConnectionError) as exc_info:
+            t.connect_resources("abc", resource)
+        assert exc_info.value.empty_binding_risk is True
+        assert resource["options"]["restricted_roles"] == []
+
+    def test_options_restricted_roles_empty_risk_is_returned_when_connection_failure_is_suppressed(self):
+        t = self._make_test(drop=True, skip_failed=True)
+        resource = {"public_id": "abc", "options": {"restricted_roles": ["role-gone"]}}
+
+        assert t.connect_resources("abc", resource).empty_binding_escalation is True
+        assert resource["options"]["restricted_roles"] == []
+
+    def test_options_restricted_roles_middle_drop_keeps_neighbors(self):
+        t = self._make_test(drop=True)
+        self._seed_valid_role(t, src="ra", dst="ra-dst")
+        self._seed_valid_role(t, src="rc", dst="rc-dst")
+        resource = {"public_id": "abc", "options": {"restricted_roles": ["ra", "role-gone", "rc"]}}
+        t.connect_resources("abc", resource)  # no raise
+        assert resource["options"]["restricted_roles"] == ["ra-dst", "rc-dst"]
+
+    def test_extract_source_ids_principals_unaffected(self):
+        t = self._make_test(drop=True)
+        binding = {"principals": ["role:role-gone"], "relation": "editor"}
+        assert t.extract_source_ids("principals", binding, "roles") == ["role-gone"]
