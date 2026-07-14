@@ -16,7 +16,7 @@ every downtime.
 """
 
 import asyncio
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 from datadog_sync.model.downtime_schedules import DowntimeSchedules
 
@@ -82,10 +82,10 @@ def test_import_resource_by_id_passes_include_created_by(mock_config):
 
 def test_import_resource_by_id_unwraps_jsonapi_envelope(mock_config):
     """Per-id GET returns the JSON:API envelope `{"data": {...}, "included": [...]}`.
-    Unwrap `data` here so the rest of the method (which reads
-    `resource["attributes"]`) sees a bare resource object, and so the
-    top-level `included` block doesn't leak into downstream state. Matches
-    the sibling-resource convention (`users.py`, `notebooks.py`,
+    Return the inner `data` object (not the outer envelope) so the rest of
+    the method reads `resource["attributes"]` correctly and the top-level
+    `included` sibling is not carried into downstream state. Matches the
+    sibling-resource convention (`users.py`, `notebooks.py`,
     `service_level_objectives.py`)."""
     downtime = DowntimeSchedules(mock_config)
     source_client = AsyncMock()
@@ -104,10 +104,9 @@ def test_import_resource_by_id_unwraps_jsonapi_envelope(mock_config):
     _id, resource = _run(downtime.import_resource(_id="d1"))
 
     assert _id == "d1"
-    # resource must be the bare data object, not the envelope
-    assert "included" not in resource, "the top-level included block must be stripped"
-    assert resource["id"] == "d1"
-    assert resource["type"] == "downtime"
+    # resource is the inner data object — not the outer envelope. The outer
+    # envelope's `included` sibling has no path into downstream state.
+    assert resource == envelope["data"]
     assert resource["attributes"]["schedule"]["start"] == "2027-01-01T00:00:00Z"
     # relationships.created_by.data.id must survive — this is the whole point
     assert resource["relationships"]["created_by"]["data"]["id"] == "u1"
