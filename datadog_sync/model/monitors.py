@@ -15,6 +15,29 @@ from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResourc
 
 _log = logging.getLogger(LOGGER_NAME)
 
+# Matches either monitor-query grouping syntax used across the supported types:
+#   - `by {host, service}` (query / metric / service check alerts)
+#   - `.by('host')` or `.by("host, service")` (log / event-v2 / process alerts)
+# Case-insensitive to guard against `BY {...}` in copy-pasted queries.
+_HAS_GROUP_RE = re.compile(r"by\s*\{[^}]+\}|\.by\s*\(", re.IGNORECASE)
+
+
+def _variables_have_group_by(variables) -> bool:
+    """True iff any formula/function `variables` entry declares grouping.
+
+    Event-v2 (and similar formula-and-function monitor types) can express
+    grouping via `options.variables[*].group_by` — a structured field that
+    never appears in the query string. If any variable has a non-empty
+    `group_by`, the monitor is grouped and callers must NOT treat the
+    query as ungrouped based on the query string alone.
+    """
+    if not isinstance(variables, list):
+        return False
+    for var in variables:
+        if isinstance(var, dict) and var.get("group_by"):
+            return True
+    return False
+
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
 
@@ -133,6 +156,34 @@ class Monitors(BaseResource):
             ):
                 thresholds.pop("warning_recovery")
                 self.config.logger.info(f"monitor {_id}: dropped orphan options.thresholds.warning_recovery")
+
+            # notify_by=["*"] on an ungrouped query is a no-op ("simple monitor"
+            # sentinel). Some destinations enable a validator that rejects any
+            # non-empty notify_by when the query has no grouping clause. Drop
+            # the sentinel in that case — the effective behavior is identical
+            # to omitting notify_by on an ungrouped monitor. Narrow to exactly
+            # ["*"] so any concrete group-key list (e.g. ["host"]) still errors
+            # and surfaces a real misconfiguration.
+            #
+            # Grouping syntax varies by monitor type:
+            #   - query / metric alert:   `by {host, service}`
+            #   - log / event / process:  `.by('host')` or `.by("host, service")`
+            # Formula/function monitors (event-v2 in particular) can also express
+            # grouping via `options.variables[*].group_by`, which is invisible
+            # to a query-string regex. Treat any non-empty group_by in variables
+            # as "grouped" and skip the drop, preserving the sentinel.
+            notify_by = options.get("notify_by")
+            query = resource.get("query")
+            if (
+                notify_by == ["*"]
+                and isinstance(query, str)
+                and not _HAS_GROUP_RE.search(query)
+                and not _variables_have_group_by(options.get("variables"))
+            ):
+                options.pop("notify_by")
+                self.config.logger.info(
+                    f"monitor {_id}: dropped no-op options.notify_by=['*'] on ungrouped query"
+                )
 
         # org: principals are remapped here (before connect_resources runs).
         # user:/role:/team: principals are remapped by connect_id via resource_connections paths.

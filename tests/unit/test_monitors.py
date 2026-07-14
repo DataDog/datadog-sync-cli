@@ -273,6 +273,191 @@ class TestMonitorsSchemaMigrations:
         asyncio.run(monitors.pre_resource_action_hook("7", resource))
         assert resource["options"]["thresholds"] is None
 
+    def test_notify_by_star_dropped_on_ungrouped_query(self):
+        """notify_by=['*'] on a query with no `by {...}` clause is a no-op sentinel
+        that some destinations reject. Drop it."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 130926015,
+            "type": "event-v2 alert",
+            "query": 'events("tags:svc").rollup("count").last("15m") > 0',
+            "options": {"notify_by": ["*"]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("130926015", resource))
+        assert "notify_by" not in resource["options"]
+
+    def test_notify_by_star_preserved_on_grouped_query(self):
+        """notify_by=['*'] on a query WITH groups is meaningful (per-group notify);
+        must be preserved."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 8,
+            "type": "query alert",
+            "query": "avg(last_5m):avg:system.cpu.user{env:prod} by {host} > 90",
+            "options": {"notify_by": ["*"]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("8", resource))
+        assert resource["options"]["notify_by"] == ["*"]
+
+    def test_notify_by_named_group_preserved_when_query_ungrouped(self):
+        """notify_by=['host'] on an ungrouped query is a real misconfiguration —
+        do NOT silently drop. The destination 400 should surface it."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 9,
+            "type": "query alert",
+            "query": "avg(last_5m):avg:system.cpu.user{env:prod} > 90",
+            "options": {"notify_by": ["host"]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("9", resource))
+        assert resource["options"]["notify_by"] == ["host"]
+
+    def test_notify_by_multi_entry_star_preserved(self):
+        """['*', 'host'] is not the pure `["*"]` sentinel — do NOT drop."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 10,
+            "type": "query alert",
+            "query": "avg(last_5m):avg:system.cpu.user{env:prod} > 90",
+            "options": {"notify_by": ["*", "host"]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("10", resource))
+        assert resource["options"]["notify_by"] == ["*", "host"]
+
+    def test_notify_by_empty_or_absent_untouched(self):
+        """No notify_by → no-op. Empty list → not our concern (destination's own
+        validator rejects empty separately at line 38 of the validator)."""
+        monitors = self._make_monitors()
+        # absent
+        r1 = {"id": 11, "type": "query alert", "query": "avg(last_5m):avg:x{}", "options": {}}
+        asyncio.run(monitors.pre_resource_action_hook("11", r1))
+        assert "notify_by" not in r1["options"]
+        # empty list — preserve; not our fix class
+        r2 = {"id": 12, "type": "query alert", "query": "avg(last_5m):avg:x{}", "options": {"notify_by": []}}
+        asyncio.run(monitors.pre_resource_action_hook("12", r2))
+        assert r2["options"]["notify_by"] == []
+
+    def test_notify_by_star_tolerates_missing_query(self):
+        """A resource without a `query` field should not crash the notify_by check.
+        The drop is skipped conservatively; destination will decide."""
+        monitors = self._make_monitors()
+        resource = {"id": 13, "type": "query alert", "options": {"notify_by": ["*"]}}
+        asyncio.run(monitors.pre_resource_action_hook("13", resource))
+        # query absent, drop was skipped, notify_by preserved
+        assert resource["options"]["notify_by"] == ["*"]
+
+    def test_notify_by_star_preserved_on_log_alert_grouped_query(self):
+        """Log alert grouping uses `.by('host')` parenthesized syntax, not
+        `by {host}`. A grouped log alert with notify_by=['*'] means
+        per-group notification; MUST NOT be dropped."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 14,
+            "type": "log alert",
+            "query": "logs(\"service:foo\").index(\"*\").rollup(\"count\").by(\"host\").last(\"5m\") > 0",
+            "options": {"notify_by": ["*"]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("14", resource))
+        assert resource["options"]["notify_by"] == ["*"]
+
+    def test_notify_by_star_preserved_on_event_v2_grouped_query(self):
+        """Event-v2 alert grouping uses `.by('host')`. Same preservation rule
+        as log alerts."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 15,
+            "type": "event-v2 alert",
+            "query": 'events("tags:svc").rollup("count").by("host").last("15m") > 0',
+            "options": {"notify_by": ["*"]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("15", resource))
+        assert resource["options"]["notify_by"] == ["*"]
+
+    def test_notify_by_star_preserved_on_process_alert_grouped_query(self):
+        """Process alert grouping uses `.by('host')`. Same preservation rule."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 16,
+            "type": "process alert",
+            "query": "processes('foo').over('env:prod').by('host').rollup('count').last('5m') < 1",
+            "options": {"notify_by": ["*"]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("16", resource))
+        assert resource["options"]["notify_by"] == ["*"]
+
+    def test_notify_by_star_dropped_on_log_alert_ungrouped(self):
+        """The actual failure class: log alert with no `.by(...)` and
+        notify_by=['*']. This is the sentinel to drop."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 17,
+            "type": "log alert",
+            "query": 'logs("service:foo").index("*").rollup("count").last("5m") >= 1',
+            "options": {"notify_by": ["*"]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("17", resource))
+        assert "notify_by" not in resource["options"]
+
+    def test_notify_by_star_dropped_on_event_v2_ungrouped(self):
+        """Same as above for event-v2 alerts — the other real failing type."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 18,
+            "type": "event-v2 alert",
+            "query": 'events("tags:foo").rollup("count").last("15m") > 0',
+            "options": {"notify_by": ["*"]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("18", resource))
+        assert "notify_by" not in resource["options"]
+
+    def test_notify_by_star_preserved_when_variables_have_group_by(self):
+        """Formula/function monitors carry grouping in options.variables[*].group_by,
+        NOT in the query string. Preserve notify_by=['*'] in that case — dropping
+        would silently downgrade per-group notification to a simple monitor."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 19,
+            "type": "event-v2 alert",
+            "query": 'formula("q1 > 0")',
+            "options": {
+                "notify_by": ["*"],
+                "variables": [
+                    {"name": "q1", "data_source": "events", "search": {"query": "svc:x"}, "group_by": "host"}
+                ],
+            },
+        }
+        asyncio.run(monitors.pre_resource_action_hook("19", resource))
+        assert resource["options"]["notify_by"] == ["*"]
+
+    def test_notify_by_star_dropped_when_variables_have_no_group_by(self):
+        """Formula/function monitor with variables but no group_by on any
+        variable → still ungrouped, drop applies."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 20,
+            "type": "event-v2 alert",
+            "query": 'formula("q1 > 0")',
+            "options": {
+                "notify_by": ["*"],
+                "variables": [{"name": "q1", "data_source": "events", "search": {"query": "svc:x"}}],
+            },
+        }
+        asyncio.run(monitors.pre_resource_action_hook("20", resource))
+        assert "notify_by" not in resource["options"]
+
+    def test_notify_by_star_preserved_on_uppercase_by_group(self):
+        """Case-insensitive: `BY {host}` (copy-pasted with capitalization)
+        must still be recognized as a grouping clause."""
+        monitors = self._make_monitors()
+        resource = {
+            "id": 21,
+            "type": "query alert",
+            "query": "avg(last_5m):avg:system.cpu.user{env:prod} BY {host} > 90",
+            "options": {"notify_by": ["*"]},
+        }
+        asyncio.run(monitors.pre_resource_action_hook("21", resource))
+        assert resource["options"]["notify_by"] == ["*"]
+
 
 class TestMonitorsRestrictionPolicyPrincipals:
     """Test suite for restriction_policy principal remapping in monitors."""
