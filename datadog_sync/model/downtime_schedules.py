@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dateutil.parser import parse
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -63,19 +63,47 @@ class DowntimeSchedules(BaseResource):
 
         return str(resource["id"]), resource
 
+    @staticmethod
+    def _parse_utc(value):
+        """Parse an ISO timestamp and return a UTC-aware datetime. Naive input
+        is assumed UTC (the destination stores schedules in UTC)."""
+        parsed = parse(value)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed
+
+    @staticmethod
+    def _iso_utc(dt) -> str:
+        return dt.isoformat().replace("+00:00", "Z")
+
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.config.state.destination[self.resource_type]:
             schedule = resource["attributes"].get("schedule")
-            if schedule and "start" in schedule:
-                current_time = datetime.utcnow()
-                t = parse(schedule["start"])
-                if t.timestamp() <= current_time.timestamp():
-                    current_time = current_time + timedelta(seconds=60)
-                    if getattr(current_time, "tzinfo", None) is not None:
-                        new_time = current_time.isoformat()
-                    else:
-                        new_time = "{}Z".format(current_time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3])
-                    schedule["start"] = new_time
+            if not schedule:
+                return
+            now = datetime.now(timezone.utc)
+            floor = now + timedelta(seconds=60)
+
+            # Rewrite past `start` forward. Existing behavior; parse/format hardened
+            # to UTC-aware so `.timestamp()` is correct on non-UTC hosts.
+            start_raw = schedule.get("start")
+            start_dt = None
+            if start_raw:
+                start_dt = self._parse_utc(start_raw)
+                if start_dt <= now:
+                    start_dt = floor
+                    schedule["start"] = self._iso_utc(start_dt)
+
+            # Rewrite past `end` forward while preserving `end > start`. Prior
+            # code did not touch `end`, so one-off downtimes with both `start`
+            # and `end` in the past 400'd at POST with "Downtime cannot be
+            # scheduled in the past".
+            end_raw = schedule.get("end")
+            if end_raw:
+                end_dt = self._parse_utc(end_raw)
+                if end_dt <= now:
+                    end_min = floor if start_dt is None else max(floor, start_dt + timedelta(seconds=60))
+                    schedule["end"] = self._iso_utc(end_min)
         else:
             # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
             # this is to avoid unnecessary diff outputs
