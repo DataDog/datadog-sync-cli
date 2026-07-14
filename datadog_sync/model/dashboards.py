@@ -4,11 +4,18 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+from collections import defaultdict
 from copy import deepcopy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
-from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource, check_diff, prep_resource
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, ResourceConnectionResult
+from datadog_sync.utils.resource_utils import (
+    CustomClientHTTPError,
+    SkipResource,
+    check_diff,
+    find_attr,
+    prep_resource,
+)
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -170,6 +177,37 @@ class Dashboards(BaseResource):
         destination_client = self.config.destination_client
         await destination_client.delete(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
+        )
+
+    def connect_resources(self, _id: str, resource: Dict) -> ResourceConnectionResult:
+        """Drop-aware override.
+
+        Widget connections (monitor alert_ids, powerpacks, slos) keep the generic
+        find_attr/connect_id path. The flat `restricted_roles` list goes through the shared
+        drop-aware filter so a permanently-stale role can be dropped (under
+        --drop-unresolvable-principals) while an emptied list still hard-fails as an
+        access-elevation guard.
+        """
+        if not self.resource_config.resource_connections:
+            return ResourceConnectionResult()
+
+        failed_connections_dict = defaultdict(list)
+        for resource_to_connect, attrs in self.resource_config.resource_connections.items():
+            for attr_connection in attrs:
+                if attr_connection == "restricted_roles":
+                    continue  # handled by the drop-aware filter below
+                c = find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                if c:
+                    failed_connections_dict[resource_to_connect].extend(c)
+
+        role_failed, roles_risk = self._filter_stale_flat_roles(_id, resource, "restricted_roles")
+        if role_failed:
+            failed_connections_dict["roles"].extend(role_failed)
+
+        return ResourceConnectionResult(
+            empty_binding_escalation=self._raise_connection_error_if_any(
+                _id, failed_connections_dict, roles_risk
+            )
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:

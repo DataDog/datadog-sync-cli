@@ -12,12 +12,14 @@ clone-on-update fallback.
 """
 
 import asyncio
+from collections import defaultdict
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
 from datadog_sync.model.dashboards import Dashboards
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, ResourceConnectionError, SkipResource
+from datadog_sync.utils.workers import Counter
 
 
 def _read_only_error() -> CustomClientHTTPError:
@@ -285,3 +287,65 @@ class TestDashboardsReadOnlyConflict:
         with pytest.raises(CustomClientHTTPError):
             asyncio.run(dashboards.update_resource("abc-123", {"title": "src"}))
         dashboards.config.destination_client.post.assert_not_awaited()
+
+
+class TestDashboardsConnectResourcesDrop:
+    """connect_resources drop/keep/hard-fail for dashboards' flat `restricted_roles`."""
+
+    def _make_dashboard(self, drop=False, skip_failed=False):
+        config = MagicMock()
+        config.state = MagicMock()
+        config.state.source = defaultdict(dict)
+        config.state.destination = defaultdict(dict)
+        config.state.ensure_resource_loaded = MagicMock()
+        config.drop_unresolvable_principals = drop
+        config.skip_failed_resource_connections = skip_failed
+        config.counter = Counter()
+        config.logger = MagicMock()
+        return Dashboards(config)
+
+    def _seed_valid_role(self, d, src="role-good", dst="role-good-dst"):
+        d.config.state.destination["roles"][src] = {"id": dst}
+
+    def test_flag_off_stale_role_hard_fails(self):
+        d = self._make_dashboard(drop=False)
+        resource = {"id": "abc-def-ghi", "restricted_roles": ["role-gone"]}
+        with pytest.raises(ResourceConnectionError):
+            d.connect_resources("abc-def-ghi", resource)
+        assert resource["restricted_roles"] == ["role-gone"]  # not dropped when flag off
+
+    def test_flag_on_drops_stale_keeps_valid(self):
+        d = self._make_dashboard(drop=True)
+        self._seed_valid_role(d)
+        resource = {"id": "abc-def-ghi", "restricted_roles": ["role-good", "role-gone"]}
+        d.connect_resources("abc-def-ghi", resource)  # no raise
+        assert resource["restricted_roles"] == ["role-good-dst"]
+        assert d.config.counter.stale_principals_dropped_by_type["dashboards"] == ["abc-def-ghi"]
+
+    def test_flag_on_all_stale_empty_list_raises_risk(self):
+        d = self._make_dashboard(drop=True)
+        resource = {"id": "abc-def-ghi", "restricted_roles": ["role-gone"]}
+        with pytest.raises(ResourceConnectionError) as exc_info:
+            d.connect_resources("abc-def-ghi", resource)
+        assert exc_info.value.empty_binding_risk is True
+        assert resource["restricted_roles"] == []
+
+    def test_empty_list_risk_is_returned_when_connection_failure_is_suppressed(self):
+        d = self._make_dashboard(drop=True, skip_failed=True)
+        resource = {"id": "abc-def-ghi", "restricted_roles": ["role-gone"]}
+
+        assert d.connect_resources("abc-def-ghi", resource).empty_binding_escalation is True
+        assert resource["restricted_roles"] == []
+
+    def test_flag_on_middle_drop_keeps_neighbors(self):
+        d = self._make_dashboard(drop=True)
+        self._seed_valid_role(d, src="ra", dst="ra-dst")
+        self._seed_valid_role(d, src="rc", dst="rc-dst")
+        resource = {"id": "abc", "restricted_roles": ["ra", "role-gone", "rc"]}
+        d.connect_resources("abc", resource)  # no raise
+        assert resource["restricted_roles"] == ["ra-dst", "rc-dst"]
+
+    def test_no_restricted_roles_is_noop(self):
+        d = self._make_dashboard(drop=True)
+        resource = {"id": "abc"}  # no restricted_roles at all
+        d.connect_resources("abc", resource)  # no raise, nothing to do
