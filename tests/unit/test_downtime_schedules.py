@@ -6,22 +6,31 @@
 """
 Unit tests for downtime_schedules create-path schedule normalization.
 
-Pins the pre_resource_action_hook create-path behavior for schedule.start
-and schedule.end when their values are in the past. Before this fix, only
-schedule.start was rewritten forward; a downtime carrying a past `end`
-(one-off window both in the past) still hit the destination API and 400'd
-with "Downtime cannot be scheduled in the past".
+Prior behavior only rewrote past `schedule.start` forward. Downtimes with
+a past `end` (one-off maintenance windows that already closed on the
+source) still hit the destination API and 400'd with "Downtime cannot be
+scheduled in the past".
+
+New behavior:
+- Past `schedule.end` → SkipResource (ended downtimes are not replicated).
+- Past `schedule.start` with future/absent `end` → bump `start` to now+60s
+  and leave `end` as-is (window may shrink, original end time preserved).
 """
 
 import asyncio
 from datetime import datetime, timedelta, timezone
 
+import pytest
 from dateutil.parser import parse
 
 from datadog_sync.model.downtime_schedules import DowntimeSchedules
+from datadog_sync.utils.resource_utils import SkipResource
 
 
 def _run(coro):
+    # Fresh loop per call: pytest-asyncio strict mode closes the ambient loop
+    # between tests, so asyncio.get_event_loop() may raise "no current event
+    # loop" when this helper runs after unrelated async tests in the suite.
     loop = asyncio.new_event_loop()
     try:
         return loop.run_until_complete(coro)
@@ -46,12 +55,9 @@ def _make_resource(schedule):
 
 
 def test_past_start_bumped_forward(mock_config):
-    """Baseline invariant preserved: past schedule.start on create is
-    rewritten to ~now+60s. Regression guard so the refactor didn't change
-    the pre-existing contract for schedule.start.
-
-    Upper bound guards against a bug where the rewrite jumps far into the
-    future (e.g. a units-of-hours instead of seconds mistake)."""
+    """Baseline invariant: past schedule.start with no `end` (open-ended
+    downtime) is rewritten to ~now+60s. Regression guard so the refactor
+    didn't change the pre-existing contract."""
     downtime = DowntimeSchedules(mock_config)
     past = _past_iso(3600)
     resource = _make_resource({"start": past})
@@ -61,66 +67,57 @@ def test_past_start_bumped_forward(mock_config):
     rewritten = resource["attributes"]["schedule"]["start"]
     now_ts = _now_ts()
     assert rewritten != past
-    assert now_ts - 5 < parse(rewritten).timestamp() < now_ts + 120, (
-        "rewritten start must land in a narrow window around now+60s"
-    )
+    assert now_ts - 5 < parse(rewritten).timestamp() < now_ts + 120
 
 
-def test_past_end_bumped_forward(mock_config):
-    """New coverage: past schedule.end on create must also be rewritten.
-    Without this, one-off downtimes whose `end` predates now still 400 with
-    'Downtime cannot be scheduled in the past' — the destination API
-    validates the full schedule window, not just start.
-
-    Both `start` and `end` past: original duration is preserved so a
-    2-hour maintenance stays a 2-hour maintenance on the destination
-    rather than collapsing to 60s."""
+def test_past_start_future_end_preserves_end(mock_config):
+    """Past `start` with a future `end`: bump `start` forward, leave `end`
+    alone. The customer's maintenance still ends at their intended time —
+    the window may be shorter than the source's, but the end boundary is
+    honored."""
     downtime = DowntimeSchedules(mock_config)
-    past_start = _past_iso(7200)  # 2h ago
-    past_end = _past_iso(3600)    # 1h ago → source duration = 1h
-    resource = _make_resource({"start": past_start, "end": past_end})
+    past_start = _past_iso(3600)
+    future_end = _future_iso(3600)
+    resource = _make_resource({"start": past_start, "end": future_end})
 
     _run(downtime.pre_resource_action_hook("new-id", resource))
 
     schedule = resource["attributes"]["schedule"]
-    assert schedule["end"] != past_end
-    now_ts = _now_ts()
-    assert parse(schedule["end"]).timestamp() > now_ts - 5
-    # `end > start` invariant must hold after bumping — the destination API
-    # rejects windows where end precedes start with a separate 400.
-    start_ts = parse(schedule["start"]).timestamp()
-    end_ts = parse(schedule["end"]).timestamp()
-    assert end_ts > start_ts
-    # Duration preserved: source was 3600s wide, destination should also be ~3600s
-    # (allow small slack for the 60s floor rewrite of start).
-    assert 3500 < (end_ts - start_ts) < 3700, (
-        f"source window was 3600s; destination window is {end_ts - start_ts}s"
-    )
+    assert schedule["start"] != past_start
+    assert schedule["end"] == future_end, "future end must be untouched"
+    # `end > start` invariant still holds because start is now ~now+60s and
+    # end is ~+3600s.
+    assert parse(schedule["end"]).timestamp() > parse(schedule["start"]).timestamp()
 
 
-def test_past_end_with_future_start_preserves_ordering(mock_config):
-    """Adversarial case surfaced by pre-merge review: source has a future
-    `start` (untouched) and a past `end` (needs bumping). Naively bumping
-    end to `now+60s` would produce `end < start` and 400 with a different
-    error. Bumped end must be at least `start + small_delta`."""
+def test_past_end_raises_skip(mock_config):
+    """New behavior: past `end` means the downtime has already ended on the
+    source. Skip the resource — replicating an expired maintenance to the
+    destination either produces a 400 or invents a phantom window."""
     downtime = DowntimeSchedules(mock_config)
-    future_start = _future_iso(3600)
-    past_end = _past_iso(3600)
-    resource = _make_resource({"start": future_start, "end": past_end})
+    resource = _make_resource({"start": _past_iso(7200), "end": _past_iso(3600)})
 
-    _run(downtime.pre_resource_action_hook("new-id", resource))
+    with pytest.raises(SkipResource) as excinfo:
+        _run(downtime.pre_resource_action_hook("skip-id", resource))
 
-    schedule = resource["attributes"]["schedule"]
-    assert schedule["start"] == future_start, "future start must be untouched"
-    assert parse(schedule["end"]).timestamp() > parse(schedule["start"]).timestamp(), (
-        "bumped end must land after start to preserve the ordering invariant"
-    )
+    assert "past" in str(excinfo.value).lower()
 
 
-def test_future_fields_untouched(mock_config):
-    """Values already in the future must NOT be rewritten. Rewriting a
-    future start/end changes the customer's intended window and would
-    produce a spurious diff on subsequent syncs."""
+def test_past_end_raises_skip_even_with_future_start(mock_config):
+    """Degenerate but possible source shape: `end` in the past AND `start`
+    in the future (source is a broken record). Still skip — the window
+    doesn't make sense to replicate."""
+    downtime = DowntimeSchedules(mock_config)
+    resource = _make_resource({"start": _future_iso(3600), "end": _past_iso(3600)})
+
+    with pytest.raises(SkipResource):
+        _run(downtime.pre_resource_action_hook("skip-id", resource))
+
+
+def test_future_start_and_end_untouched(mock_config):
+    """Values already in the future must NOT be rewritten. Rewriting would
+    change the customer's intended window and produce a spurious diff on
+    subsequent syncs."""
     downtime = DowntimeSchedules(mock_config)
     start_future = _future_iso(3600)
     end_future = _future_iso(7200)
@@ -133,37 +130,45 @@ def test_future_fields_untouched(mock_config):
     assert schedule["end"] == end_future
 
 
-def test_missing_fields_no_op(mock_config):
-    """Edge case: schedule may omit start or end. The hook must tolerate
-    absent keys without raising, AND must actually rewrite the fields
-    that are present."""
+def test_missing_or_null_schedule_no_op(mock_config):
+    """Edge cases: schedule may be absent, empty, or None. The hook must
+    tolerate all three without raising."""
     downtime = DowntimeSchedules(mock_config)
 
-    # start-only: past start rewritten; end key stays absent
-    past_start = _past_iso()
-    r1 = _make_resource({"start": past_start})
-    _run(downtime.pre_resource_action_hook("id-1", r1))
-    assert "end" not in r1["attributes"]["schedule"]
-    assert r1["attributes"]["schedule"]["start"] != past_start
-    assert parse(r1["attributes"]["schedule"]["start"]).timestamp() > _now_ts() - 5
-
     # empty schedule
-    r2 = _make_resource({})
-    _run(downtime.pre_resource_action_hook("id-2", r2))
-    assert r2["attributes"]["schedule"] == {}
+    r1 = _make_resource({})
+    _run(downtime.pre_resource_action_hook("id-1", r1))
+    assert r1["attributes"]["schedule"] == {}
 
-    # schedule is None (falsy) — early-return branch
-    r3 = {"attributes": {"schedule": None}}
+    # schedule is None
+    r2 = {"attributes": {"schedule": None}}
+    _run(downtime.pre_resource_action_hook("id-2", r2))
+    assert r2["attributes"]["schedule"] is None
+
+    # attributes.schedule key absent
+    r3 = {"attributes": {}}
     _run(downtime.pre_resource_action_hook("id-3", r3))
-    assert r3["attributes"]["schedule"] is None
+    assert r3 == {"attributes": {}}
+
+
+def test_start_only_no_end_field(mock_config):
+    """Open-ended downtime (no `end` key at all): past `start` is rewritten,
+    the missing-`end` shape is preserved (not injected)."""
+    downtime = DowntimeSchedules(mock_config)
+    resource = _make_resource({"start": _past_iso()})
+
+    _run(downtime.pre_resource_action_hook("id", resource))
+
+    schedule = resource["attributes"]["schedule"]
+    assert "end" not in schedule
+    assert parse(schedule["start"]).timestamp() > _now_ts() - 5
 
 
 def test_update_path_untouched_by_this_fix(mock_config):
     """Explicit boundary: this change only touches the create branch. The
     update-path branch that clamps source start/end backwards to
     destination's stored values is intentionally out of scope; a follow-up
-    is planned to address the update-path case where a downtime already in
-    state has a past stored `start`."""
+    is planned to address the update-path case."""
     downtime = DowntimeSchedules(mock_config)
     _id = "existing-id"
     mock_config.state.destination["downtime_schedules"][_id] = {
@@ -172,6 +177,8 @@ def test_update_path_untouched_by_this_fix(mock_config):
 
     resource = _make_resource({"start": _past_iso(3600), "end": _past_iso(1200)})
 
+    # No SkipResource on update path even though end is past — update-path
+    # semantics are intentionally out of scope for this PR.
     _run(downtime.pre_resource_action_hook(_id, resource))
 
     schedule = resource["attributes"]["schedule"]
