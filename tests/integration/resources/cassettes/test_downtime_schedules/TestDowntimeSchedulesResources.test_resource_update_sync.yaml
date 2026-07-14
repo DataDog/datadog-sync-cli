@@ -12,8 +12,8 @@ interactions:
         "attributes": {"message": "test2", "status": "scheduled", "monitor_identifier":
         {"monitor_id": 20046756}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
         "end": null}, "display_timezone": "America/New_York", "mute_first_recovery_notification":
-        false, "notify_end_types": ["canceled", "expired"], "notify_end_states": ["alert",
-        "no data", "warn"], "created": "2025-03-31T14:02:01.562470+00:00", "modified":
+        false, "notify_end_types": ["canceled", "expired"], "notify_end_states": ["no
+        data", "alert", "warn"], "created": "2025-03-31T14:02:01.562470+00:00", "modified":
         "2025-07-18T18:01:55.478390+00:00", "canceled": null}, "relationships": {"created_by":
         {"data": {"type": "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0"}}}}],
         "included": [{"type": "users", "id": "98fe080d-8fda-11ef-aa03-c6ac9d6cb0b0",
@@ -56,7 +56,11 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: null
+    body: '{"type": "query alert", "name": "test", "message": "test  @pagerduty-hamrddr",
+      "tags": ["managed_by:datadog-sync"], "query": "avg(last_10m):avg:system.load.1{*}
+      > 5", "options": {"thresholds": {"critical": 5.0}, "notify_audit": false, "on_missing_data":
+      "default", "include_tags": false, "new_host_delay": 300, "silenced": {}}, "multi":
+      false, "priority": null, "restricted_roles": null}'
     headers:
       Content-Type:
       - application/json
@@ -64,13 +68,13 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v1/monitor
   response:
     body:
-      string: '{"id": 21154182, "org_id": 1300336245, "type": "query alert", "name":
+      string: '{"id": 21155852, "org_id": 1300336245, "type": "query alert", "name":
         "test", "message": "test  @pagerduty-hamrddr", "tags": ["managed_by:datadog-sync"],
         "query": "avg(last_10m):avg:system.load.1{*} > 5", "options": {"thresholds":
         {"critical": 5.0}, "notify_audit": false, "on_missing_data": "default", "include_tags":
         false, "new_host_delay": 300, "silenced": {}}, "multi": false, "created_at":
-        1784055889000, "created": "2026-07-14T19:04:49.797919+00:00", "modified":
-        "2026-07-14T19:04:49.797919+00:00", "deleted": null, "priority": null, "restricted_roles":
+        1784059650000, "created": "2026-07-14T20:07:30.444565+00:00", "modified":
+        "2026-07-14T20:07:30.444565+00:00", "deleted": null, "priority": null, "restricted_roles":
         null, "restriction_policy": null, "draft_status": "published", "assets": [],
         "overall_state_modified": null, "overall_state": "No Data", "creator": {"name":
         "Riyaz Shiraguppi", "handle": "riyaz.shiraguppi@datadoghq.com", "email": "riyaz.shiraguppi@datadoghq.com",
@@ -82,7 +86,11 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: null
+    body: '{"data": {"type": "downtime", "attributes": {"message": "test2", "monitor_identifier":
+      {"monitor_id": 21155852}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
+      "end": null}, "display_timezone": "America/New_York", "mute_first_recovery_notification":
+      false, "notify_end_types": ["canceled", "expired"], "notify_end_states": ["no
+      data", "alert", "warn"]}}}'
     headers:
       Content-Type:
       - application/json
@@ -90,23 +98,23 @@ interactions:
     uri: https://api.us5.datadoghq.com/api/v2/downtime
   response:
     body:
-      string: '{"data": {"type": "downtime", "id": "3ae44ff6-47eb-44d8-bb04-4ecb425da99f",
+      string: '{"data": {"type": "downtime", "id": "df359eb6-77d6-4036-8924-776db25e1547",
         "attributes": {"message": "test2", "status": "scheduled", "monitor_identifier":
-        {"monitor_id": 21154182}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
+        {"monitor_id": 21155852}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
         "end": null}, "display_timezone": "America/New_York", "mute_first_recovery_notification":
-        false, "notify_end_types": ["expired", "canceled"], "notify_end_states": ["alert",
-        "no data", "warn"], "created": "2026-07-14T19:04:50.183335+00:00", "modified":
-        "2026-07-14T19:04:50.183335+00:00", "canceled": null}, "relationships": {"created_by":
+        false, "notify_end_types": ["expired", "canceled"], "notify_end_states": ["no
+        data", "warn", "alert"], "created": "2026-07-14T20:07:30.929860+00:00", "modified":
+        "2026-07-14T20:07:30.929860+00:00", "canceled": null}, "relationships": {"created_by":
         {"data": {"type": "users", "id": "859c80c9-19ac-4a7f-afd3-f451c3101257"}},
-        "monitor": {"data": {"type": "monitor", "id": "21154182"}}}}, "included":
+        "monitor": {"data": {"type": "monitor", "id": "21155852"}}}}, "included":
         [{"type": "users", "id": "859c80c9-19ac-4a7f-afd3-f451c3101257", "attributes":
         {"uuid": "859c80c9-19ac-4a7f-afd3-f451c3101257", "name": "Riyaz Shiraguppi",
         "handle": "riyaz.shiraguppi@datadoghq.com", "created_at": "2026-07-05T04:06:49.633149+00:00",
-        "modified_at": "2026-07-14T18:57:54.561668+00:00", "email": "riyaz.shiraguppi@datadoghq.com",
+        "modified_at": "2026-07-14T19:25:15.732920+00:00", "email": "riyaz.shiraguppi@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/5ca3eb7b2993dfde8fbef827d92b717a?s=48&d=retro",
         "title": null, "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Active", "last_login_time": null}},
-        {"type": "monitor", "id": 21154182, "attributes": {"name": "test"}}]}'
+        {"type": "monitor", "id": 21155852, "attributes": {"name": "test"}}]}'
     headers:
       Content-Type:
       - application/json
@@ -114,31 +122,35 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: null
+    body: '{"data": {"type": "downtime", "attributes": {"message": "test2updated",
+      "monitor_identifier": {"monitor_id": 21155852}, "scope": "*", "schedule": {"start":
+      "2027-01-14T05:01:00+00:00", "end": null}, "display_timezone": "America/New_York",
+      "mute_first_recovery_notification": false, "notify_end_types": ["canceled",
+      "expired"], "notify_end_states": ["no data", "alert", "warn"]}, "id": "df359eb6-77d6-4036-8924-776db25e1547"}}'
     headers:
       Content-Type:
       - application/json
     method: PATCH
-    uri: https://api.us5.datadoghq.com/api/v2/downtime/3ae44ff6-47eb-44d8-bb04-4ecb425da99f
+    uri: https://api.us5.datadoghq.com/api/v2/downtime/df359eb6-77d6-4036-8924-776db25e1547
   response:
     body:
-      string: '{"data": {"type": "downtime", "id": "3ae44ff6-47eb-44d8-bb04-4ecb425da99f",
+      string: '{"data": {"type": "downtime", "id": "df359eb6-77d6-4036-8924-776db25e1547",
         "attributes": {"message": "test2updated", "status": "scheduled", "monitor_identifier":
-        {"monitor_id": 21154182}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
+        {"monitor_id": 21155852}, "scope": "*", "schedule": {"start": "2027-01-14T05:01:00+00:00",
         "end": null}, "display_timezone": "America/New_York", "mute_first_recovery_notification":
-        false, "notify_end_types": ["expired", "canceled"], "notify_end_states": ["no
-        data", "alert", "warn"], "created": "2026-07-14T19:04:50.183335+00:00", "modified":
-        "2026-07-14T19:04:50.651367+00:00", "canceled": null}, "relationships": {"created_by":
+        false, "notify_end_types": ["canceled", "expired"], "notify_end_states": ["alert",
+        "no data", "warn"], "created": "2026-07-14T20:07:30.929860+00:00", "modified":
+        "2026-07-14T20:07:31.508353+00:00", "canceled": null}, "relationships": {"created_by":
         {"data": {"type": "users", "id": "859c80c9-19ac-4a7f-afd3-f451c3101257"}},
-        "monitor": {"data": {"type": "monitor", "id": "21154182"}}}}, "included":
+        "monitor": {"data": {"type": "monitor", "id": "21155852"}}}}, "included":
         [{"type": "users", "id": "859c80c9-19ac-4a7f-afd3-f451c3101257", "attributes":
         {"uuid": "859c80c9-19ac-4a7f-afd3-f451c3101257", "name": "Riyaz Shiraguppi",
         "handle": "riyaz.shiraguppi@datadoghq.com", "created_at": "2026-07-05T04:06:49.633149+00:00",
-        "modified_at": "2026-07-14T18:57:54.561668+00:00", "email": "riyaz.shiraguppi@datadoghq.com",
+        "modified_at": "2026-07-14T19:25:15.732920+00:00", "email": "riyaz.shiraguppi@datadoghq.com",
         "icon": "https://secure.gravatar.com/avatar/5ca3eb7b2993dfde8fbef827d92b717a?s=48&d=retro",
         "title": null, "verified": true, "service_account": false, "disabled": false,
         "allowed_login_methods": [], "status": "Active", "last_login_time": null}},
-        {"type": "monitor", "id": 21154182, "attributes": {"name": "test"}}]}'
+        {"type": "monitor", "id": 21155852, "attributes": {"name": "test"}}]}'
     headers:
       Content-Type:
       - application/json
@@ -9756,7 +9768,23 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v2/downtime/3ae44ff6-47eb-44d8-bb04-4ecb425da99f
+    uri: https://api.us5.datadoghq.com/api/v1/monitor/21155852?force=true
+  response:
+    body:
+      string: '{"deleted_monitor_id": 21155852}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v2/downtime/df359eb6-77d6-4036-8924-776db25e1547
   response:
     body:
       string: ''
@@ -9766,20 +9794,4 @@ interactions:
     status:
       code: 204
       message: No Content
-- request:
-    body: null
-    headers:
-      Content-Type:
-      - application/json
-    method: DELETE
-    uri: https://api.us5.datadoghq.com/api/v1/monitor/21154182?force=true
-  response:
-    body:
-      string: '{"deleted_monitor_id": 21154182}'
-    headers:
-      Content-Type:
-      - application/json
-    status:
-      code: 200
-      message: OK
 version: 1
