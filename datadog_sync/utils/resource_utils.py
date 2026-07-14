@@ -78,8 +78,13 @@ class FilteredResource(Exception):
 
 
 class ResourceConnectionError(Exception):
-    def __init__(self, failed_connections_dict):
+    def __init__(self, failed_connections_dict, empty_binding_risk: bool = False):
         super(ResourceConnectionError, self).__init__(f"Failed to connect resource. {dict(failed_connections_dict)}")
+        # empty_binding_risk flags the access-elevation case: a restriction-policy
+        # binding (or a restricted_roles list) whose source-side list was non-empty
+        # but became empty after dropping unresolvable principals. Read by
+        # ResourcesHandler._apply_resource_cb to add a distinguishing metric tag.
+        self.empty_binding_risk = empty_binding_risk
 
 
 class CustomClientHTTPError(Exception):

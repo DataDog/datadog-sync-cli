@@ -78,6 +78,30 @@ def _emit_apply_summary(logger, counter) -> None:
         ids = counter.skipped_missing_deps_by_type[rt]
         if ids:
             _chunked_emit(rt, "skipped for missing dependencies", ids)
+    # --drop-unresolvable-principals aggregate signals. Both dicts stay empty when the flag
+    # is off, so these lines never appear in the default path. getattr guards Counters
+    # constructed before these buckets existed.
+    for rt in sorted(getattr(counter, "stale_principals_dropped_by_type", {}).keys()):
+        ids = counter.stale_principals_dropped_by_type[rt]
+        if ids:
+            _chunked_emit(rt, "dropped stale principals", ids)
+    for rt in sorted(getattr(counter, "empty_binding_risk_by_type", {}).keys()):
+        ids = counter.empty_binding_risk_by_type[rt]
+        if ids:
+            total = len(ids)
+            for start in range(0, total, _SUMMARY_ID_CHUNK):
+                chunk = ids[start:start + _SUMMARY_ID_CHUNK]
+                end = min(start + _SUMMARY_ID_CHUNK, total)
+                logger.error(
+                    "sync summary: %s skipped %d resource(s) for empty-binding "
+                    "access-elevation risk [%d-%d of %d]: %s",
+                    rt,
+                    total,
+                    start + 1,
+                    end,
+                    total,
+                    ", ".join(chunk),
+                )
 
 
 def _list_time_filter_passes(r_class, config, resource) -> bool:
@@ -502,9 +526,15 @@ class ResourcesHandler:
             )
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, _id, "sync", "skipped", reason=_reason, failure_class=_fc)
-            await r_class._send_action_metrics(
-                Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:connection_error"]
-            )
+            # Distinguish the access-elevation case (a restriction-policy binding /
+            # restricted_roles list that emptied out after dropping stale principals) with
+            # a dedicated metric tag and a separate counter bucket for the end-of-run
+            # summary. getattr guards ResourceConnectionError instances without the attr.
+            extra_tags = ["reason:connection_error"]
+            if getattr(e, "empty_binding_risk", False):
+                extra_tags.append("risk:empty_restriction_policy")
+                self.worker.counter.record_empty_binding_risk(resource_type=resource_type, _id=_id)
+            await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=extra_tags)
         except Exception as e:
             # Track the source id in the counter's failed-ids bucket so
             # apply_resources can emit a targeted per-type summary at the

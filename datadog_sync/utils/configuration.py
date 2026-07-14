@@ -8,7 +8,7 @@ from dataclasses import dataclass, field, replace
 import logging
 import sys
 import time
-from typing import Any, Optional, Union, Dict, List
+from typing import Any, Optional, TYPE_CHECKING, Union, Dict, List
 
 import click
 
@@ -47,6 +47,9 @@ from datadog_sync.utils.import_state import ImportState
 from datadog_sync.utils.state import State
 from datadog_sync.utils.storage.storage_types import StorageType
 
+if TYPE_CHECKING:
+    from datadog_sync.utils.workers import Counter
+
 
 @dataclass
 class Configuration(object):
@@ -77,6 +80,16 @@ class Configuration(object):
     allow_self_lockout: bool
     datadog_host_override: Optional[str] = None
     emit_json: bool = False
+    # Opt-in: drop principal/role references that are absent from BOTH destination and
+    # source state (permanently gone -- e.g. deleted before this org's first-ever import)
+    # instead of hard-failing the whole resource. When False (default) behavior is
+    # byte-for-byte unchanged. Consumed by the restriction_policies/monitors/
+    # synthetics_tests/dashboards/synthetics_private_locations models' connect logic.
+    drop_unresolvable_principals: bool = False
+    # Set at runtime by Workers.__init__ so resource models (which only hold self.config)
+    # can record dropped stale principals into the apply-run Counter from inside
+    # connect_id/connect_resources. None until a Workers is constructed for the command.
+    counter: Optional["Counter"] = None
     # Opt-in refresh of state.destination from storage before apply_resources
     # dispatches workers. Motivating case: an external orchestrator runs
     # sync-cli once per resource type as separate processes reading a shared
@@ -407,6 +420,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # Additional settings
     force_missing_dependencies = kwargs.get("force_missing_dependencies") or False
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
+    drop_unresolvable_principals = kwargs.get("drop_unresolvable_principals") or False
     refresh_destination_state_before_apply = kwargs.get("refresh_destination_state_before_apply") or False
     max_workers = kwargs.get("max_workers")
     max_workers_per_type_raw = kwargs.get("max_workers_per_type")
@@ -660,6 +674,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         filter_operator=filter_operator,
         force_missing_dependencies=force_missing_dependencies,
         skip_failed_resource_connections=skip_failed_resource_connections,
+        drop_unresolvable_principals=drop_unresolvable_principals,
         refresh_destination_state_before_apply=refresh_destination_state_before_apply,
         max_workers=max_workers,
         max_workers_per_type=max_workers_per_type,

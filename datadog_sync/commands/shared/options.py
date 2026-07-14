@@ -500,6 +500,19 @@ _diffs_options = [
         cls=CustomOptionClass,
     ),
     option(
+        "--drop-unresolvable-principals",
+        required=False,
+        is_flag=True,
+        default=False,
+        show_default=True,
+        help="For restriction policies and restricted_roles lists: drop principal/role "
+        "references that are absent from BOTH destination and source state (permanently "
+        "gone, e.g. deleted before the org's first import) instead of skipping the whole "
+        "resource. If dropping empties a binding/list that had entries at the source, the "
+        "resource is still skipped (access-elevation guard). Off by default.",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--cleanup",
         default="False",
         show_default=True,

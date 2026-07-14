@@ -7,7 +7,19 @@ import pytest
 from unittest.mock import MagicMock, call
 
 from datadog_sync import models
-from datadog_sync.utils.resource_utils import find_attr
+from datadog_sync.utils.resource_utils import find_attr, ResourceConnectionError
+
+
+def test_resource_connection_error_empty_binding_risk_defaults_false():
+    exc = ResourceConnectionError({"roles": ["r1"]})
+    assert exc.empty_binding_risk is False
+
+
+def test_resource_connection_error_empty_binding_risk_settable():
+    exc = ResourceConnectionError({"roles": ["r1"]}, empty_binding_risk=True)
+    assert exc.empty_binding_risk is True
+    # Message formatting is unchanged by the new kwarg.
+    assert "Failed to connect resource." in str(exc)
 
 
 @pytest.fixture(scope="class")
