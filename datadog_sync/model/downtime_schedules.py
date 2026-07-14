@@ -46,9 +46,15 @@ class DowntimeSchedules(BaseResource):
     # Additional DowntimeSchedules specific attributes
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
+        # `include=created_by` populates `relationships.created_by.data.id` on
+        # each downtime. Downstream consumers (e.g. HAMR managed-sync's OBO
+        # grouper) key on that field to route the resource under its creator's
+        # identity; without the include, the LIST response omits `relationships`
+        # entirely and downstream code falls back to a service-account identity.
         resp = await client.paginated_request(client.get)(
             self.resource_config.base_path,
             pagination_config=self.pagination_config,
+            params={"include": "created_by"},
         )
 
         return resp
@@ -56,7 +62,14 @@ class DowntimeSchedules(BaseResource):
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = await source_client.get(self.resource_config.base_path + f"/{_id}")
+            envelope = await source_client.get(
+                self.resource_config.base_path + f"/{_id}",
+                params={"include": "created_by"},
+            )
+            # Per-id GET returns the JSON:API envelope; the LIST path is unwrapped
+            # by `paginated_request` via `response_list_accessor="data"`. Match that
+            # here so the rest of this method sees a bare resource object either way.
+            resource = envelope.get("data", envelope) if isinstance(envelope, dict) else envelope
 
         if resource["attributes"].get("canceled"):
             raise SkipResource(resource["id"], self.resource_type, "Downtime is canceled.")
