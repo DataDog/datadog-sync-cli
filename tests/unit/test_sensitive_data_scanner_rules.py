@@ -13,8 +13,9 @@ These tests cover two bugs fixed in DRALLSTSBX-53:
 
 import asyncio
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import AsyncMock, MagicMock
 
+from datadog_sync.constants import Metrics
 from datadog_sync.model.sensitive_data_scanner_rules import SensitiveDataScannerRules
 from datadog_sync.utils.resource_utils import SkipResource, prep_resource
 
@@ -158,3 +159,136 @@ class TestSensitiveDataScannerRulesNonNullableAttr:
         }
         # Should not raise
         prep_resource(SensitiveDataScannerRules.resource_config, resource)
+
+
+class TestSensitiveDataScannerRulesCanonicalNameRewrite:
+    """Rewrites attributes.name to the linked standard pattern's canonical
+    name on write, since the destination CREATE validator rejects a
+    non-matching name. Emits a metric per rewrite for audit. Applied only
+    on create/update (not diffs/import) so source state stays untouched."""
+
+    # By the time _align_name_with_standard_pattern runs (from create/update),
+    # pre_resource_action_hook has already replaced data.id with the destination
+    # pattern uuid. So test inputs use the destination uuid and rely on
+    # destination_standard_pattern_mapping (name -> id) for reverse lookup.
+    VISA_NAME = "Visa Card Scanner (4x4 digits)"
+    VISA_DEST_ID = "dest-visa-uuid"
+    MC_NAME = "MasterCard Scanner (4x4 digits)"
+    MC_DEST_ID = "dest-mc-uuid"
+    EMAIL_NAME = "Email Address Scanner"
+    EMAIL_DEST_ID = "dest-email-uuid"
+
+    def _make_rules(self, mapping=None):
+        mock_config = MagicMock()
+        mock_config.state = MagicMock()
+        mock_config.destination_client = MagicMock()
+        mock_config.destination_client.send_metric = AsyncMock()
+        rules = SensitiveDataScannerRules(mock_config)
+        rules.destination_standard_pattern_mapping = mapping if mapping is not None else {
+            self.VISA_NAME: self.VISA_DEST_ID,
+            self.MC_NAME: self.MC_DEST_ID,
+            self.EMAIL_NAME: self.EMAIL_DEST_ID,
+        }
+        return rules
+
+    def _resource(self, _id, name, pattern_dest_id):
+        return {
+            "id": _id,
+            "type": "sensitive_data_scanner_rule",
+            "attributes": {"name": name},
+            "relationships": {
+                "standard_pattern": {
+                    "data": {"id": pattern_dest_id, "type": "sensitive_data_scanner_standard_pattern"}
+                }
+            },
+        }
+
+    def test_align_rewrites_name_when_mismatched(self):
+        rules = self._make_rules()
+        resource = self._resource("rule-1", "Custom Visa Scanner", self.VISA_DEST_ID)
+        asyncio.run(rules._align_name_with_standard_pattern("rule-1", resource))
+        assert resource["attributes"]["name"] == self.VISA_NAME
+
+    def test_align_noop_when_name_matches(self):
+        rules = self._make_rules()
+        resource = self._resource("rule-2", self.EMAIL_NAME, self.EMAIL_DEST_ID)
+        asyncio.run(rules._align_name_with_standard_pattern("rule-2", resource))
+        assert resource["attributes"]["name"] == self.EMAIL_NAME
+        rules.config.destination_client.send_metric.assert_not_called()
+
+    def test_align_noop_when_source_name_is_empty(self):
+        rules = self._make_rules()
+        resource = self._resource("rule-3", "", self.VISA_DEST_ID)
+        asyncio.run(rules._align_name_with_standard_pattern("rule-3", resource))
+        assert resource["attributes"]["name"] == ""
+        rules.config.destination_client.send_metric.assert_not_called()
+
+    def test_align_noop_when_no_standard_pattern(self):
+        rules = self._make_rules()
+        resource = {
+            "id": "custom",
+            "type": "sensitive_data_scanner_rule",
+            "attributes": {"name": "Custom SSN"},
+            "relationships": {"group": {"data": {"id": "grp"}}},
+        }
+        asyncio.run(rules._align_name_with_standard_pattern("custom", resource))
+        assert resource["attributes"]["name"] == "Custom SSN"
+        rules.config.destination_client.send_metric.assert_not_called()
+
+    def test_align_noop_when_pattern_id_not_in_destination_mapping(self):
+        # If we cannot resolve the canonical name, do not touch the name —
+        # do not rewrite it to the raw destination uuid.
+        rules = self._make_rules(mapping={})
+        resource = self._resource("rule-x", "Custom Visa", self.VISA_DEST_ID)
+        asyncio.run(rules._align_name_with_standard_pattern("rule-x", resource))
+        assert resource["attributes"]["name"] == "Custom Visa"
+        rules.config.destination_client.send_metric.assert_not_called()
+
+    def test_align_emits_metric_with_expected_tags(self):
+        rules = self._make_rules()
+        resource = self._resource("rule-4", "Custom MC", self.MC_DEST_ID)
+        asyncio.run(rules._align_name_with_standard_pattern("rule-4", resource))
+        rules.config.destination_client.send_metric.assert_awaited_once()
+        metric_name, tags = rules.config.destination_client.send_metric.await_args.args
+        assert metric_name == Metrics.ACTION.value
+        assert "id:rule-4" in tags
+        assert "resource_type:sensitive_data_scanner_rules" in tags
+        assert "action_type:sync" in tags
+        assert "action_sub_type:standard_pattern_name_rewrite" in tags
+        assert "status:success" in tags
+        assert "client_type:destination" in tags
+        assert f"pattern:{self.MC_NAME}" in tags
+
+    def test_align_tolerates_metric_failure(self):
+        rules = self._make_rules()
+        rules.config.destination_client.send_metric = AsyncMock(side_effect=Exception("metric down"))
+        resource = self._resource("rule-5", "Custom Visa", self.VISA_DEST_ID)
+        asyncio.run(rules._align_name_with_standard_pattern("rule-5", resource))
+        assert resource["attributes"]["name"] == self.VISA_NAME
+
+    def test_pre_resource_action_hook_does_not_rewrite_name(self):
+        # The hook runs on the diffs path against a live reference into
+        # state.source (resources_handler.py:571 — no deepcopy). It must
+        # not mutate attributes.name; the rewrite happens in create/update.
+        rules = self._make_rules()
+        # In the diffs path the pattern data.id is still the source-side name.
+        resource = self._resource("rule-6", "Custom Visa", self.VISA_NAME)
+        asyncio.run(rules.pre_resource_action_hook("rule-6", resource))
+        assert resource["attributes"]["name"] == "Custom Visa"
+        assert resource["relationships"]["standard_pattern"]["data"]["id"] == self.VISA_DEST_ID
+        rules.config.destination_client.send_metric.assert_not_called()
+
+    def test_create_path_yields_canonical_pattern_name_not_uuid(self):
+        # End-to-end orchestration: pre_resource_action_hook translates
+        # data.id source-name -> destination-uuid, then create_resource
+        # calls _align_name_with_standard_pattern which must resolve
+        # canonical NAME (not the uuid) as the target attributes.name.
+        rules = self._make_rules()
+        rules.config.destination_client.post = AsyncMock(return_value={"data": {"id": "created"}})
+        # Post-import shape: data.id holds the source pattern's canonical name.
+        resource = self._resource("rule-e2e", "Custom Visa Scanner", self.VISA_NAME)
+        asyncio.run(rules.pre_resource_action_hook("rule-e2e", resource))
+        asyncio.run(rules.create_resource("rule-e2e", resource))
+        # attributes.name must be the canonical pattern NAME, not the destination uuid.
+        assert resource["attributes"]["name"] == self.VISA_NAME
+        assert resource["attributes"]["name"] != self.VISA_DEST_ID
