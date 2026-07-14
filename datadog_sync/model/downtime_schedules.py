@@ -4,7 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dateutil.parser import parse
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -63,19 +63,48 @@ class DowntimeSchedules(BaseResource):
 
         return str(resource["id"]), resource
 
+    @staticmethod
+    def _parse_utc(value):
+        """Parse an ISO timestamp and return a UTC-aware datetime. Naive input
+        is assumed UTC (the destination stores schedules in UTC)."""
+        parsed = parse(value)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed
+
+    @staticmethod
+    def _iso_utc(dt) -> str:
+        return dt.isoformat().replace("+00:00", "Z")
+
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.config.state.destination[self.resource_type]:
             schedule = resource["attributes"].get("schedule")
-            if schedule and "start" in schedule:
-                current_time = datetime.utcnow()
-                t = parse(schedule["start"])
-                if t.timestamp() <= current_time.timestamp():
-                    current_time = current_time + timedelta(seconds=60)
-                    if getattr(current_time, "tzinfo", None) is not None:
-                        new_time = current_time.isoformat()
-                    else:
-                        new_time = "{}Z".format(current_time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3])
-                    schedule["start"] = new_time
+            if not schedule:
+                return
+            now = datetime.now(timezone.utc)
+
+            # Past `end` means the maintenance window has already closed on the
+            # source. Replicating it to the destination would either invent a
+            # new customer-visible maintenance (if we shifted `end` forward) or
+            # 400 with "Downtime cannot be scheduled in the past". Skip: an
+            # ended downtime has nothing left to silence.
+            end_raw = schedule.get("end")
+            if end_raw:
+                end_dt = self._parse_utc(end_raw)
+                if end_dt <= now:
+                    raise SkipResource(
+                        str(_id), self.resource_type,
+                        "Downtime end is in the past.",
+                    )
+
+            # Rewrite past `start` forward to now+60s. `end` (if present) is
+            # left as-is per customer intent — the window may shrink but its
+            # original end time is preserved.
+            start_raw = schedule.get("start")
+            if start_raw:
+                start_dt = self._parse_utc(start_raw)
+                if start_dt <= now:
+                    schedule["start"] = self._iso_utc(now + timedelta(seconds=60))
         else:
             # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
             # this is to avoid unnecessary diff outputs
