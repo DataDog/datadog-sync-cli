@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.13.0 / 2026-07-15
+
+### Fixed
+* fix(monitors): drop notify_by=["*"] when query has no by-group clause by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/625
+* fix(downtime_schedules): rewrite past `end` on create path by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/626
+* fix(sensitive_data_scanner_rules): align name with linked standard pattern on write by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/627
+* fix(downtime_schedules): request `include=created_by` on source fetches by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/628
+* fix(metrics_metadata): skip distribution-typed metrics in update path by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/633
+### Added
+* feat: --drop-unresolvable-principals flag + drop-aware connection scaffolding (1/4) by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/629
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.12.0...4.13.0
+
 ## 4.12.0 / 2026-07-13
 
 ### Fixed
