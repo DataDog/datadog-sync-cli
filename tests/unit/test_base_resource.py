@@ -48,6 +48,37 @@ def test_resolve_or_drop_destination_present_returns_dest_id_not_stale():
     config.state.ensure_resource_loaded.assert_not_called()
 
 
+def test_resolve_or_drop_rechecks_destination_after_lazy_load_populates_both_states():
+    config = _make_config()
+
+    def load_role(resource_type, plain_id):
+        config.state.source[resource_type][plain_id] = {"id": plain_id}
+        config.state.destination[resource_type][plain_id] = {"id": "dst-role"}
+
+    config.state.ensure_resource_loaded.side_effect = load_role
+
+    resolved, stale = _call(config, "src-role", "roles")
+
+    assert resolved == "dst-role"
+    assert stale is False
+    config.state.ensure_resource_loaded.assert_called_once_with("roles", "src-role")
+
+
+def test_resolve_or_drop_rechecks_destination_after_lazy_load_populates_destination_only():
+    config = _make_config()
+
+    def load_role(resource_type, plain_id):
+        config.state.destination[resource_type][plain_id] = {"id": "dst-role"}
+
+    config.state.ensure_resource_loaded.side_effect = load_role
+
+    resolved, stale = _call(config, "src-role", "roles")
+
+    assert resolved == "dst-role"
+    assert stale is False
+    config.state.ensure_resource_loaded.assert_called_once_with("roles", "src-role")
+
+
 def test_resolve_or_drop_source_present_not_synced_returns_none_not_stale():
     config = _make_config()
     config.state.source["roles"]["src-role"] = {"id": "src-role"}

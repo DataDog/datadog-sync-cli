@@ -444,7 +444,8 @@ class BaseResource(abc.ABC):
           - Present in state.destination[resource_to_connect]: returns
             (destination_id, False) -- success path, caller keeps/remaps this entry.
           - Absent from destination: calls ensure_resource_loaded() (for
-            --minimize-reads correctness) then checks state.source[resource_to_connect].
+            --minimize-reads correctness), then rechecks destination because the lazy load
+            may have populated its mapping, and only then checks source.
               - Present in source ("not yet synced"): returns (None, False) -- caller
                 must treat this as today's hard-fail (add plain_id to failed_connections);
                 NOT a drop. This is the legitimate "retry on a later sync" case.
@@ -470,6 +471,10 @@ class BaseResource(abc.ABC):
             return destination[plain_id]["id"], False
 
         self.config.state.ensure_resource_loaded(resource_to_connect, plain_id)
+        destination = self.config.state.destination[resource_to_connect]
+        if plain_id in destination:
+            return destination[plain_id]["id"], False
+
         if plain_id in self.config.state.source[resource_to_connect]:
             return None, False
         return None, True
