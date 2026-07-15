@@ -18,7 +18,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from datadog_sync.utils.base_resource import BaseResource
+from datadog_sync.utils.base_resource import BaseResource, ResourceConnectionResult
 
 
 def _make_config():
@@ -34,6 +34,15 @@ def _make_config():
 def _call(config, plain_id, resource_to_connect):
     stub = SimpleNamespace(config=config)
     return BaseResource._resolve_or_drop(stub, plain_id, resource_to_connect)
+
+
+def test_connect_resources_returns_named_default_result_when_no_connections():
+    stub = SimpleNamespace(resource_config=SimpleNamespace(resource_connections=None))
+
+    result = BaseResource.connect_resources(stub, "resource-id", {})
+
+    assert result == ResourceConnectionResult()
+    assert result.empty_binding_escalation is False
 
 
 def test_resolve_or_drop_destination_present_returns_dest_id_not_stale():

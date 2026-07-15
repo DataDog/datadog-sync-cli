@@ -493,7 +493,8 @@ class ResourcesHandler:
 
             # Run hooks
             await r_class._pre_resource_action_hook(_id, resource)
-            empty_binding_escalation = bool(r_class.connect_resources(_id, resource))
+            connection_result = r_class.connect_resources(_id, resource)
+            empty_binding_escalation = connection_result.empty_binding_escalation
 
             success_metric_tags = []
             if empty_binding_escalation:

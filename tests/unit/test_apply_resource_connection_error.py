@@ -14,7 +14,7 @@ investigable failures rather than silent skips.
 import asyncio
 from unittest.mock import AsyncMock, MagicMock
 
-from datadog_sync.utils.base_resource import ResourceConfig
+from datadog_sync.utils.base_resource import ResourceConfig, ResourceConnectionResult
 from datadog_sync.utils.resource_utils import ResourceConnectionError
 from datadog_sync.utils.resources_handler import ResourcesHandler
 
@@ -110,7 +110,7 @@ def test_successful_update_after_suppressed_empty_binding_risk_is_tagged_and_rec
     _id = "dashboard:dash-1"
     r_class = MagicMock()
     r_class.resource_config = ResourceConfig(base_path="", skip_resource_mapping=True)
-    r_class.connect_resources.return_value = True
+    r_class.connect_resources.return_value = ResourceConnectionResult(empty_binding_escalation=True)
     r_class._pre_resource_action_hook = AsyncMock()
     r_class._update_resource = AsyncMock()
     r_class._send_action_metrics = AsyncMock()

@@ -141,6 +141,13 @@ class ResourceConfig:
                 self.excluded_attributes[i] = "root" + "".join(["['{}']".format(v) for v in attr.split(".")])
 
 
+@dataclass(frozen=True)
+class ResourceConnectionResult:
+    """Outcome metadata from resolving a resource's cross-resource connections."""
+
+    empty_binding_escalation: bool = False
+
+
 class BaseResource(abc.ABC):
     resource_type: str
     resource_config: ResourceConfig
@@ -636,9 +643,9 @@ class BaseResource(abc.ABC):
             return [str(v) for v in r_obj[key]]
         return [str(r_obj[key])]
 
-    def connect_resources(self, _id: str, resource: Dict) -> None:
+    def connect_resources(self, _id: str, resource: Dict) -> ResourceConnectionResult:
         if not self.resource_config.resource_connections:
-            return
+            return ResourceConnectionResult()
 
         failed_connections_dict = defaultdict(list)
         for resource_to_connect, v in self.resource_config.resource_connections.items():
@@ -659,6 +666,8 @@ class BaseResource(abc.ABC):
                 raise e
             else:
                 self.config.logger.debug(f"{str(e)}", _id=_id, resource_type=self.resource_type)
+
+        return ResourceConnectionResult()
 
     def filter(self, resource: Dict) -> bool:
         if not self.config.filters or self.resource_type not in self.config.filters:

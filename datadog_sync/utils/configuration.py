@@ -83,8 +83,8 @@ class Configuration(object):
     # Opt-in: drop principal/role references that are absent from BOTH destination and
     # source state (permanently gone -- e.g. deleted before this org's first-ever import)
     # instead of hard-failing the whole resource. When False (default) behavior is
-    # byte-for-byte unchanged. Consumed by the restriction_policies/monitors/
-    # synthetics_tests/dashboards/synthetics_private_locations models' connect logic.
+    # byte-for-byte unchanged. The shared BaseResource drop-aware helpers consume this
+    # flag; model-specific connection wiring is intentionally separate.
     drop_unresolvable_principals: bool = False
     # Set at runtime by Workers.__init__ so resource models (which only hold self.config)
     # can record dropped stale principals into the apply-run Counter from inside
