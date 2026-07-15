@@ -54,6 +54,25 @@ class MetricsMetadata(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
 
+        # Distribution metrics cannot be written via PUT /api/v1/metrics/{name}
+        # — the destination rejects type=distribution with a 400 at the DB
+        # layer. Skip early so the run does not burn retries on a request
+        # that will never succeed. Skip fires before the destination probe
+        # below to avoid a wasted GET.
+        #
+        # Case-tolerant match: the destination canonicalizes to lowercase but
+        # normalize defensively so an upstream drift in the source-side casing
+        # cannot silently re-enable the 400 loop.
+        metric_type = (resource.get("type") or "").strip().lower()
+        if metric_type == "distribution":
+            log.debug(f"[metrics_metadata - {_id}] skipping: distribution type not writable via public PUT")
+            raise SkipResource(
+                _id,
+                self.resource_type,
+                "distribution type is rejected by the destination metrics_metadata endpoint; "
+                "skipping public PUT",
+            )
+
         # metrics_metadata can only attach to a metric that already exists on
         # destination. Legacy dogweb returns 400 {"errors":["error updating metric
         # metadata"]} when the metric is missing; that failure adds ~25-30min of
