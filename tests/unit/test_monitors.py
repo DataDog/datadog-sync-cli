@@ -11,11 +11,13 @@ empty options.groupby are skipped at sync time rather than failing with a 400.
 """
 
 import asyncio
+from collections import defaultdict
 import pytest
 from unittest.mock import MagicMock
 
 from datadog_sync.model.monitors import Monitors
-from datadog_sync.utils.resource_utils import SkipResource
+from datadog_sync.utils.resource_utils import SkipResource, ResourceConnectionError
+from datadog_sync.utils.workers import Counter
 
 
 class TestMonitorsPreResourceActionHook:
@@ -635,3 +637,102 @@ class TestMonitorsRestrictionPolicyPrincipals:
         asyncio.run(monitors.pre_apply_hook())
         assert monitors.org_principal is None
         mock_client.get.assert_not_awaited()
+
+
+class TestMonitorsConnectResourcesDrop:
+    """connect_resources drop/keep/hard-fail for monitors' access-control shapes:
+    the flat `restricted_roles` list and `restriction_policy.bindings.principals` composites.
+    'stale' == absent from destination AND source; 'valid' == present in destination.
+    """
+
+    def _make_monitors(self, drop=False, skip_failed=False):
+        config = MagicMock()
+        config.state = MagicMock()
+        config.state.source = defaultdict(dict)
+        config.state.destination = defaultdict(dict)
+        config.state.ensure_resource_loaded = MagicMock()
+        config.drop_unresolvable_principals = drop
+        config.skip_failed_resource_connections = skip_failed
+        config.counter = Counter()
+        config.logger = MagicMock()
+        return Monitors(config)
+
+    def _seed_valid_role(self, m, src="role-good", dst="role-good-dst"):
+        m.config.state.destination["roles"][src] = {"id": dst}
+
+    def test_restriction_policy_flag_off_stale_hard_fails(self):
+        m = self._make_monitors(drop=False)
+        resource = {
+            "id": 1,
+            "query": "avg(last_5m):sum:x{*} > 1",
+            "restriction_policy": {"bindings": [{"principals": ["role:role-gone"], "relation": "editor"}]},
+        }
+        with pytest.raises(ResourceConnectionError):
+            m.connect_resources("1", resource)
+
+    def test_restriction_policy_flag_on_drops_stale(self):
+        m = self._make_monitors(drop=True)
+        self._seed_valid_role(m)
+        resource = {
+            "id": 1,
+            "query": "avg(last_5m):sum:x{*} > 1",
+            "restriction_policy": {
+                "bindings": [{"principals": ["role:role-good", "role:role-gone"], "relation": "editor"}]
+            },
+        }
+        m.connect_resources("1", resource)  # no raise
+        assert resource["restriction_policy"]["bindings"][0]["principals"] == ["role:role-good-dst"]
+        assert m.config.counter.stale_principals_dropped_by_type["monitors"] == ["1"]
+
+    def test_restriction_policy_empty_binding_raises_risk(self):
+        m = self._make_monitors(drop=True)
+        resource = {
+            "id": 1,
+            "restriction_policy": {"bindings": [{"principals": ["role:role-gone"], "relation": "editor"}]},
+        }
+        with pytest.raises(ResourceConnectionError) as exc_info:
+            m.connect_resources("1", resource)
+        assert exc_info.value.empty_binding_risk is True
+
+    def test_restricted_roles_flat_flag_on_drops_stale(self):
+        m = self._make_monitors(drop=True)
+        self._seed_valid_role(m, src="role-good", dst="role-good-dst")
+        resource = {"id": 1, "restricted_roles": ["role-good", "role-gone"]}
+        m.connect_resources("1", resource)  # no raise
+        assert resource["restricted_roles"] == ["role-good-dst"]
+
+    def test_restricted_roles_flat_all_stale_empty_risk(self):
+        m = self._make_monitors(drop=True)
+        resource = {"id": 1, "restricted_roles": ["role-gone"]}
+        with pytest.raises(ResourceConnectionError) as exc_info:
+            m.connect_resources("1", resource)
+        assert exc_info.value.empty_binding_risk is True
+        assert resource["restricted_roles"] == []
+
+    def test_restricted_roles_flat_empty_risk_is_returned_when_connection_failure_is_suppressed(self):
+        m = self._make_monitors(drop=True, skip_failed=True)
+        resource = {"id": 1, "restricted_roles": ["role-gone"]}
+
+        assert m.connect_resources("1", resource).empty_binding_escalation is True
+        assert resource["restricted_roles"] == []
+
+    def test_restricted_roles_flat_middle_drop_keeps_neighbors(self):
+        m = self._make_monitors(drop=True)
+        self._seed_valid_role(m, src="ra", dst="ra-dst")
+        self._seed_valid_role(m, src="rc", dst="rc-dst")
+        resource = {"id": 1, "restricted_roles": ["ra", "role-gone", "rc"]}
+        m.connect_resources("1", resource)  # no raise
+        assert resource["restricted_roles"] == ["ra-dst", "rc-dst"]
+
+    def test_flag_off_restricted_roles_unchanged_behavior(self):
+        m = self._make_monitors(drop=False)
+        resource = {"id": 1, "restricted_roles": ["role-gone"]}
+        with pytest.raises(ResourceConnectionError):
+            m.connect_resources("1", resource)
+        # Flag off => not dropped
+        assert resource["restricted_roles"] == ["role-gone"]
+
+    def test_extract_source_ids_principals_unaffected(self):
+        m = self._make_monitors(drop=True)
+        binding = {"principals": ["role:role-gone"], "relation": "editor"}
+        assert m.extract_source_ids("principals", binding, "roles") == ["role-gone"]
