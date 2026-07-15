@@ -162,6 +162,20 @@ def test_summary_emits_empty_binding_risk_at_error():
     assert "empty-binding" in joined_err and "access-elevation" in joined_err
 
 
+def test_summary_emits_applied_empty_binding_escalation_at_error():
+    counter = Counter()
+    counter.record_empty_binding_escalation(resource_type="restriction_policies", _id="dashboard:dash-1")
+
+    logger = _make_logger()
+    _emit_apply_summary(logger, counter)
+
+    joined_err = "\n".join(_rendered_errors(logger))
+    assert "restriction_policies" in joined_err
+    assert "dashboard:dash-1" in joined_err
+    assert "connection failure was suppressed" in joined_err
+    assert "DESTINATION RESOURCE MAY BE UNRESTRICTED" in joined_err
+
+
 def test_summary_silent_for_new_buckets_when_empty():
     counter = Counter()
     logger = _make_logger()

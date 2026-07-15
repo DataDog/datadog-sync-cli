@@ -17,6 +17,7 @@ def test_new_counter_fields_default_empty():
     counter = Counter()
     assert counter.stale_principals_dropped_by_type == {}
     assert counter.empty_binding_risk_by_type == {}
+    assert counter.empty_binding_escalation_by_type == {}
 
 
 def test_record_stale_principal_dropped_appends_by_type():
@@ -39,22 +40,33 @@ def test_record_empty_binding_risk_appends_by_type():
     assert counter.empty_binding_risk_by_type["restriction_policies"] == ["dashboard:dash-1"]
 
 
+def test_record_empty_binding_escalation_appends_by_type():
+    counter = Counter()
+    counter.record_empty_binding_escalation(resource_type="restriction_policies", _id="dashboard:dash-1")
+
+    assert counter.empty_binding_escalation_by_type["restriction_policies"] == ["dashboard:dash-1"]
+
+
 def test_record_methods_ignore_none_args():
     counter = Counter()
     counter.record_stale_principal_dropped(resource_type=None, _id="x")
     counter.record_stale_principal_dropped(resource_type="roles", _id=None)
     counter.record_empty_binding_risk(resource_type=None, _id=None)
+    counter.record_empty_binding_escalation(resource_type=None, _id=None)
 
     assert counter.stale_principals_dropped_by_type == {}
     assert counter.empty_binding_risk_by_type == {}
+    assert counter.empty_binding_escalation_by_type == {}
 
 
 def test_reset_counter_clears_new_fields():
     counter = Counter()
     counter.record_stale_principal_dropped(resource_type="roles", _id="r1")
     counter.record_empty_binding_risk(resource_type="roles", _id="r2")
+    counter.record_empty_binding_escalation(resource_type="roles", _id="r3")
 
     counter.reset_counter()
 
     assert counter.stale_principals_dropped_by_type == {}
     assert counter.empty_binding_risk_by_type == {}
+    assert counter.empty_binding_escalation_by_type == {}

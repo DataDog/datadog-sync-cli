@@ -87,3 +87,34 @@ def test_resolve_or_drop_propagates_ensure_resource_loaded_exception():
     # matching every other ensure_resource_loaded call site (none catch it).
     with pytest.raises(RuntimeError, match="storage down"):
         _call(config, "src-role", "roles")
+
+
+def test_empty_binding_risk_continues_with_explicit_escalation_warning_when_connection_failures_are_skipped():
+    config = _make_config()
+    config.skip_failed_resource_connections = True
+    config.logger = MagicMock()
+    stub = SimpleNamespace(config=config, resource_type="restriction_policies")
+
+    escalation_risk = BaseResource._raise_connection_error_if_any(stub, "dashboard:abc", {}, True)
+
+    assert escalation_risk is True
+    message = config.logger.error.call_args.args[0]
+    assert "continuing sync" in message
+    assert "DESTINATION RESOURCE MAY BE UNRESTRICTED" in message
+    assert "refusing to sync" not in message
+
+
+def test_empty_binding_risk_refuses_to_sync_when_connection_failures_are_not_skipped():
+    from datadog_sync.utils.resource_utils import ResourceConnectionError
+
+    config = _make_config()
+    config.skip_failed_resource_connections = False
+    config.logger = MagicMock()
+    stub = SimpleNamespace(config=config, resource_type="restriction_policies")
+
+    with pytest.raises(ResourceConnectionError):
+        BaseResource._raise_connection_error_if_any(stub, "dashboard:abc", {}, True)
+
+    message = config.logger.error.call_args.args[0]
+    assert "refusing to sync" in message
+    assert "DESTINATION RESOURCE MAY BE UNRESTRICTED" not in message

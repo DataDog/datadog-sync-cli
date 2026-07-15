@@ -129,6 +129,7 @@ class Counter:
     # only when --drop-unresolvable-principals is set. Surfaced by _emit_apply_summary.
     stale_principals_dropped_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
     empty_binding_risk_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
+    empty_binding_escalation_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
 
     def __str__(self):
         return (
@@ -141,6 +142,7 @@ class Counter:
         self.skipped_missing_deps_by_type = defaultdict(list)
         self.stale_principals_dropped_by_type = defaultdict(list)
         self.empty_binding_risk_by_type = defaultdict(list)
+        self.empty_binding_escalation_by_type = defaultdict(list)
 
     def increment_success(self) -> None:
         self.successes += 1
@@ -176,3 +178,9 @@ class Counter:
     def record_empty_binding_risk(self, resource_type: Optional[str] = None, _id: Optional[str] = None) -> None:
         if resource_type is not None and _id is not None:
             self.empty_binding_risk_by_type[resource_type].append(str(_id))
+
+    def record_empty_binding_escalation(
+        self, resource_type: Optional[str] = None, _id: Optional[str] = None
+    ) -> None:
+        if resource_type is not None and _id is not None:
+            self.empty_binding_escalation_by_type[resource_type].append(str(_id))

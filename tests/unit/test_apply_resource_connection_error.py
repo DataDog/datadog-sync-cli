@@ -14,6 +14,7 @@ investigable failures rather than silent skips.
 import asyncio
 from unittest.mock import AsyncMock, MagicMock
 
+from datadog_sync.utils.base_resource import ResourceConfig
 from datadog_sync.utils.resource_utils import ResourceConnectionError
 from datadog_sync.utils.resources_handler import ResourcesHandler
 
@@ -101,4 +102,32 @@ def test_ordinary_connection_error_has_no_risk_tag(mock_config):
     tags = _metric_tags(r_class)
     assert "reason:connection_error" in tags
     assert "risk:empty_restriction_policy" not in tags
+    handler.worker.counter.record_empty_binding_risk.assert_not_called()
+
+
+def test_successful_update_after_suppressed_empty_binding_risk_is_tagged_and_recorded(mock_config):
+    resource_type = "restriction_policies"
+    _id = "dashboard:dash-1"
+    r_class = MagicMock()
+    r_class.resource_config = ResourceConfig(base_path="", skip_resource_mapping=True)
+    r_class.connect_resources.return_value = True
+    r_class._pre_resource_action_hook = AsyncMock()
+    r_class._update_resource = AsyncMock()
+    r_class._send_action_metrics = AsyncMock()
+    mock_config.resources = {resource_type: r_class}
+    mock_config.state.source[resource_type][_id] = {"id": _id, "bindings": []}
+    mock_config.state.destination[resource_type][_id] = {"id": _id, "bindings": [{"relation": "editor"}]}
+
+    handler = ResourcesHandler(mock_config)
+    handler.worker = MagicMock()
+    handler.worker.counter = MagicMock()
+    handler.sorter = MagicMock()
+    handler._emit = MagicMock()
+
+    asyncio.run(handler._apply_resource_cb([resource_type, _id]))
+
+    assert "risk:empty_restriction_policy" in _metric_tags(r_class)
+    handler.worker.counter.record_empty_binding_escalation.assert_called_once_with(
+        resource_type=resource_type, _id=_id
+    )
     handler.worker.counter.record_empty_binding_risk.assert_not_called()

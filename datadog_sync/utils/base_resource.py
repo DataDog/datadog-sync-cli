@@ -574,26 +574,38 @@ class BaseResource(abc.ABC):
 
     def _raise_connection_error_if_any(
         self, _id: str, failed_connections_dict: Dict[str, List[str]], empty_binding_risk: bool = False
-    ) -> None:
+    ) -> bool:
         """Shared terminal step for the drop-aware connect_resources overrides.
 
         Mirrors the base connect_resources raise/skip behavior: raise unless
         --skip-failed-resource-connections is set. empty_binding_risk is threaded onto the
-        exception so _apply_resource_cb can tag the metric, and is logged at ERROR because
-        an empty binding is an access-elevation risk.
+        exception so _apply_resource_cb can tag skipped-resource metrics. When
+        --skip-failed-resource-connections suppresses the exception, returns True for an
+        empty-binding risk so the apply path can tag the successful action and include it in
+        the end-of-run escalation summary. Otherwise returns False.
         """
         if not failed_connections_dict and not empty_binding_risk:
-            return
+            return False
         e = ResourceConnectionError(
             failed_connections_dict=failed_connections_dict, empty_binding_risk=empty_binding_risk
         )
         if empty_binding_risk:
-            self.config.logger.error(
-                "access-elevation risk: a binding/list whose source had principals became "
-                "empty after dropping unresolvable references; refusing to sync",
-                resource_type=self.resource_type,
-                _id=_id,
-            )
+            if self.config.skip_failed_resource_connections:
+                self.config.logger.error(
+                    "access-elevation risk: a binding/list whose source had principals became "
+                    "empty after dropping unresolvable references; "
+                    "--skip-failed-resource-connections is enabled, continuing sync. "
+                    "DESTINATION RESOURCE MAY BE UNRESTRICTED",
+                    resource_type=self.resource_type,
+                    _id=_id,
+                )
+            else:
+                self.config.logger.error(
+                    "access-elevation risk: a binding/list whose source had principals became "
+                    "empty after dropping unresolvable references; refusing to sync",
+                    resource_type=self.resource_type,
+                    _id=_id,
+                )
         if not self.config.skip_failed_resource_connections:
             self.config.logger.info(
                 f"skipping resource: {str(e)}",
@@ -603,6 +615,7 @@ class BaseResource(abc.ABC):
             raise e
         else:
             self.config.logger.debug(f"{str(e)}", _id=_id, resource_type=self.resource_type)
+            return empty_binding_risk
 
     def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         """Extract dependency IDs referenced at r_obj[key] for resource_to_connect.
