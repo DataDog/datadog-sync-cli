@@ -3,7 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-"""Unit tests for metrics_metadata destination-existence filter (HAMR-392 Jul8-T20)."""
+"""Unit tests for metrics_metadata update_resource filters."""
 
 import asyncio
 from types import SimpleNamespace
@@ -80,6 +80,50 @@ def test_update_resource_get_403_propagates(metrics_metadata):
 
     assert exc_info.value.status_code == 403
     client.put.assert_not_awaited()
+
+
+@pytest.mark.parametrize(
+    "type_value",
+    ["distribution", "Distribution", "DISTRIBUTION", "distribution "],
+    ids=["lowercase", "capitalized", "uppercase", "trailing_space"],
+)
+def test_update_resource_distribution_type_raises_skip(metrics_metadata, type_value):
+    """Distribution-typed metrics skip early; no destination HTTP call is made.
+    Case + whitespace variants must all skip so an upstream drift in the source
+    canonicalization cannot silently re-enable the 400 loop.
+    """
+    client = metrics_metadata.config.destination_client
+    client.get = AsyncMock()
+    client.put = AsyncMock()
+
+    with pytest.raises(SkipResource) as exc_info:
+        asyncio.run(metrics_metadata.update_resource("some.dist.metric", {"type": type_value, "description": "x"}))
+
+    assert "some.dist.metric" in str(exc_info.value)
+    assert "distribution" in str(exc_info.value)
+    client.get.assert_not_awaited()
+    client.put.assert_not_awaited()
+
+
+@pytest.mark.parametrize("type_value", ["count", "rate", "gauge", "histogram", None])
+def test_update_resource_non_distribution_type_probes_destination(metrics_metadata, type_value):
+    """Regression: non-distribution types (and missing type) still probe destination via GET before PUT.
+    The v1 probe endpoint returns a flat metric metadata dict; the return value is unused (only
+    non-404 status matters), so any non-None dict works as a mock.
+    """
+    client = metrics_metadata.config.destination_client
+    client.get = AsyncMock(return_value={"type": type_value or "count", "description": "existing"})
+    client.put = AsyncMock(return_value={"description": "updated"})
+
+    resource = {"description": "updated"}
+    if type_value is not None:
+        resource["type"] = type_value
+
+    _id, _ = asyncio.run(metrics_metadata.update_resource("some.metric", resource))
+
+    assert _id == "some.metric"
+    client.get.assert_awaited_once()
+    client.put.assert_awaited_once()
 
 
 def test_create_resource_delegates_to_update(metrics_metadata):
