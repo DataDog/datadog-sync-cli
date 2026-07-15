@@ -4,14 +4,15 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+from collections import defaultdict
 import logging
 import re
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.constants import LOGGER_NAME
-from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, ResourceConnectionResult, TaggingConfig
 from datadog_sync.utils.custom_client import PaginationConfig
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource, find_attr
 
 _log = logging.getLogger(LOGGER_NAME)
 
@@ -238,6 +239,49 @@ class Monitors(BaseResource):
             params={"force": "true"},
         )
 
+    def connect_resources(self, _id: str, resource: Dict) -> ResourceConnectionResult:
+        """Drop-aware override.
+
+        query / composite-monitor / slo-alert connections keep the generic
+        find_attr/connect_id path. The two access-control shapes -- the flat
+        `restricted_roles` list and the `restriction_policy.bindings.principals` composites
+        -- go through the shared drop-aware filters so permanently-stale references can be
+        dropped (under --drop-unresolvable-principals) while an emptied binding/list still
+        hard-fails as an access-elevation guard.
+        """
+        if not self.resource_config.resource_connections:
+            return ResourceConnectionResult()
+
+        failed_connections_dict = defaultdict(list)
+        for resource_to_connect, attrs in self.resource_config.resource_connections.items():
+            for attr_connection in attrs:
+                if attr_connection in ("restricted_roles", "restriction_policy.bindings.principals"):
+                    continue  # handled by the drop-aware filters below
+                c = find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                if c:
+                    failed_connections_dict[resource_to_connect].extend(c)
+
+        empty_risk = False
+        restriction_policy = resource.get("restriction_policy")
+        if restriction_policy:
+            principal_failed, binding_risk = self._filter_stale_binding_principals(
+                _id, restriction_policy.get("bindings")
+            )
+            for rt, ids in principal_failed.items():
+                failed_connections_dict[rt].extend(ids)
+            empty_risk = empty_risk or binding_risk
+
+        role_failed, roles_risk = self._filter_stale_flat_roles(_id, resource, "restricted_roles")
+        if role_failed:
+            failed_connections_dict["roles"].extend(role_failed)
+        empty_risk = empty_risk or roles_risk
+
+        return ResourceConnectionResult(
+            empty_binding_escalation=self._raise_connection_error_if_any(
+                _id, failed_connections_dict, empty_risk
+            )
+        )
+
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.state.destination[resource_to_connect]
 
@@ -308,6 +352,9 @@ class Monitors(BaseResource):
 
     def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         # Mirror of connect_id -- keep in sync when connect_id changes.
+        # Intentionally UNAFFECTED by --drop-unresolvable-principals: must keep returning
+        # every referenced id (including ones connect_resources will later drop) so
+        # --minimize-reads lazy-loading can look them up in source to make the drop decision.
         if key == "query" and r_obj.get("type") == "composite" and resource_to_connect != "service_level_objectives":
             return re.findall("[0-9]+", r_obj[key])
         elif key == "query" and resource_to_connect == "service_level_objectives" and r_obj.get("type") == "slo alert":

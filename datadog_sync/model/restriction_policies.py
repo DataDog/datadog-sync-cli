@@ -4,10 +4,15 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+from collections import defaultdict
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
-from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, ResourceConnectionResult
+from datadog_sync.utils.resource_utils import (
+    CustomClientHTTPError,
+    SkipResource,
+    find_attr,
+)
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -147,6 +152,38 @@ class RestrictionPolicies(BaseResource):
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
+    def connect_resources(self, _id: str, resource: Dict) -> ResourceConnectionResult:
+        """Drop-aware override.
+
+        The "id" connections (dashboards/slos/notebooks) keep the generic
+        find_attr/connect_id hard-fail path. The bindings' composite principals go through
+        the shared per-binding filter so that principals permanently absent from source can
+        be dropped (under --drop-unresolvable-principals) instead of failing the whole
+        policy, while an emptied binding still hard-fails as an access-elevation guard.
+        """
+        if not self.resource_config.resource_connections:
+            return ResourceConnectionResult()
+
+        failed_connections_dict = defaultdict(list)
+        for resource_to_connect, attrs in self.resource_config.resource_connections.items():
+            for attr_connection in attrs:
+                if attr_connection == "attributes.bindings.principals":
+                    continue  # handled per-binding below
+                c = find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                if c:
+                    failed_connections_dict[resource_to_connect].extend(c)
+
+        bindings = (resource.get("attributes") or {}).get("bindings")
+        principal_failed, empty_binding_risk = self._filter_stale_binding_principals(_id, bindings)
+        for rt, ids in principal_failed.items():
+            failed_connections_dict[rt].extend(ids)
+
+        return ResourceConnectionResult(
+            empty_binding_escalation=self._raise_connection_error_if_any(
+                _id, failed_connections_dict, empty_binding_risk
+            )
+        )
+
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         dashboards = self.config.state.destination["dashboards"]
         slos = self.config.state.destination["service_level_objectives"]
@@ -198,6 +235,11 @@ class RestrictionPolicies(BaseResource):
 
     def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         # Mirror of connect_id -- keep in sync when connect_id changes.
+        # Intentionally UNAFFECTED by --drop-unresolvable-principals: this must keep
+        # returning every referenced id (including ones connect_resources will later drop),
+        # because --minimize-reads lazy-loading relies on it to decide WHICH principals to
+        # look up in source in order to make the drop decision. Do NOT "fix" this to match
+        # connect_resources' filtering.
         if key == "id":
             _type, _id = r_obj[key].split(":", 1)
             type_map = {"dashboard": "dashboards", "slo": "service_level_objectives", "notebook": "notebooks"}

@@ -23,6 +23,10 @@ class Workers:
         self.workers: List[Task] = []
         self.work_queue: Queue = Queue()
         self.counter: Counter = Counter()
+        # Back-reference so resource models (which only hold self.config) can record
+        # dropped stale principals into the counter from inside connect_id/connect_resources.
+        # Last-writer-wins is fine: only one Workers drives a given command's apply pass.
+        config.counter = self.counter
         self.pbar: Optional[tqdm] = None
         self._running_workers_count: int = 0
         self._loop: AbstractEventLoop = get_event_loop()
@@ -119,6 +123,13 @@ class Counter:
     # actionable if the roles-sync run logged that X, Y, Z failed.
     failed_ids_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
     skipped_missing_deps_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
+    # Per-resource-type source IDs whose stale (source-absent) principal/role
+    # references were dropped from an access-control list, and resource IDs skipped
+    # because dropping left an empty binding/list (access-elevation risk). Populated
+    # only when --drop-unresolvable-principals is set. Surfaced by _emit_apply_summary.
+    stale_principals_dropped_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
+    empty_binding_risk_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
+    empty_binding_escalation_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
 
     def __str__(self):
         return (
@@ -129,6 +140,9 @@ class Counter:
         self.successes = self.failure = self.skipped = self.filtered = 0
         self.failed_ids_by_type = defaultdict(list)
         self.skipped_missing_deps_by_type = defaultdict(list)
+        self.stale_principals_dropped_by_type = defaultdict(list)
+        self.empty_binding_risk_by_type = defaultdict(list)
+        self.empty_binding_escalation_by_type = defaultdict(list)
 
     def increment_success(self) -> None:
         self.successes += 1
@@ -141,11 +155,32 @@ class Counter:
         if resource_type is not None and _id is not None:
             self.failed_ids_by_type[resource_type].append(str(_id))
 
-    def increment_skipped(self, resource_type: Optional[str] = None, _id: Optional[str] = None,
-                          missing_deps: bool = False) -> None:
+    def increment_skipped(
+        self, resource_type: Optional[str] = None, _id: Optional[str] = None, missing_deps: bool = False
+    ) -> None:
         self.skipped += 1
         if missing_deps and resource_type is not None and _id is not None:
             self.skipped_missing_deps_by_type[resource_type].append(str(_id))
 
     def increment_filtered(self) -> None:
         self.filtered += 1
+
+    # Two dedicated methods rather than the single-multi-purpose-method convention used by
+    # increment_skipped/increment_failure: the "dropped a stale principal but kept syncing"
+    # and "skipped for empty-binding access-elevation risk" cases are semantically distinct
+    # enough (one is a non-fatal drop, the other a hard-fail security signal) to warrant
+    # separate names. This deliberate deviation is called out here so it isn't flagged as
+    # an inconsistency.
+    def record_stale_principal_dropped(self, resource_type: Optional[str] = None, _id: Optional[str] = None) -> None:
+        if resource_type is not None and _id is not None:
+            self.stale_principals_dropped_by_type[resource_type].append(str(_id))
+
+    def record_empty_binding_risk(self, resource_type: Optional[str] = None, _id: Optional[str] = None) -> None:
+        if resource_type is not None and _id is not None:
+            self.empty_binding_risk_by_type[resource_type].append(str(_id))
+
+    def record_empty_binding_escalation(
+        self, resource_type: Optional[str] = None, _id: Optional[str] = None
+    ) -> None:
+        if resource_type is not None and _id is not None:
+            self.empty_binding_escalation_by_type[resource_type].append(str(_id))

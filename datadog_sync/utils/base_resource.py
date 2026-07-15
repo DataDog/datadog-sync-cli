@@ -141,6 +141,13 @@ class ResourceConfig:
                 self.excluded_attributes[i] = "root" + "".join(["['{}']".format(v) for v in attr.split(".")])
 
 
+@dataclass(frozen=True)
+class ResourceConnectionResult:
+    """Outcome metadata from resolving a resource's cross-resource connections."""
+
+    empty_binding_escalation: bool = False
+
+
 class BaseResource(abc.ABC):
     resource_type: str
     resource_config: ResourceConfig
@@ -437,6 +444,191 @@ class BaseResource(abc.ABC):
 
         return failed_connections
 
+    def _resolve_or_drop(self, plain_id: str, resource_to_connect: str) -> Tuple[Optional[str], bool]:
+        """Resolve plain_id (no "type:" prefix) against destination state.
+
+        Returns (resolved_destination_id, is_permanently_stale):
+          - Present in state.destination[resource_to_connect]: returns
+            (destination_id, False) -- success path, caller keeps/remaps this entry.
+          - Absent from destination: calls ensure_resource_loaded() (for
+            --minimize-reads correctness), then rechecks destination because the lazy load
+            may have populated its mapping, and only then checks source.
+              - Present in source ("not yet synced"): returns (None, False) -- caller
+                must treat this as today's hard-fail (add plain_id to failed_connections);
+                NOT a drop. This is the legitimate "retry on a later sync" case.
+              - Absent from source (permanently gone -- deleted before this org's
+                first-ever import, or never existed): returns (None, True) -- caller
+                drops this entry ONLY if self.config.drop_unresolvable_principals is True;
+                if the flag is False, caller must treat this identically to the "not yet
+                synced" case (today's unchanged hard-fail).
+
+        Callers own: parsing "type:id" composites to plain_id before calling, reassembling
+        "type:id" on success, deciding what "the list" means for their shape
+        (binding.principals vs. flat restricted_roles), and the "list is now empty"
+        access-elevation check.
+
+        state.destination/state.source are defaultdict(dict), so indexing an unknown
+        resource_to_connect returns {} rather than raising -- plain `in` membership checks
+        are safe and no KeyError guard is needed. An exception raised by
+        ensure_resource_loaded (e.g. a storage error) propagates uncaught, matching every
+        other ensure_resource_loaded call site.
+        """
+        destination = self.config.state.destination[resource_to_connect]
+        if plain_id in destination:
+            return destination[plain_id]["id"], False
+
+        self.config.state.ensure_resource_loaded(resource_to_connect, plain_id)
+        destination = self.config.state.destination[resource_to_connect]
+        if plain_id in destination:
+            return destination[plain_id]["id"], False
+
+        if plain_id in self.config.state.source[resource_to_connect]:
+            return None, False
+        return None, True
+
+    # Composite "type:id" principal type prefixes -> the resource_to_connect they map to.
+    _PRINCIPAL_TYPE_MAP: ClassVar[Dict[str, str]] = {"user": "users", "role": "roles", "team": "teams"}
+
+    def _filter_stale_binding_principals(
+        self, _id: str, bindings: Optional[List[Dict]]
+    ) -> Tuple[Dict[str, List[str]], bool]:
+        """Resolve/drop/hard-fail composite "type:id" principals across restriction-policy
+        bindings (shared by restriction_policies / monitors / synthetics_tests).
+
+        For each principal in each binding: resolve against destination (remap in place),
+        else consult source. Source-present ("not yet synced") or flag-off -> hard-fail
+        (add to failed_connections). Source-absent ("permanently gone") AND
+        --drop-unresolvable-principals -> drop it, WARN, and count it.
+
+        Rebuilds each binding's "principals" as a NEW list (never del/pop/index-assign
+        during iteration) to avoid the enumerate/index-shift skip bug. Returns
+        (failed_connections_dict, empty_binding_risk) where empty_binding_risk is True if
+        any binding whose source list was non-empty became empty after dropping.
+        """
+        failed_connections_dict: Dict[str, List[str]] = defaultdict(list)
+        empty_binding_risk = False
+        for binding in bindings or []:
+            principals = binding.get("principals")
+            if not principals:
+                continue
+            had_principals = len(principals) > 0
+            kept: List[str] = []
+            for policy_id in principals:
+                parts = policy_id.split(":", 1)
+                if len(parts) != 2:
+                    kept.append(policy_id)
+                    continue
+                _type, plain_id = parts
+                resource_to_connect = self._PRINCIPAL_TYPE_MAP.get(_type)
+                if resource_to_connect is None:
+                    # org: (already remapped by pre_resource_action_hook) or any other
+                    # non-user/role/team principal -> pass through untouched.
+                    kept.append(policy_id)
+                    continue
+                resolved, stale = self._resolve_or_drop(plain_id, resource_to_connect)
+                if resolved is not None:
+                    kept.append(f"{_type}:{resolved}")
+                elif stale and self.config.drop_unresolvable_principals:
+                    self.config.logger.warning(
+                        f"dropping stale principal '{policy_id}': absent from source and "
+                        "destination (likely deleted before the org's first sync)",
+                        resource_type=self.resource_type,
+                        _id=_id,
+                    )
+                    if self.config.counter is not None:
+                        self.config.counter.record_stale_principal_dropped(resource_type=self.resource_type, _id=_id)
+                else:
+                    # Source-present ("not yet synced", retry later) or flag off:
+                    # unchanged hard-fail semantics -- keep the original id and record it.
+                    kept.append(policy_id)
+                    failed_connections_dict[resource_to_connect].append(plain_id)
+            binding["principals"] = kept
+            if had_principals and not kept:
+                empty_binding_risk = True
+        return failed_connections_dict, empty_binding_risk
+
+    def _filter_stale_flat_roles(self, _id: str, container: Optional[Dict], key: str) -> Tuple[List[str], bool]:
+        """Resolve/drop/hard-fail a flat list of role ids at container[key]
+        (restricted_roles / options.restricted_roles / metadata.restricted_roles).
+
+        Same three-way logic as _filter_stale_binding_principals but for plain role ids
+        (no "type:" prefix). Rebuilds the list as a NEW list. Returns
+        (failed_role_ids, empty_list_risk) where empty_list_risk is True if a non-empty
+        source list became empty after dropping.
+        """
+        failed: List[str] = []
+        if not container:
+            return failed, False
+        roles = container.get(key)
+        if not roles:
+            return failed, False
+        had_roles = len(roles) > 0
+        kept: List[str] = []
+        for role in roles:
+            plain_id = str(role)
+            resolved, stale = self._resolve_or_drop(plain_id, "roles")
+            if resolved is not None:
+                kept.append(type(role)(resolved))
+            elif stale and self.config.drop_unresolvable_principals:
+                self.config.logger.warning(
+                    f"dropping stale role '{plain_id}' from {key}: absent from source and "
+                    "destination (likely deleted before the org's first sync)",
+                    resource_type=self.resource_type,
+                    _id=_id,
+                )
+                if self.config.counter is not None:
+                    self.config.counter.record_stale_principal_dropped(resource_type=self.resource_type, _id=_id)
+            else:
+                kept.append(role)
+                failed.append(plain_id)
+        container[key] = kept
+        return failed, (had_roles and not kept)
+
+    def _raise_connection_error_if_any(
+        self, _id: str, failed_connections_dict: Dict[str, List[str]], empty_binding_risk: bool = False
+    ) -> bool:
+        """Shared terminal step for the drop-aware connect_resources overrides.
+
+        Mirrors the base connect_resources raise/skip behavior: raise unless
+        --skip-failed-resource-connections is set. empty_binding_risk is threaded onto the
+        exception so _apply_resource_cb can tag skipped-resource metrics. When
+        --skip-failed-resource-connections suppresses the exception, returns True for an
+        empty-binding risk so the apply path can tag the successful action and include it in
+        the end-of-run escalation summary. Otherwise returns False.
+        """
+        if not failed_connections_dict and not empty_binding_risk:
+            return False
+        e = ResourceConnectionError(
+            failed_connections_dict=failed_connections_dict, empty_binding_risk=empty_binding_risk
+        )
+        if empty_binding_risk:
+            if self.config.skip_failed_resource_connections:
+                self.config.logger.error(
+                    "access-elevation risk: a binding/list whose source had principals became "
+                    "empty after dropping unresolvable references; "
+                    "--skip-failed-resource-connections is enabled, continuing sync. "
+                    "DESTINATION RESOURCE MAY BE UNRESTRICTED",
+                    resource_type=self.resource_type,
+                    _id=_id,
+                )
+            else:
+                self.config.logger.error(
+                    "access-elevation risk: a binding/list whose source had principals became "
+                    "empty after dropping unresolvable references; refusing to sync",
+                    resource_type=self.resource_type,
+                    _id=_id,
+                )
+        if not self.config.skip_failed_resource_connections:
+            self.config.logger.info(
+                f"skipping resource: {str(e)}",
+                _id=_id,
+                resource_type=self.resource_type,
+            )
+            raise e
+        else:
+            self.config.logger.debug(f"{str(e)}", _id=_id, resource_type=self.resource_type)
+            return empty_binding_risk
+
     def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         """Extract dependency IDs referenced at r_obj[key] for resource_to_connect.
 
@@ -451,9 +643,9 @@ class BaseResource(abc.ABC):
             return [str(v) for v in r_obj[key]]
         return [str(r_obj[key])]
 
-    def connect_resources(self, _id: str, resource: Dict) -> None:
+    def connect_resources(self, _id: str, resource: Dict) -> ResourceConnectionResult:
         if not self.resource_config.resource_connections:
-            return
+            return ResourceConnectionResult()
 
         failed_connections_dict = defaultdict(list)
         for resource_to_connect, v in self.resource_config.resource_connections.items():
@@ -474,6 +666,8 @@ class BaseResource(abc.ABC):
                 raise e
             else:
                 self.config.logger.debug(f"{str(e)}", _id=_id, resource_type=self.resource_type)
+
+        return ResourceConnectionResult()
 
     def filter(self, resource: Dict) -> bool:
         if not self.config.filters or self.resource_type not in self.config.filters:

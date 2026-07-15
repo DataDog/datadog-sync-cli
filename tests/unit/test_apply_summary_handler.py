@@ -36,6 +36,19 @@ def _rendered_warnings(logger):
     return out
 
 
+def _rendered_errors(logger):
+    out = []
+    for call in logger.error.call_args_list:
+        args = call.args
+        if not args:
+            continue
+        try:
+            out.append(args[0] % args[1:])
+        except Exception:
+            out.append(str(args))
+    return out
+
+
 def test_summary_emits_failed_ids_by_type():
     counter = Counter()
     counter.increment_failure(resource_type="roles", _id="uuid-abc")
@@ -121,6 +134,55 @@ def test_summary_uses_join_not_repr_for_greppability():
     joined = "\n".join(_rendered_warnings(logger))
     assert "uuid-searchable" in joined
     assert "sync summary" in joined
+
+
+def test_summary_emits_stale_principals_dropped_at_warning():
+    counter = Counter()
+    counter.record_stale_principal_dropped(resource_type="restriction_policies", _id="role:role-uuid-1")
+
+    logger = _make_logger()
+    _emit_apply_summary(logger, counter)
+
+    joined = "\n".join(_rendered_warnings(logger))
+    assert "restriction_policies" in joined
+    assert "role:role-uuid-1" in joined
+    assert "dropped" in joined and "stale principal" in joined
+
+
+def test_summary_emits_empty_binding_risk_at_error():
+    counter = Counter()
+    counter.record_empty_binding_risk(resource_type="restriction_policies", _id="dashboard:dash-1")
+
+    logger = _make_logger()
+    _emit_apply_summary(logger, counter)
+
+    joined_err = "\n".join(_rendered_errors(logger))
+    assert "restriction_policies" in joined_err
+    assert "dashboard:dash-1" in joined_err
+    assert "empty-binding" in joined_err and "access-elevation" in joined_err
+
+
+def test_summary_emits_applied_empty_binding_escalation_at_error():
+    counter = Counter()
+    counter.record_empty_binding_escalation(resource_type="restriction_policies", _id="dashboard:dash-1")
+
+    logger = _make_logger()
+    _emit_apply_summary(logger, counter)
+
+    joined_err = "\n".join(_rendered_errors(logger))
+    assert "restriction_policies" in joined_err
+    assert "dashboard:dash-1" in joined_err
+    assert "connection failure was suppressed" in joined_err
+    assert "DESTINATION RESOURCE MAY BE UNRESTRICTED" in joined_err
+
+
+def test_summary_silent_for_new_buckets_when_empty():
+    counter = Counter()
+    logger = _make_logger()
+    _emit_apply_summary(logger, counter)
+    # No stale/empty-binding activity -> neither WARNING nor ERROR lines emitted.
+    assert logger.warning.call_count == 0
+    assert logger.error.call_count == 0
 
 
 def test_chunk_constant_is_reasonable():
