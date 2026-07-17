@@ -385,6 +385,42 @@ class TestReconcileByHandle:
 
 
 class TestUpdatePathRegression:
+    def test_successful_role_retry_remains_in_persisted_state(self, mock_config):
+        """A successful role retry is not lost when PATCH omits relationships."""
+        instance = Users(mock_config)
+        successful_role = {"id": "role-dst-success", "type": "roles"}
+        dest_user = _make_user("user-a@example.com", "shared@example.com", "dest-a")
+        mock_config.state.destination["users"]["src-a"] = dest_user
+        instance.add_user_to_role = AsyncMock(return_value=True)
+        updated_user = {
+            "id": "dest-a",
+            "type": "users",
+            "attributes": {
+                "handle": "user-a@example.com",
+                "email": "shared@example.com",
+                "name": "Updated User",
+                "disabled": False,
+            },
+        }
+        mock_config.destination_client.patch = AsyncMock(return_value={"data": updated_user})
+
+        def source_user():
+            return _make_user(
+                "user-a@example.com",
+                "shared@example.com",
+                "src-a",
+                name="Updated User",
+                roles=[successful_role],
+            )
+
+        asyncio.run(instance._update_resource("src-a", source_user()))
+        asyncio.run(instance._update_resource("src-a", source_user()))
+
+        stored = mock_config.state.destination["users"]["src-a"]
+        assert stored["relationships"]["roles"]["data"] == [successful_role]
+        instance.add_user_to_role.assert_awaited_once_with("dest-a", "role-dst-success")
+        mock_config.destination_client.patch.assert_awaited_once()
+
     def test_role_retry_persists_partial_state_and_reports_failure(self, mock_config):
         """A later run retries missing roles without reporting full success."""
         instance = Users(mock_config)

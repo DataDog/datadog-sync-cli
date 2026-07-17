@@ -178,6 +178,20 @@ class Users(BaseResource):
         if failed_role_ids:
             raise UserRoleAssignmentError(user, failed_role_ids)
 
+    @staticmethod
+    def _merge_role_state(updated_user: Dict, role_state: Dict) -> Dict:
+        """Preserve known role memberships when a user PATCH omits them."""
+        updated_roles = updated_user.setdefault("relationships", {}).setdefault("roles", {}).setdefault("data", [])
+        updated_role_ids = {
+            role["id"] for role in updated_roles if isinstance(role, dict) and role.get("id") is not None
+        }
+        for role in role_state.get("relationships", {}).get("roles", {}).get("data", []):
+            role_id = role.get("id") if isinstance(role, dict) else None
+            if role_id is not None and role_id not in updated_role_ids:
+                updated_roles.append(dict(role))
+                updated_role_ids.add(role_id)
+        return updated_user
+
     async def _get_destination_user_by_handle(self, handle: str) -> Optional[Dict]:
         """Return the destination user whose handle matches exactly, or None.
 
@@ -221,24 +235,13 @@ class Users(BaseResource):
                 self.resource_config.base_path + f"/{destination_user['id']}",
                 {"data": resource},
             )
+            updated_user = self._merge_role_state(resp["data"], destination_user)
 
             if role_error is not None:
-                updated_user = resp["data"]
-                updated_roles = (
-                    updated_user.setdefault("relationships", {}).setdefault("roles", {}).setdefault("data", [])
-                )
-                updated_role_ids = {
-                    role["id"] for role in updated_roles if isinstance(role, dict) and role.get("id") is not None
-                }
-                for role in destination_user.get("relationships", {}).get("roles", {}).get("data", []):
-                    role_id = role.get("id") if isinstance(role, dict) else None
-                    if role_id is not None and role_id not in updated_role_ids:
-                        updated_roles.append(dict(role))
-                        updated_role_ids.add(role_id)
                 self.config.state.destination[self.resource_type][_id] = updated_user
                 role_error.user = updated_user
                 raise role_error
-            return _id, resp["data"]
+            return _id, updated_user
         return _id, destination_user
 
     async def delete_resource(self, _id: str) -> None:
