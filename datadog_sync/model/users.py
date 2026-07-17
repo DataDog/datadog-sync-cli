@@ -94,7 +94,10 @@ class Users(BaseResource):
             # collapses distinct-handle users that share an email onto one handle.
             # v1 accepts an explicit handle, so each user keeps its own.
             return _id, await self._create_via_v1(
-                attributes.get("handle"), attributes.get("name"), attributes.get("email")
+                attributes.get("handle"),
+                attributes.get("name"),
+                attributes.get("email"),
+                resource.get("relationships", {}).get("roles", {}).get("data", []),
             )
 
         destination_client = self.config.destination_client
@@ -104,7 +107,13 @@ class Users(BaseResource):
         resp = await destination_client.post(self.resource_config.base_path, {"data": resource})
         return _id, resp["data"]
 
-    async def _create_via_v1(self, handle: Optional[str], name: Optional[str], email: Optional[str]) -> Dict:
+    async def _create_via_v1(
+        self,
+        handle: Optional[str],
+        name: Optional[str],
+        email: Optional[str],
+        desired_roles: Optional[List[Dict]] = None,
+    ) -> Dict:
         """Create the user via the v1 API, which accepts an explicit handle.
 
         v2 ``POST /api/v2/users`` cannot set a handle (it is derived from the
@@ -124,7 +133,25 @@ class Users(BaseResource):
         user = await self._get_destination_user_by_handle(handle)
         if user is None:
             raise ValueError("v1-created user not found by handle after create")
+        await self._assign_missing_roles(user, desired_roles or [])
         return user
+
+    async def _assign_missing_roles(self, user: Dict, desired_roles: List[Dict]) -> None:
+        """Assign missing roles and keep the reconciled user state accurate."""
+        existing_roles = user.setdefault("relationships", {}).setdefault("roles", {}).setdefault("data", [])
+        existing_role_ids = {
+            role["id"] for role in existing_roles if isinstance(role, dict) and role.get("id") is not None
+        }
+
+        for role in desired_roles:
+            if not isinstance(role, dict) or role.get("id") is None:
+                continue
+            role_id = role["id"]
+            if role_id in existing_role_ids:
+                continue
+            if await self.add_user_to_role(user["id"], role_id):
+                existing_roles.append(dict(role))
+                existing_role_ids.add(role_id)
 
     async def _get_destination_user_by_handle(self, handle: str) -> Optional[Dict]:
         """Return the destination user whose handle matches exactly, or None.
@@ -189,13 +216,15 @@ class Users(BaseResource):
                         role_id = new_val["id"] if isinstance(new_val, dict) else new_val
                         await self.add_user_to_role(_id, role_id)
 
-    async def add_user_to_role(self, user_id, role_id):
+    async def add_user_to_role(self, user_id, role_id) -> bool:
         destination_client = self.config.destination_client
         payload = {"data": {"id": user_id, "type": "users"}}
         try:
             await destination_client.post(self.roles_path.format(role_id), payload)
+            return True
         except CustomClientHTTPError as e:
             self.config.logger.error("error adding user: %s to role %s: %s", user_id, role_id, e)
+            return False
 
     async def remove_user_from_role(self, user_id, role_id):
         destination_client = self.config.destination_client

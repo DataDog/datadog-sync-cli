@@ -39,7 +39,7 @@ def _http_error(status):
     return CustomClientHTTPError(response)
 
 
-def _make_user(handle, email, user_id, name="User"):
+def _make_user(handle, email, user_id, name="User", roles=None):
     """Build a user dict shaped like the v2 GET/create response."""
     return {
         "id": user_id,
@@ -50,7 +50,7 @@ def _make_user(handle, email, user_id, name="User"):
             "name": name,
             "disabled": False,
         },
-        "relationships": {"roles": {"data": []}},
+        "relationships": {"roles": {"data": roles or []}},
     }
 
 
@@ -123,9 +123,7 @@ class TestV2CreatePayload:
         mock_config.use_v1_user_api = False
         instance = Users(mock_config)
         instance._existing_resources_map = {}
-        mock_config.destination_client.post = AsyncMock(
-            return_value={"data": {"id": "dest-x", "attributes": {}}}
-        )
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-x", "attributes": {}}})
         src = _make_user("user-a@example.com", "shared@example.com", "src-a")
 
         asyncio.run(instance.create_resource("src-a", src))
@@ -140,14 +138,10 @@ class TestV2CreatePayload:
         """f2: the v2 update (PATCH) body must not carry the read-only handle."""
         instance = Users(mock_config)
         _id = "src-a"
-        mock_config.state.destination["users"][_id] = _make_user(
-            "user-a@example.com", "shared@example.com", "dest-a"
-        )
+        mock_config.state.destination["users"][_id] = _make_user("user-a@example.com", "shared@example.com", "dest-a")
         # A differing name forces a diff -> the PATCH branch.
         src = _make_user("user-a@example.com", "shared@example.com", "dest-a", name="New Name")
-        mock_config.destination_client.patch = AsyncMock(
-            return_value={"data": {"id": "dest-a", "attributes": {}}}
-        )
+        mock_config.destination_client.patch = AsyncMock(return_value={"data": {"id": "dest-a", "attributes": {}}})
 
         asyncio.run(instance.update_resource(_id, src))
 
@@ -178,16 +172,12 @@ class TestV1UserApiFlagWiring:
 
     def test_sync_accepts_v1_flag(self):
         """p2: the sync command recognizes the flag (exit 2 == usage error)."""
-        result = CliRunner(mix_stderr=False).invoke(
-            cli, ["sync", "--use-v1-user-api=true", "--validate=false"]
-        )
+        result = CliRunner(mix_stderr=False).invoke(cli, ["sync", "--use-v1-user-api=true", "--validate=false"])
         assert result.exit_code != 2
 
     def test_migrate_accepts_v1_flag(self):
         """p3: migrate reuses @sync_options, so it recognizes the flag too."""
-        result = CliRunner(mix_stderr=False).invoke(
-            cli, ["migrate", "--use-v1-user-api=true", "--validate=false"]
-        )
+        result = CliRunner(mix_stderr=False).invoke(cli, ["migrate", "--use-v1-user-api=true", "--validate=false"])
         assert result.exit_code != 2
 
 
@@ -261,6 +251,78 @@ class TestV1CreatePath:
         ]
         assert v1_handles == ["abc@example.com", "jsmith@example.com"]
         assert "/api/v2/users" not in _post_paths(mock_config)
+
+    def test_assigns_only_missing_roles_and_returns_updated_state(self, mock_config):
+        """v1 create assigns mapped roles after resolving the v2 UUID.
+
+        Roles already present on the reconciled user are not posted again, and
+        successful assignments are reflected in the destination state returned
+        by create_resource.
+        """
+        mock_config.use_v1_user_api = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        existing_role = {"id": "role-dst-existing", "type": "roles"}
+        missing_role = {"id": "role-dst-missing", "type": "roles"}
+        dest_user = _make_user(
+            "user-a@example.com",
+            "shared@example.com",
+            "dest-uuid-a",
+            roles=[existing_role],
+        )
+        source_user = _make_user(
+            "user-a@example.com",
+            "shared@example.com",
+            "src-a",
+            roles=[existing_role, missing_role],
+        )
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {}})
+        _mock_paginated(mock_config, [[dest_user]])
+
+        _, created = asyncio.run(instance.create_resource("src-a", source_user))
+
+        assert _post_paths(mock_config) == [
+            "/api/v1/user",
+            "/api/v2/roles/role-dst-missing/users",
+        ]
+        assert created["relationships"]["roles"]["data"] == [existing_role, missing_role]
+
+    def test_role_failure_does_not_block_remaining_roles_or_corrupt_state(self, mock_config):
+        """A failed role assignment is logged while later roles are attempted.
+
+        Only successful assignments are recorded in returned destination state,
+        leaving failed roles eligible for retry on a later sync.
+        """
+        mock_config.use_v1_user_api = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        failed_role = {"id": "role-dst-failed", "type": "roles"}
+        successful_role = {"id": "role-dst-success", "type": "roles"}
+        dest_user = _make_user("user-a@example.com", "shared@example.com", "dest-uuid-a")
+        source_user = _make_user(
+            "user-a@example.com",
+            "shared@example.com",
+            "src-a",
+            roles=[failed_role, successful_role],
+        )
+
+        async def post(path, _body):
+            if path == "/api/v2/roles/role-dst-failed/users":
+                raise _http_error(403)
+            return {"data": {}}
+
+        mock_config.destination_client.post = AsyncMock(side_effect=post)
+        _mock_paginated(mock_config, [[dest_user]])
+
+        _, created = asyncio.run(instance.create_resource("src-a", source_user))
+
+        assert _post_paths(mock_config) == [
+            "/api/v1/user",
+            "/api/v2/roles/role-dst-failed/users",
+            "/api/v2/roles/role-dst-success/users",
+        ]
+        assert created["relationships"]["roles"]["data"] == [successful_role]
+        mock_config.logger.error.assert_called_once()
 
     def test_requires_handle(self, mock_config):
         """d0: v1 creation raises when there is no handle to send."""
