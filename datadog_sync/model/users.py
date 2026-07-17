@@ -14,6 +14,17 @@ if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
 
 
+class UserRoleAssignmentError(RuntimeError):
+    """Role assignment failed after the user was created and reconciled."""
+
+    def __init__(self, user: Dict, failed_role_ids: List[str]) -> None:
+        self.user = user
+        self.failed_role_ids = tuple(failed_role_ids)
+        count = len(failed_role_ids)
+        assignment = "role assignment" if count == 1 else "role assignments"
+        super().__init__(f"{count} {assignment} failed after v1 user creation")
+
+
 class Users(BaseResource):
     resource_type = "users"
     resource_config = ResourceConfig(
@@ -93,12 +104,20 @@ class Users(BaseResource):
             # v2 create cannot set a handle (it derives one from the email), which
             # collapses distinct-handle users that share an email onto one handle.
             # v1 accepts an explicit handle, so each user keeps its own.
-            return _id, await self._create_via_v1(
-                attributes.get("handle"),
-                attributes.get("name"),
-                attributes.get("email"),
-                resource.get("relationships", {}).get("roles", {}).get("data", []),
-            )
+            try:
+                user = await self._create_via_v1(
+                    attributes.get("handle"),
+                    attributes.get("name"),
+                    attributes.get("email"),
+                    resource.get("relationships", {}).get("roles", {}).get("data", []),
+                )
+            except UserRoleAssignmentError as e:
+                # Preserve the reconciled UUID and successful memberships so
+                # downstream resources can still resolve this user. Re-raising
+                # makes the apply handler count and emit the partial failure.
+                self.config.state.destination[self.resource_type][_id] = e.user
+                raise
+            return _id, user
 
         destination_client = self.config.destination_client
         # handle is read-only in v2 (derived from email) and must not be sent.
@@ -142,6 +161,7 @@ class Users(BaseResource):
         existing_role_ids = {
             role["id"] for role in existing_roles if isinstance(role, dict) and role.get("id") is not None
         }
+        failed_role_ids = []
 
         for role in desired_roles:
             if not isinstance(role, dict) or role.get("id") is None:
@@ -152,6 +172,11 @@ class Users(BaseResource):
             if await self.add_user_to_role(user["id"], role_id):
                 existing_roles.append(dict(role))
                 existing_role_ids.add(role_id)
+            else:
+                failed_role_ids.append(str(role_id))
+
+        if failed_role_ids:
+            raise UserRoleAssignmentError(user, failed_role_ids)
 
     async def _get_destination_user_by_handle(self, handle: str) -> Optional[Dict]:
         """Return the destination user whose handle matches exactly, or None.

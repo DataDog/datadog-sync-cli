@@ -26,7 +26,7 @@ from click.testing import CliRunner
 
 from datadog_sync.cli import cli
 from datadog_sync.constants import Command
-from datadog_sync.model.users import Users
+from datadog_sync.model.users import UserRoleAssignmentError, Users
 from datadog_sync.utils.configuration import build_config
 from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
 
@@ -287,11 +287,12 @@ class TestV1CreatePath:
         ]
         assert created["relationships"]["roles"]["data"] == [existing_role, missing_role]
 
-    def test_role_failure_does_not_block_remaining_roles_or_corrupt_state(self, mock_config):
-        """A failed role assignment is logged while later roles are attempted.
+    def test_role_failure_persists_partial_state_and_reports_failure(self, mock_config):
+        """A failed role assignment is reported after later roles are attempted.
 
         Only successful assignments are recorded in returned destination state,
-        leaving failed roles eligible for retry on a later sync.
+        leaving failed roles eligible for retry on a later sync. The exception
+        lets the apply handler count the otherwise-partial create as a failure.
         """
         mock_config.use_v1_user_api = True
         instance = Users(mock_config)
@@ -314,13 +315,18 @@ class TestV1CreatePath:
         mock_config.destination_client.post = AsyncMock(side_effect=post)
         _mock_paginated(mock_config, [[dest_user]])
 
-        _, created = asyncio.run(instance.create_resource("src-a", source_user))
+        with pytest.raises(
+            UserRoleAssignmentError, match="1 role assignment failed after v1 user creation"
+        ) as exc_info:
+            asyncio.run(instance.create_resource("src-a", source_user))
 
+        assert exc_info.value.failed_role_ids == ("role-dst-failed",)
         assert _post_paths(mock_config) == [
             "/api/v1/user",
             "/api/v2/roles/role-dst-failed/users",
             "/api/v2/roles/role-dst-success/users",
         ]
+        created = mock_config.state.destination["users"]["src-a"]
         assert created["relationships"]["roles"]["data"] == [successful_role]
         mock_config.logger.error.assert_called_once()
 
