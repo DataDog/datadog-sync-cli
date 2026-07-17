@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import asyncio
 from typing import TYPE_CHECKING, Any, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -66,6 +67,7 @@ class Users(BaseResource):
         page_size=500,
     )
     roles_path: str = "/api/v2/roles/{}/users"
+    user_lookup_retry_delays: Tuple[float, ...] = (1.0, 2.0)
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.paginated_request(client.get)(
@@ -196,11 +198,11 @@ class Users(BaseResource):
         """Return the destination user whose handle matches exactly, or None.
 
         Transient HTTP errors are already retried by the client's
-        ``request_with_retry``; this adds a small, sleep-free re-query loop only
-        to absorb read-after-write visibility lag after a v1 create.
+        ``request_with_retry``; this adds a bounded re-query loop with delays to
+        absorb read-after-write visibility lag after a v1 create.
         """
         destination_client = self.config.destination_client
-        for _ in range(3):
+        for attempt in range(len(self.user_lookup_retry_delays) + 1):
             resp = await destination_client.paginated_request(destination_client.get)(
                 self.resource_config.base_path,
                 pagination_config=self.pagination_config,
@@ -209,6 +211,8 @@ class Users(BaseResource):
             for user in resp:
                 if user.get("attributes", {}).get("handle") == handle:
                     return user
+            if attempt < len(self.user_lookup_retry_delays):
+                await asyncio.sleep(self.user_lookup_retry_delays[attempt])
         return None
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:

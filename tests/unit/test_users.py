@@ -19,7 +19,7 @@ exclude_regex_paths migration. ``p1``/``p2``/``p3`` guard the flag wiring.
 """
 
 import asyncio
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock, MagicMock, call, patch
 
 import pytest
 from click.testing import CliRunner
@@ -359,20 +359,24 @@ class TestReconcileByHandle:
         mock_config.destination_client.post = AsyncMock(return_value={"data": {}})
         other = _make_user("user-b@example.com", "shared@example.com", "dest-b")
         _mock_paginated(mock_config, [[other], [other], [other]])
-        with pytest.raises(ValueError):
-            asyncio.run(
-                instance.create_resource("src-a", _make_user("user-a@example.com", "shared@example.com", "src-a"))
-            )
+        with patch("datadog_sync.model.users.asyncio.sleep", new_callable=AsyncMock) as sleep:
+            with pytest.raises(ValueError):
+                asyncio.run(
+                    instance.create_resource("src-a", _make_user("user-a@example.com", "shared@example.com", "src-a"))
+                )
+        assert sleep.await_args_list == [call(1.0), call(2.0)]
 
     def test_requeries_on_empty_then_matches(self, mock_config):
         """d3b: read-after-write — an empty first page then a match re-queries
-        (exactly two calls) rather than giving up on the first empty result."""
+        after a bounded delay rather than immediately retrying."""
         instance = Users(mock_config)
         match = _make_user("user-a@example.com", "shared@example.com", "dest-uuid-a")
         inner = _mock_paginated(mock_config, [[], [match]])
-        user = asyncio.run(instance._get_destination_user_by_handle("user-a@example.com"))
+        with patch("datadog_sync.model.users.asyncio.sleep", new_callable=AsyncMock) as sleep:
+            user = asyncio.run(instance._get_destination_user_by_handle("user-a@example.com"))
         assert user["id"] == "dest-uuid-a"
         assert inner.call_count == 2
+        assert sleep.await_args_list == [call(1.0)]
 
     def test_selects_exact_case_handle_among_candidates(self, mock_config):
         """d5: with multiple filter candidates, only the exact-case handle wins."""
