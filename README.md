@@ -19,6 +19,7 @@ Datadog cli tool to sync resources across organizations.
   - [Config file](#config-file)
   - [Cleanup flag](#cleanup-flag)
   - [Verify DDR Status Flag](#verify-ddr-status-flag)
+  - [Create users via the v1 API](#create-users-via-the-v1-api)
   - [State Files](#state-files)
   - [Supported resources](#supported-resources)
 - [Best practices](#best-practices)
@@ -208,6 +209,13 @@ For example, `ResourceA` and `ResourceB` are imported and synced, followed by de
 #### Verify DDR status flag
 
 By default all commands check the Datadog Disaster Recovery (DDR) status of both the source and destination organizations before running. This behavior is controlled by the boolean flag `--verify-ddr-status` or the environment variable `DD_VERIFY_DDR_STATUS`. 
+
+
+#### Create users via the v1 API
+
+The destination enforces user uniqueness on the `handle`, not the email — multiple users may share an email address. The v2 user create endpoint (`POST /api/v2/users`) does not accept a `handle` (it derives one from the email), so users that share an email collapse onto a single handle: the first create takes a handle that may belong to another user, and later creates for that email return an HTTP 409.
+
+Passing `--use-v1-user-api` (or setting `DD_USE_V1_USER_API=true`) makes `sync` create users via the v1 user endpoint (`POST /api/v1/user`), which accepts an explicit handle, so every user keeps its own handle and no create collides. The flag is off by default.
 
 
 #### Running behind an HTTP proxy
