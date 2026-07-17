@@ -32,7 +32,7 @@ class Users(BaseResource):
             "attributes.service_account",
             # NOTE: attributes.handle is deliberately NOT excluded here. It is the
             # user mapping key (resource_mapping_key below) and the payload for the
-            # v1 create fallback, so it must survive prep_resource. It is popped
+            # v1 user creation, so it must survive prep_resource. It is popped
             # manually before the v2 POST/PATCH (v2 treats handle as read-only) and
             # kept out of update diffs via deep_diff_config.exclude_regex_paths below.
             "attributes.icon",
@@ -88,12 +88,62 @@ class Users(BaseResource):
             self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[key]
             return await self.update_resource(_id, resource)
 
-        destination_client = self.config.destination_client
-        resource["attributes"].pop("disabled", None)
-        resource["attributes"].pop("handle", None)
-        resp = await destination_client.post(self.resource_config.base_path, {"data": resource})
+        attributes = resource["attributes"]
+        if self.config.use_v1_user_api:
+            # v2 create cannot set a handle (it derives one from the email), which
+            # collapses distinct-handle users that share an email onto one handle.
+            # v1 accepts an explicit handle, so each user keeps its own.
+            return _id, await self._create_via_v1(
+                attributes.get("handle"), attributes.get("name"), attributes.get("email")
+            )
 
+        destination_client = self.config.destination_client
+        # handle is read-only in v2 (derived from email) and must not be sent.
+        attributes.pop("disabled", None)
+        attributes.pop("handle", None)
+        resp = await destination_client.post(self.resource_config.base_path, {"data": resource})
         return _id, resp["data"]
+
+    async def _create_via_v1(self, handle: Optional[str], name: Optional[str], email: Optional[str]) -> Dict:
+        """Create the user via the v1 API, which accepts an explicit handle.
+
+        v2 ``POST /api/v2/users`` cannot set a handle (it is derived from the
+        email), so users that share an email collapse onto one handle and later
+        creates 409 — and the v2 "winner" is created with the wrong handle. v1
+        ``POST /api/v1/user`` accepts a distinct handle. The v1 response is the
+        legacy user shape, so re-resolve the v2 UUID by handle and return that
+        record — state and downstream references (roles, team_memberships) key
+        on the v2 UUID.
+        """
+        if not handle:
+            raise ValueError("v1 user creation requires a handle")
+
+        destination_client = self.config.destination_client
+        await destination_client.post("/api/v1/user", {"handle": handle, "name": name, "email": email})
+
+        user = await self._get_destination_user_by_handle(handle)
+        if user is None:
+            raise ValueError("v1-created user not found by handle after create")
+        return user
+
+    async def _get_destination_user_by_handle(self, handle: str) -> Optional[Dict]:
+        """Return the destination user whose handle matches exactly, or None.
+
+        Transient HTTP errors are already retried by the client's
+        ``request_with_retry``; this adds a small, sleep-free re-query loop only
+        to absorb read-after-write visibility lag after a v1 create.
+        """
+        destination_client = self.config.destination_client
+        for _ in range(3):
+            resp = await destination_client.paginated_request(destination_client.get)(
+                self.resource_config.base_path,
+                pagination_config=self.pagination_config,
+                params={"filter": handle},
+            )
+            for user in resp:
+                if user.get("attributes", {}).get("handle") == handle:
+                    return user
+        return None
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client

@@ -19,15 +19,24 @@ exclude_regex_paths migration. ``p1``/``p2``/``p3`` guard the flag wiring.
 """
 
 import asyncio
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, MagicMock
 
+import pytest
 from click.testing import CliRunner
 
 from datadog_sync.cli import cli
 from datadog_sync.constants import Command
 from datadog_sync.model.users import Users
 from datadog_sync.utils.configuration import build_config
-from datadog_sync.utils.resource_utils import check_diff
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
+
+
+def _http_error(status):
+    """Build a CustomClientHTTPError with the given status code."""
+    response = MagicMock()
+    response.status = status
+    response.message = "Conflict" if status == 409 else "Error"
+    return CustomClientHTTPError(response)
 
 
 def _make_user(handle, email, user_id, name="User"):
@@ -111,6 +120,7 @@ class TestHandleMappingKey:
 class TestV2CreatePayload:
     def test_v2_post_body_excludes_handle_and_disabled(self, mock_config):
         """f: the v2 create body must not carry read-only handle or disabled."""
+        mock_config.use_v1_user_api = False
         instance = Users(mock_config)
         instance._existing_resources_map = {}
         mock_config.destination_client.post = AsyncMock(
@@ -179,3 +189,146 @@ class TestV1UserApiFlagWiring:
             cli, ["migrate", "--use-v1-user-api=true", "--validate=false"]
         )
         assert result.exit_code != 2
+
+
+def _mock_paginated(config, pages):
+    """Make destination_client.paginated_request(get)(...) yield ``pages`` in order."""
+    inner = AsyncMock(side_effect=pages)
+    config.destination_client.paginated_request = MagicMock(return_value=inner)
+    return inner
+
+
+def _post_paths(mock_config):
+    return [c.args[0] for c in mock_config.destination_client.post.call_args_list]
+
+
+class TestV2CreatePath:
+    def test_flag_off_uses_v2_not_v1(self, mock_config):
+        """b: with the flag off, create goes through the v2 endpoint and never
+        touches the v1 API (preserves the default upstream behavior)."""
+        mock_config.use_v1_user_api = False
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-x", "attributes": {}}})
+
+        asyncio.run(instance.create_resource("src-a", _make_user("user-a@example.com", "shared@example.com", "src-a")))
+
+        assert _post_paths(mock_config) == ["/api/v2/users"]
+
+
+class TestV1CreatePath:
+    def test_flag_on_uses_v1_with_handle_not_v2(self, mock_config):
+        """d1: with the flag on, create posts to /api/v1/user carrying the handle,
+        never calls the v2 users endpoint, and returns the reconciled v2 UUID."""
+        mock_config.use_v1_user_api = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        dest_user = _make_user("user-a@example.com", "shared@example.com", "dest-uuid-a")
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {}})
+        _mock_paginated(mock_config, [[dest_user]])
+
+        _id, r = asyncio.run(
+            instance.create_resource("src-a", _make_user("user-a@example.com", "shared@example.com", "src-a"))
+        )
+
+        v1_calls = [c for c in mock_config.destination_client.post.call_args_list if c.args[0] == "/api/v1/user"]
+        assert len(v1_calls) == 1
+        assert v1_calls[0].args[1]["handle"] == "user-a@example.com"
+        assert "/api/v2/users" not in _post_paths(mock_config)
+        assert r["id"] == "dest-uuid-a"
+
+    def test_shared_email_distinct_handles_both_created_via_v1(self, mock_config):
+        """The core fix. Two users share an email but have distinct handles: one
+        handle equals the shared email, the other differs. Under v2 the first
+        create derives its handle from the email and steals the second user's
+        handle, so the second 409s and can never be created. Via v1 each user is
+        created with its OWN handle, so both succeed."""
+        mock_config.use_v1_user_api = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        dest_a = _make_user("abc@example.com", "jsmith@example.com", "dest-a")
+        dest_b = _make_user("jsmith@example.com", "jsmith@example.com", "dest-b")
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {}})
+        _mock_paginated(mock_config, [[dest_a], [dest_b]])
+
+        asyncio.run(instance.create_resource("src-a", _make_user("abc@example.com", "jsmith@example.com", "src-a")))
+        asyncio.run(instance.create_resource("src-b", _make_user("jsmith@example.com", "jsmith@example.com", "src-b")))
+
+        v1_handles = [
+            c.args[1]["handle"]
+            for c in mock_config.destination_client.post.call_args_list
+            if c.args[0] == "/api/v1/user"
+        ]
+        assert v1_handles == ["abc@example.com", "jsmith@example.com"]
+        assert "/api/v2/users" not in _post_paths(mock_config)
+
+    def test_requires_handle(self, mock_config):
+        """d0: v1 creation raises when there is no handle to send."""
+        mock_config.use_v1_user_api = True
+        instance = Users(mock_config)
+        with pytest.raises(ValueError):
+            asyncio.run(instance._create_via_v1("", "Person Name", "e@example.com"))
+
+    def test_v1_post_failure_reraises(self, mock_config):
+        """d4: a v1 POST failure propagates so the apply loop counts it failed
+        and continues (DR-safe)."""
+        mock_config.use_v1_user_api = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(side_effect=_http_error(400))
+        with pytest.raises(CustomClientHTTPError):
+            asyncio.run(
+                instance.create_resource("src-a", _make_user("user-a@example.com", "shared@example.com", "src-a"))
+            )
+
+
+class TestReconcileByHandle:
+    def test_no_exact_match_raises(self, mock_config):
+        """If no exact-handle match is ever found after the v1 create, it raises."""
+        mock_config.use_v1_user_api = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {}})
+        other = _make_user("user-b@example.com", "shared@example.com", "dest-b")
+        _mock_paginated(mock_config, [[other], [other], [other]])
+        with pytest.raises(ValueError):
+            asyncio.run(
+                instance.create_resource("src-a", _make_user("user-a@example.com", "shared@example.com", "src-a"))
+            )
+
+    def test_requeries_on_empty_then_matches(self, mock_config):
+        """d3b: read-after-write — an empty first page then a match re-queries
+        (exactly two calls) rather than giving up on the first empty result."""
+        instance = Users(mock_config)
+        match = _make_user("user-a@example.com", "shared@example.com", "dest-uuid-a")
+        inner = _mock_paginated(mock_config, [[], [match]])
+        user = asyncio.run(instance._get_destination_user_by_handle("user-a@example.com"))
+        assert user["id"] == "dest-uuid-a"
+        assert inner.call_count == 2
+
+    def test_selects_exact_case_handle_among_candidates(self, mock_config):
+        """d5: with multiple filter candidates, only the exact-case handle wins."""
+        instance = Users(mock_config)
+        a = _make_user("user-a@example.com", "shared@example.com", "dest-a")
+        b = _make_user("user-b@example.com", "shared@example.com", "dest-b")
+        _mock_paginated(mock_config, [[b, a]])
+        user = asyncio.run(instance._get_destination_user_by_handle("user-a@example.com"))
+        assert user["id"] == "dest-a"
+
+
+class TestUpdatePathRegression:
+    def test_existing_handle_takes_update_path_no_create(self, mock_config):
+        """e: an existing destination handle routes to the update path — no v1 or
+        v2 create, no duplicate."""
+        mock_config.use_v1_user_api = True
+        instance = Users(mock_config)
+        dest_user = _make_user("user-a@example.com", "shared@example.com", "dest-a")
+        instance._existing_resources_map = {"user-a@example.com": dest_user}
+        mock_config.destination_client.post = AsyncMock()
+        mock_config.destination_client.patch = AsyncMock(return_value={"data": dest_user})
+
+        _id, r = asyncio.run(
+            instance.create_resource("src-a", _make_user("user-a@example.com", "shared@example.com", "src-a"))
+        )
+        mock_config.destination_client.post.assert_not_called()
+        assert r["id"] == "dest-a"
