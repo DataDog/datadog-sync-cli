@@ -316,7 +316,7 @@ class TestV1CreatePath:
         _mock_paginated(mock_config, [[dest_user]])
 
         with pytest.raises(
-            UserRoleAssignmentError, match="1 role assignment failed after v1 user creation"
+            UserRoleAssignmentError, match="1 role assignment failed while reconciling user"
         ) as exc_info:
             asyncio.run(instance.create_resource("src-a", source_user))
 
@@ -385,6 +385,46 @@ class TestReconcileByHandle:
 
 
 class TestUpdatePathRegression:
+    def test_role_retry_persists_partial_state_and_reports_failure(self, mock_config):
+        """A later run retries missing roles without reporting full success."""
+        instance = Users(mock_config)
+        failed_role = {"id": "role-dst-failed", "type": "roles"}
+        successful_role = {"id": "role-dst-success", "type": "roles"}
+        dest_user = _make_user("user-a@example.com", "shared@example.com", "dest-a")
+        source_user = _make_user(
+            "user-a@example.com",
+            "shared@example.com",
+            "src-a",
+            name="Updated User",
+            roles=[failed_role, successful_role],
+        )
+        mock_config.state.destination["users"]["src-a"] = dest_user
+        instance.add_user_to_role = AsyncMock(side_effect=[False, True])
+        updated_user = {
+            "id": "dest-a",
+            "type": "users",
+            "attributes": {
+                "handle": "user-a@example.com",
+                "email": "shared@example.com",
+                "name": "Updated User",
+                "disabled": False,
+            },
+        }
+        mock_config.destination_client.patch = AsyncMock(return_value={"data": updated_user})
+
+        with pytest.raises(UserRoleAssignmentError) as exc_info:
+            asyncio.run(instance.update_resource("src-a", source_user))
+
+        assert exc_info.value.failed_role_ids == ("role-dst-failed",)
+        assert [call.args for call in instance.add_user_to_role.await_args_list] == [
+            ("dest-a", "role-dst-failed"),
+            ("dest-a", "role-dst-success"),
+        ]
+        mock_config.destination_client.patch.assert_awaited_once()
+        stored = mock_config.state.destination["users"]["src-a"]
+        assert stored["attributes"]["name"] == "Updated User"
+        assert stored["relationships"]["roles"]["data"] == [successful_role]
+
     def test_existing_handle_takes_update_path_no_create(self, mock_config):
         """e: an existing destination handle routes to the update path — no v1 or
         v2 create, no duplicate."""

@@ -15,14 +15,14 @@ if TYPE_CHECKING:
 
 
 class UserRoleAssignmentError(RuntimeError):
-    """Role assignment failed after the user was created and reconciled."""
+    """One or more role assignments failed while reconciling a user."""
 
     def __init__(self, user: Dict, failed_role_ids: List[str]) -> None:
         self.user = user
         self.failed_role_ids = tuple(failed_role_ids)
         count = len(failed_role_ids)
         assignment = "role assignment" if count == 1 else "role assignments"
-        super().__init__(f"{count} {assignment} failed after v1 user creation")
+        super().__init__(f"{count} {assignment} failed while reconciling user")
 
 
 class Users(BaseResource):
@@ -200,19 +200,46 @@ class Users(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
 
-        diff = check_diff(self.resource_config, self.config.state.destination[self.resource_type][_id], resource)
+        destination_user = self.config.state.destination[self.resource_type][_id]
+        diff = check_diff(self.resource_config, destination_user, resource)
         if diff:
-            await self.update_user_roles(self.config.state.destination[self.resource_type][_id]["id"], diff)
-            resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
+            role_error = None
+            try:
+                await self._assign_missing_roles(
+                    destination_user,
+                    resource.get("relationships", {}).get("roles", {}).get("data", []),
+                )
+            except UserRoleAssignmentError as e:
+                # Continue with unrelated attribute updates, then report the
+                # partial role failure so the apply handler does not emit success.
+                role_error = e
+
+            resource["id"] = destination_user["id"]
             resource.pop("relationships", None)
             resource["attributes"].pop("handle", None)
             resp = await destination_client.patch(
-                self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+                self.resource_config.base_path + f"/{destination_user['id']}",
                 {"data": resource},
             )
 
+            if role_error is not None:
+                updated_user = resp["data"]
+                updated_roles = (
+                    updated_user.setdefault("relationships", {}).setdefault("roles", {}).setdefault("data", [])
+                )
+                updated_role_ids = {
+                    role["id"] for role in updated_roles if isinstance(role, dict) and role.get("id") is not None
+                }
+                for role in destination_user.get("relationships", {}).get("roles", {}).get("data", []):
+                    role_id = role.get("id") if isinstance(role, dict) else None
+                    if role_id is not None and role_id not in updated_role_ids:
+                        updated_roles.append(dict(role))
+                        updated_role_ids.add(role_id)
+                self.config.state.destination[self.resource_type][_id] = updated_user
+                role_error.user = updated_user
+                raise role_error
             return _id, resp["data"]
-        return _id, self.config.state.destination[self.resource_type][_id]
+        return _id, destination_user
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
@@ -222,24 +249,6 @@ class Users(BaseResource):
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(Users, self).connect_id(key, r_obj, resource_to_connect)
-
-    async def update_user_roles(self, _id, diff):
-        for k, v in diff.items():
-            if k == "iterable_item_added":
-                for key, value in diff["iterable_item_added"].items():
-                    if "roles" in key:
-                        await self.add_user_to_role(_id, value["id"])
-            # elif k == "iterable_item_removed":
-            #     for key, value in diff["iterable_item_removed"].items():
-            #         if "roles" in key:
-            #             await self.remove_user_from_role(_id, value["id"])
-            elif k == "values_changed":
-                for key, value in diff["values_changed"].items():
-                    if "roles" in key:
-                        # await self.remove_user_from_role(_id, value["old_value"])
-                        new_val = value["new_value"]
-                        role_id = new_val["id"] if isinstance(new_val, dict) else new_val
-                        await self.add_user_to_role(_id, role_id)
 
     async def add_user_to_role(self, user_id, role_id) -> bool:
         destination_client = self.config.destination_client
