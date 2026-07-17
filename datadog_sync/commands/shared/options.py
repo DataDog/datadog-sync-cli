@@ -591,6 +591,18 @@ _sync_options = [
         help="Allow self-lockout when syncing restriction policies.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--use-v1-user-api",
+        required=False,
+        envvar=constants.DD_USE_V1_USER_API,
+        type=bool,
+        default=False,
+        show_default=True,
+        help="Create users via the v1 API (/api/v1/user) instead of v2. v2 cannot set a "
+        "handle (it derives one from the email), which collides when users share an email; "
+        "v1 accepts an explicit handle so each user keeps its own. Off by default.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 

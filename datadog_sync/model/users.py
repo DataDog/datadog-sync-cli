@@ -30,7 +30,11 @@ class Users(BaseResource):
             "attributes.status",
             "attributes.verified",
             "attributes.service_account",
-            "attributes.handle",
+            # NOTE: attributes.handle is deliberately NOT excluded here. It is the
+            # user mapping key (resource_mapping_key below) and the payload for the
+            # v1 create fallback, so it must survive prep_resource. It is popped
+            # manually before the v2 POST/PATCH (v2 treats handle as read-only) and
+            # kept out of update diffs via deep_diff_config.exclude_regex_paths below.
             "attributes.icon",
             "attributes.modified_at",
             "attributes.mfa_enabled",
@@ -40,7 +44,11 @@ class Users(BaseResource):
             "relationships.org",
             "relationships.team_roles",
         ],
-        resource_mapping_key="attributes.email",
+        resource_mapping_key="attributes.handle",
+        # Handle is read-only in v2 and is popped from the create/update payload;
+        # exclude it from update diffs so a source-vs-destination handle difference
+        # never drives a spurious PATCH of a field v2 will not accept.
+        deep_diff_config={"ignore_order": True, "exclude_regex_paths": [r".*\['handle'\]"]},
     )
     # Additional Users specific attributes
     pagination_config = PaginationConfig(
@@ -82,6 +90,7 @@ class Users(BaseResource):
 
         destination_client = self.config.destination_client
         resource["attributes"].pop("disabled", None)
+        resource["attributes"].pop("handle", None)
         resp = await destination_client.post(self.resource_config.base_path, {"data": resource})
 
         return _id, resp["data"]
@@ -94,6 +103,7 @@ class Users(BaseResource):
             await self.update_user_roles(self.config.state.destination[self.resource_type][_id]["id"], diff)
             resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
             resource.pop("relationships", None)
+            resource["attributes"].pop("handle", None)
             resp = await destination_client.patch(
                 self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
                 {"data": resource},
