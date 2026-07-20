@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.14.0 / 2026-07-20
+
+### Added
+* feat(users): preserve handles and role assignments via v1 by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/635
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.13.0...4.14.0
+
 ## 4.13.0 / 2026-07-15
 
 ### Fixed
