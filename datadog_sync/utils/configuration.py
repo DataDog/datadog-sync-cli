@@ -109,6 +109,7 @@ class Configuration(object):
     max_workers_per_type: Dict[str, int] = field(default_factory=dict)
     command: str = ""
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
+    use_v1_user_api: bool = False
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
     # --id-file: id-targeted import via stdin or file payload.
@@ -435,6 +436,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     max_workers_per_type = _parse_max_workers_per_type(max_workers_per_type_raw, known_resource_types)
     create_global_downtime = kwargs.get("create_global_downtime")
     validate = kwargs.get("validate")
+    use_v1_user_api = kwargs.get("use_v1_user_api") or False
     verify_ddr_status = kwargs.get("verify_ddr_status")
     backup_before_reset = not kwargs.get("do_not_backup")
     show_progress_bar = kwargs.get("show_progress_bar")
@@ -691,6 +693,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         emit_json=emit_json,
         command=cmd.value,
         allow_partial_permissions_roles=allow_partial_permissions_roles,
+        use_v1_user_api=use_v1_user_api,
         id_payload=id_payload,
         max_concurrent_reads=max_concurrent_reads,
         transient_failure_threshold_pct=transient_failure_threshold_pct,
