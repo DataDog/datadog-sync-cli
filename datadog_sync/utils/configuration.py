@@ -110,6 +110,7 @@ class Configuration(object):
     command: str = ""
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
     use_v1_user_api: bool = False
+    preserve_user_handle: bool = False
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
     # --id-file: id-targeted import via stdin or file payload.
@@ -437,6 +438,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     create_global_downtime = kwargs.get("create_global_downtime")
     validate = kwargs.get("validate")
     use_v1_user_api = kwargs.get("use_v1_user_api") or False
+    preserve_user_handle = kwargs.get("preserve_user_handle") or False
     verify_ddr_status = kwargs.get("verify_ddr_status")
     backup_before_reset = not kwargs.get("do_not_backup")
     show_progress_bar = kwargs.get("show_progress_bar")
@@ -694,6 +696,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         command=cmd.value,
         allow_partial_permissions_roles=allow_partial_permissions_roles,
         use_v1_user_api=use_v1_user_api,
+        preserve_user_handle=preserve_user_handle,
         id_payload=id_payload,
         max_concurrent_reads=max_concurrent_reads,
         transient_failure_threshold_pct=transient_failure_threshold_pct,

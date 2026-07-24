@@ -23,4 +23,7 @@ def mock_config():
     config.state.source = defaultdict(dict)
     config.state.destination = defaultdict(dict)
     config.logger = MagicMock()
+    # Explicit default so no test is affected by a stray truthy MagicMock attribute.
+    config.preserve_user_handle = False
+    config.use_v1_user_api = False  # ditto, added for consistency while touching this fixture
     return config

@@ -45,8 +45,10 @@ class Users(BaseResource):
             # NOTE: attributes.handle is deliberately NOT excluded here. It is the
             # user mapping key (resource_mapping_key below) and the payload for the
             # v1 user creation, so it must survive prep_resource. It is popped
-            # manually before the v2 POST/PATCH (v2 treats handle as read-only) and
-            # kept out of update diffs via deep_diff_config.exclude_regex_paths below.
+            # manually before the v2 PATCH (v2 treats handle as read-only there) and
+            # before the v2 POST unless --preserve-user-handle opts into passing it
+            # through, and kept out of update diffs via
+            # deep_diff_config.exclude_regex_paths below.
             "attributes.icon",
             "attributes.modified_at",
             "attributes.mfa_enabled",
@@ -122,9 +124,17 @@ class Users(BaseResource):
             return _id, user
 
         destination_client = self.config.destination_client
-        # handle is read-only in v2 (derived from email) and must not be sent.
+        # handle is normally read-only in v2 (derived from email) and must not be
+        # sent, unless --preserve-user-handle opts into passing a non-empty value
+        # through to a destination that supports explicit handles on create.
         attributes.pop("disabled", None)
-        attributes.pop("handle", None)
+        if not self.config.preserve_user_handle or not attributes.get("handle"):
+            attributes.pop("handle", None)
+        self.config.logger.debug(
+            f"preserve_user_handle enabled={self.config.preserve_user_handle}",
+            _id=_id,
+            resource_type=self.resource_type,
+        )
         resp = await destination_client.post(self.resource_config.base_path, {"data": resource})
         return _id, resp["data"]
 
@@ -234,6 +244,8 @@ class Users(BaseResource):
 
             resource["id"] = destination_user["id"]
             resource.pop("relationships", None)
+            # v2 PATCH never accepts handle, regardless of --preserve-user-handle
+            # (that flag only affects net-new creation).
             resource["attributes"].pop("handle", None)
             resp = await destination_client.patch(
                 self.resource_config.base_path + f"/{destination_user['id']}",

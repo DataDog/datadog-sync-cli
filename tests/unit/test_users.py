@@ -150,6 +150,97 @@ class TestV2CreatePayload:
         assert "handle" not in body["data"]["attributes"]
 
 
+class TestV2CreatePayloadPreserveUserHandle:
+    def test_handle_included_when_flag_true(self, mock_config):
+        """handle flows through to the v2 POST body when the flag is on."""
+        mock_config.preserve_user_handle = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(
+            return_value={"data": {"id": "dest-x", "attributes": {}}}
+        )
+        src = _make_user("user_test", "user@example.com", "src-a")
+
+        asyncio.run(instance.create_resource("src-a", src))
+
+        _, body = mock_config.destination_client.post.call_args.args
+        assert body["data"]["attributes"]["handle"] == "user_test"
+
+    def test_handle_excluded_when_flag_false(self, mock_config):
+        """default (flag off) behavior is unchanged: handle is stripped."""
+        mock_config.preserve_user_handle = False
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(
+            return_value={"data": {"id": "dest-x", "attributes": {}}}
+        )
+        src = _make_user("user_test", "user@example.com", "src-a")
+
+        asyncio.run(instance.create_resource("src-a", src))
+
+        _, body = mock_config.destination_client.post.call_args.args
+        assert "handle" not in body["data"]["attributes"]
+
+    def test_patch_excludes_handle_even_when_flag_true(self, mock_config):
+        """v2 PATCH never accepts handle, flag or no flag."""
+        mock_config.preserve_user_handle = True
+        instance = Users(mock_config)
+        _id = "src-a"
+        mock_config.state.destination["users"][_id] = _make_user(
+            "user_test", "user@example.com", "dest-a"
+        )
+        src = _make_user(
+            "user_test", "user@example.com", "dest-a", name="New Name"
+        )
+        mock_config.destination_client.patch = AsyncMock(
+            return_value={"data": {"id": "dest-a", "attributes": {}}}
+        )
+
+        asyncio.run(instance.update_resource(_id, src))
+
+        _, body = mock_config.destination_client.patch.call_args.args
+        assert "handle" not in body["data"]["attributes"]
+
+    def test_missing_handle_with_flag_true_omits_field(self, mock_config):
+        """Flag on but no source handle: omit the field so v2 can derive it."""
+        mock_config.preserve_user_handle = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(
+            return_value={"data": {"id": "dest-x", "attributes": {}}}
+        )
+        src = _make_user(None, "user@example.com", "src-a")
+
+        asyncio.run(instance.create_resource("src-a", src))
+
+        _, body = mock_config.destination_client.post.call_args.args
+        assert "handle" not in body["data"]["attributes"]
+
+    def test_resync_existing_mapped_user_handle_not_updated(self, mock_config):
+        """Net-new only: when the source resource's handle already matches a
+        mapped destination user, create_resource takes the update path, which
+        never applies/updates the handle via this flag (v2 PATCH never accepts
+        handle, flag or no flag)."""
+        mock_config.preserve_user_handle = True
+        instance = Users(mock_config)
+        dest_user = _make_user("user_test", "user@example.com", "dest-a")
+        instance._existing_resources_map = {"user_test": dest_user}
+        mock_config.state.destination["users"]["src-a"] = dest_user
+        src = _make_user(
+            "user_test", "user@example.com", "dest-a", name="New Name"
+        )
+        mock_config.destination_client.post = AsyncMock()
+        mock_config.destination_client.patch = AsyncMock(
+            return_value={"data": dest_user}
+        )
+
+        asyncio.run(instance.create_resource("src-a", src))
+
+        mock_config.destination_client.post.assert_not_called()
+        _, body = mock_config.destination_client.patch.call_args.args
+        assert "handle" not in body["data"]["attributes"]
+
+
 class TestHandleDiffExclusion:
     def test_handle_excluded_from_update_diff(self):
         """g: two users differing only by handle produce no diff (guards that
@@ -179,6 +270,79 @@ class TestV1UserApiFlagWiring:
         """p3: migrate reuses @sync_options, so it recognizes the flag too."""
         result = CliRunner(mix_stderr=False).invoke(cli, ["migrate", "--use-v1-user-api=true", "--validate=false"])
         assert result.exit_code != 2
+
+
+class TestPreserveUserHandleFlagWiring:
+    def test_build_config_flag_true(self, tmp_path):
+        """--preserve-user-handle flows from kwargs into Configuration."""
+        cfg = build_config(Command.IMPORT, preserve_user_handle=True, **_base_kwargs(tmp_path))
+        assert cfg.preserve_user_handle is True
+
+    def test_build_config_flag_default_false(self, tmp_path):
+        """absent flag defaults to False (guards a typo'd kwarg key)."""
+        cfg = build_config(Command.IMPORT, **_base_kwargs(tmp_path))
+        assert cfg.preserve_user_handle is False
+
+    def test_sync_accepts_preserve_user_handle_flag(self):
+        """the sync command recognizes the flag (exit 2 == usage error)."""
+        result = CliRunner(mix_stderr=False).invoke(cli, ["sync", "--preserve-user-handle=true", "--validate=false"])
+        assert result.exit_code != 2
+
+    def test_migrate_accepts_preserve_user_handle_flag(self):
+        """migrate reuses @sync_options, so it recognizes the flag too."""
+        result = CliRunner(mix_stderr=False).invoke(cli, ["migrate", "--preserve-user-handle=true", "--validate=false"])
+        assert result.exit_code != 2
+
+    def test_sync_help_shows_both_user_api_flags(self):
+        """new option is wired without disturbing the existing v1 flag."""
+        result = CliRunner(mix_stderr=False).invoke(cli, ["sync", "--help"])
+        assert "--use-v1-user-api" in result.output
+        assert "--preserve-user-handle" in result.output
+
+    def test_migrate_help_shows_both_user_api_flags(self):
+        result = CliRunner(mix_stderr=False).invoke(cli, ["migrate", "--help"])
+        assert "--use-v1-user-api" in result.output
+        assert "--preserve-user-handle" in result.output
+
+
+class TestPreserveUserHandleErrorIsNonFatal:
+    def test_create_error_propagates_unmodified(self, mock_config):
+        """a v2 create HTTP error propagates out of create_resource unmodified
+        so the per-resource batch-continuation boundary in resources_handler.py
+        can catch and continue — it must not be swallowed or rewrapped here."""
+        mock_config.preserve_user_handle = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(side_effect=_http_error(400))
+
+        with pytest.raises(CustomClientHTTPError):
+            asyncio.run(instance.create_resource("src-a", _make_user("saml.jdoe.eng", "jdoe@example.com", "src-a")))
+
+    def test_flag_false_nominal_create_succeeds(self, mock_config):
+        """regression: flag off, POST succeeds, handle excluded, no error."""
+        mock_config.preserve_user_handle = False
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-x", "attributes": {}}})
+
+        _id, resp = asyncio.run(
+            instance.create_resource("src-a", _make_user("saml.jdoe.eng", "jdoe@example.com", "src-a"))
+        )
+
+        assert resp["id"] == "dest-x"
+
+    def test_flag_true_nominal_create_succeeds(self, mock_config):
+        """nominal case: flag on, POST succeeds, handle included, no error."""
+        mock_config.preserve_user_handle = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-x", "attributes": {}}})
+
+        _id, resp = asyncio.run(
+            instance.create_resource("src-a", _make_user("saml.jdoe.eng", "jdoe@example.com", "src-a"))
+        )
+
+        assert resp["id"] == "dest-x"
 
 
 def _mock_paginated(config, pages):

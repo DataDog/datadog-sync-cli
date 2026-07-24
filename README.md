@@ -218,6 +218,19 @@ The destination enforces user uniqueness on the `handle`, not the email — mult
 Passing `--use-v1-user-api` (or setting `DD_USE_V1_USER_API=true`) makes `sync` create users via the v1 user endpoint (`POST /api/v1/user`), which accepts an explicit handle, so every user keeps its own handle and no create collides. The flag is off by default.
 
 
+#### Preserving a source handle during v2 user creation
+
+The v2 user create endpoint (`POST /api/v2/users`) normally derives the destination `handle` from the email. Some destination organizations support creating users with an explicit `handle` instead — for example, a non-email-shaped value such as `user_test`.
+
+Passing `--preserve-user-handle` (or setting `DD_PRESERVE_USER_HANDLE=true`) makes `sync` pass a non-empty source resource `handle` through unchanged on v2 user creation, instead of stripping it. The flag is off by default.
+
+Known limitations:
+
+- This only works when the destination organization supports explicit handles during user creation. Otherwise, the v2 create endpoint may reject the request.
+- The `handle` must match the destination's accepted pattern (dot/underscore/alphanumeric segments, not necessarily email format). There is no client-side validation of the `handle` — the destination API's response is the source of truth for invalid values.
+- This only affects **net-new** user creation. Re-syncing a user that is already mapped to an existing destination user never applies or updates the `handle` via this flag, since the v2 update endpoint (`PATCH /api/v2/users/{id}`) never accepts `handle`, regardless of this flag.
+
+
 #### Running behind an HTTP proxy
 
 By default the tool's HTTP client ignores the environment and talks to Datadog directly. To run it behind a proxy, set `--http-client-trust-env true` (or the environment variable `DD_HTTP_CLIENT_TRUST_ENV=true`). When enabled, the underlying HTTP client honors the standard `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` environment variables, as well as credentials from `.netrc`. This option is off by default. Note that when enabled, the configured proxy can observe all Datadog API traffic — including the `DD-API-KEY`, `DD-APPLICATION-KEY`, or JWT headers if it terminates TLS — and `.netrc` credentials may be automatically attached for matching hosts, so only enable this for a proxy you trust.

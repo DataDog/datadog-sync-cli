@@ -603,6 +603,18 @@ _sync_options = [
         "v1 accepts an explicit handle so each user keeps its own. Off by default.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--preserve-user-handle",
+        required=False,
+        envvar=constants.DD_PRESERVE_USER_HANDLE,
+        type=bool,
+        default=False,
+        show_default=True,
+        help="Pass a non-empty source 'handle' through unchanged on v2 user creation "
+        "instead of stripping it. Only use this when the destination organization "
+        "supports explicit handles during user creation. Off by default.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 
