@@ -170,6 +170,20 @@ class TestV2CreatePayload:
 
         assert mock_config.state.destination["users"]["src-a"] == created_user
 
+    def test_v2_create_email_backfill_timeout_persists_partial_state(self, mock_config):
+        """A transport timeout after create must preserve the created user too."""
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        created_user = {"id": "dest-x", "type": "users", "attributes": {"email": "user-a@example.com"}}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": created_user})
+        mock_config.destination_client.patch = AsyncMock(side_effect=asyncio.TimeoutError())
+        src = _make_user("user-a@example.com", "shared@example.com", "src-a")
+
+        with pytest.raises(asyncio.TimeoutError):
+            asyncio.run(instance.create_resource("src-a", src))
+
+        assert mock_config.state.destination["users"]["src-a"] == created_user
+
     def test_v2_patch_body_excludes_handle(self, mock_config):
         """f2: the v2 update (PATCH) body must not carry the read-only handle."""
         instance = Users(mock_config)
@@ -325,11 +339,13 @@ class TestServiceAccountCreatePath:
         instance = Users(mock_config)
         instance._existing_resources_map = {}
         mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-sa", "attributes": {}}})
-        src = _make_service_account("svc-a@example.com", "svc-a@example.com", "src-sa")
+        mock_config.destination_client.patch = AsyncMock()
+        src = _make_service_account("service-account-handle", "svc-a@example.com", "src-sa")
 
         _id, r = asyncio.run(instance.create_resource("src-sa", src))
 
         assert _post_paths(mock_config) == ["/api/v2/service_accounts"]
+        mock_config.destination_client.patch.assert_not_awaited()
         _, body = mock_config.destination_client.post.call_args.args
         attrs = body["data"]["attributes"]
         assert attrs["service_account"] is True
@@ -372,6 +388,9 @@ class TestServiceAccountCreatePath:
         instance = Users(mock_config)
         instance._existing_resources_map = {}
         mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-x", "attributes": {}}})
+        mock_config.destination_client.patch = AsyncMock(
+            return_value={"data": {"id": "dest-x", "type": "users", "attributes": {"email": "shared@example.com"}}}
+        )
         src = _make_user("user-a@example.com", "shared@example.com", "src-a")
         src["attributes"]["service_account"] = False
 

@@ -140,7 +140,7 @@ class Users(BaseResource):
         if needs_email_backfill:
             try:
                 user = await self._backfill_email(user, email)
-            except CustomClientHTTPError:
+            except Exception:
                 # The user exists with the handle as a placeholder email. Persist it
                 # so a retry takes the update path (which will patch the email) rather
                 # than re-attempting a create that now 409s on the taken handle.
