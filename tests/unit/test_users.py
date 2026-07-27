@@ -15,7 +15,7 @@ Tests ``a``/``a2``/``a3``/``f`` are red against ``resource_mapping_key=
 "attributes.email"`` and green after the switch to ``"attributes.handle"`` plus
 the manual handle pop before the v2 POST. Test ``g`` is a green/green guard that
 handle stays excluded from update diffs across the excluded_attributes ->
-exclude_regex_paths migration. ``p1``/``p2``/``p3`` guard the flag wiring.
+exclude_regex_paths migration.
 
 Tests ``sa1``-``sa6`` cover routing users with ``service_account=true`` to
 ``POST /api/v2/service_accounts`` instead of the regular user endpoints, and
@@ -29,7 +29,17 @@ from unittest.mock import AsyncMock
 import pytest
 
 from datadog_sync.model.users import UserRoleAssignmentError, Users
-from datadog_sync.utils.resource_utils import check_diff
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
+
+
+class _FakeResp:
+    def __init__(self, status):
+        self.status = status
+        self.message = "Forbidden"
+
+
+def _http_error(status):
+    return CustomClientHTTPError(_FakeResp(status))
 
 
 def _make_user(handle, email, user_id, name="User", roles=None):
