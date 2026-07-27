@@ -41,11 +41,11 @@ class Users(BaseResource):
             "attributes.title",
             "attributes.status",
             "attributes.verified",
-            "attributes.service_account",
-            # NOTE: attributes.handle is deliberately NOT excluded here. It is the
-            # user mapping key (resource_mapping_key below) and the payload for the
-            # v1 user creation, so it must survive prep_resource. It is popped
-            # manually before the v2 POST/PATCH (v2 treats handle as read-only) and
+            # NOTE: attributes.service_account and attributes.handle are deliberately
+            # NOT excluded here. Both must survive prep_resource so create_resource can
+            # read them: handle is the mapping key / v1 payload, and service_account
+            # routes the create to POST /api/v2/service_accounts (and is required in
+            # that payload). Both are popped from the plain v2 users POST/PATCH and are
             # kept out of update diffs via deep_diff_config.exclude_regex_paths below.
             "attributes.icon",
             "attributes.modified_at",
@@ -57,16 +57,21 @@ class Users(BaseResource):
             "relationships.team_roles",
         ],
         resource_mapping_key="attributes.handle",
-        # Handle is read-only in v2 and is popped from the create/update payload;
-        # exclude it from update diffs so a source-vs-destination handle difference
-        # never drives a spurious PATCH of a field v2 will not accept.
-        deep_diff_config={"ignore_order": True, "exclude_regex_paths": [r".*\['handle'\]"]},
+        # handle is read-only in v2 and popped from the create/update payload;
+        # service_account is create-time routing metadata that is read-only after
+        # creation. Exclude both from update diffs so a source-vs-destination
+        # difference never drives a spurious PATCH of a field v2 will not accept.
+        deep_diff_config={
+            "ignore_order": True,
+            "exclude_regex_paths": [r".*\['handle'\]", r".*\['service_account'\]"],
+        },
     )
     # Additional Users specific attributes
     pagination_config = PaginationConfig(
         page_size=500,
     )
     roles_path: str = "/api/v2/roles/{}/users"
+    service_accounts_path: str = "/api/v2/service_accounts"
     user_lookup_retry_delays: Tuple[float, ...] = (1.0, 2.0)
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
@@ -90,7 +95,9 @@ class Users(BaseResource):
         return resource["id"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        pass
+        destination = self.config.state.destination[self.resource_type].get(_id)
+        if destination is not None:
+            self._warn_on_account_type_mismatch(_id, resource, destination)
 
     async def pre_apply_hook(self) -> None:
         pass
@@ -98,10 +105,22 @@ class Users(BaseResource):
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         key = self.get_resource_mapping_key(resource)
         if key and key in self._existing_resources_map:
-            self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[key]
+            destination = self._existing_resources_map[key]
+            self._warn_on_account_type_mismatch(_id, resource, destination)
+            self.config.state.destination[self.resource_type][_id] = destination
             return await self.update_resource(_id, resource)
 
         attributes = resource["attributes"]
+        if attributes.get("service_account"):
+            # Service accounts must be created via the dedicated endpoint. This
+            # takes precedence over use_v1_user_api: the v1 /api/v1/user endpoint
+            # creates regular users, not service accounts.
+            return await self._create_service_account(_id, resource)
+
+        # Not a service account: the flag is read-only on the plain user
+        # endpoints, so drop it from the payload (it survived prep_resource only
+        # so the routing check above could read it).
+        attributes.pop("service_account", None)
         if self.config.use_v1_user_api:
             # v2 create cannot set a handle (it derives one from the email), which
             # collapses distinct-handle users that share an email onto one handle.
@@ -127,6 +146,46 @@ class Users(BaseResource):
         attributes.pop("handle", None)
         resp = await destination_client.post(self.resource_config.base_path, {"data": resource})
         return _id, resp["data"]
+
+    async def _create_service_account(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        """Create the user via POST /api/v2/service_accounts.
+
+        Service accounts are users with ``service_account=true`` and cannot be
+        created through the regular users endpoints. The service_accounts endpoint
+        requires ``service_account: true`` in the payload, accepts optional role
+        relationships, and (like v2 users) derives the handle from the email — so
+        the read-only ``handle``/``disabled`` attributes must not be sent. The
+        response is the created v2 user record; state and downstream references
+        key on its UUID, so return it as-is.
+        """
+        destination_client = self.config.destination_client
+        attributes = resource["attributes"]
+        attributes.pop("disabled", None)
+        attributes.pop("handle", None)
+        try:
+            resp = await destination_client.post(self.service_accounts_path, {"data": resource})
+        except CustomClientHTTPError as e:
+            if e.status_code == 403:
+                self.config.logger.warning(
+                    "users: service-account creation failed for source id %s with HTTP 403; "
+                    "the destination application key requires the service_account_write permission",
+                    _id,
+                )
+            raise
+        return _id, resp["data"]
+
+    def _warn_on_account_type_mismatch(self, _id: str, source: Dict, destination: Dict) -> None:
+        """Warn when a read-only account type prevents exact reconciliation."""
+        source_is_service_account = bool(source.get("attributes", {}).get("service_account"))
+        destination_is_service_account = bool(destination.get("attributes", {}).get("service_account"))
+        if source_is_service_account != destination_is_service_account:
+            self.config.logger.warning(
+                "users: account type differs for source id %s: source service_account=%s, "
+                "destination service_account=%s; account type is read-only and requires manual remediation",
+                _id,
+                source_is_service_account,
+                destination_is_service_account,
+            )
 
     async def _create_via_v1(
         self,
@@ -235,6 +294,8 @@ class Users(BaseResource):
             resource["id"] = destination_user["id"]
             resource.pop("relationships", None)
             resource["attributes"].pop("handle", None)
+            # service_account is read-only post-creation; never send it in a PATCH.
+            resource["attributes"].pop("service_account", None)
             resp = await destination_client.patch(
                 self.resource_config.base_path + f"/{destination_user['id']}",
                 {"data": resource},

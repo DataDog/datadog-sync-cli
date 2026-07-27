@@ -16,6 +16,11 @@ Tests ``a``/``a2``/``a3``/``f`` are red against ``resource_mapping_key=
 the manual handle pop before the v2 POST. Test ``g`` is a green/green guard that
 handle stays excluded from update diffs across the excluded_attributes ->
 exclude_regex_paths migration. ``p1``/``p2``/``p3`` guard the flag wiring.
+
+Tests ``sa1``-``sa6`` cover routing users with ``service_account=true`` to
+``POST /api/v2/service_accounts`` instead of the regular user endpoints, and
+that the flag survives prep_resource, stays out of update diffs, and is never
+sent on the plain-user create/update paths.
 """
 
 import asyncio
@@ -480,3 +485,151 @@ class TestUpdatePathRegression:
         )
         mock_config.destination_client.post.assert_not_called()
         assert r["id"] == "dest-a"
+
+
+def _make_service_account(handle, email, user_id, name="Service Account", roles=None):
+    """Build a service-account user dict (service_account=True)."""
+    user = _make_user(handle, email, user_id, name=name, roles=roles)
+    user["attributes"]["service_account"] = True
+    return user
+
+
+class TestServiceAccountCreatePath:
+    def test_service_account_uses_service_accounts_endpoint(self, mock_config):
+        """sa1: a user with service_account=true is created via
+        POST /api/v2/service_accounts, carrying the required service_account flag
+        but not the read-only handle/disabled."""
+        mock_config.use_v1_user_api = False
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-sa", "attributes": {}}})
+        src = _make_service_account("svc-a@example.com", "svc-a@example.com", "src-sa")
+
+        _id, r = asyncio.run(instance.create_resource("src-sa", src))
+
+        assert _post_paths(mock_config) == ["/api/v2/service_accounts"]
+        _, body = mock_config.destination_client.post.call_args.args
+        attrs = body["data"]["attributes"]
+        assert attrs["service_account"] is True
+        assert "handle" not in attrs
+        assert "disabled" not in attrs
+        assert r["id"] == "dest-sa"
+
+    def test_service_account_precedes_v1_flag(self, mock_config):
+        """sa2: even with --use-v1-user-api on, a service account still routes to
+        the service_accounts endpoint (v1 /api/v1/user creates regular users)."""
+        mock_config.use_v1_user_api = True
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-sa", "attributes": {}}})
+        src = _make_service_account("svc-a@example.com", "svc-a@example.com", "src-sa")
+
+        asyncio.run(instance.create_resource("src-sa", src))
+
+        assert _post_paths(mock_config) == ["/api/v2/service_accounts"]
+
+    def test_service_account_keeps_role_relationships(self, mock_config):
+        """sa3: role relationships are sent to the service_accounts endpoint so
+        the SA is created with its mapped roles."""
+        mock_config.use_v1_user_api = False
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        role = {"id": "role-dst", "type": "roles"}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-sa", "attributes": {}}})
+        src = _make_service_account("svc-a@example.com", "svc-a@example.com", "src-sa", roles=[role])
+
+        asyncio.run(instance.create_resource("src-sa", src))
+
+        _, body = mock_config.destination_client.post.call_args.args
+        assert body["data"]["relationships"]["roles"]["data"] == [role]
+
+    def test_regular_user_v2_body_omits_service_account(self, mock_config):
+        """sa4: a regular (non-SA) user still creates via /api/v2/users and its
+        body must not carry the service_account flag."""
+        mock_config.use_v1_user_api = False
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-x", "attributes": {}}})
+        src = _make_user("user-a@example.com", "shared@example.com", "src-a")
+        src["attributes"]["service_account"] = False
+
+        asyncio.run(instance.create_resource("src-a", src))
+
+        assert _post_paths(mock_config) == ["/api/v2/users"]
+        _, body = mock_config.destination_client.post.call_args.args
+        assert "service_account" not in body["data"]["attributes"]
+
+    def test_service_account_403_warns_about_required_permission(self, mock_config):
+        """A missing service-account permission is actionable in the logs."""
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(side_effect=_http_error(403))
+        src = _make_service_account("svc-a@example.com", "svc-a@example.com", "src-sa")
+
+        with pytest.raises(CustomClientHTTPError):
+            asyncio.run(instance.create_resource("src-sa", src))
+
+        mock_config.logger.warning.assert_called_once()
+        warning_args = mock_config.logger.warning.call_args.args
+        assert "service_account_write" in warning_args[0]
+        assert warning_args[1:] == ("src-sa",)
+
+
+class TestServiceAccountPrepPreservation:
+    def test_prep_resource_preserves_service_account(self, mock_config):
+        """sa6: prep_resource must not strip service_account — create-path routing
+        depends on the flag surviving to create_resource (guards against it being
+        re-added to excluded_attributes)."""
+        from datadog_sync.utils.resource_utils import prep_resource
+
+        # Instantiate once so build_excluded_attributes normalizes the config.
+        Users(mock_config)
+        resource = _make_service_account("svc-a@example.com", "svc-a@example.com", "src-sa")
+        prep_resource(Users.resource_config, resource)
+        assert resource["attributes"]["service_account"] is True
+
+
+class TestServiceAccountDiffExclusion:
+    def test_account_type_mismatch_warns_before_diff_is_ignored(self, mock_config):
+        """The apply hook makes a read-only account-type mismatch visible."""
+        instance = Users(mock_config)
+        destination = _make_user("user-a@example.com", "shared@example.com", "dest-user")
+        destination["attributes"]["service_account"] = False
+        source = _make_service_account("user-a@example.com", "shared@example.com", "src-user")
+        mock_config.state.destination["users"]["src-user"] = destination
+
+        asyncio.run(instance.pre_resource_action_hook("src-user", source))
+
+        mock_config.logger.warning.assert_called_once()
+        warning_args = mock_config.logger.warning.call_args.args
+        assert "account type differs" in warning_args[0]
+        assert warning_args[1:] == ("src-user", True, False)
+
+    def test_existing_handle_account_type_mismatch_warns_on_create_path(self, mock_config):
+        """A first-run handle match also warns before taking the update path."""
+        instance = Users(mock_config)
+        destination = _make_user(
+            "user-a@example.com",
+            "shared@example.com",
+            "dest-user",
+            name="Service Account",
+        )
+        destination["attributes"]["service_account"] = False
+        source = _make_service_account("user-a@example.com", "shared@example.com", "src-user")
+        instance._existing_resources_map = {"user-a@example.com": destination}
+
+        asyncio.run(instance.create_resource("src-user", source))
+
+        mock_config.logger.warning.assert_called_once()
+        warning_args = mock_config.logger.warning.call_args.args
+        assert "account type differs" in warning_args[0]
+        assert warning_args[1:] == ("src-user", True, False)
+
+    def test_service_account_excluded_from_update_diff(self):
+        """sa5: service_account is create-time routing metadata and must never
+        drive a spurious PATCH (guards the diff exclusion)."""
+        dest = _make_user("user-a@example.com", "shared@example.com", "same-id")
+        dest["attributes"]["service_account"] = False
+        src = _make_user("user-a@example.com", "shared@example.com", "same-id")
+        src["attributes"]["service_account"] = True
+        assert not check_diff(Users.resource_config, dest, src)
