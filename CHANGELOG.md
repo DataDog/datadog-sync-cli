@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.15.0 / 2026-07-27
+
+### Fixed
+* feat(users): create service-account users via the service_accounts endpoint by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/644
+* feat(users): backfill destination email via a second PATCH when handle differs by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/645
+### Removed
+* Remove --use-v1-user-api flag and v1 user-creation path by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/640
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.14.0...4.15.0
+
 ## 4.14.0 / 2026-07-20
 
 ### Added
