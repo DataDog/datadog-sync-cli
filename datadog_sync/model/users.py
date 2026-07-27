@@ -155,7 +155,7 @@ class Users(BaseResource):
             self.resource_config.base_path + f"/{user['id']}",
             {"data": {"id": user["id"], "type": user.get("type", "users"), "attributes": {"email": email}}},
         )
-        return resp["data"]
+        return self._merge_role_state(resp["data"], user)
 
     async def _create_service_account(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         """Create the user via POST /api/v2/service_accounts.
