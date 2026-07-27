@@ -4,7 +4,6 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-import asyncio
 from typing import TYPE_CHECKING, Any, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -43,10 +42,10 @@ class Users(BaseResource):
             "attributes.verified",
             "attributes.service_account",
             # NOTE: attributes.handle is deliberately NOT excluded here. It is the
-            # user mapping key (resource_mapping_key below) and the payload for the
-            # v1 user creation, so it must survive prep_resource. It is popped
-            # manually before the v2 POST/PATCH (v2 treats handle as read-only) and
-            # kept out of update diffs via deep_diff_config.exclude_regex_paths below.
+            # user mapping key (resource_mapping_key below), so it must survive
+            # prep_resource. It is popped manually before the v2 POST/PATCH (v2
+            # treats handle as read-only) and kept out of update diffs via
+            # deep_diff_config.exclude_regex_paths below.
             "attributes.icon",
             "attributes.modified_at",
             "attributes.mfa_enabled",
@@ -67,7 +66,6 @@ class Users(BaseResource):
         page_size=500,
     )
     roles_path: str = "/api/v2/roles/{}/users"
-    user_lookup_retry_delays: Tuple[float, ...] = (1.0, 2.0)
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.paginated_request(client.get)(
@@ -102,60 +100,12 @@ class Users(BaseResource):
             return await self.update_resource(_id, resource)
 
         attributes = resource["attributes"]
-        if self.config.use_v1_user_api:
-            # v2 create cannot set a handle (it derives one from the email), which
-            # collapses distinct-handle users that share an email onto one handle.
-            # v1 accepts an explicit handle, so each user keeps its own.
-            try:
-                user = await self._create_via_v1(
-                    attributes.get("handle"),
-                    attributes.get("name"),
-                    attributes.get("email"),
-                    resource.get("relationships", {}).get("roles", {}).get("data", []),
-                )
-            except UserRoleAssignmentError as e:
-                # Preserve the reconciled UUID and successful memberships so
-                # downstream resources can still resolve this user. Re-raising
-                # makes the apply handler count and emit the partial failure.
-                self.config.state.destination[self.resource_type][_id] = e.user
-                raise
-            return _id, user
-
         destination_client = self.config.destination_client
         # handle is read-only in v2 (derived from email) and must not be sent.
         attributes.pop("disabled", None)
         attributes.pop("handle", None)
         resp = await destination_client.post(self.resource_config.base_path, {"data": resource})
         return _id, resp["data"]
-
-    async def _create_via_v1(
-        self,
-        handle: Optional[str],
-        name: Optional[str],
-        email: Optional[str],
-        desired_roles: Optional[List[Dict]] = None,
-    ) -> Dict:
-        """Create the user via the v1 API, which accepts an explicit handle.
-
-        v2 ``POST /api/v2/users`` cannot set a handle (it is derived from the
-        email), so users that share an email collapse onto one handle and later
-        creates 409 — and the v2 "winner" is created with the wrong handle. v1
-        ``POST /api/v1/user`` accepts a distinct handle. The v1 response is the
-        legacy user shape, so re-resolve the v2 UUID by handle and return that
-        record — state and downstream references (roles, team_memberships) key
-        on the v2 UUID.
-        """
-        if not handle:
-            raise ValueError("v1 user creation requires a handle")
-
-        destination_client = self.config.destination_client
-        await destination_client.post("/api/v1/user", {"handle": handle, "name": name, "email": email})
-
-        user = await self._get_destination_user_by_handle(handle)
-        if user is None:
-            raise ValueError("v1-created user not found by handle after create")
-        await self._assign_missing_roles(user, desired_roles or [])
-        return user
 
     async def _assign_missing_roles(self, user: Dict, desired_roles: List[Dict]) -> None:
         """Assign missing roles and keep the reconciled user state accurate."""
@@ -193,27 +143,6 @@ class Users(BaseResource):
                 updated_roles.append(dict(role))
                 updated_role_ids.add(role_id)
         return updated_user
-
-    async def _get_destination_user_by_handle(self, handle: str) -> Optional[Dict]:
-        """Return the destination user whose handle matches exactly, or None.
-
-        Transient HTTP errors are already retried by the client's
-        ``request_with_retry``; this adds a bounded re-query loop with delays to
-        absorb read-after-write visibility lag after a v1 create.
-        """
-        destination_client = self.config.destination_client
-        for attempt in range(len(self.user_lookup_retry_delays) + 1):
-            resp = await destination_client.paginated_request(destination_client.get)(
-                self.resource_config.base_path,
-                pagination_config=self.pagination_config,
-                params={"filter": handle},
-            )
-            for user in resp:
-                if user.get("attributes", {}).get("handle") == handle:
-                    return user
-            if attempt < len(self.user_lookup_retry_delays):
-                await asyncio.sleep(self.user_lookup_retry_delays[attempt])
-        return None
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
