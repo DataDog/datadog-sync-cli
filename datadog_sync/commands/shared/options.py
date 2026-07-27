@@ -215,8 +215,12 @@ _common_options = [
         required=False,
         default=None,
         help="Path to JSON file mapping resource types to ID lists, or `-` for stdin. "
-        "When set, import command fetches only the specified IDs instead of "
-        "listing all resources. Supported types are enforced by a code-level allowlist.",
+        "On the import command, fetches only the specified IDs instead of listing "
+        "all resources. On the sync command with --minimize-reads, also scopes "
+        "state loading to the specified IDs (used for resource types whose state "
+        "key is not surfaced in the stored body — --filter cannot target those "
+        "types, so --id-file supplies the IDs directly). Supported types are "
+        "enforced by a code-level allowlist.",
         cls=CustomOptionClass,
     ),
     option(
