@@ -4,7 +4,6 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
-import asyncio
 from typing import TYPE_CHECKING, Any, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -47,6 +46,7 @@ class Users(BaseResource):
             # routes the create to POST /api/v2/service_accounts (and is required in
             # that payload). Both are popped from the plain v2 users POST/PATCH and are
             # kept out of update diffs via deep_diff_config.exclude_regex_paths below.
+
             "attributes.icon",
             "attributes.modified_at",
             "attributes.mfa_enabled",
@@ -252,27 +252,6 @@ class Users(BaseResource):
                 updated_roles.append(dict(role))
                 updated_role_ids.add(role_id)
         return updated_user
-
-    async def _get_destination_user_by_handle(self, handle: str) -> Optional[Dict]:
-        """Return the destination user whose handle matches exactly, or None.
-
-        Transient HTTP errors are already retried by the client's
-        ``request_with_retry``; this adds a bounded re-query loop with delays to
-        absorb read-after-write visibility lag after a v1 create.
-        """
-        destination_client = self.config.destination_client
-        for attempt in range(len(self.user_lookup_retry_delays) + 1):
-            resp = await destination_client.paginated_request(destination_client.get)(
-                self.resource_config.base_path,
-                pagination_config=self.pagination_config,
-                params={"filter": handle},
-            )
-            for user in resp:
-                if user.get("attributes", {}).get("handle") == handle:
-                    return user
-            if attempt < len(self.user_lookup_retry_delays):
-                await asyncio.sleep(self.user_lookup_retry_delays[attempt])
-        return None
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
