@@ -24,7 +24,7 @@ sent on the plain-user create/update paths.
 """
 
 import asyncio
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
@@ -100,7 +100,12 @@ class TestV2CreatePayload:
         """f: the v2 create body must not carry read-only handle or disabled."""
         instance = Users(mock_config)
         instance._existing_resources_map = {}
-        mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-x", "attributes": {}}})
+        mock_config.destination_client.post = AsyncMock(
+            return_value={"data": {"id": "dest-x", "type": "users", "attributes": {}}}
+        )
+        mock_config.destination_client.patch = AsyncMock(
+            return_value={"data": {"id": "dest-x", "type": "users", "attributes": {}}}
+        )
         src = _make_user("user-a@example.com", "shared@example.com", "src-a")
 
         asyncio.run(instance.create_resource("src-a", src))
@@ -110,6 +115,74 @@ class TestV2CreatePayload:
         attrs = body["data"]["attributes"]
         assert "handle" not in attrs
         assert "disabled" not in attrs
+
+    def test_v2_create_email_backfill_when_handle_differs_from_email(self, mock_config):
+        """The create POST uses the handle as the email so the destination
+        derives a matching handle, then a PATCH restores the real email."""
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(
+            return_value={"data": {"id": "dest-x", "type": "users", "attributes": {"email": "user-a@example.com"}}}
+        )
+        mock_config.destination_client.patch = AsyncMock(
+            return_value={"data": {"id": "dest-x", "type": "users", "attributes": {"email": "shared@example.com"}}}
+        )
+        src = _make_user("user-a@example.com", "shared@example.com", "src-a")
+
+        _id, user = asyncio.run(instance.create_resource("src-a", src))
+
+        _, post_body = mock_config.destination_client.post.call_args.args
+        assert post_body["data"]["attributes"]["email"] == "user-a@example.com"
+
+        patch_path, patch_body = mock_config.destination_client.patch.call_args.args
+        assert patch_path == "/api/v2/users/dest-x"
+        assert patch_body["data"]["attributes"] == {"email": "shared@example.com"}
+        assert user["attributes"]["email"] == "shared@example.com"
+
+    def test_v2_create_no_backfill_when_handle_matches_email(self, mock_config):
+        """No second call is made when the source handle equals the source email."""
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        mock_config.destination_client.post = AsyncMock(
+            return_value={"data": {"id": "dest-x", "type": "users", "attributes": {"email": "same@example.com"}}}
+        )
+        mock_config.destination_client.patch = AsyncMock()
+        src = _make_user("same@example.com", "same@example.com", "src-a")
+
+        asyncio.run(instance.create_resource("src-a", src))
+
+        mock_config.destination_client.patch.assert_not_called()
+
+    def test_v2_create_email_backfill_failure_persists_partial_state(self, mock_config):
+        """If the email-restoring PATCH fails, the created user (with the handle
+        as a placeholder email) is persisted so a retry updates instead of
+        re-creating into a 409 on the now-taken handle."""
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        created_user = {"id": "dest-x", "type": "users", "attributes": {"email": "user-a@example.com"}}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": created_user})
+        fake_response = MagicMock(status=500, message="boom")
+        mock_config.destination_client.patch = AsyncMock(side_effect=CustomClientHTTPError(fake_response, "boom"))
+        src = _make_user("user-a@example.com", "shared@example.com", "src-a")
+
+        with pytest.raises(CustomClientHTTPError):
+            asyncio.run(instance.create_resource("src-a", src))
+
+        assert mock_config.state.destination["users"]["src-a"] == created_user
+
+    def test_v2_create_email_backfill_timeout_persists_partial_state(self, mock_config):
+        """A transport timeout after create must preserve the created user too."""
+        instance = Users(mock_config)
+        instance._existing_resources_map = {}
+        created_user = {"id": "dest-x", "type": "users", "attributes": {"email": "user-a@example.com"}}
+        mock_config.destination_client.post = AsyncMock(return_value={"data": created_user})
+        mock_config.destination_client.patch = AsyncMock(side_effect=asyncio.TimeoutError())
+        src = _make_user("user-a@example.com", "shared@example.com", "src-a")
+
+        with pytest.raises(asyncio.TimeoutError):
+            asyncio.run(instance.create_resource("src-a", src))
+
+        assert mock_config.state.destination["users"]["src-a"] == created_user
 
     def test_v2_patch_body_excludes_handle(self, mock_config):
         """f2: the v2 update (PATCH) body must not carry the read-only handle."""
@@ -145,7 +218,12 @@ class TestV2CreatePath:
         """b: create always goes through the v2 endpoint."""
         instance = Users(mock_config)
         instance._existing_resources_map = {}
-        mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-x", "attributes": {}}})
+        mock_config.destination_client.post = AsyncMock(
+            return_value={"data": {"id": "dest-x", "type": "users", "attributes": {}}}
+        )
+        mock_config.destination_client.patch = AsyncMock(
+            return_value={"data": {"id": "dest-x", "type": "users", "attributes": {}}}
+        )
 
         asyncio.run(instance.create_resource("src-a", _make_user("user-a@example.com", "shared@example.com", "src-a")))
 
@@ -261,11 +339,13 @@ class TestServiceAccountCreatePath:
         instance = Users(mock_config)
         instance._existing_resources_map = {}
         mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-sa", "attributes": {}}})
-        src = _make_service_account("svc-a@example.com", "svc-a@example.com", "src-sa")
+        mock_config.destination_client.patch = AsyncMock()
+        src = _make_service_account("service-account-handle", "svc-a@example.com", "src-sa")
 
         _id, r = asyncio.run(instance.create_resource("src-sa", src))
 
         assert _post_paths(mock_config) == ["/api/v2/service_accounts"]
+        mock_config.destination_client.patch.assert_not_awaited()
         _, body = mock_config.destination_client.post.call_args.args
         attrs = body["data"]["attributes"]
         assert attrs["service_account"] is True
@@ -308,6 +388,9 @@ class TestServiceAccountCreatePath:
         instance = Users(mock_config)
         instance._existing_resources_map = {}
         mock_config.destination_client.post = AsyncMock(return_value={"data": {"id": "dest-x", "attributes": {}}})
+        mock_config.destination_client.patch = AsyncMock(
+            return_value={"data": {"id": "dest-x", "type": "users", "attributes": {"email": "shared@example.com"}}}
+        )
         src = _make_user("user-a@example.com", "shared@example.com", "src-a")
         src["attributes"]["service_account"] = False
 

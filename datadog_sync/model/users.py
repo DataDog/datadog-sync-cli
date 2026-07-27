@@ -120,11 +120,42 @@ class Users(BaseResource):
         # so the routing check above could read it).
         attributes.pop("service_account", None)
         destination_client = self.config.destination_client
+        handle = attributes.get("handle")
+        email = attributes.get("email")
         # handle is read-only in v2 (derived from email) and must not be sent.
         attributes.pop("disabled", None)
         attributes.pop("handle", None)
+
+        # v2 derives the destination handle from the create-time email. When the
+        # source handle differs from the source email, send the handle as the
+        # create-time email so the destination handle matches the source handle,
+        # then patch the email to the real address in a second call.
+        needs_email_backfill = bool(handle) and bool(email) and handle != email
+        if needs_email_backfill:
+            attributes["email"] = handle
+
         resp = await destination_client.post(self.resource_config.base_path, {"data": resource})
-        return _id, resp["data"]
+        user = resp["data"]
+
+        if needs_email_backfill:
+            try:
+                user = await self._backfill_email(user, email)
+            except Exception:
+                # The user exists with the handle as a placeholder email. Persist it
+                # so a retry takes the update path (which will patch the email) rather
+                # than re-attempting a create that now 409s on the taken handle.
+                self.config.state.destination[self.resource_type][_id] = user
+                raise
+
+        return _id, user
+
+    async def _backfill_email(self, user: Dict, email: str) -> Dict:
+        destination_client = self.config.destination_client
+        resp = await destination_client.patch(
+            self.resource_config.base_path + f"/{user['id']}",
+            {"data": {"id": user["id"], "type": user.get("type", "users"), "attributes": {"email": email}}},
+        )
+        return self._merge_role_state(resp["data"], user)
 
     async def _create_service_account(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         """Create the user via POST /api/v2/service_accounts.
