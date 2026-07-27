@@ -778,7 +778,16 @@ class ResourcesHandler:
 
         # The --id-file path replaces the unfiltered list call with per-ID GETs
         # bounded by --max-concurrent-reads for supported allowlisted types.
-        if self.config.id_payload and resource_type in self.config.id_payload:
+        # Gated on _ID_FILE_IMPORT_SUPPORTED_TYPES (not the union allowlist):
+        # types added purely for sync-command state-load scoping (e.g.
+        # host_tags) don't have a working per-ID GET path and would produce
+        # 100% permanent failures on this branch.
+        from datadog_sync.utils.configuration import _ID_FILE_IMPORT_SUPPORTED_TYPES
+        if (
+            self.config.id_payload
+            and resource_type in self.config.id_payload
+            and resource_type in _ID_FILE_IMPORT_SUPPORTED_TYPES
+        ):
             ids = self.config.id_payload[resource_type]
             mcr = self.config.max_concurrent_reads
             try:

@@ -200,13 +200,50 @@ def _unwrap_exact_match_pattern(pattern: str) -> str:
     return pattern[1:-1]
 
 
-_ID_FILE_SUPPORTED_TYPES = frozenset({"monitors", "authn_mappings", "team_memberships"})
-"""Resource types eligible for the --id-file partition path.
+_ID_FILE_IMPORT_SUPPORTED_TYPES = frozenset({"monitors", "authn_mappings", "team_memberships"})
+"""Resource types eligible for --id-file on the import command.
 
-Currently supported: monitors, authn_mappings, team_memberships.
-Future expansion (e.g. SLOs) requires per-model verification and adding the
-type here. Do NOT widen by config — code-level allowlist forces explicit review.
+The import path fans out to per-ID GETs via BaseResource.get_resources_by_ids.
+A type belongs here only when its model implements that path meaningfully
+(overrides get_resources_by_ids, or its default import_resource(_id=id) does
+a real GET). Adding a type here without that support produces per-ID
+permanent errors at runtime.
+
+Widening this set requires per-model verification of the fan-out path.
+Do NOT widen by config — code-level allowlist forces explicit review.
 """
+
+
+_ID_FILE_STATE_LOAD_SUPPORTED_TYPES = frozenset({
+    "monitors",
+    "authn_mappings",
+    "team_memberships",
+    "host_tags",
+    "metrics_metadata",
+})
+"""Resource types eligible for --id-file on the sync command with --minimize-reads.
+
+The sync-with-minimize-reads path uses --id-file only to scope state-load —
+State.get_by_ids constructs storage keys directly from (resource_type, id) and
+never invokes the model's per-ID GET path. A type belongs here when its state
+key is derivable from the ID (matches storage.get_single's key construction).
+
+- monitors, authn_mappings, team_memberships: reuse the import-eligible set
+  (their state keys are also ID-derivable).
+- host_tags: state key is hostname; import_resource returns (host, tags).
+  Storage layout: resources/source/host_tags.<hostname>.json.
+- metrics_metadata: state key is metric name; import_resource returns
+  (metric_name, resource). Storage layout: resources/source/metrics_metadata.
+  <metric_name>.json.
+
+Do NOT widen by config — code-level allowlist forces explicit review.
+"""
+
+
+# Union: any type acceptable in --id-file (used by _parse_id_file to reject
+# unknown types up-front). Runtime paths further narrow to the command-specific
+# subset.
+_ID_FILE_SUPPORTED_TYPES = _ID_FILE_IMPORT_SUPPORTED_TYPES | _ID_FILE_STATE_LOAD_SUPPORTED_TYPES
 
 
 def _parse_id_file(id_file_arg: Optional[str], logger) -> Optional[Dict[str, List[str]]]:
@@ -574,6 +611,12 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
                 "--skip-state-load skips the load entirely (recommended for import)"
             )
 
+    # Parse --id-file early so its IDs can also feed the state-load ID-targeted
+    # path below. Original position (after State construction) served only the
+    # import-command per-ID GET path; sync-command state-load scoping needs
+    # id_payload BEFORE State() is built.
+    id_payload = _parse_id_file(kwargs.get("id_file"), logger)
+
     # Determine loading strategy for minimize-reads
     _state_resource_types = None  # type-scoped; None = full load (existing behavior)
     _state_exact_ids = None  # ID-targeted; None = not using ID-targeted
@@ -583,9 +626,27 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         early_filters = process_filters(kwargs.get("filter"))
         filter_operator = kwargs.get("filter_operator", "or")
         _state_exact_ids = extract_exact_id_filters(early_filters, filter_operator, raw_types)
+        if _state_exact_ids is None and id_payload:
+            # --id-file fallback: for types where --filter cannot produce exact
+            # IDs (e.g. host_tags, metrics_metadata — state key not surfaced in
+            # stored body, so Name=id filters silently match zero rows), let
+            # --id-file supply the exact IDs directly. Scope to the intersection
+            # of --resources and the id-payload keys so a payload carrying
+            # unrelated types doesn't widen the load.
+            scoped = {k: v for k, v in id_payload.items() if k in raw_types}
+            if scoped:
+                _state_exact_ids = scoped
+                logger.debug(
+                    "minimize-reads: ID-targeted sourced from --id-file for %s "
+                    "(--filter produced no exact IDs)",
+                    list(scoped.keys()),
+                )
         if _state_exact_ids is None:
             # Fall back to type-scoped loading
-            logger.debug("minimize-reads: ID-targeted not eligible — filters are not all id+ExactMatch+OR")
+            logger.debug(
+                "minimize-reads: ID-targeted not eligible — filters are not all "
+                "id+ExactMatch+OR and --id-file did not supply IDs"
+            )
             _state_resource_types = raw_types
 
     # Initialize state. --skip-state-load constructs an ImportState (write-only,
@@ -617,8 +678,9 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     elif _state_resource_types is not None:
         logger.info(f"minimize-reads: type-scoped loading for {_state_resource_types}")
 
-    # Parse --id-file (stdin or path) and validate concurrency knobs.
-    id_payload = _parse_id_file(kwargs.get("id_file"), logger)
+    # id_payload was parsed above so it could feed --minimize-reads state-load
+    # ID-targeting. It also drives the import-command per-ID GET path below.
+    # Validate concurrency knobs.
     # NOTE: use explicit None check (not `or 30`) — `0 or 30` evaluates to 30,
     # which would silently swallow the very value we want to reject.
     raw_mcr = kwargs.get("max_concurrent_reads")
