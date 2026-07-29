@@ -20,7 +20,21 @@ class SLOCorrections(BaseResource):
         resource_connections={"service_level_objectives": ["attributes.slo_id"]},
         base_path="/api/v1/slo/correction",
         excluded_attributes=["id", "attributes.creator", "attributes.created_at", "attributes.modified_at"],
-        non_nullable_attr=["attributes.duration", "attributes.rrule"],
+        non_nullable_attr=[
+            "attributes.duration",
+            "attributes.rrule",
+            # slo_id and slo_query are mutually exclusive: a time-based
+            # correction sets slo_id (with slo_query=null) and a
+            # query-based correction sets slo_query (with slo_id=null).
+            # The destination API rejects null on either field with
+            # "Field may not be null" — strip whichever is null before POST.
+            "attributes.slo_id",
+            "attributes.slo_query",
+            # end is optional (recurring corrections omit it); when the
+            # source resource has end=null the destination API rejects
+            # the payload rather than treating null as "unset". Strip.
+            "attributes.end",
+        ],
         skip_resource_mapping=True,
     )
     # Additional SLOCorrections specific attributes
