@@ -6,6 +6,7 @@ from typing import Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 
 class SpansMetrics(BaseResource):
@@ -43,7 +44,19 @@ class SpansMetrics(BaseResource):
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         payload = {"data": resource}
-        resp = await destination_client.post(self.resource_config.base_path, payload)
+        try:
+            resp = await destination_client.post(self.resource_config.base_path, payload)
+        except CustomClientHTTPError as e:
+            if e.status_code != 409:
+                raise
+            # Destination already has a spans_metric with this name. The v2 API
+            # keys metrics by name (metric_id path param == metric name), so a 409
+            # on POST means the same _id exists on the destination. `skip_resource_mapping`
+            # is True for this type, so `state.destination` was never populated from a
+            # live LIST — hydrate it via a GET-by-id and fall through to update.
+            existing = await destination_client.get(self.resource_config.base_path + f"/{_id}")
+            self.config.state.destination[self.resource_type][_id] = existing["data"]
+            return await self.update_resource(_id, resource)
 
         return _id, resp["data"]
 
