@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 import logging
+import os
 import time
 from typing import Any, Dict, List, Set, Tuple
 
@@ -232,11 +233,106 @@ class State:
     def dump_state(self, origin: Origin = Origin.ALL) -> None:
         dump_start = time.perf_counter()
         self._storage.put(origin, self._data)
+        pruned = self._prune_stale_files_after_put(origin)
         log.info(
-            "sync-cli-timing phase=dump_state origin=%s wall_ms=%d",
+            "sync-cli-timing phase=dump_state origin=%s prune_status=%s "
+            "pruned_source=%d pruned_destination=%d wall_ms=%d",
             origin.value,
+            pruned.get("status", "ok"),
+            pruned.get(Origin.SOURCE, 0),
+            pruned.get(Origin.DESTINATION, 0),
             int((time.perf_counter() - dump_start) * 1000),
         )
+
+    def _prune_stale_files_after_put(self, origin: Origin) -> Dict[Any, Any]:
+        """Delete per-resource cache files whose IDs are no longer in-memory.
+
+        Restores what the legacy monolithic-cache layout achieved incidentally:
+        a source ID that drops between two ``dump_state`` calls leaves no
+        stale cache file behind. Under ``--resource-per-file`` the write path
+        only writes files for currently-live IDs, so without this step stale
+        files accumulate and get re-read as authoritative source content on
+        the next ``load_state`` — see prune subcommand and its docstrings for
+        the pre-existing manual escape hatch this makes automatic.
+
+        Gate discipline: only prunes types marked authoritative via
+        ``mark_source_authoritative``. Callers that write partial or
+        filtered state (e.g. mid-run intermediate saves, ``--minimize-reads``
+        type-scoped loads, ``--id-file`` targeted paths) do not mark
+        authoritative for the scoped types, so this method silently no-ops
+        for them and cannot over-prune.
+
+        Destination-side pruning uses the same source-ID-keyed filename
+        convention (state.py:275-277: "Destination state files are keyed by
+        source IDs") and the same authoritative-source guard, so a source ID
+        that dropped after a successful destination API DELETE + in-memory
+        pop is cleaned from both sides on the same dump.
+
+        Only active under ``--resource-per-file``. Legacy monolithic mode is
+        naturally self-cleaning and needs no change.
+
+        Kill switch: set ``DD_SYNC_CLI_DISABLE_DUMP_PRUNE=1`` in the
+        environment to disable the new behavior at runtime without a code
+        revert. Intended as an emergency escape hatch; not for routine use.
+
+        Returns a dict with per-origin file-delete counts and a ``status``
+        string that discriminates why prune returned zero (``ok``,
+        ``gated_kill_switch``, ``gated_legacy_layout``,
+        ``gated_no_authoritative``, ``no_stale``, ``compute_error``,
+        ``delete_error``). Never raises: a best-effort cleanup; per-file
+        failures are surfaced via ``delete_many`` return values and logged
+        at DEBUG in ``delete_stale_files``.
+        """
+        result: Dict[Any, Any] = {Origin.SOURCE: 0, Origin.DESTINATION: 0, "status": "ok"}
+        if os.environ.get("DD_SYNC_CLI_DISABLE_DUMP_PRUNE"):
+            result["status"] = "gated_kill_switch"
+            return result
+        if not getattr(self._storage, "resource_per_file", False):
+            result["status"] = "gated_legacy_layout"
+            return result
+        if not self._authoritative_source_types:
+            result["status"] = "gated_no_authoritative"
+            return result
+
+        # Only prune origins that were actually written on this call.
+        target_origins: List[Origin] = []
+        if origin in (Origin.SOURCE, Origin.ALL):
+            target_origins.append(Origin.SOURCE)
+        if origin in (Origin.DESTINATION, Origin.ALL):
+            target_origins.append(Origin.DESTINATION)
+        if not target_origins:
+            result["status"] = "no_stale"
+            return result
+
+        types = sorted(self._authoritative_source_types)
+        try:
+            stale = self.compute_stale_files(target_origins, types)
+        except ValueError as e:
+            # Race with concurrent authoritative-clear or missing source
+            # state: skip pruning this cycle rather than raising into
+            # dump_state's happy path. Next dump will retry. Log at WARNING
+            # so a genuine invariant break (per compute_stale_files docstring)
+            # is visible to operators rather than silently swallowed.
+            log.warning("dump_state prune skipped due to compute_stale_files: %s", e)
+            result["status"] = "compute_error"
+            return result
+        if not any(stale.values()):
+            result["status"] = "no_stale"
+            return result
+
+        try:
+            counts = self.delete_stale_files(stale)
+        except Exception as e:
+            # Backend errors during delete (transient GCS/S3 blip, permission
+            # change mid-run) must not abort dump_state's happy path — the
+            # write has already succeeded and callers rely on returning.
+            # Stale files remain on disk; next dump_state retries.
+            log.warning("dump_state prune failed during delete_stale_files: %s", e)
+            result["status"] = "delete_error"
+            return result
+        for (o, _rt), (ok, _fail) in counts.items():
+            result[o] = result.get(o, 0) + ok
+        return result
 
     def get_all_resources(self, resources_types: List[str]) -> Dict[Tuple[str, str], Any]:
         """Returns all resources of the given types.

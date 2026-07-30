@@ -740,7 +740,22 @@ class ResourcesHandler:
             await self.worker.schedule_workers()
         import_failures = self.worker.counter.failure
         if get_failures == 0 and import_failures == 0:
-            self.config.state.mark_source_authoritative(self.config.resources_arg)
+            # Only types WITHOUT an id-file scoping are authoritative after this
+            # import — types with id_payload only fetched the requested subset,
+            # so state.source[type] is intentionally partial and cannot drive
+            # stale-file pruning. Marking a partial subset as authoritative
+            # would over-prune every non-listed file on the next dump_state.
+            id_scoped_types = set(self.config.id_payload or {})
+            authoritative_types = [
+                rt for rt in self.config.resources_arg if rt not in id_scoped_types
+            ]
+            if authoritative_types:
+                self.config.state.mark_source_authoritative(authoritative_types)
+            if id_scoped_types & set(self.config.resources_arg):
+                self.config.logger.debug(
+                    "source state not marked authoritative for id-file-scoped types: %s",
+                    sorted(id_scoped_types & set(self.config.resources_arg)),
+                )
         else:
             self.config.logger.debug(
                 "source state not marked authoritative after import: get_failures=%s import_failures=%s",
