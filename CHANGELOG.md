@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.17.0 / 2026-07-30
+
+### Fixed
+* fix(slo_corrections): strip null-valued mutually-exclusive fields before POST by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/649
+* fix(spans_metrics): fall back to update on 409 during create by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/650
+* fix(state): delete stale per-record cache files on dump_state by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/651
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.16.0...4.17.0
+
 ## 4.16.0 / 2026-07-27
 
 ### Fixed
