@@ -587,8 +587,10 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             raise click.UsageError("--minimize-reads requires --resource-per-file")
         if not kwargs.get("resources", None):
             raise click.UsageError("--minimize-reads requires --resources")
-        if kwargs.get("cleanup") and kwargs["cleanup"].lower() in ("true", "force"):
-            raise click.UsageError("--minimize-reads cannot be combined with --cleanup")
+        # The --cleanup compatibility check moved after the ID-targeting decision
+        # block below. Rationale: --minimize-reads has two sub-modes with
+        # different safety properties under --cleanup — see the sub-mode-aware
+        # guard after the state-strategy decision.
 
     # Validate --skip-state-load constraints.
     # The Click decorator lives on `_import.py` only, so the flag is never
@@ -648,6 +650,43 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
                 "id+ExactMatch+OR and --id-file did not supply IDs"
             )
             _state_resource_types = raw_types
+
+    # Sub-mode-aware --cleanup compatibility check.
+    #
+    # --minimize-reads has two sub-modes selected above:
+    #   * ID-targeted: state.destination[type] loads only the IDs listed by
+    #     --filter exact-IDs or --id-file. A cleanup diff
+    #     (destination[type] - source[type]) over a scoped-load is unsafe —
+    #     legitimate destination records outside the scope are absent from
+    #     the diff, and an ID that dropped from source between prior dispatch
+    #     and now (e.g. a rename, temporary API 404, race) surfaces as an
+    #     orphan and gets DELETE'd from the destination org.
+    #   * Type-scoped: state.destination[type] loads all IDs of the requested
+    #     types via the storage backend's prefix listing — see
+    #     ``BaseStorage.get(origin, resource_types=[...])``. The diff is
+    #     well-defined per type, functionally identical to full-load-then-
+    #     cleanup for the types in scope.
+    #
+    # Sub-mode selection completed above. ID-targeted is signalled by
+    # ``_state_exact_ids is not None``. Note: ``id_payload`` alone is NOT the
+    # trigger — an --id-file whose types are disjoint from --resources leaves
+    # ``_state_exact_ids`` at None (intersection empty at line 636-643), the
+    # path falls through to type-scoped, and cleanup is safe. Gating on
+    # ``_state_exact_ids`` alone tracks the actual scoping decision.
+    if (
+        minimize_reads
+        and _state_exact_ids is not None
+        and kwargs.get("cleanup")
+        and kwargs["cleanup"].lower() in ("true", "force")
+    ):
+        raise click.UsageError(
+            "--minimize-reads with --id-file or exact-id --filter cannot be "
+            "combined with --cleanup: state.destination is scoped to the "
+            "listed IDs, so the cleanup diff would delete legitimate "
+            "destination records outside the scope. Use type-scoped "
+            "--minimize-reads (--resources with no exact-id --filter, and "
+            "no --id-file whose types overlap --resources) with --cleanup."
+        )
 
     # Initialize state. --skip-state-load constructs an ImportState (write-only,
     # no source/destination accessors, no boot-time load); otherwise the regular

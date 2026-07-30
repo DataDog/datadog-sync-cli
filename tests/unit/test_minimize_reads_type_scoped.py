@@ -143,8 +143,26 @@ class TestMinimizeReadsCLIValidation:
         assert result.exit_code != 0
         assert "no such option" in result.output.lower()
 
-    def test_minimize_reads_cannot_be_combined_with_cleanup(self, runner):
-        """--minimize-reads + --cleanup must be rejected before any I/O."""
+    def test_minimize_reads_type_scoped_with_cleanup_is_accepted(self, runner, tmp_path):
+        """--minimize-reads without --filter/--id-file selects the type-scoped
+        sub-mode, which loads full state.destination[type] via prefix listing.
+        The cleanup diff destination[type] - source[type] is well-defined in
+        this sub-mode, so the guardrail must accept the combination.
+
+        Regression guard for the sub-mode-aware refinement: prior blanket
+        rejection incorrectly blocked this safe case, forcing wrapper-side
+        strips that reintroduced the O(N)→O(K) state-load regression for
+        types where --id-file is otherwise the fast path.
+        """
+        # Use tmp local storage so the command actually initializes State
+        # instead of erroring on missing storage config. We assert exit
+        # against the guard specifically — the run will fail later on
+        # missing API creds, that's fine; the guard is validated
+        # separately below.
+        src = tmp_path / "src"
+        dst = tmp_path / "dst"
+        src.mkdir()
+        dst.mkdir()
         result = runner.invoke(
             cli,
             [
@@ -154,11 +172,144 @@ class TestMinimizeReadsCLIValidation:
                 "--resources=roles",
                 "--cleanup=Force",
                 "--source-api-key=x",
+                "--source-app-key=x",
                 "--destination-api-key=y",
+                "--destination-app-key=y",
+                "--source-resources-path",
+                str(src),
+                "--destination-resources-path",
+                str(dst),
+            ],
+        )
+        # The sub-mode-aware guard must NOT fire on type-scoped + cleanup.
+        # Assert BOTH the negative (guard message absent) AND the positive
+        # (invocation progressed past validation into runtime — evidenced by
+        # a downstream failure surface, not by exit_code == 0 which would
+        # require live API creds). This dual assertion prevents a future
+        # guard-message rename from silently satisfying only the negative
+        # substring check.
+        combined_output = (result.output + str(result.exception)).lower()
+        assert "cannot be combined with --cleanup" not in combined_output, (
+            "sub-mode-aware guard incorrectly rejected type-scoped + cleanup: " + combined_output
+        )
+        # Positive marker: some downstream indication that build_config
+        # returned and the sync command began running. UsageError from
+        # earlier validation stages surfaces as "usage:" in the click output;
+        # its absence combined with an alternative failure (network, auth,
+        # or successful exit) confirms we reached runtime.
+        assert "usage:" not in combined_output, (
+            "unexpected earlier UsageError blocked the type-scoped path: " + combined_output
+        )
+
+    def test_minimize_reads_id_file_with_cleanup_is_rejected(self, runner, tmp_path):
+        """--minimize-reads + --id-file (or exact-id --filter) selects the
+        ID-targeted sub-mode, which loads only listed IDs into
+        state.destination[type]. Cleanup's diff would delete legitimate
+        destination records outside the ID scope — the guardrail must fire.
+        """
+        id_file = tmp_path / "ids.json"
+        id_file.write_text('{"monitors": ["12345"]}')
+        result = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--minimize-reads",
+                "--resource-per-file",
+                "--resources=monitors",
+                "--id-file",
+                str(id_file),
+                "--cleanup=Force",
+                "--source-api-key=x",
+                "--source-app-key=x",
+                "--destination-api-key=y",
+                "--destination-app-key=y",
             ],
         )
         assert result.exit_code != 0
-        assert "cleanup" in (result.output + str(result.exception)).lower()
+        combined_output = (result.output + str(result.exception)).lower()
+        assert "id-file" in combined_output or "exact-id" in combined_output, (
+            "guard message must name the actual trigger (id-file or exact-id filter): " + combined_output
+        )
+        assert "cleanup" in combined_output
+
+    def test_minimize_reads_exact_id_filter_with_cleanup_is_rejected(self, runner):
+        """Exact-id --filter also selects ID-targeted sub-mode; same guard
+        must fire with the sub-mode-aware message.
+        """
+        result = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--minimize-reads",
+                "--resource-per-file",
+                "--resources=roles",
+                "--filter",
+                "Type=roles;Name=id;Value=role-1;Operator=exactmatch",
+                "--cleanup=Force",
+                "--source-api-key=x",
+                "--source-app-key=x",
+                "--destination-api-key=y",
+                "--destination-app-key=y",
+            ],
+        )
+        assert result.exit_code != 0
+        combined_output = (result.output + str(result.exception)).lower()
+        # Assert on the specific sub-mode-aware guard message, not a generic
+        # "cleanup or filter" substring — otherwise an unrelated failure that
+        # happens to mention "filter" would pass this test.
+        assert "cannot be combined with --cleanup" in combined_output, combined_output
+        assert "id-file or exact-id" in combined_output, combined_output
+
+    def test_minimize_reads_id_file_disjoint_types_with_cleanup_is_accepted(self, runner, tmp_path):
+        """Regression guard for the disjoint-types case: --id-file supplies
+        IDs for types that are NOT in --resources. Sub-mode selection at
+        configuration.py:636-643 intersects id_payload with --resources; the
+        empty intersection leaves _state_exact_ids at None and falls through
+        to type-scoped loading. Guard must NOT fire — the effective sub-mode
+        is type-scoped, which is safe with --cleanup.
+
+        Prior draft of the guard gated on ``bool(id_payload)`` and would
+        incorrectly fire here.
+        """
+        id_file = tmp_path / "ids.json"
+        # id-file lists monitors, but --resources requests roles only.
+        # Intersection is empty; _state_exact_ids stays None; sub-mode is
+        # type-scoped.
+        id_file.write_text('{"monitors": ["12345"]}')
+        src = tmp_path / "src"
+        dst = tmp_path / "dst"
+        src.mkdir()
+        dst.mkdir()
+        result = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--minimize-reads",
+                "--resource-per-file",
+                "--resources=roles",
+                "--id-file",
+                str(id_file),
+                "--cleanup=Force",
+                "--source-api-key=x",
+                "--source-app-key=x",
+                "--destination-api-key=y",
+                "--destination-app-key=y",
+                "--source-resources-path",
+                str(src),
+                "--destination-resources-path",
+                str(dst),
+            ],
+        )
+        combined_output = (result.output + str(result.exception)).lower()
+        assert "cannot be combined with --cleanup" not in combined_output, (
+            "sub-mode-aware guard incorrectly rejected disjoint-id-file + type-scoped + cleanup: "
+            + combined_output
+        )
+        # Positive marker: no earlier UsageError, so build_config progressed
+        # past all validation blocks (see companion test for rationale).
+        assert "usage:" not in combined_output, (
+            "unexpected earlier UsageError blocked the disjoint-id-file path: " + combined_output
+        )
 
 
 class TestS3TypeScopedGet:
