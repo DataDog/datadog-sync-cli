@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.18.0 / 2026-07-30
+
+### Fixed
+* fix(config): allow --minimize-reads type-scoped mode with --cleanup by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/653
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.17.0...4.18.0
+
 ## 4.17.0 / 2026-07-30
 
 ### Fixed
