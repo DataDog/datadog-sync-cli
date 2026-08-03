@@ -91,6 +91,7 @@ class CustomClientHTTPError(Exception):
     def __init__(self, response, message=None):
         super().__init__(f"{response.status} {response.message} - {message}")
         self.status_code = response.status
+        self.response_body = message
 
 
 class LogsPipelinesOrderIdsComparator(BaseOperator):

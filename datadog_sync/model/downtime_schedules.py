@@ -3,16 +3,34 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
+import json
+import logging
+import re
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 from datetime import datetime, timedelta, timezone
 from dateutil.parser import parse
 
+from datadog_sync.constants import LOGGER_NAME
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
-from datadog_sync.utils.resource_utils import DowntimeSchedulesDateOperator, SkipResource
+from datadog_sync.utils.resource_utils import (
+    CustomClientHTTPError,
+    DowntimeSchedulesDateOperator,
+    SkipResource,
+)
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
+
+log = logging.getLogger(LOGGER_NAME)
+
+# Substring of the destination API's 400 body when a create collides with an
+# equivalent existing downtime, e.g.
+#   {"errors":["The downtime being created is a duplicate of one or more
+#    existing downtimes: ['<id>']"]}
+_DUPLICATE_DOWNTIME_MARKER = "duplicate of one or more existing downtimes"
+_DOWNTIME_NOT_FOUND_MARKER = "Downtime not found"
+_SINGLE_DUPLICATE_ID_RE = re.compile(r"existing downtimes:\s*\[\s*(['\"])(?P<id>[^'\"]+)\1\s*\]\s*$")
 
 
 class DowntimeSchedules(BaseResource):
@@ -87,35 +105,66 @@ class DowntimeSchedules(BaseResource):
     def _iso_utc(dt) -> str:
         return dt.isoformat().replace("+00:00", "Z")
 
+    @staticmethod
+    def _http_error_messages(error: CustomClientHTTPError) -> List[str]:
+        """Return string messages from a JSON API error response."""
+        body = error.response_body
+        if not isinstance(body, str):
+            return []
+        try:
+            parsed = json.loads(body)
+        except (json.JSONDecodeError, TypeError):
+            return []
+        errors = parsed.get("errors", []) if isinstance(parsed, dict) else []
+        return [message for message in errors if isinstance(message, str)]
+
+    @classmethod
+    def _single_duplicate_id(cls, error: CustomClientHTTPError) -> Optional[str]:
+        for message in cls._http_error_messages(error):
+            if _DUPLICATE_DOWNTIME_MARKER not in message:
+                continue
+            match = _SINGLE_DUPLICATE_ID_RE.search(message)
+            if match:
+                return match.group("id")
+        return None
+
+    @classmethod
+    def _is_downtime_not_found(cls, error: CustomClientHTTPError) -> bool:
+        return any(_DOWNTIME_NOT_FOUND_MARKER in message for message in cls._http_error_messages(error))
+
+    def _normalize_create_schedule(self, _id: str, resource: Dict) -> None:
+        schedule = resource["attributes"].get("schedule")
+        if not schedule:
+            return
+        now = datetime.now(timezone.utc)
+
+        # Past `end` means the maintenance window has already closed on the
+        # source. Replicating it to the destination would either invent a
+        # new customer-visible maintenance (if we shifted `end` forward) or
+        # 400 with "Downtime cannot be scheduled in the past". Skip: an
+        # ended downtime has nothing left to silence.
+        end_raw = schedule.get("end")
+        if end_raw:
+            end_dt = self._parse_utc(end_raw)
+            if end_dt <= now:
+                raise SkipResource(
+                    str(_id),
+                    self.resource_type,
+                    "Downtime end is in the past.",
+                )
+
+        # Rewrite past `start` forward to now+60s. `end` (if present) is
+        # left as-is per customer intent — the window may shrink but its
+        # original end time is preserved.
+        start_raw = schedule.get("start")
+        if start_raw:
+            start_dt = self._parse_utc(start_raw)
+            if start_dt <= now:
+                schedule["start"] = self._iso_utc(now + timedelta(seconds=60))
+
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.config.state.destination[self.resource_type]:
-            schedule = resource["attributes"].get("schedule")
-            if not schedule:
-                return
-            now = datetime.now(timezone.utc)
-
-            # Past `end` means the maintenance window has already closed on the
-            # source. Replicating it to the destination would either invent a
-            # new customer-visible maintenance (if we shifted `end` forward) or
-            # 400 with "Downtime cannot be scheduled in the past". Skip: an
-            # ended downtime has nothing left to silence.
-            end_raw = schedule.get("end")
-            if end_raw:
-                end_dt = self._parse_utc(end_raw)
-                if end_dt <= now:
-                    raise SkipResource(
-                        str(_id), self.resource_type,
-                        "Downtime end is in the past.",
-                    )
-
-            # Rewrite past `start` forward to now+60s. `end` (if present) is
-            # left as-is per customer intent — the window may shrink but its
-            # original end time is preserved.
-            start_raw = schedule.get("start")
-            if start_raw:
-                start_dt = self._parse_utc(start_raw)
-                if start_dt <= now:
-                    schedule["start"] = self._iso_utc(now + timedelta(seconds=60))
+            self._normalize_create_schedule(_id, resource)
         else:
             # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
             # this is to avoid unnecessary diff outputs
@@ -139,7 +188,19 @@ class DowntimeSchedules(BaseResource):
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         payload = {"data": resource}
-        resp = await destination_client.post(self.resource_config.base_path, payload)
+        try:
+            resp = await destination_client.post(self.resource_config.base_path, payload)
+        except CustomClientHTTPError as e:
+            duplicate_id = self._single_duplicate_id(e) if e.status_code == 400 else None
+            if duplicate_id is not None:
+                # The API identified exactly one equivalent destination
+                # downtime. Fetch and return it so BaseResource persists the
+                # recovered source-to-destination mapping. Ambiguous or
+                # malformed duplicate responses still propagate as failures.
+                existing = await destination_client.get(self.resource_config.base_path + f"/{duplicate_id}")
+                log.info(f"[downtime_schedules - {_id}] reconciled duplicate with existing destination downtime")
+                return _id, existing["data"]
+            raise
 
         return _id, resp["data"]
 
@@ -147,18 +208,40 @@ class DowntimeSchedules(BaseResource):
         destination_client = self.config.destination_client
         resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
         payload = {"data": resource}
-        resp = await destination_client.patch(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
-            payload,
-        )
+        try:
+            resp = await destination_client.patch(
+                self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+                payload,
+            )
+        except CustomClientHTTPError as e:
+            if e.status_code == 404 and self._is_downtime_not_found(e):
+                # The mapped destination downtime was removed out-of-band, so
+                # the PATCH target no longer exists ("Downtime not found").
+                # Recreate it now and return the new destination object so the
+                # BaseResource wrapper replaces the stale persisted mapping.
+                # Re-run create-only schedule normalization because the first
+                # pre-action hook took the update branch.
+                resource.pop("id", None)
+                self._normalize_create_schedule(_id, resource)
+                log.info(f"[downtime_schedules - {_id}] recreating missing mapped downtime on destination")
+                return await self.create_resource(_id, resource)
+            raise
 
         return _id, resp["data"]
 
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
-        await destination_client.delete(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
-        )
+        try:
+            await destination_client.delete(
+                self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
+            )
+        except CustomClientHTTPError as e:
+            if e.status_code == 404:
+                # Already gone on the destination: deleting a non-existent
+                # downtime is a successful no-op, not a failure.
+                log.info(f"[downtime_schedules - {_id}] already deleted on destination")
+                return
+            raise
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(DowntimeSchedules, self).connect_id(key, r_obj, resource_to_connect)
