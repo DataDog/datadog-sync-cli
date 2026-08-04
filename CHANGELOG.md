@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.19.0 / 2026-08-04
+
+### Fixed
+* fix(downtime_schedules): reconcile destination conflicts by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/656
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.18.0...4.19.0
+
 ## 4.18.0 / 2026-07-30
 
 ### Fixed
