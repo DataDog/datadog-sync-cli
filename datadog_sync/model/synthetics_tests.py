@@ -36,7 +36,7 @@ class SyntheticsTests(BaseResource):
             ],
             "roles": [
                 "options.restricted_roles",
-                "restriction_policy.bindings.principals",
+                "options.bindings.principals",
             ],
             "rum_applications": ["options.rumSettings.applicationId"],
             "synthetics_mobile_applications": [
@@ -47,8 +47,8 @@ class SyntheticsTests(BaseResource):
                 "mobileApplicationsVersions",
                 "options.mobileApplication.referenceId",
             ],
-            "users": ["restriction_policy.bindings.principals"],
-            "teams": ["restriction_policy.bindings.principals"],
+            "users": ["options.bindings.principals"],
+            "teams": ["options.bindings.principals"],
         },
         base_path="/api/v1/synthetics/tests",
         excluded_attributes=[
@@ -254,12 +254,13 @@ class SyntheticsTests(BaseResource):
             "source_status": source_status,
         }
 
-        # org: principals in restriction_policy bindings must be remapped from the
+        # org: principals in options.bindings must be remapped from the
         # source org UUID to the destination org UUID; otherwise the destination API
         # rejects the update with "cross-org principals are not supported".
-        # Mirrors the pattern in monitors.py.
-        if self.org_principal and resource.get("restriction_policy"):
-            for binding in resource["restriction_policy"].get("bindings") or []:
+        # Mirrors the pattern in monitors.py, but synthetics tests carry this data
+        # under options.bindings rather than a top-level restriction_policy key.
+        if self.org_principal and resource.get("options"):
+            for binding in resource["options"].get("bindings") or []:
                 for i, principal in enumerate(binding.get("principals") or []):
                     if principal.startswith("org:"):
                         binding["principals"][i] = self.org_principal
@@ -267,10 +268,10 @@ class SyntheticsTests(BaseResource):
 
     async def pre_apply_hook(self) -> None:
         # Only fetch destination org UUID when at least one source test carries
-        # a restriction_policy. Policy-free syncs skip the API call and don't
+        # options.bindings. Policy-free syncs skip the API call and don't
         # inherit a failure dependency on /api/v2/current_user.
         self.org_principal = await self._fetch_destination_org_principal(
-            has_policy=lambda r: bool(r.get("restriction_policy")),
+            has_policy=lambda r: bool(r.get("options", {}).get("bindings")),
             current_user_path=self.current_user_path,
         )
 
@@ -429,7 +430,7 @@ class SyntheticsTests(BaseResource):
 
         All non-access-control connections (private locations, subtests, global variables,
         rum/mobile apps) keep the generic find_attr/connect_id path. The flat
-        `options.restricted_roles` list and the `restriction_policy.bindings.principals`
+        `options.restricted_roles` list and the `options.bindings.principals`
         composites go through the shared drop-aware filters so permanently-stale references
         can be dropped (under --drop-unresolvable-principals) while an emptied binding/list
         still hard-fails as an access-elevation guard.
@@ -440,31 +441,27 @@ class SyntheticsTests(BaseResource):
         failed_connections_dict = defaultdict(list)
         for resource_to_connect, attrs in self.resource_config.resource_connections.items():
             for attr_connection in attrs:
-                if attr_connection in ("options.restricted_roles", "restriction_policy.bindings.principals"):
+                if attr_connection in ("options.restricted_roles", "options.bindings.principals"):
                     continue  # handled by the drop-aware filters below
                 c = find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
                 if c:
                     failed_connections_dict[resource_to_connect].extend(c)
 
         empty_risk = False
-        restriction_policy = resource.get("restriction_policy")
-        if restriction_policy:
-            principal_failed, binding_risk = self._filter_stale_binding_principals(
-                _id, restriction_policy.get("bindings")
-            )
+        options = resource.get("options")
+        if options:
+            principal_failed, binding_risk = self._filter_stale_binding_principals(_id, options.get("bindings"))
             for rt, ids in principal_failed.items():
                 failed_connections_dict[rt].extend(ids)
             empty_risk = empty_risk or binding_risk
 
-        role_failed, roles_risk = self._filter_stale_flat_roles(_id, resource.get("options"), "restricted_roles")
+        role_failed, roles_risk = self._filter_stale_flat_roles(_id, options, "restricted_roles")
         if role_failed:
             failed_connections_dict["roles"].extend(role_failed)
         empty_risk = empty_risk or roles_risk
 
         return ResourceConnectionResult(
-            empty_binding_escalation=self._raise_connection_error_if_any(
-                _id, failed_connections_dict, empty_risk
-            )
+            empty_binding_escalation=self._raise_connection_error_if_any(_id, failed_connections_dict, empty_risk)
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
@@ -518,7 +515,7 @@ class SyntheticsTests(BaseResource):
                 return []
             return super(SyntheticsTests, self).connect_id(key, r_obj, resource_to_connect)
         elif key == "principals":
-            # Remap user:/role:/team: principals in restriction_policy bindings.
+            # Remap user:/role:/team: principals in options.bindings.
             # org: principals are handled in pre_resource_action_hook before this runs.
             # Each resource_to_connect pass handles only its type; other types pass through silently.
             # Mirrors the pattern in monitors.py.
