@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
+import pytest
 from botocore.exceptions import ClientError
 
 from datadog_sync.constants import Origin
@@ -108,6 +109,101 @@ class TestExtractExactIdFilters:
         )
         result = extract_exact_id_filters(filters, "or", ["dashboards"])
         assert result == {"dashboards": ["dash-1", "dash-2"]}
+
+
+# ─── Regex-escaped ExactMatch values (regexp.QuoteMeta / re.escape) ──────────
+
+
+class TestExactMatchEscapedValues:
+    """Producers that regex-escape the filter Value before ExactMatch wrapping.
+
+    ExactMatch wraps the Value in ``^...$`` and compiles it as a regex, so a
+    caller must escape regex metacharacters (e.g. Go ``regexp.QuoteMeta`` or
+    Python ``re.escape``) for the match to be literal — otherwise a metric id
+    like ``svc.request.count`` would also match ``svcXrequestYcount``. The
+    ID-targeted state load then reuses the Value as a literal storage key, so it
+    must recover the unescaped literal id, not the escaped pattern body.
+    """
+
+    def test_unwrap_recovers_literal_from_escaped_dots(self):
+        from datadog_sync.utils.configuration import _unwrap_exact_match_pattern
+
+        # What process_filters stores when the producer escaped dots.
+        pattern = r"^svc\.request\.count$"
+        assert _unwrap_exact_match_pattern(pattern) == "svc.request.count"
+
+    def test_unwrap_plain_literal_unchanged(self):
+        from datadog_sync.utils.configuration import _unwrap_exact_match_pattern
+
+        # UUID-style id with no metacharacters: escaping is a no-op upstream.
+        assert _unwrap_exact_match_pattern("^dash-1$") == "dash-1"
+
+    def test_unwrap_real_regex_raises(self):
+        """An unescaped metacharacter means a genuine regex, not an escaped id."""
+        from datadog_sync.utils.configuration import _unwrap_exact_match_pattern
+
+        with pytest.raises(ValueError):
+            _unwrap_exact_match_pattern("^svc.*count$")
+
+    def test_extract_exact_id_filters_escaped_metric_ids(self):
+        """Regression: a producer regex-escapes dotted logs_metrics ids.
+
+        Reproduces the drop where dotted ids vanished at ID-targeted state load
+        because the escaped pattern body (``svc\\.request\\.count``) was used as
+        a literal storage key and never matched the real blob key
+        (``svc.request.count``). Only the dot-free id survived unfixed.
+        """
+        import re
+        from datadog_sync.utils.configuration import extract_exact_id_filters
+        from datadog_sync.utils.filter import Filter
+
+        raw_ids = [
+            "metric-no-dots",  # no metacharacters — survives even unfixed
+            "svc.request.count",
+            "app.errors.total.count",
+        ]
+        # Mirror the producer: regex-escape each id, then ExactMatch-wrap it.
+        rt_filters = [
+            Filter(
+                resource_type="logs_metrics",
+                attr_name="id",
+                attr_re=re.compile(f"^{re.escape(_id)}$"),
+                operator="exactmatch",
+            )
+            for _id in raw_ids
+        ]
+        result = extract_exact_id_filters({"logs_metrics": rt_filters}, "or", ["logs_metrics"])
+        assert result == {"logs_metrics": raw_ids}
+
+    def test_escaped_id_load_end_to_end(self, tmp_path):
+        """State.get_by_ids resolves an escaped-value id against the real blob key."""
+        import re
+        from datadog_sync.utils.configuration import extract_exact_id_filters
+        from datadog_sync.utils.filter import Filter
+        from datadog_sync.utils.state import State
+
+        _id = "svc.request.count"
+        src = tmp_path / "source"
+        src.mkdir()
+        # Import writes one blob per resource, keyed by the literal (unescaped) id.
+        (src / f"logs_metrics.{_id}.json").write_text(json.dumps({_id: {"id": _id, "attributes": {}}}))
+
+        rt_filter = Filter(
+            resource_type="logs_metrics",
+            attr_name="id",
+            attr_re=re.compile(f"^{re.escape(_id)}$"),
+            operator="exactmatch",
+        )
+        exact_ids = extract_exact_id_filters({"logs_metrics": [rt_filter]}, "or", ["logs_metrics"])
+
+        state = State(
+            StorageType.LOCAL_FILE,
+            source_resources_path=str(src),
+            destination_resources_path=str(tmp_path / "destination"),
+            resource_per_file=True,
+            exact_ids=exact_ids,
+        )
+        assert _id in state.source["logs_metrics"]
 
 
 # ─── State with exact_ids ───────────────────────────────────────────────────

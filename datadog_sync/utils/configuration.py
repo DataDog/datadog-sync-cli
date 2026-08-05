@@ -189,15 +189,58 @@ class Configuration(object):
         await self.destination_client._end_session()
 
 
-def _unwrap_exact_match_pattern(pattern: str) -> str:
-    """Extract the raw ID value from an ExactMatch ^...$-wrapped regex pattern.
+# Regex metacharacters that, when unescaped in an ExactMatch body, mean the
+# value is a genuine regex rather than a regex-escaped literal id. Mirrors the
+# set escaped by Go's regexp.QuoteMeta and Python's re.escape.
+_REGEX_METACHARS = frozenset(r".^$*+?()[]{}|")
 
-    Defensive check: ExactMatch always produces ^...$, so ValueError should not
-    fire in practice. Raises ValueError so callers can detect unexpected patterns.
+
+def _regex_literal_from_exact_match_body(body: str) -> str:
+    """Recover the literal string an ExactMatch pattern body matches exactly.
+
+    ExactMatch wraps the filter Value in ``^...$`` and compiles it as a regex,
+    so producers must regex-escape metacharacters in the Value for the match to
+    be literal (e.g. Go ``regexp.QuoteMeta`` / Python ``re.escape`` turn the
+    metric id ``svc.request.count`` into ``svc\\.request\\.count``). The
+    ID-targeted state load reuses the Value as a literal storage key, so the
+    escaping must be reversed here — otherwise the escaped body is looked up as
+    a key that never matches the real (unescaped) blob, silently dropping the
+    resource from state.
+
+    Raises ValueError when the body is not a pure literal — an unescaped
+    metacharacter (a real regex) or a dangling backslash. Callers treat that as
+    "not ID-targetable" and fall back to type-scoped loading, which matches via
+    the compiled regex and stays correct.
+    """
+    out = []
+    i = 0
+    n = len(body)
+    while i < n:
+        c = body[i]
+        if c == "\\":
+            if i + 1 >= n:
+                raise ValueError(f"dangling escape in ExactMatch pattern body: {body!r}")
+            out.append(body[i + 1])
+            i += 2
+            continue
+        if c in _REGEX_METACHARS:
+            raise ValueError(f"unescaped metacharacter {c!r} in ExactMatch pattern body: {body!r}")
+        out.append(c)
+        i += 1
+    return "".join(out)
+
+
+def _unwrap_exact_match_pattern(pattern: str) -> str:
+    """Extract the literal ID value from an ExactMatch ^...$-wrapped regex pattern.
+
+    The value between the anchors is regex-escaped by the producer, so it is
+    un-escaped back to the literal id (see _regex_literal_from_exact_match_body).
+    Raises ValueError when the pattern is not ^...$-anchored or its body is not a
+    pure literal, so callers can fall back to type-scoped loading.
     """
     if not (pattern.startswith("^") and pattern.endswith("$")):
         raise ValueError(f"Expected ExactMatch regex ^...$, got: {pattern!r}")
-    return pattern[1:-1]
+    return _regex_literal_from_exact_match_body(pattern[1:-1])
 
 
 _ID_FILE_IMPORT_SUPPORTED_TYPES = frozenset({"monitors", "authn_mappings", "team_memberships"})
