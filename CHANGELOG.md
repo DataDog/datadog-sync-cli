@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.20.0 / 2026-08-05
+
+### Fixed
+* fix(synthetics_tests): remap mobile test principals under options.bindings by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/658
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.19.0...4.20.0
+
 ## 4.19.0 / 2026-08-04
 
 ### Fixed
