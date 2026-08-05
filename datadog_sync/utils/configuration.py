@@ -193,6 +193,7 @@ class Configuration(object):
 # value is a genuine regex rather than a regex-escaped literal id. Mirrors the
 # metacharacter set escaped by Go's regexp.QuoteMeta (and a subset of the
 # non-alphanumerics escaped by Python's re.escape).
+_REGEX_METACHARS = frozenset(r".^$*+?()[]{}|")
 
 
 def _regex_literal_from_exact_match_body(body: str) -> str:
