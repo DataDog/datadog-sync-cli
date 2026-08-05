@@ -253,9 +253,9 @@ class TestSyntheticsTestsRumConnectionBehavior:
 
 
 class TestSyntheticsTestsOrgPrincipalRemap:
-    """Test suite for restriction_policy org: principal remapping in synthetics_tests.
+    """Test suite for options.bindings org: principal remapping in synthetics_tests.
 
-    Mirrors the tests in test_monitors.py for the same feature. See HAMR-392 Jul8-T15.
+    Mobile synthetic tests carry access-control bindings under options.bindings.
     """
 
     def _make_synthetics_tests(self):
@@ -265,36 +265,34 @@ class TestSyntheticsTestsOrgPrincipalRemap:
         return SyntheticsTests(mock_config)
 
     def test_pre_resource_action_hook_replaces_org_principal(self):
-        """org: principal in restriction_policy bindings is replaced when org_principal is set."""
+        """org: principal in options.bindings is replaced when org_principal is set."""
         synthetics_tests = self._make_synthetics_tests()
         synthetics_tests.org_principal = "org:dest-pub-id"
         resource = {
-            "type": "api",
+            "type": "mobile",
             "public_id": "abc-123",
             "status": "live",
-            "restriction_policy": {
-                "bindings": [{"principals": ["org:src-pub-id", "user:some-user"], "relation": "editor"}]
-            },
+            "options": {"bindings": [{"principals": ["org:src-pub-id", "user:some-user"], "relation": "editor"}]},
         }
         asyncio.run(synthetics_tests.pre_resource_action_hook("abc-123#12345", resource))
-        assert resource["restriction_policy"]["bindings"][0]["principals"][0] == "org:dest-pub-id"
-        assert resource["restriction_policy"]["bindings"][0]["principals"][1] == "user:some-user"
+        assert resource["options"]["bindings"][0]["principals"][0] == "org:dest-pub-id"
+        assert resource["options"]["bindings"][0]["principals"][1] == "user:some-user"
 
     def test_pre_resource_action_hook_skips_org_when_no_org_principal(self):
         """org: principal is left unchanged when org_principal is None."""
         synthetics_tests = self._make_synthetics_tests()
         assert synthetics_tests.org_principal is None
         resource = {
-            "type": "api",
+            "type": "mobile",
             "public_id": "abc-123",
             "status": "live",
-            "restriction_policy": {"bindings": [{"principals": ["org:src-pub-id"], "relation": "editor"}]},
+            "options": {"bindings": [{"principals": ["org:src-pub-id"], "relation": "editor"}]},
         }
         asyncio.run(synthetics_tests.pre_resource_action_hook("abc-123#12345", resource))
-        assert resource["restriction_policy"]["bindings"][0]["principals"][0] == "org:src-pub-id"
+        assert resource["options"]["bindings"][0]["principals"][0] == "org:src-pub-id"
 
-    def test_pre_resource_action_hook_no_restriction_policy_is_noop(self):
-        """Resources without restriction_policy are unaffected by the remap step."""
+    def test_pre_resource_action_hook_no_bindings_is_noop(self):
+        """Resources without options.bindings are unaffected by the remap step."""
         synthetics_tests = self._make_synthetics_tests()
         synthetics_tests.org_principal = "org:dest-pub-id"
         resource = {"type": "api", "public_id": "abc-123", "status": "live"}
@@ -302,20 +300,37 @@ class TestSyntheticsTestsOrgPrincipalRemap:
         # DR metadata is still injected by the existing hook path.
         assert resource["metadata"]["disaster_recovery"]["source_public_id"] == "abc-123"
 
+    def test_pre_resource_action_hook_no_restriction_policy_key_present(self):
+        """Mobile test bindings are remapped without a top-level restriction_policy key."""
+        synthetics_tests = self._make_synthetics_tests()
+        synthetics_tests.org_principal = "org:dest-pub-id"
+        resource = {
+            "type": "mobile",
+            "public_id": "abc-123",
+            "status": "live",
+            "options": {
+                "restricted_roles": ["role-good"],
+                "bindings": [{"principals": ["org:src-pub-id"], "relation": "viewer"}],
+            },
+        }
+        assert "restriction_policy" not in resource
+        asyncio.run(synthetics_tests.pre_resource_action_hook("abc-123#12345", resource))
+        assert resource["options"]["bindings"][0]["principals"][0] == "org:dest-pub-id"
+
     def _seed_source_with_policy(self, synthetics_tests):
-        """Populate source state with one test that carries a restriction_policy."""
+        """Populate source state with one test that carries options.bindings."""
         synthetics_tests.config.state.source = {
             "synthetics_tests": {
-                "abc-123#1": {"public_id": "abc-123", "restriction_policy": {"bindings": [{"principals": ["org:src"]}]}}
+                "abc-123#1": {"public_id": "abc-123", "options": {"bindings": [{"principals": ["org:src"]}]}}
             }
         }
 
     def _seed_source_without_policy(self, synthetics_tests):
-        """Populate source state with one test lacking a restriction_policy."""
+        """Populate source state with one test lacking options.bindings."""
         synthetics_tests.config.state.source = {"synthetics_tests": {"abc-123#1": {"public_id": "abc-123"}}}
 
     def test_pre_apply_hook_sets_org_principal_on_success(self):
-        """Source carries a restriction_policy → GET fires → org_principal set."""
+        """Source carries options.bindings → GET fires → org_principal set."""
         synthetics_tests = self._make_synthetics_tests()
         self._seed_source_with_policy(synthetics_tests)
         mock_client = AsyncMock()
@@ -339,7 +354,7 @@ class TestSyntheticsTestsOrgPrincipalRemap:
         assert synthetics_tests.org_principal is None
 
     def test_pre_apply_hook_skips_current_user_when_no_policy(self):
-        """No source test carries a restriction_policy → GET is not called; org_principal stays None."""
+        """No source test carries options.bindings → GET is not called; org_principal stays None."""
         synthetics_tests = self._make_synthetics_tests()
         self._seed_source_without_policy(synthetics_tests)
         mock_client = AsyncMock()
@@ -361,8 +376,8 @@ class TestSyntheticsTestsOrgPrincipalRemap:
         mock_client.get.assert_not_awaited()
 
 
-class TestSyntheticsTestsRestrictionPolicyPrincipals:
-    """Test suite for restriction_policy user:/role:/team: principal remapping.
+class TestSyntheticsTestsOptionsBindingPrincipals:
+    """Test suite for options.bindings user:/role:/team: principal remapping.
 
     Mirrors TestMonitorsRestrictionPolicyPrincipals — synthetics_tests must
     remap prefixed principals via connect_id when resource_connections routes
@@ -479,7 +494,7 @@ class TestSyntheticsTestsRestrictionPolicyPrincipals:
 
 class TestSyntheticsTestsConnectResourcesDrop:
     """connect_resources drop/keep/hard-fail for synthetics_tests' access-control shapes:
-    flat `options.restricted_roles` and `restriction_policy.bindings.principals` composites.
+    flat `options.restricted_roles` and `options.bindings.principals` composites.
     """
 
     def _make_test(self, drop=False, skip_failed=False):
@@ -497,37 +512,52 @@ class TestSyntheticsTestsConnectResourcesDrop:
     def _seed_valid_role(self, t, src="role-good", dst="role-good-dst"):
         t.config.state.destination["roles"][src] = {"id": dst}
 
-    def test_restriction_policy_flag_on_drops_stale(self):
+    def test_options_bindings_flag_on_drops_stale(self):
         t = self._make_test(drop=True)
         self._seed_valid_role(t)
         resource = {
             "public_id": "abc-def-ghi",
-            "restriction_policy": {
-                "bindings": [{"principals": ["role:role-good", "role:role-gone"], "relation": "editor"}]
-            },
+            "options": {"bindings": [{"principals": ["role:role-good", "role:role-gone"], "relation": "editor"}]},
         }
         t.connect_resources("abc-def-ghi", resource)  # no raise
-        assert resource["restriction_policy"]["bindings"][0]["principals"] == ["role:role-good-dst"]
+        assert resource["options"]["bindings"][0]["principals"] == ["role:role-good-dst"]
         assert t.config.counter.stale_principals_dropped_by_type["synthetics_tests"] == ["abc-def-ghi"]
 
-    def test_restriction_policy_flag_off_stale_hard_fails(self):
+    def test_options_bindings_flag_off_stale_hard_fails(self):
         t = self._make_test(drop=False)
         resource = {
             "public_id": "abc-def-ghi",
-            "restriction_policy": {"bindings": [{"principals": ["role:role-gone"], "relation": "editor"}]},
+            "options": {"bindings": [{"principals": ["role:role-gone"], "relation": "editor"}]},
         }
         with pytest.raises(ResourceConnectionError):
             t.connect_resources("abc-def-ghi", resource)
 
-    def test_restriction_policy_empty_binding_raises_risk(self):
+    def test_options_bindings_empty_binding_raises_risk(self):
         t = self._make_test(drop=True)
         resource = {
             "public_id": "abc-def-ghi",
-            "restriction_policy": {"bindings": [{"principals": ["role:role-gone"], "relation": "editor"}]},
+            "options": {"bindings": [{"principals": ["role:role-gone"], "relation": "editor"}]},
         }
         with pytest.raises(ResourceConnectionError) as exc_info:
             t.connect_resources("abc-def-ghi", resource)
         assert exc_info.value.empty_binding_risk is True
+
+    def test_options_bindings_and_restricted_roles_coexist_no_restriction_policy_key(self):
+        """A mobile test can carry options.restricted_roles and options.bindings together."""
+        t = self._make_test(drop=True)
+        self._seed_valid_role(t, src="role-good", dst="role-good-dst")
+        resource = {
+            "public_id": "abc-def-ghi",
+            "type": "mobile",
+            "options": {
+                "restricted_roles": ["role-good"],
+                "bindings": [{"principals": ["role:role-good"], "relation": "editor"}],
+            },
+        }
+        assert "restriction_policy" not in resource
+        t.connect_resources("abc-def-ghi", resource)  # no raise
+        assert resource["options"]["restricted_roles"] == ["role-good-dst"]
+        assert resource["options"]["bindings"][0]["principals"] == ["role:role-good-dst"]
 
     def test_options_restricted_roles_flat_drops_stale(self):
         t = self._make_test(drop=True)
