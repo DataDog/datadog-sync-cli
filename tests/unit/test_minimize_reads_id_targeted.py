@@ -138,12 +138,28 @@ class TestExactMatchEscapedValues:
         # UUID-style id with no metacharacters: escaping is a no-op upstream.
         assert _unwrap_exact_match_pattern("^dash-1$") == "dash-1"
 
+    def test_unwrap_recovers_literal_backslash(self):
+        from datadog_sync.utils.configuration import _unwrap_exact_match_pattern
+
+        assert _unwrap_exact_match_pattern(r"^metric\\dimension$") == r"metric\dimension"
+
     def test_unwrap_real_regex_raises(self):
         """An unescaped metacharacter means a genuine regex, not an escaped id."""
         from datadog_sync.utils.configuration import _unwrap_exact_match_pattern
 
         with pytest.raises(ValueError):
             _unwrap_exact_match_pattern("^svc.*count$")
+
+    def test_semantic_regex_escape_falls_back(self):
+        """A regex escape such as ``\\d`` must not become the literal id ``d``."""
+        from datadog_sync.utils.configuration import extract_exact_id_filters
+        from datadog_sync.utils.filter import process_filters
+
+        filters = process_filters([r"Type=logs_metrics;Name=id;Value=\d;Operator=ExactMatch"])
+
+        assert filters["logs_metrics"][0].attr_re.fullmatch("7")
+        assert not filters["logs_metrics"][0].attr_re.fullmatch("d")
+        assert extract_exact_id_filters(filters, "or", ["logs_metrics"]) is None
 
     def test_extract_exact_id_filters_escaped_metric_ids(self):
         """Regression: a producer regex-escapes dotted logs_metrics ids.

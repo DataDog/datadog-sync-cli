@@ -208,9 +208,9 @@ def _regex_literal_from_exact_match_body(body: str) -> str:
     resource from state.
 
     Raises ValueError when the body is not a pure literal — an unescaped
-    metacharacter (a real regex) or a dangling backslash. Callers treat that as
-    "not ID-targetable" and fall back to type-scoped loading, which matches via
-    the compiled regex and stays correct.
+    metacharacter, a semantic or ambiguous alphanumeric escape, or a dangling
+    backslash. Callers treat that as "not ID-targetable" and fall back to
+    type-scoped loading, which matches via the compiled regex and stays correct.
     """
     out = []
     i = 0
@@ -220,7 +220,13 @@ def _regex_literal_from_exact_match_body(body: str) -> str:
         if c == "\\":
             if i + 1 >= n:
                 raise ValueError(f"dangling escape in ExactMatch pattern body: {body!r}")
-            out.append(body[i + 1])
+            escaped = body[i + 1]
+            # Alphanumeric escapes can change regex semantics (for example
+            # \d, \w, \x41, \n, and backreferences). Without the original
+            # unescaped value, they cannot safely be converted to a storage ID.
+            if escaped.isalnum():
+                raise ValueError(f"semantic or ambiguous escape \\{escaped} in ExactMatch pattern body: {body!r}")
+            out.append(escaped)
             i += 2
             continue
         if c in _REGEX_METACHARS:
