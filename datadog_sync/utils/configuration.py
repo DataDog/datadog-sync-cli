@@ -191,8 +191,8 @@ class Configuration(object):
 
 # Regex metacharacters that, when unescaped in an ExactMatch body, mean the
 # value is a genuine regex rather than a regex-escaped literal id. Mirrors the
-# set escaped by Go's regexp.QuoteMeta and Python's re.escape.
-_REGEX_METACHARS = frozenset(r".^$*+?()[]{}|")
+# metacharacter set escaped by Go's regexp.QuoteMeta (and a subset of the
+# non-alphanumerics escaped by Python's re.escape).
 
 
 def _regex_literal_from_exact_match_body(body: str) -> str:
