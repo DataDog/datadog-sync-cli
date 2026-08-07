@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.20.2 / 2026-08-07
+
+### Fixed
+* Fix ID-targeted state load dropping resources with regex-escaped filter values by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/660
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.20.0...4.20.2
+
 ## 4.20.1 / 2026-08-06
 
 ### Fixed
