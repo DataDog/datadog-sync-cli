@@ -569,6 +569,14 @@ _refresh_destination_state_options = [
 
 _sync_options = [
     option(
+        "--alter-flex-logs-retention-days",
+        required=False,
+        type=int,
+        default=None,
+        help="Override num_flex_logs_retention_days on logs indexes where the field is present.",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--create-global-downtime",
         required=False,
         type=bool,
