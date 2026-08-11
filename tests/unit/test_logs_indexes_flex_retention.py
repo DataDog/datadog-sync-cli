@@ -27,21 +27,25 @@ def test_cli_accepts_alter_flex_logs_retention_days(command, module_name, expect
     command_module = importlib.import_module(module_name)
 
     with patch.object(command_module, "run_cmd") as mock_run_cmd:
-        result = runner.invoke(cli, [command, "--alter-flex-logs-retention-days=90"])
+        result = runner.invoke(cli, [command, "--alter-flex-logs-retention-days=30"])
 
     assert result.exit_code == 0, result.output
     mock_run_cmd.assert_called_once()
     called_command, kwargs = mock_run_cmd.call_args.args[0], mock_run_cmd.call_args.kwargs
     assert called_command == expected_command
-    assert kwargs["alter_flex_logs_retention_days"] == 90
+    assert kwargs["alter_flex_logs_retention_days"] == 30
 
 
-def test_cli_rejects_non_integer_flex_logs_retention_days():
+@pytest.mark.parametrize("value", ["invalid", "-1", "0", "29"])
+def test_cli_rejects_invalid_flex_logs_retention_days(value):
     runner = CliRunner(mix_stderr=False)
     sync_module = importlib.import_module("datadog_sync.commands.sync")
 
     with patch.object(sync_module, "run_cmd") as mock_run_cmd:
-        result = runner.invoke(cli, ["sync", "--alter-flex-logs-retention-days=invalid"])
+        result = runner.invoke(
+            cli,
+            ["sync", f"--alter-flex-logs-retention-days={value}"],
+        )
 
     assert result.exit_code != 0
     mock_run_cmd.assert_not_called()
