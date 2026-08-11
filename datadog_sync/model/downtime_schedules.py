@@ -8,7 +8,10 @@ import logging
 import re
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 from datetime import datetime, timedelta, timezone
+
 from dateutil.parser import parse
+from dateutil.rrule import rrulestr
+from dateutil.tz import gettz
 
 from datadog_sync.constants import LOGGER_NAME
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -31,6 +34,7 @@ log = logging.getLogger(LOGGER_NAME)
 _DUPLICATE_DOWNTIME_MARKER = "duplicate of one or more existing downtimes"
 _DOWNTIME_NOT_FOUND_MARKER = "Downtime not found"
 _SINGLE_DUPLICATE_ID_RE = re.compile(r"existing downtimes:\s*\[\s*(['\"])(?P<id>[^'\"]+)\1\s*\]\s*$")
+_RRULE_COUNT_RE = re.compile(r"(?:^|;)COUNT=(?P<count>\d+)(?=;|$)", re.IGNORECASE)
 
 
 class DowntimeSchedules(BaseResource):
@@ -106,6 +110,44 @@ class DowntimeSchedules(BaseResource):
         return dt.isoformat().replace("+00:00", "Z")
 
     @staticmethod
+    def _schedule_timezone(timezone_name: str):
+        """Resolve an IANA timezone using python-dateutil's bundled data."""
+        schedule_timezone = gettz(timezone_name)
+        if schedule_timezone is None:
+            raise ValueError(f"Unknown schedule timezone: {timezone_name}")
+        return schedule_timezone
+
+    @classmethod
+    def _parse_recurrence_start(cls, value: str, timezone_name: str) -> datetime:
+        """Parse a recurring start in the schedule's local timezone."""
+        schedule_timezone = cls._schedule_timezone(timezone_name)
+        parsed = parse(value)
+        if parsed.tzinfo is None:
+            return parsed.replace(tzinfo=schedule_timezone)
+        return parsed.astimezone(schedule_timezone)
+
+    @staticmethod
+    def _iso_local(dt: datetime) -> str:
+        """Recurring starts are local datetimes; the timezone is separate."""
+        return dt.replace(tzinfo=None).isoformat()
+
+    @staticmethod
+    def _rebase_count(rrule: str, recurrence_rule, next_start: datetime) -> str:
+        """Reduce COUNT by occurrences consumed before the rebased start."""
+        count_match = _RRULE_COUNT_RE.search(rrule)
+        if count_match is None:
+            return rrule
+
+        remaining = int(count_match.group("count"))
+        for occurrence in recurrence_rule:
+            if occurrence >= next_start:
+                break
+            remaining -= 1
+
+        count_start, count_end = count_match.span("count")
+        return rrule[:count_start] + str(remaining) + rrule[count_end:]
+
+    @staticmethod
     def _http_error_messages(error: CustomClientHTTPError) -> List[str]:
         """Return string messages from a JSON API error response."""
         body = error.response_body
@@ -161,6 +203,45 @@ class DowntimeSchedules(BaseResource):
             start_dt = self._parse_utc(start_raw)
             if start_dt <= now:
                 schedule["start"] = self._iso_utc(now + timedelta(seconds=60))
+
+        # Recurring schedules store offset-free starts interpreted in the
+        # schedule's timezone. Advance each past start to the next RRULE
+        # occurrence so its weekday and wall-clock cadence are preserved.
+        recurrences = schedule.get("recurrences")
+        if not recurrences:
+            return
+
+        timezone_name = schedule.get("timezone") or "UTC"
+        now_local = now.astimezone(self._schedule_timezone(timezone_name))
+        active_recurrences = []
+        for recurrence in recurrences:
+            start_raw = recurrence.get("start")
+            rule_raw = recurrence.get("rrule")
+            if not start_raw or not rule_raw:
+                active_recurrences.append(recurrence)
+                continue
+
+            start = self._parse_recurrence_start(start_raw, timezone_name)
+            if start > now_local:
+                active_recurrences.append(recurrence)
+                continue
+
+            recurrence_rule = rrulestr(rule_raw, dtstart=start)
+            next_start = recurrence_rule.after(now_local, inc=False)
+            if next_start is None:
+                continue
+
+            recurrence["start"] = self._iso_local(next_start)
+            recurrence["rrule"] = self._rebase_count(rule_raw, recurrence_rule, next_start)
+            active_recurrences.append(recurrence)
+
+        schedule["recurrences"] = active_recurrences
+        if not active_recurrences:
+            raise SkipResource(
+                str(_id),
+                self.resource_type,
+                "Downtime recurrence has no future occurrences.",
+            )
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.config.state.destination[self.resource_type]:
