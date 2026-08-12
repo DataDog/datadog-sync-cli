@@ -47,7 +47,9 @@ class LogsIndexes(BaseResource):
         return resource["name"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        pass
+        retention_days = self.config.alter_flex_logs_retention_days
+        if retention_days is not None and "num_flex_logs_retention_days" in resource:
+            resource["num_flex_logs_retention_days"] = retention_days
 
     async def pre_apply_hook(self) -> None:
         pass

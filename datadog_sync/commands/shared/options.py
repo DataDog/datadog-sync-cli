@@ -6,7 +6,7 @@ from __future__ import annotations
 import configobj
 from sys import exit
 
-from click import Choice, Option, option, File, Path
+from click import Choice, IntRange, Option, option, File, Path
 
 from datadog_sync import constants
 from typing import TYPE_CHECKING, Any, Callable, Dict, List
@@ -568,6 +568,14 @@ _refresh_destination_state_options = [
 ]
 
 _sync_options = [
+    option(
+        "--alter-flex-logs-retention-days",
+        required=False,
+        type=IntRange(min=30),
+        default=None,
+        help="Override num_flex_logs_retention_days on logs indexes where the field is present.",
+        cls=CustomOptionClass,
+    ),
     option(
         "--create-global-downtime",
         required=False,
