@@ -24,10 +24,11 @@ import logging
 from types import SimpleNamespace
 
 import pytest
+from freezegun import freeze_time
 
 from datadog_sync.constants import LOGGER_NAME
 from datadog_sync.model.downtime_schedules import DowntimeSchedules
-from datadog_sync.utils.resource_utils import CustomClientHTTPError
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
 
 DUPLICATE_BODY = (
     '{"errors":["The downtime being created is a duplicate of one or more '
@@ -169,6 +170,39 @@ def test_update_not_found_404_logs_recreation_at_info(downtime, caplog):
         _run(downtime.update_resource("src-id", _make_resource()))
     recs = [r for r in caplog.records if r.name == LOGGER_NAME and "src-id" in r.getMessage()]
     assert recs and all(r.levelno == logging.INFO for r in recs)
+
+
+@freeze_time("2026-08-21 15:00:00")
+def test_update_not_found_does_not_recreate_exhausted_recurrence(downtime):
+    _seed_dest(downtime)
+    downtime.config.destination_client.patch = _http_error_raiser(404, NOT_FOUND_BODY)
+    posted = []
+
+    async def _post(_path, payload):
+        posted.append(payload)
+        return {"data": {"id": "replacement-id", "type": "downtime"}}
+
+    downtime.config.destination_client.post = _post
+    resource = {
+        "attributes": {
+            "message": "Updated message",
+            "schedule": {
+                "timezone": "UTC",
+                "recurrences": [
+                    {
+                        "start": "2026-08-01T09:00:00",
+                        "duration": "30m",
+                        "rrule": "FREQ=DAILY;COUNT=2",
+                    }
+                ],
+            },
+        }
+    }
+
+    with pytest.raises(SkipResource, match="no future occurrences"):
+        _run(downtime.update_resource("src-id", resource))
+
+    assert not posted
 
 
 def test_update_unrelated_404_propagates(downtime):

@@ -335,7 +335,9 @@ class DowntimeSchedules(BaseResource):
         destination_client = self.config.destination_client
         resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
         schedule = resource["attributes"].get("schedule")
+        omitted_schedule = None
         if schedule:
+            original_schedule = deepcopy(schedule)
             has_active_recurrence = self._normalize_recurrence_schedule(
                 _id,
                 schedule,
@@ -343,6 +345,7 @@ class DowntimeSchedules(BaseResource):
                 skip_if_empty=False,
             )
             if not has_active_recurrence:
+                omitted_schedule = original_schedule
                 resource["attributes"].pop("schedule")
         payload = {"data": resource}
         try:
@@ -359,6 +362,8 @@ class DowntimeSchedules(BaseResource):
                 # Re-run create-only schedule normalization because the first
                 # pre-action hook took the update branch.
                 resource.pop("id", None)
+                if omitted_schedule is not None:
+                    resource["attributes"]["schedule"] = omitted_schedule
                 self._normalize_create_schedule(_id, resource)
                 log.info(f"[downtime_schedules - {_id}] recreating missing mapped downtime on destination")
                 return await self.create_resource(_id, resource)
