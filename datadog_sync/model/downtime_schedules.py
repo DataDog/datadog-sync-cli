@@ -205,14 +205,15 @@ class DowntimeSchedules(BaseResource):
                 schedule["start"] = self._iso_utc(now + timedelta(seconds=60))
 
         # Recurring schedules store offset-free starts interpreted in the
-        # schedule's timezone. Advance each past start to the next RRULE
-        # occurrence so its weekday and wall-clock cadence are preserved.
+        # schedule's timezone. Advance each start that is past or too close
+        # for a create request to the next RRULE occurrence so its weekday
+        # and wall-clock cadence are preserved.
         recurrences = schedule.get("recurrences")
         if not recurrences:
             return
 
         timezone_name = schedule.get("timezone") or "UTC"
-        now_local = now.astimezone(self._schedule_timezone(timezone_name))
+        create_cutoff_local = (now + timedelta(seconds=60)).astimezone(self._schedule_timezone(timezone_name))
         active_recurrences = []
         for recurrence in recurrences:
             start_raw = recurrence.get("start")
@@ -222,12 +223,12 @@ class DowntimeSchedules(BaseResource):
                 continue
 
             start = self._parse_recurrence_start(start_raw, timezone_name)
-            if start > now_local:
+            if start > create_cutoff_local:
                 active_recurrences.append(recurrence)
                 continue
 
             recurrence_rule = rrulestr(rule_raw, dtstart=start)
-            next_start = recurrence_rule.after(now_local, inc=False)
+            next_start = recurrence_rule.after(create_cutoff_local, inc=False)
             if next_start is None:
                 continue
 

@@ -222,6 +222,21 @@ def test_recurring_future_start_is_untouched(mock_config):
     assert resource["attributes"]["schedule"]["recurrences"][0] == _recurrence("2026-08-12T09:00:00", rule)
 
 
+@freeze_time("2026-08-12 08:59:30")
+def test_recurring_start_within_create_safety_window_advances(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    rule = "FREQ=DAILY;BYHOUR=9;BYMINUTE=0"
+    resource = _make_recurring_resource(
+        [_recurrence("2026-08-01T09:00:00", rule)],
+        timezone_name="UTC",
+    )
+
+    _run(downtime.pre_resource_action_hook("new-id", resource))
+
+    recurrence = resource["attributes"]["schedule"]["recurrences"][0]
+    assert recurrence["start"] == "2026-08-13T09:00:00"
+
+
 @freeze_time("2026-08-11 15:00:00")
 def test_recurring_expired_rule_is_removed_but_active_sibling_is_preserved(mock_config):
     downtime = DowntimeSchedules(mock_config)
