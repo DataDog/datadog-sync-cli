@@ -461,3 +461,32 @@ def test_update_payload_advances_recurrence_past_create_safety_window(mock_confi
     recurrence = captured["payload"]["data"]["attributes"]["schedule"]["recurrences"][0]
     assert recurrence["start"] == "2026-08-28T19:00:00"
     assert captured["path"] == "/api/v2/downtime/downtime-destination-test"
+
+
+@freeze_time("2026-08-21 15:00:00")
+def test_update_payload_omits_expired_schedule_but_preserves_unrelated_change(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    _id = "existing-id"
+    expired_recurrence = _recurrence("2026-08-01T09:00:00", "FREQ=DAILY;COUNT=2")
+    destination = _make_recurring_resource([expired_recurrence], timezone_name="UTC")
+    destination["id"] = "downtime-destination-test"
+    destination["attributes"]["message"] = "Original message"
+    mock_config.state.destination["downtime_schedules"][_id] = destination
+    source = _make_recurring_resource([expired_recurrence], timezone_name="UTC")
+    source["attributes"]["message"] = "Updated message"
+    captured = {}
+
+    async def _patch(path, payload):
+        captured["path"] = path
+        captured["payload"] = payload
+        return {"data": payload["data"]}
+
+    mock_config.destination_client.patch = _patch
+
+    _run(downtime.pre_resource_action_hook(_id, source))
+    _run(downtime.update_resource(_id, source))
+
+    attributes = captured["payload"]["data"]["attributes"]
+    assert "schedule" not in attributes
+    assert attributes["message"] == "Updated message"
+    assert captured["path"] == "/api/v2/downtime/downtime-destination-test"

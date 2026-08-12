@@ -182,19 +182,28 @@ class DowntimeSchedules(BaseResource):
 
         return active_recurrences
 
-    def _normalize_recurrence_schedule(self, _id: str, schedule: Dict, cutoff: datetime) -> None:
-        """Rebase recurrences for an API write and skip schedules with none left."""
+    def _normalize_recurrence_schedule(
+        self,
+        _id: str,
+        schedule: Dict,
+        cutoff: datetime,
+        skip_if_empty: bool = True,
+    ) -> bool:
+        """Rebase recurrences for an API write and report whether any remain."""
         if not schedule.get("recurrences"):
-            return
+            return True
 
         active_recurrences = self._normalized_recurrences(schedule, cutoff)
         schedule["recurrences"] = active_recurrences
         if not active_recurrences:
-            raise SkipResource(
-                str(_id),
-                self.resource_type,
-                "Downtime recurrence has no future occurrences.",
-            )
+            if skip_if_empty:
+                raise SkipResource(
+                    str(_id),
+                    self.resource_type,
+                    "Downtime recurrence has no future occurrences.",
+                )
+            return False
+        return True
 
     @classmethod
     def _reconcile_update_recurrences(
@@ -327,11 +336,14 @@ class DowntimeSchedules(BaseResource):
         resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
         schedule = resource["attributes"].get("schedule")
         if schedule:
-            self._normalize_recurrence_schedule(
+            has_active_recurrence = self._normalize_recurrence_schedule(
                 _id,
                 schedule,
                 datetime.now(timezone.utc) + timedelta(seconds=60),
+                skip_if_empty=False,
             )
+            if not has_active_recurrence:
+                resource["attributes"].pop("schedule")
         payload = {"data": resource}
         try:
             resp = await destination_client.patch(
