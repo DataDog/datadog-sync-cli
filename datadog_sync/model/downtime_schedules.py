@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, timezone
 from deepdiff import DeepDiff
 from dateutil.parser import parse
 from dateutil.rrule import rrulestr
-from dateutil.tz import gettz
+from dateutil.tz import datetime_exists, gettz
 
 from datadog_sync.constants import LOGGER_NAME
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
@@ -39,7 +39,16 @@ _SINGLE_DUPLICATE_ID_RE = re.compile(r"existing downtimes:\s*\[\s*(['\"])(?P<id>
 _RRULE_COUNT_RE = re.compile(r"(?:^|;)COUNT=(?P<count>\d+)(?=;|$)", re.IGNORECASE)
 
 
+class _CancelDestinationDowntime(Exception):
+    """Signal that an exhausted source must cancel an active destination."""
+
+
+class _RecurrenceExpansionLimit(Exception):
+    """Raised when an RRULE requires unsafe amounts of synchronous work."""
+
+
 class DowntimeSchedules(BaseResource):
+    _MAX_RRULE_OCCURRENCES = 100_000
     resource_type = "downtime_schedules"
     resource_config = ResourceConfig(
         resource_connections={"monitors": ["attributes.monitor_identifier.monitor_id"]},
@@ -134,18 +143,55 @@ class DowntimeSchedules(BaseResource):
         return dt.replace(tzinfo=None).isoformat()
 
     @staticmethod
-    def _rebase_count(rrule: str, recurrence_rule, next_start: datetime) -> str:
-        """Reduce COUNT by occurrences consumed before the rebased start."""
+    def _rrule_without_count(rrule: str, count_match) -> str:
+        """Remove COUNT while preserving the remaining semicolon-delimited rule."""
+        count_start, count_end = count_match.span()
+        if count_start == 0 and count_end < len(rrule) and rrule[count_end] == ";":
+            count_end += 1
+        return rrule[:count_start] + rrule[count_end:]
+
+    @classmethod
+    def _next_valid_occurrence(
+        cls,
+        rrule: str,
+        start: datetime,
+        cutoff: datetime,
+    ) -> Tuple[Optional[datetime], Optional[int]]:
+        """Return the first real local occurrence after cutoff and remaining COUNT."""
+        count_match = _RRULE_COUNT_RE.search(rrule)
+        count = int(count_match.group("count")) if count_match else None
+        if count is not None and count <= 0:
+            return None, 0
+
+        generation_rule = cls._rrule_without_count(rrule, count_match) if count_match else rrule
+        recurrence_rule = rrulestr(generation_rule, dtstart=start)
+        valid_occurrences = 0
+        for generated_occurrences, occurrence in enumerate(recurrence_rule, start=1):
+            if generated_occurrences > cls._MAX_RRULE_OCCURRENCES:
+                raise _RecurrenceExpansionLimit(
+                    f"Recurrence requires more than {cls._MAX_RRULE_OCCURRENCES} occurrences to normalize."
+                )
+            if not datetime_exists(occurrence):
+                continue
+
+            valid_occurrences += 1
+            if count is not None and valid_occurrences > count:
+                return None, 0
+            if occurrence > cutoff:
+                remaining = count - valid_occurrences + 1 if count is not None else None
+                return occurrence, remaining
+            if count is not None and valid_occurrences == count:
+                return None, 0
+
+        return None, 0 if count is not None else None
+
+    @staticmethod
+    def _replace_count(rrule: str, remaining: Optional[int]) -> str:
+        if remaining is None:
+            return rrule
         count_match = _RRULE_COUNT_RE.search(rrule)
         if count_match is None:
             return rrule
-
-        remaining = int(count_match.group("count"))
-        for occurrence in recurrence_rule:
-            if occurrence >= next_start:
-                break
-            remaining -= 1
-
         count_start, count_end = count_match.span("count")
         return rrule[:count_start] + str(remaining) + rrule[count_end:]
 
@@ -167,17 +213,18 @@ class DowntimeSchedules(BaseResource):
                 continue
 
             start = cls._parse_recurrence_start(start_raw, timezone_name)
-            if start > cutoff_local:
+            count_match = _RRULE_COUNT_RE.search(rule_raw)
+            count = int(count_match.group("count")) if count_match else None
+            if start > cutoff_local and datetime_exists(start) and (count is None or count > 0):
                 active_recurrences.append(recurrence)
                 continue
 
-            recurrence_rule = rrulestr(rule_raw, dtstart=start)
-            next_start = recurrence_rule.after(cutoff_local, inc=False)
+            next_start, remaining = cls._next_valid_occurrence(rule_raw, start, cutoff_local)
             if next_start is None:
                 continue
 
             recurrence["start"] = cls._iso_local(next_start)
-            recurrence["rrule"] = cls._rebase_count(rule_raw, recurrence_rule, next_start)
+            recurrence["rrule"] = cls._replace_count(rule_raw, remaining)
             active_recurrences.append(recurrence)
 
         return active_recurrences
@@ -193,7 +240,10 @@ class DowntimeSchedules(BaseResource):
         if not schedule.get("recurrences"):
             return True
 
-        active_recurrences = self._normalized_recurrences(schedule, cutoff)
+        try:
+            active_recurrences = self._normalized_recurrences(schedule, cutoff)
+        except _RecurrenceExpansionLimit as error:
+            raise SkipResource(str(_id), self.resource_type, str(error)) from error
         schedule["recurrences"] = active_recurrences
         if not active_recurrences:
             if skip_if_empty:
@@ -303,11 +353,14 @@ class DowntimeSchedules(BaseResource):
                     start_created = parse(one_time_created["end"])
                     if start_source.timestamp() < start_created.timestamp():
                         one_time_source["end"] = one_time_created["end"]
-                self._reconcile_update_recurrences(
-                    one_time_source,
-                    one_time_created,
-                    datetime.now(timezone.utc) + timedelta(seconds=60),
-                )
+                try:
+                    self._reconcile_update_recurrences(
+                        one_time_source,
+                        one_time_created,
+                        datetime.now(timezone.utc) + timedelta(seconds=60),
+                    )
+                except _RecurrenceExpansionLimit as error:
+                    raise SkipResource(str(_id), self.resource_type, str(error)) from error
 
     async def pre_apply_hook(self) -> None:
         pass
@@ -331,6 +384,13 @@ class DowntimeSchedules(BaseResource):
 
         return _id, resp["data"]
 
+    async def _update_resource(self, _id: str, resource: Dict) -> None:
+        try:
+            await super()._update_resource(_id, resource)
+        except _CancelDestinationDowntime:
+            await self._delete_resource(_id)
+            log.info(f"[downtime_schedules - {_id}] canceled active destination after source recurrence expired")
+
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
@@ -338,13 +398,23 @@ class DowntimeSchedules(BaseResource):
         omitted_schedule = None
         if schedule:
             original_schedule = deepcopy(schedule)
+            cutoff = datetime.now(timezone.utc) + timedelta(seconds=60)
             has_active_recurrence = self._normalize_recurrence_schedule(
                 _id,
                 schedule,
-                datetime.now(timezone.utc) + timedelta(seconds=60),
+                cutoff,
                 skip_if_empty=False,
             )
             if not has_active_recurrence:
+                destination_schedule = (
+                    self.config.state.destination[self.resource_type][_id].get("attributes", {}).get("schedule", {})
+                )
+                try:
+                    destination_recurrences = self._normalized_recurrences(destination_schedule, cutoff)
+                except _RecurrenceExpansionLimit as error:
+                    raise SkipResource(str(_id), self.resource_type, str(error)) from error
+                if destination_recurrences:
+                    raise _CancelDestinationDowntime
                 omitted_schedule = original_schedule
                 resource["attributes"].pop("schedule")
         payload = {"data": resource}
