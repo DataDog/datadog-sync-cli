@@ -6,9 +6,11 @@ from __future__ import annotations
 import json
 import logging
 import re
+from copy import deepcopy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 from datetime import datetime, timedelta, timezone
 
+from deepdiff import DeepDiff
 from dateutil.parser import parse
 from dateutil.rrule import rrulestr
 from dateutil.tz import gettz
@@ -147,6 +149,69 @@ class DowntimeSchedules(BaseResource):
         count_start, count_end = count_match.span("count")
         return rrule[:count_start] + str(remaining) + rrule[count_end:]
 
+    @classmethod
+    def _normalized_recurrences(cls, schedule: Dict, cutoff: datetime) -> List[Dict]:
+        """Return recurrence copies rebased to the first occurrence after cutoff."""
+        recurrences = schedule.get("recurrences")
+        if not recurrences:
+            return []
+
+        timezone_name = schedule.get("timezone") or "UTC"
+        cutoff_local = cutoff.astimezone(cls._schedule_timezone(timezone_name))
+        active_recurrences = []
+        for recurrence in deepcopy(recurrences):
+            start_raw = recurrence.get("start")
+            rule_raw = recurrence.get("rrule")
+            if not start_raw or not rule_raw:
+                active_recurrences.append(recurrence)
+                continue
+
+            start = cls._parse_recurrence_start(start_raw, timezone_name)
+            if start > cutoff_local:
+                active_recurrences.append(recurrence)
+                continue
+
+            recurrence_rule = rrulestr(rule_raw, dtstart=start)
+            next_start = recurrence_rule.after(cutoff_local, inc=False)
+            if next_start is None:
+                continue
+
+            recurrence["start"] = cls._iso_local(next_start)
+            recurrence["rrule"] = cls._rebase_count(rule_raw, recurrence_rule, next_start)
+            active_recurrences.append(recurrence)
+
+        return active_recurrences
+
+    def _normalize_recurrence_schedule(self, _id: str, schedule: Dict, cutoff: datetime) -> None:
+        """Rebase recurrences for an API write and skip schedules with none left."""
+        if not schedule.get("recurrences"):
+            return
+
+        active_recurrences = self._normalized_recurrences(schedule, cutoff)
+        schedule["recurrences"] = active_recurrences
+        if not active_recurrences:
+            raise SkipResource(
+                str(_id),
+                self.resource_type,
+                "Downtime recurrence has no future occurrences.",
+            )
+
+    @classmethod
+    def _reconcile_update_recurrences(
+        cls,
+        source_schedule: Dict,
+        destination_schedule: Dict,
+        cutoff: datetime,
+    ) -> None:
+        """Hide representation-only rebasing while preserving semantic changes."""
+        if "recurrences" not in source_schedule or "recurrences" not in destination_schedule:
+            return
+
+        source_recurrences = cls._normalized_recurrences(source_schedule, cutoff)
+        destination_recurrences = cls._normalized_recurrences(destination_schedule, cutoff)
+        if not DeepDiff(source_recurrences, destination_recurrences, ignore_order=True):
+            source_schedule["recurrences"] = deepcopy(destination_schedule["recurrences"])
+
     @staticmethod
     def _http_error_messages(error: CustomClientHTTPError) -> List[str]:
         """Return string messages from a JSON API error response."""
@@ -208,41 +273,7 @@ class DowntimeSchedules(BaseResource):
         # schedule's timezone. Advance each start that is past or too close
         # for a create request to the next RRULE occurrence so its weekday
         # and wall-clock cadence are preserved.
-        recurrences = schedule.get("recurrences")
-        if not recurrences:
-            return
-
-        timezone_name = schedule.get("timezone") or "UTC"
-        create_cutoff_local = (now + timedelta(seconds=60)).astimezone(self._schedule_timezone(timezone_name))
-        active_recurrences = []
-        for recurrence in recurrences:
-            start_raw = recurrence.get("start")
-            rule_raw = recurrence.get("rrule")
-            if not start_raw or not rule_raw:
-                active_recurrences.append(recurrence)
-                continue
-
-            start = self._parse_recurrence_start(start_raw, timezone_name)
-            if start > create_cutoff_local:
-                active_recurrences.append(recurrence)
-                continue
-
-            recurrence_rule = rrulestr(rule_raw, dtstart=start)
-            next_start = recurrence_rule.after(create_cutoff_local, inc=False)
-            if next_start is None:
-                continue
-
-            recurrence["start"] = self._iso_local(next_start)
-            recurrence["rrule"] = self._rebase_count(rule_raw, recurrence_rule, next_start)
-            active_recurrences.append(recurrence)
-
-        schedule["recurrences"] = active_recurrences
-        if not active_recurrences:
-            raise SkipResource(
-                str(_id),
-                self.resource_type,
-                "Downtime recurrence has no future occurrences.",
-            )
+        self._normalize_recurrence_schedule(_id, schedule, now + timedelta(seconds=60))
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if _id not in self.config.state.destination[self.resource_type]:
@@ -263,6 +294,11 @@ class DowntimeSchedules(BaseResource):
                     start_created = parse(one_time_created["end"])
                     if start_source.timestamp() < start_created.timestamp():
                         one_time_source["end"] = one_time_created["end"]
+                self._reconcile_update_recurrences(
+                    one_time_source,
+                    one_time_created,
+                    datetime.now(timezone.utc) + timedelta(seconds=60),
+                )
 
     async def pre_apply_hook(self) -> None:
         pass
@@ -289,6 +325,13 @@ class DowntimeSchedules(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
+        schedule = resource["attributes"].get("schedule")
+        if schedule:
+            self._normalize_recurrence_schedule(
+                _id,
+                schedule,
+                datetime.now(timezone.utc) + timedelta(seconds=60),
+            )
         payload = {"data": resource}
         try:
             resp = await destination_client.patch(

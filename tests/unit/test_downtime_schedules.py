@@ -25,7 +25,7 @@ from dateutil.parser import parse
 from freezegun import freeze_time
 
 from datadog_sync.model.downtime_schedules import DowntimeSchedules
-from datadog_sync.utils.resource_utils import SkipResource
+from datadog_sync.utils.resource_utils import SkipResource, check_diff
 
 
 def _run(coro):
@@ -321,11 +321,7 @@ def test_recurring_empty_recurrences_no_op(mock_config):
     assert resource["attributes"]["schedule"]["recurrences"] == []
 
 
-def test_update_path_untouched_by_this_fix(mock_config):
-    """Explicit boundary: this change only touches the create branch. The
-    update-path branch that clamps source start/end backwards to
-    destination's stored values is intentionally out of scope; a follow-up
-    is planned to address the update-path case."""
+def test_update_path_preserves_one_time_schedule_behavior(mock_config):
     downtime = DowntimeSchedules(mock_config)
     _id = "existing-id"
     mock_config.state.destination["downtime_schedules"][_id] = {
@@ -342,3 +338,126 @@ def test_update_path_untouched_by_this_fix(mock_config):
     dest = mock_config.state.destination["downtime_schedules"][_id]["attributes"]["schedule"]
     assert schedule["start"] == dest["start"]
     assert schedule["end"] == dest["end"]
+
+
+@freeze_time("2026-08-20 15:00:00")
+def test_update_recurring_rebased_anchor_does_not_diff_after_another_occurrence(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    _id = "existing-id"
+    rule = "FREQ=WEEKLY;INTERVAL=1;BYDAY=FR;BYHOUR=19;BYMINUTE=0"
+    destination = _make_recurring_resource(
+        [_recurrence("2026-08-14T19:00:00", rule, duration="30m")],
+    )
+    mock_config.state.destination["downtime_schedules"][_id] = destination
+    source = _make_recurring_resource(
+        [_recurrence("2026-07-24T19:00:00", rule, duration="30m")],
+    )
+
+    _run(downtime.pre_resource_action_hook(_id, source))
+
+    assert not check_diff(downtime.resource_config, source, destination)
+    assert destination["attributes"]["schedule"]["recurrences"][0]["start"] == "2026-08-14T19:00:00"
+
+
+@freeze_time("2026-08-03 15:00:00")
+def test_update_recurring_rebased_count_does_not_diff(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    _id = "existing-id"
+    destination = _make_recurring_resource(
+        [_recurrence("2026-08-04T09:00:00", "FREQ=DAILY;COUNT=2;BYHOUR=9")],
+        timezone_name="UTC",
+    )
+    mock_config.state.destination["downtime_schedules"][_id] = destination
+    source = _make_recurring_resource(
+        [_recurrence("2026-08-01T09:00:00", "FREQ=DAILY;COUNT=5;BYHOUR=9")],
+        timezone_name="UTC",
+    )
+
+    _run(downtime.pre_resource_action_hook(_id, source))
+
+    assert not check_diff(downtime.resource_config, source, destination)
+
+
+@freeze_time("2026-08-11 15:00:00")
+def test_update_recurring_removed_expired_sibling_does_not_diff(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    _id = "existing-id"
+    active_rule = "FREQ=WEEKLY;BYDAY=FR;BYHOUR=10;BYMINUTE=15"
+    destination = _make_recurring_resource([_recurrence("2026-08-14T10:15:00", active_rule, duration="30m")])
+    mock_config.state.destination["downtime_schedules"][_id] = destination
+    source = _make_recurring_resource(
+        [
+            _recurrence("2026-08-01T09:00:00", "FREQ=DAILY;COUNT=2"),
+            _recurrence("2026-08-07T10:15:00", active_rule, duration="30m"),
+        ]
+    )
+
+    _run(downtime.pre_resource_action_hook(_id, source))
+
+    assert not check_diff(downtime.resource_config, source, destination)
+
+
+@pytest.mark.parametrize(
+    ("source_start", "source_rule", "source_duration", "source_timezone"),
+    [
+        ("2026-07-24T19:00:00", "FREQ=WEEKLY;BYDAY=FR;BYHOUR=19;BYMINUTE=0", "45m", "America/New_York"),
+        ("2026-07-24T19:00:00", "FREQ=WEEKLY;INTERVAL=2;BYDAY=FR;BYHOUR=19;BYMINUTE=0", "30m", "America/New_York"),
+        ("2026-08-28T19:00:00", "FREQ=WEEKLY;BYDAY=FR;BYHOUR=19;BYMINUTE=0", "30m", "America/New_York"),
+        ("2026-07-24T19:00:00", "FREQ=WEEKLY;BYDAY=FR;BYHOUR=19;BYMINUTE=0", "30m", "America/Chicago"),
+    ],
+)
+@freeze_time("2026-08-20 15:00:00")
+def test_update_recurring_semantic_change_still_diffs(
+    mock_config,
+    source_start,
+    source_rule,
+    source_duration,
+    source_timezone,
+):
+    downtime = DowntimeSchedules(mock_config)
+    _id = "existing-id"
+    rule = "FREQ=WEEKLY;BYDAY=FR;BYHOUR=19;BYMINUTE=0"
+    destination = _make_recurring_resource([_recurrence("2026-08-14T19:00:00", rule, duration="30m")])
+    mock_config.state.destination["downtime_schedules"][_id] = destination
+    source = _make_recurring_resource(
+        [_recurrence(source_start, source_rule, duration=source_duration)],
+        timezone_name=source_timezone,
+    )
+
+    _run(downtime.pre_resource_action_hook(_id, source))
+
+    assert check_diff(downtime.resource_config, source, destination)
+
+
+@freeze_time("2026-08-21 18:59:30")
+def test_update_payload_advances_recurrence_past_create_safety_window(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    _id = "existing-id"
+    rule = "FREQ=WEEKLY;BYDAY=FR;BYHOUR=19;BYMINUTE=0"
+    destination = _make_recurring_resource(
+        [_recurrence("2026-08-14T19:00:00", rule, duration="30m")],
+        timezone_name="UTC",
+    )
+    destination["id"] = "downtime-destination-test"
+    destination["attributes"]["message"] = "Original message"
+    mock_config.state.destination["downtime_schedules"][_id] = destination
+    source = _make_recurring_resource(
+        [_recurrence("2026-07-24T19:00:00", rule, duration="30m")],
+        timezone_name="UTC",
+    )
+    source["attributes"]["message"] = "Updated message"
+    captured = {}
+
+    async def _patch(path, payload):
+        captured["path"] = path
+        captured["payload"] = payload
+        return {"data": payload["data"]}
+
+    mock_config.destination_client.patch = _patch
+
+    _run(downtime.pre_resource_action_hook(_id, source))
+    _run(downtime.update_resource(_id, source))
+
+    recurrence = captured["payload"]["data"]["attributes"]["schedule"]["recurrences"][0]
+    assert recurrence["start"] == "2026-08-28T19:00:00"
+    assert captured["path"] == "/api/v2/downtime/downtime-destination-test"
