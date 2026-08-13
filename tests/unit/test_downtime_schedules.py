@@ -19,6 +19,7 @@ New behavior:
 
 import asyncio
 from datetime import datetime, timedelta, timezone
+from threading import Event
 
 import pytest
 from dateutil.parser import parse
@@ -332,17 +333,48 @@ def test_recurring_local_until_is_interpreted_in_schedule_timezone(mock_config):
     assert recurrence["rrule"] == rule
 
 
-@freeze_time("2026-08-01 00:10:00")
-def test_recurring_expansion_limit_skips_resource(mock_config, monkeypatch):
+@freeze_time("2026-08-10 00:00:00")
+def test_recurring_large_count_is_normalized_without_rejection(mock_config):
     downtime = DowntimeSchedules(mock_config)
-    monkeypatch.setattr(DowntimeSchedules, "_MAX_RRULE_OCCURRENCES", 3)
     resource = _make_recurring_resource(
-        [_recurrence("2026-08-01T00:00:00", "FREQ=MINUTELY")],
+        [_recurrence("2026-06-01T00:00:00", "FREQ=MINUTELY;COUNT=200000")],
         timezone_name="UTC",
     )
 
-    with pytest.raises(SkipResource, match="more than 3 occurrences"):
-        _run(downtime.pre_resource_action_hook("new-id", resource))
+    _run(downtime.pre_resource_action_hook("new-id", resource))
+
+    recurrence = resource["attributes"]["schedule"]["recurrences"][0]
+    assert recurrence["start"] == "2026-08-10T00:02:00"
+    assert recurrence["rrule"] == "FREQ=MINUTELY;COUNT=99198"
+
+
+@freeze_time("2026-08-11 15:00:00")
+def test_recurring_expansion_does_not_block_event_loop(mock_config, monkeypatch):
+    downtime = DowntimeSchedules(mock_config)
+    resource = _make_recurring_resource(
+        [_recurrence("2026-08-01T09:00:00", "FREQ=DAILY")],
+        timezone_name="UTC",
+    )
+    expansion_started = Event()
+    allow_expansion = Event()
+    original_next_occurrence = DowntimeSchedules._next_valid_occurrence
+
+    def blocking_next_occurrence(cls, rrule, start, cutoff):
+        expansion_started.set()
+        if not allow_expansion.wait(timeout=1):
+            raise AssertionError("recurrence expansion blocked the event loop")
+        return original_next_occurrence(rrule, start, cutoff)
+
+    monkeypatch.setattr(DowntimeSchedules, "_next_valid_occurrence", classmethod(blocking_next_occurrence))
+
+    async def normalize_while_event_loop_progresses():
+        normalization = asyncio.create_task(downtime.pre_resource_action_hook("new-id", resource))
+        while not expansion_started.is_set():
+            await asyncio.sleep(0)
+        allow_expansion.set()
+        await normalization
+
+    _run(normalize_while_event_loop_progresses())
 
 
 @freeze_time("2026-08-11 15:00:00")

@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
+import asyncio
 import json
 import logging
 import re
@@ -46,10 +47,6 @@ class _CancelDestinationDowntime(Exception):
     """Signal that an exhausted source must cancel an active destination."""
 
 
-class _RecurrenceExpansionLimit(Exception):
-    """Raised when an RRULE requires unsafe amounts of synchronous work."""
-
-
 @dataclass(frozen=True)
 class _ActiveWindow:
     start: datetime
@@ -78,7 +75,6 @@ class _PreparedRecurrenceUpdate:
 
 
 class DowntimeSchedules(BaseResource):
-    _MAX_RRULE_OCCURRENCES = 100_000
     _MAX_API_RECURRENCES = 5
     _BRIDGE_RRULE = "FREQ=DAILY;COUNT=1"
     resource_type = "downtime_schedules"
@@ -217,11 +213,7 @@ class DowntimeSchedules(BaseResource):
         generation_rule = cls._rrule_with_utc_until(generation_rule, start)
         recurrence_rule = rrulestr(generation_rule, dtstart=start)
         valid_occurrences = 0
-        for generated_occurrences, occurrence in enumerate(recurrence_rule, start=1):
-            if generated_occurrences > cls._MAX_RRULE_OCCURRENCES:
-                raise _RecurrenceExpansionLimit(
-                    f"Recurrence requires more than {cls._MAX_RRULE_OCCURRENCES} occurrences to normalize."
-                )
+        for occurrence in recurrence_rule:
             if not datetime_exists(occurrence):
                 continue
 
@@ -498,21 +490,18 @@ class DowntimeSchedules(BaseResource):
             create_schedule=create_schedule,
         )
 
-    def _normalize_recurrence_schedule(
+    async def _normalize_recurrence_schedule(
         self,
         _id: str,
         schedule: Dict,
         cutoff: datetime,
         skip_if_empty: bool = True,
     ) -> bool:
-        """Rebase recurrences for a fallback API write."""
+        """Rebase recurrences for a fallback API write without blocking the event loop."""
         if not schedule.get("recurrences"):
             return True
 
-        try:
-            active_recurrences = self._normalized_recurrences(schedule, cutoff)
-        except _RecurrenceExpansionLimit as error:
-            raise SkipResource(str(_id), self.resource_type, str(error)) from error
+        active_recurrences = await asyncio.to_thread(self._normalized_recurrences, schedule, cutoff)
         schedule["recurrences"] = active_recurrences
         if not active_recurrences:
             if skip_if_empty:
@@ -551,7 +540,7 @@ class DowntimeSchedules(BaseResource):
     def _is_downtime_not_found(cls, error: CustomClientHTTPError) -> bool:
         return any(_DOWNTIME_NOT_FOUND_MARKER in message for message in cls._http_error_messages(error))
 
-    def _normalize_create_schedule(self, _id: str, resource: Dict) -> None:
+    async def _normalize_create_schedule(self, _id: str, resource: Dict) -> None:
         schedule = resource["attributes"].get("schedule")
         if not schedule:
             return
@@ -587,16 +576,13 @@ class DowntimeSchedules(BaseResource):
         # request latency cannot shift its fixed duration beyond the source end.
         if schedule.get("recurrences"):
             cutoff = now + timedelta(seconds=60)
-            try:
-                plan = self._analyze_recurrence_schedule(schedule, now, cutoff)
-                recurrences = self._materialize_recurrence_plan(
-                    _id,
-                    plan,
-                    now,
-                    include_bridge=True,
-                )
-            except _RecurrenceExpansionLimit as error:
-                raise SkipResource(str(_id), self.resource_type, str(error)) from error
+            plan = await asyncio.to_thread(self._analyze_recurrence_schedule, schedule, now, cutoff)
+            recurrences = self._materialize_recurrence_plan(
+                _id,
+                plan,
+                now,
+                include_bridge=True,
+            )
             if not recurrences:
                 raise SkipResource(
                     str(_id),
@@ -608,7 +594,7 @@ class DowntimeSchedules(BaseResource):
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         self._prepared_recurrence_updates.pop(str(_id), None)
         if _id not in self.config.state.destination[self.resource_type]:
-            self._normalize_create_schedule(_id, resource)
+            await self._normalize_create_schedule(_id, resource)
         else:
             # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
             # this is to avoid unnecessary diff outputs
@@ -629,16 +615,14 @@ class DowntimeSchedules(BaseResource):
                         source_schedule["end"] = destination_schedule["end"]
                 if "recurrences" in source_schedule:
                     now = datetime.now(timezone.utc)
-                    try:
-                        self._prepare_update_recurrences(
-                            _id,
-                            source_schedule,
-                            destination_schedule,
-                            now,
-                            now + timedelta(seconds=60),
-                        )
-                    except _RecurrenceExpansionLimit as error:
-                        raise SkipResource(str(_id), self.resource_type, str(error)) from error
+                    await asyncio.to_thread(
+                        self._prepare_update_recurrences,
+                        _id,
+                        source_schedule,
+                        destination_schedule,
+                        now,
+                        now + timedelta(seconds=60),
+                    )
 
     async def pre_apply_hook(self) -> None:
         pass
@@ -686,14 +670,14 @@ class DowntimeSchedules(BaseResource):
             await self._delete_resource(_id)
             resource.pop("id", None)
             resource["attributes"]["schedule"] = deepcopy(prepared.create_schedule)
-            self._normalize_create_schedule(_id, resource)
+            await self._normalize_create_schedule(_id, resource)
             log.info(f"[downtime_schedules - {_id}] replacing mismatched active destination downtime")
             return await self.create_resource(_id, resource)
 
         if prepared is not None and prepared.action == _RecurrenceUpdateAction.OMIT_SCHEDULE:
             resource["attributes"].pop("schedule", None)
         elif prepared is not None and prepared.action == _RecurrenceUpdateAction.NORMALIZE_PATCH:
-            self._normalize_recurrence_schedule(
+            await self._normalize_recurrence_schedule(
                 _id,
                 schedule,
                 datetime.now(timezone.utc) + timedelta(seconds=60),
@@ -706,7 +690,7 @@ class DowntimeSchedules(BaseResource):
             # hook (including the 404 recreate fallback tests).
             recreate_schedule = deepcopy(schedule)
             cutoff = datetime.now(timezone.utc) + timedelta(seconds=60)
-            has_future_recurrence = self._normalize_recurrence_schedule(
+            has_future_recurrence = await self._normalize_recurrence_schedule(
                 _id,
                 schedule,
                 cutoff,
@@ -716,10 +700,11 @@ class DowntimeSchedules(BaseResource):
                 destination_schedule = (
                     self.config.state.destination[self.resource_type][_id].get("attributes", {}).get("schedule", {})
                 )
-                try:
-                    destination_recurrences = self._normalized_recurrences(destination_schedule, cutoff)
-                except _RecurrenceExpansionLimit as error:
-                    raise SkipResource(str(_id), self.resource_type, str(error)) from error
+                destination_recurrences = await asyncio.to_thread(
+                    self._normalized_recurrences,
+                    destination_schedule,
+                    cutoff,
+                )
                 if destination_recurrences:
                     raise _CancelDestinationDowntime
                 resource["attributes"].pop("schedule")
@@ -743,7 +728,7 @@ class DowntimeSchedules(BaseResource):
                 resource.pop("id", None)
                 if recreate_schedule is not None:
                     resource["attributes"]["schedule"] = recreate_schedule
-                self._normalize_create_schedule(_id, resource)
+                await self._normalize_create_schedule(_id, resource)
                 log.info(f"[downtime_schedules - {_id}] recreating missing mapped downtime on destination")
                 return await self.create_resource(_id, resource)
             raise
