@@ -186,7 +186,7 @@ def test_higher_mcr_allows_higher_concurrency(mock_config):
 # --- Test 7: marker emission contains literal "rate limit" ---
 
 
-def test_marker_string_matches_managed_sync_pattern():
+def test_marker_string_matches_consumer_pattern():
     """The marker string emitted by _import_get_resources_cb on threshold breach must
     contain a substring that the consumer-side rate-limit detector will match.
 
@@ -202,8 +202,8 @@ def test_marker_string_matches_managed_sync_pattern():
         f"(threshold {threshold}% of {total_ids} requested IDs)"
     )
 
-    # representative consumer pattern list (verbatim subset)
-    managed_sync_patterns = [
+    # Representative consumer pattern list (verbatim subset).
+    consumer_patterns = [
         "status 429 ",
         "status 503 ",
         " 429 ",
@@ -216,7 +216,7 @@ def test_marker_string_matches_managed_sync_pattern():
         "slowdown",
         "request limit",
     ]
-    matches = [p for p in managed_sync_patterns if p in marker.lower()]
+    matches = [p for p in consumer_patterns if p in marker.lower()]
     assert matches, f"marker {marker!r} does NOT match any consumer-side detector pattern"
     assert "rate limit" in matches
 
@@ -225,7 +225,7 @@ def test_buggy_old_marker_does_not_match():
     """Sanity: an early-draft marker 'failure_class=rate_limit_exceeded' should NOT match.
     Reason: underscore vs space."""
     bad_marker = "failure_class=rate_limit_exceeded"
-    managed_sync_patterns = [
+    consumer_patterns = [
         "status 429 ",
         "status 503 ",
         " 429 ",
@@ -238,7 +238,7 @@ def test_buggy_old_marker_does_not_match():
         "slowdown",
         "request limit",
     ]
-    matches = [p for p in managed_sync_patterns if p in bad_marker.lower()]
+    matches = [p for p in consumer_patterns if p in bad_marker.lower()]
     assert not matches, f"old marker shouldn't match but matched {matches}"
 
 
@@ -270,16 +270,14 @@ def _is_rate_limit_output_python_replica(output_bytes: bytes) -> bool:
     return any(p in s for p in patterns)
 
 
-def test_cross_language_marker_triggers_managed_sync_retrylater():
+def test_cross_language_marker_triggers_consumer_retry_path():
     """Cross-language verification: the actual byte sequence sync-cli emits on threshold
-    breach must trigger the consumer's rate-limit-detection retry path.
+    breach must trigger a consumer's rate-limit-detection retry path.
 
-    This replicates a typical consumer's lowercase-substring detector function
-    in Python and asserts our marker matches. Since we can't add tests to dd-source from
-    this experiment, this is the next-best thing: a faithful replica that mirrors the
-    exact match logic (strings.ToLower + strings.Contains)."""
-    # Simulate the bytes our subprocess would emit (logger.error output goes to stderr,
-    # combined with stdout via cmd.CombinedOutput in dd-source's runSyncCLIImportForChunk)
+    This replicates a typical lowercase-substring detector in Python and asserts
+    that the marker matches its strings.ToLower + strings.Contains behavior.
+    """
+    # Simulate the bytes a consumer subprocess would capture from stderr and stdout.
     transient_count = 6
     threshold = 5
     total_ids = 100
