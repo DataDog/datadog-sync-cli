@@ -412,10 +412,11 @@ class DowntimeSchedules(BaseResource):
         source_plan = self._analyze_recurrence_schedule(source_schedule, now, cutoff)
         destination_plan = self._analyze_recurrence_schedule(destination_schedule, now, cutoff)
         create_schedule = deepcopy(source_schedule)
+        destination_recurrences = destination_schedule.get("recurrences", [])
         action = _RecurrenceUpdateAction.PATCH
 
         if self._recurrence_plans_equivalent(source_plan, destination_plan, now):
-            source_schedule["recurrences"] = deepcopy(destination_schedule["recurrences"])
+            source_schedule["recurrences"] = deepcopy(destination_recurrences)
             if source_plan.active_window is not None or destination_plan.active_window is not None:
                 action = _RecurrenceUpdateAction.OMIT_SCHEDULE
             elif source_plan.future_recurrences:
@@ -430,7 +431,7 @@ class DowntimeSchedules(BaseResource):
                     # The source has less than one representable minute left.
                     # Preserve an equivalent active destination and defer any
                     # cadence change until both windows have ended.
-                    source_schedule["recurrences"] = deepcopy(destination_schedule["recurrences"])
+                    source_schedule["recurrences"] = deepcopy(destination_recurrences)
                     action = _RecurrenceUpdateAction.OMIT_SCHEDULE
                 elif source_plan.future_recurrences:
                     source_schedule["recurrences"] = self._materialize_recurrence_plan(
@@ -458,7 +459,7 @@ class DowntimeSchedules(BaseResource):
                         # different start from the source occurrence, so defer
                         # recurrence-only changes until that equivalent active
                         # window ends. Unrelated fields may still be patched.
-                        source_schedule["recurrences"] = deepcopy(destination_schedule["recurrences"])
+                        source_schedule["recurrences"] = deepcopy(destination_recurrences)
                         action = _RecurrenceUpdateAction.OMIT_SCHEDULE
                         log.info(
                             f"[downtime_schedules - {_id}] deferred recurrence change "
@@ -489,7 +490,7 @@ class DowntimeSchedules(BaseResource):
                 source_schedule["recurrences"] = []
                 action = _RecurrenceUpdateAction.CANCEL
             else:
-                source_schedule["recurrences"] = deepcopy(destination_schedule["recurrences"])
+                source_schedule["recurrences"] = deepcopy(destination_recurrences)
                 action = _RecurrenceUpdateAction.OMIT_SCHEDULE
 
         self._prepared_recurrence_updates[str(_id)] = _PreparedRecurrenceUpdate(
@@ -626,7 +627,7 @@ class DowntimeSchedules(BaseResource):
                     end_created = parse(destination_schedule["end"])
                     if end_source.timestamp() < end_created.timestamp():
                         source_schedule["end"] = destination_schedule["end"]
-                if "recurrences" in source_schedule and "recurrences" in destination_schedule:
+                if "recurrences" in source_schedule:
                     now = datetime.now(timezone.utc)
                     try:
                         self._prepare_update_recurrences(

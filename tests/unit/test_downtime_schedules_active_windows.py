@@ -214,6 +214,48 @@ def test_update_inactive_destination_adds_bridge_without_recreate(mock_config):
 
 
 @freeze_time("2026-08-11 15:00:00")
+def test_update_one_time_destination_adds_active_recurrence_bridge(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    source_id = "downtime-source-test"
+    destination = _seed_destination(
+        mock_config,
+        source_id,
+        {
+            "attributes": {
+                "schedule": {
+                    "start": "2026-08-12T14:00:00+00:00",
+                    "end": "2026-08-12T16:00:00+00:00",
+                }
+            }
+        },
+    )
+    source = _resource(
+        [_recurrence("2026-08-11T14:00:00")],
+        _current("2026-08-11T14:00:00+00:00", "2026-08-11T16:00:00+00:00"),
+    )
+    captured = {}
+
+    async def _patch(_path, payload):
+        captured["payload"] = deepcopy(payload)
+        return {"data": payload["data"]}
+
+    async def _unexpected_delete(_path):
+        pytest.fail("a one-time destination can be updated in place")
+
+    mock_config.destination_client.patch = _patch
+    mock_config.destination_client.delete = _unexpected_delete
+
+    _run(downtime.pre_resource_action_hook(source_id, source))
+    _run(downtime.update_resource(source_id, source))
+
+    assert captured["payload"]["data"]["attributes"]["schedule"]["recurrences"] == [
+        _bridge(),
+        _recurrence("2026-08-12T14:00:00"),
+    ]
+    assert "recurrences" not in destination["attributes"]["schedule"]
+
+
+@freeze_time("2026-08-11 15:00:00")
 def test_update_equivalent_active_final_occurrence_is_not_canceled(mock_config):
     downtime = DowntimeSchedules(mock_config)
     source_id = "downtime-source-test"
