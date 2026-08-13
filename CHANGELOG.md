@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.21.0 / 2026-08-13
+
+### Fixed
+* fix: preserve recurring downtime cadence by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/664
+### Added
+* feat(logs_indexes): allow flex retention override by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/665
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.20.2...4.21.0
+
 ## 4.20.2 / 2026-08-07
 
 ### Fixed
