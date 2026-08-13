@@ -39,6 +39,7 @@ _DUPLICATE_DOWNTIME_MARKER = "duplicate of one or more existing downtimes"
 _DOWNTIME_NOT_FOUND_MARKER = "Downtime not found"
 _SINGLE_DUPLICATE_ID_RE = re.compile(r"existing downtimes:\s*\[\s*(['\"])(?P<id>[^'\"]+)\1\s*\]\s*$")
 _RRULE_COUNT_RE = re.compile(r"(?:^|;)COUNT=(?P<count>\d+)(?=;|$)", re.IGNORECASE)
+_RRULE_UNTIL_RE = re.compile(r"(?:^|;)UNTIL=(?P<until>[^;]+)(?=;|$)", re.IGNORECASE)
 
 
 class _CancelDestinationDowntime(Exception):
@@ -185,6 +186,20 @@ class DowntimeSchedules(BaseResource):
             count_end += 1
         return rrule[:count_start] + rrule[count_end:]
 
+    @staticmethod
+    def _rrule_with_utc_until(rrule: str, start: datetime) -> str:
+        """Convert UNTIL to UTC for dateutil without changing the API RRULE."""
+        until_match = _RRULE_UNTIL_RE.search(rrule)
+        if until_match is None:
+            return rrule
+
+        until = parse(until_match.group("until"))
+        if until.tzinfo is None:
+            until = until.replace(tzinfo=start.tzinfo)
+        until_utc = until.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        until_start, until_end = until_match.span("until")
+        return rrule[:until_start] + until_utc + rrule[until_end:]
+
     @classmethod
     def _next_valid_occurrence(
         cls,
@@ -199,6 +214,7 @@ class DowntimeSchedules(BaseResource):
             return None, 0
 
         generation_rule = cls._rrule_without_count(rrule, count_match) if count_match else rrule
+        generation_rule = cls._rrule_with_utc_until(generation_rule, start)
         recurrence_rule = rrulestr(generation_rule, dtstart=start)
         valid_occurrences = 0
         for generated_occurrences, occurrence in enumerate(recurrence_rule, start=1):

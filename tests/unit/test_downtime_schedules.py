@@ -319,6 +319,19 @@ def test_recurring_count_is_reduced_to_remaining_occurrences(mock_config):
     assert recurrence["rrule"] == "FREQ=DAILY;COUNT=2;BYHOUR=9"
 
 
+@freeze_time("2026-08-11 15:00:00")
+def test_recurring_local_until_is_interpreted_in_schedule_timezone(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    rule = "FREQ=DAILY;UNTIL=20260813T090000"
+    resource = _make_recurring_resource([_recurrence("2026-08-01T09:00:00", rule)])
+
+    _run(downtime.pre_resource_action_hook("new-id", resource))
+
+    recurrence = resource["attributes"]["schedule"]["recurrences"][0]
+    assert recurrence["start"] == "2026-08-12T09:00:00"
+    assert recurrence["rrule"] == rule
+
+
 @freeze_time("2026-08-01 00:10:00")
 def test_recurring_expansion_limit_skips_resource(mock_config, monkeypatch):
     downtime = DowntimeSchedules(mock_config)
