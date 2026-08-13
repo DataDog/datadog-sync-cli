@@ -452,7 +452,7 @@ class DowntimeSchedules(BaseResource):
                         now,
                         include_bridge=True,
                     )
-                elif abs((source_active.start - destination_active.start).total_seconds()) > 60:
+                elif source_active.start != destination_active.start:
                     if self._active_windows_equivalent(source_plan, destination_plan, now):
                         # The API rejects changing an active child's start. A
                         # bridge created during an earlier sync naturally has a

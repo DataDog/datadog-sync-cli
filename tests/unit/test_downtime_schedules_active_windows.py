@@ -416,6 +416,44 @@ def test_update_bridge_defers_future_change_until_equivalent_active_window_ends(
     assert captured["payload"]["data"]["attributes"]["message"] == "After"
 
 
+@freeze_time("2026-08-11 15:01:00")
+def test_update_recent_bridge_defers_future_change_for_subminute_start_mismatch(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    source_id = "downtime-source-test"
+    destination = _seed_destination(
+        mock_config,
+        source_id,
+        _resource(
+            [
+                _recurrence("2026-08-11T15:00:30", "FREQ=DAILY;COUNT=1", duration="59m"),
+                _recurrence("2026-08-12T15:00:00"),
+            ],
+            _current("2026-08-11T15:00:30+00:00", "2026-08-11T15:59:30+00:00"),
+            message="Before",
+        ),
+    )
+    source = _resource(
+        [_recurrence("2026-08-01T15:00:00", "FREQ=DAILY;INTERVAL=2")],
+        _current("2026-08-11T15:00:00+00:00", "2026-08-11T16:00:00+00:00"),
+        message="After",
+    )
+    captured = {}
+
+    async def _patch(_path, payload):
+        captured["payload"] = deepcopy(payload)
+        response = deepcopy(destination)
+        response["attributes"]["message"] = "After"
+        return {"data": response}
+
+    mock_config.destination_client.patch = _patch
+
+    _run(downtime.pre_resource_action_hook(source_id, source))
+    _run(downtime.update_resource(source_id, source))
+
+    assert "schedule" not in captured["payload"]["data"]["attributes"]
+    assert captured["payload"]["data"]["attributes"]["message"] == "After"
+
+
 @freeze_time("2026-08-11 15:00:00")
 def test_update_mismatched_active_window_recreates_bridge_and_future_cadence(mock_config):
     downtime = DowntimeSchedules(mock_config)
