@@ -46,6 +46,7 @@ jobs:
           - 8126:8126
         env:
           DD_API_KEY: ${{ secrets.DD_API_KEY }}
+          DD_CLOUD_PROVIDER_METADATA: "[]"
           DD_HOSTNAME: "none"
           DD_INSIDE_CI: "true"
     steps:
