@@ -203,7 +203,10 @@ class DowntimeSchedules(BaseResource):
         start: datetime,
         cutoff: datetime,
     ) -> Tuple[Optional[datetime], Optional[int]]:
-        """Return the first real local occurrence after cutoff and remaining COUNT."""
+        """Return the first real local occurrence after cutoff and remaining COUNT.
+
+        The v2 downtime API limits RRULE frequencies to HOURLY or coarser.
+        """
         count_match = _RRULE_COUNT_RE.search(rrule)
         count = int(count_match.group("count")) if count_match else None
         if count is not None and count <= 0:
@@ -390,7 +393,11 @@ class DowntimeSchedules(BaseResource):
             list(destination_plan.future_recurrences),
             ignore_order=True,
         )
-        return not futures_differ and cls._active_windows_equivalent(source_plan, destination_plan, now)
+        return (
+            source_plan.timezone_name == destination_plan.timezone_name
+            and not futures_differ
+            and cls._active_windows_equivalent(source_plan, destination_plan, now)
+        )
 
     def _prepare_update_recurrences(
         self,
@@ -677,12 +684,18 @@ class DowntimeSchedules(BaseResource):
         if prepared is not None and prepared.action == _RecurrenceUpdateAction.OMIT_SCHEDULE:
             resource["attributes"].pop("schedule", None)
         elif prepared is not None and prepared.action == _RecurrenceUpdateAction.NORMALIZE_PATCH:
-            await self._normalize_recurrence_schedule(
+            # The final recurrence may cross the write cutoff after planning.
+            # Omit only its schedule so unrelated updates still apply.
+            has_future_recurrence = await self._normalize_recurrence_schedule(
                 _id,
                 schedule,
                 datetime.now(timezone.utc) + timedelta(seconds=60),
+                skip_if_empty=False,
             )
-            schedule.pop("current_downtime", None)
+            if has_future_recurrence:
+                schedule.pop("current_downtime", None)
+            else:
+                resource["attributes"].pop("schedule", None)
         elif prepared is not None:
             schedule.pop("current_downtime", None)
         elif schedule:

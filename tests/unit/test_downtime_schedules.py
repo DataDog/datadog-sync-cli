@@ -337,15 +337,15 @@ def test_recurring_local_until_is_interpreted_in_schedule_timezone(mock_config):
 def test_recurring_large_count_is_normalized_without_rejection(mock_config):
     downtime = DowntimeSchedules(mock_config)
     resource = _make_recurring_resource(
-        [_recurrence("2026-06-01T00:00:00", "FREQ=MINUTELY;COUNT=200000")],
+        [_recurrence("2026-06-01T00:00:00", "FREQ=HOURLY;COUNT=200000")],
         timezone_name="UTC",
     )
 
     _run(downtime.pre_resource_action_hook("new-id", resource))
 
     recurrence = resource["attributes"]["schedule"]["recurrences"][0]
-    assert recurrence["start"] == "2026-08-10T00:02:00"
-    assert recurrence["rrule"] == "FREQ=MINUTELY;COUNT=99198"
+    assert recurrence["start"] == "2026-08-10T01:00:00"
+    assert recurrence["rrule"] == "FREQ=HOURLY;COUNT=198319"
 
 
 @freeze_time("2026-08-11 15:00:00")
@@ -615,6 +615,36 @@ def test_update_payload_omits_expired_schedule_but_preserves_unrelated_change(mo
 
     _run(downtime.pre_resource_action_hook(_id, source))
     _run(downtime.update_resource(_id, source))
+
+    attributes = captured["payload"]["data"]["attributes"]
+    assert "schedule" not in attributes
+    assert attributes["message"] == "Updated message"
+    assert captured["path"] == "/api/v2/downtime/downtime-destination-test"
+
+
+def test_update_payload_preserves_unrelated_change_when_final_recurrence_crosses_cutoff(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    _id = "existing-id"
+    final_recurrence = _recurrence("2026-08-11T19:00:00", "FREQ=DAILY;COUNT=1")
+    destination = _make_recurring_resource([final_recurrence], timezone_name="UTC")
+    destination["id"] = "downtime-destination-test"
+    destination["attributes"]["message"] = "Original message"
+    mock_config.state.destination["downtime_schedules"][_id] = destination
+    source = _make_recurring_resource([final_recurrence], timezone_name="UTC")
+    source["attributes"]["message"] = "Updated message"
+    captured = {}
+
+    async def _patch(path, payload):
+        captured["path"] = path
+        captured["payload"] = payload
+        return {"data": payload["data"]}
+
+    mock_config.destination_client.patch = _patch
+
+    with freeze_time("2026-08-11 18:58:59"):
+        _run(downtime.pre_resource_action_hook(_id, source))
+    with freeze_time("2026-08-11 18:59:01"):
+        _run(downtime.update_resource(_id, source))
 
     attributes = captured["payload"]["data"]["attributes"]
     assert "schedule" not in attributes

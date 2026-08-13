@@ -39,8 +39,8 @@ def _bridge(start="2026-08-11T15:00:00", duration="60m"):
     return {"start": start, "duration": duration, "rrule": "FREQ=DAILY;COUNT=1"}
 
 
-def _resource(recurrences, current_downtime=None, message=None):
-    schedule = {"timezone": "UTC", "recurrences": recurrences}
+def _resource(recurrences, current_downtime=None, message=None, timezone="UTC"):
+    schedule = {"timezone": timezone, "recurrences": recurrences}
     if current_downtime is not None:
         schedule["current_downtime"] = current_downtime
     attributes = {"schedule": schedule}
@@ -174,6 +174,42 @@ def test_update_equivalent_active_window_omits_schedule_from_unrelated_patch(moc
 
     assert "schedule" not in captured["payload"]["data"]["attributes"]
     assert captured["payload"]["data"]["attributes"]["message"] == "After"
+
+
+@freeze_time("2026-08-11 15:00:00")
+def test_update_aligned_active_window_patches_timezone_change(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    source_id = "downtime-source-test"
+    current = _current("2026-08-11T14:00:00+00:00", "2026-08-11T16:00:00+00:00")
+    destination = _seed_destination(
+        mock_config,
+        source_id,
+        _resource(
+            [_recurrence("2026-08-01T10:00:00")],
+            current,
+            timezone="America/New_York",
+        ),
+    )
+    source = _resource(
+        [_recurrence("2026-08-01T10:00:00")],
+        current,
+        timezone="America/Chicago",
+    )
+    captured = {}
+
+    async def _patch(_path, payload):
+        captured["payload"] = deepcopy(payload)
+        return {"data": payload["data"]}
+
+    mock_config.destination_client.patch = _patch
+
+    _run(downtime.pre_resource_action_hook(source_id, source))
+    assert check_diff(downtime.resource_config, source, destination)
+    _run(downtime.update_resource(source_id, source))
+
+    schedule = captured["payload"]["data"]["attributes"]["schedule"]
+    assert schedule["timezone"] == "America/Chicago"
+    assert "current_downtime" not in schedule
 
 
 @freeze_time("2026-08-11 15:00:00")
