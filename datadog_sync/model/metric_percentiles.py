@@ -6,6 +6,15 @@ from typing import Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+
+
+def _error_body(error: CustomClientHTTPError) -> str:
+    return (error.response_body or "").lower()
+
+
+def _is_metric_not_found_error(error: CustomClientHTTPError) -> bool:
+    return error.status_code in (400, 404, 500) and "metric not found" in _error_body(error)
 
 
 class MetricPercentiles(BaseResource):
@@ -17,6 +26,7 @@ class MetricPercentiles(BaseResource):
     )
     # Additional MetricPercentiles specific attributes
     metrics_summaries_get_path = "/metric/distribution/list_summaries"
+    metrics_metadata_get_path = "/api/v1/metrics"
     enable_percentiles_path = "/metric/distribution/summary_aggr/percentiles/enable"
     disable_percentiles_path = "/metric/distribution/summary_aggr/percentiles/disable"
 
@@ -55,8 +65,28 @@ class MetricPercentiles(BaseResource):
         # /metric/distribution/summary_aggr, which is not a registered route and
         # returns 403 empty-body at the OBO auth layer.
         destination_client = self.config.destination_client
+        try:
+            await destination_client.get(self.metrics_metadata_get_path + f"/{_id}")
+        except CustomClientHTTPError as e:
+            if e.status_code == 404:
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    "Metric not present on destination; percentiles cannot attach.",
+                )
+            raise
+
         path = self.enable_percentiles_path if resource.get("include_percentiles") else self.disable_percentiles_path
-        await destination_client.patch(path, {"metric_names": [_id]})
+        try:
+            await destination_client.patch(path, {"metric_names": [_id]})
+        except CustomClientHTTPError as e:
+            if _is_metric_not_found_error(e):
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    "Metric not present on destination; percentiles cannot attach.",
+                )
+            raise
 
         return _id, resource
 
