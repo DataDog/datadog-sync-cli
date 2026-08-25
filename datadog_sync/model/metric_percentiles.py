@@ -6,6 +6,15 @@ from typing import Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+
+
+def _error_body(error: CustomClientHTTPError) -> str:
+    return (error.response_body or "").lower()
+
+
+def _is_metric_not_found_error(error: CustomClientHTTPError) -> bool:
+    return error.status_code in (400, 404, 500) and "metric not found" in _error_body(error)
 
 
 class MetricPercentiles(BaseResource):
@@ -56,7 +65,16 @@ class MetricPercentiles(BaseResource):
         # returns 403 empty-body at the OBO auth layer.
         destination_client = self.config.destination_client
         path = self.enable_percentiles_path if resource.get("include_percentiles") else self.disable_percentiles_path
-        await destination_client.patch(path, {"metric_names": [_id]})
+        try:
+            await destination_client.patch(path, {"metric_names": [_id]})
+        except CustomClientHTTPError as e:
+            if _is_metric_not_found_error(e):
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    "Metric not present on destination; percentiles cannot attach.",
+                )
+            raise
 
         return _id, resource
 

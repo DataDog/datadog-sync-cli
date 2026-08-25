@@ -7,9 +7,22 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
+
+
+def _error_body(error: CustomClientHTTPError) -> str:
+    return (error.response_body or "").lower()
+
+
+def _is_missing_metric_error(error: CustomClientHTTPError) -> bool:
+    return error.status_code == 400 and "metric that does not exist" in _error_body(error)
+
+
+def _is_existing_tag_config_conflict(error: CustomClientHTTPError) -> bool:
+    return error.status_code == 409 and "patch" in _error_body(error)
 
 
 class MetricTagConfigurations(BaseResource):
@@ -47,10 +60,22 @@ class MetricTagConfigurations(BaseResource):
 
         destination_client = self.config.destination_client
         payload = {"data": resource}
-        resp = await destination_client.post(
-            self.resource_config.base_path + f"/{self.config.state.source[self.resource_type][_id]['id']}/tags",
-            payload,
-        )
+        path = self.resource_config.base_path + f"/{self.config.state.source[self.resource_type][_id]['id']}/tags"
+        try:
+            resp = await destination_client.post(path, payload)
+        except CustomClientHTTPError as e:
+            if _is_missing_metric_error(e):
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    "Metric not present on destination; tag configuration cannot attach.",
+                )
+            if not _is_existing_tag_config_conflict(e):
+                raise
+
+            existing = await destination_client.get(path)
+            self.config.state.destination[self.resource_type][_id] = existing["data"]
+            return await self.update_resource(_id, resource)
 
         return _id, resp["data"]
 
@@ -59,10 +84,20 @@ class MetricTagConfigurations(BaseResource):
         if "attributes" in resource:
             resource["attributes"].pop("metric_type", None)
         payload = {"data": resource}
-        resp = await destination_client.patch(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}/tags",
-            payload,
-        )
+        try:
+            resp = await destination_client.patch(
+                self.resource_config.base_path
+                + f"/{self.config.state.destination[self.resource_type][_id]['id']}/tags",
+                payload,
+            )
+        except CustomClientHTTPError as e:
+            if _is_missing_metric_error(e):
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    "Metric not present on destination; tag configuration cannot attach.",
+                )
+            raise
 
         return _id, resp["data"]
 
