@@ -33,7 +33,7 @@ def metric_percentiles(mock_config):
 
 def test_update_resource_existing_metric_enables_percentiles(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock(return_value={"metric": "custom.metric"})
+    client.get = AsyncMock()
     client.patch = AsyncMock(return_value={})
 
     _id, resource = _run(
@@ -42,7 +42,7 @@ def test_update_resource_existing_metric_enables_percentiles(metric_percentiles)
 
     assert _id == "custom.metric"
     assert resource == {"metric": "custom.metric", "include_percentiles": True}
-    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
+    client.get.assert_not_awaited()
     client.patch.assert_awaited_once_with(
         "/metric/distribution/summary_aggr/percentiles/enable",
         {"metric_names": ["custom.metric"]},
@@ -51,21 +51,22 @@ def test_update_resource_existing_metric_enables_percentiles(metric_percentiles)
 
 def test_update_resource_existing_metric_disables_percentiles(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock(return_value={"metric": "custom.metric"})
+    client.get = AsyncMock()
     client.patch = AsyncMock(return_value={})
 
     _run(metric_percentiles.update_resource("custom.metric", {"metric": "custom.metric", "include_percentiles": False}))
 
+    client.get.assert_not_awaited()
     client.patch.assert_awaited_once_with(
         "/metric/distribution/summary_aggr/percentiles/disable",
         {"metric_names": ["custom.metric"]},
     )
 
 
-def test_update_resource_missing_destination_metric_get_raises_skip(metric_percentiles):
+def test_update_resource_missing_destination_metric_patch_raises_skip(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock(side_effect=_http_error(404, '{"errors":["custom.metric not found"]}'))
-    client.patch = AsyncMock()
+    client.get = AsyncMock()
+    client.patch = AsyncMock(side_effect=_http_error(404, '{"errors":["custom.metric not found"]}'))
 
     with pytest.raises(SkipResource) as exc_info:
         _run(
@@ -77,12 +78,13 @@ def test_update_resource_missing_destination_metric_get_raises_skip(metric_perce
 
     assert "custom.metric" in str(exc_info.value)
     assert "not present on destination" in str(exc_info.value)
-    client.patch.assert_not_awaited()
+    client.get.assert_not_awaited()
+    client.patch.assert_awaited_once()
 
 
 def test_update_resource_metric_not_found_patch_raises_skip(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock(return_value={"metric": "custom.metric"})
+    client.get = AsyncMock()
     client.patch = AsyncMock(side_effect=_http_error(500, '{"detail":"metric not found"}'))
 
     with pytest.raises(SkipResource) as exc_info:
@@ -95,13 +97,14 @@ def test_update_resource_metric_not_found_patch_raises_skip(metric_percentiles):
 
     assert "custom.metric" in str(exc_info.value)
     assert "not present on destination" in str(exc_info.value)
+    client.get.assert_not_awaited()
     client.patch.assert_awaited_once()
 
 
-def test_update_resource_destination_get_500_propagates(metric_percentiles):
+def test_update_resource_non_metric_not_found_400_patch_error_propagates(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock(side_effect=_http_error(500, "Internal Server Error"))
-    client.patch = AsyncMock()
+    client.get = AsyncMock()
+    client.patch = AsyncMock(side_effect=_http_error(400, "Bad Request"))
 
     with pytest.raises(CustomClientHTTPError) as exc_info:
         _run(
@@ -111,13 +114,13 @@ def test_update_resource_destination_get_500_propagates(metric_percentiles):
             )
         )
 
-    assert exc_info.value.status_code == 500
-    client.patch.assert_not_awaited()
+    assert exc_info.value.status_code == 400
+    client.get.assert_not_awaited()
 
 
 def test_update_resource_non_metric_not_found_patch_error_propagates(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock(return_value={"metric": "custom.metric"})
+    client.get = AsyncMock()
     client.patch = AsyncMock(side_effect=_http_error(500, "Internal Server Error"))
 
     with pytest.raises(CustomClientHTTPError) as exc_info:
@@ -129,3 +132,4 @@ def test_update_resource_non_metric_not_found_patch_error_propagates(metric_perc
         )
 
     assert exc_info.value.status_code == 500
+    client.get.assert_not_awaited()

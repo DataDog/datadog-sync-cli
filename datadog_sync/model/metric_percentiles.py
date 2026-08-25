@@ -26,7 +26,6 @@ class MetricPercentiles(BaseResource):
     )
     # Additional MetricPercentiles specific attributes
     metrics_summaries_get_path = "/metric/distribution/list_summaries"
-    metrics_metadata_get_path = "/api/v1/metrics"
     enable_percentiles_path = "/metric/distribution/summary_aggr/percentiles/enable"
     disable_percentiles_path = "/metric/distribution/summary_aggr/percentiles/disable"
 
@@ -65,17 +64,6 @@ class MetricPercentiles(BaseResource):
         # /metric/distribution/summary_aggr, which is not a registered route and
         # returns 403 empty-body at the OBO auth layer.
         destination_client = self.config.destination_client
-        try:
-            await destination_client.get(self.metrics_metadata_get_path + f"/{_id}")
-        except CustomClientHTTPError as e:
-            if e.status_code == 404:
-                raise SkipResource(
-                    _id,
-                    self.resource_type,
-                    "Metric not present on destination; percentiles cannot attach.",
-                )
-            raise
-
         path = self.enable_percentiles_path if resource.get("include_percentiles") else self.disable_percentiles_path
         try:
             await destination_client.patch(path, {"metric_names": [_id]})
