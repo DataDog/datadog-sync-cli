@@ -126,6 +126,7 @@ class Configuration(object):
     prune_force: bool = False
     prune_dry_run: bool = False
     destination_logs_intake_url: Optional[str] = None
+    skip_monitors_with_restricted_roles: bool = False
 
     async def init_async(self, cmd: Command):
         await self.source_client._init_session()
@@ -510,6 +511,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
     drop_unresolvable_principals = kwargs.get("drop_unresolvable_principals") or False
     refresh_destination_state_before_apply = kwargs.get("refresh_destination_state_before_apply") or False
+    skip_monitors_with_restricted_roles = kwargs.get("skip_monitors_with_restricted_roles") or False
     max_workers = kwargs.get("max_workers")
     max_workers_per_type_raw = kwargs.get("max_workers_per_type")
     # Parse --max-workers-per-type early so malformed input fails BEFORE any
@@ -849,6 +851,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         max_concurrent_reads=max_concurrent_reads,
         transient_failure_threshold_pct=transient_failure_threshold_pct,
         destination_logs_intake_url=destination_logs_intake_url,
+        skip_monitors_with_restricted_roles=skip_monitors_with_restricted_roles,
     )
 
     # Initialize resource classes

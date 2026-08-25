@@ -577,6 +577,17 @@ _sync_options = [
         cls=CustomOptionClass,
     ),
     option(
+        "--skip-monitors-with-restricted-roles",
+        required=False,
+        is_flag=True,
+        default=False,
+        show_default=True,
+        help="Filter out monitors whose source payload has a non-empty restricted_roles list. "
+        "This is an explicit access-control escape hatch for DDR destinations where "
+        "role/user activation is not ready yet; filtered monitors are not created or updated.",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--create-global-downtime",
         required=False,
         type=bool,

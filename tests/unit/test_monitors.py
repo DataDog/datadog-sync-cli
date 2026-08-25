@@ -16,6 +16,7 @@ import pytest
 from unittest.mock import MagicMock
 
 from datadog_sync.model.monitors import Monitors
+from datadog_sync.utils.filter import process_filters
 from datadog_sync.utils.resource_utils import SkipResource, ResourceConnectionError
 from datadog_sync.utils.workers import Counter
 
@@ -116,6 +117,52 @@ class TestMonitorsPreResourceActionHook:
         }
         with pytest.raises(SkipResource):
             asyncio.run(monitors.pre_resource_action_hook("44444", resource))
+
+
+class TestMonitorsFilter:
+    """Filtering behavior specific to monitor access-control escape hatches."""
+
+    def _make_monitors(self, skip_restricted=False, filters=None, filter_operator="OR"):
+        config = MagicMock()
+        config.filters = filters or {}
+        config.filter_operator = filter_operator
+        config.skip_monitors_with_restricted_roles = skip_restricted
+        config.logger = MagicMock()
+        return Monitors(config)
+
+    def test_restricted_roles_allowed_by_default(self):
+        monitors = self._make_monitors()
+        resource = {"id": 269290576, "restricted_roles": ["role-src"]}
+
+        assert monitors.filter(resource) is True
+
+    def test_restricted_roles_filtered_when_flag_enabled(self):
+        monitors = self._make_monitors(skip_restricted=True)
+        resource = {"id": 269290576, "restricted_roles": ["role-src"]}
+
+        assert monitors.filter(resource) is False
+        monitors.config.logger.info.assert_called_once()
+
+    @pytest.mark.parametrize(
+        "resource",
+        [
+            {"id": 1},
+            {"id": 2, "restricted_roles": []},
+            {"id": 3, "restricted_roles": None},
+        ],
+    )
+    def test_empty_or_missing_restricted_roles_are_not_filtered(self, resource):
+        monitors = self._make_monitors(skip_restricted=True)
+
+        assert monitors.filter(resource) is True
+
+    def test_existing_filters_still_apply_before_restricted_role_skip(self):
+        filters = process_filters(["Type=monitors;Name=id;Value=123;Operator=ExactMatch"])
+        monitors = self._make_monitors(skip_restricted=True, filters=filters)
+        resource = {"id": 456, "restricted_roles": ["role-src"]}
+
+        assert monitors.filter(resource) is False
+        monitors.config.logger.info.assert_not_called()
 
 
 class TestMonitorsSchemaMigrations:
