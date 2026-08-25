@@ -104,7 +104,12 @@ class LogsPipelines(BaseResource):
             # Extract the source from the query
             source = self.extract_source_from_query(resource.get("filter", {}).get("query"))
             if not source:
-                raise Exception(f"Source not found in the query for integration pipeline '{resource['name']}'")
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    f"Source not found in the query for integration pipeline '{resource['name']}'. "
+                    "Integration pipelines are auto-managed by Datadog and cannot be created via the public API.",
+                )
             payload = {
                 "ddsource": source,
                 "ddtags": ",".join(DEFAULT_TAGS),
@@ -134,9 +139,20 @@ class LogsPipelines(BaseResource):
                     await sleep(5)
 
             if not created:
-                raise Exception(
-                    f"Integration pipeline '{resource['name']}' is not created after x seconds. "
-                    "It will be rechecked in the next sync."
+                # Integration pipelines are auto-managed by Datadog and cannot be
+                # created via the public API.  The logs-intake trigger above is a
+                # best-effort attempt to prompt the destination org's integration
+                # system to provision the pipeline; when it does not appear within
+                # the polling window the pipeline is almost certainly one that the
+                # destination org will never have (e.g. an integration that is not
+                # enabled there).  Skip instead of failing so the run does not
+                # report 66 persistent failures every cycle.
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    f"Integration pipeline '{resource['name']}' could not be triggered at the destination "
+                    "after polling timeout. Integration pipelines are auto-managed by Datadog and may "
+                    "not be available at the destination org.",
                 )
 
         self.config.state.destination[self.resource_type][_id] = self.destination_integration_pipelines[
