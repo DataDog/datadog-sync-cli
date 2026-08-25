@@ -55,10 +55,11 @@ def _emit_apply_summary(logger, counter) -> None:
     operators debugging a cascade usually want to see WHICH failure happened
     first, not lexicographic order.
     """
+
     def _chunked_emit(rt: str, action_desc: str, ids: List[str]) -> None:
         total = len(ids)
         for start in range(0, total, _SUMMARY_ID_CHUNK):
-            chunk = ids[start:start + _SUMMARY_ID_CHUNK]
+            chunk = ids[start : start + _SUMMARY_ID_CHUNK]
             end = min(start + _SUMMARY_ID_CHUNK, total)
             logger.warning(
                 "sync summary: %s %s [%d-%d of %d]: %s",
@@ -90,7 +91,7 @@ def _emit_apply_summary(logger, counter) -> None:
         if ids:
             total = len(ids)
             for start in range(0, total, _SUMMARY_ID_CHUNK):
-                chunk = ids[start:start + _SUMMARY_ID_CHUNK]
+                chunk = ids[start : start + _SUMMARY_ID_CHUNK]
                 end = min(start + _SUMMARY_ID_CHUNK, total)
                 logger.error(
                     "sync summary: %s skipped %d resource(s) for empty-binding "
@@ -107,7 +108,7 @@ def _emit_apply_summary(logger, counter) -> None:
         if ids:
             total = len(ids)
             for start in range(0, total, _SUMMARY_ID_CHUNK):
-                chunk = ids[start:start + _SUMMARY_ID_CHUNK]
+                chunk = ids[start : start + _SUMMARY_ID_CHUNK]
                 end = min(start + _SUMMARY_ID_CHUNK, total)
                 logger.error(
                     "sync summary: %s synced %d resource(s) after an empty-binding "
@@ -207,10 +208,15 @@ class ResourcesHandler:
         The generic fallback emits only the exception class name — the full
         detail is still logged at error/debug level by the caller.
 
-        Canonical failure_class values:
+        Common HTTP/transport failure_class values:
             http_4xx_403  http_4xx_404  http_4xx_429  http_4xx_other
             http_5xx  http_timeout  http_connection  unknown
+
+        Resource models may also attach domain-specific classes to SkipResource
+        for terminal-but-actionable skips, such as destination_metric_missing.
         """
+        if isinstance(err, SkipResource):
+            return err.outcome_reason or type(err).__name__, err.failure_class or "unknown"
         if isinstance(err, CustomClientHTTPError):
             code = err.status_code
             reason = f"HTTP {code}"
@@ -242,6 +248,7 @@ class ResourcesHandler:
         action_sub_type: str = "",
         reason: str = "",
         failure_class: str = "",
+        details: Optional[Dict[str, str]] = None,
     ) -> None:
         if self.config.emit_json:
             _id_str = str(_id) if _id is not None else ""
@@ -254,6 +261,7 @@ class ResourcesHandler:
                 action_sub_type=action_sub_type,
                 reason=reason,
                 failure_class=failure_class,
+                details=details or {},
             ).emit()
 
     async def init_async(self) -> None:
@@ -418,9 +426,7 @@ class ResourcesHandler:
         try:
             _emit_apply_summary(self.config.logger, self.worker.counter)
         except Exception as e:
-            self.config.logger.warning(
-                "sync summary emission failed: %s. State was already persisted.", e
-            )
+            self.config.logger.warning("sync summary emission failed: %s. State was already persisted.", e)
 
     def _maybe_refresh_destination_state(self, resource_types) -> None:
         """Optional refresh of state.destination before workers dispatch.
@@ -540,7 +546,15 @@ class ResourcesHandler:
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.worker.counter.increment_skipped()
             _reason, _fc = self._sanitize_reason(e)
-            self._emit(resource_type, _id, "sync", "skipped", reason=_reason, failure_class=_fc)
+            self._emit(
+                resource_type,
+                _id,
+                "sync",
+                "skipped",
+                reason=_reason,
+                failure_class=_fc,
+                details=e.outcome_details,
+            )
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"])
         except ResourceConnectionError as e:
             self.config.logger.error(
@@ -554,9 +568,7 @@ class ResourcesHandler:
             # separate process reading state from disk) can correlate the
             # cascade by matching failed source ids against the previous
             # process's summary log.
-            self.worker.counter.increment_skipped(
-                resource_type=resource_type, _id=_id, missing_deps=True
-            )
+            self.worker.counter.increment_skipped(resource_type=resource_type, _id=_id, missing_deps=True)
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, _id, "sync", "skipped", reason=_reason, failure_class=_fc)
             # Distinguish the access-elevation case (a restriction-policy binding /
@@ -639,7 +651,15 @@ class ResourcesHandler:
                     self.config.logger.warning(f"skipping resource: resource_type:{resource_type} id:{_id}")
                     self.config.logger.debug(str(e))
                     _reason, _fc = self._sanitize_reason(e)
-                    self._emit(resource_type, _id, "sync", "skipped", reason=_reason, failure_class=_fc)
+                    self._emit(
+                        resource_type,
+                        _id,
+                        "sync",
+                        "skipped",
+                        reason=_reason,
+                        failure_class=_fc,
+                        details=e.outcome_details,
+                    )
                     return
 
                 try:
@@ -746,9 +766,7 @@ class ResourcesHandler:
             # stale-file pruning. Marking a partial subset as authoritative
             # would over-prune every non-listed file on the next dump_state.
             id_scoped_types = set(self.config.id_payload or {})
-            authoritative_types = [
-                rt for rt in self.config.resources_arg if rt not in id_scoped_types
-            ]
+            authoritative_types = [rt for rt in self.config.resources_arg if rt not in id_scoped_types]
             if authoritative_types:
                 self.config.state.mark_source_authoritative(authoritative_types)
             if id_scoped_types & set(self.config.resources_arg):
@@ -798,6 +816,7 @@ class ResourcesHandler:
         # host_tags) don't have a working per-ID GET path and would produce
         # 100% permanent failures on this branch.
         from datadog_sync.utils.configuration import _ID_FILE_IMPORT_SUPPORTED_TYPES
+
         if (
             self.config.id_payload
             and resource_type in self.config.id_payload
@@ -835,20 +854,14 @@ class ResourcesHandler:
                 # resource whose id downstream sync-cli invocations need to
                 # correlate — a monitor that references this id will later
                 # fail its connect_resources.
-                self.worker.counter.increment_skipped(
-                    resource_type=resource_type, _id=mid, missing_deps=True
-                )
+                self.worker.counter.increment_skipped(resource_type=resource_type, _id=mid, missing_deps=True)
             for eid, cls, reason in errored:
                 if cls == "skipped":
                     self._emit(resource_type, eid, "import", "skipped", reason=reason)
-                    self.worker.counter.increment_skipped(
-                        resource_type=resource_type, _id=eid, missing_deps=True
-                    )
+                    self.worker.counter.increment_skipped(resource_type=resource_type, _id=eid, missing_deps=True)
                 else:
                     self._emit(resource_type, eid, "import", "failure", reason=reason)
-                    self.worker.counter.increment_failure(
-                        resource_type=resource_type, _id=eid
-                    )
+                    self.worker.counter.increment_failure(resource_type=resource_type, _id=eid)
 
             # Threshold check — emit a log line containing the literal "rate limit"
             # substring so downstream consumers that scan subprocess output for a
@@ -929,7 +942,15 @@ class ResourcesHandler:
             # a downstream cascade would not want to grep these ids.
             self.worker.counter.increment_skipped()
             _reason, _fc = self._sanitize_reason(e)
-            self._emit(resource_type, _id, "import", "skipped", reason=_reason, failure_class=_fc)
+            self._emit(
+                resource_type,
+                _id,
+                "import",
+                "skipped",
+                reason=_reason,
+                failure_class=_fc,
+                details=e.outcome_details,
+            )
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SKIPPED.value)
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.debug(str(e))
@@ -1161,7 +1182,15 @@ class ResourcesHandler:
             self._emit(resource_type, _id, "import", "success")
         except SkipResource as e:
             _reason, _fc = self._sanitize_reason(e)
-            self._emit(resource_type, _id, "import", "skipped", reason=_reason, failure_class=_fc)
+            self._emit(
+                resource_type,
+                _id,
+                "import",
+                "skipped",
+                reason=_reason,
+                failure_class=_fc,
+                details=e.outcome_details,
+            )
             self.config.logger.info(f"skipping dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
         except CustomClientHTTPError as e:
@@ -1205,7 +1234,15 @@ class ResourcesHandler:
             self._emit(resource_type, _id, "import", "success")
         except SkipResource as e:
             _reason, _fc = self._sanitize_reason(e)
-            self._emit(resource_type, _id, "import", "skipped", reason=_reason, failure_class=_fc)
+            self._emit(
+                resource_type,
+                _id,
+                "import",
+                "skipped",
+                reason=_reason,
+                failure_class=_fc,
+                details=e.outcome_details,
+            )
             self.config.logger.info(f"skipping dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
         except CustomClientHTTPError as e:
@@ -1250,7 +1287,15 @@ class ResourcesHandler:
             # cascade signal. Numeric-only accounting.
             self.worker.counter.increment_skipped()
             _reason, _fc = self._sanitize_reason(e)
-            self._emit(resource_type, _id, "delete", "skipped", reason=_reason, failure_class=_fc)
+            self._emit(
+                resource_type,
+                _id,
+                "delete",
+                "skipped",
+                reason=_reason,
+                failure_class=_fc,
+                details=e.outcome_details,
+            )
             await r_class._send_action_metrics("delete", _id, Status.SKIPPED.value, tags=["reason:unknown"])
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.info(f"skip deleting resource: {str(e)}", resource_type=resource_type, _id=_id)

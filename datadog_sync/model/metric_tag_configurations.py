@@ -7,7 +7,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+from datadog_sync.utils.resource_utils import (
+    FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+    CustomClientHTTPError,
+    SkipResource,
+)
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -69,6 +73,9 @@ class MetricTagConfigurations(BaseResource):
                     _id,
                     self.resource_type,
                     "Metric not present on destination; tag configuration cannot attach.",
+                    failure_class=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                    reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                    outcome_details={"metric_name": _id, "operation": "tag_configuration_create"},
                 )
             if not _is_existing_tag_config_conflict(e):
                 raise
@@ -96,6 +103,9 @@ class MetricTagConfigurations(BaseResource):
                     _id,
                     self.resource_type,
                     "Metric not present on destination; tag configuration cannot attach.",
+                    failure_class=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                    reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                    outcome_details={"metric_name": _id, "operation": "tag_configuration_update"},
                 )
             raise
 

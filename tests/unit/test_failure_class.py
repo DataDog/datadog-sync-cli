@@ -13,7 +13,12 @@ import json
 from io import StringIO
 from unittest.mock import MagicMock, patch
 
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, ResourceConnectionError
+from datadog_sync.utils.resource_utils import (
+    FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+    CustomClientHTTPError,
+    ResourceConnectionError,
+    SkipResource,
+)
 from datadog_sync.utils.resources_handler import ResourcesHandler
 from datadog_sync.utils.sync_report import ResourceOutcome
 
@@ -116,6 +121,25 @@ class TestSanitizeReasonFailureClass:
         assert reason == "connection_error"
         assert fc == "http_connection"
 
+    def test_plain_skip_resource_returns_unknown(self):
+        err = SkipResource("abc", "dashboards", "No differences detected.")
+        reason, fc = ResourcesHandler._sanitize_reason(err)
+        assert reason == "SkipResource"
+        assert fc == "unknown"
+
+    def test_typed_skip_resource_returns_configured_failure_class(self):
+        err = SkipResource(
+            "custom.metric",
+            "metrics_metadata",
+            "Metric not present on destination.",
+            failure_class=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+            reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+            outcome_details={"metric_name": "custom.metric"},
+        )
+        reason, fc = ResourcesHandler._sanitize_reason(err)
+        assert reason == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+        assert fc == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+
     def test_generic_exception_returns_class_name_and_unknown(self):
         err = ValueError("something unexpected")
         reason, fc = ResourcesHandler._sanitize_reason(err)
@@ -188,6 +212,25 @@ class TestResourceOutcomeFailureClassOmitempty:
         assert "failure_class" in d
         assert d["failure_class"] == "http_5xx"
 
+    def test_details_omitted_when_empty(self):
+        outcome = ResourceOutcome("import", "monitors", "123", "import", "failure", "", "HTTP 500")
+        assert "details" not in outcome.to_dict()
+
+    def test_details_present_when_set(self):
+        outcome = ResourceOutcome(
+            command="sync",
+            resource_type="metrics_metadata",
+            id="custom.metric",
+            action_type="sync",
+            status="skipped",
+            action_sub_type="",
+            reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+            failure_class=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+            details={"metric_name": "custom.metric", "operation": "metadata_update"},
+        )
+        d = outcome.to_dict()
+        assert d["details"] == {"metric_name": "custom.metric", "operation": "metadata_update"}
+
     def test_all_7_canonical_values_round_trip(self):
         """All 7 canonical failure_class values survive to_dict()."""
         canonical = [
@@ -256,6 +299,26 @@ class TestFailureClassJsonRoundTrip:
         assert parsed["type"] == "outcome"
         assert parsed["failure_class"] == "http_5xx"
         assert parsed["reason"] == "HTTP 500"
+
+    def test_emit_includes_details_when_set(self):
+        outcome = ResourceOutcome(
+            command="sync",
+            resource_type="metric_percentiles",
+            id="custom.metric",
+            action_type="sync",
+            status="skipped",
+            action_sub_type="",
+            reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+            failure_class=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+            details={"metric_name": "custom.metric", "operation": "percentiles_enable"},
+        )
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            outcome.emit()
+
+        parsed = json.loads(buf.getvalue().strip())
+        assert parsed["failure_class"] == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+        assert parsed["details"] == {"metric_name": "custom.metric", "operation": "percentiles_enable"}
 
     def test_emit_excludes_failure_class_when_empty(self):
         outcome = ResourceOutcome(
@@ -410,6 +473,35 @@ class TestEmitPassesFailureClass:
         parsed = json.loads(buf.getvalue().strip())
         assert parsed["reason"] == "connection_error"
         assert parsed["failure_class"] == "http_connection"
+
+    def test_emit_typed_skip_resource_wires_failure_class_and_details(self):
+        handler = self._make_handler_for_emit()
+        err = SkipResource(
+            "custom.metric",
+            "metrics_metadata",
+            "Metric not present on destination.",
+            failure_class=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+            reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+            outcome_details={"metric_name": "custom.metric", "operation": "metadata_update"},
+        )
+        _reason, _fc = ResourcesHandler._sanitize_reason(err)
+
+        buf = StringIO()
+        with patch("sys.stdout", buf):
+            ResourcesHandler._emit(
+                handler,
+                "metrics_metadata",
+                "custom.metric",
+                "sync",
+                "skipped",
+                reason=_reason,
+                failure_class=_fc,
+                details=err.outcome_details,
+            )
+        parsed = json.loads(buf.getvalue().strip())
+        assert parsed["reason"] == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+        assert parsed["failure_class"] == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+        assert parsed["details"] == {"metric_name": "custom.metric", "operation": "metadata_update"}
 
     def test_emit_noop_when_emit_json_false_no_output(self):
         """Even with failure_class set, no output when emit_json=False."""

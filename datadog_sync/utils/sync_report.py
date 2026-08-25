@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, Literal
 
 from datadog_sync.utils.ndjson import write_ndjson_line
@@ -32,6 +32,7 @@ class ResourceOutcome:
         status           status:X              success | skipped | failure | filtered
         action_sub_type  action_sub_type:X     create | update | "" (sync only)
         reason           reason:X              freetext explanation (truncated to 1024 chars)
+        details          n/a                   optional machine-readable context
 
     Note: ``filtered`` is a JSON-only status. The CLI metric (``datadog.org-sync.action``)
     is not emitted for filtered resources, so this value has no metric-tag counterpart.
@@ -56,17 +57,19 @@ class ResourceOutcome:
     status: Literal["success", "skipped", "failure", "filtered"]
     action_sub_type: Literal["create", "update", ""]  # only populated on sync success
     reason: str  # empty for success, explanation for skip/fail
-    # Optional structured failure category that consumers can branch on without
-    # pattern-matching the reason string.  Omitted from the serialised NDJSON
-    # record when empty so consumers that don't know the field see no schema
-    # change.
+    # Optional structured failure/skip category that consumers can branch on
+    # without pattern-matching the reason string. Omitted from the serialised
+    # NDJSON record when empty so consumers that don't know the field see no
+    # schema change.
     failure_class: str = ""
+    # Optional machine-readable fields for typed outcomes. Omitted when empty.
+    details: Dict[str, str] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if len(self.reason) > _REASON_MAX_LEN:
             self.reason = self.reason[:_REASON_MAX_LEN] + "...(truncated)"
 
-    def to_dict(self) -> Dict[str, str]:
+    def to_dict(self) -> Dict[str, object]:
         d = {
             "type": "outcome",
             "command": self.command,
@@ -81,6 +84,8 @@ class ResourceOutcome:
         # backward compatibility for downstream consumers that don't know this field.
         if self.failure_class:
             d["failure_class"] = self.failure_class
+        if self.details:
+            d["details"] = {str(k): str(v) for k, v in self.details.items()}
         return d
 
     def emit(self) -> None:

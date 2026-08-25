@@ -12,7 +12,11 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 
 from datadog_sync.model.metrics_metadata import MetricsMetadata
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+from datadog_sync.utils.resource_utils import (
+    FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+    CustomClientHTTPError,
+    SkipResource,
+)
 
 
 def _http_error(status, message="err"):
@@ -53,6 +57,12 @@ def test_update_resource_dest_missing_raises_skip(metrics_metadata):
 
     assert "missing.metric" in str(exc_info.value)
     assert "not present on destination" in str(exc_info.value)
+    assert exc_info.value.failure_class == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+    assert exc_info.value.outcome_reason == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+    assert exc_info.value.outcome_details == {
+        "metric_name": "missing.metric",
+        "operation": "metadata_update",
+    }
     client.put.assert_not_awaited()
 
 

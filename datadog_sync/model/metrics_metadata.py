@@ -8,7 +8,11 @@ from typing import Optional, List, Dict, Tuple
 from datadog_sync.constants import LOGGER_NAME
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+from datadog_sync.utils.resource_utils import (
+    FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+    CustomClientHTTPError,
+    SkipResource,
+)
 
 log = logging.getLogger(LOGGER_NAME)
 
@@ -69,8 +73,7 @@ class MetricsMetadata(BaseResource):
             raise SkipResource(
                 _id,
                 self.resource_type,
-                "distribution type is rejected by the destination metrics_metadata endpoint; "
-                "skipping public PUT",
+                "distribution type is rejected by the destination metrics_metadata endpoint; " "skipping public PUT",
             )
 
         # metrics_metadata can only attach to a metric that already exists on
@@ -95,6 +98,9 @@ class MetricsMetadata(BaseResource):
                     _id,
                     self.resource_type,
                     "Metric not present on destination; metadata cannot attach.",
+                    failure_class=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                    reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                    outcome_details={"metric_name": _id, "operation": "metadata_update"},
                 )
             raise
 

@@ -6,7 +6,11 @@ from typing import Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import CustomClient
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+from datadog_sync.utils.resource_utils import (
+    FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+    CustomClientHTTPError,
+    SkipResource,
+)
 
 
 def _error_body(error: CustomClientHTTPError) -> str:
@@ -69,10 +73,14 @@ class MetricPercentiles(BaseResource):
             await destination_client.patch(path, {"metric_names": [_id]})
         except CustomClientHTTPError as e:
             if _is_metric_not_found_error(e):
+                operation = "percentiles_enable" if resource.get("include_percentiles") else "percentiles_disable"
                 raise SkipResource(
                     _id,
                     self.resource_type,
                     "Metric not present on destination; percentiles cannot attach.",
+                    failure_class=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                    reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                    outcome_details={"metric_name": _id, "operation": operation},
                 )
             raise
 
