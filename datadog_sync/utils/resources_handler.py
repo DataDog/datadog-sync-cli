@@ -546,15 +546,10 @@ class ResourcesHandler:
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.worker.counter.increment_skipped()
             _reason, _fc = self._sanitize_reason(e)
-            self._emit(
-                resource_type,
-                _id,
-                "sync",
-                "skipped",
-                reason=_reason,
-                failure_class=_fc,
-                details=e.outcome_details,
-            )
+            emit_kwargs = {"reason": _reason, "failure_class": _fc}
+            if e.outcome_details:
+                emit_kwargs["details"] = e.outcome_details
+            self._emit(resource_type, _id, "sync", "skipped", **emit_kwargs)
             await r_class._send_action_metrics(Command.SYNC.value, _id, Status.SKIPPED.value, tags=["reason:unknown"])
         except ResourceConnectionError as e:
             self.config.logger.error(
@@ -651,15 +646,10 @@ class ResourcesHandler:
                     self.config.logger.warning(f"skipping resource: resource_type:{resource_type} id:{_id}")
                     self.config.logger.debug(str(e))
                     _reason, _fc = self._sanitize_reason(e)
-                    self._emit(
-                        resource_type,
-                        _id,
-                        "sync",
-                        "skipped",
-                        reason=_reason,
-                        failure_class=_fc,
-                        details=e.outcome_details,
-                    )
+                    emit_kwargs = {"reason": _reason, "failure_class": _fc}
+                    if e.outcome_details:
+                        emit_kwargs["details"] = e.outcome_details
+                    self._emit(resource_type, _id, "sync", "skipped", **emit_kwargs)
                     return
 
                 try:
@@ -942,15 +932,10 @@ class ResourcesHandler:
             # a downstream cascade would not want to grep these ids.
             self.worker.counter.increment_skipped()
             _reason, _fc = self._sanitize_reason(e)
-            self._emit(
-                resource_type,
-                _id,
-                "import",
-                "skipped",
-                reason=_reason,
-                failure_class=_fc,
-                details=e.outcome_details,
-            )
+            emit_kwargs = {"reason": _reason, "failure_class": _fc}
+            if e.outcome_details:
+                emit_kwargs["details"] = e.outcome_details
+            self._emit(resource_type, _id, "import", "skipped", **emit_kwargs)
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.SKIPPED.value)
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.debug(str(e))
@@ -1182,15 +1167,10 @@ class ResourcesHandler:
             self._emit(resource_type, _id, "import", "success")
         except SkipResource as e:
             _reason, _fc = self._sanitize_reason(e)
-            self._emit(
-                resource_type,
-                _id,
-                "import",
-                "skipped",
-                reason=_reason,
-                failure_class=_fc,
-                details=e.outcome_details,
-            )
+            emit_kwargs = {"reason": _reason, "failure_class": _fc}
+            if e.outcome_details:
+                emit_kwargs["details"] = e.outcome_details
+            self._emit(resource_type, _id, "import", "skipped", **emit_kwargs)
             self.config.logger.info(f"skipping dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
         except CustomClientHTTPError as e:
@@ -1234,15 +1214,10 @@ class ResourcesHandler:
             self._emit(resource_type, _id, "import", "success")
         except SkipResource as e:
             _reason, _fc = self._sanitize_reason(e)
-            self._emit(
-                resource_type,
-                _id,
-                "import",
-                "skipped",
-                reason=_reason,
-                failure_class=_fc,
-                details=e.outcome_details,
-            )
+            emit_kwargs = {"reason": _reason, "failure_class": _fc}
+            if e.outcome_details:
+                emit_kwargs["details"] = e.outcome_details
+            self._emit(resource_type, _id, "import", "skipped", **emit_kwargs)
             self.config.logger.info(f"skipping dependency: {str(e)}", resource_type=resource_type, _id=_id)
             return
         except CustomClientHTTPError as e:
@@ -1287,15 +1262,10 @@ class ResourcesHandler:
             # cascade signal. Numeric-only accounting.
             self.worker.counter.increment_skipped()
             _reason, _fc = self._sanitize_reason(e)
-            self._emit(
-                resource_type,
-                _id,
-                "delete",
-                "skipped",
-                reason=_reason,
-                failure_class=_fc,
-                details=e.outcome_details,
-            )
+            emit_kwargs = {"reason": _reason, "failure_class": _fc}
+            if e.outcome_details:
+                emit_kwargs["details"] = e.outcome_details
+            self._emit(resource_type, _id, "delete", "skipped", **emit_kwargs)
             await r_class._send_action_metrics("delete", _id, Status.SKIPPED.value, tags=["reason:unknown"])
             self.config.logger.info(f"skipping resource: {str(e)}", resource_type=resource_type, _id=_id)
             self.config.logger.info(f"skip deleting resource: {str(e)}", resource_type=resource_type, _id=_id)
