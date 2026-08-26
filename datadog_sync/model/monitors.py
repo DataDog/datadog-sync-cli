@@ -239,6 +239,22 @@ class Monitors(BaseResource):
             params={"force": "true"},
         )
 
+    def filter(self, resource: Dict) -> bool:
+        if not super().filter(resource):
+            return False
+
+        if getattr(self.config, "skip_monitors_with_restricted_roles", False) is True and resource.get(
+            "restricted_roles"
+        ):
+            self.config.logger.info(
+                "filtering monitor with restricted_roles because --skip-monitors-with-restricted-roles is enabled",
+                resource_type=self.resource_type,
+                _id=str(resource.get("id", "")),
+            )
+            return False
+
+        return True
+
     def connect_resources(self, _id: str, resource: Dict) -> ResourceConnectionResult:
         """Drop-aware override.
 
