@@ -12,7 +12,12 @@ from re import match
 
 from datadog_sync.constants import LOGGER_NAME, Metrics
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import DEFAULT_TAGS, SkipResource, check_diff
+from datadog_sync.utils.resource_utils import (
+    DEFAULT_TAGS,
+    FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED,
+    SkipResource,
+    check_diff,
+)
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -30,9 +35,14 @@ def _summarize_diff_keys(diff) -> List[str]:
     if not diff:
         return []
     keys = set()
-    for change_type in ("values_changed", "type_changes", "iterable_item_added",
-                        "iterable_item_removed", "dictionary_item_added",
-                        "dictionary_item_removed"):
+    for change_type in (
+        "values_changed",
+        "type_changes",
+        "iterable_item_added",
+        "iterable_item_removed",
+        "dictionary_item_added",
+        "dictionary_item_removed",
+    ):
         for path in diff.get(change_type, {}) or {}:
             # DeepDiff paths look like "root['is_enabled']" or "root['filter']['query']"
             # Extract the first bracketed segment.
@@ -110,18 +120,33 @@ class LogsPipelines(BaseResource):
                 "ddtags": ",".join(DEFAULT_TAGS),
                 "message": f"[datadog-sync-cli] Triggering creation of '{resource['name']}' integration pipeline",
             }
+            outcome_details = {
+                "pipeline_name": resource["name"],
+                "ddsource": source,
+            }
 
             # Submit a log to the logs intake API to trigger the creation of the integration pipeline
             override_url = self.config.destination_logs_intake_url
-            if override_url:
-                await destination_client.post_unauthenticated(override_url, payload)
-            else:
-                subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain}"
-                if destination_client.url_object.subdomain == "api":
-                    subdomain = self.logs_intake_subdomain
-                elif destination_client.url_object.subdomain.startswith("api."):
-                    subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain[4:]}"
-                await destination_client.post(self.logs_intake_path, payload, subdomain=subdomain)
+            try:
+                if override_url:
+                    await destination_client.post_unauthenticated(override_url, payload)
+                else:
+                    subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain}"
+                    if destination_client.url_object.subdomain == "api":
+                        subdomain = self.logs_intake_subdomain
+                    elif destination_client.url_object.subdomain.startswith("api."):
+                        subdomain = f"{self.logs_intake_subdomain}.{destination_client.url_object.subdomain[4:]}"
+                    await destination_client.post(self.logs_intake_path, payload, subdomain=subdomain)
+            except Exception as e:
+                _log.debug("logs_pipelines: integration pipeline bootstrap intake post failed: %s", e)
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    "Integration pipeline is not present on destination and requires bootstrap.",
+                    failure_class=FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED,
+                    reason=FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED,
+                    outcome_details=outcome_details,
+                )
 
             created = False
             for _ in range(12):
@@ -134,9 +159,14 @@ class LogsPipelines(BaseResource):
                     await sleep(5)
 
             if not created:
-                raise Exception(
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
                     f"Integration pipeline '{resource['name']}' is not created after x seconds. "
-                    "It will be rechecked in the next sync."
+                    "It will be rechecked in the next sync.",
+                    failure_class=FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED,
+                    reason=FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED,
+                    outcome_details=outcome_details,
                 )
 
         self.config.state.destination[self.resource_type][_id] = self.destination_integration_pipelines[
@@ -234,9 +264,7 @@ class LogsPipelines(BaseResource):
             )
         except Exception as e:
             # Never let metric emission block the return path.
-            self.config.logger.debug(
-                f"logs_pipelines: failed to emit integration_diff_skipped metric: {e}"
-            )
+            self.config.logger.debug(f"logs_pipelines: failed to emit integration_diff_skipped metric: {e}")
 
     async def delete_resource(self, _id: str) -> None:
         if self.config.state.destination[self.resource_type][_id]["is_read_only"]:

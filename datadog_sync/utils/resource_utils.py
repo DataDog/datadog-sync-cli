@@ -27,6 +27,9 @@ log = logging.getLogger(LOGGER_NAME)
 
 DEFAULT_TAGS = ["managed_by:datadog-sync"]
 
+FAILURE_CLASS_DESTINATION_METRIC_MISSING = "destination_metric_missing"
+FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED = "integration_pipeline_bootstrap_required"
+
 
 # aiohttp timeout family — both have empty ``str()``.
 _TIMEOUT_EXC_TYPES = (asyncio.TimeoutError, aiohttp.ServerTimeoutError)
@@ -53,7 +56,19 @@ def format_exc_for_log(exc: BaseException) -> str:
 
 
 class SkipResource(Exception):
-    def __init__(self, _id: str, _type: str, msg: str):
+    def __init__(
+        self,
+        _id: str,
+        _type: str,
+        msg: str,
+        *,
+        failure_class: str = "",
+        reason: Optional[str] = None,
+        outcome_details: Optional[Dict[str, str]] = None,
+    ):
+        self.failure_class = failure_class
+        self.outcome_reason = reason
+        self.outcome_details = outcome_details or {}
         super(SkipResource, self).__init__(f"Skipping {_type} with id: {_id}. {msg}")
 
 

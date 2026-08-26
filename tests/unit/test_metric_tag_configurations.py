@@ -10,7 +10,11 @@ from unittest.mock import AsyncMock
 import pytest
 
 from datadog_sync.model.metric_tag_configurations import MetricTagConfigurations
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+from datadog_sync.utils.resource_utils import (
+    FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+    CustomClientHTTPError,
+    SkipResource,
+)
 
 
 def _run(coro):
@@ -69,6 +73,11 @@ def test_create_resource_missing_destination_metric_raises_skip(metric_tag_confi
 
     assert "missing.metric" in str(exc_info.value)
     assert "not present on destination" in str(exc_info.value)
+    assert exc_info.value.failure_class == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+    assert exc_info.value.outcome_details == {
+        "metric_name": "missing.metric",
+        "operation": "tag_configuration_create",
+    }
     client.post.assert_awaited_once()
     client.get.assert_not_awaited()
     client.patch.assert_not_awaited()
@@ -124,6 +133,11 @@ def test_update_resource_missing_destination_metric_raises_skip(metric_tag_confi
 
     assert "missing.metric" in str(exc_info.value)
     assert "not present on destination" in str(exc_info.value)
+    assert exc_info.value.failure_class == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+    assert exc_info.value.outcome_details == {
+        "metric_name": "missing.metric",
+        "operation": "tag_configuration_update",
+    }
     client.patch.assert_awaited_once()
 
 

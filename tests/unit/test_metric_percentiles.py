@@ -10,7 +10,11 @@ from unittest.mock import AsyncMock
 import pytest
 
 from datadog_sync.model.metric_percentiles import MetricPercentiles
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
+from datadog_sync.utils.resource_utils import (
+    FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+    CustomClientHTTPError,
+    SkipResource,
+)
 
 
 def _run(coro):
@@ -78,6 +82,11 @@ def test_update_resource_missing_destination_metric_patch_raises_skip(metric_per
 
     assert "custom.metric" in str(exc_info.value)
     assert "not present on destination" in str(exc_info.value)
+    assert exc_info.value.failure_class == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+    assert exc_info.value.outcome_details == {
+        "metric_name": "custom.metric",
+        "operation": "percentiles_enable",
+    }
     client.get.assert_not_awaited()
     client.patch.assert_awaited_once()
 
@@ -97,6 +106,11 @@ def test_update_resource_metric_not_found_patch_raises_skip(metric_percentiles):
 
     assert "custom.metric" in str(exc_info.value)
     assert "not present on destination" in str(exc_info.value)
+    assert exc_info.value.failure_class == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+    assert exc_info.value.outcome_details == {
+        "metric_name": "custom.metric",
+        "operation": "percentiles_enable",
+    }
     client.get.assert_not_awaited()
     client.patch.assert_awaited_once()
 

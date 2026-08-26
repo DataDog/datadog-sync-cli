@@ -6,7 +6,13 @@
 import asyncio
 from unittest.mock import AsyncMock, patch
 
+import pytest
+
 from datadog_sync.model.logs_pipelines import LogsPipelines
+from datadog_sync.utils.resource_utils import (
+    FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED,
+    SkipResource,
+)
 
 
 def _make_integration_resource(name="nginx"):
@@ -152,6 +158,53 @@ def test_invalid_pipeline_no_intake_post(mock_config):
     mock_config.destination_client.post.assert_not_awaited()
 
 
+def test_integration_pipeline_intake_failure_raises_typed_bootstrap_skip(mock_config):
+    mock_config.destination_logs_intake_url = "https://evp.example/v2/track/logs/org/42"
+
+    lp = LogsPipelines(mock_config)
+    lp.destination_integration_pipelines = {}
+
+    mock_config.destination_client.post_unauthenticated = AsyncMock(side_effect=RuntimeError("intake unavailable"))
+    mock_config.destination_client.post = AsyncMock()
+
+    with pytest.raises(SkipResource) as exc_info:
+        asyncio.run(lp.create_resource("src-nginx", _make_integration_resource()))
+
+    assert exc_info.value.failure_class == FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED
+    assert exc_info.value.outcome_reason == FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED
+    assert exc_info.value.outcome_details == {
+        "pipeline_name": "nginx",
+        "ddsource": "nginx",
+    }
+    mock_config.destination_client.post_unauthenticated.assert_awaited_once()
+    mock_config.destination_client.post.assert_not_awaited()
+
+
+def test_integration_pipeline_not_observed_after_intake_raises_typed_bootstrap_skip(mock_config):
+    mock_config.destination_logs_intake_url = None
+    mock_config.destination_client.url_object.subdomain = "api"
+
+    lp = LogsPipelines(mock_config)
+    lp.destination_integration_pipelines = {}
+
+    mock_config.destination_client.get = AsyncMock(return_value=[])
+    mock_config.destination_client.post = AsyncMock()
+    mock_config.destination_client.post_unauthenticated = AsyncMock()
+
+    with patch("datadog_sync.model.logs_pipelines.sleep", new_callable=AsyncMock):
+        with pytest.raises(SkipResource) as exc_info:
+            asyncio.run(lp.create_resource("src-nginx", _make_integration_resource()))
+
+    assert exc_info.value.failure_class == FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED
+    assert exc_info.value.outcome_details == {
+        "pipeline_name": "nginx",
+        "ddsource": "nginx",
+    }
+    mock_config.destination_client.post.assert_awaited_once()
+    mock_config.destination_client.post_unauthenticated.assert_not_awaited()
+    assert mock_config.destination_client.get.await_count == 12
+
+
 # ── G/G 3: existing subdomain construction unchanged ─────────────────────────
 
 
@@ -278,8 +331,7 @@ def test_integration_pipeline_with_no_diff_skips_update_and_no_warn(mock_config,
 
     mock_config.destination_client.put.assert_not_awaited()
     integ_warnings = [
-        r for r in caplog.records
-        if r.levelname == "WARNING" and "integration pipeline" in r.getMessage()
+        r for r in caplog.records if r.levelname == "WARNING" and "integration pipeline" in r.getMessage()
     ]
     assert integ_warnings == []
     mock_config.destination_client.send_metric.assert_not_awaited()
@@ -425,8 +477,7 @@ def test_update_read_only_pipeline_no_diff_still_raises_skip(mock_config, caplog
     mock_config.destination_client.put.assert_not_awaited()
     # No diff → no divergence log or metric (guard fires silently).
     integ_warnings = [
-        r for r in caplog.records
-        if r.levelname == "WARNING" and "integration pipeline" in r.getMessage()
+        r for r in caplog.records if r.levelname == "WARNING" and "integration pipeline" in r.getMessage()
     ]
     assert integ_warnings == []
     mock_config.destination_client.send_metric.assert_not_awaited()
