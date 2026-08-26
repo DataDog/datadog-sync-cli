@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.22.0 / 2026-08-26
+
+### Fixed
+* Handle metric tag configuration destination conflicts by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/669
+### Added
+* feat(monitors): skip monitors with restricted roles by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/672
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.21.0...4.22.0
+
 ## 4.21.0 / 2026-08-13
 
 ### Fixed
