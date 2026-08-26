@@ -4,7 +4,9 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+from datetime import datetime, timedelta
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
+from copy import deepcopy
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
@@ -118,19 +120,21 @@ class Notebooks(BaseResource):
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        payload = {"data": resource}
+        payload = {"data": self._sanitize_for_api(resource)}
         resp = await destination_client.post(self.resource_config.base_path, payload)
+        self._restore_state_attrs(resp["data"], resource)
         self.handle_special_case_attr(resp["data"])
 
         return _id, resp["data"]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
-        payload = {"data": resource}
+        payload = {"data": self._sanitize_for_api(resource)}
         resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             payload,
         )
+        self._restore_state_attrs(resp["data"], resource)
         self.handle_special_case_attr(resp["data"])
 
         return _id, resp["data"]
@@ -156,3 +160,119 @@ class Notebooks(BaseResource):
         tags = resource["attributes"].get("tags")
         if tags:
             resource["attributes"]["tags"] = [t for t in tags if t.split(":")[0] not in Notebooks._ai_usage_tag_keys]
+
+    # ------------------------------------------------------------------
+    # API-payload sanitization + state restoration
+    # ------------------------------------------------------------------
+    # Two constructs in real source notebooks are rejected by the destination
+    # Notebooks API with 400 Bad Request, so the resource can never be synced:
+    #
+    #   1. `attributes.time` with start == end
+    #      -> {"errors":["API input validation failed: {'time': {'_schema':
+    #          ['Start time ... must be less than end time ...']}}"]}
+    #   2. a `sort` object inside a cell's `transformations` list carrying an
+    #      extra `"type":"sort"` key
+    #      -> {"errors":["API input validation failed: {'cells': {N: {'errors':
+    #          [{'detail': "$.query.query.transformations[0].sort: Additional
+    #          properties are not allowed ('type' was unexpected)"...}]}}}"]}
+    #
+    # The fix sends an API-safe *copy* to the destination (nudge start back
+    # one second; drop the offending `type` key) but leaves the resource
+    # stored in state untouched. Because the API stores the sanitized values,
+    # the raw response would differ from the source on exactly these fields
+    # and re-diff every run; `_restore_state_attrs` copies the original
+    # source values back onto the response before it is written to
+    # destination state, so source and destination state compare equal and
+    # the resource does not update every run.
+
+    @staticmethod
+    def _subtract_one_second(iso_str: str) -> str:
+        # datetime.fromisoformat (3.7+) does not accept a trailing 'Z' until
+        # 3.11; normalize so we work on every supported interpreter.
+        normalized = iso_str.replace("Z", "+00:00") if iso_str.endswith("Z") else iso_str
+        return (datetime.fromisoformat(normalized) - timedelta(seconds=1)).isoformat()
+
+    @staticmethod
+    def _sanitize_for_api(resource: Dict) -> Dict:
+        """Return a deep-copied, API-safe copy of `resource` for POST/PUT.
+
+        Mutates only the copy; the caller's `resource` (used for state and
+        diffing) is left byte-for-byte unchanged.
+        """
+        payload = deepcopy(resource)
+        attrs = payload.get("attributes", {})
+
+        # 1. time window: nudge start back one second when start == end so the
+        #    API's `start < end` validation passes.
+        time = attrs.get("time")
+        if isinstance(time, dict) and time.get("start") and time.get("end") and time["start"] == time["end"]:
+            time["start"] = Notebooks._subtract_one_second(time["start"])
+
+        # 2. strip the rejected `"type":"sort"` key from `sort` objects
+        #    anywhere in the cells tree (the API rejects it as an additional
+        #    property on transformation sort objects).
+        Notebooks._strip_sort_type(attrs.get("cells"))
+
+        return payload
+
+    @staticmethod
+    def _strip_sort_type(node) -> None:
+        """Recursively remove `type` from `sort` dicts whose value is "sort".
+
+        Only transformation sort objects carry `"type":"sort"`; other sort
+        shapes (e.g. `{"count": N, "order_by": [...]}`) do not, so this
+        is a no-op on them.
+        """
+        if isinstance(node, dict):
+            sort = node.get("sort")
+            if isinstance(sort, dict) and sort.get("type") == "sort":
+                sort.pop("type", None)
+            for value in node.values():
+                Notebooks._strip_sort_type(value)
+        elif isinstance(node, list):
+            for item in node:
+                Notebooks._strip_sort_type(item)
+
+    @staticmethod
+    def _restore_state_attrs(dest: Dict, source: Dict) -> None:
+        """Copy the sanitized fields back from `source` onto the API response
+        `dest` so destination state compares equal to source state.
+
+        The destination API stores the sanitized payload (start nudged, sort
+        `type` dropped) and returns those values; without restoration the
+        destination would diff from the source every run and trigger a
+        perpetual update. We restore exactly the fields we sanitized:
+        `attributes.time` and the `type` key on `sort` objects.
+        """
+        dest_attrs = dest.get("attributes", {})
+        source_attrs = source.get("attributes", {})
+
+        if "time" in source_attrs:
+            dest_attrs["time"] = deepcopy(source_attrs["time"])
+
+        Notebooks._restore_sort_type(source_attrs.get("cells"), dest_attrs.get("cells"))
+
+    @staticmethod
+    def _restore_sort_type(src, dst) -> None:
+        """Walk `src` and `dst` in parallel; where `src` has a `sort` dict
+        carrying a `type` key, stamp that `type` onto the parallel `sort`
+        dict in `dst`.
+
+        The API strips `type` from sort on read, so without this the
+        destination sort would be missing `type` and diff from source. The
+        walk assumes structural parity between source and the API response
+        (same keys / list lengths), which holds because the response echoes
+        the payload we sent.
+        """
+        if isinstance(src, dict) and isinstance(dst, dict):
+            src_sort = src.get("sort")
+            if isinstance(src_sort, dict) and "type" in src_sort:
+                dst_sort = dst.get("sort")
+                if isinstance(dst_sort, dict):
+                    dst_sort["type"] = src_sort["type"]
+            for key, src_value in src.items():
+                if key in dst:
+                    Notebooks._restore_sort_type(src_value, dst[key])
+        elif isinstance(src, list) and isinstance(dst, list):
+            for src_item, dst_item in zip(src, dst):
+                Notebooks._restore_sort_type(src_item, dst_item)
