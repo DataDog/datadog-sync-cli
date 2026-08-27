@@ -15,7 +15,7 @@ import asyncio
 from unittest.mock import AsyncMock, MagicMock
 
 from datadog_sync.utils.base_resource import ResourceConfig, ResourceConnectionResult
-from datadog_sync.utils.resource_utils import ResourceConnectionError
+from datadog_sync.utils.resource_utils import ResourceConnectionError, SkipResource
 from datadog_sync.utils.resources_handler import ResourcesHandler
 
 
@@ -103,6 +103,43 @@ def test_ordinary_connection_error_has_no_risk_tag(mock_config):
     assert "reason:connection_error" in tags
     assert "risk:empty_restriction_policy" not in tags
     handler.worker.counter.record_empty_binding_risk.assert_not_called()
+
+
+def test_diffs_connect_resources_skip_is_skipped_outcome(mock_config):
+    """Diffs should treat model-level typed skips from connect_resources as
+    skipped outcomes, not unexpected failures.
+    """
+    resource_type = "dashboards"
+    _id = "dash-stale"
+    exc = SkipResource(
+        _id,
+        resource_type,
+        "stale dependencies absent from source and destination: powerpacks=[pp-stale]",
+        failure_class="stale_dependency",
+        reason="stale_dependency",
+        outcome_details={"powerpacks": "1"},
+    )
+    r_class = MagicMock()
+    r_class.connect_resources = MagicMock(side_effect=exc)
+    r_class._pre_resource_action_hook = AsyncMock()
+    mock_config.resources = {resource_type: r_class}
+    mock_config.state.source[resource_type][_id] = {"id": _id}
+
+    handler = ResourcesHandler(mock_config)
+    handler._emit = MagicMock()
+
+    asyncio.run(handler._diffs_worker_cb((resource_type, _id, False)))
+
+    mock_config.logger.exception.assert_not_called()
+    handler._emit.assert_called_once_with(
+        resource_type,
+        _id,
+        "sync",
+        "skipped",
+        reason="stale_dependency",
+        failure_class="stale_dependency",
+        details={"powerpacks": "1"},
+    )
 
 
 def test_successful_update_after_suppressed_empty_binding_risk_is_tagged_and_recorded(mock_config):
