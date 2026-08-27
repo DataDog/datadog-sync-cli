@@ -27,8 +27,120 @@ def _http_error(status, message="err"):
 def metrics_metadata():
     mock_config = MagicMock()
     mock_config.state = MagicMock()
+    mock_config.source_client = AsyncMock()
     mock_config.destination_client = AsyncMock()
     return MetricsMetadata(mock_config)
+
+
+def test_import_resource_with_metadata_returns_source_metadata(metrics_metadata):
+    client = metrics_metadata.config.source_client
+    client.get = AsyncMock(return_value={"description": "source", "type": "rate", "unit": None})
+
+    _id, resource = asyncio.run(metrics_metadata.import_resource(resource={"id": "custom.metric"}))
+
+    assert _id == "custom.metric"
+    assert resource == {"description": "source", "type": "rate", "unit": None}
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
+
+
+def test_import_resource_all_null_metadata_uses_tag_configuration_type(metrics_metadata):
+    client = metrics_metadata.config.source_client
+    client.get = AsyncMock(
+        side_effect=[
+            {
+                "description": None,
+                "short_name": None,
+                "type": None,
+                "unit": None,
+                "per_unit": None,
+                "statsd_interval": None,
+                "integration": None,
+            },
+            {
+                "data": {
+                    "id": "custom.metric",
+                    "type": "manage_tags",
+                    "attributes": {"metric_type": "RATE", "tags": ["env"]},
+                }
+            },
+        ]
+    )
+
+    _id, resource = asyncio.run(metrics_metadata.import_resource(resource={"id": "custom.metric"}))
+
+    assert _id == "custom.metric"
+    assert resource == {"type": "rate"}
+    assert client.get.await_args_list[0].args == ("/api/v1/metrics/custom.metric",)
+    assert client.get.await_args_list[1].args == ("/api/v2/metrics/custom.metric/tags",)
+
+
+def test_import_resource_all_null_metadata_without_tag_configuration_type_skips(metrics_metadata):
+    client = metrics_metadata.config.source_client
+    client.get = AsyncMock(
+        side_effect=[
+            {
+                "description": None,
+                "short_name": None,
+                "type": None,
+                "unit": None,
+                "per_unit": None,
+                "statsd_interval": None,
+                "integration": None,
+            },
+            {"data": {"id": "custom.metric", "attributes": {"tags": ["env"]}}},
+        ]
+    )
+
+    with pytest.raises(SkipResource) as exc_info:
+        asyncio.run(metrics_metadata.import_resource(resource={"id": "custom.metric"}))
+
+    assert "Metric has no metadata" in str(exc_info.value)
+
+
+def test_import_resource_all_null_metadata_tag_configuration_error_skips(metrics_metadata):
+    client = metrics_metadata.config.source_client
+    client.get = AsyncMock(
+        side_effect=[
+            {
+                "description": None,
+                "short_name": None,
+                "type": None,
+                "unit": None,
+                "per_unit": None,
+                "statsd_interval": None,
+                "integration": None,
+            },
+            _http_error(403, "Forbidden"),
+        ]
+    )
+
+    with pytest.raises(SkipResource) as exc_info:
+        asyncio.run(metrics_metadata.import_resource(resource={"id": "custom.metric"}))
+
+    assert "Metric has no metadata" in str(exc_info.value)
+
+
+def test_import_resource_all_null_metadata_with_distribution_tag_type_skips(metrics_metadata):
+    client = metrics_metadata.config.source_client
+    client.get = AsyncMock(
+        side_effect=[
+            {
+                "description": None,
+                "short_name": None,
+                "type": None,
+                "unit": None,
+                "per_unit": None,
+                "statsd_interval": None,
+                "integration": None,
+            },
+            {"data": {"id": "custom.metric", "attributes": {"metric_type": "distribution"}}},
+        ]
+    )
+
+    with pytest.raises(SkipResource) as exc_info:
+        asyncio.run(metrics_metadata.import_resource(resource={"id": "custom.metric"}))
+
+    assert "Metric has no metadata" in str(exc_info.value)
 
 
 def test_update_resource_dest_exists_calls_put(metrics_metadata):
