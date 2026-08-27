@@ -3,10 +3,11 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
+from collections import defaultdict
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
-from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, TaggingConfig
-from datadog_sync.utils.resource_utils import SkipResource
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, ResourceConnectionResult, TaggingConfig
+from datadog_sync.utils.resource_utils import SkipResource, find_attr
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -74,6 +75,72 @@ class ServiceLevelObjectives(BaseResource):
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             params={"force": "true"},
         )
+
+    def connect_resources(self, _id: str, resource: Dict) -> ResourceConnectionResult:
+        if not self.resource_config.resource_connections:
+            return ResourceConnectionResult()
+
+        failed_connections_dict = defaultdict(list)
+        stale_connections_dict = defaultdict(list)
+        c = find_attr(
+            "monitor_ids",
+            "monitors",
+            resource,
+            lambda key, r_obj, rtc: self._connect_monitor_id_or_classify_stale(key, r_obj, stale_connections_dict),
+        )
+        if c:
+            failed_connections_dict["monitors"].extend(c)
+
+        self._raise_connection_error_if_any(_id, failed_connections_dict)
+        self._raise_stale_dependency_skip(_id, stale_connections_dict)
+
+        return ResourceConnectionResult()
+
+    def _connect_monitor_id_or_classify_stale(
+        self,
+        key: str,
+        r_obj: Dict,
+        stale_connections_dict: Dict[str, List[str]],
+    ) -> Optional[List[str]]:
+        monitor_ids = r_obj.get(key)
+        if not monitor_ids:
+            return None
+
+        failed_connections = []
+        for i, obj in enumerate(monitor_ids):
+            _id = str(obj)
+            resolved = self._destination_monitor_id_for_slo(_id)
+            if resolved is not None:
+                r_obj[key][i] = type(obj)(resolved)
+                continue
+            if self._source_has_slo_monitor_dependency(_id):
+                failed_connections.append(_id)
+            else:
+                stale_connections_dict["monitors"].append(_id)
+        return failed_connections or None
+
+    def _destination_monitor_id_for_slo(self, _id: str) -> Optional[str]:
+        monitors = self.config.state.destination["monitors"]
+        if _id in monitors:
+            return monitors[_id]["id"]
+
+        self.config.state.ensure_resource_loaded("monitors", _id)
+        monitors = self.config.state.destination["monitors"]
+        if _id in monitors:
+            return monitors[_id]["id"]
+
+        self.config.state.ensure_resource_type_loaded("synthetics_tests")
+        synthetics_tests = self.config.state.destination["synthetics_tests"]
+        for k, v in synthetics_tests.items():
+            if k.endswith("#" + _id):
+                return v["monitor_id"]
+        return None
+
+    def _source_has_slo_monitor_dependency(self, _id: str) -> bool:
+        if _id in self.config.state.source["monitors"]:
+            return True
+        synthetics_tests = self.config.state.source["synthetics_tests"]
+        return any(k.endswith("#" + _id) for k in synthetics_tests)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         monitors = self.config.state.destination["monitors"]

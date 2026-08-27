@@ -349,3 +349,43 @@ class TestDashboardsConnectResourcesDrop:
         d = self._make_dashboard(drop=True)
         resource = {"id": "abc"}  # no restricted_roles at all
         d.connect_resources("abc", resource)  # no raise, nothing to do
+
+    def test_stale_slo_widget_raises_typed_skip(self):
+        d = self._make_dashboard()
+        resource = {
+            "id": "abc-def-ghi",
+            "widgets": [{"definition": {"slo_id": "slo-gone"}}],
+        }
+
+        with pytest.raises(SkipResource) as exc_info:
+            d.connect_resources("abc-def-ghi", resource)
+
+        assert exc_info.value.failure_class == "stale_dependency"
+        assert exc_info.value.outcome_reason == "stale_dependency"
+        assert exc_info.value.outcome_details == {"service_level_objectives": "slo-gone"}
+        d.config.state.ensure_resource_loaded.assert_any_call("service_level_objectives", "slo-gone")
+
+    def test_source_present_slo_widget_still_hard_fails(self):
+        d = self._make_dashboard()
+        d.config.state.source["service_level_objectives"]["slo-src"] = {"id": "slo-src"}
+        resource = {
+            "id": "abc-def-ghi",
+            "widgets": [{"definition": {"slo_id": "slo-src"}}],
+        }
+
+        with pytest.raises(ResourceConnectionError):
+            d.connect_resources("abc-def-ghi", resource)
+
+        assert resource["widgets"][0]["definition"]["slo_id"] == "slo-src"
+
+    def test_destination_present_slo_widget_is_mapped(self):
+        d = self._make_dashboard()
+        d.config.state.destination["service_level_objectives"]["slo-src"] = {"id": "slo-dst"}
+        resource = {
+            "id": "abc-def-ghi",
+            "widgets": [{"definition": {"slo_id": "slo-src"}}],
+        }
+
+        d.connect_resources("abc-def-ghi", resource)
+
+        assert resource["widgets"][0]["definition"]["slo_id"] == "slo-dst"

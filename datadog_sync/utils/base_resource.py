@@ -16,6 +16,7 @@ from datadog_sync.utils.resource_utils import (
     DEFAULT_TAGS,
     CustomClientHTTPError,
     FilteredResource,
+    FAILURE_CLASS_STALE_DEPENDENCY,
     SkipResource,
     find_attr,
     ResourceConnectionError,
@@ -485,6 +486,64 @@ class BaseResource(abc.ABC):
         if plain_id in self.config.state.source[resource_to_connect]:
             return None, False
         return None, True
+
+    def _connect_id_or_classify_stale(
+        self,
+        key: str,
+        r_obj: Dict,
+        resource_to_connect: str,
+        stale_connections_dict: Dict[str, List[str]],
+    ) -> Optional[List[str]]:
+        """Resolve a regular resource dependency and classify permanent misses.
+
+        This mirrors connect_id for non-principal references (dashboard widget
+        monitor/SLO/powerpack IDs, etc.) but separates source-present misses
+        from source-absent stale references. Callers can keep retrying the
+        source-present class and turn the source-absent class into a terminal
+        typed skip without mutating the resource into a partial copy.
+        """
+        value = r_obj.get(key)
+        if not value:
+            return None
+
+        failed: List[str] = []
+
+        def resolve_one(v):
+            plain_id = str(v)
+            resolved, stale = self._resolve_or_drop(plain_id, resource_to_connect)
+            if resolved is not None:
+                return type(v)(resolved)
+            if stale:
+                stale_connections_dict[resource_to_connect].append(plain_id)
+            else:
+                failed.append(plain_id)
+            return v
+
+        if isinstance(value, list):
+            r_obj[key] = [resolve_one(v) for v in value]
+        else:
+            r_obj[key] = resolve_one(value)
+
+        return failed or None
+
+    def _raise_stale_dependency_skip(self, _id: str, stale_connections_dict: Dict[str, List[str]]) -> None:
+        details = {
+            resource_type: ",".join(sorted(set(ids)))
+            for resource_type, ids in stale_connections_dict.items()
+            if ids
+        }
+        if not details:
+            return
+
+        formatted = ", ".join(f"{resource_type}=[{ids}]" for resource_type, ids in sorted(details.items()))
+        raise SkipResource(
+            _id,
+            self.resource_type,
+            f"stale dependencies absent from source and destination: {formatted}",
+            failure_class=FAILURE_CLASS_STALE_DEPENDENCY,
+            reason="stale_dependency",
+            outcome_details=details,
+        )
 
     # Composite "type:id" principal type prefixes -> the resource_to_connect they map to.
     _PRINCIPAL_TYPE_MAP: ClassVar[Dict[str, str]] = {"user": "users", "role": "roles", "team": "teams"}

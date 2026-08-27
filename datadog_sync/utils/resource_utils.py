@@ -29,6 +29,7 @@ DEFAULT_TAGS = ["managed_by:datadog-sync"]
 
 FAILURE_CLASS_DESTINATION_METRIC_MISSING = "destination_metric_missing"
 FAILURE_CLASS_INTEGRATION_PIPELINE_BOOTSTRAP_REQUIRED = "integration_pipeline_bootstrap_required"
+FAILURE_CLASS_STALE_DEPENDENCY = "stale_dependency"
 
 
 # aiohttp timeout family — both have empty ``str()``.

@@ -101,7 +101,18 @@ class DashboardLists(BaseResource):
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        if resource_to_connect == "dashboards" and self._is_integration_dashboard(r_obj):
+            return None
         return super(DashboardLists, self).connect_id(key, r_obj, resource_to_connect)
+
+    def extract_source_ids(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+        if resource_to_connect == "dashboards" and self._is_integration_dashboard(r_obj):
+            return None
+        return super().extract_source_ids(key, r_obj, resource_to_connect)
+
+    @staticmethod
+    def _is_integration_dashboard(r_obj: Dict) -> bool:
+        return str(r_obj.get("type", "")).startswith("integration_")
 
     async def update_dash_list_items(self, _id: str, dashboards: Dict, dashboard_list: dict):
         payload = {"dashboards": dashboards}
