@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.23.0 / 2026-08-27
+
+### Fixed
+* fix(notebooks): sanitize 400-rejecting time/sort payloads without mutating state by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/676
+* Fix metric metadata bootstrap and sync edge cases by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/677
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.22.0...4.23.0
+
 ## 4.22.0 / 2026-08-26
 
 ### Fixed
