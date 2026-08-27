@@ -191,6 +191,8 @@ class ResourcesHandler:
         self.cleanup_sorter: Optional[TopologicalSorter] = None
         self.worker: Optional[Workers] = None
         self._dependency_graph: Optional[Dict[Tuple[str, str], Set[Tuple[str, str]]]] = None
+        self._import_attempts_by_type: Dict[str, int] = defaultdict(int)
+        self._import_transient_failures_by_type: Dict[str, int] = defaultdict(int)
 
     @staticmethod
     def _sanitize_reason(err: Exception) -> Tuple[str, str]:
@@ -210,11 +212,20 @@ class ResourcesHandler:
 
         Common HTTP/transport failure_class values:
             http_4xx_403  http_4xx_404  http_4xx_429  http_4xx_other
-            http_5xx  http_timeout  http_connection  unknown
+            http_5xx  http_timeout  http_connection  http_retry_exhausted
+            connection_error  unknown
+
+        ``http_connection`` covers transport-level failures
+        (aiohttp.ClientError: DNS, connection refused, TCP reset,
+        ServerDisconnectedError) — transient, same class as 5xx/429.
+        ``connection_error`` covers ResourceConnectionError (unresolved
+        resource references) — permanent, the referenced resource is gone.
 
         Resource models may also attach domain-specific classes to SkipResource
         for terminal-but-actionable skips, such as destination_metric_missing.
         """
+        import aiohttp
+
         if isinstance(err, SkipResource):
             return err.outcome_reason or type(err).__name__, err.failure_class or "unknown"
         if isinstance(err, CustomClientHTTPError):
@@ -235,9 +246,45 @@ class ResourcesHandler:
             return reason, "unknown"
         if isinstance(err, (asyncio.TimeoutError, TimeoutError)):
             return "TimeoutError", "http_timeout"
+        if isinstance(err, (aiohttp.ClientConnectionError, aiohttp.ClientPayloadError)):
+            # Transport-level failures (DNS, connection refused, TCP reset,
+            # ServerDisconnectedError).  Transient — mirrors the classification
+            # in get_resources_by_ids (base_resource.py).
+            return f"connection error: {type(err).__name__}", "http_connection"
         if isinstance(err, ResourceConnectionError):
-            return "connection_error", "http_connection"
+            # Unresolved resource references — the referenced resource is
+            # gone, not a transient transport failure.  Permanent.
+            return "connection_error", "connection_error"
+        if type(err) is Exception and str(err).startswith("retry limit exceeded "):
+            # request_with_retry currently raises a plain Exception when its
+            # loop budget is exhausted. Keep the response body out of emitted
+            # outcomes while preserving its transient semantics.
+            return "retry limit exceeded", "http_retry_exhausted"
         return type(err).__name__, "unknown"
+
+    def _enforce_import_transient_failure_budget(self) -> None:
+        """Mark the import fatal when a resource type exceeds its transient budget.
+
+        Evaluation happens after the worker phase so every resource gets a
+        chance to import and partial state can be persisted before the command
+        returns non-zero.
+        """
+        threshold = getattr(self.config, "transient_failure_threshold_pct", 5)
+        for resource_type, transient_failures in self._import_transient_failures_by_type.items():
+            attempts = self._import_attempts_by_type[resource_type]
+            if attempts == 0 or transient_failures == 0:
+                continue
+            if transient_failures * 100 < threshold * attempts:
+                continue
+            self.config.logger.error(
+                "transient import failure threshold exceeded for %s: "
+                "%d of %d attempted resources failed (threshold %d%%)",
+                resource_type,
+                transient_failures,
+                attempts,
+                threshold,
+            )
+            self.config.fatal_error = True
 
     def _emit(
         self,
@@ -717,6 +764,8 @@ class ResourcesHandler:
 
     async def import_resources_without_saving(self) -> None:
         self.config.state.clear_source_authoritative(self.config.resources_arg)
+        self._import_attempts_by_type = defaultdict(int)
+        self._import_transient_failures_by_type = defaultdict(int)
 
         # Get all resources for each resource type
         tmp_storage = defaultdict(list)
@@ -757,6 +806,7 @@ class ResourcesHandler:
             await self.worker.schedule_workers_with_pbar(total=total)
         else:
             await self.worker.schedule_workers()
+        self._enforce_import_transient_failure_budget()
         import_failures = self.worker.counter.failure
         if get_failures == 0 and import_failures == 0:
             # Only types WITHOUT an id-file scoping are authoritative after this
@@ -786,9 +836,8 @@ class ResourcesHandler:
             (time.perf_counter_ns() - per_resource_start_ns) // 1_000_000,
         )
 
-        # If a per-type transient-failure budget was breached during the id-file
-        # path, exit non-zero with a rate-limit-shaped log marker so downstream
-        # consumers that scan subprocess output can detect the rate-limit signal.
+        # If a per-type transient-failure budget was breached during either
+        # import path, exit non-zero after all resources had a chance to run.
         # IMPORTANT: dump partial state BEFORE exit so resources fetched
         # successfully before the threshold breach are not lost on retry.
         # sys.exit(1) here would otherwise skip state.dump_state in the parent
@@ -920,6 +969,14 @@ class ResourcesHandler:
             self._emit(resource_type, _id, "import", "filtered")
             return
 
+        # Some embedders and focused tests construct the handler without
+        # running __init__; initialize the accounting buckets at the worker
+        # boundary as a defensive fallback.
+        if not hasattr(self, "_import_attempts_by_type"):
+            self._import_attempts_by_type = defaultdict(int)
+        if not hasattr(self, "_import_transient_failures_by_type"):
+            self._import_transient_failures_by_type = defaultdict(int)
+        self._import_attempts_by_type[resource_type] += 1
         try:
             await r_class._import_resource(resource=resource)
             self.worker.counter.increment_success()
@@ -953,12 +1010,36 @@ class ResourcesHandler:
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, _id, "import", "failure", reason=_reason, failure_class=_fc)
             await r_class._send_action_metrics(Command.IMPORT.value, _id, Status.FAILURE.value)
-            # Attach exception detail at ERROR level (previously DEBUG-only, invisible at default verbosity).
-            self.config.logger.error(
-                f"error while importing resource: {format_exc_for_log(e)}",
-                resource_type=resource_type,
-                _id=_id,
-            )
+            # Transient HTTP errors (5xx / 429 / timeout / connection) on a
+            # single resource's GET must not poison the process exit code.
+            # logger.error sets exception_logged, which run_cmd checks to decide
+            # exit(1); a single transient failure on one resource would
+            # otherwise fail the whole run.  Log transient failures at WARNING
+            # so the run completes; the failure is still counted and emitted
+            # above.  This mirrors the classification that get_resources_by_ids
+            # (the --id-file path) already applies.  Permanent errors (4xx
+            # other than 429) and non-HTTP exceptions stay at ERROR.
+            if _fc in (
+                "http_5xx",
+                "http_4xx_429",
+                "http_timeout",
+                "http_connection",
+                "http_retry_exhausted",
+            ):
+                self._import_transient_failures_by_type[resource_type] += 1
+                self.config.logger.warning(
+                    f"transient error while importing resource: {format_exc_for_log(e)}",
+                    resource_type=resource_type,
+                    _id=_id,
+                )
+            else:
+                # Attach exception detail at ERROR level (previously DEBUG-only,
+                # invisible at default verbosity).
+                self.config.logger.error(
+                    f"error while importing resource: {format_exc_for_log(e)}",
+                    resource_type=resource_type,
+                    _id=_id,
+                )
 
     async def prune(self) -> None:
         """Delete per-resource state files for source IDs no longer present.

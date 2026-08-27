@@ -238,8 +238,9 @@ _common_options = [
         required=False,
         default=5,
         type=int,
-        help="Percentage of transient (5xx/429/timeout) failures within an --id-file "
-        "fetch that triggers a rate-limit-shaped exit. Default 5.",
+        help="Percentage of transient (5xx/429/timeout/connection/retry-exhaustion) "
+        "failures within a resource type that makes import return non-zero after "
+        "saving partial state. Applies to full-list and --id-file imports. Default 5.",
         cls=CustomOptionClass,
     ),
     option(

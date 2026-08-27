@@ -8,7 +8,7 @@ import copy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
+from datadog_sync.utils.resource_utils import check_diff
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -38,17 +38,21 @@ class DashboardLists(BaseResource):
 
         resource = cast(dict, resource)
         _id = str(resource["id"])
-        resp = None
-        try:
-            resp = await source_client.get(self.dash_list_items_path.format(_id))
-        except CustomClientHTTPError as e:
-            self.config.logger.error("error retrieving dashboard_lists items %s", e)
+        # Fetch the list's dashboard items.  A transient 5xx here must
+        # propagate so the per-resource import worker counts this resource
+        # as a failure and writes no incomplete source state.  Swallowing
+        # the error and persisting dashboards=[] would let a later sync
+        # interpret a transient read failure as an intentionally empty
+        # list and clear destination membership — destructive data loss
+        # from a transient API error.  The worker classifies 5xx as
+        # http_5xx (transient): counted as failure, logged at WARNING,
+        # no exit-code poisoning, no state written.
+        resp = await source_client.get(self.dash_list_items_path.format(_id))
 
         resource["dashboards"] = []
-        if resp:
-            for dash in resp.get("dashboards", []):
-                dash_list_item = {"id": dash["id"], "type": dash["type"]}
-                resource["dashboards"].append(dash_list_item)
+        for dash in resp.get("dashboards", []):
+            dash_list_item = {"id": dash["id"], "type": dash["type"]}
+            resource["dashboards"].append(dash_list_item)
 
         return _id, resource
 

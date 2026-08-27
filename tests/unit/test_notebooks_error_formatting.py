@@ -177,14 +177,26 @@ def test_apply_cb_http_error_message_preserved(mock_config):
     assert "upstream is down" in args[0], f"HTTP body must be preserved; got {args[0]!r}"
 
 
-def test_import_path_empty_timeout_surfaces_marker_at_error_level(mock_config):
-    """Import path must surface the 'timeout:' marker at ERROR level (not DEBUG-only)."""
+def test_import_path_empty_timeout_surfaces_marker_at_warning_level(mock_config):
+    """Import path must surface the 'timeout:' marker at WARNING level (not
+    DEBUG-only, and not ERROR).
+
+    A timeout on a single resource's per-id GET is transient — it is one
+    resource failing, not the whole run.  Logging at ERROR would set
+    exception_logged and cause run_cmd to exit(1), poisoning the entire
+    import for a single transient failure.  WARNING surfaces the marker
+    visibly without poisoning the exit code, mirroring the 5xx/429
+    classification in get_resources_by_ids.
+    """
     exc = aiohttp.ServerTimeoutError()
     _drive_import_resource(mock_config, "notebooks", "n-5", exc)
 
-    error_calls = list(mock_config.logger.error.call_args_list)
-    formatted_msgs = [c.args[0] for c in error_calls if c.args]
+    # Must NOT be logged at ERROR (would poison exit code).
+    mock_config.logger.error.assert_not_called()
+    # Must be logged at WARNING with the timeout marker.
+    warning_calls = list(mock_config.logger.warning.call_args_list)
+    formatted_msgs = [c.args[0] for c in warning_calls if c.args]
     timeout_marked = [m for m in formatted_msgs if "timeout" in m.lower()]
     assert (
         timeout_marked
-    ), f"import path must surface 'timeout' marker at ERROR level; got error msgs={formatted_msgs!r}"
+    ), f"import path must surface 'timeout' marker at WARNING level; got warning msgs={formatted_msgs!r}"
