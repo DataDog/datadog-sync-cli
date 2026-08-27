@@ -7,6 +7,7 @@ import asyncio
 import json
 import logging
 import re
+from collections import defaultdict
 from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
@@ -19,12 +20,13 @@ from dateutil.rrule import rrulestr
 from dateutil.tz import datetime_exists, gettz
 
 from datadog_sync.constants import LOGGER_NAME
-from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, ResourceConnectionResult
 from datadog_sync.utils.custom_client import PaginationConfig
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
     DowntimeSchedulesDateOperator,
     SkipResource,
+    find_attr,
 )
 
 if TYPE_CHECKING:
@@ -840,6 +842,68 @@ class DowntimeSchedules(BaseResource):
                 log.info(f"[downtime_schedules - {_id}] already deleted on destination")
                 return
             raise
+
+    def _connect_monitor_id_or_skip_stale(
+        self,
+        downtime_id: str,
+        key: str,
+        r_obj: Dict,
+        resource_to_connect: str,
+    ) -> Optional[List[str]]:
+        if resource_to_connect != "monitors":
+            return super(DowntimeSchedules, self).connect_id(key, r_obj, resource_to_connect)
+        if not r_obj.get(key):
+            return None
+
+        failed_connections = []
+        ids = r_obj[key] if isinstance(r_obj[key], list) else [r_obj[key]]
+        for idx, value in enumerate(ids):
+            source_monitor_id = str(value)
+            destination_monitors = self.config.state.destination[resource_to_connect]
+            if source_monitor_id not in destination_monitors:
+                self.config.state.ensure_resource_loaded(resource_to_connect, source_monitor_id)
+                destination_monitors = self.config.state.destination[resource_to_connect]
+
+            if source_monitor_id in destination_monitors:
+                resolved = type(value)(destination_monitors[source_monitor_id]["id"])
+                if isinstance(r_obj[key], list):
+                    r_obj[key][idx] = resolved
+                else:
+                    r_obj[key] = resolved
+            elif source_monitor_id in self.config.state.source[resource_to_connect]:
+                failed_connections.append(source_monitor_id)
+            else:
+                raise SkipResource(
+                    str(downtime_id),
+                    self.resource_type,
+                    f"Downtime references stale monitor {source_monitor_id}.",
+                )
+
+        return failed_connections
+
+    def connect_resources(self, _id: str, resource: Dict) -> ResourceConnectionResult:
+        if not self.resource_config.resource_connections:
+            return ResourceConnectionResult()
+
+        failed_connections_dict = defaultdict(list)
+        for resource_to_connect, attrs in self.resource_config.resource_connections.items():
+            for attr_connection in attrs:
+                c = find_attr(
+                    attr_connection,
+                    resource_to_connect,
+                    resource,
+                    lambda key, r_obj, rt: self._connect_monitor_id_or_skip_stale(
+                        _id,
+                        key,
+                        r_obj,
+                        rt,
+                    ),
+                )
+                if c:
+                    failed_connections_dict[resource_to_connect].extend(c)
+
+        self._raise_connection_error_if_any(_id, failed_connections_dict)
+        return ResourceConnectionResult()
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(DowntimeSchedules, self).connect_id(key, r_obj, resource_to_connect)

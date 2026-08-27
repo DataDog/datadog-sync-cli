@@ -27,7 +27,7 @@ from dateutil.parser import parse
 from freezegun import freeze_time
 
 from datadog_sync.model.downtime_schedules import DowntimeSchedules
-from datadog_sync.utils.resource_utils import SkipResource, check_diff
+from datadog_sync.utils.resource_utils import ResourceConnectionError, SkipResource, check_diff
 
 
 def _run(coro):
@@ -55,6 +55,10 @@ def _future_iso(seconds_ahead: int = 3600) -> str:
 
 def _make_resource(schedule):
     return {"attributes": {"schedule": schedule}}
+
+
+def _make_monitor_downtime(monitor_id):
+    return {"attributes": {"monitor_identifier": {"monitor_id": monitor_id}}}
 
 
 def test_past_start_bumped_forward(mock_config):
@@ -165,6 +169,42 @@ def test_start_only_no_end_field(mock_config):
     schedule = resource["attributes"]["schedule"]
     assert "end" not in schedule
     assert parse(schedule["start"]).timestamp() > _now_ts() - 5
+
+
+def test_connect_resources_skips_stale_monitor_dependency(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    mock_config.skip_failed_resource_connections = False
+    resource = _make_monitor_downtime(217900730)
+
+    with pytest.raises(SkipResource, match="stale monitor 217900730"):
+        downtime.connect_resources("downtime-source-test", resource)
+
+
+def test_connect_resources_keeps_not_yet_synced_monitor_failure(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    mock_config.skip_failed_resource_connections = False
+    mock_config.state.source["monitors"]["217900730"] = {"id": 217900730}
+    resource = _make_monitor_downtime(217900730)
+
+    with pytest.raises(ResourceConnectionError, match="217900730"):
+        downtime.connect_resources("downtime-source-test", resource)
+
+
+def test_connect_resources_remaps_monitor_loaded_lazily(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    resource = _make_monitor_downtime(217900730)
+
+    def _ensure_resource_loaded(resource_type, resource_id):
+        assert resource_type == "monitors"
+        assert resource_id == "217900730"
+        mock_config.state.destination["monitors"][resource_id] = {"id": 19656739}
+
+    mock_config.state.ensure_resource_loaded = _ensure_resource_loaded
+
+    result = downtime.connect_resources("downtime-source-test", resource)
+
+    assert not result.empty_binding_escalation
+    assert resource["attributes"]["monitor_identifier"]["monitor_id"] == 19656739
 
 
 # --- Recurring downtime recurrence-level normalization ----------------------
