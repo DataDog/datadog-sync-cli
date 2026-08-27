@@ -654,6 +654,15 @@ class ResourcesHandler:
 
                 try:
                     r_class.connect_resources(_id, resource)
+                except SkipResource as e:
+                    self.config.logger.warning(f"skipping resource: resource_type:{resource_type} id:{_id}")
+                    self.config.logger.debug(str(e))
+                    _reason, _fc = self._sanitize_reason(e)
+                    emit_kwargs = {"reason": _reason, "failure_class": _fc}
+                    if e.outcome_details:
+                        emit_kwargs["details"] = e.outcome_details
+                    self._emit(resource_type, _id, "sync", "skipped", **emit_kwargs)
+                    return
                 except ResourceConnectionError as e:
                     _reason, _fc = self._sanitize_reason(e)
                     self._emit(resource_type, _id, "sync", "skipped", reason=_reason, failure_class=_fc)

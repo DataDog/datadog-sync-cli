@@ -7,6 +7,7 @@ import asyncio
 import json
 import logging
 import re
+from collections import defaultdict
 from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
@@ -19,12 +20,13 @@ from dateutil.rrule import rrulestr
 from dateutil.tz import datetime_exists, gettz
 
 from datadog_sync.constants import LOGGER_NAME
-from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, ResourceConnectionResult
 from datadog_sync.utils.custom_client import PaginationConfig
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
     DowntimeSchedulesDateOperator,
     SkipResource,
+    find_attr,
 )
 
 if TYPE_CHECKING:
@@ -289,6 +291,32 @@ class DowntimeSchedules(BaseResource):
         return None
 
     @classmethod
+    def _one_time_window(cls, schedule: Dict) -> Optional[_ActiveWindow]:
+        """Return the fixed schedule window for non-recurring downtimes."""
+        if (
+            not isinstance(schedule, dict)
+            or "recurrences" in schedule
+            or not schedule.get("start")
+        ):
+            return None
+
+        start = cls._parse_utc(schedule["start"])
+        end = cls._parse_utc(schedule["end"]) if schedule.get("end") else None
+        return _ActiveWindow(start=start, end=end)
+
+    @staticmethod
+    def _window_active(window: Optional[_ActiveWindow], now: datetime) -> bool:
+        return (
+            window is not None
+            and window.start <= now
+            and (window.end is None or now < window.end)
+        )
+
+    @staticmethod
+    def _window_ended(window: Optional[_ActiveWindow], now: datetime) -> bool:
+        return window is not None and window.end is not None and window.end <= now
+
+    @classmethod
     def _analyze_recurrence_schedule(
         cls,
         schedule: Dict,
@@ -497,6 +525,64 @@ class DowntimeSchedules(BaseResource):
             create_schedule=create_schedule,
         )
 
+    def _prepare_update_one_time_schedule(
+        self,
+        _id: str,
+        source_schedule: Dict,
+        destination_schedule: Dict,
+        now: datetime,
+    ) -> None:
+        """Prepare a PATCH-safe one-time schedule.
+
+        The downtime API rejects changing the start time of an in-progress
+        one-time downtime, and rejects scheduling one-time windows in the past.
+        Preserve or replace the active destination instead of sending an
+        illegal PATCH.
+        """
+        source_window = self._one_time_window(source_schedule)
+        if source_window is None:
+            return
+
+        destination_window = self._one_time_window(destination_schedule)
+        create_schedule = deepcopy(source_schedule)
+        action = _RecurrenceUpdateAction.PATCH
+
+        if self._window_ended(source_window, now):
+            if self._window_active(destination_window, now):
+                self._prepared_recurrence_updates[str(_id)] = _PreparedRecurrenceUpdate(
+                    action=_RecurrenceUpdateAction.CANCEL,
+                    create_schedule=create_schedule,
+                )
+                return
+            raise SkipResource(
+                str(_id),
+                self.resource_type,
+                "Downtime end is in the past.",
+            )
+
+        if self._window_active(destination_window, now):
+            if source_window.start > now:
+                self._prepared_recurrence_updates[str(_id)] = (
+                    _PreparedRecurrenceUpdate(
+                        action=_RecurrenceUpdateAction.RECREATE,
+                        create_schedule=create_schedule,
+                    )
+                )
+                return
+            if source_window.start != destination_window.start:
+                source_schedule["start"] = destination_schedule["start"]
+                log.info(
+                    f"[downtime_schedules - {_id}] preserved active destination start "
+                    "for one-time downtime update"
+                )
+        elif source_window.start <= now:
+            source_schedule["start"] = self._iso_utc(now + timedelta(seconds=60))
+
+        self._prepared_recurrence_updates[str(_id)] = _PreparedRecurrenceUpdate(
+            action=action,
+            create_schedule=create_schedule,
+        )
+
     async def _normalize_recurrence_schedule(
         self,
         _id: str,
@@ -603,25 +689,13 @@ class DowntimeSchedules(BaseResource):
         if _id not in self.config.state.destination[self.resource_type]:
             await self._normalize_create_schedule(_id, resource)
         else:
-            # If start or end times of the resource are in the past, we set to the current destination `start` and `end`
-            # this is to avoid unnecessary diff outputs
             if resource["attributes"].get("schedule"):
                 source_schedule = resource["attributes"]["schedule"]
                 destination_schedule = self.config.state.destination[self.resource_type][_id]["attributes"].get(
                     "schedule", {}
                 )
-                if destination_schedule.get("start") and source_schedule.get("start"):
-                    start_source = parse(source_schedule["start"])
-                    start_created = parse(destination_schedule["start"])
-                    if start_source.timestamp() < start_created.timestamp():
-                        source_schedule["start"] = destination_schedule["start"]
-                if destination_schedule.get("end") and source_schedule.get("end"):
-                    end_source = parse(source_schedule["end"])
-                    end_created = parse(destination_schedule["end"])
-                    if end_source.timestamp() < end_created.timestamp():
-                        source_schedule["end"] = destination_schedule["end"]
+                now = datetime.now(timezone.utc)
                 if "recurrences" in source_schedule:
-                    now = datetime.now(timezone.utc)
                     await asyncio.to_thread(
                         self._prepare_update_recurrences,
                         _id,
@@ -629,6 +703,13 @@ class DowntimeSchedules(BaseResource):
                         destination_schedule,
                         now,
                         now + timedelta(seconds=60),
+                    )
+                else:
+                    self._prepare_update_one_time_schedule(
+                        _id,
+                        source_schedule,
+                        destination_schedule,
+                        now,
                     )
 
     async def pre_apply_hook(self) -> None:
@@ -761,6 +842,68 @@ class DowntimeSchedules(BaseResource):
                 log.info(f"[downtime_schedules - {_id}] already deleted on destination")
                 return
             raise
+
+    def _connect_monitor_id_or_skip_stale(
+        self,
+        downtime_id: str,
+        key: str,
+        r_obj: Dict,
+        resource_to_connect: str,
+    ) -> Optional[List[str]]:
+        if resource_to_connect != "monitors":
+            return super(DowntimeSchedules, self).connect_id(key, r_obj, resource_to_connect)
+        if not r_obj.get(key):
+            return None
+
+        failed_connections = []
+        ids = r_obj[key] if isinstance(r_obj[key], list) else [r_obj[key]]
+        for idx, value in enumerate(ids):
+            source_monitor_id = str(value)
+            destination_monitors = self.config.state.destination[resource_to_connect]
+            if source_monitor_id not in destination_monitors:
+                self.config.state.ensure_resource_loaded(resource_to_connect, source_monitor_id)
+                destination_monitors = self.config.state.destination[resource_to_connect]
+
+            if source_monitor_id in destination_monitors:
+                resolved = type(value)(destination_monitors[source_monitor_id]["id"])
+                if isinstance(r_obj[key], list):
+                    r_obj[key][idx] = resolved
+                else:
+                    r_obj[key] = resolved
+            elif source_monitor_id in self.config.state.source[resource_to_connect]:
+                failed_connections.append(source_monitor_id)
+            else:
+                raise SkipResource(
+                    str(downtime_id),
+                    self.resource_type,
+                    f"Downtime references stale monitor {source_monitor_id}.",
+                )
+
+        return failed_connections
+
+    def connect_resources(self, _id: str, resource: Dict) -> ResourceConnectionResult:
+        if not self.resource_config.resource_connections:
+            return ResourceConnectionResult()
+
+        failed_connections_dict = defaultdict(list)
+        for resource_to_connect, attrs in self.resource_config.resource_connections.items():
+            for attr_connection in attrs:
+                c = find_attr(
+                    attr_connection,
+                    resource_to_connect,
+                    resource,
+                    lambda key, r_obj, rt: self._connect_monitor_id_or_skip_stale(
+                        _id,
+                        key,
+                        r_obj,
+                        rt,
+                    ),
+                )
+                if c:
+                    failed_connections_dict[resource_to_connect].extend(c)
+
+        self._raise_connection_error_if_any(_id, failed_connections_dict)
+        return ResourceConnectionResult()
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(DowntimeSchedules, self).connect_id(key, r_obj, resource_to_connect)

@@ -18,6 +18,7 @@ New behavior:
 """
 
 import asyncio
+from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 from threading import Event
 
@@ -26,7 +27,7 @@ from dateutil.parser import parse
 from freezegun import freeze_time
 
 from datadog_sync.model.downtime_schedules import DowntimeSchedules
-from datadog_sync.utils.resource_utils import SkipResource, check_diff
+from datadog_sync.utils.resource_utils import ResourceConnectionError, SkipResource, check_diff
 
 
 def _run(coro):
@@ -54,6 +55,10 @@ def _future_iso(seconds_ahead: int = 3600) -> str:
 
 def _make_resource(schedule):
     return {"attributes": {"schedule": schedule}}
+
+
+def _make_monitor_downtime(monitor_id):
+    return {"attributes": {"monitor_identifier": {"monitor_id": monitor_id}}}
 
 
 def test_past_start_bumped_forward(mock_config):
@@ -164,6 +169,42 @@ def test_start_only_no_end_field(mock_config):
     schedule = resource["attributes"]["schedule"]
     assert "end" not in schedule
     assert parse(schedule["start"]).timestamp() > _now_ts() - 5
+
+
+def test_connect_resources_skips_stale_monitor_dependency(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    mock_config.skip_failed_resource_connections = False
+    resource = _make_monitor_downtime(217900730)
+
+    with pytest.raises(SkipResource, match="stale monitor 217900730"):
+        downtime.connect_resources("downtime-source-test", resource)
+
+
+def test_connect_resources_keeps_not_yet_synced_monitor_failure(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    mock_config.skip_failed_resource_connections = False
+    mock_config.state.source["monitors"]["217900730"] = {"id": 217900730}
+    resource = _make_monitor_downtime(217900730)
+
+    with pytest.raises(ResourceConnectionError, match="217900730"):
+        downtime.connect_resources("downtime-source-test", resource)
+
+
+def test_connect_resources_remaps_monitor_loaded_lazily(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    resource = _make_monitor_downtime(217900730)
+
+    def _ensure_resource_loaded(resource_type, resource_id):
+        assert resource_type == "monitors"
+        assert resource_id == "217900730"
+        mock_config.state.destination["monitors"][resource_id] = {"id": 19656739}
+
+    mock_config.state.ensure_resource_loaded = _ensure_resource_loaded
+
+    result = downtime.connect_resources("downtime-source-test", resource)
+
+    assert not result.empty_binding_escalation
+    assert resource["attributes"]["monitor_identifier"]["monitor_id"] == 19656739
 
 
 # --- Recurring downtime recurrence-level normalization ----------------------
@@ -418,7 +459,10 @@ def test_recurring_empty_recurrences_no_op(mock_config):
     assert resource["attributes"]["schedule"]["recurrences"] == []
 
 
-def test_update_path_preserves_one_time_schedule_behavior(mock_config):
+@freeze_time("2026-08-21 15:00:00")
+def test_update_path_skips_ended_one_time_schedule_when_destination_inactive(
+    mock_config,
+):
     downtime = DowntimeSchedules(mock_config)
     _id = "existing-id"
     mock_config.state.destination["downtime_schedules"][_id] = {
@@ -427,14 +471,129 @@ def test_update_path_preserves_one_time_schedule_behavior(mock_config):
 
     resource = _make_resource({"start": _past_iso(3600), "end": _past_iso(1200)})
 
-    # No SkipResource on update path even though end is past — update-path
-    # semantics are intentionally out of scope for this PR.
-    _run(downtime.pre_resource_action_hook(_id, resource))
+    with pytest.raises(SkipResource, match="end is in the past"):
+        _run(downtime.pre_resource_action_hook(_id, resource))
 
-    schedule = resource["attributes"]["schedule"]
-    dest = mock_config.state.destination["downtime_schedules"][_id]["attributes"]["schedule"]
-    assert schedule["start"] == dest["start"]
-    assert schedule["end"] == dest["end"]
+
+@freeze_time("2026-08-27 12:00:00")
+def test_update_active_one_time_destination_preserves_start_for_patch(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    _id = "existing-id"
+    destination = _make_resource(
+        {
+            "start": "2026-08-21T15:04:19.076627+00:00",
+            "end": "2030-08-13T16:12:00+00:00",
+        }
+    )
+    destination["id"] = "downtime-destination-test"
+    destination["attributes"]["message"] = "Original message"
+    mock_config.state.destination["downtime_schedules"][_id] = destination
+    source = _make_resource(
+        {
+            "start": "2026-08-27T03:43:36.405325+00:00",
+            "end": "2027-01-01T16:48:00+00:00",
+        }
+    )
+    source["attributes"]["message"] = "Updated message"
+    captured = {}
+
+    async def _patch(path, payload):
+        captured["path"] = path
+        captured["payload"] = deepcopy(payload)
+        return {"data": payload["data"]}
+
+    mock_config.destination_client.patch = _patch
+
+    _run(downtime.pre_resource_action_hook(_id, source))
+    _run(downtime.update_resource(_id, source))
+
+    schedule = captured["payload"]["data"]["attributes"]["schedule"]
+    assert captured["path"] == "/api/v2/downtime/downtime-destination-test"
+    assert schedule["start"] == "2026-08-21T15:04:19.076627+00:00"
+    assert schedule["end"] == "2027-01-01T16:48:00+00:00"
+    assert captured["payload"]["data"]["attributes"]["message"] == "Updated message"
+
+
+@freeze_time("2026-08-27 12:00:00")
+def test_update_future_one_time_source_recreates_active_destination(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    _id = "existing-id"
+    destination = _make_resource({"start": "2026-07-29T09:00:00+00:00"})
+    destination["id"] = "downtime-destination-test"
+    mock_config.state.destination["downtime_schedules"][_id] = destination
+    source = _make_resource(
+        {
+            "start": "2026-09-12T12:00:00+00:00",
+            "end": "2026-09-12T14:00:00+00:00",
+        }
+    )
+    captured = {"deleted": [], "posted": []}
+
+    async def _delete(path):
+        captured["deleted"].append(path)
+
+    async def _post(path, payload):
+        captured["posted"].append((path, deepcopy(payload)))
+        return {
+            "data": {
+                "id": "downtime-replacement-test",
+                **deepcopy(payload["data"]),
+            }
+        }
+
+    async def _unexpected_patch(*_args, **_kwargs):
+        pytest.fail(
+            "an active destination start cannot be patched to a future source start"
+        )
+
+    mock_config.destination_client.delete = _delete
+    mock_config.destination_client.post = _post
+    mock_config.destination_client.patch = _unexpected_patch
+
+    _run(downtime.pre_resource_action_hook(_id, source))
+    _run(downtime._update_resource(_id, source))
+
+    assert captured["deleted"] == ["/api/v2/downtime/downtime-destination-test"]
+    assert captured["posted"][0][0] == "/api/v2/downtime"
+    assert captured["posted"][0][1]["data"]["attributes"]["schedule"] == {
+        "start": "2026-09-12T12:00:00+00:00",
+        "end": "2026-09-12T14:00:00+00:00",
+    }
+    assert (
+        mock_config.state.destination["downtime_schedules"][_id]["id"]
+        == "downtime-replacement-test"
+    )
+
+
+@freeze_time("2026-08-27 12:00:00")
+def test_update_ended_one_time_source_cancels_active_destination(mock_config):
+    downtime = DowntimeSchedules(mock_config)
+    _id = "existing-id"
+    destination = _make_resource({"start": "2026-05-07T23:41:36.491799+00:00"})
+    destination["id"] = "downtime-destination-test"
+    mock_config.state.destination["downtime_schedules"][_id] = destination
+    source = _make_resource(
+        {
+            "start": "2025-08-18T08:42:36.014000+00:00",
+            "end": "2026-08-18T08:42:36.014000+00:00",
+        }
+    )
+    captured = {}
+
+    async def _delete(path):
+        captured["path"] = path
+
+    async def _unexpected_patch(*_args, **_kwargs):
+        pytest.fail("an ended source must cancel the active destination")
+
+    mock_config.destination_client.delete = _delete
+    mock_config.destination_client.patch = _unexpected_patch
+
+    _run(downtime.pre_resource_action_hook(_id, source))
+    _run(downtime._update_resource(_id, source))
+
+    assert captured["path"] == "/api/v2/downtime/downtime-destination-test"
+    assert _id not in mock_config.state.destination["downtime_schedules"]
 
 
 @freeze_time("2026-08-20 15:00:00")

@@ -15,11 +15,12 @@ tests/integration/resources/cassettes/test_service_level_objectives/.
 """
 
 import asyncio
+from collections import defaultdict
 import pytest
 from unittest.mock import MagicMock
 
 from datadog_sync.model.service_level_objectives import ServiceLevelObjectives
-from datadog_sync.utils.resource_utils import SkipResource
+from datadog_sync.utils.resource_utils import ResourceConnectionError, SkipResource
 
 
 class TestSLOPreResourceActionHook:
@@ -138,3 +139,56 @@ class TestSLOPreResourceActionHook:
         with pytest.raises(SkipResource) as exc_info:
             asyncio.run(slos.pre_resource_action_hook("msgtest", resource))
         assert "numerator" in str(exc_info.value)
+
+
+class TestSLOConnectResources:
+    def _make_slos(self):
+        mock_config = MagicMock()
+        mock_config.state = MagicMock()
+        mock_config.state.source = defaultdict(dict)
+        mock_config.state.destination = defaultdict(dict)
+        mock_config.state.ensure_resource_loaded = MagicMock()
+        mock_config.state.ensure_resource_type_loaded = MagicMock()
+        mock_config.skip_failed_resource_connections = False
+        mock_config.logger = MagicMock()
+        return ServiceLevelObjectives(mock_config)
+
+    def test_stale_monitor_dependency_raises_typed_skip(self):
+        slos = self._make_slos()
+        resource = {"id": "slo-src", "type": "monitor", "monitor_ids": [123]}
+
+        with pytest.raises(SkipResource) as exc_info:
+            slos.connect_resources("slo-src", resource)
+
+        assert exc_info.value.failure_class == "stale_dependency"
+        assert exc_info.value.outcome_reason == "stale_dependency"
+        assert exc_info.value.outcome_details == {"monitors": "123"}
+        slos.config.state.ensure_resource_loaded.assert_any_call("monitors", "123")
+
+    def test_source_present_monitor_dependency_still_hard_fails(self):
+        slos = self._make_slos()
+        slos.config.state.source["monitors"]["123"] = {"id": 123}
+        resource = {"id": "slo-src", "type": "monitor", "monitor_ids": [123]}
+
+        with pytest.raises(ResourceConnectionError):
+            slos.connect_resources("slo-src", resource)
+
+        assert resource["monitor_ids"] == [123]
+
+    def test_destination_present_monitor_dependency_is_mapped(self):
+        slos = self._make_slos()
+        slos.config.state.destination["monitors"]["123"] = {"id": 456}
+        resource = {"id": "slo-src", "type": "monitor", "monitor_ids": [123]}
+
+        slos.connect_resources("slo-src", resource)
+
+        assert resource["monitor_ids"] == [456]
+
+    def test_destination_synthetics_monitor_dependency_is_mapped(self):
+        slos = self._make_slos()
+        slos.config.state.destination["synthetics_tests"]["abc-def#123"] = {"monitor_id": 456}
+        resource = {"id": "slo-src", "type": "monitor", "monitor_ids": [123]}
+
+        slos.connect_resources("slo-src", resource)
+
+        assert resource["monitor_ids"] == [456]

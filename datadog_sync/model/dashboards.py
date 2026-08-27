@@ -183,20 +183,33 @@ class Dashboards(BaseResource):
         """Drop-aware override.
 
         Widget connections (monitor alert_ids, powerpacks, slos) keep the generic
-        find_attr/connect_id path. The flat `restricted_roles` list goes through the shared
-        drop-aware filter so a permanently-stale role can be dropped (under
-        --drop-unresolvable-principals) while an emptied list still hard-fails as an
-        access-elevation guard.
+        find_attr/connect_id path, but classify source-absent misses as stale
+        dependencies so dashboards with deleted SLO/monitor/powerpack widgets
+        are skipped deterministically instead of retrying forever. The flat
+        `restricted_roles` list goes through the shared drop-aware filter so a
+        permanently-stale role can be dropped (under --drop-unresolvable-principals)
+        while an emptied list still hard-fails as an access-elevation guard.
         """
         if not self.resource_config.resource_connections:
             return ResourceConnectionResult()
 
         failed_connections_dict = defaultdict(list)
+        stale_connections_dict = defaultdict(list)
         for resource_to_connect, attrs in self.resource_config.resource_connections.items():
             for attr_connection in attrs:
                 if attr_connection == "restricted_roles":
                     continue  # handled by the drop-aware filter below
-                c = find_attr(attr_connection, resource_to_connect, resource, self.connect_id)
+                c = find_attr(
+                    attr_connection,
+                    resource_to_connect,
+                    resource,
+                    lambda key, r_obj, rtc: self._connect_id_or_classify_stale(
+                        key,
+                        r_obj,
+                        rtc,
+                        stale_connections_dict,
+                    ),
+                )
                 if c:
                     failed_connections_dict[resource_to_connect].extend(c)
 
@@ -204,11 +217,14 @@ class Dashboards(BaseResource):
         if role_failed:
             failed_connections_dict["roles"].extend(role_failed)
 
-        return ResourceConnectionResult(
-            empty_binding_escalation=self._raise_connection_error_if_any(
-                _id, failed_connections_dict, roles_risk
-            )
+        empty_binding_escalation = self._raise_connection_error_if_any(
+            _id,
+            failed_connections_dict,
+            roles_risk,
         )
+        self._raise_stale_dependency_skip(_id, stale_connections_dict)
+
+        return ResourceConnectionResult(empty_binding_escalation=empty_binding_escalation)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(Dashboards, self).connect_id(key, r_obj, resource_to_connect)

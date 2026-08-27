@@ -42,9 +42,29 @@ class MetricsMetadata(BaseResource):
 
         resource = await source_client.get(self.resource_config.base_path + f"/{metric_name}")
         if all(value is None for value in resource.values()):
+            minimal_metadata = await self._minimal_metadata_from_tag_configuration(metric_name)
+            if minimal_metadata is not None:
+                return metric_name, minimal_metadata
             raise SkipResource(metric_name, self.resource_type, "Metric has no metadata.")
 
         return metric_name, resource
+
+    async def _minimal_metadata_from_tag_configuration(self, metric_name: str) -> Optional[Dict]:
+        try:
+            tag_configuration = await self.config.source_client.get(self.metrics_get_path + f"/{metric_name}/tags")
+        except CustomClientHTTPError as e:
+            log.debug(f"[metrics_metadata - {metric_name}] tag configuration type fallback failed: {e}")
+            return None
+
+        metric_type = tag_configuration.get("data", {}).get("attributes", {}).get("metric_type")
+        if not isinstance(metric_type, str):
+            return None
+        metric_type = metric_type.strip().lower()
+        if not metric_type or metric_type == "distribution":
+            return None
+
+        log.debug(f"[metrics_metadata - {metric_name}] using metric tag configuration type as minimal source metadata")
+        return {"type": metric_type}
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         pass
