@@ -8,6 +8,10 @@ from datadog_sync.models import DowntimeSchedules
 
 
 class TestDowntimeSchedulesResources(BaseResourcesTestClass):
+    @staticmethod
+    def compute_import_changes(resource_count, num_of_skips):
+        return resource_count + num_of_skips
+
     resource_type = DowntimeSchedules.resource_type
     dependencies = list(DowntimeSchedules.resource_config.resource_connections.keys())
     field_to_update = "attributes.message"
