@@ -35,6 +35,16 @@ def _is_missing_metadata_type_error(error: CustomClientHTTPError) -> bool:
     return error.status_code == 400 and "metadata type must be set prior to configuring tags" in body
 
 
+def _is_metadata_type_conflict_error(error: CustomClientHTTPError) -> bool:
+    body = _error_body(error)
+    return (
+        error.status_code == 400
+        and "cannot configure tags for" in body
+        and "with a metric_type of" in body
+        and "metadata set to type" in body
+    )
+
+
 def _metric_type_from_tag_configuration(resource: Dict) -> Optional[str]:
     metric_type = resource.get("attributes", {}).get("metric_type")
     if not isinstance(metric_type, str):
@@ -81,6 +91,14 @@ class MetricTagConfigurations(BaseResource):
         await self.config.destination_client.put(f"/api/v1/metrics/{_id}", {"type": metric_type})
         return True
 
+    def _should_repair_metadata_type_error(self, error: CustomClientHTTPError) -> bool:
+        if _is_missing_metadata_type_error(error):
+            return True
+        return (
+            getattr(self.config, "repair_metric_tag_configuration_metadata_type_conflicts", False) is True
+            and _is_metadata_type_conflict_error(error)
+        )
+
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         if _id in self._existing_resources_map:
             self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[_id]
@@ -101,7 +119,9 @@ class MetricTagConfigurations(BaseResource):
                     reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
                     outcome_details={"metric_name": _id, "operation": "tag_configuration_create"},
                 )
-            if _is_missing_metadata_type_error(e) and await self._set_destination_metric_metadata_type(_id, resource):
+            if self._should_repair_metadata_type_error(e) and await self._set_destination_metric_metadata_type(
+                _id, resource
+            ):
                 try:
                     resp = await destination_client.post(path, payload)
                 except CustomClientHTTPError as retry_e:
@@ -140,7 +160,9 @@ class MetricTagConfigurations(BaseResource):
                     reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
                     outcome_details={"metric_name": _id, "operation": "tag_configuration_update"},
                 )
-            if _is_missing_metadata_type_error(e) and await self._set_destination_metric_metadata_type(_id, resource):
+            if self._should_repair_metadata_type_error(e) and await self._set_destination_metric_metadata_type(
+                _id, resource
+            ):
                 resp = await destination_client.patch(path, payload)
                 return _id, resp["data"]
             raise
