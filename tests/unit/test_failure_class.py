@@ -22,7 +22,6 @@ from datadog_sync.utils.resource_utils import (
 from datadog_sync.utils.resources_handler import ResourcesHandler
 from datadog_sync.utils.sync_report import ResourceOutcome
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -119,7 +118,26 @@ class TestSanitizeReasonFailureClass:
         err = ResourceConnectionError({"monitors": ["missing-id"]})
         reason, fc = ResourcesHandler._sanitize_reason(err)
         assert reason == "connection_error"
+        assert fc == "connection_error"
+
+    def test_aiohttp_client_error_is_transient_transport(self):
+        """aiohttp.ClientError (DNS, connection refused, TCP reset) is a
+        transport-level failure classified as http_connection — transient,
+        mirroring get_resources_by_ids."""
+        import aiohttp
+
+        err = aiohttp.ClientConnectionError("connection refused")
+        reason, fc = ResourcesHandler._sanitize_reason(err)
+        assert "connection error" in reason
         assert fc == "http_connection"
+
+    def test_retry_limit_exhaustion_is_transient_and_sanitized(self):
+        err = Exception("retry limit exceeded timeout: 100 retry_count: 4 error: synthetic response body")
+
+        reason, fc = ResourcesHandler._sanitize_reason(err)
+
+        assert reason == "retry limit exceeded"
+        assert fc == "http_retry_exhausted"
 
     def test_plain_skip_resource_returns_unknown(self):
         err = SkipResource("abc", "dashboards", "No differences detected.")
@@ -231,8 +249,8 @@ class TestResourceOutcomeFailureClassOmitempty:
         d = outcome.to_dict()
         assert d["details"] == {"metric_name": "custom.metric", "operation": "metadata_update"}
 
-    def test_all_7_canonical_values_round_trip(self):
-        """All 7 canonical failure_class values survive to_dict()."""
+    def test_all_canonical_values_round_trip(self):
+        """All canonical failure_class values survive to_dict()."""
         canonical = [
             "http_4xx_403",
             "http_4xx_404",
@@ -241,6 +259,8 @@ class TestResourceOutcomeFailureClassOmitempty:
             "http_5xx",
             "http_timeout",
             "http_connection",
+            "http_retry_exhausted",
+            "connection_error",
         ]
         for fc in canonical:
             outcome = ResourceOutcome(
@@ -454,7 +474,7 @@ class TestEmitPassesFailureClass:
         assert parsed["failure_class"] == "http_timeout"
 
     def test_emit_sanitize_reason_connection_error_wires_failure_class(self):
-        """ResourceConnectionError → http_connection."""
+        """ResourceConnectionError → connection_error (permanent, unresolved reference)."""
         handler = self._make_handler_for_emit()
         err = ResourceConnectionError({"monitors": ["missing"]})
         _reason, _fc = ResourcesHandler._sanitize_reason(err)
@@ -472,7 +492,7 @@ class TestEmitPassesFailureClass:
             )
         parsed = json.loads(buf.getvalue().strip())
         assert parsed["reason"] == "connection_error"
-        assert parsed["failure_class"] == "http_connection"
+        assert parsed["failure_class"] == "connection_error"
 
     def test_emit_typed_skip_resource_wires_failure_class_and_details(self):
         handler = self._make_handler_for_emit()
