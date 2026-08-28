@@ -589,6 +589,20 @@ _sync_options = [
         cls=CustomOptionClass,
     ),
     option(
+        "--repair-metric-tag-configuration-metadata-type-conflicts",
+        required=False,
+        is_flag=True,
+        default=False,
+        show_default=True,
+        help=(
+            "When creating or updating metric_tag_configurations, repair a destination metrics_metadata "
+            "type mismatch by setting the destination metric type to the source tag configuration's "
+            "metric_type, then retry once. This mutates destination metric metadata and should only be "
+            "used after confirming the source tag configuration type is the desired source of truth."
+        ),
+        cls=CustomOptionClass,
+    ),
+    option(
         "--create-global-downtime",
         required=False,
         type=bool,

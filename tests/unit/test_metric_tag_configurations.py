@@ -160,6 +160,58 @@ def test_create_resource_missing_metadata_type_retry_conflict_gets_existing_then
     assert data == {"id": "custom.metric", "attributes": {"tags": ["env", "service"]}}
 
 
+def test_create_resource_metadata_type_conflict_propagates_without_repair_flag(metric_tag_configurations):
+    client = metric_tag_configurations.config.destination_client
+    client.post = AsyncMock(
+        side_effect=_http_error(
+            400,
+            "Cannot configure tags for custom.metric with a metric_type of count "
+            "when the metric has metadata set to type rate.",
+        )
+    )
+    client.put = AsyncMock()
+    client.get = AsyncMock()
+    client.patch = AsyncMock()
+    metric_tag_configurations.config.state.source["metric_tag_configurations"]["custom.metric"] = _resource()
+
+    with pytest.raises(CustomClientHTTPError) as exc_info:
+        _run(metric_tag_configurations.create_resource("custom.metric", _resource()))
+
+    assert exc_info.value.status_code == 400
+    client.post.assert_awaited_once()
+    client.put.assert_not_awaited()
+    client.get.assert_not_awaited()
+    client.patch.assert_not_awaited()
+
+
+def test_create_resource_metadata_type_conflict_repairs_when_flag_enabled(metric_tag_configurations):
+    metric_tag_configurations.config.repair_metric_tag_configuration_metadata_type_conflicts = True
+    client = metric_tag_configurations.config.destination_client
+    client.post = AsyncMock(
+        side_effect=[
+            _http_error(
+                400,
+                "Cannot configure tags for custom.metric with a metric_type of count "
+                "when the metric has metadata set to type rate.",
+            ),
+            {"data": _resource()},
+        ]
+    )
+    client.put = AsyncMock(return_value={"type": "count"})
+    client.get = AsyncMock()
+    client.patch = AsyncMock()
+    metric_tag_configurations.config.state.source["metric_tag_configurations"]["custom.metric"] = _resource()
+
+    _id, data = _run(metric_tag_configurations.create_resource("custom.metric", _resource()))
+
+    assert _id == "custom.metric"
+    assert data == _resource()
+    client.put.assert_awaited_once_with("/api/v1/metrics/custom.metric", {"type": "count"})
+    assert client.post.await_count == 2
+    client.get.assert_not_awaited()
+    client.patch.assert_not_awaited()
+
+
 def test_create_resource_non_matching_409_propagates(metric_tag_configurations):
     client = metric_tag_configurations.config.destination_client
     client.post = AsyncMock(side_effect=_http_error(409, "conflict"))
@@ -230,3 +282,29 @@ def test_update_resource_missing_metadata_type_sets_metric_type_then_retries(met
     assert client.patch.await_count == 2
     assert client.patch.await_args_list[0].args[1]["data"]["attributes"] == {"tags": ["env", "service"]}
     assert resource["attributes"]["metric_type"] == "count"
+
+
+def test_update_resource_metadata_type_conflict_repairs_when_flag_enabled(metric_tag_configurations):
+    metric_tag_configurations.config.repair_metric_tag_configuration_metadata_type_conflicts = True
+    client = metric_tag_configurations.config.destination_client
+    client.patch = AsyncMock(
+        side_effect=[
+            _http_error(
+                400,
+                "Cannot configure tags for custom.metric with a metric_type of count "
+                "when the metric has metadata set to type rate.",
+            ),
+            {"data": {"id": "custom.metric", "attributes": {"tags": ["env", "service"]}}},
+        ]
+    )
+    client.put = AsyncMock(return_value={"type": "count"})
+    resource = _resource()
+    metric_tag_configurations.config.state.destination["metric_tag_configurations"]["custom.metric"] = _resource()
+
+    _id, data = _run(metric_tag_configurations.update_resource("custom.metric", resource))
+
+    assert _id == "custom.metric"
+    assert data == {"id": "custom.metric", "attributes": {"tags": ["env", "service"]}}
+    client.put.assert_awaited_once_with("/api/v1/metrics/custom.metric", {"type": "count"})
+    assert client.patch.await_count == 2
+    assert client.patch.await_args_list[0].args[1]["data"]["attributes"] == {"tags": ["env", "service"]}
