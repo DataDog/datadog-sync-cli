@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.0.0 / 2026-08-28
+
+### Changed
+* fix(import): classify and budget transient fetch failures by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/678
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/4.23.0...5.0.0
+
 ## 4.23.0 / 2026-08-27
 
 ### Fixed
