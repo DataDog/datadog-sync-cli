@@ -10,7 +10,10 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 
 from datadog_sync.model.dashboard_lists import DashboardLists
-from datadog_sync.utils.resource_utils import CustomClientHTTPError, ResourceConnectionError
+from datadog_sync.utils.resource_utils import (
+    CustomClientHTTPError,
+    ResourceConnectionError,
+)
 
 
 def _make_dashboard_lists() -> DashboardLists:
@@ -23,14 +26,38 @@ def _make_dashboard_lists() -> DashboardLists:
     return DashboardLists(config)
 
 
-def test_connect_resources_maps_custom_dashboards_and_keeps_integration_dashboards():
+def test_pre_resource_action_hook_drops_integration_dashboards_before_apply():
     dashboard_lists = _make_dashboard_lists()
-    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {
+        "id": "dash-dst"
+    }
     resource = {
         "id": 510887,
         "dashboards": [
             {"id": "dash-src", "type": "custom_timeboard"},
             {"id": "62", "type": "integration_timeboard"},
+            {"id": "30516", "type": "integration_timeboard"},
+        ],
+    }
+
+    asyncio.run(dashboard_lists.pre_resource_action_hook("510887", resource))
+    dashboard_lists.connect_resources("510887", resource)
+
+    assert resource["dashboards"] == [
+        {"id": "dash-dst", "type": "custom_timeboard"},
+    ]
+
+
+def test_connect_resources_ignores_unmapped_integration_dashboards():
+    dashboard_lists = _make_dashboard_lists()
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {
+        "id": "dash-dst"
+    }
+    resource = {
+        "id": 510887,
+        "dashboards": [
+            {"id": "dash-src", "type": "custom_timeboard"},
+            {"id": "30516", "type": "integration_timeboard"},
         ],
     }
 
@@ -38,7 +65,7 @@ def test_connect_resources_maps_custom_dashboards_and_keeps_integration_dashboar
 
     assert resource["dashboards"] == [
         {"id": "dash-dst", "type": "custom_timeboard"},
-        {"id": "62", "type": "integration_timeboard"},
+        {"id": "30516", "type": "integration_timeboard"},
     ]
 
 
@@ -76,6 +103,33 @@ def test_connect_resources_still_fails_missing_custom_dashboards():
         dashboard_lists.connect_resources("510887", resource)
 
 
+def test_update_dash_list_items_drops_integration_dashboards_from_payload():
+    dashboard_lists = _make_dashboard_lists()
+    dashboard_lists.config.destination_client.put = AsyncMock(
+        return_value={"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
+    )
+    dashboard_list = {}
+
+    asyncio.run(
+        dashboard_lists.update_dash_list_items(
+            "dst-list",
+            [
+                {"id": "dash-dst", "type": "custom_timeboard"},
+                {"id": "30516", "type": "integration_timeboard"},
+            ],
+            dashboard_list,
+        )
+    )
+
+    dashboard_lists.config.destination_client.put.assert_awaited_once_with(
+        dashboard_lists.dash_list_items_path.format("dst-list"),
+        {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]},
+    )
+    assert dashboard_list == {
+        "dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]
+    }
+
+
 def _http_error(status: int) -> CustomClientHTTPError:
     resp = MagicMock()
     resp.status = status
@@ -102,18 +156,30 @@ class TestDashboardListsItemsFetchError:
         classifies it as http_5xx (transient) — counted as failure, logged
         at WARNING, no exit-code poisoning, no incomplete state written."""
         dashboard_lists = _make_dashboard_lists()
-        dashboard_lists.config.source_client.get = AsyncMock(side_effect=_http_error(500))
+        dashboard_lists.config.source_client.get = AsyncMock(
+            side_effect=_http_error(500)
+        )
 
         with pytest.raises(CustomClientHTTPError):
-            asyncio.run(dashboard_lists.import_resource(resource={"id": "42", "name": "my-list"}))
+            asyncio.run(
+                dashboard_lists.import_resource(
+                    resource={"id": "42", "name": "my-list"}
+                )
+            )
 
     def test_503_on_items_fetch_propagates(self):
         """Any 5xx propagates — same treatment as 500."""
         dashboard_lists = _make_dashboard_lists()
-        dashboard_lists.config.source_client.get = AsyncMock(side_effect=_http_error(503))
+        dashboard_lists.config.source_client.get = AsyncMock(
+            side_effect=_http_error(503)
+        )
 
         with pytest.raises(CustomClientHTTPError):
-            asyncio.run(dashboard_lists.import_resource(resource={"id": "42", "name": "my-list"}))
+            asyncio.run(
+                dashboard_lists.import_resource(
+                    resource={"id": "42", "name": "my-list"}
+                )
+            )
 
     def test_items_fetch_success_populates_dashboards(self):
         """Happy path: items endpoint returns dashboard IDs that are
@@ -127,6 +193,8 @@ class TestDashboardListsItemsFetchError:
 
         dashboard_lists.config.source_client.get = AsyncMock(side_effect=fake_get)
 
-        _id, resource = asyncio.run(dashboard_lists.import_resource(resource={"id": "42", "name": "my-list"}))
+        _id, resource = asyncio.run(
+            dashboard_lists.import_resource(resource={"id": "42", "name": "my-list"})
+        )
 
         assert resource["dashboards"] == [{"id": "dash-1", "type": "custom_timeboard"}]
