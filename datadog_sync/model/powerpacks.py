@@ -14,8 +14,20 @@ class Powerpacks(BaseResource):
         base_path="/api/v2/powerpacks",
         excluded_attributes=["id", "relationships"],
         resource_connections={
-            "monitors": ["widgets.definition.alert_id", "widgets.definition.widgets.definition.alert_id"],
-            "service_level_objectives": ["widgets.definition.slo_id", "widgets.definition.widgets.definition.slo_id"],
+            "monitors": [
+                "widgets.definition.alert_id",
+                "widgets.definition.widgets.definition.alert_id",
+                "attributes.group_widget.definition.alert_id",
+                "attributes.group_widget.definition.widgets.definition.alert_id",
+                "attributes.group_widget.definition.widgets.definition.widgets.definition.alert_id",
+            ],
+            "service_level_objectives": [
+                "widgets.definition.slo_id",
+                "widgets.definition.widgets.definition.slo_id",
+                "attributes.group_widget.definition.slo_id",
+                "attributes.group_widget.definition.widgets.definition.slo_id",
+                "attributes.group_widget.definition.widgets.definition.widgets.definition.slo_id",
+            ],
         },
         skip_resource_mapping=True,
     )
@@ -36,10 +48,14 @@ class Powerpacks(BaseResource):
 
         return resp
 
-    async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
+    async def import_resource(
+        self, _id: Optional[str] = None, resource: Optional[Dict] = None
+    ) -> Tuple[str, Dict]:
         if _id:
             source_client = self.config.source_client
-            resource = (await source_client.get(self.resource_config.base_path + f"/{_id}"))["data"]
+            resource = (
+                await source_client.get(self.resource_config.base_path + f"/{_id}")
+            )["data"]
 
         return resource["id"], resource
 
@@ -60,7 +76,8 @@ class Powerpacks(BaseResource):
         destination_client = self.config.destination_client
         payload = {"data": resource}
         resp = await destination_client.patch(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+            self.resource_config.base_path
+            + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
             payload,
         )
 
@@ -69,8 +86,11 @@ class Powerpacks(BaseResource):
     async def delete_resource(self, _id: str) -> None:
         destination_client = self.config.destination_client
         await destination_client.delete(
-            self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
+            self.resource_config.base_path
+            + f"/{self.config.state.destination[self.resource_type][_id]['id']}"
         )
 
-    def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
+    def connect_id(
+        self, key: str, r_obj: Dict, resource_to_connect: str
+    ) -> Optional[List[str]]:
         return super(Powerpacks, self).connect_id(key, r_obj, resource_to_connect)
