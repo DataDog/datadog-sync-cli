@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.1.0 / 2026-08-31
+
+### Fixed
+* Repair metric tag config metadata type conflicts by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/681
+* Fix powerpack dependency ID remapping by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/682
+* Skip integration dashboards in dashboard lists by @riyazsh in https://github.com/DataDog/datadog-sync-cli/pull/683
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/5.0.0...5.1.0
+
 ## 5.0.0 / 2026-08-28
 
 ### Changed
