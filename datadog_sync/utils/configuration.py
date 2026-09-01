@@ -112,12 +112,10 @@ class Configuration(object):
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
-    # --id-file: id-targeted import via stdin or file payload.
-    # Supported resource types are explicitly allowlisted in
-    # _ID_FILE_SUPPORTED_TYPES (currently monitors, authn_mappings,
-    # team_memberships). Other types use the legacy list-everything path.
-    # Future expansion (e.g. SLOs) is mechanical via
-    # BaseResource.get_resources_by_ids inheritance.
+    # --id-file: id-targeted import and sync state-load scoping via stdin or
+    # file payload. Supported resource types are explicitly allowlisted in
+    # _ID_FILE_SUPPORTED_TYPES; runtime paths narrow that union to the
+    # command-specific import and state-load sets.
     id_payload: Optional[Dict[str, List[str]]] = None
     max_concurrent_reads: int = 30
     transient_failure_threshold_pct: int = 5
@@ -302,8 +300,6 @@ key is derivable from the ID (matches storage.get_single's key construction).
   State.get_by_ids constructs the correct key. Added alongside the import
   allowlist entry so the union (_ID_FILE_SUPPORTED_TYPES) accepts dashboards
   on both paths by design rather than incidentally via the import set.
-  (metric_name, resource). Storage layout: resources/source/metrics_metadata.
-  <metric_name>.json.
 
 Do NOT widen by config — code-level allowlist forces explicit review.
 """
