@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.2.0 / 2026-09-01
+
+### Added
+* feat(id-file): support dashboards in import and sync state loading by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/686
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/5.1.0...5.2.0
+
 ## 5.1.0 / 2026-08-31
 
 ### Fixed
