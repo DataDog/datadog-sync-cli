@@ -143,15 +143,52 @@ class TestMonitorsFilter:
         assert monitors.filter(resource) is False
         monitors.config.logger.info.assert_called_once()
 
+    def test_restriction_policy_principals_allowed_by_default(self):
+        monitors = self._make_monitors()
+        resource = {
+            "id": 269290576,
+            "restriction_policy": {
+                "bindings": [
+                    {
+                        "relation": "editor",
+                        "principals": ["user:source-user"],
+                    }
+                ]
+            },
+        }
+
+        assert monitors.filter(resource) is True
+
+    def test_restriction_policy_principals_filtered_when_flag_enabled(self):
+        monitors = self._make_monitors(skip_restricted=True)
+        resource = {
+            "id": 269290576,
+            "restriction_policy": {
+                "bindings": [
+                    {
+                        "relation": "editor",
+                        "principals": ["user:source-user"],
+                    }
+                ]
+            },
+        }
+
+        assert monitors.filter(resource) is False
+        monitors.config.logger.info.assert_called_once()
+
     @pytest.mark.parametrize(
         "resource",
         [
             {"id": 1},
             {"id": 2, "restricted_roles": []},
             {"id": 3, "restricted_roles": None},
+            {"id": 4, "restriction_policy": None},
+            {"id": 5, "restriction_policy": {}},
+            {"id": 6, "restriction_policy": {"bindings": []}},
+            {"id": 7, "restriction_policy": {"bindings": [{"relation": "editor", "principals": []}]}},
         ],
     )
-    def test_empty_or_missing_restricted_roles_are_not_filtered(self, resource):
+    def test_empty_or_missing_access_restrictions_are_not_filtered(self, resource):
         monitors = self._make_monitors(skip_restricted=True)
 
         assert monitors.filter(resource) is True
@@ -403,7 +440,7 @@ class TestMonitorsSchemaMigrations:
         resource = {
             "id": 14,
             "type": "log alert",
-            "query": "logs(\"service:foo\").index(\"*\").rollup(\"count\").by(\"host\").last(\"5m\") > 0",
+            "query": 'logs("service:foo").index("*").rollup("count").by("host").last("5m") > 0',
             "options": {"notify_by": ["*"]},
         }
         asyncio.run(monitors.pre_resource_action_hook("14", resource))

@@ -158,10 +158,10 @@ class DashboardLists(BaseResource):
         )
         self.config.logger.info(
             "dropping integration dashboards from dashboard list before sync; "
-            "integration dashboard IDs are not portable across orgs",
+            "integration dashboard IDs are not portable across orgs; "
+            f"dropped_dashboard_ids={','.join(dropped)}",
             resource_type=self.resource_type,
             _id=_id,
-            dropped_dashboard_ids=",".join(dropped),
         )
         resource["dashboards"] = portable_dashboards
 
