@@ -112,12 +112,10 @@ class Configuration(object):
     allow_partial_permissions_roles: List[str] = field(default_factory=list)
     resources: Dict[str, BaseResource] = field(default_factory=dict)
     resources_arg: List[str] = field(default_factory=list)
-    # --id-file: id-targeted import via stdin or file payload.
-    # Supported resource types are explicitly allowlisted in
-    # _ID_FILE_SUPPORTED_TYPES (currently monitors, authn_mappings,
-    # team_memberships). Other types use the legacy list-everything path.
-    # Future expansion (e.g. SLOs) is mechanical via
-    # BaseResource.get_resources_by_ids inheritance.
+    # --id-file: id-targeted import and sync state-load scoping via stdin or
+    # file payload. Supported resource types are explicitly allowlisted in
+    # _ID_FILE_SUPPORTED_TYPES; runtime paths narrow that union to the
+    # command-specific import and state-load sets.
     id_payload: Optional[Dict[str, List[str]]] = None
     max_concurrent_reads: int = 30
     transient_failure_threshold_pct: int = 5
@@ -253,7 +251,7 @@ def _unwrap_exact_match_pattern(pattern: str) -> str:
     return _regex_literal_from_exact_match_body(pattern[1:-1])
 
 
-_ID_FILE_IMPORT_SUPPORTED_TYPES = frozenset({"monitors", "authn_mappings", "team_memberships"})
+_ID_FILE_IMPORT_SUPPORTED_TYPES = frozenset({"monitors", "authn_mappings", "team_memberships", "dashboards"})
 """Resource types eligible for --id-file on the import command.
 
 The import path fans out to per-ID GETs via BaseResource.get_resources_by_ids.
@@ -264,6 +262,14 @@ permanent errors at runtime.
 
 Widening this set requires per-model verification of the fan-out path.
 Do NOT widen by config — code-level allowlist forces explicit review.
+
+dashboards: Dashboards.import_resource(_id=...) performs a real GET to
+/api/v1/dashboard/{id} for the full body (widgets are omitted by the LIST
+endpoint). The model also short-circuits when the caller passes a body
+already carrying widgets, so the id-file path's get_resources_by_ids ->
+import_resource(_id=...) -> queue-handler _import_resource(resource=body)
+sequence does exactly one GET per dashboard (no double-fetch). Verified via
+tests/unit/test_dashboards_id_file.py.
 """
 
 
@@ -273,6 +279,7 @@ _ID_FILE_STATE_LOAD_SUPPORTED_TYPES = frozenset({
     "team_memberships",
     "host_tags",
     "metrics_metadata",
+    "dashboards",
 })
 """Resource types eligible for --id-file on the sync command with --minimize-reads.
 
@@ -288,6 +295,11 @@ key is derivable from the ID (matches storage.get_single's key construction).
 - metrics_metadata: state key is metric name; import_resource returns
   (metric_name, resource). Storage layout: resources/source/metrics_metadata.
   <metric_name>.json.
+- dashboards: state key is the dashboard id (e.g. abc-def-ghi). Storage
+  layout: resources/source/dashboards.<id>.json. ID-derivable, so
+  State.get_by_ids constructs the correct key. Added alongside the import
+  allowlist entry so the union (_ID_FILE_SUPPORTED_TYPES) accepts dashboards
+  on both paths by design rather than incidentally via the import set.
 
 Do NOT widen by config — code-level allowlist forces explicit review.
 """

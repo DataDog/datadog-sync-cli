@@ -134,7 +134,7 @@ class TestParseIdFileAcceptsNewTypes:
         from datadog_sync.utils.configuration import _parse_id_file
         import logging
 
-        payload_path = _write_payload(tmp_path, {"dashboards": ["dash-1"]})
+        payload_path = _write_payload(tmp_path, {"notebooks": ["nb-1"]})
         with pytest.raises(SystemExit):
             _parse_id_file(str(payload_path), logging.getLogger("test"))
 

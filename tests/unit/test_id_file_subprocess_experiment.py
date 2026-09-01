@@ -390,7 +390,9 @@ def test_subprocess_stdin_payload_parsed(tmp_path):
 @pytest.mark.experiment_subprocess
 def test_subprocess_unsupported_type_in_id_file(tmp_path):
     """--id-file with unsupported type errors at config-build."""
-    payload = json.dumps({"dashboards": ["abc-def-ghi"]})
+    # 'notebooks' is not in _ID_FILE_IMPORT_SUPPORTED_TYPES; 'dashboards' is
+    # now supported, so it can no longer serve as the unsupported-type example.
+    payload = json.dumps({"notebooks": ["abc-def-ghi"]})
     source_dir = tmp_path / "source"
     # Use any URL — the subprocess shouldn't even reach the network.
     rc, stdout, stderr = _run_sync_cli(
@@ -402,8 +404,8 @@ def test_subprocess_unsupported_type_in_id_file(tmp_path):
     assert rc == 1, f"expected exit 1, got {rc}\nSTDERR:\n{stderr.decode(errors='replace')}"
     combined = (stdout + stderr).decode(errors="replace")
     assert (
-        "dashboards" in combined and "not supported" in combined.lower()
-    ), f"expected error message mentioning 'dashboards' and 'not supported', got:\n{combined}"
+        "notebooks" in combined and "not supported" in combined.lower()
+    ), f"expected error message mentioning 'notebooks' and 'not supported', got:\n{combined}"
 
 
 # --- --id-file requires --resources ---
