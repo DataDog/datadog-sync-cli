@@ -318,9 +318,10 @@ def test_id_file_allowlist_rejects_unsupported_type(tmp_path, monkeypatch):
     from datadog_sync.utils.configuration import _parse_id_file
     from unittest.mock import MagicMock
 
-    # Write a payload with an unsupported type
+    # Write a payload with an unsupported type ('notebooks' is not in
+    # _ID_FILE_SUPPORTED_TYPES; 'dashboards' is now supported).
     payload_path = tmp_path / "ids.json"
-    payload_path.write_text(json.dumps({"dashboards": ["abc-def-ghi"]}))
+    payload_path.write_text(json.dumps({"notebooks": ["abc-def-ghi"]}))
 
     logger = MagicMock()
     # _parse_id_file calls sys.exit(1) on validation failure. Patch to raise instead.
@@ -329,7 +330,7 @@ def test_id_file_allowlist_rejects_unsupported_type(tmp_path, monkeypatch):
     assert excinfo.value.code == 1
     # logger.error should have been called with a message naming the unsupported type
     error_calls = [str(call) for call in logger.error.call_args_list]
-    assert any("dashboards" in c for c in error_calls), error_calls
+    assert any("notebooks" in c for c in error_calls), error_calls
 
 
 def test_id_file_allowlist_accepts_monitors(tmp_path):
