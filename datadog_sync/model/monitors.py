@@ -39,6 +39,7 @@ def _variables_have_group_by(variables) -> bool:
             return True
     return False
 
+
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
 
@@ -182,9 +183,7 @@ class Monitors(BaseResource):
                 and not _variables_have_group_by(options.get("variables"))
             ):
                 options.pop("notify_by")
-                self.config.logger.info(
-                    f"monitor {_id}: dropped no-op options.notify_by=['*'] on ungrouped query"
-                )
+                self.config.logger.info(f"monitor {_id}: dropped no-op options.notify_by=['*'] on ungrouped query")
 
         # org: principals are remapped here (before connect_resources runs).
         # user:/role:/team: principals are remapped by connect_id via resource_connections paths.
@@ -243,11 +242,11 @@ class Monitors(BaseResource):
         if not super().filter(resource):
             return False
 
-        if getattr(self.config, "skip_monitors_with_restricted_roles", False) is True and resource.get(
-            "restricted_roles"
+        if getattr(self.config, "skip_monitors_with_restricted_roles", False) is True and _has_access_restrictions(
+            resource
         ):
             self.config.logger.info(
-                "filtering monitor with restricted_roles because --skip-monitors-with-restricted-roles is enabled",
+                "filtering monitor with access restrictions because --skip-monitors-with-restricted-roles is enabled",
                 resource_type=self.resource_type,
                 _id=str(resource.get("id", "")),
             )
@@ -293,9 +292,7 @@ class Monitors(BaseResource):
         empty_risk = empty_risk or roles_risk
 
         return ResourceConnectionResult(
-            empty_binding_escalation=self._raise_connection_error_if_any(
-                _id, failed_connections_dict, empty_risk
-            )
+            empty_binding_escalation=self._raise_connection_error_if_any(_id, failed_connections_dict, empty_risk)
         )
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
@@ -388,6 +385,20 @@ class Monitors(BaseResource):
                 if type_map.get(_type) == resource_to_connect
             ]
         return super(Monitors, self).extract_source_ids(key, r_obj, resource_to_connect)
+
+
+def _has_access_restrictions(resource: Dict) -> bool:
+    if resource.get("restricted_roles"):
+        return True
+
+    restriction_policy = resource.get("restriction_policy")
+    if not isinstance(restriction_policy, dict):
+        return False
+
+    for binding in restriction_policy.get("bindings") or []:
+        if isinstance(binding, dict) and binding.get("principals"):
+            return True
+    return False
 
 
 _MONITOR_LOG_QUERY_MAX_CHARS = 2000

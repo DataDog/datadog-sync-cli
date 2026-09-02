@@ -583,7 +583,8 @@ _sync_options = [
         is_flag=True,
         default=False,
         show_default=True,
-        help="Filter out monitors whose source payload has a non-empty restricted_roles list. "
+        help="Filter out monitors whose source payload has a non-empty restricted_roles list "
+        "or restriction_policy bindings. "
         "This is an explicit access-control escape hatch for DDR destinations where "
         "role/user activation is not ready yet; filtered monitors are not created or updated.",
         cls=CustomOptionClass,

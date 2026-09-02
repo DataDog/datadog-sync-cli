@@ -26,11 +26,17 @@ def _make_dashboard_lists() -> DashboardLists:
     return DashboardLists(config)
 
 
+class _SignatureCheckedLogger:
+    def __init__(self):
+        self.info_calls = []
+
+    def info(self, msg: str, *arg, _id: str = "", resource_type: str = "") -> None:
+        self.info_calls.append({"msg": msg, "args": arg, "_id": _id, "resource_type": resource_type})
+
+
 def test_pre_resource_action_hook_drops_integration_dashboards_before_apply():
     dashboard_lists = _make_dashboard_lists()
-    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {
-        "id": "dash-dst"
-    }
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
     resource = {
         "id": 510887,
         "dashboards": [
@@ -48,11 +54,37 @@ def test_pre_resource_action_hook_drops_integration_dashboards_before_apply():
     ]
 
 
+def test_drop_integration_dashboards_uses_supported_logger_kwargs():
+    dashboard_lists = _make_dashboard_lists()
+    logger = _SignatureCheckedLogger()
+    dashboard_lists.config.logger = logger
+    resource = {
+        "id": 510887,
+        "dashboards": [
+            {"id": "dash-src", "type": "custom_timeboard"},
+            {"id": "62", "type": "integration_timeboard"},
+            {"id": "30516", "type": "integration_timeboard"},
+        ],
+    }
+
+    asyncio.run(dashboard_lists.pre_resource_action_hook("510887", resource))
+
+    assert resource["dashboards"] == [{"id": "dash-src", "type": "custom_timeboard"}]
+    assert logger.info_calls == [
+        {
+            "msg": "dropping integration dashboards from dashboard list before sync; "
+            "integration dashboard IDs are not portable across orgs; "
+            "dropped_dashboard_ids=30516,62",
+            "args": (),
+            "_id": "510887",
+            "resource_type": "dashboard_lists",
+        }
+    ]
+
+
 def test_connect_resources_ignores_unmapped_integration_dashboards():
     dashboard_lists = _make_dashboard_lists()
-    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {
-        "id": "dash-dst"
-    }
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
     resource = {
         "id": 510887,
         "dashboards": [
@@ -125,9 +157,7 @@ def test_update_dash_list_items_drops_integration_dashboards_from_payload():
         dashboard_lists.dash_list_items_path.format("dst-list"),
         {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]},
     )
-    assert dashboard_list == {
-        "dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]
-    }
+    assert dashboard_list == {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
 
 
 def _http_error(status: int) -> CustomClientHTTPError:
@@ -156,30 +186,18 @@ class TestDashboardListsItemsFetchError:
         classifies it as http_5xx (transient) — counted as failure, logged
         at WARNING, no exit-code poisoning, no incomplete state written."""
         dashboard_lists = _make_dashboard_lists()
-        dashboard_lists.config.source_client.get = AsyncMock(
-            side_effect=_http_error(500)
-        )
+        dashboard_lists.config.source_client.get = AsyncMock(side_effect=_http_error(500))
 
         with pytest.raises(CustomClientHTTPError):
-            asyncio.run(
-                dashboard_lists.import_resource(
-                    resource={"id": "42", "name": "my-list"}
-                )
-            )
+            asyncio.run(dashboard_lists.import_resource(resource={"id": "42", "name": "my-list"}))
 
     def test_503_on_items_fetch_propagates(self):
         """Any 5xx propagates — same treatment as 500."""
         dashboard_lists = _make_dashboard_lists()
-        dashboard_lists.config.source_client.get = AsyncMock(
-            side_effect=_http_error(503)
-        )
+        dashboard_lists.config.source_client.get = AsyncMock(side_effect=_http_error(503))
 
         with pytest.raises(CustomClientHTTPError):
-            asyncio.run(
-                dashboard_lists.import_resource(
-                    resource={"id": "42", "name": "my-list"}
-                )
-            )
+            asyncio.run(dashboard_lists.import_resource(resource={"id": "42", "name": "my-list"}))
 
     def test_items_fetch_success_populates_dashboards(self):
         """Happy path: items endpoint returns dashboard IDs that are
@@ -193,8 +211,6 @@ class TestDashboardListsItemsFetchError:
 
         dashboard_lists.config.source_client.get = AsyncMock(side_effect=fake_get)
 
-        _id, resource = asyncio.run(
-            dashboard_lists.import_resource(resource={"id": "42", "name": "my-list"})
-        )
+        _id, resource = asyncio.run(dashboard_lists.import_resource(resource={"id": "42", "name": "my-list"}))
 
         assert resource["dashboards"] == [{"id": "dash-1", "type": "custom_timeboard"}]
