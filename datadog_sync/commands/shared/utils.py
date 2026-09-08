@@ -1,6 +1,8 @@
 import asyncio
 from time import monotonic
 
+import click
+
 from datadog_sync.cli_events import InvocationSummary
 from datadog_sync.constants import Command
 from datadog_sync.utils.configuration import Configuration, build_config
@@ -18,6 +20,7 @@ def run_cmd(cmd: Command, **kwargs):
 
     exit_code = 0
     status = "success"
+    emit_summary = True
     try:
         asyncio.run(run_cmd_async(cfg, handler, cmd))
     except KeyboardInterrupt:
@@ -30,6 +33,13 @@ def run_cmd(cmd: Command, **kwargs):
     except SystemExit as error:
         exit_code = int(error.code or 0)
         status = "failure" if exit_code else "success"
+    except click.ClickException:
+        # Human usage errors (e.g. click.UsageError) must propagate unchanged so
+        # DatadogSyncGroup.main's existing ClickException handling emits the
+        # correct stderr/exit-2 "error" event. Do not convert this into an
+        # InvocationSummary failure event.
+        emit_summary = False
+        raise
     except Exception:
         cfg.logger.exception("Command failed unexpectedly")
         exit_code = 1
@@ -41,7 +51,7 @@ def run_cmd(cmd: Command, **kwargs):
         elif handler.outcome_counts.get("failure") or handler.outcome_counts.get("partial"):
             status = "partial_failure"
     finally:
-        if cfg.emit_json:
+        if cfg.emit_json and emit_summary:
             InvocationSummary(
                 command=cmd.value,
                 status=status,
