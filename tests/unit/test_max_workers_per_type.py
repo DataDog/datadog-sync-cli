@@ -89,6 +89,61 @@ def test_trailing_comma_tolerated():
 
 
 # ------------------------------------------------------------------
+# --worker-limit (repeatable 'type=int') merging with --max-workers-per-type
+# ------------------------------------------------------------------
+
+
+def test_repeated_only_no_raw():
+    got = _parse_max_workers_per_type(None, ("monitors=20",), KNOWN)
+    assert got == {"monitors": 20}
+
+
+def test_repeated_multiple_no_raw():
+    got = _parse_max_workers_per_type(None, ("monitors=20", "dashboards=25"), KNOWN)
+    assert got == {"monitors": 20, "dashboards": 25}
+
+
+def test_raw_and_repeated_merge():
+    got = _parse_max_workers_per_type("monitors=20", ("dashboards=25",), KNOWN)
+    assert got == {"monitors": 20, "dashboards": 25}
+
+
+def test_duplicate_type_across_raw_and_repeated_rejected():
+    with pytest.raises(click.UsageError, match="duplicate resource type"):
+        _parse_max_workers_per_type("monitors=20", ("monitors=25",), KNOWN)
+
+
+def test_duplicate_type_within_repeated_rejected():
+    with pytest.raises(click.UsageError, match="duplicate resource type"):
+        _parse_max_workers_per_type(None, ("monitors=20", "monitors=25"), KNOWN)
+
+
+def test_repeated_rejects_unknown_type():
+    with pytest.raises(click.UsageError, match="unknown resource type 'not_a_type'"):
+        _parse_max_workers_per_type(None, ("not_a_type=5",), KNOWN)
+
+
+def test_repeated_rejects_non_integer_value():
+    with pytest.raises(click.UsageError, match="non-integer value"):
+        _parse_max_workers_per_type(None, ("monitors=abc",), KNOWN)
+
+
+def test_repeated_rejects_zero():
+    with pytest.raises(click.UsageError, match="value must be positive"):
+        _parse_max_workers_per_type(None, ("monitors=0",), KNOWN)
+
+
+def test_repeated_rejects_negative():
+    with pytest.raises(click.UsageError, match="value must be positive"):
+        _parse_max_workers_per_type(None, ("monitors=-1",), KNOWN)
+
+
+def test_repeated_rejects_malformed_no_equals():
+    with pytest.raises(click.UsageError, match="malformed pair"):
+        _parse_max_workers_per_type(None, ("monitors20",), KNOWN)
+
+
+# ------------------------------------------------------------------
 # build_config end-to-end: kwargs -> Configuration -> resources
 # ------------------------------------------------------------------
 
