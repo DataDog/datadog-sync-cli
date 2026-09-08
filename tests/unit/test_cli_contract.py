@@ -191,3 +191,30 @@ def test_json_runtime_emits_exactly_one_terminal_summary():
     assert write_line.call_count == 1
     assert write_line.call_args.args[0]["type"] == "summary"
     assert write_line.call_args.args[0]["counts"] == {"success": 2}
+
+
+def test_json_runtime_success_path_exits_zero_with_success_summary():
+    """A fully successful --json CLI invocation must exit 0 and emit a
+    terminal summary event with status "success" -- run_cmd only raises
+    SystemExit when exit_code is nonzero, so a clean run falls through and
+    returns normally, leaving click's own exit_code 0."""
+    cfg = MagicMock()
+    cfg.emit_json = True
+    cfg.fatal_error = False
+    cfg.logger.exception_logged = False
+    handler = MagicMock()
+    handler.outcome_counts = Counter(success=2)
+    with patch("datadog_sync.commands.shared.utils.build_config", return_value=cfg), patch(
+        "datadog_sync.commands.shared.utils.ResourcesHandler", return_value=handler
+    ), patch("datadog_sync.commands.shared.utils.run_cmd_async", return_value=object()), patch(
+        "datadog_sync.commands.shared.utils.asyncio.run"
+    ):
+        result = CliRunner(mix_stderr=False).invoke(cli, ["diffs", "--json"])
+    assert result.exit_code == 0
+    assert result.stderr == ""
+    events = [json.loads(line) for line in result.stdout.splitlines() if line.strip()]
+    summary_events = [event for event in events if event["type"] == "summary"]
+    assert len(summary_events) == 1
+    event = summary_events[0]
+    assert event["status"] == "success"
+    assert event["exit_code"] == 0
