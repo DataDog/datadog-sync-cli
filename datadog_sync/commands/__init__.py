@@ -10,6 +10,7 @@ from datadog_sync.commands.migrate import migrate
 from datadog_sync.commands.prune import prune
 from datadog_sync.commands.reset import reset
 from datadog_sync.commands.schema import schema
+from datadog_sync.commands.completions import completions
 
 
 WORKFLOW_COMMANDS = [
@@ -23,6 +24,7 @@ WORKFLOW_COMMANDS = [
 
 UTILITY_COMMANDS = [
     schema,
+    completions,
 ]
 
 ALL_COMMANDS = WORKFLOW_COMMANDS + UTILITY_COMMANDS
