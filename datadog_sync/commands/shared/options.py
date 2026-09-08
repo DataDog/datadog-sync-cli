@@ -308,6 +308,64 @@ _common_options = [
         help="Optional CNAME override for the Datadog host used in DDR private location replication.",
         cls=CustomOptionClass,
     ),
+    option(
+        "--resource",
+        required=False,
+        multiple=True,
+        help="Resource type to include; repeat for multiple types. Additive with --resources.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--worker-limit",
+        required=False,
+        multiple=True,
+        help="Per-type worker limit 'type=int'; repeat for multiple types. Additive with --max-workers-per-type.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--filter-file",
+        type=File("r"),
+        required=False,
+        default=None,
+        help="Path to a JSON array of filter objects ({type, name, value, operator}), or `-` for stdin. "
+        "Additive with --filter.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--no-validate",
+        is_flag=True,
+        default=False,
+        help="Disable API validation. Wins over --validate when both are set.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--no-show-progress-bar",
+        is_flag=True,
+        default=False,
+        help="Disable the progress bar. Wins over --show-progress-bar when both are set.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--no-verify-ssl-certificates",
+        is_flag=True,
+        default=False,
+        help="Disable SSL certificate verification. Wins over --verify-ssl-certificates when both are set.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--no-verify-ddr-status",
+        is_flag=True,
+        default=False,
+        help="Disable DDR status verification. Wins over --verify-ddr-status when both are set.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--no-send-metrics",
+        is_flag=True,
+        default=False,
+        help="Disable sync-cli metrics. Wins over --send-metrics when both are set.",
+        cls=CustomOptionClass,
+    ),
 ]
 
 _storage_options = [
@@ -627,6 +685,13 @@ _sync_options = [
         default=False,
         show_default=True,
         help="Allow self-lockout when syncing restriction policies.",
+        cls=CustomOptionClass,
+    ),
+    option(
+        "--no-create-global-downtime",
+        is_flag=True,
+        default=False,
+        help="Disable creating scheduled global downtime. Wins over --create-global-downtime when both are set.",
         cls=CustomOptionClass,
     ),
 ]

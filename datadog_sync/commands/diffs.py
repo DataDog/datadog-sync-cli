@@ -14,6 +14,7 @@ from datadog_sync.commands.shared.options import (
 )
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.constants import Command
+from datadog_sync.utils.configuration import normalize_kwargs
 
 
 @command(Command.DIFFS.value, short_help="Log resource diffs.")
@@ -24,4 +25,5 @@ from datadog_sync.constants import Command
 @storage_options
 def diffs(**kwargs):
     """Log Datadog resources diffs."""
+    kwargs = normalize_kwargs(kwargs)
     run_cmd(Command.DIFFS, **kwargs)

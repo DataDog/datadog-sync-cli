@@ -18,6 +18,7 @@ from datadog_sync.commands.shared.options import (
 )
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.constants import Command
+from datadog_sync.utils.configuration import normalize_kwargs
 
 
 @command(Command.SYNC.value, short_help="Sync Datadog resources to destination.")
@@ -45,4 +46,5 @@ from datadog_sync.constants import Command
 )
 def sync(**kwargs):
     """Sync Datadog resources to destination."""
+    kwargs = normalize_kwargs(kwargs)
     run_cmd(Command.SYNC, **kwargs)
