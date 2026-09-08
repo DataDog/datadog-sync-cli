@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from click.testing import CliRunner
@@ -36,3 +36,51 @@ def test_noninteractive_reset_requires_yes_before_configuration():
     assert result.exit_code == 2
     assert "--yes" in result.stderr
     build_config.assert_not_called()
+
+
+@pytest.mark.parametrize("command", ["sync", "migrate"])
+def test_yes_forces_cleanup_when_cleanup_requested(command):
+    prepared = prepare_invocation(command, {"cleanup": "true"}, RootOptions(yes=True))
+    assert prepared["cleanup"] == "Force"
+
+
+@pytest.mark.parametrize("command", ["sync", "migrate"])
+def test_yes_does_not_force_cleanup_when_cleanup_not_requested(command):
+    prepared = prepare_invocation(command, {"cleanup": "false"}, RootOptions(yes=True))
+    assert prepared["cleanup"] == "false"
+
+
+def test_yes_forces_prune():
+    prepared = prepare_invocation("prune", {}, RootOptions(yes=True))
+    assert prepared["force"] is True
+
+
+def test_yes_allows_reset_noninteractively():
+    prepared = prepare_invocation("reset", {}, RootOptions(yes=True, non_interactive=True))
+    assert prepared["yes"] is True
+    assert prepared["non_interactive"] is True
+
+
+def test_yes_allows_prune_noninteractively_without_prior_force():
+    prepared = prepare_invocation("prune", {}, RootOptions(yes=True, non_interactive=True))
+    assert prepared["force"] is True
+    assert prepared["non_interactive"] is True
+
+
+@pytest.mark.parametrize("command", ["import", "diffs", "prune"])
+def test_read_only_does_not_block_exempt_commands_via_cli(command):
+    cfg = MagicMock()
+    cfg.emit_json = False
+    cfg.logger.exception_logged = False
+    handler = MagicMock()
+    handler.outcome_counts = {}
+    args = ["--read-only", command]
+    if command == "prune":
+        args += ["--resources", "monitors", "--force"]
+    with patch("datadog_sync.commands.shared.utils.build_config", return_value=cfg) as build_config, patch(
+        "datadog_sync.commands.shared.utils.ResourcesHandler", return_value=handler
+    ), patch("datadog_sync.commands.shared.utils.asyncio.run"):
+        result = CliRunner(mix_stderr=False).invoke(cli, args)
+    assert "is blocked by --read-only" not in result.stderr
+    assert result.exit_code != 2
+    build_config.assert_called_once()
