@@ -4,7 +4,8 @@
 # Copyright 2019 Datadog, Inc.
 import os
 import sys
-from typing import Optional, Sequence
+from dataclasses import dataclass
+from typing import Any, Dict, Optional, Sequence
 
 import click
 
@@ -83,3 +84,52 @@ class DatadogSyncGroup(click.Group):
             else:
                 click.echo(f"Error: {error}", err=True)
             raise SystemExit(1)
+
+
+@dataclass(frozen=True)
+class RootOptions:
+    emit_json: bool = False
+    read_only: bool = False
+    non_interactive: bool = False
+    yes: bool = False
+
+
+def root_options() -> RootOptions:
+    context = click.get_current_context(silent=True)
+    values = context.find_root().obj if context is not None else {}
+    values = values or {}
+    return RootOptions(
+        emit_json=bool(values.get("root_emit_json")),
+        read_only=bool(values.get("read_only")),
+        non_interactive=bool(values.get("non_interactive")),
+        yes=bool(values.get("yes")),
+    )
+
+
+def prepare_invocation(command: str, kwargs: Dict[str, Any], root: RootOptions) -> Dict[str, Any]:
+    # Imported lazily to avoid a circular import: datadog_sync.commands.metadata
+    # is reached through datadog_sync.commands, whose __init__ imports every
+    # leaf command module, and those modules import this module for run_cmd.
+    from datadog_sync.commands.metadata import COMMAND_CAPABILITIES
+
+    prepared = dict(kwargs)
+    prepared["emit_json"] = bool(prepared.get("emit_json") or root.emit_json)
+    prepared["read_only"] = root.read_only
+    prepared["non_interactive"] = bool(root.non_interactive or prepared["emit_json"])
+    prepared["yes"] = root.yes
+    capabilities = COMMAND_CAPABILITIES[command]
+    if root.read_only and capabilities.api_writes:
+        raise click.UsageError(f"{command} can perform Datadog API writes and is blocked by --read-only")
+    cleanup_prompts = command in {"sync", "migrate"} and str(prepared.get("cleanup", "false")).lower() == "true"
+    prune_prompts = command == "prune" and not (prepared.get("force") or prepared.get("dry_run"))
+    reset_prompts = command == "reset"
+    if root.yes:
+        if cleanup_prompts:
+            prepared["cleanup"] = "Force"
+        if command == "prune":
+            prepared["force"] = True
+    elif prepared["non_interactive"] and (cleanup_prompts or prune_prompts or reset_prompts):
+        raise click.UsageError(
+            f"{command} would prompt in noninteractive mode; pass --yes or use the command's dry-run option"
+        )
+    return prepared
