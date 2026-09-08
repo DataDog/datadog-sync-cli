@@ -19,6 +19,21 @@ is a **discriminated union** keyed by ``"type"``:
     Fields: ``level``, ``message``, and optionally ``resource_type``, ``id``.
     See :class:`log.Log` and :class:`log._NdjsonHandler`.
 
+``"type": "error"``
+    Command-level failure emitted before any resource work could run (e.g. a
+    usage error or an unhandled runtime exception). Fields: ``command``,
+    ``error_code``, ``message``, ``exit_code``, ``status``.
+    See :class:`cli_events.CommandError`.
+
+``"type": "summary"``
+    Terminal invocation summary emitted exactly once, as the final line of
+    every structured invocation that did not already end in an ``error``
+    event. Fields: ``command``, ``status``, ``counts``, ``duration_ms``,
+    ``exit_code``. See :class:`cli_events.InvocationSummary`.
+
+Every structured invocation ends with exactly one ``summary`` or ``error``
+event as its final line.
+
 Every event is a single JSON object terminated by ``\\n``.  Consumers should
 filter by ``type`` and ignore unknown type values and unknown fields
 for forward-compatibility.

@@ -1,12 +1,14 @@
 import importlib
 import json
 import logging
+from collections import Counter
 from unittest.mock import MagicMock, patch
 
 import pytest
 from click.testing import CliRunner
 
 from datadog_sync.cli import cli
+from datadog_sync.cli_events import InvocationSummary
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.constants import LOGGER_NAME, Command
 
@@ -99,3 +101,33 @@ def test_keyboard_interrupt_exits_130_after_sync_state_dump():
             run_cmd(Command.SYNC)
     assert exc.value.code == 130
     cfg.state.dump_state.assert_called_once_with()
+
+
+def test_summary_serializes_nonzero_counts_only():
+    event = InvocationSummary("sync", "partial_failure", Counter(success=2, failure=1, skipped=0), 15, 1)
+    assert event.to_dict() == {
+        "type": "summary",
+        "command": "sync",
+        "status": "partial_failure",
+        "counts": {"success": 2, "failure": 1},
+        "duration_ms": 15,
+        "exit_code": 1,
+    }
+
+
+def test_json_runtime_emits_exactly_one_terminal_summary():
+    cfg = MagicMock()
+    cfg.emit_json = True
+    cfg.fatal_error = False
+    cfg.logger.exception_logged = False
+    handler = MagicMock()
+    handler.outcome_counts = Counter(success=2)
+    with patch("datadog_sync.commands.shared.utils.build_config", return_value=cfg), patch(
+        "datadog_sync.commands.shared.utils.ResourcesHandler", return_value=handler
+    ), patch("datadog_sync.commands.shared.utils.run_cmd_async", return_value=object()), patch(
+        "datadog_sync.commands.shared.utils.asyncio.run"
+    ), patch("datadog_sync.cli_events.write_ndjson_line") as write_line:
+        run_cmd(Command.DIFFS, emit_json=True)
+    assert write_line.call_count == 1
+    assert write_line.call_args.args[0]["type"] == "summary"
+    assert write_line.call_args.args[0]["counts"] == {"success": 2}

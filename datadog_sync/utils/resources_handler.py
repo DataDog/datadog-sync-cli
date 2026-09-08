@@ -9,7 +9,7 @@ import logging
 import sys
 import time
 from asyncio import Semaphore
-from collections import defaultdict
+from collections import Counter, defaultdict
 from copy import deepcopy
 from time import sleep
 from typing import Dict, TYPE_CHECKING, List, Optional, Set, Tuple
@@ -193,6 +193,7 @@ class ResourcesHandler:
         self._dependency_graph: Optional[Dict[Tuple[str, str], Set[Tuple[str, str]]]] = None
         self._import_attempts_by_type: Dict[str, int] = defaultdict(int)
         self._import_transient_failures_by_type: Dict[str, int] = defaultdict(int)
+        self.outcome_counts: Counter = Counter()
 
     @staticmethod
     def _sanitize_reason(err: Exception) -> Tuple[str, str]:
@@ -298,6 +299,7 @@ class ResourcesHandler:
         details: Optional[Dict[str, str]] = None,
     ) -> None:
         if self.config.emit_json:
+            self.outcome_counts[status] += 1
             _id_str = str(_id) if _id is not None else ""
             ResourceOutcome(
                 command=self.config.command,
