@@ -940,13 +940,21 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
                 f"Pass --resources={','.join(sorted(id_payload.keys()))} "
                 "(plus any dependency types like users,roles if applicable)."
             )
-        missing_from_resources = set(id_payload.keys()) - set(resources_arg)
-        if missing_from_resources:
-            raise click.UsageError(
-                f"--id-file types {sorted(missing_from_resources)!r} are not "
-                f"present in --resources={resources_arg_str!r}. Either add them to "
-                f"--resources or remove from the id-payload."
-            )
+        # Under --minimize-reads, a disjoint id-file type is not a footgun: the
+        # sub-mode selection above (line 752-765) already scopes id-payload
+        # entries to the intersection with --resources, so a type absent from
+        # --resources is simply never id-targeted and falls through to
+        # type-scoped loading instead of being silently dropped. Only guard
+        # against this for the legacy full-list path (e.g. plain `import`),
+        # where a disjoint type really would be silently skipped.
+        if not minimize_reads:
+            missing_from_resources = set(id_payload.keys()) - set(resources_arg)
+            if missing_from_resources:
+                raise click.UsageError(
+                    f"--id-file types {sorted(missing_from_resources)!r} are not "
+                    f"present in --resources={resources_arg_str!r}. Either add them to "
+                    f"--resources or remove from the id-payload."
+                )
 
     config.resources = resources
     config.resources_arg = resources_arg
