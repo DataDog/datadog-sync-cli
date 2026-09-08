@@ -124,6 +124,7 @@ def test_prune_without_resource_per_file_is_structured_usage_error():
     of run_cmd untouched, exit 2, and emit exactly the ClickException
     "error" event from cli_runtime.py -- never an InvocationSummary
     "summary" event."""
+
     async def _raise_usage_error(*_args, **_kwargs):
         raise click.UsageError("prune requires --resource-per-file")
 
@@ -164,7 +165,9 @@ def test_run_cmd_propagates_click_usage_error_without_summary():
     ), patch(
         "datadog_sync.commands.shared.utils.asyncio.run",
         side_effect=click.UsageError("prune requires --resource-per-file"),
-    ), patch("datadog_sync.cli_events.write_ndjson_line") as write_line:
+    ), patch(
+        "datadog_sync.cli_events.write_ndjson_line"
+    ) as write_line:
         with pytest.raises(click.UsageError):
             run_cmd(Command.PRUNE, emit_json=True)
     write_line.assert_not_called()
@@ -181,7 +184,9 @@ def test_json_runtime_emits_exactly_one_terminal_summary():
         "datadog_sync.commands.shared.utils.ResourcesHandler", return_value=handler
     ), patch("datadog_sync.commands.shared.utils.run_cmd_async", return_value=object()), patch(
         "datadog_sync.commands.shared.utils.asyncio.run"
-    ), patch("datadog_sync.cli_events.write_ndjson_line") as write_line:
+    ), patch(
+        "datadog_sync.cli_events.write_ndjson_line"
+    ) as write_line:
         run_cmd(Command.DIFFS, emit_json=True)
     assert write_line.call_count == 1
     assert write_line.call_args.args[0]["type"] == "summary"
