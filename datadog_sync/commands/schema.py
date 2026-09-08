@@ -7,6 +7,7 @@ from typing import Dict, Optional
 
 import click
 
+from datadog_sync.cli_runtime import GroupedCommand
 from datadog_sync.commands.metadata import COMMAND_CAPABILITIES, option_policy
 
 
@@ -59,7 +60,7 @@ def build_cli_schema(root: click.Group, command_name: Optional[str], compact: bo
     }
 
 
-@click.command("schema", short_help="Print the machine-readable CLI schema.")
+@click.command("schema", short_help="Print the machine-readable CLI schema.", cls=GroupedCommand)
 @click.argument("command_name", required=False)
 @click.option("--compact", is_flag=True)
 @click.pass_context

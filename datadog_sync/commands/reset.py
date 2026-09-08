@@ -12,11 +12,12 @@ from datadog_sync.commands.shared.options import (
     storage_options,
 )
 from datadog_sync.commands.shared.utils import run_cmd
+from datadog_sync.cli_runtime import GroupedCommand
 from datadog_sync.constants import Command
 from datadog_sync.utils.configuration import normalize_kwargs
 
 
-@command(Command.RESET.value, short_help="WARNING: Reset Datadog resources by deleting them.")
+@command(Command.RESET.value, short_help="WARNING: Reset Datadog resources by deleting them.", cls=GroupedCommand)
 @source_auth_options
 @destination_auth_options
 @common_options

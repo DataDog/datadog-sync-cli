@@ -11,11 +11,12 @@ from datadog_sync.commands.shared.options import (
     storage_options,
 )
 from datadog_sync.commands.shared.utils import run_cmd
+from datadog_sync.cli_runtime import GroupedCommand
 from datadog_sync.constants import Command
 from datadog_sync.utils.configuration import normalize_kwargs
 
 
-@command(Command.PRUNE.value, short_help="Delete state files for resources no longer in source.")
+@command(Command.PRUNE.value, short_help="Delete state files for resources no longer in source.", cls=GroupedCommand)
 @source_auth_options
 @common_options
 @storage_options
