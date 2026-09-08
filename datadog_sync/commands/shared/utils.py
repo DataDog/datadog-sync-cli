@@ -1,5 +1,4 @@
 import asyncio
-from sys import exit
 
 from datadog_sync.constants import Command
 from datadog_sync.utils.configuration import Configuration, build_config
@@ -20,10 +19,10 @@ def run_cmd(cmd: Command, **kwargs):
         if cmd in [Command.SYNC, Command.MIGRATE, Command.RESET]:
             cfg.logger.info("Writing synced resources to disk before exit...")
             cfg.state.dump_state()
-            exit(0)
+        raise SystemExit(130)
 
     if cfg.logger.exception_logged:
-        exit(1)
+        raise SystemExit(1)
 
 
 async def run_cmd_async(cfg: Configuration, handler: ResourcesHandler, cmd: Command):

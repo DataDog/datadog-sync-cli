@@ -4,27 +4,18 @@
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
 import configobj
-from sys import exit
 
 from click import Choice, IntRange, Option, option, File, Path
 
 from datadog_sync import constants
-from typing import TYPE_CHECKING, Any, Callable, Dict, List
+from typing import TYPE_CHECKING, Callable, List
 
 if TYPE_CHECKING:
     from click.core import Context
 
 
 class CustomOptionClass(Option):
-    def handle_parse_result(self, ctx: Context, opts: Dict[Any, Any], args: List[Any]) -> Any:
-        try:
-            return super(Option, self).handle_parse_result(ctx, opts, args)
-        except Exception as e:
-            if self.is_flag:
-                print(f"Invalid value for Option '{self.human_readable_name}'. Valid values [True, False]")
-            else:
-                print(f"Invalid value for Option '{self.human_readable_name}': {str(e)}")
-            exit(1)
+    pass
 
 
 _source_auth_options = [

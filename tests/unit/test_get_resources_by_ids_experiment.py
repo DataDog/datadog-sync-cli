@@ -315,6 +315,7 @@ def test_id_file_allowlist_rejects_unsupported_type(tmp_path, monkeypatch):
     Future expansion (SLOs, etc.) requires explicit code-level allowlist update
     rather than config-time widening to force per-model verification."""
     import json
+    import click
     from datadog_sync.utils.configuration import _parse_id_file
     from unittest.mock import MagicMock
 
@@ -324,13 +325,10 @@ def test_id_file_allowlist_rejects_unsupported_type(tmp_path, monkeypatch):
     payload_path.write_text(json.dumps({"notebooks": ["abc-def-ghi"]}))
 
     logger = MagicMock()
-    # _parse_id_file calls sys.exit(1) on validation failure. Patch to raise instead.
-    with pytest.raises(SystemExit) as excinfo:
+    # _parse_id_file raises click.UsageError on validation failure (exit code 2 via the CLI).
+    with pytest.raises(click.UsageError) as excinfo:
         _parse_id_file(str(payload_path), logger)
-    assert excinfo.value.code == 1
-    # logger.error should have been called with a message naming the unsupported type
-    error_calls = [str(call) for call in logger.error.call_args_list]
-    assert any("notebooks" in c for c in error_calls), error_calls
+    assert "notebooks" in str(excinfo.value)
 
 
 def test_id_file_allowlist_accepts_monitors(tmp_path):
