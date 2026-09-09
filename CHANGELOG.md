@@ -1,5 +1,15 @@
 # Changelog
 
+## 6.0.0 / 2026-09-09
+
+### Changed
+* metric_percentiles: move to a documented public API for managing percentiles by @chuck in https://github.com/DataDog/datadog-sync-cli/pull/691
+
+## New Contributors
+* @chuck made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/691
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/5.2.0...6.0.0
+
 ## 5.2.0 / 2026-09-01
 
 ### Added
