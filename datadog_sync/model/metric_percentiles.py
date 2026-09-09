@@ -13,6 +13,17 @@ from datadog_sync.utils.resource_utils import (
 )
 
 
+# The bulk toggle endpoints always return 200, even for a metric they decline to
+# touch (wrong summary_aggr source, unresolvable name, etc.) - those come back in
+# the response body's "unsuccessful" list with no per-metric reason. This failure
+# class distinguishes that case from FAILURE_CLASS_DESTINATION_METRIC_MISSING.
+FAILURE_CLASS_DESTINATION_METRIC_NOT_CONFIGURABLE = "destination_metric_not_configurable"
+
+# /api/v2/metrics window[seconds] and page[size] limits (governance app).
+_WINDOW_SECONDS_14D = 14 * 86400
+_PAGE_SIZE = 10000
+
+
 def _error_body(error: CustomClientHTTPError) -> str:
     return (error.response_body or "").lower()
 
@@ -29,17 +40,44 @@ class MetricPercentiles(BaseResource):
         skip_resource_mapping=True,
     )
     # Additional MetricPercentiles specific attributes
-    metrics_summaries_get_path = "/metric/distribution/list_summaries"
+    metrics_list_path = "/api/v2/metrics"
     enable_percentiles_path = "/metric/distribution/summary_aggr/percentiles/enable"
     disable_percentiles_path = "/metric/distribution/summary_aggr/percentiles/disable"
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        params = {
-            "window": 14 * 86400,  # 14 days
-        }
-        resp = await client.get(self.metrics_summaries_get_path, params=params)
+        # The legacy /metric/distribution/list_summaries endpoint (mcnulty) leaks
+        # internal summary_aggr fields (e.g. summary_aggr.key) that we never used -
+        # include_percentiles is the only field this resource actually needs. The
+        # public governance API (/api/v2/metrics) doesn't attach include_percentiles
+        # to the response for metrics whose summary_aggr aggr_mode is still at its
+        # unconfigured default, but its filter[include_percentiles] facet queries the
+        # raw stored boolean directly and isn't affected by that gap. So we recover
+        # the same information via list membership: one call per boolean value.
+        metrics: Dict[str, Dict] = {}
+        for include_percentiles in (True, False):
+            cursor = None
+            while True:
+                params = {
+                    "filter[metric_type]": "distribution",
+                    "filter[include_percentiles]": "true" if include_percentiles else "false",
+                    "window[seconds]": _WINDOW_SECONDS_14D,
+                    "page[size]": _PAGE_SIZE,
+                }
+                if cursor is not None:
+                    params["page[cursor]"] = cursor
 
-        return resp
+                resp = await client.get(self.metrics_list_path, params=params)
+                for item in resp["data"]:
+                    metrics[item["id"]] = {
+                        "metric_name": item["id"],
+                        "include_percentiles": include_percentiles,
+                    }
+
+                cursor = (resp.get("meta") or {}).get("pagination", {}).get("next_cursor")
+                if not cursor:
+                    break
+
+        return list(metrics.values())
 
     async def import_resource(self, _: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         # The bulk-toggle endpoints only accept metric_names; group_by, aggr_mode,
@@ -69,11 +107,11 @@ class MetricPercentiles(BaseResource):
         # returns 403 empty-body at the OBO auth layer.
         destination_client = self.config.destination_client
         path = self.enable_percentiles_path if resource.get("include_percentiles") else self.disable_percentiles_path
+        operation = "percentiles_enable" if resource.get("include_percentiles") else "percentiles_disable"
         try:
-            await destination_client.patch(path, {"metric_names": [_id]})
+            resp = await destination_client.patch(path, {"metric_names": [_id]})
         except CustomClientHTTPError as e:
             if _is_metric_not_found_error(e):
-                operation = "percentiles_enable" if resource.get("include_percentiles") else "percentiles_disable"
                 raise SkipResource(
                     _id,
                     self.resource_type,
@@ -83,6 +121,21 @@ class MetricPercentiles(BaseResource):
                     outcome_details={"metric_name": _id, "operation": operation},
                 )
             raise
+
+        # A 200 here doesn't mean the toggle actually applied - the destination
+        # silently declines metrics it can't configure (e.g. a summary_aggr source
+        # that isn't percentile-configurable) by putting them in "unsuccessful"
+        # instead of raising. Without this check that no-op reads as a success.
+        if _id in (resp or {}).get("unsuccessful", []):
+            raise SkipResource(
+                _id,
+                self.resource_type,
+                "Destination declined to toggle percentiles for this metric "
+                "(ineligible summary_aggr source or unresolved metric name).",
+                failure_class=FAILURE_CLASS_DESTINATION_METRIC_NOT_CONFIGURABLE,
+                reason=FAILURE_CLASS_DESTINATION_METRIC_NOT_CONFIGURABLE,
+                outcome_details={"metric_name": _id, "operation": operation},
+            )
 
         return _id, resource
 

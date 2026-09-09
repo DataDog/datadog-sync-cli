@@ -25,51 +25,26 @@ interactions:
       Content-Type:
       - application/json
     method: GET
-    uri: https://api.datadoghq.eu/metric/distribution/list_summaries?window=1209600
+    uri: https://api.datadoghq.eu/api/v2/metrics?filter%5Bmetric_type%5D=distribution&filter%5Binclude_percentiles%5D=true&window%5Bseconds%5D=1209600&page%5Bsize%5D=10000
   response:
     body:
-      string: '[{"metric_name": "runtime.go.metrics.sched_latencies.seconds", "group_by":
-        ["app_type", "build_commit", "build_ts", "datacenter", "env", "framework_version",
-        "git_branch", "go_version", "gogc", "gomaxprocs", "gomemlimit", "goversion",
-        "lang", "lang_version", "language", "pgo", "protocol", "runtime-id", "service",
-        "team", "tracer_version", "type"], "include_percentiles": false, "aggr_mode":
-        "include_all", "summary_type": "default", "groups_negated": false, "key":
-        371903746, "source": "intake"}, {"metric_name": "runtime.go.metrics.gc_heap_frees_by_size.bytes",
-        "group_by": ["app_type", "build_commit", "build_ts", "datacenter", "env",
-        "framework_version", "git_branch", "go_version", "gogc", "gomaxprocs", "gomemlimit",
-        "goversion", "lang", "lang_version", "language", "pgo", "protocol", "runtime-id",
-        "service", "team", "tracer_version", "type"], "include_percentiles": false,
-        "aggr_mode": "include_all", "summary_type": "default", "groups_negated": false,
-        "key": 371903770, "source": "intake"}, {"metric_name": "runtime.go.metrics.gc_heap_allocs_by_size.bytes",
-        "group_by": ["app_type", "build_commit", "build_ts", "datacenter", "env",
-        "framework_version", "git_branch", "go_version", "gogc", "gomaxprocs", "gomemlimit",
-        "goversion", "lang", "lang_version", "language", "pgo", "protocol", "runtime-id",
-        "service", "team", "tracer_version", "type"], "include_percentiles": false,
-        "aggr_mode": "include_all", "summary_type": "default", "groups_negated": false,
-        "key": 371903729, "source": "intake"}, {"metric_name": "runtime.go.metrics.sched_pauses_total_gc.seconds",
-        "group_by": ["app_type", "build_commit", "build_ts", "datacenter", "env",
-        "framework_version", "git_branch", "go_version", "gogc", "gomaxprocs", "gomemlimit",
-        "goversion", "lang", "lang_version", "language", "pgo", "protocol", "runtime-id",
-        "service", "team", "tracer_version", "type"], "include_percentiles": false,
-        "aggr_mode": "include_all", "summary_type": "default", "groups_negated": false,
-        "key": 371903753, "source": "intake"}, {"metric_name": "runtime.go.metrics.sched_pauses_stopping_gc.seconds",
-        "group_by": ["app_type", "build_commit", "build_ts", "datacenter", "env",
-        "framework_version", "git_branch", "go_version", "gogc", "gomaxprocs", "gomemlimit",
-        "goversion", "lang", "lang_version", "language", "pgo", "protocol", "runtime-id",
-        "service", "team", "tracer_version", "type"], "include_percentiles": false,
-        "aggr_mode": "include_all", "summary_type": "default", "groups_negated": false,
-        "key": 371903756, "source": "intake"}, {"metric_name": "msr.other_distribution",
-        "group_by": [], "include_percentiles": true, "aggr_mode": "include_all", "summary_type":
-        "default", "groups_negated": false, "key": 285536557, "source": "intake"},
-        {"metric_name": "msr.distribution", "group_by": ["environment", "host"], "include_percentiles":
-        true, "aggr_mode": "use_groups", "summary_type": "default", "groups_negated":
-        false, "key": 285529188, "source": "intake"}, {"metric_name": "runtime.go.metrics.gc_pauses.seconds",
-        "group_by": ["app_type", "build_commit", "build_ts", "datacenter", "env",
-        "framework_version", "git_branch", "go_version", "gogc", "gomaxprocs", "gomemlimit",
-        "goversion", "lang", "lang_version", "language", "pgo", "protocol", "runtime-id",
-        "service", "team", "tracer_version", "type"], "include_percentiles": false,
-        "aggr_mode": "include_all", "summary_type": "default", "groups_negated": false,
-        "key": 371903757, "source": "intake"}]'
+      string: '{"data": [{"id": "msr.other_distribution", "type": "metric"}, {"id": "msr.distribution", "type": "metric"}], "meta": {"pagination": {}}}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/metrics?filter%5Bmetric_type%5D=distribution&filter%5Binclude_percentiles%5D=false&window%5Bseconds%5D=1209600&page%5Bsize%5D=10000
+  response:
+    body:
+      string: '{"data": [{"id": "runtime.go.metrics.sched_latencies.seconds", "type": "metric"}, {"id": "runtime.go.metrics.gc_heap_frees_by_size.bytes", "type": "metric"}, {"id": "runtime.go.metrics.gc_heap_allocs_by_size.bytes", "type": "metric"}, {"id": "runtime.go.metrics.sched_pauses_total_gc.seconds", "type": "metric"}, {"id": "runtime.go.metrics.sched_pauses_stopping_gc.seconds", "type": "metric"}, {"id": "runtime.go.metrics.gc_pauses.seconds", "type": "metric"}], "meta": {"pagination": {}}}'
     headers:
       Content-Type:
       - application/json
