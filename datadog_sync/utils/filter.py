@@ -118,8 +118,11 @@ def load_filter_file(file_obj) -> List[Dict[str, str]]:
         if not isinstance(item, dict):
             raise click.UsageError(f"--filter-file: entry {i} must be a JSON object")
         for field_name in FILTER_FILE_REQUIRED_STRING_FIELDS:
-            if not isinstance(item.get(field_name), str):
+            field_value = item.get(field_name)
+            if not isinstance(field_value, str):
                 raise click.UsageError(f"--filter-file: entry {i} missing/invalid required string field {field_name!r}")
+            if not field_value.strip():
+                raise click.UsageError(f"--filter-file: entry {i} required field {field_name!r} must not be empty")
         operator = item.get("operator")
         if operator is not None and not isinstance(operator, str):
             raise click.UsageError(f"--filter-file: entry {i} field 'operator' must be a string")
