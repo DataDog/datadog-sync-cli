@@ -14255,6 +14255,23 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/metrics/datadog.agent.started
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "count", "unit": null,
+        "per_unit": null, "statsd_interval": null, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: '{"name": "test", "tags": ["managed_by:datadog-sync"], "monitor_tags": [],
       "thresholds": [{"timeframe": "7d", "target": 99.9, "target_display": "99.9"}],
       "type": "metric", "type_id": 1, "description": "", "timeframe": "7d", "target_threshold":

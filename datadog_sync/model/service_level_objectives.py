@@ -3,14 +3,73 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 from __future__ import annotations
+import logging
+import re
 from collections import defaultdict
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
+from datadog_sync.constants import LOGGER_NAME
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig, ResourceConnectionResult, TaggingConfig
-from datadog_sync.utils.resource_utils import SkipResource, find_attr
+from datadog_sync.utils.resource_utils import (
+    FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+    CustomClientHTTPError,
+    SkipResource,
+    find_attr,
+)
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
+
+
+log = logging.getLogger(LOGGER_NAME)
+
+# Matches a metric query term: ``<aggr>:<metric_name>{``. The aggregation
+# (sum/avg/min/max/count/last/...) is followed by a colon, the metric name
+# (charset [a-zA-Z0-9_.]), optional whitespace, and the opening brace of the
+# scope filter. Arithmetic (``-``, ``+``, ``*``, ``/``) and post-query
+# modifiers (``.as_count()``, ``.rollup(...)``) sit outside the match, so a
+# single finditer pass over a numerator/denominator string yields every
+# distinct metric referenced by the SLO.
+_METRIC_NAME_RE = re.compile(r"\b[a-zA-Z]+\s*:\s*([a-zA-Z0-9_.]+)\s*\{")
+
+
+def _extract_metric_names(resource: Dict) -> List[str]:
+    """Return the distinct metric names referenced by a metric SLO's queries.
+
+    A metric SLO validates its numerator/denominator queries against the
+    destination org's metric catalog; every metric referenced must exist there
+    before the SLO can be created or updated. The names are pulled from both
+    the v1 ``query`` (numerator/denominator) and the v2
+    ``sli_specification.count.queries`` shapes so the destination can probe
+    each one for existence regardless of which representation the source
+    carried.
+    """
+    names: List[str] = []
+    seen: set = set()
+
+    def _scan(query_str: object) -> None:
+        if not isinstance(query_str, str):
+            return
+        for m in _METRIC_NAME_RE.finditer(query_str):
+            name = m.group(1)
+            if name and name not in seen:
+                seen.add(name)
+                names.append(name)
+
+    query = resource.get("query")
+    if isinstance(query, dict):
+        _scan(query.get("numerator", ""))
+        _scan(query.get("denominator", ""))
+
+    sli_spec = resource.get("sli_specification")
+    if isinstance(sli_spec, dict):
+        count_spec = sli_spec.get("count")
+        if isinstance(count_spec, dict):
+            for q in count_spec.get("queries", []) or []:
+                if isinstance(q, dict):
+                    _scan(q.get("query", ""))
+
+    return names
 
 
 class ServiceLevelObjectives(BaseResource):
@@ -54,13 +113,65 @@ class ServiceLevelObjectives(BaseResource):
     async def pre_apply_hook(self) -> None:
         pass
 
+    async def _probe_destination_metrics_or_skip(self, _id: str, resource: Dict, operation: str) -> None:
+        """Probe the destination for every metric a metric SLO references.
+
+        A metric SLO's numerator/denominator queries reference metrics that
+        must exist on the destination org before the SLO can be created or
+        updated. If the destination rejects the write because a referenced
+        metric is absent, sync-cli previously failed silently — no per-resource
+        error, no typed outcome — leaving the SLO absent from the destination
+        bucket with no log trail (see the metric-SLO silent-failure report).
+
+        Probe each referenced metric via GET /api/v1/metrics/{name} (the same
+        v1 path metrics_metadata uses). On 404, collect the missing names and
+        raise a typed SkipResource carrying all of them in ``metric_names``
+        (comma-joined) so callers can materialize every missing metric before
+        retrying the SLO. Other probe errors
+        propagate to the existing retry layer.
+
+        Only ``type=metric`` SLOs are probed; monitor and time-slice SLOs have
+        no metric dependencies. Runs in the create/update write paths (after
+        the diff check) so no-diff syncs issue no probe calls.
+        """
+        if resource.get("type") != "metric":
+            return
+
+        metric_names = _extract_metric_names(resource)
+        if not metric_names:
+            return
+
+        destination_client = self.config.destination_client
+        missing: List[str] = []
+        for name in metric_names:
+            try:
+                await destination_client.get(f"/api/v1/metrics/{name}")
+            except CustomClientHTTPError as e:
+                if e.status_code == 404:
+                    log.debug(f"[slo - {_id}] referenced metric {name!r} not present on destination")
+                    missing.append(name)
+                    continue
+                raise
+
+        if missing:
+            raise SkipResource(
+                _id,
+                self.resource_type,
+                f"Referenced metric(s) not present on destination: {', '.join(missing)}",
+                failure_class=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                outcome_details={"metric_names": ",".join(missing), "operation": operation},
+            )
+
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        await self._probe_destination_metrics_or_skip(_id, resource, "slo_create")
         destination_client = self.config.destination_client
         resp = await destination_client.post(self.resource_config.base_path, resource)
 
         return _id, resp["data"][0]
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
+        await self._probe_destination_metrics_or_skip(_id, resource, "slo_update")
         destination_client = self.config.destination_client
         resp = await destination_client.put(
             self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
