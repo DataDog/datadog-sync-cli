@@ -23,6 +23,15 @@ FAILURE_CLASS_DESTINATION_METRIC_NOT_CONFIGURABLE = "destination_metric_not_conf
 _WINDOW_SECONDS_14D = 14 * 86400
 _PAGE_SIZE = 10000
 
+# Destination metric existence probe path. The bulk-toggle endpoints below
+# return HTTP 200 even for metrics that don't exist on the destination, so
+# the toggle response alone cannot distinguish "missing metric" (which can be
+# created before retrying) from "exists but not percentile-configurable".
+# Probe GET /api/v1/metrics/{name} first — the same v1 path metrics_metadata
+# uses — and return a typed skip on 404. See metrics_metadata.update_resource
+# for the established pattern.
+_metric_probe_path = "/api/v1/metrics"
+
 
 def _error_body(error: CustomClientHTTPError) -> str:
     return (error.response_body or "").lower()
@@ -108,6 +117,30 @@ class MetricPercentiles(BaseResource):
         destination_client = self.config.destination_client
         path = self.enable_percentiles_path if resource.get("include_percentiles") else self.disable_percentiles_path
         operation = "percentiles_enable" if resource.get("include_percentiles") else "percentiles_disable"
+
+        # Probe destination metric existence before the bulk-toggle PATCH. The
+        # toggle endpoints return HTTP 200 even for metrics that don't exist on
+        # the destination, reporting them in the response body's "unsuccessful"
+        # list alongside metrics that exist but aren't percentile-configurable.
+        # Without this probe, missing metrics are misclassified as
+        # destination_metric_not_configurable (which cannot be repaired) instead
+        # of destination_metric_missing (which callers can repair before a
+        # retry). On 404 raise a typed SkipResource; other probe errors propagate
+        # to the retry layer.
+        try:
+            await destination_client.get(f"{_metric_probe_path}/{_id}")
+        except CustomClientHTTPError as e:
+            if e.status_code == 404:
+                raise SkipResource(
+                    _id,
+                    self.resource_type,
+                    "Metric not present on destination; percentiles cannot attach.",
+                    failure_class=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                    reason=FAILURE_CLASS_DESTINATION_METRIC_MISSING,
+                    outcome_details={"metric_name": _id, "operation": operation},
+                )
+            raise
+
         try:
             resp = await destination_client.patch(path, {"metric_names": [_id]})
         except CustomClientHTTPError as e:
