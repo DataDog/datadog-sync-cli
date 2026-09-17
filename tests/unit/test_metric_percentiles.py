@@ -110,7 +110,7 @@ def test_get_resources_metric_reported_only_once_per_boolean(metric_percentiles)
 
 def test_update_resource_existing_metric_enables_percentiles(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock()
+    client.get = AsyncMock(return_value={"type": "distribution"})
     client.patch = AsyncMock(return_value={})
 
     _id, resource = _run(
@@ -119,7 +119,7 @@ def test_update_resource_existing_metric_enables_percentiles(metric_percentiles)
 
     assert _id == "custom.metric"
     assert resource == {"metric": "custom.metric", "include_percentiles": True}
-    client.get.assert_not_awaited()
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
     client.patch.assert_awaited_once_with(
         "/metric/distribution/summary_aggr/percentiles/enable",
         {"metric_names": ["custom.metric"]},
@@ -128,21 +128,71 @@ def test_update_resource_existing_metric_enables_percentiles(metric_percentiles)
 
 def test_update_resource_existing_metric_disables_percentiles(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock()
+    client.get = AsyncMock(return_value={"type": "distribution"})
     client.patch = AsyncMock(return_value={})
 
     _run(metric_percentiles.update_resource("custom.metric", {"metric": "custom.metric", "include_percentiles": False}))
 
-    client.get.assert_not_awaited()
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
     client.patch.assert_awaited_once_with(
         "/metric/distribution/summary_aggr/percentiles/disable",
         {"metric_names": ["custom.metric"]},
     )
 
 
-def test_update_resource_missing_destination_metric_patch_raises_skip(metric_percentiles):
+def test_update_resource_probe_404_raises_typed_skip(metric_percentiles):
+    # The bulk-toggle endpoints return 200 for missing metrics (reporting them
+    # in "unsuccessful"), so the probe is the only path that classifies a
+    # missing metric as destination_metric_missing. Without it, callers cannot
+    # repair and retry, and the percentile config is silently absent.
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock()
+    client.get = AsyncMock(side_effect=_http_error(404))
+    client.patch = AsyncMock(return_value={})
+
+    with pytest.raises(SkipResource) as exc_info:
+        _run(
+            metric_percentiles.update_resource(
+                "custom.metric",
+                {"metric": "custom.metric", "include_percentiles": True},
+            )
+        )
+
+    assert "custom.metric" in str(exc_info.value)
+    assert "not present on destination" in str(exc_info.value)
+    assert exc_info.value.failure_class == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+    assert exc_info.value.outcome_reason == FAILURE_CLASS_DESTINATION_METRIC_MISSING
+    assert exc_info.value.outcome_details == {
+        "metric_name": "custom.metric",
+        "operation": "percentiles_enable",
+    }
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
+    client.patch.assert_not_awaited()
+
+
+def test_update_resource_probe_non_404_error_propagates(metric_percentiles):
+    client = metric_percentiles.config.destination_client
+    client.get = AsyncMock(side_effect=_http_error(500))
+    client.patch = AsyncMock(return_value={})
+
+    with pytest.raises(CustomClientHTTPError) as exc_info:
+        _run(
+            metric_percentiles.update_resource(
+                "custom.metric",
+                {"metric": "custom.metric", "include_percentiles": True},
+            )
+        )
+
+    assert exc_info.value.status_code == 500
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
+    client.patch.assert_not_awaited()
+
+
+def test_update_resource_missing_destination_metric_patch_raises_skip(metric_percentiles):
+    # Defense-in-depth: if the toggle endpoint ever returns an HTTP error for a
+    # missing metric instead of a 200 "unsuccessful", still classify it as
+    # destination_metric_missing. The probe above catches the 200 case.
+    client = metric_percentiles.config.destination_client
+    client.get = AsyncMock(return_value={"type": "distribution"})
     client.patch = AsyncMock(side_effect=_http_error(404, '{"errors":["custom.metric not found"]}'))
 
     with pytest.raises(SkipResource) as exc_info:
@@ -160,13 +210,13 @@ def test_update_resource_missing_destination_metric_patch_raises_skip(metric_per
         "metric_name": "custom.metric",
         "operation": "percentiles_enable",
     }
-    client.get.assert_not_awaited()
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
     client.patch.assert_awaited_once()
 
 
 def test_update_resource_metric_not_found_patch_raises_skip(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock()
+    client.get = AsyncMock(return_value={"type": "distribution"})
     client.patch = AsyncMock(side_effect=_http_error(500, '{"detail":"metric not found"}'))
 
     with pytest.raises(SkipResource) as exc_info:
@@ -184,7 +234,7 @@ def test_update_resource_metric_not_found_patch_raises_skip(metric_percentiles):
         "metric_name": "custom.metric",
         "operation": "percentiles_enable",
     }
-    client.get.assert_not_awaited()
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
     client.patch.assert_awaited_once()
 
 
@@ -192,9 +242,10 @@ def test_update_resource_destination_reports_unsuccessful_raises_skip(metric_per
     # The bulk toggle endpoint returns 200 even when it declines to touch a metric
     # (e.g. its summary_aggr source isn't percentile-configurable) - it reports the
     # rejection in "unsuccessful" instead of raising. A no-op like that must not be
-    # reported as a successful sync.
+    # reported as a successful sync. The probe above already confirmed the metric
+    # exists, so this is a genuine not-configurable skip that cannot be repaired.
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock()
+    client.get = AsyncMock(return_value={"type": "distribution"})
     client.patch = AsyncMock(return_value={"updated": [], "unsuccessful": ["custom.metric"]})
 
     with pytest.raises(SkipResource) as exc_info:
@@ -211,13 +262,14 @@ def test_update_resource_destination_reports_unsuccessful_raises_skip(metric_per
         "metric_name": "custom.metric",
         "operation": "percentiles_enable",
     }
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
     client.patch.assert_awaited_once()
 
 
 def test_update_resource_destination_reports_other_metric_unsuccessful_does_not_raise(metric_percentiles):
     # Only this resource's own id in "unsuccessful" should trigger a skip.
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock()
+    client.get = AsyncMock(return_value={"type": "distribution"})
     client.patch = AsyncMock(return_value={"updated": ["custom.metric"], "unsuccessful": ["other.metric"]})
 
     _id, resource = _run(
@@ -229,11 +281,12 @@ def test_update_resource_destination_reports_other_metric_unsuccessful_does_not_
 
     assert _id == "custom.metric"
     assert resource == {"metric": "custom.metric", "include_percentiles": True}
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
 
 
 def test_update_resource_non_metric_not_found_400_patch_error_propagates(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock()
+    client.get = AsyncMock(return_value={"type": "distribution"})
     client.patch = AsyncMock(side_effect=_http_error(400, "Bad Request"))
 
     with pytest.raises(CustomClientHTTPError) as exc_info:
@@ -245,12 +298,12 @@ def test_update_resource_non_metric_not_found_400_patch_error_propagates(metric_
         )
 
     assert exc_info.value.status_code == 400
-    client.get.assert_not_awaited()
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")
 
 
 def test_update_resource_non_metric_not_found_patch_error_propagates(metric_percentiles):
     client = metric_percentiles.config.destination_client
-    client.get = AsyncMock()
+    client.get = AsyncMock(return_value={"type": "distribution"})
     client.patch = AsyncMock(side_effect=_http_error(500, "Internal Server Error"))
 
     with pytest.raises(CustomClientHTTPError) as exc_info:
@@ -262,4 +315,4 @@ def test_update_resource_non_metric_not_found_patch_error_propagates(metric_perc
         )
 
     assert exc_info.value.status_code == 500
-    client.get.assert_not_awaited()
+    client.get.assert_awaited_once_with("/api/v1/metrics/custom.metric")

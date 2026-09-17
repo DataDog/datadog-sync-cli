@@ -8,7 +8,7 @@ interactions:
     uri: https://api.datadoghq.eu/api/v2/metrics?filter%5Bmetric_type%5D=distribution&filter%5Binclude_percentiles%5D=true&window%5Bseconds%5D=1209600&page%5Bsize%5D=10000
   response:
     body:
-      string: '{"data": [{"id": "msr.other_distribution", "type": "metric"}, {"id": "msr.distribution", "type": "metric"}], "meta": {"pagination": {}}}'
+      string: '{"data": [{"id": "metric.test.other_distribution", "type": "metric"}, {"id": "metric.test.distribution", "type": "metric"}], "meta": {"pagination": {}}}'
     headers:
       Content-Type:
       - application/json
@@ -32,7 +32,24 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"metric_names": ["msr.other_distribution"]}'
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/metrics/metric.test.other_distribution
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "distribution",
+        "unit": null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"metric_names": ["metric.test.other_distribution"]}'
     headers:
       Content-Type:
       - application/json
@@ -48,7 +65,24 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"metric_names": ["msr.distribution"]}'
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/metrics/metric.test.distribution
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "distribution",
+        "unit": null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"metric_names": ["metric.test.distribution"]}'
     headers:
       Content-Type:
       - application/json
@@ -57,6 +91,23 @@ interactions:
   response:
     body:
       string: '{"updated": [], "unsuccessful": []}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/metrics/runtime.go.metrics.gc_heap_allocs_by_size.bytes
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "distribution",
+        "unit": null, "per_unit": null, "statsd_interval": 10, "integration": null}'
     headers:
       Content-Type:
       - application/json
@@ -80,6 +131,23 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/metrics/runtime.go.metrics.gc_pauses.seconds
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "distribution",
+        "unit": null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: '{"metric_names": ["runtime.go.metrics.gc_pauses.seconds"]}'
     headers:
       Content-Type:
@@ -89,6 +157,23 @@ interactions:
   response:
     body:
       string: '{"updated": [], "unsuccessful": ["runtime.go.metrics.gc_pauses.seconds"]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/metrics/runtime.go.metrics.gc_heap_frees_by_size.bytes
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "distribution",
+        "unit": null, "per_unit": null, "statsd_interval": 10, "integration": null}'
     headers:
       Content-Type:
       - application/json
@@ -112,6 +197,23 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/metrics/runtime.go.metrics.sched_pauses_total_gc.seconds
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "distribution",
+        "unit": null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: '{"metric_names": ["runtime.go.metrics.sched_pauses_total_gc.seconds"]}'
     headers:
       Content-Type:
@@ -128,6 +230,23 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/metrics/runtime.go.metrics.sched_pauses_stopping_gc.seconds
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "distribution",
+        "unit": null, "per_unit": null, "statsd_interval": 10, "integration": null}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
     body: '{"metric_names": ["runtime.go.metrics.sched_pauses_stopping_gc.seconds"]}'
     headers:
       Content-Type:
@@ -137,6 +256,23 @@ interactions:
   response:
     body:
       string: '{"updated": [], "unsuccessful": ["runtime.go.metrics.sched_pauses_stopping_gc.seconds"]}'
+    headers:
+      Content-Type:
+      - application/json
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v1/metrics/runtime.go.metrics.sched_latencies.seconds
+  response:
+    body:
+      string: '{"description": null, "short_name": null, "type": "distribution",
+        "unit": null, "per_unit": null, "statsd_interval": 10, "integration": null}'
     headers:
       Content-Type:
       - application/json
