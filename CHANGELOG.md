@@ -1,5 +1,14 @@
 # Changelog
 
+## 6.1.0 / 2026-09-17
+
+### Changed
+* fix(slo): probe destination metrics before creating metric SLOs by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/695
+* fix(metric_percentiles): probe destination metric before toggle by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/696
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/6.0.0...6.1.0
+
 ## 6.0.0 / 2026-09-09
 
 ### Changed
