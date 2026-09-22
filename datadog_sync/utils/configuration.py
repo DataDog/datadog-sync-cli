@@ -80,6 +80,7 @@ class Configuration(object):
     allow_self_lockout: bool
     datadog_host_override: Optional[str] = None
     alter_flex_logs_retention_days: Optional[int] = None
+    alter_logs_indexes_retention_days: Optional[int] = None
     emit_json: bool = False
     # Opt-in: drop principal/role references that are absent from BOTH destination and
     # source state (permanently gone -- e.g. deleted before this org's first-ever import)
@@ -549,6 +550,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     allow_self_lockout = kwargs.get("allow_self_lockout", False)
     datadog_host_override = kwargs.get("datadog_host_override")
     alter_flex_logs_retention_days = kwargs.get("alter_flex_logs_retention_days")
+    alter_logs_indexes_retention_days = kwargs.get("alter_logs_indexes_retention_days")
 
     # Parse allow_partial_permissions_roles
     allow_partial_permissions_roles = []
@@ -860,6 +862,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         allow_self_lockout=allow_self_lockout,
         datadog_host_override=datadog_host_override,
         alter_flex_logs_retention_days=alter_flex_logs_retention_days,
+        alter_logs_indexes_retention_days=alter_logs_indexes_retention_days,
         emit_json=emit_json,
         command=cmd.value,
         allow_partial_permissions_roles=allow_partial_permissions_roles,
