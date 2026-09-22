@@ -36,15 +36,22 @@ def test_cli_accepts_alter_logs_indexes_retention_days(command, module_name, exp
     assert kwargs["alter_logs_indexes_retention_days"] == 30
 
 
+@pytest.mark.parametrize(
+    "command,module_name",
+    [
+        ("sync", "datadog_sync.commands.sync"),
+        ("migrate", "datadog_sync.commands.migrate"),
+    ],
+)
 @pytest.mark.parametrize("value", ["invalid", "-1", "0", "29"])
-def test_cli_rejects_invalid_logs_indexes_retention_days(value):
+def test_cli_rejects_invalid_logs_indexes_retention_days(command, module_name, value):
     runner = CliRunner(mix_stderr=False)
-    sync_module = importlib.import_module("datadog_sync.commands.sync")
+    command_module = importlib.import_module(module_name)
 
-    with patch.object(sync_module, "run_cmd") as mock_run_cmd:
+    with patch.object(command_module, "run_cmd") as mock_run_cmd:
         result = runner.invoke(
             cli,
-            ["sync", f"--alter-logs-indexes-retention-days={value}"],
+            [command, f"--alter-logs-indexes-retention-days={value}"],
         )
 
     assert result.exit_code != 0
