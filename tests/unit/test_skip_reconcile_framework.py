@@ -172,6 +172,22 @@ class TestCreateWrapperReconcile:
 
         assert mock_config.state.destination["test_resource"] == {}
 
+    def test_wrapper_reconciles_empty_string_key_consistent_with_map_existing(self, mock_config):
+        # map_existing_resources() keeps entries when `key is not None`, so an
+        # empty-string key IS mappable during discovery. The reconcile must use
+        # the same `is not None` gate (not truthiness) so an empty-string key
+        # present in the map is reconciled here too. Pins the consistency fix.
+        rc = ResourceConfig(base_path="/test", resource_mapping_key="name", skip_resource_mapping=False)
+        dest_resource = {"name": "", "id": "dest-id"}
+        inst = _make_instance(mock_config, rc, "test_resource", create_side_effect=_raise_skip)
+        inst._existing_resources_map = {"": dest_resource}
+        source_resource = {"name": "", "id": "src-id"}
+
+        with pytest.raises(SkipResource):
+            asyncio.run(inst._create_resource("src-id", source_resource))
+
+        assert mock_config.state.destination["test_resource"]["src-id"] == dest_resource
+
     def test_wrapper_does_not_reconcile_when_entry_already_present(self, mock_config):
         # Insert-if-absent: a pre-existing entry must NOT be overwritten on skip.
         # Preserves delegate-then-skip resources that wrote state.destination

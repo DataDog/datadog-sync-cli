@@ -438,7 +438,7 @@ class BaseResource(abc.ABC):
             if _id in self.config.state.destination[self.resource_type]:
                 return
             key = self.get_resource_mapping_key(resource)
-            if key and key in self._existing_resources_map:
+            if key is not None and key in self._existing_resources_map:
                 self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[key]
         except Exception as e:
             self.config.logger.debug(
