@@ -236,6 +236,30 @@ class TestCreateWrapperReconcile:
 
         assert mock_config.state.destination["test_resource"] == {}
 
+    def test_wrapper_reconcile_debug_log_is_preformatted(self, mock_config):
+        # The NDJSON log backend (utils/log.py Log.debug) does not interpolate
+        # positional %s args in JSON mode, so the reconcile diagnostic must be
+        # pre-formatted (f-string), not passed as positional args. Verify the
+        # logged message contains the literal values, not %s placeholders.
+        rc = ResourceConfig(
+            base_path="/test",
+            resource_mapping_key=lambda r: (_ for _ in ()).throw(RuntimeError("key extraction broke")),
+            skip_resource_mapping=False,
+        )
+        inst = _make_instance(mock_config, rc, "test_resource", create_side_effect=_raise_skip)
+        inst._existing_resources_map = {"dest-name": {"name": "dest-name"}}
+        source_resource = {"name": "dest-name", "id": "src-id"}
+
+        with pytest.raises(SkipResource):
+            asyncio.run(inst._create_resource("src-id", source_resource))
+
+        mock_config.logger.debug.assert_called_once()
+        logged_msg = mock_config.logger.debug.call_args.args[0]
+        assert "%s" not in logged_msg
+        assert "test_resource" in logged_msg
+        assert "src-id" in logged_msg
+        assert "key extraction broke" in logged_msg
+
 
 # ===========================================================================
 # Cycle 12: opt-out resources -- no false reconcile

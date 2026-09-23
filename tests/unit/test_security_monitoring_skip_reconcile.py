@@ -85,9 +85,11 @@ class TestSecurityMonitoringSkipReconcile:
         assert config.state.destination["security_monitoring_rules"] == {}
 
     def test_pre_hook_default_not_exist_skip_not_reconciled(self):
-        # "Default rule does not exist at destination" is raised in the pre-hook,
-        # before the wrappers, so the framework cannot reconcile it (and the rule
-        # name is not in the map anyway). Drive the handler to document the boundary.
+        # "Default rule does not exist at destination" is raised in the pre-hook.
+        # The handler now reconciles pre-hook skips, but only writes when the key
+        # is in _existing_resources_map. Here the default rule is NOT in the map
+        # (it genuinely doesn't exist at the destination), so reconcile no-ops
+        # and state.destination stays empty. Pins the no-false-positive boundary.
         from datadog_sync.utils.resources_handler import ResourcesHandler
 
         _id = "rule-src"
@@ -105,8 +107,68 @@ class TestSecurityMonitoringSkipReconcile:
         asyncio.run(handler._apply_resource_cb(["security_monitoring_rules", _id]))
 
         handler.worker.counter.increment_skipped.assert_called_once()
-        # Framework never ran (pre-hook skip) -> state.destination stays empty.
+        # Key not in map -> reconcile no-ops -> state.destination stays empty.
         assert config.state.destination["security_monitoring_rules"] == {}
+
+    def test_pre_hook_immutable_skip_reconciles_when_rule_in_map(self):
+        # Immutable rule IS present in _existing_resources_map. The pre-hook raises
+        # "This rule is immutable", but the rule exists on the destination, so the
+        # handler-level reconcile must record it in state.destination (insert-if-
+        # absent) to avoid the bucket-view false negative. This is the matching-map
+        # regression case for the pre-hook skip path.
+        from datadog_sync.utils.resources_handler import ResourcesHandler
+
+        _id = "rule-src"
+        dest_rule = _rule(
+            "Impossible travel event leads to permission enumeration",
+            is_default=True,
+            rule_id="rule-dst",
+        )
+        rules, config = _make_rules(existing_map={dest_rule["name"]: dest_rule})
+        resource = _rule(
+            "Impossible travel event leads to permission enumeration",
+            is_default=True,
+            rule_id=_id,
+        )
+        config.resources = {"security_monitoring_rules": rules}
+        config.state.source["security_monitoring_rules"][_id] = resource
+
+        handler = ResourcesHandler(config)
+        handler.worker = MagicMock()
+        handler.worker.counter = MagicMock()
+        handler.sorter = MagicMock()
+        handler._emit = MagicMock()
+
+        asyncio.run(handler._apply_resource_cb(["security_monitoring_rules", _id]))
+
+        handler.worker.counter.increment_skipped.assert_called_once()
+        handler.worker.counter.increment_failure.assert_not_called()
+        # Rule was in the map -> reconciled into state.destination under source id.
+        assert config.state.destination["security_monitoring_rules"][_id] == dest_rule
+
+    def test_pre_hook_deprecated_skip_reconciles_when_rule_in_map(self):
+        # Deprecated destination rule IS in the map. The pre-hook raises
+        # "Cannot update deprecated rules", but the rule exists on the destination,
+        # so the handler-level reconcile must record it in state.destination.
+        from datadog_sync.utils.resources_handler import ResourcesHandler
+
+        _id = "rule-src"
+        dest_rule = _rule("rule-deprecated-test", is_default=False, rule_id="rule-dst", deprecated=True)
+        rules, config = _make_rules(existing_map={dest_rule["name"]: dest_rule})
+        resource = _rule("rule-deprecated-test", is_default=False, rule_id=_id)
+        config.resources = {"security_monitoring_rules": rules}
+        config.state.source["security_monitoring_rules"][_id] = resource
+
+        handler = ResourcesHandler(config)
+        handler.worker = MagicMock()
+        handler.worker.counter = MagicMock()
+        handler.sorter = MagicMock()
+        handler._emit = MagicMock()
+
+        asyncio.run(handler._apply_resource_cb(["security_monitoring_rules", _id]))
+
+        handler.worker.counter.increment_skipped.assert_called_once()
+        assert config.state.destination["security_monitoring_rules"][_id] == dest_rule
 
     def test_update_immutable_skip_preserves_state_destination(self):
         # Immutable rule is in the map; update_resource raises "This rule is

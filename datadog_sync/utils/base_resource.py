@@ -441,8 +441,13 @@ class BaseResource(abc.ABC):
             if key is not None and key in self._existing_resources_map:
                 self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[key]
         except Exception as e:
+            # Pre-format the message (f-string) rather than passing positional
+            # %s args: the NDJSON log backend (utils/log.py Log.debug) does not
+            # interpolate positional args in JSON mode, so %s placeholders would
+            # be emitted literally. Pre-formatting keeps the diagnostic readable
+            # in both plain and NDJSON modes.
             self.config.logger.debug(
-                "destination reconcile skipped for %s %s: %s", self.resource_type, _id, e
+                f"destination reconcile skipped for {self.resource_type} {_id}: {e}"
             )
 
     @abc.abstractmethod
