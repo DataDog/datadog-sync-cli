@@ -578,6 +578,14 @@ _sync_options = [
         cls=CustomOptionClass,
     ),
     option(
+        "--alter-logs-indexes-retention-days",
+        required=False,
+        type=IntRange(min=30),
+        default=None,
+        help="Override num_retention_days on logs indexes where the field is present.",
+        cls=CustomOptionClass,
+    ),
+    option(
         "--skip-monitors-with-restricted-roles",
         required=False,
         is_flag=True,

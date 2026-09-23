@@ -26,6 +26,15 @@ class LogsIndexes(BaseResource):
     # Additional LogsIndexes specific attributes
     logs_indexes_order_url: str = "/api/v1/logs/config/index-order"
 
+    # Pairs of (Configuration attribute, logs-index resource field) that
+    # pre_resource_action_hook overrides when the flag is set and the field is
+    # already present on the resource (insert-if-present semantics; never adds
+    # the field to a resource that lacks it).
+    _RETENTION_OVERRIDES = (
+        ("alter_flex_logs_retention_days", "num_flex_logs_retention_days"),
+        ("alter_logs_indexes_retention_days", "num_retention_days"),
+    )
+
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
 
@@ -47,9 +56,10 @@ class LogsIndexes(BaseResource):
         return resource["name"], resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        retention_days = self.config.alter_flex_logs_retention_days
-        if retention_days is not None and "num_flex_logs_retention_days" in resource:
-            resource["num_flex_logs_retention_days"] = retention_days
+        for config_attr, field in self._RETENTION_OVERRIDES:
+            retention_days = getattr(self.config, config_attr)
+            if retention_days is not None and field in resource:
+                resource[field] = retention_days
 
     async def pre_apply_hook(self) -> None:
         pass
