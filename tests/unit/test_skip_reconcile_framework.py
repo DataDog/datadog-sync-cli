@@ -22,7 +22,7 @@ All identifiers are obviously synthetic (``team-src``, ``team-dst`` ...).
 """
 
 import asyncio
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import MagicMock
 
 import pytest
 
@@ -295,23 +295,10 @@ class TestHandlerAccountingUnchanged:
         _id = "src-id"
         dest_resource = {"name": "dest-name", "id": "dest-id"}
 
-        r_class = MagicMock()
-        r_class.resource_config = ResourceConfig(
-            base_path="/test", resource_mapping_key="name", skip_resource_mapping=False
-        )
-        r_class.connect_resources = MagicMock(return_value=MagicMock(empty_binding_escalation=False))
-        r_class._pre_resource_action_hook = AsyncMock()
-        r_class._send_action_metrics = AsyncMock()
-        # create_resource raises SkipResource (exists-path skip-without-write)
-        r_class._create_resource = AsyncMock(side_effect=SkipResource(_id, resource_type, "already exists"))
-        r_class._existing_resources_map = {"dest-name": dest_resource}
-        # The wrapper reads _existing_resources_map off the *instance*, but here
-        # r_class is a MagicMock standing in for the class; _create_resource is
-        # stubbed directly, so the framework reconcile runs against r_class's
-        # own _existing_resources_map via the real BaseResource method. To
-        # exercise the real wrapper, drive it through a real instance instead.
-
-        # Use a real instance so the framework wrapper actually runs.
+        # Drive the framework wrapper through a real instance so the
+        # _create_resource/_update_resource reconcile actually runs (a bare
+        # MagicMock class stand-in would stub _create_resource directly and
+        # bypass the wrapper under test).
         rc = ResourceConfig(base_path="/test", resource_mapping_key="name", skip_resource_mapping=False)
         inst = _make_instance(mock_config, rc, resource_type, create_side_effect=_raise_skip)
         inst._existing_resources_map = {"dest-name": dest_resource}
