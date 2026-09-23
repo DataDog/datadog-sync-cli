@@ -394,7 +394,11 @@ class BaseResource(abc.ABC):
         pass
 
     async def _create_resource(self, _id: str, resource: Dict) -> None:
-        _id, r = await self.create_resource(_id, resource)
+        try:
+            _id, r = await self.create_resource(_id, resource)
+        except SkipResource:
+            self._reconcile_destination_if_absent(_id, resource)
+            raise
         self.config.state.destination[self.resource_type][_id] = r
 
     @abc.abstractmethod
@@ -402,8 +406,49 @@ class BaseResource(abc.ABC):
         pass
 
     async def _update_resource(self, _id: str, resource: Dict) -> None:
-        _id, r = await self.update_resource(_id, resource)
+        try:
+            _id, r = await self.update_resource(_id, resource)
+        except SkipResource:
+            self._reconcile_destination_if_absent(_id, resource)
+            raise
         self.config.state.destination[self.resource_type][_id] = r
+
+    def _reconcile_destination_if_absent(self, _id: str, resource: Dict) -> None:
+        """Best-effort: record a skipped-but-existing destination resource in state.
+
+        When ``create_resource``/``update_resource`` discovers (via
+        ``_existing_resources_map``) that a resource already exists on the
+        destination and raises ``SkipResource`` without writing
+        ``state.destination``, the bucket view diverges from destination truth:
+        no state file is persisted, so downstream consumers that trust the bucket
+        count the id as failed even though the resource is confirmed present via
+        the live API.
+
+        This reconciles that gap by writing the discovered destination resource
+        into ``state.destination`` keyed by the source id (the convention used
+        throughout state.py / models). Insert-if-absent only: an entry already
+        present is never overwritten, preserving delegate-then-skip resources
+        that wrote ``state.destination`` before delegating to ``update_resource``.
+
+        Best-effort: any unexpected error during key extraction/lookup is logged
+        at debug and swallowed so a reconcile failure can never break a skip's
+        counter/metrics accounting or turn a skip into an unhandled error.
+        """
+        try:
+            if _id in self.config.state.destination[self.resource_type]:
+                return
+            key = self.get_resource_mapping_key(resource)
+            if key is not None and key in self._existing_resources_map:
+                self.config.state.destination[self.resource_type][_id] = self._existing_resources_map[key]
+        except Exception as e:
+            # Pre-format the message (f-string) rather than passing positional
+            # %s args: the NDJSON log backend (utils/log.py Log.debug) does not
+            # interpolate positional args in JSON mode, so %s placeholders would
+            # be emitted literally. Pre-formatting keeps the diagnostic readable
+            # in both plain and NDJSON modes.
+            self.config.logger.debug(
+                f"destination reconcile skipped for {self.resource_type} {_id}: {e}"
+            )
 
     @abc.abstractmethod
     async def delete_resource(self, _id: str) -> None:

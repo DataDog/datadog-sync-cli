@@ -544,8 +544,19 @@ class ResourcesHandler:
                 await sem.acquire()
                 sem_acquired = True
 
-            # Run hooks
-            await r_class._pre_resource_action_hook(_id, resource)
+            # Run hooks. Reconcile a pre-hook SkipResource the same way the
+            # _create_resource/_update_resource wrappers do: if the resource is
+            # present in _existing_resources_map, record it in state.destination
+            # (insert-if-absent) before re-raising. Without this, a pre-hook skip
+            # for a resource that already exists on the destination (e.g. an
+            # immutable or deprecated security monitoring rule whose matching
+            # destination rule is in the map) would leave no state.destination
+            # entry -- the same bucket-view divergence this change fixes elsewhere.
+            try:
+                await r_class._pre_resource_action_hook(_id, resource)
+            except SkipResource:
+                r_class._reconcile_destination_if_absent(_id, resource)
+                raise
             connection_result = r_class.connect_resources(_id, resource)
             empty_binding_escalation = connection_result.empty_binding_escalation
 
