@@ -1,5 +1,13 @@
 # Changelog
 
+## 6.3.0 / 2026-09-23
+
+### Fixed
+* fix: reconcile state.destination on skip-without-write outcomes by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/705
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/6.2.0...6.3.0
+
 ## 6.2.0 / 2026-09-23
 
 ### Added
