@@ -1,5 +1,13 @@
 # Changelog
 
+## 6.2.0 / 2026-09-23
+
+### Added
+* feat: add --alter-logs-indexes-retention-days flag by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/703
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/6.1.0...6.2.0
+
 ## 6.1.0 / 2026-09-17
 
 ### Changed
