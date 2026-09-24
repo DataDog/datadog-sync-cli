@@ -798,9 +798,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     if max_concurrent_reads <= 0:
         # asyncio.Semaphore(0) blocks all acquires forever; negative raises ValueError.
         # Either way, validate at config-build with a clear message rather than a hang.
-        raise click.UsageError(
-            f"--max-concurrent-reads must be a positive integer, got {max_concurrent_reads}"
-        )
+        raise click.UsageError(f"--max-concurrent-reads must be a positive integer, got {max_concurrent_reads}")
     # Upper sanity bound: aiohttp's TCPConnector defaults `limit=100`, so values
     # well above that don't actually buy more concurrency — they just inflate the
     # number of pending coroutines waiting for connector slots, which obscures
@@ -822,9 +820,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         try:
             transient_failure_threshold_pct = int(raw_threshold)
         except (TypeError, ValueError):
-            raise click.UsageError(
-                f"--transient-failure-threshold-pct must be an integer, got {raw_threshold!r}"
-            )
+            raise click.UsageError(f"--transient-failure-threshold-pct must be an integer, got {raw_threshold!r}")
     if not (0 <= transient_failure_threshold_pct <= 100):
         raise click.UsageError(
             f"--transient-failure-threshold-pct must be in range [0, 100], got {transient_failure_threshold_pct}"
