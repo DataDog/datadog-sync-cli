@@ -20,6 +20,9 @@ class CommandCapabilities:
         return asdict(self)
 
 
+OPTION_CATEGORIES = ("Credentials", "Resource selection", "Storage", "Execution", "Output", "Safety", "Advanced")
+
+
 COMMAND_CAPABILITIES: Dict[str, CommandCapabilities] = {
     "import": CommandCapabilities(True, False, True, True, False, False),
     "sync": CommandCapabilities(True, True, True, True, True, True, "diffs"),
@@ -27,6 +30,8 @@ COMMAND_CAPABILITIES: Dict[str, CommandCapabilities] = {
     "migrate": CommandCapabilities(True, True, True, True, True, True, "diffs"),
     "reset": CommandCapabilities(True, True, True, True, True, False),
     "prune": CommandCapabilities(True, False, True, True, True, True, "prune --dry-run"),
+    "schema": CommandCapabilities(False, False, False, False, False, False),
+    "completions": CommandCapabilities(False, False, False, False, False, False),
 }
 
 

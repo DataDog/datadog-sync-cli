@@ -42,10 +42,14 @@ def command_from_args(args: Sequence[str]) -> str:
 
 
 class GroupedCommand(click.Command):
+    def invoke(self, ctx: click.Context) -> Any:
+        from datadog_sync.utils.configuration import normalize_kwargs
+
+        ctx.params = normalize_kwargs(ctx.params)
+        return super().invoke(ctx)
+
     def format_options(self, ctx: click.Context, formatter: click.HelpFormatter) -> None:
-        # Imported lazily to avoid a circular import: see the note on
-        # prepare_invocation below.
-        from datadog_sync.commands.metadata import option_policy
+        from datadog_sync.commands.metadata import OPTION_CATEGORIES, option_policy
 
         grouped: Dict[str, Any] = {}
         for parameter in self.get_params(ctx):
@@ -54,8 +58,7 @@ class GroupedCommand(click.Command):
             record = parameter.get_help_record(ctx)
             if record is not None:
                 grouped.setdefault(option_policy(parameter.name).category, []).append(record)
-        order = ["Credentials", "Resource selection", "Storage", "Execution", "Output", "Safety", "Advanced"]
-        for category in order:
+        for category in OPTION_CATEGORIES:
             records = grouped.get(category)
             if records:
                 with formatter.section(category):

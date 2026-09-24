@@ -15,7 +15,6 @@ from datadog_sync.commands.shared.options import (
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.cli_runtime import GroupedCommand
 from datadog_sync.constants import Command
-from datadog_sync.utils.configuration import normalize_kwargs
 
 
 @command(Command.IMPORT.value, short_help="Import Datadog resources.", cls=GroupedCommand)
@@ -38,5 +37,4 @@ from datadog_sync.utils.configuration import normalize_kwargs
 )
 def _import(**kwargs):
     """Import Datadog resources."""
-    kwargs = normalize_kwargs(kwargs)
     run_cmd(Command.IMPORT, **kwargs)

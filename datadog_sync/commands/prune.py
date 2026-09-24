@@ -13,7 +13,6 @@ from datadog_sync.commands.shared.options import (
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.cli_runtime import GroupedCommand
 from datadog_sync.constants import Command
-from datadog_sync.utils.configuration import normalize_kwargs
 
 
 @command(Command.PRUNE.value, short_help="Delete state files for resources no longer in source.", cls=GroupedCommand)
@@ -43,7 +42,6 @@ def prune(**kwargs):
     files, and deletes the difference. Requires --resource-per-file. Refuses
     to run with --filters set (would over-prune the filtered-out resources).
     """
-    kwargs = normalize_kwargs(kwargs)
     # Hard-require --resources at the CLI layer. The shared common_options
     # --resources is not required=True there because import/sync default to
     # "all types"; for a destructive command, defaulting to all is unsafe.

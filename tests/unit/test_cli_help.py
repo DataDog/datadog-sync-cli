@@ -9,15 +9,10 @@ from datadog_sync.cli import cli
 from datadog_sync.version import __version__
 
 
-ALL_HELP_CATEGORIES = [
-    "Credentials",
-    "Resource selection",
-    "Storage",
-    "Execution",
-    "Output",
-    "Safety",
-    "Advanced",
-]
+from datadog_sync.commands.metadata import OPTION_CATEGORIES
+
+
+ALL_HELP_CATEGORIES = list(OPTION_CATEGORIES)
 
 
 @pytest.mark.parametrize("command", ["import", "sync", "diffs", "migrate", "prune", "reset"])
