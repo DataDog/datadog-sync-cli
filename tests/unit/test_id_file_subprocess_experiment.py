@@ -401,7 +401,7 @@ def test_subprocess_unsupported_type_in_id_file(tmp_path):
         str(source_dir),  # port 1 — unreachable
         max_concurrent_reads=10,
     )
-    assert rc == 1, f"expected exit 1, got {rc}\nSTDERR:\n{stderr.decode(errors='replace')}"
+    assert rc == 2, f"expected exit 2 (usage error), got {rc}\nSTDERR:\n{stderr.decode(errors='replace')}"
     combined = (stdout + stderr).decode(errors="replace")
     assert (
         "notebooks" in combined and "not supported" in combined.lower()
