@@ -17,7 +17,10 @@ from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.constants import Command
 
 
-@command(Command.IMPORT.value, short_help="Import Datadog resources.")
+@command(
+    Command.IMPORT.value,
+    short_help="Read resources from the source org into local state (writes to no org).",
+)
 @source_auth_options
 @destination_auth_options
 @common_options
@@ -37,5 +40,9 @@ from datadog_sync.constants import Command
     cls=CustomOptionClass,
 )
 def _import(**kwargs):
-    """Import Datadog resources."""
+    """Import Datadog resources.
+
+    Reads resources from the source organization into local state. Writes to no
+    Datadog organization — only local (or configured cloud) state is written.
+    """
     run_cmd(Command.IMPORT, **kwargs)
