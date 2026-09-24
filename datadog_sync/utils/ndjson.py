@@ -35,6 +35,15 @@ def write_ndjson_line(event: dict) -> None:
 
     All NDJSON output in the CLI must go through this function so that
     encoding, flushing, and error handling are consistent.
+
+    On Unix, ``datadog_sync.cli_runtime.reset_sigpipe`` restores the default
+    SIGPIPE handler at the process boundary, so a downstream reader closing
+    the pipe early (e.g. ``| head``) terminates the process via the signal
+    before this function's write would even run. The ``except
+    BrokenPipeError`` below is therefore primarily a fallback for contexts
+    where that reset does not apply: Windows, which has no SIGPIPE, or
+    embedded/library use where this module's writer runs without the CLI's
+    process-entry handling.
     """
     try:
         sys.stdout.write(json.dumps(event) + "\n")

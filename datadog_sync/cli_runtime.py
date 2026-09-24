@@ -14,6 +14,21 @@ from datadog_sync.constants import DD_SYNC_JSON
 _COMMANDS = {"import", "sync", "diffs", "migrate", "prune", "reset", "schema", "completions"}
 
 
+def reset_sigpipe() -> None:
+    """Restore default SIGPIPE handling at the process boundary.
+
+    Python installs a SIGPIPE handler that raises ``BrokenPipeError`` instead
+    of letting the process die from the signal. That is helpful for library
+    use but wrong for a CLI: piping output into ``head`` or ``less`` and
+    closing early should silently stop the process, not raise a traceback.
+    Restoring ``SIG_DFL`` is a no-op on Windows, which has no SIGPIPE.
+    """
+    if os.name != "nt":
+        import signal
+
+        signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+
+
 def _truthy(value: Optional[str]) -> bool:
     return bool(value) and value.lower() in {"1", "true", "yes", "on"}
 
@@ -28,6 +43,7 @@ def command_from_args(args: Sequence[str]) -> str:
 
 class DatadogSyncGroup(click.Group):
     def main(self, args=None, prog_name=None, complete_var=None, standalone_mode=True, **extra):
+        reset_sigpipe()
         raw_args = list(args if args is not None else sys.argv[1:])
         try:
             return super().main(
