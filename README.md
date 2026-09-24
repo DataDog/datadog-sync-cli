@@ -27,6 +27,7 @@ Datadog cli tool to sync resources across organizations.
     - [Exit codes](#exit-codes)
     - [NDJSON event stream](#ndjson-event-stream)
     - [Shell completions](#shell-completions)
+    - [Piping output](#piping-output)
 - [Best practices](#best-practices)
 
 ## Quick Start
@@ -320,6 +321,10 @@ datadog-sync completions bash > ~/.local/share/bash-completion/completions/datad
 datadog-sync completions zsh > "${fpath[1]}/_datadog-sync"
 datadog-sync completions fish > ~/.config/fish/completions/datadog-sync.fish
 ```
+
+##### Piping output
+
+On Unix, the CLI restores default `SIGPIPE` handling at process start, so piping into a command that closes the stream early (e.g. `datadog-sync sync --json | head`) terminates cleanly instead of printing a `BrokenPipeError` traceback.
 
 ## Best practices
 
