@@ -6,7 +6,7 @@ import sys
 
 import click
 
-from datadog_sync.cli_runtime import DatadogSyncGroup
+from datadog_sync.cli_runtime import DatadogSyncGroup, RootOptions
 from datadog_sync.commands import ALL_COMMANDS
 
 
@@ -18,13 +18,7 @@ from datadog_sync.commands import ALL_COMMANDS
 @click.pass_context
 def cli(ctx, root_emit_json, read_only, non_interactive, yes):
     """Initialize cli"""
-    ctx.ensure_object(dict)
-    ctx.obj.update(
-        root_emit_json=root_emit_json,
-        read_only=read_only,
-        non_interactive=non_interactive,
-        yes=yes,
-    )
+    ctx.obj = RootOptions(root_emit_json, read_only, non_interactive, yes)
 
 
 # Register all click sub-commands

@@ -12,9 +12,6 @@ import click
 from datadog_sync.cli_events import CommandError
 from datadog_sync.constants import DD_SYNC_JSON
 
-_COMMANDS = {"import", "sync", "diffs", "migrate", "prune", "reset", "schema", "completions"}
-
-
 def reset_sigpipe() -> None:
     """Restore default SIGPIPE handling at the process boundary.
 
@@ -39,7 +36,9 @@ def structured_output_requested(args: Sequence[str]) -> bool:
 
 
 def command_from_args(args: Sequence[str]) -> str:
-    return next((arg for arg in args if arg in _COMMANDS), "")
+    from datadog_sync.commands.metadata import COMMAND_CAPABILITIES
+
+    return next((arg for arg in args if arg in COMMAND_CAPABILITIES), "")
 
 
 class DatadogSyncGroup(click.Group):
@@ -96,14 +95,10 @@ class RootOptions:
 
 def root_options() -> RootOptions:
     context = click.get_current_context(silent=True)
-    values = context.find_root().obj if context is not None else {}
-    values = values or {}
-    return RootOptions(
-        emit_json=bool(values.get("root_emit_json")),
-        read_only=bool(values.get("read_only")),
-        non_interactive=bool(values.get("non_interactive")),
-        yes=bool(values.get("yes")),
-    )
+    if context is None:
+        return RootOptions()
+    values = context.find_root().obj
+    return values if isinstance(values, RootOptions) else RootOptions()
 
 
 def prepare_invocation(command: str, kwargs: Dict[str, Any], root: RootOptions) -> Dict[str, Any]:
