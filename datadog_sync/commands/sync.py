@@ -6,7 +6,6 @@
 from click import command, option
 
 from datadog_sync.commands.shared.options import (
-    CustomOptionClass,
     common_options,
     destination_auth_options,
     diffs_options,
@@ -42,7 +41,6 @@ from datadog_sync.utils.configuration import normalize_kwargs
     "Requires --resource-per-file and --resources. "
     "Must not be combined with --cleanup. "
     "Only available on the sync command.",
-    cls=CustomOptionClass,
 )
 def sync(**kwargs):
     """Sync Datadog resources to destination."""

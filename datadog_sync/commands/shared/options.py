@@ -5,7 +5,7 @@
 from __future__ import annotations
 import configobj
 
-from click import Choice, IntRange, Option, option, File, Path
+from click import Choice, IntRange, option, File, Path
 
 from datadog_sync import constants
 from typing import TYPE_CHECKING, Callable, List
@@ -14,31 +14,24 @@ if TYPE_CHECKING:
     from click.core import Context
 
 
-class CustomOptionClass(Option):
-    pass
-
-
 _source_auth_options = [
     option(
         "--source-api-key",
         envvar=constants.DD_SOURCE_API_KEY,
         required=False,
         help="Datadog source organization API key.",
-        cls=CustomOptionClass,
     ),
     option(
         "--source-app-key",
         envvar=constants.DD_SOURCE_APP_KEY,
         required=False,
         help="Datadog source organization APP key.",
-        cls=CustomOptionClass,
     ),
     option(
         "--source-jwt",
         envvar=constants.DD_SOURCE_JWT,
         required=False,
         help="Datadog source organization JWT (takes precedence over API key).",
-        cls=CustomOptionClass,
     ),
     option(
         "--source-api-url",
@@ -47,7 +40,6 @@ _source_auth_options = [
         default=constants.DEFAULT_API_URL,
         show_default=True,
         help="Datadog source organization API url.",
-        cls=CustomOptionClass,
     ),
 ]
 
@@ -57,21 +49,18 @@ _destination_auth_options = [
         envvar=constants.DD_DESTINATION_API_KEY,
         required=False,
         help="Datadog destination organization API key.",
-        cls=CustomOptionClass,
     ),
     option(
         "--destination-app-key",
         envvar=constants.DD_DESTINATION_APP_KEY,
         required=False,
         help="Datadog destination organization APP key.",
-        cls=CustomOptionClass,
     ),
     option(
         "--destination-jwt",
         envvar=constants.DD_DESTINATION_JWT,
         required=False,
         help="Datadog destination organization JWT (takes precedence over API key).",
-        cls=CustomOptionClass,
     ),
     option(
         "--destination-api-url",
@@ -80,19 +69,17 @@ _destination_auth_options = [
         default=constants.DEFAULT_API_URL,
         show_default=True,
         help="Datadog destination organization API url.",
-        cls=CustomOptionClass,
     ),
     option(
         "--destination-logs-intake-url",
         envvar=constants.DD_DESTINATION_LOGS_INTAKE_URL,
         default=None,
         help="Override the destination logs intake URL for integration pipeline creation.",
-        cls=CustomOptionClass,
     ),
 ]
 
 
-def click_config_file_provider(ctx: Context, opts: CustomOptionClass, value: None) -> None:
+def click_config_file_provider(ctx: Context, opts, value: None) -> None:
     config = configobj.ConfigObj(value, unrepr=True)
     ctx.default_map = ctx.default_map or {}
     ctx.default_map.update(config)
@@ -107,7 +94,6 @@ _common_options = [
         default=True,
         show_default=True,
         help="Show or hide the progress bar",
-        cls=CustomOptionClass,
     ),
     option(
         "--verify-ssl-certificates",
@@ -117,7 +103,6 @@ _common_options = [
         default=True,
         show_default=True,
         help="Enable or disable SSL certificate verification. Warning: Disabling SSL verification is insecure.",
-        cls=CustomOptionClass,
     ),
     option(
         "--http-client-trust-env",
@@ -130,7 +115,6 @@ _common_options = [
         "proxy settings (HTTP_PROXY, HTTPS_PROXY, NO_PROXY) and .netrc from the environment. "
         "The configured proxy will see all request traffic, including auth headers, so only "
         "enable this for a trusted proxy.",
-        cls=CustomOptionClass,
     ),
     option(
         "--verify-ddr-status",
@@ -141,7 +125,6 @@ _common_options = [
         show_default=True,
         help="Verifies DDR status at the source and destination and will not "
         "sync if either is in an ACTIVE or FAILOVER state.",
-        cls=CustomOptionClass,
     ),
     option(
         "--http-client-retry-timeout",
@@ -151,7 +134,6 @@ _common_options = [
         default=60,
         show_default=True,
         help="The HTTP request retry timeout period in seconds.",
-        cls=CustomOptionClass,
     ),
     option(
         "--http-client-timeout",
@@ -161,14 +143,12 @@ _common_options = [
         default=30,
         show_default=True,
         help="The HTTP request timeout period in seconds.",
-        cls=CustomOptionClass,
     ),
     option(
         "--resources",
         envvar=constants.DD_RESOURCES,
         required=False,
         help="Optional comma separated list of resource to import. All supported resources are imported by default.",
-        cls=CustomOptionClass,
     ),
     option(
         "--verbose",
@@ -176,7 +156,6 @@ _common_options = [
         required=False,
         is_flag=True,
         help="Enable verbose logging.",
-        cls=CustomOptionClass,
     ),
     option(
         "--max-workers",
@@ -186,7 +165,6 @@ _common_options = [
         required=False,
         type=int,
         help="Max number of workers when running operations in multi-threads.",
-        cls=CustomOptionClass,
     ),
     option(
         "--max-workers-per-type",
@@ -198,7 +176,6 @@ _common_options = [
         "for the listed types (does not raise the ceiling above the global worker "
         "pool). Unlisted types run at the global --max-workers value. Unknown "
         "resource types or non-positive values fail-fast at parse time.",
-        cls=CustomOptionClass,
     ),
     # ID-targeted import flags (supported allowlisted types only)
     option(
@@ -212,7 +189,6 @@ _common_options = [
         "key is not surfaced in the stored body — --filter cannot target those "
         "types, so --id-file supplies the IDs directly). Supported types are "
         "enforced by a code-level allowlist.",
-        cls=CustomOptionClass,
     ),
     option(
         "--max-concurrent-reads",
@@ -222,7 +198,6 @@ _common_options = [
         help="Concurrency cap for --id-file per-ID GETs. Separate from --max-workers. "
         "Default 30. Capped at 200; values above 100 may not yield more concurrency "
         "due to aiohttp's default TCPConnector limit.",
-        cls=CustomOptionClass,
     ),
     option(
         "--transient-failure-threshold-pct",
@@ -232,7 +207,6 @@ _common_options = [
         help="Percentage of transient (5xx/429/timeout/connection/retry-exhaustion) "
         "failures within a resource type that makes import return non-zero after "
         "saving partial state. Applies to full-list and --id-file imports. Default 5.",
-        cls=CustomOptionClass,
     ),
     option(
         "--filter-operator",
@@ -241,7 +215,6 @@ _common_options = [
         default="OR",
         show_default=True,
         help="Filter operator when multiple filters are passed. Supports `AND` or `OR`.",
-        cls=CustomOptionClass,
     ),
     option(
         "--filter",
@@ -249,14 +222,12 @@ _common_options = [
         help="Filter resources.",
         multiple=True,
         envvar=constants.DD_FILTER,
-        cls=CustomOptionClass,
     ),
     option(
         "--config",
         help="Read configuration from FILE.",
         type=File("rb"),
         callback=click_config_file_provider,
-        cls=CustomOptionClass,
     ),
     option(
         "--validate",
@@ -267,7 +238,6 @@ _common_options = [
         help="Enables validation of the provided API during client initialization. On import, "
         "only source api key is validated. On sync/diffs, only destination api key is validated. "
         "On migrate, both source and destination api keys are validated.",
-        cls=CustomOptionClass,
     ),
     option(
         "--send-metrics",
@@ -276,7 +246,6 @@ _common_options = [
         default=True,
         show_default=True,
         help="Enables sync-cli metrics being sent to both source and destination",
-        cls=CustomOptionClass,
     ),
     option(
         "--resource-per-file",
@@ -286,7 +255,6 @@ _common_options = [
         show_default=True,
         help="By default resource files contain many resources of the same resource type, setting this flag to true "
         "will create a resource file for each individual resource.",
-        cls=CustomOptionClass,
     ),
     option(
         "--json",
@@ -299,28 +267,24 @@ _common_options = [
         help="Emit NDJSON event stream to stdout "
         "(outcome and log events, discriminated by 'type' field). "
         "Disables progress bar.",
-        cls=CustomOptionClass,
     ),
     option(
         "--datadog-host-override",
         envvar=constants.DD_DATADOG_HOST_OVERRIDE,
         required=False,
         help="Optional CNAME override for the Datadog host used in DDR private location replication.",
-        cls=CustomOptionClass,
     ),
     option(
         "--resource",
         required=False,
         multiple=True,
         help="Resource type to include; repeat for multiple types. Additive with --resources.",
-        cls=CustomOptionClass,
     ),
     option(
         "--worker-limit",
         required=False,
         multiple=True,
         help="Per-type worker limit 'type=int'; repeat for multiple types. Additive with --max-workers-per-type.",
-        cls=CustomOptionClass,
     ),
     option(
         "--filter-file",
@@ -329,42 +293,36 @@ _common_options = [
         default=None,
         help="Path to a JSON array of filter objects ({type, name, value, operator}), or `-` for stdin. "
         "Additive with --filter.",
-        cls=CustomOptionClass,
     ),
     option(
         "--no-validate",
         is_flag=True,
         default=False,
         help="Disable API validation. Wins over --validate when both are set.",
-        cls=CustomOptionClass,
     ),
     option(
         "--no-show-progress-bar",
         is_flag=True,
         default=False,
         help="Disable the progress bar. Wins over --show-progress-bar when both are set.",
-        cls=CustomOptionClass,
     ),
     option(
         "--no-verify-ssl-certificates",
         is_flag=True,
         default=False,
         help="Disable SSL certificate verification. Wins over --verify-ssl-certificates when both are set.",
-        cls=CustomOptionClass,
     ),
     option(
         "--no-verify-ddr-status",
         is_flag=True,
         default=False,
         help="Disable DDR status verification. Wins over --verify-ddr-status when both are set.",
-        cls=CustomOptionClass,
     ),
     option(
         "--no-send-metrics",
         is_flag=True,
         default=False,
         help="Disable sync-cli metrics. Wins over --send-metrics when both are set.",
-        cls=CustomOptionClass,
     ),
 ]
 
@@ -378,7 +336,6 @@ _storage_options = [
             case_sensitive=False,
         ),
         help=f"Set to one of {constants.STORAGE_TYPES} to specify which type of storage to use",
-        cls=CustomOptionClass,
     ),
     option(
         "--source-resources-path",
@@ -392,7 +349,6 @@ _storage_options = [
         ),
         required=False,
         help=f"Path to the source resources, only used if --storage-type is '{constants.LOCAL_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--destination-resources-path",
@@ -406,21 +362,18 @@ _storage_options = [
         ),
         required=False,
         help=f"Path to the destination resources, only used if --storage-type is '{constants.LOCAL_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--aws-access-key-id",
         envvar=constants.AWS_ACCESS_KEY_ID,
         required=False,
         help=f"AWS access key id, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--aws-bucket-name",
         envvar=constants.AWS_BUCKET_NAME,
         required=False,
         help=f"AWS bucket name, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--aws-bucket-key-prefix-source",
@@ -429,7 +382,6 @@ _storage_options = [
         envvar=constants.AWS_BUCKET_KEY_PREFIX_SOURCE,
         required=False,
         help=f"AWS S3 bucket source key prefix, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--aws-bucket-key-prefix-destination",
@@ -438,28 +390,24 @@ _storage_options = [
         envvar=constants.AWS_BUCKET_KEY_PREFIX_DESTINATION,
         required=False,
         help=f"AWS S3 bucket destination key prefix, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--aws-region-name",
         envvar=constants.AWS_REGION_NAME,
         required=False,
         help=f"AWS region name, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--aws-secret-access-key",
         envvar=constants.AWS_SECRET_ACCESS_KEY,
         required=False,
         help=f"AWS secret access key, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--aws-session-token",
         envvar=constants.AWS_SESSION_TOKEN,
         required=False,
         help=f"AWS session token, only used if --storage-type is '{constants.S3_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     # GCS options
     option(
@@ -467,7 +415,6 @@ _storage_options = [
         envvar=constants.GCS_BUCKET_NAME,
         required=False,
         help=f"GCS bucket name, only used if --storage-type is '{constants.GCS_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--gcs-bucket-key-prefix-source",
@@ -476,7 +423,6 @@ _storage_options = [
         envvar=constants.GCS_BUCKET_KEY_PREFIX_SOURCE,
         required=False,
         help=f"GCS bucket source key prefix, only used if --storage-type is '{constants.GCS_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--gcs-bucket-key-prefix-destination",
@@ -485,14 +431,12 @@ _storage_options = [
         envvar=constants.GCS_BUCKET_KEY_PREFIX_DESTINATION,
         required=False,
         help=f"GCS bucket destination key prefix, only used if --storage-type is '{constants.GCS_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--gcs-service-account-key-file",
         envvar=constants.GCS_SERVICE_ACCOUNT_KEY_FILE,
         required=False,
         help=f"Path to GCS service account key file, only used if --storage-type is '{constants.GCS_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     # Azure options
     option(
@@ -500,7 +444,6 @@ _storage_options = [
         envvar=constants.AZURE_CONTAINER_NAME,
         required=False,
         help=f"Azure container name, only used if --storage-type is '{constants.AZURE_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--azure-container-key-prefix-source",
@@ -509,7 +452,6 @@ _storage_options = [
         envvar=constants.AZURE_CONTAINER_KEY_PREFIX_SOURCE,
         required=False,
         help=f"Azure container source key prefix, only used if --storage-type is '{constants.AZURE_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--azure-container-key-prefix-destination",
@@ -518,28 +460,24 @@ _storage_options = [
         envvar=constants.AZURE_CONTAINER_KEY_PREFIX_DESTINATION,
         required=False,
         help=f"Azure container destination key prefix, only used if --storage-type is '{constants.AZURE_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--azure-storage-account-name",
         envvar=constants.AZURE_STORAGE_ACCOUNT_NAME,
         required=False,
         help=f"Azure storage account name, only used if --storage-type is '{constants.AZURE_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--azure-storage-account-key",
         envvar=constants.AZURE_STORAGE_ACCOUNT_KEY,
         required=False,
         help=f"Azure storage account key, only used if --storage-type is '{constants.AZURE_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
     option(
         "--azure-storage-connection-string",
         envvar=constants.AZURE_STORAGE_CONNECTION_STRING,
         required=False,
         help=f"Azure storage connection string, only used if --storage-type is '{constants.AZURE_STORAGE_TYPE}'",
-        cls=CustomOptionClass,
     ),
 ]
 
@@ -551,7 +489,6 @@ _diffs_options = [
         default=False,
         show_default=False,
         help="Skip resource if resource connection fails.",
-        cls=CustomOptionClass,
     ),
     option(
         "--drop-unresolvable-principals",
@@ -566,7 +503,6 @@ _diffs_options = [
         "resource connection fails normally. --skip-failed-resource-connections may suppress "
         "that failure and continue syncing; an ERROR log and risk metric explicitly warn that "
         "the destination resource may be unrestricted. Off by default.",
-        cls=CustomOptionClass,
     ),
     option(
         "--cleanup",
@@ -578,7 +514,6 @@ _diffs_options = [
         ),
         help="Cleanup resources from destination org.",
         envvar=constants.DD_CLEANUP,
-        cls=CustomOptionClass,
     ),
 ]
 
@@ -591,7 +526,6 @@ _force_missing_dependencies_options = [
         default=False,
         show_default=True,
         help="Force importing and syncing resources that could be potential dependencies to the requested resources.",
-        cls=CustomOptionClass,
     ),
 ]
 
@@ -613,7 +547,6 @@ _refresh_destination_state_options = [
             "in-flight writes from this run. Off by default because "
             "single-process users do not have this race."
         ),
-        cls=CustomOptionClass,
     ),
 ]
 
@@ -624,7 +557,6 @@ _sync_options = [
         type=IntRange(min=30),
         default=None,
         help="Override num_flex_logs_retention_days on logs indexes where the field is present.",
-        cls=CustomOptionClass,
     ),
     option(
         "--alter-logs-indexes-retention-days",
@@ -632,7 +564,6 @@ _sync_options = [
         type=IntRange(min=30),
         default=None,
         help="Override num_retention_days on logs indexes where the field is present.",
-        cls=CustomOptionClass,
     ),
     option(
         "--skip-monitors-with-restricted-roles",
@@ -644,7 +575,6 @@ _sync_options = [
         "or restriction_policy bindings. "
         "This is an explicit access-control escape hatch for DDR destinations where "
         "role/user activation is not ready yet; filtered monitors are not created or updated.",
-        cls=CustomOptionClass,
     ),
     option(
         "--repair-metric-tag-configuration-metadata-type-conflicts",
@@ -658,7 +588,6 @@ _sync_options = [
             "metric_type, then retry once. This mutates destination metric metadata and should only be "
             "used after confirming the source tag configuration type is the desired source of truth."
         ),
-        cls=CustomOptionClass,
     ),
     option(
         "--create-global-downtime",
@@ -668,7 +597,6 @@ _sync_options = [
         show_default=True,
         help="Scheduled downtime is meant to be removed during failover when "
         "user determines monitors have enough telemetry to trigger appropriately.",
-        cls=CustomOptionClass,
     ),
     option(
         "--allow-partial-permissions-roles",
@@ -676,7 +604,6 @@ _sync_options = [
         envvar=constants.DD_ALLOW_PARTIAL_PERMISSIONS_ROLES,
         help="Comma separated list of permissions to allow partial sync for roles. "
         "If a role has a permission that doesn't exist in the destination, it will be removed and retried.",
-        cls=CustomOptionClass,
     ),
     option(
         "--allow-self-lockout",
@@ -685,14 +612,12 @@ _sync_options = [
         default=False,
         show_default=True,
         help="Allow self-lockout when syncing restriction policies.",
-        cls=CustomOptionClass,
     ),
     option(
         "--no-create-global-downtime",
         is_flag=True,
         default=False,
         help="Disable creating scheduled global downtime. Wins over --create-global-downtime when both are set.",
-        cls=CustomOptionClass,
     ),
 ]
 

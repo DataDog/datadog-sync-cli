@@ -6,7 +6,6 @@
 from click import command, option, UsageError
 
 from datadog_sync.commands.shared.options import (
-    CustomOptionClass,
     common_options,
     source_auth_options,
     storage_options,
@@ -27,7 +26,6 @@ from datadog_sync.utils.configuration import normalize_kwargs
     default=False,
     show_default=True,
     help="Skip the interactive confirmation prompt.",
-    cls=CustomOptionClass,
 )
 @option(
     "--dry-run",
@@ -36,7 +34,6 @@ from datadog_sync.utils.configuration import normalize_kwargs
     default=False,
     show_default=True,
     help="Show stale files without deleting them.",
-    cls=CustomOptionClass,
 )
 def prune(**kwargs):
     """Delete per-resource state files for resources no longer present in source.
