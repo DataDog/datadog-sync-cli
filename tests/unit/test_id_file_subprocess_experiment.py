@@ -423,7 +423,7 @@ def test_subprocess_id_file_without_resources_errors(tmp_path):
         str(source_dir),
         resources=None,  # explicitly omit --resources
     )
-    assert rc == 1, f"expected exit 1, got {rc}"
+    assert rc == 2, f"expected exit 2 (usage error), got {rc}"
     combined = (stdout + stderr).decode(errors="replace")
     assert "--id-file requires --resources" in combined, f"missing expected error message in:\n{combined}"
 
@@ -440,7 +440,7 @@ def test_subprocess_id_file_type_missing_from_resources_errors(tmp_path):
         str(source_dir),
         resources="users",  # mismatched
     )
-    assert rc == 1, f"expected exit 1, got {rc}"
+    assert rc == 2, f"expected exit 2 (usage error), got {rc}"
     combined = (stdout + stderr).decode(errors="replace")
     assert "not present in --resources" in combined, f"missing expected error in:\n{combined}"
 
@@ -494,7 +494,7 @@ def test_subprocess_max_concurrent_reads_zero_errors(tmp_path):
         str(source_dir),
         max_concurrent_reads=0,
     )
-    assert rc == 1, f"expected exit 1, got {rc}"
+    assert rc == 2, f"expected exit 2 (usage error), got {rc}"
     combined = (stdout + stderr).decode(errors="replace")
     assert "--max-concurrent-reads must be a positive integer" in combined, f"missing expected error in:\n{combined}"
 
@@ -510,6 +510,6 @@ def test_subprocess_threshold_pct_out_of_range_errors(tmp_path):
         str(source_dir),
         threshold=150,
     )
-    assert rc == 1, f"expected exit 1, got {rc}"
+    assert rc == 2, f"expected exit 2 (usage error), got {rc}"
     combined = (stdout + stderr).decode(errors="replace")
     assert "must be in range [0, 100]" in combined, f"missing expected error in:\n{combined}"

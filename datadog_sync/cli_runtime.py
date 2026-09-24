@@ -69,7 +69,9 @@ class DatadogSyncGroup(click.Group):
             if not standalone_mode:
                 raise
             if structured_output_requested(raw_args):
-                CommandError(command_from_args(raw_args), "invalid_usage", error.format_message(), error.exit_code).emit()
+                CommandError(
+                    command_from_args(raw_args), "invalid_usage", error.format_message(), error.exit_code
+                ).emit()
             else:
                 error.show(file=sys.stderr)
             raise SystemExit(error.exit_code)
