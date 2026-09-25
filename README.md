@@ -257,6 +257,7 @@ When running againts multiple destination organizations, a seperate working dire
 | restriction_policies                   | Sync Datadog restriction policies.                                   |
 | roles                                  | Sync Datadog roles.                                                  |
 | rum_applications                        | Sync Datadog RUM applications.                                       |
+| rum_config                              | Sync Datadog RUM configuration (singleton).                          |
 | rum_metrics                             | Sync Datadog RUM-based metrics.                                       |
 | rum_operations                          | Sync Datadog RUM operations.                                          |
 | rum_replay_playlists                    | Sync Datadog RUM replay playlists (shell only).                      |
@@ -369,6 +370,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | restriction_policies                   | dashboards, service_level_objectives, notebooks, users, roles    |
 | roles                                  | -                                                                |
 | rum_applications                        | -                                                                |
+| rum_config                              | -                                                                |
 | rum_metrics                             | -                                                                |
 | rum_operations                          | rum_applications                                                 |
 | rum_replay_playlists                    | -                                                                |
