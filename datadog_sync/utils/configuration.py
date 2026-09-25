@@ -252,7 +252,9 @@ def _unwrap_exact_match_pattern(pattern: str) -> str:
     return _regex_literal_from_exact_match_body(pattern[1:-1])
 
 
-_ID_FILE_IMPORT_SUPPORTED_TYPES = frozenset({"monitors", "authn_mappings", "team_memberships", "dashboards"})
+_ID_FILE_IMPORT_SUPPORTED_TYPES = frozenset(
+    {"monitors", "authn_mappings", "team_memberships", "dashboards", "observability_pipelines"}
+)
 """Resource types eligible for --id-file on the import command.
 
 The import path fans out to per-ID GETs via BaseResource.get_resources_by_ids.
@@ -271,6 +273,12 @@ already carrying widgets, so the id-file path's get_resources_by_ids ->
 import_resource(_id=...) -> queue-handler _import_resource(resource=body)
 sequence does exactly one GET per dashboard (no double-fetch). Verified via
 tests/unit/test_dashboards_id_file.py.
+
+observability_pipelines: ObservabilityPipelines.import_resource(_id=...) does a
+real GET to /api/v2/obs-pipelines/pipelines/{id} and returns the full pipeline
+body. The default get_resources_by_ids classifies 404/429/5xx/403 without
+aborting, satisfying the disaster-recovery continue-past-errors intent.
+Verified via tests/unit/test_observability_pipelines_id_file.py.
 """
 
 

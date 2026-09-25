@@ -24,6 +24,7 @@ from datadog_sync.model.metric_tag_configurations import MetricTagConfigurations
 from datadog_sync.model.metrics_metadata import MetricsMetadata
 from datadog_sync.model.monitors import Monitors
 from datadog_sync.model.notebooks import Notebooks
+from datadog_sync.model.observability_pipelines import ObservabilityPipelines
 from datadog_sync.model.powerpacks import Powerpacks
 from datadog_sync.model.restriction_policies import RestrictionPolicies
 from datadog_sync.model.roles import Roles
