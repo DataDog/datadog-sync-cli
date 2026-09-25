@@ -20,10 +20,10 @@ class RUMRetentionFiltersOrder(BaseResource):
     ``/api/v2/rum/applications/{app_id}/retention_filters``. The resource is
     keyed by application id; ``id`` (the app id) and ``data[*].id`` (filter ids)
     are remapped via ``resource_connections`` before apply. Both must survive
-    ``prep_resource`` (so create/update can read them), so they are excluded
-    from diffs via ``deep_diff_config.exclude_regex_paths`` rather than
-    ``excluded_attributes`` (same pattern as rum_retention_filters'
-    ``_application_id`` and users.py's ``handle``/``service_account``).
+    ``prep_resource`` (so create/update can read them), so neither is in
+    ``excluded_attributes``. Since ids are remapped to match the destination
+    before the diff is computed, no ``deep_diff_config`` exclusion is needed;
+    ``ignore_order=False`` so reordering is detected as a diff.
 
     Order is applied as a separate resource (synced after the filters exist at
     the destination) because a ``pre_apply_hook`` runs before apply, when the
