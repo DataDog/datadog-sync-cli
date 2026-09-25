@@ -49,12 +49,20 @@ def _op(_id, app_id="app-src", name="checkout-flow"):
 def test_get_resources_hits_search_endpoint():
     ops = RUMOperations(MagicMock())
     client = AsyncMock()
-    client.get = AsyncMock(return_value={"data": [_op("op-1")], "meta": {}})
+    # paginated_request(func) returns a wrapper coroutine; mock the wrapper
+    wrapper_mock = AsyncMock(return_value=[_op("op-1"), _op("op-2")])
+    client.paginated_request = MagicMock(return_value=wrapper_mock)
 
     resources = _run(ops.get_resources(client))
 
-    assert resources == [_op("op-1")]
-    client.get.assert_awaited_once_with("/api/v2/rum/operations/search")
+    assert resources == [_op("op-1"), _op("op-2")]
+    # Verify paginated_request was called with client.get
+    client.paginated_request.assert_called_once_with(client.get)
+    # Verify the wrapper was called with the search path and pagination config
+    wrapper_mock.assert_called_once_with(
+        "/api/v2/rum/operations/search",
+        pagination_config=ops.pagination_config,
+    )
 
 
 def test_import_resource_by_id_gets_and_returns():
