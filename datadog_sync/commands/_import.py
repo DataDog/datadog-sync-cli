@@ -17,7 +17,11 @@ from datadog_sync.cli_runtime import GroupedCommand
 from datadog_sync.constants import Command
 
 
-@command(Command.IMPORT.value, short_help="Import Datadog resources.", cls=GroupedCommand)
+@command(
+    Command.IMPORT.value,
+    short_help="Read resources from the source org into local state (changes no org resources).",
+    cls=GroupedCommand,
+)
 @source_auth_options
 @destination_auth_options
 @common_options
@@ -36,5 +40,11 @@ from datadog_sync.constants import Command
     "commands.",
 )
 def _import(**kwargs):
-    """Import Datadog resources."""
+    """Import Datadog resources.
+
+    Reads resources from the source organization into local state. Does not
+    create, update, or delete resources in any Datadog organization; only local
+    (or configured cloud) state is written. sync-cli usage metrics are sent
+    unless --no-send-metrics or the root --read-only flag is set.
+    """
     run_cmd(Command.IMPORT, **kwargs)
