@@ -17,6 +17,8 @@ import asyncio
 from collections import defaultdict
 from unittest.mock import AsyncMock, MagicMock
 
+import pytest
+
 from datadog_sync.model.rum_config import RUMConfig
 
 
@@ -63,9 +65,15 @@ def test_import_resource_returns_default_id():
 
 
 def test_create_resource_posts_when_destination_absent():
+    """When the destination singleton returns 404, create POSTs a new one."""
+    from datadog_sync.utils.resource_utils import CustomClientHTTPError
+
     cfg = RUMConfig(MagicMock())
     dest = AsyncMock()
-    dest.get = AsyncMock(side_effect=Exception("404 not found"))
+    resp = MagicMock()
+    resp.status = 404
+    resp.message = "Not Found"
+    dest.get = AsyncMock(side_effect=CustomClientHTTPError(resp, message="not found"))
     dest.post = AsyncMock(return_value={"data": _cfg(True)})
     cfg.config.destination_client = dest
 
@@ -78,6 +86,26 @@ def test_create_resource_posts_when_destination_absent():
     assert post_url == "/api/v2/rum/config"
     # only enforced_application_tags is sent on create
     assert post_payload == {"data": {"type": "rum_config", "attributes": {"enforced_application_tags": True}}}
+
+
+def test_create_resource_reraises_on_non_404_error():
+    """Transient/auth errors (500, 403, etc.) must propagate, not be swallowed
+    as 'singleton absent'."""
+    from datadog_sync.utils.resource_utils import CustomClientHTTPError
+
+    cfg = RUMConfig(MagicMock())
+    dest = AsyncMock()
+    resp = MagicMock()
+    resp.status = 500
+    resp.message = "Internal Server Error"
+    dest.get = AsyncMock(side_effect=CustomClientHTTPError(resp, message="server error"))
+    dest.post = AsyncMock()
+    cfg.config.destination_client = dest
+
+    resource = _cfg(True)
+    with pytest.raises(CustomClientHTTPError):
+        _run(cfg.create_resource("rum-config", resource))
+    dest.post.assert_not_awaited()
 
 
 def test_create_resource_delegates_to_update_when_destination_exists():
