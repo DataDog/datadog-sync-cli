@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -73,14 +74,25 @@ class RUMOperationStrongLinks(BaseResource):
         attrs = resource.setdefault("attributes", {})
         op_id = attrs.get("operation_id")
         if not op_id:
-            return
+            raise SkipResource(
+                _id,
+                self.resource_type,
+                f"Missing operation_id; cannot derive application_id and " f"operation_name for create payload.",
+            )
         source_op = self.config.state.source.get("rum_operations", {}).get(op_id)
-        if source_op:
-            src_attrs = source_op.get("attributes", {})
-            if "application_id" in src_attrs:
-                attrs["application_id"] = src_attrs["application_id"]
-            if "name" in src_attrs:
-                attrs["operation_name"] = src_attrs["name"]
+        if not source_op:
+            raise SkipResource(
+                _id,
+                self.resource_type,
+                f"Parent rum_operations {op_id!r} not found in source state; "
+                f"cannot derive application_id and operation_name for create payload. "
+                f"Ensure rum_operations is imported and synced before this resource.",
+            )
+        src_attrs = source_op.get("attributes", {})
+        if "application_id" in src_attrs:
+            attrs["application_id"] = src_attrs["application_id"]
+        if "name" in src_attrs:
+            attrs["operation_name"] = src_attrs["name"]
 
     async def pre_apply_hook(self) -> None:
         pass
