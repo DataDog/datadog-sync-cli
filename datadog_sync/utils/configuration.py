@@ -330,27 +330,21 @@ def _parse_id_file(id_file_arg: Optional[str], logger) -> Optional[Dict[str, Lis
     try:
         data = json.loads(raw)
     except json.JSONDecodeError as e:
-        logger.error(f"--id-file: malformed JSON: {e}")
-        sys.exit(1)
+        raise click.UsageError(f"--id-file: malformed JSON: {e}")
     if not isinstance(data, dict):
-        logger.error("--id-file: expected JSON object {type: [ids]}")
-        sys.exit(1)
+        raise click.UsageError("--id-file: expected JSON object {type: [ids]}")
     for k, v in data.items():
         if not isinstance(k, str):
-            logger.error(f"--id-file: key must be string, got {type(k).__name__}")
-            sys.exit(1)
+            raise click.UsageError(f"--id-file: key must be string, got {type(k).__name__}")
         if k not in _ID_FILE_SUPPORTED_TYPES:
-            logger.error(
+            raise click.UsageError(
                 f"--id-file: type {k!r} is not supported by this build. "
                 f"Supported types: {sorted(_ID_FILE_SUPPORTED_TYPES)}"
             )
-            sys.exit(1)
         if not isinstance(v, list) or not v:
-            logger.error(f"--id-file: value for {k!r} must be non-empty list")
-            sys.exit(1)
+            raise click.UsageError(f"--id-file: value for {k!r} must be non-empty list")
         if not all(isinstance(x, str) for x in v):
-            logger.error(f"--id-file: all IDs for {k!r} must be strings")
-            sys.exit(1)
+            raise click.UsageError(f"--id-file: all IDs for {k!r} must be strings")
     return data
 
 
@@ -452,6 +446,11 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # configure logger — in JSON mode, Log writes NDJSON to stdout and silences stderr
     emit_json = kwargs.get("emit_json", False)
     logger = Log(kwargs.get("verbose"), emit_json=emit_json)
+
+    # Parse --id-file as early as possible, before any other logging or client
+    # construction, so malformed input fails fast with no other structured
+    # output ahead of the resulting error event.
+    id_payload = _parse_id_file(kwargs.get("id_file"), logger)
 
     # configure Filter
     filters = process_filters(kwargs.get("filter"))
@@ -685,12 +684,6 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
                 "--skip-state-load skips the load entirely (recommended for import)"
             )
 
-    # Parse --id-file early so its IDs can also feed the state-load ID-targeted
-    # path below. Original position (after State construction) served only the
-    # import-command per-ID GET path; sync-command state-load scoping needs
-    # id_payload BEFORE State() is built.
-    id_payload = _parse_id_file(kwargs.get("id_file"), logger)
-
     # Determine loading strategy for minimize-reads
     _state_resource_types = None  # type-scoped; None = full load (existing behavior)
     _state_exact_ids = None  # ID-targeted; None = not using ID-targeted
@@ -801,23 +794,20 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         try:
             max_concurrent_reads = int(raw_mcr)
         except (TypeError, ValueError):
-            logger.error(f"--max-concurrent-reads must be an integer, got {raw_mcr!r}")
-            sys.exit(1)
+            raise click.UsageError(f"--max-concurrent-reads must be an integer, got {raw_mcr!r}")
     if max_concurrent_reads <= 0:
         # asyncio.Semaphore(0) blocks all acquires forever; negative raises ValueError.
         # Either way, validate at config-build with a clear message rather than a hang.
-        logger.error(f"--max-concurrent-reads must be a positive integer, got {max_concurrent_reads}")
-        sys.exit(1)
+        raise click.UsageError(f"--max-concurrent-reads must be a positive integer, got {max_concurrent_reads}")
     # Upper sanity bound: aiohttp's TCPConnector defaults `limit=100`, so values
     # well above that don't actually buy more concurrency — they just inflate the
     # number of pending coroutines waiting for connector slots, which obscures
     # the contract. Hard cap at 200; warn at >100.
     if max_concurrent_reads > 200:
-        logger.error(
+        raise click.UsageError(
             f"--max-concurrent-reads={max_concurrent_reads} exceeds the safety cap of 200. "
             f"aiohttp's connector limit (default 100) is the real ceiling."
         )
-        sys.exit(1)
     if max_concurrent_reads > 100:
         logger.warning(
             f"--max-concurrent-reads={max_concurrent_reads} is above aiohttp's default "
@@ -830,13 +820,11 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         try:
             transient_failure_threshold_pct = int(raw_threshold)
         except (TypeError, ValueError):
-            logger.error(f"--transient-failure-threshold-pct must be an integer, got {raw_threshold!r}")
-            sys.exit(1)
+            raise click.UsageError(f"--transient-failure-threshold-pct must be an integer, got {raw_threshold!r}")
     if not (0 <= transient_failure_threshold_pct <= 100):
-        logger.error(
+        raise click.UsageError(
             f"--transient-failure-threshold-pct must be in range [0, 100], got {transient_failure_threshold_pct}"
         )
-        sys.exit(1)
 
     # Initialize Configuration
     config = Configuration(
@@ -926,11 +914,10 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             )
 
         if LogsCustomPipelines.resource_type in resources_arg and LogsPipelines.resource_type in resources_arg:
-            logger.error(
+            raise click.UsageError(
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication"
             )
-            sys.exit(1)
 
         resources_arg = list(set(resources_arg) & set(resources.keys()))
     else:
@@ -944,20 +931,26 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # wall-clock bound this feature provides.
     if id_payload is not None:
         if not resources_arg_str:
-            logger.error(
+            raise click.UsageError(
                 "--id-file requires --resources to be set explicitly. "
                 f"Pass --resources={','.join(sorted(id_payload.keys()))} "
                 "(plus any dependency types like users,roles if applicable)."
             )
-            sys.exit(1)
-        missing_from_resources = set(id_payload.keys()) - set(resources_arg)
-        if missing_from_resources:
-            logger.error(
-                f"--id-file types {sorted(missing_from_resources)!r} are not "
-                f"present in --resources={resources_arg_str!r}. Either add them to "
-                f"--resources or remove from the id-payload."
-            )
-            sys.exit(1)
+        # Under --minimize-reads, a disjoint id-file type is not a footgun: the
+        # sub-mode selection above (line 752-765) already scopes id-payload
+        # entries to the intersection with --resources, so a type absent from
+        # --resources is simply never id-targeted and falls through to
+        # type-scoped loading instead of being silently dropped. Only guard
+        # against this for the legacy full-list path (e.g. plain `import`),
+        # where a disjoint type really would be silently skipped.
+        if not minimize_reads:
+            missing_from_resources = set(id_payload.keys()) - set(resources_arg)
+            if missing_from_resources:
+                raise click.UsageError(
+                    f"--id-file types {sorted(missing_from_resources)!r} are not "
+                    f"present in --resources={resources_arg_str!r}. Either add them to "
+                    f"--resources or remove from the id-payload."
+                )
 
     config.resources = resources
     config.resources_arg = resources_arg
@@ -1018,20 +1011,18 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
             LogsCustomPipelines.resource_type in config.resources_arg
             and LogsPipelines.resource_type in config.resources_arg
         ):
-            config.logger.error(
+            raise click.UsageError(
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication."
             )
-            sys.exit(1)
 
         if Downtimes.resource_type in config.resources_arg:
             config.logger.warning("`downtimes` resource has been deprecated in favor of `downtime_schedules`.")
         if Downtimes.resource_type in config.resources_arg and DowntimeSchedules.resource_type in config.resources_arg:
-            config.logger.error(
+            raise click.UsageError(
                 "`downtimes` and `downtime_schedules` resource should not"
                 + " be used together as it will cause duplication."
             )
-            sys.exit(1)
 
     else:
         # The else-branch below reads config.state.source / destination to fall

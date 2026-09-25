@@ -3,12 +3,14 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 import sys
-from click import group
 
+import click
+
+from datadog_sync.cli_runtime import DatadogSyncGroup
 from datadog_sync.commands import ALL_COMMANDS
 
 
-@group()
+@click.group(cls=DatadogSyncGroup)
 def cli():
     """Initialize cli"""
     pass

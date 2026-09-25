@@ -304,64 +304,55 @@ class TestSkipStateLoadCLIValidation:
         assert result.exit_code != 0
         assert "--skip-state-load requires --resource-per-file" in result.output
 
-    def test_skip_state_load_still_rejects_deprecated_resource_conflicts(self, runner, caplog):
+    def test_skip_state_load_still_rejects_deprecated_resource_conflicts(self, runner):
         # _handle_deprecated runs for both State and ImportState callers. The
         # conflict checks (logs_custom_pipelines + logs_pipelines, downtimes
         # + downtime_schedules) MUST still fire when --skip-state-load is set,
         # even though that flag bypasses the read-state fallback branch.
-        # The error goes through config.logger so capture via caplog rather
-        # than result.output (CliRunner does not capture logger writes).
-        import logging
+        # The conflict now raises click.UsageError (exit code 2), surfaced on
+        # stderr via Click's native error formatting rather than config.logger.
+        result = runner.invoke(
+            cli,
+            [
+                "import",
+                "--skip-state-load",
+                "--resource-per-file",
+                "--resources=logs_custom_pipelines,logs_pipelines",
+                "--source-api-key=k",
+                "--source-app-key=k",
+                "--destination-api-key=k",
+                "--destination-app-key=k",
+            ],
+        )
+        assert result.exit_code == 2, result.output
+        assert (
+            "logs_custom_pipelines" in result.output
+            and "logs_pipelines" in result.output
+            and "should not" in result.output
+            and "duplication" in result.output
+        ), result.output
 
-        from datadog_sync.constants import LOGGER_NAME
-
-        with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
-            result = runner.invoke(
-                cli,
-                [
-                    "import",
-                    "--skip-state-load",
-                    "--resource-per-file",
-                    "--resources=logs_custom_pipelines,logs_pipelines",
-                    "--source-api-key=k",
-                    "--source-app-key=k",
-                    "--destination-api-key=k",
-                    "--destination-app-key=k",
-                ],
-            )
-        # _handle_deprecated calls sys.exit(1) on conflict, so exit code is 1
-        # specifically (not Click's 2 for parser errors).
-        assert result.exit_code == 1, result.output
-        errors = [r.getMessage() for r in caplog.records if r.levelname == "ERROR"]
-        assert any(
-            "logs_custom_pipelines" in m and "logs_pipelines" in m and "should not" in m and "duplication" in m
-            for m in errors
-        ), errors
-
-    def test_skip_state_load_still_rejects_downtimes_conflict(self, runner, caplog):
-        import logging
-
-        from datadog_sync.constants import LOGGER_NAME
-
-        with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
-            result = runner.invoke(
-                cli,
-                [
-                    "import",
-                    "--skip-state-load",
-                    "--resource-per-file",
-                    "--resources=downtimes,downtime_schedules",
-                    "--source-api-key=k",
-                    "--source-app-key=k",
-                    "--destination-api-key=k",
-                    "--destination-app-key=k",
-                ],
-            )
-        assert result.exit_code == 1, result.output
-        errors = [r.getMessage() for r in caplog.records if r.levelname == "ERROR"]
-        assert any(
-            "downtimes" in m and "downtime_schedules" in m and "should not" in m and "duplication" in m for m in errors
-        ), errors
+    def test_skip_state_load_still_rejects_downtimes_conflict(self, runner):
+        result = runner.invoke(
+            cli,
+            [
+                "import",
+                "--skip-state-load",
+                "--resource-per-file",
+                "--resources=downtimes,downtime_schedules",
+                "--source-api-key=k",
+                "--source-app-key=k",
+                "--destination-api-key=k",
+                "--destination-app-key=k",
+            ],
+        )
+        assert result.exit_code == 2, result.output
+        assert (
+            "downtimes" in result.output
+            and "downtime_schedules" in result.output
+            and "should not" in result.output
+            and "duplication" in result.output
+        ), result.output
 
     def test_skip_state_load_rejected_with_minimize_reads(self, runner):
         # --minimize-reads is registered only on the sync command, so it's
