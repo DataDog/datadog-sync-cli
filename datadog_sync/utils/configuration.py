@@ -8,7 +8,7 @@ from dataclasses import dataclass, field, replace
 import logging
 import sys
 import time
-from typing import Any, Optional, TYPE_CHECKING, Union, Dict, List
+from typing import Any, Optional, Sequence, TYPE_CHECKING, Tuple, Union, Dict, List
 
 import click
 
@@ -41,7 +41,7 @@ from datadog_sync.model.downtime_schedules import DowntimeSchedules
 from datadog_sync.utils.custom_client import CustomClient
 from datadog_sync.utils.base_resource import BaseResource
 from datadog_sync.utils.log import Log
-from datadog_sync.utils.filter import Filter, process_filters, EXACT_MATCH_OPERATOR
+from datadog_sync.utils.filter import Filter, load_filter_file, process_filters, EXACT_MATCH_OPERATOR
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 from datadog_sync.utils.import_state import ImportState
 from datadog_sync.utils.state import State
@@ -274,14 +274,16 @@ tests/unit/test_dashboards_id_file.py.
 """
 
 
-_ID_FILE_STATE_LOAD_SUPPORTED_TYPES = frozenset({
-    "monitors",
-    "authn_mappings",
-    "team_memberships",
-    "host_tags",
-    "metrics_metadata",
-    "dashboards",
-})
+_ID_FILE_STATE_LOAD_SUPPORTED_TYPES = frozenset(
+    {
+        "monitors",
+        "authn_mappings",
+        "team_memberships",
+        "host_tags",
+        "metrics_metadata",
+        "dashboards",
+    }
+)
 """Resource types eligible for --id-file on the sync command with --minimize-reads.
 
 The sync-with-minimize-reads path uses --id-file only to scope state-load —
@@ -330,27 +332,21 @@ def _parse_id_file(id_file_arg: Optional[str], logger) -> Optional[Dict[str, Lis
     try:
         data = json.loads(raw)
     except json.JSONDecodeError as e:
-        logger.error(f"--id-file: malformed JSON: {e}")
-        sys.exit(1)
+        raise click.UsageError(f"--id-file: malformed JSON: {e}")
     if not isinstance(data, dict):
-        logger.error("--id-file: expected JSON object {type: [ids]}")
-        sys.exit(1)
+        raise click.UsageError("--id-file: expected JSON object {type: [ids]}")
     for k, v in data.items():
         if not isinstance(k, str):
-            logger.error(f"--id-file: key must be string, got {type(k).__name__}")
-            sys.exit(1)
+            raise click.UsageError(f"--id-file: key must be string, got {type(k).__name__}")
         if k not in _ID_FILE_SUPPORTED_TYPES:
-            logger.error(
+            raise click.UsageError(
                 f"--id-file: type {k!r} is not supported by this build. "
                 f"Supported types: {sorted(_ID_FILE_SUPPORTED_TYPES)}"
             )
-            sys.exit(1)
         if not isinstance(v, list) or not v:
-            logger.error(f"--id-file: value for {k!r} must be non-empty list")
-            sys.exit(1)
+            raise click.UsageError(f"--id-file: value for {k!r} must be non-empty list")
         if not all(isinstance(x, str) for x in v):
-            logger.error(f"--id-file: all IDs for {k!r} must be strings")
-            sys.exit(1)
+            raise click.UsageError(f"--id-file: all IDs for {k!r} must be strings")
     return data
 
 
@@ -389,72 +385,129 @@ def extract_exact_id_filters(
     return result
 
 
-def _parse_max_workers_per_type(raw: Optional[str], known_types: List[str]) -> Dict[str, int]:
-    """Parse --max-workers-per-type. Comma-separated 'type=int' pairs.
+def _merge_resource_args(resources: Optional[str], repeated: Tuple[str, ...]) -> Optional[str]:
+    """Merge the legacy comma-separated --resources value with repeated
+    --resource occurrences into a single comma-separated string.
 
-    Returns {} when raw is None/empty (pure global --max-workers behavior).
-    Raises click.UsageError with a specific message on any of:
+    Order is preserved and duplicates (across either source) are dropped,
+    keeping the first occurrence. Returns None when neither source supplies
+    any value, matching --resources' existing "unset" behavior.
+    """
+    values = [part.strip() for part in (resources or "").split(",") if part.strip()]
+    values.extend(value.strip() for value in (repeated or ()) if value.strip())
+    deduplicated = list(dict.fromkeys(values))
+    return ",".join(deduplicated) if deduplicated else None
+
+
+def _parse_max_workers_per_type(raw: Optional[str], repeated: Sequence[str], known_types: List[str]) -> Dict[str, int]:
+    """Parse --max-workers-per-type. Comma-separated 'type=int' pairs, merged
+    with any repeated --worker-limit 'type=int' occurrences.
+
+    Returns {} when neither source supplies any pair (pure global
+    --max-workers behavior). Raises click.UsageError with a specific message
+    on any of:
     - malformed pair (missing '=', more than one '=')
     - unknown resource type (must match a real sync-cli resource type from
       the model registry)
     - non-integer value
     - value <= 0 (zero workers = permanent stall; negative is nonsense)
-    - duplicate type (same key twice with different values is ambiguous)
+    - duplicate type (same key twice with different values is ambiguous),
+      checked across the combined raw + repeated sequence
 
     known_types is the list of registered resource_type strings from
     init_resources / models.__dict__, passed in so the validator does not
     need to import models at parse time (avoiding import cycles at unit-test
     setup time).
     """
-    if not raw:
+    pairs: List[str] = []
+    if raw:
+        pairs.extend(raw.split(","))
+    pairs.extend(repeated or ())
+    if not pairs:
         return {}
     result: Dict[str, int] = {}
     known = frozenset(known_types)
-    for pair in raw.split(","):
+    for pair in pairs:
         pair = pair.strip()
         if not pair:
             continue
         if pair.count("=") != 1:
-            raise click.UsageError(
-                f"--max-workers-per-type: malformed pair {pair!r}, expected 'type=int'"
-            )
+            raise click.UsageError(f"--max-workers-per-type: malformed pair {pair!r}, expected 'type=int'")
         rt, val = pair.split("=", 1)
         rt = rt.strip()
         val = val.strip()
         if not rt:
-            raise click.UsageError(
-                f"--max-workers-per-type: empty resource type in pair {pair!r}"
-            )
+            raise click.UsageError(f"--max-workers-per-type: empty resource type in pair {pair!r}")
         if rt not in known:
             raise click.UsageError(
-                f"--max-workers-per-type: unknown resource type {rt!r}. "
-                f"Known types: {', '.join(sorted(known))}"
+                f"--max-workers-per-type: unknown resource type {rt!r}. " f"Known types: {', '.join(sorted(known))}"
             )
         if rt in result:
-            raise click.UsageError(
-                f"--max-workers-per-type: duplicate resource type {rt!r}"
-            )
+            raise click.UsageError(f"--max-workers-per-type: duplicate resource type {rt!r}")
         try:
             n = int(val)
         except ValueError:
-            raise click.UsageError(
-                f"--max-workers-per-type: non-integer value {val!r} for type {rt!r}"
-            )
+            raise click.UsageError(f"--max-workers-per-type: non-integer value {val!r} for type {rt!r}")
         if n <= 0:
-            raise click.UsageError(
-                f"--max-workers-per-type: value must be positive, got {n} for type {rt!r}"
-            )
+            raise click.UsageError(f"--max-workers-per-type: value must be positive, got {n} for type {rt!r}")
         result[rt] = n
     return result
 
 
+_NEGATIVE_BOOLEAN_ALIASES = {
+    "validate": "no_validate",
+    "show_progress_bar": "no_show_progress_bar",
+    "verify_ssl_certificates": "no_verify_ssl_certificates",
+    "verify_ddr_status": "no_verify_ddr_status",
+    "send_metrics": "no_send_metrics",
+    "create_global_downtime": "no_create_global_downtime",
+}
+
+
+def normalize_kwargs(kwargs: Dict[str, Any]) -> Dict[str, Any]:
+    """Apply additive-parameter-grammar normalization to raw CLI kwargs.
+
+    Idempotent so Click invocations and direct build_config callers can share
+    the same normalization without changing behavior.
+    """
+    kwargs = dict(kwargs)
+
+    filter_file = kwargs.get("filter_file")
+    id_file = kwargs.get("id_file")
+    if filter_file is not None and id_file == "-" and getattr(filter_file, "name", None) == "<stdin>":
+        raise click.UsageError("--filter-file - and --id-file - cannot both read stdin")
+
+    if "resource" in kwargs or "resources" in kwargs:
+        kwargs["resources"] = _merge_resource_args(kwargs.get("resources"), kwargs.pop("resource", ()))
+
+    if filter_file is not None and "filter_file_entries" not in kwargs:
+        kwargs["filter_file_entries"] = load_filter_file(filter_file)
+    kwargs.pop("filter_file", None)
+
+    for target, negative in _NEGATIVE_BOOLEAN_ALIASES.items():
+        if kwargs.pop(negative, False):
+            kwargs[target] = False
+
+    return kwargs
+
+
 def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
+    kwargs = normalize_kwargs(kwargs)
+
     # configure logger — in JSON mode, Log writes NDJSON to stdout and silences stderr
     emit_json = kwargs.get("emit_json", False)
     logger = Log(kwargs.get("verbose"), emit_json=emit_json)
 
-    # configure Filter
-    filters = process_filters(kwargs.get("filter"))
+    # Parse --id-file as early as possible, before any other logging or client
+    # construction, so malformed input fails fast with no other structured
+    # output ahead of the resulting error event.
+    id_payload = _parse_id_file(kwargs.get("id_file"), logger)
+
+    # configure Filter. Combine the legacy repeatable --filter strings with
+    # any objects parsed from --filter-file (process_filters accepts both).
+    filter_entries = list(kwargs.get("filter") or ())
+    filter_entries.extend(kwargs.get("filter_file_entries") or ())
+    filters = process_filters(filter_entries)
     filter_operator = kwargs.get("filter_operator")
 
     source_api_url = kwargs.get("source_api_url")
@@ -531,15 +584,16 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     )
     max_workers = kwargs.get("max_workers")
     max_workers_per_type_raw = kwargs.get("max_workers_per_type")
+    worker_limit_repeated = kwargs.get("worker_limit") or ()
     # Parse --max-workers-per-type early so malformed input fails BEFORE any
     # storage read or client init. Uses the same model-registry predicate as
     # init_resources (below) so unknown-type errors don't drift.
     known_resource_types = [
-        cls.resource_type
-        for cls in models.__dict__.values()
-        if isinstance(cls, type) and issubclass(cls, BaseResource)
+        cls.resource_type for cls in models.__dict__.values() if isinstance(cls, type) and issubclass(cls, BaseResource)
     ]
-    max_workers_per_type = _parse_max_workers_per_type(max_workers_per_type_raw, known_resource_types)
+    max_workers_per_type = _parse_max_workers_per_type(
+        max_workers_per_type_raw, worker_limit_repeated, known_resource_types
+    )
     create_global_downtime = kwargs.get("create_global_downtime")
     validate = kwargs.get("validate")
     verify_ddr_status = kwargs.get("verify_ddr_status")
@@ -628,7 +682,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # If a destination is going to be reset then a backup needs to be preformed. A back up
     # is just an import, the source of that import is the destination of the reset.
     if cmd == Command.RESET:
-        cleanup = TRUE
+        cleanup = FORCE if kwargs.get("yes") else TRUE
         source_client = CustomClient(
             destination_api_url,
             destination_auth,
@@ -685,19 +739,13 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
                 "--skip-state-load skips the load entirely (recommended for import)"
             )
 
-    # Parse --id-file early so its IDs can also feed the state-load ID-targeted
-    # path below. Original position (after State construction) served only the
-    # import-command per-ID GET path; sync-command state-load scoping needs
-    # id_payload BEFORE State() is built.
-    id_payload = _parse_id_file(kwargs.get("id_file"), logger)
-
     # Determine loading strategy for minimize-reads
     _state_resource_types = None  # type-scoped; None = full load (existing behavior)
     _state_exact_ids = None  # ID-targeted; None = not using ID-targeted
     if minimize_reads and (rs := kwargs.get("resources", None)):
         raw_types = [r.strip().lower() for r in rs.split(",") if r.strip()]
         # Try ID-targeted strategy first (fast path: exact IDs from filters)
-        early_filters = process_filters(kwargs.get("filter"))
+        early_filters = process_filters(filter_entries)
         filter_operator = kwargs.get("filter_operator", "or")
         _state_exact_ids = extract_exact_id_filters(early_filters, filter_operator, raw_types)
         if _state_exact_ids is None and id_payload:
@@ -711,8 +759,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             if scoped:
                 _state_exact_ids = scoped
                 logger.debug(
-                    "minimize-reads: ID-targeted sourced from --id-file for %s "
-                    "(--filter produced no exact IDs)",
+                    "minimize-reads: ID-targeted sourced from --id-file for %s " "(--filter produced no exact IDs)",
                     list(scoped.keys()),
                 )
         if _state_exact_ids is None:
@@ -801,23 +848,20 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         try:
             max_concurrent_reads = int(raw_mcr)
         except (TypeError, ValueError):
-            logger.error(f"--max-concurrent-reads must be an integer, got {raw_mcr!r}")
-            sys.exit(1)
+            raise click.UsageError(f"--max-concurrent-reads must be an integer, got {raw_mcr!r}")
     if max_concurrent_reads <= 0:
         # asyncio.Semaphore(0) blocks all acquires forever; negative raises ValueError.
         # Either way, validate at config-build with a clear message rather than a hang.
-        logger.error(f"--max-concurrent-reads must be a positive integer, got {max_concurrent_reads}")
-        sys.exit(1)
+        raise click.UsageError(f"--max-concurrent-reads must be a positive integer, got {max_concurrent_reads}")
     # Upper sanity bound: aiohttp's TCPConnector defaults `limit=100`, so values
     # well above that don't actually buy more concurrency — they just inflate the
     # number of pending coroutines waiting for connector slots, which obscures
     # the contract. Hard cap at 200; warn at >100.
     if max_concurrent_reads > 200:
-        logger.error(
+        raise click.UsageError(
             f"--max-concurrent-reads={max_concurrent_reads} exceeds the safety cap of 200. "
             f"aiohttp's connector limit (default 100) is the real ceiling."
         )
-        sys.exit(1)
     if max_concurrent_reads > 100:
         logger.warning(
             f"--max-concurrent-reads={max_concurrent_reads} is above aiohttp's default "
@@ -830,13 +874,11 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         try:
             transient_failure_threshold_pct = int(raw_threshold)
         except (TypeError, ValueError):
-            logger.error(f"--transient-failure-threshold-pct must be an integer, got {raw_threshold!r}")
-            sys.exit(1)
+            raise click.UsageError(f"--transient-failure-threshold-pct must be an integer, got {raw_threshold!r}")
     if not (0 <= transient_failure_threshold_pct <= 100):
-        logger.error(
+        raise click.UsageError(
             f"--transient-failure-threshold-pct must be in range [0, 100], got {transient_failure_threshold_pct}"
         )
-        sys.exit(1)
 
     # Initialize Configuration
     config = Configuration(
@@ -892,21 +934,22 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # its own copy — the class-level default stays intact.
     for rt, n in max_workers_per_type.items():
         prior = resources[rt].resource_config.max_concurrent
-        resources[rt].resource_config = replace(
-            resources[rt].resource_config, max_concurrent=n
-        )
+        resources[rt].resource_config = replace(resources[rt].resource_config, max_concurrent=n)
         if prior is not None and prior != n:
             # A model file hard-coded max_concurrent for this type (e.g. as
             # an HTTP-storm mitigation) and the operator is overriding it.
             # WARN so the deviation shows up above INFO log filters.
             logger.warning(
                 "max_workers_per_type: overriding %s max_concurrent %d -> %d (CLI override)",
-                rt, prior, n,
+                rt,
+                prior,
+                n,
             )
         else:
             logger.info(
                 "max_workers_per_type: applying %s max_concurrent=%d (CLI override)",
-                rt, n,
+                rt,
+                n,
             )
     resources_arg_str = kwargs.get("resources", None)
     if resources_arg_str:
@@ -926,11 +969,10 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
             )
 
         if LogsCustomPipelines.resource_type in resources_arg and LogsPipelines.resource_type in resources_arg:
-            logger.error(
+            raise click.UsageError(
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication"
             )
-            sys.exit(1)
 
         resources_arg = list(set(resources_arg) & set(resources.keys()))
     else:
@@ -944,20 +986,26 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # wall-clock bound this feature provides.
     if id_payload is not None:
         if not resources_arg_str:
-            logger.error(
+            raise click.UsageError(
                 "--id-file requires --resources to be set explicitly. "
                 f"Pass --resources={','.join(sorted(id_payload.keys()))} "
                 "(plus any dependency types like users,roles if applicable)."
             )
-            sys.exit(1)
-        missing_from_resources = set(id_payload.keys()) - set(resources_arg)
-        if missing_from_resources:
-            logger.error(
-                f"--id-file types {sorted(missing_from_resources)!r} are not "
-                f"present in --resources={resources_arg_str!r}. Either add them to "
-                f"--resources or remove from the id-payload."
-            )
-            sys.exit(1)
+        # Under --minimize-reads, a disjoint id-file type is not a footgun: the
+        # sub-mode selection above (line 752-765) already scopes id-payload
+        # entries to the intersection with --resources, so a type absent from
+        # --resources is simply never id-targeted and falls through to
+        # type-scoped loading instead of being silently dropped. Only guard
+        # against this for the legacy full-list path (e.g. plain `import`),
+        # where a disjoint type really would be silently skipped.
+        if not minimize_reads:
+            missing_from_resources = set(id_payload.keys()) - set(resources_arg)
+            if missing_from_resources:
+                raise click.UsageError(
+                    f"--id-file types {sorted(missing_from_resources)!r} are not "
+                    f"present in --resources={resources_arg_str!r}. Either add them to "
+                    f"--resources or remove from the id-payload."
+                )
 
     config.resources = resources
     config.resources_arg = resources_arg
@@ -1018,20 +1066,18 @@ def _handle_deprecated(config: Configuration, resources_arg_passed: bool):
             LogsCustomPipelines.resource_type in config.resources_arg
             and LogsPipelines.resource_type in config.resources_arg
         ):
-            config.logger.error(
+            raise click.UsageError(
                 "`logs_custom_pipelines` and `logs_pipelines` resource should not"
                 + " be used together as it will cause duplication."
             )
-            sys.exit(1)
 
         if Downtimes.resource_type in config.resources_arg:
             config.logger.warning("`downtimes` resource has been deprecated in favor of `downtime_schedules`.")
         if Downtimes.resource_type in config.resources_arg and DowntimeSchedules.resource_type in config.resources_arg:
-            config.logger.error(
+            raise click.UsageError(
                 "`downtimes` and `downtime_schedules` resource should not"
                 + " be used together as it will cause duplication."
             )
-            sys.exit(1)
 
     else:
         # The else-branch below reads config.state.source / destination to fall

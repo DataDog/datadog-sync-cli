@@ -16,6 +16,7 @@ Verifies that:
 """
 
 import asyncio
+import importlib
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -23,6 +24,15 @@ from click.testing import CliRunner
 
 from datadog_sync.cli import cli
 from datadog_sync.utils.custom_client import CustomClient
+
+# datadog_sync.commands.__init__ does `from datadog_sync.commands._import import
+# _import`, which rebinds the `commands` package's `_import` attribute to the
+# Command object, shadowing the submodule. unittest.mock resolves dotted patch
+# targets via getattr traversal (not sys.modules), so patching the string
+# "datadog_sync.commands._import.run_cmd" resolves to that Command object
+# instead of the module. Importing the submodule explicitly via importlib
+# sidesteps the shadowed attribute and gets the real module.
+_import_module = importlib.import_module("datadog_sync.commands._import")
 
 
 def _make_client(trust_env: bool = False, verify_ssl: bool = True) -> CustomClient:
@@ -153,7 +163,7 @@ class TestCliHttpClientTrustEnv:
 
     def test_cli_accepts_http_client_trust_env_flag(self, cli_runner):
         """--http-client-trust-env true parses to a real bool by the time run_cmd is dispatched."""
-        with patch("datadog_sync.commands._import.run_cmd") as mock_run_cmd:
+        with patch.object(_import_module, "run_cmd") as mock_run_cmd:
             result = cli_runner.invoke(cli, ["import", "--http-client-trust-env", "true", "--validate=false"])
 
         assert result.exit_code == 0, result.output
@@ -163,13 +173,13 @@ class TestCliHttpClientTrustEnv:
 
     def test_cli_rejects_invalid_http_client_trust_env_value(self, cli_runner):
         """An unparseable bool value is rejected before dispatch, with a clear error message."""
-        with patch("datadog_sync.commands._import.run_cmd") as mock_run_cmd:
+        with patch.object(_import_module, "run_cmd") as mock_run_cmd:
             result = cli_runner.invoke(cli, ["import", "--http-client-trust-env", "not-a-bool", "--validate=false"])
 
-        # CustomOptionClass.handle_parse_result calls sys.exit(1) on a bad bool value.
-        assert result.exit_code == 1
-        assert "Invalid value" in result.output
-        assert "trust" in result.output.lower() and "env" in result.output.lower()
+        # Click's native parsing raises a UsageError on a bad bool value, exiting 2.
+        assert result.exit_code == 2
+        assert result.stdout == ""
+        assert "Invalid value" in result.stderr
         mock_run_cmd.assert_not_called()
 
     @pytest.mark.parametrize(
@@ -183,7 +193,7 @@ class TestCliHttpClientTrustEnv:
     )
     def test_envvar_coerces_to_bool(self, cli_runner, env_value, expected):
         """DD_HTTP_CLIENT_TRUST_ENV env values coerce to a real bool via Click before dispatch."""
-        with patch("datadog_sync.commands._import.run_cmd") as mock_run_cmd:
+        with patch.object(_import_module, "run_cmd") as mock_run_cmd:
             result = cli_runner.invoke(
                 cli,
                 ["import", "--validate=false"],

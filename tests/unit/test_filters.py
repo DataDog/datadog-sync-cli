@@ -3,10 +3,13 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
+import io
+
+import click
 import pytest
 
 from datadog_sync.model.monitors import Monitors
-from datadog_sync.utils.filter import process_filters
+from datadog_sync.utils.filter import process_filters, load_filter_file
 
 
 @pytest.mark.parametrize(
@@ -370,3 +373,21 @@ def filters_is_match_helper(_filter, r_type, r_obj, expected) -> bool:
     filters = process_filters(_filter)
 
     return filters[r_type][0].is_match(r_obj) == expected
+
+
+def test_load_filter_file_rejects_empty_required_field():
+    payload = '[{"type": "monitors", "name": "title", "value": ""}]'
+    with pytest.raises(click.UsageError, match="value"):
+        load_filter_file(io.StringIO(payload))
+
+
+def test_load_filter_file_rejects_whitespace_only_required_field():
+    payload = '[{"type": "monitors", "name": "   ", "value": "prod"}]'
+    with pytest.raises(click.UsageError, match="name"):
+        load_filter_file(io.StringIO(payload))
+
+
+def test_load_filter_file_accepts_valid_entry():
+    payload = '[{"type": "monitors", "name": "title", "value": "prod"}]'
+    entries = load_filter_file(io.StringIO(payload))
+    assert entries[0]["type"] == "monitors"

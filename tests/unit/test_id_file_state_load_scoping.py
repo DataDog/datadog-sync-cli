@@ -131,11 +131,13 @@ class TestParseIdFileAcceptsNewTypes:
 
     def test_unsupported_type_still_rejected(self, tmp_path):
         """Guard against accidental over-widening: a random type still hard-fails."""
+        import click
+
         from datadog_sync.utils.configuration import _parse_id_file
         import logging
 
         payload_path = _write_payload(tmp_path, {"notebooks": ["nb-1"]})
-        with pytest.raises(SystemExit):
+        with pytest.raises(click.UsageError):
             _parse_id_file(str(payload_path), logging.getLogger("test"))
 
 

@@ -21,13 +21,20 @@ Datadog cli tool to sync resources across organizations.
   - [Verify DDR Status Flag](#verify-ddr-status-flag)
   - [State Files](#state-files)
   - [Supported resources](#supported-resources)
+  - [Scripting and agent integration](#scripting-and-agent-integration)
+    - [Discovering the CLI schema](#discovering-the-cli-schema)
+    - [Safety flags](#safety-flags)
+    - [Exit codes](#exit-codes)
+    - [NDJSON event stream](#ndjson-event-stream)
+    - [Shell completions](#shell-completions)
+    - [Piping output](#piping-output)
 - [Best practices](#best-practices)
 
 ## Quick Start
 
 See [Installing](#installing) section for guides on how to install and setup the tool.
 
-Run the `import` command to read the specified resources from the source organization and store them locally into JSON files in the directory `resources/source`. `import` never writes to any Datadog organization; only `sync`, `migrate`, and `reset` do.
+Run the `import` command to read the specified resources from the source organization and store them locally into JSON files in the directory `resources/source`. `import` does not create, update, or delete resources in any Datadog organization; only `sync`, `migrate`, and `reset` do. By default it still sends sync-cli usage metrics; pass `--no-send-metrics` or the root `--read-only` flag to turn them off.
 
 Then, you can run the `sync` command which will use the stored files from previous `import` command (unless `--force-missing-dependencies` flag is passed) to create/modify the resources on the destination organization. The pushed resources are saved in the directory `resources/destination`.
 
@@ -40,32 +47,33 @@ The `prune` command deletes per-resource state files (in `resources/source/` and
 *Note*: The tool uses the `resources` directory as the source of truth for determining what resources need to be created and modified. Hence, this directory should not be removed or corrupted.
 
 **Example Usage**
-```
+
+Set credentials as environment variables rather than command-line flags. Flags remain supported for every credential option, but flag values are visible in process listings (e.g. `ps`) and can be written to shell history, so the environment variable form is the recommended default:
+
+```bash
+export DD_SOURCE_API_KEY="..."
+export DD_SOURCE_APP_KEY="..."
+export DD_SOURCE_API_URL="https://api.datadoghq.com"
+export DD_DESTINATION_API_KEY="..."
+export DD_DESTINATION_APP_KEY="..."
+export DD_DESTINATION_API_URL="https://api.datadoghq.eu"
+
 # Import resources from parent organization and store them locally
-$ datadog-sync import \
-    --source-api-key="..." \
-    --source-app-key="..." \
-    --source-api-url="https://api.datadoghq.com"
+$ datadog-sync import
 
 > 2024-03-14 14:53:54,280 - INFO - Starting import...
 > ...
 > 2024-03-14 15:00:46,100 - INFO - Finished import
 
-# Check diff output to see what resources will be created/modified
-$ datadog-sync diffs \
-    --destination-api-key="..." \
-    --destination-app-key="..." \
-    --destination-api-url="https://api.datadoghq.eu"
+# diffs previews the mutations that sync would make, without writing to the destination organization
+$ datadog-sync diffs
 
 > 2024-03-14 15:46:22,014 - INFO - Starting diffs...
 > ...
 > 2024-03-14 14:51:15,379 - INFO - Finished diffs
 
 # Sync the resources to the child organization from locally stored files and save the output locally
-$ datadog-sync sync \
-    --destination-api-key="..." \
-    --destination-app-key="..." \
-    --destination-api-url="https://api.datadoghq.eu"
+$ datadog-sync sync
 
 > 2024-03-14 14:55:56,535 - INFO - Starting sync...
 > ...
@@ -262,6 +270,61 @@ When running againts multiple destination organizations, a seperate working dire
 | users                                  | Sync Datadog users.                                                  |
 
 ***Note:*** `logs_custom_pipelines` resource has been deprecated in favor of `logs_pipelines` resource which supports both logs OOTB integration and custom pipelines. To migrate to the new resource, rename the existing state files from `logs_custom_pipelines.json` to `logs_pipelines.json` for both source and destination files.
+
+#### Scripting and agent integration
+
+The CLI exposes a machine-readable contract intended for scripts and automated (agent) callers, in addition to its interactive, human-facing behavior. This contract is stable across runs: output, help text, confirmation prompts, and safety checks never change based on whether the caller is detected to be a human or an automated agent.
+
+##### Discovering the CLI schema
+
+`datadog-sync schema` prints a JSON description of every command's options (flags, types, defaults, whether a value is sensitive, required/conflicting options, and env var names) without making any network calls or reading local state:
+
+```
+datadog-sync schema --compact
+datadog-sync schema sync
+```
+
+`--compact` omits help text and produces single-line JSON; passing a command name limits the output to that command instead of the full CLI.
+
+##### Safety flags
+
+Three root-level flags let a script constrain what an invocation is allowed to do, regardless of which subcommand is used:
+
+- `--read-only` rejects any command capable of writing to Datadog APIs before it runs.
+- `--non-interactive` rejects any invocation that would otherwise prompt for confirmation.
+- `--yes` answers destructive confirmation prompts affirmatively instead of prompting.
+
+```
+datadog-sync --read-only diffs ...
+datadog-sync --non-interactive --yes reset ...
+```
+
+##### Exit codes
+
+| Exit code | Meaning |
+| :-: | :-- |
+| `0` | Success |
+| `1` | Runtime failure |
+| `2` | Invalid usage (bad arguments/options) |
+| `130` | Interrupted (e.g. Ctrl-C, or aborted confirmation) |
+
+##### NDJSON event stream
+
+Passing `--json` (or setting the `DD_SYNC_JSON` environment variable) switches output to newline-delimited JSON, with one event per line. There are four event types: `outcome` (a per-resource result), `log` (a log line), `error` (a command-level failure), and `summary` (the invocation's final result, including `status`, `counts`, `duration_ms`, and `exit_code`). Every invocation emits exactly one terminal event (`summary` or `error`), regardless of how it succeeds or fails, so a script can reliably wait for a single terminating line to know the invocation is complete.
+
+##### Shell completions
+
+`datadog-sync completions` prints a shell-specific completion script generated from the CLI's own option metadata:
+
+```
+datadog-sync completions bash > ~/.local/share/bash-completion/completions/datadog-sync
+datadog-sync completions zsh > "${fpath[1]}/_datadog-sync"
+datadog-sync completions fish > ~/.config/fish/completions/datadog-sync.fish
+```
+
+##### Piping output
+
+On Unix, the CLI restores default `SIGPIPE` handling at process start, so piping into a command that closes the stream early (e.g. `datadog-sync sync --json | head`) terminates cleanly instead of printing a `BrokenPipeError` traceback.
 
 ## Best practices
 

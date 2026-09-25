@@ -492,7 +492,48 @@ class TestNdjsonEventStream:
         events = _parse_all_events(ret.output)
         assert len(events) > 0
         for event in events:
-            assert event["type"] in ("outcome", "log"), f"Unknown type: {event['type']}"
+            assert event["type"] in ("outcome", "log", "summary"), f"Unknown type: {event['type']}"
+
+    def test_final_event_is_summary(self, runner):
+        """Every structured invocation ends with exactly one terminal summary event."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+            ],
+        )
+        events = _parse_all_events(ret.output)
+        assert events, "expected at least one event"
+        assert events[-1]["type"] == "summary", f"Final event was not summary: {events[-1]}"
+        summary_events = [e for e in events if e["type"] == "summary"]
+        assert len(summary_events) == 1, f"Expected exactly one summary event, got {len(summary_events)}"
+
+    def test_legacy_outcome_parsing_still_returns_same_outcomes(self, runner):
+        """Adding the summary event must not disturb outcome parsing for existing consumers."""
+        _setup_source_dashboards()
+        _setup_dest_dashboards()
+        ret = runner.invoke(
+            cli,
+            [
+                "diffs",
+                "--validate=false",
+                "--verify-ddr-status=False",
+                "--resources=dashboards",
+                "--send-metrics=False",
+                "--skip-failed-resource-connections=true",
+                "--json",
+            ],
+        )
+        outcomes = _parse_outcomes(ret.output)
+        assert len(outcomes) == 3
 
     def test_both_log_and_outcome_events_present(self, runner):
         """The stream should contain both log and outcome events."""

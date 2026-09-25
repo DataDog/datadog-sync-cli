@@ -7,8 +7,20 @@ from click.testing import CliRunner
 from datadog_sync.cli import cli
 
 
+def _normalized(text):
+    return " ".join(text.split()).lower()
+
+
 def test_import_help_states_direction():
     result = CliRunner().invoke(cli, ["import", "--help"])
     assert result.exit_code == 0
-    assert "into local state" in result.output
-    assert "writes to no" in result.output.lower()
+    output = _normalized(result.output)
+    assert "into local state" in output
+    assert "does not create, update, or delete resources in any datadog organization" in output
+    assert "--no-send-metrics" in output
+
+
+def test_root_help_summarizes_import_direction():
+    result = CliRunner().invoke(cli, ["--help"])
+    assert result.exit_code == 0
+    assert "changes no org resources" in _normalized(result.output)
