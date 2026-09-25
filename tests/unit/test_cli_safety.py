@@ -84,3 +84,31 @@ def test_read_only_does_not_block_exempt_commands_via_cli(command):
     assert "is blocked by --read-only" not in result.stderr
     assert result.exit_code != 2
     build_config.assert_called_once()
+
+
+@pytest.mark.parametrize("command", ["import", "diffs", "prune"])
+def test_read_only_disables_metrics_even_when_requested(command):
+    """send_metric POSTs to /api/v2/series, so --read-only must turn metrics
+    off for the commands it allows, including an explicit --send-metrics true."""
+    prepared = prepare_invocation(command, {"send_metrics": True, "force": True}, RootOptions(read_only=True))
+    assert prepared["send_metrics"] is False
+
+
+def test_metrics_setting_unchanged_without_read_only():
+    prepared = prepare_invocation("import", {"send_metrics": True}, RootOptions())
+    assert prepared["send_metrics"] is True
+
+
+def test_read_only_import_builds_config_with_metrics_disabled():
+    cfg = MagicMock()
+    cfg.emit_json = False
+    cfg.logger.exception_logged = False
+    cfg.fatal_error = False
+    handler = MagicMock()
+    handler.outcome_counts = {}
+    with patch("datadog_sync.commands.shared.utils.build_config", return_value=cfg) as build_config, patch(
+        "datadog_sync.commands.shared.utils.ResourcesHandler", return_value=handler
+    ), patch("datadog_sync.commands.shared.utils.asyncio.run"):
+        result = CliRunner(mix_stderr=False).invoke(cli, ["--read-only", "import"])
+    assert result.exit_code == 0
+    assert build_config.call_args.kwargs["send_metrics"] is False
