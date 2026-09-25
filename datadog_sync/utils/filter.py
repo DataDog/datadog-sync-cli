@@ -4,11 +4,14 @@
 # Copyright 2019 Datadog, Inc.
 
 from __future__ import annotations
+import json
 import logging
 from re import Pattern, DOTALL, compile
 
+import click
+
 from datadog_sync.constants import LOGGER_NAME
-from typing import Dict, List
+from typing import Dict, List, Mapping, Union
 
 
 FILTER_TYPE_KEY = "Type"
@@ -21,6 +24,10 @@ NOT_OPERATOR = "not"
 REQUIRED_KEYS = [FILTER_TYPE_KEY, FILTER_NAME_KEY, FILTER_VALUE_KEY]
 
 log = logging.getLogger(LOGGER_NAME)
+
+FilterInput = Union[str, Mapping[str, str]]
+
+FILTER_FILE_REQUIRED_STRING_FIELDS = ("type", "name", "value")
 
 
 class Filter:
@@ -67,28 +74,77 @@ class Filter:
         return self.attr_re.match(str(value)) is not None
 
 
-def process_filters(filter_list: List[str]) -> Dict[str, List[Filter]]:
+def _filter_dict(value: FilterInput) -> Dict[str, str]:
+    """Normalize a single --filter entry (legacy ``;``-delimited string, or a
+    filter-file JSON object) into the internal filter dict keyed by
+    FILTER_TYPE_KEY/FILTER_NAME_KEY/FILTER_VALUE_KEY/FILTER_OPERATOR_KEY.
+
+    Raises ValueError for a malformed legacy string (mirrors the previous
+    dict([option.split("=", 1)]) behavior), so callers can log-and-skip the
+    same way as before.
+    """
+    if isinstance(value, Mapping):
+        return {
+            FILTER_TYPE_KEY: value.get("type", ""),
+            FILTER_NAME_KEY: value.get("name", ""),
+            FILTER_VALUE_KEY: value.get("value", ""),
+            FILTER_OPERATOR_KEY: value.get("operator") or EXACT_MATCH_OPERATOR,
+        }
+    result: Dict[str, str] = {}
+    for option in value.strip("; ").split(";"):
+        key, item = option.split("=", 1)
+        result[key] = item
+    return result
+
+
+def load_filter_file(file_obj) -> List[Dict[str, str]]:
+    """Parse --filter-file contents (a JSON array of filter objects).
+
+    Each entry must be a JSON object with string `type`, `name`, `value`
+    fields and an optional string `operator` field. Raises click.UsageError
+    on malformed JSON, a non-array top level, or an entry missing/mistyping
+    those fields.
+    """
+    raw = file_obj.read()
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as e:
+        raise click.UsageError(f"--filter-file: malformed JSON: {e}")
+    if not isinstance(data, list):
+        raise click.UsageError("--filter-file: expected a JSON array of filter objects")
+
+    entries: List[Dict[str, str]] = []
+    for i, item in enumerate(data):
+        if not isinstance(item, dict):
+            raise click.UsageError(f"--filter-file: entry {i} must be a JSON object")
+        for field_name in FILTER_FILE_REQUIRED_STRING_FIELDS:
+            field_value = item.get(field_name)
+            if not isinstance(field_value, str):
+                raise click.UsageError(f"--filter-file: entry {i} missing/invalid required string field {field_name!r}")
+            if not field_value.strip():
+                raise click.UsageError(f"--filter-file: entry {i} required field {field_name!r} must not be empty")
+        operator = item.get("operator")
+        if operator is not None and not isinstance(operator, str):
+            raise click.UsageError(f"--filter-file: entry {i} field 'operator' must be a string")
+        entries.append(item)
+    return entries
+
+
+def process_filters(filter_list: List[FilterInput]) -> Dict[str, List[Filter]]:
     filters: Dict[str, List[Filter]] = {}
 
     if not filter_list:
         return filters
 
     for _filter in filter_list:
-        f_dict = {}
-        f_list = _filter.strip("; ").split(";")
-
-        invalid_filter = False
-        for option in f_list:
-            try:
-                f_dict.update(dict([option.split("=", 1)]))
-            except ValueError:
-                log.warning("invalid filter option: %s, filter: %s", option, _filter)
-                invalid_filter = True
-                break
-        if invalid_filter:
+        try:
+            f_dict = _filter_dict(_filter)
+        except ValueError:
+            log.warning("invalid filter option in filter: %s", _filter)
             continue
 
         # Check if required keys are present:
+        invalid_filter = False
         for k in REQUIRED_KEYS:
             if k not in f_dict:
                 log.warning("invalid filter missing key %s in filter: %s", k, _filter)

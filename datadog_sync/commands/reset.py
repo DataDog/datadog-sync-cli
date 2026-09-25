@@ -6,7 +6,6 @@
 from click import command, option
 
 from datadog_sync.commands.shared.options import (
-    CustomOptionClass,
     common_options,
     destination_auth_options,
     source_auth_options,
@@ -14,6 +13,7 @@ from datadog_sync.commands.shared.options import (
 )
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.constants import Command
+from datadog_sync.utils.configuration import normalize_kwargs
 
 
 @command(Command.RESET.value, short_help="WARNING: Reset Datadog resources by deleting them.")
@@ -27,8 +27,8 @@ from datadog_sync.constants import Command
     is_flag=True,
     default=False,
     help="Skip backing up the destination you are about to reset. Not recommended.",
-    cls=CustomOptionClass,
 )
 def reset(**kwargs):
     """WARNING: Reset Datadog resources by deleting them."""
+    kwargs = normalize_kwargs(kwargs)
     run_cmd(Command.RESET, **kwargs)

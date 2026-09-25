@@ -6,7 +6,6 @@
 from click import command, option
 
 from datadog_sync.commands.shared.options import (
-    CustomOptionClass,
     common_options,
     destination_auth_options,
     force_missing_dependencies_options,
@@ -15,6 +14,7 @@ from datadog_sync.commands.shared.options import (
 )
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.constants import Command
+from datadog_sync.utils.configuration import normalize_kwargs
 
 
 @command(Command.IMPORT.value, short_help="Import Datadog resources.")
@@ -34,8 +34,8 @@ from datadog_sync.constants import Command
     "dead weight; this flag lets you reclaim that cost on populated buckets. "
     "Requires --resource-per-file and --resources. Not available on other "
     "commands.",
-    cls=CustomOptionClass,
 )
 def _import(**kwargs):
     """Import Datadog resources."""
+    kwargs = normalize_kwargs(kwargs)
     run_cmd(Command.IMPORT, **kwargs)

@@ -17,6 +17,7 @@ from datadog_sync.commands.shared.options import (
 )
 from datadog_sync.commands.shared.utils import run_cmd
 from datadog_sync.constants import Command
+from datadog_sync.utils.configuration import normalize_kwargs
 
 
 @command(Command.MIGRATE.value, short_help="Migrate Datadog resources from one Datadog organization to another.")
@@ -30,4 +31,5 @@ from datadog_sync.constants import Command
 @storage_options
 def migrate(**kwargs):
     """Migrate Datadog resources from one Datadog organization to another."""
+    kwargs = normalize_kwargs(kwargs)
     run_cmd(Command.MIGRATE, **kwargs)
