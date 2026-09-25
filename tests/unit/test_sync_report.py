@@ -279,3 +279,10 @@ class TestEmitGating:
         assert parsed["id"] == ""
         assert parsed["id"] != "None"
         assert parsed["command"] == "import"
+
+
+def test_prune_vocabulary_matches_runtime_output():
+    outcome = ResourceOutcome("prune", "monitors", "", "prune", "partial", "", "deleted=1 failed=1")
+    assert outcome.to_dict()["command"] == "prune"
+    assert outcome.to_dict()["action_type"] == "prune"
+    assert outcome.to_dict()["status"] == "partial"

@@ -50,11 +50,11 @@ class ResourceOutcome:
     Machine consumers should pipe stdout and filter by ``type``.
     """
 
-    command: Literal["import", "sync", "diffs", "migrate", "reset"]
+    command: Literal["import", "sync", "diffs", "migrate", "reset", "prune"]
     resource_type: str
     id: str
-    action_type: Literal["import", "sync", "delete"]
-    status: Literal["success", "skipped", "failure", "filtered"]
+    action_type: Literal["import", "sync", "delete", "prune"]
+    status: Literal["success", "skipped", "failure", "filtered", "partial"]
     action_sub_type: Literal["create", "update", ""]  # only populated on sync success
     reason: str  # empty for success, explanation for skip/fail
     # Optional structured failure/skip category that consumers can branch on

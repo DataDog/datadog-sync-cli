@@ -10,6 +10,7 @@ round-trip in ResourceOutcome.to_dict(), and the _emit call-site wiring.
 """
 
 import json
+from collections import Counter
 from io import StringIO
 from unittest.mock import MagicMock, patch
 
@@ -396,6 +397,7 @@ class TestEmitPassesFailureClass:
         handler.config = MagicMock()
         handler.config.emit_json = True
         handler.config.command = "import"
+        handler.outcome_counts = Counter()
         return handler
 
     def test_emit_with_failure_class(self):
