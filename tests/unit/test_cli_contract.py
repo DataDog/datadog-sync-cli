@@ -218,3 +218,53 @@ def test_json_runtime_success_path_exits_zero_with_success_summary():
     event = summary_events[0]
     assert event["status"] == "success"
     assert event["exit_code"] == 0
+
+
+def _run_cmd_with_async_error(error, emit_json=True):
+    cfg = MagicMock()
+    cfg.emit_json = emit_json
+    cfg.fatal_error = False
+    cfg.logger.exception_logged = False
+    handler = MagicMock()
+    handler.outcome_counts = Counter(success=1)
+    with patch("datadog_sync.commands.shared.utils.build_config", return_value=cfg), patch(
+        "datadog_sync.commands.shared.utils.ResourcesHandler", return_value=handler
+    ), patch("datadog_sync.commands.shared.utils.asyncio.run", side_effect=error), patch(
+        "datadog_sync.cli_events.write_ndjson_line"
+    ) as write_line:
+        with pytest.raises(SystemExit) as exit_info:
+            run_cmd(Command.SYNC, emit_json=emit_json)
+    return exit_info.value.code, [call.args[0] for call in write_line.call_args_list]
+
+
+def test_run_cmd_runtime_failure_keeps_error_detail_before_terminal_summary():
+    """An unexpected exception inside run_cmd_async must still surface its
+    message as a structured runtime_failure error, followed by the terminal
+    summary, rather than only a generic log line."""
+    exit_code, events = _run_cmd_with_async_error(RuntimeError("boom"))
+    assert exit_code == 1
+    assert [event["type"] for event in events] == ["error", "summary"]
+    assert events[0]["error_code"] == "runtime_failure"
+    assert events[0]["message"] == "boom"
+    assert events[0]["exit_code"] == 1
+    assert events[1]["status"] == "failure"
+    assert events[1]["exit_code"] == 1
+
+
+def test_run_cmd_abort_exits_130_as_interrupted():
+    """click.Abort (e.g. a declined confirmation) subclasses Exception, not
+    ClickException, so the catch-all must not downgrade it to exit 1."""
+    exit_code, events = _run_cmd_with_async_error(click.Abort())
+    assert exit_code == 130
+    assert [event["type"] for event in events] == ["error", "summary"]
+    assert events[0]["error_code"] == "interrupted"
+    assert events[0]["exit_code"] == 130
+    assert events[1]["status"] == "interrupted"
+    assert events[1]["exit_code"] == 130
+
+
+def test_run_cmd_abort_without_json_prints_aborted(capsys):
+    exit_code, events = _run_cmd_with_async_error(click.Abort(), emit_json=False)
+    assert exit_code == 130
+    assert events == []
+    assert "Aborted!" in capsys.readouterr().err

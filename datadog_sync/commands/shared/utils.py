@@ -3,7 +3,7 @@ from time import monotonic
 
 import click
 
-from datadog_sync.cli_events import InvocationSummary
+from datadog_sync.cli_events import CommandError, InvocationSummary
 from datadog_sync.constants import Command
 from datadog_sync.utils.configuration import Configuration, build_config
 from datadog_sync.utils.resources_handler import ResourcesHandler
@@ -34,10 +34,17 @@ def run_cmd(cmd: Command, **kwargs):
         status = "failure" if exit_code else "success"
     except click.ClickException:
         raise
-    except Exception:
+    except click.Abort:
+        # Abort subclasses Exception, not ClickException; keep the exit 130
+        # / interrupted mapping the CLI boundary would otherwise apply.
+        exit_code = 130
+        status = "interrupted"
+        _report_error(cfg, cmd, "interrupted", "Aborted!", exit_code)
+    except Exception as error:
         cfg.logger.exception("Command failed unexpectedly")
         exit_code = 1
         status = "failure"
+        _report_error(cfg, cmd, "runtime_failure", str(error), exit_code, echo=False)
     else:
         if cfg.logger.exception_logged or cfg.fatal_error:
             exit_code = 1
@@ -56,6 +63,15 @@ def run_cmd(cmd: Command, **kwargs):
 
     if exit_code:
         raise SystemExit(exit_code)
+
+
+def _report_error(cfg: Configuration, cmd: Command, error_code: str, message: str, exit_code: int, echo=True):
+    # Emitted here rather than at the CLI boundary so the error precedes the
+    # terminal summary event.
+    if cfg.emit_json:
+        CommandError(cmd.value, error_code, message, exit_code).emit()
+    elif echo:
+        click.echo(message, err=True)
 
 
 async def run_cmd_async(cfg: Configuration, handler: ResourcesHandler, cmd: Command):
