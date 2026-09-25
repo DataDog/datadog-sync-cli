@@ -68,9 +68,6 @@ class RUMConfig(BaseResource):
                 self.config.logger.debug("rum_config: destination singleton not present (404)")
                 return None
             raise
-        except Exception as e:
-            self.config.logger.debug(f"rum_config: destination singleton not present: {e}")
-            return None
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         # If the destination singleton already exists, hydrate state and delegate
