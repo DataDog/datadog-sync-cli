@@ -257,6 +257,7 @@ When running againts multiple destination organizations, a seperate working dire
 | restriction_policies                   | Sync Datadog restriction policies.                                   |
 | roles                                  | Sync Datadog roles.                                                  |
 | rum_applications                        | Sync Datadog RUM applications.                                       |
+| rum_metrics                             | Sync Datadog RUM-based metrics.                                       |
 | sensitive_data_scanner_groups          | Sync SDS groups                                                      |
 | sensitive_data_scanner_groups_order    | Sync SDS groups order                                                |
 | sensitive_data_scanner_rules           | Sync SDS rules                                                       |
@@ -361,6 +362,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | restriction_policies                   | dashboards, service_level_objectives, notebooks, users, roles    |
 | roles                                  | -                                                                |
 | rum_applications                        | -                                                                |
+| rum_metrics                             | -                                                                |
 | sensitive_data_scanner_groups          | -                                                                |
 | sensitive_data_scanner_groups_order    | sensitive_data_scanner_groups                                    |
 | sensitive_data_scanner_rules           | sensitive_data_scanner_groups                                    |
