@@ -7,9 +7,24 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import PaginationConfig
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
+
+
+def _op_remaining_func(idx, resp, page_size, page_number):
+    """remaining_func for the OP list response.
+
+    The OP API returns total count as ``meta.totalCount`` (camelCase), not the
+    default ``meta.page.total_count`` used by most other v2 endpoints. If ``meta``
+    or ``totalCount`` is absent, return a negative value so pagination stops
+    after the current page (the ``resp_len < page_size`` break in
+    ``paginated_request`` already handles the last-page case).
+    """
+    meta = resp.get("meta") or {}
+    total = meta.get("totalCount", 0)
+    return total - page_size * (page_number + 1)
 
 
 class ObservabilityPipelines(BaseResource):
@@ -19,9 +34,21 @@ class ObservabilityPipelines(BaseResource):
         excluded_attributes=["id"],
         resource_mapping_key="id",
     )
+    # The OP list endpoint paginates with page[size]/page[number] (matching the
+    # default param names) but returns total count as meta.totalCount, not the
+    # default meta.page.total_count. Use a custom remaining_func so multi-page
+    # responses don't raise KeyError on the missing meta.page key.
+    pagination_config = PaginationConfig(
+        page_size=100,
+        page_size_param="page[size]",
+        page_number_param="page[number]",
+        remaining_func=_op_remaining_func,
+    )
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = await client.paginated_request(client.get)(self.resource_config.base_path)
+        resp = await client.paginated_request(client.get)(
+            self.resource_config.base_path, pagination_config=self.pagination_config
+        )
 
         return resp
 

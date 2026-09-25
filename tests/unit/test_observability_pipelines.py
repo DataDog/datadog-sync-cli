@@ -35,6 +35,26 @@ class TestObservabilityPipelinesRegistration:
         assert rc.excluded_attributes == ["root['id']"]
         assert rc.skip_resource_mapping is False
 
+    def test_pagination_config_reads_meta_total_count(self):
+        """The OP list response uses meta.totalCount (camelCase), not the
+        default meta.page.total_count. Verify the custom remaining_func reads
+        the right key."""
+        pc = ObservabilityPipelines.pagination_config
+        assert pc.page_size == 100
+        assert pc.page_size_param == "page[size]"
+        assert pc.page_number_param == "page[number]"
+        assert pc.response_list_accessor == "data"
+
+        # Simulate a full first page with 150 total pipelines.
+        resp = {"data": ["item"] * 100, "meta": {"totalCount": 150}}
+        remaining = pc.remaining_func(0, resp, 100, 0)
+        assert remaining == 50
+
+        # Second (partial) page: remaining should go negative → loop stops.
+        resp2 = {"data": ["item"] * 50, "meta": {"totalCount": 150}}
+        remaining2 = pc.remaining_func(1, resp2, 100, 1)
+        assert remaining2 == -50
+
     def test_registered_in_init_resources(self):
         config = MagicMock()
         resources = init_resources(config)
@@ -56,7 +76,24 @@ class TestObservabilityPipelinesGetResources:
         client.paginated_request.assert_called_once()
         args, _ = client.paginated_request.call_args
         assert args[0] == client.get
-        inner.assert_awaited_once_with("/api/v2/obs-pipelines/pipelines")
+        inner.assert_awaited_once_with(
+            "/api/v2/obs-pipelines/pipelines",
+            pagination_config=ObservabilityPipelines.pagination_config,
+        )
+
+    def test_get_resources_passes_custom_pagination_config(self):
+        """get_resources must pass the model's custom pagination_config (with
+        the OP-specific remaining_func) to paginated_request, not rely on the
+        client's default."""
+        op = _make_observability_pipelines()
+        client = MagicMock()
+        inner = AsyncMock(return_value=[])
+        client.paginated_request = MagicMock(return_value=inner)
+
+        asyncio.run(op.get_resources(client))
+
+        _, kwargs = inner.call_args
+        assert kwargs.get("pagination_config") is ObservabilityPipelines.pagination_config
 
 
 class TestObservabilityPipelinesImportResource:
