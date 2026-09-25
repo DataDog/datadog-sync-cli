@@ -467,11 +467,8 @@ _NEGATIVE_BOOLEAN_ALIASES = {
 def normalize_kwargs(kwargs: Dict[str, Any]) -> Dict[str, Any]:
     """Apply additive-parameter-grammar normalization to raw CLI kwargs.
 
-    Idempotent, so it is safe to call both from the Click command layer
-    (before dispatching to run_cmd, so a mocked run_cmd still observes
-    normalized kwargs in tests) and again here in build_config (so a direct
-    build_config(**kwargs) caller gets identical behavior without going
-    through Click).
+    Idempotent so Click invocations and direct build_config callers can share
+    the same normalization without changing behavior.
     """
     kwargs = dict(kwargs)
 

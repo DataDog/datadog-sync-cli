@@ -9,9 +9,11 @@ from datadog_sync.commands.diffs import diffs
 from datadog_sync.commands.migrate import migrate
 from datadog_sync.commands.prune import prune
 from datadog_sync.commands.reset import reset
+from datadog_sync.commands.schema import schema
+from datadog_sync.commands.completions import completions
 
 
-ALL_COMMANDS = [
+WORKFLOW_COMMANDS = [
     sync,
     _import,
     diffs,
@@ -19,3 +21,10 @@ ALL_COMMANDS = [
     prune,
     reset,
 ]
+
+UTILITY_COMMANDS = [
+    schema,
+    completions,
+]
+
+ALL_COMMANDS = WORKFLOW_COMMANDS + UTILITY_COMMANDS

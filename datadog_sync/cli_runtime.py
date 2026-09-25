@@ -42,6 +42,30 @@ def command_from_args(args: Sequence[str]) -> str:
     return next((arg for arg in args if arg in COMMAND_CAPABILITIES), "")
 
 
+class GroupedCommand(click.Command):
+    def invoke(self, ctx: click.Context) -> Any:
+        from datadog_sync.utils.configuration import normalize_kwargs
+
+        ctx.params = normalize_kwargs(ctx.params)
+        return super().invoke(ctx)
+
+    def format_options(self, ctx: click.Context, formatter: click.HelpFormatter) -> None:
+        from datadog_sync.commands.metadata import OPTION_CATEGORIES, option_policy
+
+        grouped: Dict[str, Any] = {}
+        for parameter in self.get_params(ctx):
+            if not isinstance(parameter, click.Option) or parameter.hidden:
+                continue
+            record = parameter.get_help_record(ctx)
+            if record is not None:
+                grouped.setdefault(option_policy(parameter.name).category, []).append(record)
+        for category in OPTION_CATEGORIES:
+            records = grouped.get(category)
+            if records:
+                with formatter.section(category):
+                    formatter.write_dl(records)
+
+
 class DatadogSyncGroup(click.Group):
     def main(self, args=None, prog_name=None, complete_var=None, standalone_mode=True, **extra):
         reset_sigpipe()

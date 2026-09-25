@@ -13,11 +13,11 @@ from datadog_sync.commands.shared.options import (
     storage_options,
 )
 from datadog_sync.commands.shared.utils import run_cmd
+from datadog_sync.cli_runtime import GroupedCommand
 from datadog_sync.constants import Command
-from datadog_sync.utils.configuration import normalize_kwargs
 
 
-@command(Command.DIFFS.value, short_help="Log resource diffs.")
+@command(Command.DIFFS.value, short_help="Log resource diffs.", cls=GroupedCommand)
 @source_auth_options
 @destination_auth_options
 @common_options
@@ -25,5 +25,4 @@ from datadog_sync.utils.configuration import normalize_kwargs
 @storage_options
 def diffs(**kwargs):
     """Log Datadog resources diffs."""
-    kwargs = normalize_kwargs(kwargs)
     run_cmd(Command.DIFFS, **kwargs)

@@ -8,9 +8,11 @@ import click
 
 from datadog_sync.cli_runtime import DatadogSyncGroup, RootOptions
 from datadog_sync.commands import ALL_COMMANDS
+from datadog_sync.version import __version__
 
 
 @click.group(cls=DatadogSyncGroup)
+@click.version_option(version=__version__)
 @click.option("--json", "root_emit_json", is_flag=True, help="Emit an NDJSON event stream.")
 @click.option(
     "--read-only",
