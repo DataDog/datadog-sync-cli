@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -62,6 +63,11 @@ class RUMConfig(BaseResource):
         try:
             resp = await destination_client.get(self.resource_config.base_path)
             return resp["data"]
+        except CustomClientHTTPError as e:
+            if e.status_code == 404:
+                self.config.logger.debug("rum_config: destination singleton not present (404)")
+                return None
+            raise
         except Exception as e:
             self.config.logger.debug(f"rum_config: destination singleton not present: {e}")
             return None
