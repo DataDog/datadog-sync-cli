@@ -259,6 +259,7 @@ When running againts multiple destination organizations, a seperate working dire
 | rum_applications                        | Sync Datadog RUM applications.                                       |
 | rum_metrics                             | Sync Datadog RUM-based metrics.                                       |
 | rum_operations                          | Sync Datadog RUM operations.                                          |
+| rum_replay_playlists                    | Sync Datadog RUM replay playlists (shell only).                      |
 | rum_operation_strong_links              | Sync Datadog RUM operation strong links.                             |
 | rum_permanent_retention_filters          | Sync Datadog permanent RUM retention filters (configure-only).        |
 | rum_retention_filters                   | Sync Datadog RUM retention filters (generic + exclusion).             |
@@ -369,6 +370,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | rum_applications                        | -                                                                |
 | rum_metrics                             | -                                                                |
 | rum_operations                          | rum_applications                                                 |
+| rum_replay_playlists                    | -                                                                |
 | rum_operation_strong_links              | rum_operations, rum_applications                                 |
 | rum_permanent_retention_filters          | rum_applications                                                 |
 | rum_retention_filters                   | rum_applications                                                 |
