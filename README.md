@@ -258,6 +258,7 @@ When running againts multiple destination organizations, a seperate working dire
 | roles                                  | Sync Datadog roles.                                                  |
 | rum_applications                        | Sync Datadog RUM applications.                                       |
 | rum_metrics                             | Sync Datadog RUM-based metrics.                                       |
+| rum_permanent_retention_filters          | Sync Datadog permanent RUM retention filters (configure-only).        |
 | rum_retention_filters                   | Sync Datadog RUM retention filters (generic + exclusion).             |
 | rum_retention_filters_order             | Sync Datadog RUM retention filters order.                            |
 | sensitive_data_scanner_groups          | Sync SDS groups                                                      |
@@ -365,6 +366,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | roles                                  | -                                                                |
 | rum_applications                        | -                                                                |
 | rum_metrics                             | -                                                                |
+| rum_permanent_retention_filters          | rum_applications                                                 |
 | rum_retention_filters                   | rum_applications                                                 |
 | rum_retention_filters_order             | rum_applications, rum_retention_filters                          |
 | sensitive_data_scanner_groups          | -                                                                |
