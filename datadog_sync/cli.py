@@ -6,14 +6,23 @@ import sys
 
 import click
 
-from datadog_sync.cli_runtime import DatadogSyncGroup
+from datadog_sync.cli_runtime import DatadogSyncGroup, RootOptions
 from datadog_sync.commands import ALL_COMMANDS
 
 
 @click.group(cls=DatadogSyncGroup)
-def cli():
+@click.option("--json", "root_emit_json", is_flag=True, help="Emit an NDJSON event stream.")
+@click.option(
+    "--read-only",
+    is_flag=True,
+    help="Reject commands that can write to Datadog APIs and disable sync-cli metrics.",
+)
+@click.option("--non-interactive", is_flag=True, help="Reject invocations that would prompt.")
+@click.option("--yes", is_flag=True, help="Approve destructive confirmations noninteractively.")
+@click.pass_context
+def cli(ctx, root_emit_json, read_only, non_interactive, yes):
     """Initialize cli"""
-    pass
+    ctx.obj = RootOptions(root_emit_json, read_only, non_interactive, yes)
 
 
 # Register all click sub-commands

@@ -4,6 +4,7 @@ from time import monotonic
 import click
 
 from datadog_sync.cli_events import CommandError, InvocationSummary
+from datadog_sync.cli_runtime import prepare_invocation, root_options
 from datadog_sync.constants import Command
 from datadog_sync.utils.configuration import Configuration, build_config
 from datadog_sync.utils.resources_handler import ResourcesHandler
@@ -11,6 +12,9 @@ from datadog_sync.utils.resources_handler import ResourcesHandler
 
 def run_cmd(cmd: Command, **kwargs):
     started = monotonic()
+
+    root = root_options()
+    kwargs = prepare_invocation(cmd.value, kwargs, root)
 
     # Build config
     cfg = build_config(cmd, **kwargs)

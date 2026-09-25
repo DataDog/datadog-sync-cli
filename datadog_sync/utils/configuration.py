@@ -627,7 +627,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     # If a destination is going to be reset then a backup needs to be preformed. A back up
     # is just an import, the source of that import is the destination of the reset.
     if cmd == Command.RESET:
-        cleanup = TRUE
+        cleanup = FORCE if kwargs.get("yes") else TRUE
         source_client = CustomClient(
             destination_api_url,
             destination_auth,
