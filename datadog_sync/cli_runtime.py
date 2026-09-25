@@ -12,6 +12,7 @@ import click
 from datadog_sync.cli_events import CommandError
 from datadog_sync.constants import DD_SYNC_JSON
 
+
 def reset_sigpipe() -> None:
     """Restore default SIGPIPE handling at the process boundary.
 
@@ -115,6 +116,9 @@ def prepare_invocation(command: str, kwargs: Dict[str, Any], root: RootOptions) 
     capabilities = COMMAND_CAPABILITIES[command]
     if root.read_only and capabilities.api_writes:
         raise click.UsageError(f"{command} can perform Datadog API writes and is blocked by --read-only")
+    if root.read_only:
+        # sync-cli metrics POST to /api/v2/series, which is an API write.
+        prepared["send_metrics"] = False
     cleanup_prompts = command in {"sync", "migrate"} and str(prepared.get("cleanup", "false")).lower() == "true"
     prune_prompts = command == "prune" and not (prepared.get("force") or prepared.get("dry_run"))
     reset_prompts = command == "reset"

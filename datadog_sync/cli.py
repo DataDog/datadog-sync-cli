@@ -12,7 +12,11 @@ from datadog_sync.commands import ALL_COMMANDS
 
 @click.group(cls=DatadogSyncGroup)
 @click.option("--json", "root_emit_json", is_flag=True, help="Emit an NDJSON event stream.")
-@click.option("--read-only", is_flag=True, help="Reject commands that can write to Datadog APIs.")
+@click.option(
+    "--read-only",
+    is_flag=True,
+    help="Reject commands that can write to Datadog APIs and disable sync-cli metrics.",
+)
 @click.option("--non-interactive", is_flag=True, help="Reject invocations that would prompt.")
 @click.option("--yes", is_flag=True, help="Approve destructive confirmations noninteractively.")
 @click.pass_context
