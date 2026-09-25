@@ -30,6 +30,7 @@ from datadog_sync.model.roles import Roles
 from datadog_sync.model.rum_applications import RUMApplications
 from datadog_sync.model.rum_metrics import RUMMetrics
 from datadog_sync.model.rum_retention_filters import RUMRetentionFilters
+from datadog_sync.model.rum_retention_filters_order import RUMRetentionFiltersOrder
 from datadog_sync.model.security_monitoring_rules import SecurityMonitoringRules
 from datadog_sync.model.sensitive_data_scanner_groups import SensitiveDataScannerGroups
 from datadog_sync.model.sensitive_data_scanner_groups_order import SensitiveDataScannerGroupsOrder
