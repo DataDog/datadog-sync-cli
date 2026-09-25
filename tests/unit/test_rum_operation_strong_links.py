@@ -18,6 +18,8 @@ import asyncio
 from collections import defaultdict
 from unittest.mock import AsyncMock, MagicMock
 
+import pytest
+
 from datadog_sync.model.rum_operation_strong_links import RUMOperationStrongLinks
 
 
@@ -79,6 +81,36 @@ def test_pre_resource_action_hook_derives_application_id_and_operation_name():
 
     assert resource["attributes"]["application_id"] == "app-src"
     assert resource["attributes"]["operation_name"] == "checkout-flow"
+
+
+def test_pre_resource_action_hook_raises_skip_when_operation_not_found():
+    """When the parent operation is missing from source state, raise
+    SkipResource so the operator gets an explicit error instead of a
+    silent no-op that produces an incomplete create payload."""
+    from datadog_sync.utils.resource_utils import SkipResource
+
+    sl = RUMOperationStrongLinks(MagicMock())
+    sl.config.state = MagicMock()
+    sl.config.state.source = defaultdict(dict)
+    sl.config.state.source["rum_operations"] = {}
+
+    resource = _sl("sl-1", op_id="op-missing")
+    with pytest.raises(SkipResource):
+        _run(sl.pre_resource_action_hook("sl-1", resource))
+
+
+def test_pre_resource_action_hook_raises_skip_when_operation_id_missing():
+    """When the resource has no operation_id at all, raise SkipResource."""
+    from datadog_sync.utils.resource_utils import SkipResource
+
+    sl = RUMOperationStrongLinks(MagicMock())
+    sl.config.state = MagicMock()
+    sl.config.state.source = defaultdict(dict)
+
+    resource = _sl("sl-1", op_id="op-src")
+    resource["attributes"].pop("operation_id")
+    with pytest.raises(SkipResource):
+        _run(sl.pre_resource_action_hook("sl-1", resource))
 
 
 def test_create_resource_posts_with_derived_fields():
