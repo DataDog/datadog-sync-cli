@@ -21,11 +21,3 @@ class TestLogsArchivesOrder(BaseResourcesTestClass):
     @pytest.mark.skip(reason="resource is only updated by default")
     def test_resource_update_sync_per_file(self):
         pass
-
-    @pytest.mark.skip(reason="Depends on logs_archives sync, which is skipped due to missing S3 bucket in test org")
-    def test_resource_sync(self, runner, caplog):
-        pass
-
-    @pytest.mark.skip(reason="Depends on logs_archives sync, which is skipped due to missing S3 bucket in test org")
-    def test_resource_sync_per_file(self, runner, caplog):
-        pass
