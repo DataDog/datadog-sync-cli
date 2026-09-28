@@ -11,9 +11,10 @@ The source order is captured from the ordered list returned by
 ``/api/v2/rum/applications/{app_id}/retention_filters``. The order resource is
 keyed by application id; ``id`` (the app id) and ``data[*].id`` (filter ids) are
 remapped via ``resource_connections`` before apply. Both must survive
-``prep_resource`` (so create/update can read them), so they are excluded from
-diffs via ``deep_diff_config.exclude_regex_paths`` rather than
-``excluded_attributes``.
+``prep_resource`` (so create/update can read them), so neither is in
+``excluded_attributes``. Since ids are remapped to match the destination
+before the diff is computed, no ``deep_diff_config`` exclusion is needed;
+``ignore_order=False`` so reordering is detected as a diff.
 """
 
 import asyncio
@@ -70,6 +71,8 @@ def test_import_resource_passthrough():
 def test_create_resource_patches_order_endpoint():
     order = RUMRetentionFiltersOrder(MagicMock())
     dest = AsyncMock()
+    # merge reads destination's current filter list (returns empty = no extras)
+    dest.get = AsyncMock(return_value={"data": []})
     dest.patch = AsyncMock(return_value={"data": [{"id": "rf-dst", "type": "retention_filters"}]})
     order.config.destination_client = dest
 
@@ -86,6 +89,8 @@ def test_create_resource_patches_order_endpoint():
 def test_update_resource_patches_order_endpoint():
     order = RUMRetentionFiltersOrder(MagicMock())
     dest = AsyncMock()
+    # merge reads destination's current filter list (returns empty = no extras)
+    dest.get = AsyncMock(return_value={"data": []})
     dest.patch = AsyncMock(return_value={"data": [{"id": "rf-dst", "type": "retention_filters"}]})
     order.config.destination_client = dest
     order.config.state = MagicMock()
@@ -98,6 +103,28 @@ def test_update_resource_patches_order_endpoint():
     assert _id == "app-src"
     dest.patch.assert_awaited_once()
     assert dest.patch.await_args.args[0] == "/api/v2/rum/applications/app-dst/relationships/retention_filters"
+
+
+def test_create_resource_merges_destination_only_filter_ids():
+    """Destination-only filters (not in source) are appended to preserve their
+    relative order, matching logs_archives_order.py / logs_indexes_order.py."""
+    order = RUMRetentionFiltersOrder(MagicMock())
+    dest = AsyncMock()
+    # destination has rf-dst (also in source) + rf-extra (destination-only)
+    dest.get = AsyncMock(return_value={"data": [{"id": "rf-dst"}, {"id": "rf-extra"}]})
+    dest.patch = AsyncMock(return_value={"data": [{"id": "rf-dst"}, {"id": "rf-extra"}]})
+    order.config.destination_client = dest
+
+    resource = {"id": "app-dst", "data": [{"id": "rf-dst", "type": "retention_filters"}]}
+    _id, data = _run(order.create_resource("app-src", resource))
+
+    # PATCH payload should include both source and destination-only IDs
+    patch_payload = dest.patch.await_args.args[1]
+    sent_ids = [item["id"] for item in patch_payload["data"]]
+    assert "rf-dst" in sent_ids
+    assert "rf-extra" in sent_ids
+    # source IDs come first, destination-only appended
+    assert sent_ids.index("rf-dst") < sent_ids.index("rf-extra")
 
 
 def test_delete_resource_is_noop():

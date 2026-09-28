@@ -78,10 +78,27 @@ class RUMRetentionFiltersOrder(BaseResource):
     async def pre_apply_hook(self) -> None:
         pass
 
+    async def _merge_with_destination_order(self, app_id: str, source_ids: List[Dict]) -> List[Dict]:
+        """Read the destination's current filter order, append destination-only
+        IDs while preserving their relative order, and return the merged list.
+        Matches the pattern in logs_archives_order.py / logs_indexes_order.py."""
+        destination_client = self.config.destination_client
+        try:
+            resp = await destination_client.get(f"{self._applications_path}/{app_id}/retention_filters")
+            dest_ids = [{"id": f["id"], "type": "retention_filters"} for f in resp.get("data", [])]
+        except Exception as e:
+            self.config.logger.debug(f"rum_retention_filters_order: could not read destination order: {e}")
+            return source_ids
+
+        source_id_set = {item["id"] for item in source_ids}
+        dest_only = [item for item in dest_ids if item["id"] not in source_id_set]
+        return source_ids + dest_only
+
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         app_id = resource["id"]
-        payload = {"data": resource["data"]}
+        merged = await self._merge_with_destination_order(app_id, resource["data"])
+        payload = {"data": merged}
         resp = await destination_client.patch(
             f"{self._applications_path}/{app_id}/relationships/retention_filters",
             payload,
@@ -93,7 +110,8 @@ class RUMRetentionFiltersOrder(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         app_id = resource["id"]
-        payload = {"data": resource["data"]}
+        merged = await self._merge_with_destination_order(app_id, resource["data"])
+        payload = {"data": merged}
         resp = await destination_client.patch(
             f"{self._applications_path}/{app_id}/relationships/retention_filters",
             payload,
