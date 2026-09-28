@@ -290,6 +290,7 @@ _ID_FILE_STATE_LOAD_SUPPORTED_TYPES = frozenset(
         "host_tags",
         "metrics_metadata",
         "dashboards",
+        "observability_pipelines",
     }
 )
 """Resource types eligible for --id-file on the sync command with --minimize-reads.
@@ -311,6 +312,11 @@ key is derivable from the ID (matches storage.get_single's key construction).
   State.get_by_ids constructs the correct key. Added alongside the import
   allowlist entry so the union (_ID_FILE_SUPPORTED_TYPES) accepts dashboards
   on both paths by design rather than incidentally via the import set.
+- observability_pipelines: state key is the pipeline id. Storage layout:
+  resources/source/observability_pipelines.<id>.json. ID-derivable, so
+  State.get_by_ids constructs the correct key. Added alongside the import
+  allowlist entry for the same reason as dashboards — the union accepts it
+  on the sync state-load path, so it must be explicitly audited here.
 
 Do NOT widen by config — code-level allowlist forces explicit review.
 """

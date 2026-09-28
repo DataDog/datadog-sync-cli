@@ -32,6 +32,25 @@ class TestObservabilityPipelinesIDFileSupport:
         _parse_id_file (rejects unknown types up-front)."""
         assert "observability_pipelines" in _ID_FILE_SUPPORTED_TYPES
 
+    def test_observability_pipelines_in_state_load_supported_types(self):
+        """Adding observability_pipelines to the import allowlist also adds it to
+        the union (_ID_FILE_SUPPORTED_TYPES), which _parse_id_file consults for
+        *both* import and sync --minimize-reads. Since the state-load path
+        scopes by --resources intersection rather than by
+        _ID_FILE_STATE_LOAD_SUPPORTED_TYPES, observability_pipelines must be
+        explicitly in the state-load set too — otherwise it's accepted
+        incidentally via the union without the ID-derivability verification
+        the set exists to enforce. The state key is the pipeline id (storage
+        layout: resources/source/observability_pipelines.<id>.json), which is
+        ID-derivable, so it qualifies."""
+        from datadog_sync.utils.configuration import _ID_FILE_STATE_LOAD_SUPPORTED_TYPES
+
+        assert "observability_pipelines" in _ID_FILE_STATE_LOAD_SUPPORTED_TYPES, (
+            "observability_pipelines is in _ID_FILE_IMPORT_SUPPORTED_TYPES, so the union "
+            "accepts it on the sync state-load path too; it must be explicitly "
+            "in _ID_FILE_STATE_LOAD_SUPPORTED_TYPES (state key is ID-derivable)."
+        )
+
     def test_import_resource_id_does_real_get(self):
         """import_resource(_id=...) performs a GET to the OP pipelines API and
         returns the body — the per-ID fan-out path used by get_resources_by_ids
