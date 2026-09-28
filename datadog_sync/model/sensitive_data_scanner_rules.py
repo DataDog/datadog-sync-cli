@@ -163,7 +163,10 @@ class SensitiveDataScannerRules(BaseResource):
 
     async def pre_apply_hook(self) -> None:
         destination_client = self.config.destination_client
-        if not self.destination_standard_pattern_mapping:
+        # Guard on both mappings so a partial-cache state (e.g. name mapping
+        # populated but description mapping empty from a prior run or future
+        # refactor) cannot skip description initialization.
+        if not self.destination_standard_pattern_mapping or not self.destination_standard_pattern_description_mapping:
             mapping = {}
             desc_mapping = {}
             # Populate the standard pattern mapping (name -> id) and the

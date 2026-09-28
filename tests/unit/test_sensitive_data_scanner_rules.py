@@ -450,3 +450,66 @@ class TestSensitiveDataScannerRulesCanonicalDescriptionRewrite:
         sub_types = {tag for c in calls for tag in c.args[1] if tag.startswith("action_sub_type:")}
         assert "action_sub_type:standard_pattern_name_rewrite" in sub_types
         assert "action_sub_type:standard_pattern_description_rewrite" in sub_types
+
+
+class TestSensitiveDataScannerRulesPreApplyHookPartialCache:
+    """pre_apply_hook must repopulate when EITHER mapping is empty, so a
+    partial-cache state (name mapping present, description mapping empty)
+    cannot skip description initialization."""
+
+    VISA_NAME = "Visa Card Scanner (4x4 digits)"
+    VISA_DEST_ID = "dest-visa-uuid"
+    VISA_DESC = "Matches a sequence of characters representing a Visa card number."
+
+    def _make_rules(self, name_mapping=None, desc_mapping=None):
+        mock_config = MagicMock()
+        mock_config.state = MagicMock()
+        mock_config.destination_client = MagicMock()
+        mock_config.destination_client.get = AsyncMock(
+            return_value={
+                "data": [
+                    {
+                        "id": self.VISA_DEST_ID,
+                        "type": "sensitive_data_scanner_standard_pattern",
+                        "attributes": {"name": self.VISA_NAME, "description": self.VISA_DESC},
+                    }
+                ]
+            }
+        )
+        rules = SensitiveDataScannerRules(mock_config)
+        rules.destination_standard_pattern_mapping = name_mapping if name_mapping is not None else {}
+        rules.destination_standard_pattern_description_mapping = desc_mapping if desc_mapping is not None else {}
+        return rules
+
+    def test_repopulates_when_both_mappings_empty(self):
+        rules = self._make_rules(name_mapping={}, desc_mapping={})
+        asyncio.run(rules.pre_apply_hook())
+        assert rules.destination_standard_pattern_mapping == {self.VISA_NAME: self.VISA_DEST_ID}
+        assert rules.destination_standard_pattern_description_mapping == {self.VISA_DEST_ID: self.VISA_DESC}
+
+    def test_repopulates_when_only_name_mapping_present(self):
+        # Partial cache: name mapping populated, description mapping empty.
+        # Must still re-fetch so description mapping is initialized.
+        rules = self._make_rules(
+            name_mapping={self.VISA_NAME: self.VISA_DEST_ID},
+            desc_mapping={},
+        )
+        asyncio.run(rules.pre_apply_hook())
+        assert rules.destination_standard_pattern_description_mapping == {self.VISA_DEST_ID: self.VISA_DESC}
+
+    def test_repopulates_when_only_description_mapping_present(self):
+        # Partial cache: description mapping populated, name mapping empty.
+        rules = self._make_rules(
+            name_mapping={},
+            desc_mapping={self.VISA_DEST_ID: self.VISA_DESC},
+        )
+        asyncio.run(rules.pre_apply_hook())
+        assert rules.destination_standard_pattern_mapping == {self.VISA_NAME: self.VISA_DEST_ID}
+
+    def test_skips_refetch_when_both_mappings_populated(self):
+        rules = self._make_rules(
+            name_mapping={self.VISA_NAME: self.VISA_DEST_ID},
+            desc_mapping={self.VISA_DEST_ID: self.VISA_DESC},
+        )
+        asyncio.run(rules.pre_apply_hook())
+        rules.config.destination_client.get.assert_not_called()
