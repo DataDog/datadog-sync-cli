@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -113,6 +114,26 @@ class RUMRetentionFilters(BaseResource):
         # create data has no id (server-assigned)
         resource.pop("id", None)
         subpath = self._subpath(resource)
+
+        # Destination reconciliation: skip_resource_mapping=True means the apply
+        # pre-pass never lists destination filters, so create_resource always
+        # runs when state is absent. Before POSTing, check if a matching filter
+        # already exists at the destination (scoped by app + type + name) and
+        # adopt it via update instead of creating a duplicate.
+        filter_type = resource.get("type", "")
+        filter_name = resource.get("attributes", {}).get("name", "")
+        try:
+            existing = await destination_client.get(f"{self._applications_path}/{app_id}{subpath}")
+            for f in existing.get("data", []):
+                if f.get("type") == filter_type and f.get("attributes", {}).get("name") == filter_name:
+                    # Hydrate state so update_resource can resolve the PATCH URL
+                    f["_application_id"] = app_id
+                    self.config.state.destination[self.resource_type][_id] = f
+                    return await self.update_resource(_id, resource)
+        except CustomClientHTTPError as e:
+            if e.status_code != 404:
+                raise
+
         payload = {"data": resource}
         resp = await destination_client.post(f"{self._applications_path}/{app_id}{subpath}", payload)
         data = resp["data"]

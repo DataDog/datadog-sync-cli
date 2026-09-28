@@ -107,6 +107,8 @@ def test_import_resource_passthrough_when_resource_supplied():
 def test_create_resource_retention_type_posts_to_generic_path():
     rum = RUMRetentionFilters(MagicMock())
     dest = AsyncMock()
+    # Reconciliation GET returns no matching filter
+    dest.get = AsyncMock(return_value={"data": []})
     dest.post = AsyncMock(
         return_value={"data": {"id": "rf-dst", "type": "retention_filters", "attributes": {"name": "keep-views"}}}
     )
@@ -132,9 +134,42 @@ def test_create_resource_retention_type_posts_to_generic_path():
     assert post_payload == {"data": {"type": "retention_filters", "attributes": {"name": "keep-views"}}}
 
 
+def test_create_resource_reconciles_existing_destination_filter():
+    """When a matching filter already exists at the destination (same app + type +
+    name), create_resource hydrates state and delegates to update instead of
+    POSTing a duplicate."""
+    rum = RUMRetentionFilters(MagicMock())
+    dest = AsyncMock()
+    existing = {"id": "rf-existing", "type": "retention_filters", "attributes": {"name": "keep-views"}}
+    dest.get = AsyncMock(return_value={"data": [existing]})
+    dest.patch = AsyncMock(
+        return_value={"data": {"id": "rf-existing", "type": "retention_filters", "attributes": {"name": "keep-views"}}}
+    )
+    dest.post = AsyncMock()
+    rum.config.destination_client = dest
+    rum.config.state = MagicMock()
+    rum.config.state.destination = defaultdict(dict)
+
+    resource = {
+        "id": "rf-1",
+        "type": "retention_filters",
+        "attributes": {"name": "keep-views"},
+        "_application_id": "app-dst",
+    }
+    _id, data = _run(rum.create_resource("rf-1", resource))
+
+    assert _id == "rf-1"
+    dest.post.assert_not_awaited()
+    dest.patch.assert_awaited_once()
+    # state was hydrated with the existing destination filter
+    assert rum.config.state.destination["rum_retention_filters"]["rf-1"]["id"] == "rf-existing"
+
+
 def test_create_resource_exclusion_type_posts_to_exclusion_subpath():
     rum = RUMRetentionFilters(MagicMock())
     dest = AsyncMock()
+    # Reconciliation GET returns no matching filter
+    dest.get = AsyncMock(return_value={"data": []})
     dest.post = AsyncMock(
         return_value={"data": {"id": "ef-dst", "type": "exclusion_filters", "attributes": {"name": "drop-errors"}}}
     )
