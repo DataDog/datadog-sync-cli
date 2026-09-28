@@ -1,5 +1,23 @@
 # Changelog
 
+## 7.0.0 / 2026-09-28
+
+### Fixed
+* Clarify that import reads the source org into local state and writes to no org by @aaronherrmann in https://github.com/DataDog/datadog-sync-cli/pull/713
+* fix(sensitive_data_scanner_rules): align description with linked standard pattern on write by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/726
+### Added
+* Emit a terminal NDJSON summary event for --json runs (2/5) by @aaronherrmann in https://github.com/DataDog/datadog-sync-cli/pull/709
+* Add --read-only, --non-interactive, and --yes root flags (3/5) by @aaronherrmann in https://github.com/DataDog/datadog-sync-cli/pull/710
+* Add repeatable --resource/--worker-limit, --no-<flag> negations, and --filter-file (4/5) by @aaronherrmann in https://github.com/DataDog/datadog-sync-cli/pull/711
+* Add offline schema and completions commands and categorized help (5/5) by @aaronherrmann in https://github.com/DataDog/datadog-sync-cli/pull/712
+### Changed
+* Return deterministic exit codes and structured error events from the CLI (1/5) by @aaronherrmann in https://github.com/DataDog/datadog-sync-cli/pull/708
+
+## New Contributors
+* @aaronherrmann made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/708
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/6.3.0...7.0.0
+
 ## 6.3.0 / 2026-09-23
 
 ### Fixed
