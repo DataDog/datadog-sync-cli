@@ -30,8 +30,9 @@ class RUMPermanentRetentionFilters(BaseResource):
     Like ``rum_retention_filters``, the application id is not part of the filter
     body, so a synthetic ``_application_id`` is injected during enumeration and
     remapped via ``resource_connections``. It is kept out of ``excluded_attributes``
-    (must survive ``prep_resource``) and excluded from diffs via
-    ``deep_diff_config.exclude_regex_paths``.
+    (must survive ``prep_resource``) and is intentionally kept IN the diff so a
+    changed parent mapping (e.g. destination app deleted and recreated with a
+    new id) forces a PATCH rather than silently skipping it.
     """
 
     resource_type = "rum_permanent_retention_filters"
@@ -47,7 +48,6 @@ class RUMPermanentRetentionFilters(BaseResource):
         },
         deep_diff_config={
             "ignore_order": True,
-            "exclude_regex_paths": [r".*\['_application_id'\]"],
         },
         skip_resource_mapping=True,
     )

@@ -171,3 +171,15 @@ def test_connect_resources_remaps_application_id():
     }
     rum.connect_resources("app-src:synthetics_sessions", resource)
     assert resource["_application_id"] == "app-dst"
+
+
+def test_application_id_not_excluded_from_diff():
+    """Regression test: _application_id must participate in the diff so a
+    changed parent mapping (e.g. destination app deleted and recreated) forces
+    a PATCH rather than being silently skipped."""
+    rum = RUMPermanentRetentionFilters(MagicMock())
+    exclude_paths = rum.resource_config.deep_diff_config.get("exclude_regex_paths", [])
+    assert not any("_application_id" in p for p in exclude_paths), (
+        "_application_id must NOT be in deep_diff_config.exclude_regex_paths "
+        "so a changed parent mapping forces a PATCH"
+    )
