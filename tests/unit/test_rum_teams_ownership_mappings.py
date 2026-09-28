@@ -19,6 +19,8 @@ import asyncio
 from collections import defaultdict
 from unittest.mock import AsyncMock, MagicMock
 
+import pytest
+
 from datadog_sync.model.rum_teams_ownership_mappings import RUMTeamsOwnershipMappings
 
 
@@ -113,6 +115,33 @@ def test_update_resource_deletes_then_recreates():
     dest.delete.assert_awaited_once_with("/api/v2/rum/config/teams-ownership/mappings/m-dst-old")
     dest.post.assert_awaited_once()
     assert "id" not in resource
+
+
+def test_update_resource_removes_state_after_delete_for_retry_recovery():
+    """If DELETE succeeds but POST fails, the state entry must be removed so
+    the next retry recovers via the create path instead of DELETEing a stale
+    id that 404s forever."""
+    from datadog_sync.utils.resource_utils import CustomClientHTTPError
+
+    m = RUMTeamsOwnershipMappings(MagicMock())
+    dest = AsyncMock()
+    dest.delete = AsyncMock()  # DELETE succeeds
+    # POST fails (e.g. 500)
+    resp = MagicMock()
+    resp.status = 500
+    resp.message = "Internal Server Error"
+    dest.post = AsyncMock(side_effect=CustomClientHTTPError(resp, message="server error"))
+    m.config.destination_client = dest
+    m.config.state = MagicMock()
+    m.config.state.destination = defaultdict(dict)
+    m.config.state.destination["rum_teams_ownership_mappings"]["m-1"] = {"id": "m-dst-old"}
+
+    resource = _m("m-1", app_id="app-dst")
+    with pytest.raises(CustomClientHTTPError):
+        _run(m.update_resource("m-1", resource))
+
+    # State entry must be removed after the successful delete
+    assert "m-1" not in m.config.state.destination["rum_teams_ownership_mappings"]
 
 
 def test_delete_resource_deletes_destination_id():

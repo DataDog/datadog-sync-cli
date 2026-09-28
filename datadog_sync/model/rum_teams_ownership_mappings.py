@@ -68,7 +68,11 @@ class RUMTeamsOwnershipMappings(BaseResource):
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         # No PATCH endpoint -- implement update as delete-then-recreate.
-        await self.delete_resource(_id)
+        # Use _delete_resource (the state-aware wrapper) so the state entry is
+        # removed after a successful delete. If DELETE succeeds but POST
+        # fails, the next retry recovers via the create path instead of
+        # DELETEing a stale id that 404s forever.
+        await self._delete_resource(_id)
         return await self.create_resource(_id, resource)
 
     async def delete_resource(self, _id: str) -> None:
