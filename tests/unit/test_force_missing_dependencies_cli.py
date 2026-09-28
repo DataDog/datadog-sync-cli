@@ -8,6 +8,20 @@ from click.testing import CliRunner
 
 from datadog_sync.cli import cli
 
+# These tests use CliRunner.invoke() to prove click recognizes the flag (exit
+# code != 2 is click's "unknown option" usage error). But invoke() does not
+# stop after parsing — it executes the whole command. In CI, tox.ini's
+# `passenv = DD_SOURCE_*,DD_DESTINATION_*` lets the real workflow secrets
+# reach the unit tests, so sync/migrate/import actually run the full pipeline
+# against live Datadog orgs, retrying up to DD_HTTP_CLIENT_RETRY_TIMEOUT (300s)
+# per call. Measured wall-clock per test: 10-65 min, with the whole suite
+# swinging from 10 min to 134 min across identical runs. Skip until these are
+# rewritten to short-circuit after parsing (e.g. CliRunner(env=...) with fake
+# creds, or a parser-only assertion).
+pytestmark = pytest.mark.skip(
+    reason="executes the full sync/migrate/import pipeline against live orgs in CI; see module docstring"
+)
+
 
 @pytest.fixture
 def runner():

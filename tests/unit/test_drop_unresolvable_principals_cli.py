@@ -22,16 +22,28 @@ def runner():
     return CliRunner(mix_stderr=False)
 
 
+@pytest.mark.skip(
+    reason="executes the full sync pipeline against live orgs in CI; see "
+    "test_force_missing_dependencies_cli.py module docstring"
+)
 def test_sync_accepts_drop_unresolvable_principals(runner):
     result = runner.invoke(cli, ["sync", "--drop-unresolvable-principals", "--validate=false"])
     assert result.exit_code != 2
 
 
+@pytest.mark.skip(
+    reason="executes the full diffs pipeline against live orgs in CI; see "
+    "test_force_missing_dependencies_cli.py module docstring"
+)
 def test_diffs_accepts_drop_unresolvable_principals(runner):
     result = runner.invoke(cli, ["diffs", "--drop-unresolvable-principals"])
     assert result.exit_code != 2
 
 
+@pytest.mark.skip(
+    reason="executes the full migrate pipeline against live orgs in CI; see "
+    "test_force_missing_dependencies_cli.py module docstring"
+)
 def test_migrate_accepts_drop_unresolvable_principals(runner):
     result = runner.invoke(cli, ["migrate", "--drop-unresolvable-principals", "--validate=false"])
     assert result.exit_code != 2
