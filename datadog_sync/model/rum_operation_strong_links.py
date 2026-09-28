@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
+from datadog_sync.utils.custom_client import PaginationConfig
 from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
@@ -45,16 +46,36 @@ class RUMOperationStrongLinks(BaseResource):
             "ignore_order": True,
             # application_id and operation_name are create-only (not in the
             # response), so a source-vs-destination diff would always flag them.
-            "exclude_regex_paths": [r".*\['application_id'\]", r".*\['operation_name'\]"],
+            # description, tags, feature_id, operation_id are in the response
+            # but NOT updatable via PUT (only status is), so including them in
+            # the diff would cause a non-converging update loop.
+            "exclude_regex_paths": [
+                r".*\['application_id'\]",
+                r".*\['operation_name'\]",
+                r".*\['description'\]",
+                r".*\['tags'\]",
+                r".*\['feature_id'\]",
+                r".*\['operation_id'\]",
+            ],
         },
         skip_resource_mapping=True,
     )
     # Additional RUMOperationStrongLinks specific attributes
+    pagination_config = PaginationConfig(
+        page_size=100,
+        page_size_param="page[limit]",
+        page_number_param="page[offset]",
+        page_number_func=lambda idx, page_size, page_number: page_number + page_size,
+        remaining_func=lambda *args: 1,
+    )
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = await client.get(self.resource_config.base_path)
+        resp = await client.paginated_request(client.get)(
+            self.resource_config.base_path,
+            pagination_config=self.pagination_config,
+        )
 
-        return resp["data"]
+        return resp
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         # No single-resource GET endpoint; the list endpoint is the only read.

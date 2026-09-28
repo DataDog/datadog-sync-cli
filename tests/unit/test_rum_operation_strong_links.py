@@ -48,12 +48,18 @@ def _sl(_id, op_id="op-src", feature_id="feat-1", status="enabled"):
 def test_get_resources_hits_list_endpoint():
     sl = RUMOperationStrongLinks(MagicMock())
     client = AsyncMock()
-    client.get = AsyncMock(return_value={"data": [_sl("sl-1")], "meta": {}})
+    # paginated_request(func) returns a wrapper coroutine; mock the wrapper
+    wrapper_mock = AsyncMock(return_value=[_sl("sl-1")])
+    client.paginated_request = MagicMock(return_value=wrapper_mock)
 
     resources = _run(sl.get_resources(client))
 
     assert resources == [_sl("sl-1")]
-    client.get.assert_awaited_once_with("/api/v2/rum/operations/strong_links")
+    client.paginated_request.assert_called_once_with(client.get)
+    wrapper_mock.assert_called_once_with(
+        "/api/v2/rum/operations/strong_links",
+        pagination_config=sl.pagination_config,
+    )
 
 
 def test_import_resource_by_id_passthrough():
