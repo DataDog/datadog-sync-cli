@@ -29,6 +29,7 @@ class SensitiveDataScannerRules(BaseResource):
     standard_pattern_path = "/api/v2/sensitive-data-scanner/standard-patterns"
     source_standard_pattern_mapping: Dict = {}  # pattern_id -> pattern_name
     destination_standard_pattern_mapping: Dict = {}  # pattern_name -> pattern_id
+    destination_standard_pattern_description_mapping: Dict = {}  # pattern_id -> canonical description
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         resp = await client.get(self.resource_config.base_path)
@@ -68,17 +69,20 @@ class SensitiveDataScannerRules(BaseResource):
                 )
             resource["relationships"]["standard_pattern"]["data"]["id"] = dest_id
 
-    async def _align_name_with_standard_pattern(self, _id: str, resource: Dict) -> None:
+    async def _align_with_standard_pattern(self, _id: str, resource: Dict) -> None:
         # Destination API rejects a standard-pattern-linked rule whose
-        # attributes.name does not match the linked pattern's canonical name.
-        # Overwrite the name on write and emit a metric so operators can
-        # audit drift. Applied only on create/update (not diffs/import) so
-        # source state is not silently mutated. By the time this runs,
+        # attributes.name or attributes.description does not match the linked
+        # destination pattern's canonical values (HTTP 400 'description of the
+        # standard rule and the rule must match' / name mismatch). Overwrite
+        # both on write and emit a metric per field so operators can audit
+        # drift. Applied only on create/update (not diffs/import) so source
+        # state is not silently mutated. By the time this runs,
         # pre_resource_action_hook has already replaced data.id with the
         # destination pattern uuid, so resolve the canonical name via the
         # destination mapping (name -> id) rather than trusting the id
-        # field to still hold a name string.
-        pattern_id = ((resource.get("relationships", {}).get("standard_pattern", {}).get("data") or {}).get("id"))
+        # field to still hold a name string, and the canonical description
+        # via destination_standard_pattern_description_mapping (id -> description).
+        pattern_id = (resource.get("relationships", {}).get("standard_pattern", {}).get("data") or {}).get("id")
         if not pattern_id:
             return
         pattern_name = next(
@@ -88,57 +92,101 @@ class SensitiveDataScannerRules(BaseResource):
         if not pattern_name:
             return
         attrs = resource.setdefault("attributes", {})
+
+        # Align attributes.name to the destination pattern's canonical name.
         source_name = attrs.get("name")
-        if not source_name or source_name == pattern_name:
-            return
-        attrs["name"] = pattern_name
-        self.config.logger.debug(
-            "%s %s: aligned attributes.name '%s' -> '%s' to match linked standard pattern",
-            self.resource_type,
-            _id,
-            source_name,
-            pattern_name,
-        )
-        try:
-            await self.config.destination_client.send_metric(
-                Metrics.ACTION.value,
-                [
-                    f"id:{_id}",
-                    f"resource_type:{self.resource_type}",
-                    f"action_type:{Command.SYNC.value}",
-                    "action_sub_type:standard_pattern_name_rewrite",
-                    "status:success",
-                    "client_type:destination",
-                    f"pattern:{pattern_name}",
-                ],
-            )
-        except Exception as e:
+        if source_name and source_name != pattern_name:
+            attrs["name"] = pattern_name
             self.config.logger.debug(
-                "Failed to send standard_pattern_name_rewrite metric for %s %s: %s",
+                "%s %s: aligned attributes.name '%s' -> '%s' to match linked standard pattern",
                 self.resource_type,
                 _id,
-                e,
+                source_name,
+                pattern_name,
             )
+            try:
+                await self.config.destination_client.send_metric(
+                    Metrics.ACTION.value,
+                    [
+                        f"id:{_id}",
+                        f"resource_type:{self.resource_type}",
+                        f"action_type:{Command.SYNC.value}",
+                        "action_sub_type:standard_pattern_name_rewrite",
+                        "status:success",
+                        "client_type:destination",
+                        f"pattern:{pattern_name}",
+                    ],
+                )
+            except Exception as e:
+                self.config.logger.debug(
+                    "Failed to send standard_pattern_name_rewrite metric for %s %s: %s",
+                    self.resource_type,
+                    _id,
+                    e,
+                )
+
+        # Align attributes.description to the destination pattern's canonical
+        # description. The destination API rejects a standard-pattern-linked
+        # rule whose description differs from the linked pattern's description.
+        pattern_desc = self.destination_standard_pattern_description_mapping.get(pattern_id)
+        if pattern_desc is None:
+            return
+        source_desc = attrs.get("description")
+        if source_desc != pattern_desc:
+            attrs["description"] = pattern_desc
+            self.config.logger.debug(
+                "%s %s: aligned attributes.description to match linked standard pattern '%s'",
+                self.resource_type,
+                _id,
+                pattern_name,
+            )
+            try:
+                await self.config.destination_client.send_metric(
+                    Metrics.ACTION.value,
+                    [
+                        f"id:{_id}",
+                        f"resource_type:{self.resource_type}",
+                        f"action_type:{Command.SYNC.value}",
+                        "action_sub_type:standard_pattern_description_rewrite",
+                        "status:success",
+                        "client_type:destination",
+                        f"pattern:{pattern_name}",
+                    ],
+                )
+            except Exception as e:
+                self.config.logger.debug(
+                    "Failed to send standard_pattern_description_rewrite metric for %s %s: %s",
+                    self.resource_type,
+                    _id,
+                    e,
+                )
 
     async def pre_apply_hook(self) -> None:
         destination_client = self.config.destination_client
-        if not self.destination_standard_pattern_mapping:
+        # Guard on both mappings so a partial-cache state (e.g. name mapping
+        # populated but description mapping empty from a prior run or future
+        # refactor) cannot skip description initialization.
+        if not self.destination_standard_pattern_mapping or not self.destination_standard_pattern_description_mapping:
             mapping = {}
-            # Populate the standard pattern mapping
+            desc_mapping = {}
+            # Populate the standard pattern mapping (name -> id) and the
+            # canonical description mapping (id -> description).
             try:
                 std_patterns = (await destination_client.get(self.resource_config.base_path + "/standard-patterns"))[
                     "data"
                 ]
                 for pattern in std_patterns:
                     mapping[pattern["attributes"]["name"]] = pattern["id"]
+                    desc_mapping[pattern["id"]] = pattern["attributes"].get("description", "")
                 self.destination_standard_pattern_mapping = mapping
+                self.destination_standard_pattern_description_mapping = desc_mapping
             except Exception as e:
                 self.config.logger.warning("error retrieving standard patterns: %s", e)
 
     async def create_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
 
-        await self._align_name_with_standard_pattern(_id, resource)
+        await self._align_with_standard_pattern(_id, resource)
         payload = {"data": resource, "meta": {}}
         resp = await destination_client.post(self.resource_config.base_path + "/rules", payload)
 
@@ -147,7 +195,7 @@ class SensitiveDataScannerRules(BaseResource):
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
         destination_client = self.config.destination_client
         resource["id"] = self.config.state.destination[self.resource_type][_id]["id"]
-        await self._align_name_with_standard_pattern(_id, resource)
+        await self._align_with_standard_pattern(_id, resource)
         payload = {"data": resource, "meta": {}}
         await destination_client.patch(
             self.resource_config.base_path + f"/rules/{self.config.state.destination[self.resource_type][_id]['id']}",
