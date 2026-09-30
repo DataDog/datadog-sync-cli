@@ -148,7 +148,7 @@ class LogsIndexesOrderNameComparator(BaseOperator):
         return False
 
 
-RECURRENCE_START_ATTR_PATH_RE = r"root\['attributes'\]\['schedule'\]\['recurrences'\]\[[0-9]+\]\['start'\]"
+RECURRENCE_START_ATTR_PATH_RE = r"root\['attributes'\]\['schedule'\](?:\['recurrences'\]\[[0-9]+\])?\['start'\]"
 
 
 class DowntimeSchedulesDateOperator(BaseOperator):
