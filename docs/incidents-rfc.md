@@ -10,17 +10,22 @@
 > **Verification basis:** Datadog Incidents API documentation
 > (`https://docs.datadoghq.com/api/latest/incidents/`), the `datadog-api-client` Python
 > SDK **2.61.0** (the version present in the sync-cli tox environment), and the
-> `origin/main` branches of both the public `datadog-sync-cli` repository and the
-> internal DR orchestration service. All schema claims below were checked against the installed 2.61.0
-> model modules; items that require a live controlled-org API spike are explicitly
-> marked **[SPIKE]**.
+> the `origin/main` branch of the public `datadog-sync-cli` repository. All schema
+> claims below were checked against the installed 2.61.0 model modules and the live
+> Incidents API documentation; items that require a live controlled-org API spike are
+> explicitly marked **[SPIKE]**. Claims in this RFC are reproducible from public
+> artifacts (the published API docs and the `datadog-api-client` package).
 
 ## 1. Goal
 
-Add incident-resource synchronization to `datadog-sync-cli` so that the DR orchestration
-disaster-recovery (DR) pipeline can replicate incidents and their configuration across
-Datadog organizations / datacenters, **without ever paging or notifying anyone** as a
+Add incident-resource synchronization to `datadog-sync-cli` so that an external
+orchestrator can replicate incidents and their configuration across Datadog
+organizations / datacenters, **without ever paging or notifying anyone** as a
 side effect of sync-driven creation.
+
+This RFC is scoped to `datadog-sync-cli`'s public behavior and contracts.
+Internal rollout topology, process details, and orchestration-specific wiring
+belong in a private companion document, not in this public repo.
 
 The central safety constraint: a sync-cli-created incident must not trigger
 notifications, integrations, workflows, or on-call pages. This RFC defines the
@@ -138,7 +143,7 @@ endpoints + audit/event assertions + sanitized exported evidence.
 
 ## 5. Ownership attribution (OBO)
 
-The DR orchestration service preserves creator attribution via On-Behalf-Of (OBO) JWTs:
+An external orchestrator preserves creator attribution via On-Behalf-Of (OBO) JWTs:
 the destination API is invoked as the mapped destination user. The owner field
 determines which OBO identity is used.
 
@@ -160,7 +165,7 @@ determines which OBO identity is used.
 | `incident_todos` | `relationships.created_by_user.data.id` | UUID | nested |
 | `incident_timestamp_overrides` | `relationships.created_by_user.data.id` | UUID | nested |
 | `incident_responders` | `relationships.created_by.data.id` | UUID | **creator**, NOT `relationships.user` (the responder). |
-| `incident_postmortem_templates` | **none** | — | Response has `last_modified_by_user`, NOT `created_by_user`. Policy: service-account ownership OR last-modifier approximation (fidelity loss documented). |
+| `incident_postmortem_templates` | **none** | — | Response has `last_modified_by_user`, NOT `created_by_user`. Owner policy: **[SPIKE]** — must resolve to a single deterministic choice (service-account ownership OR last-modifier approximation) before Wave 1; an OR is not carried into implementation. Fidelity loss documented. |
 | `incident_attachments` | **none** | — | No creator in response. Inherit the parent incident's `created_by_user` owner (NOT commander). |
 | `incident_global_settings` | **none** | — | Singleton. Service account. |
 
@@ -172,10 +177,10 @@ silently switch principals** (a service-account retry would violate ownership).
 403/404/preview-unavailable outcomes are included in wave acceptance and
 continue-on-error metrics.
 
-**OBO grouper redesign (DR orchestration service):** current `ResourceOwnerConfig` supports one
-`FieldPath` + one `FieldType`; it cannot express ordered fallbacks, mixed
-UUID/handle, or parent-owner lookup. The RFC requires redesigning owner configuration
-as an ordered strategy list with typed extractors and an explicit parent-reference
+**OBO grouper redesign (external orchestrator):** a single `FieldPath` +
+single `FieldType` cannot express ordered fallbacks, mixed UUID/handle, or
+parent-owner lookup. The orchestrator's owner configuration must be redesigned as an
+ordered strategy list with typed extractors and an explicit parent-reference
 strategy. Attachment owner stamping must be resolved without extra incident GETs or
 unavailable `ImportState` reads (`ImportState` is write-only — verified).
 
@@ -252,7 +257,7 @@ alert, and require **audited manual reconciliation**.
 
 One mechanism: child resource types accept parent incident IDs through
 `get_resources_by_ids` (analogous to the existing `team_memberships` pattern), and
-the DR orchestration service chunks those IDs using its existing discovery infrastructure.
+the external orchestrator chunks those IDs using its existing discovery infrastructure.
 
 **Verified:** `ImportState` is write-only (no `.source` accessor) — parent IDs load
 from durable bucket state, not in-memory state.
@@ -263,11 +268,12 @@ transition, retry semantics, concurrent-run fencing).
 
 **CLI allowlists (command-scoped dual meaning):** nested child types are added to the
 **import** id-file allowlist (IDs = parent incident IDs) and the **sync state-load**
-allowlist (IDs = child source IDs). This dual meaning is intentional and tested.
+allowlist (IDs = child source IDs). This dual meaning is intentional and must be
+tested in implementation.
 
 ## 9. Dependency graph and tier table
 
-The DR orchestration service's resource-tier table (`[][]string`) is indexed
+The external orchestrator's resource-tier table (`[][]string`) is indexed
 by integers. The final table must be **set-preserving**: no existing type is dropped.
 Existing tiers 0–6 (verified):
 
@@ -301,7 +307,7 @@ Existing tiers 0–6 (verified):
 - Tier 7 (NEW): `incident_notification_rules`, `incident_rules`
 
 Edges are classified as **ID-remap** (sync-cli `resource_connections`), **semantic
-ordering** (enforced in the DR orchestration service's dependency-direction test
+ordering** (enforced in the external orchestrator's dependency-direction test
 but not in `resource_connections`), or **safety** (children after parent barrier;
 rules last). The `TestResourceTypeSyncTiers_SetEqualsExistingOrder` fixture must be
 updated in the same commit (it asserts set-equality both directions + count).
@@ -343,7 +349,9 @@ updated in the same commit (it asserts set-equality both directions + count).
 - Base: `.../config/postmortem-templates`; `incident_type` is **immutable** after
   create (update must not send it).
 - **No `created_by_user`** in response (only `last_modified_by_user`). Owner policy:
-  service-account or last-modifier approximation (fidelity loss documented).
+  **[SPIKE]** — must resolve to a single deterministic choice (service-account
+  ownership OR last-modifier approximation) before Wave 1; an OR is not carried into
+  implementation. Fidelity loss documented.
 - **Environment-specific settings** (Confluence/Google-Docs): remap / destination
   allowlist / strip-fail-closed / separate opt-in. Do not create externally backed
   templates until the side-effect matrix covers them.
@@ -383,7 +391,7 @@ updated in the same commit (it asserts set-equality both directions + count).
 - Base: `/incidents/{id}/impacts`; List/Create/PATCH/DELETE.
 - `attributes.fields` is an object mapping impact-field **names** to values (verified)
   — there is **no ID remap** to `incident_impact_fields`; only a semantic ordering
-  dependency (enforced in the DR orchestration service's tier ordering, not in `resource_connections`).
+  dependency (enforced in the external orchestrator's tier ordering, not in `resource_connections`).
 - Owner: `relationships.created_by_user`.
 
 ### 10.11 `incident_integration_metadata` (Tier 4, nested)
@@ -526,10 +534,10 @@ delete itself can produce side effects.
    saga, barrier, nested helper) + `incident_types` + minimum safe UDF + `incidents`
    (import + barrier + saga) + **one dependency-light child** (e.g.
    `incident_todos` or `incident_timestamp_overrides`, NOT `incident_impacts` which
-   depends on `incident_impact_fields`) + nested parent-ID CLI allowlists + matching
-   DR orchestration companion (tiers, owners, OBO chunking, both-DC flag wiring). The
-   controlled-org canary (no-side-effect + ownership) runs through the real two-DC/OBO
-   path before any fan-out.
+   depends on `incident_impact_fields`) + nested parent-ID CLI allowlists +
+   matching external-orchestrator companion (tiers, owners, OBO chunking, both-DC flag
+   wiring). The controlled-org canary (no-side-effect + ownership) runs through the
+   real cross-org OBO path before any fan-out.
 3. **Wave 2 — Behavior-inert config:** remaining type-scoped config without
    environment/behavior-changing fields (`incident_user_defined_roles`,
    `incident_impact_fields`, `incident_notification_templates`,
@@ -546,9 +554,9 @@ delete itself can produce side effects.
    workflow, not in this project.
 7. **Wave 6 — Deletion qualification:** separate from initial incident support.
 
-Each wave is independently releasable; a narrow DR orchestration companion change lands
-**with** each OSS wave (not at the end); sync-cli release publication + managed binary
-pinning at each boundary.
+Each wave is independently releasable; a narrow external-orchestrator companion
+change lands **with** each OSS wave (not at the end); sync-cli release publication +
+orchestrator binary pinning at each boundary.
 
 ## 18. Open questions requiring the [SPIKE]
 
