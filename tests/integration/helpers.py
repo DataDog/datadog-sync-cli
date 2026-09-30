@@ -133,6 +133,10 @@ class BaseResourcesTestClass:
         source_resources, _ = open_resources(self.resource_type)
         assert len(source_resources) > 0
 
+        # Clear caplog so import-phase skip messages don't leak into the diffs
+        # assertion below (e.g. canceled downtimes skipped during import).
+        caplog.clear()
+
         # Disable skipping on resource connection failure
         # From stdout, count the  number of resources to be added and ensure they match the import len()
         diff_cmd = [
@@ -413,6 +417,10 @@ class BaseResourcesTestClass:
                 assert file_id == resource_id.replace(
                     ":", "."
                 ), f"Resource with ID {resource_id} should have a file with {file_id}"
+
+        # Clear caplog so import-phase skip messages don't leak into the diffs
+        # assertion below (e.g. canceled downtimes skipped during import).
+        caplog.clear()
 
         # Run diffs to ensure everything is recognized properly
         ret = runner.invoke(
