@@ -45,21 +45,47 @@ def _sl(_id, op_id="op-src", feature_id="feat-1", status="enabled"):
     }
 
 
-def test_get_resources_hits_list_endpoint():
+def test_get_resources_iterates_operations_from_state():
+    """get_resources iterates over rum_operations in state and fetches strong
+    links per operation_id (the list endpoint requires operation_id)."""
     sl = RUMOperationStrongLinks(MagicMock())
     client = AsyncMock()
-    # paginated_request(func) returns a wrapper coroutine; mock the wrapper
-    wrapper_mock = AsyncMock(return_value=[_sl("sl-1")])
-    client.paginated_request = MagicMock(return_value=wrapper_mock)
+    # Two operations in state, each returning one strong link
+    client.get = AsyncMock(
+        side_effect=[
+            {"data": [_sl("sl-1", op_id="op-a")]},
+            {"data": [_sl("sl-2", op_id="op-b")]},
+        ]
+    )
+    # Mock state to have rum_operations nested under source
+    sl.config.source_client = client
+    sl.config.state = MagicMock()
+    sl.config.state.source = {"rum_operations": {"op-a": {"id": "op-a"}, "op-b": {"id": "op-b"}}}
+    sl.config.state.destination = {"rum_operations": {}}
 
     resources = _run(sl.get_resources(client))
 
-    assert resources == [_sl("sl-1")]
-    client.paginated_request.assert_called_once_with(client.get)
-    wrapper_mock.assert_called_once_with(
-        "/api/v2/rum/operations/strong_links",
-        pagination_config=sl.pagination_config,
-    )
+    assert len(resources) == 2
+    assert resources[0]["id"] == "sl-1"
+    assert resources[1]["id"] == "sl-2"
+    # Each call should include operation_id as a query param
+    assert client.get.await_count == 2
+    first_call_kwargs = client.get.await_args_list[0].kwargs
+    assert first_call_kwargs["params"] == {"operation_id": "op-a"}
+
+
+def test_get_resources_returns_empty_when_no_operations():
+    """When no rum_operations are in state, get_resources returns an empty list."""
+    sl = RUMOperationStrongLinks(MagicMock())
+    client = AsyncMock()
+    sl.config.source_client = client
+    sl.config.state = MagicMock()
+    sl.config.state.source = {"rum_operations": {}}
+    sl.config.state.destination = {"rum_operations": {}}
+
+    resources = _run(sl.get_resources(client))
+    assert resources == []
+    client.get.assert_not_awaited()
 
 
 def test_import_resource_by_id_passthrough():

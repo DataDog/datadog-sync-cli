@@ -7,7 +7,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.custom_client import PaginationConfig
 from datadog_sync.utils.resource_utils import SkipResource
 
 if TYPE_CHECKING:
@@ -61,21 +60,33 @@ class RUMOperationStrongLinks(BaseResource):
         skip_resource_mapping=True,
     )
     # Additional RUMOperationStrongLinks specific attributes
-    pagination_config = PaginationConfig(
-        page_size=100,
-        page_size_param="page[limit]",
-        page_number_param="page[offset]",
-        page_number_func=lambda idx, page_size, page_number: page_number + page_size,
-        remaining_func=lambda *args: 1,
-    )
 
     async def get_resources(self, client: CustomClient) -> List[Dict]:
-        resp = await client.paginated_request(client.get)(
-            self.resource_config.base_path,
-            pagination_config=self.pagination_config,
-        )
+        # The strong_links list endpoint requires at least one of operation_id
+        # or feature_id as a query parameter (the OpenAPI spec marks them
+        # optional, but the API returns 400 without one). Iterate over the
+        # rum_operations in state and fetch strong links per operation_id.
+        #
+        # For the source client (import), state.source["rum_operations"] is
+        # populated by the dependency graph (rum_operations is imported first).
+        # For the destination client (apply), state.destination["rum_operations"]
+        # is populated after rum_operations is synced.
+        #
+        # Fall back to an empty list if no operations are in state yet (e.g.
+        # first import before rum_operations has been loaded).
+        is_source = client is self.config.source_client
+        state_key = "source" if is_source else "destination"
+        state_map = getattr(self.config.state, state_key, {})
+        operations = state_map.get("rum_operations", {}) if hasattr(state_map, "get") else {}
 
-        return resp
+        all_strong_links: List[Dict] = []
+        for op_id in operations:
+            resp = await client.get(
+                self.resource_config.base_path,
+                params={"operation_id": op_id},
+            )
+            all_strong_links.extend(resp.get("data", []))
+        return all_strong_links
 
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
         # No single-resource GET endpoint; the list endpoint is the only read.
