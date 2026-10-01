@@ -45,22 +45,22 @@ def _sl(_id, op_id="op-src", feature_id="feat-1", status="enabled"):
     }
 
 
-def test_get_resources_iterates_operations_from_state():
-    """get_resources iterates over rum_operations in state and fetches strong
-    links per operation_id (the list endpoint requires operation_id)."""
+def test_get_resources_fetches_operations_from_api_for_source():
+    """For the source client (import), get_resources fetches operations from
+    the API search endpoint (state isn't populated during discovery)."""
     sl = RUMOperationStrongLinks(MagicMock())
     client = AsyncMock()
-    # Two operations in state, each returning one strong link
+    # First GET: search endpoint returns 2 operations
+    # Next 2 GETs: strong_links per operation_id
     client.get = AsyncMock(
         side_effect=[
-            {"data": [_sl("sl-1", op_id="op-a")]},
-            {"data": [_sl("sl-2", op_id="op-b")]},
+            {"data": [{"id": "op-a"}, {"id": "op-b"}]},  # search
+            {"data": [_sl("sl-1", op_id="op-a")]},  # strong links for op-a
+            {"data": [_sl("sl-2", op_id="op-b")]},  # strong links for op-b
         ]
     )
-    # Mock state to have rum_operations nested under source
     sl.config.source_client = client
     sl.config.state = MagicMock()
-    sl.config.state.source = {"rum_operations": {"op-a": {"id": "op-a"}, "op-b": {"id": "op-b"}}}
     sl.config.state.destination = {"rum_operations": {}}
 
     resources = _run(sl.get_resources(client))
@@ -68,24 +68,49 @@ def test_get_resources_iterates_operations_from_state():
     assert len(resources) == 2
     assert resources[0]["id"] == "sl-1"
     assert resources[1]["id"] == "sl-2"
-    # Each call should include operation_id as a query param
-    assert client.get.await_count == 2
-    first_call_kwargs = client.get.await_args_list[0].kwargs
-    assert first_call_kwargs["params"] == {"operation_id": "op-a"}
+    # First call is the search endpoint
+    assert client.get.await_args_list[0].args[0] == "/api/v2/rum/operations/search"
+    # Subsequent calls include operation_id as a query param
+    assert client.get.await_args_list[1].kwargs["params"] == {"operation_id": "op-a"}
+    assert client.get.await_args_list[2].kwargs["params"] == {"operation_id": "op-b"}
+
+
+def test_get_resources_uses_state_for_destination():
+    """For the destination client (apply), get_resources uses state to get
+    operation IDs (rum_operations already synced)."""
+    sl = RUMOperationStrongLinks(MagicMock())
+    client = AsyncMock()
+    client.get = AsyncMock(
+        side_effect=[
+            {"data": [_sl("sl-1", op_id="op-dst")]},
+        ]
+    )
+    # Not the source client -> destination path
+    sl.config.source_client = AsyncMock()  # different object
+    sl.config.state = MagicMock()
+    sl.config.state.destination = {"rum_operations": {"op-dst": {"id": "op-dst"}}}
+
+    resources = _run(sl.get_resources(client))
+
+    assert len(resources) == 1
+    assert resources[0]["id"] == "sl-1"
+    # No search endpoint call; direct strong_links fetch with operation_id
+    assert client.get.await_count == 1
+    assert client.get.await_args_list[0].kwargs["params"] == {"operation_id": "op-dst"}
 
 
 def test_get_resources_returns_empty_when_no_operations():
-    """When no rum_operations are in state, get_resources returns an empty list."""
+    """When no operations are found, get_resources returns an empty list."""
     sl = RUMOperationStrongLinks(MagicMock())
     client = AsyncMock()
+    # Source client: search returns no operations
+    client.get = AsyncMock(return_value={"data": []})
     sl.config.source_client = client
     sl.config.state = MagicMock()
-    sl.config.state.source = {"rum_operations": {}}
     sl.config.state.destination = {"rum_operations": {}}
 
     resources = _run(sl.get_resources(client))
     assert resources == []
-    client.get.assert_not_awaited()
 
 
 def test_import_resource_by_id_passthrough():

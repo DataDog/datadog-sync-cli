@@ -64,23 +64,31 @@ class RUMOperationStrongLinks(BaseResource):
     async def get_resources(self, client: CustomClient) -> List[Dict]:
         # The strong_links list endpoint requires at least one of operation_id
         # or feature_id as a query parameter (the OpenAPI spec marks them
-        # optional, but the API returns 400 without one). Iterate over the
-        # rum_operations in state and fetch strong links per operation_id.
+        # optional, but the API returns 400 without one). Iterate over
+        # rum_operations and fetch strong links per operation_id.
         #
         # For the source client (import), state.source["rum_operations"] is
-        # populated by the dependency graph (rum_operations is imported first).
-        # For the destination client (apply), state.destination["rum_operations"]
-        # is populated after rum_operations is synced.
+        # typically NOT populated yet because all resource types are discovered
+        # in parallel. So we fetch operations directly from the API via the
+        # search endpoint instead of relying on state.
         #
-        # Fall back to an empty list if no operations are in state yet (e.g.
-        # first import before rum_operations has been loaded).
+        # For the destination client (apply), state.destination["rum_operations"]
+        # is populated after rum_operations is synced (apply runs after import).
         is_source = client is self.config.source_client
-        state_key = "source" if is_source else "destination"
-        state_map = getattr(self.config.state, state_key, {})
-        operations = state_map.get("rum_operations", {}) if hasattr(state_map, "get") else {}
+
+        if is_source:
+            # Import discovery: fetch operations from the API since state
+            # isn't populated yet (all types discover in parallel).
+            ops_resp = await client.get("/api/v2/rum/operations/search")
+            operation_ids = [op["id"] for op in ops_resp.get("data", [])]
+        else:
+            # Destination apply: use state (rum_operations already synced).
+            state_map = getattr(self.config.state, "destination", {})
+            operations = state_map.get("rum_operations", {}) if hasattr(state_map, "get") else {}
+            operation_ids = list(operations.keys())
 
         all_strong_links: List[Dict] = []
-        for op_id in operations:
+        for op_id in operation_ids:
             resp = await client.get(
                 self.resource_config.base_path,
                 params={"operation_id": op_id},
