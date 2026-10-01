@@ -109,11 +109,14 @@ def test_create_resource_posts_without_id():
 
 
 def test_create_resource_reconciles_existing_destination():
-    """When a matching operation already exists at the destination (same name +
-    application_id), create_resource hydrates state and delegates to update."""
+    """When a matching operation already exists at the destination (same name),
+    create_resource hydrates state and delegates to update. Matches by name only
+    (not name + application_id) because the destination app may have been
+    recreated with a new ID."""
     ops = RUMOperations(MagicMock())
     dest = AsyncMock()
-    existing = _op("op-existing", app_id="app-dst", name="checkout-flow")
+    # Existing op has a DIFFERENT app_id (old app from previous sync)
+    existing = _op("op-existing", app_id="old-app-id", name="checkout-flow")
     dest.get = AsyncMock(return_value={"data": [existing]})
     dest.put = AsyncMock(return_value={"data": existing})
     dest.post = AsyncMock()
@@ -121,7 +124,8 @@ def test_create_resource_reconciles_existing_destination():
     ops.config.state = MagicMock()
     ops.config.state.destination = defaultdict(dict)
 
-    resource = _op("op-1", app_id="app-dst", name="checkout-flow")
+    # Current sync has a new app_id (newly created destination app)
+    resource = _op("op-1", app_id="new-app-id", name="checkout-flow")
     _id, data = _run(ops.create_resource("op-1", resource))
 
     assert _id == "op-1"

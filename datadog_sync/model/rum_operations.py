@@ -81,15 +81,19 @@ class RUMOperations(BaseResource):
         # Destination reconciliation: skip_resource_mapping=True means the apply
         # pre-pass never lists destination operations, so create_resource
         # always runs when state is absent. Before POSTing, search for a
-        # matching operation at the destination (by name + application_id) and
-        # adopt it via update instead of creating a duplicate (409 Conflict).
+        # matching operation at the destination (by name only — operation
+        # names are unique within an org) and adopt it via update instead of
+        # creating a duplicate (409 Conflict).
+        #
+        # Matching by name only (not name + application_id) because the
+        # destination app may have been recreated with a new ID since the
+        # last sync, so the old operation's application_id won't match.
         op_name = resource.get("attributes", {}).get("name", "")
-        app_id = resource.get("attributes", {}).get("application_id", "")
         try:
             existing = await destination_client.get(self._search_path)
             for op in existing.get("data", []):
                 op_attrs = op.get("attributes", {})
-                if op_attrs.get("name") == op_name and op_attrs.get("application_id") == app_id:
+                if op_attrs.get("name") == op_name:
                     self.config.state.destination[self.resource_type][_id] = op
                     return await self.update_resource(_id, resource)
         except CustomClientHTTPError as e:
