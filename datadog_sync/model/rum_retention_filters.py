@@ -35,10 +35,13 @@ class RUMRetentionFilters(BaseResource):
         base_path="/api/v2/rum/applications",
         excluded_attributes=[
             "id",
-            # 'source' is a runtime-only response field (not in the OpenAPI
-            # spec) that the API rejects on update with 400 for system-provisioned
-            # default filters (default_sessions, default_errors).
-            "attributes.source",
+            # 'source' is a runtime-only response field under 'meta' (not
+            # in the OpenAPI spec) that the API rejects on update with 400
+            # for system-provisioned default filters (default_sessions,
+            # default_errors). The entire 'meta' object contains runtime-only
+            # fields (updated_at, updated_by_handle, edition_mode, source)
+            # that should not be sent in create/update requests.
+            "meta",
         ],
         resource_connections={
             "rum_applications": ["_application_id"],
@@ -179,4 +182,15 @@ class RUMRetentionFilters(BaseResource):
         destination_id = destination_state["id"]
         dest_app_id = destination_state["_application_id"]
         subpath = self._subpath(destination_state)
+
+        # The error_tracking_exclusion_filter is a system-provisioned filter
+        # that cannot be deleted via the API. Skip the delete and log a warning
+        # instead of failing.
+        if destination_id == self._error_tracking_filter_id:
+            self.config.logger.warning(
+                "rum_retention_filters: error_tracking_exclusion_filter cannot be "
+                "deleted (system-provisioned). Removing from state only."
+            )
+            return
+
         await destination_client.delete(f"{self._applications_path}/{dest_app_id}{subpath}/{destination_id}")

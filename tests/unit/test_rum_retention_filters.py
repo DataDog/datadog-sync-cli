@@ -318,6 +318,27 @@ def test_delete_resource_exclusion_uses_exclusion_subpath():
     dest.delete.assert_awaited_once_with("/api/v2/rum/applications/app-dst/retention_filters/exclusion/ef-dst")
 
 
+def test_delete_resource_skips_error_tracking_filter():
+    """The error_tracking_exclusion_filter is system-provisioned and cannot be
+    deleted via the API. delete_resource should skip it and log a warning."""
+    rum = RUMRetentionFilters(MagicMock())
+    dest = AsyncMock()
+    rum.config.destination_client = dest
+    rum.config.state = MagicMock()
+    rum.config.state.destination = defaultdict(dict)
+    rum.config.state.destination["rum_retention_filters"]["etf-1"] = {
+        "id": "error_tracking_exclusion_filter",
+        "type": "exclusion_filters",
+        "_application_id": "app-dst",
+    }
+    rum.config.logger = MagicMock()
+
+    _run(rum.delete_resource("etf-1"))
+
+    dest.delete.assert_not_awaited()
+    rum.config.logger.warning.assert_called_once()
+
+
 def test_connect_resources_remaps_application_id_to_destination():
     """connect_resources remaps the synthetic _application_id from the source app
     id to the destination app id using state.destination['rum_applications']."""
