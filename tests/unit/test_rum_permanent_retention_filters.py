@@ -147,6 +147,65 @@ def test_update_resource_patches_permanent_subpath():
     assert patch_payload["data"]["type"] == "permanent_retention_filters"
 
 
+def test_update_resource_strips_trace_fields_when_not_editable():
+    """When editability.trace_editable is false, the API rejects PATCHes that
+    include cross_product_sampling.trace_sample_rate or trace_enabled. The
+    model must strip those fields from the PATCH body."""
+    rum = RUMPermanentRetentionFilters(MagicMock())
+    dest = AsyncMock()
+    dest.patch = AsyncMock(
+        return_value={"data": {"id": "rum_apm_flat_sampling", "type": "permanent_retention_filters", "attributes": {}}}
+    )
+    rum.config.destination_client = dest
+
+    resource = {
+        "id": "rum_apm_flat_sampling",
+        "type": "permanent_retention_filters",
+        "attributes": {
+            "cross_product_sampling": {"trace_sample_rate": 100, "trace_enabled": True},
+            "editability": {"trace_editable": False},
+            "name": "RUM APM Flat Sampling",
+        },
+        "_application_id": "app-dst",
+    }
+    composite = "app-src:rum_apm_flat_sampling"
+    _run(rum.update_resource(composite, resource))
+
+    patch_payload = dest.patch.await_args.args[1]
+    # trace fields must be stripped from cross_product_sampling
+    cps = patch_payload["data"]["attributes"].get("cross_product_sampling", {})
+    assert "trace_sample_rate" not in cps
+    assert "trace_enabled" not in cps
+
+
+def test_update_resource_keeps_trace_fields_when_editable():
+    """When editability.trace_editable is true (or absent), trace fields are
+    kept in the PATCH body."""
+    rum = RUMPermanentRetentionFilters(MagicMock())
+    dest = AsyncMock()
+    dest.patch = AsyncMock(
+        return_value={"data": {"id": "synthetics_sessions", "type": "permanent_retention_filters", "attributes": {}}}
+    )
+    rum.config.destination_client = dest
+
+    resource = {
+        "id": "synthetics_sessions",
+        "type": "permanent_retention_filters",
+        "attributes": {
+            "cross_product_sampling": {"trace_sample_rate": 50, "trace_enabled": True},
+            "editability": {"trace_editable": True},
+            "name": "Synthetics Sessions",
+        },
+        "_application_id": "app-dst",
+    }
+    _run(rum.update_resource("app-src:synthetics_sessions", resource))
+
+    patch_payload = dest.patch.await_args.args[1]
+    cps = patch_payload["data"]["attributes"].get("cross_product_sampling", {})
+    assert cps.get("trace_sample_rate") == 50
+    assert cps.get("trace_enabled") is True
+
+
 def test_delete_resource_is_noop():
     rum = RUMPermanentRetentionFilters(MagicMock())
     rum.config.destination_client = AsyncMock()

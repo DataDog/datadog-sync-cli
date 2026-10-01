@@ -120,6 +120,20 @@ class RUMPermanentRetentionFilters(BaseResource):
         # resource IS the destination filter id. The app_id was remapped by
         # connect_resources to the destination app id.
         filter_id = resource["id"]
+
+        # Respect the editability.trace_editable flag: when false, the API
+        # rejects PATCHes that include cross_product_sampling.trace_sample_rate
+        # or trace_enabled (400 'trace fields are not editable'). Strip those
+        # fields from the PATCH body so only non-trace attributes are sent.
+        editability = resource.get("attributes", {}).get("editability", {})
+        if not editability.get("trace_editable", True):
+            cps = resource.get("attributes", {}).get("cross_product_sampling", {})
+            if cps:
+                cps.pop("trace_sample_rate", None)
+                cps.pop("trace_enabled", None)
+                if not cps:
+                    resource["attributes"].pop("cross_product_sampling", None)
+
         payload = {"data": resource}
         resp = await destination_client.patch(
             f"{self._applications_path}/{app_id}/retention_filters/permanent/{filter_id}",
