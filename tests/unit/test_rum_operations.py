@@ -90,6 +90,8 @@ def test_import_resource_passthrough():
 def test_create_resource_posts_without_id():
     ops = RUMOperations(MagicMock())
     dest = AsyncMock()
+    # Reconciliation GET returns no matching operation
+    dest.get = AsyncMock(return_value={"data": []})
     dest.post = AsyncMock(return_value={"data": _op("op-dst", app_id="app-dst")})
     ops.config.destination_client = dest
 
@@ -104,6 +106,29 @@ def test_create_resource_posts_without_id():
     post_url, post_payload = dest.post.await_args.args
     assert post_url == "/api/v2/rum/operations"
     assert post_payload == {"data": resource}
+
+
+def test_create_resource_reconciles_existing_destination():
+    """When a matching operation already exists at the destination (same name +
+    application_id), create_resource hydrates state and delegates to update."""
+    ops = RUMOperations(MagicMock())
+    dest = AsyncMock()
+    existing = _op("op-existing", app_id="app-dst", name="checkout-flow")
+    dest.get = AsyncMock(return_value={"data": [existing]})
+    dest.put = AsyncMock(return_value={"data": existing})
+    dest.post = AsyncMock()
+    ops.config.destination_client = dest
+    ops.config.state = MagicMock()
+    ops.config.state.destination = defaultdict(dict)
+
+    resource = _op("op-1", app_id="app-dst", name="checkout-flow")
+    _id, data = _run(ops.create_resource("op-1", resource))
+
+    assert _id == "op-1"
+    dest.post.assert_not_awaited()
+    dest.put.assert_awaited_once()
+    # state was hydrated with the existing destination operation
+    assert ops.config.state.destination["rum_operations"]["op-1"]["id"] == "op-existing"
 
 
 def test_update_resource_puts_destination_id():

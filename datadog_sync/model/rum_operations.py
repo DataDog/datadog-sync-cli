@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 from datadog_sync.utils.custom_client import PaginationConfig
+from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -76,6 +77,25 @@ class RUMOperations(BaseResource):
         destination_client = self.config.destination_client
         # create data has no id (server-assigned)
         resource.pop("id", None)
+
+        # Destination reconciliation: skip_resource_mapping=True means the apply
+        # pre-pass never lists destination operations, so create_resource
+        # always runs when state is absent. Before POSTing, search for a
+        # matching operation at the destination (by name + application_id) and
+        # adopt it via update instead of creating a duplicate (409 Conflict).
+        op_name = resource.get("attributes", {}).get("name", "")
+        app_id = resource.get("attributes", {}).get("application_id", "")
+        try:
+            existing = await destination_client.get(self._search_path)
+            for op in existing.get("data", []):
+                op_attrs = op.get("attributes", {})
+                if op_attrs.get("name") == op_name and op_attrs.get("application_id") == app_id:
+                    self.config.state.destination[self.resource_type][_id] = op
+                    return await self.update_resource(_id, resource)
+        except CustomClientHTTPError as e:
+            if e.status_code != 404:
+                raise
+
         payload = {"data": resource}
         resp = await destination_client.post(self.resource_config.base_path, payload)
         return _id, resp["data"]
