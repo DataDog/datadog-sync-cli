@@ -242,3 +242,28 @@ def test_application_id_not_excluded_from_diff():
         "_application_id must NOT be in deep_diff_config.exclude_regex_paths "
         "so a changed parent mapping forces a PATCH"
     )
+
+
+def test_editability_not_in_excluded_attributes():
+    """Regression test: attributes.editability must NOT be in
+    excluded_attributes because update_resource needs to read
+    editability.trace_editable to decide whether to strip trace fields.
+    If excluded, prep_resource strips it before update_resource runs."""
+    rum = RUMPermanentRetentionFilters(MagicMock())
+    excluded = rum.resource_config.excluded_attributes or []
+    assert not any("editability" in a for a in excluded), (
+        "attributes.editability must NOT be in excluded_attributes so it "
+        "survives prep_resource and is available in update_resource"
+    )
+
+
+def test_editability_excluded_from_diff():
+    """editability is read-only (returned by the API but not updatable), so it
+    must be excluded from diffs to avoid a perpetual diff loop. It must survive
+    prep_resource (not in excluded_attributes) but be excluded from
+    comparison (in deep_diff_config.exclude_regex_paths)."""
+    rum = RUMPermanentRetentionFilters(MagicMock())
+    exclude_paths = rum.resource_config.deep_diff_config.get("exclude_regex_paths", [])
+    assert any("editability" in p for p in exclude_paths), (
+        "editability must be in deep_diff_config.exclude_regex_paths to avoid " "a perpetual diff loop (it's read-only)"
+    )

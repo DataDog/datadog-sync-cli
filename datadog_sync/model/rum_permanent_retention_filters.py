@@ -41,13 +41,22 @@ class RUMPermanentRetentionFilters(BaseResource):
         excluded_attributes=[
             "attributes.name",
             "attributes.description",
-            "attributes.editability",
+            # NOTE: attributes.editability is deliberately NOT excluded here.
+            # update_resource needs to read editability.trace_editable to decide
+            # whether to strip trace fields from the PATCH body. If excluded,
+            # prep_resource strips it before update_resource runs, and the
+            # trace fields are never stripped (causing a 400 on
+            # rum_apm_flat_sampling where trace_editable=false).
         ],
         resource_connections={
             "rum_applications": ["_application_id"],
         },
         deep_diff_config={
             "ignore_order": True,
+            # editability is read-only (returned by the API but not updatable).
+            # It must survive prep_resource (so update_resource can read
+            # trace_editable), but should not participate in diffs.
+            "exclude_regex_paths": [r".*\['editability'\]"],
         },
         skip_resource_mapping=True,
     )
