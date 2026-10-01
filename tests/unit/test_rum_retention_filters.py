@@ -248,6 +248,42 @@ def test_update_resource_exclusion_uses_exclusion_subpath():
     assert patch_url == "/api/v2/rum/applications/app-dst/retention_filters/exclusion/ef-dst"
 
 
+def test_update_resource_strips_non_enabled_fields_for_error_tracking_filter():
+    """The error_tracking_exclusion_filter only allows toggling 'enabled'.
+    All other attributes (name, query, event_type) must be stripped from the
+    PATCH body to avoid a 400 'only enabled can be updated' error."""
+    rum = RUMRetentionFilters(MagicMock())
+    dest = AsyncMock()
+    dest.patch = AsyncMock(
+        return_value={
+            "data": {
+                "id": "error_tracking_exclusion_filter",
+                "type": "exclusion_filters",
+                "attributes": {"enabled": True},
+            }
+        }
+    )
+    rum.config.destination_client = dest
+    rum.config.state = MagicMock()
+    rum.config.state.destination = defaultdict(dict)
+    rum.config.state.destination["rum_retention_filters"]["etf-1"] = {
+        "id": "error_tracking_exclusion_filter",
+        "_application_id": "app-dst",
+    }
+
+    resource = {
+        "id": "error_tracking_exclusion_filter",
+        "type": "exclusion_filters",
+        "attributes": {"name": "updated-name", "query": "@type:error", "enabled": True, "event_type": "error"},
+        "_application_id": "app-dst",
+    }
+    _run(rum.update_resource("etf-1", resource))
+
+    patch_payload = dest.patch.await_args.args[1]
+    # Only 'enabled' should be in the attributes
+    assert patch_payload["data"]["attributes"] == {"enabled": True}
+
+
 def test_delete_resource_deletes_destination_id_on_correct_subpath():
     rum = RUMRetentionFilters(MagicMock())
     dest = AsyncMock()

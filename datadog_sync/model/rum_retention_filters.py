@@ -35,6 +35,10 @@ class RUMRetentionFilters(BaseResource):
         base_path="/api/v2/rum/applications",
         excluded_attributes=[
             "id",
+            # 'source' is a runtime-only response field (not in the OpenAPI
+            # spec) that the API rejects on update with 400 for system-provisioned
+            # default filters (default_sessions, default_errors).
+            "attributes.source",
         ],
         resource_connections={
             "rum_applications": ["_application_id"],
@@ -47,6 +51,9 @@ class RUMRetentionFilters(BaseResource):
     )
     # Additional RUMRetentionFilters specific attributes
     _applications_path = "/api/v2/rum/applications"
+    # The error_tracking exclusion filter only allows toggling 'enabled';
+    # all other attributes are read-only on update.
+    _error_tracking_filter_id = "error_tracking_exclusion_filter"
 
     def _subpath(self, resource: Dict) -> str:
         if resource.get("type") == "exclusion_filters":
@@ -151,6 +158,12 @@ class RUMRetentionFilters(BaseResource):
         dest_app_id = destination_state.get("_application_id", app_id)
         resource["id"] = destination_id
         subpath = self._subpath(resource)
+
+        # The error_tracking exclusion filter only allows toggling 'enabled';
+        # sending other attributes (name, query, event_type) causes a 400.
+        if destination_id == self._error_tracking_filter_id:
+            resource["attributes"] = {"enabled": resource.get("attributes", {}).get("enabled")}
+
         payload = {"data": resource}
         resp = await destination_client.patch(
             f"{self._applications_path}/{dest_app_id}{subpath}/{destination_id}",
