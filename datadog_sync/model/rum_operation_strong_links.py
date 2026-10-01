@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import SkipResource
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, SkipResource
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -141,6 +141,30 @@ class RUMOperationStrongLinks(BaseResource):
         destination_client = self.config.destination_client
         # create data has no id (server-assigned)
         resource.pop("id", None)
+
+        # Destination reconciliation: skip_resource_mapping=True means the
+        # pre-apply listing phase is skipped. Before POSTing, search for an
+        # existing strong link with the same operation_id + feature_id at the
+        # destination and adopt it via update instead of creating a duplicate
+        # (409 Conflict).
+        attrs = resource.get("attributes", {})
+        op_id = attrs.get("operation_id", "")
+        feature_id = attrs.get("feature_id", "")
+        if op_id:
+            try:
+                existing = await destination_client.get(
+                    self.resource_config.base_path,
+                    params={"operation_id": op_id},
+                )
+                for sl in existing.get("data", []):
+                    sl_attrs = sl.get("attributes", {})
+                    if sl_attrs.get("operation_id") == op_id and sl_attrs.get("feature_id") == feature_id:
+                        self.config.state.destination[self.resource_type][_id] = sl
+                        return await self.update_resource(_id, resource)
+            except CustomClientHTTPError as e:
+                if e.status_code != 404:
+                    raise
+
         payload = {"data": resource}
         resp = await destination_client.post(self.resource_config.base_path, payload)
         return _id, resp["data"]

@@ -173,6 +173,8 @@ def test_pre_resource_action_hook_raises_skip_when_operation_id_missing():
 def test_create_resource_posts_with_derived_fields():
     sl = RUMOperationStrongLinks(MagicMock())
     dest = AsyncMock()
+    # Reconciliation GET returns no matching strong link
+    dest.get = AsyncMock(return_value={"data": []})
     dest.post = AsyncMock(return_value={"data": _sl("sl-dst", op_id="op-dst")})
     sl.config.destination_client = dest
 
@@ -188,6 +190,29 @@ def test_create_resource_posts_with_derived_fields():
     post_url, post_payload = dest.post.await_args.args
     assert post_url == "/api/v2/rum/operations/strong_links"
     assert post_payload == {"data": resource}
+
+
+def test_create_resource_reconciles_existing_destination():
+    """When a matching strong link already exists at the destination (same
+    operation_id + feature_id), create_resource hydrates state and delegates
+    to update instead of creating a duplicate (409 Conflict)."""
+    sl = RUMOperationStrongLinks(MagicMock())
+    dest = AsyncMock()
+    existing = _sl("sl-existing", op_id="op-dst", feature_id="feat-1")
+    dest.get = AsyncMock(return_value={"data": [existing]})
+    dest.put = AsyncMock(return_value={"data": existing})
+    dest.post = AsyncMock()
+    sl.config.destination_client = dest
+    sl.config.state = MagicMock()
+    sl.config.state.destination = defaultdict(dict)
+
+    resource = _sl("sl-1", op_id="op-dst", feature_id="feat-1")
+    _id, data = _run(sl.create_resource("sl-1", resource))
+
+    assert _id == "sl-1"
+    dest.post.assert_not_awaited()
+    dest.put.assert_awaited_once()
+    assert sl.config.state.destination["rum_operation_strong_links"]["sl-1"]["id"] == "sl-existing"
 
 
 def test_update_resource_puts_composite_key_and_status_only():
