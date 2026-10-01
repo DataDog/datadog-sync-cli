@@ -190,6 +190,8 @@ def test_create_resource_posts_with_derived_fields():
     post_url, post_payload = dest.post.await_args.args
     assert post_url == "/api/v2/rum/operations/strong_links"
     assert post_payload == {"data": resource}
+    # The API type must be "strong_links", not the sync-cli resource_type
+    assert resource["type"] == "strong_links"
 
 
 def test_create_resource_reconciles_existing_destination():
@@ -235,7 +237,7 @@ def test_update_resource_puts_composite_key_and_status_only():
     put_url, put_payload = dest.put.await_args.args
     assert put_url == "/api/v2/rum/operations/strong_links/op-dst/feat-1"
     # update sends only the updatable field (status)
-    assert put_payload == {"data": {"type": "rum_operation_strong_links", "attributes": {"status": "disabled"}}}
+    assert put_payload == {"data": {"type": "strong_links", "attributes": {"status": "disabled"}}}
 
 
 def test_delete_resource_deletes_composite_key():

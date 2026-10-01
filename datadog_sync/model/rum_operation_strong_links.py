@@ -166,6 +166,9 @@ class RUMOperationStrongLinks(BaseResource):
                     raise
 
         payload = {"data": resource}
+        # Ensure the API type is correct: the API expects "strong_links",
+        # not the sync-cli resource_type "rum_operation_strong_links".
+        resource["type"] = "strong_links"
         resp = await destination_client.post(self.resource_config.base_path, payload)
         return _id, resp["data"]
 
@@ -178,7 +181,7 @@ class RUMOperationStrongLinks(BaseResource):
         # only status is updatable
         payload = {
             "data": {
-                "type": self.resource_type,
+                "type": "strong_links",
                 "attributes": {"status": resource["attributes"].get("status")},
             }
         }
