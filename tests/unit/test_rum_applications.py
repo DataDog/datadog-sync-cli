@@ -88,8 +88,6 @@ def test_get_resources_lists_then_gets_each():
 
 def test_get_resources_fetches_retention_quota():
     """When an app has a retention quota, get_resources embeds it as _retention_quota."""
-    from datadog_sync.utils.resource_utils import CustomClientHTTPError
-
     rum = RUMApplications(MagicMock())
     client = AsyncMock()
 
