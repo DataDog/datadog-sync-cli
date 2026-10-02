@@ -344,6 +344,19 @@ If importing/syncing subset of resources, users should ensure that dependent res
 
 See [Supported resources](#supported-resources) section below for potential resource dependencies.
 
+#### RUM resources
+
+RUM (Real User Monitoring) resources cover application configuration, retention filters, metrics, operations, replay playlists, teams-ownership mappings, and org-level config. Some RUM resources are parent-scoped under a RUM application (`rum_applications`) and are synced after it.
+
+Limitations and notes:
+
+- **Intake data is not migrated.** RUM events, analytics/aggregation, replay sessions, and the `.../sessions` playlist associations are intake-tied and out of scope (consistent with this tool's general stance on ingested data). The tool syncs the resource *definitions* only.
+- **`rum_operations`** and **`rum_replay_playlists`** are static definitions (name, query, journey rules / name, description). Their `query` fields are RUM query filters (e.g. `@type:view`), not session ids, so no session-id stripping is required.
+- **`rum_permanent_retention_filters`** are system-provisioned with fixed ids identical across orgs; reads use GET, but mutations are PATCH-only (configure `cross_product_sampling` — no POST/DELETE), so `create` delegates to `update` and `delete` is a no-op.
+- **`rum_teams_ownership_mappings`** have no PATCH endpoint; update is implemented as delete-then-recreate. `team_handle` is a stable handle (preserved across orgs by the `teams` resource) and is not remapped; the dependency on `teams` is soft.
+- **`rum_config`** is a singleton org setting; only `enforced_application_tags` is configurable.
+- **Excluded (cannot fit the import model):** `rum_teams_ownership_rules` (read-only — nothing to mutate) and `rum_retention_quotas` (no list endpoint — cannot enumerate for import). Sync these manually if needed.
+
 | Resource                               | Dependencies                                                     |
 |----------------------------------------|------------------------------------------------------------------|
 | authn_mappings                         | roles, teams                                                     |
