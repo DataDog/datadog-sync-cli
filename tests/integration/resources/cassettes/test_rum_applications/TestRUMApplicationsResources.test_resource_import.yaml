@@ -58,6 +58,23 @@ interactions:
       Content-Type:
       - application/json
     method: GET
+    uri: https://api.datadoghq.eu/api/v2/rum/config/retention-quota/application/16371816-ab2a-41aa-b12a-40ec4d9628e8
+  response:
+    body:
+      string: '{"errors":[{"status":"404","title":"Not Found","detail":"Not found"}]}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 404
+      message: Not Found
+
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
     uri: https://api.datadoghq.eu/api/v2/users?page%5Bnumber%5D=0&page%5Bsize%5D=500
   response:
     body:
