@@ -34,7 +34,7 @@ class TestObservabilityPipelinesRegistration:
         assert rc.resource_mapping_key == "id"
         assert rc.excluded_attributes == [
             "root['id']",
-            "root['attributes']['processors']",
+            "root['attributes']['config']['processors']",
         ]
         assert rc.skip_resource_mapping is False
 
@@ -232,17 +232,18 @@ class TestObservabilityPipelinesPrepResource:
 
     def test_prep_resource_strips_processors(self):
         """The OP API rejects write payloads containing both 'processors' and
-        'processor_groups'. The source API returns 'processors' (read-only),
-        so it must be stripped before sending to the destination."""
+        'processor_groups'. The source API returns 'processors' as a
+        read-only field nested inside 'config', so it must be stripped before
+        sending to the destination."""
         resource = {
             "id": "pipe-src-uuid",
             "type": "pipelines",
             "attributes": {
                 "name": "test-pipeline",
-                "processors": [{"name": "proc-1", "type": "filter"}],
                 "config": {
                     "sources": [],
                     "destinations": [],
+                    "processors": [{"name": "proc-1", "type": "filter"}],
                     "processor_groups": [{"name": "pg-1", "processors": []}],
                 },
             },
@@ -251,7 +252,7 @@ class TestObservabilityPipelinesPrepResource:
         prep_resource(ObservabilityPipelines.resource_config, resource)
 
         assert "id" not in resource
-        assert "processors" not in resource["attributes"]
+        assert "processors" not in resource["attributes"]["config"]
         assert resource["attributes"]["config"]["processor_groups"] == [
             {"name": "pg-1", "processors": []}
         ]

@@ -31,7 +31,7 @@ class ObservabilityPipelines(BaseResource):
     resource_type = "observability_pipelines"
     resource_config = ResourceConfig(
         base_path="/api/v2/obs-pipelines/pipelines",
-        excluded_attributes=["id", "attributes.processors"],
+        excluded_attributes=["id", "attributes.config.processors"],
         resource_mapping_key="id",
     )
     # The OP list endpoint paginates with page[size]/page[number] (matching the
