@@ -29,6 +29,7 @@ from datadog_sync.model.restriction_policies import RestrictionPolicies
 from datadog_sync.model.roles import Roles
 from datadog_sync.model.rum_applications import RUMApplications
 from datadog_sync.model.rum_metrics import RUMMetrics
+from datadog_sync.model.rum_permanent_retention_filters import RUMPermanentRetentionFilters
 from datadog_sync.model.rum_retention_filters import RUMRetentionFilters
 from datadog_sync.model.rum_retention_filters_order import RUMRetentionFiltersOrder
 from datadog_sync.model.security_monitoring_rules import SecurityMonitoringRules
