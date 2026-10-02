@@ -34,7 +34,7 @@ Datadog cli tool to sync resources across organizations.
 
 See [Installing](#installing) section for guides on how to install and setup the tool.
 
-Run the `import` command to read the specified resources from the source organization and store them locally into JSON files in the directory `resources/source`.
+Run the `import` command to read the specified resources from the source organization and store them locally into JSON files in the directory `resources/source`. `import` does not create, update, or delete resources in any Datadog organization; only `sync`, `migrate`, and `reset` do. By default it still sends sync-cli usage metrics; pass `--no-send-metrics` or the root `--read-only` flag to turn them off.
 
 Then, you can run the `sync` command which will use the stored files from previous `import` command (unless `--force-missing-dependencies` flag is passed) to create/modify the resources on the destination organization. The pushed resources are saved in the directory `resources/destination`.
 
@@ -257,6 +257,7 @@ When running againts multiple destination organizations, a seperate working dire
 | restriction_policies                   | Sync Datadog restriction policies.                                   |
 | roles                                  | Sync Datadog roles.                                                  |
 | rum_applications                        | Sync Datadog RUM applications.                                       |
+| rum_metrics                             | Sync Datadog RUM-based metrics.                                       |
 | sensitive_data_scanner_groups          | Sync SDS groups                                                      |
 | sensitive_data_scanner_groups_order    | Sync SDS groups order                                                |
 | sensitive_data_scanner_rules           | Sync SDS rules                                                       |
@@ -361,6 +362,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 | restriction_policies                   | dashboards, service_level_objectives, notebooks, users, roles    |
 | roles                                  | -                                                                |
 | rum_applications                        | -                                                                |
+| rum_metrics                             | -                                                                |
 | sensitive_data_scanner_groups          | -                                                                |
 | sensitive_data_scanner_groups_order    | sensitive_data_scanner_groups                                    |
 | sensitive_data_scanner_rules           | sensitive_data_scanner_groups                                    |
