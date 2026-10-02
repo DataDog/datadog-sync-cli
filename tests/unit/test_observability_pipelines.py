@@ -40,20 +40,20 @@ class TestObservabilityPipelinesRegistration:
         default meta.page.total_count. Verify the custom remaining_func reads
         the right key."""
         pc = ObservabilityPipelines.pagination_config
-        assert pc.page_size == 100
+        assert pc.page_size == 50
         assert pc.page_size_param == "page[size]"
         assert pc.page_number_param == "page[number]"
         assert pc.response_list_accessor == "data"
 
         # Simulate a full first page with 150 total pipelines.
-        resp = {"data": ["item"] * 100, "meta": {"totalCount": 150}}
-        remaining = pc.remaining_func(0, resp, 100, 0)
-        assert remaining == 50
+        resp = {"data": ["item"] * 50, "meta": {"totalCount": 75}}
+        remaining = pc.remaining_func(0, resp, 50, 0)
+        assert remaining == 25
 
         # Second (partial) page: remaining should go negative → loop stops.
-        resp2 = {"data": ["item"] * 50, "meta": {"totalCount": 150}}
-        remaining2 = pc.remaining_func(1, resp2, 100, 1)
-        assert remaining2 == -50
+        resp2 = {"data": ["item"] * 25, "meta": {"totalCount": 75}}
+        remaining2 = pc.remaining_func(1, resp2, 50, 1)
+        assert remaining2 == -25
 
     def test_registered_in_init_resources(self):
         config = MagicMock()

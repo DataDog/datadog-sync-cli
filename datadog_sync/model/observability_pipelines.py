@@ -39,7 +39,7 @@ class ObservabilityPipelines(BaseResource):
     # default meta.page.total_count. Use a custom remaining_func so multi-page
     # responses don't raise KeyError on the missing meta.page key.
     pagination_config = PaginationConfig(
-        page_size=100,
+        page_size=50,
         page_size_param="page[size]",
         page_number_param="page[number]",
         remaining_func=_op_remaining_func,
