@@ -28,6 +28,7 @@ from datadog_sync.model.powerpacks import Powerpacks
 from datadog_sync.model.restriction_policies import RestrictionPolicies
 from datadog_sync.model.roles import Roles
 from datadog_sync.model.rum_applications import RUMApplications
+from datadog_sync.model.rum_config import RUMConfig
 from datadog_sync.model.rum_metrics import RUMMetrics
 from datadog_sync.model.rum_operations import RUMOperations
 from datadog_sync.model.rum_operation_strong_links import RUMOperationStrongLinks
