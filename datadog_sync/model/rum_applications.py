@@ -162,6 +162,12 @@ class RUMApplications(BaseResource):
             except CustomClientHTTPError as e:
                 self.config.logger.warning(f"Failed to sync retention quota for app {dest_app_id}: {e}")
 
+        # Store _retention_quota in the returned data so it persists in
+        # state.destination. Without this, the destination state never has
+        # _retention_quota, so the diff can't detect quota changes or removals.
+        if retention_quota is not None:
+            data["_retention_quota"] = retention_quota
+
         return _id, data
 
     async def update_resource(self, _id: str, resource: Dict) -> Tuple[str, Dict]:
@@ -188,10 +194,19 @@ class RUMApplications(BaseResource):
         )
         data = resp["data"]
 
-        # After updating the app, sync the retention quota
+        # After updating the app, sync the retention quota. Always call this
+        # (not just when there's a quota change) so quota removal is handled:
+        # if source has no quota but dest does, _sync_retention_quota DELETEs it.
         await self._sync_retention_quota(
             destination_id, {"_retention_quota": retention_quota} if retention_quota else {}
         )
+
+        # Store _retention_quota in the returned data so it persists in
+        # state.destination for future diff comparisons.
+        if retention_quota is not None:
+            data["_retention_quota"] = retention_quota
+        elif "_retention_quota" in data:
+            data.pop("_retention_quota", None)
 
         return _id, data
 
