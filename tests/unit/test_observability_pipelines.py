@@ -32,7 +32,10 @@ class TestObservabilityPipelinesRegistration:
         rc = ObservabilityPipelines.resource_config
         assert rc.base_path == "/api/v2/obs-pipelines/pipelines"
         assert rc.resource_mapping_key == "id"
-        assert rc.excluded_attributes == ["root['id']"]
+        assert rc.excluded_attributes == [
+            "root['id']",
+            "root['attributes']['processors']",
+        ]
         assert rc.skip_resource_mapping is False
 
     def test_pagination_config_reads_meta_total_count(self):
@@ -226,6 +229,32 @@ class TestObservabilityPipelinesPrepResource:
         assert "id" not in resource
         assert resource["attributes"]["name"] == "test-pipeline"
         assert resource["attributes"]["config"] == {"sources": [], "destinations": []}
+
+    def test_prep_resource_strips_processors(self):
+        """The OP API rejects write payloads containing both 'processors' and
+        'processor_groups'. The source API returns 'processors' (read-only),
+        so it must be stripped before sending to the destination."""
+        resource = {
+            "id": "pipe-src-uuid",
+            "type": "pipelines",
+            "attributes": {
+                "name": "test-pipeline",
+                "processors": [{"name": "proc-1", "type": "filter"}],
+                "config": {
+                    "sources": [],
+                    "destinations": [],
+                    "processor_groups": [{"name": "pg-1", "processors": []}],
+                },
+            },
+        }
+
+        prep_resource(ObservabilityPipelines.resource_config, resource)
+
+        assert "id" not in resource
+        assert "processors" not in resource["attributes"]
+        assert resource["attributes"]["config"]["processor_groups"] == [
+            {"name": "pg-1", "processors": []}
+        ]
 
 
 class TestObservabilityPipelinesHooks:
