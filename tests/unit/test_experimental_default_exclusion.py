@@ -114,6 +114,26 @@ class TestResolveIncludeExperimental:
         monkeypatch.setenv("DD_INCLUDE_EXPERIMENTAL_RESOURCES", "false")
         assert _resolve_include_experimental({"include_experimental_resources": True}) is True
 
+    def test_env_var_name_read_via_constant(self, monkeypatch):
+        """The helper must read the env var through the
+        DD_INCLUDE_EXPERIMENTAL_RESOURCES binding (not a string literal), so a
+        rename in constants.py propagates instead of drifting (review
+        follow-up)."""
+        from datadog_sync.utils.configuration import _resolve_include_experimental
+
+        # Patch the name bound in the configuration module — the one the
+        # helper actually reads. If the helper used a string literal, this
+        # patch would have no effect and the assertion would fail.
+        monkeypatch.setattr(
+            "datadog_sync.utils.configuration.DD_INCLUDE_EXPERIMENTAL_RESOURCES",
+            "CM_TEST_CUSTOM_ENV_NAME",
+        )
+        monkeypatch.delenv("DD_INCLUDE_EXPERIMENTAL_RESOURCES", raising=False)
+        monkeypatch.delenv("CM_TEST_CUSTOM_ENV_NAME", raising=False)
+        assert _resolve_include_experimental({}) is False
+        monkeypatch.setenv("CM_TEST_CUSTOM_ENV_NAME", "true")
+        assert _resolve_include_experimental({}) is True
+
 
 # ─── build_config wiring: default set / explicit selection ───────────────────
 

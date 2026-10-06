@@ -15,6 +15,7 @@ import click
 from datadog_sync.constants import (
     Command,
     AWS_CONFIG_PROPERTIES,
+    DD_INCLUDE_EXPERIMENTAL_RESOURCES,
     AZURE_CONFIG_PROPERTIES,
     AZURE_STORAGE_TYPE,
     DESTINATION_PATH_DEFAULT,
@@ -473,13 +474,11 @@ def _resolve_include_experimental(kwargs: Dict[str, Any]) -> bool:
     """
     import os
 
-    raw = kwargs.get("include_experimental_resources", os.getenv("DD_INCLUDE_EXPERIMENTAL_RESOURCES", "false"))
+    raw = kwargs.get("include_experimental_resources", os.getenv(DD_INCLUDE_EXPERIMENTAL_RESOURCES, "false"))
     return str(raw).lower() in ("1", "true", "yes")
 
 
-def _default_resources_arg(
-    resources: Dict[str, BaseResource], include_experimental: bool
-) -> List[str]:
+def _default_resources_arg(resources: Dict[str, BaseResource], include_experimental: bool) -> List[str]:
     """Default resource set: every registered type except experimental ones.
 
     Experimental types (ResourceConfig.experimental=True) are REGISTERED and
@@ -489,9 +488,7 @@ def _default_resources_arg(
     """
     if include_experimental:
         return list(resources.keys())
-    excluded = sorted(
-        rt for rt, r in resources.items() if getattr(r.resource_config, "experimental", False)
-    )
+    excluded = sorted(rt for rt, r in resources.items() if getattr(r.resource_config, "experimental", False))
     if excluded:
         logger = logging.getLogger(__name__)
         logger.info(
