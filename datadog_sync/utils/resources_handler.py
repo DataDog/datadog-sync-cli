@@ -12,7 +12,7 @@ from asyncio import Semaphore
 from collections import Counter, defaultdict
 from copy import deepcopy
 from time import sleep
-from typing import Dict, TYPE_CHECKING, List, Optional, Set, Tuple
+from typing import Any, Dict, TYPE_CHECKING, List, Optional, Set, Tuple
 
 from click import UsageError, confirm
 from pprint import pformat
@@ -361,6 +361,11 @@ class ResourcesHandler:
         # handle resource cleanups
         if self.config.cleanup != FALSE:
             cleanup_resources = self.config.state.get_resources_to_cleanup(self.config.resources_arg)
+            # Cleanup capability + scope guards (contract:
+            # docs/case-management-support.md §5): retain/unsupported policies,
+            # id-file-scoped type-wide authority, and filter-excluded
+            # destination resources never reach the prompt or the queue.
+            cleanup_resources, _cleanup_guards = self._filter_cleanup_candidates(cleanup_resources)
             if cleanup_resources:
                 cleanup = _cleanup_prompt(self.config, cleanup_resources)
                 if cleanup:
@@ -411,6 +416,15 @@ class ResourcesHandler:
                     except Exception as e:
                         # Unexpected error building or running cleanup graph
                         self.config.logger.error(f"Error during ordered cleanup: {str(e)}")
+                        if not self._unordered_fallback_allowed(cleanup_resources):
+                            # cleanup_fail_closed types are in the candidate set:
+                            # abort rather than risk unordered deletion of the
+                            # family's resources.
+                            self.config.logger.error(
+                                "ordered cleanup failed and cleanup_fail_closed is set for candidate "
+                                "types; refusing unordered fallback"
+                            )
+                            raise
                         self.config.logger.warning(
                             "Falling back to unordered cleanup (may fail due to dependency issues)"
                         )
@@ -985,6 +999,98 @@ class ResourcesHandler:
             _reason, _fc = self._sanitize_reason(e)
             self._emit(resource_type, "", "import", "failure", reason=_reason, failure_class=_fc)
             self.config.logger.error(f"Error while getting resources {resource_type}: {str(e)}")
+
+    def _unordered_fallback_allowed(self, cleanup_resources: Dict[Tuple[str, str], Any]) -> bool:
+        """Whether an ordered-cleanup failure may fall back to unordered deletion.
+
+        Blocked when any cleanup-candidate type opts in via
+        ResourceConfig.cleanup_fail_closed — the case family never takes the
+        unordered fallback. Contract: docs/case-management-support.md §5.
+        """
+        for resource_type, _ in cleanup_resources:
+            r_class = self.config.resources.get(resource_type)
+            if r_class is not None and getattr(r_class.resource_config, "cleanup_fail_closed", False):
+                return False
+        return True
+
+    def _filter_cleanup_candidates(
+        self, cleanup_resources: Dict[Tuple[str, str], Any]
+    ) -> Tuple[Dict[Tuple[str, str], Any], Dict[str, int]]:
+        """Apply cleanup capability and scope guards to the deletion candidate set.
+
+        Returns (filtered_candidates, accounting). Guards (contract:
+        docs/case-management-support.md §5):
+
+        - cleanup_policy retain/unsupported: never queued or reported as
+          deleted. Retained resources keep blocking their ancestors through
+          the dependency scan (retention closure).
+        - id-file-scoped types are non-authoritative for the run: their
+          partial source state cannot drive deletion, so the whole type's
+          candidates are suppressed (type-wide authority).
+        - Filtered destination resources are excluded from BOTH the desired
+          and deletion scopes by construction: a resource the type's filter
+          rejects was never in the import scope, so deleting it would be
+          out-of-scope destruction. Fail-open only when no destination body
+          is available to evaluate the filter against (the other guards
+          still apply).
+        """
+        accounting = {"retained": 0, "unsupported": 0, "id_scoped": 0, "out_of_scope_filtered": 0}
+        filtered: Dict[Tuple[str, str], Any] = {}
+        id_scoped_types_warned = set()
+
+        for key, value in cleanup_resources.items():
+            resource_type, _id = key
+            r_class = self.config.resources.get(resource_type)
+            if r_class is None:
+                # Unknown type (shouldn't happen — candidates come from
+                # resources_arg): keep as-is; downstream handles it.
+                filtered[key] = value
+                continue
+
+            policy = getattr(r_class.resource_config, "cleanup_policy", "delete")
+            if policy == "retain":
+                accounting["retained"] += 1
+                continue
+            if policy == "unsupported":
+                accounting["unsupported"] += 1
+                continue
+
+            if self.config.id_payload and resource_type in self.config.id_payload:
+                accounting["id_scoped"] += 1
+                if resource_type not in id_scoped_types_warned:
+                    id_scoped_types_warned.add(resource_type)
+                    self.config.logger.info(
+                        "cleanup suppressed for %s: id-file-scoped state is non-authoritative "
+                        "for the run (partial source state cannot drive deletion)",
+                        resource_type,
+                    )
+                continue
+
+            destination_body = self.config.state.destination.get(resource_type, {}).get(_id)
+            if destination_body is not None and not r_class.filter(destination_body):
+                accounting["out_of_scope_filtered"] += 1
+                continue
+
+            filtered[key] = value
+
+        if accounting["retained"]:
+            self.config.logger.info(
+                "cleanup excluded %d retained resources (cleanup_policy=retain; they keep "
+                "blocking their ancestors through the dependency scan)",
+                accounting["retained"],
+            )
+        if accounting["unsupported"]:
+            self.config.logger.warning(
+                "cleanup excluded %d resources of unsupported-cleanup types (cleanup_policy=unsupported)",
+                accounting["unsupported"],
+            )
+        if accounting["out_of_scope_filtered"]:
+            self.config.logger.info(
+                "cleanup excluded %d destination resources outside the import scope "
+                "(filter-rejected: excluded from desired and deletion scopes by construction)",
+                accounting["out_of_scope_filtered"],
+            )
+        return filtered, accounting
 
     async def _import_resource(self, q_item: List) -> None:
         resource_type, resource = q_item

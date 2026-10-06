@@ -124,6 +124,19 @@ class ResourceConfig:
     # DD_INCLUDE_EXPERIMENTAL_RESOURCES=true. Flipped to False at family
     # acceptance. Contract: docs/case-management-support.md §10.
     experimental: bool = False
+    # Cleanup capability: "delete" (default — normal cleanup semantics),
+    # "retain" (the resource has no delete API or is deliberately retained:
+    # never queued or reported as deleted; keeps blocking its ancestors
+    # through the dependency scan — retention closure; e.g. cases, whose
+    # archive is not delete), or "unsupported" (cleanup for the type is not
+    # supported: excluded from deletion candidates entirely, logged).
+    # Contract: docs/case-management-support.md §5.
+    cleanup_policy: str = "delete"
+    # When True and the type appears in the cleanup candidate set, an
+    # ordered-cleanup failure ABORTS instead of falling back to unordered
+    # deletion. Opt-in by safety-critical families (the case family never
+    # takes the unordered fallback).
+    cleanup_fail_closed: bool = False
 
     async def init_async(self) -> None:
         # Both Lock and Semaphore bind to the current running event loop on
@@ -144,8 +157,10 @@ class ResourceConfig:
 
     def __post_init__(self) -> None:
         if self.id_file_namespace not in ("resource", "parent"):
+            raise ValueError(f"id_file_namespace must be 'resource' or 'parent', got {self.id_file_namespace!r}")
+        if self.cleanup_policy not in ("delete", "retain", "unsupported"):
             raise ValueError(
-                f"id_file_namespace must be 'resource' or 'parent', got {self.id_file_namespace!r}"
+                f"cleanup_policy must be 'delete', 'retain', or 'unsupported', got {self.cleanup_policy!r}"
             )
         self.build_excluded_attributes()
         # Note: async primitives (async_lock, async_semaphore) are constructed
@@ -501,9 +516,7 @@ class BaseResource(abc.ABC):
             # interpolate positional args in JSON mode, so %s placeholders would
             # be emitted literally. Pre-formatting keeps the diagnostic readable
             # in both plain and NDJSON modes.
-            self.config.logger.debug(
-                f"destination reconcile skipped for {self.resource_type} {_id}: {e}"
-            )
+            self.config.logger.debug(f"destination reconcile skipped for {self.resource_type} {_id}: {e}")
 
     @abc.abstractmethod
     async def delete_resource(self, _id: str) -> None:
@@ -628,9 +641,7 @@ class BaseResource(abc.ABC):
 
     def _raise_stale_dependency_skip(self, _id: str, stale_connections_dict: Dict[str, List[str]]) -> None:
         details = {
-            resource_type: ",".join(sorted(set(ids)))
-            for resource_type, ids in stale_connections_dict.items()
-            if ids
+            resource_type: ",".join(sorted(set(ids))) for resource_type, ids in stale_connections_dict.items() if ids
         }
         if not details:
             return
