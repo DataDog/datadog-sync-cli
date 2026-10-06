@@ -870,12 +870,19 @@ class ResourcesHandler:
         # ImportState (the latter has no .source accessor).
         self.config.state.clear_source_type(resource_type)
 
-        # The --id-file path replaces the unfiltered list call with per-ID GETs
-        # bounded by --max-concurrent-reads for supported allowlisted types.
+        # The --id-file path replaces the unfiltered list call with targeted
+        # GETs bounded by --max-concurrent-reads for supported allowlisted types.
         # Gated on _ID_FILE_IMPORT_SUPPORTED_TYPES (not the union allowlist):
         # types added purely for sync-command state-load scoping (e.g.
         # host_tags) don't have a working per-ID GET path and would produce
         # 100% permanent failures on this branch.
+        #
+        # Dispatch by ResourceConfig.id_file_namespace (contract:
+        # docs/case-management-support.md §6): "resource" (default) keeps the
+        # existing get_resources_by_ids semantics — the payload contains
+        # resource ids; "parent" routes to get_resources_by_parent_ids — the
+        # payload contains PARENT ids for parent-scoped child models. The
+        # namespace is a model constant, so existing types are unchanged.
         from datadog_sync.utils.configuration import _ID_FILE_IMPORT_SUPPORTED_TYPES
 
         if (
@@ -885,21 +892,39 @@ class ResourcesHandler:
         ):
             ids = self.config.id_payload[resource_type]
             mcr = self.config.max_concurrent_reads
-            try:
-                resources, missing, errored = await r_class.get_resources_by_ids(
-                    self.config.source_client, ids, max_concurrent_reads=mcr
+            id_file_namespace = getattr(r_class.resource_config, "id_file_namespace", "resource")
+            # Fail-closed dispatch: ResourceConfig.__post_init__ validates model
+            # definitions, but a config object mutated at runtime (or a mocked
+            # config) could still carry an unknown namespace — treat anything
+            # other than the two known values as a programming error and raise,
+            # rather than silently defaulting to the resource-id path.
+            if id_file_namespace not in ("resource", "parent"):
+                raise ValueError(
+                    f"unknown id_file_namespace {id_file_namespace!r} for {resource_type}; "
+                    "must be 'resource' or 'parent'"
                 )
+            try:
+                if id_file_namespace == "parent":
+                    resources, missing, errored = await r_class.get_resources_by_parent_ids(
+                        self.config.source_client, ids, max_concurrent_reads=mcr
+                    )
+                else:
+                    resources, missing, errored = await r_class.get_resources_by_ids(
+                        self.config.source_client, ids, max_concurrent_reads=mcr
+                    )
             except Exception as e:
-                # Whole-type discovery failure (get_resources_by_ids raised
-                # before yielding per-id results). No specific source id in
-                # scope, so this can't populate failed_ids_by_type — the
-                # aggregate `failure` count still ticks. Downstream cascade
-                # analysis for this class needs the top-of-log error line
-                # emitted below.
+                # Whole-type discovery failure (get_resources_by_ids or
+                # get_resources_by_parent_ids raised before yielding per-id
+                # results). No specific source id in scope, so this can't
+                # populate failed_ids_by_type — the aggregate `failure` count
+                # still ticks. Downstream cascade analysis for this class
+                # needs the top-of-log error line emitted below.
                 self.worker.counter.increment_failure()
                 _reason, _fc = self._sanitize_reason(e)
                 self._emit(resource_type, "", "import", "failure", reason=_reason, failure_class=_fc)
-                self.config.logger.error(f"Error in get_resources_by_ids for {resource_type}: {str(e)}")
+                self.config.logger.error(
+                    f"Error in id-file discovery ({id_file_namespace} namespace) for {resource_type}: {str(e)}"
+                )
                 return
 
             transient_count = sum(1 for _, cls, _ in errored if cls == "transient")
