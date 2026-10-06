@@ -464,6 +464,45 @@ _NEGATIVE_BOOLEAN_ALIASES = {
 }
 
 
+def _resolve_include_experimental(kwargs: Dict[str, Any]) -> bool:
+    """Resolve the include-experimental override: kwargs > env > default false.
+
+    The kwarg (``include_experimental_resources``) is the programmatic path;
+    the DD_INCLUDE_EXPERIMENTAL_RESOURCES environment variable is the operator
+    escape hatch for testing a family before acceptance flips its gate.
+    """
+    import os
+
+    raw = kwargs.get("include_experimental_resources", os.getenv("DD_INCLUDE_EXPERIMENTAL_RESOURCES", "false"))
+    return str(raw).lower() in ("1", "true", "yes")
+
+
+def _default_resources_arg(
+    resources: Dict[str, BaseResource], include_experimental: bool
+) -> List[str]:
+    """Default resource set: every registered type except experimental ones.
+
+    Experimental types (ResourceConfig.experimental=True) are REGISTERED and
+    EXPLICITLY SELECTABLE via --resource, but excluded from the default set
+    until their family is accepted. Opt in via DD_INCLUDE_EXPERIMENTAL_RESOURCES
+    (or the build_config kwarg). Registration order is preserved.
+    """
+    if include_experimental:
+        return list(resources.keys())
+    excluded = sorted(
+        rt for rt, r in resources.items() if getattr(r.resource_config, "experimental", False)
+    )
+    if excluded:
+        logger = logging.getLogger(__name__)
+        logger.info(
+            "excluding experimental resource types from the default set: %s "
+            "(explicitly selectable via --resource; opt in via %s=true)",
+            excluded,
+            "DD_INCLUDE_EXPERIMENTAL_RESOURCES",
+        )
+    return [rt for rt, r in resources.items() if not getattr(r.resource_config, "experimental", False)]
+
+
 def normalize_kwargs(kwargs: Dict[str, Any]) -> Dict[str, Any]:
     """Apply additive-parameter-grammar normalization to raw CLI kwargs.
 
@@ -976,7 +1015,10 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
 
         resources_arg = list(set(resources_arg) & set(resources.keys()))
     else:
-        resources_arg = list(resources.keys())
+        # Default (no --resource) set: every registered type except
+        # experimental ones. Explicit selection above is NOT filtered on
+        # experimental — an experimental type stays directly selectable.
+        resources_arg = _default_resources_arg(resources, _resolve_include_experimental(kwargs))
 
     # --id-file × --resources interaction validation.
     # If --id-file is set, --resources MUST be explicitly set AND must include every
