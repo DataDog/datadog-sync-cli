@@ -107,6 +107,17 @@ class ResourceConfig:
     # When both are set, `concurrent=False` wins (serial behavior).
     max_concurrent: Optional[int] = None
     async_semaphore: Optional[Semaphore] = None
+    # The --id-file payload namespace for this resource type. "resource"
+    # (default): the payload contains resource ids and the id-file path
+    # dispatches to get_resources_by_ids (semantics unchanged for every
+    # existing type). "parent": the payload contains PARENT ids and the
+    # id-file path dispatches to get_resources_by_parent_ids — used by
+    # parent-scoped child models (e.g. project-scoped rules, case-scoped
+    # comments) whose discovery enumerates children per parent. The
+    # namespace is a model constant: types join the id-file import
+    # allowlist with their model PR, each entry documenting the payload
+    # meaning. Contract: docs/case-management-support.md §6.
+    id_file_namespace: str = "resource"
 
     async def init_async(self) -> None:
         # Both Lock and Semaphore bind to the current running event loop on
@@ -126,6 +137,10 @@ class ResourceConfig:
             self.async_semaphore = Semaphore(self.max_concurrent)
 
     def __post_init__(self) -> None:
+        if self.id_file_namespace not in ("resource", "parent"):
+            raise ValueError(
+                f"id_file_namespace must be 'resource' or 'parent', got {self.id_file_namespace!r}"
+            )
         self.build_excluded_attributes()
         # Note: async primitives (async_lock, async_semaphore) are constructed
         # by init_async() so they bind to the correct running loop. Prior
@@ -299,6 +314,40 @@ class BaseResource(abc.ABC):
             else:
                 errored.append((r[1], "permanent", r[2]))
         return resources, missing, errored
+
+    async def get_resources_by_parent_ids(
+        self,
+        client: CustomClient,
+        parent_ids: List[str],
+        max_concurrent_reads: int = 10,
+    ) -> Tuple[List[Dict], List[str], List[Tuple[str, str, str]]]:
+        """Enumerate child resources for the given PARENT ids (parent-scope discovery).
+
+        The --id-file payload meaning for parent-namespace types (see
+        ResourceConfig.id_file_namespace): each id is a PARENT id (a project
+        id, case id, etc.), and this method enumerates that parent's children.
+        Returns the same shape as get_resources_by_ids:
+          - resources: discovered child resource dicts (aggregated across parents)
+          - missing_ids: parent ids returning HTTP 404 (parent deleted between
+            enumeration and child fetch)
+          - errored_ids: list of (parent_id, class, reason) where class in
+            {"transient", "permanent", "skipped"} — a parent whose children could
+            not be enumerated is a FAILED SCOPE: the failure counts toward the
+            type-wide authority channel (any failed scope keeps the whole child
+            type non-authoritative for the run, suppressing its cleanup).
+
+        Parent ids supplied are SOURCE ids; the model maps them through state
+        for destination-path operations. Concurrency bounded by
+        asyncio.Semaphore(max_concurrent_reads), separate from --max-workers.
+        Models with id_file_namespace="parent" MUST override this method — the
+        default raises so a parent-namespace type cannot silently ship without
+        the scoped-discovery path.
+        """
+        raise NotImplementedError(
+            f"{self.resource_type} declares id_file_namespace='parent' but does not "
+            "implement get_resources_by_parent_ids; parent-scope discovery is required "
+            "for parent-namespace types"
+        )
 
     @abc.abstractmethod
     async def import_resource(self, _id: Optional[str] = None, resource: Optional[Dict] = None) -> Tuple[str, Dict]:
