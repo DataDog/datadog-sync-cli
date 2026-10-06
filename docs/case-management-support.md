@@ -411,6 +411,22 @@ validate against the artifact's `registry_version`. The reconciliation PR adds a
 consistency test asserting that the README resource table and the registry
 artifact match the registered models.
 
+**Allowed `status` values** (the closed enum external tooling may branch on —
+never inferred ad hoc):
+
+| Status | Meaning |
+|---|---|
+| `planned` | Unconditional: the model has no hard-gate dependencies on feasibility results |
+| `planned_gated` | Blocked on the §12 hard gates (S9/S11/S14/S15); ships fail-closed until they resolve |
+| `planned_opt_in` | Ships behind an opt-in flag, default off (e.g. side-effect-bearing resources gated by S13/S14) |
+
+**Allowed `id_file_namespace` values**: `"resource"` (the `--id-file` payload
+contains resource ids), `"parent"` (the payload contains parent ids — §6), or
+`null` (the type has no id-file support — no per-id GET and no parent-scope
+discovery path). `null` is distinct from `"resource"`: consumers must not treat
+a `null` type as id-file-addressable.
+
+
 ## 12. Feasibility gates (entry gates; results recorded before model implementation)
 
 | Gate | Question | Status | Consequence if unresolved |
