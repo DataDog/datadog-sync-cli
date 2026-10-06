@@ -893,6 +893,16 @@ class ResourcesHandler:
             ids = self.config.id_payload[resource_type]
             mcr = self.config.max_concurrent_reads
             id_file_namespace = getattr(r_class.resource_config, "id_file_namespace", "resource")
+            # Fail-closed dispatch: ResourceConfig.__post_init__ validates model
+            # definitions, but a config object mutated at runtime (or a mocked
+            # config) could still carry an unknown namespace — treat anything
+            # other than the two known values as a programming error and raise,
+            # rather than silently defaulting to the resource-id path.
+            if id_file_namespace not in ("resource", "parent"):
+                raise ValueError(
+                    f"unknown id_file_namespace {id_file_namespace!r} for {resource_type}; "
+                    "must be 'resource' or 'parent'"
+                )
             try:
                 if id_file_namespace == "parent":
                     resources, missing, errored = await r_class.get_resources_by_parent_ids(

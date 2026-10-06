@@ -28,7 +28,6 @@ import pytest
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
 
-
 # ─── Test fixtures ───────────────────────────────────────────────────────────
 
 
@@ -285,6 +284,26 @@ class TestDispatchRouting:
 
         assert counter.failure == 1
         assert storage == {}
+
+    def test_unknown_namespace_raises_not_silently_treated_as_resource(self):
+        """Fail-closed dispatch: a namespace mutated at runtime to an unknown
+        value raises, rather than silently defaulting to the resource-id
+        path (review follow-up — ResourceConfig.__post_init__ protects model
+        definitions; this guards the dispatch against runtime mutation)."""
+        r_class = _make_model("test_parent_ns_type", "bogus-namespace")
+
+        config = _make_config("test_parent_ns_type", r_class)
+        config.id_payload = {"test_parent_ns_type": ["some-id"]}
+        handler, counter = _make_handler(config)
+        tmp_storage = defaultdict(list)
+
+        with pytest.raises(ValueError, match="id_file_namespace"):
+            asyncio.run(handler._import_get_resources_cb("test_parent_ns_type", tmp_storage))
+
+        # Nothing was dispatched and nothing was stored.
+        r_class.get_resources_by_ids.assert_not_awaited()
+        r_class.get_resources_by_parent_ids.assert_not_awaited()
+        assert tmp_storage == {}
 
 
 # ─── End-to-end through import_resources_without_saving ─────────────────────
