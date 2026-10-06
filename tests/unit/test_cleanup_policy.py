@@ -42,6 +42,7 @@ def _make_model(resource_type: str, **config_overrides):
     # truthy Mocks into the guards under test.
     r_class.resource_config.cleanup_policy = "delete"
     r_class.resource_config.cleanup_fail_closed = False
+    r_class.resource_config.resource_connections = {}
     for key, value in config_overrides.items():
         setattr(r_class.resource_config, key, value)
     r_class.filter = MagicMock(return_value=True)
@@ -72,6 +73,12 @@ def _make_handler(config):
     return handler
 
 
+def _run_filter(models, candidates, source=None, destination=None, id_payload=None):
+    config = _make_config(models, source=source, destination=destination, id_payload=id_payload)
+    handler = _make_handler(config)
+    return handler._filter_cleanup_candidates(dict(candidates))
+
+
 # ─── ResourceConfig.cleanup_policy field ─────────────────────────────────────
 
 
@@ -96,9 +103,7 @@ class TestCleanupPolicyField:
 
 class TestFilterCleanupCandidates:
     def _run(self, models, candidates, source=None, destination=None, id_payload=None):
-        config = _make_config(models, source=source, destination=destination, id_payload=id_payload)
-        handler = _make_handler(config)
-        return handler._filter_cleanup_candidates(dict(candidates))
+        return _run_filter(models, candidates, source=source, destination=destination, id_payload=id_payload)
 
     def test_delete_policy_resources_kept(self):
         models = {"monitors": _make_model("monitors", cleanup_policy="delete")}
@@ -191,6 +196,163 @@ class TestFilterCleanupCandidates:
         assert accounting["retained"] == 1
         assert accounting["unsupported"] == 1
         assert accounting["id_scoped"] == 1
+
+
+# ─── Retention closure: retained dependents block ancestor deletion ─────────
+
+
+class TestRetentionClosure:
+    """The cleanup graph only orders among remaining candidates, so a
+    retained (never-deleted) dependent's dependency ancestors must be removed
+    from the deletion set with explicit accounting — otherwise a retained
+    case would let its project be deleted out from under it (review blocking
+    concern, PR #735)."""
+
+    def test_retained_dependent_blocks_ancestor_deletion(self):
+        # Reviewer's scenario: destination has case C (retain) under project P;
+        # source has neither. Both are initially deletion candidates.
+        models = {
+            "cases": _make_model(
+                "cases",
+                cleanup_policy="retain",
+                resource_connections={"projects": ["relationships.project.data.id"]},
+            ),
+            "projects": _make_model("projects", cleanup_policy="delete"),
+        }
+        destination = {
+            "cases": {
+                "case-src-1": {
+                    "id": "dest-case-1",
+                    "relationships": {"project": {"data": {"id": "dest-project-1"}}},
+                }
+            },
+            # The project's destination state maps source key -> destination id.
+            "projects": {"project-src-1": {"id": "dest-project-1"}},
+        }
+        candidates = {
+            ("cases", "case-src-1"): None,
+            ("projects", "project-src-1"): None,
+        }
+        filtered, accounting = _run_filter(models, candidates, destination=destination)
+
+        # The case is retained; the project is blocked by the retained case —
+        # neither is queued for deletion.
+        assert filtered == {}
+        assert accounting["retained"] == 1
+        assert accounting["blocked_by_retained_dependent"] == 1
+
+    def test_blocked_ancestor_only_when_candidate(self):
+        """A retained dependent referencing a resource that is NOT a deletion
+        candidate (e.g. the project still exists at the source) changes nothing."""
+        models = {
+            "cases": _make_model(
+                "cases",
+                cleanup_policy="retain",
+                resource_connections={"projects": ["relationships.project.data.id"]},
+            ),
+            "projects": _make_model("projects", cleanup_policy="delete"),
+        }
+        destination = {
+            "cases": {
+                "case-src-1": {
+                    "id": "dest-case-1",
+                    "relationships": {"project": {"data": {"id": "dest-project-1"}}},
+                }
+            },
+            "projects": {"project-src-1": {"id": "dest-project-1"}},
+        }
+        # Only the case is a candidate; the project is not.
+        candidates = {("cases", "case-src-1"): None}
+        filtered, accounting = _run_filter(models, candidates, destination=destination)
+
+        assert filtered == {}
+        assert accounting["retained"] == 1
+        assert accounting["blocked_by_retained_dependent"] == 0
+
+    def test_retained_list_reference_blocks_all_listed_ancestors(self):
+        """List-valued connection paths (e.g. enabled_custom_case_types) block
+        every referenced ancestor."""
+        models = {
+            "cases": _make_model(
+                "cases",
+                cleanup_policy="retain",
+                resource_connections={"types": ["attributes.enabled_types"]},
+            ),
+            "types": _make_model("types", cleanup_policy="delete"),
+        }
+        destination = {
+            "cases": {"case-src-1": {"id": "dest-case-1", "attributes": {"enabled_types": ["dest-t1", "dest-t2"]}}},
+            "types": {
+                "type-src-1": {"id": "dest-t1"},
+                "type-src-2": {"id": "dest-t2"},
+                "type-src-3": {"id": "dest-t3"},
+            },
+        }
+        candidates = {
+            ("cases", "case-src-1"): None,
+            ("types", "type-src-1"): None,
+            ("types", "type-src-2"): None,
+            ("types", "type-src-3"): None,
+        }
+        filtered, accounting = _run_filter(models, candidates, destination=destination)
+
+        # Referenced types blocked; the unreferenced type stays deletable.
+        assert filtered == {("types", "type-src-3"): None}
+        assert accounting["retained"] == 1
+        assert accounting["blocked_by_retained_dependent"] == 2
+
+    def test_retained_type_blocks_even_when_not_selected(self):
+        """The closure consults every REGISTERED retained type's durable
+        destination state — a retained type outside --resources still blocks
+        its ancestors."""
+        models = {
+            "cases": _make_model(
+                "cases",
+                cleanup_policy="retain",
+                resource_connections={"projects": ["relationships.project.data.id"]},
+            ),
+            "projects": _make_model("projects", cleanup_policy="delete"),
+        }
+        destination = {
+            "cases": {
+                "case-src-1": {
+                    "id": "dest-case-1",
+                    "relationships": {"project": {"data": {"id": "dest-project-1"}}},
+                }
+            },
+            "projects": {"project-src-1": {"id": "dest-project-1"}},
+        }
+        config = _make_config(models, destination=destination)
+        # Syncing only projects; the retained cases type is still registered.
+        config.resources_arg = ["projects"]
+        handler = _make_handler(config)
+        candidates = {("projects", "project-src-1"): None}
+        filtered, accounting = handler._filter_cleanup_candidates(dict(candidates))
+
+        assert filtered == {}
+        assert accounting["blocked_by_retained_dependent"] == 1
+
+    def test_missing_reference_path_yields_nothing(self):
+        """A retained body lacking the connection path simply doesn't block —
+        no error, no accounting."""
+        models = {
+            "cases": _make_model(
+                "cases",
+                cleanup_policy="retain",
+                resource_connections={"projects": ["relationships.project.data.id"]},
+            ),
+            "projects": _make_model("projects", cleanup_policy="delete"),
+        }
+        destination = {
+            "cases": {"case-src-1": {"id": "dest-case-1"}},  # no relationships key
+            "projects": {"project-src-1": {"id": "dest-project-1"}},
+        }
+        candidates = {("cases", "case-src-1"): None, ("projects", "project-src-1"): None}
+        filtered, accounting = _run_filter(models, candidates, destination=destination)
+
+        assert filtered == {("projects", "project-src-1"): None}
+        assert accounting["retained"] == 1
+        assert accounting["blocked_by_retained_dependent"] == 0
 
 
 # ─── Fail-closed unordered-fallback opt-out ──────────────────────────────────

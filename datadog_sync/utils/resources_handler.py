@@ -12,7 +12,7 @@ from asyncio import Semaphore
 from collections import Counter, defaultdict
 from copy import deepcopy
 from time import sleep
-from typing import Any, Dict, TYPE_CHECKING, List, Optional, Set, Tuple
+from typing import Any, Dict, Iterator, TYPE_CHECKING, List, Optional, Set, Tuple
 
 from click import UsageError, confirm
 from pprint import pformat
@@ -182,6 +182,37 @@ def _list_time_filter_passes(r_class, config, resource) -> bool:
     if any(f.is_match(resource) for f in list_safe):
         return True
     return has_deferred  # all-miss + deferred → proceed; otherwise reject
+
+
+def _iter_connection_reference_ids(path: str, r_obj: Any) -> Iterator[Any]:
+    """Yield leaf values at a dotted resource-connection path.
+
+    Mirrors resource_utils.find_attr's traversal semantics (split on the first
+    '.'; descend dicts; fan out lists) but yields the leaf ID values instead
+    of remapping them — used by the retention-closure scan to read the
+    destination-ID references from retained resources' destination-state
+    bodies. Missing paths yield nothing (the dependency is simply not
+    referenced by that resource).
+    """
+    if r_obj is None:
+        return
+    if isinstance(r_obj, list):
+        for item in r_obj:
+            yield from _iter_connection_reference_ids(path, item)
+        return
+    if not isinstance(r_obj, dict):
+        return
+    parts = path.split(".", 1)
+    if len(parts) == 1:
+        if parts[0] in r_obj:
+            value = r_obj[parts[0]]
+            if isinstance(value, list):
+                yield from (v for v in value if v is not None)
+            elif value is not None:
+                yield value
+        return
+    if parts[0] in r_obj:
+        yield from _iter_connection_reference_ids(parts[1], r_obj[parts[0]])
 
 
 class ResourcesHandler:
@@ -1034,7 +1065,13 @@ class ResourcesHandler:
           is available to evaluate the filter against (the other guards
           still apply).
         """
-        accounting = {"retained": 0, "unsupported": 0, "id_scoped": 0, "out_of_scope_filtered": 0}
+        accounting = {
+            "retained": 0,
+            "unsupported": 0,
+            "id_scoped": 0,
+            "out_of_scope_filtered": 0,
+            "blocked_by_retained_dependent": 0,
+        }
         filtered: Dict[Tuple[str, str], Any] = {}
         id_scoped_types_warned = set()
 
@@ -1072,6 +1109,46 @@ class ResourcesHandler:
                 continue
 
             filtered[key] = value
+
+        # Retention closure (contract §5): a retained dependent permanently
+        # blocks its dependency ancestors' deletion. The cleanup graph only
+        # orders among the REMAINING candidates, so a retained resource's
+        # ancestors must be removed from the deletion set here — otherwise a
+        # retained (never-deleted) dependent would let its dependency be
+        # deleted out from under it. Consults the durable destination state of
+        # every REGISTERED retained type (regardless of --resources selection):
+        # each retained body's resource_connections paths carry destination
+        # ids, mapped back to the dependency type's source-id state keys.
+        if filtered:
+            retained_types = [
+                rt
+                for rt, r in self.config.resources.items()
+                if getattr(r.resource_config, "cleanup_policy", "delete") == "retain"
+            ]
+            blocked = set()
+            for retained_type in retained_types:
+                retained_class = self.config.resources[retained_type]
+                connections = getattr(retained_class.resource_config, "resource_connections", None) or {}
+                for body in self.config.state.destination.get(retained_type, {}).values():
+                    if not isinstance(body, dict):
+                        continue
+                    for dep_type, paths in connections.items():
+                        for path in paths:
+                            for dep_dest_id in _iter_connection_reference_ids(path, body):
+                                for dep_src_id, dep_body in self.config.state.destination.get(dep_type, {}).items():
+                                    if isinstance(dep_body, dict) and dep_body.get("id") == dep_dest_id:
+                                        if (dep_type, dep_src_id) in filtered:
+                                            blocked.add((dep_type, dep_src_id))
+            for key in blocked:
+                filtered.pop(key)
+                accounting["blocked_by_retained_dependent"] += 1
+            if blocked:
+                self.config.logger.info(
+                    "cleanup excluded %d deletion candidates blocked by retained dependents "
+                    "(retention closure: retained resources permanently block their dependency "
+                    "ancestors' deletion)",
+                    accounting["blocked_by_retained_dependent"],
+                )
 
         if accounting["retained"]:
             self.config.logger.info(
