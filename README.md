@@ -235,6 +235,7 @@ When running againts multiple destination organizations, a seperate working dire
 |----------------------------------------|----------------------------------------------------------------------|
 | authn_mappings                         | Sync Datadog authn mappings.                                         |
 | case_management_types                    | Sync Datadog case management types.                                   |
+| case_management_attributes               | Sync Datadog case management custom attributes. SELECT options (`type_data`) and integration mappings (`map_from`) are not synced: neither list API returns them.                                   |
 | dashboard_lists                        | Sync Datadog dashboard lists.                                        |
 | dashboards                             | Sync Datadog dashboards.                                             |
 | downtime_schedules                     | Sync Datadog downtimes.                                              |
@@ -339,6 +340,7 @@ See [Supported resources](#supported-resources) section below for potential reso
 |----------------------------------------|------------------------------------------------------------------|
 | authn_mappings                         | roles, teams                                                     |
 | case_management_types                   | -                                                                |
+| case_management_attributes               | case_management_types                                            |
 | dashboard_lists                        | dashboards                                                       |
 | dashboards                             | monitors, roles, powerpacks, service_level_objectives            |
 | downtime_schedules                     | monitors                                                         |

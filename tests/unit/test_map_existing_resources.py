@@ -59,6 +59,7 @@ OPT_OUT_RESOURCES = [
 
 # The resources that use resource mapping
 MAPPING_RESOURCES = [
+    "case_management_attributes",
     "case_management_types",
     "users",
     "teams",

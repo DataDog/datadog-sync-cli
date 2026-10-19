@@ -212,6 +212,139 @@ def test_cross_type_phantom_deps_preserved(graph_test):
 # ---------------------------------------------------------------------------
 # RED tests — fail before the change, pass after
 # ---------------------------------------------------------------------------
+# case_management_attributes <-> case_management_types ordering
+# (added with the case_management_attributes resource)
+# ---------------------------------------------------------------------------
+
+
+def _seed_case_management_state(config, seed_destination=True):
+    """Seed source + destination state with realistic identity domains.
+
+    Source state is keyed by source ids; destination state is keyed by SOURCE
+    ids too (state files are source-ID-keyed) but the stored bodies hold
+    DESTINATION API ids — the exact shape production state has after a sync.
+
+    seed_destination=False models a FIRST sync (parent type not yet synced),
+    which is the state where the creation graph must carry the dependency
+    edge (edges are failed connections — deps not yet in destination state).
+    """
+    src_type = {
+        "id": "type-src-0000",
+        "type": "case_type",
+        "attributes": {"name": "case_type_test_src"},
+    }
+    src_attr = {
+        "id": "attr-src-0000",
+        "type": "custom_attribute",
+        "attributes": {
+            "case_type_id": "type-src-0000",
+            "key": "attr_key_test_src",
+            "display_name": "Test Attribute",
+            "is_multi": False,
+            "type": "TEXT",
+        },
+    }
+    # Destination bodies: destination API ids under source-keyed state entries.
+    dst_type_entry = {
+        "id": "type-dst-0000",
+        "type": "case_type",
+        "attributes": {"name": "case_type_test_src"},
+    }
+    dst_attr_entry = {
+        "id": "attr-dst-0000",
+        "type": "custom_attribute",
+        "attributes": {
+            "case_type_id": "type-dst-0000",
+            "key": "attr_key_test_src",
+            "display_name": "Test Attribute",
+            "is_multi": False,
+            "type": "TEXT",
+        },
+    }
+
+    setup_state(
+        config,
+        {
+            "case_management_types": {"type-src-0000": src_type},
+            "case_management_attributes": {"attr-src-0000": src_attr},
+        },
+        resources_arg=["case_management_attributes", "case_management_types"],
+    )
+    if seed_destination:
+        config.state.destination["case_management_types"]["type-src-0000"] = dst_type_entry
+        config.state.destination["case_management_attributes"]["attr-src-0000"] = dst_attr_entry
+
+
+def test_case_management_attributes_depend_on_types_in_creation_graph(graph_test):
+    """The creation graph must yield the parent case type before the
+    attribute that references it (drives run_sorter tiering). Seeds a FIRST
+    sync (parent not yet in destination) — creation edges are failed
+    connections, i.e. dependencies not yet synced."""
+    handler, config = graph_test
+
+    _seed_case_management_state(config, seed_destination=False)
+
+    graph, _, _ = handler.get_dependency_graph()
+
+    assert ("case_management_types", "type-src-0000") in graph[("case_management_attributes", "attr-src-0000")]
+
+
+def test_case_management_cleanup_graph_deletes_attributes_before_types(graph_test):
+    """The REVERSE cleanup graph must record that the parent case type can
+    only be deleted after the attribute that references it.
+
+    Identity domains are realistic: destination state is keyed by source ids
+    while the stored attribute body references the DESTINATION type id, so
+    the reverse edge only appears when get_cleanup_dependency_graph
+    translates the payload id back to the source-state key.
+    """
+    handler, config = graph_test
+
+    _seed_case_management_state(config)
+
+    cleanup_resources = {
+        ("case_management_types", "type-src-0000"): None,
+        ("case_management_attributes", "attr-src-0000"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    assert reverse_graph[("case_management_types", "type-src-0000")] == {
+        ("case_management_attributes", "attr-src-0000")
+    }
+    assert reverse_graph[("case_management_attributes", "attr-src-0000")] == set()
+
+
+def test_cleanup_sorter_execution_orders_deletions(graph_test):
+    """Execution-level proof: drive a real TopologicalSorter over the cleanup
+    graph (the same graph run_cleanup_sorter consumes) and assert the
+    attribute's delete is dispatched before the type's."""
+    from graphlib import TopologicalSorter
+
+    handler, config = graph_test
+
+    _seed_case_management_state(config)
+
+    cleanup_resources = {
+        ("case_management_types", "type-src-0000"): None,
+        ("case_management_attributes", "attr-src-0000"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    sorter = TopologicalSorter(reverse_graph)
+    sorter.prepare()
+    deletion_order = []
+    while sorter.is_active():
+        for node in sorter.get_ready():
+            deletion_order.append(node)
+            sorter.done(node)
+
+    assert deletion_order == [
+        ("case_management_attributes", "attr-src-0000"),
+        ("case_management_types", "type-src-0000"),
+    ]
+
+
+# ---------------------------------------------------------------------------
 
 
 def test_filter_excludes_resources_from_graph(graph_test):
