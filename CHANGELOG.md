@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.0.1 / 2026-10-20
+
+### Changed
+* Lower logs retention override minimum to 7 days by @michael-richey in https://github.com/DataDog/datadog-sync-cli/pull/739
+
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/7.0.0...7.0.1
+
 ## 7.0.0 / 2026-09-28
 
 ### Fixed
