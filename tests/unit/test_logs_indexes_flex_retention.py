@@ -22,29 +22,41 @@ from datadog_sync.model.logs_indexes import LogsIndexes
         ("migrate", "datadog_sync.commands.migrate", Command.MIGRATE),
     ],
 )
-def test_cli_accepts_alter_flex_logs_retention_days(command, module_name, expected_command):
+@pytest.mark.parametrize("retention_days", [7, 29, 30])
+def test_cli_accepts_alter_flex_logs_retention_days(command, module_name, expected_command, retention_days):
+    # 7 is the minimum retention tier accepted by the Logs Indexes API for
+    # flex logs; external orchestrator wrappers that drive this CLI clamp
+    # injected values to this floor and must ship a compatible CLI release
+    # before lowering their own clamp.
     runner = CliRunner(mix_stderr=False)
     command_module = importlib.import_module(module_name)
 
     with patch.object(command_module, "run_cmd") as mock_run_cmd:
-        result = runner.invoke(cli, [command, "--alter-flex-logs-retention-days=30"])
+        result = runner.invoke(cli, [command, f"--alter-flex-logs-retention-days={retention_days}"])
 
     assert result.exit_code == 0, result.output
     mock_run_cmd.assert_called_once()
     called_command, kwargs = mock_run_cmd.call_args.args[0], mock_run_cmd.call_args.kwargs
     assert called_command == expected_command
-    assert kwargs["alter_flex_logs_retention_days"] == 30
+    assert kwargs["alter_flex_logs_retention_days"] == retention_days
 
 
-@pytest.mark.parametrize("value", ["invalid", "-1", "0", "29"])
-def test_cli_rejects_invalid_flex_logs_retention_days(value):
+@pytest.mark.parametrize(
+    "command,module_name",
+    [
+        ("sync", "datadog_sync.commands.sync"),
+        ("migrate", "datadog_sync.commands.migrate"),
+    ],
+)
+@pytest.mark.parametrize("value", ["invalid", "-1", "0", "6"])
+def test_cli_rejects_invalid_flex_logs_retention_days(command, module_name, value):
     runner = CliRunner(mix_stderr=False)
-    sync_module = importlib.import_module("datadog_sync.commands.sync")
+    command_module = importlib.import_module(module_name)
 
-    with patch.object(sync_module, "run_cmd") as mock_run_cmd:
+    with patch.object(command_module, "run_cmd") as mock_run_cmd:
         result = runner.invoke(
             cli,
-            ["sync", f"--alter-flex-logs-retention-days={value}"],
+            [command, f"--alter-flex-logs-retention-days={value}"],
         )
 
     assert result.exit_code != 0

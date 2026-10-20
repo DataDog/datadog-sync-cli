@@ -22,18 +22,23 @@ from datadog_sync.model.logs_indexes import LogsIndexes
         ("migrate", "datadog_sync.commands.migrate", Command.MIGRATE),
     ],
 )
-def test_cli_accepts_alter_logs_indexes_retention_days(command, module_name, expected_command):
+@pytest.mark.parametrize("retention_days", [7, 29, 30])
+def test_cli_accepts_alter_logs_indexes_retention_days(command, module_name, expected_command, retention_days):
+    # 7 is the minimum retention tier accepted by the Logs Indexes API;
+    # external orchestrator wrappers that drive this CLI clamp injected
+    # values to this floor and must ship a compatible CLI release before
+    # lowering their own clamp.
     runner = CliRunner(mix_stderr=False)
     command_module = importlib.import_module(module_name)
 
     with patch.object(command_module, "run_cmd") as mock_run_cmd:
-        result = runner.invoke(cli, [command, "--alter-logs-indexes-retention-days=30"])
+        result = runner.invoke(cli, [command, f"--alter-logs-indexes-retention-days={retention_days}"])
 
     assert result.exit_code == 0, result.output
     mock_run_cmd.assert_called_once()
     called_command, kwargs = mock_run_cmd.call_args.args[0], mock_run_cmd.call_args.kwargs
     assert called_command == expected_command
-    assert kwargs["alter_logs_indexes_retention_days"] == 30
+    assert kwargs["alter_logs_indexes_retention_days"] == retention_days
 
 
 @pytest.mark.parametrize(
@@ -43,7 +48,7 @@ def test_cli_accepts_alter_logs_indexes_retention_days(command, module_name, exp
         ("migrate", "datadog_sync.commands.migrate"),
     ],
 )
-@pytest.mark.parametrize("value", ["invalid", "-1", "0", "29"])
+@pytest.mark.parametrize("value", ["invalid", "-1", "0", "6"])
 def test_cli_rejects_invalid_logs_indexes_retention_days(command, module_name, value):
     runner = CliRunner(mix_stderr=False)
     command_module = importlib.import_module(module_name)

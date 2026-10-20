@@ -554,16 +554,16 @@ _sync_options = [
     option(
         "--alter-flex-logs-retention-days",
         required=False,
-        type=IntRange(min=30),
+        type=IntRange(min=7),
         default=None,
-        help="Override num_flex_logs_retention_days on logs indexes where the field is present.",
+        help="Override num_flex_logs_retention_days on logs indexes where the field is present (minimum 7 days).",
     ),
     option(
         "--alter-logs-indexes-retention-days",
         required=False,
-        type=IntRange(min=30),
+        type=IntRange(min=7),
         default=None,
-        help="Override num_retention_days on logs indexes where the field is present.",
+        help="Override num_retention_days on logs indexes where the field is present (minimum 7 days).",
     ),
     option(
         "--skip-monitors-with-restricted-roles",
