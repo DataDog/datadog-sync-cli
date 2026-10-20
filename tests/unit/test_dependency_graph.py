@@ -406,3 +406,106 @@ def test_missing_deps_only_from_filtered_resources(graph_test):
 
     assert ("monitors", "mon-99") in missing
     assert ("monitors", "mon-88") not in missing
+
+
+def _seed_dashboard_monitor_state(config, dashboard_body, monitor_entries):
+    setup_state(
+        config,
+        {
+            "dashboards": {"dash-src": dashboard_body},
+            "monitors": {"mon-src": {"id": "mon-src", "name": "m"}},
+        },
+        resources_arg=["dashboards", "monitors"],
+    )
+    config.state.destination["dashboards"]["dash-src"] = dashboard_body
+    for key, entry in monitor_entries.items():
+        if entry is None:
+            config.state.destination["monitors"].pop(key, None)
+        else:
+            config.state.destination["monitors"][key] = entry
+
+
+def test_cleanup_graph_preserves_direct_source_key_references(graph_test):
+    """Pre-fix behavior preserved: a body referencing the dependency by the
+    SAME id as the cleanup key (source-key style) keeps its edge without any
+    translation."""
+    handler, config = graph_test
+
+    # Dashboard body references monitor id "mon-src" directly.
+    dashboard = {"id": "dash-src", "widgets": [{"definition": {"alert_id": "mon-src"}}]}
+    _seed_dashboard_monitor_state(
+        config,
+        dashboard,
+        {"mon-src": {"id": "mon-src", "name": "m"}},
+    )
+
+    cleanup_resources = {
+        ("dashboards", "dash-src"): None,
+        ("monitors", "mon-src"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    assert reverse_graph[("monitors", "mon-src")] == {("dashboards", "dash-src")}
+
+
+def test_cleanup_graph_translates_remapped_destination_ids_generic_pair(graph_test):
+    """Genericity proof on an established connected pair (dashboards ->
+    monitors): the dashboard body references the monitor by its DESTINATION
+    id while the monitor's cleanup key is its source id; the translation
+    index must bridge the domains."""
+    handler, config = graph_test
+
+    # Dashboard body references the monitor's DESTINATION id.
+    dashboard = {"id": "dash-src", "widgets": [{"definition": {"alert_id": "mon-dst"}}]}
+    # Monitor destination state: keyed by source id, body holds destination id.
+    _seed_dashboard_monitor_state(
+        config,
+        dashboard,
+        {"mon-src": {"id": "mon-dst", "name": "m"}},
+    )
+
+    cleanup_resources = {
+        ("dashboards", "dash-src"): None,
+        ("monitors", "mon-src"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    assert reverse_graph[("monitors", "mon-src")] == {("dashboards", "dash-src")}
+
+
+def test_cleanup_graph_missing_and_duplicate_payload_ids_no_crash(graph_test, caplog):
+    """Destination entries with a missing id are skipped; duplicate payload
+    ids are excluded from the index with a warning — never a crash, never an
+    arbitrary pick. The dependent's edge is omitted when translation is
+    ambiguous or impossible."""
+    handler, config = graph_test
+
+    dashboard = {"id": "dash-src", "widgets": [{"definition": {"alert_id": "mon-dst"}}]}
+    _seed_dashboard_monitor_state(
+        config,
+        dashboard,
+        {
+            "mon-src": {"id": "mon-dst", "name": "m"},  # same payload id ...
+            "mon-other": {"id": "mon-dst", "name": "m2"},  # ... claimed twice
+            "mon-noid": {"name": "no id"},  # missing id: skipped
+        },
+    )
+
+    cleanup_resources = {
+        ("dashboards", "dash-src"): None,
+        ("monitors", "mon-src"): None,
+        ("monitors", "mon-other"): None,
+        ("monitors", "mon-noid"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    # Ambiguous payload id: no edge, no crash.
+    assert reverse_graph.get(("monitors", "mon-src"), set()) == set()
+    assert reverse_graph.get(("monitors", "mon-other"), set()) == set()
+    # The duplicate payload id produced a warning.
+    import logging as _logging
+
+    duplicate_warnings = [
+        r for r in caplog.records if r.levelno == _logging.WARNING and "duplicate destination id" in r.message
+    ]
+    assert duplicate_warnings, "duplicate payload ids must be warned, not silently resolved"
