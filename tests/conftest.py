@@ -89,6 +89,9 @@ def _cm_tokenize_case_management_request_uri(uri):
       /api/v2/cases/types/{type_id}                          -> case-type token
       /api/v2/cases/types/{type_id}/custom_attributes       -> case-type token
       /api/v2/cases/types/{type_id}/custom_attributes/{attr_id} -> both
+    Any additional trailing path segments (future sub-endpoints) are
+    preserved with their UUIDs tokenized defensively, so no path component
+    is ever silently dropped from the recorded request.
     """
     from urllib.parse import urlsplit, urlunsplit
 
@@ -108,6 +111,14 @@ def _cm_tokenize_case_management_request_uri(uri):
     if len(segments) > 2 and segments[1] == "custom_attributes":
         new_segments.append("custom_attributes")
         new_segments.append(_CM_UUID_RE.sub(lambda m: _cm_synthetic_token("attr", m.group(0)), segments[2]))
+        # Preserve any additional trailing path segments (future case
+        # management sub-endpoints under .../custom_attributes/...), with
+        # their UUIDs tokenized defensively, so no path component is ever
+        # silently dropped from the recorded request.
+        for seg in segments[3:]:
+            new_segments.append(
+                _CM_UUID_RE.sub(lambda m: _cm_synthetic_token("case-type", m.group(0)), seg)
+            )
     elif len(segments) > 1:
         # Unknown extra segments: tokenize any UUIDs defensively.
         for seg in segments[1:]:

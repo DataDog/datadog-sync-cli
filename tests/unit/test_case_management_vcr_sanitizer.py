@@ -181,6 +181,26 @@ class TestTokenRewrite:
         assert parsed["data"]["attributes"]["case_type_id"] == _cm_synthetic_token("case-type", TYPE_UUID)
         assert parsed["data"]["id"] == _cm_synthetic_token("attr", ATTR_UUID)
 
+    def test_request_uri_preserves_trailing_segments(self):
+        """Sub-endpoints that may later appear under
+        .../custom_attributes/{attr_id}/ keep their trailing path segments;
+        only the UUIDs are tokenized — the segment count never shrinks.
+        """
+        request = _make_request(
+            f"https://api.us5.datadoghq.com/api/v2/cases/types/{TYPE_UUID}"
+            f"/custom_attributes/{ATTR_UUID}/subresource/{OTHER_TYPE_UUID}"
+        )
+        sanitized = filter_request_data()(request)
+        expected = (
+            f"/api/v2/cases/types/{_cm_synthetic_token('case-type', TYPE_UUID)}"
+            f"/custom_attributes/{_cm_synthetic_token('attr', ATTR_UUID)}"
+            f"/subresource/{_cm_synthetic_token('case-type', OTHER_TYPE_UUID)}"
+        )
+        assert sanitized.uri.endswith(expected)
+        assert TYPE_UUID not in sanitized.uri
+        assert ATTR_UUID not in sanitized.uri
+        assert OTHER_TYPE_UUID not in sanitized.uri
+
     def test_non_case_management_request_unchanged(self):
         uri = f"https://api.datadoghq.eu/api/v2/team/{TYPE_UUID}"
         request = _make_request(uri)
