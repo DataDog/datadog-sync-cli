@@ -1604,6 +1604,11 @@ class ResourcesHandler:
         """
         reverse_graph = defaultdict(set)
 
+        # Payload-id translation indexes for this call, built lazily ONCE per
+        # dep_type: the index depends only on dep_type (a full scan of
+        # state.destination[dep_type]), never on the resource being scanned.
+        payload_id_indexes: Dict[str, Dict[str, str]] = {}
+
         # Initialize all cleanup resources with empty dependencies
         for resource_key in cleanup_resources.keys():
             reverse_graph[resource_key] = set()
@@ -1647,7 +1652,9 @@ class ResourcesHandler:
                     # Entries with a missing/None id are skipped; duplicate
                     # payload ids are excluded from the index with a warning
                     # (ambiguous — never pick one silently).
-                    payload_id_index = self._build_cleanup_payload_id_index(dep_type)
+                    if dep_type not in payload_id_indexes:
+                        payload_id_indexes[dep_type] = self._build_cleanup_payload_id_index(dep_type)
+                    payload_id_index = payload_id_indexes[dep_type]
 
                     # For each dependency, add THIS resource as a dependent
                     for dep_id in dep_ids:

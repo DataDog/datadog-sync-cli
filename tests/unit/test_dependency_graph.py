@@ -314,6 +314,67 @@ def test_case_management_cleanup_graph_deletes_attributes_before_types(graph_tes
     assert reverse_graph[("case_management_attributes", "attr-src-0000")] == set()
 
 
+def test_cleanup_payload_id_index_built_once_per_dep_type(graph_test, monkeypatch):
+    """The payload-id translation index is a full scan of
+    state.destination[dep_type]; it must be built once per dep_type per
+    get_cleanup_dependency_graph call — not once per (resource, connection,
+    attr_path) triple. Pinned by counting builds across two dependent
+    resources that share the same dep type in one cleanup pass.
+    """
+    handler, config = graph_test
+
+    _seed_case_management_state(config)
+    # A second attribute under the same case type: two dependents referencing
+    # the same dep type in one cleanup pass.
+    config.state.source["case_management_attributes"]["attr-src-0001"] = {
+        "id": "attr-src-0001",
+        "type": "custom_attribute",
+        "attributes": {
+            "case_type_id": "type-src-0000",
+            "key": "attr_key_test_alt",
+            "display_name": "Test Attribute Two",
+            "is_multi": False,
+            "type": "TEXT",
+        },
+    }
+    config.state.destination["case_management_attributes"]["attr-src-0001"] = {
+        "id": "attr-dst-0001",
+        "type": "custom_attribute",
+        "attributes": {
+            "case_type_id": "type-dst-0000",
+            "key": "attr_key_test_alt",
+            "display_name": "Test Attribute Two",
+            "is_multi": False,
+            "type": "TEXT",
+        },
+    }
+
+    calls = {"n": 0}
+    original_build = ResourcesHandler._build_cleanup_payload_id_index
+
+    def counting_build(handler_self, dep_type):
+        calls["n"] += 1
+        return original_build(handler_self, dep_type)
+
+    monkeypatch.setattr(ResourcesHandler, "_build_cleanup_payload_id_index", counting_build)
+
+    cleanup_resources = {
+        ("case_management_types", "type-src-0000"): None,
+        ("case_management_attributes", "attr-src-0000"): None,
+        ("case_management_attributes", "attr-src-0001"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    # One distinct dep type scanned (case_management_types) -> ONE index build.
+    assert calls["n"] == 1, "payload-id index must be built once per dep type, not per dependent resource"
+    # Caching must not change the translated edges: both attributes still
+    # depend on the parent case type.
+    assert reverse_graph[("case_management_types", "type-src-0000")] == {
+        ("case_management_attributes", "attr-src-0000"),
+        ("case_management_attributes", "attr-src-0001"),
+    }
+
+
 def test_cleanup_sorter_execution_orders_deletions(graph_test):
     """Execution-level proof: drive a real TopologicalSorter over the cleanup
     graph (the same graph run_cleanup_sorter consumes) and assert the
