@@ -212,6 +212,200 @@ def test_cross_type_phantom_deps_preserved(graph_test):
 # ---------------------------------------------------------------------------
 # RED tests — fail before the change, pass after
 # ---------------------------------------------------------------------------
+# case_management_attributes <-> case_management_types ordering
+# (added with the case_management_attributes resource)
+# ---------------------------------------------------------------------------
+
+
+def _seed_case_management_state(config, seed_destination=True):
+    """Seed source + destination state with realistic identity domains.
+
+    Source state is keyed by source ids; destination state is keyed by SOURCE
+    ids too (state files are source-ID-keyed) but the stored bodies hold
+    DESTINATION API ids — the exact shape production state has after a sync.
+
+    seed_destination=False models a FIRST sync (parent type not yet synced),
+    which is the state where the creation graph must carry the dependency
+    edge (edges are failed connections — deps not yet in destination state).
+    """
+    src_type = {
+        "id": "type-src-0000",
+        "type": "case_type",
+        "attributes": {"name": "case_type_test_src"},
+    }
+    src_attr = {
+        "id": "attr-src-0000",
+        "type": "custom_attribute",
+        "attributes": {
+            "case_type_id": "type-src-0000",
+            "key": "attr_key_test_src",
+            "display_name": "Test Attribute",
+            "is_multi": False,
+            "type": "TEXT",
+        },
+    }
+    # Destination bodies: destination API ids under source-keyed state entries.
+    dst_type_entry = {
+        "id": "type-dst-0000",
+        "type": "case_type",
+        "attributes": {"name": "case_type_test_src"},
+    }
+    dst_attr_entry = {
+        "id": "attr-dst-0000",
+        "type": "custom_attribute",
+        "attributes": {
+            "case_type_id": "type-dst-0000",
+            "key": "attr_key_test_src",
+            "display_name": "Test Attribute",
+            "is_multi": False,
+            "type": "TEXT",
+        },
+    }
+
+    setup_state(
+        config,
+        {
+            "case_management_types": {"type-src-0000": src_type},
+            "case_management_attributes": {"attr-src-0000": src_attr},
+        },
+        resources_arg=["case_management_attributes", "case_management_types"],
+    )
+    if seed_destination:
+        config.state.destination["case_management_types"]["type-src-0000"] = dst_type_entry
+        config.state.destination["case_management_attributes"]["attr-src-0000"] = dst_attr_entry
+
+
+def test_case_management_attributes_depend_on_types_in_creation_graph(graph_test):
+    """The creation graph must yield the parent case type before the
+    attribute that references it (drives run_sorter tiering). Seeds a FIRST
+    sync (parent not yet in destination) — creation edges are failed
+    connections, i.e. dependencies not yet synced."""
+    handler, config = graph_test
+
+    _seed_case_management_state(config, seed_destination=False)
+
+    graph, _, _ = handler.get_dependency_graph()
+
+    assert ("case_management_types", "type-src-0000") in graph[("case_management_attributes", "attr-src-0000")]
+
+
+def test_case_management_cleanup_graph_deletes_attributes_before_types(graph_test):
+    """The REVERSE cleanup graph must record that the parent case type can
+    only be deleted after the attribute that references it.
+
+    Identity domains are realistic: destination state is keyed by source ids
+    while the stored attribute body references the DESTINATION type id, so
+    the reverse edge only appears when get_cleanup_dependency_graph
+    translates the payload id back to the source-state key.
+    """
+    handler, config = graph_test
+
+    _seed_case_management_state(config)
+
+    cleanup_resources = {
+        ("case_management_types", "type-src-0000"): None,
+        ("case_management_attributes", "attr-src-0000"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    assert reverse_graph[("case_management_types", "type-src-0000")] == {
+        ("case_management_attributes", "attr-src-0000")
+    }
+    assert reverse_graph[("case_management_attributes", "attr-src-0000")] == set()
+
+
+def test_cleanup_payload_id_index_built_once_per_dep_type(graph_test, monkeypatch):
+    """The payload-id translation index is a full scan of
+    state.destination[dep_type]; it must be built once per dep_type per
+    get_cleanup_dependency_graph call — not once per (resource, connection,
+    attr_path) triple. Pinned by counting builds across two dependent
+    resources that share the same dep type in one cleanup pass.
+    """
+    handler, config = graph_test
+
+    _seed_case_management_state(config)
+    # A second attribute under the same case type: two dependents referencing
+    # the same dep type in one cleanup pass.
+    config.state.source["case_management_attributes"]["attr-src-0001"] = {
+        "id": "attr-src-0001",
+        "type": "custom_attribute",
+        "attributes": {
+            "case_type_id": "type-src-0000",
+            "key": "attr_key_test_alt",
+            "display_name": "Test Attribute Two",
+            "is_multi": False,
+            "type": "TEXT",
+        },
+    }
+    config.state.destination["case_management_attributes"]["attr-src-0001"] = {
+        "id": "attr-dst-0001",
+        "type": "custom_attribute",
+        "attributes": {
+            "case_type_id": "type-dst-0000",
+            "key": "attr_key_test_alt",
+            "display_name": "Test Attribute Two",
+            "is_multi": False,
+            "type": "TEXT",
+        },
+    }
+
+    calls = {"n": 0}
+    original_build = ResourcesHandler._build_cleanup_payload_id_index
+
+    def counting_build(handler_self, dep_type):
+        calls["n"] += 1
+        return original_build(handler_self, dep_type)
+
+    monkeypatch.setattr(ResourcesHandler, "_build_cleanup_payload_id_index", counting_build)
+
+    cleanup_resources = {
+        ("case_management_types", "type-src-0000"): None,
+        ("case_management_attributes", "attr-src-0000"): None,
+        ("case_management_attributes", "attr-src-0001"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    # One distinct dep type scanned (case_management_types) -> ONE index build.
+    assert calls["n"] == 1, "payload-id index must be built once per dep type, not per dependent resource"
+    # Caching must not change the translated edges: both attributes still
+    # depend on the parent case type.
+    assert reverse_graph[("case_management_types", "type-src-0000")] == {
+        ("case_management_attributes", "attr-src-0000"),
+        ("case_management_attributes", "attr-src-0001"),
+    }
+
+
+def test_cleanup_sorter_execution_orders_deletions(graph_test):
+    """Execution-level proof: drive a real TopologicalSorter over the cleanup
+    graph (the same graph run_cleanup_sorter consumes) and assert the
+    attribute's delete is dispatched before the type's."""
+    from graphlib import TopologicalSorter
+
+    handler, config = graph_test
+
+    _seed_case_management_state(config)
+
+    cleanup_resources = {
+        ("case_management_types", "type-src-0000"): None,
+        ("case_management_attributes", "attr-src-0000"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    sorter = TopologicalSorter(reverse_graph)
+    sorter.prepare()
+    deletion_order = []
+    while sorter.is_active():
+        for node in sorter.get_ready():
+            deletion_order.append(node)
+            sorter.done(node)
+
+    assert deletion_order == [
+        ("case_management_attributes", "attr-src-0000"),
+        ("case_management_types", "type-src-0000"),
+    ]
+
+
+# ---------------------------------------------------------------------------
 
 
 def test_filter_excludes_resources_from_graph(graph_test):
@@ -406,3 +600,106 @@ def test_missing_deps_only_from_filtered_resources(graph_test):
 
     assert ("monitors", "mon-99") in missing
     assert ("monitors", "mon-88") not in missing
+
+
+def _seed_dashboard_monitor_state(config, dashboard_body, monitor_entries):
+    setup_state(
+        config,
+        {
+            "dashboards": {"dash-src": dashboard_body},
+            "monitors": {"mon-src": {"id": "mon-src", "name": "m"}},
+        },
+        resources_arg=["dashboards", "monitors"],
+    )
+    config.state.destination["dashboards"]["dash-src"] = dashboard_body
+    for key, entry in monitor_entries.items():
+        if entry is None:
+            config.state.destination["monitors"].pop(key, None)
+        else:
+            config.state.destination["monitors"][key] = entry
+
+
+def test_cleanup_graph_preserves_direct_source_key_references(graph_test):
+    """Pre-fix behavior preserved: a body referencing the dependency by the
+    SAME id as the cleanup key (source-key style) keeps its edge without any
+    translation."""
+    handler, config = graph_test
+
+    # Dashboard body references monitor id "mon-src" directly.
+    dashboard = {"id": "dash-src", "widgets": [{"definition": {"alert_id": "mon-src"}}]}
+    _seed_dashboard_monitor_state(
+        config,
+        dashboard,
+        {"mon-src": {"id": "mon-src", "name": "m"}},
+    )
+
+    cleanup_resources = {
+        ("dashboards", "dash-src"): None,
+        ("monitors", "mon-src"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    assert reverse_graph[("monitors", "mon-src")] == {("dashboards", "dash-src")}
+
+
+def test_cleanup_graph_translates_remapped_destination_ids_generic_pair(graph_test):
+    """Genericity proof on an established connected pair (dashboards ->
+    monitors): the dashboard body references the monitor by its DESTINATION
+    id while the monitor's cleanup key is its source id; the translation
+    index must bridge the domains."""
+    handler, config = graph_test
+
+    # Dashboard body references the monitor's DESTINATION id.
+    dashboard = {"id": "dash-src", "widgets": [{"definition": {"alert_id": "mon-dst"}}]}
+    # Monitor destination state: keyed by source id, body holds destination id.
+    _seed_dashboard_monitor_state(
+        config,
+        dashboard,
+        {"mon-src": {"id": "mon-dst", "name": "m"}},
+    )
+
+    cleanup_resources = {
+        ("dashboards", "dash-src"): None,
+        ("monitors", "mon-src"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    assert reverse_graph[("monitors", "mon-src")] == {("dashboards", "dash-src")}
+
+
+def test_cleanup_graph_missing_and_duplicate_payload_ids_no_crash(graph_test, caplog):
+    """Destination entries with a missing id are skipped; duplicate payload
+    ids are excluded from the index with a warning — never a crash, never an
+    arbitrary pick. The dependent's edge is omitted when translation is
+    ambiguous or impossible."""
+    handler, config = graph_test
+
+    dashboard = {"id": "dash-src", "widgets": [{"definition": {"alert_id": "mon-dst"}}]}
+    _seed_dashboard_monitor_state(
+        config,
+        dashboard,
+        {
+            "mon-src": {"id": "mon-dst", "name": "m"},  # same payload id ...
+            "mon-other": {"id": "mon-dst", "name": "m2"},  # ... claimed twice
+            "mon-noid": {"name": "no id"},  # missing id: skipped
+        },
+    )
+
+    cleanup_resources = {
+        ("dashboards", "dash-src"): None,
+        ("monitors", "mon-src"): None,
+        ("monitors", "mon-other"): None,
+        ("monitors", "mon-noid"): None,
+    }
+    reverse_graph = handler.get_cleanup_dependency_graph(cleanup_resources)
+
+    # Ambiguous payload id: no edge, no crash.
+    assert reverse_graph.get(("monitors", "mon-src"), set()) == set()
+    assert reverse_graph.get(("monitors", "mon-other"), set()) == set()
+    # The duplicate payload id produced a warning.
+    import logging as _logging
+
+    duplicate_warnings = [
+        r for r in caplog.records if r.levelno == _logging.WARNING and "duplicate destination id" in r.message
+    ]
+    assert duplicate_warnings, "duplicate payload ids must be warned, not silently resolved"

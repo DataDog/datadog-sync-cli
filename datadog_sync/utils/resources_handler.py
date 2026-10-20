@@ -1604,6 +1604,11 @@ class ResourcesHandler:
         """
         reverse_graph = defaultdict(set)
 
+        # Payload-id translation indexes for this call, built lazily ONCE per
+        # dep_type: the index depends only on dep_type (a full scan of
+        # state.destination[dep_type]), never on the resource being scanned.
+        payload_id_indexes: Dict[str, Dict[str, str]] = {}
+
         # Initialize all cleanup resources with empty dependencies
         for resource_key in cleanup_resources.keys():
             reverse_graph[resource_key] = set()
@@ -1632,6 +1637,25 @@ class ResourcesHandler:
                     # Find dependency IDs in the resource
                     dep_ids = self._extract_dependency_ids(resource, attr_path, dep_type)
 
+                    # Identity-domain translation index for this dep type.
+                    # Destination state is keyed by SOURCE ids while the stored
+                    # bodies hold DESTINATION API ids (written by
+                    # BaseResource._create_resource from the destination API
+                    # response). A dependency id extracted from a body is
+                    # therefore a destination payload id, which will not match
+                    # the source-keyed cleanup_resources keys without this
+                    # translation. Resolution order per extracted id:
+                    #   (a) an exact (dep_type, id) cleanup-key match is kept
+                    #       as-is (existing source-key references preserved);
+                    #   (b) otherwise translate through the payload-id index;
+                    #   (c) neither resolves -> omit the edge (debug log).
+                    # Entries with a missing/None id are skipped; duplicate
+                    # payload ids are excluded from the index with a warning
+                    # (ambiguous — never pick one silently).
+                    if dep_type not in payload_id_indexes:
+                        payload_id_indexes[dep_type] = self._build_cleanup_payload_id_index(dep_type)
+                    payload_id_index = payload_id_indexes[dep_type]
+
                     # For each dependency, add THIS resource as a dependent
                     for dep_id in dep_ids:
                         dep_key = (dep_type, dep_id)
@@ -1640,8 +1664,53 @@ class ResourcesHandler:
                             # This says: "dep_key must be deleted AFTER (resource_type, _id)"
                             reverse_graph[dep_key].add((resource_type, _id))
                             self.config.logger.debug(f"Dependency edge: {dep_type}:{dep_id} <- {resource_type}:{_id}")
+                            continue
+
+                        source_key = payload_id_index.get(dep_id)
+                        if source_key is not None:
+                            translated_key = (dep_type, source_key)
+                            if translated_key in cleanup_resources:
+                                reverse_graph[translated_key].add((resource_type, _id))
+                                self.config.logger.debug(
+                                    f"Dependency edge (payload-id translated): "
+                                    f"{dep_type}:{source_key} <- {resource_type}:{_id}"
+                                )
+                            continue
+
+                        self.config.logger.debug(
+                            f"Cleanup dependency {dep_type}:{dep_id} of {resource_type}:{_id} "
+                            f"is not being cleaned up (no direct or translated cleanup key)"
+                        )
 
         return dict(reverse_graph)
+
+    def _build_cleanup_payload_id_index(self, dep_type: str) -> Dict[str, str]:
+        """Index destination payload ids -> source-state keys for a dep type.
+
+        Used by get_cleanup_dependency_graph to translate destination API ids
+        found in stored bodies back to the source-state keys that
+        cleanup_resources uses. Entries whose body lacks a usable id are
+        skipped; duplicate payload ids (two source keys claiming the same
+        destination id) are excluded with a warning rather than resolved
+        arbitrarily.
+        """
+        index: Dict[str, str] = {}
+        duplicates: Dict[str, int] = {}
+        for source_key, entry in self.config.state.destination[dep_type].items():
+            payload_id = entry.get("id") if isinstance(entry, dict) else None
+            if not payload_id:
+                continue
+            if payload_id in index and index[payload_id] != source_key:
+                duplicates[payload_id] = duplicates.get(payload_id, 1) + 1
+                continue
+            index[payload_id] = source_key
+        for payload_id in duplicates:
+            self.config.logger.warning(
+                f"cleanup dependency translation: duplicate destination id {payload_id} "
+                f"under multiple {dep_type} state keys; excluding it from translation"
+            )
+            index.pop(payload_id, None)
+        return index
 
     def _extract_dependency_ids(self, resource: Dict, attr_path: str, dep_type: str) -> Set[str]:
         """Extract dependency IDs from a resource at the given attribute path.
