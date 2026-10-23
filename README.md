@@ -253,6 +253,7 @@ When running againts multiple destination organizations, a seperate working dire
 | metrics_metadata                       | Sync Datadog metric metadata.                                        |
 | monitors                               | Sync Datadog monitors.                                               |
 | notebooks                              | Sync Datadog notebooks.                                              |
+| observability_pipelines                | Sync Datadog Observability Pipelines.                                |
 | powerpacks                             | Sync Datadog powerpacks.                                             |
 | restriction_policies                   | Sync Datadog restriction policies.                                   |
 | roles                                  | Sync Datadog roles.                                                  |
