@@ -203,7 +203,10 @@ class LocalFile(BaseStorage):
             try:
                 with open(src_path, "r", encoding="utf-8") as f:
                     content = json.load(f)
-                    src_data = content.get(resource_id)
+                    if isinstance(content, dict):
+                        src_data = content.get(resource_id)
+                    else:
+                        log.warning(f"non-object json in source file: {src_path}")
             except (json.decoder.JSONDecodeError, FileNotFoundError):
                 log.warning(f"invalid json or missing source file: {src_path}")
 
@@ -213,7 +216,10 @@ class LocalFile(BaseStorage):
             try:
                 with open(dst_path, "r", encoding="utf-8") as f:
                     content = json.load(f)
-                    dst_data = content.get(resource_id)
+                    if isinstance(content, dict):
+                        dst_data = content.get(resource_id)
+                    else:
+                        log.warning(f"non-object json in destination file: {dst_path}")
             except (json.decoder.JSONDecodeError, FileNotFoundError):
                 log.warning(f"invalid json or missing destination file: {dst_path}")
 
