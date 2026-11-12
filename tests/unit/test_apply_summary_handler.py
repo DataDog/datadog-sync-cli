@@ -149,6 +149,19 @@ def test_summary_emits_stale_principals_dropped_at_warning():
     assert "dropped" in joined and "stale principal" in joined
 
 
+def test_summary_emits_missing_dependencies_kept_at_warning():
+    counter = Counter()
+    counter.record_missing_dependency_kept(resource_type="dashboards", _id="abc-def-ghi")
+
+    logger = _make_logger()
+    _emit_apply_summary(logger, counter)
+
+    joined = "\n".join(_rendered_warnings(logger))
+    assert "dashboards" in joined
+    assert "abc-def-ghi" in joined
+    assert "synced with missing dependencies" in joined
+
+
 def test_summary_emits_empty_binding_risk_at_error():
     counter = Counter()
     counter.record_empty_binding_risk(resource_type="restriction_policies", _id="dashboard:dash-1")

@@ -175,6 +175,19 @@ class TestSLOConnectResources:
         assert exc_info.value.outcome_details == {"monitors": "123"}
         slos.config.state.ensure_resource_loaded.assert_any_call("monitors", "123")
 
+    def test_sync_dashboards_with_missing_dependencies_does_not_affect_slos(self):
+        # The flag is dashboards-only: an SLO with a stale monitor still skips.
+        slos = self._make_slos()
+        slos.config.sync_dashboards_with_missing_dependencies = True
+        resource = {"id": "slo-src", "type": "monitor", "monitor_ids": [123]}
+
+        with pytest.raises(SkipResource) as exc_info:
+            slos.connect_resources("slo-src", resource)
+
+        assert exc_info.value.failure_class == "stale_dependency"
+        assert exc_info.value.outcome_details == {"monitors": "123"}
+        assert resource["monitor_ids"] == [123]
+
     def test_source_present_monitor_dependency_still_hard_fails(self):
         slos = self._make_slos()
         slos.config.state.source["monitors"]["123"] = {"id": 123}

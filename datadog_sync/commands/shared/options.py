@@ -505,6 +505,16 @@ _diffs_options = [
         "the destination resource may be unrestricted. Off by default.",
     ),
     option(
+        "--sync-dashboards-with-missing-dependencies",
+        required=False,
+        is_flag=True,
+        default=False,
+        show_default=True,
+        help="Dashboards only: sync dashboards whose monitor/SLO widget references are absent from "
+        "both source and destination state, keeping the unresolved IDs and logging a warning, "
+        "instead of skipping the dashboard. Missing powerpack references still skip the dashboard.",
+    ),
+    option(
         "--cleanup",
         default="False",
         show_default=True,

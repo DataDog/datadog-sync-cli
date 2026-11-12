@@ -70,3 +70,16 @@ def test_reset_counter_clears_new_fields():
     assert counter.stale_principals_dropped_by_type == {}
     assert counter.empty_binding_risk_by_type == {}
     assert counter.empty_binding_escalation_by_type == {}
+
+
+def test_record_missing_dependency_kept_appends_by_type_and_resets():
+    counter = Counter()
+    assert counter.missing_dependencies_kept_by_type == {}
+    counter.record_missing_dependency_kept(resource_type="dashboards", _id="abc-def-ghi")
+    counter.record_missing_dependency_kept(resource_type=None, _id="x")
+    counter.record_missing_dependency_kept(resource_type="dashboards", _id=None)
+
+    assert counter.missing_dependencies_kept_by_type == {"dashboards": ["abc-def-ghi"]}
+
+    counter.reset_counter()
+    assert counter.missing_dependencies_kept_by_type == {}

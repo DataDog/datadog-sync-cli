@@ -19,6 +19,7 @@ Datadog cli tool to sync resources across organizations.
   - [Config file](#config-file)
   - [Cleanup flag](#cleanup-flag)
   - [Verify DDR Status Flag](#verify-ddr-status-flag)
+  - [Sync dashboards with missing dependencies flag](#sync-dashboards-with-missing-dependencies-flag)
   - [State Files](#state-files)
   - [Supported resources](#supported-resources)
   - [Scripting and agent integration](#scripting-and-agent-integration)
@@ -217,6 +218,10 @@ For example, `ResourceA` and `ResourceB` are imported and synced, followed by de
 
 By default all commands check the Datadog Disaster Recovery (DDR) status of both the source and destination organizations before running. This behavior is controlled by the boolean flag `--verify-ddr-status` or the environment variable `DD_VERIFY_DDR_STATUS`. 
 
+
+#### Sync dashboards with missing dependencies flag
+
+By default, the `sync`, `diffs` and `migrate` commands skip a dashboard when one of its widgets references a monitor (`alert_id`) or SLO (`slo_id`) that is absent from both the source and destination state (for example, because it was deleted or is not part of the synced resource set). Passing `--sync-dashboards-with-missing-dependencies` syncs those dashboards instead: the unresolved monitor/SLO IDs are kept unchanged, a warning is logged per dashboard, and the affected dashboard IDs are listed in the end-of-run sync summary. Dashboards referencing a missing powerpack are still skipped, since the Datadog API rejects them. This flag only affects dashboards; it is off by default and is unrelated to `--skip-failed-resource-connections` and `--drop-unresolvable-principals`.
 
 #### Running behind an HTTP proxy
 
