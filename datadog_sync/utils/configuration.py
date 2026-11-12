@@ -88,10 +88,6 @@ class Configuration(object):
     # byte-for-byte unchanged. The shared BaseResource drop-aware helpers consume this
     # flag; model-specific connection wiring is intentionally separate.
     drop_unresolvable_principals: bool = False
-    # Opt-in (dashboards only): sync dashboards whose monitor/SLO widget references are
-    # absent from BOTH source and destination state, keeping the unresolved IDs and
-    # logging a warning, instead of skipping the dashboard. Stale powerpack references
-    # still skip the dashboard.
     sync_dashboards_with_missing_dependencies: bool = False
     # Set at runtime by Workers.__init__ so resource models (which only hold self.config)
     # can record dropped stale principals into the apply-run Counter from inside

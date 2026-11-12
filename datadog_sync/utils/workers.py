@@ -130,9 +130,6 @@ class Counter:
     stale_principals_dropped_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
     empty_binding_risk_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
     empty_binding_escalation_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
-    # Per-resource-type source IDs synced despite stale (source- and destination-absent)
-    # dependency references that were kept unresolved. Populated only when
-    # --sync-dashboards-with-missing-dependencies is set. Surfaced by _emit_apply_summary.
     missing_dependencies_kept_by_type: Dict[str, List[str]] = field(default_factory=lambda: defaultdict(list))
 
     def __str__(self):

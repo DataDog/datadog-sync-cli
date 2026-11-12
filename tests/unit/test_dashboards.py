@@ -393,9 +393,6 @@ class TestDashboardsConnectResourcesDrop:
 
 
 class TestDashboardsSyncWithMissingDependencies:
-    """--sync-dashboards-with-missing-dependencies: stale monitor/SLO widget references
-    are kept and the dashboard syncs; stale powerpack references still skip it."""
-
     def _make_dashboard(self, missing_deps=True):
         config = MagicMock()
         config.state = MagicMock()
@@ -423,7 +420,7 @@ class TestDashboardsSyncWithMissingDependencies:
         d = self._make_dashboard()
         resource = {"id": "abc-def-ghi", "widgets": [{"definition": {"slo_id": "slo-gone"}}]}
 
-        d.connect_resources("abc-def-ghi", resource)  # no raise
+        d.connect_resources("abc-def-ghi", resource)
 
         assert resource["widgets"][0]["definition"]["slo_id"] == "slo-gone"
         d.config.logger.warning.assert_called_once()
@@ -442,7 +439,7 @@ class TestDashboardsSyncWithMissingDependencies:
             ],
         }
 
-        d.connect_resources("abc-def-ghi", resource)  # no raise
+        d.connect_resources("abc-def-ghi", resource)
 
         assert resource["widgets"][0]["definition"]["alert_id"] == "222"
         assert resource["widgets"][1]["definition"]["widgets"][0]["definition"]["alert_id"] == "111"
@@ -479,7 +476,6 @@ class TestDashboardsSyncWithMissingDependencies:
         assert exc_info.value.outcome_details == {"powerpacks": "pp-gone"}
         assert "slo-gone" not in str(exc_info.value)
         assert "powerpacks=[pp-gone]" in str(exc_info.value)
-        # Dashboard is skipped, so it must not be reported as synced with missing deps.
         d.config.logger.warning.assert_not_called()
         assert d.config.counter.missing_dependencies_kept_by_type == {}
 

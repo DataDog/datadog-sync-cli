@@ -176,7 +176,6 @@ class TestSLOConnectResources:
         slos.config.state.ensure_resource_loaded.assert_any_call("monitors", "123")
 
     def test_sync_dashboards_with_missing_dependencies_does_not_affect_slos(self):
-        # The flag is dashboards-only: an SLO with a stale monitor still skips.
         slos = self._make_slos()
         slos.config.sync_dashboards_with_missing_dependencies = True
         resource = {"id": "slo-src", "type": "monitor", "monitor_ids": [123]}

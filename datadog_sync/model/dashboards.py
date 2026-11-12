@@ -29,11 +29,7 @@ _READ_ONLY_MARKERS = (
     "user does not have permission to edit",
 )
 
-# Stale (source- and destination-absent) widget dependency types that
-# --sync-dashboards-with-missing-dependencies tolerates: the dashboards API accepts
-# slo / alert_graph / alert_value widgets whose referenced SLO or monitor does not
-# exist. Powerpacks are intentionally excluded -- the API rejects dashboards that
-# reference a non-existent powerpack, so those still skip the dashboard.
+# Powerpacks are excluded: the API rejects dashboards that reference a missing powerpack.
 MISSING_DEPENDENCY_TOLERATED_TYPES = ("monitors", "service_level_objectives")
 
 
@@ -196,10 +192,6 @@ class Dashboards(BaseResource):
         `restricted_roles` list goes through the shared drop-aware filter so a
         permanently-stale role can be dropped (under --drop-unresolvable-principals)
         while an emptied list still hard-fails as an access-elevation guard.
-
-        Under --sync-dashboards-with-missing-dependencies, stale monitor/SLO widget
-        references are kept unchanged (logged and counted) instead of skipping the
-        dashboard; stale powerpack references still skip it.
         """
         if not self.resource_config.resource_connections:
             return ResourceConnectionResult()
@@ -236,23 +228,15 @@ class Dashboards(BaseResource):
         tolerated = {}
         if self.config.sync_dashboards_with_missing_dependencies:
             tolerated = self._pop_tolerated_missing_dependencies(stale_connections_dict)
-        # Remaining stale types (powerpacks) still skip the dashboard.
         self._raise_stale_dependency_skip(_id, stale_connections_dict)
         if tolerated:
-            # Warn/count only once the dashboard is known to proceed, so a dashboard
-            # still skipped for a stale powerpack isn't reported as synced.
+            # Reported only after the skip check, so a dashboard skipped for a powerpack isn't counted.
             self._report_missing_dependencies_kept(_id, tolerated)
 
         return ResourceConnectionResult(empty_binding_escalation=empty_binding_escalation)
 
     @staticmethod
     def _pop_tolerated_missing_dependencies(stale_connections_dict: Dict[str, List[str]]) -> Dict[str, str]:
-        """Pop MISSING_DEPENDENCY_TOLERATED_TYPES out of stale_connections_dict.
-
-        Returns {resource_type: "sorted,deduped,ids"} for the non-empty entries popped.
-        The unresolved IDs are left untouched in the resource (the stale classifier
-        never mutates stale values), so the dashboard syncs with dangling references.
-        """
         tolerated = {}
         for resource_type in MISSING_DEPENDENCY_TOLERATED_TYPES:
             ids = stale_connections_dict.pop(resource_type, None)

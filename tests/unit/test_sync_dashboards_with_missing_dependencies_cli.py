@@ -3,12 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 
-"""Option and Configuration wiring for --sync-dashboards-with-missing-dependencies.
-
-Parser-level checks only (inspecting click params) so nothing executes the sync
-pipeline; see test_force_missing_dependencies_cli.py for why invoke()-based
-acceptance tests are skipped. The flag lives in _diffs_options (sync, diffs, migrate).
-"""
+"""Parser-level checks only, so the sync pipeline never runs (see test_force_missing_dependencies_cli.py)."""
 
 import pytest
 from click.testing import CliRunner
