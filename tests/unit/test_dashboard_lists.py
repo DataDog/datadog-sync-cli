@@ -4,6 +4,7 @@
 # Copyright 2019 Datadog, Inc.
 
 import asyncio
+import copy
 from collections import defaultdict
 from unittest.mock import AsyncMock, MagicMock
 
@@ -137,6 +138,7 @@ def test_connect_resources_still_fails_missing_custom_dashboards():
 
 def test_update_dash_list_items_drops_integration_dashboards_from_payload():
     dashboard_lists = _make_dashboard_lists()
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
     dashboard_lists.config.destination_client.put = AsyncMock(
         return_value={"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
     )
@@ -214,3 +216,197 @@ class TestDashboardListsItemsFetchError:
         _id, resource = asyncio.run(dashboard_lists.import_resource(resource={"id": "42", "name": "my-list"}))
 
         assert resource["dashboards"] == [{"id": "dash-1", "type": "custom_timeboard"}]
+
+
+def _not_found_error(message: str) -> CustomClientHTTPError:
+    resp = MagicMock()
+    resp.status = 404
+    resp.message = "Not Found"
+    return CustomClientHTTPError(resp, message=message)
+
+
+async def _sync_once(dashboard_lists: DashboardLists, _id: str, source_resource: dict) -> None:
+    """Mirror the create-vs-update dispatch in ResourcesHandler._apply_resource_cb."""
+    resource = copy.deepcopy(source_resource)
+    dashboard_lists.connect_resources(_id, resource)
+    if _id in dashboard_lists.config.state.destination[dashboard_lists.resource_type]:
+        await dashboard_lists._update_resource(_id, resource)
+    else:
+        await dashboard_lists._create_resource(_id, resource)
+
+
+class TestDashboardListsCreateRecordsState:
+    def test_members_put_failure_keeps_list_in_state(self):
+        dashboard_lists = _make_dashboard_lists()
+        dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
+        client = dashboard_lists.config.destination_client
+        client.post = AsyncMock(return_value={"id": 900, "name": "my-list"})
+        client.put = AsyncMock(side_effect=_not_found_error("custom_timeboard dash-dst not found"))
+
+        with pytest.raises(CustomClientHTTPError):
+            asyncio.run(
+                dashboard_lists._create_resource(
+                    "42",
+                    {"name": "my-list", "dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]},
+                )
+            )
+
+        assert dashboard_lists.config.state.destination["dashboard_lists"]["42"] == {
+            "id": 900,
+            "name": "my-list",
+            "dashboards": [],
+        }
+
+    def test_second_sync_after_members_failure_updates_instead_of_creating(self):
+        dashboard_lists = _make_dashboard_lists()
+        dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
+        client = dashboard_lists.config.destination_client
+        client.post = AsyncMock(return_value={"id": 900, "name": "my-list"})
+        source = {"name": "my-list", "dashboards": [{"id": "dash-src", "type": "custom_timeboard"}]}
+        items_path = dashboard_lists.dash_list_items_path.format(900)
+
+        client.put = AsyncMock(side_effect=_http_error(500))
+        with pytest.raises(CustomClientHTTPError):
+            asyncio.run(_sync_once(dashboard_lists, "42", source))
+
+        members = {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
+
+        async def fake_put(path, body):
+            if path == items_path:
+                return members
+            return {"id": 900, "name": "my-list", "dashboards": None}
+
+        client.put = AsyncMock(side_effect=fake_put)
+        asyncio.run(_sync_once(dashboard_lists, "42", source))
+
+        client.post.assert_awaited_once()
+        client.put.assert_any_await("/api/v1/dashboard/lists/manual/900", {"name": "my-list"})
+        client.put.assert_any_await(items_path, members)
+        state = dashboard_lists.config.state.destination["dashboard_lists"]["42"]
+        assert state["id"] == 900
+        assert state["dashboards"] == members["dashboards"]
+
+    def test_create_success_returns_list_with_members(self):
+        dashboard_lists = _make_dashboard_lists()
+        dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
+        client = dashboard_lists.config.destination_client
+        client.post = AsyncMock(return_value={"id": 900, "name": "my-list"})
+        members = {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
+        client.put = AsyncMock(return_value=members)
+
+        asyncio.run(
+            dashboard_lists._create_resource(
+                "42", {"name": "my-list", "dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
+            )
+        )
+
+        assert dashboard_lists.config.state.destination["dashboard_lists"]["42"] == {
+            "id": 900,
+            "name": "my-list",
+            **members,
+        }
+
+
+class _WarningCapturingLogger(_SignatureCheckedLogger):
+    def __init__(self):
+        super().__init__()
+        self.warning_calls = []
+
+    def warning(self, msg: str, *arg, _id: str = "", resource_type: str = "") -> None:
+        self.warning_calls.append({"msg": msg, "args": arg, "_id": _id, "resource_type": resource_type})
+
+    def debug(self, msg: str, *arg, _id: str = "", resource_type: str = "") -> None:
+        pass
+
+
+def test_update_dash_list_items_drops_unresolved_dashboards_and_warns():
+    dashboard_lists = _make_dashboard_lists()
+    dashboard_lists.config.skip_failed_resource_connections = True
+    logger = _WarningCapturingLogger()
+    dashboard_lists.config.logger = logger
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
+    client = dashboard_lists.config.destination_client
+    client.put = AsyncMock(return_value={"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]})
+    resource = {
+        "dashboards": [
+            {"id": "dash-src", "type": "custom_timeboard"},
+            {"id": "unsynced-b", "type": "custom_timeboard"},
+            {"id": "unsynced-a", "type": "custom_screenboard"},
+        ]
+    }
+    # Unresolved members keep their source id after connect.
+    dashboard_lists.connect_resources("42", resource)
+
+    asyncio.run(dashboard_lists.update_dash_list_items("dst-list", resource["dashboards"], {}))
+
+    client.put.assert_awaited_once_with(
+        dashboard_lists.dash_list_items_path.format("dst-list"),
+        {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]},
+    )
+    assert logger.warning_calls == [
+        {
+            "msg": "dropping dashboards not yet synced to destination from dashboard list members; "
+            "dropped_dashboard_ids=unsynced-a,unsynced-b",
+            "args": (),
+            "_id": "dst-list",
+            "resource_type": "dashboard_lists",
+        }
+    ]
+
+
+def test_update_dash_list_items_no_warning_when_all_resolved():
+    dashboard_lists = _make_dashboard_lists()
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
+    dashboard_lists.config.destination_client.put = AsyncMock(return_value={"dashboards": []})
+
+    asyncio.run(
+        dashboard_lists.update_dash_list_items("dst-list", [{"id": "dash-dst", "type": "custom_timeboard"}], {})
+    )
+
+    dashboard_lists.config.logger.warning.assert_not_called()
+
+
+class TestDashboardListsUpdateMissingList:
+    def test_list_put_404_recreates_list(self):
+        dashboard_lists = _make_dashboard_lists()
+        dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
+        dashboard_lists.config.state.destination["dashboard_lists"]["42"] = {
+            "id": 111,
+            "name": "old-name",
+            "dashboards": [],
+        }
+        client = dashboard_lists.config.destination_client
+        members = {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
+
+        async def fake_put(path, body):
+            if path == "/api/v1/dashboard/lists/manual/111":
+                raise _not_found_error("Manual Dashboard List with id 111 not found")
+            return members
+
+        client.put = AsyncMock(side_effect=fake_put)
+        client.post = AsyncMock(return_value={"id": 222, "name": "my-list"})
+
+        asyncio.run(
+            dashboard_lists._update_resource(
+                "42", {"name": "my-list", "dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
+            )
+        )
+
+        client.post.assert_awaited_once_with("/api/v1/dashboard/lists/manual", {"name": "my-list"})
+        client.put.assert_any_await(dashboard_lists.dash_list_items_path.format(222), members)
+        state = dashboard_lists.config.state.destination["dashboard_lists"]["42"]
+        assert state["id"] == 222
+        assert state["dashboards"] == members["dashboards"]
+
+    def test_list_put_non_404_propagates_without_recreate(self):
+        dashboard_lists = _make_dashboard_lists()
+        dashboard_lists.config.state.destination["dashboard_lists"]["42"] = {"id": 111, "dashboards": []}
+        client = dashboard_lists.config.destination_client
+        client.put = AsyncMock(side_effect=_http_error(500))
+        client.post = AsyncMock()
+
+        with pytest.raises(CustomClientHTTPError):
+            asyncio.run(dashboard_lists._update_resource("42", {"name": "my-list", "dashboards": []}))
+
+        client.post.assert_not_awaited()
+        assert dashboard_lists.config.state.destination["dashboard_lists"]["42"]["id"] == 111

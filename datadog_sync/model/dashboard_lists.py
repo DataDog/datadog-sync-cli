@@ -8,7 +8,7 @@ import copy
 from typing import TYPE_CHECKING, Optional, List, Dict, Tuple, cast
 
 from datadog_sync.utils.base_resource import BaseResource, ResourceConfig
-from datadog_sync.utils.resource_utils import check_diff
+from datadog_sync.utils.resource_utils import CustomClientHTTPError, check_diff
 
 if TYPE_CHECKING:
     from datadog_sync.utils.custom_client import CustomClient
@@ -79,6 +79,9 @@ class DashboardLists(BaseResource):
         dashboards = copy.deepcopy(resource["dashboards"])
         resource.pop("dashboards")
         resp = await destination_client.post(self.resource_config.base_path, resource)
+        # Record the list before adding members: if the members PUT fails, the next
+        # sync must take the update path instead of creating another copy.
+        self.config.state.destination[self.resource_type][_id] = {**resp, "dashboards": []}
         await self.update_dash_list_items(resp["id"], dashboards, resp)
 
         return _id, resp
@@ -93,11 +96,22 @@ class DashboardLists(BaseResource):
         )
         resource.pop("dashboards")
 
-        resp = await destination_client.put(
-            self.resource_config.base_path
-            + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
-            resource,
-        )
+        try:
+            resp = await destination_client.put(
+                self.resource_config.base_path + f"/{self.config.state.destination[self.resource_type][_id]['id']}",
+                resource,
+            )
+        except CustomClientHTTPError as e:
+            if e.status_code != 404:
+                raise
+            self.config.logger.info(
+                "dashboard list not found on destination; recreating it",
+                resource_type=self.resource_type,
+                _id=_id,
+            )
+            self.config.state.destination[self.resource_type].pop(_id, None)
+            resource["dashboards"] = dashboards
+            return await self.create_resource(_id, resource)
 
         resp.pop("dashboards")
         self.config.state.destination[self.resource_type][_id].update(resp)
@@ -173,6 +187,21 @@ class DashboardLists(BaseResource):
                 dash for dash in dashboards if not self._is_integration_dashboard(dash)
             ]
         }
+        # Members unresolved under --skip-failed-resource-connections still carry their
+        # source id, which would 404 the whole PUT. Send only known destination ids; the
+        # remaining diff makes later syncs retry once those dashboards are synced.
+        known_ids = {str(v.get("id")) for v in self.config.state.destination["dashboards"].values()}
+        unresolved = sorted(
+            str(dash.get("id", "")) for dash in payload["dashboards"] if str(dash.get("id")) not in known_ids
+        )
+        if unresolved:
+            self.config.logger.warning(
+                "dropping dashboards not yet synced to destination from dashboard list members; "
+                f"dropped_dashboard_ids={','.join(unresolved)}",
+                resource_type=self.resource_type,
+                _id=_id,
+            )
+            payload["dashboards"] = [dash for dash in payload["dashboards"] if str(dash.get("id")) in known_ids]
         destination_client = self.config.destination_client
         dashboards = await destination_client.put(
             self.dash_list_items_path.format(_id), payload
