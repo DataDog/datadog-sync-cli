@@ -1,0 +1,116 @@
+{
+  "registry_version": 1,
+  "description": "Machine-readable Case Management resource registry for datadog-sync-cli. Contract source: docs/case-management-support.md. Models land incrementally; 'status' tracks each entry against that contract. Consumers must validate registry_version before use.",
+  "models": [
+    {
+      "resource_type": "case_management_types",
+      "status": "planned",
+      "id_file_namespace": null,
+      "cleanup_policy": "delete",
+      "owner_field": null,
+      "parent_scope_type": null,
+      "identity": "attributes.name",
+      "notes": "No per-id GET exists; no id-file support."
+    },
+    {
+      "resource_type": "case_management_projects",
+      "status": "planned",
+      "id_file_namespace": "resource",
+      "cleanup_policy": "delete",
+      "owner_field": null,
+      "parent_scope_type": null,
+      "identity": "attributes.key",
+      "notes": "Per-id GET exists. Fidelity is [F] with team cardinality 0/1 and [T] when ambiguous (>1)."
+    },
+    {
+      "resource_type": "case_management_custom_attribute_configs",
+      "status": "planned",
+      "id_file_namespace": null,
+      "cleanup_policy": "delete",
+      "owner_field": null,
+      "parent_scope_type": "case_management_types",
+      "identity": "(mapped case type, attributes.key)",
+      "notes": "Org-wide discovery; no per-id GET; no id-file support."
+    },
+    {
+      "resource_type": "case_management_project_notification_rules",
+      "status": "planned",
+      "id_file_namespace": "parent",
+      "cleanup_policy": "delete",
+      "owner_field": null,
+      "parent_scope_type": "case_management_projects",
+      "identity": "exact-content within mapped project",
+      "notes": "id-file payload carries project ids. Staged-disabled + cutover. [T] disposition."
+    },
+    {
+      "resource_type": "case_management_automation_rules",
+      "status": "planned",
+      "id_file_namespace": "parent",
+      "cleanup_policy": "delete",
+      "owner_field": "relationships.created_by.data.id (UUID)",
+      "parent_scope_type": "case_management_projects",
+      "identity": "exact-content within mapped project",
+      "notes": "id-file payload carries project ids. Staged-disabled + cutover; activation blocked without validated reference mappings. [T] disposition."
+    },
+    {
+      "resource_type": "case_management_cases",
+      "status": "planned_gated",
+      "id_file_namespace": "resource",
+      "cleanup_policy": "retain",
+      "owner_field": "relationships.created_by.data.id (UUID, read-only)",
+      "parent_scope_type": null,
+      "identity": "provenance marker (hard gate S9; fails closed if unsupported)",
+      "notes": "No delete API: retention. Per-id GET exists. Gated by S9/S11/S14/S15."
+    },
+    {
+      "resource_type": "case_management_case_views",
+      "status": "planned",
+      "id_file_namespace": "parent",
+      "cleanup_policy": "delete",
+      "owner_field": "relationships.created_by.data.id (UUID)",
+      "parent_scope_type": "case_management_projects",
+      "identity": "(mapped project, attributes.name)",
+      "notes": "id-file payload carries project ids."
+    },
+    {
+      "resource_type": "case_management_case_comments",
+      "status": "planned",
+      "id_file_namespace": "parent",
+      "cleanup_policy": "delete",
+      "owner_field": "attributes.author.content.id (UUID)",
+      "parent_scope_type": "case_management_cases",
+      "identity": "exact-content (mapped case, comment text)",
+      "notes": "id-file payload carries case ids. Timeline pagination has no meta; cap hit = incomplete scope."
+    },
+    {
+      "resource_type": "case_management_case_links",
+      "status": "planned",
+      "id_file_namespace": "parent",
+      "cleanup_policy": "delete",
+      "owner_field": null,
+      "parent_scope_type": "case_management_cases",
+      "identity": "(parent case, child case, relationship)",
+      "notes": "id-file payload carries case ids. Only CASE<->CASE links sync; INCIDENT/PAGE/AGENT_CONVERSATION targets skipped with reason."
+    },
+    {
+      "resource_type": "case_management_case_watchers",
+      "status": "planned_opt_in",
+      "id_file_namespace": "parent",
+      "cleanup_policy": "delete",
+      "owner_field": "relationships.user.data.id (UUID, the watched user)",
+      "parent_scope_type": "case_management_cases",
+      "identity": "(mapped case, mapped user)",
+      "notes": "id-file payload carries case ids. Opt-in flag default off; gated by S13/S14."
+    },
+    {
+      "resource_type": "case_management_maintenance_windows",
+      "status": "planned",
+      "id_file_namespace": null,
+      "cleanup_policy": "delete",
+      "owner_field": "attributes.created_by (UUID-vs-handle pinned by S14)",
+      "parent_scope_type": null,
+      "identity": "attributes.name",
+      "notes": "Single-response list; no per-id GET. Discovery excludes the suppression-marker namespace."
+    }
+  ]
+}
