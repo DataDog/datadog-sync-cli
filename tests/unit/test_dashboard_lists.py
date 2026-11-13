@@ -54,7 +54,7 @@ def test_pre_resource_action_hook_drops_integration_dashboards_before_apply():
     ]
 
 
-def test_drop_integration_dashboards_uses_supported_logger_kwargs():
+def test_drop_non_portable_dashboards_uses_supported_logger_kwargs():
     dashboard_lists = _make_dashboard_lists()
     logger = _SignatureCheckedLogger()
     dashboard_lists.config.logger = logger
@@ -72,8 +72,8 @@ def test_drop_integration_dashboards_uses_supported_logger_kwargs():
     assert resource["dashboards"] == [{"id": "dash-src", "type": "custom_timeboard"}]
     assert logger.info_calls == [
         {
-            "msg": "dropping integration dashboards from dashboard list before sync; "
-            "integration dashboard IDs are not portable across orgs; "
+            "msg": "dropping non-portable (integration/host) dashboards from dashboard list before sync; "
+            "their IDs are not portable across orgs; "
             "dropped_dashboard_ids=30516,62",
             "args": (),
             "_id": "510887",
@@ -158,6 +158,104 @@ def test_update_dash_list_items_drops_integration_dashboards_from_payload():
         {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]},
     )
     assert dashboard_list == {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
+
+
+def test_pre_resource_action_hook_drops_host_dashboards_before_apply():
+    dashboard_lists = _make_dashboard_lists()
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
+    resource = {
+        "id": 510887,
+        "dashboards": [
+            {"id": "dash-src", "type": "custom_timeboard"},
+            {"id": "123456789", "type": "host_timeboard"},
+        ],
+    }
+
+    asyncio.run(dashboard_lists.pre_resource_action_hook("510887", resource))
+    dashboard_lists.connect_resources("510887", resource)
+
+    assert resource["dashboards"] == [
+        {"id": "dash-dst", "type": "custom_timeboard"},
+    ]
+
+
+def test_connect_resources_ignores_unmapped_host_dashboards():
+    dashboard_lists = _make_dashboard_lists()
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
+    resource = {
+        "id": 510887,
+        "dashboards": [
+            {"id": "dash-src", "type": "custom_timeboard"},
+            {"id": "123456789", "type": "host_timeboard"},
+        ],
+    }
+
+    dashboard_lists.connect_resources("510887", resource)
+
+    assert resource["dashboards"] == [
+        {"id": "dash-dst", "type": "custom_timeboard"},
+        {"id": "123456789", "type": "host_timeboard"},
+    ]
+
+
+def test_extract_source_ids_ignores_host_dashboards():
+    dashboard_lists = _make_dashboard_lists()
+
+    assert (
+        dashboard_lists.extract_source_ids(
+            "id",
+            {"id": "123456789", "type": "host_timeboard"},
+            "dashboards",
+        )
+        is None
+    )
+
+
+def test_update_dash_list_items_drops_host_dashboards_from_payload():
+    dashboard_lists = _make_dashboard_lists()
+    dashboard_lists.config.destination_client.put = AsyncMock(
+        return_value={"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
+    )
+    dashboard_list = {}
+
+    asyncio.run(
+        dashboard_lists.update_dash_list_items(
+            "dst-list",
+            [
+                {"id": "dash-dst", "type": "custom_timeboard"},
+                {"id": "123456789", "type": "host_timeboard"},
+            ],
+            dashboard_list,
+        )
+    )
+
+    dashboard_lists.config.destination_client.put.assert_awaited_once_with(
+        dashboard_lists.dash_list_items_path.format("dst-list"),
+        {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]},
+    )
+    assert dashboard_list == {"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
+
+
+def test_pre_resource_action_hook_mixed_list_keeps_only_custom_dashboards():
+    dashboard_lists = _make_dashboard_lists()
+    logger = _SignatureCheckedLogger()
+    dashboard_lists.config.logger = logger
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
+    resource = {
+        "id": 510887,
+        "dashboards": [
+            {"id": "dash-src", "type": "custom_timeboard"},
+            {"id": "62", "type": "integration_screenboard"},
+            {"id": "123456789", "type": "host_timeboard"},
+        ],
+    }
+
+    asyncio.run(dashboard_lists.pre_resource_action_hook("510887", resource))
+    dashboard_lists.connect_resources("510887", resource)
+
+    assert resource["dashboards"] == [{"id": "dash-dst", "type": "custom_timeboard"}]
+    assert len(logger.info_calls) == 1
+    assert logger.info_calls[0]["msg"].endswith("dropped_dashboard_ids=123456789,62")
 
 
 def _http_error(status: int) -> CustomClientHTTPError:
