@@ -334,7 +334,6 @@ def test_update_dash_list_items_drops_unresolved_dashboards_and_warns():
             {"id": "unsynced-a", "type": "custom_screenboard"},
         ]
     }
-    # Unresolved members keep their source id after connect.
     dashboard_lists.connect_resources("42", resource)
 
     asyncio.run(dashboard_lists.update_dash_list_items("dst-list", resource["dashboards"], {}))

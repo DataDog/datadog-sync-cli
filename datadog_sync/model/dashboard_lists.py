@@ -79,8 +79,7 @@ class DashboardLists(BaseResource):
         dashboards = copy.deepcopy(resource["dashboards"])
         resource.pop("dashboards")
         resp = await destination_client.post(self.resource_config.base_path, resource)
-        # Record the list before adding members: if the members PUT fails, the next
-        # sync must take the update path instead of creating another copy.
+        # Recorded before adding members so a failed members PUT doesn't recreate the list next run.
         self.config.state.destination[self.resource_type][_id] = {**resp, "dashboards": []}
         await self.update_dash_list_items(resp["id"], dashboards, resp)
 
@@ -187,9 +186,7 @@ class DashboardLists(BaseResource):
                 dash for dash in dashboards if not self._is_integration_dashboard(dash)
             ]
         }
-        # Members unresolved under --skip-failed-resource-connections still carry their
-        # source id, which would 404 the whole PUT. Send only known destination ids; the
-        # remaining diff makes later syncs retry once those dashboards are synced.
+        # Unresolved members keep their source id and would 404 the whole PUT; later syncs retry them.
         known_ids = {str(v.get("id")) for v in self.config.state.destination["dashboards"].values()}
         unresolved = sorted(
             str(dash.get("id", "")) for dash in payload["dashboards"] if str(dash.get("id")) not in known_ids
