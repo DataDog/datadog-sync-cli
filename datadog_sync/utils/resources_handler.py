@@ -86,6 +86,10 @@ def _emit_apply_summary(logger, counter) -> None:
         ids = counter.stale_principals_dropped_by_type[rt]
         if ids:
             _chunked_emit(rt, "dropped stale principals", ids)
+    for rt in sorted(getattr(counter, "missing_dependencies_kept_by_type", {}).keys()):
+        ids = counter.missing_dependencies_kept_by_type[rt]
+        if ids:
+            _chunked_emit(rt, "synced with missing dependencies", ids)
     for rt in sorted(getattr(counter, "empty_binding_risk_by_type", {}).keys()):
         ids = counter.empty_binding_risk_by_type[rt]
         if ids:

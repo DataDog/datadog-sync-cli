@@ -88,6 +88,7 @@ class Configuration(object):
     # byte-for-byte unchanged. The shared BaseResource drop-aware helpers consume this
     # flag; model-specific connection wiring is intentionally separate.
     drop_unresolvable_principals: bool = False
+    sync_dashboards_with_missing_dependencies: bool = False
     # Set at runtime by Workers.__init__ so resource models (which only hold self.config)
     # can record dropped stale principals into the apply-run Counter from inside
     # connect_id/connect_resources. None until a Workers is constructed for the command.
@@ -577,6 +578,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     force_missing_dependencies = kwargs.get("force_missing_dependencies") or False
     skip_failed_resource_connections = kwargs.get("skip_failed_resource_connections")
     drop_unresolvable_principals = kwargs.get("drop_unresolvable_principals") or False
+    sync_dashboards_with_missing_dependencies = kwargs.get("sync_dashboards_with_missing_dependencies") or False
     refresh_destination_state_before_apply = kwargs.get("refresh_destination_state_before_apply") or False
     skip_monitors_with_restricted_roles = kwargs.get("skip_monitors_with_restricted_roles") or False
     repair_metric_tag_configuration_metadata_type_conflicts = (
@@ -890,6 +892,7 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         force_missing_dependencies=force_missing_dependencies,
         skip_failed_resource_connections=skip_failed_resource_connections,
         drop_unresolvable_principals=drop_unresolvable_principals,
+        sync_dashboards_with_missing_dependencies=sync_dashboards_with_missing_dependencies,
         refresh_destination_state_before_apply=refresh_destination_state_before_apply,
         max_workers=max_workers,
         max_workers_per_type=max_workers_per_type,

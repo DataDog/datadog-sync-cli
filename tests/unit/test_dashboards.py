@@ -292,13 +292,14 @@ class TestDashboardsReadOnlyConflict:
 class TestDashboardsConnectResourcesDrop:
     """connect_resources drop/keep/hard-fail for dashboards' flat `restricted_roles`."""
 
-    def _make_dashboard(self, drop=False, skip_failed=False):
+    def _make_dashboard(self, drop=False, skip_failed=False, missing_deps=False):
         config = MagicMock()
         config.state = MagicMock()
         config.state.source = defaultdict(dict)
         config.state.destination = defaultdict(dict)
         config.state.ensure_resource_loaded = MagicMock()
         config.drop_unresolvable_principals = drop
+        config.sync_dashboards_with_missing_dependencies = missing_deps
         config.skip_failed_resource_connections = skip_failed
         config.counter = Counter()
         config.logger = MagicMock()
@@ -389,3 +390,110 @@ class TestDashboardsConnectResourcesDrop:
         d.connect_resources("abc-def-ghi", resource)
 
         assert resource["widgets"][0]["definition"]["slo_id"] == "slo-dst"
+
+
+class TestDashboardsSyncWithMissingDependencies:
+    def _make_dashboard(self, missing_deps=True):
+        config = MagicMock()
+        config.state = MagicMock()
+        config.state.source = defaultdict(dict)
+        config.state.destination = defaultdict(dict)
+        config.state.ensure_resource_loaded = MagicMock()
+        config.drop_unresolvable_principals = False
+        config.skip_failed_resource_connections = False
+        config.sync_dashboards_with_missing_dependencies = missing_deps
+        config.counter = Counter()
+        config.logger = MagicMock()
+        return Dashboards(config)
+
+    def test_flag_off_stale_slo_still_raises_typed_skip(self):
+        d = self._make_dashboard(missing_deps=False)
+        resource = {"id": "abc-def-ghi", "widgets": [{"definition": {"slo_id": "slo-gone"}}]}
+
+        with pytest.raises(SkipResource) as exc_info:
+            d.connect_resources("abc-def-ghi", resource)
+
+        assert exc_info.value.failure_class == "stale_dependency"
+        assert d.config.counter.missing_dependencies_kept_by_type == {}
+
+    def test_flag_on_stale_slo_is_kept_and_warned(self):
+        d = self._make_dashboard()
+        resource = {"id": "abc-def-ghi", "widgets": [{"definition": {"slo_id": "slo-gone"}}]}
+
+        d.connect_resources("abc-def-ghi", resource)
+
+        assert resource["widgets"][0]["definition"]["slo_id"] == "slo-gone"
+        d.config.logger.warning.assert_called_once()
+        msg = d.config.logger.warning.call_args.args[0]
+        assert "service_level_objectives=[slo-gone]" in msg
+        assert d.config.logger.warning.call_args.kwargs == {"resource_type": "dashboards", "_id": "abc-def-ghi"}
+        assert d.config.counter.missing_dependencies_kept_by_type["dashboards"] == ["abc-def-ghi"]
+
+    def test_flag_on_stale_monitor_alert_id_is_kept_and_warned(self):
+        d = self._make_dashboard()
+        resource = {
+            "id": "abc-def-ghi",
+            "widgets": [
+                {"definition": {"type": "alert_graph", "alert_id": "222"}},
+                {"definition": {"type": "group", "widgets": [{"definition": {"alert_id": "111"}}]}},
+            ],
+        }
+
+        d.connect_resources("abc-def-ghi", resource)
+
+        assert resource["widgets"][0]["definition"]["alert_id"] == "222"
+        assert resource["widgets"][1]["definition"]["widgets"][0]["definition"]["alert_id"] == "111"
+        d.config.logger.warning.assert_called_once()
+        assert "monitors=[111,222]" in d.config.logger.warning.call_args.args[0]
+        # One counter entry per dashboard, not per reference.
+        assert d.config.counter.missing_dependencies_kept_by_type["dashboards"] == ["abc-def-ghi"]
+
+    def test_flag_on_stale_powerpack_still_skips(self):
+        d = self._make_dashboard()
+        resource = {"id": "abc-def-ghi", "widgets": [{"definition": {"powerpack_id": "pp-gone"}}]}
+
+        with pytest.raises(SkipResource) as exc_info:
+            d.connect_resources("abc-def-ghi", resource)
+
+        assert exc_info.value.failure_class == "stale_dependency"
+        assert exc_info.value.outcome_details == {"powerpacks": "pp-gone"}
+        assert d.config.counter.missing_dependencies_kept_by_type == {}
+
+    def test_flag_on_stale_slo_and_powerpack_skips_listing_only_powerpack(self):
+        d = self._make_dashboard()
+        resource = {
+            "id": "abc-def-ghi",
+            "widgets": [
+                {"definition": {"slo_id": "slo-gone"}},
+                {"definition": {"powerpack_id": "pp-gone"}},
+            ],
+        }
+
+        with pytest.raises(SkipResource) as exc_info:
+            d.connect_resources("abc-def-ghi", resource)
+
+        assert exc_info.value.failure_class == "stale_dependency"
+        assert exc_info.value.outcome_details == {"powerpacks": "pp-gone"}
+        assert "slo-gone" not in str(exc_info.value)
+        assert "powerpacks=[pp-gone]" in str(exc_info.value)
+        d.config.logger.warning.assert_not_called()
+        assert d.config.counter.missing_dependencies_kept_by_type == {}
+
+    def test_flag_on_destination_present_slo_is_mapped(self):
+        d = self._make_dashboard()
+        d.config.state.destination["service_level_objectives"]["slo-src"] = {"id": "slo-dst"}
+        resource = {"id": "abc-def-ghi", "widgets": [{"definition": {"slo_id": "slo-src"}}]}
+
+        d.connect_resources("abc-def-ghi", resource)
+
+        assert resource["widgets"][0]["definition"]["slo_id"] == "slo-dst"
+        d.config.logger.warning.assert_not_called()
+        assert d.config.counter.missing_dependencies_kept_by_type == {}
+
+    def test_flag_on_source_present_slo_still_hard_fails(self):
+        d = self._make_dashboard()
+        d.config.state.source["service_level_objectives"]["slo-src"] = {"id": "slo-src"}
+        resource = {"id": "abc-def-ghi", "widgets": [{"definition": {"slo_id": "slo-src"}}]}
+
+        with pytest.raises(ResourceConnectionError):
+            d.connect_resources("abc-def-ghi", resource)

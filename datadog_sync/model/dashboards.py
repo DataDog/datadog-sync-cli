@@ -29,6 +29,9 @@ _READ_ONLY_MARKERS = (
     "user does not have permission to edit",
 )
 
+# Powerpacks are excluded: the API rejects dashboards that reference a missing powerpack.
+MISSING_DEPENDENCY_TOLERATED_TYPES = ("monitors", "service_level_objectives")
+
 
 class Dashboards(BaseResource):
     resource_type = "dashboards"
@@ -222,9 +225,35 @@ class Dashboards(BaseResource):
             failed_connections_dict,
             roles_risk,
         )
+        tolerated = {}
+        if self.config.sync_dashboards_with_missing_dependencies:
+            tolerated = self._pop_tolerated_missing_dependencies(stale_connections_dict)
         self._raise_stale_dependency_skip(_id, stale_connections_dict)
+        if tolerated:
+            # Reported only after the skip check, so a dashboard skipped for a powerpack isn't counted.
+            self._report_missing_dependencies_kept(_id, tolerated)
 
         return ResourceConnectionResult(empty_binding_escalation=empty_binding_escalation)
+
+    @staticmethod
+    def _pop_tolerated_missing_dependencies(stale_connections_dict: Dict[str, List[str]]) -> Dict[str, str]:
+        tolerated = {}
+        for resource_type in MISSING_DEPENDENCY_TOLERATED_TYPES:
+            ids = stale_connections_dict.pop(resource_type, None)
+            if ids:
+                tolerated[resource_type] = ",".join(sorted(set(ids)))
+        return tolerated
+
+    def _report_missing_dependencies_kept(self, _id: str, tolerated: Dict[str, str]) -> None:
+        formatted = ", ".join(f"{resource_type}=[{ids}]" for resource_type, ids in sorted(tolerated.items()))
+        self.config.logger.warning(
+            "syncing dashboard with missing dependencies absent from source and destination "
+            f"(unresolved IDs kept unchanged): {formatted}",
+            resource_type=self.resource_type,
+            _id=_id,
+        )
+        if self.config.counter is not None:
+            self.config.counter.record_missing_dependency_kept(resource_type=self.resource_type, _id=_id)
 
     def connect_id(self, key: str, r_obj: Dict, resource_to_connect: str) -> Optional[List[str]]:
         return super(Dashboards, self).connect_id(key, r_obj, resource_to_connect)
