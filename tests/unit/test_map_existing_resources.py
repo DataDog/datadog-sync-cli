@@ -8,7 +8,7 @@
 Test categories:
 - Green/Green regression tests: pass before AND after changes (guard against regressions)
 - RED infrastructure tests: fail until base class implementation is added (PR 1)
-- Opt-out resource tests: verify all 32 non-mapping resources opt out correctly
+- Opt-out resource tests: verify all non-mapping resources opt out correctly
 """
 
 import asyncio
@@ -57,8 +57,9 @@ OPT_OUT_RESOURCES = [
     "synthetics_test_suites",
 ]
 
-# The 10 resources that use resource mapping
+# The resources that use resource mapping
 MAPPING_RESOURCES = [
+    "case_management_types",
     "users",
     "teams",
     "synthetics_global_variables",
@@ -403,3 +404,17 @@ class TestMappingResources:
         assert (
             resource.resource_config.skip_resource_mapping is False
         ), f"{resource_type} should have skip_resource_mapping=False"
+
+
+class TestRegistryLists:
+    """Guard the two membership lists themselves.
+
+    A typo that adds a resource to the wrong list silently flips it between
+    mapped and unmapped treatment, so the lists must stay disjoint.
+    """
+
+    def test_mapping_and_opt_out_lists_disjoint(self):
+        assert set(MAPPING_RESOURCES).isdisjoint(OPT_OUT_RESOURCES), (
+            "a resource appears in both MAPPING_RESOURCES and OPT_OUT_RESOURCES — "
+            "exactly one list may claim each resource type"
+        )
