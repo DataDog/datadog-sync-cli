@@ -1,5 +1,18 @@
 # Changelog
 
+## 7.0.2 / 2026-11-13
+
+### Fixed
+* fix(dashboard_lists): drop host dashboards before syncing list members by @lbassin in https://github.com/DataDog/datadog-sync-cli/pull/747
+* fix(dashboard_lists): stop duplicating lists when adding members fails by @lbassin in https://github.com/DataDog/datadog-sync-cli/pull/748
+### Added
+* feat(dashboards): add --sync-dashboards-with-missing-dependencies flag by @lbassin in https://github.com/DataDog/datadog-sync-cli/pull/745
+
+## New Contributors
+* @lbassin made their first contribution in https://github.com/DataDog/datadog-sync-cli/pull/745
+
+**Full Changelog**: https://github.com/DataDog/datadog-sync-cli/compare/7.0.1...7.0.2
+
 ## 7.0.1 / 2026-10-20
 
 ### Changed
