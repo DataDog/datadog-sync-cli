@@ -215,6 +215,7 @@ def test_extract_source_ids_ignores_host_dashboards():
 
 def test_update_dash_list_items_drops_host_dashboards_from_payload():
     dashboard_lists = _make_dashboard_lists()
+    dashboard_lists.config.state.destination["dashboards"]["dash-src"] = {"id": "dash-dst"}
     dashboard_lists.config.destination_client.put = AsyncMock(
         return_value={"dashboards": [{"id": "dash-dst", "type": "custom_timeboard"}]}
     )
