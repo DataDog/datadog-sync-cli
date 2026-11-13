@@ -69,7 +69,7 @@ class DashboardLists(BaseResource):
         return _id, resource
 
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
-        self._drop_integration_dashboards(_id, resource)
+        self._drop_non_portable_dashboards(_id, resource)
 
     async def pre_apply_hook(self) -> None:
         pass
@@ -121,7 +121,7 @@ class DashboardLists(BaseResource):
     def connect_id(
         self, key: str, r_obj: Dict, resource_to_connect: str
     ) -> Optional[List[str]]:
-        if resource_to_connect == "dashboards" and self._is_integration_dashboard(
+        if resource_to_connect == "dashboards" and self._is_non_portable_dashboard(
             r_obj
         ):
             return None
@@ -130,23 +130,23 @@ class DashboardLists(BaseResource):
     def extract_source_ids(
         self, key: str, r_obj: Dict, resource_to_connect: str
     ) -> Optional[List[str]]:
-        if resource_to_connect == "dashboards" and self._is_integration_dashboard(
+        if resource_to_connect == "dashboards" and self._is_non_portable_dashboard(
             r_obj
         ):
             return None
         return super().extract_source_ids(key, r_obj, resource_to_connect)
 
     @staticmethod
-    def _is_integration_dashboard(r_obj: Dict) -> bool:
-        return str(r_obj.get("type", "")).startswith("integration_")
+    def _is_non_portable_dashboard(r_obj: Dict) -> bool:
+        return str(r_obj.get("type", "")).startswith(("integration_", "host_"))
 
-    def _drop_integration_dashboards(self, _id: str, resource: Dict) -> None:
+    def _drop_non_portable_dashboards(self, _id: str, resource: Dict) -> None:
         dashboards = resource.get("dashboards")
         if not isinstance(dashboards, list):
             return
 
         portable_dashboards = [
-            dash for dash in dashboards if not self._is_integration_dashboard(dash)
+            dash for dash in dashboards if not self._is_non_portable_dashboard(dash)
         ]
         if len(portable_dashboards) == len(dashboards):
             return
@@ -154,11 +154,11 @@ class DashboardLists(BaseResource):
         dropped = sorted(
             str(dash.get("id", ""))
             for dash in dashboards
-            if self._is_integration_dashboard(dash)
+            if self._is_non_portable_dashboard(dash)
         )
         self.config.logger.info(
-            "dropping integration dashboards from dashboard list before sync; "
-            "integration dashboard IDs are not portable across orgs; "
+            "dropping non-portable (integration/host) dashboards from dashboard list before sync; "
+            "their IDs are not portable across orgs; "
             f"dropped_dashboard_ids={','.join(dropped)}",
             resource_type=self.resource_type,
             _id=_id,
@@ -170,7 +170,7 @@ class DashboardLists(BaseResource):
     ):
         payload = {
             "dashboards": [
-                dash for dash in dashboards if not self._is_integration_dashboard(dash)
+                dash for dash in dashboards if not self._is_non_portable_dashboard(dash)
             ]
         }
         destination_client = self.config.destination_client
