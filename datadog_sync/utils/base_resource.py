@@ -118,6 +118,12 @@ class ResourceConfig:
     # allowlist with their model PR, each entry documenting the payload
     # meaning. Contract: docs/case-management-support.md §6.
     id_file_namespace: str = "resource"
+    # Experimental family gate: the type is registered and explicitly
+    # selectable via --resource, but EXCLUDED from the default (no
+    # --resource) resource set while True. Opt in to the default set via
+    # DD_INCLUDE_EXPERIMENTAL_RESOURCES=true. Flipped to False at family
+    # acceptance. Contract: docs/case-management-support.md §10.
+    experimental: bool = False
 
     async def init_async(self) -> None:
         # Both Lock and Semaphore bind to the current running event loop on
