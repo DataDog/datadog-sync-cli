@@ -5,6 +5,7 @@
 
 from datadog_sync.utils.state import State
 import base64
+import hashlib
 import pytest
 import os
 import logging
@@ -38,6 +39,191 @@ for _ in ("vcr", "vcr.requests", "vcr.matcher"):
 
 PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")
 HEADERS_TO_PERSISTS = ("Accept-Encoding", "Content-Type")
+
+# ---------------------------------------------------------------------------
+# Case management VCR sanitizer
+#
+# The case management list endpoints (``/api/v2/cases/types`` and
+# ``/api/v2/cases/types/custom_attributes``) return EVERY case type /
+# custom attribute config in the org. A cassette recorded against them would
+# embed real org data (names, descriptions, keys, UUIDs) into this public
+# repository. The sanitizer:
+#
+#   1. filters case management list-response rows down to the synthetic
+#      fixtures only (``attributes.name`` containing "case_type_test",
+#      ``attributes.key`` starting with "attr_key_test"), and
+#   2. rewrites every case management UUID in request URIs, request bodies
+#      and response bodies to visibly synthetic, deterministic tokens
+#      ("case-type-test-<hash>" / "attr-test-<hash>").
+#
+# Detection: responses are identified by JSON:API schema markers
+# ("type": "case_type" / "custom_attribute") — the same body-shape technique
+# as filter_private_location_data — because the response hook cannot see the
+# request URI. Requests are identified by the endpoint path. The two hooks
+# share no mutable state (async requests interleave). Token rewriting is
+# idempotent: already-synthetic tokens do not match the UUID shape and are
+# never rewritten twice, so re-running the hooks on a sanitized cassette is
+# stable (replay safety).
+# ---------------------------------------------------------------------------
+
+CASE_MANAGEMENT_TYPES_PATH_PREFIX = "/api/v2/cases/types"
+CASE_MANAGEMENT_TYPE_NAME_MARKER = "case_type_test"
+CASE_MANAGEMENT_ATTRIBUTE_KEY_MARKER = "attr_key_test"
+_CM_UUID_RE = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+
+
+def _cm_synthetic_token(kind, real_id):
+    """Deterministic, visibly synthetic replacement for a case management UUID.
+
+    ``kind`` is "case-type" or "attr". The token is a pure function of the
+    original id, so request-side and response-side rewriting always agree.
+    """
+    digest = hashlib.sha256(real_id.encode("utf-8")).hexdigest()[:8]
+    return f"{kind}-test-{digest}"
+
+
+def _cm_tokenize_case_management_request_uri(uri):
+    """Rewrite UUIDs in a case management request URI path to synthetic tokens.
+
+    Path positions decide the token kind:
+      /api/v2/cases/types/{type_id}                          -> case-type token
+      /api/v2/cases/types/{type_id}/custom_attributes       -> case-type token
+      /api/v2/cases/types/{type_id}/custom_attributes/{attr_id} -> both
+    Any additional trailing path segments (future sub-endpoints) are
+    preserved with their UUIDs tokenized defensively, so no path component
+    is ever silently dropped from the recorded request.
+    """
+    from urllib.parse import urlsplit, urlunsplit
+
+    split = urlsplit(uri)
+    path = split.path
+    marker = CASE_MANAGEMENT_TYPES_PATH_PREFIX
+    idx = path.find(marker)
+    if idx == -1:
+        return uri
+    tail = path[idx + len(marker) :].strip("/")
+    segments = [s for s in tail.split("/") if s] if tail else []
+    if not segments or segments[0] == "custom_attributes":
+        # The org-wide list or the bare collection: no ids in the path.
+        return uri
+    type_token = _CM_UUID_RE.sub(lambda m: _cm_synthetic_token("case-type", m.group(0)), segments[0])
+    new_segments = [type_token]
+    if len(segments) > 2 and segments[1] == "custom_attributes":
+        new_segments.append("custom_attributes")
+        new_segments.append(_CM_UUID_RE.sub(lambda m: _cm_synthetic_token("attr", m.group(0)), segments[2]))
+        # Preserve any additional trailing path segments (future case
+        # management sub-endpoints under .../custom_attributes/...), with
+        # their UUIDs tokenized defensively, so no path component is ever
+        # silently dropped from the recorded request.
+        for seg in segments[3:]:
+            new_segments.append(
+                _CM_UUID_RE.sub(lambda m: _cm_synthetic_token("case-type", m.group(0)), seg)
+            )
+    elif len(segments) > 1:
+        # Unknown extra segments: tokenize any UUIDs defensively.
+        for seg in segments[1:]:
+            new_segments.append(_CM_UUID_RE.sub(lambda m: _cm_synthetic_token("case-type", m.group(0)), seg))
+    new_path = path[: idx + len(marker)] + "/" + "/".join(new_segments)
+    return urlunsplit((split.scheme, split.netloc, new_path, split.query, split.fragment))
+
+
+def _cm_is_uuid(value):
+    return isinstance(value, str) and _CM_UUID_RE.fullmatch(value) is not None
+
+
+def _cm_rewrite_ids(obj, kind_for_id):
+    """Key-aware UUID rewrite over a parsed JSON structure.
+
+    ``kind_for_id`` maps a row's JSON:API ``type`` marker to the token kind
+    used for that row's ``id`` field ("case_type" -> "case-type",
+    "custom_attribute" -> "attr"). ``case_type_id`` references always map to
+    the case-type kind.
+    """
+    if isinstance(obj, dict):
+        row_kind = kind_for_id.get(obj.get("type"))
+        for key, value in list(obj.items()):
+            if key == "case_type_id" and _cm_is_uuid(value):
+                obj[key] = _cm_synthetic_token("case-type", value)
+            elif key == "id" and row_kind and _cm_is_uuid(value):
+                obj[key] = _cm_synthetic_token(row_kind, value)
+            else:
+                _cm_rewrite_ids(value, kind_for_id)
+    elif isinstance(obj, list):
+        for item in obj:
+            _cm_rewrite_ids(item, kind_for_id)
+    return obj
+
+
+_CM_ROW_KIND_BY_TYPE = {"case_type": "case-type", "custom_attribute": "attr"}
+
+
+def _cm_row_is_synthetic(row):
+    attributes = row.get("attributes") or {}
+    if row.get("type") == "case_type":
+        return CASE_MANAGEMENT_TYPE_NAME_MARKER in (attributes.get("name") or "")
+    if row.get("type") == "custom_attribute":
+        return str(attributes.get("key") or "").startswith(CASE_MANAGEMENT_ATTRIBUTE_KEY_MARKER)
+    return False
+
+
+def _cm_contains_case_management_markers(parsed):
+    """True when the parsed body carries case management JSON:API markers."""
+    if not isinstance(parsed, dict):
+        return False
+    data = parsed.get("data")
+    rows = data if isinstance(data, list) else [data]
+    return any(isinstance(r, dict) and r.get("type") in _CM_ROW_KIND_BY_TYPE for r in rows if r is not None)
+
+
+def sanitize_case_management_request(request):
+    """before_record_request hook: tokenize case management URIs and bodies."""
+    from urllib.parse import urlsplit
+
+    if CASE_MANAGEMENT_TYPES_PATH_PREFIX not in urlsplit(request.uri).path:
+        return request
+
+    request.uri = _cm_tokenize_case_management_request_uri(request.uri)
+
+    body = getattr(request, "body", None)
+    if body:
+        text = body.decode("utf-8") if isinstance(body, bytes) else body
+        try:
+            parsed = json.loads(text)
+        except (JSONDecodeError, TypeError, ValueError):
+            return request
+        _cm_rewrite_ids(parsed, _CM_ROW_KIND_BY_TYPE)
+        new_text = json.dumps(parsed)
+        request.body = new_text.encode("utf-8") if isinstance(body, bytes) else new_text
+    return request
+
+
+def sanitize_case_management_response_data(response):
+    """before_record_response hook body: filter rows + tokenize UUIDs.
+
+    Only bodies carrying case management JSON:API markers are touched; every
+    other response passes through unchanged (including error envelopes, which
+    never carry those markers).
+    """
+    if response["status"]["code"] == 204:
+        return response
+    if "body" not in response or "string" not in response["body"]:
+        return response
+
+    try:
+        parsed = json.loads(response["body"]["string"])
+    except (JSONDecodeError, TypeError, ValueError):
+        return response
+
+    if not _cm_contains_case_management_markers(parsed):
+        return response
+
+    data = parsed.get("data")
+    if isinstance(data, list):
+        parsed["data"] = [row for row in data if isinstance(row, dict) and _cm_row_is_synthetic(row)]
+    _cm_rewrite_ids(parsed, _CM_ROW_KIND_BY_TYPE)
+
+    response["body"]["string"] = str.encode(json.dumps(parsed))
+    return response
 
 
 @pytest.fixture()
@@ -78,9 +264,18 @@ def filter_response_data():
         # add filter functions below
         response = _deal_with_binary(response)
         response = filter_private_location_data(response)
+        response = sanitize_case_management_response_data(response)
         return response
 
     return before_record_response
+
+
+def filter_request_data():
+    def before_record_request(request):
+        request = sanitize_case_management_request(request)
+        return request
+
+    return before_record_request
 
 
 def _filter_response_headers(response):
@@ -134,6 +329,7 @@ def vcr_config():
         filter_query_parameters=("api_key", "application_key"),
         match_on=["method", "scheme", "host", "port", "path", "query", "body"],
         decode_compressed_response=True,
+        before_record_request=filter_request_data(),
         before_record_response=filter_response_data(),
     )
 
