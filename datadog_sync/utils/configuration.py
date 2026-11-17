@@ -127,9 +127,6 @@ class Configuration(object):
     destination_logs_intake_url: Optional[str] = None
     skip_monitors_with_restricted_roles: bool = False
     repair_metric_tag_configuration_metadata_type_conflicts: bool = False
-    create_assessment_report_app: bool = False
-    source_org_label: Optional[str] = None
-    destination_org_label: Optional[str] = None
 
     async def init_async(self, cmd: Command):
         await self.source_client._init_session()
@@ -709,13 +706,6 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
     resource_per_file = kwargs.get(RESOURCE_PER_FILE, False)
     minimize_reads = kwargs.get("minimize_reads", False)
     skip_state_load = kwargs.get("skip_state_load", False)
-    create_assessment_report_app = kwargs.get("create_assessment_report_app", False)
-
-    if create_assessment_report_app and kwargs.get("read_only"):
-        raise click.UsageError(
-            "--create-assessment-report-app writes an App Builder app to the destination org "
-            "and is blocked by --read-only"
-        )
 
     # Validate --minimize-reads constraints
     if minimize_reads:
@@ -924,9 +914,6 @@ def build_config(cmd: Command, **kwargs: Optional[Any]) -> Configuration:
         destination_logs_intake_url=destination_logs_intake_url,
         skip_monitors_with_restricted_roles=skip_monitors_with_restricted_roles,
         repair_metric_tag_configuration_metadata_type_conflicts=repair_metric_tag_configuration_metadata_type_conflicts,
-        create_assessment_report_app=create_assessment_report_app,
-        source_org_label=kwargs.get("source_org_label"),
-        destination_org_label=kwargs.get("destination_org_label"),
     )
 
     # Initialize resource classes

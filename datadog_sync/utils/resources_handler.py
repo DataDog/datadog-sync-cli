@@ -18,8 +18,6 @@ from click import UsageError, confirm
 from pprint import pformat
 
 from datadog_sync.constants import LOGGER_NAME, TRUE, FALSE, FORCE, Command, Origin, Status
-from datadog_sync.utils.assessment_report import ImportTypeSummary
-from datadog_sync.utils.custom_client import paginated_truncations
 from datadog_sync.utils.resource_utils import (
     CustomClientHTTPError,
     FilteredResource,
@@ -196,13 +194,6 @@ class ResourcesHandler:
         self._import_attempts_by_type: Dict[str, int] = defaultdict(int)
         self._import_transient_failures_by_type: Dict[str, int] = defaultdict(int)
         self.outcome_counts: Counter = Counter()
-        self.import_summaries: Dict[str, ImportTypeSummary] = defaultdict(ImportTypeSummary)
-
-    def _import_summary(self, resource_type: str) -> ImportTypeSummary:
-        # Some embedders and focused tests construct the handler without running __init__.
-        if not hasattr(self, "import_summaries"):
-            self.import_summaries = defaultdict(ImportTypeSummary)
-        return self.import_summaries[resource_type]
 
     @staticmethod
     def _sanitize_reason(err: Exception) -> Tuple[str, str]:
@@ -307,8 +298,6 @@ class ResourcesHandler:
         failure_class: str = "",
         details: Optional[Dict[str, str]] = None,
     ) -> None:
-        if action_type == "import" and _id not in (None, ""):
-            self._import_summary(resource_type).outcomes[status] += 1
         if self.config.emit_json:
             self.outcome_counts[status] += 1
             _id_str = str(_id) if _id is not None else ""
@@ -790,7 +779,6 @@ class ResourcesHandler:
         self.config.state.clear_source_authoritative(self.config.resources_arg)
         self._import_attempts_by_type = defaultdict(int)
         self._import_transient_failures_by_type = defaultdict(int)
-        self.import_summaries = defaultdict(ImportTypeSummary)
 
         # Get all resources for each resource type
         tmp_storage = defaultdict(list)
@@ -910,7 +898,6 @@ class ResourcesHandler:
                 # emitted below.
                 self.worker.counter.increment_failure()
                 _reason, _fc = self._sanitize_reason(e)
-                self._import_summary(resource_type).error = _reason
                 self._emit(resource_type, "", "import", "failure", reason=_reason, failure_class=_fc)
                 self.config.logger.error(f"Error in get_resources_by_ids for {resource_type}: {str(e)}")
                 return
@@ -953,37 +940,26 @@ class ResourcesHandler:
 
             self.worker.counter.increment_success()
             tmp_storage[resource_type] = resources
-            self._import_summary(resource_type).listed = len(resources)
             return
 
         # Legacy path: list everything
-        summary = self._import_summary(resource_type)
-        truncations: List[str] = []
-        truncations_token = paginated_truncations.set(truncations)
         try:
             get_resp = await r_class._get_resources(self.config.source_client)
             self.worker.counter.increment_success()
             tmp_storage[resource_type] = get_resp
-            summary.listed = len(get_resp)
-            if truncations:
-                summary.error = truncations[0]
         except (asyncio.TimeoutError, TimeoutError):
             # Whole-type list failure (legacy path). No per-id available;
             # aggregate `failure` count ticks. Cascade analysis: search
             # "TimeoutError while getting resources" for the type.
             self.worker.counter.increment_failure()
-            summary.error = "TimeoutError"
             self._emit(resource_type, "", "import", "failure", reason="TimeoutError", failure_class="http_timeout")
             self.config.logger.error(f"TimeoutError while getting resources {resource_type}")
         except Exception as e:
             # Whole-type list failure (legacy path). Same reasoning as above.
             self.worker.counter.increment_failure()
             _reason, _fc = self._sanitize_reason(e)
-            summary.error = _reason
             self._emit(resource_type, "", "import", "failure", reason=_reason, failure_class=_fc)
             self.config.logger.error(f"Error while getting resources {resource_type}: {str(e)}")
-        finally:
-            paginated_truncations.reset(truncations_token)
 
     async def _import_resource(self, q_item: List) -> None:
         resource_type, resource = q_item

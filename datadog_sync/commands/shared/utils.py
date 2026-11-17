@@ -6,7 +6,6 @@ import click
 from datadog_sync.cli_events import CommandError, InvocationSummary
 from datadog_sync.cli_runtime import prepare_invocation, root_options
 from datadog_sync.constants import Command
-from datadog_sync.utils.assessment_report import create_assessment_report
 from datadog_sync.utils.configuration import Configuration, build_config
 from datadog_sync.utils.resources_handler import ResourcesHandler
 
@@ -90,8 +89,6 @@ async def run_cmd_async(cfg: Configuration, handler: ResourcesHandler, cmd: Comm
         # Run specific handler
         if cmd == Command.IMPORT:
             await handler.import_resources()
-            if cfg.create_assessment_report_app:
-                await create_assessment_report(cfg, handler.import_summaries)
         elif cmd == Command.SYNC:
             await handler.apply_resources()
         elif cmd == Command.DIFFS:

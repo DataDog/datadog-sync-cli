@@ -39,41 +39,12 @@ from datadog_sync.constants import Command
     "Requires --resource-per-file and --resources. Not available on other "
     "commands.",
 )
-@option(
-    "--create-assessment-report-app",
-    required=False,
-    is_flag=True,
-    default=False,
-    show_default=True,
-    help="After the import, write a migration assessment report to "
-    "migration_assessment_report.json and create the App Builder app "
-    "'Migration Assessment: <source org> → <destination org>' in the destination "
-    "org, overwriting it with a new version if it already exists. The report also counts "
-    "source resources that sync-cli does not "
-    "migrate. Requires destination credentials that can write and publish apps. Not "
-    "allowed with --read-only.",
-)
-@option(
-    "--source-org-label",
-    envvar="DD_SOURCE_LABEL",
-    required=False,
-    help="Source org name shown in the assessment report app. Defaults to the org name from the source API.",
-)
-@option(
-    "--destination-org-label",
-    envvar=["DD_DESTINATION_LABEL", "DD_DEST_LABEL"],
-    required=False,
-    help="Destination org name shown in the assessment report app. Defaults to the org name from the "
-    "destination API.",
-)
 def _import(**kwargs):
     """Import Datadog resources.
 
     Reads resources from the source organization into local state. Does not
     create, update, or delete resources in any Datadog organization; only local
-    (or configured cloud) state is written. The one exception is
-    --create-assessment-report-app, which creates or overwrites a single
-    assessment App Builder app in the destination organization. sync-cli usage
-    metrics are sent unless --no-send-metrics or the root --read-only flag is set.
+    (or configured cloud) state is written. sync-cli usage metrics are sent
+    unless --no-send-metrics or the root --read-only flag is set.
     """
     run_cmd(Command.IMPORT, **kwargs)
