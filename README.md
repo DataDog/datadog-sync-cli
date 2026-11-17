@@ -10,7 +10,6 @@ Datadog cli tool to sync resources across organizations.
     - [MacOS and Linux](#macos-and-linux)
     - [Windows](#windows)
   - [Using docker and building the image](#using-docker-and-building-the-image)
-  - [Using a personal access token](#using-a-personal-access-token)
 - [Usage](#usage)
   - [API URL](#api-url)
   - [Filtering](#filtering)
@@ -162,27 +161,28 @@ docker build . -t datadog-sync
 
 #### Run the commands
 
-Run the full commands in this order:
+Run the full commands in this order. Replace `<PATH_TO_WORKING_DIR>` with the absolute path to the directory where sync-cli should store its state files (for example, `/Users/you/migration`):
 
 ```
-docker run --rm -v ../migration:/datadog-sync:rw \
+docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
   -e DD_SOURCE_API_KEY -e DD_SOURCE_APP_KEY -e DD_SOURCE_API_URL \
   -e DD_DESTINATION_API_KEY -e DD_DESTINATION_APP_KEY -e DD_DESTINATION_API_URL \
   datadog-sync:latest import --no-verify-ddr-status --no-validate --no-send-metrics
 
-docker run --rm -v ../migration:/datadog-sync:rw \
+docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
   -e DD_SOURCE_API_KEY -e DD_SOURCE_APP_KEY -e DD_SOURCE_API_URL \
   -e DD_DESTINATION_API_KEY -e DD_DESTINATION_APP_KEY -e DD_DESTINATION_API_URL \
   datadog-sync:latest diffs --no-verify-ddr-status --no-validate --no-send-metrics
 
-docker run --rm -v ../migration:/datadog-sync:rw \
+docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
   -e DD_SOURCE_API_KEY -e DD_SOURCE_APP_KEY -e DD_SOURCE_API_URL \
   -e DD_DESTINATION_API_KEY -e DD_DESTINATION_APP_KEY -e DD_DESTINATION_API_URL \
   datadog-sync:latest sync --no-verify-ddr-status --no-validate --no-send-metrics
 ```
 
-Why the two extra flags:
+Why the three extra flags:
 
+- `--no-verify-ddr-status` skips the disaster-recovery safety check. Before using these commands, independently confirm that neither organization is in an ACTIVE or FAILOVER DDR state. Omit this flag when DDR verification works with your credentials so the CLI retains that protection.
 - `--no-validate` skips the startup check against `/api/v1/validate`. That endpoint checks the API key, which is now a placeholder.
 - `--no-send-metrics` turns off sync-cli's own usage metrics. They go to `/api/v2/series`, which needs a real API key.
 
