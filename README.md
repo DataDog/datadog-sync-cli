@@ -131,6 +131,64 @@ docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
 
 The `docker run` command mounts a specified `<PATH_TO_WORKING_DIR>` working directory to the container.
 
+### Using a personal access token
+
+You can authenticate with Datadog personal access tokens (`ddpat_...`) instead of an API key and APP key pair.
+
+#### Set the environment variables
+
+Put each token in the APP key variable, and set the API key variable to any placeholder value:
+
+```
+export DD_SOURCE_API_KEY="unused"
+export DD_SOURCE_APP_KEY="<source ddpat_ token>"
+export DD_SOURCE_API_URL="https://api.datadoghq.com"
+export DD_DESTINATION_API_KEY="unused"
+export DD_DESTINATION_APP_KEY="<destination ddpat_ token>"
+export DD_DESTINATION_API_URL="https://api.datadoghq.com"
+```
+
+Why the placeholder? sync-cli only sends `DD_*_APP_KEY` when `DD_*_API_KEY` is also set (see `build_config` in `datadog_sync/utils/configuration.py`). Without it, the log shows `No credentials provided` and most calls return `401 Unauthorized`. When a valid token is in the `dd-application-key` header, Datadog authenticates with the token alone and ignores `dd-api-key`, so any value works.
+
+Export these variables in the same terminal where you run `docker run`. The `-e VAR` flags below only pass variables that are already exported in that shell.
+
+#### Build the docker image
+
+On macOS, the CLI installed directly doesn't work, so use the docker image. From the root of this repo, run:
+
+```
+docker build . -t datadog-sync
+```
+
+#### Run the commands
+
+Run the full commands in this order. Replace `<PATH_TO_WORKING_DIR>` with the absolute path to the directory where sync-cli should store its state files (for example, `/Users/you/migration`):
+
+```
+docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
+  -e DD_SOURCE_API_KEY -e DD_SOURCE_APP_KEY -e DD_SOURCE_API_URL \
+  -e DD_DESTINATION_API_KEY -e DD_DESTINATION_APP_KEY -e DD_DESTINATION_API_URL \
+  datadog-sync:latest import --no-verify-ddr-status --no-validate --no-send-metrics
+
+docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
+  -e DD_SOURCE_API_KEY -e DD_SOURCE_APP_KEY -e DD_SOURCE_API_URL \
+  -e DD_DESTINATION_API_KEY -e DD_DESTINATION_APP_KEY -e DD_DESTINATION_API_URL \
+  datadog-sync:latest diffs --no-verify-ddr-status --no-validate --no-send-metrics
+
+docker run --rm -v <PATH_TO_WORKING_DIR>:/datadog-sync:rw \
+  -e DD_SOURCE_API_KEY -e DD_SOURCE_APP_KEY -e DD_SOURCE_API_URL \
+  -e DD_DESTINATION_API_KEY -e DD_DESTINATION_APP_KEY -e DD_DESTINATION_API_URL \
+  datadog-sync:latest sync --no-verify-ddr-status --no-validate --no-send-metrics
+```
+
+Why the three extra flags:
+
+- `--no-verify-ddr-status` skips the disaster-recovery safety check. Before using these commands, independently confirm that neither organization is in an ACTIVE or FAILOVER DDR state. Omit this flag when DDR verification works with your credentials so the CLI retains that protection.
+- `--no-validate` skips the startup check against `/api/v1/validate`. That endpoint checks the API key, which is now a placeholder.
+- `--no-send-metrics` turns off sync-cli's own usage metrics. They go to `/api/v2/series`, which needs a real API key.
+
+A successful start logs `Source authentication: Using API Key + App Key` and `API Key present: True, App Key present: True`.
+
 
 ## Usage
 
