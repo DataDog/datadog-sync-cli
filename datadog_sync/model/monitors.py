@@ -21,6 +21,10 @@ _log = logging.getLogger(LOGGER_NAME)
 #   - `.by('host')` or `.by("host, service")` (log / event-v2 / process alerts)
 # Case-insensitive to guard against `BY {...}` in copy-pasted queries.
 _HAS_GROUP_RE = re.compile(r"by\s*\{[^}]+\}|\.by\s*\(", re.IGNORECASE)
+_SERVICE_CHECK_GROUP_RE = re.compile(
+    r"""\.by\s*\(\s*(?:"[^"\s]+"|'[^'\s]+')(?:\s*,\s*(?:"[^"\s]+"|'[^'\s]+'))*\s*\)""",
+    re.IGNORECASE,
+)
 
 
 def _variables_have_group_by(variables) -> bool:
@@ -121,12 +125,14 @@ class Monitors(BaseResource):
     async def pre_resource_action_hook(self, _id, resource: Dict) -> None:
         if resource.get("type") == "service check":
             groupby = (resource.get("options") or {}).get("groupby", [])
-            if not groupby:
+            query = resource.get("query")
+            query_grouped = isinstance(query, str) and bool(_SERVICE_CHECK_GROUP_RE.search(query))
+            if not groupby and not query_grouped:
                 raise SkipResource(
                     _id,
                     self.resource_type,
                     "Deprecated resource configuration: Custom check monitor requires at least one group-by. "
-                    "Update the source monitor's options.groupby before syncing.",
+                    "Update the source monitor's query grouping with .by(...) before syncing.",
                 )
 
         # Schema migrations for source/destination API drift. Older source payloads
