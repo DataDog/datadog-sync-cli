@@ -3,6 +3,7 @@
 # This product includes software developed at Datadog (https://www.datadoghq.com/).
 # Copyright 2019 Datadog, Inc.
 import asyncio
+from contextvars import ContextVar
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 import ssl
@@ -21,6 +22,11 @@ from datadog_sync.constants import DDR_Status, LOGGER_NAME, Metrics
 from datadog_sync.utils.resource_utils import CustomClientHTTPError
 
 log = logging.getLogger(LOGGER_NAME)
+
+# When a caller sets this to a list, every paginated request that stops early on
+# a non-5xx error appends "HTTP <status>" to it. The request itself still returns
+# the partial list, so this is the only way for the caller to see the failure.
+paginated_truncations: ContextVar[Optional[List[str]]] = ContextVar("paginated_truncations", default=None)
 
 
 # HTTP statuses that signal upstream/edge overload rather than app-level failure.
@@ -390,6 +396,9 @@ class CustomClient:
                             f"Downstream syncs may show missing-dependency cascades. "
                             f"Error: {err}"
                         )
+                        truncations = paginated_truncations.get()
+                        if truncations is not None:
+                            truncations.append(f"HTTP {err.status_code}")
                         break
 
                 # made it through the try/except no increase the page number and idx
