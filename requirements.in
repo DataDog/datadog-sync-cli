@@ -1,0 +1,12 @@
+# Direct dependencies from setup.cfg install_requires
+boto3==1.35.91
+click==8.1.7
+configobj==5.0.9
+deepdiff==8.6.1
+aiohttp==3.12.14
+tqdm==4.66.3
+certifi==2026.2.25
+python-dateutil==2.9.0.post0
+google-cloud-storage==3.10.1
+azure-storage-blob==12.28.0
+azure-identity==1.25.3
