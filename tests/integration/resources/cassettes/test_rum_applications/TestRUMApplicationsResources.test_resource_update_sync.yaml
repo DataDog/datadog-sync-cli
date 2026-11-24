@@ -53,6 +53,23 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.datadoghq.eu/api/v2/rum/config/retention-quota/application/16371816-ab2a-41aa-b12a-40ec4d9628e8
+  response:
+    body:
+      string: '{"errors":[{"status":"404","title":"Not Found","detail":"Not found"}]}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 404
+      message: Not Found
+
+- request:
     body: '{"data": {"type": "rum_application_create", "attributes": {"apm_rum_flat_sampling_replay_enabled":
       true, "name": "Test RUM Application", "product_analytics_replay_sample_rate":
       100, "product_scales": {"rum_event_processing_scale": {"state": "ALL"}, "product_analytics_retention_scale":
@@ -133,6 +150,23 @@ interactions:
       code: 200
       message: OK
 - request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v2/rum/config/retention-quota/application/ff52fa91-d3a6-446c-8d05-82f04be1ba01
+  response:
+    body:
+      string: '{"errors":[{"status":"404","title":"Not Found","detail":"Not found"}]}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 404
+      message: Not Found
+
+- request:
     body: '{"data": {"type": "rum_application_update", "attributes": {"apm_rum_flat_sampling_replay_enabled":
       true, "name": "Test RUM Applicationupdated", "product_analytics_replay_sample_rate":
       100, "product_scales": {"rum_event_processing_scale": {"state": "ALL"}, "product_analytics_retention_scale":
@@ -161,6 +195,23 @@ interactions:
     status:
       code: 200
       message: OK
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v2/rum/config/retention-quota/application/ff52fa91-d3a6-446c-8d05-82f04be1ba01
+  response:
+    body:
+      string: '{"errors":[{"status":"404","title":"Not Found","detail":"Not found"}]}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 404
+      message: Not Found
+
 - request:
     body: null
     headers:
@@ -9388,6 +9439,23 @@ interactions:
       Content-Type:
       - application/json
     method: DELETE
+    uri: https://api.us5.datadoghq.com/api/v2/rum/config/retention-quota/application/ff52fa91-d3a6-446c-8d05-82f04be1ba01
+  response:
+    body:
+      string: '{"errors":[{"status":"404","title":"Not Found","detail":"Not found"}]}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 404
+      message: Not Found
+
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: DELETE
     uri: https://api.us5.datadoghq.com/api/v2/rum/applications/ff52fa91-d3a6-446c-8d05-82f04be1ba01
   response:
     body:
@@ -9396,4 +9464,21 @@ interactions:
     status:
       code: 204
       message: No Content
+- request:
+    body: null
+    headers:
+      Content-Type:
+      - application/json
+    method: GET
+    uri: https://api.us5.datadoghq.com/api/v2/rum/config/retention-quota/application/ff52fa91-d3a6-446c-8d05-82f04be1ba01
+  response:
+    body:
+      string: '{"errors":[{"status":"404","title":"Not Found","detail":"Not found"}]}'
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+    status:
+      code: 404
+      message: Not Found
+
 version: 1
