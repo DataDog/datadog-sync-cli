@@ -11,6 +11,7 @@ empty options.groupby are skipped at sync time rather than failing with a 400.
 """
 
 import asyncio
+from copy import deepcopy
 from collections import defaultdict
 import pytest
 from unittest.mock import MagicMock
@@ -28,6 +29,37 @@ class TestMonitorsPreResourceActionHook:
         mock_config = MagicMock()
         mock_config.state = MagicMock()
         return Monitors(mock_config)
+
+    @pytest.mark.parametrize(
+        "grouping",
+        ['.by("*")', '.by("host")', '.by("host", "env")', ".by('host')"],
+    )
+    @pytest.mark.parametrize("options", [None, {}, {"groupby": []}])
+    def test_service_check_query_grouping_does_not_require_groupby_option(self, grouping, options):
+        monitors = self._make_monitors()
+        resource = {
+            "type": "service check",
+            "name": "Service check with query grouping",
+            "query": f'"custom.check.health".over("env:test"){grouping}.last(1).count_by_status()',
+            "options": options,
+        }
+        original = deepcopy(resource)
+
+        asyncio.run(monitors.pre_resource_action_hook("service-check", resource))
+
+        assert resource == original
+
+    @pytest.mark.parametrize("grouping", [".by()", '.by("")', '.by("   ")', '.by("host"'])
+    def test_service_check_empty_or_incomplete_query_grouping_raises_skip(self, grouping):
+        monitors = self._make_monitors()
+        resource = {
+            "type": "service check",
+            "query": f'"sample.health".over("*"){grouping}.last(1).count_by_status()',
+            "options": {},
+        }
+
+        with pytest.raises(SkipResource):
+            asyncio.run(monitors.pre_resource_action_hook("service-check", resource))
 
     def test_service_check_missing_groupby_raises_skip(self):
         """Service check monitor with no options.groupby should be skipped."""
