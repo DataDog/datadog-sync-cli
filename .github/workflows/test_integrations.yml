@@ -41,7 +41,7 @@ jobs:
     timeout-minutes: 60  # Prevent hung tests from blocking the queue
     services:
       datadog-agent:
-        image: datadog/agent:latest
+        image: registry.datadoghq.com/agent:latest
         ports:
           - 8126:8126
         env:
